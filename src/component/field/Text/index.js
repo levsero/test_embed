@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { renderLabel } from 'utility/fields'
 
-import { TextField, Input, Hint, Message, Label } from '@zendeskgarden/react-textfields'
+import { Field, Input, Hint, Message, Label } from '@zendeskgarden/react-forms'
 
 const Text = ({ label, required, description, errorString, showError, inputProps }) => {
-  const validation = showError ? 'error' : 'none'
+  const validation = showError ? 'error' : undefined
 
   return (
-    <TextField>
+    <Field>
       {renderLabel(Label, label, required)}
       {description && <Hint>{description}</Hint>}
       <Input {...inputProps} validation={validation} />
       {showError && <Message validation={validation}>{errorString}</Message>}
-    </TextField>
+    </Field>
   )
 }
 

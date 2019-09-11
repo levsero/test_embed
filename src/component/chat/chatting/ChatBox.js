@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
+import { Field, Label, Textarea } from '@zendeskgarden/react-forms'
 
 import { i18n } from 'service/i18n'
 import { keyCodes } from 'utility/keyboard'
@@ -57,10 +57,10 @@ export class ChatBox extends Component {
 
     return (
       <div className={styles.container}>
-        <TextField className={styles.textField}>
+        <Field>
           <Label className={styles.label}>{placeholder}</Label>
           <Textarea
-            innerRef={el => (this.textArea = el)}
+            ref={el => (this.textArea = el)}
             value={this.props.currentMessage}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
@@ -71,7 +71,7 @@ export class ChatBox extends Component {
             rows={this.props.isMobile ? 1 : 3}
             data-testid={TEST_IDS.MESSAGE_FIELD}
           />
-        </TextField>
+        </Field>
       </div>
     )
   }

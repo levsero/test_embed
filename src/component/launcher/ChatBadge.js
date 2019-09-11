@@ -15,7 +15,7 @@ import {
 import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/base'
 import { getCurrentMessage, getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
 import { getLauncherBadgeSettings } from 'src/redux/modules/selectors'
-import { Input } from '@zendeskgarden/react-textfields'
+import { Field, Input } from '@zendeskgarden/react-forms'
 import { Icon } from 'component/Icon'
 import { ICONS, TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
@@ -165,17 +165,19 @@ class ChatBadge extends Component {
 
     return (
       <div className={styles.inputContainer}>
-        <Input
-          ref={el => {
-            this.input = el
-          }}
-          className={styles.input}
-          placeholder={i18n.t('embeddable_framework.chat.chatBox.placeholder.type_your_message')}
-          onChange={this.handleChange}
-          onKeyDown={triggerOnEnter(this.sendChatMsg)}
-          value={this.props.currentMessage}
-          data-testid={TEST_IDS.MESSAGE_FIELD}
-        />
+        <Field>
+          <Input
+            ref={el => {
+              this.input = el
+            }}
+            className={styles.input}
+            placeholder={i18n.t('embeddable_framework.chat.chatBox.placeholder.type_your_message')}
+            onChange={this.handleChange}
+            onKeyDown={triggerOnEnter(this.sendChatMsg)}
+            value={this.props.currentMessage}
+            data-testid={TEST_IDS.MESSAGE_FIELD}
+          />
+        </Field>
         <Icon onClick={this.sendChatMsg} className={sendButtonClasses} type={ICONS.SEND_CHAT} />
       </div>
     )

@@ -51,7 +51,7 @@ describe('ChatBadge component', () => {
           isRTL: () => mockIsRTL
         }
       },
-      '@zendeskgarden/react-textfields': {
+      '@zendeskgarden/react-forms': {
         Input: noopReactComponent()
       },
       'src/redux/modules/base/base-selectors': {

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import { Button } from '@zendeskgarden/react-buttons'
-import { Select, SelectField, Label, Item } from '@zendeskgarden/react-select'
+import { Dropdown, Menu, Field, Select, Label, Item } from '@zendeskgarden/react-dropdowns'
 import { i18nTimeFromMinutes } from 'utility/time'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './ChatOperatingHours.scss'
 import { FONT_SIZE } from 'src/constants/shared'
-import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import { getWebWidgetFrameContentWindow } from 'utility/globals'
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
@@ -51,7 +51,11 @@ export class ChatOperatingHours extends Component {
     const { department_schedule: departmentSchedule } = this.props.operatingHours
 
     return departmentSchedule.map(deptSchedule => {
-      return <Item key={deptSchedule.id}>{deptSchedule.name}</Item>
+      return (
+        <Item key={deptSchedule.id} value={String(deptSchedule.id)}>
+          {deptSchedule.name}
+        </Item>
+      )
     })
   }
 
@@ -153,25 +157,30 @@ export class ChatOperatingHours extends Component {
 
     return (
       <div>
-        <SelectField>
-          <Label>{i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}</Label>
-          <Select
-            name="department"
-            selectedKey={String(this.state.activeDepartment)}
-            appendToNode={getWebWidgetFrameContentDocumentBody()}
-            onChange={this.setActiveDepartment}
+        <Dropdown
+          name="department"
+          selectedItem={String(this.state.activeDepartment)}
+          onSelect={this.setActiveDepartment}
+          downshiftProps={{
+            environment: getWebWidgetFrameContentWindow()
+          }}
+        >
+          <Field>
+            <Label>
+              {i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
+            </Label>
+            <Select>{selectedDepartmentSchedule.name}</Select>
+          </Field>
+          <Menu
+            style={{ maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }}
             popperModifiers={{
               flip: { enabled: false },
               preventOverflow: { escapeWithReference: true }
             }}
-            dropdownProps={{
-              style: { maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }
-            }}
-            options={departments}
           >
-            {selectedDepartmentSchedule.name}
-          </Select>
-        </SelectField>
+            {departments}
+          </Menu>
+        </Dropdown>
         {this.renderSchedule(selectedDepartmentSchedule.schedule)}
       </div>
     )

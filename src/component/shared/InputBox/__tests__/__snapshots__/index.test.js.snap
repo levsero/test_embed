@@ -2,131 +2,111 @@
 
 exports[`renders as disabled 1`] = `
 <div>
-  <div
-    class="textField fieldDisabled TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
+  <label
+    class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+    data-garden-id="forms.text_label"
+    data-garden-version="6.4.4"
+    for="garden-field-container-1--input"
+    id="garden-field-container-1--label"
   >
-    <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
-      for="garden-text-field-2--input"
-      id="garden-text-field-2--label"
-    >
-      placeholder
-    </label>
-    <textarea
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-2--label"
-      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl text__is-disabled___3Uekk kpjxwv"
-      data-garden-id="textfields.textarea"
-      data-garden-version="3.7.0"
-      data-testid="message-field"
-      disabled=""
-      id="garden-text-field-2--input"
-      name="inputBox"
-      placeholder="placeholder"
-      rows="3"
-    />
-  </div>
+    placeholder
+  </label>
+  <textarea
+    aria-describedby="garden-field-container-1--hint"
+    aria-invalid="false"
+    aria-labelledby="garden-field-container-1--label"
+    class="StyledTextInput-sc-1ezxcjx-0-textarea textField input fieldDisabled StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__is-disabled___22PGS text__c-txt__input--area___9Qxj1 ffjHNh"
+    data-garden-id="forms.textarea"
+    data-garden-version="6.4.4"
+    data-testid="message-field"
+    disabled=""
+    id="garden-field-container-1--input"
+    name="inputBox"
+    placeholder="placeholder"
+    rows="3"
+  />
 </div>
 `;
 
 exports[`renders as mobile 1`] = `
 <div>
-  <div
-    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
+  <label
+    class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+    data-garden-id="forms.text_label"
+    data-garden-version="6.4.4"
+    for="garden-field-container-2--input"
+    id="garden-field-container-2--label"
   >
-    <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
-      for="garden-text-field-4--input"
-      id="garden-text-field-4--label"
-    >
-      placeholder
-    </label>
-    <textarea
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-4--label"
-      class="input inputMobile fieldMobile Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-      data-garden-id="textfields.textarea"
-      data-garden-version="3.7.0"
-      data-testid="message-field"
-      id="garden-text-field-4--input"
-      name="inputBox"
-      placeholder="placeholder"
-      rows="1"
-    />
-  </div>
+    placeholder
+  </label>
+  <textarea
+    aria-describedby="garden-field-container-2--hint"
+    aria-invalid="false"
+    aria-labelledby="garden-field-container-2--label"
+    class="StyledTextInput-sc-1ezxcjx-0-textarea textField input inputMobile fieldMobile StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+    data-garden-id="forms.textarea"
+    data-garden-version="6.4.4"
+    data-testid="message-field"
+    id="garden-field-container-2--input"
+    name="inputBox"
+    placeholder="placeholder"
+    rows="1"
+  />
 </div>
 `;
 
 exports[`renders the expected classes 1`] = `
 <div>
-  <div
-    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
+  <label
+    class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+    data-garden-id="forms.text_label"
+    data-garden-version="6.4.4"
+    for="garden-field-container-0--input"
+    id="garden-field-container-0--label"
   >
-    <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
-      for="garden-text-field-0--input"
-      id="garden-text-field-0--label"
-    >
-      placeholder
-    </label>
-    <textarea
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-0--label"
-      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-      data-garden-id="textfields.textarea"
-      data-garden-version="3.7.0"
-      data-testid="message-field"
-      id="garden-text-field-0--input"
-      name="inputBox"
-      placeholder="placeholder"
-      rows="3"
-    />
-  </div>
+    placeholder
+  </label>
+  <textarea
+    aria-describedby="garden-field-container-0--hint"
+    aria-invalid="false"
+    aria-labelledby="garden-field-container-0--label"
+    class="StyledTextInput-sc-1ezxcjx-0-textarea textField input StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+    data-garden-id="forms.textarea"
+    data-garden-version="6.4.4"
+    data-testid="message-field"
+    id="garden-field-container-0--input"
+    name="inputBox"
+    placeholder="placeholder"
+    rows="3"
+  />
 </div>
 `;
 
 exports[`renders with value 1`] = `
 <div>
-  <div
-    class="textField TextGroup-sc-127gh0a-0 text__c-txt___14ptu fjQWCj"
-    data-garden-id="textfields.text_group"
-    data-garden-version="3.7.0"
+  <label
+    class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+    data-garden-id="forms.text_label"
+    data-garden-version="6.4.4"
+    for="garden-field-container-3--input"
+    id="garden-field-container-3--label"
   >
-    <label
-      class="label Label-sc-129v0bx-0 text__c-txt__label___11SEJ jcOpUC"
-      data-garden-id="textfields.label"
-      data-garden-version="3.7.0"
-      for="garden-text-field-6--input"
-      id="garden-text-field-6--label"
-    >
-      placeholder
-    </label>
-    <textarea
-      aria-invalid="false"
-      aria-labelledby="garden-text-field-6--label"
-      class="input Textarea-sc-1alsvvb-0 text__c-txt__input--area___3VBq- dcOmlb Input-sc-4gf5js-0-textarea text__c-txt__input___2ZeOl kpjxwv"
-      data-garden-id="textfields.textarea"
-      data-garden-version="3.7.0"
-      data-testid="message-field"
-      id="garden-text-field-6--input"
-      name="inputBox"
-      placeholder="placeholder"
-      rows="3"
-    >
-      doremi
-    </textarea>
-  </div>
+    placeholder
+  </label>
+  <textarea
+    aria-describedby="garden-field-container-3--hint"
+    aria-invalid="false"
+    aria-labelledby="garden-field-container-3--label"
+    class="StyledTextInput-sc-1ezxcjx-0-textarea textField input StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+    data-garden-id="forms.textarea"
+    data-garden-version="6.4.4"
+    data-testid="message-field"
+    id="garden-field-container-3--input"
+    name="inputBox"
+    placeholder="placeholder"
+    rows="3"
+  >
+    doremi
+  </textarea>
 </div>
 `;

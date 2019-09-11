@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, queryByTestId } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import CountryDropdown from '../'
 import { TEST_IDS } from 'src/constants/shared'
@@ -63,16 +63,11 @@ describe('CountryDropdown', () => {
     expect(queryByAltText(defaultProps.selectedKey)).toBeInTheDocument()
   })
 
-  it('styles the dropdown wiith the provided width', () => {
+  it('styles the dropdown with the provided width', () => {
     const { queryByTestId } = renderComponent({ isOpen: true })
 
-    expect(queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).style.width).toBe(defaultProps.width)
-  })
-
-  it('renders the dropdown in the provided appendToNode', () => {
-    renderComponent({ isOpen: true })
-
-    expect(queryByTestId(defaultProps.appendToNode, TEST_IDS.DROPDOWN_OPTIONS)).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).style.minWidth).toBe(defaultProps.width)
+    expect(queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).style.maxWidth).toBe(defaultProps.width)
   })
 
   it('calls onToggleOpen when opened', () => {
@@ -83,7 +78,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
+      queryByTestId(TEST_IDS.DROPDOWN_SELECTED).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(false)
@@ -97,7 +92,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
+      queryByTestId(TEST_IDS.DROPDOWN_SELECTED).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(true)

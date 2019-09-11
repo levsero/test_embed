@@ -1,20 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import {
+  Field,
   Checkbox as GardenCheckbox,
   Label as CheckboxLabel,
   Hint as CheckboxHint,
   Message
-} from '@zendeskgarden/react-checkboxes'
+} from '@zendeskgarden/react-forms'
+import { TEST_IDS } from 'constants/shared'
 
 const Checkbox = ({ label, description, showError, errorString, checkboxProps }) => {
   return (
-    <GardenCheckbox {...checkboxProps}>
-      <CheckboxLabel dangerouslySetInnerHTML={{ __html: label }} />
-      {description && <CheckboxHint>{description}</CheckboxHint>}
-      {showError && <Message validation="error">{errorString}</Message>}
-    </GardenCheckbox>
+    <Field>
+      <GardenCheckbox {...checkboxProps} data-testid={TEST_IDS.CHECKBOX_FIELD}>
+        <CheckboxLabel dangerouslySetInnerHTML={{ __html: label }} />
+        {description && <CheckboxHint>{description}</CheckboxHint>}
+        {showError && <Message validation="error">{errorString}</Message>}
+      </GardenCheckbox>
+    </Field>
   )
 }
 

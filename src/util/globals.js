@@ -43,6 +43,14 @@ const getWebWidgetFrameContentDocument = () => {
   }
 }
 
+const getWebWidgetFrameContentWindow = () => {
+  try {
+    return document.getElementById('webWidget').contentWindow
+  } catch (err) {
+    return undefined
+  }
+}
+
 const getWebWidgetFrameContentDocumentBody = () => {
   try {
     return getWebWidgetFrameContentDocument().body
@@ -74,5 +82,6 @@ export {
   setReferrerMetas,
   getReferrerPolicy,
   getWebWidgetFrameContentDocumentBody,
+  getWebWidgetFrameContentWindow,
   focusLauncher
 }

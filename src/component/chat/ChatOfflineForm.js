@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import classNames from 'classnames'
 import Linkify from 'react-linkify'
-import { Message, TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields'
+import { Message, Field, Label, Input, Textarea } from '@zendeskgarden/react-forms'
 
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { Button } from '@zendeskgarden/react-buttons'
@@ -118,7 +118,7 @@ export class ChatOfflineForm extends Component {
     )
 
     return (
-      <TextField className={fieldContainerStyle}>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.name'),
@@ -131,12 +131,13 @@ export class ChatOfflineForm extends Component {
           autoComplete="off"
           onChange={() => {}}
           name="name"
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           pattern={NAME_PATTERN.source}
           readOnly={readOnlyState.name}
+          className={fieldContainerStyle}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 
@@ -152,7 +153,7 @@ export class ChatOfflineForm extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.email'),
@@ -164,12 +165,12 @@ export class ChatOfflineForm extends Component {
           value={value}
           onChange={() => {}}
           name="email"
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           readOnly={this.props.readOnlyState.email}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
         />
         {error}
-      </TextField>
+      </Field>
     )
     /* eslint-enable max-len */
   }
@@ -187,7 +188,7 @@ export class ChatOfflineForm extends Component {
     )
 
     return (
-      <TextField className={styles.textField}>
+      <Field>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.common.textLabel.phone_number'),
@@ -202,10 +203,11 @@ export class ChatOfflineForm extends Component {
           name="phone"
           readOnly={this.props.readOnlyState.phone}
           pattern={PHONE_PATTERN.source}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
+          className={styles.textField}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 
@@ -220,7 +222,7 @@ export class ChatOfflineForm extends Component {
     )
 
     return (
-      <TextField>
+      <Field>
         {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.message'), isRequired)}
         <Textarea
           required={isRequired}
@@ -229,10 +231,10 @@ export class ChatOfflineForm extends Component {
           onChange={() => {}}
           rows="5"
           name="message"
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 

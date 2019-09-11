@@ -18,7 +18,7 @@ describe('ChatContactDetailsPopup component', () => {
 
   const LoadingSpinner = noopReactComponent()
   const Message = noopReactComponent()
-  const TextField = noopReactComponent()
+  const Field = noopReactComponent()
   const UserProfile = noopReactComponent()
 
   class ChatPopup extends Component {
@@ -68,8 +68,8 @@ describe('ChatContactDetailsPopup component', () => {
       'component/chat/UserProfile': { UserProfile },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
-      '@zendeskgarden/react-textfields': {
-        TextField,
+      '@zendeskgarden/react-forms': {
+        Field,
         Label: noopReactComponent(),
         Input: noopReactComponent(),
         Message
@@ -564,8 +564,8 @@ describe('ChatContactDetailsPopup component', () => {
       result = component.renderEmailField()
     })
 
-    it('renders a TextField component', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+    it('renders a Field component', () => {
+      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
     })
 
     describe('when invalid', () => {
@@ -587,8 +587,8 @@ describe('ChatContactDetailsPopup component', () => {
       result = component.renderNameField()
     })
 
-    it('renders a TextField component', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+    it('renders a Field component', () => {
+      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
     })
   })
 })

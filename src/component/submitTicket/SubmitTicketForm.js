@@ -12,7 +12,7 @@ import { ButtonGroup } from 'component/button/ButtonGroup'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
-import { TextField, Textarea, Label, Input, Message } from '@zendeskgarden/react-textfields'
+import { Field, Textarea, Label, Input, Message } from '@zendeskgarden/react-forms'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
@@ -310,18 +310,18 @@ export class SubmitTicketForm extends Component {
     const name = 'subject'
 
     const subjectField = (
-      <TextField key={name}>
+      <Field key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.submitTicket.field.subject.label'), false)}
         <Input
           key={name}
           name={name}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           value={this.props.formState.subject}
           disabled={this.props.previewEnabled}
           readOnly={this.props.readOnlyState.subject}
           data-testid={TEST_IDS.SUBJECT_FIELD}
         />
-      </TextField>
+      </Field>
     )
 
     return this.props.subjectEnabled ? subjectField : null
@@ -338,10 +338,10 @@ export class SubmitTicketForm extends Component {
 
     /* eslint-disable max-len */
     return (
-      <TextField key={name}>
+      <Field key={name}>
         {renderLabel(Label, i18n.t('embeddable_framework.form.field.email.label'), true)}
         <Input
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           key={name}
           name={name}
           required={true}
@@ -353,7 +353,7 @@ export class SubmitTicketForm extends Component {
           data-testid={TEST_IDS.EMAIL_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
     /* eslint-enable max-len */
   }
@@ -369,7 +369,7 @@ export class SubmitTicketForm extends Component {
     const name = 'name'
 
     return (
-      <TextField key={name}>
+      <Field key={name}>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.submitTicket.field.name.label'),
@@ -379,7 +379,7 @@ export class SubmitTicketForm extends Component {
           key={name}
           name={name}
           required={this.props.nameFieldRequired}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
           value={this.props.formState.name}
           onChange={() => {}}
@@ -387,7 +387,7 @@ export class SubmitTicketForm extends Component {
           data-testid={TEST_IDS.NAME_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 
@@ -400,7 +400,7 @@ export class SubmitTicketForm extends Component {
     const name = 'description'
 
     return (
-      <TextField key={name}>
+      <Field key={name}>
         {renderLabel(
           Label,
           i18n.t('embeddable_framework.submitTicket.field.description.label'),
@@ -409,7 +409,7 @@ export class SubmitTicketForm extends Component {
         <Textarea
           key={name}
           name={name}
-          validation={error ? 'error' : 'none'}
+          validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
           required={true}
           value={this.props.formState.description}
@@ -418,7 +418,7 @@ export class SubmitTicketForm extends Component {
           data-testid={TEST_IDS.MESSAGE_FIELD}
         />
         {error}
-      </TextField>
+      </Field>
     )
   }
 

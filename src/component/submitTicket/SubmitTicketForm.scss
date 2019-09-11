@@ -32,6 +32,10 @@
 
 .formWrapper {
   margin-bottom: #{15 / $font-size}rem;
+
+  > div {
+    margin-top: #{16 / $font-size}rem !important;
+  }
 }
 
 .buttonGroup {

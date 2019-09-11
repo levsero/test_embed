@@ -96,8 +96,7 @@ export class ChatPopup extends Component {
     })
     const leftCtaButton = (
       <Button
-        innerRef={el => (this.firstButton = el)}
-        onTouchStartDisabled={true}
+        ref={el => (this.firstButton = el)}
         className={leftCtaButtonClasses}
         onClick={leftCtaFn}
         data-testid={TEST_IDS.BUTTON_CANCEL}
@@ -108,7 +107,6 @@ export class ChatPopup extends Component {
     const rightCtaButton = !this.props.showOnlyLeftCta ? (
       <Button
         primary={true}
-        onTouchStartDisabled={true}
         className={this.ctaButtonStyle('right')}
         disabled={rightCtaDisabled}
         onClick={rightCtaFn}

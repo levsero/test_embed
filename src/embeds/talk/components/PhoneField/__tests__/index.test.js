@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, queryByAltText } from '@testing-library/react'
 import { Component as PhoneField } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
@@ -36,22 +36,27 @@ describe('PhoneField', () => {
 
   describe('default country selection', () => {
     it('uses the country prop when provided', () => {
-      const { queryByAltText } = renderComponent({ country: 'US' })
+      const { queryByTestId } = renderComponent({ country: 'US' })
 
-      expect(queryByAltText('US')).toBeInTheDocument()
+      expect(queryByAltText(queryByTestId(TEST_IDS.DROPDOWN_SELECTED), 'US')).toBeInTheDocument()
     })
 
     it('uses the the first supportedCountry when country not provided', () => {
-      const { queryByAltText } = renderComponent({ country: null })
+      const { queryByTestId } = renderComponent({ country: null })
 
-      expect(queryByAltText(defaultProps.supportedCountries[0])).toBeInTheDocument()
+      expect(
+        queryByAltText(
+          queryByTestId(TEST_IDS.DROPDOWN_SELECTED),
+          defaultProps.supportedCountries[0]
+        )
+      ).toBeInTheDocument()
     })
   })
 
   it('focuses the input when dropdown is open', () => {
     const withOpenDropdown = renderComponent()
 
-    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_OPTION))
+    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_OPTIONS))
 
     const withClosedDropdown = renderComponent()
 
@@ -130,7 +135,7 @@ describe('PhoneField', () => {
     const onCountrySelect = jest.fn()
     const { queryByText, queryByTestId } = renderComponent({ onCountrySelect })
 
-    queryByTestId(TEST_IDS.DROPDOWN_OPTION).click()
+    queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).click()
 
     queryByText('United States (+1)').click()
 

@@ -60,9 +60,9 @@ exports[`default render matches snapshot 1`] = `
             class="container buttonRight buttonGroup"
           >
             <button
-              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___1jmsn index__c-btn--primary___3nbMO lcPfmb"
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
               data-garden-id="buttons.button"
-              data-garden-version="3.7.0"
+              data-garden-version="6.4.4"
               tabindex="0"
               type="button"
             >

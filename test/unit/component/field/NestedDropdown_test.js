@@ -32,7 +32,7 @@ describe('NestedDropdown component', () => {
       }
     ]
 
-  const SelectField = noopReactComponent()
+  const Select = noopReactComponent()
   const Item = noopReactComponent()
   const NextItem = noopReactComponent()
   const PreviousItem = noopReactComponent()
@@ -50,16 +50,19 @@ describe('NestedDropdown component', () => {
       'utility/globals': {
         getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
           'getWebWidgetFrameContentDocumentBody'
-        )
+        ),
+        getWebWidgetFrameContentWindow: jasmine.createSpy('getWebWidgetFrameContentWindow')
       },
       './NestedDropdown.scss': {
         locals: {}
       },
-      '@zendeskgarden/react-select': {
-        SelectField,
+      '@zendeskgarden/react-dropdowns': {
+        Dropdown: noopReactComponent(),
+        Field: noopReactComponent(),
         Label: noopReactComponent(),
+        Menu: noopReactComponent(),
         Item,
-        Select: noopReactComponent(),
+        Select,
         Hint: noopReactComponent(),
         Separator,
         NextItem,
@@ -75,7 +78,8 @@ describe('NestedDropdown component', () => {
         }
       },
       'constants/shared': {
-        FONT_SIZE: 14
+        FONT_SIZE: 14,
+        TEST_IDS: {}
       },
       'component/field/Dropdown/OptionNode': OptionNode
     })
@@ -504,7 +508,7 @@ describe('NestedDropdown component', () => {
       it('renders previous item', () => {
         expect(TestUtils.isElementOfType(menuItems[0], PreviousItem)).toEqual(true)
         expect(menuItems[0].key).toEqual('--prev')
-        expect(menuItems[0].props.children[1]).toEqual('fruits')
+        expect(menuItems[0].props.children).toEqual('fruits')
       })
 
       it('renders Separator', () => {
@@ -582,7 +586,7 @@ describe('NestedDropdown component', () => {
       let displayedValue
 
       beforeEach(() => {
-        displayedValue = component.render().props.children[0].props.children[2].props.children
+        displayedValue = TestUtils.findRenderedComponentWithType(component, Select).props.children
       })
 
       it('displays the default value', () => {
@@ -595,7 +599,7 @@ describe('NestedDropdown component', () => {
 
       beforeEach(() => {
         component.setState({ displayedName: 'pizzaName' })
-        displayedValue = component.render().props.children[0].props.children[2].props.children
+        displayedValue = TestUtils.findRenderedComponentWithType(component, Select).props.children
       })
 
       it('displays the name of the value', () => {
@@ -608,7 +612,7 @@ describe('NestedDropdown component', () => {
 
       beforeEach(() => {
         component.setState({ displayedName: 'apple' })
-        displayedValue = component.render().props.children[0].props.children[2].props.children
+        displayedValue = TestUtils.findRenderedComponentWithType(component, Select).props.children
       })
 
       it('displays the last section of the name of the value', () => {
@@ -617,15 +621,12 @@ describe('NestedDropdown component', () => {
     })
 
     describe('when showError is true', () => {
-      let errorComponent
-
       beforeEach(() => {
         component = domRender(<NestedDropdown options={mockOptions} showError={true} />)
-        errorComponent = component.render().props.children[0].props.children[3]
       })
 
       it('renders a Message component', () => {
-        expect(TestUtils.isElementOfType(errorComponent, Message)).toEqual(true)
+        expect(TestUtils.findRenderedComponentWithType(component, Message)).not.toBe(undefined)
       })
     })
 

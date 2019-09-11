@@ -8,12 +8,13 @@ describe('PrechatForm component', () => {
   const UserProfile = noopReactComponent()
   const ScrollContainer = noopReactComponent()
   const ZendeskLogo = noopReactComponent()
-  const TextField = noopReactComponent()
-  const SelectField = noopReactComponent()
+  const Field = noopReactComponent()
+  const Input = noopReactComponent()
   const Item = noopReactComponent()
   const Message = noopReactComponent()
   const Label = noopReactComponent()
   const Linkify = noopReactComponent('Linkify')
+  const Dropdown = noopReactComponent()
   const sharedConstantsPath = basePath('src/constants/shared')
 
   const mockFormProp = {
@@ -51,7 +52,8 @@ describe('PrechatForm component', () => {
       'utility/globals': {
         getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
           'getWebWidgetFrameContentDocumentBody'
-        )
+        ),
+        getWebWidgetFrameContentWindow: jasmine.createSpy('getWebWidgetFrameContentWindow')
       },
       './PrechatForm.scss': {
         locals: {
@@ -75,17 +77,20 @@ describe('PrechatForm component', () => {
           isRTL: () => {}
         }
       },
-      '@zendeskgarden/react-textfields': {
-        TextField,
+      '@zendeskgarden/react-forms': {
+        Field,
         Label,
-        Input: noopReactComponent(),
+        Input,
         Textarea: noopReactComponent(),
         Message
       },
       'react-linkify': Linkify,
-      '@zendeskgarden/react-select': {
-        SelectField,
+      '@zendeskgarden/react-dropdowns': {
+        Dropdown,
         Label: noopReactComponent(),
+        Menu: noopReactComponent(),
+        Field: noopReactComponent(),
+        Message: noopReactComponent(),
         Item,
         Select: noopReactComponent()
       },
@@ -279,6 +284,10 @@ describe('PrechatForm component', () => {
 
       spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage)
       result = component.renderPhoneField()
+
+      if (result) {
+        result = result.props.children
+      }
     })
 
     describe('when phone enabled attribute is false', () => {
@@ -297,7 +306,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders the phone field', () => {
-        expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+        expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
       })
     })
 
@@ -329,7 +338,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
@@ -356,15 +365,19 @@ describe('PrechatForm component', () => {
   })
 
   describe('renderNameField', () => {
-    let result, component, mockRenderErrorMessage, componentArgs
+    let container, result, component, mockRenderErrorMessage, componentArgs
 
     beforeEach(() => {
-      component = instanceRender(<PrechatForm {...componentArgs} />)
+      component = domRender(<PrechatForm {...componentArgs} />)
 
       spyOn(component, 'isFieldRequired')
       spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage)
 
-      result = component.renderNameField()
+      container = component.renderNameField()
+      result = null
+      if (container) {
+        result = container.props.children
+      }
     })
 
     describe('when called', () => {
@@ -378,7 +391,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders a TextField component', () => {
-        expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+        expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
       })
 
       it('calls isFieldRequired with expected arguments', () => {
@@ -395,7 +408,7 @@ describe('PrechatForm component', () => {
       })
 
       it('does not render the name field', () => {
-        expect(result).toBe(null)
+        expect(container).toBe(null)
       })
     })
 
@@ -413,7 +426,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders with expected style', () => {
-        expect(result.props.className).toContain('nameFieldWithSocialLoginClass')
+        expect(container.props.className).toContain('nameFieldWithSocialLoginClass')
       })
     })
 
@@ -426,7 +439,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders with expected style', () => {
-        expect(result.props.className).not.toContain('nameFieldWithSocialLoginClass')
+        expect(container.props.className).not.toContain('nameFieldWithSocialLoginClass')
       })
     })
 
@@ -446,7 +459,7 @@ describe('PrechatForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
@@ -469,7 +482,7 @@ describe('PrechatForm component', () => {
     })
 
     it('renders a TextField component', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
     })
 
     it('calls isFieldRequired with expected arguments', () => {
@@ -504,13 +517,13 @@ describe('PrechatForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
 
   describe('renderMessageField', () => {
-    let result, mockRenderErrorMessage, component
+    let container, result, mockRenderErrorMessage, component
 
     beforeEach(() => {
       const mockForm = {
@@ -523,11 +536,14 @@ describe('PrechatForm component', () => {
       spyOn(component, 'isFieldRequired')
       spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage)
 
-      result = component.renderMessageField()
+      container = component.renderMessageField()
+      if (container) {
+        result = container.props.children
+      }
     })
 
     it('renders a TextField component', () => {
-      expect(TestUtils.isElementOfType(result, TextField)).toEqual(true)
+      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
     })
 
     it('calls isFieldRequired with expected arguments', () => {
@@ -550,13 +566,13 @@ describe('PrechatForm component', () => {
       })
 
       it('renders field not in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('none')
+        expect(result.props.children[1].props.validation).toEqual(undefined)
       })
     })
   })
 
   describe('renderDepartmentsField', () => {
-    let renderDepartmentsFieldFn, formProp, result
+    let formProp, result
     const departments = [
         { name: 'Design', status: 'online', id: 12345, value: 12345 },
         { name: 'Engineering', status: 'online', id: 56789, value: 56789 },
@@ -568,8 +584,7 @@ describe('PrechatForm component', () => {
           value: 8888
         }
       ],
-      getRenderDepartmentsFieldFn = formProp =>
-        instanceRender(<PrechatForm form={formProp} />).renderDepartmentsField
+      getRenderDepartmentsFieldFn = formProp => domRender(<PrechatForm form={formProp} />)
 
     describe('when there are departments in the form', () => {
       beforeEach(() => {
@@ -578,12 +593,11 @@ describe('PrechatForm component', () => {
           departments,
           department: { label: 'department label' }
         }
-        renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp)
-        result = renderDepartmentsFieldFn()
+        result = getRenderDepartmentsFieldFn(formProp)
       })
 
-      it('returns a SelectField', () => {
-        expect(TestUtils.isElementOfType(result, SelectField)).toEqual(true)
+      it('renders a Dropdown', () => {
+        expect(() => TestUtils.findRenderedComponentWithType(result, Dropdown)).not.toThrow()
       })
 
       it('calls renderLabel with the correct args', () => {
@@ -594,7 +608,7 @@ describe('PrechatForm component', () => {
         let options
 
         beforeEach(() => {
-          options = result.props.children[1].props.options
+          options = TestUtils.scryRenderedComponentsWithType(result, Item)
         })
 
         it('has the right length', () => {
@@ -603,7 +617,7 @@ describe('PrechatForm component', () => {
 
         it('have the type Item', () => {
           _.forEach(options, option => {
-            expect(TestUtils.isElementOfType(option, Item)).toEqual(true)
+            expect(TestUtils.isCompositeComponentWithType(option, Item)).toEqual(true)
           })
         })
 
@@ -627,12 +641,13 @@ describe('PrechatForm component', () => {
             departments,
             department: { required: true }
           }
-          renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp)
-          result = renderDepartmentsFieldFn()
+          result = getRenderDepartmentsFieldFn(formProp)
         })
 
         it('sets the required attribute to true on the select element', () => {
-          expect(result.props.children[1].props.required).toEqual(true)
+          expect(TestUtils.findRenderedComponentWithType(result, Dropdown).props.required).toEqual(
+            true
+          )
         })
       })
 
@@ -643,12 +658,13 @@ describe('PrechatForm component', () => {
             departments,
             department: { required: false }
           }
-          renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp)
-          result = renderDepartmentsFieldFn()
+          result = getRenderDepartmentsFieldFn(formProp)
         })
 
         it('sets the required attribute to false on the else element', () => {
-          expect(result.props.children[1].props.required).toEqual(false)
+          expect(TestUtils.findRenderedComponentWithType(result, Dropdown).props.required).toEqual(
+            false
+          )
         })
       })
     })
@@ -656,12 +672,11 @@ describe('PrechatForm component', () => {
     describe('when there are no departments in the form', () => {
       beforeEach(() => {
         formProp = { ...mockFormProp, departments: undefined }
-        renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp)
-        result = renderDepartmentsFieldFn()
+        result = getRenderDepartmentsFieldFn(formProp)
       })
 
       it('does not return anything', () => {
-        expect(result).toBeNull()
+        expect(() => TestUtils.findRenderedComponentWithType(result, Dropdown)).toThrow()
       })
     })
   })

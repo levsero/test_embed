@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields'
+import { Field, Label, Textarea } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import { keyCodes } from 'utility/keyboard'
 
@@ -41,16 +40,14 @@ export class InputBox extends Component {
 
   render = () => {
     const { placeholder, name, inputValue, disabled, isMobile } = this.props
-    const fieldClasses = classNames(styles.textField, {
-      [styles.fieldDisabled]: disabled
-    })
-    const inputClasses = classNames(styles.input, {
+    const inputClasses = classNames(styles.textField, styles.input, {
       [styles.inputMobile]: this.props.isMobile,
-      [styles.fieldMobile]: this.props.isMobile
+      [styles.fieldMobile]: this.props.isMobile,
+      [styles.fieldDisabled]: disabled
     })
 
     return (
-      <TextField className={fieldClasses}>
+      <Field>
         <Label className={styles.label}>{placeholder}</Label>
         <Textarea
           value={inputValue}
@@ -63,7 +60,7 @@ export class InputBox extends Component {
           rows={isMobile ? 1 : 3}
           data-testid={TEST_IDS.MESSAGE_FIELD}
         />
-      </TextField>
+      </Field>
     )
   }
 }

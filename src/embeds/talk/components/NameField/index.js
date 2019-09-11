@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input, Label } from '@zendeskgarden/react-textfields'
-import { TextField } from './styles'
+import { Field, Label } from '@zendeskgarden/react-forms'
+import { Input } from './styles'
 
 const NameField = ({ label, defaultValue }) => {
   return (
-    <TextField>
+    <Field>
       <Label dangerouslySetInnerHTML={{ __html: label }} />
       <Input defaultValue={defaultValue} name="name" />
-    </TextField>
+    </Field>
   )
 }
 

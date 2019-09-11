@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, queryByText } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import React from 'react'
 
@@ -164,7 +164,12 @@ describe('Departments', () => {
         it('defaults to department1', () => {
           render()
 
-          expect(form.queryByText('defaultDept')).toBeInTheDocument()
+          expect(
+            queryByText(
+              form.baseElement.querySelector('[data-garden-id="dropdowns.select"]'),
+              'defaultDept'
+            )
+          ).toBeInTheDocument()
         })
       })
 

@@ -3,8 +3,8 @@ import { FONT_SIZE } from 'constants/shared'
 import { genericOverrides, mobileOverrides, selectOverrides } from 'component/frame/gardenOverrides'
 
 const overrides = {
-  'textfields.input': genericOverrides,
-  'select.select_view': css`
+  'forms.input': genericOverrides,
+  'dropdowns.select': css`
     width: ${53 / FONT_SIZE}rem !important;
     min-height: ${38 / FONT_SIZE}rem !important;
     padding: ${10 / FONT_SIZE}rem ${10 / FONT_SIZE}rem 0 !important;
@@ -30,8 +30,8 @@ const overrides = {
       box-shadow: none !important;
     }
   `,
-  'select.item': selectOverrides,
-  'select.label': mobileOverrides
+  'dropdowns.item': selectOverrides,
+  'dropdowns.label': mobileOverrides
 }
 
 export default overrides

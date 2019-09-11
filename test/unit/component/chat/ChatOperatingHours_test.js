@@ -3,7 +3,7 @@ describe('ChatOperatingHours component', () => {
   let locale = 'en'
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours')
   const Button = noopReactComponent()
-  const SelectField = noopReactComponent()
+  const Dropdown = noopReactComponent()
   const Item = noopReactComponent()
   const i18nTimeFromMinutes = jasmine.createSpy('i18nTimeFromMinutes')
 
@@ -93,7 +93,8 @@ describe('ChatOperatingHours component', () => {
       'utility/globals': {
         getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
           'getWebWidgetFrameContentDocumentBody'
-        )
+        ),
+        getWebWidgetFrameContentWindow: jasmine.createSpy('getWebWidgetFrameContentWindow')
       },
       './ChatOperatingHours.scss': {
         locals: {
@@ -107,14 +108,16 @@ describe('ChatOperatingHours component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: (...args) => args,
+          t: key => key,
           getLocale: () => locale
         }
       },
       '@zendeskgarden/react-buttons': { Button },
-      '@zendeskgarden/react-select': {
-        SelectField,
+      '@zendeskgarden/react-dropdowns': {
+        Dropdown,
         Label: noopReactComponent(),
+        Menu: noopReactComponent(),
+        Field: noopReactComponent(),
         Item,
         Select: noopReactComponent()
       },
@@ -166,7 +169,7 @@ describe('ChatOperatingHours component', () => {
       })
 
       it('has the right content', () => {
-        expect(title.props.dangerouslySetInnerHTML.__html[0]).toEqual(
+        expect(title.props.dangerouslySetInnerHTML.__html).toEqual(
           'embeddable_framework.chat.operatingHours.label.title'
         )
       })
@@ -221,7 +224,7 @@ describe('ChatOperatingHours component', () => {
     })
 
     it('has the right children prop', () => {
-      expect(result.props.children[0]).toEqual('embeddable_framework.common.button.goBack')
+      expect(result.props.children).toEqual('embeddable_framework.common.button.goBack')
     })
 
     it('has the right onClick prop', () => {
@@ -241,7 +244,14 @@ describe('ChatOperatingHours component', () => {
     })
 
     it('returns an array of formatted departments', () => {
-      const expected = [<Item key={111}>Sales</Item>, <Item key={222}>Billing</Item>]
+      const expected = [
+        <Item key={111} value="111">
+          Sales
+        </Item>,
+        <Item key={222} value="222">
+          Billing
+        </Item>
+      ]
 
       expect(result).toEqual(expected)
     })
@@ -283,34 +293,39 @@ describe('ChatOperatingHours component', () => {
 
   describe('renderDepartmentSchedule', () => {
     let component, result, dropdown
-    const mockFormattedDropdowns = [{ name: 'Billing', value: 123 }, { name: 'Sales', value: 321 }]
+    const expectedDropdownOptions = [
+      { name: 'Sales', value: '111' },
+      { name: 'Billing', value: '222' }
+    ]
 
     describe('when department operating hours exist', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
-        )
+        component = domRender(<ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />)
 
         spyOn(component, 'getSelectedDepartmentSchedule').and.returnValue({
           schedule: 'mockSelectedDept'
         })
-        spyOn(component, 'formatDepartmentsForDropdown').and.returnValue(mockFormattedDropdowns)
         spyOn(component, 'renderSchedule')
 
         result = component.renderDepartmentSchedule()
         dropdown = result.props.children[0]
       })
 
-      it('renders a SelectField component', () => {
-        expect(TestUtils.isElementOfType(dropdown, SelectField)).toEqual(true)
+      it('renders a Dropdown component', () => {
+        expect(TestUtils.isElementOfType(dropdown, Dropdown)).toEqual(true)
       })
 
       it('passes the formattedDepartments in to the dropdown as options', () => {
-        expect(dropdown.props.children[1].props.options).toEqual(mockFormattedDropdowns)
+        TestUtils.scryRenderedComponentsWithType(component, Item).forEach((item, index) => {
+          expect(item.props.children).toEqual(expectedDropdownOptions[index].name)
+          expect(item.props.value).toEqual(expectedDropdownOptions[index].value)
+        })
       })
 
       it('passes the first formattedDepartment in to the dropdown as value', () => {
-        expect(dropdown.props.children[1].props.selectedKey).toEqual('111')
+        expect(
+          TestUtils.findRenderedComponentWithType(component, Dropdown).props.selectedItem
+        ).toEqual('111')
       })
 
       it('calls renderSchedule with the departments schedule', () => {
@@ -421,7 +436,7 @@ describe('ChatOperatingHours component', () => {
         })
 
         it('contains a string with the range of hours', () => {
-          expect(openDayRange.props.children[0]).toEqual(
+          expect(openDayRange.props.children).toEqual(
             'embeddable_framework.chat.operatingHours.label.timeRange'
           )
         })
@@ -435,7 +450,7 @@ describe('ChatOperatingHours component', () => {
         })
 
         it('comes up as closed', () => {
-          expect(closedDay.props.children[0]).toEqual(
+          expect(closedDay.props.children).toEqual(
             'embeddable_framework.chat.operatingHours.label.closed'
           )
         })
