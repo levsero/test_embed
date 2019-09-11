@@ -66,8 +66,8 @@ const checkForFlag = utils => {
   expect(getSelectedCountry(utils, 'AU')).not.toBeInTheDocument()
 }
 const checkForSuccessMesage = utils => {
-  expect(utils.queryByText('Thanks for reaching out.')).toBeInTheDocument()
-  expect(utils.queryByText("We'll get back to you soon.")).toBeInTheDocument()
+  expect(utils.queryByText('Thanks for reaching out')).toBeInTheDocument()
+  expect(utils.queryByText('Someone will get back to you soon')).toBeInTheDocument()
 }
 
 const checkForPhoneOnlyPage = (utils, props) => {

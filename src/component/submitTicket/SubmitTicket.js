@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { Button } from '@zendeskgarden/react-buttons'
 
 import { locals as styles } from './SubmitTicket.scss'
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm'
-import { SuccessNotification } from 'component/shared/SuccessNotification'
+import SuccessNotification from 'src/components/SuccessNotification'
 import {
   handleFormChange,
   handleTicketFormClick,
@@ -18,7 +17,6 @@ import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selector
 import { getMaxFileCount, getMaxFileSize } from 'embeds/support/selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
-import { ICONS } from 'src/constants/shared'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
 import {
@@ -33,6 +31,7 @@ import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 import TicketFormsPage from 'src/embeds/support/pages/TicketFormsPage'
+import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
 
 const mapStateToProps = state => {
   return {
@@ -288,13 +287,13 @@ class SubmitTicket extends Component {
       <Widget>
         <Header title={i18n.t('embeddable_framework.submitTicket.notify.message.success')} />
         <Main>
-          <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
+          <SuccessNotification
+            icon={<SuccessIcon />}
+            doneText={i18n.t('embeddable_framework.common.button.goBack')}
+            onClick={this.props.onCancelClick}
+          />
         </Main>
-        <Footer>
-          <Button primary={true} onClick={this.props.onCancelClick}>
-            {i18n.t('embeddable_framework.common.button.done')}
-          </Button>
-        </Footer>
+        <Footer />
       </Widget>
     )
   }

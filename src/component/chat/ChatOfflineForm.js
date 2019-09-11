@@ -6,19 +6,19 @@ import classNames from 'classnames'
 import Linkify from 'react-linkify'
 import { Message, Field, Label, Input, Textarea } from '@zendeskgarden/react-forms'
 
-import { Button } from '@zendeskgarden/react-buttons'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
 import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels'
-import { SuccessNotification } from 'component/shared/SuccessNotification'
-import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
+import SuccessNotification from 'src/components/SuccessNotification'
+import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
 import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
 import { Widget, Header, Main } from 'src/components/Widget'
+import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -243,15 +243,19 @@ export class ChatOfflineForm extends Component {
       <Widget>
         <Header title={this.props.title} />
         <Main>
-          <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
-          <Button
-            primary={true}
-            className={styles.doneButton}
+          <SuccessNotification
+            icon={<SuccessIcon />}
+            isMobile={this.props.isMobile}
+            doneText={i18n.t('embeddable_framework.common.button.goBack')}
             onClick={this.props.handleOfflineFormBack}
-          >
-            {i18n.t('embeddable_framework.common.button.done')}
-          </Button>
+          />
         </Main>
+        <ChatFooter
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          isMobile={this.props.isMobile}
+          hideButton={true}
+          scrollShadowVisible={false}
+        />
       </Widget>
     )
   }
@@ -267,6 +271,12 @@ export class ChatOfflineForm extends Component {
             <LoadingSpinner />
           </div>
         </Main>
+        <ChatFooter
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          isMobile={this.props.isMobile}
+          hideButton={true}
+          scrollShadowVisible={false}
+        />
       </Widget>
     )
   }
