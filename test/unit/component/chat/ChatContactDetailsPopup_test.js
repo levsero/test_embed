@@ -20,14 +20,7 @@ describe('ChatContactDetailsPopup component', () => {
   const Message = noopReactComponent()
   const Field = noopReactComponent()
   const UserProfile = noopReactComponent()
-
-  class ChatPopup extends Component {
-    render() {
-      const { className, rightCtaDisabled } = this.props
-
-      return <div className={className} rightCtaDisabled={rightCtaDisabled} />
-    }
-  }
+  const ChatModal = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -64,7 +57,7 @@ describe('ChatContactDetailsPopup component', () => {
         EDIT_CONTACT_DETAILS_LOADING_SCREEN,
         EDIT_CONTACT_DETAILS_ERROR_SCREEN
       },
-      'component/chat/ChatPopup': { ChatPopup },
+      'embeds/chat/components/ChatModal': ChatModal,
       'component/chat/UserProfile': { UserProfile },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
@@ -74,6 +67,7 @@ describe('ChatContactDetailsPopup component', () => {
         Input: noopReactComponent(),
         Message
       },
+      '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg': noopReactComponent(),
       'service/i18n': {
         i18n: {
           t: noop
@@ -373,11 +367,11 @@ describe('ChatContactDetailsPopup component', () => {
   })
 
   describe('render', () => {
-    let component, renderedComponent
+    let component
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />)
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} show={true} />)
 
         spyOn(component, 'renderForm')
         spyOn(component, 'renderLoadingSpinner')
@@ -395,38 +389,14 @@ describe('ChatContactDetailsPopup component', () => {
     })
 
     describe('when the state is a loading screen', () => {
-      beforeEach(() => {
-        const mockScreen = EDIT_CONTACT_DETAILS_LOADING_SCREEN
-        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />)
-
-        renderedComponent = component.render()
-      })
-
-      it('has false in props.showCta', () => {
-        expect(renderedComponent.props.showCta).toEqual(false)
-      })
-
-      it('has the appropriate class in props.containerClasses', () => {
-        expect(renderedComponent.props.containerClasses).toEqual(
-          'popupChildrenContainerLoadingClass'
+      it('shows the loading screen', () => {
+        component = domRender(
+          <ChatContactDetailsPopup screen={EDIT_CONTACT_DETAILS_LOADING_SCREEN} show={true} />
         )
-      })
-    })
 
-    describe('when the state is not in a loading screen', () => {
-      beforeEach(() => {
-        const mockScreen = EDIT_CONTACT_DETAILS_SCREEN
-        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />)
-
-        renderedComponent = component.render()
-      })
-
-      it('has true in props.showCta', () => {
-        expect(renderedComponent.props.showCta).toEqual(true)
-      })
-
-      it('has an empty style in props.containerClasses', () => {
-        expect(renderedComponent.props.containerClasses).toEqual('')
+        expect(() =>
+          TestUtils.findRenderedComponentWithType(component, LoadingSpinner)
+        ).not.toThrow()
       })
     })
   })
@@ -565,7 +535,7 @@ describe('ChatContactDetailsPopup component', () => {
     })
 
     it('renders a Field component', () => {
-      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
+      expect(TestUtils.isElementOfType(result.props.children, Field)).toEqual(true)
     })
 
     describe('when invalid', () => {
@@ -574,7 +544,7 @@ describe('ChatContactDetailsPopup component', () => {
       })
 
       it('renders field in an error state', () => {
-        expect(result.props.children[1].props.validation).toEqual('error')
+        expect(result.props.children.props.children[1].props.validation).toEqual('error')
       })
     })
   })
@@ -588,7 +558,7 @@ describe('ChatContactDetailsPopup component', () => {
     })
 
     it('renders a Field component', () => {
-      expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
+      expect(TestUtils.isElementOfType(result.props.children, Field)).toEqual(true)
     })
   })
 })
