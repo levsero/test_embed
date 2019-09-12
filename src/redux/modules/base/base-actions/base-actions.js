@@ -364,7 +364,7 @@ export const hideReceived = () => {
   }
 }
 
-export const showRecieved = () => {
+export const showReceived = () => {
   return {
     type: actions.SHOW_RECEIVED
   }

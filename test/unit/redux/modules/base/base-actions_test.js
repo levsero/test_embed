@@ -1067,11 +1067,11 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('showRecieved', () => {
+  describe('showReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.showRecieved())
+      mockStore.dispatch(actions.showReceived())
       action = mockStore.getActions()[0]
     })
 
