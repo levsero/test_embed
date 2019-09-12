@@ -76,7 +76,7 @@
 }
 
 .loadingBarContentContainer {
-  padding-top: $spacing-med;
+  padding-top: #{15 / $font-size}rem;
 }
 
 .button {
