@@ -52,9 +52,7 @@ describe('ChatOnline component', () => {
       'component/container/Container': {
         Container: noopReactComponent()
       },
-      'component/chat/ChatPopup': {
-        ChatPopup: noopReactComponent()
-      },
+      'embeds/chat/components/ChatModal': noopReactComponent(),
       'component/chat/ChatContactDetailsPopup': {
         ChatContactDetailsPopup: noopReactComponent()
       },
@@ -97,6 +95,9 @@ describe('ChatOnline component', () => {
           t: _.identity,
           isRTL: () => {}
         }
+      },
+      'constants/shared': {
+        TEST_IDS: {}
       },
       'constants/chat': {
         AGENT_BOT: 'agent:trigger',
@@ -446,8 +447,8 @@ describe('ChatOnline component', () => {
         component.setState({ showEndChatMenu: true })
       })
 
-      it('passes true to its popup components show prop', () => {
-        expect(component.renderChatEndPopup().props.show).toBe(true)
+      it('renders the component', () => {
+        expect(component.renderChatEndPopup()).not.toBe(null)
       })
     })
 
@@ -456,8 +457,8 @@ describe('ChatOnline component', () => {
         component = instanceRender(<ChatOnline chat={{ rating: null }} />)
       })
 
-      it('passes false to its popup components show prop', () => {
-        expect(component.renderChatEndPopup().props.show).toBe(false)
+      it('renders nothing', () => {
+        expect(component.renderChatEndPopup()).toBe(null)
       })
     })
   })
@@ -501,8 +502,24 @@ describe('ChatOnline component', () => {
       expect(chatContactDetailsPopup.props.screen).toBe(mockEditContactDetails.status)
     })
 
-    it("passes the correct value to the popup component's show prop", () => {
-      expect(chatContactDetailsPopup.props.show).toBe(mockEditContactDetails.show)
+    it('does not render the popup when show is false', () => {
+      const component = instanceRender(
+        <ChatOnline
+          editContactDetails={{ show: false }}
+          visitor={mockVisitor}
+          authUrls={mockAuthUrls}
+          isAuthenticated={mockIsAuthenticated}
+          initiateSocialLogout={mockInitiateSocialLogout}
+        />
+      )
+
+      chatContactDetailsPopup = component.renderChatContactDetailsPopup()
+
+      expect(chatContactDetailsPopup).toBe(null)
+    })
+
+    it('renders the popup when show is true', () => {
+      expect(chatContactDetailsPopup).not.toBe(null)
     })
 
     it("passes an expected object to the popup component's visitor prop", () => {
