@@ -7,7 +7,6 @@ import SearchHeader from 'src/embeds/helpCenter/components/SearchHeader'
 import WidgetMain from 'src/components/WidgetMain'
 import Footer from 'src/embeds/helpCenter/components/Footer'
 import Results from 'src/embeds/helpCenter/components/Results'
-import LoadingBarContent from 'src/component/loading/LoadingBarContent'
 
 import {
   getHideZendeskLogo,
@@ -16,6 +15,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { getIsContextualSearchPending, getArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
+import LoadingBarContent from 'src/components/LoadingBarContent'
 
 const SearchPage = ({
   title,

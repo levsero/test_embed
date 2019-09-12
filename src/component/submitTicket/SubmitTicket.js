@@ -7,7 +7,6 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { locals as styles } from './SubmitTicket.scss'
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
-import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm'
 import { ZendeskLogo } from 'component/ZendeskLogo'
@@ -20,7 +19,6 @@ import {
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
-import { isIE } from 'utility/devices'
 import { ICONS } from 'src/constants/shared'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
@@ -37,6 +35,7 @@ import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 
 import classNames from 'classnames'
+import LoadingBarContent from 'src/components/LoadingBarContent'
 
 const mapStateToProps = state => {
   return {
@@ -232,9 +231,8 @@ class SubmitTicket extends Component {
     this.setTicketForm(ticketFormId)
   }
 
-  renderLoadingSpinner = () => {
+  renderLoadingBarContent = () => {
     const { fullscreen, isMobile, formTitle } = this.props
-    const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : ''
 
     return (
       <ScrollContainer
@@ -243,8 +241,8 @@ class SubmitTicket extends Component {
         isMobile={isMobile}
         containerClasses={styles.ticketFormsContainer}
       >
-        <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
-          <LoadingSpinner />
+        <div className={styles.loadingBarContentContainer}>
+          <LoadingBarContent />
         </div>
       </ScrollContainer>
     )
@@ -391,7 +389,7 @@ class SubmitTicket extends Component {
       _.isEmpty(this.props.ticketForms) || this.props.activeTicketForm
         ? this.renderForm()
         : this.renderTicketFormList()
-    const display = this.props.loading ? this.renderLoadingSpinner() : content
+    const display = this.props.loading ? this.renderLoadingBarContent() : content
 
     return (
       <div>

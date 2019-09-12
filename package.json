@@ -62,7 +62,7 @@
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
-      "maxSize": "405 KB"
+      "maxSize": "420 KB"
     },
     {
       "path": "dist/common_vendor.*.js",
@@ -102,6 +102,7 @@
     "@zendeskgarden/react-tooltips": "^6.4.4",
     "@zendeskgarden/react-utilities": "^6.2.0",
     "@zendeskgarden/svg-icons": "~5.0.0",
+    "@zendeskgarden/react-loaders": "^6.2.0",
     "airwaves": "~0.3.0",
     "async": "^2.6.1",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v23.0.0",

@@ -45,7 +45,6 @@ import MessageErrorStyles from 'component/chat/chatting/MessageError.scss'
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss'
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss'
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss'
-import LoadingBarContentStyles from 'component/loading/LoadingBarContent.scss'
 import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
@@ -107,7 +106,6 @@ export const webWidgetStyles = `
   ${ProgressBarStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
-  ${LoadingBarContentStyles}
   ${SharedComponentStyles}
   ${FrameStyles}
   ${PanelCardStyles}
