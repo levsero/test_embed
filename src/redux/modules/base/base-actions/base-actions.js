@@ -346,7 +346,7 @@ export const activateRecieved = (options = {}) => {
   }
 }
 
-export const hideRecieved = () => {
+export const hideReceived = () => {
   return (dispatch, getState) => {
     const state = getState()
 
