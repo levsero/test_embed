@@ -5,7 +5,8 @@ import {
   getBaseIsAuthenticated,
   getActiveEmbed,
   getAfterWidgetShowAnimation,
-  getWebWidgetVisible
+  getWebWidgetVisible,
+  getWidgetAlreadyHidden
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
@@ -256,6 +257,14 @@ export const handleCloseButtonClicked = () => {
     })
 
     callbacks.fireFor(WIDGET_CLOSED_EVENT)
+  }
+}
+
+export const showWidget = () => {
+  return (dispatch, getState) => {
+    if (!getWidgetAlreadyHidden(getState())) {
+      dispatch({ type: actions.SHOW_WIDGET })
+    }
   }
 }
 

@@ -1162,19 +1162,6 @@ describe('chat redux actions', () => {
     })
   })
 
-  describe('proactiveMessageReceived', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.proactiveMessageReceived())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action of type PROACTIVE_CHAT_RECEIVED', () => {
-      expect(action.type).toEqual(actionTypes.PROACTIVE_CHAT_RECEIVED)
-    })
-  })
-
   describe('chatWindowOpenOnNavigate', () => {
     let action
 

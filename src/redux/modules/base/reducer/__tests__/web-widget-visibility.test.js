@@ -17,7 +17,6 @@ import {
   ZOPIM_CHAT_GONE_OFFLINE
 } from 'src/redux/modules/zopimChat/zopimChat-action-types'
 import {
-  PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
@@ -45,10 +44,6 @@ testReducer(webWidgetVisibility, [
   },
   {
     action: { type: ACTIVATE_RECEIVED },
-    expected: true
-  },
-  {
-    action: { type: PROACTIVE_CHAT_RECEIVED },
     expected: true
   },
   {

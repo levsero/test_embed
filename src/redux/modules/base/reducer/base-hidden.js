@@ -4,7 +4,6 @@ import {
   SHOW_RECEIVED,
   HIDE_RECEIVED
 } from '../base-action-types'
-import { NEW_AGENT_MESSAGE_RECEIVED } from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = {
   hideApi: false,
@@ -33,7 +32,6 @@ const hidden = (state = initialState, action) => {
       }
     case LEGACY_SHOW_RECEIVED:
     case SHOW_RECEIVED:
-    case NEW_AGENT_MESSAGE_RECEIVED:
       return initialState
     default:
       return state

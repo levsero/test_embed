@@ -27,7 +27,7 @@ import {
 } from 'constants/event'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
-import { updateBackButtonVisibility } from 'src/redux/modules/base'
+import { updateBackButtonVisibility, showWidget } from 'src/redux/modules/base'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 import { onChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
 
@@ -703,8 +703,9 @@ export function handleChatVendorLoaded(vendor) {
 }
 
 export function proactiveMessageReceived() {
-  return {
-    type: actions.PROACTIVE_CHAT_RECEIVED
+  return dispatch => {
+    dispatch({ type: actions.PROACTIVE_CHAT_RECEIVED })
+    dispatch(showWidget())
   }
 }
 

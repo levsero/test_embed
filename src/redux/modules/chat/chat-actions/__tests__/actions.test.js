@@ -1,5 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import _ from 'lodash'
 
 import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as actions from '../actions'
@@ -31,19 +32,9 @@ const otherError = { code: 'DERP DERP', message: 'I gone derped up' }
 const mockStore = configureMockStore([thunk])
 const invoker = jest.fn()
 const mockTimeout = jest.fn(() => invoker)
-let mockHelpCenterAvailable = true
-let mockChannelChoiceAvailable = true
 jest.mock('chat-web-sdk')
-const getState = () => {
-  jest
-    .spyOn(helpCenterSelectors, 'getHelpCenterAvailable')
-    .mockImplementation(() => mockHelpCenterAvailable)
-
-  jest
-    .spyOn(connectedSelectors, 'getChannelChoiceAvailable')
-    .mockImplementation(() => mockChannelChoiceAvailable)
-
-  return {
+const getState = (state = {}) => {
+  const defaults = {
     base: {
       embeddableConfig: {
         embeds: {
@@ -61,6 +52,8 @@ const getState = () => {
       }
     }
   }
+
+  return _.merge(defaults, state)
 }
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
@@ -97,23 +90,18 @@ const logoutDispatch = (action, status = 'connected') => {
   return store
 }
 
-const dispatchAction = action => {
-  const store = mockStore(getState())
+const dispatchAction = (action, initialState = {}) => {
+  const store = mockStore(getState(initialState))
 
   store.dispatch(action)
 
-  return store.getActions()[0]
+  return store.getActions()
 }
 
 describe('endChat', () => {
   const payload = { agent: 'smith' }
-  let expectedVisibilityPayload = true,
-    happyPathActions
-
-  beforeEach(() => {
-    jest.spyOn(reselectors, 'getActiveAgents').mockReturnValue(payload)
-
-    happyPathActions = [
+  const happyPathActions = expectedVisibilityPayload => {
+    return [
       {
         type: actionTypes.CHAT_ALL_AGENTS_INACTIVE,
         payload
@@ -126,10 +114,15 @@ describe('endChat', () => {
         type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
       }
     ]
+  }
+
+  beforeEach(() => {
+    jest.spyOn(reselectors, 'getActiveAgents').mockReturnValue(payload)
   })
 
   const verifyCallbackCalled = () => {
     it('calls the callback', () => {
+      jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
       const callback = jest.fn()
 
       dispatchZChatWithTimeoutAction(actions.endChat(callback))
@@ -140,18 +133,11 @@ describe('endChat', () => {
 
   describe('when there are no other available channels', () => {
     beforeEach(() => {
-      mockHelpCenterAvailable = false
-      mockChannelChoiceAvailable = false
-      expectedVisibilityPayload = false
-      jest.spyOn(connectedSelectors, 'getChannelChoiceAvailable').mockImplementation(() => false)
-    })
-    afterEach(() => {
-      mockHelpCenterAvailable = true
-      mockChannelChoiceAvailable = true
-      expectedVisibilityPayload = true
+      jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(false)
+      jest.spyOn(connectedSelectors, 'getChannelChoiceAvailable').mockReturnValue(false)
     })
 
-    it('dispatches UPDATE_BACK_BUTTON_VISIBILITY with false payloadasdasdasdad', () => {
+    it('dispatches UPDATE_BACK_BUTTON_VISIBILITY with false payload', () => {
       const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
 
       expect(store.getActions()).toEqual(
@@ -167,6 +153,7 @@ describe('endChat', () => {
 
   describe('when there are other channels available', () => {
     it('dispatches UPDATE_BACK_BUTTON_VISIBILITY with true payload', () => {
+      jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
       const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
 
       expect(store.getActions()).toEqual(
@@ -182,10 +169,11 @@ describe('endChat', () => {
 
   describe('when there are no errors', () => {
     it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+      jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
       jest.spyOn(callbacks, 'fireFor')
       const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
 
-      expect(store.getActions()).toEqual(happyPathActions)
+      expect(store.getActions()).toEqual(happyPathActions(true))
       expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_ENDED_EVENT)
     })
 
@@ -195,10 +183,11 @@ describe('endChat', () => {
   describe('when there is an error', () => {
     describe("when it's a timeout error", () => {
       it('dispatches CHAT_ALL_AGENTS_INACTIVE and END_CHAT_REQUEST_SUCCESS', () => {
+        jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
         jest.spyOn(callbacks, 'fireFor')
         const { store } = dispatchZChatWithTimeoutAction(actions.endChat(), timeoutError)
 
-        expect(store.getActions()).toEqual(happyPathActions)
+        expect(store.getActions()).toEqual(happyPathActions(true))
         expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_ENDED_EVENT)
       })
 
@@ -909,7 +898,7 @@ describe('editContactDetailsSubmitted', () => {
 
 describe('openedChatHistory', () => {
   it('dispatches OPENED_CHAT_HISTORY', () => {
-    const result = dispatchAction(actions.openedChatHistory())
+    const result = dispatchAction(actions.openedChatHistory())[0]
 
     expect(result).toEqual({ type: actionTypes.OPENED_CHAT_HISTORY })
   })
@@ -917,7 +906,7 @@ describe('openedChatHistory', () => {
 
 describe('closedChatHistory', () => {
   it('dispatches CLOSED_CHAT_HISTORY', () => {
-    const result = dispatchAction(actions.closedChatHistory())
+    const result = dispatchAction(actions.closedChatHistory())[0]
 
     expect(result).toEqual({ type: actionTypes.CLOSED_CHAT_HISTORY })
   })
@@ -926,7 +915,7 @@ describe('closedChatHistory', () => {
 test('chatConnected', () => {
   jest.spyOn(callbacks, 'fireFor')
   jest.spyOn(zopimApi, 'handleChatConnected')
-  const result = dispatchAction(actions.chatConnected())
+  const result = dispatchAction(actions.chatConnected())[0]
 
   expect(zopimApi.handleChatConnected).toHaveBeenCalled()
   expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_CONNECTED_EVENT)
@@ -936,24 +925,65 @@ test('chatConnected', () => {
 test('chatStarted', () => {
   jest.spyOn(callbacks, 'fireFor')
   jest.spyOn(baseActions, 'updateBackButtonVisibility')
-  mockHelpCenterAvailable = 'wassap'
+  jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
 
-  const result = dispatchAction(actions.chatStarted())
+  const result = dispatchAction(actions.chatStarted())[0]
 
   expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_STARTED_EVENT)
   expect(result).toEqual({ type: actionTypes.CHAT_STARTED })
-  expect(baseActions.updateBackButtonVisibility).toHaveBeenCalledWith('wassap')
+  expect(baseActions.updateBackButtonVisibility).toHaveBeenCalledWith(true)
 
   baseActions.updateBackButtonVisibility.mockRestore()
 })
 
-test('newAgentReceived', () => {
+test('newAgentMessageReceived', () => {
   jest.spyOn(callbacks, 'fireFor')
-  const result = dispatchAction(actions.newAgentMessageReceived('yeet'))
+  const result = dispatchAction(actions.newAgentMessageReceived('yeet'))[0]
 
   expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_UNREAD_MESSAGES_EVENT)
   expect(result).toEqual({
     type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED,
     payload: 'yeet'
+  })
+})
+
+describe('proactiveMessageReceived', () => {
+  it('dispatches expected actions when not hidden', () => {
+    const results = dispatchAction(actions.proactiveMessageReceived(), {
+      base: {
+        hidden: {
+          hideApi: false
+        }
+      }
+    })
+
+    expect(results).toMatchInlineSnapshot(`
+            Array [
+              Object {
+                "type": "widget/chat/PROACTIVE_CHAT_RECEIVED",
+              },
+              Object {
+                "type": "widget/base/SHOW_WIDGET",
+              },
+            ]
+        `)
+  })
+
+  it('dispatches expected actions when hidden', () => {
+    const results = dispatchAction(actions.proactiveMessageReceived(), {
+      base: {
+        hidden: {
+          hideApi: true
+        }
+      }
+    })
+
+    expect(results).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "type": "widget/chat/PROACTIVE_CHAT_RECEIVED",
+        },
+      ]
+    `)
   })
 })
