@@ -3,35 +3,38 @@
 exports[`Checkbox renders the expected component 1`] = `
 <div>
   <div
-    class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+    data-testid="checkbox-field"
   >
-    <input
-      aria-labelledby="garden-field-container-0--label"
-      class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-      data-garden-id="forms.checkbox"
-      data-garden-version="6.4.4"
-      data-testid="checkbox-field"
-      id="garden-field-container-0--input"
-      name="123"
-      tabindex="0"
-      type="checkbox"
-    />
-    <label
-      class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-      data-garden-id="forms.checkbox_label"
-      data-garden-version="6.4.4"
-      for="garden-field-container-0--input"
-      id="garden-field-container-0--label"
-    >
-      checkbox title
-    </label>
     <div
-      class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-      data-garden-id="forms.checkbox_hint"
-      data-garden-version="6.4.4"
-      id="garden-field-container-0--hint"
+      class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
     >
-      click to toggle
+      <input
+        aria-labelledby="garden-field-container-0--label"
+        class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+        data-garden-id="forms.checkbox"
+        data-garden-version="6.4.4"
+        id="garden-field-container-0--input"
+        name="123"
+        tabindex="0"
+        type="checkbox"
+      />
+      <label
+        class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+        data-garden-id="forms.checkbox_label"
+        data-garden-version="6.4.4"
+        for="garden-field-container-0--input"
+        id="garden-field-container-0--label"
+      >
+        checkbox title
+      </label>
+      <div
+        class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+        data-garden-id="forms.checkbox_hint"
+        data-garden-version="6.4.4"
+        id="garden-field-container-0--hint"
+      >
+        click to toggle
+      </div>
     </div>
   </div>
 </div>
@@ -42,28 +45,28 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -85,1 +85,1 @@
--         aria-labelledby="garden-field-container-1--label"
-+         aria-labelledby="garden-field-container-2--label"
-@@ -90,1 +90,1 @@
--         id="garden-field-container-1--input"
-+         id="garden-field-container-2--input"
-@@ -99,2 +99,2 @@
--         for="garden-field-container-1--input"
--         id="garden-field-container-1--label"
-+         for="garden-field-container-2--input"
-+         id="garden-field-container-2--label"
-@@ -108,1 +108,1 @@
--         id="garden-field-container-1--hint"
-+         id="garden-field-container-2--hint"
-@@ -111,0 +111,7 @@
-+       </div>
-+       <div
-+         class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
-+         data-garden-id="forms.checkbox_message"
-+         data-garden-version="6.4.4"
-+       >
-+         there is a checkbox error
+@@ -94,1 +94,1 @@
+-           aria-labelledby="garden-field-container-1--label"
++           aria-labelledby="garden-field-container-2--label"
+@@ -98,1 +98,1 @@
+-           id="garden-field-container-1--input"
++           id="garden-field-container-2--input"
+@@ -107,2 +107,2 @@
+-           for="garden-field-container-1--input"
+-           id="garden-field-container-1--label"
++           for="garden-field-container-2--input"
++           id="garden-field-container-2--label"
+@@ -116,1 +116,1 @@
+-           id="garden-field-container-1--hint"
++           id="garden-field-container-2--hint"
+@@ -119,0 +119,7 @@
++         </div>
++         <div
++           class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
++           data-garden-id="forms.checkbox_message"
++           data-garden-version="6.4.4"
++         >
++           there is a checkbox error
 `;
 
 exports[`Checkbox with the checkbox ticked renders the expected with the checked value 1`] = `
@@ -71,19 +74,19 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -79,1 +79,2 @@
--         aria-labelledby="garden-field-container-3--label"
-+         aria-labelledby="garden-field-container-4--label"
-+         checked=""
-@@ -84,1 +85,1 @@
--         id="garden-field-container-3--input"
-+         id="garden-field-container-4--input"
-@@ -93,2 +94,2 @@
--         for="garden-field-container-3--input"
--         id="garden-field-container-3--label"
-+         for="garden-field-container-4--input"
-+         id="garden-field-container-4--label"
-@@ -102,1 +103,1 @@
--         id="garden-field-container-3--hint"
-+         id="garden-field-container-4--hint"
+@@ -88,1 +88,2 @@
+-           aria-labelledby="garden-field-container-3--label"
++           aria-labelledby="garden-field-container-4--label"
++           checked=""
+@@ -92,1 +93,1 @@
+-           id="garden-field-container-3--input"
++           id="garden-field-container-4--input"
+@@ -101,2 +102,2 @@
+-           for="garden-field-container-3--input"
+-           id="garden-field-container-3--label"
++           for="garden-field-container-4--input"
++           id="garden-field-container-4--label"
+@@ -110,1 +111,1 @@
+-           id="garden-field-container-3--hint"
++           id="garden-field-container-4--hint"
 `;

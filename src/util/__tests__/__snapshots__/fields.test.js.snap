@@ -411,40 +411,43 @@ exports[`customFields getCustomFields renders the correct components for each ke
     style="opacity: 1; bottom: 10px;"
   >
     <div
-      class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+      data-testid="checkbox-field"
     >
-      <input
-        aria-labelledby="garden-field-container-4--label"
-        aria-required="true"
-        class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-        data-garden-id="forms.checkbox"
-        data-garden-version="6.4.4"
-        data-testid="checkbox-field"
-        id="garden-field-container-4--input"
-        label="Can we call you?"
-        name="22823270"
-        required=""
-        tabindex="0"
-        type="checkbox"
-      />
-      <label
-        class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-        data-garden-id="forms.checkbox_label"
-        data-garden-version="6.4.4"
-        for="garden-field-container-4--input"
-        id="garden-field-container-4--label"
-      >
-        <strong>
-          Can we call you?
-        </strong>
-      </label>
       <div
-        class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-        data-garden-id="forms.checkbox_hint"
-        data-garden-version="6.4.4"
-        id="garden-field-container-4--hint"
+        class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
       >
-        this is the description
+        <input
+          aria-labelledby="garden-field-container-4--label"
+          aria-required="true"
+          class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+          data-garden-id="forms.checkbox"
+          data-garden-version="6.4.4"
+          id="garden-field-container-4--input"
+          label="Can we call you?"
+          name="22823270"
+          required=""
+          tabindex="0"
+          type="checkbox"
+        />
+        <label
+          class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+          data-garden-id="forms.checkbox_label"
+          data-garden-version="6.4.4"
+          for="garden-field-container-4--input"
+          id="garden-field-container-4--label"
+        >
+          <strong>
+            Can we call you?
+          </strong>
+        </label>
+        <div
+          class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+          data-garden-id="forms.checkbox_hint"
+          data-garden-version="6.4.4"
+          id="garden-field-container-4--hint"
+        >
+          this is the description
+        </div>
       </div>
     </div>
   </div>

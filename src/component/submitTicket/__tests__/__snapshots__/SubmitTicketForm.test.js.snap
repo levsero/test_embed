@@ -350,39 +350,42 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                data-testid="checkbox-field"
               >
-                <input
-                  aria-labelledby="garden-field-container-160--label"
-                  aria-required="true"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                  data-garden-id="forms.checkbox"
-                  data-garden-version="6.4.4"
-                  data-testid="checkbox-field"
-                  id="garden-field-container-160--input"
-                  label="Favorite Checkbox"
-                  name="11"
-                  required=""
-                  tabindex="0"
-                  type="checkbox"
-                />
-                <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                  data-garden-id="forms.checkbox_label"
-                  data-garden-version="6.4.4"
-                  for="garden-field-container-160--input"
-                  id="garden-field-container-160--label"
-                >
-                  <strong>
-                    Favorite Checkbox
-                  </strong>
-                </label>
                 <div
-                  class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
-                  data-garden-id="forms.checkbox_message"
-                  data-garden-version="6.4.4"
+                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
                 >
-                  Please check this box to proceed.
+                  <input
+                    aria-labelledby="garden-field-container-160--label"
+                    aria-required="true"
+                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                    data-garden-id="forms.checkbox"
+                    data-garden-version="6.4.4"
+                    id="garden-field-container-160--input"
+                    label="Favorite Checkbox"
+                    name="11"
+                    required=""
+                    tabindex="0"
+                    type="checkbox"
+                  />
+                  <label
+                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                    data-garden-id="forms.checkbox_label"
+                    data-garden-version="6.4.4"
+                    for="garden-field-container-160--input"
+                    id="garden-field-container-160--label"
+                  >
+                    <strong>
+                      Favorite Checkbox
+                    </strong>
+                  </label>
+                  <div
+                    class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
+                    data-garden-id="forms.checkbox_message"
+                    data-garden-version="6.4.4"
+                  >
+                    Please check this box to proceed.
+                  </div>
                 </div>
               </div>
             </div>
@@ -1039,40 +1042,43 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                data-testid="checkbox-field"
               >
-                <input
-                  aria-labelledby="garden-field-container-58--label"
-                  aria-required="true"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                  data-garden-id="forms.checkbox"
-                  data-garden-version="6.4.4"
-                  data-testid="checkbox-field"
-                  id="garden-field-container-58--input"
-                  label="Favorite Checkbox"
-                  name="11"
-                  required=""
-                  tabindex="0"
-                  type="checkbox"
-                />
-                <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                  data-garden-id="forms.checkbox_label"
-                  data-garden-version="6.4.4"
-                  for="garden-field-container-58--input"
-                  id="garden-field-container-58--label"
-                >
-                  <strong>
-                    Favorite Checkbox
-                  </strong>
-                </label>
                 <div
-                  class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-                  data-garden-id="forms.checkbox_hint"
-                  data-garden-version="6.4.4"
-                  id="garden-field-container-58--hint"
+                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
                 >
-                  this is the description
+                  <input
+                    aria-labelledby="garden-field-container-58--label"
+                    aria-required="true"
+                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                    data-garden-id="forms.checkbox"
+                    data-garden-version="6.4.4"
+                    id="garden-field-container-58--input"
+                    label="Favorite Checkbox"
+                    name="11"
+                    required=""
+                    tabindex="0"
+                    type="checkbox"
+                  />
+                  <label
+                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                    data-garden-id="forms.checkbox_label"
+                    data-garden-version="6.4.4"
+                    for="garden-field-container-58--input"
+                    id="garden-field-container-58--label"
+                  >
+                    <strong>
+                      Favorite Checkbox
+                    </strong>
+                  </label>
+                  <div
+                    class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+                    data-garden-id="forms.checkbox_hint"
+                    data-garden-version="6.4.4"
+                    id="garden-field-container-58--hint"
+                  >
+                    this is the description
+                  </div>
                 </div>
               </div>
             </div>
