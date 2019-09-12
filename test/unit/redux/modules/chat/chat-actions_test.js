@@ -1162,11 +1162,11 @@ describe('chat redux actions', () => {
     })
   })
 
-  describe('proactiveMessageRecieved', () => {
+  describe('proactiveMessageReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.proactiveMessageRecieved())
+      mockStore.dispatch(actions.proactiveMessageReceived())
       action = mockStore.getActions()[0]
     })
 

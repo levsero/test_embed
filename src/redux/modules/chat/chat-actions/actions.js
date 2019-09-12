@@ -702,7 +702,7 @@ export function handleChatVendorLoaded(vendor) {
   }
 }
 
-export function proactiveMessageRecieved() {
+export function proactiveMessageReceived() {
   return {
     type: actions.PROACTIVE_CHAT_RECEIVED
   }
