@@ -1,4 +1,4 @@
-import * as actions from './base-action-types'
+import * as actions from './../base-action-types'
 import { settings } from 'service/settings'
 import {
   getOAuth,
@@ -152,13 +152,6 @@ export const updateArturos = payload => {
   }
 }
 
-export const updateActiveEmbed = embedName => {
-  return {
-    type: actions.UPDATE_ACTIVE_EMBED,
-    payload: embedName
-  }
-}
-
 export const updateEmbedAccessible = (name, accessible) => {
   return {
     type: actions.UPDATE_EMBED,
@@ -166,13 +159,6 @@ export const updateEmbedAccessible = (name, accessible) => {
       name,
       params: { accessible }
     }
-  }
-}
-
-export const updateBackButtonVisibility = (visible = true) => {
-  return {
-    type: actions.UPDATE_BACK_BUTTON_VISIBILITY,
-    payload: visible
   }
 }
 
@@ -412,12 +398,6 @@ export const closeReceived = () => {
 export const toggleReceived = () => {
   return {
     type: actions.TOGGLE_RECEIVED
-  }
-}
-
-export const nextButtonClicked = () => {
-  return {
-    type: actions.NEXT_BUTTON_CLICKED
   }
 }
 

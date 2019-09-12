@@ -87,7 +87,6 @@ class Frame extends Component {
     alwaysShow: PropTypes.bool,
     name: PropTypes.string,
     onBack: PropTypes.func,
-    onShow: PropTypes.func,
     horizontalPosition: PropTypes.oneOf(['right', 'left']),
     verticalPosition: PropTypes.oneOf(['top', 'bottom']),
     preventClose: PropTypes.bool,
@@ -140,7 +139,6 @@ class Frame extends Component {
     name: '',
     alwaysShow: false,
     onBack: () => {},
-    onShow: () => {},
     preventClose: false,
     store: { dispatch: () => {} },
     useBackButton: false,
@@ -320,8 +318,6 @@ class Frame extends Component {
         existingStyle.webkitOverflowScrolling = 'touch'
       }
     }, scrollingStyleDelay)
-
-    this.props.onShow(this)
 
     // refs aren't available until next tick
     onNextTick(() => {

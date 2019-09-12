@@ -22,7 +22,6 @@ const SearchPage = ({
   showNextButton,
   hideZendeskLogo,
   isMobile,
-  onClick,
   isContextualSearchPending,
   articles
 }) => {
@@ -43,7 +42,6 @@ const SearchPage = ({
       <Footer
         isMobile={isMobile}
         hideZendeskLogo={hideZendeskLogo}
-        onClick={onClick}
         showNextButton={showNextButton}
       />
     </WidgetContainer>
@@ -51,7 +49,6 @@ const SearchPage = ({
 }
 
 SearchPage.propTypes = {
-  onClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   showNextButton: PropTypes.bool,
   title: PropTypes.string.isRequired,

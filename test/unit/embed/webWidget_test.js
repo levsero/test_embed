@@ -144,6 +144,9 @@ describe('embed.webWidget', () => {
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
       },
+      'redux/modules/base/base-actions/index': {
+        updateActiveEmbed: () => mockActiveEmbed
+      },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
         getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,

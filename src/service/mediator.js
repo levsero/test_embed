@@ -8,7 +8,6 @@ const c = new airwaves.Channel()
 
 const launcher = 'launcher'
 const chat = 'zopimChat'
-const helpCenter = 'helpCenterForm'
 const state = {}
 
 state[`${chat}.unreadMsgs`] = 0
@@ -36,10 +35,6 @@ function init(store) {
     if (display) {
       c.broadcast(`${chat}.show`)
     }
-  })
-
-  c.intercept(`${helpCenter}.onNextClick`, () => {
-    c.broadcast(`${chat}.show`)
   })
 
   c.intercept(`${launcher}.onClick`, () => {

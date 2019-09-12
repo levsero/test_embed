@@ -120,7 +120,7 @@ describe('base redux actions', () => {
       }
     })
 
-    const actionsPath = buildSrcPath('redux/modules/base')
+    const actionsPath = buildSrcPath('redux/modules/base/base-actions/base-actions')
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types')
 
     mockery.registerAllowable(actionsPath)
@@ -271,58 +271,6 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('updateActiveEmbed', () => {
-    let embed, action, actionList
-
-    describe('when the new active embed is chat', () => {
-      describe('widget is shown', () => {
-        beforeEach(() => {
-          embed = 'chat'
-          mockStore = createMockStore({ base: { widgetShown: true } })
-          mockStore.dispatch(actions.updateActiveEmbed(embed))
-          actionList = mockStore.getActions()
-        })
-
-        it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-          expect(actionList[0].type).toEqual(actionTypes.UPDATE_ACTIVE_EMBED)
-        })
-
-        it('has the embed in the payload', () => {
-          expect(actionList[0].payload).toEqual(embed)
-        })
-      })
-
-      describe('widget is not shown', () => {
-        beforeEach(() => {
-          embed = 'chat'
-          mockStore = createMockStore({ base: { widgetShown: false } })
-          mockStore.dispatch(actions.updateActiveEmbed(embed))
-          actionList = mockStore.getActions()
-        })
-
-        it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-          expect(actionList[0].type).toEqual(actionTypes.UPDATE_ACTIVE_EMBED)
-        })
-      })
-    })
-
-    describe('when the new active embed is not chat', () => {
-      beforeEach(() => {
-        embed = 'helpCenter'
-        mockStore.dispatch(actions.updateActiveEmbed(embed))
-        action = mockStore.getActions()[0]
-      })
-
-      it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-        expect(action.type).toEqual(actionTypes.UPDATE_ACTIVE_EMBED)
-      })
-
-      it('has the embed in the payload', () => {
-        expect(action.payload).toEqual(embed)
-      })
-    })
-  })
-
   describe('updateEmbedAccessible', () => {
     let embed, accessible, action
 
@@ -343,23 +291,6 @@ describe('base redux actions', () => {
 
     it('has an accessible property in the payload', () => {
       expect(action.payload).toEqual(jasmine.objectContaining({ params: { accessible } }))
-    })
-  })
-
-  describe('updateBackButtonVisibility', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateBackButtonVisibility(true))
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action of type UPDATE_BACK_BUTTON_VISIBILITY', () => {
-      expect(action.type).toEqual(actionTypes.UPDATE_BACK_BUTTON_VISIBILITY)
-    })
-
-    it('has the value of true in the payload', () => {
-      expect(action.payload).toEqual(true)
     })
   })
 
@@ -1163,19 +1094,6 @@ describe('base redux actions', () => {
 
     it('calls mediator .show', () => {
       expect(broadcastSpy).toHaveBeenCalledWith('.show')
-    })
-  })
-
-  describe('nextButtonClicked', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.nextButtonClicked())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action with NEXT_BUTTON_CLICKED', () => {
-      expect(action.type).toEqual(actionTypes.NEXT_BUTTON_CLICKED)
     })
   })
 

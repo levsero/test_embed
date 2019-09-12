@@ -334,5 +334,6 @@ export const chat = {
   get,
   render,
   setUser,
+  show,
   overwriteZopimApi // for testing purposes
 }
