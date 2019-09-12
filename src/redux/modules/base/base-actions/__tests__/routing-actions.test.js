@@ -194,7 +194,7 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: 'submitTicket'
+        payload: 'ticketSubmissionForm'
       })
     })
 

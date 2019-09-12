@@ -81,7 +81,7 @@ export const onHelpCenterNextClick = () => {
       dispatch(updateActiveEmbed('talk'))
       dispatch(updateBackButtonVisibility(true))
     } else {
-      dispatch(updateActiveEmbed('submitTicket'))
+      dispatch(updateActiveEmbed('ticketSubmissionForm'))
       if (helpCenterAvailable) {
         dispatch(updateBackButtonVisibility(true))
       }
