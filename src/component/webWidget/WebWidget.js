@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -56,6 +56,8 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
+
+const Support = React.lazy(() => import('embeds/support'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -361,6 +363,15 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== submitTicket) return null
 
     const { submitTicketConfig } = this.props
+
+    if (submitTicketConfig.webWidgetReactRouterSupport) {
+      return (
+        <Suspense fallback={<div>I am still loading...</div>}>
+          <Support />
+        </Suspense>
+      )
+    }
+
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''
 
     return (
@@ -533,9 +544,11 @@ const actionCreators = {
   showChat
 }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(WebWidget)
+
+export { connectedComponent as default, WebWidget as Component }
