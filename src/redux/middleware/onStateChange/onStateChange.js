@@ -13,7 +13,7 @@ import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
-  activateRecieved
+  activateReceived
 } from 'src/redux/modules/base'
 import {
   END_CHAT_REQUEST_SUCCESS,
@@ -203,7 +203,7 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
     const widgetShown = getWidgetShown(prevState)
 
     dispatch(updateBackButtonVisibility(isBackButtonVisible))
-    if (!widgetShown) dispatch(activateRecieved())
+    if (!widgetShown) dispatch(activateReceived())
   }
 }
 

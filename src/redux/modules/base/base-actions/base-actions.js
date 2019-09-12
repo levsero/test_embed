@@ -331,7 +331,7 @@ export const widgetInitialised = () => {
   }
 }
 
-export const activateRecieved = (options = {}) => {
+export const activateReceived = (options = {}) => {
   return (dispatch, getState) => {
     const state = getState()
 

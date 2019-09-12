@@ -31,7 +31,7 @@ describe('onStateChange middleware', () => {
   const chatConnectedSpy = jasmine.createSpy('chatConnected')
   const updateChatSettingsSpy = jasmine.createSpy('updateChatSettings')
   const chatWindowOpenOnNavigateSpy = jasmine.createSpy('chatWindowOpenOnNavigateSpy')
-  const activateRecievedSpy = jasmine.createSpy('activateRecieved')
+  const activateReceivedSpy = jasmine.createSpy('activateReceived')
   const resetShouldWarnSpy = jasmine.createSpy('resetShouldWarn')
   const storeEnableSpy = jasmine.createSpy('enableStore')
   const storeDisableSpy = jasmine.createSpy('disableStore')
@@ -93,7 +93,7 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
-        activateRecieved: activateRecievedSpy
+        activateReceived: activateReceivedSpy
       },
       'service/audio': {
         audio: {
@@ -642,7 +642,7 @@ describe('onStateChange middleware', () => {
             })
 
             it('calls activate', () => {
-              expect(activateRecievedSpy).toHaveBeenCalled()
+              expect(activateReceivedSpy).toHaveBeenCalled()
             })
           })
 
