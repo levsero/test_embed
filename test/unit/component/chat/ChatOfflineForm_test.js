@@ -647,7 +647,7 @@ describe('ChatOfflineForm component', () => {
   })
 
   describe('renderSuccess', () => {
-    let result, offlineMessageProp, onFormBackSpy
+    let result, offlineMessageProp, onFormBackSpy, component
 
     const mockFormValues = {
       name: 'Boromir',
@@ -661,7 +661,7 @@ describe('ChatOfflineForm component', () => {
         offlineMessageProp = { screen: 'success', details: mockFormValues }
         onFormBackSpy = jasmine.createSpy('onFormBack')
 
-        const component = instanceRender(
+        component = domRender(
           <ChatOfflineForm
             title={mockTitle}
             formState={initialFormState}
@@ -682,9 +682,9 @@ describe('ChatOfflineForm component', () => {
       })
 
       it('renders SuccessNotification', () => {
-        expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification)).toEqual(
-          true
-        )
+        expect(() =>
+          TestUtils.findRenderedComponentWithType(component, SuccessNotification)
+        ).not.toThrow()
       })
 
       it('renders with the correct title', () => {

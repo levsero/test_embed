@@ -249,15 +249,17 @@ export class ChatOfflineForm extends Component {
         fullscreen={this.props.fullscreen}
         isMobile={this.props.isMobile}
         title={this.props.title}
+        footerContent={
+          <Button
+            primary={true}
+            className={styles.doneButton}
+            onClick={this.props.handleOfflineFormBack}
+          >
+            {i18n.t('embeddable_framework.common.button.done')}
+          </Button>
+        }
       >
         <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
-        <Button
-          primary={true}
-          className={styles.doneButton}
-          onClick={this.props.handleOfflineFormBack}
-        >
-          {i18n.t('embeddable_framework.common.button.done')}
-        </Button>
       </ScrollContainer>
     )
   }

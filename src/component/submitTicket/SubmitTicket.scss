@@ -41,7 +41,6 @@
 
 .ticketFormsContainer {
   composes: u-paddingTN u-posRelative from global;
-  min-height: #{357 / $font-size}rem;
 }
 
 .ticketFormsFooter {
@@ -99,4 +98,10 @@
 
 .scrollContainerSuccess {
   overflow-y: hidden;
+  height: 100%;
+
+  & > div {
+    height: 100%;
+    overflow-y: auto;
+  }
 }
