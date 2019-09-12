@@ -28,13 +28,15 @@
     }
   }
 
-  &:hover,
-  &:active,
-  &:focus {
-    background: $zd-color-grey-300 !important;
+  &:not(.iconDisabled) {
+    &:hover,
+    &:active,
+    &:focus {
+      background: $zd-color-grey-300 !important;
 
-    svg > g {
-      fill: $zd-color-grey-800 !important;
+      svg > g {
+        fill: $zd-color-grey-800 !important;
+      }
     }
   }
 }
@@ -114,15 +116,8 @@
   }
 }
 
-.iconDisabled {
-  background: none !important;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background: none !important;
-    cursor: default;
-  }
+.iconDisabled svg g {
+  fill: $zd-color-grey-400 !important;
 }
 
 .containerMobile {
