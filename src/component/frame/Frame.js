@@ -319,7 +319,9 @@ class Frame extends Component {
     const frameDoc = this.getContentDocument()
     const fullscreenStyles = ['width: 100%', 'height: 100%', 'overflow-x: hidden'].join(';')
 
-    frameDoc.body.firstChild.setAttribute('style', fullscreenStyles)
+    if (frameDoc.body.firstChild) {
+      frameDoc.body.firstChild.setAttribute('style', fullscreenStyles)
+    }
   }
 
   computeIframeStyle = () => {
