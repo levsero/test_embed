@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { StyleSheetManager } from 'styled-components'
 
 import { locals as styles } from './Frame.scss'
 
@@ -26,14 +24,15 @@ import {
   WIDGET_WIDTH,
   FRAME_TRANSITION_DURATION,
   TEST_IDS
-} from 'src/constants/shared'
-import { getChatStandalone } from 'src/redux/modules/base/base-selectors'
+} from 'constants/shared'
+import { getChatStandalone, getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getStylingOffset,
   getStylingPositionVertical,
   getStylingZIndex
 } from 'src/redux/modules/settings/settings-selectors'
 import { onNextTick } from 'src/util/utils'
+import IFrame from 'src/components/Frame'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -45,7 +44,8 @@ const mapStateToProps = (state, ownProps) => {
     frameStyle: getFrameStyle(state, ownProps.name),
     offset: getStylingOffset(state),
     verticalPosition: getStylingPositionVertical(state),
-    zIndex: getStylingZIndex(state)
+    zIndex: getStylingZIndex(state),
+    locale: getLocale(state)
   }
 }
 
@@ -154,39 +154,51 @@ class Frame extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      childRendering: false,
       hiddenByZoom: false
     }
 
     this.child = null
     this.iframe = null
-    this.lastQueuedRender = null
-    this.queue = []
+
+    this.iframeRoot = document.createElement('div')
   }
 
   componentDidMount = () => {
-    this.renderFrameContent()
+    this.updateFrameLocale()
   }
 
   componentDidUpdate = prevProps => {
-    this.renderFrameContent()
-
     if (!prevProps.visible && this.props.visible) {
-      this.waitForRender(this.show)
+      this.show()
     }
 
     if (this.props.color !== prevProps.color) {
-      this.waitForRender(() => {
-        this.setCustomCSS(this.generateUserCSSWithColor(this.props.color))
-      })
+      this.setCustomCSS(this.generateUserCSSWithColor(this.props.color))
     }
-  }
 
-  componentWillUnmount = () => {
-    ReactDOM.unmountComponentAtNode(this.getContentDocument().body)
+    const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props
+    const mobileFullscreen = fullscreenable && isMobile
+
+    const desktopClasses = mobileFullscreen ? '' : styles.desktop
+    const positionClasses = horizontalPosition === 'left' ? styles.left : styles.right
+
+    if (fullscreen) {
+      this.iframeRoot.style.minWidth = '100%'
+    }
+
+    this.iframeRoot.className = `${positionClasses} ${desktopClasses}`
+
+    if (mobileFullscreen) {
+      onNextTick(this.applyMobileBodyStyle)
+    }
+
+    this.updateFrameLocale()
   }
 
   getContentDocument = () => {
+    if (!this.iframe) {
+      return null
+    }
     return this.iframe.contentDocument
   }
 
@@ -208,27 +220,6 @@ class Frame extends Component {
     return this.child
   }
 
-  getFrameHead = () => {
-    return this.getContentDocument().head
-  }
-
-  waitForRender = callback => {
-    if (this.child) {
-      callback()
-    } else {
-      this.queue.push(callback)
-    }
-  }
-
-  flushQueue = () => {
-    onNextTick(() => {
-      this.queue.forEach(callback => {
-        callback()
-      })
-      this.queue = []
-    })
-  }
-
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement
     const direction = i18n.isRTL() ? 'rtl' : 'ltr'
@@ -238,24 +229,10 @@ class Frame extends Component {
       html.setAttribute('lang', i18n.getLocale())
       html.setAttribute('dir', direction)
     })
-
-    if (this.child) {
-      this.forceUpdateWorld()
-    }
   }
 
   forceUpdateWorld = () => {
-    this.child.forceUpdate()
-    this.child.nav.forceUpdate()
-    const embed = this.getRootComponent()
-
-    if (embed.getActiveComponent) {
-      const activeComponent = embed.getActiveComponent()
-
-      if (activeComponent) activeComponent.forceUpdate()
-    }
-
-    _.defer(this.forceUpdate.bind(this))
+    this.forceUpdate()
   }
 
   updateFrameTitle = title => {
@@ -401,70 +378,8 @@ class Frame extends Component {
     }
   }
 
-  injectEmbedIntoFrame = embed => {
-    this.setState({ childRendering: true })
-    const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props
-    const doc = this.getContentDocument()
-
-    // element within the iframe to inject the embed into
-    const element = doc.body.appendChild(doc.createElement('div'))
-    // element styles
-    const mobileFullscreen = fullscreenable && isMobile
-
-    const desktopClasses = mobileFullscreen ? '' : styles.desktop
-    const positionClasses = horizontalPosition === 'left' ? styles.left : styles.right
-
-    if (fullscreen) {
-      element.style.minWidth = '100%'
-    }
-
-    element.className = `${positionClasses} ${desktopClasses}`
-    ReactDOM.render(embed, element)
-
-    if (mobileFullscreen) {
-      onNextTick(this.applyMobileBodyStyle)
-    }
-    this.flushQueue()
-  }
-
   generateUserCSSWithColor = color => {
     return this.props.generateUserCSS(color)
-  }
-
-  constructEmbed = () => {
-    const newChild = React.cloneElement(this.props.children, {
-      forceUpdateWorld: this.forceUpdateWorld,
-      onBackButtonClick: this.back
-    })
-    const { horizontalPosition } = this.props
-
-    const wrapper = (
-      <StyleSheetManager target={this.getContentDocument().head}>
-        <EmbedWrapper
-          ref={el => {
-            this.child = el
-          }}
-          document={this.getContentDocument()}
-          baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(
-            this.props.color
-          )} ${baseFontCSS}`}
-          reduxStore={this.props.store}
-          handleBackClick={this.back}
-          preventClose={this.props.preventClose}
-          useBackButton={this.props.useBackButton}
-          hideNavigationButtons={this.props.hideNavigationButtons}
-          name={this.props.name}
-          fullscreen={this.props.fullscreen}
-          isMobile={this.props.isMobile}
-          chatStandalone={this.props.chatStandalone}
-          dataTestId={horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
-        >
-          {newChild}
-        </EmbedWrapper>
-      </StyleSheetManager>
-    )
-
-    this.injectEmbedIntoFrame(wrapper)
   }
 
   onShowAnimationComplete = () => {
@@ -474,26 +389,15 @@ class Frame extends Component {
   }
 
   renderFrameContent = () => {
-    if (this.state.childRendering) {
-      return false
-    }
-
     const html = this.getContentDocument().documentElement
     const doc = this.getContentWindow().document
 
     // In order for iframe to correctly render in some browsers
     // we need to wait for readyState to be complete
-    if (doc.readyState === 'complete') {
-      this.updateFrameLocale()
-      this.constructEmbed(html, doc)
-      if (this.props.title) {
-        this.updateFrameTitle(this.props.title)
-      }
-    } else {
-      if (this.lastQueuedRender) {
-        clearTimeout(this.lastQueuedRender)
-      }
-      this.lastQueuedRender = onNextTick(this.renderFrameContent)
+    this.updateFrameLocale()
+    this.constructEmbed(html, doc)
+    if (this.props.title) {
+      this.updateFrameTitle(this.props.title)
     }
   }
 
@@ -527,19 +431,45 @@ class Frame extends Component {
         onEntered={this.onShowAnimationComplete}
       >
         {status => (
-          <iframe
+          <IFrame
             title={this.props.title || this.props.name}
             style={{
               ...this.computeIframeStyle(),
               ...transitionStyles[status]
             }}
-            ref={el => {
-              this.iframe = el
+            ref={iframe => {
+              this.iframe = iframe
             }}
             id={this.props.name}
             tabIndex={tabIndex}
             className={`${frameClasses} ${activeClasses}`}
-          />
+            rootElement={this.iframeRoot}
+          >
+            <EmbedWrapper
+              ref={el => {
+                this.child = el
+              }}
+              document={this.getContentDocument()}
+              baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(
+                this.props.color
+              )} ${baseFontCSS}`}
+              reduxStore={this.props.store}
+              handleBackClick={this.back}
+              preventClose={this.props.preventClose}
+              useBackButton={this.props.useBackButton}
+              hideNavigationButtons={this.props.hideNavigationButtons}
+              name={this.props.name}
+              fullscreen={this.props.fullscreen}
+              isMobile={this.props.isMobile}
+              chatStandalone={this.props.chatStandalone}
+              dataTestId={this.props.horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
+            >
+              {React.cloneElement(this.props.children, {
+                forceUpdateWorld: this.forceUpdateWorld,
+                onBackButtonClick: this.back
+              })}
+            </EmbedWrapper>
+          </IFrame>
         )}
       </Transition>
     )

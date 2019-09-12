@@ -87,6 +87,7 @@ export class SubmitTicketForm extends Component {
     const canSubmit = this.attachmentsReady()
 
     if (this.state.canSubmit !== canSubmit) {
+      //  eslint-disable-next-line react/no-did-update-set-state
       this.setState({ canSubmit })
     }
   }
