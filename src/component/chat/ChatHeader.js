@@ -18,7 +18,8 @@ export class ChatHeader extends Component {
     showRating: PropTypes.bool,
     showAvatar: PropTypes.bool,
     showTitle: PropTypes.bool,
-    onAgentDetailsClick: PropTypes.func
+    onAgentDetailsClick: PropTypes.func,
+    agentsActive: PropTypes.bool
   }
 
   static defaultProps = {
@@ -27,7 +28,8 @@ export class ChatHeader extends Component {
     concierges: [{}],
     showRating: false,
     showAvatar: true,
-    showTitle: true
+    showTitle: true,
+    agentsActive: false
   }
 
   renderAvatars = concierges => {
@@ -133,24 +135,29 @@ export class ChatHeader extends Component {
   }
 
   render = () => {
-    const { showTitle, showAvatar, showRating, onAgentDetailsClick } = this.props
+    const { showTitle, showAvatar, showRating, onAgentDetailsClick, agentsActive } = this.props
     const ratingButtons = showRating ? this.renderRatingButtons() : null
     const avatar = showAvatar ? this.renderAvatarContainer() : null
     const textContainer = this.renderTextContainer()
     const agentDetailsClasses = classNames(styles.agentDetails, styles.button, {
-      [styles.clickable]: !!onAgentDetailsClick
+      [styles.clickable]: !!onAgentDetailsClick && agentsActive
     })
 
     if (!showAvatar && !showTitle && !showRating) {
       return null
     }
 
+    const AgentInfo = agentsActive ? 'button' : 'div'
+
     return (
       <div className={styles.container} data-testid={TEST_IDS.HEADER_CONTAINER}>
-        <button className={agentDetailsClasses} onClick={onAgentDetailsClick}>
+        <AgentInfo
+          className={agentDetailsClasses}
+          onClick={agentsActive ? onAgentDetailsClick : undefined}
+        >
           {avatar}
           {textContainer}
-        </button>
+        </AgentInfo>
         {ratingButtons}
       </div>
     )
