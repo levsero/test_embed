@@ -48,7 +48,7 @@ const setUpComponent = () => {
 }
 
 const getSelectedCountry = (utils, value) => {
-  return queryByAltText(utils.queryByTestId(TEST_IDS.DROPDOWN_SELECTED), value)
+  return queryByAltText(utils.queryByTestId(TEST_IDS.DROPDOWN_FIELD), value)
 }
 
 const submitForm = utils => fireEvent.click(utils.getByText('Send'))

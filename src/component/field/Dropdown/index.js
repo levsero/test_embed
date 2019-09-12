@@ -260,7 +260,7 @@ export default class NestedDropdown extends Component {
           <Field>
             {this.props.label}
             <Hint>{this.props.description}</Hint>
-            <Select data-testid={TEST_IDS.DROPDOWN_SELECTED}>{this.state.displayedName}</Select>
+            <Select data-testid={TEST_IDS.DROPDOWN_FIELD}>{this.state.displayedName}</Select>
 
             {this.props.showError && (
               <Message validation="error">

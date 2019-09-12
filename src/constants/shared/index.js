@@ -111,7 +111,7 @@ export const TEST_IDS = {
   STR_MSG_PANEL_HEADING: 'panelHeading',
   DROPDOWN_OPTIONS: 'dropdown-options',
   DROPDOWN_OPTION: 'dropdown-option',
-  DROPDOWN_SELECTED: 'dropdown-selected',
+  DROPDOWN_FIELD: 'dropdown-field',
   TALK_OFFLINE_PAGE: 'talk--offlinePage',
   TALK_PHONE_ONLY_PAGE: 'talk--phoneOnlyPage',
   TALK_SUCCESS_PAGE: 'talk--successPage',

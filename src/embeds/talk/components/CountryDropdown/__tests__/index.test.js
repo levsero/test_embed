@@ -78,7 +78,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId(TEST_IDS.DROPDOWN_SELECTED).click()
+      queryByTestId(TEST_IDS.DROPDOWN_FIELD).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(false)
@@ -92,7 +92,7 @@ describe('CountryDropdown', () => {
     })
 
     act(() => {
-      queryByTestId(TEST_IDS.DROPDOWN_SELECTED).click()
+      queryByTestId(TEST_IDS.DROPDOWN_FIELD).click()
     })
 
     expect(onToggleOpen).toHaveBeenCalledWith(true)
