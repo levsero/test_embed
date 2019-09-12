@@ -11,13 +11,15 @@ import { TEST_IDS } from 'constants/shared'
 
 const Checkbox = ({ label, description, showError, errorString, checkboxProps }) => {
   return (
-    <Field>
-      <GardenCheckbox {...checkboxProps} data-testid={TEST_IDS.CHECKBOX_FIELD}>
-        <CheckboxLabel dangerouslySetInnerHTML={{ __html: label }} />
-        {description && <CheckboxHint>{description}</CheckboxHint>}
-        {showError && <Message validation="error">{errorString}</Message>}
-      </GardenCheckbox>
-    </Field>
+    <div data-testid={TEST_IDS.CHECKBOX_FIELD}>
+      <Field>
+        <GardenCheckbox {...checkboxProps}>
+          <CheckboxLabel dangerouslySetInnerHTML={{ __html: label }} />
+          {description && <CheckboxHint>{description}</CheckboxHint>}
+          {showError && <Message validation="error">{errorString}</Message>}
+        </GardenCheckbox>
+      </Field>
+    </div>
   )
 }
 
