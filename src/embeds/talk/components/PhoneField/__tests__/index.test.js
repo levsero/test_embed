@@ -38,17 +38,14 @@ describe('PhoneField', () => {
     it('uses the country prop when provided', () => {
       const { queryByTestId } = renderComponent({ country: 'US' })
 
-      expect(queryByAltText(queryByTestId(TEST_IDS.DROPDOWN_SELECTED), 'US')).toBeInTheDocument()
+      expect(queryByAltText(queryByTestId(TEST_IDS.DROPDOWN_FIELD), 'US')).toBeInTheDocument()
     })
 
     it('uses the the first supportedCountry when country not provided', () => {
       const { queryByTestId } = renderComponent({ country: null })
 
       expect(
-        queryByAltText(
-          queryByTestId(TEST_IDS.DROPDOWN_SELECTED),
-          defaultProps.supportedCountries[0]
-        )
+        queryByAltText(queryByTestId(TEST_IDS.DROPDOWN_FIELD), defaultProps.supportedCountries[0])
       ).toBeInTheDocument()
     })
   })

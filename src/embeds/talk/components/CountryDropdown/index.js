@@ -28,7 +28,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
           style={{
             width
           }}
-          data-testid={TEST_IDS.DROPDOWN_SELECTED}
+          data-testid={TEST_IDS.DROPDOWN_FIELD}
         >
           <Flag country={selectedKey} />
         </Select>
