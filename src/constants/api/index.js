@@ -7,6 +7,7 @@ export const API_ON_CHAT_STATUS_NAME = 'status'
 export const API_ON_CHAT_UNREAD_MESSAGES_NAME = 'unreadMessages'
 export const API_ON_OPEN_NAME = 'open'
 export const API_ON_CHAT_DEPARTMENT_STATUS = 'departmentStatus'
+export const API_ON_CHAT_POPOUT = 'popout'
 
 // get api params
 export const API_GET_IS_CHATTING_NAME = 'isChatting'
