@@ -164,6 +164,7 @@ class Frame extends Component {
   }
 
   componentDidMount = () => {
+    this.updateIFrameRootStyles()
     this.updateFrameLocale()
   }
 
@@ -176,6 +177,11 @@ class Frame extends Component {
       this.setCustomCSS(this.generateUserCSSWithColor(this.props.color))
     }
 
+    this.updateIFrameRootStyles()
+    this.updateFrameLocale()
+  }
+
+  updateIFrameRootStyles() {
     const { isMobile, fullscreenable, fullscreen, horizontalPosition } = this.props
     const mobileFullscreen = fullscreenable && isMobile
 
@@ -191,8 +197,6 @@ class Frame extends Component {
     if (mobileFullscreen) {
       onNextTick(this.applyMobileBodyStyle)
     }
-
-    this.updateFrameLocale()
   }
 
   getContentDocument = () => {
