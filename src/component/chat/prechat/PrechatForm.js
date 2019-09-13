@@ -485,6 +485,9 @@ export class PrechatForm extends Component {
         onSubmit={this.handleFormSubmit}
         onChange={this.handleFormChange}
         ref={el => {
+          if (!el) {
+            return
+          }
           this.form = el
         }}
         className={`${styles.form}`}
