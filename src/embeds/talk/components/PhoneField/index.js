@@ -33,8 +33,7 @@ class PhoneField extends ControlledComponent {
   static propTypes = {
     supportedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
     libphonenumber: PropTypes.shape({
-      AsYouType: PropTypes.func,
-      isValidNumber: PropTypes.func
+      AsYouType: PropTypes.func
     }).isRequired,
     rtl: PropTypes.bool,
     label: PropTypes.string,
@@ -66,8 +65,7 @@ class PhoneField extends ControlledComponent {
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
       valid: false,
-      countryDropdownOpen: false,
-      dropdownWidth: null
+      countryDropdownOpen: false
     }
 
     this.phoneInput = undefined
@@ -109,15 +107,25 @@ class PhoneField extends ControlledComponent {
     }
   }
 
-  isValid = (phoneValue, selectedKey) => {
-    const { libphonenumber } = this.props
+  getErrorMessage(phoneValue, selectedKey) {
+    const { parsePhoneNumber } = this.props.libphonenumber
 
-    if (libphonenumber.isValidNumber(phoneValue, selectedKey)) {
-      this.phoneInput.setCustomValidity('')
-      this.setState({ valid: true })
-    } else {
+    try {
+      parsePhoneNumber(phoneValue, selectedKey)
+    } catch (error) {
+      return error.message
+    }
+  }
+
+  validatePhoneNumber = (phoneValue, selectedKey) => {
+    const errorMessage = this.getErrorMessage(phoneValue, selectedKey)
+    if (errorMessage) {
       this.setState({ valid: false })
       this.phoneInput.setCustomValidity('Error')
+      return errorMessage
+    } else {
+      this.phoneInput.setCustomValidity('')
+      this.setState({ valid: true })
     }
   }
 
@@ -130,8 +138,10 @@ class PhoneField extends ControlledComponent {
   onInputChange = e => {
     const phoneValue = this.getPhoneValue(e.target.value, this.state.selectedKey)
 
-    this.isValid(phoneValue, this.state.selectedKey)
-    this.setState({ inputValue: phoneValue })
+    const errorMessage = this.validatePhoneNumber(phoneValue, this.state.selectedKey)
+    if (errorMessage !== 'TOO_LONG') {
+      this.setState({ inputValue: phoneValue })
+    }
   }
 
   getCountryByIso(iso) {
@@ -147,7 +157,7 @@ class PhoneField extends ControlledComponent {
   }
 
   componentDidMount = () => {
-    this.isValid(this.state.inputValue, this.state.selectedKey)
+    this.validatePhoneNumber(this.state.inputValue, this.state.selectedKey)
   }
 
   render() {

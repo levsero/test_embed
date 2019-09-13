@@ -70,7 +70,7 @@
     },
     {
       "path": "dist/talk_vendor.*.js",
-      "maxSize": "60 KB"
+      "maxSize": "66 KB"
     },
     {
       "path": "dist/chat_vendor.*.js",
@@ -110,7 +110,7 @@
     "classnames": "^2.2.5",
     "color": "~3.0.0",
     "core-js": "^2.6.9",
-    "libphonenumber-js": "~0.4.49",
+    "libphonenumber-js": "^1.7.24",
     "lodash": "^4.17.14",
     "prop-types": "^15.6.1",
     "re-reselect": "^2.2.0",
@@ -148,6 +148,7 @@
     "@svgr/webpack": "^4.3.2",
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^8.0.4",
+    "@testing-library/user-event": "^7.0.1",
     "app-root-path": "^2.0.1",
     "audit-ci": "^2.3.0",
     "babel-core": "^7.0.0-bridge.0",

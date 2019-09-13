@@ -1,4 +1,5 @@
 import { render, fireEvent, queryByAltText } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
@@ -65,6 +66,9 @@ const checkForForm = utils => {
 const checkForErrorMessage = utils => {
   expect(utils.queryByText('Please enter a valid phone number.')).toBeInTheDocument()
 }
+const checkForNoErrorMessage = utils => {
+  expect(utils.queryByText('Please enter a valid phone number.')).not.toBeInTheDocument()
+}
 const checkForFlag = utils => {
   expect(getSelectedCountry(utils, 'US')).toBeInTheDocument()
   expect(getSelectedCountry(utils, 'AU')).not.toBeInTheDocument()
@@ -84,6 +88,33 @@ const checkForPhoneNumber = (utils, { phoneNumber, formattedPhoneNumber, average
   expect(utils.queryByText(`Average wait time: ${averageWaitTime} minutes`)).toBeInTheDocument()
   expect(document.querySelector(`[href="tel:${phoneNumber}"]`)).toBeInTheDocument()
 }
+
+test('limit phone input field length based on libphonenumber-js validation', () => {
+  const utils = setUpComponent()
+  checkForForm(utils)
+  userEvent.type(utils.getByLabelText('Phone Number'), '+12222333344445555666677778888')
+  expect(utils.getByLabelText('Phone Number').value).toEqual('+122223333444455556')
+})
+
+test('phone number is displayed as the user types', () => {
+  const utils = setUpComponent()
+  checkForForm(utils)
+  userEvent.type(utils.getByLabelText('Phone Number'), '+15417543010')
+  expect(utils.getByLabelText('Phone Number').value).toEqual('+1 541 754 3010')
+})
+
+test('error message is not displayed on initial page load', () => {
+  const utils = setUpComponent()
+  checkForForm(utils)
+  userEvent.type(utils.getByLabelText('Phone Number'), '+15417543010')
+  checkForNoErrorMessage(utils)
+  userEvent.type(utils.getByLabelText('Phone Number'), '+1111111111111111111111111111111111')
+  checkForNoErrorMessage(utils)
+  submitForm(utils)
+  checkForErrorMessage(utils)
+  userEvent.type(utils.getByLabelText('Phone Number'), '+15417543010')
+  checkForNoErrorMessage(utils)
+})
 
 test('talk callback submission', () => {
   const utils = setUpComponent()
