@@ -144,7 +144,7 @@ export class Attachment extends Component {
     return (
       <div
         className={containerClasses}
-        data-testid={`${TEST_IDS.FILE_NAME}-${this.props.attachmentId}`}
+        data-testid={`${TEST_IDS.FILE_NAME}-${this.props.attachmentId || 'attachment'}`}
       >
         <div className={styles.preview}>
           {this.renderPreviewIcon()}
