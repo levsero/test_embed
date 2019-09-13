@@ -5,7 +5,8 @@ import {
   getBaseIsAuthenticated,
   getActiveEmbed,
   getAfterWidgetShowAnimation,
-  getWebWidgetVisible
+  getWebWidgetVisible,
+  getWidgetAlreadyHidden
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
@@ -259,6 +260,14 @@ export const handleCloseButtonClicked = () => {
   }
 }
 
+export const showWidget = () => {
+  return (dispatch, getState) => {
+    if (!getWidgetAlreadyHidden(getState())) {
+      dispatch({ type: actions.SHOW_WIDGET })
+    }
+  }
+}
+
 export const handlePopoutButtonClicked = () => {
   return {
     type: actions.POPOUT_BUTTON_CLICKED
@@ -331,7 +340,7 @@ export const widgetInitialised = () => {
   }
 }
 
-export const activateRecieved = (options = {}) => {
+export const activateReceived = (options = {}) => {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -346,7 +355,7 @@ export const activateRecieved = (options = {}) => {
   }
 }
 
-export const hideRecieved = () => {
+export const hideReceived = () => {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -364,7 +373,7 @@ export const hideRecieved = () => {
   }
 }
 
-export const showRecieved = () => {
+export const showReceived = () => {
   return {
     type: actions.SHOW_RECEIVED
   }

@@ -984,7 +984,7 @@ describe('base redux actions', () => {
         mockOptions = {
           value: true
         }
-        mockStore.dispatch(actions.activateRecieved(mockOptions))
+        mockStore.dispatch(actions.activateReceived(mockOptions))
         action = mockStore.getActions()[0]
       })
 
@@ -1024,7 +1024,7 @@ describe('base redux actions', () => {
     describe('with no parameter', () => {
       beforeEach(() => {
         mockOptions = {}
-        mockStore.dispatch(actions.activateRecieved())
+        mockStore.dispatch(actions.activateReceived())
         action = mockStore.getActions()[0]
       })
 
@@ -1034,11 +1034,11 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('hideRecieved', () => {
+  describe('hideReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.hideRecieved())
+      mockStore.dispatch(actions.hideReceived())
       action = mockStore.getActions()[0]
     })
 
@@ -1067,11 +1067,11 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('showRecieved', () => {
+  describe('showReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.showRecieved())
+      mockStore.dispatch(actions.showReceived())
       action = mockStore.getActions()[0]
     })
 

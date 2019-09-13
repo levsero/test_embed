@@ -426,7 +426,7 @@ describe('hideApi', () => {
     store = createStore()
 
     store.dispatch = jest.fn()
-    spy = jest.spyOn(baseActions, 'hideRecieved').mockImplementation(mockAction)
+    spy = jest.spyOn(baseActions, 'hideReceived').mockImplementation(mockAction)
   })
 
   afterEach(() => spy.mockRestore())

@@ -4,8 +4,8 @@ import {
   handlePrefillReceived,
   logout,
   apiClearForm,
-  showRecieved,
-  hideRecieved,
+  showReceived,
+  hideReceived,
   openReceived,
   closeReceived,
   toggleReceived
@@ -146,14 +146,14 @@ export const hideApi = reduxStore => {
   const state = reduxStore.getState()
 
   if (getWidgetAlreadyHidden(state)) return
-  reduxStore.dispatch(hideRecieved())
+  reduxStore.dispatch(hideReceived())
 }
 
 export const showApi = reduxStore => {
   const state = reduxStore.getState()
 
   if (!getWidgetAlreadyHidden(state)) return
-  reduxStore.dispatch(showRecieved())
+  reduxStore.dispatch(showReceived())
 }
 
 export const popoutApi = reduxStore => {
