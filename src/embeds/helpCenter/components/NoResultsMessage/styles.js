@@ -5,25 +5,18 @@ import { isMobileBrowser } from 'utility/devices'
 import { zdColorGrey800, zdColorGrey600 } from '@zendeskgarden/css-variables'
 
 export const Container = styled.div`
-text-align: center !important;
-color: ${zdColorGrey800};
-font-size: ${15 / FONT_SIZE}rem;
-height: 80%;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+  text-align: center !important;
+  color: ${zdColorGrey800};
+  font-size: ${15 / FONT_SIZE}rem;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
 
   ${({ isBottom }) => isBottom && `padding-bottom: ${20 / FONT_SIZE}rem;`}
-  ${isMobileBrowser() &&
-    `
-    font-size: ${15 / FONT_SIZE}rem;
-`}
-${!isMobileBrowser() &&
-  `
-  font-size: ${20 / FONT_SIZE}rem;
-`}
+  font-size: ${() => (isMobileBrowser() ? `${15 / FONT_SIZE}rem` : `${20 / FONT_SIZE}rem`)};
 `
 
 export const Title = styled.p`
