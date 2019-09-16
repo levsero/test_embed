@@ -5,7 +5,8 @@ import {
   getBaseIsAuthenticated,
   getActiveEmbed,
   getAfterWidgetShowAnimation,
-  getWebWidgetVisible
+  getWebWidgetVisible,
+  getWidgetAlreadyHidden
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
@@ -21,7 +22,7 @@ import { mediator } from 'service/mediator'
 import { store } from 'service/persistence'
 import { http } from 'service/transport'
 import { PHONE_PATTERN } from 'src/constants/shared'
-import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT } from 'constants/event'
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import * as callbacks from 'service/api/callbacks'
 
@@ -259,9 +260,18 @@ export const handleCloseButtonClicked = () => {
   }
 }
 
+export const showWidget = () => {
+  return (dispatch, getState) => {
+    if (!getWidgetAlreadyHidden(getState())) {
+      dispatch({ type: actions.SHOW_WIDGET })
+    }
+  }
+}
+
 export const handlePopoutButtonClicked = () => {
-  return {
-    type: actions.POPOUT_BUTTON_CLICKED
+  return dispatch => {
+    dispatch({ type: actions.POPOUT_BUTTON_CLICKED })
+    callbacks.fireFor(CHAT_POPOUT_EVENT)
   }
 }
 
@@ -331,7 +341,7 @@ export const widgetInitialised = () => {
   }
 }
 
-export const activateRecieved = (options = {}) => {
+export const activateReceived = (options = {}) => {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -346,7 +356,7 @@ export const activateRecieved = (options = {}) => {
   }
 }
 
-export const hideRecieved = () => {
+export const hideReceived = () => {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -364,7 +374,7 @@ export const hideRecieved = () => {
   }
 }
 
-export const showRecieved = () => {
+export const showReceived = () => {
   return {
     type: actions.SHOW_RECEIVED
   }

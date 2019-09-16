@@ -86,7 +86,7 @@ test('zopimOnClose dispatches expected action', () => {
   expect(callbacks.fireFor).toHaveBeenCalledWith(WIDGET_CLOSED_EVENT)
 })
 
-describe('zopimProactiveMessageRecieved', () => {
+describe('zopimProactiveMessageReceived', () => {
   afterEach(() => {
     selectors.getWebWidgetVisible.mockRestore()
   })
@@ -95,7 +95,7 @@ describe('zopimProactiveMessageRecieved', () => {
     const store = mockStore({})
 
     jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(false)
-    store.dispatch(actions.zopimProactiveMessageRecieved())
+    store.dispatch(actions.zopimProactiveMessageReceived())
     expect(store.getActions()).toEqual([
       {
         type: baseTypes.UPDATE_ACTIVE_EMBED,
@@ -109,7 +109,7 @@ describe('zopimProactiveMessageRecieved', () => {
     const store = mockStore({})
 
     jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(true)
-    store.dispatch(actions.zopimProactiveMessageRecieved())
+    store.dispatch(actions.zopimProactiveMessageReceived())
     expect(store.getActions()).toEqual([])
     expect(mediator.channel.broadcast).not.toHaveBeenCalledWith('zopimChat.show')
   })

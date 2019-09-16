@@ -1,7 +1,7 @@
 import airwaves from 'airwaves'
 
-import { proactiveMessageRecieved } from 'src/redux/modules/chat'
-import { zopimProactiveMessageRecieved } from 'src/redux/modules/zopimChat'
+import { proactiveMessageReceived } from 'src/redux/modules/chat'
+import { zopimProactiveMessageReceived } from 'src/redux/modules/zopimChat'
 import { isMobileBrowser } from 'utility/devices'
 
 const c = new airwaves.Channel()
@@ -18,7 +18,7 @@ function init(store) {
   c.intercept('newChat.newMessage', _ => {
     if (!state[`${chat}.userClosed`]) {
       c.broadcast('webWidget.proactiveChat')
-      store.dispatch(proactiveMessageRecieved())
+      store.dispatch(proactiveMessageReceived())
     }
   })
 
@@ -26,7 +26,7 @@ function init(store) {
     state[`${chat}.unreadMsgs`] = count
 
     if (count > 0 && !state[`${chat}.userClosed`] && !isMobileBrowser()) {
-      store.dispatch(zopimProactiveMessageRecieved())
+      store.dispatch(zopimProactiveMessageReceived())
     }
   })
 

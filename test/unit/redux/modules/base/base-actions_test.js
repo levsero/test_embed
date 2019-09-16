@@ -34,6 +34,7 @@ const middlewares = [thunk]
 const createMockStore = configureMockStore(middlewares)
 const WIDGET_CLOSED_EVENT = 'WIDGET_CLOSED_EVENT'
 const WIDGET_OPENED_EVENT = 'WIDGET_OPENED_EVENT'
+const CHAT_POPOUT_EVENT = 'CHAT_POPOUT_EVENT'
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -53,7 +54,8 @@ describe('base redux actions', () => {
     initMockRegistry({
       'constants/event': {
         WIDGET_CLOSED_EVENT,
-        WIDGET_OPENED_EVENT
+        WIDGET_OPENED_EVENT,
+        CHAT_POPOUT_EVENT
       },
       'service/api/callbacks': {
         fireFor: fireEventsForSpy
@@ -824,6 +826,10 @@ describe('base redux actions', () => {
     it('dispatches a POPOUT_BUTTON_CLICKED event', () => {
       expect(dispatchedActions[0].type).toEqual(actionTypes.POPOUT_BUTTON_CLICKED)
     })
+
+    it('fires off chat popout event', () => {
+      expect(fireEventsForSpy).toHaveBeenCalledWith(CHAT_POPOUT_EVENT)
+    })
   })
 
   describe('addToAfterShowAnimationQueue', () => {
@@ -984,7 +990,7 @@ describe('base redux actions', () => {
         mockOptions = {
           value: true
         }
-        mockStore.dispatch(actions.activateRecieved(mockOptions))
+        mockStore.dispatch(actions.activateReceived(mockOptions))
         action = mockStore.getActions()[0]
       })
 
@@ -1024,7 +1030,7 @@ describe('base redux actions', () => {
     describe('with no parameter', () => {
       beforeEach(() => {
         mockOptions = {}
-        mockStore.dispatch(actions.activateRecieved())
+        mockStore.dispatch(actions.activateReceived())
         action = mockStore.getActions()[0]
       })
 
@@ -1034,11 +1040,11 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('hideRecieved', () => {
+  describe('hideReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.hideRecieved())
+      mockStore.dispatch(actions.hideReceived())
       action = mockStore.getActions()[0]
     })
 
@@ -1067,11 +1073,11 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('showRecieved', () => {
+  describe('showReceived', () => {
     let action
 
     beforeEach(() => {
-      mockStore.dispatch(actions.showRecieved())
+      mockStore.dispatch(actions.showReceived())
       action = mockStore.getActions()[0]
     })
 

@@ -426,7 +426,7 @@ describe('hideApi', () => {
     store = createStore()
 
     store.dispatch = jest.fn()
-    spy = jest.spyOn(baseActions, 'hideRecieved').mockImplementation(mockAction)
+    spy = jest.spyOn(baseActions, 'hideReceived').mockImplementation(mockAction)
   })
 
   afterEach(() => spy.mockRestore())
@@ -719,6 +719,20 @@ describe('onApi', () => {
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 })
+    })
+  })
+
+  test('callback for API_ON_CHAT_POPOUT', async () => {
+    on.chat[constants.API_ON_CHAT_POPOUT](store, callback)
+
+    expect(callback).not.toHaveBeenCalled()
+    store.dispatch({
+      type: baseActionTypes.POPOUT_BUTTON_CLICKED
+    })
+    callbacks.fireFor(eventConstants.CHAT_POPOUT_EVENT)
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled()
     })
   })
 })

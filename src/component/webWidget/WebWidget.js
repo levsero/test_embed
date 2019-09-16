@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -6,6 +6,7 @@ import _ from 'lodash'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 import Talk from 'embeds/talk'
+import Support from 'embeds/support'
 import HelpCenter from 'embeds/helpCenter'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
@@ -56,8 +57,6 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
-
-const Support = React.lazy(() => import('embeds/support'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -365,11 +364,7 @@ class WebWidget extends Component {
     const { submitTicketConfig } = this.props
 
     if (submitTicketConfig.webWidgetReactRouterSupport) {
-      return (
-        <Suspense fallback={<div>I am still loading...</div>}>
-          <Support />
-        </Suspense>
-      )
+      return <Support />
     }
 
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''

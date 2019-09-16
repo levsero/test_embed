@@ -154,7 +154,8 @@ class Frame extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      hiddenByZoom: false
+      hiddenByZoom: false,
+      customCSS: ''
     }
 
     this.child = null
@@ -164,6 +165,7 @@ class Frame extends Component {
   }
 
   componentDidMount = () => {
+    this.setCustomCSS()
     this.updateIFrameRootStyles()
     this.updateFrameLocale()
   }
@@ -174,11 +176,17 @@ class Frame extends Component {
     }
 
     if (this.props.color !== prevProps.color) {
-      this.setCustomCSS(this.generateUserCSSWithColor(this.props.color))
+      this.setCustomCSS()
     }
 
     this.updateIFrameRootStyles()
     this.updateFrameLocale()
+  }
+
+  setCustomCSS() {
+    this.setState({
+      customCSS: this.generateUserCSSWithColor(this.props.color)
+    })
   }
 
   updateIFrameRootStyles() {
@@ -225,11 +233,15 @@ class Frame extends Component {
   }
 
   updateFrameLocale = () => {
-    const html = this.getContentDocument().documentElement
-    const direction = i18n.isRTL() ? 'rtl' : 'ltr'
-
     // Need to defer to the next tick because Firefox renders differently
     onNextTick(() => {
+      const contentDocument = this.getContentDocument()
+      if (!contentDocument) {
+        return
+      }
+      const html = contentDocument.documentElement
+      const direction = i18n.isRTL() ? 'rtl' : 'ltr'
+
       html.setAttribute('lang', i18n.getLocale())
       html.setAttribute('dir', direction)
     })
@@ -315,15 +327,11 @@ class Frame extends Component {
     this.setState({ hiddenByZoom })
   }
 
-  setCustomCSS = css => {
-    if (this.child) this.child.setCustomCSS(css)
-  }
-
   applyMobileBodyStyle = () => {
     const frameDoc = this.getContentDocument()
     const fullscreenStyles = ['width: 100%', 'height: 100%', 'overflow-x: hidden'].join(';')
 
-    if (frameDoc.body.firstChild) {
+    if (frameDoc && frameDoc.body && frameDoc.body.firstChild) {
       frameDoc.body.firstChild.setAttribute('style', fullscreenStyles)
     }
   }
@@ -445,6 +453,9 @@ class Frame extends Component {
             }}
             ref={iframe => {
               this.iframe = iframe
+              if (iframe) {
+                this.updateFrameLocale()
+              }
             }}
             id={this.props.name}
             tabIndex={tabIndex}
@@ -459,6 +470,7 @@ class Frame extends Component {
               baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(
                 this.props.color
               )} ${baseFontCSS}`}
+              customCSS={this.state.customCSS}
               reduxStore={this.props.store}
               handleBackClick={this.back}
               preventClose={this.props.preventClose}

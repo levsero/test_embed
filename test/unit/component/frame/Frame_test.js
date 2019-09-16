@@ -894,7 +894,7 @@ describe('Frame', () => {
           {mockChild}
         </Frame>
       )
-      expect(frame.setCustomCSS).toHaveBeenCalledWith('white')
+      expect(frame.setCustomCSS).toHaveBeenCalled()
     })
 
     it('does not call setCustomCSS if the colors do not change', () => {

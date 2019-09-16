@@ -99,6 +99,9 @@ The Chat component has the following commands:
     - [popout](#popout)
       - [Parameters](#parameters-12)
       - [Example](#example-11)
+    - [on chat:popout](#on-chatpopout)
+      - [Parameters](#parameters-1e)
+      - [Example](#example-12)
 
 #### chat:send
 
@@ -361,4 +364,24 @@ None
 
 ```html
 <a href="javascript:void(zE('webWidget', 'popout'))">Open chat in new window</a>
+```
+
+#### on chat:popout
+
+`zE('webWidget:on', 'chat:popout', callback<function>);`
+
+Registers a callback to be performed when the chat popout window is opened.
+
+##### Parameters
+
+- `callback`: Function. The callback to perform on chat popout messages.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget:on', 'chat:popout', function() {
+    console.log('Live chat widget has been opened in another window.');
+  });
+</script>
 ```

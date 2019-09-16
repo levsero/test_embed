@@ -88,7 +88,7 @@ export function zopimClose() {
   }
 }
 
-export function zopimProactiveMessageRecieved() {
+export function zopimProactiveMessageReceived() {
   return (dispatch, getState) => {
     const state = getState()
 
