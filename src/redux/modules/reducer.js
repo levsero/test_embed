@@ -10,6 +10,7 @@ import zopimChat from './zopimChat/reducer'
 import submitTicket from './submitTicket/reducer'
 import answerBot from './answerBot/reducer'
 import preview from './preview/reducer'
+import support from 'embeds/support/reducers'
 
 const combinedReducers = combineReducers({
   base,
@@ -20,7 +21,8 @@ const combinedReducers = combineReducers({
   zopimChat,
   submitTicket,
   answerBot,
-  preview
+  preview,
+  support
 })
 
 export default function reducer(state, action) {
