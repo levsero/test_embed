@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import * as selectors from '../chat-linked-selectors'
+import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as globals from 'utility/globals'
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 describe('getShowMenu', () => {
   let result
@@ -35,6 +37,20 @@ describe('getShowMenu', () => {
 
       expect(result).toEqual(false)
       globals.isPopout.mockRestore()
+    })
+
+    test('when chat screen is CHATTING_SCREEN and user is viewing offline page', () => {
+      chatReselectors.getShowOfflineChat = jest.fn().mockReturnValue(true)
+      result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
+
+      expect(result).toEqual(false)
+    })
+
+    test('when chat screen is CHATTING_SCREEN and user is not viewing offline page', () => {
+      chatReselectors.getShowOfflineChat = jest.fn().mockReturnValue(false)
+      result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
+
+      expect(result).toEqual(true)
     })
   })
 })

@@ -14,7 +14,8 @@ import {
   getChatAccountSettingsPrechatForm,
   getDepartmentsList,
   getActiveAgents,
-  getIsPopoutAvailable
+  getIsPopoutAvailable,
+  getShowOfflineChat
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -34,7 +35,10 @@ import { isPopout } from 'utility/globals'
 /* eslint-disable camelcase */
 
 export const getShowMenu = state =>
-  getActiveEmbed(state) === 'chat' && getChatScreen(state) === CHATTING_SCREEN && !isPopout()
+  getActiveEmbed(state) === 'chat' &&
+  getChatScreen(state) === CHATTING_SCREEN &&
+  !isPopout() &&
+  !getShowOfflineChat(state)
 
 export const getProfileConfig = createSelector(
   [getSettingsChatProfileCard, getRatingSettings],
