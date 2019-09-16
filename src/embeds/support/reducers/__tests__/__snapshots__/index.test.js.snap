@@ -2,15 +2,6 @@
 
 exports[`includes all expected substates 1`] = `
 Object {
-  "config": Object {
-    "attachmentsEnabled": false,
-    "color": "#1F73B7",
-    "customFields": Object {},
-    "formTitleKey": "message",
-    "maxFileCount": 5,
-    "maxFileSize": 5242880,
-    "position": "right",
-    "ticketForms": Array [],
-  },
+  "config": Object {},
 }
 `;

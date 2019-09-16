@@ -2,16 +2,7 @@ import config from '../config'
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
-const initialState = {
-  position: 'right',
-  customFields: {},
-  formTitleKey: 'message',
-  attachmentsEnabled: false,
-  maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024, // 5 MB
-  ticketForms: [],
-  color: '#1F73B7'
-}
+const initialState = {}
 const embeddableConfigPayload = {
   embeds: {
     ticketSubmissionForm: {

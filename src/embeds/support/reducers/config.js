@@ -2,16 +2,7 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 
 import _ from 'lodash'
 
-const initialState = {
-  position: 'right',
-  customFields: {},
-  formTitleKey: 'message',
-  attachmentsEnabled: false,
-  maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024, // 5 MB
-  ticketForms: [],
-  color: '#1F73B7'
-}
+const initialState = {}
 
 const config = (state = initialState, action) => {
   const { type, payload } = action
@@ -20,7 +11,7 @@ const config = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ..._.get(payload, 'embeds.ticketSubmissionForm.props')
+        ..._.get(payload, 'embeds.ticketSubmissionForm.props', {})
       }
     default:
       return state

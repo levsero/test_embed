@@ -21,16 +21,14 @@ afterEach(() => {
 })
 
 it('show new support embed', async () => {
-  const submitTicketConfig = {
-    webWidgetReactRouterSupport: true
-  }
-
   const { queryByText } = render(
-    <WebWidget
-      submitTicketAvailable={true}
-      activeEmbed="ticketSubmissionForm"
-      submitTicketConfig={submitTicketConfig}
-    />
+    <Provider store={createStore()}>
+      <WebWidget
+        submitTicketAvailable={true}
+        activeEmbed="ticketSubmissionForm"
+        webWidgetReactRouterSupport={true}
+      />
+    </Provider>
   )
 
   await wait(() => {
@@ -39,16 +37,12 @@ it('show new support embed', async () => {
 })
 
 it('show old support embed', () => {
-  const submitTicketConfig = {
-    webWidgetReactRouterSupport: false
-  }
-
   const { queryByText } = render(
     <Provider store={createStore()}>
       <WebWidget
         submitTicketAvailable={true}
         activeEmbed="ticketSubmissionForm"
-        submitTicketConfig={submitTicketConfig}
+        webWidgetReactRouterSupport={false}
       />
     </Provider>
   )

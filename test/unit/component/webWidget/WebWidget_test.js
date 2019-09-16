@@ -82,6 +82,9 @@ describe('WebWidget component', () => {
       'embeds/support': connectedComponent(<MockSupport />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'embeds/talk': noopReactComponent(),
+      'embeds/support/selectors': {
+        getNewSupportEmbedEnabled: () => false
+      },
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },
