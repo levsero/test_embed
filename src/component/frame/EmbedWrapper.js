@@ -14,6 +14,7 @@ import { getColor } from 'src/redux/modules/selectors'
 export class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
+    customCSS: PropTypes.string,
     children: PropTypes.object,
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
@@ -27,6 +28,7 @@ export class EmbedWrapper extends Component {
 
   static defaultProps = {
     baseCSS: '',
+    customCSS: '',
     children: undefined,
     fullscreen: false,
     handleBackClick: () => {},
@@ -37,17 +39,8 @@ export class EmbedWrapper extends Component {
 
   constructor(props, context) {
     super(props, context)
-
-    this.state = {
-      css: ''
-    }
-
     this.embed = null
     this.nav = null
-  }
-
-  setCustomCSS = css => {
-    this.setState({ css })
   }
 
   getEmbedWrapperProps = ref => {
@@ -79,7 +72,7 @@ export class EmbedWrapper extends Component {
   }
 
   render = () => {
-    const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />
+    const styleTag = <style dangerouslySetInnerHTML={{ __html: this.props.customCSS }} />
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />
 
     const newChild = React.cloneElement(this.props.children, {
