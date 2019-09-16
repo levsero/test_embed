@@ -63,7 +63,10 @@ describe('ChatOffline component', () => {
       },
       'src/constants/shared': {
         TEST_IDS
-      }
+      },
+      'src/components/WidgetContainer': {},
+      'src/components/WidgetHeader': {},
+      'src/components/WidgetMain': {}
     })
 
     mockery.registerAllowable(ChatOfflinePath)
@@ -132,51 +135,6 @@ describe('ChatOffline component', () => {
 
     it('renders with the correct isMobile status', () => {
       expect(result.props.isMobile).toEqual(true)
-    })
-  })
-
-  describe('renderChatOfflineScreen', () => {
-    let result
-
-    const doInstanceRender = () => {
-      const component = instanceRender(
-        <ChatOffline
-          title={mockTitle}
-          fullscreen={true}
-          isMobile={true}
-          isAuthenticated={'testValue'}
-          hasChatHistory={'anotherTestValue'}
-          openedChatHistory={'HELLO FREN'}
-          chatHistoryLabel={'whoop'}
-        />
-      )
-
-      return component.renderChatOfflineScreen()
-    }
-
-    beforeEach(() => {
-      result = doInstanceRender()
-    })
-
-    it('renders with the correct title', () => {
-      expect(result.props.title).toEqual(mockTitle)
-    })
-
-    it('renders with the correct fullscreen status', () => {
-      expect(result.props.fullscreen).toEqual(true)
-    })
-
-    it('renders with the correct isMobile status', () => {
-      expect(result.props.isMobile).toEqual(true)
-    })
-
-    it('renders the Chat History Link ', () => {
-      expect(_.get(result, 'props.children.props.children[0].props')).toEqual({
-        isAuthenticated: 'testValue',
-        hasChatHistory: 'anotherTestValue',
-        openedChatHistory: 'HELLO FREN',
-        label: 'whoop'
-      })
     })
   })
 })

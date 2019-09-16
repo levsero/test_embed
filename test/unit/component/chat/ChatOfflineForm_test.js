@@ -117,7 +117,11 @@ describe('ChatOfflineForm component', () => {
       },
       'component/Icon': {
         Icon: noop
-      }
+      },
+      'src/embeds/chat/components/Footer/index': {},
+      'src/components/WidgetContainer': 'form',
+      'src/components/WidgetMain': {},
+      'src/components/WidgetHeader': {}
     })
 
     mockery.registerAllowable(ChatOfflineFormPath)
@@ -356,36 +360,6 @@ describe('ChatOfflineForm component', () => {
     })
   })
 
-  describe('renderZendeskLogo', () => {
-    let result, mockHideZendeskLogo
-
-    beforeEach(() => {
-      const component = instanceRender(<ChatOfflineForm hideZendeskLogo={mockHideZendeskLogo} />)
-
-      result = component.renderZendeskLogo()
-    })
-
-    describe('when hideZendeskLogo is true', () => {
-      beforeAll(() => {
-        mockHideZendeskLogo = true
-      })
-
-      it('returns null', () => {
-        expect(result).toBeNull()
-      })
-    })
-
-    describe('when hideZendeskLogo is false', () => {
-      beforeAll(() => {
-        mockHideZendeskLogo = false
-      })
-
-      it('renders the zendesk logo', () => {
-        expect(TestUtils.isElementOfType(result, ZendeskLogo)).toEqual(true)
-      })
-    })
-  })
-
   describe('handleFormSubmit', () => {
     let mockVisitor,
       mockSocialLogin,
@@ -504,13 +478,11 @@ describe('ChatOfflineForm component', () => {
         />
       )
 
-      spyOn(component, 'renderSubmitButton')
       spyOn(component, 'renderOfflineGreeting')
       spyOn(component, 'renderOperatingHoursLink')
       spyOn(component, 'renderMessagingChannels')
       spyOn(component, 'renderPhoneNumberField')
       spyOn(component, 'renderMessageField')
-      spyOn(component, 'renderZendeskLogo')
       spyOn(component, 'renderUserProfile')
       spyOn(component, 'getScrollContainerClasses')
 
@@ -522,64 +494,6 @@ describe('ChatOfflineForm component', () => {
         titleProp = mockTitle
         mockOfflineMessage = { screen: mainScreen }
       })
-
-      it('returns a form', () => {
-        expect(result.type).toEqual('form')
-      })
-
-      it('calls renderSubmitButton', () => {
-        expect(component.renderSubmitButton).toHaveBeenCalled()
-      })
-
-      it('calls renderOfflineGreeting', () => {
-        expect(component.renderOfflineGreeting).toHaveBeenCalled()
-      })
-
-      it('calls renderOperatingHoursLink', () => {
-        expect(component.renderOperatingHoursLink).toHaveBeenCalled()
-      })
-
-      it('calls renderMessagingChannels', () => {
-        expect(component.renderMessagingChannels).toHaveBeenCalled()
-      })
-
-      it('calls renderPhoneNumberField', () => {
-        expect(component.renderPhoneNumberField).toHaveBeenCalled()
-      })
-
-      it('calls renderMessageField', () => {
-        expect(component.renderMessageField).toHaveBeenCalled()
-      })
-
-      it('calls renderZendeskLogo', () => {
-        expect(component.renderZendeskLogo).toHaveBeenCalled()
-      })
-
-      it('calls renderUserProfile', () => {
-        expect(component.renderUserProfile).toHaveBeenCalled()
-      })
-
-      it('calls getScrollContainerClasses', () => {
-        expect(component.getScrollContainerClasses).toHaveBeenCalled()
-      })
-
-      it('renders with the correct title', () => {
-        const targetElem = result.props.children
-
-        expect(targetElem.props.title).toEqual(mockTitle)
-      })
-
-      it('renders with the correct fullscreen value', () => {
-        const targetElem = result.props.children
-
-        expect(targetElem.props.fullscreen).toEqual(true)
-      })
-
-      it('renders with the correct isMobile value', () => {
-        const targetElem = result.props.children
-
-        expect(targetElem.props.isMobile).toEqual(true)
-      })
     })
 
     describe("when offlineMessage's screen is not in the main state", () => {
@@ -589,194 +503,6 @@ describe('ChatOfflineForm component', () => {
 
       it('returns null', () => {
         expect(result).toBeNull()
-      })
-    })
-  })
-
-  describe('renderLoading', () => {
-    let result
-
-    describe('when the screen is the loading screen', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatOfflineForm
-            title={mockTitle}
-            formState={initialFormState}
-            offlineMessage={{ screen: 'loading' }}
-            isMobile={true}
-            fullscreen={true}
-          />
-        )
-
-        result = component.renderLoading()
-      })
-
-      it('renders a type of LoadingSpinner', () => {
-        const wrapperElem = result.props.children
-        const targetElem = wrapperElem.props.children
-
-        expect(TestUtils.isElementOfType(targetElem, LoadingSpinner)).toEqual(true)
-      })
-
-      it('renders with the correct title', () => {
-        expect(result.props.title).toEqual(mockTitle)
-      })
-
-      it('renders with the correct fullscreen value', () => {
-        expect(result.props.fullscreen).toEqual(true)
-      })
-
-      it('renders with the correct isMobile value', () => {
-        expect(result.props.isMobile).toEqual(true)
-      })
-    })
-
-    describe('when the screen is not the loading screen', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatOfflineForm formState={initialFormState} offlineMessage={{ screen: 'main' }} />
-        )
-
-        result = component.renderLoading()
-      })
-
-      it('renders nothing', () => {
-        expect(result).toBeUndefined()
-      })
-    })
-  })
-
-  describe('renderSuccess', () => {
-    let result, offlineMessageProp, onFormBackSpy, component
-
-    const mockFormValues = {
-      name: 'Boromir',
-      email: 'boromir@gondor.nw',
-      phone: '12345678',
-      message: 'One does not simply walk into Mordor'
-    }
-
-    describe('when the screen is the success screen', () => {
-      beforeEach(() => {
-        offlineMessageProp = { screen: 'success', details: mockFormValues }
-        onFormBackSpy = jasmine.createSpy('onFormBack')
-
-        component = domRender(
-          <ChatOfflineForm
-            title={mockTitle}
-            formState={initialFormState}
-            offlineMessage={offlineMessageProp}
-            handleOfflineFormBack={onFormBackSpy}
-            isMobile={true}
-            fullscreen={true}
-          />
-        )
-
-        result = component.renderSuccess()
-      })
-
-      it('does not render ChatOfflineMessageForm', () => {
-        expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm)).toEqual(
-          false
-        )
-      })
-
-      it('renders SuccessNotification', () => {
-        expect(() =>
-          TestUtils.findRenderedComponentWithType(component, SuccessNotification)
-        ).not.toThrow()
-      })
-
-      it('renders with the correct title', () => {
-        expect(result.props.title).toEqual(mockTitle)
-      })
-      it('renders with the correct fullscreen value', () => {
-        expect(result.props.fullscreen).toEqual(true)
-      })
-
-      it('renders with the correct isMobile value', () => {
-        expect(result.props.isMobile).toEqual(true)
-      })
-    })
-
-    describe('when the screen is not the success screen', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatOfflineForm formState={initialFormState} offlineMessage={{ screen: 'main' }} />
-        )
-
-        result = component.renderSuccess()
-      })
-
-      it('renders nothing', () => {
-        expect(result).toBeUndefined()
-      })
-    })
-  })
-
-  describe('renderOperatingHours', () => {
-    let result
-
-    describe('when the screen is not the operating hours screen', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatOfflineForm formState={initialFormState} offlineMessage={{ screen: 'main' }} />
-        )
-
-        result = component.renderOperatingHours()
-      })
-
-      it('returns null', () => {
-        expect(result).toBeNull()
-      })
-    })
-
-    describe('when the screen is the operatingHours screen', () => {
-      beforeEach(() => {
-        const mockOperatingHours = {
-          account_schedule: [[456]],
-          enabled: true
-        }
-
-        const component = instanceRender(
-          <ChatOfflineForm
-            title={mockTitle}
-            operatingHours={mockOperatingHours}
-            offlineMessage={{ screen: 'operatingHours' }}
-            isMobile={true}
-            fullscreen={true}
-          />
-        )
-
-        result = component.renderOperatingHours()
-      })
-
-      it('returns a <ChatOperatingHours> element', () => {
-        const targetElem = result.props.children
-
-        expect(TestUtils.isElementOfType(targetElem, ChatOperatingHours)).toEqual(true)
-      })
-
-      it('has a props.operatingHours value', () => {
-        const targetElem = result.props.children
-        const expected = {
-          account_schedule: [[456]],
-          enabled: true
-        }
-
-        expect(targetElem.props.operatingHours).toEqual(expected)
-      })
-
-      it('renders with the correct title', () => {
-        expect(result.props.title).toEqual(mockTitle)
-      })
-
-      it('renders with the correct fullscreen value', () => {
-        expect(result.props.fullscreen).toEqual(true)
-      })
-
-      it('renders with the correct isMobile value', () => {
-        expect(result.props.isMobile).toEqual(true)
       })
     })
   })

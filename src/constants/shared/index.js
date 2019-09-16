@@ -150,7 +150,8 @@ export const TEST_IDS = {
   MESSAGE_OPTION: 'message-option',
   CHAT_FOOTER_MENU_BUTTONS: 'chat-footer-menu-buttons',
   CHAT_ATTACHMENT_BUTTON: 'chat-attachment-button',
-  IMAGE_MESSAGE_LINK: 'image-message-link'
+  IMAGE_MESSAGE_LINK: 'image-message-link',
+  LOADING_SPINNER: 'loading-spinner'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'

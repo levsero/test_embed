@@ -1,0 +1,13 @@
+@import 'src/styles/_vars.scss';
+
+.footerContentMultiple {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.button {
+  margin-top: #{15 / $font-size}rem;
+  padding-right: #{10 / $font-size}rem;
+  padding-left: #{10 / $font-size}rem;
+}
