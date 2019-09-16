@@ -34,6 +34,7 @@ const middlewares = [thunk]
 const createMockStore = configureMockStore(middlewares)
 const WIDGET_CLOSED_EVENT = 'WIDGET_CLOSED_EVENT'
 const WIDGET_OPENED_EVENT = 'WIDGET_OPENED_EVENT'
+const CHAT_POPOUT_EVENT = 'CHAT_POPOUT_EVENT'
 
 describe('base redux actions', () => {
   beforeEach(() => {
@@ -53,7 +54,8 @@ describe('base redux actions', () => {
     initMockRegistry({
       'constants/event': {
         WIDGET_CLOSED_EVENT,
-        WIDGET_OPENED_EVENT
+        WIDGET_OPENED_EVENT,
+        CHAT_POPOUT_EVENT
       },
       'service/api/callbacks': {
         fireFor: fireEventsForSpy
@@ -823,6 +825,10 @@ describe('base redux actions', () => {
 
     it('dispatches a POPOUT_BUTTON_CLICKED event', () => {
       expect(dispatchedActions[0].type).toEqual(actionTypes.POPOUT_BUTTON_CLICKED)
+    })
+
+    it('fires off chat popout event', () => {
+      expect(fireEventsForSpy).toHaveBeenCalledWith(CHAT_POPOUT_EVENT)
     })
   })
 

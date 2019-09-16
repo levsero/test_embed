@@ -22,7 +22,7 @@ import { mediator } from 'service/mediator'
 import { store } from 'service/persistence'
 import { http } from 'service/transport'
 import { PHONE_PATTERN } from 'src/constants/shared'
-import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT } from 'constants/event'
+import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import * as callbacks from 'service/api/callbacks'
 
@@ -269,8 +269,9 @@ export const showWidget = () => {
 }
 
 export const handlePopoutButtonClicked = () => {
-  return {
-    type: actions.POPOUT_BUTTON_CLICKED
+  return dispatch => {
+    dispatch({ type: actions.POPOUT_BUTTON_CLICKED })
+    callbacks.fireFor(CHAT_POPOUT_EVENT)
   }
 }
 
