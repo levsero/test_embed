@@ -61,7 +61,7 @@ export class ChatBox extends Component {
           <Label className={styles.label}>{placeholder}</Label>
           <Textarea
             ref={el => (this.textArea = el)}
-            defaultValue={this.props.currentMessage}
+            value={this.props.currentMessage}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
             onInput={this.handleInput}
