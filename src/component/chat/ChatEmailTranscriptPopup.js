@@ -111,7 +111,7 @@ export class ChatEmailTranscriptPopup extends Component {
         {renderLabel(Label, i18n.t('embeddable_framework.common.textLabel.email'), true)}
         <Input
           required={true}
-          value={this.state.formState.email}
+          defaultValue={this.state.formState.email}
           onKeyPress={this.handleKeyPress}
           name="email"
           validation={error ? 'error' : undefined}
