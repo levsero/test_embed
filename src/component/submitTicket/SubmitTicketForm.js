@@ -382,7 +382,7 @@ export class SubmitTicketForm extends Component {
           required={this.props.nameFieldRequired}
           validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
-          value={this.props.formState.name}
+          defaultValue={this.props.formState.name}
           onChange={() => {}}
           readOnly={this.props.readOnlyState.name}
           data-testid={TEST_IDS.NAME_FIELD}
@@ -413,7 +413,7 @@ export class SubmitTicketForm extends Component {
           validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
           required={true}
-          value={this.props.formState.description}
+          defaultValue={this.props.formState.description}
           onChange={() => {}}
           rows="5"
           data-testid={TEST_IDS.MESSAGE_FIELD}
