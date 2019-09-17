@@ -5,7 +5,6 @@ import { i18n } from 'service/i18n'
 
 import { Button } from '@zendeskgarden/react-buttons'
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import {
   chatOfflineFormChanged,
   sendOfflineMessage,
@@ -35,6 +34,9 @@ import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 import ChatHistoryLink from './ChatHistoryLink'
 import { TEST_IDS } from 'src/constants/shared'
+import WidgetContainer from 'src/components/WidgetContainer'
+import WidgetHeader from 'src/components/WidgetHeader'
+import WidgetMain from 'src/components/WidgetMain'
 
 import { locals as styles } from './ChatOffline.scss'
 
@@ -135,28 +137,25 @@ class ChatOffline extends Component {
 
   renderChatOfflineScreen = () => {
     return (
-      <ScrollContainer
-        ref="scrollContainer"
-        containerClasses={styles.scrollContainerContent}
-        isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
-        title={this.props.title}
-      >
-        <div className={styles.innerContent}>
-          <ChatHistoryLink
-            isAuthenticated={this.props.isAuthenticated}
-            hasChatHistory={this.props.hasChatHistory}
-            openedChatHistory={this.props.openedChatHistory}
-            label={this.props.chatHistoryLabel}
-          />
-          <p className={styles.greeting} data-testid={TEST_IDS.FORM_GREETING_MSG}>
-            {i18n.t('embeddable_framework.chat.offline.label.noForm')}
-          </p>
-          <Button primary={true} onClick={this.props.handleCloseClick} className={styles.button}>
-            {i18n.t('embeddable_framework.chat.offline.button.close')}
-          </Button>
-        </div>
-      </ScrollContainer>
+      <WidgetContainer>
+        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <WidgetMain>
+          <div className={styles.innerContent}>
+            <ChatHistoryLink
+              isAuthenticated={this.props.isAuthenticated}
+              hasChatHistory={this.props.hasChatHistory}
+              openedChatHistory={this.props.openedChatHistory}
+              label={this.props.chatHistoryLabel}
+            />
+            <p className={styles.greeting} data-testid={TEST_IDS.FORM_GREETING_MSG}>
+              {i18n.t('embeddable_framework.chat.offline.label.noForm')}
+            </p>
+            <Button primary={true} onClick={this.props.handleCloseClick} className={styles.button}>
+              {i18n.t('embeddable_framework.chat.offline.button.close')}
+            </Button>
+          </div>
+        </WidgetMain>
+      </WidgetContainer>
     )
   }
 
@@ -177,9 +176,11 @@ const actionCreators = {
   openedChatHistory
 }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(ChatOffline)
+
+export { connectedComponent as default, ChatOffline as Component }

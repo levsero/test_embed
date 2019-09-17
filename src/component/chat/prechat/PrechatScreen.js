@@ -8,6 +8,8 @@ import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
+import WidgetContainer from 'src/components/WidgetContainer'
+import WidgetMain from 'src/components/WidgetMain'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   sendMsg,
@@ -172,17 +174,14 @@ class PrechatScreen extends Component {
 
   renderChatOfflineForm() {
     return (
-      <ScrollContainer
-        title={this.props.title}
-        containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
-      >
-        <ChatOfflineMessageForm
-          offlineMessage={this.props.offlineMessage}
-          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
-        />
-      </ScrollContainer>
+      <WidgetContainer>
+        <WidgetMain>
+          <ChatOfflineMessageForm
+            offlineMessage={this.props.offlineMessage}
+            onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
+          />
+        </WidgetMain>
+      </WidgetContainer>
     )
   }
 
@@ -208,7 +207,6 @@ class PrechatScreen extends Component {
         isAuthenticated={this.props.isAuthenticated}
         visitor={this.props.visitor}
         onFormCompleted={this.onPrechatFormComplete}
-        isMobile={this.props.isMobile}
         chatId={this.props.chatId}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
@@ -258,9 +256,11 @@ const actionCreators = {
   openedChatHistory
 }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(PrechatScreen)
+
+export { connectedComponent as default, PrechatScreen as Component }

@@ -39,22 +39,6 @@ describe('show offline chat is true', () => {
   it('renders the offline form', () => {
     expect(renderChat().getByText('Sorry, we are not online at the moment')).toBeInTheDocument()
   })
-
-  describe('when is Fullscreen', () => {
-    it('offline form contains fullscreen style class', () => {
-      expect(renderChat(true).getByTestId(TEST_IDS.SCROLL_CONTAINER)).toHaveClass(
-        'desktopFullscreen'
-      )
-    })
-  })
-
-  describe('when is not fullscreen', () => {
-    it('offline form does not contain fullscreen style class', () => {
-      expect(renderChat(false).getByTestId(TEST_IDS.SCROLL_CONTAINER)).not.toHaveClass(
-        'desktopFullscreen'
-      )
-    })
-  })
 })
 
 describe('show offline chat is false', () => {

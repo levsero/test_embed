@@ -87,7 +87,11 @@ describe('PrechatScreen component', () => {
         ChatOfflineMessageForm
       },
       'src/redux/modules/chat/chat-selectors': {},
-      'src/redux/modules/chat/chat-history-selectors': {}
+      'src/redux/modules/chat/chat-history-selectors': {},
+      'src/components/WidgetContainer': {},
+      'src/components/WidgetHeader': {},
+      'src/components/WidgetMain': {},
+      'src/components/WidgetFooter': {}
     })
 
     mockery.registerAllowable(chatPath)
@@ -532,34 +536,6 @@ describe('PrechatScreen component', () => {
       it('does not call renderChatOfflineForm', () => {
         expect(component.renderChatOfflineForm).not.toHaveBeenCalled()
       })
-    })
-  })
-
-  describe('renderChatOfflineForm', () => {
-    let result
-
-    beforeEach(() => {
-      const component = instanceRender(
-        <PrechatScreen title={mockTitle} isMobile={true} fullscreen={true} />
-      )
-
-      result = component.renderChatOfflineForm()
-    })
-
-    it('renders ChatOfflineMessageForm', () => {
-      expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm)).toEqual(true)
-    })
-
-    it('renders with the correct title', () => {
-      expect(result.props.title).toEqual(mockTitle)
-    })
-
-    it('renders with the correct fullscreen', () => {
-      expect(result.props.fullscreen).toEqual(true)
-    })
-
-    it('renders with the correct isMobile', () => {
-      expect(result.props.isMobile).toEqual(true)
     })
   })
 
