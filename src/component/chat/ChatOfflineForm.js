@@ -6,9 +6,11 @@ import classNames from 'classnames'
 import Linkify from 'react-linkify'
 import { Message, Field, Label, Input, Textarea } from '@zendeskgarden/react-forms'
 
+import { ZendeskLogo } from 'component/ZendeskLogo'
 import { Button } from '@zendeskgarden/react-buttons'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours'
+import { ScrollContainer } from 'component/container/ScrollContainer'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
 import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels'
@@ -17,10 +19,6 @@ import { ICONS, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src
 import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
-import ChatFooter from 'src/embeds/chat/components/Footer/index'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetHeader from 'src/components/WidgetHeader'
-import WidgetMain from 'src/components/WidgetMain'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -43,8 +41,10 @@ export class ChatOfflineForm extends Component {
     visitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
     widgetShown: PropTypes.bool.isRequired,
     channels: PropTypes.object,
+    fullscreen: PropTypes.bool,
     hasChatHistory: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
     chatHistoryLabel: PropTypes.string.isRequired
@@ -242,10 +242,14 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return
 
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
-          <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
+      <ScrollContainer
+        ref="scrollContainer"
+        classes={this.getScrollContainerClasses()}
+        containerClasses={styles.scrollContainerContent}
+        fullscreen={this.props.fullscreen}
+        isMobile={this.props.isMobile}
+        title={this.props.title}
+        footerContent={
           <Button
             primary={true}
             className={styles.doneButton}
@@ -253,8 +257,10 @@ export class ChatOfflineForm extends Component {
           >
             {i18n.t('embeddable_framework.common.button.done')}
           </Button>
-        </WidgetMain>
-      </WidgetContainer>
+        }
+      >
+        <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
+      </ScrollContainer>
     )
   }
 
@@ -262,14 +268,18 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.LOADING) return
 
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
-          <div className={styles.loadingSpinner}>
-            <LoadingSpinner />
-          </div>
-        </WidgetMain>
-      </WidgetContainer>
+      <ScrollContainer
+        ref="scrollContainer"
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
+        classes={this.getScrollContainerClasses()}
+        containerClasses={styles.loadingSpinnerContainer}
+        title={this.props.title}
+      >
+        <div className={styles.loadingSpinner}>
+          <LoadingSpinner />
+        </div>
+      </ScrollContainer>
     )
   }
 
@@ -339,6 +349,24 @@ export class ChatOfflineForm extends Component {
     this.props.sendOfflineMessage(formData)
   }
 
+  renderSubmitButton() {
+    return (
+      <Button primary={true} className={styles.submitBtn} type="submit">
+        {i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
+      </Button>
+    )
+  }
+
+  renderZendeskLogo = () => {
+    return !this.props.hideZendeskLogo ? (
+      <ZendeskLogo
+        className={`${styles.zendeskLogo}`}
+        chatId={this.props.chatId}
+        fullscreen={false}
+      />
+    ) : null
+  }
+
   validate() {
     if (!this.offlineForm) return
 
@@ -363,39 +391,39 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return null
 
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
-          <form
-            noValidate={true}
-            ref={el => {
-              this.offlineForm = el
-            }}
-            onSubmit={this.handleFormSubmit}
-            onChange={this.handleFormChanged}
-          >
-            <ChatHistoryLink
-              isAuthenticated={this.props.isAuthenticated}
-              hasChatHistory={this.props.hasChatHistory}
-              openedChatHistory={this.props.openedChatHistory}
-              label={this.props.chatHistoryLabel}
-            />
-            {this.renderOfflineGreeting()}
-            {this.renderOperatingHoursLink()}
-            {this.renderMessagingChannels()}
-            {this.renderUserProfile()}
-            {this.renderPhoneNumberField()}
-            {this.renderMessageField()}
-            <input type="submit" hidden={true} />
-          </form>
-        </WidgetMain>
-        <ChatFooter
-          hideZendeskLogo={this.props.hideZendeskLogo}
+      <form
+        noValidate={true}
+        ref={el => {
+          this.offlineForm = el
+        }}
+        onSubmit={this.handleFormSubmit}
+        onChange={this.handleFormChanged}
+      >
+        <ScrollContainer
+          ref="scrollContainer"
+          classes={this.getScrollContainerClasses()}
+          containerClasses={styles.scrollContainerContent}
+          footerContent={this.renderSubmitButton()}
           isMobile={this.props.isMobile}
-          onClick={this.handleFormSubmit}
-          label={i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
-        />
-      </WidgetContainer>
+          fullscreen={this.props.fullscreen}
+          title={this.props.title}
+          scrollShadowVisible={true}
+        >
+          <ChatHistoryLink
+            isAuthenticated={this.props.isAuthenticated}
+            hasChatHistory={this.props.hasChatHistory}
+            openedChatHistory={this.props.openedChatHistory}
+            label={this.props.chatHistoryLabel}
+          />
+          {this.renderOfflineGreeting()}
+          {this.renderOperatingHoursLink()}
+          {this.renderMessagingChannels()}
+          {this.renderUserProfile()}
+          {this.renderPhoneNumberField()}
+          {this.renderMessageField()}
+          {this.renderZendeskLogo()}
+        </ScrollContainer>
+      </form>
     )
   }
 
@@ -407,15 +435,19 @@ export class ChatOfflineForm extends Component {
     if (!operatingHours.enabled) return null
 
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
-          <ChatOperatingHours
-            handleOfflineFormBack={handleOfflineFormBack}
-            operatingHours={operatingHours}
-          />
-        </WidgetMain>
-      </WidgetContainer>
+      <ScrollContainer
+        ref="scrollContainer"
+        isMobile={this.props.isMobile}
+        fullscreen={this.props.fullscreen}
+        classes={this.getScrollContainerClasses()}
+        containerClasses={styles.scrollContainerContent}
+        title={this.props.title}
+      >
+        <ChatOperatingHours
+          handleOfflineFormBack={handleOfflineFormBack}
+          operatingHours={operatingHours}
+        />
+      </ScrollContainer>
     )
   }
 

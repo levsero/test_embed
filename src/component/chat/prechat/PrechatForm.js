@@ -14,11 +14,10 @@ import {
 } from '@zendeskgarden/react-dropdowns'
 import Linkify from 'react-linkify'
 
+import { Button } from '@zendeskgarden/react-buttons'
 import { UserProfile } from 'component/chat/UserProfile'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetHeader from 'src/components/WidgetHeader'
-import ChatFooter from 'src/embeds/chat/components/Footer'
+import { ScrollContainer } from 'component/container/ScrollContainer'
+import { ZendeskLogo } from 'component/ZendeskLogo'
 
 import { i18n } from 'service/i18n'
 
@@ -48,7 +47,10 @@ export class PrechatForm extends Component {
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    chatId: PropTypes.string,
+    fullscreen: PropTypes.bool,
     openedChatHistory: PropTypes.func.isRequired,
     chatHistoryLabel: PropTypes.string.isRequired,
     defaultDepartment: PropTypes.shape({
@@ -76,6 +78,7 @@ export class PrechatForm extends Component {
     socialLogin: {},
     hideZendeskLogo: false,
     chatId: '',
+    isMobile: false,
     fullscreen: false
   }
 
@@ -445,45 +448,72 @@ export class PrechatForm extends Component {
     )
   }
 
-  render = () => {
+  renderSubmitButton() {
     const { form, formState } = this.props
 
-    const buttonLabel = this.isDepartmentOffline(form.departments, formState.department)
+    const label = this.isDepartmentOffline(form.departments, formState.department)
       ? i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')
       : i18n.t('embeddable_framework.chat.preChat.online.button.startChat')
+
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
-          <form
-            noValidate={true}
-            onSubmit={this.handleFormSubmit}
-            onChange={this.handleFormChange}
-            ref={el => {
-              this.form = el
-            }}
-            className={`${styles.form}`}
-          >
-            <ChatHistoryLink
-              isAuthenticated={this.props.isAuthenticated}
-              hasChatHistory={this.props.hasChatHistory}
-              openedChatHistory={this.props.openedChatHistory}
-              label={this.props.chatHistoryLabel}
-            />
-            {this.renderGreetingMessage()}
-            {this.renderUserProfile()}
-            {this.renderDepartmentsField()}
-            {this.renderPhoneField()}
-            {this.renderMessageField()}
-            <input type="submit" hidden={true} />
-          </form>
-        </WidgetMain>
-        <ChatFooter
-          hideZendeskLogo={this.props.hideZendeskLogo}
-          label={buttonLabel}
-          onClick={this.handleFormSubmit}
-        />
-      </WidgetContainer>
+      <Button
+        primary={true}
+        className={styles.submitBtn}
+        type="submit"
+        data-testid={TEST_IDS.CHAT_START}
+      >
+        {label}
+      </Button>
+    )
+  }
+
+  renderZendeskLogo = () => {
+    return !this.props.hideZendeskLogo ? (
+      <ZendeskLogo
+        chatId={this.props.chatId}
+        logoLink="chat"
+        className={`${styles.zendeskLogo}`}
+        fullscreen={false}
+      />
+    ) : null
+  }
+
+  render = () => {
+    return (
+      <form
+        noValidate={true}
+        onSubmit={this.handleFormSubmit}
+        onChange={this.handleFormChange}
+        ref={el => {
+          if (!el) {
+            return
+          }
+          this.form = el
+        }}
+        className={`${styles.form}`}
+      >
+        <ScrollContainer
+          title={this.props.title}
+          containerClasses={styles.scrollContainerContent}
+          footerContent={this.renderSubmitButton()}
+          fullscreen={this.props.fullscreen}
+          isMobile={this.props.isMobile}
+          scrollShadowVisible={true}
+        >
+          <ChatHistoryLink
+            isAuthenticated={this.props.isAuthenticated}
+            hasChatHistory={this.props.hasChatHistory}
+            openedChatHistory={this.props.openedChatHistory}
+            label={this.props.chatHistoryLabel}
+          />
+          {this.renderGreetingMessage()}
+          {this.renderUserProfile()}
+          {this.renderDepartmentsField()}
+          {this.renderPhoneField()}
+          {this.renderMessageField()}
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
+      </form>
     )
   }
 }

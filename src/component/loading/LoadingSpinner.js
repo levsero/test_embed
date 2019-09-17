@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { locals as styles } from './LoadingSpinner.scss'
-import { TEST_IDS } from 'src/constants/shared'
 
 export class LoadingSpinner extends Component {
   static propTypes = {
@@ -30,7 +29,6 @@ export class LoadingSpinner extends Component {
         width={width}
         height={height}
         viewBox={viewBox}
-        data-testid={TEST_IDS.LOADING_SPINNER}
       >
         <circle className={circleStyles} cx="90" cy="90" r="70" />
       </svg>
