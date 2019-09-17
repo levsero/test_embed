@@ -57,10 +57,15 @@ const rollbarConfig = {
 
 const errorTracker = new Rollbar(rollbarConfig)
 
+const isApiUserError = error => {
+  return error && ['ZEApiError', 'ZopimApiError'].includes(error)
+}
+
 const errorHandler = (error, ...args) => {
   if (inDebugMode() || (error && error instanceof ConsoleError)) {
     logger.error(error, ...args)
   }
+  errorTracker.configure({ payload: { isApiUserError: isApiUserError(error) } })
   errorTracker.error(error, ...args)
 }
 

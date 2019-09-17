@@ -3,7 +3,7 @@ import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
 import { setupPublicApi, setupDevApi } from './setupLegacyApi'
-import ZDApiError from 'errors/console/ZDApiError'
+import ZEApiError from 'errors/console/ZEApiError'
 import ApiExecuteError from 'errors/nonFatal/ApiExecuteError'
 import errorTracker from 'service/errorTracker'
 
@@ -77,7 +77,7 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
 
 export function apisExecuteQueue(reduxStore, queue) {
   const logApiError = (api, e = {}) => {
-    throw new ZDApiError(
+    const error = new ZEApiError(
       [
         'An error occurred in your use of the Zendesk Widget API:',
         api,
@@ -86,6 +86,8 @@ export function apisExecuteQueue(reduxStore, queue) {
         e.stack
       ].join('\n\n')
     )
+
+    error.report()
   }
 
   _.forEach(queue, method => {
@@ -107,7 +109,7 @@ export function apisExecuteQueue(reduxStore, queue) {
         logApiError(`"${method[0]} ${method[1]}"`, e)
       }
     } else {
-      logApiError(method)
+      logApiError(method[0])
     }
   })
 }

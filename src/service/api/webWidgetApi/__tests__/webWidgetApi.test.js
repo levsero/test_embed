@@ -4,6 +4,7 @@ import tracker from 'service/tracker'
 import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { API_GET_IS_CHATTING_NAME } from 'constants/api'
+import { apiExecute, apiStructurePostRenderSetup } from './../setupApi'
 
 jest.mock('service/api/apis')
 jest.mock('service/tracker')
@@ -30,16 +31,40 @@ describe('apisExecuteQueue', () => {
   })
 
   describe('when the queue method is a string', () => {
-    beforeEach(() => {
-      api.apisExecuteQueue(mockStore, [['webWidget', 'hide']])
+    describe('that describes a valid api method', () => {
+      beforeEach(() => {
+        api.apisExecuteQueue(mockStore, [['webWidget', 'hide']])
+      })
+
+      it('handles the api call', () => {
+        expect(apis.hideApi).toHaveBeenCalled()
+      })
+
+      it('tracks the call', () => {
+        expect(tracker.track).toHaveBeenCalledWith('webWidget.hide')
+      })
     })
 
-    it('handles the api call', () => {
-      expect(apis.hideApi).toHaveBeenCalled()
-    })
+    describe('that does not match a valid api method', () => {
+      /* eslint-disable no-console */
+      beforeEach(() => {
+        jest.spyOn(console, 'error')
+        console.error.mockReturnValue()
+        api.apisExecuteQueue(mockStore, [['wabWadgit', 'dood']])
+      })
 
-    it('tracks the call', () => {
-      expect(tracker.track).toHaveBeenCalledWith('webWidget.hide')
+      afterEach(() => {
+        console.error.mockRestore()
+      })
+
+      it('logs the error', () => {
+        expect(console.error).toHaveBeenCalledWith(
+          expect.stringMatching(
+            /An error occurred in your use of the Zendesk Widget API:\s+wabWadgit/
+          )
+        )
+      })
+      /* eslint-enablle no-console */
     })
   })
 })
@@ -627,6 +652,7 @@ describe('post render methods', () => {
 
   describe('when that call is on', () => {
     beforeEach(() => {
+      jest.spyOn(apis, 'onApiObj').mockReturnValue({ close: jest.fn() })
       callAfterRender(['webWidget:on', 'close', () => {}])
     })
 
@@ -663,6 +689,14 @@ describe('post render methods', () => {
       it('returns undefined', () => {
         expect(result).toBe(undefined)
       })
+    })
+  })
+
+  describe('when that call is a non-existent method', () => {
+    it('throws an error', () => {
+      expect(() => {
+        apiExecute(apiStructurePostRenderSetup(), mockStore, ['webWidget:dude', 'blob', () => {}])
+      }).toThrow('Method webWidget.dude.blob does not exist')
     })
   })
 })

@@ -38,21 +38,24 @@ const mockStore = {
 
 describe('handleZopimQueue', () => {
   describe('queue was set up by web widget', () => {
-    it('calls queue item if it is function', () => {
-      const methodSpy = jest.fn()
-      const win = {
-        $zopim: {
-          _: [methodSpy],
-          _setByWW: true
+    describe('if it is a function', () => {
+      it('calls queue item ', () => {
+        const methodSpy = jest.fn()
+        const win = {
+          $zopim: {
+            _: [methodSpy],
+            _setByWW: true
+          }
         }
-      }
 
-      zopimApi.handleZopimQueue(win)
+        zopimApi.handleZopimQueue(win)
 
-      expect(methodSpy).toHaveBeenCalled()
+        expect(methodSpy).toHaveBeenCalled()
+      })
     })
 
-    it('throws an error if queue item is not function', () => {
+    describe('if it is not a function', () => {
+      /* eslint-disable no-console */
       const win = {
         $zopim: {
           _: [undefined],
@@ -60,9 +63,24 @@ describe('handleZopimQueue', () => {
         }
       }
 
-      expect(() => {
+      beforeEach(() => {
+        jest.spyOn(console, 'error')
+        console.error.mockReturnValue()
         zopimApi.handleZopimQueue(win)
-      }).toThrowError('An error occurred in your use of the $zopim Widget API')
+      })
+
+      afterEach(() => {
+        console.error.mockRestore()
+      })
+
+      it('logs the error', () => {
+        expect(console.error).toHaveBeenCalledWith(
+          expect.stringMatching(
+            /An error occurred in your use of the \$zopim Widget API:\s+undefined/
+          )
+        )
+      })
+      /* eslint-disable no-console */
     })
   })
 
