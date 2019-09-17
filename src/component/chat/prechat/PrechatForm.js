@@ -163,7 +163,6 @@ export class PrechatForm extends Component {
         if (field.type !== 'submit') {
           result[field.name] = field.value
         }
-
         return result
       },
       {}
@@ -252,7 +251,7 @@ export class PrechatForm extends Component {
             aria-required={required}
             required={required}
             readOnly={readOnlyState.name}
-            value={value}
+            defaultValue={value}
             onChange={() => {}}
             name={nameData.name}
             pattern={NAME_PATTERN.source}
@@ -291,7 +290,7 @@ export class PrechatForm extends Component {
         <Input
           required={required}
           aria-required={required}
-          value={value}
+          defaultValue={value}
           readOnly={this.props.readOnlyState.email}
           onChange={() => {}}
           name={emailData.name}
@@ -330,7 +329,7 @@ export class PrechatForm extends Component {
           <Input
             required={required}
             aria-required={required}
-            value={value}
+            defaultValue={value}
             readOnly={this.props.readOnlyState.phone}
             onChange={() => {}}
             type="tel"
@@ -363,7 +362,7 @@ export class PrechatForm extends Component {
           <Textarea
             required={required}
             aria-required={required}
-            value={value}
+            defaultValue={value}
             onChange={() => {}}
             rows="4"
             name={messageData.name}

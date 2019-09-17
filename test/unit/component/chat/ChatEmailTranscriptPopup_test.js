@@ -365,7 +365,7 @@ describe('ChatEmailTranscriptPopup component', () => {
       })
 
       it('uses the provided email as the initial value', () => {
-        expect(result.props.children[1].props.value).toEqual('example@example.com')
+        expect(result.props.children[1].props.defaultValue).toEqual('example@example.com')
       })
 
       describe('when invalid', () => {

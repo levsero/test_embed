@@ -127,7 +127,7 @@ export class ChatOfflineForm extends Component {
         <Input
           required={isRequired}
           aria-required={isRequired}
-          value={value}
+          defaultValue={value}
           autoComplete="off"
           onChange={() => {}}
           name="name"
@@ -162,7 +162,7 @@ export class ChatOfflineForm extends Component {
         <Input
           required={isRequired}
           aria-required={isRequired}
-          value={value}
+          defaultValue={value}
           onChange={() => {}}
           name="email"
           validation={error ? 'error' : undefined}
@@ -197,7 +197,7 @@ export class ChatOfflineForm extends Component {
         <Input
           required={isRequired}
           aria-required={isRequired}
-          value={value}
+          defaultValue={value}
           onChange={() => {}}
           type="tel"
           name="phone"
@@ -227,7 +227,7 @@ export class ChatOfflineForm extends Component {
         <Textarea
           required={isRequired}
           aria-required={isRequired}
-          value={value}
+          defaultValue={value}
           onChange={() => {}}
           rows="5"
           name="message"

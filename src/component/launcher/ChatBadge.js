@@ -174,7 +174,7 @@ class ChatBadge extends Component {
             placeholder={i18n.t('embeddable_framework.chat.chatBox.placeholder.type_your_message')}
             onChange={this.handleChange}
             onKeyDown={triggerOnEnter(this.sendChatMsg)}
-            value={this.props.currentMessage}
+            defaultValue={this.props.currentMessage}
             data-testid={TEST_IDS.MESSAGE_FIELD}
           />
         </Field>
