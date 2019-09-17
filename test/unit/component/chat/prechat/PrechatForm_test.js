@@ -40,6 +40,7 @@ describe('PrechatForm component', () => {
       }
     ]
   }
+  const mockTitle = 'My custom title'
 
   beforeEach(() => {
     mockery.enable()
@@ -107,12 +108,7 @@ describe('PrechatForm component', () => {
       },
       'src/util/utils': {
         onNextTick: cb => setTimeout(cb, 0)
-      },
-      'src/components/WidgetContainer': {},
-      'src/components/WidgetHeader': {},
-      'src/components/WidgetMain': {},
-      'src/components/WidgetFooter': {},
-      'src/embeds/chat/components/Footer': {}
+      }
     })
 
     mockery.registerAllowable(PrechatFormPath)
@@ -123,6 +119,125 @@ describe('PrechatForm component', () => {
     mockery.deregisterAll()
     mockery.disable()
     renderLabelSpy.calls.reset()
+  })
+
+  describe('render', () => {
+    let component, result, mockIsMobile, mockFullscreen
+
+    beforeEach(() => {
+      component = instanceRender(
+        <PrechatForm
+          title={mockTitle}
+          form={mockFormProp}
+          isMobile={mockIsMobile}
+          fullscreen={mockFullscreen}
+        />
+      )
+
+      spyOn(component, 'renderGreetingMessage')
+      spyOn(component, 'renderUserProfile')
+      spyOn(component, 'renderDepartmentsField')
+      spyOn(component, 'renderPhoneField')
+      spyOn(component, 'renderMessageField')
+      spyOn(component, 'renderZendeskLogo')
+      spyOn(component, 'renderSubmitButton')
+
+      result = component.render()
+    })
+
+    it('calls renderGreetingMessage', () => {
+      expect(component.renderGreetingMessage).toHaveBeenCalled()
+    })
+
+    it('calls renderUserProfile', () => {
+      expect(component.renderUserProfile).toHaveBeenCalled()
+    })
+
+    it('calls renderDepartmentsField', () => {
+      expect(component.renderDepartmentsField).toHaveBeenCalled()
+    })
+
+    it('calls renderPhoneField', () => {
+      expect(component.renderPhoneField).toHaveBeenCalled()
+    })
+
+    it('calls renderMessageField', () => {
+      expect(component.renderMessageField).toHaveBeenCalled()
+    })
+
+    it('calls renderZendeskLogo', () => {
+      expect(component.renderZendeskLogo).toHaveBeenCalled()
+    })
+
+    it('calls renderSubmitButton', () => {
+      expect(component.renderSubmitButton).toHaveBeenCalled()
+    })
+
+    it('returns a form component', () => {
+      expect(result.type).toEqual('form')
+    })
+
+    it('passes the correct title to ScrollContainer', () => {
+      const targetElem = result.props.children[0]
+
+      expect(targetElem.props.title).toEqual(mockTitle)
+    })
+
+    describe('when isMobile and fullscreen are true', () => {
+      beforeAll(() => {
+        mockIsMobile = true
+        mockFullscreen = true
+      })
+
+      afterAll(() => {
+        mockIsMobile = false
+        mockFullscreen = false
+      })
+
+      it('passes the correct isMobile to ScrollContainer', () => {
+        const targetElem = result.props.children[0]
+
+        expect(targetElem.props.isMobile).toEqual(true)
+      })
+
+      it('passes the correct fullscreen to ScrollContainer', () => {
+        const targetElem = result.props.children[0]
+
+        expect(targetElem.props.fullscreen).toEqual(true)
+      })
+    })
+  })
+
+  describe('renderZendeskLogo', () => {
+    let result, mockHideZendeskLogo
+
+    beforeEach(() => {
+      const component = instanceRender(
+        <PrechatForm form={mockFormProp} hideZendeskLogo={mockHideZendeskLogo} />
+      )
+
+      result = component.renderZendeskLogo()
+    })
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true
+      })
+
+      it('returns null', () => {
+        expect(result).toBeNull()
+      })
+    })
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false
+      })
+
+      it('renders the zendesk logo', () => {
+        expect(TestUtils.isElementOfType(result, ZendeskLogo)).toEqual(true)
+      })
+    })
   })
 
   describe('renderGreetingMessage', () => {
@@ -195,6 +310,18 @@ describe('PrechatForm component', () => {
       })
     })
 
+    describe('when loginEnabled is false', () => {
+      beforeEach(() => {
+        const component = domRender(<PrechatForm form={mockFormProp} loginEnabled={false} />)
+
+        result = component.renderPhoneField()
+      })
+
+      it('does not render the phone field', () => {
+        expect(result).toBe(null)
+      })
+    })
+
     describe('when invalid', () => {
       beforeAll(() => {
         mockRenderErrorMessage = Message
@@ -237,8 +364,108 @@ describe('PrechatForm component', () => {
     })
   })
 
+  describe('renderNameField', () => {
+    let container, result, component, mockRenderErrorMessage, componentArgs
+
+    beforeEach(() => {
+      component = domRender(<PrechatForm {...componentArgs} />)
+
+      spyOn(component, 'isFieldRequired')
+      spyOn(component, 'renderErrorMessage').and.callFake(() => mockRenderErrorMessage)
+
+      container = component.renderNameField()
+      result = null
+      if (container) {
+        result = container.props.children
+      }
+    })
+
+    describe('when called', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: {
+            ...mockFormProp,
+            name: { required: true }
+          }
+        }
+      })
+
+      it('renders a TextField component', () => {
+        expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
+      })
+
+      it('calls isFieldRequired with expected arguments', () => {
+        expect(component.isFieldRequired).toHaveBeenCalledWith(true)
+      })
+    })
+
+    describe('when loginEnabled is false', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          loginEnabled: false
+        }
+      })
+
+      it('does not render the name field', () => {
+        expect(container).toBe(null)
+      })
+    })
+
+    describe('when there is at least one social login available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          authUrls: [
+            {
+              Goggle:
+                'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
+            }
+          ]
+        }
+      })
+
+      it('renders with expected style', () => {
+        expect(container.props.className).toContain('nameFieldWithSocialLoginClass')
+      })
+    })
+
+    describe('when there are no social logins available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          authUrls: []
+        }
+      })
+
+      it('renders with expected style', () => {
+        expect(container.props.className).not.toContain('nameFieldWithSocialLoginClass')
+      })
+    })
+
+    describe('when invalid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = Message
+      })
+
+      it('renders field in an error state', () => {
+        expect(result.props.children[1].props.validation).toEqual('error')
+      })
+    })
+
+    describe('when valid', () => {
+      beforeAll(() => {
+        mockRenderErrorMessage = null
+      })
+
+      it('renders field not in an error state', () => {
+        expect(result.props.children[1].props.validation).toEqual(undefined)
+      })
+    })
+  })
+
   describe('renderEmailField', () => {
-    let result, mockRenderErrorMessage, component
+    let result, node, mockRenderErrorMessage, component
 
     beforeEach(() => {
       const mockForm = {
@@ -260,6 +487,18 @@ describe('PrechatForm component', () => {
 
     it('calls isFieldRequired with expected arguments', () => {
       expect(component.isFieldRequired).toHaveBeenCalledWith(true)
+    })
+
+    describe('when loginEnabled is false', () => {
+      beforeEach(() => {
+        const component = domRender(<PrechatForm form={mockFormProp} loginEnabled={false} />)
+
+        node = ReactDOM.findDOMNode(component)
+      })
+
+      it('does not render the email field', () => {
+        expect(node.querySelector('input[name="email"]')).toBe(null)
+      })
     })
 
     describe('when invalid', () => {
@@ -328,6 +567,116 @@ describe('PrechatForm component', () => {
 
       it('renders field not in an error state', () => {
         expect(result.props.children[1].props.validation).toEqual(undefined)
+      })
+    })
+  })
+
+  describe('renderDepartmentsField', () => {
+    let formProp, result
+    const departments = [
+        { name: 'Design', status: 'online', id: 12345, value: 12345 },
+        { name: 'Engineering', status: 'online', id: 56789, value: 56789 },
+        {
+          name: 'Offline',
+          disabled: true,
+          status: 'offline',
+          id: 8888,
+          value: 8888
+        }
+      ],
+      getRenderDepartmentsFieldFn = formProp => domRender(<PrechatForm form={formProp} />)
+
+    describe('when there are departments in the form', () => {
+      beforeEach(() => {
+        formProp = {
+          ...mockFormProp,
+          departments,
+          department: { label: 'department label' }
+        }
+        result = getRenderDepartmentsFieldFn(formProp)
+      })
+
+      it('renders a Dropdown', () => {
+        expect(() => TestUtils.findRenderedComponentWithType(result, Dropdown)).not.toThrow()
+      })
+
+      it('calls renderLabel with the correct args', () => {
+        expect(renderLabelSpy).toHaveBeenCalledWith(Label, undefined, false)
+      })
+
+      describe('dropdown options', () => {
+        let options
+
+        beforeEach(() => {
+          options = TestUtils.scryRenderedComponentsWithType(result, Item)
+        })
+
+        it('has the right length', () => {
+          expect(options.length).toEqual(3)
+        })
+
+        it('have the type Item', () => {
+          _.forEach(options, option => {
+            expect(TestUtils.isCompositeComponentWithType(option, Item)).toEqual(true)
+          })
+        })
+
+        it('sets the name correctly for each item', () => {
+          _.forEach(options, (option, index) => {
+            expect(option.props.children).toEqual(departments[index].name)
+          })
+        })
+
+        it('sets the disabled property correctly for each item', () => {
+          expect(options[0].props.disabled).toBeFalsy()
+          expect(options[1].props.disabled).toBeFalsy()
+          expect(options[2].props.disabled).toBeTruthy()
+        })
+      })
+
+      describe('when the required setting is true', () => {
+        beforeEach(() => {
+          formProp = {
+            ...mockFormProp,
+            departments,
+            department: { required: true }
+          }
+          result = getRenderDepartmentsFieldFn(formProp)
+        })
+
+        it('sets the required attribute to true on the select element', () => {
+          expect(TestUtils.findRenderedComponentWithType(result, Dropdown).props.required).toEqual(
+            true
+          )
+        })
+      })
+
+      describe('when the required setting is false', () => {
+        beforeEach(() => {
+          formProp = {
+            ...mockFormProp,
+            departments,
+            department: { required: false }
+          }
+          result = getRenderDepartmentsFieldFn(formProp)
+        })
+
+        it('sets the required attribute to false on the else element', () => {
+          expect(TestUtils.findRenderedComponentWithType(result, Dropdown).props.required).toEqual(
+            false
+          )
+        })
+      })
+    })
+
+    describe('when there are no departments in the form', () => {
+      beforeEach(() => {
+        formProp = { ...mockFormProp, departments: undefined }
+        result = getRenderDepartmentsFieldFn(formProp)
+      })
+
+      it('does not return anything', () => {
+        expect(() => TestUtils.findRenderedComponentWithType(result, Dropdown)).toThrow()
       })
     })
   })

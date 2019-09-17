@@ -4,7 +4,6 @@ exports[`circle can be customized 1`] = `
 <div>
   <svg
     class="spinner "
-    data-testid="loading-spinner"
     height="100"
     viewBox="0 0 180 180"
     width="100"
@@ -23,7 +22,6 @@ exports[`className can be customized 1`] = `
 <div>
   <svg
     class="spinner woot"
-    data-testid="loading-spinner"
     height="100"
     viewBox="0 0 180 180"
     width="100"
@@ -42,7 +40,6 @@ exports[`height and width can be customized 1`] = `
 <div>
   <svg
     class="spinner "
-    data-testid="loading-spinner"
     height="68"
     viewBox="0 0 180 180"
     width="42"
@@ -61,7 +58,6 @@ exports[`renders the expected classes 1`] = `
 <div>
   <svg
     class="spinner "
-    data-testid="loading-spinner"
     height="100"
     viewBox="0 0 180 180"
     width="100"
@@ -80,7 +76,6 @@ exports[`viewBox can be customized 1`] = `
 <div>
   <svg
     class="spinner "
-    data-testid="loading-spinner"
     height="100"
     viewBox="0 0 100 100"
     width="100"
