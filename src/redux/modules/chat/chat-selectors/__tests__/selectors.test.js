@@ -1,5 +1,6 @@
 import * as selectors from '../selectors'
 import testState from 'src/fixtures/chat-selectors-test-state'
+import { getHasBackfillCompleted } from '../selectors'
 
 test('getChats', () => {
   const result = selectors.getChats(testState)
@@ -334,4 +335,14 @@ test('getFirstMessageTimestamp when map is invalid', () => {
 
   expect(result).toEqual('blarp')
   Date.now.mockRestore()
+})
+
+describe('getHasBackfillCompleted', () => {
+  it('returns true when the backfill has completed', () => {
+    expect(getHasBackfillCompleted({ chat: { chatLogBackfillCompleted: true } })).toBe(true)
+  })
+
+  it('returns false when the backfill has not completed', () => {
+    expect(getHasBackfillCompleted({ chat: { chatLogBackfillCompleted: false } })).toBe(false)
+  })
 })

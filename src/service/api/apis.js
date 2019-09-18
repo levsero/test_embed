@@ -41,7 +41,8 @@ import {
   getIsPopoutAvailable,
   getZChatVendor,
   getNotificationCount,
-  getChatStatus
+  getChatStatus,
+  getHasBackfillCompleted
 } from 'src/redux/modules/chat/chat-selectors'
 import { updateSettings } from 'src/redux/modules/settings'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
@@ -195,8 +196,12 @@ export const onApiObj = () => {
       [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) =>
         callbacks.registerCallback(cb, CHAT_CONNECTED_EVENT),
       [API_ON_CHAT_END_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, CHAT_ENDED_EVENT),
-      [API_ON_CHAT_START_NAME]: (_reduxStore, cb) =>
-        callbacks.registerCallback(cb, CHAT_STARTED_EVENT),
+      [API_ON_CHAT_START_NAME]: (reduxStore, cb) =>
+        callbacks.registerCallback(() => {
+          if (getHasBackfillCompleted(reduxStore.getState())) {
+            cb()
+          }
+        }, CHAT_STARTED_EVENT),
       [API_ON_CHAT_DEPARTMENT_STATUS]: (_reduxStore, cb) => {
         callbacks.registerCallback(cb, CHAT_DEPARTMENT_STATUS_EVENT)
       },
