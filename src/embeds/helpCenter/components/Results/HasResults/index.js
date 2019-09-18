@@ -69,11 +69,7 @@ class HasResults extends PureComponent {
 
     return (
       <div>
-        <Legend
-          fullscreen={isMobile}
-          hasContextuallySearched={hasContextuallySearched}
-          locale={locale}
-        />
+        <Legend hasContextuallySearched={hasContextuallySearched} locale={locale} />
         <List
           ref={el => (this.list = el)}
           isMobile={isMobile}
