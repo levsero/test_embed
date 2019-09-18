@@ -1,6 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default render matches snapshot 1`] = `
+.c1 {
+  position: relative !important;
+  margin-top: 1.0714285714285714rem;
+}
+
+.c2 {
+  padding-right: 0.7142857142857143rem !important;
+  padding-left: 0.7142857142857143rem !important;
+  max-width: 14.285714285714286rem;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -69,13 +80,13 @@ exports[`default render matches snapshot 1`] = `
           />
         </a>
         <div
-          class="container containerDesktop"
+          class="c1"
         >
           <div
-            class="container buttonRight buttonGroup"
+            class="container buttonRight "
           >
             <button
-              class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c2 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
