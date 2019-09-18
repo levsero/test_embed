@@ -7,7 +7,6 @@ import { document as doc } from 'utility/globals'
 import { i18n } from 'service/i18n'
 import { nameValid, emailValid } from 'src/util/utils'
 import { isDefaultNickname } from 'src/util/chat'
-import { ChatPopup } from 'component/chat/ChatPopup'
 import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { UserProfile } from 'component/chat/UserProfile'
@@ -18,6 +17,8 @@ import {
   EDIT_CONTACT_DETAILS_LOADING_SCREEN,
   EDIT_CONTACT_DETAILS_ERROR_SCREEN
 } from 'constants/chat'
+import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
+import { Button } from '@zendeskgarden/react-buttons'
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss'
 
@@ -28,13 +29,10 @@ export class ChatContactDetailsPopup extends Component {
     screen: PropTypes.string.isRequired,
     visitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    className: PropTypes.string,
     contactDetails: PropTypes.object,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
     updateFn: PropTypes.func,
-    show: PropTypes.bool,
-    isMobile: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     requiredFormData: PropTypes.shape({
       name: PropTypes.shape({
@@ -52,7 +50,6 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: () => {},
     rightCtaFn: () => {},
     updateFn: () => {},
-    show: false,
     isMobile: false,
     isAuthenticated: false,
     requiredFormData: { name: { required: false }, email: { required: false } }
@@ -76,6 +73,13 @@ export class ChatContactDetailsPopup extends Component {
     }
 
     this.form = null
+    this.nameInput = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.props.screen === EDIT_CONTACT_DETAILS_SCREEN) {
+      this.focusNameInput()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,6 +92,21 @@ export class ChatContactDetailsPopup extends Component {
       this.props.updateFn(visitorName, visitorEmail)
     } else if (isDefaultNickname(nextName)) {
       this.props.updateFn('', nextEmail)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.screen !== EDIT_CONTACT_DETAILS_SCREEN &&
+      this.props.screen === EDIT_CONTACT_DETAILS_SCREEN
+    ) {
+      this.focusNameInput()
+    }
+  }
+
+  focusNameInput() {
+    if (this.nameInput.current) {
+      this.nameInput.current.focus()
     }
   }
 
@@ -147,12 +166,6 @@ export class ChatContactDetailsPopup extends Component {
     this.props.updateFn(newState.display_name, newState.email)
   }
 
-  renderTitle = () => {
-    const title = i18n.t('embeddable_framework.chat.options.editContactDetails')
-
-    return <h4 className={styles.title}>{title}</h4>
-  }
-
   renderErrorMessage(value, required, isError, errorString, pattern) {
     if (shouldRenderErrorMessage(value, required, isError, pattern)) {
       return <Message validation="error">{i18n.t(errorString)}</Message>
@@ -175,25 +188,27 @@ export class ChatContactDetailsPopup extends Component {
     )
 
     return (
-      <Field>
-        {renderLabel(
-          Label,
-          i18n.t('embeddable_framework.common.textLabel.name'),
-          nameRules.required
-        )}
-        <Input
-          defaultValue={value}
-          name="display_name"
-          autoComplete="off"
-          onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : undefined}
-          pattern={NAME_PATTERN.source}
-          disabled={this.props.isAuthenticated}
-          className={styles.field}
-          data-testid={TEST_IDS.NAME_FIELD}
-        />
-        {error}
-      </Field>
+      <div className={styles.field}>
+        <Field>
+          {renderLabel(
+            Label,
+            i18n.t('embeddable_framework.common.textLabel.name'),
+            nameRules.required
+          )}
+          <Input
+            ref={this.nameInput}
+            defaultValue={value}
+            name="display_name"
+            autoComplete="off"
+            onKeyPress={this.handleKeyPress}
+            validation={error ? 'error' : undefined}
+            pattern={NAME_PATTERN.source}
+            disabled={this.props.isAuthenticated}
+            data-testid={TEST_IDS.NAME_FIELD}
+          />
+          {error}
+        </Field>
+      </div>
     )
   }
 
@@ -211,24 +226,25 @@ export class ChatContactDetailsPopup extends Component {
 
     /* eslint-disable max-len */
     return (
-      <Field>
-        {renderLabel(
-          Label,
-          i18n.t('embeddable_framework.common.textLabel.email'),
-          emailRules.required
-        )}
-        <Input
-          defaultValue={value}
-          disabled={this.props.isAuthenticated}
-          name="email"
-          onKeyPress={this.handleKeyPress}
-          validation={error ? 'error' : undefined}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-          className={styles.field}
-          data-testid={TEST_IDS.EMAIL_FIELD}
-        />
-        {error}
-      </Field>
+      <div className={styles.field}>
+        <Field>
+          {renderLabel(
+            Label,
+            i18n.t('embeddable_framework.common.textLabel.email'),
+            emailRules.required
+          )}
+          <Input
+            defaultValue={value}
+            disabled={this.props.isAuthenticated}
+            name="email"
+            onKeyPress={this.handleKeyPress}
+            validation={error ? 'error' : undefined}
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+            data-testid={TEST_IDS.EMAIL_FIELD}
+          />
+          {error}
+        </Field>
+      </div>
     )
     /* eslint-enable max-len */
   }
@@ -270,17 +286,30 @@ export class ChatContactDetailsPopup extends Component {
     if (this.props.screen !== EDIT_CONTACT_DETAILS_SCREEN) return null
 
     return (
-      <div className={styles.popupChildrenContainer}>
-        <form
-          ref={element => (this.form = element)}
-          className={styles.form}
-          noValidate={true}
-          onChange={this.handleFormChange}
-        >
-          {this.renderTitle()}
-          {this.renderUserProfile()}
-        </form>
-      </div>
+      <form
+        ref={element => (this.form = element)}
+        className={styles.form}
+        noValidate={true}
+        onChange={this.handleFormChange}
+      >
+        {this.renderUserProfile()}
+
+        <ModalActions>
+          <Button onClick={this.props.leftCtaFn} data-testid={TEST_IDS.BUTTON_CANCEL}>
+            {i18n.t('embeddable_framework.common.button.cancel')}
+          </Button>
+          {!this.props.isAuthenticated && (
+            <Button
+              onClick={this.handleSave}
+              primary={true}
+              disabled={this.state.showEmailError || this.state.showNameError}
+              data-testid={TEST_IDS.BUTTON_OK}
+            >
+              {i18n.t('embeddable_framework.common.button.save')}
+            </Button>
+          )}
+        </ModalActions>
+      </form>
     )
   }
 
@@ -291,30 +320,20 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render() {
-    const { isMobile, className, leftCtaFn, screen, isAuthenticated } = this.props
-    const isLoading = screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN
-    const containerClasses = isLoading ? styles.popupChildrenContainerLoading : ''
-    const inputError = this.state.showEmailError || this.state.showNameError
-
     return (
-      <ChatPopup
-        isMobile={isMobile}
-        useOverlay={isMobile}
-        className={className}
-        containerClasses={containerClasses}
-        showCta={screen === EDIT_CONTACT_DETAILS_SCREEN}
-        show={this.props.show}
-        showOnlyLeftCta={isAuthenticated}
-        leftCtaFn={leftCtaFn}
-        leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
-        rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
-        rightCtaDisabled={inputError}
+      <ChatModal
+        title={
+          this.props.screen === EDIT_CONTACT_DETAILS_SCREEN
+            ? i18n.t('embeddable_framework.chat.options.editContactDetails')
+            : undefined
+        }
+        onClose={this.props.leftCtaFn}
+        focusOnMount={this.props.screen === EDIT_CONTACT_DETAILS_ERROR_SCREEN}
       >
         {this.renderForm()}
         {this.renderFailureScreen()}
         {this.renderLoadingSpinner()}
-      </ChatPopup>
+      </ChatModal>
     )
   }
 }

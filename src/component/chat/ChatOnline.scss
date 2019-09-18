@@ -6,10 +6,8 @@
 }
 
 .chatEndPopupDescription {
-  composes: u-paddingVL from global;
+  padding-bottom: #{20 / $font-size}rem !important;
   color: $zd-color-grey-800;
-  padding-left: #{20 / $font-size}rem;
-  padding-right: #{20 / $font-size}rem;
 }
 
 .reconnectContainer {

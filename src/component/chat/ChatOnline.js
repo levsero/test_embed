@@ -9,7 +9,6 @@ import AgentScreen from 'component/chat/agents/AgentScreen'
 import RatingScreen from 'component/chat/rating/RatingScreen'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatMenu } from 'component/chat/ChatMenu'
-import { ChatPopup } from 'component/chat/ChatPopup'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup'
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
@@ -40,6 +39,9 @@ import {
   getHelpCenterAvailable,
   getDefaultFormFields
 } from 'src/redux/modules/selectors'
+import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
+import { Button } from '@zendeskgarden/react-buttons'
+import { TEST_IDS } from 'constants/shared'
 
 const mapStateToProps = state => {
   return {
@@ -163,7 +165,6 @@ class Chat extends Component {
 
     this.props.updateMenuVisibility(false)
     this.props.updateContactDetailsVisibility(false)
-    this.props.updateEmailTranscriptVisibility(false)
   }
 
   showContactDetailsFn = e => {
@@ -301,20 +302,24 @@ class Chat extends Component {
       this.props.endChatViaPostChatScreen()
     }
 
+    if (!this.state.showEndChatMenu) {
+      return null
+    }
+
     return (
-      <ChatPopup
-        isMobile={this.props.isMobile}
-        useOverlay={this.props.isMobile}
-        leftCtaFn={hideChatEndFn}
-        leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
-        rightCtaFn={endChatFn}
-        show={this.state.showEndChatMenu}
-        rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}
-      >
+      <ChatModal onClose={hideChatEndFn}>
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
         </div>
-      </ChatPopup>
+        <ModalActions>
+          <Button onClick={hideChatEndFn} data-testid={TEST_IDS.BUTTON_CANCEL}>
+            {i18n.t('embeddable_framework.common.button.cancel')}
+          </Button>
+          <Button onClick={endChatFn} primary={true} data-testid={TEST_IDS.BUTTON_OK}>
+            {i18n.t('embeddable_framework.common.button.end')}
+          </Button>
+        </ModalActions>
+      </ChatModal>
     )
   }
 
@@ -358,11 +363,14 @@ class Chat extends Component {
     const updateDetailsFn = (name, email) =>
       updateContactDetailsFields({ display_name: name, email })
 
+    if (!editContactDetails.show) {
+      return null
+    }
+
     return (
       <ChatContactDetailsPopup
         contactDetails={editContactDetails}
         screen={editContactDetails.status}
-        show={editContactDetails.show}
         requiredFormData={contactDetailsRequiredFormData}
         isMobile={isMobile}
         leftCtaFn={hideContactDetailsFn}
