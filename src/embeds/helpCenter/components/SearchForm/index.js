@@ -7,8 +7,7 @@ import SearchField from 'embeds/helpCenter/components/SearchField'
 import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
 import { isMobileBrowser } from 'utility/devices'
 import { TEST_IDS } from 'src/constants/shared'
-
-import { locals as styles } from './styles.scss'
+import { Form } from './styles'
 
 const useSearchForm = (callback, handleOnChangeValue) => {
   const [searchValue, setSearchValue] = useState('')
@@ -36,7 +35,7 @@ const SearchForm = React.forwardRef(
     const { handleOnChange, handleSubmit } = useSearchForm(performSearch, handleSearchFieldChange)
 
     return (
-      <form noValidate={true} onSubmit={handleSubmit} className={styles.form}>
+      <Form noValidate={true} onSubmit={handleSubmit}>
         <SearchField
           ref={ref}
           value={value}
@@ -47,7 +46,7 @@ const SearchForm = React.forwardRef(
           searchPlaceholder={searchPlaceholder}
           data-testid={TEST_IDS.SEARCH_FIELD}
         />
-      </form>
+      </Form>
     )
   }
 )

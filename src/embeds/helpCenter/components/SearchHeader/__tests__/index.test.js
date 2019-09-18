@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import snapshotDiff from 'snapshot-diff'
 import createStore from 'src/redux/createStore'
 import SearchHeader from '../index'
+import 'jest-styled-components'
 
 const renderComponent = inProps => {
   const props = {

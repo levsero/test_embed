@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react'
-import { locals as styles } from './styles.scss'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import classNames from 'classnames'
-
+import { StyledList } from './styles'
 import Item from 'embeds/helpCenter/components/Item'
 
 export default class List extends PureComponent {
@@ -48,18 +46,14 @@ export default class List extends PureComponent {
   }
 
   render() {
-    const { articles, isMobile, locale, showNextButton, hideZendeskLogo } = this.props
+    const { articles, locale, showNextButton, hideZendeskLogo } = this.props
     const articleLinks = articles.map(this.renderResultRow)
 
-    const classes = classNames(styles.list, {
-      [styles.listBottom]: !(!showNextButton && !hideZendeskLogo && articles.length > 0),
-      [styles.listMobile]: isMobile
-    })
-
+    const isBottom = !(!showNextButton && !hideZendeskLogo && articles.length > 0)
     return (
-      <ol lang={locale} className={classes}>
+      <StyledList lang={locale} isBottom={isBottom}>
         {articleLinks}
-      </ol>
+      </StyledList>
     )
   }
 }
