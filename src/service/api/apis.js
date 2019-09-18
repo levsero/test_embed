@@ -18,7 +18,8 @@ import {
   API_ON_CHAT_START_NAME,
   API_ON_CHAT_END_NAME,
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS
+  API_ON_CHAT_DEPARTMENT_STATUS,
+  API_ON_CHAT_POPOUT
 } from 'constants/api'
 import {
   WIDGET_OPENED_EVENT,
@@ -28,7 +29,8 @@ import {
   CHAT_STARTED_EVENT,
   CHAT_STATUS_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
-  CHAT_DEPARTMENT_STATUS_EVENT
+  CHAT_DEPARTMENT_STATUS_EVENT,
+  CHAT_POPOUT_EVENT
 } from 'constants/event'
 import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat/chat-actions'
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
@@ -211,6 +213,9 @@ export const onApiObj = () => {
       },
       [API_ON_CHAT_STATUS_NAME]: (store, cb) => {
         callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_STATUS_EVENT)
+      },
+      [API_ON_CHAT_POPOUT]: (store, cb) => {
+        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_POPOUT_EVENT)
       }
     },
     [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_OPENED_EVENT),

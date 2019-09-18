@@ -136,15 +136,15 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     getConnection(prevState) === CONNECTION_STATUSES.CONNECTING &&
     getConnection(nextState) === CONNECTION_STATUSES.CONNECTED
   ) {
-    dispatch(chatConnected())
     dispatch(updateChatSettings())
-
     if (!chatAccountSettingsFetched) {
       dispatch(getIsChatting())
       dispatch(getAccountSettings())
       dispatch(getOperatingHours())
       chatAccountSettingsFetched = true
     }
+
+    dispatch(chatConnected())
   }
 }
 

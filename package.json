@@ -87,7 +87,7 @@
     "IE 11"
   ],
   "dependencies": {
-    "@zendesk/client-i18n-tools": "^10.6.3",
+    "@zendesk/client-i18n-tools": "^11.5.0",
     "@zendeskgarden/css-arrows": "^3.1.0",
     "@zendeskgarden/css-bedrock": "^7.0.14",
     "@zendeskgarden/css-tooltips": "^4.1.6",

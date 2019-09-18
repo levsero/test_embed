@@ -32,7 +32,8 @@ export default class SearchField extends Component {
     super(props, context)
 
     this.state = {
-      focused: false
+      focused: false,
+      value: props.value
     }
     this.searchField = null
   }
@@ -48,10 +49,14 @@ export default class SearchField extends Component {
   onChange = e => {
     const value = e.target.value
 
+    this.setState({ value })
     this.props.onChangeValue(value)
   }
 
   clearInput = () => {
+    this.setState({
+      value: ''
+    })
     this.props.onChangeValue('')
   }
 
@@ -72,7 +77,7 @@ export default class SearchField extends Component {
 
     if (this.props.isLoading) {
       icon = <LoadingEllipses />
-    } else if (this.props.value) {
+    } else if (this.state.value) {
       icon = (
         <IconButton
           data-testid="Icon--clearInput"
@@ -135,7 +140,7 @@ export default class SearchField extends Component {
           <Input
             bare={true}
             onChange={this.onChange}
-            value={this.props.value}
+            value={this.state.value}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             ref={elem => {

@@ -15,6 +15,7 @@ describe('WebWidget component', () => {
     chatOnContainerClickSpy = jasmine.createSpy('chatOnContainerClick')
     helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick')
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter')
+    submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter')
 
     class MockAnswerBot extends Component {
       render() {
@@ -29,6 +30,15 @@ describe('WebWidget component', () => {
       }
       render() {
         return <div ref="helpCenter" />
+      }
+    }
+
+    class MockSupport extends Component {
+      constructor() {
+        super()
+      }
+      render() {
+        return <div ref="support" />
       }
     }
 
@@ -69,6 +79,7 @@ describe('WebWidget component', () => {
       'component/answerBot': connectedComponent(<MockAnswerBot />),
       'component/chat/Chat': connectedComponent(<MockChat />),
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
+      'embeds/support': connectedComponent(<MockSupport />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'embeds/talk': noopReactComponent(),
       'component/channelChoice/ChannelChoice': {

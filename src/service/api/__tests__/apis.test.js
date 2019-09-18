@@ -724,4 +724,18 @@ describe('onApi', () => {
       expect(callback).toHaveBeenCalledWith({ id: 1 })
     })
   })
+
+  test('callback for API_ON_CHAT_POPOUT', async () => {
+    on.chat[constants.API_ON_CHAT_POPOUT](store, callback)
+
+    expect(callback).not.toHaveBeenCalled()
+    store.dispatch({
+      type: baseActionTypes.POPOUT_BUTTON_CLICKED
+    })
+    callbacks.fireFor(eventConstants.CHAT_POPOUT_EVENT)
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled()
+    })
+  })
 })
