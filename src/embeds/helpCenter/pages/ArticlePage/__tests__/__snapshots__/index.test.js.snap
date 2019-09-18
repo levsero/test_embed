@@ -1,6 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`default render matches snapshot 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 <div>
   <div
     class="container"
@@ -39,7 +54,7 @@ exports[`default render matches snapshot 1`] = `
       class="footer footerShadow"
     >
       <div
-        class="footerContentMultiple"
+        class="c0"
       >
         <a
           class="icon"
@@ -60,7 +75,7 @@ exports[`default render matches snapshot 1`] = `
             class="container buttonRight buttonGroup"
           >
             <button
-              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+              class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"

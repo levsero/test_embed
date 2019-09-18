@@ -3,6 +3,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
+import 'jest-styled-components'
 
 const performImageSearch = jest.fn(),
   handleOriginalArticleClicked = jest.fn(),
