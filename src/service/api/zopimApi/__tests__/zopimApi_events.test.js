@@ -12,11 +12,14 @@ import {
   CHAT_DEPARTMENT_STATUS_EVENT,
   CHAT_STATUS_EVENT
 } from 'constants/event'
+import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 
 const setup = () => {
   const mockWin = {}
   const callback = jest.fn(() => 123)
   const store = createStore()
+
+  store.dispatch({ type: CHAT_CONNECTED })
 
   zopimApi.setUpZopimApiMethods(mockWin, store)
 

@@ -17,6 +17,7 @@ import { identity } from 'service/identity'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import createStore from 'src/redux/createStore'
 import * as callbacks from 'service/api/callbacks'
+import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 
 jest.mock('service/mediator')
 jest.mock('service/settings')
@@ -664,6 +665,8 @@ describe('onApi', () => {
   test('callback for API_ON_CHAT_START_NAME', async () => {
     on.chat[constants.API_ON_CHAT_START_NAME](store, callback)
 
+    store.dispatch({ type: CHAT_CONNECTED })
+
     expect(callback).not.toHaveBeenCalled()
     callbacks.fireFor(eventConstants.CHAT_STARTED_EVENT)
 
@@ -719,6 +722,20 @@ describe('onApi', () => {
 
     await wait(() => {
       expect(callback).toHaveBeenCalledWith({ id: 1 })
+    })
+  })
+
+  test('callback for API_ON_CHAT_POPOUT', async () => {
+    on.chat[constants.API_ON_CHAT_POPOUT](store, callback)
+
+    expect(callback).not.toHaveBeenCalled()
+    store.dispatch({
+      type: baseActionTypes.POPOUT_BUTTON_CLICKED
+    })
+    callbacks.fireFor(eventConstants.CHAT_POPOUT_EVENT)
+
+    await wait(() => {
+      expect(callback).toHaveBeenCalled()
     })
   })
 })

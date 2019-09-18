@@ -19,7 +19,7 @@ const getDefaultFieldValues = (elementType, existingValue) => {
     case 'decimal':
     case 'textarea':
     case 'description':
-      return { value: existingValue || '' }
+      return { defaultValue: existingValue || '' }
     case 'checkbox':
       return { checked: existingValue || 0 }
     default:

@@ -119,6 +119,7 @@ Object {
     "latestRating": -1,
     "latestRatingRequest": -1,
   },
+  "chatLogBackfillCompleted": false,
   "chats": Map {},
   "connection": "",
   "currentMessage": "",

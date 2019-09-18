@@ -35,6 +35,7 @@ import forcedStatus from './chat-forced-status'
 import defaultDepartment from './chat-default-department'
 import showChatHistory from './chat-show-history'
 import chatBanned from './chat-banned'
+import chatLogBackfillCompleted from './chat-log-backfill-completed'
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -70,7 +71,8 @@ const combinedReducers = combineReducers({
   userSettings,
   vendor,
   visitor,
-  showChatHistory
+  showChatHistory,
+  chatLogBackfillCompleted
 })
 
 export default function reducer(state, action) {

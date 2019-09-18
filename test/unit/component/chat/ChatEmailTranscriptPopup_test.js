@@ -12,7 +12,7 @@ describe('ChatEmailTranscriptPopup component', () => {
   const chatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup')
   const sharedConstantsPath = buildSrcPath('constants/shared')
 
-  class ChatPopup extends Component {
+  class ChatModal extends Component {
     render() {
       const { className, rightCtaDisabled } = this.props
 
@@ -28,7 +28,7 @@ describe('ChatEmailTranscriptPopup component', () => {
 
     initMockRegistry({
       'component/chat/ChatEmailTranscriptPopup.scss': { locals: {} },
-      'component/chat/ChatPopup': { ChatPopup },
+      'embeds/chat/components/ChatModal': ChatModal,
       'constants/shared': {
         ICONS,
         EMAIL_PATTERN: /.+/
@@ -45,6 +45,7 @@ describe('ChatEmailTranscriptPopup component', () => {
         Textarea: noopReactComponent(),
         Message
       },
+      '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg': noopReactComponent(),
       'src/redux/modules/chat/chat-screen-types': {
         EMAIL_TRANSCRIPT_LOADING_SCREEN: EMAIL_TRANSCRIPT_LOADING_SCREEN,
         EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
@@ -350,22 +351,23 @@ describe('ChatEmailTranscriptPopup component', () => {
     })
 
     describe('renderEmailField', () => {
-      let result, component
+      let field, component
 
       beforeEach(() => {
         component = instanceRender(
           <ChatEmailTranscriptPopup emailTranscript={{ email: 'example@example.com' }} />
         )
 
-        result = component.renderEmailField()
+        const container = component.renderEmailField()
+        field = container.props.children
       })
 
       it('renders a Field component', () => {
-        expect(TestUtils.isElementOfType(result, Field)).toEqual(true)
+        expect(TestUtils.isElementOfType(field, Field)).toEqual(true)
       })
 
       it('uses the provided email as the initial value', () => {
-        expect(result.props.children[1].props.value).toEqual('example@example.com')
+        expect(field.props.children[1].props.defaultValue).toEqual('example@example.com')
       })
 
       describe('when invalid', () => {
@@ -374,7 +376,7 @@ describe('ChatEmailTranscriptPopup component', () => {
         })
 
         it('renders field in an error state', () => {
-          expect(result.props.children[1].props.validation).toEqual('error')
+          expect(field.props.children[1].props.validation).toEqual('error')
         })
       })
     })
