@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { locals as styles } from './Frame.scss'
 
-import { EmbedWrapper } from 'component/frame/EmbedWrapper'
+import EmbedWrapper from 'component/frame/EmbedWrapper'
 import { i18n } from 'service/i18n'
 import { getZoomSizingRatio } from 'utility/devices'
 import Transition from 'react-transition-group/Transition'

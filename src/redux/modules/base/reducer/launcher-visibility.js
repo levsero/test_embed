@@ -9,7 +9,8 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED
+  POPOUT_BUTTON_CLICKED,
+  ESCAPE_KEY_PRESSED
 } from '../base-action-types'
 import { ZOPIM_HIDE, ZOPIM_SHOW, ZOPIM_ON_CLOSE } from '../../zopimChat/zopimChat-action-types'
 import {
@@ -43,6 +44,7 @@ const launcherVisible = (state = initialState, action) => {
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CHAT_BANNED:
     case CLOSE_RECEIVED:
+    case ESCAPE_KEY_PRESSED:
       return true
     case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:

@@ -117,9 +117,7 @@ describe('Frame', () => {
           get: name => _.get(mockSettingsValue, name, null)
         }
       },
-      'component/frame/EmbedWrapper': {
-        EmbedWrapper: MockEmbedWrapper
-      },
+      'component/frame/EmbedWrapper': MockEmbedWrapper,
       'src/components/Frame': requireUncached(buildSrcPath('components/Frame/index.js')),
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {

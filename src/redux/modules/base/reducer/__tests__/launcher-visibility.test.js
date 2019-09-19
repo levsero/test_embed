@@ -10,7 +10,8 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED
+  POPOUT_BUTTON_CLICKED,
+  ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
   ZOPIM_HIDE,
@@ -94,6 +95,10 @@ testReducer(launcherVisibility, [
   },
   {
     action: { type: CLOSE_RECEIVED },
+    expected: true
+  },
+  {
+    action: { type: ESCAPE_KEY_PRESSED },
     expected: true
   },
   {

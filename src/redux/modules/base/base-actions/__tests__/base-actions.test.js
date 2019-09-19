@@ -4,7 +4,12 @@ import thunk from 'redux-thunk'
 import * as actions from 'src/redux/modules/base/base-actions'
 import * as actionTypes from 'src/redux/modules/base/base-action-types'
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
+import * as selectors from 'src/redux/modules/base/base-selectors'
+import * as callbacks from 'service/api/callbacks'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
+import { WIDGET_CLOSED_EVENT } from 'constants/event'
+
+jest.mock('service/api/callbacks')
 
 const mockState = {
   chat: {
@@ -64,6 +69,44 @@ describe('apiResetWidget', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
       expect(actionList[3].type).toEqual(UPDATE_CHAT_SCREEN)
+    })
+  })
+})
+
+describe('handleEscapeKeyPressed', () => {
+  describe('when the web widget is open', () => {
+    beforeEach(() => {
+      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(true)
+    })
+
+    it('dispatches an action of type ESCAPE_KEY_PRESSED', () => {
+      const actionList = dispatchAction(actions.handleEscapeKeyPressed())
+
+      expect(actionList[0].type).toEqual(actionTypes.ESCAPE_KEY_PRESSED)
+    })
+
+    it('calls callbacks.fireFor for widget closed', () => {
+      dispatchAction(actions.handleEscapeKeyPressed())
+
+      expect(callbacks.fireFor).toHaveBeenCalledWith(WIDGET_CLOSED_EVENT)
+    })
+  })
+
+  describe('when the web widget is not open', () => {
+    beforeEach(() => {
+      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(false)
+    })
+
+    it('does not dispatch an action of type ESCAPE_KEY_PRESSED', () => {
+      const actionList = dispatchAction(actions.handleEscapeKeyPressed())
+
+      expect(actionList[0]).toBeUndefined()
+    })
+
+    it('does not call callbacks.fireFor', () => {
+      dispatchAction(actions.handleEscapeKeyPressed())
+
+      expect(callbacks.fireFor).not.toHaveBeenCalledWith()
     })
   })
 })

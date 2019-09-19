@@ -260,6 +260,17 @@ export const handleCloseButtonClicked = () => {
   }
 }
 
+export const handleEscapeKeyPressed = () => {
+  return (dispatch, getState) => {
+    if (getWebWidgetVisible(getState())) {
+      dispatch({
+        type: actions.ESCAPE_KEY_PRESSED
+      })
+      callbacks.fireFor(WIDGET_CLOSED_EVENT)
+    }
+  }
+}
+
 export const showWidget = () => {
   return (dispatch, getState) => {
     if (!getWidgetAlreadyHidden(getState())) {

@@ -10,7 +10,8 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_BUTTON_CLICKED,
-  UPDATE_ACTIVE_EMBED
+  UPDATE_ACTIVE_EMBED,
+  ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
   ZOPIM_SHOW,
@@ -88,6 +89,10 @@ testReducer(webWidgetVisibility, [
   },
   {
     action: { type: CLOSE_RECEIVED },
+    expected: false
+  },
+  {
+    action: { type: ESCAPE_KEY_PRESSED },
     expected: false
   },
   {
