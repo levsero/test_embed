@@ -5,15 +5,19 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   display: block;
 }
 
-.c5 {
-  position: relative !important;
-  margin-top: 1.0714285714285714rem;
-}
-
-.c6 {
-  padding-right: 0.7142857142857143rem !important;
-  padding-left: 0.7142857142857143rem !important;
-  max-width: 14.285714285714286rem;
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .c2 {
@@ -64,21 +68,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   width: 1000px;
   height: 100%;
   content: '';
-}
-
-.c4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .c1 {
@@ -211,13 +200,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c5"
+          class="container containerDesktop"
         >
           <div
-            class="container buttonRight "
+            class="container buttonRight buttonGroup"
           >
             <button
-              class="c6 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -236,17 +225,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 exports[`render when not isContextualSearchPending matches snapshot, renders NoResults 1`] = `
 .c0 {
   display: block;
-}
-
-.c2 {
-  position: relative !important;
-  margin-top: 1.0714285714285714rem;
-}
-
-.c3 {
-  padding-right: 0.7142857142857143rem !important;
-  padding-left: 0.7142857142857143rem !important;
-  max-width: 14.285714285714286rem;
 }
 
 .c1 {
@@ -368,13 +346,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c2"
+          class="container containerDesktop"
         >
           <div
-            class="container buttonRight "
+            class="container buttonRight buttonGroup"
           >
             <button
-              class="c3 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
