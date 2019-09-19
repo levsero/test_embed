@@ -16,7 +16,6 @@ import {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  cancelButtonClicked,
   onChannelChoiceNextClick,
   showChat
 } from 'src/redux/modules/base'
@@ -134,7 +133,6 @@ class WebWidget extends Component {
     chatNotificationDismissed: PropTypes.func.isRequired,
     proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
-    cancelButtonClicked: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
@@ -221,29 +219,6 @@ class WebWidget extends Component {
 
     updateActiveEmbed(helpCenter)
     updateBackButtonVisibility(articleViewActive)
-  }
-
-  onCancelClick = () => {
-    const {
-      updateActiveEmbed,
-      cancelButtonClicked,
-      updateBackButtonVisibility,
-      helpCenterAvailable,
-      channelChoiceAvailable,
-      answerBotAvailable
-    } = this.props
-
-    if (answerBotAvailable) {
-      updateBackButtonVisibility(false)
-      updateActiveEmbed(answerBot)
-    } else if (helpCenterAvailable) {
-      this.showHelpCenter()
-    } else if (channelChoiceAvailable) {
-      updateActiveEmbed(channelChoice)
-      updateBackButtonVisibility(false)
-    } else {
-      cancelButtonClicked()
-    }
   }
 
   onBackClick = () => {
@@ -379,7 +354,6 @@ class WebWidget extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}
-          onCancel={this.onCancelClick}
           onSubmitted={this.props.onSubmitted}
           position={submitTicketConfig.position}
           showBackButton={this.props.updateBackButtonVisibility}
@@ -531,7 +505,6 @@ const actionCreators = {
   chatNotificationRespond,
   updateChatScreen,
   showStandaloneMobileNotification,
-  cancelButtonClicked,
   proactiveChatNotificationDismissed,
   updateAnswerBotScreen,
   closedChatHistory,

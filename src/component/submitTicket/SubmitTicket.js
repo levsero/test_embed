@@ -33,6 +33,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
+import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actions'
 
 import classNames from 'classnames'
 import LoadingBarContent from 'src/components/LoadingBarContent'
@@ -63,6 +64,7 @@ const mapStateToProps = state => {
 
 class SubmitTicket extends Component {
   static propTypes = {
+    onCancelClick: PropTypes.func.isRequired,
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
@@ -74,7 +76,6 @@ class SubmitTicket extends Component {
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
-    onCancel: PropTypes.func,
     onSubmitted: PropTypes.func,
     previewEnabled: PropTypes.bool,
     showBackButton: PropTypes.func,
@@ -106,7 +107,6 @@ class SubmitTicket extends Component {
     formTitle: 'Leave a message',
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
-    onCancel: () => {},
     onSubmitted: () => {},
     previewEnabled: false,
     showBackButton: () => {},
@@ -275,7 +275,7 @@ class SubmitTicket extends Component {
     return (
       <SubmitTicketForm
         ref="submitTicketForm"
-        onCancel={this.props.onCancel}
+        onCancel={this.props.onCancelClick}
         fullscreen={this.props.fullscreen}
         hide={this.props.showNotification}
         ticketFields={fields}
@@ -311,7 +311,7 @@ class SubmitTicket extends Component {
     })
     const doneButton = (
       <div className={buttonContainer}>
-        <Button primary={true} className={styles.button} onClick={this.props.onCancel}>
+        <Button primary={true} className={styles.button} onClick={this.props.onCancelClick}>
           {i18n.t('embeddable_framework.common.button.done')}
         </Button>
       </div>
@@ -405,7 +405,8 @@ class SubmitTicket extends Component {
 const actionCreators = {
   handleFormChange,
   handleTicketFormClick,
-  handleTicketSubmission
+  handleTicketSubmission,
+  onCancelClick
 }
 
 const connectedComponent = connect(

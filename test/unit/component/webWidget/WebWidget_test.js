@@ -567,67 +567,6 @@ describe('WebWidget component', () => {
     })
   })
 
-  describe('#onCancelClick', () => {
-    let webWidget
-
-    describe('when helpCenter is available', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />)
-
-        spyOn(webWidget, 'showHelpCenter')
-
-        webWidget.onCancelClick()
-      })
-
-      it('calls showHelpCenter', () => {
-        expect(webWidget.showHelpCenter).toHaveBeenCalled()
-      })
-    })
-
-    describe('when help center is not available', () => {
-      describe('when channel choice is available', () => {
-        beforeEach(() => {
-          webWidget = instanceRender(
-            <WebWidget
-              updateActiveEmbed={mockUpdateActiveEmbed}
-              channelChoiceAvailable={true}
-              helpCenterAvailable={false}
-            />
-          )
-
-          webWidget.onCancelClick()
-        })
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(mockUpdateActiveEmbed).toHaveBeenCalledWith('channelChoice')
-        })
-      })
-
-      describe('when channel choice is not available', () => {
-        let onCancelSpy, ipmHelpCenterAvailable
-
-        beforeEach(() => {
-          onCancelSpy = jasmine.createSpy('onCancelSpy')
-          webWidget = instanceRender(
-            <WebWidget
-              cancelButtonClicked={onCancelSpy}
-              helpCenterAvailable={false}
-              ipmHelpCenterAvailable={ipmHelpCenterAvailable}
-              updateActiveEmbed={mockUpdateActiveEmbed}
-              channelChoiceAvailable={false}
-            />
-          )
-
-          webWidget.onCancelClick()
-        })
-
-        it('calls cancelButtonClicked prop', () => {
-          expect(onCancelSpy).toHaveBeenCalled()
-        })
-      })
-    })
-  })
-
   describe('onBackClick', () => {
     let component,
       componentProps,
