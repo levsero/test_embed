@@ -1,23 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render when isContextualSearchPending matches snapshot, renders LoadingBarContent 1`] = `
-.c1 {
+.c0 {
   display: block;
 }
 
-.c0 {
-  margin-bottom: 0;
-}
-
-.c6 {
+.c5 {
   position: relative !important;
   margin-top: 1.0714285714285714rem;
 }
 
-.c7 {
+.c6 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
+}
+
+.c2 {
+  display: inline-block;
+  position: relative;
+  -webkit-animation: drWeIq 750ms linear;
+  animation: drWeIq 750ms linear;
+  border-radius: 4px;
+  background-color: rgba(47,57,65,0.1);
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  line-height: 0.6;
+}
+
+.c2::before {
+  position: absolute;
+  top: 0;
+  left: -1800px;
+  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
+  animation: juhHqy 1.5s ease-in-out 300ms infinite;
+  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
+  width: 1000px;
+  height: 100%;
+  content: '';
 }
 
 .c3 {
@@ -27,7 +48,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   animation: drWeIq 750ms linear;
   border-radius: 4px;
   background-color: rgba(47,57,65,0.1);
-  width: 50%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   line-height: 0.6;
@@ -46,31 +67,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c4 {
-  display: inline-block;
-  position: relative;
-  -webkit-animation: drWeIq 750ms linear;
-  animation: drWeIq 750ms linear;
-  border-radius: 4px;
-  background-color: rgba(47,57,65,0.1);
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  line-height: 0.6;
-}
-
-.c4::before {
-  position: absolute;
-  top: 0;
-  left: -1800px;
-  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
-  width: 1000px;
-  height: 100%;
-  content: '';
-}
-
-.c5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -85,7 +81,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   justify-content: space-between;
 }
 
-.c2 {
+.c1 {
   height: 0.8571428571428571rem !important;
   margin-bottom: 1.1428571428571428rem;
 }
@@ -107,7 +103,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         class="form"
       >
         <form
-          class="c0"
+          class="form"
           novalidate=""
         >
           <div
@@ -117,7 +113,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             data-garden-version="6.4.4"
           >
             <label
-              class="label text__c-txt__label___3wMPZ c1"
+              class="label text__c-txt__label___3wMPZ c0"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
               for="garden-field-container-2--input"
@@ -161,35 +157,35 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       class="container"
     >
       <div
-        class="c2 c3"
+        class="c1 c2"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c2 c4"
+        class="c1 c3"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c2 c4"
+        class="c1 c3"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c2 c4"
+        class="c1 c3"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c2 c4"
+        class="c1 c3"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
@@ -200,7 +196,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       class="footer footerShadow"
     >
       <div
-        class="c5"
+        class="c4"
       >
         <a
           class="icon"
@@ -215,13 +211,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c6"
+          class="c5"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c7 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c6 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -238,26 +234,22 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 `;
 
 exports[`render when not isContextualSearchPending matches snapshot, renders NoResults 1`] = `
-.c1 {
+.c0 {
   display: block;
 }
 
-.c0 {
-  margin-bottom: 0;
-}
-
-.c6 {
+.c2 {
   position: relative !important;
   margin-top: 1.0714285714285714rem;
 }
 
-.c7 {
+.c3 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
 }
 
-.c5 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -270,38 +262,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c2 {
-  text-align: center !important;
-  color: #2f3941;
-  font-size: 1.0714285714285714rem;
-  height: 80%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.c3 {
-  margin-bottom: 0 !important;
-  margin-top: 1.4285714285714286 !important;
-}
-
-.c4 {
-  color: #68737d;
-  margin-bottom: 1.4285714285714286 !important;
 }
 
 <div>
@@ -321,7 +281,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         class="form"
       >
         <form
-          class="c0"
+          class="form"
           novalidate=""
         >
           <div
@@ -331,7 +291,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             data-garden-version="6.4.4"
           >
             <label
-              class="label text__c-txt__label___3wMPZ c1"
+              class="label text__c-txt__label___3wMPZ c0"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
               for="garden-field-container-0--input"
@@ -375,15 +335,15 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       class="container"
     >
       <div
-        class="c2"
+        class="noResults noResultsDesktop"
       >
         <p
-          class="c3"
+          class="title"
         >
           There are no results for ""
         </p>
         <p
-          class="c4"
+          class="noResultsParagraph noResultsParagraphDesktop"
         >
           Try searching for something else.
         </p>
@@ -393,7 +353,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       class="footer footerShadow"
     >
       <div
-        class="c5"
+        class="c1"
       >
         <a
           class="icon"
@@ -408,13 +368,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c6"
+          class="c2"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c7 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c3 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
