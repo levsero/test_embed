@@ -1,4 +1,3 @@
-import React from 'react'
 describe('EmbedWrapper', () => {
   let EmbedWrapper
   let focusSpy = jasmine.createSpy()
@@ -19,6 +18,7 @@ describe('EmbedWrapper', () => {
     mockery.enable()
 
     initMockRegistry({
+      React: React,
       'utility/color/styles': {},
       'utility/globals': {
         focusLauncher: focusSpy,
@@ -33,9 +33,6 @@ describe('EmbedWrapper', () => {
           }
         }
       },
-      'src/components/WidgetThemeProvider': ({ children }) => (
-        <React.Fragment>{children}</React.Fragment>
-      ),
       'component/frame/Navigation': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop

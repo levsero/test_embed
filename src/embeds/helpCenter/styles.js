@@ -1,3 +1,4 @@
+import ItemStyles from 'embeds/helpCenter/components/Item/styles.scss'
 import ListStyles from 'embeds/helpCenter/components/List/styles.scss'
 import LegendStyles from 'embeds/helpCenter/components/Legend/styles.scss'
 import NoResultsMessageStyles from 'embeds/helpCenter/components/NoResultsMessage/styles.scss'
@@ -10,6 +11,7 @@ import SearchIconButtonStyles from 'embeds/helpCenter/components/SearchIconButto
 
 const styles = `
   ${InitialSearchPageStyles}
+  ${ItemStyles}
   ${ListStyles}
   ${LegendStyles}
   ${NoResultsMessageStyles}
