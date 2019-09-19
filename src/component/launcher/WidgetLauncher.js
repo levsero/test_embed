@@ -205,6 +205,7 @@ class WidgetLauncher extends Component {
 
     return (
       <button
+        aria-haspopup="true"
         className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={e => {
           this.props.onClick(e)

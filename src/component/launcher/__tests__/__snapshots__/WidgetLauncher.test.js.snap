@@ -3,6 +3,7 @@
 exports[`WidgetLauncher renders the component 1`] = `
 <div>
   <button
+    aria-haspopup="true"
     class="wrapper "
   >
     <span
