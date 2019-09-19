@@ -46,10 +46,13 @@ describe('EmbedWrapper', () => {
       },
       './gardenOverrides': {
         getGardenOverrides: noop
+      },
+      'src/redux/modules/base': {
+        handleEscapeKeyPressed: noop
       }
     })
 
-    EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper
+    EmbedWrapper = requireUncached(EmbedWrapperPath).default.WrappedComponent
   })
 
   afterEach(() => {
@@ -59,14 +62,16 @@ describe('EmbedWrapper', () => {
   })
 
   describe('render', () => {
-    let instance, styleBlock, rootElem
+    let instance, styleBlock, rootElem, handleEscapeKeyPressedSpy
 
     beforeEach(() => {
+      handleEscapeKeyPressedSpy = jasmine.createSpy()
       instance = domRender(
         <EmbedWrapper
           popoutButtonVisible={() => {}}
           reduxStore={{ getState: () => undefined, subscribe: () => undefined }}
           baseCSS=".base-css-file {}"
+          handleEscapeKeyPressed={handleEscapeKeyPressedSpy}
         >
           <MockChildComponent />
         </EmbedWrapper>
@@ -123,6 +128,10 @@ describe('EmbedWrapper', () => {
           it('calls handleOnCloseFocusChange', () => {
             expect(focusSpy).toHaveBeenCalled()
           })
+
+          it('calls handleEscapeKeyPressed', () => {
+            expect(handleEscapeKeyPressedSpy).toHaveBeenCalled()
+          })
         })
 
         describe('when launcher is focused', () => {
@@ -132,6 +141,10 @@ describe('EmbedWrapper', () => {
 
           it('does not call handleOnCloseFocusChange', () => {
             expect(focusSpy).not.toHaveBeenCalled()
+          })
+
+          it('does not call handleEscapeKeyPressed', () => {
+            expect(handleEscapeKeyPressedSpy).not.toHaveBeenCalled()
           })
         })
       })

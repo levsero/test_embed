@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MemoryRouter } from 'react-router'
+import { connect } from 'react-redux'
 import { FocusJailContainer } from '@zendeskgarden/react-modals'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+
 import WidgetThemeProvider from 'src/components/WidgetThemeProvider'
 import Navigation from 'component/frame/Navigation'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'
 import { focusLauncher, getDocumentHost } from 'utility/globals'
 import { getColor } from 'src/redux/modules/selectors'
+import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 
-export class EmbedWrapper extends Component {
+class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
     customCSS: PropTypes.string,
@@ -23,7 +26,8 @@ export class EmbedWrapper extends Component {
     useBackButton: PropTypes.bool,
     document: PropTypes.object,
     isMobile: PropTypes.bool.isRequired,
-    dataTestId: PropTypes.string
+    dataTestId: PropTypes.string,
+    handleEscapeKeyPressed: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -66,6 +70,7 @@ export class EmbedWrapper extends Component {
 
         if (keyCode === KEY_CODES.ESCAPE) {
           focusLauncher()
+          this.props.handleEscapeKeyPressed()
         }
       }
     }
@@ -123,3 +128,14 @@ export class EmbedWrapper extends Component {
     )
   }
 }
+
+const actionCreators = {
+  handleEscapeKeyPressed
+}
+
+export default connect(
+  null,
+  actionCreators,
+  null,
+  { forwardRef: true }
+)(EmbedWrapper)

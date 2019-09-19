@@ -10,7 +10,8 @@ import {
   TOGGLE_RECEIVED,
   POPOUT_BUTTON_CLICKED,
   UPDATE_ACTIVE_EMBED,
-  SHOW_WIDGET
+  SHOW_WIDGET,
+  ESCAPE_KEY_PRESSED
 } from '../base-action-types'
 import { ZOPIM_SHOW, ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types'
 import {
@@ -43,6 +44,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case CANCEL_BUTTON_CLICKED:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CLOSE_RECEIVED:
+    case ESCAPE_KEY_PRESSED:
       return false
     case TOGGLE_RECEIVED:
       return !state

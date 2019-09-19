@@ -9,7 +9,10 @@ import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 const ChatModal = ({ title, children, onClose, focusOnMount }) => {
   const modalRef = useRef(null)
   const { getBackdropProps, getModalProps, getTitleProps, getContentProps } = useModal({
-    onClose,
+    onClose: e => {
+      e.stopPropagation()
+      onClose()
+    },
     modalRef,
     focusOnMount,
     environment: getWebWidgetFrameContentDocumentBody()
