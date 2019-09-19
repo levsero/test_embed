@@ -292,7 +292,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  font-size: 1.4285714285714286rem;
 }
 
 .c3 {

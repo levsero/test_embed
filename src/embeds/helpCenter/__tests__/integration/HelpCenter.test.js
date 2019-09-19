@@ -7,6 +7,7 @@ import { http } from 'service/transport'
 
 import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
+import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { resetActiveArticle } from 'embeds/helpCenter/actions'
 
 import HelpCenter from '../../index'
@@ -238,6 +239,23 @@ const setupNoResultsMock = () => {
 test('shows no result page when there are no results', () => {
   const { container, getByPlaceholderText, getByText } = renderComponent()
   setupNoResultsMock()
+  const form = container.querySelector('form')
+  const input = getByPlaceholderText('How can we help?')
+
+  fireEvent.change(input, { target: { value: 'Help me' } })
+  fireEvent.submit(form)
+
+  expect(getByText('There are no results for "Help me"')).toBeInTheDocument()
+  expect(getByText('Try searching for something else.')).toBeInTheDocument()
+})
+
+test('renders the expected messages for contextual search', () => {
+  const { getByText, store, container, getByPlaceholderText } = renderComponent()
+  setupNoResultsMock()
+  store.dispatch(setContextualSuggestionsManually({ search: 'blah' }, noop))
+
+  expect(getByText('Enter a term in the search bar above to find articles.')).toBeInTheDocument()
+
   const form = container.querySelector('form')
   const input = getByPlaceholderText('How can we help?')
 

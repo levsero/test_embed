@@ -14,9 +14,7 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: column;
 
-
   ${({ isBottom }) => isBottom && `padding-bottom: ${20 / FONT_SIZE}rem;`}
-  font-size: ${() => (isMobileBrowser() ? `${15 / FONT_SIZE}rem` : `${20 / FONT_SIZE}rem`)};
 `
 
 export const Title = styled.p`
