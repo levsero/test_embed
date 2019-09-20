@@ -181,16 +181,6 @@ export const hideBadgeApi = store => {
   store.dispatch(badgeHideReceived())
 }
 
-export const authenticateApi = jwtFn => {
-  settings.updateSettingsLegacy({
-    authenticate: {
-      chat: {
-        jwtFn
-      }
-    }
-  })
-}
-
 export function trackZopimApis(win) {
   tracker.addToMethod(win.$zopim.livechat, 'getName', '$zopim.livechat.getName')
   tracker.addToMethod(win.$zopim.livechat, 'getEmail', '$zopim.livechat.getEmail')

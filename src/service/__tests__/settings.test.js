@@ -435,45 +435,17 @@ describe('getChatAuthSettings', () => {
   })
 })
 
-describe('updateSettingsLegacy', () => {
-  let mockSettings = {},
-    callbackSpy
-
-  beforeEach(() => {
-    mockSettings.webWidget = {
-      offset: {
-        horizontal: 0
-      }
-    }
-    window.zESettings = mockSettings
+describe('storeChatAuth', () => {
+  it('store chat auth settings', () => {
     settings.init()
+    const jwtFn = jest.fn()
 
-    const newSettings = {
-      offset: {
-        vertical: 0,
-        horizontal: 10,
-        mobile: {
-          vertical: 10,
-          horizontal: 100
-        }
-      }
-    }
+    expect(settings.getChatAuthSettings()).toEqual(null)
 
-    callbackSpy = jest.fn()
+    settings.storeChatAuth(jwtFn)
 
-    settings.updateSettingsLegacy(newSettings, callbackSpy)
-  })
-
-  it('calls callback', () => {
-    expect(callbackSpy).toHaveBeenCalled()
-  })
-
-  it('updates legacy settings object', () => {
-    expect(settings.get('offset.vertical')).toEqual(0)
-    expect(settings.get('offset.horizontal')).toEqual(10)
-    expect(settings.get('offset.mobile')).toEqual({
-      vertical: 10,
-      horizontal: 100
+    expect(settings.getChatAuthSettings()).toEqual({
+      jwtFn
     })
   })
 })
