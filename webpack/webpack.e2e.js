@@ -17,7 +17,7 @@ module.exports = () => {
     },
     devServer: {
       host: '0.0.0.0',
-      port: 5000,
+      port: 5123,
       disableHostCheck: true,
       headers: {
         'Cache-Control': 'no-cache, no-store'

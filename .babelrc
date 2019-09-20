@@ -25,7 +25,7 @@
     "production": {
       "plugins": ["lodash"]
     },
-    "ci": {
+    "e2e": {
       "presets": [
         ["@babel/preset-env", { "targets": { "node": "current" } }],
         "@babel/preset-react"
