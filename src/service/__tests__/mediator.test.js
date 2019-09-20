@@ -34,22 +34,6 @@ describe('.onSetLocale', () => {
   })
 })
 
-describe('.onUpdateSettings', () => {
-  beforeEach(() => {
-    mediator.init()
-
-    c.broadcast('.onUpdateSettings')
-  })
-
-  it('broadcasts webWidget.updateSettings', () => {
-    expect(webWidgetUpdateSettings).toHaveBeenCalled()
-  })
-
-  it('broadcasts launcher.updateSettings', () => {
-    expect(launcherUpdateSettings).toHaveBeenCalled()
-  })
-})
-
 describe('.clear', () => {
   beforeEach(() => {
     mediator.init()

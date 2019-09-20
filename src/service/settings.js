@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { win } from 'utility/globals'
 import { objectDifference } from 'utility/utils'
 import { updateSettings } from 'src/redux/modules/settings'
-import { mediator } from 'service/mediator'
 
 const optionAllowList = {
   webWidget: [

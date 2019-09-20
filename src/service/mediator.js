@@ -74,11 +74,6 @@ function init(store) {
     c.broadcast('webWidget.refreshLocale')
   })
 
-  c.intercept('.onUpdateSettings', () => {
-    c.broadcast('webWidget.updateSettings')
-    c.broadcast(`${launcher}.updateSettings`)
-  })
-
   c.intercept('.show', () => {
     c.broadcast(`${chat}.hide`)
   })
