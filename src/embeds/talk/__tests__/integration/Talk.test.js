@@ -13,7 +13,7 @@ import { TEST_IDS } from 'src/constants/shared/'
 
 jest.mock('service/transport')
 
-const setUpComponent = () => {
+const setUpComponent = (config = {}) => {
   const store = createStore()
 
   store.dispatch(handleTalkVendorLoaded({ libphonenumber: libphonenumber }))
@@ -26,7 +26,8 @@ const setUpComponent = () => {
     phoneNumber: '+61422422249',
     supportedCountries: 'US,AU',
     connected: true,
-    agentAvailability: true
+    agentAvailability: true,
+    ...config
   })
   http.callMeRequest = (__, options) => {
     options.callbacks.done()
@@ -73,8 +74,12 @@ const checkForSuccessMesage = utils => {
   expect(utils.queryByText("We'll get back to you soon.")).toBeInTheDocument()
 }
 
-const checkForPhoneOnlyPage = (utils, { phoneNumber, formattedPhoneNumber, averageWaitTime }) => {
+const checkForPhoneOnlyPage = (utils, props) => {
   expect(utils.queryByTestId(TEST_IDS.TALK_PHONE_ONLY_PAGE)).toBeInTheDocument()
+  checkForPhoneNumber(utils, props)
+}
+
+const checkForPhoneNumber = (utils, { phoneNumber, formattedPhoneNumber, averageWaitTime }) => {
   expect(utils.queryByText(formattedPhoneNumber)).toBeInTheDocument()
   expect(utils.queryByText(`Average wait time: ${averageWaitTime} minutes`)).toBeInTheDocument()
   expect(document.querySelector(`[href="tel:${phoneNumber}"]`)).toBeInTheDocument()
@@ -103,9 +108,7 @@ test('phone only page', () => {
   const formattedPhoneNumber = '+61 412 345 678'
   const averageWaitTime = '10'
 
-  const utils = setUpComponent()
-
-  dispatchUpdateEmbeddableConfig(utils.store, {
+  const utils = setUpComponent({
     phoneNumber,
     averageWaitTime,
     capability: '1',
@@ -118,4 +121,47 @@ test('phone only page', () => {
     formattedPhoneNumber,
     averageWaitTime
   })
+})
+
+test('callback and phone only', () => {
+  const phoneNumber = '+61412345678'
+  const formattedPhoneNumber = '+61 412 345 678'
+  const averageWaitTime = '15'
+
+  const utils = setUpComponent({
+    phoneNumber,
+    averageWaitTime,
+    capability: '2',
+    averageWaitTimeSetting: true,
+    averageWaitTimeEnabled: true
+  })
+
+  checkForPhoneNumber(utils, {
+    phoneNumber,
+    formattedPhoneNumber,
+    averageWaitTime
+  })
+
+  checkForForm(utils)
+
+  submitForm(utils)
+  checkForErrorMessage(utils) // empty phone number error
+
+  updatePhonefield(utils, '12345678')
+  submitForm(utils)
+  checkForErrorMessage(utils) // incorrect phone number error
+
+  updatePhonefield(utils, '+15417543010')
+  checkForFlag(utils)
+  submitForm(utils)
+  checkForSuccessMesage(utils)
+})
+
+test('talk offline page', () => {
+  const { queryByText } = setUpComponent({
+    agentAvailability: false,
+    capability: '0'
+  })
+
+  expect(queryByText('All agents are currently offline. Try again later.')).toBeInTheDocument()
 })
