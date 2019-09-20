@@ -1,6 +1,7 @@
 import zopimApi from '..'
 import * as chatActions from 'src/redux/modules/chat'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as baseActions from 'src/redux/modules/base'
 import * as apis from 'src/service/api/apis'
 
@@ -13,6 +14,7 @@ jest.mock('src/redux/modules/chat', () => ({
   setVisitorInfo: jest.fn()
 }))
 jest.mock('src/redux/modules/chat/chat-selectors')
+jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
   badgeShowReceived: jest.fn(),
@@ -211,10 +213,22 @@ describe('setUpZopimApiMethods', () => {
       })
     })
 
-    test('getDisplay method', () => {
-      mockWin.$zopim.livechat.window.getDisplay()
+    describe('getDisplay method', () => {
+      it('returns true when the widget is visibile', () => {
+        jest.spyOn(baseSelectors, 'getWebWidgetVisible').mockReturnValue(true)
 
-      expect(apis.displayApi).toHaveBeenCalled()
+        const result = mockWin.$zopim.livechat.window.getDisplay()
+
+        expect(result).toEqual(true)
+      })
+
+      it('returns false when the widget not visibile', () => {
+        jest.spyOn(baseSelectors, 'getWebWidgetVisible').mockReturnValue(false)
+
+        const result = mockWin.$zopim.livechat.window.getDisplay()
+
+        expect(result).toEqual(false)
+      })
     })
 
     test('setTitle', () => {
