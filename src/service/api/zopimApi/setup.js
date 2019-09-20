@@ -17,7 +17,6 @@ import {
   toggleApi,
   hideApi,
   showApi,
-  displayApi,
   isChattingApi,
   prefill,
   updatePathApi,
@@ -46,6 +45,7 @@ import {
 import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
+import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
 
 const noop = () => {}
 
@@ -80,7 +80,7 @@ export function setUpZopimApiMethods(win, store) {
           })
         },
         setSize: noop,
-        getDisplay: () => displayApi(store),
+        getDisplay: () => getWebWidgetVisible(store.getState()),
         onHide: callback => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: callback => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: title => updateSettings(store, 'webWidget.chat.title.*', title),
