@@ -23,6 +23,7 @@ exports[`renders the full page 1`] = `
   </div>
   <div
     class="container"
+    data-testid="scroll-container-content"
   >
     <form
       class="c0"

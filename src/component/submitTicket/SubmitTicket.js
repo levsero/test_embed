@@ -27,11 +27,7 @@ import {
   getConfigNameFieldRequired,
   getConfigNameFieldEnabled
 } from 'src/redux/modules/base/base-selectors'
-import {
-  getAttachmentsEnabled,
-  getContactFormTitle,
-  getSelectTicketFormLabel
-} from 'src/redux/modules/selectors'
+import { getAttachmentsEnabled, getContactFormTitle } from 'src/redux/modules/selectors'
 import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actions'
@@ -39,6 +35,7 @@ import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actio
 import classNames from 'classnames'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
+import TicketFormsPage from 'src/embeds/support/pages/TicketFormsPage'
 
 const mapStateToProps = state => {
   return {
@@ -60,7 +57,6 @@ const mapStateToProps = state => {
     attachmentsEnabled: getAttachmentsEnabled(state),
     formTitle: getContactFormTitle(state),
     locale: i18n.getLocale(),
-    selectTicketFormLabel: getSelectTicketFormLabel(state),
     maxFileCount: getMaxFileCount(state),
     maxFileSize: getMaxFileSize(state)
   }
@@ -98,8 +94,7 @@ class SubmitTicket extends Component {
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
     activeTicketFormFields: PropTypes.array,
-    isMobile: PropTypes.bool,
-    selectTicketFormLabel: PropTypes.string.isRequired
+    isMobile: PropTypes.bool
   }
 
   static defaultProps = {
@@ -226,10 +221,8 @@ class SubmitTicket extends Component {
     this.props.handleTicketFormClick(activeTicketForm)
   }
 
-  handleTicketFormsListClick = e => {
-    const ticketFormId = e && e.target.getAttribute('data-id')
-
-    this.setTicketForm(ticketFormId)
+  handleTicketFormsListClick = formId => {
+    this.setTicketForm(formId)
   }
 
   renderLoadingBarContent = () => {
@@ -330,48 +323,6 @@ class SubmitTicket extends Component {
     )
   }
 
-  renderTicketFormOptions = () => {
-    const { ticketForms } = this.props
-    const mobileClasses = this.props.isMobile ? styles.ticketFormsListMobile : ''
-
-    return _.map(ticketForms, (form, key) => {
-      return (
-        <li key={key} className={`${styles.ticketFormsList} ${mobileClasses}`}>
-          <Button link={true} data-id={form.id} onClick={this.handleTicketFormsListClick}>
-            {form.display_name}
-          </Button>
-        </li>
-      )
-    })
-  }
-
-  renderTicketFormList = () => {
-    if (this.props.showNotification) return
-
-    const { fullscreen, isMobile, formTitle, selectTicketFormLabel } = this.props
-    const containerClasses = isMobile
-      ? styles.ticketFormsContainerMobile
-      : styles.ticketFormsContainer
-    const titleMobileClasses = isMobile ? styles.ticketFormsListMobile : ''
-
-    return (
-      <ScrollContainer
-        title={formTitle}
-        ref="ticketFormSelector"
-        fullscreen={fullscreen}
-        isMobile={this.props.isMobile}
-        scrollShadowVisible={true}
-        containerClasses={containerClasses}
-        footerClasses={styles.ticketFormsFooter}
-      >
-        <h2 className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
-          {selectTicketFormLabel}
-        </h2>
-        <ul>{this.renderTicketFormOptions()}</ul>
-      </ScrollContainer>
-    )
-  }
-
   renderZendeskLogo = () => {
     return this.props.hideZendeskLogo ? null : (
       <ZendeskLogo formSuccess={this.props.showNotification} fullscreen={false} />
@@ -385,10 +336,13 @@ class SubmitTicket extends Component {
   }
 
   render = () => {
-    const content =
-      _.isEmpty(this.props.ticketForms) || this.props.activeTicketForm
-        ? this.renderForm()
-        : this.renderTicketFormList()
+    const noFormsOrHasActiveForm = _.isEmpty(this.props.ticketForms) || this.props.activeTicketForm
+
+    if (!this.props.showNotification && !noFormsOrHasActiveForm) {
+      return <TicketFormsPage handleFormOptionClick={this.handleTicketFormsListClick} />
+    }
+
+    const content = noFormsOrHasActiveForm ? this.renderForm() : null
     const display = this.props.loading ? this.renderLoadingBarContent() : content
 
     return (

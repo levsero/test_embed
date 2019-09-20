@@ -159,6 +159,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
     </div>
     <div
       class="container"
+      data-testid="scroll-container-content"
     >
       <div
         class="c2 c3"
@@ -373,6 +374,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
     </div>
     <div
       class="container"
+      data-testid="scroll-container-content"
     >
       <div
         class="c2"
