@@ -1231,6 +1231,11 @@ parts:
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
   - translation:
+      key: 'embeddable_framework.navigation.minimize'
+      title: 'The aria label for the minimize button.'
+      value: 'Minimize widget'
+      screenshot: 'https://drive.google.com/file/d/1RmJhi3P_kSJVVliiMPw_dS3ok4FxkG7T/view?usp=sharing'
+  - translation:
       key: "embeddable_framework.navigation.popout"
       title: "The link to open the embeddable popout window. Displays at the top right of the widget only when the user is not authenticated, is  not on mobile, and is chatting. This string is used by screen readers and will be read out for the visually impaired."
       value: "Popout"
