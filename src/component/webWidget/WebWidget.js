@@ -499,7 +499,7 @@ class WebWidget extends Component {
         : style
 
     return (
-      // data-embed is needed for our intergration tests
+      // data-embed is needed for our integration tests
       <div data-embed={activeEmbed} style={{ height: '100%' }}>
         <Container
           style={containerStyle}

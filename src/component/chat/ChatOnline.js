@@ -41,6 +41,7 @@ import {
 } from 'src/redux/modules/selectors'
 import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
 import { Button } from '@zendeskgarden/react-buttons'
+import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
 
 const mapStateToProps = state => {
@@ -165,6 +166,13 @@ class Chat extends Component {
 
     this.props.updateMenuVisibility(false)
     this.props.updateContactDetailsVisibility(false)
+  }
+
+  onKeyDown = e => {
+    if (e.keyCode === KEY_CODES.ESCAPE && this.props.menuVisible) {
+      e.stopPropagation()
+      this.props.updateMenuVisibility(false)
+    }
   }
 
   showContactDetailsFn = e => {
@@ -448,7 +456,7 @@ class Chat extends Component {
 
   render = () => {
     return (
-      <div className={styles.chat}>
+      <div onKeyDown={this.onKeyDown} role="presentation" className={styles.chat}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}
