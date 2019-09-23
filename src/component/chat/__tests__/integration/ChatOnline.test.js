@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 
 import { dispatchChatAccountSettings } from 'utility/testHelpers'
 import { settings } from 'service/settings'
@@ -29,7 +30,9 @@ const timestamp = () => {
 const renderComponent = () => {
   return render(
     <Provider store={store}>
-      <ChatOnline updateChatBackButtonVisibility={() => {}} />
+      <ThemeProvider>
+        <ChatOnline updateChatBackButtonVisibility={() => {}} />
+      </ThemeProvider>
     </Provider>
   )
 }
@@ -755,40 +758,9 @@ describe('end chat', () => {
 
   it('disables end chat icon when not chatting', () => {
     const { getByTestId } = renderComponent()
-    const endChatButtoNode = getByTestId(TEST_IDS.ICON_END_CHAT).closest('button')
+    const endChatButtonNode = getByTestId(TEST_IDS.ICON_END_CHAT).closest('button')
 
-    expect(endChatButtoNode.classList[1]).toEqual('iconDisabled')
-  })
-
-  it('enables end chat option when chatting', () => {
-    const { getByTestId, getAllByText } = renderComponent()
-    fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
-
-    store.dispatch({
-      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
-      payload: {
-        type: 'chat',
-        detail: {
-          display_name: 'Visitor 123',
-          nick: 'visitor',
-          timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
-    })
-
-    const endChatOptionNode = getAllByText('End chat')[0]
-
-    expect(endChatOptionNode.disabled).toEqual(false)
-  })
-
-  it('disables end chat icon when not chatting', () => {
-    const { getByTestId, getAllByText } = renderComponent()
-    fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
-
-    const endChatOptionNode = getAllByText('End chat')[0]
-
-    expect(endChatOptionNode.disabled).toEqual(true)
+    expect(endChatButtonNode.disabled).toBe(true)
   })
 })
 
@@ -800,12 +772,13 @@ it('opens edit contact details popout', () => {
     }
   })
 
-  const { getByTestId, getByText, getAllByText } = renderComponent()
+  const { getByTestId, getByText } = renderComponent()
 
-  fireEvent.click(getByTestId(TEST_IDS.ICON_ELLIPSIS))
+  fireEvent.click(getByTestId(TEST_IDS.CHAT_MENU))
   fireEvent.click(getByText('Edit contact details'))
+  jest.runAllTimers()
 
-  const editContactDetailsPopoutNode = getAllByText('Edit contact details')[1]
+  const editContactDetailsPopoutNode = getByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)
 
   expect(editContactDetailsPopoutNode).toBeInTheDocument()
 })

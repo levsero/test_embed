@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { locals as styles } from './ChattingFooter.scss'
-import classNames from 'classnames'
 
 import { i18n } from 'service/i18n'
 import { Dropzone } from 'component/Dropzone'
 
-import { IconButton } from '@zendeskgarden/react-buttons'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { TooltipContainer, TooltipView } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
 
 import { ICONS, TEST_IDS } from 'constants/shared'
+import ChatMenu from 'embeds/chat/components/ChatMenu'
+import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 
 export class ChattingFooter extends Component {
   static propTypes = {
@@ -29,8 +29,6 @@ export class ChattingFooter extends Component {
 
   static defaultProps = {
     endChat: () => {},
-    sendChat: () => {},
-    handleAttachmentDrop: () => {},
     isChatting: false,
     menuVisible: false,
     toggleMenu: () => {}
@@ -53,9 +51,6 @@ export class ChattingFooter extends Component {
 
   renderEndChatOption = () => {
     const disabled = !this.props.isChatting
-    const endChatClasses = classNames(styles.iconEndChat, {
-      [styles.iconDisabled]: disabled
-    })
     const altText = i18n.t('embeddable_framework.chat.icon.endChat.hover.label')
 
     return (
@@ -64,18 +59,18 @@ export class ChattingFooter extends Component {
           placement={this.tooltipPlacement()}
           isVisible={disabled ? false : undefined}
           trigger={({ getTriggerProps, ref }) => (
-            <IconButton
+            <FooterIconButton
+              colorType="fill"
               {...getTriggerProps({
                 ref,
                 size: 'small',
-                className: endChatClasses,
                 onClick: this.handleEndChatClick,
                 'aria-label': altText,
                 disabled: disabled
               })}
             >
               <Icon type={ICONS.END_CHAT} />
-            </IconButton>
+            </FooterIconButton>
           )}
         >
           {({ getTooltipProps, placement }) => (
@@ -89,10 +84,6 @@ export class ChattingFooter extends Component {
   renderAttachmentOption = () => {
     if (!this.props.attachmentsEnabled) return null
 
-    const attachmentClasses = classNames(styles.iconAttachment, {
-      [styles.iconAttachmentMobile]: this.props.isMobile
-    })
-
     const altText = i18n.t('embeddable_framework.chat.icon.attachments.hover.label')
 
     return (
@@ -102,17 +93,16 @@ export class ChattingFooter extends Component {
             placement={this.tooltipPlacement()}
             isVisible={this.props.isMobile ? false : undefined}
             trigger={({ getTriggerProps, ref }) => (
-              <IconButton
+              <FooterIconButton
                 {...getTriggerProps({
                   ref,
                   size: 'small',
-                  className: attachmentClasses,
                   'aria-label': altText,
                   'data-testid': TEST_IDS.CHAT_ATTACHMENT_BUTTON
                 })}
               >
                 <Icon type={ICONS.PAPERCLIP_SMALL} />
-              </IconButton>
+              </FooterIconButton>
             )}
           >
             {({ getTooltipProps, placement }) => (
@@ -124,51 +114,16 @@ export class ChattingFooter extends Component {
     )
   }
 
-  renderMenuOption = () => {
-    const menuClasses = classNames(styles.iconMenu, {
-      [styles.iconActive]: this.props.menuVisible
-    })
-
-    const altText = i18n.t('embeddable_framework.chat.icon.menu.hover.label')
-
-    return (
-      <ThemeProvider>
-        <TooltipContainer
-          placement={this.tooltipPlacement()}
-          isVisible={this.props.menuVisible ? false : undefined}
-          trigger={({ getTriggerProps, ref }) => (
-            <IconButton
-              {...getTriggerProps({
-                ref,
-                size: 'small',
-                className: menuClasses,
-                onClick: this.handleMenuClick,
-                'aria-label': altText,
-                'data-testid': TEST_IDS.CHAT_FOOTER_MENU_BUTTONS
-              })}
-            >
-              <Icon type={ICONS.ELLIPSIS} />
-            </IconButton>
-          )}
-        >
-          {({ getTooltipProps, placement }) => (
-            <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
-          )}
-        </TooltipContainer>
-      </ThemeProvider>
-    )
-  }
-
   renderSendChatOption = () => {
     return (
-      <IconButton
-        size="small"
+      <FooterIconButton
+        colorType="fill"
         className={styles.iconSendChatMobile}
         onClick={this.props.sendChat}
         aria-label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
       >
         <Icon type={ICONS.SEND_CHAT} />
-      </IconButton>
+      </FooterIconButton>
     )
   }
 
@@ -179,7 +134,7 @@ export class ChattingFooter extends Component {
         <div className={styles.iconContainer}>
           {this.renderEndChatOption()}
           {this.renderAttachmentOption()}
-          {this.renderMenuOption()}
+          <ChatMenu />
         </div>
       </div>
     )

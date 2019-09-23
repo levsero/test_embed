@@ -51,12 +51,6 @@ class Chat extends Component {
     return this.online ? this.online : this.offline
   }
 
-  onContainerClick = () => {
-    if (!this.props.showOfflineChat) {
-      this.online.onContainerClick()
-    }
-  }
-
   handleDragEnter = () => {
     if (this.online) {
       this.online.handleDragEnter()

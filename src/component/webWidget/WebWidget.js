@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
@@ -65,7 +64,6 @@ const channelChoice = 'channelChoice'
 const talk = 'talk'
 const mobileChatPopup = 'mobileChatPopup'
 const answerBot = 'answerBot'
-const noActiveEmbed = ''
 
 const mapStateToProps = state => {
   return {
@@ -262,15 +260,6 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(false)
     }
-  }
-
-  onContainerClick = () => {
-    const { activeEmbed } = this.props
-    const activeComponent = this.getActiveComponent() || {}
-
-    if (activeEmbed === noActiveEmbed) return
-
-    _.attempt(activeComponent.onContainerClick)
   }
 
   onContainerDragEnter = () => {
@@ -470,7 +459,6 @@ class WebWidget extends Component {
           fullscreen={fullscreen}
           isMobile={isMobile}
           position={position}
-          onClick={this.onContainerClick}
           onDragEnter={this.onContainerDragEnter}
         >
           {this.renderSubmitTicket()}

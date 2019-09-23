@@ -137,35 +137,44 @@ const messageOverrides = isMobile
 
 const getButtonOverrides = colorVariables => {
   return css`
-    height: ${38 / FONT_SIZE}rem !important;
-    font-size: ${isMobile && `${15 / FONT_SIZE}rem`} !important;
-    border-radius: ${props => !props.pill && isMobile && `${4 / FONT_SIZE}rem`} !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    line-height: ${36 / FONT_SIZE}rem !important;
-
-    :not([disabled]) {
-      background-color: ${props =>
-        props.primary ? colorVariables.buttonColorStr : zdColorWhite} !important;
-      color: ${props =>
-        props.primary
-          ? colorVariables.buttonTextColorStr
-          : colorVariables.buttonColorStr} !important;
-      border-color: ${colorVariables.buttonColorStr} !important;
-
-      &:hover,
-      &:focus,
-      &:active {
-        background-color: ${props =>
-          !props.link &&
-          !isMobile &&
-          (props.primary
-            ? colorVariables.buttonHighlightColorStr
-            : colorVariables.buttonColorStr)} !important;
-        color: ${props => !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
+    ${props => {
+      if (props.ignoreThemeOverride) {
+        return ''
       }
-    }
+
+      return css`
+        height: ${38 / FONT_SIZE}rem !important;
+        font-size: ${isMobile && `${15 / FONT_SIZE}rem`} !important;
+        border-radius: ${props => !props.pill && isMobile && `${4 / FONT_SIZE}rem`} !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        line-height: ${36 / FONT_SIZE}rem !important;
+
+        :not([disabled]) {
+          background-color: ${props =>
+            props.primary ? colorVariables.buttonColorStr : zdColorWhite} !important;
+          color: ${props =>
+            props.primary
+              ? colorVariables.buttonTextColorStr
+              : colorVariables.buttonColorStr} !important;
+          border-color: ${colorVariables.buttonColorStr} !important;
+
+          &:hover,
+          &:focus,
+          &:active {
+            background-color: ${props =>
+              !props.link &&
+              !isMobile &&
+              (props.primary
+                ? colorVariables.buttonHighlightColorStr
+                : colorVariables.buttonColorStr)} !important;
+            color: ${props =>
+              !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
+          }
+        }
+      `
+    }}
   `
 }
 

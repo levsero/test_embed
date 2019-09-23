@@ -110,3 +110,4 @@ export const getLatestQuickReplyKey = state => state.chat.chatLog.latestQuickRep
 export const getChatBanned = state => state.chat.chatBanned
 
 export const getHasBackfillCompleted = state => state.chat.chatLogBackfillCompleted
+export const getIsEndChatModalVisible = state => state.chat.endChatModalVisible

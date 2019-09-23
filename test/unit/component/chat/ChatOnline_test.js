@@ -12,7 +12,6 @@ describe('ChatOnline component', () => {
 
   const AGENT_LIST_SCREEN = 'widget/chat/AGENT_LIST_SCREEN'
 
-  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen')
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage')
 
   const AttachmentBox = noopReactComponent('AttachmentBox')
@@ -46,9 +45,7 @@ describe('ChatOnline component', () => {
       'component/button/ButtonPill': {
         ButtonPill
       },
-      'component/chat/ChatMenu': {
-        ChatMenu: ChatMenu
-      },
+      'embeds/chat/components/ChatMenu': ChatMenu,
       'component/container/Container': {
         Container: noopReactComponent()
       },
@@ -75,7 +72,6 @@ describe('ChatOnline component', () => {
         sendMsg: noop,
         handleChatBoxChange: noop,
         editContactDetailsSubmitted: noop,
-        updateChatScreen: updateChatScreenSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/selectors': {
@@ -120,46 +116,6 @@ describe('ChatOnline component', () => {
   afterEach(() => {
     mockery.deregisterAll()
     mockery.disable()
-
-    updateChatScreenSpy.calls.reset()
-  })
-
-  describe('onContainerClick', () => {
-    let component,
-      updateMenuVisibilitySpy,
-      updateContactDetailsVisibilitySpy,
-      updateEmailTranscriptVisibilitySpy
-
-    beforeEach(() => {
-      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
-      updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
-      updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility')
-
-      component = instanceRender(
-        <ChatOnline
-          updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-          updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
-          updateMenuVisibility={updateMenuVisibilitySpy}
-        />
-      )
-      component.onContainerClick()
-    })
-
-    it('should set the correct state', () => {
-      expect(component.state).toEqual(
-        jasmine.objectContaining({
-          showEndChatMenu: false
-        })
-      )
-    })
-
-    it('calls updateContactDetailsVisibility with false', () => {
-      expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(false)
-    })
-
-    it('calls updateMenuVisibility with false', () => {
-      expect(updateMenuVisibilitySpy).toHaveBeenCalledWith(false)
-    })
   })
 
   describe('componentDidMount', () => {
@@ -297,154 +253,14 @@ describe('ChatOnline component', () => {
     })
   })
 
-  describe('renderChatMenu', () => {
-    let component,
-      mockEvent,
-      mockUserSoundSettings,
-      updateContactDetailsVisibilitySpy,
-      updateEmailTranscriptVisibilitySpy,
-      handleSoundIconClickSpy
-
-    describe('when method is called', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline />)
-      })
-
-      it('returns a ChatMenu component', () => {
-        expect(TestUtils.isElementOfType(component.renderChatMenu(), ChatMenu)).toEqual(true)
-      })
-    })
-
-    describe('when prop.menuVisible is false', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline menuVisible={false} />)
-      })
-
-      it('passes false to its popup components show prop', () => {
-        expect(component.renderChatMenu().props.show).toBe(false)
-      })
-    })
-
-    describe('when prop.menuVisible is true', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline menuVisible={true} />)
-      })
-
-      it('passes true to its popup components show prop', () => {
-        expect(component.renderChatMenu().props.show).toBe(true)
-      })
-    })
-
-    describe('when prop.endChatOnClick is called', () => {
-      let updateMenuVisibilitySpy
-
-      beforeEach(() => {
-        updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility')
-        component = instanceRender(<ChatOnline updateMenuVisibility={updateMenuVisibilitySpy} />)
-
-        spyOn(component, 'setState')
-
-        const chatMenu = component.renderChatMenu()
-
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
-        chatMenu.props.endChatOnClick(mockEvent)
-      })
-
-      it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation).toHaveBeenCalled()
-      })
-
-      it('calls updateMenuVisibility', () => {
-        expect(updateMenuVisibilitySpy).toHaveBeenCalledWith(false)
-      })
-
-      it('calls setState with expected arguments', () => {
-        const expected = {
-          showEndChatMenu: true
-        }
-
-        expect(component.setState).toHaveBeenCalledWith(jasmine.objectContaining(expected))
-      })
-    })
-
-    describe('when prop.contactDetailsOnClick is called', () => {
-      beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
-        component = instanceRender(
-          <ChatOnline updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
-        )
-
-        const chatMenu = component.renderChatMenu()
-
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
-        chatMenu.props.contactDetailsOnClick(mockEvent)
-      })
-
-      it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation).toHaveBeenCalled()
-      })
-
-      it('calls updateContactDetailsVisibility with true', () => {
-        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-    })
-
-    describe('when prop.emailTranscriptOnClick is called', () => {
-      beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
-
-        component = instanceRender(
-          <ChatOnline updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />
-        )
-
-        spyOn(component, 'setState')
-
-        const chatMenu = component.renderChatMenu()
-
-        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') }
-        chatMenu.props.emailTranscriptOnClick(mockEvent)
-      })
-
-      it('calls stopPropagation on event', () => {
-        expect(mockEvent.stopPropagation).toHaveBeenCalled()
-      })
-
-      it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-    })
-
-    describe('when prop.onSoundClick is called', () => {
-      beforeEach(() => {
-        mockUserSoundSettings = false
-        handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick')
-        component = instanceRender(
-          <ChatOnline
-            userSoundSettings={mockUserSoundSettings}
-            handleSoundIconClick={handleSoundIconClickSpy}
-          />
-        )
-
-        const chatMenu = component.renderChatMenu()
-
-        chatMenu.props.onSoundClick()
-      })
-
-      it('calls handleSoundIconClick with expected arguments', () => {
-        const expected = { sound: !mockUserSoundSettings }
-
-        expect(handleSoundIconClickSpy).toHaveBeenCalledWith(jasmine.objectContaining(expected))
-      })
-    })
-  })
-
   describe('renderChatEndPopup', () => {
     let component
 
     describe('when the notification should be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOnline chat={{ rating: null }} />)
-        component.setState({ showEndChatMenu: true })
+        component = instanceRender(
+          <ChatOnline chat={{ rating: null }} endChatModalVisible={true} />
+        )
       })
 
       it('renders the component', () => {
@@ -906,32 +722,6 @@ describe('ChatOnline component', () => {
 
     afterEach(() => {
       jasmine.clock().uninstall()
-    })
-
-    describe('when menuVisibile is false', () => {
-      beforeAll(() => {
-        menuVisible = false
-      })
-
-      describe('when keypress param is true', () => {
-        beforeAll(() => {
-          keypress = true
-        })
-
-        it('calls focus on the menu', () => {
-          expect(focusSpy).toHaveBeenCalled()
-        })
-      })
-
-      describe('when keypress param is false', () => {
-        beforeAll(() => {
-          keypress = false
-        })
-
-        it('does not call focus on the menu', () => {
-          expect(focusSpy).not.toHaveBeenCalled()
-        })
-      })
     })
 
     describe('when menuVisibile is true', () => {

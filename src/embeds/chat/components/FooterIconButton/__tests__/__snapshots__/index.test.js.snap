@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FooterIconButton renders 1`] = `
+.c0 {
+  width: auto !important;
+  height: auto !important;
+}
+
+.c0 svg {
+  box-sizing: content-box;
+  padding: 0.35714285714285715rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  width: 1rem;
+  height: 1rem;
+  color: #68737d;
+}
+
+.c0 svg g,
+.c0 svg path {
+  stroke: #68737d !important;
+}
+
+.c0:not(:disabled):hover,
+.c0:not(:disabled):active,
+.c0:not(:disabled):focus {
+  background: #d8dcde !important;
+}
+
+.c0:not(:disabled):hover svg > g,
+.c0:not(:disabled):active svg > g,
+.c0:not(:disabled):focus svg > g,
+.c0:not(:disabled):hover path,
+.c0:not(:disabled):active path,
+.c0:not(:disabled):focus path {
+  stroke: #2f3941 !important;
+}
+
+.c0:disabled svg g {
+  fill: #c2c8cc !important;
+}
+
+<button
+  class="index__c-btn--icon___1Yl4x c0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+  data-garden-id="buttons.icon_button"
+  data-garden-version="6.4.4"
+  tabindex="0"
+  type="button"
+>
+  <svg>
+    <path />
+  </svg>
+</button>
+`;

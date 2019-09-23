@@ -26,6 +26,7 @@ import {
 } from 'src/redux/modules/base/base-actions'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
+import ChatMenu from 'embeds/chat/components/ChatMenu'
 
 const mapStateToProps = state => {
   return {
@@ -158,13 +159,15 @@ export class Navigation extends Component {
     const { useMenu, backButtonVisible, useBackButton, handleBackClick, isMobile } = this.props
 
     if (isMobile && useMenu) {
-      return this.renderNavButton({
-        onClick: this.handleMenuClick,
-        icon: ICONS.MENU,
-        position: 'left',
-        'aria-label': i18n.t('embeddable_framework.navigation.menu'),
-        isVisible: !this.props.hideNavigationButtons
-      })
+      if (this.props.hideNavigationButtons) {
+        return null
+      }
+
+      return (
+        <div style={{ position: 'absolute', zIndex: 5 }}>
+          <ChatMenu onBackClick={handleBackClick} />
+        </div>
+      )
     } else {
       return this.renderNavButton({
         onClick: handleBackClick,
