@@ -6,7 +6,6 @@ import createStore from 'src/redux/createStore'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchPromptPage, { Component } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
-import 'jest-styled-components'
 
 jest.mock('service/transport')
 

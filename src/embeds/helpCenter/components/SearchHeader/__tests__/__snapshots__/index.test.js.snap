@@ -1,14 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on desktop 1`] = `
-.c1 {
-  display: block;
-}
-
-.c0 {
-  margin-bottom: 0;
-}
-
 <div>
   <div
     class="header"
@@ -23,17 +15,17 @@ exports[`renders correctly on desktop 1`] = `
       class="form"
     >
       <form
-        class="c0"
+        class="form"
         novalidate=""
       >
         <div
           aria-invalid="false"
-          class="desktopContainer -div text__c-txt__input___38pRd "
+          class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
           data-garden-id="forms.faux_input"
           data-garden-version="6.4.4"
         >
           <label
-            class="label text__c-txt__label___3wMPZ c1"
+            class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
             data-garden-id="forms.text_label"
             data-garden-version="6.4.4"
             for="garden-field-container-0--input"
@@ -46,7 +38,7 @@ exports[`renders correctly on desktop 1`] = `
             aria-invalid="false"
             aria-labelledby="garden-field-container-0--label"
             autocapitalize="off"
-            class="searchInput text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV "
+            class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
             data-garden-id="forms.input"
             data-garden-version="6.4.4"
             data-testid="search-field"

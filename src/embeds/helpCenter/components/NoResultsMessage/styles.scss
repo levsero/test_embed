@@ -1,0 +1,29 @@
+@import 'src/styles/_vars.scss';
+
+.noResults {
+  text-align: center !important;
+  color: $zd-color-grey-800;
+  font-size: #{15 / $font-size}rem;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.noResultsMobile {
+  font-size: $font-size-mobile;
+}
+
+.noResultsParagraph {
+  color: $zd-color-grey-600;
+}
+
+.noResultsParagraphDesktop {
+  margin-bottom: #{20 / $font-size} !important;
+}
+
+.title {
+  margin-bottom: 0 !important;
+  margin-top: #{20 / $font-size} !important;
+}
