@@ -46,7 +46,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
     style="opacity: 1; bottom: 10px;"
   >
     <div
-      class="field"
+      class="sc-bdVaJa chbGzG"
     >
       <div
         aria-expanded="false"
@@ -145,6 +145,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       </div>
       <input
         class="u-isHidden"
+        data-testid="dropdown-selected-value"
         name="10006"
         required=""
         value=""
@@ -163,7 +164,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
     style="opacity: 1; bottom: 10px;"
   >
     <div
-      class="field"
+      class="sc-bdVaJa chbGzG"
     >
       <div
         aria-expanded="false"
@@ -262,6 +263,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       </div>
       <input
         class="u-isHidden"
+        data-testid="dropdown-selected-value"
         name="22666574"
         required=""
         value=""
