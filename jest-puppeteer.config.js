@@ -1,6 +1,7 @@
 module.exports = {
   rootDir: './e2e',
+  preset: 'jest-puppeteer',
   globalSetup: './puppeteer.setup.js',
   globalTeardown: './puppeteer.teardown.js',
-  testEnvironment: './puppeteer-environment.js'
+  setupFilesAfterEnv: ['./setup.js']
 }

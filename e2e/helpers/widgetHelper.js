@@ -3,10 +3,6 @@ import { queries } from 'pptr-testing-library'
 import { TEST_IDS } from '../../src/constants/shared'
 
 export default class WidgetHelper {
-  launcherFrame
-  widgetFrame
-  launcher
-
   constructor(page) {
     this.page = page
     this.launcherFrame = this.findFrameInPage('launcher')
@@ -14,14 +10,12 @@ export default class WidgetHelper {
   }
 
   findFrameInPage(frameName) {
-    let foundFrame
-
     for (const frame of this.page.mainFrame().childFrames()) {
       if (frame.name().includes(frameName)) {
-        foundFrame = frame
+        return frame
       }
     }
-    return foundFrame
+    return null
   }
 
   async getDocumentHandle(iframe) {
@@ -36,5 +30,12 @@ export default class WidgetHelper {
     const launcherButton = await queries.getByTestId(launcher, TEST_IDS.LAUNCHER_LABEL)
 
     await launcherButton.click()
+  }
+
+  async clickWidgetClose() {
+    const widget = await this.getDocumentHandle(this.widgetFrame)
+    const closeButton = await queries.getByTestId(widget, TEST_IDS.ICON_DASH)
+
+    await closeButton.click()
   }
 }

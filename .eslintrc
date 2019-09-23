@@ -29,7 +29,13 @@
     "webdriverio": true,
     "Component": true,
     "mount": true,
-    "noop": true
+    "noop": true,
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true,
+    "zE": true,
+    "$zopim": true
   },
   "rules": {
     "no-var": 0,

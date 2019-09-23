@@ -1,4 +1,7 @@
-module.exports = async function() {
-  // Close the puppeteer browser instance in Jest Test Environment
-  await global.__BROWSER_GLOBAL__.close()
+const { teardown: teardownDevServer } = require('jest-dev-server')
+const { teardown: teardownPuppeteer } = require('jest-environment-puppeteer')
+
+module.exports = async function globalTeardown(globalConfig) {
+  await teardownPuppeteer(globalConfig)
+  await teardownDevServer()
 }

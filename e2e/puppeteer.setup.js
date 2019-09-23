@@ -1,9 +1,13 @@
-const puppeteer = require('puppeteer')
+const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
+const { setup: setupDevServer } = require('jest-dev-server')
 
-// Jest environment setup, store Puppeteer browser instance in Jest global
-// This global is not accessible in the test suite.
-module.exports = async function() {
-  const browser = await puppeteer.launch({ headless: true, devtools: false })
-
-  global.__BROWSER_GLOBAL__ = browser
+module.exports = async function globalSetup(globalConfig) {
+  await setupPuppeteer(globalConfig)
+  await setupDevServer({
+    command: 'npm run e2e:server',
+    usedPortAction: 'error',
+    launchTimeout: 15000,
+    host: '0.0.0.0',
+    port: 5123
+  })
 }
