@@ -16,15 +16,11 @@ export const Container = styled.div`
 
   ${isMobileBrowser() &&
     `
- font-size: #{16 / $font-size}rem;
- `}
+      font-size: ${16 / FONT_SIZE}rem;
+    `}
 `
 
 export const Content = styled.p`
   margin-bottom: ${40 / FONT_SIZE}rem !important;
-  line-height: ${18 / FONT_SIZE}rem;
-  ${isMobileBrowser() &&
-    `
-   line-height: ${22 / FONT_SIZE}rem;
- `}
+  line-height: ${() => (isMobileBrowser() ? `${18 / FONT_SIZE}` : `${22 / FONT_SIZE}`)}rem;
 `
