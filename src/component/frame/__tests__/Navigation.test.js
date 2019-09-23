@@ -122,16 +122,16 @@ describe('menu button', () => {
   })
 })
 
-test('can hide the close button', () => {
+test('can hide the minimize button', () => {
   const { container } = renderComponent({ hideNavigationButtons: true })
 
-  expect(container.querySelector('button[aria-label=Close]')).not.toBeInTheDocument()
+  expect(container.querySelector('button[aria-label=Minimize]')).not.toBeInTheDocument()
 })
 
-test('renders the close button by default', () => {
+test('renders the minimize button by default', () => {
   const { container } = renderComponent()
 
-  expect(container.querySelector('button[aria-label=Close]')).toBeInTheDocument()
+  expect(container.querySelector('button[aria-label=Minimize]')).toBeInTheDocument()
 })
 
 describe('popout button', () => {

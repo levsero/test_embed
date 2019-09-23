@@ -32,7 +32,7 @@ exports[`rendering with default props renders correctly 1`] = `
       class="container"
     >
       <button
-        aria-label="Close"
+        aria-label="Minimize"
         class="
       button
       desktop

@@ -200,7 +200,7 @@ export class Navigation extends Component {
         })}
         {this.renderNavButton({
           onClick: this.handleCloseClick,
-          'aria-label': i18n.t('embeddable_framework.navigation.close'),
+          'aria-label': i18n.t('embeddable_framework.navigation.minimize'),
           icon: ICONS.DASH,
           position: 'right',
           isVisible: !hideNavigationButtons && (!fullscreen || isMobile)
