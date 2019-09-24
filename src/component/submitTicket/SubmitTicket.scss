@@ -1,6 +1,66 @@
 @import '../../styles/_vars.scss';
+
+.ticketFormsList {
+  composes: u-userTextDecorationColor u-userTextColor u-borderBottom u-isActionable u-paddingHN from global;
+  padding-top: #{18 / $font-size}rem;
+  padding-bottom: #{18 / $font-size}rem;
+  line-height: #{18 / $font-size};
+  list-style: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+  }
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.ticketFormsListMobile {
+  composes: u-paddingHL from global;
+  padding-top: #{24 / $font-size}rem;
+  padding-bottom: #{24 / $font-size}rem;
+  font-size: $font-size-mobile;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: $zd-color-snow;
+  }
+}
+
+.ticketFormsListTitle {
+  composes: u-borderBottom u-textBold u-paddingHN from global;
+  padding-top: #{16 / $font-size}rem;
+  padding-bottom: #{16 / $font-size}rem;
+  color: $zd-color-grey-800;
+  font-size: #{14 / $font-size}rem;
+}
+
 .ticketFormsContainer {
   composes: u-paddingTN u-posRelative from global;
+}
+
+.ticketFormsFooter {
+  height: #{36 / $font-size}rem;
+  min-height: #{36 / $font-size}rem;
+}
+
+.ticketFormsContainerMobile {
+  composes: u-paddingHN u-paddingTN from global;
+
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.notify {
+  composes: u-textCenter from global;
+}
+
+.notifyIcon {
+  composes: u-inlineBlock u-posRelative u-marginTL from global;
 }
 
 .error {
@@ -8,6 +68,11 @@
   background-position: #{14 / $font-size}rem #{14 / $font-size}rem;
   padding: #{12 / $font-size}rem;
   padding-left: #{40 / $font-size}rem;
+}
+
+.errorIcon {
+  composes: ErrorIcon from '../../styles/components/Error.scss';
+  margin-right: #{12 / $font-size}rem;
 }
 
 .loadingBarContentContainer {
