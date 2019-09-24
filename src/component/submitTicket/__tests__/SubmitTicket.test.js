@@ -1,8 +1,6 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import snapshotDiff from 'snapshot-diff'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 
 import { IdManager } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'src/constants/shared'
@@ -37,12 +35,7 @@ const submitTicket = props => {
   }
   const mergedProps = { ...defaultProps, ...props }
   IdManager.setIdCounter(0)
-
-  return (
-    <Provider store={createStore()}>
-      <SubmitTicket {...mergedProps} />
-    </Provider>
-  )
+  return <SubmitTicket {...mergedProps} />
 }
 
 test('renders the expected components', () => {
@@ -56,25 +49,6 @@ test('renders the expected components in mobile mode', () => {
   const desktop = renderComponent()
 
   expect(snapshotDiff(desktop.container, container, { contextLines: 2 })).toMatchSnapshot()
-})
-
-describe('ticket forms list ', () => {
-  it('renders ticket forms page', () => {
-    const ticketForms = [
-      { id: 1, display_name: 'Form One' },
-      { id: 2, display_name: 'Form Two' },
-      { id: 3, display_name: 'Form Three' }
-    ]
-
-    const { queryByText } = renderComponent({
-      showNotification: false,
-      ticketForms,
-      activeTicketForm: null
-    })
-
-    expect(queryByText('Please select your issue')).toBeInTheDocument()
-    expect(queryByText('Leave us a message')).toBeInTheDocument()
-  })
 })
 
 describe('active ticket form', () => {
@@ -113,6 +87,36 @@ describe('active ticket form', () => {
     })
 
     expect(snapshotDiff(desktop.container, container, { contextLines: 2 })).toMatchSnapshot()
+  })
+})
+
+describe('ticket form list', () => {
+  const ticketForms = [
+    { id: 1, display_name: 'Form One' },
+    { id: 2, display_name: 'Form Two' },
+    { id: 3, display_name: 'Form Three' }
+  ]
+
+  it('renders the list of ticket forms', () => {
+    const { queryByText } = renderComponent({ ticketForms, selectTicketFormLabel: 'select me' })
+    expect(queryByText('Form One')).toBeInTheDocument()
+    expect(queryByText('Form Two')).toBeInTheDocument()
+    expect(queryByText('Form Three')).toBeInTheDocument()
+    expect(queryByText('select me')).toBeInTheDocument()
+  })
+
+  it('fires the expected actions', () => {
+    const handleTicketFormClick = jest.fn(),
+      showBackButton = jest.fn()
+    const { getByText } = renderComponent({
+      ticketFormsAvailable: true,
+      ticketForms,
+      showBackButton,
+      handleTicketFormClick
+    })
+    fireEvent.click(getByText('Form Three'))
+    expect(showBackButton).toHaveBeenCalled()
+    expect(handleTicketFormClick).toHaveBeenCalledWith({ id: 3, display_name: 'Form Three' })
   })
 })
 
