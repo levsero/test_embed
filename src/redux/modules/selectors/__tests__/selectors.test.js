@@ -726,14 +726,12 @@ describe('getShowChatBadgeLauncher', () => {
   beforeEach(() => {
     jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
     jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(true)
-    jest.spyOn(chatSelectors, 'getIsChatting').mockReturnValue(false)
     jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
   })
 
   afterEach(() => {
     devices.isMobileBrowser.mockRestore()
     zopimChatSelectors.getZopimChatOnline.mockRestore()
-    chatSelectors.getIsChatting.mockRestore()
     chatReselectors.getShowOfflineChat.mockRestore()
   })
 
@@ -793,12 +791,8 @@ describe('getShowChatBadgeLauncher', () => {
       expect(result).toEqual(false)
     })
 
-    it('is chatting', () => {
-      result = selectors.getShowChatBadgeLauncher(
-        getModifiedState({
-          chat: { is_chatting: true }
-        })
-      )
+    it('has shown widget', () => {
+      result = selectors.getShowChatBadgeLauncher(getModifiedState({ base: { widgetShown: true } }))
 
       expect(result).toEqual(false)
     })
@@ -1219,7 +1213,8 @@ const stateLauncherColorSettings = (color, cp4Enabled = false) => {
           enabled: true
         },
         rating: {}
-      }
+      },
+      chats: new Map([])
     }
   })
 }

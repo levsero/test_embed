@@ -157,7 +157,7 @@ describe('base selectors', () => {
     })
   })
 
-  describe('getUserMinimizedChatBadge', () => {
+  describe('getIsChatBadgeMinimized', () => {
     let result
     const mockState = {
       base: {
@@ -166,7 +166,7 @@ describe('base selectors', () => {
     }
 
     beforeEach(() => {
-      result = selectors.getUserMinimizedChatBadge(mockState)
+      result = selectors.getIsChatBadgeMinimized(mockState)
     })
 
     it('returns the value of isChatBadgeMinimized', () => {

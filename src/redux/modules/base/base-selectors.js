@@ -19,7 +19,7 @@ export const getBootupTimeout = state => state.base.bootupTimeout
 export const getWebWidgetVisible = state => state.base.webWidgetVisible
 export const getLauncherVisible = state => state.base.launcherVisible
 export const getLocale = state => state.base.locale
-export const getUserMinimizedChatBadge = state => state.base.isChatBadgeMinimized
+export const getIsChatBadgeMinimized = state => state.base.isChatBadgeMinimized
 export const getAfterWidgetShowAnimation = state => state.base.afterWidgetShowAnimation
 export const getChatConfig = state => state.base.embeddableConfig.embeds.zopimChat
 export const getTalkConfig = state => state.base.embeddableConfig.embeds.talk
