@@ -370,11 +370,11 @@ None
 
 `zE('webWidget:on', 'chat:popout', callback<function>);`
 
-Registers a callback to be performed when the chat popout window is opened.
+Registers a callback to be performed when a chat pop-out window is opened.
 
 ##### Parameters
 
-- `callback`: Function. The callback to perform on chat popout messages.
+- `callback`: Function. The callback to perform when a chat pop-out window is opened.
 
 ##### Example
 
