@@ -22,7 +22,7 @@ describe('Help center smoke test', () => {
     await page.keyboard.type('welcome')
     await wait(async () => {
       const searchFieldValue = await helpCenterSearchInput.getProperty('value')
-      expect(await searchFieldValue.jsonValue()).toBe('welcome')
+      expect(await searchFieldValue.jsonValue()).toEqual('welcome')
     })
 
     page.keyboard.press('Enter')

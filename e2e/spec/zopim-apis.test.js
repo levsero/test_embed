@@ -14,7 +14,7 @@ test('$zopim.livechat.window.getDisplay()', async () => {
 test('$zopim.livechat.window.toggle()', async () => {
   await page.evaluate(() => $zopim.livechat.window.toggle())
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
   await page.waitForSelector('iframe#webWidget', {
     visible: true
@@ -24,47 +24,37 @@ test('$zopim.livechat.window.toggle()', async () => {
     visible: true
   })
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
+    hidden: true
   })
 })
 
 test('$zopim.livechat.window.hide()', async () => {
   await page.evaluate(() => $zopim.livechat.window.hide())
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
-  })
-})
-
-test('$zopim.livechat.badge.hide()', async () => {
-  await page.evaluate(() => $zopim.livechat.badge.hide())
-  await page.waitForSelector('iframe#launcher', {
-    visible: false
-  })
-  await page.waitForSelector('iframe#webWidget', {
-    visible: false
+    hidden: true
   })
 })
 
 test('$zopim.livechat.button.hide()', async () => {
   await page.evaluate(() => $zopim.livechat.button.hide())
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
+    hidden: true
   })
 })
 
 test('$zopim.livechat.hideAll()', async () => {
   await page.evaluate(() => $zopim.livechat.hideAll())
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
+    hidden: true
   })
 })
 
@@ -75,30 +65,7 @@ test('$zopim.livechat.button.show()', async () => {
     visible: true
   })
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
-  })
-})
-
-describe('$zopim.livechat.window.show()', () => {
-  test('initially launcher', async () => {
-    await page.evaluate(() => $zopim.livechat.window.show())
-    await page.waitForSelector('iframe#launcher', {
-      visible: false
-    })
-    await page.waitForSelector('iframe#webWidget', {
-      visible: true
-    })
-  })
-
-  test('initially hidden', async () => {
-    await page.evaluate(() => $zopim.livechat.window.hide())
-    await page.evaluate(() => $zopim.livechat.window.show())
-    await page.waitForSelector('iframe#launcher', {
-      visible: false
-    })
-    await page.waitForSelector('iframe#webWidget', {
-      visible: true
-    })
+    hidden: true
   })
 })
 
@@ -131,4 +98,27 @@ test('$zopim.livechat.window.onHide(cb)', async () => {
   await widgetHelper.clickWidgetClose()
   const result = await page.evaluate(() => window.onCloseCalled)
   expect(result).toEqual(true)
+})
+
+describe('$zopim.livechat.window.show()', () => {
+  test('initially launcher', async () => {
+    await page.evaluate(() => $zopim.livechat.window.show())
+    await page.waitForSelector('iframe#webWidget', {
+      visible: true
+    })
+    await page.waitForSelector('iframe#launcher', {
+      hidden: true
+    })
+  })
+
+  test('initially hidden', async () => {
+    await page.evaluate(() => $zopim.livechat.window.hide())
+    await page.evaluate(() => $zopim.livechat.window.show())
+    await page.waitForSelector('iframe#webWidget', {
+      visible: true
+    })
+    await page.waitForSelector('iframe#launcher', {
+      hidden: true
+    })
+  })
 })

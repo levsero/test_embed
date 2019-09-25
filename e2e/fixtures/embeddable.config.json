@@ -18,6 +18,13 @@
       "props": {
         "color": "#1F73B7"
       }
+    },
+    "zopimChat": {
+      "embed": "chat",
+      "props": {
+        "color": "#1F73B7",
+        "zopimId": "P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA"
+      }
     }
   }
 }
