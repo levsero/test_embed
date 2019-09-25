@@ -632,7 +632,7 @@ export const getHideZendeskLogo = state => {
 }
 
 export const getAttachmentsEnabled = state => {
-  return getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state)
+  return Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
 }
 
 export const getTalkServiceUrl = createSelector(

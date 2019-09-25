@@ -57,11 +57,10 @@ API:
       Attachments: # zESettings.webWidget.contactForm.attachments => boolean
         When not set:
           - The attachment drop zone is visible
-        When set to false:
+        When set to a falsy value:
           - The attachment drop zone is invisible
-        When set to any other value:
+        When set to truthy value:
           - The attachment drop zone is visible
-          - It does not throw errors # not happening atm. React proptypes errors in console.
 
     Offset: # zESettings.webWidget.offset => { horizontal: 'XXXpx', vertical: 'YYYpx' }
       When valid pixel values are set:
