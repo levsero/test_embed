@@ -41,9 +41,9 @@ API:
       When a supported locale string is passed:
         - It immediately over-rides the current locale with the new value
       When an unsupported locale string is passed:
-        - It does nothing ### This is not happening atm. It's falling back to en-US, even if the browser is set to some other locale
+        - It falls back to en-US
       When no argument is passed:
-        - It does nothing ### This is not happening atm. It's falling back to en-US
+        - It does nothing
 
   Settings:
     Color: # zESettings.webWidget.color.theme => hex<string>
