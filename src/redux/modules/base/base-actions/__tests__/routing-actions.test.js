@@ -8,6 +8,7 @@ import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as zopimChat from 'embed/chat/chat'
 import * as scrollHacks from 'utility/scrollHacks'
 import * as devices from 'utility/devices'
+import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
@@ -16,6 +17,7 @@ jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('embed/chat/chat')
 jest.mock('utility/scrollHacks')
 jest.mock('utility/devices')
+jest.mock('embeds/helpCenter/selectors')
 
 const mockState = {
   base: {
@@ -35,6 +37,95 @@ const dispatchAction = action => {
 
   return store.getActions()
 }
+
+describe('onCancelClick', () => {
+  const setEmbedAvailability = ({
+    answerBotAvailable = true,
+    helpCenterAvailable = true,
+    channelChoiceAvailable = true
+  }) => {
+    jest.spyOn(selectors, 'getAnswerBotAvailable').mockReturnValue(answerBotAvailable)
+    jest.spyOn(selectors, 'getHelpCenterAvailable').mockReturnValue(helpCenterAvailable)
+    jest.spyOn(selectors, 'getChannelChoiceAvailable').mockReturnValue(channelChoiceAvailable)
+  }
+
+  describe('when answerbot is available', () => {
+    it('updates active embed to Answerbot and hides back button', () => {
+      setEmbedAvailability({ answerBotAvailable: true })
+      const dispatchedActions = dispatchAction(actions.onCancelClick())
+
+      expect(dispatchedActions).toEqual([
+        {
+          type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+          payload: false
+        },
+        {
+          type: actionTypes.UPDATE_ACTIVE_EMBED,
+          payload: 'answerBot'
+        }
+      ])
+    })
+  })
+
+  describe('when help center is available', () => {
+    it('updates active embed to HelpCenter and shows back button', () => {
+      setEmbedAvailability({ answerBotAvailable: false, helpCenterAvailable: true })
+      jest.spyOn(helpCenterSelectors, 'getArticleViewActive').mockReturnValue(true)
+
+      const dispatchedActions = dispatchAction(actions.onCancelClick())
+
+      expect(dispatchedActions).toEqual([
+        {
+          type: actionTypes.UPDATE_ACTIVE_EMBED,
+          payload: 'helpCenterForm'
+        },
+        {
+          type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+          payload: true
+        }
+      ])
+    })
+  })
+
+  describe('when channel choice is available', () => {
+    it('updates active embed to ChannelChoice and hides back button', () => {
+      setEmbedAvailability({
+        answerBotAvailable: false,
+        helpCenterAvailable: false,
+        channelChoiceAvailable: true
+      })
+      const dispatchedActions = dispatchAction(actions.onCancelClick())
+
+      expect(dispatchedActions).toEqual([
+        {
+          type: actionTypes.UPDATE_ACTIVE_EMBED,
+          payload: 'channelChoice'
+        },
+        {
+          type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+          payload: false
+        }
+      ])
+    })
+  })
+
+  describe('when no embed is available', () => {
+    it('dispatches CANCEL_BUTTON_CLICKED', () => {
+      setEmbedAvailability({
+        channelChoiceAvailable: false,
+        answerBotAvailable: false,
+        helpCenterAvailable: false
+      })
+      const dispatchedActions = dispatchAction(actions.onCancelClick())
+
+      expect(dispatchedActions).toEqual([
+        {
+          type: actionTypes.CANCEL_BUTTON_CLICKED
+        }
+      ])
+    })
+  })
+})
 
 describe('updateActiveEmbed', () => {
   it('dispatches an action of type UPDATE_ACTIVE_EMBED with the payload', () => {

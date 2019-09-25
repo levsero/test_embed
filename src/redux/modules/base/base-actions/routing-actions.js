@@ -2,11 +2,14 @@ import * as actions from './../base-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { isMobileBrowser } from 'utility/devices'
 import { updateChatScreen } from 'src/redux/modules/chat'
+import { cancelButtonClicked } from './base-actions'
+import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import {
-  getChatAvailable,
-  getTalkOnline,
+  getChannelChoiceAvailable,
+  getAnswerBotAvailable,
   getHelpCenterAvailable,
-  getChannelChoiceAvailable
+  getChatAvailable,
+  getTalkOnline
 } from 'src/redux/modules/selectors'
 import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
 import { setScrollKiller } from 'utility/scrollHacks'
@@ -54,6 +57,30 @@ export const onChannelChoiceNextClick = newEmbed => {
       dispatch(showChat())
     } else {
       dispatch(updateActiveEmbed(newEmbed))
+    }
+  }
+}
+
+export const onCancelClick = () => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const helpCenterAvailable = getHelpCenterAvailable(state)
+    const answerBotAvailable = getAnswerBotAvailable(state)
+    const channelChoiceAvailable = getChannelChoiceAvailable(state)
+
+    if (answerBotAvailable) {
+      dispatch(updateBackButtonVisibility(false))
+      dispatch(updateActiveEmbed('answerBot'))
+    } else if (helpCenterAvailable) {
+      const articleViewActive = getArticleViewActive(state)
+
+      dispatch(updateActiveEmbed('helpCenterForm'))
+      dispatch(updateBackButtonVisibility(articleViewActive))
+    } else if (channelChoiceAvailable) {
+      dispatch(updateActiveEmbed('channelChoice'))
+      dispatch(updateBackButtonVisibility(false))
+    } else {
+      dispatch(cancelButtonClicked())
     }
   }
 }
