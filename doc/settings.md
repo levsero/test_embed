@@ -586,7 +586,7 @@ Set the chat concierge’s avatar, name, and title.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-concierge"></a>
 
@@ -689,7 +689,7 @@ The properties can be used singly or in any combination.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 #### departments.enabled
 
@@ -1092,7 +1092,7 @@ Determines if notifications should show on mobile.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-notifications"></a>
 
@@ -1208,7 +1208,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-offlineForm"></a>
 
@@ -1239,7 +1239,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-prechatForm"></a>
 
@@ -1280,7 +1280,7 @@ The `profileCard` setting has the following properties:
 
 #### Availability
 
-- [chat](./chat)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 
 <a name="example-profileCard"></a>
@@ -1492,7 +1492,7 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-tags"></a>
 
@@ -1591,7 +1591,7 @@ You can use different strings for different locales or use one string for all lo
 
 - [contactForm](./contact_form)
 - [helpCenter](./help_center)
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 - [talk](./talk)
 - [answerBot](./answerbot)
 

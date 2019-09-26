@@ -11,7 +11,7 @@ The `chat` object has the following settings:
 
 - [suppress](./settings#suppress)
 
-In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/articles/360022185074), the `chat` object has the following additional settings:
+If the [integrated Chat experience](https://support.zendesk.com/hc/en-us/articles/360022185074) is enabled, the `chat` object has the following additional settings:
 
 - [title](./settings#title)
 - [badge](./settings#badge)
@@ -27,9 +27,9 @@ In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/
 - [tags](./settings#tags)
 - [authenticate](./settings#authenticate)
 
-To get these additional settings, the integrated Chat feature must be enabled in Zendesk Support under **Admin** > **Channels** > **Widget**. Make sure to enable **Integrated Chat Experience** in the **Customization** tab, not just **Chat**.
+To get these additional settings, the integrated Chat feature must be enabled in Zendesk Support under **Admin** > **Channels** > **Widget**. Make sure to enable **Integrated Chat Experience** in the **Customization** tab, not just **Chat**. If you're not a Support admin, ask one to enable it for you.
 
-<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/adminIntegratedChat.png" alt="Integrated Chat toggle" width="250px">
+<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web_widget_integrated_chat_experience_toggle.png" alt="Integrated Chat toggle" width="500px">
 
 <a name="example-chat-settings"></a>
 
