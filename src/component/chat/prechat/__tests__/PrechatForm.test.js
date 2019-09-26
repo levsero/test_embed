@@ -1,6 +1,9 @@
 import { render, fireEvent, queryByText } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 import React from 'react'
+import { IdManager } from '@zendeskgarden/react-selection'
 
 import { PrechatForm } from '../PrechatForm'
 
@@ -39,9 +42,13 @@ const renderPrechatForm = (inProps = {}) => {
     ...inProps
   }
 
+  IdManager.setIdCounter(0)
+
   return render(
     <ThemeProvider>
-      <PrechatForm {...combinedProps} />
+      <Provider store={createStore()}>
+        <PrechatForm {...combinedProps} />
+      </Provider>
     </ThemeProvider>
   )
 }
@@ -413,4 +420,46 @@ test('submits expected form data', () => {
   fireEvent.click(getByText('Start chat'))
 
   expect(formHandler).toHaveBeenCalledWith(formData)
+})
+
+describe('social logins', () => {
+  describe('when there is at least one social login available', () => {
+    it('render the social login section', () => {
+      const { getByText } = renderPrechatForm({
+        form: mockFormProp,
+        authUrls: {
+          google:
+            'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
+        }
+      })
+
+      expect(getByText('Or social sign in:')).toBeInTheDocument()
+    })
+
+    it('renders social login icon buttons ', () => {
+      const { queryByTestId } = renderPrechatForm({
+        form: mockFormProp,
+        authUrls: {
+          google:
+            'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
+          facebook:
+            'https://www.zopim.com/auth/facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
+        }
+      })
+
+      expect(queryByTestId('Icon--google')).toBeInTheDocument()
+      expect(queryByTestId('Icon--facebook')).toBeInTheDocument()
+    })
+  })
+
+  describe('when there are no social logins availalble', () => {
+    it('does not render the social login section', () => {
+      const { queryByText } = renderPrechatForm({
+        form: mockFormProp,
+        authUrls: {}
+      })
+
+      expect(queryByText('Or social sign in:')).not.toBeInTheDocument()
+    })
+  })
 })
