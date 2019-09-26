@@ -6,6 +6,7 @@ import { FocusJailContainer } from '@zendeskgarden/react-modals'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
+import WidgetThemeProvider from 'src/components/WidgetThemeProvider'
 import Navigation from 'component/frame/Navigation'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'
@@ -90,36 +91,38 @@ class EmbedWrapper extends Component {
           rtl={i18n.isRTL()}
           document={this.props.document}
         >
-          <FocusJailContainer focusOnMount={false}>
-            {({ getContainerProps, containerRef }) => (
-              <div
-                {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
-                data-testid={`position-${this.props.dataTestId}`}
-              >
-                {css}
-                {styleTag}
-                <Navigation
-                  ref={el => {
-                    this.nav = el
-                  }}
-                  handleBackClick={this.props.handleBackClick}
-                  handleOnCloseFocusChange={focusLauncher}
-                  fullscreen={this.props.fullscreen}
-                  isMobile={this.props.isMobile}
-                  useBackButton={this.props.useBackButton}
-                  hideNavigationButtons={this.props.hideNavigationButtons}
-                />
+          <WidgetThemeProvider>
+            <FocusJailContainer focusOnMount={false}>
+              {({ getContainerProps, containerRef }) => (
                 <div
-                  id="Embed"
-                  ref={el => {
-                    this.embed = el
-                  }}
+                  {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
+                  data-testid={`position-${this.props.dataTestId}`}
                 >
-                  {newChild}
+                  {css}
+                  {styleTag}
+                  <Navigation
+                    ref={el => {
+                      this.nav = el
+                    }}
+                    handleBackClick={this.props.handleBackClick}
+                    handleOnCloseFocusChange={focusLauncher}
+                    fullscreen={this.props.fullscreen}
+                    isMobile={this.props.isMobile}
+                    useBackButton={this.props.useBackButton}
+                    hideNavigationButtons={this.props.hideNavigationButtons}
+                  />
+                  <div
+                    id="Embed"
+                    ref={el => {
+                      this.embed = el
+                    }}
+                  >
+                    {newChild}
+                  </div>
                 </div>
-              </div>
-            )}
-          </FocusJailContainer>
+              )}
+            </FocusJailContainer>
+          </WidgetThemeProvider>
         </ThemeProvider>
       </MemoryRouter>
     )

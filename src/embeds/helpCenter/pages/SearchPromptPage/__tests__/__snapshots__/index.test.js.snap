@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the full page 1`] = `
+.c1 {
+  display: block;
+}
+
+.c0 {
+  margin-bottom: 0;
+}
+
 <div
   class="container"
 >
@@ -17,17 +25,17 @@ exports[`renders the full page 1`] = `
     class="container"
   >
     <form
-      class="form"
+      class="c0"
       novalidate=""
     >
       <div
         aria-invalid="false"
-        class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__is-focused___26DQb kFNGHY"
+        class="desktopContainer -div text__c-txt__input___38pRd text__is-focused___26DQb "
         data-garden-id="forms.faux_input"
         data-garden-version="6.4.4"
       >
         <label
-          class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+          class="label text__c-txt__label___3wMPZ c1"
           data-garden-id="forms.text_label"
           data-garden-version="6.4.4"
           for="garden-field-container-0--input"
@@ -40,7 +48,7 @@ exports[`renders the full page 1`] = `
           aria-invalid="false"
           aria-labelledby="garden-field-container-0--label"
           autocapitalize="off"
-          class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
+          class="searchInput text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV "
           data-garden-id="forms.input"
           data-garden-version="6.4.4"
           data-testid="search-field"
