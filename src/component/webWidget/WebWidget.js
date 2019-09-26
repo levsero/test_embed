@@ -56,6 +56,7 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -89,7 +90,8 @@ const mapStateToProps = state => {
     hideZendeskLogo: getHideZendeskLogo(state),
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
-    showChatHistory: getShowChatHistory(state)
+    showChatHistory: getShowChatHistory(state),
+    webWidgetReactRouterSupport: getNewSupportEmbedEnabled(state)
   }
 }
 
@@ -115,15 +117,6 @@ class WebWidget extends Component {
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    }),
-    submitTicketConfig: PropTypes.shape({
-      color: PropTypes.string,
-      customFields: PropTypes.object,
-      formTitleKey: PropTypes.string,
-      maxFileCount: PropTypes.number,
-      maxFileSize: PropTypes.number,
-      position: PropTypes.string,
-      ticketForms: PropTypes.array
     }),
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
@@ -160,7 +153,8 @@ class WebWidget extends Component {
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
     showChatHistory: PropTypes.bool.isRequired,
-    showChat: PropTypes.func.isRequired
+    showChat: PropTypes.func.isRequired,
+    webWidgetReactRouterSupport: PropTypes.bool
   }
 
   static defaultProps = {
@@ -171,7 +165,6 @@ class WebWidget extends Component {
     onSubmitted: () => {},
     position: 'right',
     style: null,
-    submitTicketConfig: {},
     showTicketFormsBackButton: false,
     ticketFieldSettings: [],
     ticketFormSettings: [],
@@ -187,7 +180,8 @@ class WebWidget extends Component {
     chatId: '',
     webWidgetVisible: true,
     answerBotAvailable: false,
-    updateAnswerBotScreen: () => {}
+    updateAnswerBotScreen: () => {},
+    webWidgetReactRouterSupport: false
   }
 
   getActiveComponent = () => {
@@ -336,9 +330,9 @@ class WebWidget extends Component {
     if (!this.props.submitTicketAvailable) return null
     if (this.props.activeEmbed !== submitTicket) return null
 
-    const { submitTicketConfig } = this.props
+    const { webWidgetReactRouterSupport } = this.props
 
-    if (submitTicketConfig.webWidgetReactRouterSupport) {
+    if (webWidgetReactRouterSupport) {
       return <Support />
     }
 
@@ -349,13 +343,9 @@ class WebWidget extends Component {
         <SubmitTicket
           ref={submitTicket}
           attachmentSender={this.props.attachmentSender}
-          customFields={submitTicketConfig.customFields}
-          formTitleKey={submitTicketConfig.formTitleKey}
           hideZendeskLogo={this.props.hideZendeskLogo}
-          maxFileCount={submitTicketConfig.maxFileCount}
-          maxFileSize={submitTicketConfig.maxFileSize}
+          onCancel={this.onCancelClick}
           onSubmitted={this.props.onSubmitted}
-          position={submitTicketConfig.position}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           ticketFieldSettings={this.props.ticketFieldSettings}

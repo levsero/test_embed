@@ -17,6 +17,7 @@ import {
   handleTicketSubmission
 } from 'src/redux/modules/submitTicket'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import { getMaxFileCount, getMaxFileSize } from 'embeds/support/selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { ICONS } from 'src/constants/shared'
@@ -58,7 +59,9 @@ const mapStateToProps = state => {
     attachmentsEnabled: getAttachmentsEnabled(state),
     formTitle: getContactFormTitle(state),
     locale: i18n.getLocale(),
-    selectTicketFormLabel: getSelectTicketFormLabel(state)
+    selectTicketFormLabel: getSelectTicketFormLabel(state),
+    maxFileCount: getMaxFileCount(state),
+    maxFileSize: getMaxFileSize(state)
   }
 }
 
