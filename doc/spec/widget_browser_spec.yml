@@ -46,13 +46,6 @@ API:
         - It does nothing
 
   Settings:
-    Color: # zESettings.webWidget.color.theme => hex<string>
-      When a valid color value is passed:
-        - The Widget loads with that theme color
-      When an invalid colour value is passed:
-        - It does nothing
-        - The widget uses the account settings theme color ### Doesn't currently do this, defaults back to yucky green instead of account setting
-
     Contact Form:
       Attachments: # zESettings.webWidget.contactForm.attachments => boolean
         When not set:
