@@ -20,6 +20,7 @@
   composes: u-marginTT from global;
   display: block;
   margin-bottom: #{9 / $font-size}rem;
+  white-space: pre-wrap;
 }
 
 .loadingSpinner {
