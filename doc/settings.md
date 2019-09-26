@@ -1274,9 +1274,9 @@ The `profileCard` setting has the following properties:
 
 | Property | Type    | Description                        |
 | -------- | ------- | ---------------------------------- |
-| avatar   | boolean | whether to show the agent's avatar |
-| title    | boolean | whether to show the agent's title  |
-| rating   | boolean | whether to show the agent's rating |
+| avatar   | boolean | Whether to show the agent's avatar |
+| title    | boolean | Whether to show the agent's title  |
+| rating   | boolean | Whether to show the agent's rating |
 
 #### Availability
 
