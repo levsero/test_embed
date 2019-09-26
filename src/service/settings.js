@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { win } from 'utility/globals'
 import { objectDifference } from 'utility/utils'
 import { updateSettings } from 'src/redux/modules/settings'
-import { mediator } from 'service/mediator'
 
 const optionAllowList = {
   webWidget: [
@@ -251,10 +250,14 @@ function disableCustomizations() {
   webWidgetCustomizations = false
 }
 
-function updateSettingsLegacy(newSettings, callback = () => {}) {
-  _.merge(webWidgetStore, newSettings)
-  callback()
-  mediator.channel.broadcast('.onUpdateSettings')
+function storeChatAuth(jwtFn) {
+  _.merge(webWidgetStore, {
+    authenticate: {
+      chat: {
+        jwtFn
+      }
+    }
+  })
 }
 
 export const settings = {
@@ -267,6 +270,6 @@ export const settings = {
   getChatAuthSettings,
   getErrorReportingEnabled,
   enableCustomizations,
-  updateSettingsLegacy,
+  storeChatAuth,
   disableCustomizations
 }

@@ -239,12 +239,6 @@ export default function WebWidgetFactory(name) {
       })
     })
 
-    mediator.channel.subscribe(prefix + 'webWidget.updateSettings', () => {
-      waitForRootComponent(() => {
-        embed.instance.forceUpdateWorld()
-      })
-    })
-
     mediator.channel.subscribe(prefix + 'webWidget.refreshLocale', () => {
       waitForRootComponent(() => {
         const store = embed.store

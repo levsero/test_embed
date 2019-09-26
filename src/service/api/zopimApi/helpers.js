@@ -5,7 +5,6 @@ import { getChatStatus } from 'src/redux/modules/chat/chat-selectors'
 import { badgeHideReceived, badgeShowReceived } from 'src/redux/modules/base'
 import * as callbacks from 'service/api/callbacks'
 import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event'
-import { settings } from 'service/settings'
 import tracker from 'service/tracker'
 
 export const setPositionApi = store => position => {
@@ -179,16 +178,6 @@ export const showBadgeApi = store => {
 
 export const hideBadgeApi = store => {
   store.dispatch(badgeHideReceived())
-}
-
-export const authenticateApi = jwtFn => {
-  settings.updateSettingsLegacy({
-    authenticate: {
-      chat: {
-        jwtFn
-      }
-    }
-  })
 }
 
 export function trackZopimApis(win) {

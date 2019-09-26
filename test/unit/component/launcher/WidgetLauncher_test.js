@@ -496,43 +496,6 @@ describe('WidgetLauncher component', () => {
     })
   })
 
-  describe('componentDidUpdate', () => {
-    let launcher, notificationCount, previousNotificationCount
-    const forceUpdateWorldSpy = jasmine.createSpy('forceUpdateWorld')
-
-    beforeEach(() => {
-      launcher = domRender(
-        <Launcher
-          notificationCount={previousNotificationCount}
-          forceUpdateWorld={forceUpdateWorldSpy}
-        />
-      )
-      launcher.componentDidUpdate({ notificationCount })
-    })
-
-    describe('when nextProps.notificationCount is the same as props.notificationCount', () => {
-      beforeAll(() => {
-        notificationCount = 1
-        previousNotificationCount = 1
-      })
-
-      it('does not call forceUpdateWorld', () => {
-        expect(forceUpdateWorldSpy).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when nextProps.notificationCount is different to props.notificationCount', () => {
-      beforeAll(() => {
-        notificationCount = 1
-        previousNotificationCount = 0
-      })
-
-      it('calls forceUpdateWorld', () => {
-        expect(forceUpdateWorldSpy).toHaveBeenCalled()
-      })
-    })
-  })
-
   describe('render', () => {
     let launcher
 

@@ -39,13 +39,13 @@ import {
   setGreetingsApi,
   setOnStatusApi,
   showBadgeApi,
-  hideBadgeApi,
-  authenticateApi
+  hideBadgeApi
 } from './helpers'
 import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
+import { settings } from 'service/settings'
 
 const noop = () => {}
 
@@ -57,7 +57,7 @@ export function setUpZopimApiMethods(win, store) {
     const { setOffsetVertical, setOffsetHorizontal } = setOffsetApi(store)
 
     win.$zopim.livechat = {
-      authenticate: ({ jwtFn }) => authenticateApi(jwtFn),
+      authenticate: ({ jwtFn }) => settings.storeChatAuth(jwtFn),
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,

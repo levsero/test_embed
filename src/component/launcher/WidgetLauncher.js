@@ -45,7 +45,6 @@ class WidgetLauncher extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
-    forceUpdateWorld: PropTypes.func.isRequired,
     updateFrameTitle: PropTypes.func,
     launcherClicked: PropTypes.func.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
@@ -62,12 +61,6 @@ class WidgetLauncher extends Component {
 
   constructor(props, context) {
     super(props, context)
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.notificationCount !== prevProps.notificationCount) {
-      this.props.forceUpdateWorld()
-    }
   }
 
   getTalkLabel = () => {
