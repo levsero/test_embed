@@ -81,13 +81,14 @@ import {
   getWebWidgetVisible as getBaseWebWidgetVisible,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
-  getUserMinimizedChatBadge,
+  getIsChatBadgeMinimized,
   getConfigAttachmentsEnabled,
   getLocale,
   getTalkConfig,
   getFormTitleKey,
   getBrand,
-  getBackButtonVisible
+  getBackButtonVisible,
+  getWidgetShown
 } from '../base/base-selectors'
 import {
   getCanShowHelpCenterIntroState,
@@ -444,15 +445,15 @@ const getWidgetColor = createSelector(
 )
 
 export const getShowChatBadgeLauncher = createSelector(
-  [getUserMinimizedChatBadge, getChatStandalone, getChatOnline, getChatBadgeEnabled, getIsChatting],
-  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, isChatting) => {
+  [getIsChatBadgeMinimized, getChatStandalone, getChatOnline, getChatBadgeEnabled, getWidgetShown],
+  (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, widgetShown) => {
     return (
       !isMinimizedChatBadge &&
       isChatStandalone &&
       !isMobileBrowser() &&
       chatOnline &&
       chatBadgeEnabled &&
-      !isChatting
+      !widgetShown
     )
   }
 )

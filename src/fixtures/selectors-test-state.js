@@ -61,7 +61,8 @@ const defaultState = {
       zChat: {
         isBanned: () => false
       }
-    }
+    },
+    chats: new Map([])
   },
   helpCenter: {
     contextualSearch: true,
