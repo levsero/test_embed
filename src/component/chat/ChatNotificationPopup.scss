@@ -51,7 +51,6 @@
   composes: u-posRelative u-nbfc from global;
   line-height: #{18 / $font-size}rem;
   max-height: #{36 / $font-size}rem;
-  word-break: break-all;
 }
 
 .agentMessageOverflow {
