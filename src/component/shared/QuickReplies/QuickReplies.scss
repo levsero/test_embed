@@ -37,7 +37,7 @@ $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
 .quickReply {
   min-width: 0;
   height: auto !important; // garden override
-  line-height: #{$buttonLineHeight}rem; // garden override, follow MessageBubble
+  line-height: #{$buttonLineHeight}rem !important; // garden override, follow MessageBubble
   padding: #{$buttonPaddingVertical}rem #{12 / $font-size}rem; // Different from MessageBubble because of border
   border-width: #{$buttonBorderWidth}rem; // garden override
 }
