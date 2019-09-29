@@ -30,5 +30,5 @@ export async function loadPageWithWidget(response = embeddableConfigResponse) {
     }
   })
   await goToTestPage()
-  await page.waitForSelector('iframe#launcher')
+  await page.waitForSelector('iframe#launcher', { visible: true })
 }
