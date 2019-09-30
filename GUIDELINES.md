@@ -151,7 +151,7 @@ Example directory:
 ```
 ComponentName
 |-- index.js
-|-- styles.scss
+|-- styles.js
 |-- selectors.js
 |-- __tests__
     |-- index.test.js
@@ -187,18 +187,38 @@ ComponentName
 
 ## Styles
 
-### Do not import any global styles in a scss file.
+For styling, we use the library [styled-components](https://www.styled-components.com).
 
-- Remove any imported global styles from the component,
-- If the style is used in multiple places it should instead become a component that can be reused in the javascript.
-- Only the \_vars file should be imported, and this is only used for \$font-size, no other variables should be used
-- The old styles folder will eventually be removed
+### General rules
 
-### Avoid composing classes
+- All global variables should go into the `WidgetThemeProvider` component. Think **really hard** about if you actually need a global variable, chances are you don't
+- If you need to use Garden overrides because styled-components can't do what you need, store the garden style overrides with the component as per [this ADR](https://github.com/zendesk/embeddable_framework/blob/master/doc/architecture/decisions/0006-css-overrides.md)
+- Don't forget that you are writing JavaScript, all of the same (security)[https://www.styled-components.com/docs/advanced#security] rules apply
 
-- Instead of composing classes, create an override class and let the css cascade handle it for you.
-- Remove any global suit css utils from the files. If they aren’t in use after this delete them from the suitcss global file too.
-- Store any garden style overrides with the component as per [this ADR](https://github.com/zendesk/embeddable_framework/blob/master/doc/architecture/decisions/0006-css-overrides.md)
+### Where to use styled-components
+
+All styles for your component should go in the `styles.js` file inside of your component directory, and then imported into your components file where it will be used.
+
+The exception to this is if you are creating a re-usable component that just contains styles, in that case your folder structure can look like this
+
+```
+ComponentName
+|-- __tests__
+    |-- index.test.js
+|-- index.js
+```
+
+Where your index.js file looks like this
+
+```jsx
+import styled from 'styled-components'
+
+const FunkyButton = styled.button`
+  background-color: orange;
+`
+
+export default FunkyButton
+```
 
 ## Routing
 
