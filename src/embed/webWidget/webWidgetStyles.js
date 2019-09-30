@@ -18,7 +18,6 @@ import ChatHistoryLink from 'component/chat/ChatHistoryLink.scss'
 import ChattingFooterStyles from 'component/chat/chatting/ChattingFooter.scss'
 import RatingGroupStyles from 'component/chat/rating/RatingGroup.scss'
 import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss'
-import ChatMenuStyles from 'component/chat/ChatMenu.scss'
 import ChatGroupStyles from 'component/chat/chatting/log/messages/ChatGroup.scss'
 import EventMessageStyles from 'component/chat/chatting/log/events/EventMessage.scss'
 import ChatLogStyles from 'component/chat/chatting/ChatLog.scss'
@@ -81,7 +80,6 @@ export const webWidgetStyles = `
   ${ChattingFooterStyles}
   ${RatingGroupStyles}
   ${PrechatFormStyles}
-  ${ChatMenuStyles}
   ${ChatGroupStyles}
   ${EventMessageStyles}
   ${ChatLogStyles}

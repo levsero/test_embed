@@ -6,7 +6,7 @@ import { Backdrop, Header, ModalActions, SlideAppear } from './styles'
 import { isMobileBrowser } from 'utility/devices'
 import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 
-const ChatModal = ({ title, children, onClose, focusOnMount }) => {
+const ChatModal = ({ title, children, onClose, focusOnMount, 'data-testid': testId }) => {
   const modalRef = useRef(null)
   const { getBackdropProps, getModalProps, getTitleProps, getContentProps } = useModal({
     onClose: e => {
@@ -19,7 +19,7 @@ const ChatModal = ({ title, children, onClose, focusOnMount }) => {
   })
 
   return (
-    <Backdrop {...getBackdropProps()}>
+    <Backdrop {...getBackdropProps()} data-testid={testId}>
       <SlideAppear
         direction="up"
         duration={200}
@@ -44,7 +44,8 @@ ChatModal.propTypes = {
   title: PropTypes.node,
   children: PropTypes.node,
   onClose: PropTypes.func,
-  focusOnMount: PropTypes.bool
+  focusOnMount: PropTypes.bool,
+  'data-testid': PropTypes.string
 }
 
 export default hot(ChatModal)

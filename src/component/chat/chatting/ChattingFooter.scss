@@ -3,121 +3,12 @@
 .iconContainer {
   composes: u-flex from global;
   justify-content: flex-end;
+  align-items: center;
   padding-top: #{8 / $font-size}rem;
 
   button {
     margin-right: #{3 / $font-size}rem;
   }
-}
-
-.icon {
-  border-radius: #{4 / $font-size}rem;
-  width: auto !important;
-  height: auto !important;
-
-  svg {
-    box-sizing: content-box;
-    padding: #{5 / $font-size}rem;
-    min-width: #{14 / $font-size}rem;
-    min-height: #{14 / $font-size}rem;
-    width: #{14 / $font-size}rem;
-    height: #{14 / $font-size}rem;
-
-    g {
-      fill: $zd-color-grey-600 !important;
-    }
-  }
-
-  &:not(.iconDisabled) {
-    &:hover,
-    &:active,
-    &:focus {
-      background: $zd-color-grey-300 !important;
-
-      svg > g {
-        fill: $zd-color-grey-800 !important;
-      }
-    }
-  }
-}
-
-.iconActive {
-  cursor: pointer;
-  background: $zd-color-grey-300;
-
-  svg > g {
-    fill: $zd-color-grey-800 !important;
-  }
-}
-
-.iconMobile {
-  border-radius: 50%;
-  margin: 0 #{4 / $font-size}rem;
-
-  svg {
-    padding: #{8 / $font-size}rem;
-    min-width: #{16 / $font-size}rem;
-    min-height: #{16 / $font-size}rem;
-    width: #{16 / $font-size}rem;
-    height: #{16 / $font-size}rem;
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    background: $zd-color-grey-300;
-  }
-}
-
-.iconEndChat {
-  composes: icon;
-}
-
-.iconAttachment {
-  composes: icon;
-
-  svg {
-    path {
-      stroke: $zd-color-grey-600 !important;
-    }
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    svg > path {
-      stroke: $zd-color-grey-800 !important;
-    }
-  }
-}
-
-.iconAttachmentMobile {
-  composes: iconMobile;
-
-  svg {
-    padding-right: #{8 / $font-size}rem;
-  }
-}
-
-.iconMenu {
-  composes: icon;
-  margin-right: 0;
-}
-
-.iconSendChatMobile {
-  composes: icon iconMobile;
-
-  svg {
-    padding: #{8 / $font-size}rem #{7 / $font-size}rem #{8 / $font-size}rem #{9 / $font-size}rem;
-
-    path {
-      fill: $zd-color-grey-600 !important;
-    }
-  }
-}
-
-.iconDisabled svg g {
-  fill: $zd-color-grey-400 !important;
 }
 
 .containerMobile {

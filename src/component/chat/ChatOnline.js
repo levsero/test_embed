@@ -8,18 +8,15 @@ import ChattingScreen from 'component/chat/chatting/ChattingScreen'
 import AgentScreen from 'component/chat/agents/AgentScreen'
 import RatingScreen from 'component/chat/rating/RatingScreen'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
-import { ChatMenu } from 'component/chat/ChatMenu'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup'
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
 import { i18n } from 'service/i18n'
-import { onNextTick } from 'src/util/utils'
 import {
   endChatViaPostChatScreen,
   sendAttachments,
   editContactDetailsSubmitted,
-  handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
@@ -27,62 +24,49 @@ import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
-  initiateSocialLogout
+  initiateSocialLogout,
+  updateEndChatModalVisibility
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
-import { getChatEmailTranscriptEnabled } from 'src/redux/modules/selectors'
 import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
-import {
-  getChannelChoiceAvailable,
-  getHelpCenterAvailable,
-  getDefaultFormFields
-} from 'src/redux/modules/selectors'
+import { getDefaultFormFields } from 'src/redux/modules/selectors'
 import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
 import { Button } from '@zendeskgarden/react-buttons'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
+import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = state => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
-    emailTranscriptEnabled: getChatEmailTranscriptEnabled(state),
     screen: selectors.getChatScreen(state),
-    isChatting: selectors.getIsChatting(state),
     visitor: selectors.getChatVisitor(state),
-    userSoundSettings: selectors.getUserSoundSettings(state),
     emailTranscript: selectors.getEmailTranscript(state),
     editContactDetails: selectors.getEditContactDetails(state),
     menuVisible: selectors.getMenuVisible(state),
     connection: selectors.getConnection(state),
-    loginSettings: selectors.getLoginSettings(state),
     departments: selectors.getDepartments(state),
     offlineMessage: selectors.getOfflineMessage(state),
     authUrls: selectors.getAuthUrls(state),
     socialLogin: selectors.getSocialLogin(state),
     isAuthenticated: selectors.getIsAuthenticated(state),
     isLoggingOut: selectors.getIsLoggingOut(state),
-    channelChoiceAvailable: getChannelChoiceAvailable(state),
-    helpCenterAvailable: getHelpCenterAvailable(state),
-    contactDetailsRequiredFormData: getDefaultFormFields(state)
+    contactDetailsRequiredFormData: getDefaultFormFields(state),
+    endChatModalVisible: getIsEndChatModalVisible(state)
   }
 }
 
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    emailTranscriptEnabled: PropTypes.bool.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     editContactDetailsSubmitted: PropTypes.func.isRequired,
-    onBackButtonClick: PropTypes.func,
     handleReconnect: PropTypes.func.isRequired,
-    isChatting: PropTypes.bool.isRequired,
-    handleSoundIconClick: PropTypes.func.isRequired,
-    userSoundSettings: PropTypes.bool.isRequired,
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
@@ -95,7 +79,6 @@ class Chat extends Component {
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
     connection: PropTypes.string.isRequired,
-    loginSettings: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
     authUrls: PropTypes.object.isRequired,
@@ -104,18 +87,15 @@ class Chat extends Component {
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     initiateSocialLogout: PropTypes.func.isRequired,
-    channelChoiceAvailable: PropTypes.bool.isRequired,
-    helpCenterAvailable: PropTypes.bool.isRequired,
-    contactDetailsRequiredFormData: PropTypes.object
+    contactDetailsRequiredFormData: PropTypes.object,
+    endChatModalVisible: PropTypes.bool,
+    updateEndChatModalVisibility: PropTypes.func
   }
 
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
     fullscreen: false,
-    onBackButtonClick: () => {},
-    handleSoundIconClick: () => {},
-    userSoundSettings: true,
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
@@ -124,7 +104,6 @@ class Chat extends Component {
     updateMenuVisibility: () => {},
     menuVisible: false,
     connection: '',
-    loginSettings: {},
     visitor: {},
     departments: {},
     offlineMessage: {},
@@ -140,7 +119,6 @@ class Chat extends Component {
     super(props)
 
     this.state = {
-      showEndChatMenu: false,
       endChatFromFeedbackForm: false
     }
 
@@ -151,21 +129,8 @@ class Chat extends Component {
     this.props.updateChatBackButtonVisibility()
   }
 
-  toggleMenu = keypress => {
+  toggleMenu = () => {
     this.props.updateMenuVisibility(!this.props.menuVisible)
-
-    if (!this.props.menuVisible && keypress) {
-      onNextTick(this.menu.focus)
-    }
-  }
-
-  onContainerClick = () => {
-    this.setState({
-      showEndChatMenu: false
-    })
-
-    this.props.updateMenuVisibility(false)
-    this.props.updateContactDetailsVisibility(false)
   }
 
   onKeyDown = e => {
@@ -178,60 +143,6 @@ class Chat extends Component {
   showContactDetailsFn = e => {
     e.stopPropagation()
     this.props.updateContactDetailsVisibility(true)
-  }
-
-  showEmailTranscriptFn = e => {
-    e.stopPropagation()
-    this.props.updateEmailTranscriptVisibility(true)
-  }
-
-  renderChatMenu = () => {
-    const {
-      userSoundSettings,
-      isChatting,
-      handleSoundIconClick,
-      attachmentsEnabled,
-      sendAttachments,
-      onBackButtonClick,
-      isMobile,
-      loginSettings,
-      menuVisible,
-      updateMenuVisibility,
-      emailTranscriptEnabled,
-      helpCenterAvailable,
-      channelChoiceAvailable
-    } = this.props
-    const showChatEndFn = e => {
-      e.stopPropagation()
-      updateMenuVisibility(false)
-      this.setState({
-        showEndChatMenu: true
-      })
-    }
-    const toggleSoundFn = () => {
-      handleSoundIconClick({ sound: !userSoundSettings })
-    }
-
-    return (
-      <ChatMenu
-        ref={el => (this.menu = el)}
-        show={menuVisible}
-        playSound={userSoundSettings}
-        disableEndChat={!isChatting}
-        attachmentsEnabled={attachmentsEnabled}
-        onGoBackClick={onBackButtonClick}
-        onSendFileClick={sendAttachments}
-        endChatOnClick={showChatEndFn}
-        contactDetailsOnClick={this.showContactDetailsFn}
-        emailTranscriptOnClick={this.showEmailTranscriptFn}
-        onSoundClick={toggleSoundFn}
-        emailTranscriptEnabled={emailTranscriptEnabled}
-        isMobile={isMobile}
-        loginEnabled={loginSettings.enabled}
-        helpCenterAvailable={helpCenterAvailable}
-        channelChoiceAvailable={channelChoiceAvailable}
-      />
-    )
   }
 
   renderPrechatScreen = () => {
@@ -258,9 +169,7 @@ class Chat extends Component {
     const showChatEndFn = e => {
       e.stopPropagation()
       this.props.updateMenuVisibility(false)
-      this.setState({
-        showEndChatMenu: true
-      })
+      this.props.updateEndChatModalVisibility(true)
       this.props.updateContactDetailsVisibility(false)
       this.props.updateEmailTranscriptVisibility(false)
     }
@@ -301,21 +210,23 @@ class Chat extends Component {
   }
 
   renderChatEndPopup = () => {
-    const hideChatEndFn = () => this.setState({ showEndChatMenu: false })
+    const hideChatEndFn = () => {
+      this.props.updateEndChatModalVisibility(false)
+    }
     const endChatFn = () => {
+      this.props.updateEndChatModalVisibility(false)
       this.setState({
-        showEndChatMenu: false,
         endChatFromFeedbackForm: true
       })
       this.props.endChatViaPostChatScreen()
     }
 
-    if (!this.state.showEndChatMenu) {
+    if (!this.props.endChatModalVisible) {
       return null
     }
 
     return (
-      <ChatModal onClose={hideChatEndFn}>
+      <ChatModal onClose={hideChatEndFn} focusOnMount={true}>
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
         </div>
@@ -461,7 +372,6 @@ class Chat extends Component {
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}
         {this.renderPostchatScreen()}
-        {this.renderChatMenu()}
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
         {this.renderAttachmentsBox()}
@@ -477,13 +387,13 @@ const actionCreators = {
   endChatViaPostChatScreen,
   editContactDetailsSubmitted,
   sendAttachments,
-  handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
   updateMenuVisibility,
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
+  updateEndChatModalVisibility,
   updateContactDetailsFields,
   initiateSocialLogout
 }
