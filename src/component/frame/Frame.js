@@ -434,7 +434,8 @@ class Frame extends Component {
         ...this.getOffsetPosition(-20)
       },
       exited: {
-        top: '-9999px'
+        top: '-9999px',
+        visibility: 'hidden'
       }
     }
 

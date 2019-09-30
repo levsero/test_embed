@@ -21,7 +21,7 @@ test("zE('webWidget:get', 'display')", async () => {
 test("zE('webWidget', 'hide') and zE('webWidget', 'show')", async () => {
   await page.evaluate(() => zE('webWidget', 'hide'))
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
   await page.evaluate(() => zE('webWidget', 'show'))
   await page.waitForSelector('iframe#launcher', {
@@ -35,7 +35,7 @@ test("zE('webWidget', 'open')", async () => {
     visible: true
   })
   await page.waitForSelector('iframe#launcher', {
-    visible: false
+    hidden: true
   })
 })
 
@@ -43,7 +43,7 @@ test("zE('webWidget', 'close')", async () => {
   await page.evaluate(() => zE('webWidget', 'open'))
   await page.evaluate(() => zE('webWidget', 'close'))
   await page.waitForSelector('iframe#webWidget', {
-    visible: false
+    hidden: true
   })
   await page.waitForSelector('iframe#launcher', {
     visible: true
@@ -116,7 +116,7 @@ describe("zE('webWidget', 'toggle')", () => {
   test('toggling', async () => {
     await page.evaluate(() => zE('webWidget', 'toggle'))
     await page.waitForSelector('iframe#launcher', {
-      visible: false
+      hidden: true
     })
     await page.waitForSelector('iframe#webWidget', {
       visible: true
@@ -127,7 +127,7 @@ describe("zE('webWidget', 'toggle')", () => {
       visible: true
     })
     await page.waitForSelector('iframe#webWidget', {
-      visible: false
+      hidden: true
     })
     expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('launcher')
   })
@@ -140,7 +140,7 @@ describe("zE('webWidget', 'toggle')", () => {
       visible: true
     })
     await page.waitForSelector('iframe#webWidget', {
-      visible: false
+      hidden: true
     })
   })
 })

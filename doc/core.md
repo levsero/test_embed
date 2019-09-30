@@ -394,7 +394,7 @@ None
 
 `zE('webWidget', 'open');`
 
-Forces the widget to appear.
+Forces the widget to open.
 
 ##### Parameters
 
