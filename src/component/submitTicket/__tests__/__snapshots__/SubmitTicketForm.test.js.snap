@@ -396,7 +396,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="field"
+                class="sc-bdVaJa chbGzG"
               >
                 <div
                   aria-expanded="false"
@@ -514,6 +514,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 </div>
                 <input
                   class="u-isHidden"
+                  data-testid="dropdown-selected-value"
                   name="12"
                   required=""
                   value=""
@@ -1089,7 +1090,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="field"
+                class="sc-bdVaJa chbGzG"
               >
                 <div
                   aria-expanded="false"
@@ -1190,6 +1191,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 </div>
                 <input
                   class="u-isHidden"
+                  data-testid="dropdown-selected-value"
                   name="12"
                   required=""
                   value="2"

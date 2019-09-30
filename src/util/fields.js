@@ -6,7 +6,8 @@ import { i18n } from 'service/i18n'
 import { isMobileBrowser, isLandscape } from 'utility/devices'
 import { Label } from '@zendeskgarden/react-forms'
 import { Label as DropdownLabel } from '@zendeskgarden/react-dropdowns'
-import { Checkbox, Text, TextArea, Dropdown } from 'src/component/field'
+import { Checkbox, Text, TextArea } from 'src/component/field'
+import NestedDropdown from 'src/components/NestedDropdown'
 import { SlideAppear } from 'component/transition/SlideAppear'
 
 const TICKET_FIELD_TRANSITION_DURATION = 150
@@ -151,7 +152,7 @@ const getFields = (customFields, formState, options) => {
 
         return (
           <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            <Dropdown {...dropdownProps} />
+            <NestedDropdown {...dropdownProps} />
           </SlideAppear>
         )
 
