@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {
   Dropdown as GardenDropdown,
-  Field,
+  Field as GardenField,
   Select,
   Separator,
   Item,
@@ -14,10 +14,10 @@ import {
   Menu
 } from '@zendeskgarden/react-dropdowns'
 
+import { Field } from './styles'
 import { i18n } from 'service/i18n'
 import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 
-import { locals as styles } from './NestedDropdown.scss'
 import Node from './OptionNode'
 import { getWebWidgetFrameContentWindow } from 'utility/globals'
 
@@ -241,7 +241,7 @@ export default class NestedDropdown extends Component {
 
   render() {
     return (
-      <div className={styles.field}>
+      <Field>
         <GardenDropdown
           isOpen={this.state.isOpen}
           onStateChange={newState => {
@@ -257,7 +257,7 @@ export default class NestedDropdown extends Component {
             environment: getWebWidgetFrameContentWindow()
           }}
         >
-          <Field>
+          <GardenField>
             {this.props.label}
             <Hint>{this.props.description}</Hint>
             <Select data-testid={TEST_IDS.DROPDOWN_FIELD}>{this.state.displayedName}</Select>
@@ -267,7 +267,7 @@ export default class NestedDropdown extends Component {
                 {i18n.t('embeddable_framework.validation.error.select')}
               </Message>
             )}
-          </Field>
+          </GardenField>
           <Menu
             maxHeight={`${240 / FONT_SIZE}rem`}
             style={{
@@ -282,13 +282,14 @@ export default class NestedDropdown extends Component {
 
         {/* hidden field with the selected value so that the form grabs it on submit */}
         <input
+          data-testid={TEST_IDS.DROPDOWN_SELECTED_VALUE}
           onChange={() => {}}
           className="u-isHidden"
           name={_.toString(this.props.name)}
           required={this.props.required}
           value={this.state.selectedValue}
         />
-      </div>
+      </Field>
     )
   }
 }
