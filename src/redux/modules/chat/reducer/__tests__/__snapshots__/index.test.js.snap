@@ -140,6 +140,7 @@ Object {
     "screen": "widget/chat/EMAIL_TRANSCRIPT_SCREEN",
     "show": false,
   },
+  "endChatModalVisible": false,
   "forcedStatus": null,
   "formState": Object {
     "offlineForm": Object {

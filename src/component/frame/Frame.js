@@ -319,7 +319,9 @@ class Frame extends Component {
   }
 
   back = e => {
-    e.preventDefault()
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault()
+    }
     this.props.onBack(this)
   }
 

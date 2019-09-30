@@ -329,6 +329,7 @@ export class ChatContactDetailsPopup extends Component {
         }
         onClose={this.props.leftCtaFn}
         focusOnMount={this.props.screen === EDIT_CONTACT_DETAILS_ERROR_SCREEN}
+        data-testid={TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP}
       >
         {this.renderForm()}
         {this.renderFailureScreen()}

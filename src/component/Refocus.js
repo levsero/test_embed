@@ -33,8 +33,17 @@ export class Refocus extends Component {
       const reNode = /input|textarea|button/i
       const gardenId = activeElem.dataset && activeElem.dataset.gardenId
       const gardenSelect = gardenId && gardenId.indexOf('select') !== -1
+      const isModal =
+        activeElem &&
+        typeof activeElem.getAttribute === 'function' &&
+        activeElem.getAttribute('aria-modal') === 'true'
 
-      if (!reNode.test(activeElem.nodeName) && activeElem !== this.container && !gardenSelect) {
+      if (
+        !reNode.test(activeElem.nodeName) &&
+        activeElem !== this.container &&
+        !gardenSelect &&
+        !isModal
+      ) {
         this.container.focus()
       }
     }

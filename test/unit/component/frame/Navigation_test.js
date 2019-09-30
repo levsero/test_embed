@@ -2,6 +2,7 @@ describe('Navigation', () => {
   let Navigation, mockClickBusterRegister
 
   const navigationPath = buildSrcPath('component/frame/Navigation')
+  const ChatMenu = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -31,6 +32,7 @@ describe('Navigation', () => {
           icon: 'icon'
         }
       },
+      'embeds/chat/components/ChatMenu': ChatMenu,
       'component/Icon': {
         Icon: class extends Component {
           render() {
@@ -156,16 +158,15 @@ describe('Navigation', () => {
   })
 
   describe('mobile menu', () => {
-    let navigation, navigationNode
+    let navigation
 
     describe('when props.useMenu is true and isMobile', () => {
       beforeEach(() => {
         navigation = domRender(<Navigation useMenu={true} isMobile={true} />)
-        navigationNode = ReactDOM.findDOMNode(navigation)
       })
 
       it('renders the menu icon', () => {
-        expect(navigationNode.querySelector('.Icon--menu')).not.toBeNull()
+        expect(() => TestUtils.findRenderedComponentWithType(navigation, ChatMenu)).not.toThrow()
       })
     })
   })

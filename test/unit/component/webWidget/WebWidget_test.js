@@ -1,9 +1,5 @@
 describe('WebWidget component', () => {
-  let WebWidget,
-    chatOnContainerClickSpy,
-    helpCenterOnContainerClickSpy,
-    submitTicketOnDragEnterSpy,
-    mockUpdateActiveEmbed
+  let WebWidget, helpCenterOnContainerClickSpy, submitTicketOnDragEnterSpy, mockUpdateActiveEmbed
   const clearFormSpy = jasmine.createSpy()
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget')
   const ChatNotificationPopup = noopReactComponent()
@@ -12,7 +8,6 @@ describe('WebWidget component', () => {
     mockery.enable()
 
     mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed')
-    chatOnContainerClickSpy = jasmine.createSpy('chatOnContainerClick')
     helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick')
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter')
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter')
@@ -60,7 +55,6 @@ describe('WebWidget component', () => {
       constructor() {
         super()
         this.state = {}
-        this.onContainerClick = chatOnContainerClickSpy
       }
       render() {
         return <div ref="chat" />
@@ -866,61 +860,6 @@ describe('WebWidget component', () => {
           <WebWidget oldChat={false} isMobile={false} chatNotification={mockChatNotification} />
         )
         webWidget.showProactiveChat()
-      })
-    })
-  })
-
-  describe('#onContainerClick', () => {
-    let webWidget
-
-    describe('when the activeEmbed is chat', () => {
-      beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed="chat" />)
-        webWidget.onContainerClick()
-      })
-
-      it('calls the chat onContainerClick handler', () => {
-        expect(chatOnContainerClickSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when the activeEmbed is not chat or helpCenter', () => {
-      beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed="ticketSubmissionForm" />)
-
-        spyOn(webWidget, 'getActiveComponent')
-
-        webWidget.onContainerClick()
-      })
-
-      it('calls getActiveComponent', () => {
-        expect(webWidget.getActiveComponent).toHaveBeenCalled()
-      })
-
-      it('does not call the chat onContainerClick handler', () => {
-        expect(chatOnContainerClickSpy).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when there is no activeEmbed', () => {
-      beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed="" />)
-
-        spyOn(webWidget, 'getActiveComponent')
-
-        webWidget.onContainerClick()
-      })
-
-      it('calls getActiveComponent', () => {
-        expect(webWidget.getActiveComponent).toHaveBeenCalled()
-      })
-
-      it('does not call the chat onContainerClick handler', () => {
-        expect(chatOnContainerClickSpy).not.toHaveBeenCalled()
-      })
-
-      it('does not call the helpCenter onContainerClick handler', () => {
-        expect(helpCenterOnContainerClickSpy).not.toHaveBeenCalled()
       })
     })
   })

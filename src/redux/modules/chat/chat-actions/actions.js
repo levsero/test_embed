@@ -759,3 +759,12 @@ export function setDefaultDepartment(id) {
     }
   }
 }
+
+export function updateEndChatModalVisibility(isVisible) {
+  return {
+    type: actions.UPDATE_END_CHAT_MODAL_VISIBILITY,
+    payload: {
+      isVisible
+    }
+  }
+}

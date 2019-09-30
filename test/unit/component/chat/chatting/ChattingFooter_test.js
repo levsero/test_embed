@@ -5,6 +5,8 @@ describe('ChattingFooter component', () => {
   const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter')
   const IconButton = noopReactComponent()
   const Icon = noopReactComponent()
+  const ChatMenu = noopReactComponent()
+  const FooterIconButton = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -35,6 +37,16 @@ describe('ChattingFooter component', () => {
       'component/Dropzone': {
         Dropzone: noopReactComponent()
       },
+      'embeds/chat/components/FooterIconButton': FooterIconButton,
+      'utility/globals': {
+        TEST_IDS: {
+          CHAT_MENU: 'chat-menu'
+        }
+      },
+      'utility/devices': {
+        isMobileBrowser: () => false
+      },
+      'embeds/chat/components/ChatMenu': ChatMenu,
       'constants/shared': {
         ICONS: {},
         TEST_IDS: {}
@@ -54,6 +66,12 @@ describe('ChattingFooter component', () => {
 
   describe('render', () => {
     let component, componentNode
+
+    it('renders the chat menu', () => {
+      component = domRender(<ChattingFooter />)
+
+      expect(() => TestUtils.findRenderedComponentWithType(component, ChatMenu)).not.toThrow()
+    })
 
     describe('icons', () => {
       beforeEach(() => {
@@ -94,44 +112,25 @@ describe('ChattingFooter component', () => {
   })
 
   describe('renderEndChatOption', () => {
-    let classNames
+    it('is disabled when props.isChatting is false', () => {
+      const component = domRender(<ChattingFooter isChatting={false} />)
 
-    describe('when props.isChatting is false', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChattingFooter isChatting={false} />)
-
-        const result = component.renderEndChatOption()
-        const triggerSpy = jasmine.createSpy('spy')
-        result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
-        classNames = triggerSpy.calls.first().args[0].className
-      })
-
-      it('has disabled classes', () => {
-        expect(classNames).toContain('iconEndChatClass')
-        expect(classNames).toContain('iconDisabledClasses')
-      })
+      expect(
+        TestUtils.findRenderedComponentWithType(component, FooterIconButton).props.disabled
+      ).toBe(true)
     })
 
-    describe('when props.isChatting is true', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChattingFooter isChatting={true} />)
+    it('is not disabled when when props.isChatting is true', () => {
+      const component = domRender(<ChattingFooter isChatting={true} />)
 
-        const result = component.renderEndChatOption()
-
-        const triggerSpy = jasmine.createSpy('spy')
-        result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
-        classNames = triggerSpy.calls.first().args[0].className
-      })
-
-      it('does not have disabled classes', () => {
-        expect(classNames).toContain('iconEndChatClass')
-        expect(classNames).not.toContain('iconDisabledClasses')
-      })
+      expect(
+        TestUtils.findRenderedComponentWithType(component, FooterIconButton).props.disabled
+      ).toBe(false)
     })
   })
 
   describe('renderAttachmentOption', () => {
-    let result, classNames
+    let result
 
     describe('when props.attachmentsEnabled is true', () => {
       beforeEach(() => {
@@ -155,64 +154,6 @@ describe('ChattingFooter component', () => {
       it('returns null', () => {
         expect(result).toBeNull()
       })
-    })
-
-    describe('on non-mobile devices', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChattingFooter attachmentsEnabled={true} isMobile={false} />
-        )
-
-        result = component.renderAttachmentOption()
-
-        const triggerSpy = jasmine.createSpy('spy')
-        const triggerFunction = result.props.children.props.children.props.trigger
-        triggerFunction({ getTriggerProps: triggerSpy, ref: {} })
-        classNames = triggerSpy.calls.first().args[0].className
-      })
-
-      it('does not have mobile specific classes', () => {
-        expect(classNames).toContain('iconAttachmentClass')
-        expect(classNames).not.toContain('iconAttachmentMobileClass')
-      })
-    })
-
-    describe('on mobile devices', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChattingFooter attachmentsEnabled={true} isMobile={true} />
-        )
-
-        result = component.renderAttachmentOption()
-
-        const triggerSpy = jasmine.createSpy('spy')
-        const triggerFunction = result.props.children.props.children.props.trigger
-        triggerFunction({ getTriggerProps: triggerSpy, ref: {} })
-        classNames = triggerSpy.calls.first().args[0].className
-      })
-
-      it('has mobile specific classes', () => {
-        expect(classNames).toContain('iconAttachmentClass')
-        expect(classNames).toContain('iconAttachmentMobileClass')
-      })
-    })
-  })
-
-  describe('renderMenuOption', () => {
-    let classNames
-
-    beforeEach(() => {
-      const component = instanceRender(<ChattingFooter />)
-
-      const result = component.renderMenuOption()
-
-      const triggerSpy = jasmine.createSpy('spy')
-      result.props.children.props.trigger({ getTriggerProps: triggerSpy, ref: {} })
-      classNames = triggerSpy.calls.first().args[0].className
-    })
-
-    it('has correct classes', () => {
-      expect(classNames).toContain('iconMenuClass')
     })
   })
 

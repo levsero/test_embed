@@ -1,6 +1,7 @@
 import * as selectors from '../selectors'
 import testState from 'src/fixtures/chat-selectors-test-state'
 import { getHasBackfillCompleted } from '../selectors'
+import { getIsEndChatModalVisible } from '../selectors'
 
 test('getChats', () => {
   const result = selectors.getChats(testState)
@@ -344,5 +345,15 @@ describe('getHasBackfillCompleted', () => {
 
   it('returns false when the backfill has not completed', () => {
     expect(getHasBackfillCompleted({ chat: { chatLogBackfillCompleted: false } })).toBe(false)
+  })
+})
+
+describe('getIsEndChatModalVisible', () => {
+  it('returns true when the end chat modal is visible', () => {
+    expect(getIsEndChatModalVisible({ chat: { endChatModalVisible: true } })).toBe(true)
+  })
+
+  it('returns false when the end chat modal is not visible', () => {
+    expect(getIsEndChatModalVisible({ chat: { endChatModalVisible: true } })).toBe(true)
   })
 })
