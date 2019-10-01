@@ -147,24 +147,36 @@ const ChatMenu = ({
         >
           {goBackIsVisible && (
             <>
-              <Item value="back">{goBackLabel}</Item>
+              <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
+                {goBackLabel}
+              </Item>
               <Separator />
             </>
           )}
 
           {soundIsVisible && (
             <>
-              <Item value="sound">
+              <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
                 {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
               </Item>
               <Separator />
             </>
           )}
 
-          {emailTranscriptEnabled && <Item value="email">{emailTranscriptLabel}</Item>}
-          <Item value="contact">{contactDetailsLabel}</Item>
+          {emailTranscriptEnabled && (
+            <Item value="email" data-testid={TEST_IDS.CHAT_MENU_ITEM_EMAIL_TRANSCRIPT}>
+              {emailTranscriptLabel}
+            </Item>
+          )}
+          <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
+            {contactDetailsLabel}
+          </Item>
           <Separator />
-          <Item value="endChat" disabled={endChatDisabled}>
+          <Item
+            value="endChat"
+            disabled={endChatDisabled}
+            data-testid={TEST_IDS.CHAT_MENU_ITEM_END_CHAT}
+          >
             {endChatLabel}
           </Item>
         </Menu>
