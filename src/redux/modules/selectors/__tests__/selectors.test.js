@@ -552,6 +552,12 @@ describe('getAttachmentsEnabled', () => {
     expect(selectors.getAttachmentsEnabled(state)).toBe(true)
   })
 
+  it('returns true when settings attachments is a truthy value and config is true', () => {
+    const state = stateAttachmentSettings(true, -1)
+
+    expect(selectors.getAttachmentsEnabled(state)).toBe(true)
+  })
+
   it('returns false when settings attachments are not enabled', () => {
     const state = stateAttachmentSettings(true, false)
 

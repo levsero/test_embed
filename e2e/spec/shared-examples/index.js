@@ -5,10 +5,10 @@ import { queries, wait } from 'pptr-testing-library'
   This seems stupid, but it catches the elusive React bug that popped
   up in this ticket: https://support.zendesk.com/agent/tickets/4863667
 */
-export const allowsInputTextEditing = async (widgetHelper, widget, inputTestId) => {
-  const inputField = await queries.getByTestId(widget, inputTestId)
+export const allowsInputTextEditing = async (documentElement, inputTestId) => {
+  const inputField = await queries.getByTestId(documentElement, inputTestId)
 
-  await widgetHelper.widgetFrame.focus(`[data-testid="${inputTestId}"]`)
+  await documentElement.focus(`[data-testid="${inputTestId}"]`)
   await page.keyboard.type('Hello!!')
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowLeft')
