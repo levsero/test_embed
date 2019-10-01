@@ -154,7 +154,12 @@ export const TEST_IDS = {
   CHAT_ATTACHMENT_BUTTON: 'chat-attachment-button',
   IMAGE_MESSAGE_LINK: 'image-message-link',
   LOADING_SPINNER: 'loading-spinner',
-  DROPDOWN_SELECTED_VALUE: 'dropdown-selected-value'
+  DROPDOWN_SELECTED_VALUE: 'dropdown-selected-value',
+  CHAT_MENU_ITEM_BACK: 'chat-menu-item-back',
+  CHAT_MENU_ITEM_TOGGLE_SOUND: 'chat-menu-item-toggle-sound',
+  CHAT_MENU_ITEM_EMAIL_TRANSCRIPT: 'chat-menu-item-email-transcript',
+  CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS: 'chat-menu-item-edit-contact-details',
+  CHAT_MENU_ITEM_END_CHAT: 'chat-menu-item-end-chat'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'
