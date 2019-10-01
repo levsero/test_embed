@@ -10,85 +10,55 @@ describe('legacy apis', () => {
 
   test('zE.hide() and zE.show()', async () => {
     await page.evaluate(() => zE.hide())
-    await page.waitForSelector('iframe#launcher', {
-      hidden: true
-    })
+    await launcher.isHidden()
+    await widget.isHidden()
     await page.evaluate(() => zE.show())
-    await page.waitForSelector('iframe#launcher', {
-      visible: true
-    })
+    await launcher.isVisible()
+    await widget.isHidden()
   })
 
   describe('zE.activate()', () => {
     test('initially hidden', async () => {
       await page.evaluate(() => zE.hide())
       await page.evaluate(() => zE.activate())
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        visible: true
-      })
+      await launcher.isHidden()
+      await widget.isVisible()
       await widget.close()
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isHidden()
+      await widget.isHidden()
     })
 
     test('no arguments passed', async () => {
       await page.evaluate(() => zE.activate())
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        visible: true
-      })
+      await launcher.isHidden()
+      await widget.isVisible()
 
       await widget.close()
-      await page.waitForSelector('iframe#launcher', {
-        visible: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isVisible()
+      await widget.isHidden()
     })
 
     test('with hideOnClose set to true', async () => {
       await page.evaluate(() => zE.activate({ hideOnClose: true }))
 
       await widget.close()
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isHidden()
+      await widget.isHidden()
     })
 
     test('with hideOnClose set to false', async () => {
       await page.evaluate(() => zE.activate({ hideOnClose: false }))
 
       await widget.close()
-      await page.waitForSelector('iframe#launcher', {
-        visible: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isVisible()
+      await widget.isHidden()
     })
 
     test('widget already opened', async () => {
       await launcher.click()
       await page.evaluate(() => zE.activate())
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        visible: true
-      })
+      await launcher.isHidden()
+      await widget.isVisible()
     })
   })
 

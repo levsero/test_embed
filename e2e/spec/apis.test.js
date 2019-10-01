@@ -23,34 +23,22 @@ describe('apis', () => {
 
   test("zE('webWidget', 'hide') and zE('webWidget', 'show')", async () => {
     await page.evaluate(() => zE('webWidget', 'hide'))
-    await page.waitForSelector('iframe#launcher', {
-      hidden: true
-    })
+    await launcher.isHidden()
     await page.evaluate(() => zE('webWidget', 'show'))
-    await page.waitForSelector('iframe#launcher', {
-      visible: true
-    })
+    await launcher.isVisible()
   })
 
   test("zE('webWidget', 'open')", async () => {
     await page.evaluate(() => zE('webWidget', 'open'))
-    await page.waitForSelector('iframe#webWidget', {
-      visible: true
-    })
-    await page.waitForSelector('iframe#launcher', {
-      hidden: true
-    })
+    await widget.isVisible()
+    await launcher.isHidden()
   })
 
   test("zE('webWidget', 'close')", async () => {
     await page.evaluate(() => zE('webWidget', 'open'))
     await page.evaluate(() => zE('webWidget', 'close'))
-    await page.waitForSelector('iframe#webWidget', {
-      hidden: true
-    })
-    await page.waitForSelector('iframe#launcher', {
-      visible: true
-    })
+    await widget.isHidden()
+    await launcher.isVisible()
   })
 
   describe("zE('webWidget:on', 'open', fn)", () => {
@@ -116,32 +104,20 @@ describe('apis', () => {
   describe("zE('webWidget', 'toggle')", () => {
     test('toggling', async () => {
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await page.waitForSelector('iframe#launcher', {
-        hidden: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        visible: true
-      })
+      await launcher.isHidden()
+      await widget.isVisible()
       expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('helpCenter')
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await page.waitForSelector('iframe#launcher', {
-        visible: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isVisible()
+      await widget.isHidden()
       expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('launcher')
     })
 
     test('initially open', async () => {
       await launcher.click()
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await page.waitForSelector('iframe#launcher', {
-        visible: true
-      })
-      await page.waitForSelector('iframe#webWidget', {
-        hidden: true
-      })
+      await launcher.isVisible()
+      await widget.isHidden()
     })
   })
 })
