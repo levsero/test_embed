@@ -37,6 +37,7 @@ import showChatHistory from './chat-show-history'
 import chatBanned from './chat-banned'
 import chatLogBackfillCompleted from './chat-log-backfill-completed'
 import endChatModalVisible from './chat-end-chat-modal-visible'
+import config from './chat-config'
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -47,6 +48,7 @@ const combinedReducers = combineReducers({
   chatHistory,
   chatLog,
   chats,
+  config,
   connection,
   currentMessage,
   defaultDepartment,

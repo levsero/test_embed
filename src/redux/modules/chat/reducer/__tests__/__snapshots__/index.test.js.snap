@@ -121,6 +121,9 @@ Object {
   },
   "chatLogBackfillCompleted": false,
   "chats": Map {},
+  "config": Object {
+    "defaultToChatWidgetLite": false,
+  },
   "connection": "",
   "currentMessage": "",
   "defaultDepartment": Object {
