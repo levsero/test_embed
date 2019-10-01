@@ -24,8 +24,54 @@ describe('apis', () => {
   test("zE('webWidget', 'hide') and zE('webWidget', 'show')", async () => {
     await page.evaluate(() => zE('webWidget', 'hide'))
     await launcher.isHidden()
+    await widget.isHidden()
     await page.evaluate(() => zE('webWidget', 'show'))
     await launcher.isVisible()
+    await widget.isHidden()
+  })
+
+  describe("zE('webWidget', 'show')", () => {
+    test('launcher is visible', async () => {
+      await page.evaluate(() => zE('webWidget', 'show'))
+      await launcher.isVisible()
+      await widget.isHidden()
+    })
+
+    test('widget is visible', async () => {
+      await launcher.click()
+      await page.evaluate(() => zE('webWidget', 'show'))
+      await launcher.isHidden()
+      await widget.isVisible()
+    })
+  })
+
+  describe("zE('webWidget', 'hide')", () => {
+    test('launcher is visible', async () => {
+      await page.evaluate(() => zE('webWidget', 'hide'))
+      await launcher.isHidden()
+      await widget.isHidden()
+    })
+
+    test('widget is visible', async () => {
+      await launcher.click()
+      await page.evaluate(() => zE('webWidget', 'hide'))
+      await launcher.isHidden()
+      await widget.isHidden()
+    })
+
+    test('called multiple times', async () => {
+      await page.evaluate(() => zE('webWidget', 'hide'))
+      await page.evaluate(() => zE('webWidget', 'hide'))
+      await page.evaluate(() => zE('webWidget', 'hide'))
+      await launcher.isHidden()
+      await widget.isHidden()
+    })
+  })
+
+  test("zE('webWidget', 'open')", async () => {
+    await page.evaluate(() => zE('webWidget', 'open'))
+    await widget.isVisible()
+    await launcher.isHidden()
   })
 
   test("zE('webWidget', 'open')", async () => {
