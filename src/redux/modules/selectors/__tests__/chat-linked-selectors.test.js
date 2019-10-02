@@ -623,3 +623,27 @@ describe('getPrechatFormFields', () => {
     })
   })
 })
+
+describe('getDelayChatConnection', () => {
+  test.each([
+    [false, false, true, false],
+    [false, false, false, true],
+    [false, true, true, true],
+    [false, true, false, true],
+    [true, true, false, true],
+    [true, false, false, true],
+    [true, false, true, true],
+    [true, true, true, true]
+  ])(
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p && trackAllVisitors == %p it returns %p',
+    (defaultToChatWidgetLite, connectOnDemand, trackAllVisitors, expectedValue) => {
+      const result = selectors.getDelayChatConnection.resultFunc(
+        defaultToChatWidgetLite,
+        connectOnDemand,
+        trackAllVisitors
+      )
+
+      expect(result).toEqual(expectedValue)
+    }
+  )
+})

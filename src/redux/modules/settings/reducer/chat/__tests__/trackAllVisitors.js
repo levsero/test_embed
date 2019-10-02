@@ -2,17 +2,17 @@ import trackAllVisitors from '../trackAllVisitors'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
-const initialState = false
+const initialState = true
 const badPayload = {
   foo: 'bar'
 }
-const goodPayload = {
+const goodPayload = trackAllVisitors => ({
   webWidget: {
     chat: {
-      trackAllVisitors: true
+      trackAllVisitors
     }
   }
-}
+})
 
 testReducer(trackAllVisitors, [
   {
@@ -33,7 +33,14 @@ testReducer(trackAllVisitors, [
   {
     action: {
       type: UPDATE_SETTINGS,
-      payload: goodPayload
+      payload: goodPayload(false)
+    },
+    expected: false
+  },
+  {
+    action: {
+      type: UPDATE_SETTINGS,
+      payload: goodPayload(1)
     },
     expected: true
   }
