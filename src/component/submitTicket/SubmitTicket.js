@@ -416,6 +416,6 @@ const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
-  { forwardRef: true }
+  { forwardRef: true, pure: false }
 )(SubmitTicket)
 export { connectedComponent as default, SubmitTicket as Component }

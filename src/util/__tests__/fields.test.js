@@ -134,12 +134,12 @@ describe('renderLabel', () => {
 describe('getDefaultFieldValues', () => {
   describe('with values', () => {
     test.each([
-      ['text', 'a', { defaultValue: 'a' }],
-      ['subject', 'b', { defaultValue: 'b' }],
-      ['integer', 1, { defaultValue: 1 }],
-      ['decimal', 1.1, { defaultValue: 1.1 }],
-      ['textarea', 'a\tb', { defaultValue: 'a\tb' }],
-      ['description', 'blah', { defaultValue: 'blah' }],
+      ['text', 'a', { value: 'a' }],
+      ['subject', 'b', { value: 'b' }],
+      ['integer', 1, { value: 1 }],
+      ['decimal', 1.1, { value: 1.1 }],
+      ['textarea', 'a\tb', { value: 'a\tb' }],
+      ['description', 'blah', { value: 'blah' }],
       ['checkbox', true, { checked: true }],
       ['tagger', 'bob', { value: 'bob' }]
     ])('getDefaultFieldValues(%s,%s)', (type, value, expected) => {
@@ -149,12 +149,12 @@ describe('getDefaultFieldValues', () => {
 
   describe('without values', () => {
     test.each([
-      ['text', { defaultValue: '' }],
-      ['subject', { defaultValue: '' }],
-      ['integer', { defaultValue: '' }],
-      ['decimal', { defaultValue: '' }],
-      ['textarea', { defaultValue: '' }],
-      ['description', { defaultValue: '' }],
+      ['text', { value: '' }],
+      ['subject', { value: '' }],
+      ['integer', { value: '' }],
+      ['decimal', { value: '' }],
+      ['textarea', { value: '' }],
+      ['description', { value: '' }],
       ['checkbox', { checked: 0 }],
       ['tagger', { value: undefined }]
     ])('getDefaultFieldValues(%s)', (type, expected) => {

@@ -317,7 +317,7 @@ export class SubmitTicketForm extends Component {
           key={name}
           name={name}
           validation={error ? 'error' : undefined}
-          defaultValue={this.props.formState.subject}
+          value={this.props.formState.subject}
           disabled={this.props.previewEnabled}
           readOnly={this.props.readOnlyState.subject}
           data-testid={TEST_IDS.SUBJECT_FIELD}
@@ -347,7 +347,7 @@ export class SubmitTicketForm extends Component {
           name={name}
           required={true}
           onChange={() => {}}
-          defaultValue={this.props.formState.email}
+          value={this.props.formState.email}
           readOnly={this.props.readOnlyState.email}
           disabled={this.props.previewEnabled}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
@@ -382,7 +382,7 @@ export class SubmitTicketForm extends Component {
           required={this.props.nameFieldRequired}
           validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
-          defaultValue={this.props.formState.name}
+          value={this.props.formState.name}
           onChange={() => {}}
           readOnly={this.props.readOnlyState.name}
           data-testid={TEST_IDS.NAME_FIELD}
@@ -413,7 +413,7 @@ export class SubmitTicketForm extends Component {
           validation={error ? 'error' : undefined}
           disabled={this.props.previewEnabled}
           required={true}
-          defaultValue={this.props.formState.description}
+          value={this.props.formState.description}
           onChange={() => {}}
           rows="5"
           data-testid={TEST_IDS.MESSAGE_FIELD}
