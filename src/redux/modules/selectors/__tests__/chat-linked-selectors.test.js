@@ -647,3 +647,20 @@ describe('getDelayChatConnection', () => {
     }
   )
 })
+
+describe('getShowRatingButtons', () => {
+  test.each([
+    ['when all values are true', true, true, true, true],
+    ['when profileConfig.rating is false', false, true, true, false],
+    ['when agentJoined is false', true, false, true, false],
+    ['when isChatting is false', true, true, false, false]
+  ])('%p', (__title, profileConfigRating, agentJoined, isChatting, expectedValue) => {
+    const result = selectors.getShowRatingButtons.resultFunc(
+      { rating: profileConfigRating },
+      agentJoined,
+      isChatting
+    )
+
+    expect(result).toEqual(expectedValue)
+  })
+})

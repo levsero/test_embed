@@ -16,7 +16,9 @@ import {
   getActiveAgents,
   getIsPopoutAvailable,
   getShowOfflineChat,
-  getDefaultToChatWidgetLite
+  getDefaultToChatWidgetLite,
+  getIsChatting,
+  getAgentJoined
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -297,4 +299,9 @@ export const getDelayChatConnection = createSelector(
   (defaultToChatWidgetLite, connectOnDemand, trackAllVisitors) => {
     return connectOnDemand || !trackAllVisitors || defaultToChatWidgetLite
   }
+)
+
+export const getShowRatingButtons = createSelector(
+  [getProfileConfig, getAgentJoined, getIsChatting],
+  (profileConfig, agentJoined, isChatting) => profileConfig.rating && agentJoined && isChatting
 )
