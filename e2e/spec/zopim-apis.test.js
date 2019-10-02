@@ -17,36 +17,36 @@ describe('zopim apis', () => {
   test('$zopim.livechat.window.toggle()', async () => {
     await page.evaluate(() => $zopim.livechat.window.toggle())
 
-    await launcher.isHidden()
-    await widget.isVisible()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeVisible()
     await page.evaluate(() => $zopim.livechat.window.toggle())
-    await launcher.isVisible()
-    await widget.isHidden()
+    await expect(launcher).toBeVisible()
+    await expect(widget).toBeHidden()
   })
 
   test('$zopim.livechat.window.hide()', async () => {
     await page.evaluate(() => $zopim.livechat.window.hide())
-    await launcher.isHidden()
-    await widget.isHidden()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeHidden()
   })
 
   test('$zopim.livechat.button.hide()', async () => {
     await page.evaluate(() => $zopim.livechat.button.hide())
-    await launcher.isHidden()
-    await widget.isHidden()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeHidden()
   })
 
   test('$zopim.livechat.hideAll()', async () => {
     await page.evaluate(() => $zopim.livechat.hideAll())
-    await launcher.isHidden()
-    await widget.isHidden()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeHidden()
   })
 
   test('$zopim.livechat.button.show()', async () => {
     await page.evaluate(() => $zopim.livechat.button.hide())
     await page.evaluate(() => $zopim.livechat.button.show())
-    await widget.isHidden()
-    await launcher.isVisible()
+    await expect(widget).toBeHidden()
+    await expect(launcher).toBeVisible()
   })
 
   test('$zopim.livechat.setLanguage(locale)', async () => {
@@ -82,15 +82,15 @@ describe('zopim apis', () => {
     test('initially launcher', async () => {
       await page.evaluate(() => $zopim.livechat.window.show())
 
-      await widget.isVisible()
-      await launcher.isHidden()
+      await expect(widget).toBeVisible()
+      await expect(launcher).toBeHidden()
     })
 
     test('initially hidden', async () => {
       await page.evaluate(() => $zopim.livechat.window.hide())
       await page.evaluate(() => $zopim.livechat.window.show())
-      await widget.isVisible()
-      await launcher.isHidden()
+      await expect(widget).toBeVisible()
+      await expect(launcher).toBeHidden()
     })
   })
 })

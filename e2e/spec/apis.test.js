@@ -23,68 +23,68 @@ describe('apis', () => {
 
   test("zE('webWidget', 'hide') and zE('webWidget', 'show')", async () => {
     await page.evaluate(() => zE('webWidget', 'hide'))
-    await launcher.isHidden()
-    await widget.isHidden()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeHidden()
     await page.evaluate(() => zE('webWidget', 'show'))
-    await launcher.isVisible()
-    await widget.isHidden()
+    await expect(launcher).toBeVisible()
+    await expect(widget).toBeHidden()
   })
 
   describe("zE('webWidget', 'show')", () => {
     test('launcher is visible', async () => {
       await page.evaluate(() => zE('webWidget', 'show'))
-      await launcher.isVisible()
-      await widget.isHidden()
+      await expect(launcher).toBeVisible()
+      await expect(widget).toBeHidden()
     })
 
     test('widget is visible', async () => {
       await launcher.click()
       await page.evaluate(() => zE('webWidget', 'show'))
-      await launcher.isHidden()
-      await widget.isVisible()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeVisible()
     })
   })
 
   describe("zE('webWidget', 'hide')", () => {
     test('launcher is visible', async () => {
       await page.evaluate(() => zE('webWidget', 'hide'))
-      await launcher.isHidden()
-      await widget.isHidden()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeHidden()
     })
 
     test('widget is visible', async () => {
       await launcher.click()
       await page.evaluate(() => zE('webWidget', 'hide'))
-      await launcher.isHidden()
-      await widget.isHidden()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeHidden()
     })
 
     test('called multiple times', async () => {
       await page.evaluate(() => zE('webWidget', 'hide'))
       await page.evaluate(() => zE('webWidget', 'hide'))
       await page.evaluate(() => zE('webWidget', 'hide'))
-      await launcher.isHidden()
-      await widget.isHidden()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeHidden()
     })
   })
 
   test("zE('webWidget', 'open')", async () => {
     await page.evaluate(() => zE('webWidget', 'open'))
-    await widget.isVisible()
-    await launcher.isHidden()
+    await expect(widget).toBeVisible()
+    await expect(launcher).toBeHidden()
   })
 
   test("zE('webWidget', 'open')", async () => {
     await page.evaluate(() => zE('webWidget', 'open'))
-    await widget.isVisible()
-    await launcher.isHidden()
+    await expect(widget).toBeVisible()
+    await expect(launcher).toBeHidden()
   })
 
   test("zE('webWidget', 'close')", async () => {
     await page.evaluate(() => zE('webWidget', 'open'))
     await page.evaluate(() => zE('webWidget', 'close'))
-    await widget.isHidden()
-    await launcher.isVisible()
+    await expect(widget).toBeHidden()
+    await expect(launcher).toBeVisible()
   })
 
   describe("zE('webWidget:on', 'open', fn)", () => {
@@ -150,20 +150,20 @@ describe('apis', () => {
   describe("zE('webWidget', 'toggle')", () => {
     test('toggling', async () => {
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await launcher.isHidden()
-      await widget.isVisible()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeVisible()
       expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('helpCenter')
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await launcher.isVisible()
-      await widget.isHidden()
+      await expect(launcher).toBeVisible()
+      await expect(widget).toBeHidden()
       expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('launcher')
     })
 
     test('initially open', async () => {
       await launcher.click()
       await page.evaluate(() => zE('webWidget', 'toggle'))
-      await launcher.isVisible()
-      await widget.isHidden()
+      await expect(widget).toBeHidden()
+      await expect(launcher).toBeVisible()
     })
   })
 })

@@ -10,55 +10,55 @@ describe('legacy apis', () => {
 
   test('zE.hide() and zE.show()', async () => {
     await page.evaluate(() => zE.hide())
-    await launcher.isHidden()
-    await widget.isHidden()
+    await expect(launcher).toBeHidden()
+    await expect(widget).toBeHidden()
     await page.evaluate(() => zE.show())
-    await launcher.isVisible()
-    await widget.isHidden()
+    await expect(launcher).toBeVisible()
+    await expect(widget).toBeHidden()
   })
 
   describe('zE.activate()', () => {
     test('initially hidden', async () => {
       await page.evaluate(() => zE.hide())
       await page.evaluate(() => zE.activate())
-      await launcher.isHidden()
-      await widget.isVisible()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeVisible()
       await widget.close()
-      await launcher.isHidden()
-      await widget.isHidden()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeHidden()
     })
 
     test('no arguments passed', async () => {
       await page.evaluate(() => zE.activate())
-      await launcher.isHidden()
-      await widget.isVisible()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeVisible()
 
       await widget.close()
-      await launcher.isVisible()
-      await widget.isHidden()
+      await expect(launcher).toBeVisible()
+      await expect(widget).toBeHidden()
     })
 
     test('with hideOnClose set to true', async () => {
       await page.evaluate(() => zE.activate({ hideOnClose: true }))
 
       await widget.close()
-      await launcher.isHidden()
-      await widget.isHidden()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeHidden()
     })
 
     test('with hideOnClose set to false', async () => {
       await page.evaluate(() => zE.activate({ hideOnClose: false }))
 
       await widget.close()
-      await launcher.isVisible()
-      await widget.isHidden()
+      await expect(launcher).toBeVisible()
+      await expect(widget).toBeHidden()
     })
 
     test('widget already opened', async () => {
       await launcher.click()
       await page.evaluate(() => zE.activate())
-      await launcher.isHidden()
-      await widget.isVisible()
+      await expect(launcher).toBeHidden()
+      await expect(widget).toBeVisible()
     })
   })
 

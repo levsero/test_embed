@@ -12,21 +12,8 @@ const close = async () => {
   await closeButton.click()
 }
 
-const isHidden = async () => {
-  await page.waitForSelector('iframe#webWidget', {
-    hidden: true
-  })
-}
-
-const isVisible = async () => {
-  await page.waitForSelector('iframe#webWidget', {
-    visible: true
-  })
-}
-
 export default {
   getDocument,
   close,
-  isHidden,
-  isVisible
+  selector: 'iframe#webWidget'
 }

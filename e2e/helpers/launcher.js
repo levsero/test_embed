@@ -15,22 +15,9 @@ const click = async () => {
   await label.click()
 }
 
-const isHidden = async () => {
-  await page.waitForSelector('iframe#launcher', {
-    hidden: true
-  })
-}
-
-const isVisible = async () => {
-  await page.waitForSelector('iframe#launcher', {
-    visible: true
-  })
-}
-
 export default {
   click,
   getDocument,
   getLabel,
-  isHidden,
-  isVisible
+  selector: 'iframe#launcher'
 }
