@@ -43,7 +43,7 @@ The widget's `contactOptions` object, which represents a component that lets the
 
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
-- Note: `chatLabelOnline` and `contactFormLabel` applies to the contact options shown to the end user on the Answer Bot channel.
+**Note:** `chatLabelOnline` and `contactFormLabel` applies to the contact options shown to the end user on the Answer Bot channel.
   <a name="example-contact-options"></a>
 
 #### Example
@@ -68,7 +68,7 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 - [chatLabel](./settings#chatlabel)
 - [label](./settings#label)
 - mobile
-  - [labelVisible](./settings#labelvisible)
+- [labelVisible](./settings#labelvisible)
 
 <a name="example-launcher-settings"></a>
 
@@ -95,74 +95,54 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 
 The Web Widget has the following core commands:
 
+- [clear](#clear)
+- [close](#close)
 - [get display](#get-display)
+- [hide](#hide)
+- [identify](#identify)
+- [logout](#logout)
 - [on open](#on-open)
 - [on close](#on-close)
-- [hide](#hide)
-- [show](#show)
-- [logout](#logout)
-- [identify](#identify)
-- [prefill](#prefill)
-- [setLocale](#setlocale)
-- [updateSettings](#updatesettings)
-- [clear](#clear)
-- [updatePath](#updatepath)
-- [toggle](#toggle)
-- [reset](#reset)
-- [close](#close)
 - [open](#open)
+- [prefill](#prefill)
+- [reset](#reset)
+- [setLocale](#setlocale)
+- [show](#show)
+- [toggle](#toggle)
+- [updatePath](#updatepath)
+- [updateSettings](#updatesettings)
+
+#### clear
+
+`zE('webWidget', 'clear');`
+
+Clears all forms in the Web Widget.
+
+##### Parameters
+
+None
+
+#### close
+
+`zE('webWidget', 'close');`
+
+If the widget is opened, this command closes the widget and shows the launcher.
+
+##### Parameters
+
+None
 
 #### get display
 
 `zE('webWidget:get', 'display');`
 
-Gets the current widget display (eg. Help Center).
-
-#### on open
-
-`zE('webWidget:on', 'open', callback<function>);`
-
-Executes a callback when the widget is opened.
-
-##### Parameters
-
-- `callback`: Function. Contains the code to be exected
-
-##### Example
-
-```html
-<script type="text/javascript">
-  zE('webWidget:on', 'open', function() {
-    console.log('The widget has been opened!');
-  });
-</script>
-```
-
-#### on close
-
-`zE('webWidget:on', 'close', callback<function>);`
-
-Executes a callback when the widget is closed.
-
-##### Parameters
-
-- `callback`: Function. Contains the code to be executed
-
-##### Example
-
-```html
-<script type="text/javascript">
-  zE('webWidget:on', 'close', function() {
-    console.log('The widget has been closed!');
-  });
-</script>
-```
+Gets the current widget display. Depending on what you features you have enabled, you can use the command to display Help Center, Contact Form, Help Center, Chat, Talk, contact options, and Answer Bot.
 
 #### hide
 
 `zE('webWidget', 'hide');`
 
-Hides all parts of the Widget from the page. You can invoke it before or after page load.
+Hides all parts of the widget from the page. You can invoke it before or after page load.
 
 ##### Parameters
 
@@ -170,7 +150,7 @@ None
 
 ##### Example
 
-**Before page load**
+Before page load:
 
 ```html
 <script type="text/javascript">
@@ -178,37 +158,11 @@ None
 </script>
 ```
 
-**After page load**
+After page load:
 
 ```html
 <button onclick="zE('webWidget', 'hide')">Hide Web Widget</button>
 ```
-
-#### show
-
-`zE('webWidget', 'show');`
-
-Displays the widget on the host page in the state it was in before it was hidden.
-
-The widget is displayed by default on page load. You don't need to call `show` to display the widget unless you use `hide`.
-
-##### Example
-
-```html
-<script type="text/javascript">
-  zE('webWidget', 'show');
-</script>
-```
-
-#### logout
-
-`zE('webWidget', 'logout');`
-
-Clears an end user's session.
-
-##### Parameters
-
-None
 
 #### identify
 
@@ -230,7 +184,7 @@ Identify API calls are throttled in several ways to prevent API abuse:
 
 The Identify API call occurs when the widget loads. In the event that a ticket is submitted before a user record is created by the Identify API call, the details in the ticket are used for creating a user record.
 
-_Note_:
+**Note:**
 
 - The Identify API call can only specify an organization when a user record is first created. It can't be used to modify organizations on existing user records.
 
@@ -238,7 +192,7 @@ _Note_:
 
 ##### Parameters
 
-- `data`: Object. Contains a `name`, `email` and optionally, `organization` property
+- `data`: Object. Contains the properties `name`, `email`, and optional `organization`.
 
 ##### Example
 
@@ -251,8 +205,67 @@ _Note_:
   });
 </script>
 ```
+**Note:** Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
 
-_Note_: Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
+#### logout
+
+`zE('webWidget', 'logout');`
+
+Clears an end user's session.
+
+##### Parameters
+
+None
+
+#### on open
+
+`zE('webWidget:on', 'open', callback<function>);`
+
+Executes a callback when the widget is opened.
+
+##### Parameters
+
+- `callback`: Function. Contains the code to be executed.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget:on', 'open', function() {
+    console.log('The widget has been opened!');
+  });
+</script>
+```
+
+#### on close
+
+`zE('webWidget:on', 'close', callback<function>);`
+
+Executes a callback when the widget is closed.
+
+##### Parameters
+
+- `callback`: Function. Contains the code to be executed.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget:on', 'close', function() {
+    console.log('The widget has been closed!');
+  });
+</script>
+```
+
+#### open
+
+`zE('webWidget', 'open');`
+
+Forces the widget to open.
+
+##### Parameters
+
+None
 
 #### prefill
 
@@ -285,6 +298,16 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 </script>
 ```
 
+#### reset
+
+`zE('webWidget', 'reset');`
+
+Completely resets the state of the widget. To preserve end-user experience, this API only functions when the widget is minimized.
+
+##### Parameters
+
+None
+
 #### setLocale
 
 `zE('webWidget', 'setLocale', data<string>);`
@@ -295,8 +318,6 @@ The command takes a locale string as an argument. For a list of supported locale
 
 By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE('webWidget', 'setLocale', data<string>);` to specify the language.
 
-The following example displays the widget in German:
-
 **Note**: This code should be placed immediately after the Web Widget code snippet
 
 ##### Parameters
@@ -305,17 +326,57 @@ The following example displays the widget in German:
 
 ##### Example
 
+The following example displays the widget in German:
+
 ```html
 <script type="text/javascript">
   zE('webWidget', 'setLocale', 'de');
 </script>
 ```
 
+#### show
+
+`zE('webWidget', 'show');`
+
+Displays the widget on the host page in the state it was in before it was hidden.
+
+The widget is displayed by default on page load. You don't need to call `show` to display the widget unless you use `hide`.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'show');
+</script>
+```
+
+#### toggle
+
+`zE('webWidget', 'toggle');`
+
+Opens the widget if it was closed, or closes the widget if it was opened.
+
+##### Parameters
+
+None
+
+#### updatePath
+
+`zE('webWidget', 'updatePath', data<object>);`
+
+Updates the visitor path by setting the title to the current user's page title and url to the user's current url.
+
+**Note**: This API also updates the path within Chat.
+
+##### Parameters
+
+- `data`: Object. This object accepts two optional string parameters `title` and `url`.
+
 #### updateSettings
 
 `zE('webWidget', 'updateSettings', data<object>);`
 
-Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once. However, it cannot update the [authenticate](./settings#authenticate)setting since authentication occurs during page load, not during Web Widget runtime.
+Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once. However, it cannot update the [authenticate](./settings#authenticate) setting since authentication occurs during page load, not during Web Widget runtime.
 
 ##### Parameters
 
@@ -337,65 +398,3 @@ Updates the Web Widget's [zESettings](./settings). It can update multiple settin
   });
 </script>
 ```
-
-#### Clear
-
-`zE('webWidget', 'clear');`
-
-Clears all forms in the Web Widget.
-
-##### Parameters
-
-None
-
-#### updatePath
-
-`zE('webWidget', 'updatePath', data<object>);`
-
-Updates the visitor path by setting the title to the current user's page title and url to the user's current url.
-
-**Note**: This api will also update the path within chat.
-
-##### Parameters
-
-- `data`: Object. This object accepts two optional string parameters: `title` and `url`.
-
-#### toggle
-
-`zE('webWidget', 'toggle');`
-
-Opens the widget if it was closed or closes the widget if it was opened.
-
-##### Parameters
-
-None
-
-#### reset
-
-`zE('webWidget', 'reset');`
-
-Completely resets the state of the widget. To preserve end-user experience, this API only functions when the widget is minimized.
-
-##### Parameters
-
-None
-
-#### close
-
-`zE('webWidget', 'close');`
-
-If the widget is opened, this api will close the widget and show the launcher.
-
-##### Parameters
-
-None
-
-#### open
-
-`zE('webWidget', 'open');`
-
-Forces the widget to open.
-
-##### Parameters
-
-None
