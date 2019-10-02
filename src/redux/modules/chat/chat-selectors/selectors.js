@@ -111,3 +111,4 @@ export const getChatBanned = state => state.chat.chatBanned
 
 export const getHasBackfillCompleted = state => state.chat.chatLogBackfillCompleted
 export const getIsEndChatModalVisible = state => state.chat.endChatModalVisible
+export const getDefaultToChatWidgetLite = state => state.chat.config.defaultToChatWidgetLite
