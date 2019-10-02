@@ -15,6 +15,7 @@ import mobileNotificationsDisabled from './chat-mobile-notifications-disabled'
 import tags from './chat-tags'
 import hideWhenOffline from './chat-hideWhenOffline'
 import emailTranscriptEnabled from './email-transcript-enabled'
+import trackAllVisitors from './trackAllVisitors'
 
 export default combineReducers({
   concierge,
@@ -29,5 +30,6 @@ export default combineReducers({
   profileCard,
   suppress,
   tags,
-  title
+  title,
+  trackAllVisitors
 })
