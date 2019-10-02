@@ -9,7 +9,6 @@ import { beacon } from 'service/beacon'
 import { i18n } from 'service/i18n'
 import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isIE, isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
@@ -162,7 +161,6 @@ export default function WebWidgetFactory(name) {
       <Provider store={reduxStore}>
         <Frame {...frameParams}>
           <WebWidget
-            attachmentSender={submitTicketSettings.attachmentSender}
             fullscreen={popout}
             isMobile={isMobile}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
@@ -340,20 +338,6 @@ export default function WebWidgetFactory(name) {
 
     config = _.extend({}, submitTicketConfigDefaults, config)
 
-    const attachmentSender = (file, doneFn, failFn, progressFn) => {
-      const payload = {
-        method: 'post',
-        path: '/api/v2/uploads',
-        file: file,
-        callbacks: {
-          done: doneFn,
-          fail: failFn,
-          progress: progressFn
-        }
-      }
-
-      return http.sendFile(payload)
-    }
     const createUserActionPayload = (payload, params) => {
       const body = params.res.body
       const response = body.request || body.suspended_ticket
@@ -416,7 +400,6 @@ export default function WebWidgetFactory(name) {
       config,
       ticketForms,
       customFields,
-      attachmentSender,
       onSubmitted
     }
   }

@@ -8,12 +8,12 @@ import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import { TEST_IDS } from 'src/constants/shared'
+import attachmentSender from 'embeds/support/utils/attachment-sender'
 
 import { locals as styles } from './AttachmentList.scss'
 
 export class AttachmentList extends Component {
   static propTypes = {
-    attachmentSender: PropTypes.func.isRequired,
     updateForm: PropTypes.func.isRequired,
     maxFileCount: PropTypes.number.isRequired,
     maxFileSize: PropTypes.number.isRequired,
@@ -137,7 +137,7 @@ export class AttachmentList extends Component {
         const error = i18n.t('embeddable_framework.submitTicket.attachments.error.other')
 
         this.updateAttachmentState(attachmentId, {
-          uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn(error), progressFn)
+          uploadRequestSender: attachmentSender(file, doneFn, failFn(error), progressFn)
         })
       } else {
         failFn(errorMessage)()

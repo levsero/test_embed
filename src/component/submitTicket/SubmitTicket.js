@@ -69,7 +69,6 @@ class SubmitTicket extends Component {
   static propTypes = {
     onCancelClick: PropTypes.func.isRequired,
     attachmentsEnabled: PropTypes.bool,
-    attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
     formTitle: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
@@ -283,7 +282,6 @@ class SubmitTicket extends Component {
         hide={this.props.showNotification}
         ticketFields={fields}
         formTitle={this.props.formTitle}
-        attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
