@@ -23,7 +23,6 @@ import {
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
-  CHAT_ENDED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT
 } from 'constants/event'
 
@@ -174,7 +173,6 @@ describe('endChat', () => {
       const { store } = dispatchZChatWithTimeoutAction(actions.endChat())
 
       expect(store.getActions()).toEqual(happyPathActions(true))
-      expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_ENDED_EVENT)
     })
 
     verifyCallbackCalled()
@@ -188,7 +186,6 @@ describe('endChat', () => {
         const { store } = dispatchZChatWithTimeoutAction(actions.endChat(), timeoutError)
 
         expect(store.getActions()).toEqual(happyPathActions(true))
-        expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_ENDED_EVENT)
       })
 
       verifyCallbackCalled()
