@@ -7,7 +7,7 @@ const initialState = {
 }
 const embeddableConfigPayload = {
   embeds: {
-    chat: {
+    zopimChat: {
       props: {
         defaultToChatWidgetLite: true
       }

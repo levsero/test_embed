@@ -13,7 +13,7 @@ const config = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ..._.get(payload, 'embeds.chat.props', {})
+        ..._.get(payload, 'embeds.zopimChat.props', {})
       }
     default:
       return state
