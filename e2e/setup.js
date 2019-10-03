@@ -31,3 +31,7 @@ expect.extend({
     return await waitForSelector(selector, 'hidden')
   }
 })
+
+process.on('unhandledRejection', function(err, promise) {
+  console.error('Unhandled rejection (promise: ', promise, ', reason: ', err, ').') // eslint-disable-line no-console
+})
