@@ -18,5 +18,6 @@ const click = async () => {
 export default {
   click,
   getDocument,
-  getLabel
+  getLabel,
+  selector: 'iframe#launcher'
 }

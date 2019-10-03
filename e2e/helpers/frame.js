@@ -1,6 +1,6 @@
 const getByName = async name => {
   for (const frame of page.mainFrame().childFrames()) {
-    if (frame.name().includes(name)) {
+    if (frame.name() === name) {
       return frame
     }
   }
