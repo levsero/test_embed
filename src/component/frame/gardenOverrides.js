@@ -1,5 +1,5 @@
 import {
-  zdColorGrey200,
+  zdColorGrey100,
   zdColorGrey400,
   zdColorGrey600,
   zdColorWhite
@@ -59,19 +59,7 @@ const itemCheckOverrides = isMobile
   : ''
 
 const selectOverrides = css`
-  :focus {
-    background-color: ${zdColorGrey400} !important;
-  }
-
-  :hover {
-    background-color: ${zdColorGrey200} !important;
-  }
-
-  box-shadow: ${props =>
-    props.focused &&
-    `inset 0 ${3 / FONT_SIZE}rem 0 rgba(153,153,153, 0.4), inset 0 -${3 /
-      FONT_SIZE}rem 0 rgba(153,153,153, 0.4) !important`};
-  background-color: ${props => props.focused && `${zdColorGrey400} !important`};
+  background-color: ${props => props.focused && `${zdColorGrey100} !important`};
   ${mobileOverrides}
   ${isMobile ? `padding: ${10 / FONT_SIZE}rem ${25 / FONT_SIZE}rem !important` : ''};
   ${itemCheckOverrides}
