@@ -5,15 +5,14 @@ import { ButtonGroup } from 'component/button/ButtonGroup'
 import { onHelpCenterNextClick } from 'src/redux/modules/base'
 import { getHelpCenterButtonLabel, getChatConnectionConnecting } from 'src/redux/modules/selectors'
 import { i18n } from 'service/i18n'
-import { ButtonContainer, StyledButton } from './styles'
-import { Inline } from '@zendeskgarden/react-loaders'
+import { ButtonContainer, StyledButton, Loading } from './styles'
 
 const ChannelButton = ({ buttonLabel, isRTL, onClick, loading }) => {
   return (
     <ButtonContainer>
       <ButtonGroup rtl={isRTL}>
         <StyledButton primary={true} onClick={!loading ? onClick : null}>
-          {loading ? <Inline color="white" size={24} /> : buttonLabel}
+          {loading ? <Loading color="white" size={24} /> : buttonLabel}
         </StyledButton>
       </ButtonGroup>
     </ButtonContainer>
