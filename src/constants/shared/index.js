@@ -110,6 +110,7 @@ export const TEST_IDS = {
   CHAT_MSG_EVENT: 'chat-msg-event',
   CHAT_MSG_ANSWER_BOT: 'chat-msg-answer-bot',
   CHAT_PRECHAT_FORM: 'chat-prechat-form',
+  CHAT_OFFLINE_FORM: 'chat-offline-form',
   CHECKBOX_FIELD: 'checkbox-field',
   STR_MSG_PANEL_HEADING: 'panelHeading',
   DROPDOWN_OPTIONS: 'dropdown-options',
