@@ -139,6 +139,7 @@ const ChatMenu = ({
 
         <Menu
           placement={isMobileBrowser() ? 'bottom' : 'top'}
+          data-testid={TEST_IDS.CHAT_MENU_LIST}
           popperModifiers={{
             preventOverflow: {
               padding: isMobileBrowser() ? 0 : MENU_PADDING

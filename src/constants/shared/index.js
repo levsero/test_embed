@@ -103,6 +103,7 @@ export const TEST_IDS = {
   CHAT_HEADER_SUBTEXT: 'chat-header-subtext',
   CHAT_HEADER_RATING_GROUP: 'chat-header-rating-group',
   CHAT_MENU: 'chat-menu',
+  CHAT_MENU_LIST: 'chat-menu-list',
   CHAT_MENU_ITEM: 'chat-menu-item',
   CHAT_EDIT_CONTACT_DETAILS_POPUP: 'chat-contact-details-popup',
   CHAT_MSG_USER: 'chat-msg-user',
