@@ -166,7 +166,6 @@ export default function WebWidgetFactory(name) {
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
             imagesSender={helpCenterSettings.imagesSenderFn}
-            onSubmitted={submitTicketSettings.onSubmitted}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}
             style={containerStyle}
@@ -338,31 +337,6 @@ export default function WebWidgetFactory(name) {
 
     config = _.extend({}, submitTicketConfigDefaults, config)
 
-    const createUserActionPayload = (payload, params) => {
-      const body = params.res.body
-      const response = body.request || body.suspended_ticket
-
-      return _.extend({}, payload, {
-        ticketId: response.id,
-        email: params.email,
-        attachmentsCount: params.attachmentsCount,
-        attachmentTypes: params.attachmentTypes,
-        contextualSearch: params.contextualSearch
-      })
-    }
-    const onSubmitted = params => {
-      let userActionPayload = {
-        query: params.searchTerm,
-        locale: params.searchLocale
-      }
-
-      userActionPayload = createUserActionPayload(userActionPayload, params)
-      beacon.trackUserAction('submitTicket', 'send', {
-        label: 'ticketSubmissionForm',
-        value: userActionPayload
-      })
-      mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted')
-    }
     const getTicketFormsFromConfig = _.memoize(config => {
       const settingTicketForms = settings.get('contactForm.ticketForms')
 
@@ -399,8 +373,7 @@ export default function WebWidgetFactory(name) {
     return {
       config,
       ticketForms,
-      customFields,
-      onSubmitted
+      customFields
     }
   }
 

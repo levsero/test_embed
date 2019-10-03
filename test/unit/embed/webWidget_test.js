@@ -465,71 +465,6 @@ describe('embed.webWidget', () => {
           expect(result.props.style).toEqual(expectedResult)
         })
       })
-
-      describe('onSubmitted', () => {
-        let mockMediator, mockBeacon, params, value
-
-        beforeEach(() => {
-          mockMediator = mockRegistry['service/mediator'].mediator
-          mockBeacon = mockRegistry['service/beacon'].beacon
-          params = {
-            res: {
-              body: {
-                request: { id: 149 }
-              }
-            },
-            email: 'mock@email.com',
-            searchTerm: 'a search',
-            searchLocale: 'en-US',
-            attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png'],
-            contextualSearch: false
-          }
-          value = {
-            query: params.searchTerm,
-            locale: params.searchLocale,
-            email: params.email,
-            ticketId: 149,
-            attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png'],
-            contextualSearch: false
-          }
-        })
-
-        describe('when ticket is suspended', () => {
-          it('should also broadcast submitTicket.onsubmitted using correct params for new request endpoint', () => {
-            params.res.body = {
-              suspended_ticket: { id: 149 } // eslint-disable-line camelcase
-            }
-
-            faythe.props.onSubmitted(params)
-
-            expect(mockBeacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
-              label: 'ticketSubmissionForm',
-              value: value
-            })
-
-            expect(mockMediator.channel.broadcast).toHaveBeenCalledWith(
-              'ticketSubmissionForm.onFormSubmitted'
-            )
-          })
-        })
-
-        describe('when ticket is not suspended', () => {
-          it('should also broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
-            faythe.props.onSubmitted(params)
-
-            expect(mockBeacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
-              label: 'ticketSubmissionForm',
-              value: value
-            })
-
-            expect(mockMediator.channel.broadcast).toHaveBeenCalledWith(
-              'ticketSubmissionForm.onFormSubmitted'
-            )
-          })
-        })
-      })
     })
 
     describe('global config', () => {
@@ -589,10 +524,6 @@ describe('embed.webWidget', () => {
         expect(faythe.props.helpCenterAvailable).toBeFalsy()
       })
 
-      it('does not apply props from setUpSubmitTicket to the embed', () => {
-        expect(faythe.props.attachmentSender).toBeFalsy()
-      })
-
       it('does not call zChat init', () => {
         expect(zChatInitSpy).not.toHaveBeenCalled()
       })
@@ -617,35 +548,6 @@ describe('embed.webWidget', () => {
 
         it('changes config.formTitleKey if formTitleKey is set', () => {
           expect(faythe.config.ticketSubmissionForm.formTitleKey).toEqual('test_title')
-        })
-      })
-
-      describe('attachmentSender', () => {
-        let file, mockTransport, embed
-
-        beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].http
-          file = {
-            name: 'foo.bar'
-          }
-          const config = {
-            ...mockConfig,
-            ticketSubmissionForm: {}
-          }
-
-          webWidget.create('', config, mockStore)
-          webWidget.render()
-
-          embed = webWidget.get().instance.getRootComponent()
-          embed.props.attachmentSender(file, null, null, null)
-        })
-
-        it('calls transport.sendFile when invoked', () => {
-          expect(mockTransport.sendFile).toHaveBeenCalled()
-        })
-
-        it('sends to the correct endpoint', () => {
-          expect(mockTransport.sendFile.calls.mostRecent().args[0].path).toEqual('/api/v2/uploads')
         })
       })
 

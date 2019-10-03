@@ -38,6 +38,7 @@ import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actio
 
 import classNames from 'classnames'
 import LoadingBarContent from 'src/components/LoadingBarContent'
+import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 
 const mapStateToProps = state => {
   return {
@@ -78,7 +79,6 @@ class SubmitTicket extends Component {
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
-    onSubmitted: PropTypes.func,
     previewEnabled: PropTypes.bool,
     showBackButton: PropTypes.func,
     subjectEnabled: PropTypes.bool,
@@ -109,7 +109,6 @@ class SubmitTicket extends Component {
     formTitle: 'Leave a message',
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
-    onSubmitted: () => {},
     previewEnabled: false,
     showBackButton: () => {},
     subjectEnabled: false,
@@ -195,7 +194,7 @@ class SubmitTicket extends Component {
         })
       }
 
-      this.props.onSubmitted(params)
+      trackTicketSubmitted(params)
       this.clearForm()
     }
 

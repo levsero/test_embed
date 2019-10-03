@@ -108,7 +108,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    onSubmitted: PropTypes.func,
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
@@ -159,7 +158,6 @@ class WebWidget extends Component {
     fullscreen: true,
     helpCenterAvailable: false,
     hideZendeskLogo: false,
-    onSubmitted: () => {},
     position: 'right',
     style: null,
     showTicketFormsBackButton: false,
@@ -332,7 +330,6 @@ class WebWidget extends Component {
           ref={submitTicket}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onCancel={this.onCancelClick}
-          onSubmitted={this.props.onSubmitted}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           ticketFieldSettings={this.props.ticketFieldSettings}
