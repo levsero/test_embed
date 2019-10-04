@@ -373,6 +373,7 @@ export class ChatOfflineForm extends Component {
             }}
             onSubmit={this.handleFormSubmit}
             onChange={this.handleFormChanged}
+            data-testid={TEST_IDS.CHAT_OFFLINE_FORM}
           >
             <ChatHistoryLink
               isAuthenticated={this.props.isAuthenticated}
