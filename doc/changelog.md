@@ -196,7 +196,7 @@ Formatting guide:
 ### 14 December 2018
 
 - Fixed an issue where Chat Menu wasn't displaying on mobile.
-- Added Social Login to the Edit Contact Details menu in chat.
+- Added Social Login to the Edit Contact Details menu in Chat.
 
 ### 10 December 2018
 
