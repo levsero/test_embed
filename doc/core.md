@@ -136,7 +136,7 @@ None
 
 `zE('webWidget:get', 'display');`
 
-Gets the current widget display. Depending on the features you have enabled,  the command displays one of the following strings: Help Center, Contact Form, Chat, Talk, contact options, and Answer Bot.
+Gets the current widget display. Depending on the features you have enabled, the command displays one of the following strings: `helpCenter`, `chat`, `contactForm`, `talk`, `contactOptions`, or `answerBot`.
 
 #### hide
 
