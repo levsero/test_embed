@@ -46,21 +46,21 @@ Formatting guide:
 ### 5 August 2019
 
 - Changed the [setOnStatus](https://developer.zendesk.com/embeddables/docs/widget/chat#on-chatstatus) API to return the account status when it is initially defined.
-- Fixed an issue where Prechat Form wasn't being displayed after logging out.
+- Fixed an issue where pre-chat form wasn't being displayed after logging out.
 
 ### 30 July 2019
 
-- Changed the Departments Dropdown in the Prechat Form to be sorted alphabetically.
+- Changed the departments drop-down in the pre-chat form to be sorted alphabetically.
 - Fixed an issue where the Edit Contact Details popup couldn't be edited after it was submitted once. Now it can be submitted as many times as needed.
 - Fixed an issue where Chat was opening up on mobile and taking over the screen when a user navigated to a new page while a chat session was in progress.
 
 ### 24 July 2019
 
-- Fixed an issue where calling Chat [get:isChatting](https://developer.zendesk.com/embeddables/docs/widget/chat#get-chatischatting) on page load throws an error in the console. Now it just returns `false` until chat connects.
+- Fixed an issue where calling Chat [get:isChatting](https://developer.zendesk.com/embeddables/docs/widget/chat#get-chatischatting) on page load throws an error in the console. Now it returns `false` until Chat connects.
 
 ### 18 July 2019
 
-- Fixed an issue on mobile where the Chat Menu would have an option to "Go Back" even when there was nothing to go back to.
+- Fixed an issue on mobile where the Chat menu would have an option to "Go Back" even when there was nothing to go back.
 
 ### 17 July 2019
 
@@ -68,7 +68,7 @@ Formatting guide:
 
 ### 10 July 2019
 
-- Added support for the Chat Offline Form to be accessed from Answer Bot.
+- Added support for the Chat offline form to be accessed from Answer Bot.
 - Added support for the Norwegian - Bokml (NB) locale to the Web Widget.
 
 ### 5 July 2019
@@ -106,12 +106,12 @@ Formatting guide:
 
 ### 14 May 2019
 
-- Fixed an issue where visitors could start a chat session when the account is offline if they reconnect to a timed out chat session. Now they see the Offline Form and can't start chatting.
+- Fixed an issue where visitors could start a chat session when the account is offline if they reconnect to a timed out chat session. They can now see the offline form and are unable to start a chat session.
 
 ### 13 May 2019
 
 - Added support for [delaying contact information](https://developer.zendesk.com/embeddables/docs/widget/settings#contactonlyafterquery) until a customer query is made in Answer Bot.
-- Changed the [on open](https://developer.zendesk.com/embeddables/docs/widget/core#on-open) and [on close](https://developer.zendesk.com/embeddables/docs/widget/core#on-close) APIs. They now fire when the [open](https://developer.zendesk.com/embeddables/docs/widget/core#open) and [close](https://developer.zendesk.com/embeddables/docs/widget/core#close) APIs are called. Previously they would only fire when the launcher or close button was clicked.
+- Changed the [on open](https://developer.zendesk.com/embeddables/docs/widget/core#on-open) and [on close](https://developer.zendesk.com/embeddables/docs/widget/core#on-close) APIs. They now fire when the [open](https://developer.zendesk.com/embeddables/docs/widget/core#open) and [close](https://developer.zendesk.com/embeddables/docs/widget/core#close) APIs are called. Previously they would only fire when the launcher or close button is clicked.
 
 ### 9 May 2019
 
@@ -132,12 +132,12 @@ Formatting guide:
 
 ### 3 April 2019
 
-- Fixed an issue where offline departments were present in the Prechat Form when the customer didn't have an Offline Form.
+- Fixed an issue where offline departments were present in the pre-chat form when the customer didn't have an Offline Form.
 
 ### 29 March 2019
 
 - Fixed an issue where the logout API would hide content in the Web Widget after being called.
-- Fixed an issue where the Automatic Translations feature would not render the translated messages.
+- Fixed an issue where the automatic translations feature would not render the translated messages.
 
 ### 25 March 2019
 
@@ -164,7 +164,7 @@ Formatting guide:
 ### 15 Febuary 2019
 
 - Changed the default theme color for new accounts to '#1F73B7'. This color better meets accessibility WCAG 2.0 guidelines.
-- Changed the URLs inside the Prechat and Offline form greeting messages; they now display as links.
+- Changed the URLs inside the pre-chat and offline form greeting messages. They now display as links.
 - Fixed an issue where the Web Widget was loading slowly for customers with an invalid Talk configuration. Now if the configuration is invalid we don't try to connect to Talk.
 
 ### 11 Febuary 2019
@@ -191,11 +191,11 @@ Formatting guide:
 
 ### 20 December 2018
 
-- Added Chat Popout. This allows end users to pop the current chat session out into a new window.
+- Added Chat popout. This allows end users to pop the current chat session out into a new window.
 
 ### 14 December 2018
 
-- Fixed an issue where Chat Menu wasn't displaying on mobile.
+- Fixed an issue where Chat menu wasn't displaying on mobile.
 - Added Social Login to the Edit Contact Details menu in Chat.
 
 ### 10 December 2018
