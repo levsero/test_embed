@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderRow renders 1`] = `
+.c0:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+<div
+  class="c0"
+>
+  <div>
+    Some child component
+  </div>
+</div>
+`;

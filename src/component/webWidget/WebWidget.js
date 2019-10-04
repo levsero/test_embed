@@ -56,6 +56,7 @@ import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settin
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
+import OnBackProvider from 'component/webWidget/OnBackProvider'
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -456,13 +457,15 @@ class WebWidget extends Component {
           position={position}
           onDragEnter={this.onContainerDragEnter}
         >
-          {this.renderSubmitTicket()}
-          {this.renderChat()}
-          {this.renderHelpCenter()}
-          {this.renderChannelChoice()}
-          {this.renderTalk()}
-          {this.renderAnswerBot()}
-          {this.renderChatNotification()}
+          <OnBackProvider value={this.onBackClick}>
+            {this.renderSubmitTicket()}
+            {this.renderChat()}
+            {this.renderHelpCenter()}
+            {this.renderChannelChoice()}
+            {this.renderTalk()}
+            {this.renderAnswerBot()}
+            {this.renderChatNotification()}
+          </OnBackProvider>
         </Container>
       </div>
     )

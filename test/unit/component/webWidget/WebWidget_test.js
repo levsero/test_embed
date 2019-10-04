@@ -75,6 +75,7 @@ describe('WebWidget component', () => {
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'embeds/support': connectedComponent(<MockSupport />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
+      'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
       'embeds/support/selectors': {
         getNewSupportEmbedEnabled: () => false

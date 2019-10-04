@@ -1,0 +1,18 @@
+import React from 'react'
+import { render } from '@testing-library/react'
+import HeaderRow from '../'
+import 'jest-styled-components'
+
+describe('HeaderRow', () => {
+  const defaultProps = {
+    children: <div>Some child component</div>
+  }
+
+  const renderComponent = (props = {}) => render(<HeaderRow {...defaultProps} {...props} />)
+
+  it('renders', () => {
+    const { container } = renderComponent()
+
+    expect(container.firstChild).toMatchSnapshot()
+  })
+})

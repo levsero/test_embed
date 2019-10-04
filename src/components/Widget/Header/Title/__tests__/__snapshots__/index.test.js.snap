@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title renders 1`] = `
+.c0 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+<h1
+  class="c0"
+>
+  <div>
+    Some child component
+  </div>
+</h1>
+`;
