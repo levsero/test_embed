@@ -24,11 +24,11 @@ const waitForSelector = async (selector, prop) => {
 }
 
 expect.extend({
-  async toBeVisible(selector) {
-    return await waitForSelector(selector, 'visible')
+  toBeVisible(selector) {
+    return waitForSelector(selector, 'visible')
   },
-  async toBeHidden(selector) {
-    return await waitForSelector(selector, 'hidden')
+  toBeHidden(selector) {
+    return waitForSelector(selector, 'hidden')
   }
 })
 

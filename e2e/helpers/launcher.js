@@ -2,13 +2,11 @@ import { queries } from 'pptr-testing-library'
 import { TEST_IDS } from '../../src/constants/shared'
 import frame from './frame'
 
-const getDocument = async () => {
-  return frame.getDocument('launcher')
-}
+const getDocument = async () => frame.getDocument('launcher')
 
-const getLabel = async () => {
-  return queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
-}
+const getLabel = async () => queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
+
+const getLabelText = async () => queries.getNodeText(await getLabel())
 
 const click = async () => {
   const label = await getLabel()
@@ -19,5 +17,6 @@ export default {
   click,
   getDocument,
   getLabel,
+  getLabelText,
   selector: 'iframe#launcher'
 }

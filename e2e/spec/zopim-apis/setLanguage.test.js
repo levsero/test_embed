@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import widgetPage from 'helpers/widget-page'
 import launcher from 'helpers/launcher'
 
@@ -11,5 +11,7 @@ test('api changes the language of the widget', async () => {
     $zopim.livechat.setLanguage('fr')
   })
 
-  expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+  await wait(async () => {
+    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+  })
 })
