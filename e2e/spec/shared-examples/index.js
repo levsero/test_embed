@@ -8,7 +8,7 @@ import { queries, wait } from 'pptr-testing-library'
 export const allowsInputTextEditing = async (documentElement, inputTestId) => {
   const inputField = await queries.getByTestId(documentElement, inputTestId)
 
-  await documentElement.focus(`[data-testid="${inputTestId}"]`)
+  inputField.focus()
   await page.keyboard.type('Hello!!')
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowLeft')

@@ -1,6 +1,6 @@
 import { queries } from 'pptr-testing-library'
-import widgetPage from '../../helpers/widget-page'
-import launcher from '../../helpers/launcher'
+import widgetPage from 'helpers/widget-page'
+import launcher from 'helpers/launcher'
 
 describe('zE.setLocale(locale)', () => {
   beforeEach(async () => {
