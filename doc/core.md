@@ -44,7 +44,7 @@ The widget's `contactOptions` object, which represents a component that lets the
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
 **Note:** `chatLabelOnline` and `contactFormLabel` applies to the contact options shown to the end user on the Answer Bot channel.
-  <a name="example-contact-options"></a>
+<a name="example-contact-options"></a>
 
 #### Example
 
@@ -205,6 +205,7 @@ The Identify API call occurs when the widget loads. In the event that a ticket i
   });
 </script>
 ```
+
 **Note:** Passing an organization only works for existing organizations in your Zendesk Support account. It does not create a new organization.
 
 #### logout
