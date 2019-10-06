@@ -64,6 +64,7 @@ describe('render', () => {
       it('renders title', () => {
         expect(result.getByText('mockTitle')).toBeInTheDocument()
       })
+
       it('renders intro message', () => {
         expect(result.getByText('hello friend, intro message')).toBeInTheDocument()
       })
@@ -125,6 +126,10 @@ describe('render', () => {
 
     it('renders Send Another button', () => {
       expect(result.getByText('Send Another')).toBeInTheDocument()
+    })
+
+    it('renders the title', () => {
+      expect(result.getByText('mockTitle')).toBeInTheDocument()
     })
 
     it('when send another button is pressed, call updateChatScreen', () => {
