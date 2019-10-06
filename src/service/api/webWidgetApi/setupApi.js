@@ -111,7 +111,7 @@ export const apiStructurePreRenderSetup = apiAddToPostRenderQueue => {
       open: () => apiAddToPostRenderQueue(['webWidget', 'open']),
       close: closeApi,
       toggle: () => apiAddToPostRenderQueue(['webWidget', 'toggle']),
-      setLocale: (_, locale) => setLocaleApi(locale),
+      setLocale: setLocaleApi,
       identify: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'identify', ...args]),
       updateSettings: (_, ...args) =>
         apiAddToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
@@ -140,7 +140,7 @@ export const apiStructurePostRenderSetup = () => {
       open: openApi,
       close: closeApi,
       toggle: toggleApi,
-      setLocale: (_, locale) => setLocaleApi(locale),
+      setLocale: setLocaleApi,
       identify: identifyApi,
       updateSettings: updateSettingsApi,
       logout: logoutApi,

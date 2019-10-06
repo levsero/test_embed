@@ -4,14 +4,12 @@ const c = mediator.channel
 
 const launcherUnreadMsgs = jest.fn()
 const launcherUpdateSettings = jest.fn()
-const webWidgetRefreshLocale = jest.fn()
 const webWidgetUpdateSettings = jest.fn()
 const webWidgetProactiveChat = jest.fn()
 const webWidgetClearAttachments = jest.fn()
 
 c.subscribe('launcher.setUnreadMsgs', launcherUnreadMsgs)
 c.subscribe('launcher.updateSettings', launcherUpdateSettings)
-c.subscribe('webWidget.refreshLocale', webWidgetRefreshLocale)
 c.subscribe('webWidget.updateSettings', webWidgetUpdateSettings)
 c.subscribe('webWidget.proactiveChat', webWidgetProactiveChat)
 c.subscribe('webWidget.clearAttachments', webWidgetClearAttachments)

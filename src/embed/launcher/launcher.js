@@ -7,12 +7,10 @@ import { launcherStyles } from './launcherStyles'
 import { document, getDocumentHost } from 'utility/globals'
 import Frame from 'component/frame/Frame'
 import Launcher from 'component/launcher/Launcher'
-import { mediator } from 'service/mediator'
 import { generateUserLauncherCSS } from 'utility/color/styles'
 import { isMobileBrowser, getZoomSizingRatio } from 'utility/devices'
 import { renewToken } from 'src/redux/modules/base'
 import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
-import { onNextTick } from 'src/util/utils'
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`
 
@@ -102,10 +100,6 @@ function get() {
   return embed
 }
 
-function getRootComponent() {
-  return get().instance.getRootComponent()
-}
-
 function render() {
   if (embed && embed.instance) {
     throw new Error('Launcher has already been rendered.')
@@ -114,23 +108,6 @@ function render() {
   const element = getDocumentHost().appendChild(document.createElement('div'))
 
   ReactDOM.render(embed.component, element)
-
-  mediator.channel.subscribe('launcher.refreshLocale', () => {
-    waitForRootComponent(() => {
-      get().instance.updateFrameLocale()
-      getRootComponent('launcher').forceUpdate()
-    })
-  })
-}
-
-function waitForRootComponent(callback) {
-  if (getRootComponent()) {
-    callback()
-  } else {
-    onNextTick(() => {
-      waitForRootComponent(callback)
-    })
-  }
 }
 
 export const launcher = {

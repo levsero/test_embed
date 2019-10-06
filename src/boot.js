@@ -13,7 +13,6 @@ import { GA } from 'service/analytics/googleAnalytics'
 import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
 import { initMobileScaling } from 'utility/mobileScaling'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { initResizeMonitor } from 'utility/window'
 import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
@@ -166,8 +165,6 @@ const start = (win, doc) => {
     initMobileScaling()
 
     win.addEventListener('click', clickBusterHandler, true)
-  } else {
-    initResizeMonitor(win)
   }
 }
 

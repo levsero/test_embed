@@ -18,6 +18,11 @@ import {
   getTicketFields as getTicketFieldsState,
   getTicketFormsAvailable
 } from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import {
+  getTicketFormIds,
+  getCustomFieldsAvailable,
+  getCustomFieldIds
+} from 'src/redux/modules/base/base-selectors'
 import { http } from 'service/transport'
 import { formatRequestData } from './helpers/formatter'
 import { i18n } from 'service/i18n'
@@ -105,6 +110,20 @@ export function handleTicketFormClick(form) {
   return {
     type: TICKET_FORM_UPDATE,
     payload: form
+  }
+}
+
+export function updateFormsForLocaleChange(locale) {
+  return (dispatch, getState) => {
+    const state = getState()
+
+    const ticketFormIds = getTicketFormIds(state)
+    if (ticketFormIds.length > 0) {
+      dispatch(getTicketForms(ticketFormIds, locale))
+    } else if (getCustomFieldsAvailable(state)) {
+      const customFields = getCustomFieldIds(state)
+      dispatch(getTicketFields(customFields, locale))
+    }
   }
 }
 

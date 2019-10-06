@@ -56,11 +56,11 @@ import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selec
 
 import { i18n } from 'service/i18n'
 import { identity } from 'service/identity'
-import { mediator } from 'service/mediator'
 import { beacon } from 'service/beacon'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { nameValid, emailValid } from 'utility/utils'
 import { apiResetWidget } from 'src/redux/modules/base/base-actions'
+import { updateFormsForLocaleChange } from 'src/redux/modules/submitTicket/submitTicket-actions'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 
@@ -105,10 +105,8 @@ export const toggleApi = reduxStore => {
   reduxStore.dispatch(toggleReceived())
 }
 
-export const setLocaleApi = locale => {
-  i18n.setLocale(locale, () => {
-    mediator.channel.broadcast('.onSetLocale')
-  })
+export const setLocaleApi = (reduxStore, locale) => {
+  i18n.setLocale(locale, reduxStore.dispatch(updateFormsForLocaleChange(locale)))
 }
 
 export const updateSettingsApi = (reduxStore, newSettings) => {

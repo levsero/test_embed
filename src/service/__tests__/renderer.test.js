@@ -231,7 +231,7 @@ describe('init', () => {
       it('calls i18n.setLocale with the correct locale', () => {
         i18n.getLocale.mockReturnValue(null)
         initRender()
-        expect(setLocaleApi).toHaveBeenCalledWith('en')
+        expect(setLocaleApi).toHaveBeenCalledWith(store, 'en')
       })
     })
 
@@ -315,28 +315,5 @@ describe('#initIPM', () => {
 
       expect(mockWebWidgetRecentCall[1].embeds.helpCenterForm.props.color).toEqual(hcProps.color)
     })
-  })
-})
-
-describe('updateEmbeds', () => {
-  beforeEach(() => {
-    renderer.init({
-      embeds: {
-        ticketSubmissionForm: {
-          embed: 'ticketSubmissionForm'
-        },
-        launcher: {
-          embed: 'launcher'
-        }
-      }
-    })
-
-    renderer.updateEmbeds()
-  })
-
-  it('loops over all rendered embeds and calls forceUpdateWorld on them', () => {
-    renderer.propagateFontRatio(2)
-
-    expect(forceUpdateWorld).toHaveBeenCalledTimes(3)
   })
 })
