@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { MAX_WIDGET_HEIGHT, MIN_WIDGET_HEIGHT, WIDGET_MARGIN, TEST_IDS } from 'src/constants/shared'
 import Refocus from 'component/Refocus'
 import { win } from 'utility/globals'
+import { Header } from 'components/Widget'
 
 import { locals as styles } from './ScrollContainer.scss'
 
@@ -19,10 +20,12 @@ export class ScrollContainer extends Component {
     headerContent: PropTypes.element,
     maxHeight: PropTypes.number,
     scrollShadowVisible: PropTypes.bool,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    titleClasses: PropTypes.string
+    titleClasses: PropTypes.string,
+    useWidgetHeader: PropTypes.bool,
+    hideFooterContent: PropTypes.bool
   }
 
   static defaultProps = {
@@ -117,8 +120,12 @@ export class ScrollContainer extends Component {
   }
 
   renderFooter() {
-    const { footerContent, footerClasses, scrollShadowVisible } = this.props
+    const { footerContent, footerClasses, scrollShadowVisible, hideFooterContent } = this.props
     const footerShadowClasses = scrollShadowVisible ? styles.footerShadow : ''
+
+    if (hideFooterContent) {
+      return null
+    }
 
     return (
       <footer
@@ -166,16 +173,21 @@ export class ScrollContainer extends Component {
         style={{ height: this.calculateHeight() }}
         className={scrollContainerClasses}
       >
-        <header
-          ref={el => {
-            this.header = el
-          }}
-          className={headerClasses}
-          data-testid={TEST_IDS.SCROLL_CONTAINER_HEADER}
-        >
-          <h1 className={titleClasses}>{this.props.title}</h1>
-          {this.props.headerContent}
-        </header>
+        {this.props.title &&
+          (this.props.useWidgetHeader ? (
+            <Header title={this.props.title} />
+          ) : (
+            <header
+              ref={el => {
+                this.header = el
+              }}
+              className={headerClasses}
+              data-testid={TEST_IDS.SCROLL_CONTAINER_HEADER}
+            >
+              <h1 className={titleClasses}>{this.props.title}</h1>
+              {this.props.headerContent}
+            </header>
+          ))}
         <div
           ref={el => {
             this.content = el

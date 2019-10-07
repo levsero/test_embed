@@ -34,8 +34,7 @@ import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 import ChatHistoryLink from './ChatHistoryLink'
 import { TEST_IDS } from 'src/constants/shared'
-import { Widget, Main } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main } from 'src/components/Widget'
 
 import { locals as styles } from './ChatOffline.scss'
 
@@ -137,7 +136,7 @@ class ChatOffline extends Component {
   renderChatOfflineScreen = () => {
     return (
       <Widget>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <Header title={this.props.title} />
         <Main>
           <div className={styles.innerContent}>
             <ChatHistoryLink

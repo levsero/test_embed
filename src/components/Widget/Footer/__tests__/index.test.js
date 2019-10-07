@@ -40,4 +40,10 @@ describe('Footer', () => {
       ).toMatchSnapshot()
     })
   })
+
+  it('it has no padding when minimal is true', () => {
+    const result = renderComponent({ minimal: true })
+
+    expect(result.container.firstChild).toHaveClass('minimal')
+  })
 })

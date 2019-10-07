@@ -704,7 +704,7 @@ exports[`update chat header 1`] = `
 <div
   class="textContainer"
   data-testid="chat-header-text-container"
-  style="padding-left: 3rem;"
+  style="padding-left: 12px;"
 >
   <h2
     class="title"

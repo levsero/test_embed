@@ -33,6 +33,12 @@ describe('RatingScreen component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
+      'components/Widget': {
+        Widget: noopReactComponent(),
+        Main: noopReactComponent(),
+        Footer: noopReactComponent()
+      },
+      'embeds/chat/components/ChatWidgetHeader': noopReactComponent(),
       'src/redux/modules/chat': {
         updateChatScreen: updateChatScreenSpy,
         sendChatRating: sendChatRatingSpy,
@@ -91,28 +97,6 @@ describe('RatingScreen component', () => {
       sendChatRatingSpy.calls.reset()
       sendChatCommentSpy.calls.reset()
       endChatSpy.calls.reset()
-    })
-
-    it('returns a component with the FeedbackForm component as the first child', () => {
-      const firstChild = component.render().props.children[0].props.children
-
-      expect(TestUtils.isElementOfType(firstChild, FeedbackForm)).toEqual(true)
-    })
-
-    describe('the scroll container wrapper', () => {
-      it('has its containerClasses prop to the scrollContainerContent style', () => {
-        expect(component.render().props.children[0].props.containerClasses).toEqual(
-          'scrollContainerContentClasses'
-        )
-      })
-
-      it('has its fullscreen prop to the ScrollContainer style', () => {
-        expect(component.render().props.children[0].props.fullscreen).toEqual(true)
-      })
-
-      it('has its isMobile prop to the ScrollContainer style', () => {
-        expect(component.render().props.children[0].props.isMobile).toEqual(true)
-      })
     })
 
     describe('the sendClickFn passed as a prop to the FeedbackForm', () => {
@@ -215,7 +199,7 @@ describe('RatingScreen component', () => {
 
       describe('when hideZendeskLogo is false', () => {
         beforeEach(() => {
-          component = instanceRender(
+          result = domRender(
             <RatingScreen
               rating={defaultRating}
               updateChatScreen={updateChatScreenSpy}
@@ -225,21 +209,16 @@ describe('RatingScreen component', () => {
               hideZendeskLogo={false}
             />
           )
-          result = component.render()
         })
 
         it('renders logo in footer', () => {
-          expect(TestUtils.isElementOfType(result.props.children[1], ZendeskLogo)).toBeTruthy()
-        })
-
-        it('renders footer with correct class', () => {
-          expect(result.props.children[0].props.footerClasses).toContain('logoFooterClasses')
+          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).not.toThrow()
         })
       })
 
       describe('when hideZendeskLogo is true', () => {
         beforeEach(() => {
-          component = instanceRender(
+          result = domRender(
             <RatingScreen
               rating={defaultRating}
               updateChatScreen={updateChatScreenSpy}
@@ -249,15 +228,10 @@ describe('RatingScreen component', () => {
               hideZendeskLogo={true}
             />
           )
-          result = component.render()
         })
 
         it('does not render logo in footer', () => {
-          expect(result.props.children[1]).toBeFalsy()
-        })
-
-        it('renders footer with correct class', () => {
-          expect(result.props.children[0].props.footerClasses).not.toContain('logoFooterClasses')
+          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).toThrow()
         })
       })
     })

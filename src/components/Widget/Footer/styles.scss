@@ -10,3 +10,7 @@
   border-top: #{1.1 / $font-size}rem solid $zd-color-grey-200;
   box-shadow: 0 -#{1 / $font-size}rem #{12 / $font-size}rem rgba($zd-color-black, 0.08);
 }
+
+.footer.minimal {
+  padding: 0;
+}

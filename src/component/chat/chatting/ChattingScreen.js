@@ -37,7 +37,6 @@ import {
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import {
   getProfileConfig,
-  getChatTitle,
   getConciergeSettings,
   getCurrentConcierges,
   isInChattingScreen,
@@ -46,6 +45,8 @@ import {
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
+import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
+import { Widget, Main, Footer } from 'components/Widget'
 
 const mapStateToProps = state => {
   return {
@@ -71,7 +72,6 @@ const mapStateToProps = state => {
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     conciergeSettings: getConciergeSettings(state),
-    title: getChatTitle(state),
     profileConfig: getProfileConfig(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     visible: isInChattingScreen(state),
@@ -115,7 +115,6 @@ class ChattingScreen extends Component {
     socialLogin: PropTypes.object,
     conciergeSettings: PropTypes.object.isRequired,
     showContactDetails: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
     profileConfig: PropTypes.object.isRequired,
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
@@ -501,49 +500,59 @@ class ChattingScreen extends Component {
     })
 
     return (
-      <div>
-        <ScrollContainer
-          ref={el => {
-            this.scrollContainer = el
-          }}
-          title={this.props.title}
-          onContentScrolled={this.handleChatScreenScrolled}
-          headerContent={this.renderChatHeader()}
-          headerClasses={styles.header}
-          containerClasses={containerClasses}
-          footerClasses={footerClasses}
-          footerContent={this.renderChatFooter()}
-          fullscreen={fullscreen}
-          isMobile={isMobile}
+      <Widget>
+        <ChatWidgetHeader />
+        {this.renderChatHeader()}
+        <Main
+          style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0, marginLeft: 0, marginRight: 0 }}
         >
-          <div className={chatLogContainerClasses}>
-            <HistoryLog
-              isMobile={this.props.isMobile}
-              showAvatar={this.props.showAvatar}
-              agents={this.props.allAgents}
-              firstMessageTimestamp={this.props.firstMessageTimestamp}
-            />
-            <ChatLog
-              isMobile={this.props.isMobile}
-              showAvatar={this.props.showAvatar}
-              agents={this.props.allAgents}
-              chatRating={this.props.rating}
-              goToFeedbackScreen={this.goToFeedbackScreen}
-              handleSendMsg={sendMsg}
-              onImageLoad={this.scrollToBottom}
-              conciergeAvatar={this.props.conciergeSettings.avatar_path}
-              updateInfoOnClick={this.props.showContactDetails}
-              socialLogin={this.props.socialLogin}
-            />
-            {this.renderQueuePosition()}
-            {this.renderAgentTyping(agentsTyping)}
-            {this.renderHistoryFetching()}
-            {this.renderScrollPill()}
+          <ScrollContainer
+            ref={el => {
+              this.scrollContainer = el
+            }}
+            classes={styles.scrollContainer}
+            onContentScrolled={this.handleChatScreenScrolled}
+            headerClasses={styles.header}
+            containerClasses={containerClasses}
+            footerClasses={footerClasses}
+            fullscreen={fullscreen}
+            isMobile={isMobile}
+            hideFooterContent={true}
+          >
+            <div className={chatLogContainerClasses}>
+              <HistoryLog
+                isMobile={this.props.isMobile}
+                showAvatar={this.props.showAvatar}
+                agents={this.props.allAgents}
+                firstMessageTimestamp={this.props.firstMessageTimestamp}
+              />
+              <ChatLog
+                isMobile={this.props.isMobile}
+                showAvatar={this.props.showAvatar}
+                agents={this.props.allAgents}
+                chatRating={this.props.rating}
+                goToFeedbackScreen={this.goToFeedbackScreen}
+                handleSendMsg={sendMsg}
+                onImageLoad={this.scrollToBottom}
+                conciergeAvatar={this.props.conciergeSettings.avatar_path}
+                updateInfoOnClick={this.props.showContactDetails}
+                socialLogin={this.props.socialLogin}
+              />
+              {this.renderQueuePosition()}
+              {this.renderAgentTyping(agentsTyping)}
+              {this.renderHistoryFetching()}
+              {this.renderScrollPill()}
+            </div>
+            {this.renderQuickReply()}
+          </ScrollContainer>
+        </Main>
+        <Footer minimal={true}>
+          <div className={footerClasses}>
+            {this.renderChatFooter()}
+            {this.renderZendeskLogo()}
           </div>
-          {this.renderQuickReply()}
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </div>
+        </Footer>
+      </Widget>
     )
   }
 }

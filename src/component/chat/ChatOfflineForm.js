@@ -18,8 +18,7 @@ import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
-import { Widget, Main } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main } from 'src/components/Widget'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -242,7 +241,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <Widget>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <Header title={this.props.title} />
         <Main>
           <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
           <Button
@@ -262,7 +261,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <Widget>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <Header title={this.props.title} />
         <Main>
           <div className={styles.loadingSpinner}>
             <LoadingSpinner />
@@ -363,7 +362,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <Widget>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <Header title={this.props.title} />
         <Main>
           <form
             noValidate={true}
@@ -408,7 +407,7 @@ export class ChatOfflineForm extends Component {
 
     return (
       <Widget>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
+        <Header title={this.props.title} />
         <Main>
           <ChatOperatingHours
             handleOfflineFormBack={handleOfflineFormBack}

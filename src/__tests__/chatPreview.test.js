@@ -124,9 +124,7 @@ describe('rendered with default options', () => {
     preview.updateSettings({ concierge: { title: 'updated concierge title' } })
 
     preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl().querySelector('header')).toHaveTextContent(
-        'updated concierge title'
-      )
+      expect(chatPreviewBodyEl()).toHaveTextContent('updated concierge title')
       done()
     })
   })

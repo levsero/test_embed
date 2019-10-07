@@ -44,7 +44,7 @@
 
 .historyFetchingContainer {
   composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;
-  top: #{110 / $font-size}rem;
+  top: #{120 / $font-size}rem;
   left: 0;
   right: 0;
 }
@@ -62,6 +62,10 @@
 
 .zendeskLogo {
   z-index: 1;
+
+  > span {
+    margin: 0 !important;
+  }
 }
 
 .zendeskLogoChatMobile {
@@ -123,10 +127,6 @@
   padding-left: #{8 / $font-size}rem !important;
 }
 
-.headerMargin {
-  margin-top: #{58 / $font-size}rem;
-}
-
 .scrollContainerMessagesContent {
   composes: scrollContainerContent;
 }
@@ -160,4 +160,9 @@
 .noAgentTypingMobile {
   composes: noAgentTyping;
   height: #{14 / $font-size}rem;
+}
+
+.scrollContainer {
+  height: 100% !important;
+  overflow-y: hidden;
 }

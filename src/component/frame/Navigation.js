@@ -196,6 +196,10 @@ export class Navigation extends Component {
       return null
     }
 
+    if (activeEmbed === 'chat') {
+      return null
+    }
+
     const popoutStyle = isMobile ? styles.popoutMobile : styles.popoutDesktop
 
     return !this.props.standaloneMobileNotificationVisible ? (

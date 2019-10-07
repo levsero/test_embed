@@ -396,7 +396,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="sc-bdVaJa chbGzG"
+                class="sc-bZQynM eUepGy"
               >
                 <div
                   aria-expanded="false"
@@ -1090,7 +1090,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="sc-bdVaJa chbGzG"
+                class="sc-bZQynM eUepGy"
               >
                 <div
                   aria-expanded="false"
