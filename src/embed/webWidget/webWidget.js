@@ -9,7 +9,6 @@ import { beacon } from 'service/beacon'
 import { i18n } from 'service/i18n'
 import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isIE, isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
@@ -162,13 +161,11 @@ export default function WebWidgetFactory(name) {
       <Provider store={reduxStore}>
         <Frame {...frameParams}>
           <WebWidget
-            attachmentSender={submitTicketSettings.attachmentSender}
             fullscreen={popout}
             isMobile={isMobile}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
             imagesSender={helpCenterSettings.imagesSenderFn}
-            onSubmitted={submitTicketSettings.onSubmitted}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             position={globalConfig.position}
             style={containerStyle}
@@ -340,45 +337,6 @@ export default function WebWidgetFactory(name) {
 
     config = _.extend({}, submitTicketConfigDefaults, config)
 
-    const attachmentSender = (file, doneFn, failFn, progressFn) => {
-      const payload = {
-        method: 'post',
-        path: '/api/v2/uploads',
-        file: file,
-        callbacks: {
-          done: doneFn,
-          fail: failFn,
-          progress: progressFn
-        }
-      }
-
-      return http.sendFile(payload)
-    }
-    const createUserActionPayload = (payload, params) => {
-      const body = params.res.body
-      const response = body.request || body.suspended_ticket
-
-      return _.extend({}, payload, {
-        ticketId: response.id,
-        email: params.email,
-        attachmentsCount: params.attachmentsCount,
-        attachmentTypes: params.attachmentTypes,
-        contextualSearch: params.contextualSearch
-      })
-    }
-    const onSubmitted = params => {
-      let userActionPayload = {
-        query: params.searchTerm,
-        locale: params.searchLocale
-      }
-
-      userActionPayload = createUserActionPayload(userActionPayload, params)
-      beacon.trackUserAction('submitTicket', 'send', {
-        label: 'ticketSubmissionForm',
-        value: userActionPayload
-      })
-      mediator.channel.broadcast(prefix + 'ticketSubmissionForm.onFormSubmitted')
-    }
     const getTicketFormsFromConfig = _.memoize(config => {
       const settingTicketForms = settings.get('contactForm.ticketForms')
 
@@ -415,9 +373,7 @@ export default function WebWidgetFactory(name) {
     return {
       config,
       ticketForms,
-      customFields,
-      attachmentSender,
-      onSubmitted
+      customFields
     }
   }
 

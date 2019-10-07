@@ -38,6 +38,7 @@ import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actio
 
 import classNames from 'classnames'
 import LoadingBarContent from 'src/components/LoadingBarContent'
+import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 
 const mapStateToProps = state => {
   return {
@@ -69,7 +70,6 @@ class SubmitTicket extends Component {
   static propTypes = {
     onCancelClick: PropTypes.func.isRequired,
     attachmentsEnabled: PropTypes.bool,
-    attachmentSender: PropTypes.func.isRequired,
     errorMsg: PropTypes.string.isRequired,
     formTitle: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
@@ -79,7 +79,6 @@ class SubmitTicket extends Component {
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
-    onSubmitted: PropTypes.func,
     previewEnabled: PropTypes.bool,
     showBackButton: PropTypes.func,
     subjectEnabled: PropTypes.bool,
@@ -110,7 +109,6 @@ class SubmitTicket extends Component {
     formTitle: 'Leave a message',
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
-    onSubmitted: () => {},
     previewEnabled: false,
     showBackButton: () => {},
     subjectEnabled: false,
@@ -196,7 +194,7 @@ class SubmitTicket extends Component {
         })
       }
 
-      this.props.onSubmitted(params)
+      trackTicketSubmitted(params)
       this.clearForm()
     }
 
@@ -283,7 +281,6 @@ class SubmitTicket extends Component {
         hide={this.props.showNotification}
         ticketFields={fields}
         formTitle={this.props.formTitle}
-        attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}

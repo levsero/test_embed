@@ -1,9 +1,12 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import _ from 'lodash'
+import attachmentSender from 'embeds/support/utils/attachment-sender'
 
 import { AttachmentList } from '../AttachmentList'
 import { TEST_IDS } from 'src/constants/shared'
+
+jest.mock('embeds/support/utils/attachment-sender')
 
 beforeEach(() => {
   let value = 1
@@ -15,7 +18,6 @@ jest.useFakeTimers()
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    attachmentSender: jest.fn(),
     maxFileCount: 5,
     updateForm: jest.fn(),
     maxFileSize: 5 * 1024 * 1024
@@ -129,10 +131,9 @@ test('picks the correct icon types', () => {
 test('remove attachment', () => {
   const file = new File(['hello world'], 'some.csv')
   const abort = jest.fn()
-  const requestSender = () => ({ abort })
-  const { getByTestId, container } = renderComponent({
-    attachmentSender: requestSender
-  })
+  attachmentSender.mockReturnValue({ abort })
+
+  const { getByTestId, container } = renderComponent()
   const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
@@ -147,13 +148,12 @@ test('remove attachment', () => {
 test('successful upload', () => {
   const file = new File(['hello world'], 'some.csv')
   let doneFn
-  const requestSender = (_, done) => {
+  attachmentSender.mockImplementation((_, done) => {
     doneFn = done
     return {}
-  }
+  })
   const updateForm = jest.fn()
   const { getByTestId, container } = renderComponent({
-    attachmentSender: requestSender,
     updateForm
   })
   const dz = getByTestId(TEST_IDS.DROPZONE)
@@ -171,13 +171,12 @@ test('successful upload', () => {
 test('failed upload', () => {
   const file = new File(['hello world'], 'some.csv')
   let failFn
-  const requestSender = (_, _d, fail) => {
+  attachmentSender.mockImplementation((_, _d, fail) => {
     failFn = fail
     return {}
-  }
+  })
   const updateForm = jest.fn()
   const { getByTestId, container } = renderComponent({
-    attachmentSender: requestSender,
     updateForm
   })
   const dz = getByTestId(TEST_IDS.DROPZONE)
@@ -195,13 +194,11 @@ test('failed upload', () => {
 test('uploading in progress upload', () => {
   const file = new File(['hello world'], 'some.csv')
   let progressFn
-  const requestSender = (_, _d, _f, progress) => {
+  attachmentSender.mockImplementation((_, _d, _f, progress) => {
     progressFn = progress
     return {}
-  }
-  const { getByTestId, container } = renderComponent({
-    attachmentSender: requestSender
   })
+  const { getByTestId, container } = renderComponent()
   const dz = getByTestId(TEST_IDS.DROPZONE)
 
   Object.defineProperty(dz, 'files', { value: [file] })
