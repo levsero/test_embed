@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import SoundOffIcon from 'icons/widget-icon_sound_off.svg'
-import SoundOnIcon from 'icons/widget-icon_sound_on.svg'
+import SoundOffIcon from '@zendeskgarden/svg-icons/src/16/volume-muted-stroke.svg'
+import SoundOnIcon from '@zendeskgarden/svg-icons/src/16/volume-unmuted-stroke.svg'
 import { FONT_SIZE } from 'constants/shared'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { Menu } from '@zendeskgarden/react-dropdowns'
