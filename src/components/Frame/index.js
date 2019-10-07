@@ -1,24 +1,24 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
 import PropTypes from 'prop-types'
 
-const useCombinedRefs = (...refs) => {
+const useCombinedRefs = extraRef => {
   const targetRef = useRef(null)
 
-  const setRef = ref => {
-    targetRef.current = ref
+  const setRef = useCallback(
+    ref => {
+      targetRef.current = ref
+      if (!extraRef) return
 
-    refs.forEach(ref => {
-      if (!ref) return
-
-      if (typeof ref === 'function') {
-        ref(targetRef.current)
+      if (typeof extraRef === 'function') {
+        extraRef(targetRef.current)
       } else {
-        ref.current = targetRef.current
+        extraRef.current = targetRef.current
       }
-    })
-  }
+    },
+    [targetRef, extraRef]
+  )
 
   return [targetRef, setRef]
 }

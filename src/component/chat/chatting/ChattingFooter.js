@@ -6,7 +6,6 @@ import { locals as styles } from './ChattingFooter.scss'
 import { i18n } from 'service/i18n'
 import { Dropzone } from 'component/Dropzone'
 
-import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { TooltipContainer, TooltipView } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
 
@@ -54,30 +53,29 @@ export class ChattingFooter extends Component {
     const altText = i18n.t('embeddable_framework.chat.icon.endChat.hover.label')
 
     return (
-      <ThemeProvider>
-        <TooltipContainer
-          placement={this.tooltipPlacement()}
-          isVisible={disabled ? false : undefined}
-          trigger={({ getTriggerProps, ref }) => (
-            <FooterIconButton
-              colorType="fill"
-              {...getTriggerProps({
-                ref,
-                size: 'small',
-                onClick: this.handleEndChatClick,
-                'aria-label': altText,
-                disabled: disabled
-              })}
-            >
-              <Icon type={ICONS.END_CHAT} />
-            </FooterIconButton>
-          )}
-        >
-          {({ getTooltipProps, placement }) => (
-            <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
-          )}
-        </TooltipContainer>
-      </ThemeProvider>
+      <TooltipContainer
+        placement={this.tooltipPlacement()}
+        isVisible={disabled ? false : undefined}
+        trigger={({ getTriggerProps, ref }) => (
+          <FooterIconButton
+            ignoreThemeOverride={true}
+            colorType="fill"
+            {...getTriggerProps({
+              ref,
+              size: 'small',
+              onClick: this.handleEndChatClick,
+              'aria-label': altText,
+              disabled: disabled
+            })}
+          >
+            <Icon type={ICONS.END_CHAT} />
+          </FooterIconButton>
+        )}
+      >
+        {({ getTooltipProps, placement }) => (
+          <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
+        )}
+      </TooltipContainer>
     )
   }
 
@@ -88,28 +86,27 @@ export class ChattingFooter extends Component {
 
     return (
       <Dropzone onDrop={this.props.handleAttachmentDrop}>
-        <ThemeProvider>
-          <TooltipContainer
-            placement={this.tooltipPlacement()}
-            isVisible={this.props.isMobile ? false : undefined}
-            trigger={({ getTriggerProps, ref }) => (
-              <FooterIconButton
-                {...getTriggerProps({
-                  ref,
-                  size: 'small',
-                  'aria-label': altText,
-                  'data-testid': TEST_IDS.CHAT_ATTACHMENT_BUTTON
-                })}
-              >
-                <Icon type={ICONS.PAPERCLIP_SMALL} />
-              </FooterIconButton>
-            )}
-          >
-            {({ getTooltipProps, placement }) => (
-              <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
-            )}
-          </TooltipContainer>
-        </ThemeProvider>
+        <TooltipContainer
+          placement={this.tooltipPlacement()}
+          isVisible={this.props.isMobile ? false : undefined}
+          trigger={({ getTriggerProps, ref }) => (
+            <FooterIconButton
+              ignoreThemeOverride={true}
+              {...getTriggerProps({
+                ref,
+                size: 'small',
+                'aria-label': altText,
+                'data-testid': TEST_IDS.CHAT_ATTACHMENT_BUTTON
+              })}
+            >
+              <Icon type={ICONS.PAPERCLIP_SMALL} />
+            </FooterIconButton>
+          )}
+        >
+          {({ getTooltipProps, placement }) => (
+            <TooltipView {...getTooltipProps({ placement })}>{altText}</TooltipView>
+          )}
+        </TooltipContainer>
       </Dropzone>
     )
   }

@@ -112,7 +112,6 @@ const ChatMenu = ({
         }}
       >
         <Tooltip
-          placement={isMobileBrowser() ? 'bottom-start' : 'top-end'}
           trigger={
             <Trigger>
               {isMobileBrowser() ? (

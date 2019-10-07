@@ -427,6 +427,14 @@ class Frame extends Component {
     }
   }
 
+  updateFrameRef = iframe => {
+    if (!iframe) {
+      return
+    }
+    this.iframe = iframe
+    this.updateFrameLocale()
+  }
+
   render = () => {
     const iframeNamespace = 'zEWidget'
     const frameClasses = `${iframeNamespace}-${this.props.name}`
@@ -464,12 +472,7 @@ class Frame extends Component {
               ...this.computeIframeStyle(),
               ...transitionStyles[status]
             }}
-            ref={iframe => {
-              this.iframe = iframe
-              if (iframe) {
-                this.updateFrameLocale()
-              }
-            }}
+            ref={this.updateFrameRef}
             id={this.props.name}
             tabIndex={tabIndex}
             className={`${frameClasses} ${activeClasses}`}
