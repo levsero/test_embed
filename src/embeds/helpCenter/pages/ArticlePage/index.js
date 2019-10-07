@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetContainer from 'src/components/WidgetContainer'
+import { Widget, Main } from 'src/components/Widget'
 import WidgetHeader from 'src/components/WidgetHeader'
-import Footer from 'src/embeds/helpCenter/components/Footer'
+import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
@@ -43,9 +42,9 @@ const ArticlePage = ({
   showNextButton
 }) => {
   return (
-    <WidgetContainer>
+    <Widget>
       <WidgetHeader>{title}</WidgetHeader>
-      <WidgetMain>
+      <Main>
         <HelpCenterArticle
           activeArticle={activeArticle}
           locale={resultsLocale}
@@ -56,14 +55,14 @@ const ArticlePage = ({
           updateStoredImages={addRestrictedImage}
           isMobile={isMobile}
         />
-      </WidgetMain>
-      <Footer
+      </Main>
+      <HelpCenterFooter
         isMobile={isMobile}
         hideZendeskLogo={hideZendeskLogo}
         onClick={onClick}
         showNextButton={showNextButton}
       />
-    </WidgetContainer>
+    </Widget>
   )
 }
 

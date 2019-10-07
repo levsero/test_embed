@@ -6,9 +6,7 @@ import { i18n } from 'service/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import WidgetHeader from 'src/components/WidgetHeader'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
+import { Widget, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import {
   getAverageWaitTimeString,
@@ -28,9 +26,9 @@ const PhoneOnlyPage = ({
   hideZendeskLogo
 }) => {
   return (
-    <WidgetContainer>
+    <Widget>
       <WidgetHeader>{title}</WidgetHeader>
-      <WidgetMain>
+      <Main>
         <Container data-testid={TEST_IDS.TALK_PHONE_ONLY_PAGE}>
           <TalkIcon />
           <Message>{callUsMessage}</Message>
@@ -39,9 +37,9 @@ const PhoneOnlyPage = ({
             <PhoneNumber phoneNumber={phoneNumber} formattedPhoneNumber={formattedPhoneNumber} />
           </PhoneNumberContainer>
         </Container>
-      </WidgetMain>
-      <WidgetFooter>{hideZendeskLogo ? null : <ZendeskLogo />}</WidgetFooter>
-    </WidgetContainer>
+      </Main>
+      <Footer>{hideZendeskLogo ? null : <ZendeskLogo />}</Footer>
+    </Widget>
   )
 }
 

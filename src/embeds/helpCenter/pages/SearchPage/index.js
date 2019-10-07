@@ -2,10 +2,9 @@ import React, { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import WidgetContainer from 'src/components/WidgetContainer'
+import { Widget, Main } from 'src/components/Widget'
 import SearchHeader from 'src/embeds/helpCenter/components/SearchHeader'
-import WidgetMain from 'src/components/WidgetMain'
-import Footer from 'src/embeds/helpCenter/components/Footer'
+import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import Results from 'src/embeds/helpCenter/components/Results'
 
 import {
@@ -34,17 +33,17 @@ const SearchPage = ({
   }, [articles])
 
   return (
-    <WidgetContainer>
+    <Widget>
       <SearchHeader ref={searchHeaderRef} isMobile={isMobile}>
         {title}
       </SearchHeader>
-      <WidgetMain>{content}</WidgetMain>
-      <Footer
+      <Main>{content}</Main>
+      <HelpCenterFooter
         isMobile={isMobile}
         hideZendeskLogo={hideZendeskLogo}
         showNextButton={showNextButton}
       />
-    </WidgetContainer>
+    </Widget>
   )
 }
 

@@ -15,8 +15,7 @@ import {
 import Linkify from 'react-linkify'
 
 import { UserProfile } from 'component/chat/UserProfile'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
+import { Widget, Main } from 'src/components/Widget'
 import WidgetHeader from 'src/components/WidgetHeader'
 import ChatFooter from 'src/embeds/chat/components/Footer'
 
@@ -451,9 +450,9 @@ export class PrechatForm extends Component {
       ? i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')
       : i18n.t('embeddable_framework.chat.preChat.online.button.startChat')
     return (
-      <WidgetContainer>
+      <Widget>
         <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+        <Main>
           <form
             noValidate={true}
             onSubmit={this.handleFormSubmit}
@@ -480,13 +479,13 @@ export class PrechatForm extends Component {
             {this.renderMessageField()}
             <input type="submit" hidden={true} />
           </form>
-        </WidgetMain>
+        </Main>
         <ChatFooter
           hideZendeskLogo={this.props.hideZendeskLogo}
           label={buttonLabel}
           onClick={this.handleFormSubmit}
         />
-      </WidgetContainer>
+      </Widget>
     )
   }
 }

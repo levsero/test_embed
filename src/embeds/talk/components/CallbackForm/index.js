@@ -10,8 +10,8 @@ import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
 import NameField from 'src/embeds/talk/components/NameField'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
+import Main from 'src/components/Widget/Main'
+import Footer from 'src/components/Widget/Footer'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
@@ -29,7 +29,7 @@ import {
   getTalkServiceUrl,
   getHideZendeskLogo
 } from 'src/redux/modules/selectors'
-import { SubmitButton, Footer, Form, Header, FormDivider } from './styles'
+import { SubmitButton, FooterView, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -127,7 +127,7 @@ class CallbackForm extends Component {
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}
       >
-        <WidgetMain>
+        <Main>
           <CallbackPhone />
           <div>
             <Header>{headerMessage}</Header>
@@ -146,14 +146,14 @@ class CallbackForm extends Component {
           <NameField label={nameLabelText} defaultValue={formState.name} />
           <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
           {errorMessage && <ErrorNotification message={errorMessage} />}
-        </WidgetMain>
-        <WidgetFooter scrollShadowVisible={true}>
-          <Footer hideZendeskLogo={hideZendeskLogo}>
+        </Main>
+        <Footer scrollShadowVisible={true}>
+          <FooterView hideZendeskLogo={hideZendeskLogo}>
             {!hideZendeskLogo && <ZendeskLogo />}
 
             <SubmitButton>{submitButtonLabel}</SubmitButton>
-          </Footer>
-        </WidgetFooter>
+          </FooterView>
+        </Footer>
       </Form>
     )
   }

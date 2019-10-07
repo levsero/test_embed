@@ -19,20 +19,20 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-bdVaJa biVTNi"
+        class="sc-bZQynM icRMhI"
       >
         <svg
-          class="sc-bwzfXH dKgBBG"
+          class="sc-gzVnrw iEzjZD"
           realfilename="talk_success.svg"
         />
         <div>
           <h2
-            class="sc-htpNat eVeHYg"
+            class="sc-htoDjs eTWClO"
           >
             Thanks for reaching out.
           </h2>
           <p
-            class="sc-bxivhb bLWVOb"
+            class="sc-dnqmqq cbODAh"
           >
             We'll get back to you soon.
           </p>
@@ -43,10 +43,10 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
       class="footer"
     >
       <div
-        class="sc-ifAKCX dakLHt"
+        class="sc-iwsKbI dRZuUw"
       >
         <button
-          class="sc-EHOje bBTdpL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+          class="sc-gZMcBi gNmHTl Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
           data-garden-id="buttons.button"
           data-garden-version="6.4.4"
           tabindex="0"

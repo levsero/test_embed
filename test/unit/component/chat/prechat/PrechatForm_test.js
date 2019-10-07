@@ -108,10 +108,12 @@ describe('PrechatForm component', () => {
       'src/util/utils': {
         onNextTick: cb => setTimeout(cb, 0)
       },
-      'src/components/WidgetContainer': {},
+      'src/components/Widget': {
+        Widget: noopReactComponent(),
+        Main: noopReactComponent(),
+        Footer: noopReactComponent()
+      },
       'src/components/WidgetHeader': {},
-      'src/components/WidgetMain': {},
-      'src/components/WidgetFooter': {},
       'src/embeds/chat/components/Footer': {}
     })
 

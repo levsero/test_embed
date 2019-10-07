@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { locals as styles } from './styles.scss'
 
-const WidgetFooter = ({ children, scrollShadowVisible }) => {
+const Footer = ({ children, scrollShadowVisible }) => {
   const footerClasses = classNames(styles.footer, {
     [styles.footerShadow]: scrollShadowVisible
   })
@@ -11,13 +11,13 @@ const WidgetFooter = ({ children, scrollShadowVisible }) => {
   return <footer className={footerClasses}>{children}</footer>
 }
 
-WidgetFooter.propTypes = {
+Footer.propTypes = {
   children: PropTypes.node,
   scrollShadowVisible: PropTypes.bool
 }
 
-WidgetFooter.defaultProps = {
+Footer.defaultProps = {
   scrollShadowVisible: false
 }
 
-export default WidgetFooter
+export default Footer

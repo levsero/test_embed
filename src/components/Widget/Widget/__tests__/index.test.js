@@ -1,5 +1,5 @@
 import React from 'react'
-import WidgetContainer from 'src/components/WidgetContainer'
+import { Widget } from 'components/Widget'
 import { render } from '@testing-library/react'
 
 const renderWidgetContainer = inProps => {
@@ -10,10 +10,10 @@ const renderWidgetContainer = inProps => {
     ...inProps
   }
 
-  return render(<WidgetContainer {...props}>web widget content</WidgetContainer>)
+  return render(<Widget {...props}>web widget content</Widget>)
 }
 
-describe('WidgetContainer Element', () => {
+describe('Widget', () => {
   it('matches snapshot', () => {
     const { container } = renderWidgetContainer()
 

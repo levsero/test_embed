@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import 'jest-styled-components'
 
 import reducer from 'src/redux/modules/reducer'
-import WidgetThemeProvider from '../'
+import WidgetThemeProvider from '../index'
 
 function renderWithRedux(ui, { initialState } = {}) {
   const store = createStore(reducer, initialState)

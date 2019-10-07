@@ -18,9 +18,8 @@ import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
-import WidgetContainer from 'src/components/WidgetContainer'
+import { Widget, Main } from 'src/components/Widget'
 import WidgetHeader from 'src/components/WidgetHeader'
-import WidgetMain from 'src/components/WidgetMain'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -242,9 +241,9 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return
 
     return (
-      <WidgetContainer>
+      <Widget>
         <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+        <Main>
           <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
           <Button
             primary={true}
@@ -253,8 +252,8 @@ export class ChatOfflineForm extends Component {
           >
             {i18n.t('embeddable_framework.common.button.done')}
           </Button>
-        </WidgetMain>
-      </WidgetContainer>
+        </Main>
+      </Widget>
     )
   }
 
@@ -262,14 +261,14 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.LOADING) return
 
     return (
-      <WidgetContainer>
+      <Widget>
         <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+        <Main>
           <div className={styles.loadingSpinner}>
             <LoadingSpinner />
           </div>
-        </WidgetMain>
-      </WidgetContainer>
+        </Main>
+      </Widget>
     )
   }
 
@@ -363,9 +362,9 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return null
 
     return (
-      <WidgetContainer>
+      <Widget>
         <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+        <Main>
           <form
             noValidate={true}
             ref={el => {
@@ -389,14 +388,14 @@ export class ChatOfflineForm extends Component {
             {this.renderMessageField()}
             <input type="submit" hidden={true} />
           </form>
-        </WidgetMain>
+        </Main>
         <ChatFooter
           hideZendeskLogo={this.props.hideZendeskLogo}
           isMobile={this.props.isMobile}
           onClick={this.handleFormSubmit}
           label={i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage')}
         />
-      </WidgetContainer>
+      </Widget>
     )
   }
 
@@ -408,15 +407,15 @@ export class ChatOfflineForm extends Component {
     if (!operatingHours.enabled) return null
 
     return (
-      <WidgetContainer>
+      <Widget>
         <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+        <Main>
           <ChatOperatingHours
             handleOfflineFormBack={handleOfflineFormBack}
             operatingHours={operatingHours}
           />
-        </WidgetMain>
-      </WidgetContainer>
+        </Main>
+      </Widget>
     )
   }
 

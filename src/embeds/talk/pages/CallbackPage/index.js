@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import CallbackForm from 'src/embeds/talk/components/CallbackForm'
-import WidgetContainer from 'src/components/WidgetContainer'
+import { Widget } from 'src/components/Widget'
 import WidgetHeader from 'src/components/WidgetHeader'
 import { getTitle } from 'src/embeds/talk/selectors'
 
 const CallbackPage = ({ title }) => {
   return (
-    <WidgetContainer>
+    <Widget>
       <WidgetHeader>{title}</WidgetHeader>
       <CallbackForm />
-    </WidgetContainer>
+    </Widget>
   )
 }
 

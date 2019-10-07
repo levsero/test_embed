@@ -6,7 +6,7 @@ import { FocusJailContainer } from '@zendeskgarden/react-modals'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
-import WidgetThemeProvider from 'src/components/WidgetThemeProvider'
+import { WidgetThemeProvider } from 'src/components/Widget'
 import Navigation from 'component/frame/Navigation'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'

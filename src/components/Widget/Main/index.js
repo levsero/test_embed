@@ -1,20 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { TEST_IDS } from 'constants/shared'
 import { locals as styles } from './styles.scss'
-import { TEST_IDS } from 'src/constants/shared'
 
-const WidgetMain = ({ children }) => (
+const Main = ({ children }) => (
   <div data-testid={TEST_IDS.WIDGET_MAIN_CONTENT} className={styles.container}>
     {children}
   </div>
 )
 
-WidgetMain.propTypes = {
+Main.propTypes = {
   children: PropTypes.node
 }
 
-WidgetMain.defaultProps = {
+Main.defaultProps = {
   children: []
 }
 
-export default WidgetMain
+export default Main

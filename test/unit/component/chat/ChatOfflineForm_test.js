@@ -119,8 +119,10 @@ describe('ChatOfflineForm component', () => {
         Icon: noop
       },
       'src/embeds/chat/components/Footer/index': {},
-      'src/components/WidgetContainer': 'form',
-      'src/components/WidgetMain': {},
+      'src/components/Widget': {
+        Widget: 'form',
+        Main: noopReactComponent()
+      },
       'src/components/WidgetHeader': {}
     })
 

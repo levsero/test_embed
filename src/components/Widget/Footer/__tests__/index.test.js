@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import WidgetFooter from '../index'
+import Footer from '../index'
 import snapshotDiff from 'snapshot-diff'
 
 const defaultProps = {
@@ -13,7 +13,7 @@ const renderComponent = modifiedProps => {
     ...modifiedProps
   }
 
-  return render(<WidgetFooter {...props}>{props.children}</WidgetFooter>)
+  return render(<Footer {...props}>{props.children}</Footer>)
 }
 
 describe('Footer', () => {
