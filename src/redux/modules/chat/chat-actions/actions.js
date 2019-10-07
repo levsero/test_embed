@@ -21,7 +21,6 @@ import { formatSchedule } from 'src/util/chat'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import {
   CHAT_CONNECTED_EVENT,
-  CHAT_ENDED_EVENT,
   CHAT_STARTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT
 } from 'constants/event'
@@ -120,7 +119,6 @@ export const endChat = (callback = noop) => {
             getHelpCenterAvailable(getState()) || getChannelChoiceAvailable(getState())
           )
         )
-        callbacks.fireFor(CHAT_ENDED_EVENT)
       } else {
         dispatch({ type: actions.END_CHAT_REQUEST_FAILURE })
       }

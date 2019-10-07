@@ -465,6 +465,7 @@ export class PrechatForm extends Component {
               this.form = el
             }}
             className={`${styles.form}`}
+            data-testid={TEST_IDS.CHAT_PRECHAT_FORM}
           >
             <ChatHistoryLink
               isAuthenticated={this.props.isAuthenticated}

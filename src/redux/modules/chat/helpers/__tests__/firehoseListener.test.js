@@ -1,26 +1,24 @@
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
 import { registerCallback } from 'service/api/callbacks'
-import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT } from 'constants/event'
+import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
 import { chatBanned } from 'src/redux/modules/chat'
 import firehoseListener from '../firehoseListener'
 
 describe('firehoseListener', () => {
-  let zChat
-  let dispatch
-  let listener
-  let departmentCallback
-  let statusCallback
+  let zChat, dispatch, listener, departmentCallback, statusCallback, endChatCallback
 
   beforeEach(() => {
     dispatch = jest.fn()
     departmentCallback = jest.fn()
     statusCallback = jest.fn()
+    endChatCallback = jest.fn()
     zChat = {
       getConnectionClosedReason: jest.fn()
     }
     listener = firehoseListener(zChat, dispatch)
     registerCallback(departmentCallback, CHAT_DEPARTMENT_STATUS_EVENT)
     registerCallback(statusCallback, CHAT_STATUS_EVENT)
+    registerCallback(endChatCallback, CHAT_ENDED_EVENT)
   })
 
   it('dispatches an history action when data.type is history', () => {
@@ -133,6 +131,28 @@ describe('firehoseListener', () => {
     listener(data)
 
     expect(statusCallback).toHaveBeenCalled()
+  })
+
+  it('calls the end chat callbacks when a type is a visitor member leave', () => {
+    const data = {
+      type: 'chat.memberleave',
+      detail: { nick: 'visitor' }
+    }
+
+    listener(data)
+
+    expect(endChatCallback).toHaveBeenCalled()
+  })
+
+  it('does not call the end chat callbacks when a type is an agent member leave', () => {
+    const data = {
+      type: 'chat.memberleave',
+      detail: { nick: 'agent:124' }
+    }
+
+    listener(data)
+
+    expect(endChatCallback).not.toHaveBeenCalled()
   })
 
   it('dispatches a chat banned action when the connection was closed due to being banned', () => {

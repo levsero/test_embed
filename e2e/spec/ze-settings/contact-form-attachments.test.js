@@ -1,6 +1,6 @@
-import widgetPage from '../../helpers/widget-page'
-import launcher from '../../helpers/launcher'
-import widget from '../../helpers/widget'
+import widgetPage from 'helpers/widget-page'
+import launcher from 'helpers/launcher'
+import widget from 'helpers/widget'
 import { queries } from 'pptr-testing-library'
 
 describe('zESettings.webWidget.contactForm.attachments', () => {

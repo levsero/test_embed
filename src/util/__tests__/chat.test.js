@@ -5,6 +5,7 @@ import {
   formatSchedule,
   isDefaultNickname,
   isAgent,
+  isVisitor,
   createChatPopoutWindow,
   getDisplayName
 } from '../chat'
@@ -77,6 +78,24 @@ describe('isAgent', () => {
   describe('when nick is visitor', () => {
     it('returns false', () => {
       const result = isAgent('visitor')
+
+      expect(result).toEqual(false)
+    })
+  })
+})
+
+describe('isVisitor', () => {
+  describe('when nick is visitor:123', () => {
+    it('returns true', () => {
+      const result = isVisitor('visitor:123')
+
+      expect(result).toEqual(true)
+    })
+  })
+
+  describe('when nick is agent:123', () => {
+    it('returns false', () => {
+      const result = isVisitor('agent:123')
 
       expect(result).toEqual(false)
     })
