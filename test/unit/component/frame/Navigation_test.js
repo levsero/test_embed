@@ -40,6 +40,9 @@ describe('Navigation', () => {
           }
         }
       },
+      'src/redux/modules/base/base-selectors': {
+        getActiveEmbed: () => 'answerbot'
+      },
       'src/redux/modules/preview/preview-selectors': {
         getIsChatPreviewEnabled: () => true
       },

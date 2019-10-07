@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
-import { Widget, Main, Footer } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import SuccessNotification from 'src/embeds/talk/components/SuccessNotification'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
@@ -16,7 +15,7 @@ import { Button, FooterView } from './styles'
 const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
   return (
     <Widget>
-      <WidgetHeader>{title}</WidgetHeader>
+      <Header title={title} />
       <Main>
         <SuccessNotification />
       </Main>

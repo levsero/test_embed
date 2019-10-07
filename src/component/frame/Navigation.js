@@ -27,6 +27,7 @@ import {
 import { createChatPopoutWindow } from 'src/util/chat'
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
 import ChatMenu from 'embeds/chat/components/ChatMenu'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 
 const mapStateToProps = state => {
   return {
@@ -38,7 +39,8 @@ const mapStateToProps = state => {
     zChat: getZChatVendor(state),
     popoutButtonVisible: getIsPopoutButtonVisible(state),
     locale: i18n.getLocale(),
-    isChatPreview: getIsChatPreviewEnabled(state)
+    isChatPreview: getIsChatPreviewEnabled(state),
+    activeEmbed: getActiveEmbed(state)
   }
 }
 
@@ -92,7 +94,8 @@ export class Navigation extends Component {
     }),
     locale: PropTypes.string.isRequired,
     popoutButtonVisible: PropTypes.bool.isRequired,
-    isChatPreview: PropTypes.bool
+    isChatPreview: PropTypes.bool,
+    activeEmbed: PropTypes.string
   }
 
   static defaultProps = {
@@ -185,8 +188,13 @@ export class Navigation extends Component {
       isMobile,
       popoutButtonVisible,
       hideNavigationButtons,
-      isChatPreview
+      isChatPreview,
+      activeEmbed
     } = this.props
+
+    if (activeEmbed === 'talk') {
+      return null
+    }
 
     const popoutStyle = isMobile ? styles.popoutMobile : styles.popoutDesktop
 

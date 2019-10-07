@@ -5,8 +5,7 @@ import { isMobileBrowser } from 'utility/devices'
 import { i18n } from 'service/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
-import WidgetHeader from 'src/components/WidgetHeader'
-import { Widget, Main, Footer } from 'src/components/Widget'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import {
   getAverageWaitTimeString,
@@ -27,7 +26,7 @@ const PhoneOnlyPage = ({
 }) => {
   return (
     <Widget>
-      <WidgetHeader>{title}</WidgetHeader>
+      <Header title={title} />
       <Main>
         <Container data-testid={TEST_IDS.TALK_PHONE_ONLY_PAGE}>
           <TalkIcon />

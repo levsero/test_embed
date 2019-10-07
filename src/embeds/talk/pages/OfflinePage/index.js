@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { i18n } from 'service/i18n'
-import { Widget, Main, Footer } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
@@ -13,7 +12,7 @@ import { TEST_IDS } from 'src/constants/shared'
 
 const OfflinePage = ({ message, title, hideZendeskLogo }) => (
   <Widget>
-    <WidgetHeader>{title}</WidgetHeader>
+    <Header title={title} />
     <Main>
       <Container data-testid={TEST_IDS.TALK_OFFLINE_PAGE}>{message}</Container>
     </Main>
