@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { wait } from 'pptr-testing-library'
 import widgetPage from 'helpers/widget-page'
 import launcher from 'helpers/launcher'
 
@@ -11,30 +11,40 @@ describe('zE.setLocale(locale)', () => {
     await page.evaluate(() => {
       zE.setLocale('fr')
     })
-    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+    await wait(async () => {
+      expect(await launcher.getLabelText()).toEqual('Aide')
+    })
   })
 
   it('falls back to en-US when called with an unsupported locale', async () => {
     await page.evaluate(() => {
       zE.setLocale('fr')
     })
-    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+    await wait(async () => {
+      expect(await launcher.getLabelText()).toEqual('Aide')
+    })
 
     await page.evaluate(() => {
       zE.setLocale('unsupported locale')
     })
-    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Help')
+    await wait(async () => {
+      expect(await launcher.getLabelText()).toEqual('Help')
+    })
   })
 
   it('does nothing when no locale is provided', async () => {
     await page.evaluate(() => {
       zE.setLocale('fr')
     })
-    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+    await wait(async () => {
+      expect(await launcher.getLabelText()).toEqual('Aide')
+    })
 
     await page.evaluate(() => {
       zE.setLocale()
     })
-    expect(await queries.getNodeText(await launcher.getLabel())).toEqual('Aide')
+    await wait(async () => {
+      expect(await launcher.getLabelText()).toEqual('Aide')
+    })
   })
 })
