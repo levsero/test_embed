@@ -1,8 +1,13 @@
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
 import { chatBanned } from 'src/redux/modules/chat'
-import { SDK_ACCOUNT_STATUS, SDK_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types'
+import {
+  SDK_ACCOUNT_STATUS,
+  SDK_DEPARTMENT_UPDATE,
+  SDK_CHAT_MEMBER_LEAVE
+} from 'src/redux/modules/chat/chat-action-types'
 import * as callbacks from 'service/api/callbacks'
-import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT } from 'constants/event'
+import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
+import { isVisitor } from 'utility/chat'
 
 const fireWidgetChatEvent = action => {
   switch (action.type) {
@@ -11,6 +16,11 @@ const fireWidgetChatEvent = action => {
       break
     case SDK_ACCOUNT_STATUS:
       callbacks.fireFor(CHAT_STATUS_EVENT)
+      break
+    case SDK_CHAT_MEMBER_LEAVE:
+      if (isVisitor(action.payload.detail.nick)) {
+        callbacks.fireFor(CHAT_ENDED_EVENT)
+      }
       break
   }
 }

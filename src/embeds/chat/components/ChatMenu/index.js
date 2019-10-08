@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Dropdown, Item, Trigger, Separator } from '@zendeskgarden/react-dropdowns'
+import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Icon } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import EllipsisIcon from 'icons/widget-icon_ellipsis.svg'
@@ -139,6 +139,7 @@ const ChatMenu = ({
 
         <Menu
           placement={isMobileBrowser() ? 'bottom' : 'top'}
+          data-testid={TEST_IDS.CHAT_MENU_LIST}
           popperModifiers={{
             preventOverflow: {
               padding: isMobileBrowser() ? 0 : MENU_PADDING
@@ -146,21 +147,15 @@ const ChatMenu = ({
           }}
         >
           {goBackIsVisible && (
-            <>
-              <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
-                {goBackLabel}
-              </Item>
-              <Separator />
-            </>
+            <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
+              {goBackLabel}
+            </Item>
           )}
 
           {soundIsVisible && (
-            <>
-              <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
-                {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
-              </Item>
-              <Separator />
-            </>
+            <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
+              {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
+            </Item>
           )}
 
           {emailTranscriptEnabled && (
@@ -171,7 +166,6 @@ const ChatMenu = ({
           <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
             {contactDetailsLabel}
           </Item>
-          <Separator />
           <Item
             value="endChat"
             disabled={endChatDisabled}

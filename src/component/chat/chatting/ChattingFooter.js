@@ -131,7 +131,7 @@ export class ChattingFooter extends Component {
     return (
       <div>
         {this.props.children}
-        <div className={styles.iconContainer}>
+        <div className={styles.iconContainer} data-testid={TEST_IDS.CHAT_FOOTER_MENU_BUTTONS}>
           {this.renderEndChatOption()}
           {this.renderAttachmentOption()}
           <ChatMenu />

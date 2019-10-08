@@ -53,6 +53,9 @@ const defaultState = {
     rating: {
       value: 5
     },
+    config: {
+      defaultToChatWidgetLite: false
+    },
     agents: new Map([]),
     chatting: false,
     enabled: true,
@@ -80,7 +83,8 @@ const defaultState = {
       suppress: false,
       connectionSuppress: false,
       enabled: true,
-      connectOnDemand: false
+      connectOnDemand: false,
+      trackAllVisitors: true
     }
   },
   zopimChat: {

@@ -21,6 +21,9 @@ const getState = (connectOnDemand = true, chatEnabled = true) => {
       embeds: {
         chat: chatEnabled
       }
+    },
+    chat: {
+      config: {}
     }
   }
 }
@@ -39,7 +42,7 @@ describe('onChatConnectOnDemandTrigger', () => {
     expect(setUpChat).not.toHaveBeenCalled()
   })
 
-  test('when connectOnDemand is false it does not call setupChat', () => {
+  test('when delayChatConnection is false it does not call setupChat', () => {
     onChatConnectOnDemandTrigger(getState(false), getAction(), jest.fn())
 
     expect(setUpChat).not.toHaveBeenCalled()

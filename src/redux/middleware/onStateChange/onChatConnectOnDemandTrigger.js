@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { getSettingsChatConnectOnDemand } from 'src/redux/modules/settings/settings-selectors'
+import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { setUpChat } from 'src/redux/modules/chat'
 import {
   LAUNCHER_CLICKED,
@@ -12,7 +12,7 @@ import { getChatEmbed } from 'src/redux/modules/base/base-selectors'
 let setupChatCalled = false
 
 export default function onChatConnectOnDemandTrigger(state, action, dispatch) {
-  if (!getSettingsChatConnectOnDemand(state)) return
+  if (!getDelayChatConnection(state)) return
 
   const actionsToTrigger = [LAUNCHER_CLICKED, OPEN_RECEIVED, ACTIVATE_RECEIVED]
   const chatEnabled = getChatEmbed(state)

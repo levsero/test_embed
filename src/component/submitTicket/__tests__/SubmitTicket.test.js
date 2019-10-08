@@ -5,6 +5,9 @@ import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'src/constants/shared'
 import { Component as SubmitTicket } from '../SubmitTicket'
+import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
+
+jest.mock('embeds/support/utils/track-ticket-submitted')
 
 const renderComponent = props => {
   const component = submitTicket(props)
@@ -31,7 +34,8 @@ const submitTicket = props => {
     handleTicketFormClick: noop,
     fullscreen: false,
     showNotification: false,
-    selectTicketFormLabel: 'submit ticket form'
+    selectTicketFormLabel: 'submit ticket form',
+    onCancelClick: jest.fn()
   }
   const mergedProps = { ...defaultProps, ...props }
   IdManager.setIdCounter(0)
@@ -213,8 +217,7 @@ describe('form submission', () => {
 
   describe('callbacks', () => {
     it('does the expected actions on success', () => {
-      const handleTicketSubmission = jest.fn(),
-        onSubmitted = jest.fn()
+      const handleTicketSubmission = jest.fn()
       const utils = renderComponent({
         activeTicketForm,
         activeTicketFormFields,
@@ -224,13 +227,12 @@ describe('form submission', () => {
         hasContextuallySearched: true,
         formState: {
           email: 'he@man.com'
-        },
-        onSubmitted
+        }
       })
       submit(utils)
       const done = handleTicketSubmission.mock.calls[0][1]
       done({ x: 1 })
-      expect(onSubmitted).toHaveBeenCalledWith({
+      expect(trackTicketSubmitted).toHaveBeenCalledWith({
         res: { x: 1 },
         email: 'he@man.com',
         searchTerm: 'blah',

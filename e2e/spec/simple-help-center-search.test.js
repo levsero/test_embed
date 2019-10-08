@@ -33,6 +33,7 @@ describe('Help center smoke test', () => {
   })
 
   it('allows the user to edit input text', async () => {
-    allowsInputTextEditing(await widget.getDocument(), TEST_IDS.SEARCH_FIELD)
+    const inputField = await queries.getByTestId(await widget.getDocument(), TEST_IDS.SEARCH_FIELD)
+    await allowsInputTextEditing(inputField)
   })
 })

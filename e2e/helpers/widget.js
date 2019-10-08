@@ -14,5 +14,6 @@ const close = async () => {
 
 export default {
   getDocument,
-  close
+  close,
+  selector: 'iframe#webWidget'
 }

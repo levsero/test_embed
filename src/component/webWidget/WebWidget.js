@@ -95,7 +95,6 @@ const mapStateToProps = state => {
 
 class WebWidget extends Component {
   static propTypes = {
-    attachmentSender: PropTypes.func,
     callbackEnabled: PropTypes.bool.isRequired,
     chatNotification: PropTypes.shape({
       avatar_path: PropTypes.string, // eslint-disable-line camelcase
@@ -109,7 +108,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    onSubmitted: PropTypes.func,
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
@@ -160,7 +158,6 @@ class WebWidget extends Component {
     fullscreen: true,
     helpCenterAvailable: false,
     hideZendeskLogo: false,
-    onSubmitted: () => {},
     position: 'right',
     style: null,
     showTicketFormsBackButton: false,
@@ -331,10 +328,8 @@ class WebWidget extends Component {
       <div className={classes}>
         <SubmitTicket
           ref={submitTicket}
-          attachmentSender={this.props.attachmentSender}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onCancel={this.onCancelClick}
-          onSubmitted={this.props.onSubmitted}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           ticketFieldSettings={this.props.ticketFieldSettings}

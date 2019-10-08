@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
 import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
+import { Inline } from '@zendeskgarden/react-loaders'
 
 export const ButtonContainer = styled.div`
   position: relative !important;
@@ -27,4 +28,8 @@ export const StyledButton = styled(Button)`
     `
   width: 100%;
   `}
+`
+
+export const Loading = styled(Inline)`
+  color: ${props => props.theme.buttonTextColorStr} !important;
 `

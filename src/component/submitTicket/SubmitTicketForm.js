@@ -26,7 +26,6 @@ export class SubmitTicketForm extends Component {
   static propTypes = {
     ticketFields: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     attachmentsEnabled: PropTypes.bool,
-    attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
     nameFieldRequired: PropTypes.bool.isRequired,
@@ -487,12 +486,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderAttachments = () => {
-    const { attachmentSender, fullscreen } = this.props
+    const { fullscreen } = this.props
 
     return (
       <AttachmentList
         ref="attachments"
-        attachmentSender={attachmentSender}
         updateForm={this.updateForm}
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}

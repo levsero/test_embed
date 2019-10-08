@@ -663,7 +663,7 @@ describe('ChattingScreen component', () => {
       hideZendeskLogo = false,
       profileConfig = {},
       socialLogin = { avatarPath: 'heynow' },
-      agentJoined = false,
+      showRating = false,
       fullscreen = mockFullscreen
     }) =>
       instanceRender(
@@ -674,7 +674,7 @@ describe('ChattingScreen component', () => {
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo}
           socialLogin={socialLogin}
-          agentJoined={agentJoined}
+          showRating={showRating}
           fullscreen={fullscreen}
         />
       )
@@ -762,30 +762,10 @@ describe('ChattingScreen component', () => {
           })
         })
 
-        describe('when profile config has rating set to true but there is no agent', () => {
+        describe('when show rating is true', () => {
           beforeEach(() => {
             component = renderChatComponent({
-              profileConfig: {
-                rating: true
-              },
-              agentJoined: false
-            })
-
-            result = component.render()
-          })
-
-          it('does not render headerMargin', () => {
-            expect(result.props.children[0].props.containerClasses).not.toContain('headerMargin')
-          })
-        })
-
-        describe('when profile config has rating set to true and there is an agent', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              profileConfig: {
-                rating: true
-              },
-              agentJoined: true
+              showRating: true
             })
 
             result = component.render()
@@ -1137,14 +1117,14 @@ describe('ChattingScreen component', () => {
   })
 
   describe('renderChatHeader', () => {
-    let agentJoined, profileConfig, agents, updateChatScreenSpy, chatHeaderComponent
+    let agentJoined, showRating, agents, updateChatScreenSpy, chatHeaderComponent
 
     beforeEach(() => {
       updateChatScreenSpy = jasmine.createSpy('updateChatScreen')
 
       const component = instanceRender(
         <ChattingScreen
-          profileConfig={profileConfig}
+          showRating={showRating}
           agentJoined={agentJoined}
           activeAgents={agents}
           updateChatScreen={updateChatScreenSpy}
@@ -1176,55 +1156,23 @@ describe('ChattingScreen component', () => {
       })
     })
 
-    describe('when agent has joined', () => {
+    describe('when rating settings enabled', () => {
       beforeAll(() => {
-        agentJoined = true
+        showRating = true
       })
 
-      describe('when rating settings enabled', () => {
-        beforeAll(() => {
-          profileConfig = { rating: true }
-        })
-
-        it('shows rating', () => {
-          expect(chatHeaderComponent.props.showRating).toEqual(true)
-        })
-      })
-
-      describe('when rating settings not enabled', () => {
-        beforeAll(() => {
-          profileConfig = { rating: false }
-        })
-
-        it('does not show rating', () => {
-          expect(chatHeaderComponent.props.showRating).toEqual(false)
-        })
+      it('shows rating', () => {
+        expect(chatHeaderComponent.props.showRating).toEqual(true)
       })
     })
 
-    describe('when agent has not joined', () => {
+    describe('when showRating is false', () => {
       beforeAll(() => {
-        agentJoined = false
+        showRating = false
       })
 
-      describe('when rating settings enabled', () => {
-        beforeAll(() => {
-          profileConfig = { rating: true }
-        })
-
-        it('does not show rating', () => {
-          expect(chatHeaderComponent.props.showRating).toEqual(false)
-        })
-      })
-
-      describe('when rating settings not enabled', () => {
-        beforeAll(() => {
-          profileConfig = { rating: false }
-        })
-
-        it('does not show rating', () => {
-          expect(chatHeaderComponent.props.showRating).toEqual(false)
-        })
+      it('does not show rating', () => {
+        expect(chatHeaderComponent.props.showRating).toEqual(false)
       })
     })
   })

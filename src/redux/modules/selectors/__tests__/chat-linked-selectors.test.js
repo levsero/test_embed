@@ -623,3 +623,44 @@ describe('getPrechatFormFields', () => {
     })
   })
 })
+
+describe('getDelayChatConnection', () => {
+  test.each([
+    [false, false, true, false],
+    [false, false, false, true],
+    [false, true, true, true],
+    [false, true, false, true],
+    [true, true, false, true],
+    [true, false, false, true],
+    [true, false, true, true],
+    [true, true, true, true]
+  ])(
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p && trackAllVisitors == %p it returns %p',
+    (defaultToChatWidgetLite, connectOnDemand, trackAllVisitors, expectedValue) => {
+      const result = selectors.getDelayChatConnection.resultFunc(
+        defaultToChatWidgetLite,
+        connectOnDemand,
+        trackAllVisitors
+      )
+
+      expect(result).toEqual(expectedValue)
+    }
+  )
+})
+
+describe('getShowRatingButtons', () => {
+  test.each([
+    ['when all values are true', true, true, true, true],
+    ['when profileConfig.rating is false', false, true, true, false],
+    ['when agentJoined is false', true, false, true, false],
+    ['when isChatting is false', true, true, false, false]
+  ])('%p', (__title, profileConfigRating, agentJoined, isChatting, expectedValue) => {
+    const result = selectors.getShowRatingButtons.resultFunc(
+      { rating: profileConfigRating },
+      agentJoined,
+      isChatting
+    )
+
+    expect(result).toEqual(expectedValue)
+  })
+})
