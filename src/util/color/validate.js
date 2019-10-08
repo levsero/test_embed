@@ -39,17 +39,20 @@ function isValid(color) {
 function isValidHex(color) {
   const validRegex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i
 
-  return validRegex.test(color)
+  return color && validRegex.test(color)
 }
 
 function normalize(color) {
-  const hashlessValidRegex = /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i
-
-  return hashlessValidRegex.test(color) ? `#${color}` : color
+  try {
+    const normalizedColor = color.toString()
+    return normalizedColor[0] === '#' ? normalizedColor : `#${normalizedColor}`
+  } catch {
+    return undefined
+  }
 }
 
 function getThemeColor() {
   return selectedThemeColor
 }
 
-export { themeColor, mainTextColor, colorFor, getThemeColor }
+export { themeColor, mainTextColor, colorFor, getThemeColor, validatedColor }

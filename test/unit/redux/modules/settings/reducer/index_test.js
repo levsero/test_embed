@@ -12,6 +12,9 @@ describe('settings reducer', () => {
       },
       'src/redux/modules/settings/settings-action-types': {
         UPDATE_SETTINGS: 'UPDATE_SETTINGS'
+      },
+      'src/util/color/validate': {
+        normalizeColor: noop
       }
     })
 

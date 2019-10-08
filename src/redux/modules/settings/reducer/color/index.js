@@ -1,5 +1,7 @@
-import { UPDATE_SETTINGS } from '../../settings-action-types'
 import _ from 'lodash'
+
+import { UPDATE_SETTINGS } from '../../settings-action-types'
+import { validatedColor } from 'src/util/color/validate'
 
 const initialState = {
   launcher: '',
@@ -14,16 +16,22 @@ const initialState = {
 const colorSettings = (state = initialState, action) => {
   const { type, payload } = action
 
+  const getColor = setting => {
+    const color = validatedColor(_.get(payload, `webWidget.color.${setting}`))
+
+    return color ? color : state[setting]
+  }
+
   switch (type) {
     case UPDATE_SETTINGS:
       return {
-        articleLinks: _.get(payload, 'webWidget.color.articleLinks', state.articleLinks),
-        button: _.get(payload, 'webWidget.color.button', state.button),
-        header: _.get(payload, 'webWidget.color.header', state.header),
-        launcher: _.get(payload, 'webWidget.color.launcher', state.launcher),
-        launcherText: _.get(payload, 'webWidget.color.launcherText', state.launcherText),
-        resultLists: _.get(payload, 'webWidget.color.resultLists', state.resultLists),
-        theme: _.get(payload, 'webWidget.color.theme', state.theme)
+        articleLinks: getColor('articleLinks'),
+        button: getColor('button'),
+        header: getColor('header'),
+        launcher: getColor('launcher'),
+        launcherText: getColor('launcherText'),
+        resultLists: getColor('resultLists'),
+        theme: getColor('theme')
       }
     default:
       return state
