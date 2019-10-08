@@ -9,17 +9,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-bottom: 0;
 }
 
-.c6 {
-  position: relative !important;
-  margin-top: 1.0714285714285714rem;
-}
-
-.c7 {
-  padding-right: 0.7142857142857143rem !important;
-  padding-left: 0.7142857142857143rem !important;
-  max-width: 14.285714285714286rem;
-}
-
 .c3 {
   display: inline-block;
   position: relative;
@@ -68,6 +57,17 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   width: 1000px;
   height: 100%;
   content: '';
+}
+
+.c6 {
+  position: relative !important;
+  margin-top: 1.0714285714285714rem;
+}
+
+.c7 {
+  padding-right: 0.7142857142857143rem !important;
+  padding-left: 0.7142857142857143rem !important;
+  max-width: 14.285714285714286rem;
 }
 
 .c5 {
