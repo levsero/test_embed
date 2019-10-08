@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Widget, Main } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Main, Header } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
@@ -43,7 +42,7 @@ const ArticlePage = ({
 }) => {
   return (
     <Widget>
-      <WidgetHeader>{title}</WidgetHeader>
+      <Header title={title} />
       <Main>
         <HelpCenterArticle
           activeArticle={activeArticle}

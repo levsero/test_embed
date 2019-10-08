@@ -2,8 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { Widget, Main, Footer } from 'src/components/Widget'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import { locals as styles } from './styles.scss'
@@ -19,7 +18,7 @@ const SearchPromptPage = ({ title, hideZendeskLogo, isMobile, header }) => {
   }, [])
   return (
     <Widget>
-      <WidgetHeader>{title}</WidgetHeader>
+      <Header title={title} />
       <Main>
         {isMobile && <h1 className={styles.title}>{header}</h1>}
         <SearchForm ref={searchFormRef} />
