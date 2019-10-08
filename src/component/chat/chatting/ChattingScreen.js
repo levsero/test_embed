@@ -40,7 +40,8 @@ import {
   getChatTitle,
   getConciergeSettings,
   getCurrentConcierges,
-  isInChattingScreen
+  isInChattingScreen,
+  getShowRatingButtons
 } from 'src/redux/modules/selectors'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
@@ -66,7 +67,7 @@ const mapStateToProps = state => {
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     queuePosition: chatSelectors.getQueuePosition(state),
     menuVisible: chatSelectors.getMenuVisible(state),
-    agentJoined: chatSelectors.getAgentJoined(state),
+    showRating: getShowRatingButtons(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     conciergeSettings: getConciergeSettings(state),
@@ -105,7 +106,7 @@ class ChattingScreen extends Component {
     showAvatar: PropTypes.bool.isRequired,
     queuePosition: PropTypes.number,
     menuVisible: PropTypes.bool,
-    agentJoined: PropTypes.bool,
+    showRating: PropTypes.bool,
     resetCurrentMessage: PropTypes.func,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
@@ -138,7 +139,6 @@ class ChattingScreen extends Component {
     allAgents: {},
     activeAgents: {},
     menuVisible: false,
-    agentJoined: false,
     resetCurrentMessage: () => {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
@@ -382,12 +382,11 @@ class ChattingScreen extends Component {
       rating,
       sendChatRating,
       concierges,
-      agentJoined,
       updateChatScreen,
       activeAgents,
-      profileConfig
+      profileConfig,
+      showRating
     } = this.props
-    const showRating = profileConfig.rating && agentJoined
     const onAgentDetailsClick =
       _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
 
@@ -483,12 +482,11 @@ class ChattingScreen extends Component {
       hideZendeskLogo,
       agentsTyping,
       profileConfig,
-      agentJoined,
-      fullscreen
+      fullscreen,
+      showRating
     } = this.props
     const containerClasses = classNames({
-      [styles.headerMargin]:
-        profileConfig.avatar || profileConfig.title || (profileConfig.rating && agentJoined),
+      [styles.headerMargin]: profileConfig.avatar || profileConfig.title || showRating,
       [styles.scrollContainerMessagesContent]: isMobile,
       [styles.scrollContainerMessagesContentDesktop]: !isMobile,
       [styles.scrollContainerMobile]: isMobile,
