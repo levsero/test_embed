@@ -18,7 +18,10 @@ import {
   getNotificationCount,
   getShowChatHistory
 } from '../chat/chat-selectors'
-import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
+import {
+  getOfflineFormEnabled,
+  getDelayChatConnection
+} from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
   getZopimChatOnline,
   getZopimChatConnected,
@@ -51,7 +54,6 @@ import {
   getAnswerBotTitle,
   getAnswerBotAvatarName,
   getSettingsChatConnectionSuppress,
-  getSettingsChatConnectOnDemand,
   getSettingsChatEmailTranscriptEnabled,
   getCookiesDisabled,
   getSettingsAnswerBotSuppress,
@@ -251,14 +253,14 @@ export const getChatConnected = state => getZopimChatConnected(state) || getNewC
 
 export const getChatConnectionSuppressed = createSelector(
   [
-    getSettingsChatConnectOnDemand,
+    getDelayChatConnection,
     getIsChatting,
     getChatConnected,
     getSettingsChatConnectionSuppress,
     getCookiesDisabled
   ],
-  (chatConnectOnDemand, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
-    const chatDelay = (chatConnectOnDemand || cookiesDisabled) && !isChatting && !chatConnected
+  (delayChatConnection, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
+    const chatDelay = (delayChatConnection || cookiesDisabled) && !isChatting && !chatConnected
 
     return chatDelay || chatConnectionSuppress
   }

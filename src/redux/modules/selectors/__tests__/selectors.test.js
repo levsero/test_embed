@@ -924,7 +924,7 @@ describe('getChatConnectionSuppressed', () => {
     '%p',
     (
       _title,
-      chatConnectOnDemand,
+      delayChatConnection,
       isChatting,
       chatConnected,
       chatConnectionSuppress,
@@ -932,7 +932,7 @@ describe('getChatConnectionSuppressed', () => {
       expectedValue
     ) => {
       const result = selectors.getChatConnectionSuppressed.resultFunc(
-        chatConnectOnDemand,
+        delayChatConnection,
         isChatting,
         chatConnected,
         chatConnectionSuppress,
