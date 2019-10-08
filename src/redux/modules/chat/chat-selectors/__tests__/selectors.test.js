@@ -4,6 +4,7 @@ import { getHasBackfillCompleted } from '../selectors'
 import { getIsEndChatModalVisible } from '../selectors'
 import { getChatOnline } from '../selectors'
 import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
+import _ from 'lodash'
 
 test('getChats', () => {
   const result = selectors.getChats(testState)
@@ -279,14 +280,51 @@ test('getAccountSettingsLauncherBadge', () => {
 
   expect(result).toEqual({
     helloThere: 'GENERAL KENOBI!',
-    enabled: 'you are a bold one!'
+    enabled: true
   })
 })
 
-test('getChatBadgeEnabled', () => {
-  const result = selectors.getChatBadgeEnabled(testState)
+test('getEmbeddableConfigBadgeSettings', () => {
+  const result = selectors.getEmbeddableConfigBadgeSettings(testState)
 
-  expect(result).toEqual('you are a bold one!')
+  expect(result).toEqual({
+    image: 'blahmage',
+    text: 'blahtext',
+    enabled: true
+  })
+})
+
+describe('getChatBadgeEnabled', () => {
+  test('when account settings and config are enabled', () => {
+    const result = selectors.getChatBadgeEnabled(testState)
+
+    expect(result).toBe(true)
+  })
+
+  test('when only account settings is enabled', () => {
+    const state = _.cloneDeep(testState)
+    state.chat.config.badge.enabled = false
+    const result = selectors.getChatBadgeEnabled(state)
+
+    expect(result).toBe(true)
+  })
+
+  test('when only config is enabled', () => {
+    const state = _.cloneDeep(testState)
+    state.chat.accountSettings.banner.enabled = false
+    const result = selectors.getChatBadgeEnabled(state)
+
+    expect(result).toBe(true)
+  })
+
+  test('when account settings and config are disabled', () => {
+    const state = _.cloneDeep(testState)
+    state.chat.config.badge.enabled = false
+    state.chat.accountSettings.banner.enabled = false
+    const result = selectors.getChatBadgeEnabled(state)
+
+    expect(result).toBe(false)
+  })
 })
 
 test('getHideBranding', () => {

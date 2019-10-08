@@ -9,7 +9,7 @@ export default {
       },
       banner: {
         helloThere: 'GENERAL KENOBI!',
-        enabled: 'you are a bold one!'
+        enabled: true
       },
       branding: {
         hide_branding: true
@@ -61,7 +61,12 @@ export default {
     connection: 'emotional',
     currentMessage: "I can't let you do that, Dave",
     config: {
-      defaultToChatWidgetLite: false
+      defaultToChatWidgetLite: false,
+      badge: {
+        text: 'blahtext',
+        image: 'blahmage',
+        enabled: true
+      }
     },
     defaultDepartment: {
       id: 123456
