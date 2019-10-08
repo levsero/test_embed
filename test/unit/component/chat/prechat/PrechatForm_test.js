@@ -110,10 +110,10 @@ describe('PrechatForm component', () => {
       },
       'src/components/Widget': {
         Widget: noopReactComponent(),
+        Header: noopReactComponent(),
         Main: noopReactComponent(),
         Footer: noopReactComponent()
       },
-      'src/components/WidgetHeader': {},
       'src/embeds/chat/components/Footer': {}
     })
 

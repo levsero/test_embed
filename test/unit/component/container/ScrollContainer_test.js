@@ -135,50 +135,6 @@ describe('ScrollContainer component', () => {
     })
   })
 
-  describe('when headerContent is not null', () => {
-    describe('when fullscreen is true', () => {
-      it('should have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer fullscreen={true} headerContent={<div />} title="stuff" />
-        )
-
-        expect(container.props.children[1].props.className).toMatch('contentBigheaderClasses')
-      })
-    })
-
-    describe('when fullscreen is false', () => {
-      it('should not have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer fullscreen={false} headerContent={<div />} />
-        )
-
-        expect(container.props.children[1].props.className).not.toMatch('contentBigheaderClasses')
-      })
-    })
-
-    describe('when isMobile is true', () => {
-      it('has `contentBigheader` classes', () => {
-        const container = shallowRender(<ScrollContainer isMobile={true} headerContent={<div />} />)
-
-        expect(container.props.children[1].props.className).toMatch('contentBigheaderClasses')
-      })
-
-      it('should not have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer isMobile={false} headerContent={<div />} />
-        )
-
-        expect(container.props.children[1].props.className).not.toMatch('contentBigheaderClasses')
-      })
-    })
-
-    it('has `userHeader` classes', () => {
-      const container = shallowRender(<ScrollContainer headerContent={<div />} title="title" />)
-
-      expect(container.props.children[0].props.className).toMatch('userHeaderClassesYo')
-    })
-  })
-
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />)
 

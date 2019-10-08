@@ -7,7 +7,6 @@ import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
 import { WidgetThemeProvider } from 'src/components/Widget'
-import Navigation from 'component/frame/Navigation'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'
 import { focusLauncher, getDocumentHost } from 'utility/globals'
@@ -100,17 +99,6 @@ class EmbedWrapper extends Component {
                 >
                   {css}
                   {styleTag}
-                  <Navigation
-                    ref={el => {
-                      this.nav = el
-                    }}
-                    handleBackClick={this.props.handleBackClick}
-                    handleOnCloseFocusChange={focusLauncher}
-                    fullscreen={this.props.fullscreen}
-                    isMobile={this.props.isMobile}
-                    useBackButton={this.props.useBackButton}
-                    hideNavigationButtons={this.props.hideNavigationButtons}
-                  />
                   <div
                     id="Embed"
                     ref={el => {

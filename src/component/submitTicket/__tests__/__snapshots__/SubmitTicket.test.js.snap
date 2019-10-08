@@ -12,16 +12,35 @@ exports[`active ticket form renders the expected components 1`] = `
         data-testid="scroll-container"
         style="height: 550px;"
       >
-        <header
-          class="header userHeader"
-          data-testid="scroll-container-header"
+        <div
+          class="sc-bwzfXH jaHvNe"
         >
-          <h1
-            class="title"
+          <div
+            class="sc-bxivhb sc-ifAKCX kPfswV"
           >
-            message
-          </h1>
-        </header>
+            <h1
+              class="sc-htpNat jTlEqc"
+            >
+              message
+            </h1>
+            <button
+              aria-label="Minimize"
+              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              data-garden-id="buttons.icon_button"
+              data-garden-version="6.4.4"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                class="index__c-btn__icon___3V0Rl"
+                data-garden-id="buttons.icon"
+                data-garden-version="6.4.4"
+                data-testid="Icon--dash"
+                realfilename="dash-fill.svg"
+              />
+            </button>
+          </div>
+        </div>
         <div
           class="content container ticketFormContainer"
           data-testid="scroll-container-content"
@@ -259,29 +278,22 @@ Snapshot Diff:
           data-testid="scroll-container"
 -         style="height: 550px;"
         >
-          <header
-@@ -15,5 +14,5 @@
-          >
-            <h1
--             class="title"
-+             class="title titleMobile"
-            >
-              message
-@@ -21,5 +20,5 @@
-          </header>
+          <div
+@@ -40,5 +39,5 @@
+          </div>
           <div
 -           class="content container ticketFormContainer"
 +           class="content container ticketFormContainer containerMobile contentMobile"
             data-testid="scroll-container-content"
           >
-@@ -29,5 +28,5 @@
+@@ -48,5 +47,5 @@
               >
                 <h2
 -                 class="ticketFormTitle "
 +                 class="ticketFormTitle ticketFormTitleMobile"
                 >
                   Ticket Forms
-@@ -37,6 +36,6 @@
+@@ -56,6 +55,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-38--input"
@@ -290,7 +302,7 @@ Snapshot Diff:
 +                 id="garden-field-container-28--label"
                 >
                   <strong>
-@@ -46,12 +45,12 @@
+@@ -65,12 +64,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-38--hint"
@@ -306,7 +318,7 @@ Snapshot Diff:
 +                 id="garden-field-container-28--input"
                   name="name"
                   value=""
-@@ -61,6 +60,6 @@
+@@ -80,6 +79,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-39--input"
@@ -315,7 +327,7 @@ Snapshot Diff:
 +                 id="garden-field-container-29--label"
                 >
                   <strong>
-@@ -69,12 +68,12 @@
+@@ -88,12 +87,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-39--hint"
@@ -331,7 +343,7 @@ Snapshot Diff:
 +                 id="garden-field-container-29--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -92,6 +91,6 @@
+@@ -111,6 +110,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-40--input"
@@ -340,7 +352,7 @@ Snapshot Diff:
 +                   id="garden-field-container-30--label"
                   >
                     <strong>
-@@ -101,12 +100,12 @@
+@@ -120,12 +119,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-40--hint"
@@ -356,7 +368,7 @@ Snapshot Diff:
 +                   id="garden-field-container-30--input"
                     label="Description"
                     name="1"
-@@ -124,6 +123,6 @@
+@@ -143,6 +142,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-41--input"
@@ -365,7 +377,7 @@ Snapshot Diff:
 +                   id="garden-field-container-31--label"
                   >
                     <strong>
-@@ -133,12 +132,12 @@
+@@ -152,12 +151,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-41--hint"
@@ -381,7 +393,7 @@ Snapshot Diff:
 +                   id="garden-field-container-31--input"
                     label="Subject"
                     name="2"
-@@ -156,6 +155,6 @@
+@@ -175,6 +174,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-42--input"
@@ -390,7 +402,7 @@ Snapshot Diff:
 +                   id="garden-field-container-32--label"
                   >
                     <strong>
-@@ -164,12 +163,12 @@
+@@ -183,12 +182,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-42--hint"
@@ -406,7 +418,7 @@ Snapshot Diff:
 +                   id="garden-field-container-32--input"
                     label="Favorite Pizza"
                     name="5"
-@@ -188,15 +187,5 @@
+@@ -207,15 +206,5 @@
             <div
               class="container buttonRight buttonGroup"
 -           >
@@ -436,16 +448,35 @@ exports[`renders the expected components 1`] = `
         data-testid="scroll-container"
         style="height: 550px;"
       >
-        <header
-          class="header userHeader"
-          data-testid="scroll-container-header"
+        <div
+          class="sc-bwzfXH jaHvNe"
         >
-          <h1
-            class="title"
+          <div
+            class="sc-bxivhb sc-ifAKCX kPfswV"
           >
-            message
-          </h1>
-        </header>
+            <h1
+              class="sc-htpNat jTlEqc"
+            >
+              message
+            </h1>
+            <button
+              aria-label="Minimize"
+              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              data-garden-id="buttons.icon_button"
+              data-garden-version="6.4.4"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                class="index__c-btn__icon___3V0Rl"
+                data-garden-id="buttons.icon"
+                data-garden-version="6.4.4"
+                data-testid="Icon--dash"
+                realfilename="dash-fill.svg"
+              />
+            </button>
+          </div>
+        </div>
         <div
           class="content container"
           data-testid="scroll-container-content"
@@ -606,22 +637,15 @@ Snapshot Diff:
           data-testid="scroll-container"
 -         style="height: 550px;"
         >
-          <header
-@@ -15,5 +14,5 @@
-          >
-            <h1
--             class="title"
-+             class="title titleMobile"
-            >
-              message
-@@ -21,5 +20,5 @@
-          </header>
+          <div
+@@ -40,5 +39,5 @@
+          </div>
           <div
 -           class="content container"
 +           class="content container containerMobile contentMobile"
             data-testid="scroll-container-content"
           >
-@@ -32,6 +31,6 @@
+@@ -51,6 +50,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-12--input"
@@ -630,7 +654,7 @@ Snapshot Diff:
 +                 id="garden-field-container-6--label"
                 >
                   <strong>
-@@ -41,12 +40,12 @@
+@@ -60,12 +59,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-12--hint"
@@ -646,7 +670,7 @@ Snapshot Diff:
 +                 id="garden-field-container-6--input"
                   name="name"
                   value=""
-@@ -56,6 +55,6 @@
+@@ -75,6 +74,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-13--input"
@@ -655,7 +679,7 @@ Snapshot Diff:
 +                 id="garden-field-container-7--label"
                 >
                   <strong>
-@@ -64,12 +63,12 @@
+@@ -83,12 +82,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-13--hint"
@@ -671,7 +695,7 @@ Snapshot Diff:
 +                 id="garden-field-container-7--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -81,6 +80,6 @@
+@@ -100,6 +99,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-14--input"
@@ -680,7 +704,7 @@ Snapshot Diff:
 +                 id="garden-field-container-8--label"
                 >
                   <strong>
-@@ -89,12 +88,12 @@
+@@ -108,12 +107,12 @@
                 </label>
                 <textarea
 -                 aria-describedby="garden-field-container-14--hint"
@@ -696,7 +720,7 @@ Snapshot Diff:
 +                 id="garden-field-container-8--input"
                   name="description"
                   required=""
-@@ -112,14 +111,4 @@
+@@ -131,14 +130,4 @@
               class="container buttonRight buttonGroup"
             >
 -             <button
@@ -720,16 +744,35 @@ exports[`renders the loading bar content 1`] = `
     data-testid="scroll-container"
     style="height: 550px;"
   >
-    <header
-      class="header userHeader"
-      data-testid="scroll-container-header"
+    <div
+      class="sc-bwzfXH jaHvNe"
     >
-      <h1
-        class="title"
+      <div
+        class="sc-bxivhb sc-ifAKCX kPfswV"
       >
-        message
-      </h1>
-    </header>
+        <h1
+          class="sc-htpNat jTlEqc"
+        >
+          message
+        </h1>
+        <button
+          aria-label="Minimize"
+          class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          data-garden-id="buttons.icon_button"
+          data-garden-version="6.4.4"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="index__c-btn__icon___3V0Rl"
+            data-garden-id="buttons.icon"
+            data-garden-version="6.4.4"
+            data-testid="Icon--dash"
+            realfilename="dash-fill.svg"
+          />
+        </button>
+      </div>
+    </div>
     <div
       class="content ticketFormsContainer"
       data-testid="scroll-container-content"

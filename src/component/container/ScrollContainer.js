@@ -17,14 +17,11 @@ export class ScrollContainer extends Component {
     footerClasses: PropTypes.string,
     fullscreen: PropTypes.bool,
     isMobile: PropTypes.bool,
-    headerContent: PropTypes.element,
     maxHeight: PropTypes.number,
     scrollShadowVisible: PropTypes.bool,
     title: PropTypes.string,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    titleClasses: PropTypes.string,
-    useWidgetHeader: PropTypes.bool,
     hideFooterContent: PropTypes.bool
   }
 
@@ -33,11 +30,9 @@ export class ScrollContainer extends Component {
     containerClasses: '',
     footerClasses: '',
     footerContent: [],
-    headerContent: null,
     maxHeight: MAX_WIDGET_HEIGHT,
     scrollShadowVisible: false,
     onContentScrolled: () => {},
-    titleClasses: '',
     isMobile: false,
     fullscreen: false
   }
@@ -141,18 +136,7 @@ export class ScrollContainer extends Component {
   }
 
   render = () => {
-    const {
-      isMobile,
-      headerContent,
-      containerClasses,
-      classes,
-      onContentScrolled,
-      fullscreen
-    } = this.props
-    const headerClasses = classNames(styles.header, styles.userHeader)
-    const titleClasses = classNames(styles.title, this.props.titleClasses, {
-      [styles.titleMobile]: isMobile
-    })
+    const { isMobile, containerClasses, classes, onContentScrolled, fullscreen } = this.props
     const scrollContainerClasses = classNames(
       classes,
       styles.container,
@@ -163,8 +147,7 @@ export class ScrollContainer extends Component {
       { [styles.mobile]: isMobile }
     )
     const contentClasses = classNames(styles.content, containerClasses, {
-      [styles.contentMobile]: isMobile,
-      [styles.contentBigheader]: headerContent && (isMobile || fullscreen)
+      [styles.contentMobile]: isMobile
     })
 
     return (
@@ -173,21 +156,7 @@ export class ScrollContainer extends Component {
         style={{ height: this.calculateHeight() }}
         className={scrollContainerClasses}
       >
-        {this.props.title &&
-          (this.props.useWidgetHeader ? (
-            <Header title={this.props.title} />
-          ) : (
-            <header
-              ref={el => {
-                this.header = el
-              }}
-              className={headerClasses}
-              data-testid={TEST_IDS.SCROLL_CONTAINER_HEADER}
-            >
-              <h1 className={titleClasses}>{this.props.title}</h1>
-              {this.props.headerContent}
-            </header>
-          ))}
+        {this.props.title && <Header title={this.props.title} />}
         <div
           ref={el => {
             this.content = el

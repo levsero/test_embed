@@ -221,7 +221,6 @@ class PrechatScreen extends Component {
     return (
       <ScrollContainer
         title={this.props.title}
-        useWidgetHeader={true}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.fullscreen}
         isMobile={this.props.isMobile}
