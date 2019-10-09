@@ -3,7 +3,6 @@ import snapshotDiff from 'snapshot-diff'
 
 import { render } from 'src/util/testHelpers'
 import ChannelChoiceContainer from '../ChannelChoiceContainer'
-import { TEST_IDS } from 'src/constants/shared'
 
 describe('rendering', () => {
   const renderComponent = (props = {}) => {
@@ -33,12 +32,6 @@ describe('rendering', () => {
       const { container } = renderComponent({ isMobile: true })
 
       expect(snapshotDiff(desktop.container, container, { contextLines: 0 })).toMatchSnapshot()
-    })
-
-    it('hides the logo when asked', () => {
-      const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
-
-      expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
     })
   })
 })

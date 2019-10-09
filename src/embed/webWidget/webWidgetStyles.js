@@ -6,7 +6,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ButtonPillStyles from 'component/button/ButtonPill.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
-import ChannelChoiceContainerStyles from 'component/channelChoice/ChannelChoiceContainer.scss'
 import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
 import ChatPopupStyles from 'component/chat/ChatPopup.scss'
@@ -64,7 +63,6 @@ export const webWidgetStyles = `
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
   ${ChannelChoiceMenuStyles}
-  ${ChannelChoiceContainerStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChattHistoryScreenStyles}
