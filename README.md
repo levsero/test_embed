@@ -18,7 +18,7 @@ We are based in Melbourne, Australia and our timezone is **GMT+10**. You can alw
 
 ## Getting Started
 
-### Prerequesites
+### Prerequisites
 
 - [Ruby version manager (rbenv)](https://github.com/rbenv/rbenv)
 - [Node version manager (nvm)](https://github.com/nvm-sh/nvm)
@@ -79,7 +79,13 @@ This will start the dev task using the values found in `dev/configs/${yourConfig
 
 This will allow you to make as many different configurations as you like to test different scenarios with. It is recommended to have one for your production account.
 
+## Testing
+
+We use jest for unit tests (`bom run test`) and pupeteer for e2e tests (`npm run e2e`).
+
 ## Running in Docker
+
+(Note that this isn't part of Taipan's usual workflow.)
 
 - Follow above to get `npm run dev` running.
 - Run `zdi embeddable_framework -d restart` in parallel.
@@ -129,8 +135,8 @@ To see redux logging information on their site we can add a value to localstorag
 
 Go to the customer's site, open a browser console and run the following command:
 
-```
-localStorage["ZD-debug"] = true
+```js
+localStorage['ZD-debug'] = true
 ```
 
 After that when you refresh the page you will start seeing redux logs in your console and redux devtools if you have the [browser extension](https://github.com/zalmoxisus/redux-devtools-extension) installed.
@@ -139,14 +145,14 @@ After that when you refresh the page you will start seeing redux logs in your co
 
 We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
 The standards followed are documented by Michael Nygard at:
-http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions
+[documenting architecture decisions](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)
 
 ### Tooling and ADR generation
 
-Please refer to https://github.com/npryce/adr-tools
+Please refer to [https://github.com/npryce/adr-tools](https://github.com/npryce/adr-tools)
 
 ## Documenting APIs
 
 See <a href="https://zendesk.atlassian.net/wiki/spaces/DOC/pages/641704628/How+developer+docs+are+produced+at+Zendesk" target="_blank">How developer docs are produced at Zendesk</a> on the Docs team wiki.
 
-Please cc **@zendesk/documentation** on any PR that adds or updates documentation on the developer portal at https://developer.zendesk.com.
+Please cc **@zendesk/documentation** on any PR that adds or updates documentation on the developer portal at [https://developer.zendesk.com](https://developer.zendesk.com).
