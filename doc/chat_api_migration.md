@@ -102,7 +102,7 @@ zE('webWidget', 'prefill', {
 | theme.setProfileCardConfig       | `zESettings.webWidget.chat.profileCard.avatar`, `zESettings.webWidget.chat.profileCard.title`, `zESettings.webWidget.chat.profileCard.rating` |
 | setDisableGoogleAnalytics        | `zESettings.analytics`                                                                                                                        |
 | setGreetings                     | `zESettings.webWidget.launcher.chatLabel`                                                                                                     |
-| setStatus                        | The `$zopim.livechat` syntax is supported. However, it is not mapped to the unified Web Widget API.                                                                                                                                     |
+| setStatus                        | The `$zopim.livechat` syntax is supported. However, it is not mapped to the unified Web Widget API                                                                                                                                     |
 | button.setHideWhenOffline        | `zESettings.webWidget.chat.hideWhenOffline`                                                                                                   |
 
 \* All the position values supported in the legacy Chat Widget can be used except for `tm` (Top middle), and `bm` (Bottom middle). See the complete list of position values in the [legacy Chat documentation](https://api.zopim.com/files/meshim/widget/controllers/liveChatAPI/Button-js.html#$zopim.livechat.button.setPosition). Also note that setting the position for mobile or desktop will affect both mobile and desktop versions of the web widget.
