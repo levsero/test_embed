@@ -4,7 +4,6 @@ The Web Widget includes a chat component that lets users chat with an agent. The
 
 <img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/chatWidget.png" alt="Chat Component Example" width="250px">
 
-
 ### Settings
 
 The `chat` object has the following settings:
@@ -47,7 +46,6 @@ The integrated Chat experience is enabled in Zendesk Support under **Admin** > *
   };
 </script>
 ```
-
 
 ### Commands
 
