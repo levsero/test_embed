@@ -1,38 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { locals as styles } from './styles.scss'
-import Footer from 'src/components/Widget/Footer'
-import ZendeskLogo from 'src/components/ZendeskLogo'
+import { Footer } from 'src/components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'
 import { TEST_IDS } from 'src/constants/shared'
 
-const ChatFooter = ({ hideZendeskLogo, onClick, label }) => {
+const ChatFooter = ({ onClick, label }) => {
   return (
-    <Footer scrollShadowVisible={true}>
-      <div className={!hideZendeskLogo ? styles.footerContentMultiple : null}>
-        {!hideZendeskLogo && <ZendeskLogo />}
-        <Button
-          primary={true}
-          onClick={onClick}
-          type="submit"
-          data-testid={TEST_IDS.CHAT_START}
-          className={styles.button}
-        >
-          {label}
-        </Button>
-      </div>
+    <Footer>
+      <Button primary={true} onClick={onClick} type="submit" data-testid={TEST_IDS.CHAT_START}>
+        {label}
+      </Button>
     </Footer>
   )
 }
 
 ChatFooter.propTypes = {
-  hideZendeskLogo: PropTypes.bool,
   onClick: PropTypes.func,
   label: PropTypes.string
 }
 
 ChatFooter.defaultProps = {
-  hideZendeskLogo: false,
   onClick: () => {},
   label: ''
 }

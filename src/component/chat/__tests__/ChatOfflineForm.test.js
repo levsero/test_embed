@@ -3,7 +3,7 @@ import { getByTestId } from '@testing-library/react'
 import React from 'react'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
-import { queryByTestId, fireEvent } from '@testing-library/dom'
+import { fireEvent } from '@testing-library/dom'
 
 import { render } from 'src/util/testHelpers'
 
@@ -77,26 +77,6 @@ describe('render', () => {
         expect(result.queryByText('Chat History Here')).toBeNull()
       })
     })
-  })
-})
-
-describe('hideZendeskLogo', () => {
-  it('when false, renders Zendesk Logo', () => {
-    const { container } = renderForm({
-      hideZendeskLogo: false,
-      offlineMessage: { screen: OFFLINE_FORM_SCREENS.MAIN }
-    })
-
-    expect(getByTestId(container, TEST_IDS.ICON_ZENDESK)).toBeInTheDocument()
-  })
-
-  it('when true, does not render logo', () => {
-    const { container } = renderForm({
-      hideZendeskLogo: true,
-      offlineMessage: { screen: OFFLINE_FORM_SCREENS.MAIN }
-    })
-
-    expect(queryByTestId(container, TEST_IDS.ICON_ZENDESK)).toBeNull()
   })
 })
 

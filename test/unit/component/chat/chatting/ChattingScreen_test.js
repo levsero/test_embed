@@ -14,6 +14,7 @@ describe('ChattingScreen component', () => {
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage')
   const isDefaultNicknameSpy = jasmine.createSpy('isDefaultNicknameSpy').and.returnValue(false)
   const markAsReadSpy = jasmine.createSpy('markAsRead')
+  const getScrollBottom = jasmine.createSpy('getScrollBottom')
 
   const Button = noopReactComponent('Button')
   const ButtonPill = noopReactComponent('ButtonPill')
@@ -72,9 +73,7 @@ describe('ChattingScreen component', () => {
       'component/button/ButtonPill': {
         ButtonPill
       },
-      'component/ZendeskLogo': {
-        ZendeskLogo
-      },
+      'components/ZendeskLogo': ZendeskLogo,
       'component/chat/chatting/ChatBox': {
         ChatBox: noopReactComponent()
       },
@@ -100,7 +99,8 @@ describe('ChattingScreen component', () => {
         Footer: noopReactComponent()
       },
       'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
+        ScrollContainer: scrollContainerComponent(),
+        getScrollBottom
       },
       'component/shared/QuickReplies': {
         QuickReply,
@@ -165,19 +165,13 @@ describe('ChattingScreen component', () => {
     let component, mockPrevProps
 
     describe('historyStatus', () => {
-      let componentProps, previousProps, getScrollHeightSpy, mockScrollHeightValue
+      let componentProps, previousProps, mockScrollHeightValue
 
       beforeEach(() => {
         mockScrollHeightValue = 123
-        getScrollHeightSpy = jasmine
-          .createSpy('getScrollHeight')
-          .and.returnValue(mockScrollHeightValue)
-
         component = instanceRender(<ChattingScreen {...componentProps} />)
         component.scrollContainer = {
-          getScrollHeight: getScrollHeightSpy,
-          getScrollBottom: noop,
-          getScrollTop: noop
+          scrollHeight: mockScrollHeightValue
         }
 
         component.componentDidUpdate(previousProps)
@@ -193,10 +187,6 @@ describe('ChattingScreen component', () => {
             componentProps = { historyRequestStatus: 'done' }
           })
 
-          it('calls getScrollHeight', () => {
-            expect(getScrollHeightSpy).toHaveBeenCalled()
-          })
-
           it('sets scrollHeightBeforeUpdate instance variable', () => {
             expect(component.scrollHeightBeforeUpdate).toEqual(mockScrollHeightValue)
           })
@@ -205,10 +195,6 @@ describe('ChattingScreen component', () => {
         describe('when current historyStatus is not done', () => {
           beforeAll(() => {
             componentProps = { historyRequestStatus: 'pending' }
-          })
-
-          it('does not call getScrollHeight', () => {
-            expect(getScrollHeightSpy).not.toHaveBeenCalled()
           })
 
           it('does not set scrollHeightBeforeUpdate instance variable', () => {
@@ -227,10 +213,6 @@ describe('ChattingScreen component', () => {
             componentProps = { historyRequestStatus: 'done' }
           })
 
-          it('does not call getScrollHeight', () => {
-            expect(getScrollHeightSpy).not.toHaveBeenCalled()
-          })
-
           it('does not set scrollHeightBeforeUpdate instance variable', () => {
             expect(component.scrollHeightBeforeUpdate).toEqual(null)
           })
@@ -239,10 +221,6 @@ describe('ChattingScreen component', () => {
         describe('when current historyStatus is not done', () => {
           beforeAll(() => {
             componentProps = { historyRequestStatus: 'pending' }
-          })
-
-          it('does not call getScrollHeight', () => {
-            expect(getScrollHeightSpy).not.toHaveBeenCalled()
           })
 
           it('does not set scrollHeightBeforeUpdate instance variable', () => {
@@ -326,8 +304,8 @@ describe('ChattingScreen component', () => {
           mockScrollHeight = 10
 
           mockScrollContainer = {
-            getScrollTop: () => mockScrollTop,
-            getScrollHeight: () => mockScrollHeight,
+            scrollTop: mockScrollTop,
+            scrollHeight: mockScrollHeight,
             scrollTo: scrollToSpy
           }
         })
@@ -335,7 +313,7 @@ describe('ChattingScreen component', () => {
         it('calls scrollTo on scrollContainer with an expected value', () => {
           const expected = mockScrollTop + (mockScrollHeight - mockScrollHeightBeforeUpdate)
 
-          expect(scrollToSpy).toHaveBeenCalledWith(expected)
+          expect(mockScrollContainer.scrollTop).toBe(expected)
         })
 
         it('sets scrollHeightBeforeUpdate to null', () => {
@@ -351,14 +329,9 @@ describe('ChattingScreen component', () => {
           mockScrollHeight = 30
 
           mockScrollContainer = {
-            getScrollTop: () => mockScrollTop,
-            getScrollHeight: () => mockScrollHeight,
-            scrollTo: scrollToSpy
+            scrollTop: mockScrollTop,
+            scrollHeight: mockScrollHeight
           }
-        })
-
-        it('does not call scrollTop', () => {
-          expect(scrollToSpy).not.toHaveBeenCalled()
         })
 
         it('does not set scrollHeightBeforeUpdate to null', () => {
@@ -661,10 +634,10 @@ describe('ChattingScreen component', () => {
     })
   })
 
-  const getScrollContainer = renderResult => renderResult.props.children[2].props.children
+  const getScrollContainer = renderResult => renderResult.props.children[2]
 
   describe('#render', () => {
-    let component, result, mockFullscreen, mockIsMobile
+    let component, mockFullscreen, mockIsMobile
     const renderChatComponent = ({
       agents = {},
       isMobile = mockIsMobile,
@@ -721,121 +694,6 @@ describe('ChattingScreen component', () => {
       })
     })
 
-    describe('container classnames', () => {
-      describe('headerMargin', () => {
-        describe('when profile config avatar is true', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              profileConfig: {
-                avatar: true
-              }
-            })
-
-            result = component.render()
-          })
-
-          it('renders headerMargin', () => {
-            expect(getScrollContainer(result).props.containerClasses).toContain('headerMargin')
-          })
-        })
-
-        describe('when profile config has no properties', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              profileConfig: {}
-            })
-
-            result = component.render()
-          })
-
-          it('does not render headerMargin', () => {
-            expect(getScrollContainer(result).props.containerClasses).not.toContain('headerMargin')
-          })
-        })
-
-        describe('when profile config has only false properties', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              profileConfig: {
-                title: false,
-                rating: false
-              }
-            })
-
-            result = component.render()
-          })
-
-          it('does not render headerMargin', () => {
-            expect(getScrollContainer(result).props.containerClasses).not.toContain('headerMargin')
-          })
-        })
-
-        describe('when show rating is true', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              showRating: true
-            })
-
-            result = component.render()
-          })
-
-          it('renders headerMargin', () => {
-            expect(getScrollContainer(result).props.containerClasses).toContain('headerMargin')
-          })
-        })
-      })
-    })
-
-    describe('footer classnames', () => {
-      describe('on non-mobile devices', () => {
-        it('has desktop specific classes', () => {
-          result = component.render()
-          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
-          expect(getScrollContainer(result).props.footerClasses).not.toContain(
-            'footerMobileClasses'
-          )
-          expect(getScrollContainer(result).props.footerClasses).not.toContain(
-            'footerMobileWithLogoClasses'
-          )
-        })
-      })
-
-      describe('on mobile devices with logo', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            isMobile: true
-          })
-        })
-
-        it('has mobile specific classes', () => {
-          result = component.render()
-          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
-          expect(getScrollContainer(result).props.footerClasses).toContain('footerMobileClasses')
-          expect(getScrollContainer(result).props.footerClasses).toContain(
-            'footerMobileWithLogoClasses'
-          )
-        })
-      })
-
-      describe('on mobile devices without logo', () => {
-        beforeEach(() => {
-          component = renderChatComponent({
-            isMobile: true,
-            hideZendeskLogo: true
-          })
-        })
-
-        it('has mobile specific classes', () => {
-          result = component.render()
-          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
-          expect(getScrollContainer(result).props.footerClasses).toContain('footerMobileClasses')
-          expect(getScrollContainer(result).props.footerClasses).not.toContain(
-            'footerMobileWithLogoClasses'
-          )
-        })
-      })
-    })
-
     describe('the renderChatHeader call', () => {
       beforeEach(() => {
         component = instanceRender(<ChattingScreen />)
@@ -848,54 +706,6 @@ describe('ChattingScreen component', () => {
       })
     })
 
-    describe('for non mobile devices', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChattingScreen />)
-      })
-
-      it('adds the scrollContainerMessagesContentDesktop to it', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
-          'scrollContainerMessagesContentDesktopClass'
-        )
-      })
-
-      it('does not add the scrollContainerMobile class to it', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
-          'scrollContainerMobileClasses'
-        )
-      })
-
-      it('does not add scrollContainerMessagesContent class to it', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
-          'scrollContainerMessagesContentClass'
-        )
-      })
-    })
-
-    describe('for mobile devices', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChattingScreen isMobile={true} />)
-      })
-
-      it('does not add the scrollContainerMessagesContentDesktop to it', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
-          'scrollContainerMessagesContentDesktopClass'
-        )
-      })
-
-      it('adds mobile container classes to scrollContainer', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
-          'scrollContainerMobileClasses'
-        )
-      })
-
-      it('adds scrollContainerMessagesContent class to it', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
-          'scrollContainerMessagesContentClass'
-        )
-      })
-    })
-
     describe('when the browser is Firefox', () => {
       beforeEach(() => {
         isFirefox = true
@@ -903,9 +713,7 @@ describe('ChattingScreen component', () => {
       })
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
-          'scrollBarFix'
-        )
+        expect(getScrollContainer(component.render()).props.className).toContain('scrollBarFix')
       })
     })
 
@@ -916,9 +724,7 @@ describe('ChattingScreen component', () => {
       })
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
-          'scrollBarFix'
-        )
+        expect(getScrollContainer(component.render()).props.className).toContain('scrollBarFix')
       })
     })
   })
@@ -1368,8 +1174,7 @@ describe('ChattingScreen component', () => {
         const component = instanceRender(<ChattingScreen {...mockProps} />)
 
         component.scrollContainer = {
-          isAtTop: () => true,
-          getScrollBottom: noop
+          scrollTop: 0
         }
 
         component.handleChatScreenScrolled()
@@ -1435,11 +1240,13 @@ describe('ChattingScreen component', () => {
     })
 
     describe('when scrollContainer exists', () => {
+      beforeAll(() => {
+        mockScrollContainer = {}
+      })
+
       describe('when scrollBottom is greater or equal than threshold', () => {
         beforeAll(() => {
-          mockScrollContainer = {
-            getScrollBottom: () => SCROLL_BOTTOM_THRESHOLD + 1
-          }
+          getScrollBottom.and.returnValue(SCROLL_BOTTOM_THRESHOLD + 1)
         })
 
         it('returns false', () => {
@@ -1449,9 +1256,7 @@ describe('ChattingScreen component', () => {
 
       describe('when scrollBottom is less than threshold', () => {
         beforeAll(() => {
-          mockScrollContainer = {
-            getScrollBottom: () => SCROLL_BOTTOM_THRESHOLD - 1
-          }
+          getScrollBottom.and.returnValue(SCROLL_BOTTOM_THRESHOLD - 1)
         })
 
         it('returns true', () => {

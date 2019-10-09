@@ -34,6 +34,10 @@ describe('ChattingFooter component', () => {
           iconSendChatMobile: 'iconSendChatMobileClass'
         }
       },
+      'components/Widget': {
+        FooterView: noopReactComponent()
+      },
+      'components/ZendeskLogo': noopReactComponent(),
       'component/Dropzone': {
         Dropzone: noopReactComponent()
       },

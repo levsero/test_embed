@@ -10,10 +10,9 @@ import { ChattingFooter } from 'component/chat/chatting/ChattingFooter'
 import ChatLog from 'component/chat/chatting/ChatLog'
 import HistoryLog from 'component/chat/chatting/HistoryLog'
 import { ChatHeader } from 'component/chat/ChatHeader'
-import { ScrollContainer } from 'component/container/ScrollContainer'
+import { getScrollBottom } from 'component/container/ScrollContainer'
 import { ButtonPill } from 'component/button/ButtonPill'
 import { LoadingEllipses } from 'component/loading/LoadingEllipses'
-import { ZendeskLogo } from 'component/ZendeskLogo'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
 import { i18n } from 'service/i18n'
 import { isAgent } from 'utility/chat'
@@ -46,7 +45,7 @@ import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
-import { Widget, Main, Footer } from 'components/Widget'
+import { Widget, Main } from 'components/Widget'
 
 const mapStateToProps = state => {
   return {
@@ -110,7 +109,6 @@ class ChattingScreen extends Component {
     resetCurrentMessage: PropTypes.func,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string,
     firstMessageTimestamp: PropTypes.number,
     socialLogin: PropTypes.object,
     conciergeSettings: PropTypes.object.isRequired,
@@ -119,14 +117,12 @@ class ChattingScreen extends Component {
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
-    fullscreen: PropTypes.bool,
     unreadMessages: PropTypes.bool
   }
 
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
-    fullscreen: false,
     concierges: [],
     chatsLength: 0,
     historyLength: 0,
@@ -141,7 +137,6 @@ class ChattingScreen extends Component {
     resetCurrentMessage: () => {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
-    chatId: '',
     firstMessageTimestamp: null,
     socialLogin: {},
     conciergeSettings: {},
@@ -178,7 +173,7 @@ class ChattingScreen extends Component {
       prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
       this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
     ) {
-      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight()
+      this.scrollHeightBeforeUpdate = this.scrollContainer.scrollHeight
     }
 
     if (this.scrollContainer) {
@@ -194,15 +189,15 @@ class ChattingScreen extends Component {
   didUpdateFetchHistory = () => {
     if (!this.scrollHeightBeforeUpdate) return
 
-    const scrollTop = this.scrollContainer.getScrollTop()
-    const scrollHeight = this.scrollContainer.getScrollHeight()
+    const scrollTop = this.scrollContainer.scrollTop
+    const scrollHeight = this.scrollContainer.scrollHeight
     const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate
 
     // When chat history is fetched, we record the scroll just before
     // the component updates in order to adjust the  scrollTop
     // by the difference in container height of pre and post update.
     if (lengthDifference !== 0) {
-      this.scrollContainer.scrollTo(scrollTop + lengthDifference)
+      this.scrollContainer.scrollTop = scrollTop + lengthDifference
       this.scrollHeightBeforeUpdate = null
     }
   }
@@ -227,14 +222,14 @@ class ChattingScreen extends Component {
 
   isScrollCloseToBottom = () => {
     return this.scrollContainer
-      ? this.scrollContainer.getScrollBottom() < SCROLL_BOTTOM_THRESHOLD
+      ? getScrollBottom(this.scrollContainer) < SCROLL_BOTTOM_THRESHOLD
       : false
   }
 
   scrollToBottom = () => {
     this.scrollToBottomTimer = onNextTick(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.scrollToBottom()
+        this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight
       }
     })
   }
@@ -243,7 +238,7 @@ class ChattingScreen extends Component {
     if (!this.scrollContainer) return
 
     if (
-      this.scrollContainer.isAtTop() &&
+      this.scrollContainer.scrollTop === 0 &&
       this.props.hasMoreHistory &&
       this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
@@ -365,6 +360,7 @@ class ChattingScreen extends Component {
         handleAttachmentDrop={this.props.sendAttachments}
         menuVisible={menuVisible}
         toggleMenu={this.props.toggleMenu}
+        hideZendeskLogo={this.props.hideZendeskLogo}
       >
         <ChatBox
           isMobile={isMobile}
@@ -401,21 +397,6 @@ class ChattingScreen extends Component {
         onAgentDetailsClick={onAgentDetailsClick}
       />
     )
-  }
-
-  renderZendeskLogo = () => {
-    const logoClasses = classNames({
-      [styles.zendeskLogoChatMobile]: this.props.isMobile
-    })
-
-    return !this.props.hideZendeskLogo ? (
-      <ZendeskLogo
-        className={`${styles.zendeskLogo} ${logoClasses}`}
-        fullscreen={false}
-        chatId={this.props.chatId}
-        logoLink="chat"
-      />
-    ) : null
   }
 
   renderScrollPill = () => {
@@ -475,28 +456,9 @@ class ChattingScreen extends Component {
   }
 
   render = () => {
-    const {
-      isMobile,
-      sendMsg,
-      hideZendeskLogo,
-      agentsTyping,
-      profileConfig,
-      fullscreen,
-      showRating
-    } = this.props
-    const containerClasses = classNames({
-      [styles.headerMargin]: profileConfig.avatar || profileConfig.title || showRating,
-      [styles.scrollContainerMessagesContent]: isMobile,
-      [styles.scrollContainerMessagesContentDesktop]: !isMobile,
-      [styles.scrollContainerMobile]: isMobile,
-      [styles.scrollBarFix]: isFirefox() || isIE()
-    })
+    const { isMobile, sendMsg, agentsTyping } = this.props
     const chatLogContainerClasses = classNames(styles.chatLogContainer, {
       [styles.chatLogContainerMobile]: isMobile
-    })
-    const footerClasses = classNames(styles.footer, {
-      [styles.footerMobile]: isMobile,
-      [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
     })
 
     return (
@@ -504,54 +466,41 @@ class ChattingScreen extends Component {
         <ChatWidgetHeader />
         {this.renderChatHeader()}
         <Main
-          style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0, marginLeft: 0, marginRight: 0 }}
+          ref={el => {
+            this.scrollContainer = el
+          }}
+          onScroll={this.handleChatScreenScrolled}
+          className={classNames({
+            [styles.scrollBarFix]: isFirefox() || isIE()
+          })}
         >
-          <ScrollContainer
-            ref={el => {
-              this.scrollContainer = el
-            }}
-            classes={styles.scrollContainer}
-            onContentScrolled={this.handleChatScreenScrolled}
-            headerClasses={styles.header}
-            containerClasses={containerClasses}
-            footerClasses={footerClasses}
-            fullscreen={fullscreen}
-            isMobile={isMobile}
-            hideFooterContent={true}
-          >
-            <div className={chatLogContainerClasses}>
-              <HistoryLog
-                isMobile={this.props.isMobile}
-                showAvatar={this.props.showAvatar}
-                agents={this.props.allAgents}
-                firstMessageTimestamp={this.props.firstMessageTimestamp}
-              />
-              <ChatLog
-                isMobile={this.props.isMobile}
-                showAvatar={this.props.showAvatar}
-                agents={this.props.allAgents}
-                chatRating={this.props.rating}
-                goToFeedbackScreen={this.goToFeedbackScreen}
-                handleSendMsg={sendMsg}
-                onImageLoad={this.scrollToBottom}
-                conciergeAvatar={this.props.conciergeSettings.avatar_path}
-                updateInfoOnClick={this.props.showContactDetails}
-                socialLogin={this.props.socialLogin}
-              />
-              {this.renderQueuePosition()}
-              {this.renderAgentTyping(agentsTyping)}
-              {this.renderHistoryFetching()}
-              {this.renderScrollPill()}
-            </div>
-            {this.renderQuickReply()}
-          </ScrollContainer>
-        </Main>
-        <Footer minimal={true}>
-          <div className={footerClasses}>
-            {this.renderChatFooter()}
-            {this.renderZendeskLogo()}
+          <div className={chatLogContainerClasses}>
+            <HistoryLog
+              isMobile={this.props.isMobile}
+              showAvatar={this.props.showAvatar}
+              agents={this.props.allAgents}
+              firstMessageTimestamp={this.props.firstMessageTimestamp}
+            />
+            <ChatLog
+              isMobile={this.props.isMobile}
+              showAvatar={this.props.showAvatar}
+              agents={this.props.allAgents}
+              chatRating={this.props.rating}
+              goToFeedbackScreen={this.goToFeedbackScreen}
+              handleSendMsg={sendMsg}
+              onImageLoad={this.scrollToBottom}
+              conciergeAvatar={this.props.conciergeSettings.avatar_path}
+              updateInfoOnClick={this.props.showContactDetails}
+              socialLogin={this.props.socialLogin}
+            />
+            {this.renderQueuePosition()}
+            {this.renderAgentTyping(agentsTyping)}
+            {this.renderHistoryFetching()}
+            {this.renderScrollPill()}
           </div>
-        </Footer>
+          {this.renderQuickReply()}
+        </Main>
+        {this.renderChatFooter()}
       </Widget>
     )
   }

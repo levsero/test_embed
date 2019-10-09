@@ -1,10 +1,23 @@
 @import '../../../styles/_vars.scss';
 
+.footer {
+  box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
+  z-index: 1;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: #{8 / $font-size}rem;
+}
+
 .iconContainer {
-  composes: u-flex from global;
+  display: flex;
+  flex: 1;
   justify-content: flex-end;
   align-items: center;
-  padding-top: #{8 / $font-size}rem;
+  transform: translate(0px, 33%);
 
   button {
     margin-right: #{3 / $font-size}rem;

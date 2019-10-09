@@ -20,32 +20,6 @@
   background-color: $zd-color-white;
 }
 
-.zendeskLogo {
-  z-index: 1;
-}
-
-.zendeskLogoChatMobile {
-  bottom: #{52 / $font-size}rem;
-
-  [dir='rtl'] & {
-    right: #{12 / $font-size}rem;
-  }
-
-  [dir='ltr'] & {
-    left: #{12 / $font-size}rem;
-  }
-}
-
-.footerMobile {
-  padding: 0 !important;
-  border-top: $thin-border-size solid $zd-color-grey-200;
-  margin-top: #{12 / $font-size}rem !important;
-}
-
-.footerMobileWithLogo {
-  margin-top: #{24 / $font-size}rem !important;
-}
-
 .scrollBarFix {
   overflow-y: scroll !important;
   margin-right: 0 !important;
@@ -61,34 +35,4 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-}
-
-.scrollContainerContent {
-  height: 100%;
-  max-height: none;
-  margin-right: #{7 / $font-size}rem !important;
-  margin-left: #{7 / $font-size}rem !important;
-  padding-right: #{8 / $font-size}rem !important;
-  padding-left: #{8 / $font-size}rem !important;
-}
-
-.headerMargin {
-  margin-top: #{4 / $font-size}rem;
-}
-
-.footerMarginWithLogo {
-  margin-bottom: #{28 / $font-size}rem;
-}
-
-.footerMargin {
-  margin-bottom: #{16 / $font-size}rem;
-}
-
-.scrollContainerMessagesContent {
-  composes: scrollContainerContent;
-}
-
-.scrollContainerMessagesContentDesktop {
-  composes: scrollContainerMessagesContent;
-  height: calc(100% - #{220 / $font-size}rem); /* 1 */
 }

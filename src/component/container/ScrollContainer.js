@@ -9,6 +9,12 @@ import { Header } from 'components/Widget'
 
 import { locals as styles } from './ScrollContainer.scss'
 
+export const getScrollBottom = element => {
+  const { scrollHeight, scrollTop, offsetHeight } = element
+
+  return scrollHeight - (scrollTop + offsetHeight)
+}
+
 export class ScrollContainer extends Component {
   static propTypes = {
     footerContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
@@ -22,7 +28,7 @@ export class ScrollContainer extends Component {
     title: PropTypes.string,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    hideFooterContent: PropTypes.bool
+    hideFooter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -115,10 +121,10 @@ export class ScrollContainer extends Component {
   }
 
   renderFooter() {
-    const { footerContent, footerClasses, scrollShadowVisible, hideFooterContent } = this.props
+    const { footerContent, footerClasses, scrollShadowVisible } = this.props
     const footerShadowClasses = scrollShadowVisible ? styles.footerShadow : ''
 
-    if (hideFooterContent) {
+    if (this.props.hideFooter) {
       return null
     }
 

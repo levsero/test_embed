@@ -193,47 +193,5 @@ describe('RatingScreen component', () => {
         })
       })
     })
-
-    describe('hideZendeskLogo', () => {
-      let result
-
-      describe('when hideZendeskLogo is false', () => {
-        beforeEach(() => {
-          result = domRender(
-            <RatingScreen
-              rating={defaultRating}
-              updateChatScreen={updateChatScreenSpy}
-              endChat={endChatSpy}
-              sendChatRating={sendChatRatingSpy}
-              sendChatComment={sendChatCommentSpy}
-              hideZendeskLogo={false}
-            />
-          )
-        })
-
-        it('renders logo in footer', () => {
-          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).not.toThrow()
-        })
-      })
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeEach(() => {
-          result = domRender(
-            <RatingScreen
-              rating={defaultRating}
-              updateChatScreen={updateChatScreenSpy}
-              endChat={endChatSpy}
-              sendChatRating={sendChatRatingSpy}
-              sendChatComment={sendChatCommentSpy}
-              hideZendeskLogo={true}
-            />
-          )
-        })
-
-        it('does not render logo in footer', () => {
-          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).toThrow()
-        })
-      })
-    })
   })
 })

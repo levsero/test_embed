@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
-import { Widget, Header, Main } from 'src/components/Widget'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   sendMsg,
@@ -77,7 +75,6 @@ const mapStateToProps = state => {
 
 class PrechatScreen extends Component {
   static propTypes = {
-    isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
     updateChatScreen: PropTypes.func.isRequired,
@@ -112,7 +109,6 @@ class PrechatScreen extends Component {
   }
 
   static defaultProps = {
-    isMobile: false,
     fullscreen: false,
     hideZendeskLogo: false,
     chatId: '',
@@ -181,6 +177,7 @@ class PrechatScreen extends Component {
             onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
           />
         </Main>
+        <Footer />
       </Widget>
     )
   }
@@ -219,14 +216,13 @@ class PrechatScreen extends Component {
 
   renderLoadingSpinner() {
     return (
-      <ScrollContainer
-        title={this.props.title}
-        containerClasses={styles.scrollContainerContent}
-        fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
-      >
-        <LoadingSpinner className={styles.loadingSpinner} />
-      </ScrollContainer>
+      <Widget>
+        <Header title={this.props.title} />
+        <Main>
+          <LoadingSpinner className={styles.loadingSpinner} />
+        </Main>
+        <Footer />
+      </Widget>
     )
   }
 
@@ -239,6 +235,8 @@ class PrechatScreen extends Component {
       case screens.OFFLINE_MESSAGE_SCREEN:
         return this.renderChatOfflineForm()
     }
+
+    return null
   }
 }
 
