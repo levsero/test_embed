@@ -112,12 +112,6 @@ describe('active ticket form', () => {
   })
 })
 
-test('can hide the zendesk logo', () => {
-  const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
-
-  expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
-})
-
 test('renders the error message', () => {
   const { queryByText } = renderComponent({ errorMsg: 'this is the error message' })
 

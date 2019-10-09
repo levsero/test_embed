@@ -7,25 +7,23 @@ exports[`form ticket forms validation renders the error messages 1`] = `
     novalidate=""
   >
     <div
-      class="container flexContainer desktop containerDesktop"
-      data-testid="scroll-container"
-      style="height: 550px;"
+      class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -42,64 +40,102 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <div
-        class="content container ticketFormContainer"
+        class="container"
         data-testid="scroll-container-content"
       >
-        <div>
-          <div
-            class="formWrapper"
+        <div
+          class="formWrapper"
+        >
+          <h2
+            class="ticketFormTitle "
           >
-            <h2
-              class="ticketFormTitle "
-            >
-              Ticket Forms
-            </h2>
+            Ticket Forms
+          </h2>
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-140--input"
+            id="garden-field-container-140--label"
+          >
+            <strong>
+              Your name
+            </strong>
+             (optional)
+          </label>
+          <input
+            aria-describedby="garden-field-container-140--hint"
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-140--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="name-field"
+            id="garden-field-container-140--input"
+            name="name"
+            value=""
+          />
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-141--input"
+            id="garden-field-container-141--label"
+          >
+            <strong>
+              Email address
+            </strong>
+          </label>
+          <input
+            aria-describedby="garden-field-container-141--hint"
+            aria-invalid="true"
+            aria-labelledby="garden-field-container-141--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="email-field"
+            id="garden-field-container-141--input"
+            name="email"
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+            required=""
+            value=""
+          />
+          <div
+            class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+            data-garden-id="forms.text_message"
+            data-garden-version="6.4.4"
+            role="alert"
+          >
+            Please enter a valid email address.
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
             <label
               class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
-              for="garden-field-container-152--input"
-              id="garden-field-container-152--label"
+              for="garden-field-container-142--input"
+              id="garden-field-container-142--label"
             >
               <strong>
-                Your name
-              </strong>
-               (optional)
-            </label>
-            <input
-              aria-describedby="garden-field-container-152--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-152--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="name-field"
-              id="garden-field-container-152--input"
-              name="name"
-              value=""
-            />
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-153--input"
-              id="garden-field-container-153--label"
-            >
-              <strong>
-                Email address
+                Description
               </strong>
             </label>
             <input
-              aria-describedby="garden-field-container-153--hint"
+              aria-describedby="garden-field-container-142--hint"
               aria-invalid="true"
-              aria-labelledby="garden-field-container-153--label"
+              aria-labelledby="garden-field-container-142--label"
+              aria-required="true"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
               data-garden-id="forms.input"
               data-garden-version="6.4.4"
-              data-testid="email-field"
-              id="garden-field-container-153--input"
-              name="email"
-              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+              id="garden-field-container-142--input"
+              label="Description"
+              name="1"
               required=""
               value=""
             />
@@ -109,459 +145,420 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               data-garden-version="6.4.4"
               role="alert"
             >
-              Please enter a valid email address.
+              Please enter a value.
             </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-154--input"
-                id="garden-field-container-154--label"
-              >
-                <strong>
-                  Description
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-154--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-154--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-154--input"
-                label="Description"
-                name="1"
-                required=""
-                value=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a value.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-155--input"
-                id="garden-field-container-155--label"
-              >
-                <strong>
-                  Subject
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-155--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-155--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-155--input"
-                label="Subject"
-                name="2"
-                required=""
-                value=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a value.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-156--input"
-                id="garden-field-container-156--label"
-              >
-                <strong>
-                  Favorite Burger
-                </strong>
-              </label>
-              <div
-                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-                data-garden-id="forms.text_hint"
-                data-garden-version="6.4.4"
-                id="garden-field-container-156--hint"
-              >
-                blah blah
-              </div>
-              <input
-                aria-describedby="garden-field-container-156--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-156--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-156--input"
-                label="Favorite Burger"
-                name="4"
-                required=""
-                value=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a value.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-157--input"
-                id="garden-field-container-157--label"
-              >
-                <strong>
-                  Favorite Integer
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-157--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-157--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-157--input"
-                label="Favorite Integer"
-                name="7"
-                pattern="/\\\\d+/"
-                required=""
-                type="number"
-                value=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a number.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-158--input"
-                id="garden-field-container-158--label"
-              >
-                <strong>
-                  Favorite Decimal
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-158--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-158--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-158--input"
-                label="Favorite Decimal"
-                name="8"
-                pattern="/\\\\d*([.,]\\\\d+)?/"
-                required=""
-                step="any"
-                type="number"
-                value=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a number.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-159--input"
-                id="garden-field-container-159--label"
-              >
-                <strong>
-                  Favorite Textarea
-                </strong>
-              </label>
-              <textarea
-                aria-describedby="garden-field-container-159--hint"
-                aria-invalid="true"
-                aria-labelledby="garden-field-container-159--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 ffjHNh"
-                data-garden-id="forms.textarea"
-                data-garden-version="6.4.4"
-                id="garden-field-container-159--input"
-                label="Favorite Textarea"
-                name="10"
-                required=""
-              />
-              <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-                data-garden-id="forms.text_message"
-                data-garden-version="6.4.4"
-                role="alert"
-              >
-                Please enter a value.
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <div
-                data-testid="checkbox-field"
-              >
-                <div
-                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
-                >
-                  <input
-                    aria-labelledby="garden-field-container-160--label"
-                    aria-required="true"
-                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                    data-garden-id="forms.checkbox"
-                    data-garden-version="6.4.4"
-                    id="garden-field-container-160--input"
-                    label="Favorite Checkbox"
-                    name="11"
-                    required=""
-                    tabindex="0"
-                    type="checkbox"
-                  />
-                  <label
-                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                    data-garden-id="forms.checkbox_label"
-                    data-garden-version="6.4.4"
-                    for="garden-field-container-160--input"
-                    id="garden-field-container-160--label"
-                  >
-                    <strong>
-                      Favorite Checkbox
-                    </strong>
-                  </label>
-                  <div
-                    class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
-                    data-garden-id="forms.checkbox_message"
-                    data-garden-version="6.4.4"
-                  >
-                    Please check this box to proceed.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <div
-                class="sc-htoDjs dnWSEM"
-              >
-                <div
-                  aria-expanded="false"
-                  aria-haspopup="listbox"
-                  aria-labelledby="downshift-2-label"
-                  class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
-                  data-garden-id="dropdowns.field"
-                  data-garden-version="6.4.4"
-                  role="combobox"
-                >
-                  <label
-                    class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
-                    data-garden-id="dropdowns.label"
-                    data-garden-version="6.4.4"
-                    for="downshift-2-input"
-                    id="downshift-2-label"
-                  >
-                    <strong>
-                      Favorite Tagger
-                    </strong>
-                  </label>
-                  <div
-                    class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
-                    data-garden-id="dropdowns.hint"
-                    data-garden-version="6.4.4"
-                  />
-                  <div
-                    aria-haspopup="true"
-                    aria-invalid="false"
-                    class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
-                    data-garden-id="dropdowns.select"
-                    data-garden-version="6.4.4"
-                    data-testid="dropdown-field"
-                    data-toggle="true"
-                    role="button"
-                    tabindex="0"
-                    type="button"
-                  >
-                    -
-                    <input
-                      aria-autocomplete="list"
-                      aria-labelledby="downshift-2-label"
-                      autocomplete="off"
-                      class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
-                      id="downshift-2-input"
-                      readonly=""
-                      tabindex="-1"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
-                    data-garden-id="dropdowns.message"
-                    data-garden-version="6.4.4"
-                    role="alert"
-                  >
-                    Please select a value.
-                  </div>
-                </div>
-                <div
-                  style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
-                >
-                  <div
-                    class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
-                  >
-                    <ul
-                      aria-labelledby="downshift-2-label"
-                      class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
-                      data-garden-id="dropdowns.menu"
-                      data-garden-version="6.4.4"
-                      data-testid="dropdown-options"
-                      id="downshift-2-menu"
-                      role="listbox"
-                      style="overflow: auto; box-shadow: 0 0.7142857142857143rem 2.142857142857143rem 0 rgba(4, 68, 77, 0.15); width: 0px;"
-                    >
-                      <div
-                        class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
-                      >
-                        <li
-                          aria-selected="false"
-                          class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-                          data-garden-id="dropdowns.item"
-                          data-garden-version="6.4.4"
-                          data-testid="dropdown-option"
-                          id="downshift-2-item-0"
-                          role="option"
-                        >
-                          one
-                        </li>
-                        <li
-                          aria-selected="false"
-                          class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-                          data-garden-id="dropdowns.item"
-                          data-garden-version="6.4.4"
-                          data-testid="dropdown-option"
-                          id="downshift-2-item-1"
-                          role="option"
-                        >
-                          two
-                        </li>
-                        <li
-                          aria-selected="false"
-                          class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-                          data-garden-id="dropdowns.item"
-                          data-garden-version="6.4.4"
-                          data-testid="dropdown-option"
-                          id="downshift-2-item-2"
-                          role="option"
-                        >
-                          three
-                        </li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-                <input
-                  class="u-isHidden"
-                  data-testid="dropdown-selected-value"
-                  name="12"
-                  required=""
-                  value=""
-                />
-              </div>
-            </div>
-            <span />
           </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-143--input"
+              id="garden-field-container-143--label"
+            >
+              <strong>
+                Subject
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-143--hint"
+              aria-invalid="true"
+              aria-labelledby="garden-field-container-143--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-143--input"
+              label="Subject"
+              name="2"
+              required=""
+              value=""
+            />
+            <div
+              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              data-garden-id="forms.text_message"
+              data-garden-version="6.4.4"
+              role="alert"
+            >
+              Please enter a value.
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-144--input"
+              id="garden-field-container-144--label"
+            >
+              <strong>
+                Favorite Burger
+              </strong>
+            </label>
+            <div
+              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              data-garden-id="forms.text_hint"
+              data-garden-version="6.4.4"
+              id="garden-field-container-144--hint"
+            >
+              blah blah
+            </div>
+            <input
+              aria-describedby="garden-field-container-144--hint"
+              aria-invalid="true"
+              aria-labelledby="garden-field-container-144--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-144--input"
+              label="Favorite Burger"
+              name="4"
+              required=""
+              value=""
+            />
+            <div
+              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              data-garden-id="forms.text_message"
+              data-garden-version="6.4.4"
+              role="alert"
+            >
+              Please enter a value.
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-145--input"
+              id="garden-field-container-145--label"
+            >
+              <strong>
+                Favorite Integer
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-145--hint"
+              aria-invalid="true"
+              aria-labelledby="garden-field-container-145--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-145--input"
+              label="Favorite Integer"
+              name="7"
+              pattern="/\\\\d+/"
+              required=""
+              type="number"
+              value=""
+            />
+            <div
+              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              data-garden-id="forms.text_message"
+              data-garden-version="6.4.4"
+              role="alert"
+            >
+              Please enter a number.
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-146--input"
+              id="garden-field-container-146--label"
+            >
+              <strong>
+                Favorite Decimal
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-146--hint"
+              aria-invalid="true"
+              aria-labelledby="garden-field-container-146--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-146--input"
+              label="Favorite Decimal"
+              name="8"
+              pattern="/\\\\d*([.,]\\\\d+)?/"
+              required=""
+              step="any"
+              type="number"
+              value=""
+            />
+            <div
+              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              data-garden-id="forms.text_message"
+              data-garden-version="6.4.4"
+              role="alert"
+            >
+              Please enter a number.
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-147--input"
+              id="garden-field-container-147--label"
+            >
+              <strong>
+                Favorite Textarea
+              </strong>
+            </label>
+            <textarea
+              aria-describedby="garden-field-container-147--hint"
+              aria-invalid="true"
+              aria-labelledby="garden-field-container-147--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 ffjHNh"
+              data-garden-id="forms.textarea"
+              data-garden-version="6.4.4"
+              id="garden-field-container-147--input"
+              label="Favorite Textarea"
+              name="10"
+              required=""
+            />
+            <div
+              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              data-garden-id="forms.text_message"
+              data-garden-version="6.4.4"
+              role="alert"
+            >
+              Please enter a value.
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              data-testid="checkbox-field"
+            >
+              <div
+                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+              >
+                <input
+                  aria-labelledby="garden-field-container-148--label"
+                  aria-required="true"
+                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  data-garden-id="forms.checkbox"
+                  data-garden-version="6.4.4"
+                  id="garden-field-container-148--input"
+                  label="Favorite Checkbox"
+                  name="11"
+                  required=""
+                  tabindex="0"
+                  type="checkbox"
+                />
+                <label
+                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  data-garden-id="forms.checkbox_label"
+                  data-garden-version="6.4.4"
+                  for="garden-field-container-148--input"
+                  id="garden-field-container-148--label"
+                >
+                  <strong>
+                    Favorite Checkbox
+                  </strong>
+                </label>
+                <div
+                  class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
+                  data-garden-id="forms.checkbox_message"
+                  data-garden-version="6.4.4"
+                >
+                  Please check this box to proceed.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="sc-bdVaJa chbGzG"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="downshift-2-label"
+                class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+                data-garden-id="dropdowns.field"
+                data-garden-version="6.4.4"
+                role="combobox"
+              >
+                <label
+                  class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+                  data-garden-id="dropdowns.label"
+                  data-garden-version="6.4.4"
+                  for="downshift-2-input"
+                  id="downshift-2-label"
+                >
+                  <strong>
+                    Favorite Tagger
+                  </strong>
+                </label>
+                <div
+                  class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
+                  data-garden-id="dropdowns.hint"
+                  data-garden-version="6.4.4"
+                />
+                <div
+                  aria-haspopup="true"
+                  aria-invalid="false"
+                  class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                  data-garden-id="dropdowns.select"
+                  data-garden-version="6.4.4"
+                  data-testid="dropdown-field"
+                  data-toggle="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  -
+                  <input
+                    aria-autocomplete="list"
+                    aria-labelledby="downshift-2-label"
+                    autocomplete="off"
+                    class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+                    id="downshift-2-input"
+                    readonly=""
+                    tabindex="-1"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
+                  data-garden-id="dropdowns.message"
+                  data-garden-version="6.4.4"
+                  role="alert"
+                >
+                  Please select a value.
+                </div>
+              </div>
+              <div
+                style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+              >
+                <div
+                  class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+                >
+                  <ul
+                    aria-labelledby="downshift-2-label"
+                    class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+                    data-garden-id="dropdowns.menu"
+                    data-garden-version="6.4.4"
+                    data-testid="dropdown-options"
+                    id="downshift-2-menu"
+                    role="listbox"
+                    style="overflow: auto; box-shadow: 0 0.7142857142857143rem 2.142857142857143rem 0 rgba(4, 68, 77, 0.15); width: 0px;"
+                  >
+                    <div
+                      class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+                    >
+                      <li
+                        aria-selected="false"
+                        class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                        data-garden-id="dropdowns.item"
+                        data-garden-version="6.4.4"
+                        data-testid="dropdown-option"
+                        id="downshift-2-item-0"
+                        role="option"
+                      >
+                        one
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                        data-garden-id="dropdowns.item"
+                        data-garden-version="6.4.4"
+                        data-testid="dropdown-option"
+                        id="downshift-2-item-1"
+                        role="option"
+                      >
+                        two
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                        data-garden-id="dropdowns.item"
+                        data-garden-version="6.4.4"
+                        data-testid="dropdown-option"
+                        id="downshift-2-item-2"
+                        role="option"
+                      >
+                        three
+                      </li>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+              <input
+                class="u-isHidden"
+                data-testid="dropdown-selected-value"
+                name="12"
+                required=""
+                value=""
+              />
+            </div>
+          </div>
+          <span />
         </div>
       </div>
       <footer
-        class="footer  footerShadow"
-        data-testid="scroll-container-footer"
+        class="sc-gzVnrw bKySxc"
       >
         <div
-          class="container buttonRight buttonGroup"
+          class="sc-htoDjs kgaGXd"
         >
-          <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
-            data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
-            data-testid="button-cancel"
-            tabindex="0"
-            type="button"
+          <a
+            class="icon"
+            data-testid="Icon--zendesk"
+            href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+            tabindex="-1"
+            target="_blank"
           >
-            Cancel
-          </button>
+            <svg
+              realfilename="widget-icon_zendesk.svg"
+              title="zendesk"
+            />
+          </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
             data-garden-id="buttons.button"
@@ -586,25 +583,23 @@ exports[`renders the expected components 1`] = `
     novalidate=""
   >
     <div
-      class="container flexContainer desktop containerDesktop"
-      data-testid="scroll-container"
-      style="height: 550px;"
+      class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -621,86 +616,85 @@ exports[`renders the expected components 1`] = `
         </div>
       </div>
       <div
-        class="content container ticketFormContainer"
+        class="container"
         data-testid="scroll-container-content"
       >
-        <div>
-          <div
-            class="formWrapper"
+        <div
+          class="formWrapper"
+        >
+          <h2
+            class="ticketFormTitle "
+          />
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-0--input"
+            id="garden-field-container-0--label"
           >
-            <h2
-              class="ticketFormTitle "
-            />
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-0--input"
-              id="garden-field-container-0--label"
-            >
-              <strong>
-                Your name
-              </strong>
-               (optional)
-            </label>
-            <input
-              aria-describedby="garden-field-container-0--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-0--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="name-field"
-              id="garden-field-container-0--input"
-              name="name"
-              value=""
-            />
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-1--input"
-              id="garden-field-container-1--label"
-            >
-              <strong>
-                Email address
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-1--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-1--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="email-field"
-              id="garden-field-container-1--input"
-              name="email"
-              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-              required=""
-              value=""
-            />
-            <span />
-          </div>
+            <strong>
+              Your name
+            </strong>
+             (optional)
+          </label>
+          <input
+            aria-describedby="garden-field-container-0--hint"
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-0--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="name-field"
+            id="garden-field-container-0--input"
+            name="name"
+            value=""
+          />
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-1--input"
+            id="garden-field-container-1--label"
+          >
+            <strong>
+              Email address
+            </strong>
+          </label>
+          <input
+            aria-describedby="garden-field-container-1--hint"
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-1--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="email-field"
+            id="garden-field-container-1--input"
+            name="email"
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+            required=""
+            value=""
+          />
+          <span />
         </div>
       </div>
       <footer
-        class="footer  "
-        data-testid="scroll-container-footer"
+        class="sc-gzVnrw bKySxc"
       >
         <div
-          class="container buttonRight buttonGroup"
+          class="sc-htoDjs kgaGXd"
         >
-          <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
-            data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
-            data-testid="button-cancel"
-            tabindex="0"
-            type="button"
+          <a
+            class="icon"
+            data-testid="Icon--zendesk"
+            href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+            tabindex="-1"
+            target="_blank"
           >
-            Cancel
-          </button>
+            <svg
+              realfilename="widget-icon_zendesk.svg"
+              title="zendesk"
+            />
+          </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
             data-garden-id="buttons.button"
@@ -725,25 +719,23 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
     novalidate=""
   >
     <div
-      class="container flexContainer desktop containerDesktop"
-      data-testid="scroll-container"
-      style="height: 550px;"
+      class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -760,525 +752,524 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <div
-        class="content container ticketFormContainer"
+        class="container"
         data-testid="scroll-container-content"
       >
-        <div>
-          <div
-            class="formWrapper"
+        <div
+          class="formWrapper"
+        >
+          <h2
+            class="ticketFormTitle "
           >
-            <h2
-              class="ticketFormTitle "
-            >
-              Ticket Forms
-            </h2>
+            Ticket Forms
+          </h2>
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-36--input"
+            id="garden-field-container-36--label"
+          >
+            <strong>
+              Your name
+            </strong>
+             (optional)
+          </label>
+          <input
+            aria-describedby="garden-field-container-36--hint"
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-36--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="name-field"
+            id="garden-field-container-36--input"
+            name="name"
+            value=""
+          />
+          <label
+            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+            data-garden-id="forms.text_label"
+            data-garden-version="6.4.4"
+            for="garden-field-container-37--input"
+            id="garden-field-container-37--label"
+          >
+            <strong>
+              Email address
+            </strong>
+          </label>
+          <input
+            aria-describedby="garden-field-container-37--hint"
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-37--label"
+            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+            data-garden-id="forms.input"
+            data-garden-version="6.4.4"
+            data-testid="email-field"
+            id="garden-field-container-37--input"
+            name="email"
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+            required=""
+            value=""
+          />
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
             <label
               class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
-              for="garden-field-container-48--input"
-              id="garden-field-container-48--label"
+              for="garden-field-container-38--input"
+              id="garden-field-container-38--label"
             >
               <strong>
-                Your name
+                Description
               </strong>
                (optional)
             </label>
             <input
-              aria-describedby="garden-field-container-48--hint"
+              aria-describedby="garden-field-container-38--hint"
               aria-invalid="false"
-              aria-labelledby="garden-field-container-48--label"
+              aria-labelledby="garden-field-container-38--label"
+              aria-required="false"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
               data-garden-id="forms.input"
               data-garden-version="6.4.4"
-              data-testid="name-field"
-              id="garden-field-container-48--input"
-              name="name"
+              id="garden-field-container-38--input"
+              label="Description"
+              name="1"
               value=""
             />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
             <label
               class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
-              for="garden-field-container-49--input"
-              id="garden-field-container-49--label"
+              for="garden-field-container-39--input"
+              id="garden-field-container-39--label"
             >
               <strong>
-                Email address
+                Subject
               </strong>
+               (optional)
             </label>
             <input
-              aria-describedby="garden-field-container-49--hint"
+              aria-describedby="garden-field-container-39--hint"
               aria-invalid="false"
-              aria-labelledby="garden-field-container-49--label"
+              aria-labelledby="garden-field-container-39--label"
+              aria-required="false"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
               data-garden-id="forms.input"
               data-garden-version="6.4.4"
-              data-testid="email-field"
-              id="garden-field-container-49--input"
-              name="email"
-              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+              id="garden-field-container-39--input"
+              label="Subject"
+              name="2"
+              value=""
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-40--input"
+              id="garden-field-container-40--label"
+            >
+              <strong>
+                Favorite Burger
+              </strong>
+               (optional)
+            </label>
+            <div
+              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              data-garden-id="forms.text_hint"
+              data-garden-version="6.4.4"
+              id="garden-field-container-40--hint"
+            >
+              blah blah
+            </div>
+            <input
+              aria-describedby="garden-field-container-40--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-40--label"
+              aria-required="false"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-40--input"
+              label="Favorite Burger"
+              name="4"
+              value=""
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-41--input"
+              id="garden-field-container-41--label"
+            >
+              <strong>
+                Favorite Pizza
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-41--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-41--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-41--input"
+              label="Favorite Pizza"
+              name="5"
               required=""
               value=""
             />
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-50--input"
-                id="garden-field-container-50--label"
-              >
-                <strong>
-                  Description
-                </strong>
-                 (optional)
-              </label>
-              <input
-                aria-describedby="garden-field-container-50--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-50--label"
-                aria-required="false"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-50--input"
-                label="Description"
-                name="1"
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-51--input"
-                id="garden-field-container-51--label"
-              >
-                <strong>
-                  Subject
-                </strong>
-                 (optional)
-              </label>
-              <input
-                aria-describedby="garden-field-container-51--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-51--label"
-                aria-required="false"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-51--input"
-                label="Subject"
-                name="2"
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-52--input"
-                id="garden-field-container-52--label"
-              >
-                <strong>
-                  Favorite Burger
-                </strong>
-                 (optional)
-              </label>
-              <div
-                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-                data-garden-id="forms.text_hint"
-                data-garden-version="6.4.4"
-                id="garden-field-container-52--hint"
-              >
-                blah blah
-              </div>
-              <input
-                aria-describedby="garden-field-container-52--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-52--label"
-                aria-required="false"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-52--input"
-                label="Favorite Burger"
-                name="4"
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-53--input"
-                id="garden-field-container-53--label"
-              >
-                <strong>
-                  Favorite Pizza
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-53--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-53--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-53--input"
-                label="Favorite Pizza"
-                name="5"
-                required=""
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-54--input"
-                id="garden-field-container-54--label"
-              >
-                <strong>
-                  Favorite Integer
-                </strong>
-                 (optional)
-              </label>
-              <div
-                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-                data-garden-id="forms.text_hint"
-                data-garden-version="6.4.4"
-                id="garden-field-container-54--hint"
-              >
-                description number
-              </div>
-              <input
-                aria-describedby="garden-field-container-54--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-54--label"
-                aria-required="false"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-54--input"
-                label="Favorite Integer"
-                name="7"
-                pattern="/\\\\d+/"
-                type="number"
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-55--input"
-                id="garden-field-container-55--label"
-              >
-                <strong>
-                  Favorite Decimal
-                </strong>
-              </label>
-              <input
-                aria-describedby="garden-field-container-55--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-55--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                id="garden-field-container-55--input"
-                label="Favorite Decimal"
-                name="8"
-                pattern="/\\\\d*([.,]\\\\d+)?/"
-                required=""
-                step="any"
-                type="number"
-                value=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-56--input"
-                id="garden-field-container-56--label"
-              >
-                <strong>
-                  Favorite Description
-                </strong>
-              </label>
-              <textarea
-                aria-describedby="garden-field-container-56--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-56--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-                data-garden-id="forms.textarea"
-                data-garden-version="6.4.4"
-                id="garden-field-container-56--input"
-                label="Favorite Description"
-                name="9"
-                required=""
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <label
-                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-57--input"
-                id="garden-field-container-57--label"
-              >
-                <strong>
-                  Favorite Textarea
-                </strong>
-                 (optional)
-              </label>
-              <textarea
-                aria-describedby="garden-field-container-57--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-57--label"
-                aria-required="false"
-                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-                data-garden-id="forms.textarea"
-                data-garden-version="6.4.4"
-                id="garden-field-container-57--input"
-                label="Favorite Textarea"
-                name="10"
-              />
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <div
-                data-testid="checkbox-field"
-              >
-                <div
-                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
-                >
-                  <input
-                    aria-labelledby="garden-field-container-58--label"
-                    aria-required="true"
-                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                    data-garden-id="forms.checkbox"
-                    data-garden-version="6.4.4"
-                    id="garden-field-container-58--input"
-                    label="Favorite Checkbox"
-                    name="11"
-                    required=""
-                    tabindex="0"
-                    type="checkbox"
-                  />
-                  <label
-                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                    data-garden-id="forms.checkbox_label"
-                    data-garden-version="6.4.4"
-                    for="garden-field-container-58--input"
-                    id="garden-field-container-58--label"
-                  >
-                    <strong>
-                      Favorite Checkbox
-                    </strong>
-                  </label>
-                  <div
-                    class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-                    data-garden-id="forms.checkbox_hint"
-                    data-garden-version="6.4.4"
-                    id="garden-field-container-58--hint"
-                  >
-                    this is the description
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class=""
-              data-testid="slide-appear-container"
-              role="presentation"
-              style="opacity: 1; bottom: 10px;"
-            >
-              <div
-                class="sc-htoDjs dnWSEM"
-              >
-                <div
-                  aria-expanded="false"
-                  aria-haspopup="listbox"
-                  aria-labelledby="downshift-0-label"
-                  class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
-                  data-garden-id="dropdowns.field"
-                  data-garden-version="6.4.4"
-                  role="combobox"
-                >
-                  <label
-                    class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
-                    data-garden-id="dropdowns.label"
-                    data-garden-version="6.4.4"
-                    for="downshift-0-input"
-                    id="downshift-0-label"
-                  >
-                    <strong>
-                      Favorite Tagger
-                    </strong>
-                  </label>
-                  <div
-                    class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
-                    data-garden-id="dropdowns.hint"
-                    data-garden-version="6.4.4"
-                  >
-                    this is the tagger description
-                  </div>
-                  <div
-                    aria-haspopup="true"
-                    aria-invalid="false"
-                    class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
-                    data-garden-id="dropdowns.select"
-                    data-garden-version="6.4.4"
-                    data-testid="dropdown-field"
-                    data-toggle="true"
-                    role="button"
-                    tabindex="0"
-                    type="button"
-                  >
-                    two
-                    <input
-                      aria-autocomplete="list"
-                      aria-labelledby="downshift-0-label"
-                      autocomplete="off"
-                      class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
-                      id="downshift-0-input"
-                      readonly=""
-                      tabindex="-1"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
-                >
-                  <div
-                    class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
-                  >
-                    <ul
-                      aria-labelledby="downshift-0-label"
-                      class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
-                      data-garden-id="dropdowns.menu"
-                      data-garden-version="6.4.4"
-                      data-testid="dropdown-options"
-                      id="downshift-0-menu"
-                      role="listbox"
-                      style="overflow: auto; box-shadow: 0 0.7142857142857143rem 2.142857142857143rem 0 rgba(4, 68, 77, 0.15); width: 0px;"
-                    >
-                      <div
-                        class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
-                      >
-                        <li
-                          aria-selected="false"
-                          class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-                          data-garden-id="dropdowns.item"
-                          data-garden-version="6.4.4"
-                          data-testid="dropdown-option"
-                          id="downshift-0-item-0"
-                          role="option"
-                        >
-                          one
-                        </li>
-                        <li
-                          aria-selected="false"
-                          class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-                          data-garden-id="dropdowns.item"
-                          data-garden-version="6.4.4"
-                          data-testid="dropdown-option"
-                          id="downshift-0-item-1"
-                          role="option"
-                        >
-                          two
-                        </li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-                <input
-                  class="u-isHidden"
-                  data-testid="dropdown-selected-value"
-                  name="12"
-                  required=""
-                  value="2"
-                />
-              </div>
-            </div>
-            <span />
           </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-42--input"
+              id="garden-field-container-42--label"
+            >
+              <strong>
+                Favorite Integer
+              </strong>
+               (optional)
+            </label>
+            <div
+              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              data-garden-id="forms.text_hint"
+              data-garden-version="6.4.4"
+              id="garden-field-container-42--hint"
+            >
+              description number
+            </div>
+            <input
+              aria-describedby="garden-field-container-42--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-42--label"
+              aria-required="false"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-42--input"
+              label="Favorite Integer"
+              name="7"
+              pattern="/\\\\d+/"
+              type="number"
+              value=""
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-43--input"
+              id="garden-field-container-43--label"
+            >
+              <strong>
+                Favorite Decimal
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-43--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-43--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              id="garden-field-container-43--input"
+              label="Favorite Decimal"
+              name="8"
+              pattern="/\\\\d*([.,]\\\\d+)?/"
+              required=""
+              step="any"
+              type="number"
+              value=""
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-44--input"
+              id="garden-field-container-44--label"
+            >
+              <strong>
+                Favorite Description
+              </strong>
+            </label>
+            <textarea
+              aria-describedby="garden-field-container-44--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-44--label"
+              aria-required="true"
+              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+              data-garden-id="forms.textarea"
+              data-garden-version="6.4.4"
+              id="garden-field-container-44--input"
+              label="Favorite Description"
+              name="9"
+              required=""
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-45--input"
+              id="garden-field-container-45--label"
+            >
+              <strong>
+                Favorite Textarea
+              </strong>
+               (optional)
+            </label>
+            <textarea
+              aria-describedby="garden-field-container-45--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-45--label"
+              aria-required="false"
+              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+              data-garden-id="forms.textarea"
+              data-garden-version="6.4.4"
+              id="garden-field-container-45--input"
+              label="Favorite Textarea"
+              name="10"
+            />
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              data-testid="checkbox-field"
+            >
+              <div
+                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+              >
+                <input
+                  aria-labelledby="garden-field-container-46--label"
+                  aria-required="true"
+                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  data-garden-id="forms.checkbox"
+                  data-garden-version="6.4.4"
+                  id="garden-field-container-46--input"
+                  label="Favorite Checkbox"
+                  name="11"
+                  required=""
+                  tabindex="0"
+                  type="checkbox"
+                />
+                <label
+                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  data-garden-id="forms.checkbox_label"
+                  data-garden-version="6.4.4"
+                  for="garden-field-container-46--input"
+                  id="garden-field-container-46--label"
+                >
+                  <strong>
+                    Favorite Checkbox
+                  </strong>
+                </label>
+                <div
+                  class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+                  data-garden-id="forms.checkbox_hint"
+                  data-garden-version="6.4.4"
+                  id="garden-field-container-46--hint"
+                >
+                  this is the description
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="sc-bdVaJa chbGzG"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="downshift-0-label"
+                class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+                data-garden-id="dropdowns.field"
+                data-garden-version="6.4.4"
+                role="combobox"
+              >
+                <label
+                  class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+                  data-garden-id="dropdowns.label"
+                  data-garden-version="6.4.4"
+                  for="downshift-0-input"
+                  id="downshift-0-label"
+                >
+                  <strong>
+                    Favorite Tagger
+                  </strong>
+                </label>
+                <div
+                  class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
+                  data-garden-id="dropdowns.hint"
+                  data-garden-version="6.4.4"
+                >
+                  this is the tagger description
+                </div>
+                <div
+                  aria-haspopup="true"
+                  aria-invalid="false"
+                  class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                  data-garden-id="dropdowns.select"
+                  data-garden-version="6.4.4"
+                  data-testid="dropdown-field"
+                  data-toggle="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  two
+                  <input
+                    aria-autocomplete="list"
+                    aria-labelledby="downshift-0-label"
+                    autocomplete="off"
+                    class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+                    id="downshift-0-input"
+                    readonly=""
+                    tabindex="-1"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+              >
+                <div
+                  class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+                >
+                  <ul
+                    aria-labelledby="downshift-0-label"
+                    class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+                    data-garden-id="dropdowns.menu"
+                    data-garden-version="6.4.4"
+                    data-testid="dropdown-options"
+                    id="downshift-0-menu"
+                    role="listbox"
+                    style="overflow: auto; box-shadow: 0 0.7142857142857143rem 2.142857142857143rem 0 rgba(4, 68, 77, 0.15); width: 0px;"
+                  >
+                    <div
+                      class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+                    >
+                      <li
+                        aria-selected="false"
+                        class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                        data-garden-id="dropdowns.item"
+                        data-garden-version="6.4.4"
+                        data-testid="dropdown-option"
+                        id="downshift-0-item-0"
+                        role="option"
+                      >
+                        one
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                        data-garden-id="dropdowns.item"
+                        data-garden-version="6.4.4"
+                        data-testid="dropdown-option"
+                        id="downshift-0-item-1"
+                        role="option"
+                      >
+                        two
+                      </li>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+              <input
+                class="u-isHidden"
+                data-testid="dropdown-selected-value"
+                name="12"
+                required=""
+                value="2"
+              />
+            </div>
+          </div>
+          <span />
         </div>
       </div>
       <footer
-        class="footer  footerShadow"
-        data-testid="scroll-container-footer"
+        class="sc-gzVnrw bKySxc"
       >
         <div
-          class="container buttonRight buttonGroup"
+          class="sc-htoDjs kgaGXd"
         >
-          <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
-            data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
-            data-testid="button-cancel"
-            tabindex="0"
-            type="button"
+          <a
+            class="icon"
+            data-testid="Icon--zendesk"
+            href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+            tabindex="-1"
+            target="_blank"
           >
-            Cancel
-          </button>
+            <svg
+              realfilename="widget-icon_zendesk.svg"
+              title="zendesk"
+            />
+          </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
             data-garden-id="buttons.button"

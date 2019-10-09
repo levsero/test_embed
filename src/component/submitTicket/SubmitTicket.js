@@ -7,9 +7,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { locals as styles } from './SubmitTicket.scss'
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm'
-import { ZendeskLogo } from 'component/ZendeskLogo'
 import { SuccessNotification } from 'component/shared/SuccessNotification'
 import {
   handleFormChange,
@@ -31,10 +29,9 @@ import { getAttachmentsEnabled, getContactFormTitle } from 'src/redux/modules/se
 import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actions'
-
-import classNames from 'classnames'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
+import { Widget, Header, Main, Footer } from 'components/Widget'
 import TicketFormsPage from 'src/embeds/support/pages/TicketFormsPage'
 
 const mapStateToProps = state => {
@@ -71,8 +68,6 @@ class SubmitTicket extends Component {
     locale: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
-    hideZendeskLogo: PropTypes.bool,
-    loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
     previewEnabled: PropTypes.bool,
@@ -99,7 +94,6 @@ class SubmitTicket extends Component {
 
   static defaultProps = {
     attachmentsEnabled: false,
-    hideZendeskLogo: false,
     handleTicketFormClick: () => {},
     formTitle: 'Leave a message',
     maxFileCount: 5,
@@ -226,19 +220,10 @@ class SubmitTicket extends Component {
   }
 
   renderLoadingBarContent = () => {
-    const { fullscreen, isMobile, formTitle } = this.props
-
     return (
-      <ScrollContainer
-        title={formTitle}
-        fullscreen={fullscreen}
-        isMobile={isMobile}
-        containerClasses={styles.ticketFormsContainer}
-      >
-        <div className={styles.loadingBarContentContainer}>
-          <LoadingBarContent />
-        </div>
-      </ScrollContainer>
+      <div className={styles.loadingBarContentContainer}>
+        <LoadingBarContent />
+      </div>
     )
   }
 
@@ -267,65 +252,50 @@ class SubmitTicket extends Component {
     const fields = activeTicketForm ? activeTicketFormFields : ticketFields
 
     return (
-      <SubmitTicketForm
-        ref="submitTicketForm"
-        onCancel={this.props.onCancelClick}
-        fullscreen={this.props.fullscreen}
-        hide={this.props.showNotification}
-        ticketFields={fields}
-        formTitle={this.props.formTitle}
-        attachmentsEnabled={this.props.attachmentsEnabled}
-        subjectEnabled={this.props.subjectEnabled}
-        maxFileCount={this.props.maxFileCount}
-        nameFieldRequired={this.props.nameFieldRequired}
-        nameFieldEnabled={this.props.nameFieldEnabled}
-        maxFileSize={this.props.maxFileSize}
-        formState={this.props.formState}
-        readOnlyState={this.props.readOnlyState}
-        setFormState={this.props.handleFormChange}
-        ticketFormSettings={activeTicketFormPrefill}
-        ticketFieldSettings={this.props.ticketFieldSettings}
-        submit={this.handleSubmit}
-        activeTicketForm={this.props.activeTicketForm}
-        previewEnabled={this.props.previewEnabled}
-        isMobile={this.props.isMobile}
-      >
-        {this.renderErrorMessage()}
-      </SubmitTicketForm>
+      <>
+        <SubmitTicketForm
+          ref="submitTicketForm"
+          formTitle={this.props.formTitle}
+          onCancel={this.props.onCancelClick}
+          fullscreen={this.props.fullscreen}
+          hide={this.props.showNotification}
+          ticketFields={fields}
+          attachmentsEnabled={this.props.attachmentsEnabled}
+          subjectEnabled={this.props.subjectEnabled}
+          maxFileCount={this.props.maxFileCount}
+          nameFieldRequired={this.props.nameFieldRequired}
+          nameFieldEnabled={this.props.nameFieldEnabled}
+          maxFileSize={this.props.maxFileSize}
+          formState={this.props.formState}
+          readOnlyState={this.props.readOnlyState}
+          setFormState={this.props.handleFormChange}
+          ticketFormSettings={activeTicketFormPrefill}
+          ticketFieldSettings={this.props.ticketFieldSettings}
+          submit={this.handleSubmit}
+          activeTicketForm={this.props.activeTicketForm}
+          previewEnabled={this.props.previewEnabled}
+          isMobile={this.props.isMobile}
+        >
+          {this.renderErrorMessage()}
+        </SubmitTicketForm>
+        {this.renderAttachmentBox()}
+      </>
     )
   }
 
   renderNotification = () => {
-    if (!this.props.showNotification) return
-
-    const buttonContainer = classNames({
-      [styles.zendeskLogoButton]: !this.props.hideZendeskLogo,
-      [styles.noZendeskLogoButton]: this.props.hideZendeskLogo
-    })
-    const doneButton = (
-      <div className={buttonContainer}>
-        <Button primary={true} className={styles.button} onClick={this.props.onCancelClick}>
-          {i18n.t('embeddable_framework.common.button.done')}
-        </Button>
-      </div>
-    )
-
     return (
-      <ScrollContainer
-        containerClasses={styles.scrollContainerSuccess}
-        title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
-        footerContent={doneButton}
-        fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
-      >
-        <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
-      </ScrollContainer>
-    )
-  }
-
-  renderZendeskLogo = () => {
-    return this.props.hideZendeskLogo ? null : (
-      <ZendeskLogo formSuccess={this.props.showNotification} fullscreen={false} />
+      <Widget>
+        <Header title={i18n.t('embeddable_framework.submitTicket.notify.message.success')} />
+        <Main>
+          <SuccessNotification icon={ICONS.SUCCESS_CONTACT_FORM} isMobile={this.props.isMobile} />
+        </Main>
+        <Footer>
+          <Button primary={true} onClick={this.props.onCancelClick}>
+            {i18n.t('embeddable_framework.common.button.done')}
+          </Button>
+        </Footer>
+      </Widget>
     )
   }
 
@@ -336,23 +306,15 @@ class SubmitTicket extends Component {
   }
 
   render = () => {
-    const noFormsOrHasActiveForm = _.isEmpty(this.props.ticketForms) || this.props.activeTicketForm
-
-    if (!this.props.showNotification && !noFormsOrHasActiveForm) {
-      return <TicketFormsPage handleFormOptionClick={this.handleTicketFormsListClick} />
+    if (this.props.showNotification) {
+      return this.renderNotification()
     }
 
-    const content = noFormsOrHasActiveForm ? this.renderForm() : null
-    const display = this.props.loading ? this.renderLoadingBarContent() : content
+    if (_.isEmpty(this.props.ticketForms) || this.props.activeTicketForm) {
+      return this.renderForm()
+    }
 
-    return (
-      <div>
-        {this.renderAttachmentBox()}
-        {this.renderNotification()}
-        {display}
-        {this.renderZendeskLogo()}
-      </div>
-    )
+    return <TicketFormsPage handleFormOptionClick={this.handleTicketFormsListClick} />
   }
 }
 
