@@ -17,8 +17,8 @@ const CONNECTION_STATUSES = chatConstants.CONNECTION_STATUSES
 
 let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type: 'yolo' })
 let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo' })
-let addTagSpy = jasmine.createSpy('addTag')
-let removeTagSpy = jasmine.createSpy('removeTag')
+let addTagsSpy = jasmine.createSpy('addTag')
+let removeTagsSpy = jasmine.createSpy('removeTag')
 let getSettingsChatTagsSpy = jasmine.createSpy('getSettingsChatTags')
 
 describe('settings redux actions', () => {
@@ -40,8 +40,8 @@ describe('settings redux actions', () => {
         getConnection: () => mockGetConnection,
         getZChatVendor: () => {
           return {
-            addTag: addTagSpy,
-            removeTag: removeTagSpy
+            addTags: addTagsSpy,
+            removeTags: removeTagsSpy
           }
         }
       },
@@ -80,8 +80,8 @@ describe('settings redux actions', () => {
     afterEach(() => {
       setDepartmentSpy.calls.reset()
       clearDepartmentSpy.calls.reset()
-      removeTagSpy.calls.reset()
-      addTagSpy.calls.reset()
+      removeTagsSpy.calls.reset()
+      addTagsSpy.calls.reset()
       getSettingsChatTagsSpy.calls.reset()
     })
 
@@ -110,44 +110,40 @@ describe('settings redux actions', () => {
       })
 
       describe('when new tags are present', () => {
+        const newTags = ['firstTagYolo', 'secondTagYolo']
+
         beforeAll(() => {
-          mockGetSettingsChatTags = ['firstTagYolo', 'secondTagYolo']
+          mockGetSettingsChatTags = newTags
           mockGetSettingsChatOldTags = []
           someSettings = {
             chat: {
-              tags: ['firstTagYolo', 'secondTagYolo']
+              tags: newTags
             }
           }
         })
 
-        it('calls addTag exactly twice', () => {
-          expect(addTagSpy.calls.count()).toEqual(2)
+        it('calls addTags', () => {
+          expect(addTagsSpy.calls.count()).toEqual(1)
         })
 
-        it('adds firstTagYolo', () => {
-          expect(addTagSpy.calls.argsFor(0)[0]).toEqual('firstTagYolo')
-        })
-
-        it('adds secondTagYolo', () => {
-          expect(addTagSpy.calls.argsFor(1)[0]).toEqual('secondTagYolo')
+        it('adds the array of new tags', () => {
+          expect(addTagsSpy.calls.argsFor(0)[0]).toEqual(newTags)
         })
 
         describe('when old tags are present', () => {
+          const oldTags = ['firstTag', 'secondTag']
+
           beforeAll(() => {
-            mockGetSettingsChatOldTags = ['firstTag', 'secondTag']
+            mockGetSettingsChatOldTags = oldTags
             mockGetSettingsChatTags = []
           })
 
-          it('calls removeTag exactly twice', () => {
-            expect(removeTagSpy.calls.count()).toEqual(2)
+          it('calls removeTags', () => {
+            expect(removeTagsSpy.calls.count()).toEqual(1)
           })
 
           it('removes firstTag', () => {
-            expect(removeTagSpy.calls.argsFor(0)[0]).toEqual('firstTag')
-          })
-
-          it('removes secondTag', () => {
-            expect(removeTagSpy.calls.argsFor(1)[0]).toEqual('secondTag')
+            expect(removeTagsSpy.calls.argsFor(0)[0]).toEqual(oldTags)
           })
         })
 
@@ -157,7 +153,7 @@ describe('settings redux actions', () => {
           })
 
           it('does not call removeTag', () => {
-            expect(removeTagSpy).not.toHaveBeenCalled()
+            expect(removeTagsSpy).not.toHaveBeenCalled()
           })
         })
       })
@@ -185,12 +181,12 @@ describe('settings redux actions', () => {
         expect(clearDepartmentSpy).not.toHaveBeenCalled()
       })
 
-      it('does not call addTag', () => {
-        expect(addTagSpy).not.toHaveBeenCalled()
+      it('does not call addTags', () => {
+        expect(addTagsSpy).not.toHaveBeenCalled()
       })
 
-      it('does not call removeTag', () => {
-        expect(removeTagSpy).not.toHaveBeenCalled()
+      it('does not call removeTags', () => {
+        expect(removeTagsSpy).not.toHaveBeenCalled()
       })
 
       it('dispatches updateSettings action', () => {

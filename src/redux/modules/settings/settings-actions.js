@@ -7,15 +7,16 @@ import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 import { setDepartment } from 'src/redux/modules/chat'
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors'
 
-const handleTagsChange = (zChat, tags, oldTags) => {
-  if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
-    _.forEach(oldTags, tag => {
-      zChat.removeTag(tag)
-    })
-    _.forEach(tags, tag => {
-      zChat.addTag(tag)
-    })
+const handleTagsChange = (zChat, tags = [], oldTags = []) => {
+  if (_.isEqual(tags, oldTags) || !_.isArray(tags) || !_.isArray(oldTags)) {
+    return
   }
+
+  const toAdd = _.difference(tags, oldTags)
+  const toRemove = _.difference(oldTags, tags)
+
+  toAdd.length > 0 && zChat.addTags(toAdd)
+  toRemove.length > 0 && zChat.removeTags(toRemove)
 }
 
 export function updateSettings(settings) {
