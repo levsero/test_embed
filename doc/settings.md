@@ -1282,7 +1282,6 @@ The `profileCard` setting has the following properties:
 
 - [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
-
 <a name="example-profileCard"></a>
 
 #### Example
