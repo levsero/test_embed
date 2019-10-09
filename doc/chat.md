@@ -10,9 +10,6 @@ The Web Widget includes a chat component that lets users chat with an agent. The
 The `chat` object has the following settings:
 
 - [suppress](./settings#suppress)
-
-If the [integrated Chat experience](https://support.zendesk.com/hc/en-us/articles/360022185074) is enabled, the `chat` object has the following additional settings:
-
 - [title](./settings#title)
 - [badge](./settings#badge)
 - [concierge](./settings#concierge)
@@ -27,9 +24,7 @@ If the [integrated Chat experience](https://support.zendesk.com/hc/en-us/article
 - [tags](./settings#tags)
 - [authenticate](./settings#authenticate)
 
-To get these additional settings, the integrated Chat feature must be enabled in Zendesk Support under **Admin** > **Channels** > **Widget**. Make sure to enable **Integrated Chat Experience** in the **Customization** tab, not just **Chat**. If you're not a Support admin, ask one to enable it for you.
-
-<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web_widget_integrated_chat_experience_toggle.png" alt="Integrated Chat toggle" width="500px">
+The integrated Chat experience is enabled in Zendesk Support under **Admin** > **Channels** > **Widget** and turning the Chat toggle on. If you're not a Support admin, ask one to enable it for you.
 
 <a name="example-chat-settings"></a>
 
@@ -321,10 +316,10 @@ Registers a callback to be fired when the number of unread messages changes.
 `zE('webWidget', 'popout');`
 
 Attempts to open the live chat widget in a new window on desktop.
+The popout command functions when the Chat status is "online".
+It may not work on some devices or configurations.
 
-May not work on some devices or configurations.
-
-Important: Should only be called from a user event listener callback. See example.
+**Important**: This command should only be called from a user event listener callback. See example.
 
 ##### Parameters
 
