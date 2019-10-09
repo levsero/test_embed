@@ -19,7 +19,6 @@ import {
 import {
   getSettingsHelpCenterTitle,
   getHelpCenterButtonLabel,
-  getHideZendeskLogo,
   getChatConnectionConnecting,
   getShowNextButton
 } from 'src/redux/modules/selectors'
@@ -30,7 +29,6 @@ const ArticlePage = ({
   activeArticle,
   addRestrictedImage,
   handleOriginalArticleClicked,
-  hideZendeskLogo,
   isMobile,
   onClick,
   originalArticleButton,
@@ -55,12 +53,7 @@ const ArticlePage = ({
           isMobile={isMobile}
         />
       </Main>
-      <HelpCenterFooter
-        isMobile={isMobile}
-        hideZendeskLogo={hideZendeskLogo}
-        onClick={onClick}
-        showNextButton={showNextButton}
-      />
+      <HelpCenterFooter onClick={onClick} showNextButton={showNextButton} />
     </Widget>
   )
 }
@@ -75,7 +68,6 @@ ArticlePage.propTypes = {
   resultsLocale: PropTypes.string,
   title: PropTypes.string,
   isMobile: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool,
   onClick: PropTypes.func,
   showNextButton: PropTypes.bool
 }
@@ -96,7 +88,6 @@ const mapStateToProps = state => {
     restrictedImages: getRestrictedImages(state),
     title: getSettingsHelpCenterTitle(state, titleKey),
     buttonLabel: getHelpCenterButtonLabel(state),
-    hideZendeskLogo: getHideZendeskLogo(state),
     loading: getChatConnectionConnecting(state),
     isMobile: isMobileBrowser(),
     isRTL: i18n.isRTL(),

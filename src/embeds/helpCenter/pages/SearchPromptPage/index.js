@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import ZendeskLogo from 'src/components/ZendeskLogo'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
-import { locals as styles } from './styles.scss'
-import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
+import { getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
 import { performSearch } from 'embeds/helpCenter/actions'
 
-const SearchPromptPage = ({ title, hideZendeskLogo }) => {
+const SearchPromptPage = ({ title }) => {
   const searchFormRef = useRef(null)
   useEffect(() => {
     searchFormRef.current.focus()
@@ -20,25 +18,17 @@ const SearchPromptPage = ({ title, hideZendeskLogo }) => {
       <Main>
         <SearchForm ref={searchFormRef} />
       </Main>
-      <Footer>
-        {!hideZendeskLogo && (
-          <div className={styles.footer}>
-            <ZendeskLogo />
-          </div>
-        )}
-      </Footer>
+      <Footer />
     </Widget>
   )
 }
 
 SearchPromptPage.propTypes = {
-  title: PropTypes.string.isRequired,
-  hideZendeskLogo: PropTypes.bool.isRequired
+  title: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
-  title: getSettingsHelpCenterTitle(state),
-  hideZendeskLogo: getHideZendeskLogo(state)
+  title: getSettingsHelpCenterTitle(state)
 })
 
 const mapDispatchToProps = {
