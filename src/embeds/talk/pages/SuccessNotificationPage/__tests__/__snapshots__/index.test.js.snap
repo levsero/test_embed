@@ -40,20 +40,20 @@ exports[`SuccessNotificationPage renders 1`] = `
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-bZQynM icRMhI"
+        class="sc-htoDjs bzPgbB"
       >
         <svg
-          class="sc-gzVnrw iEzjZD"
+          class="sc-dnqmqq dXsWWF"
           realfilename="talk_success.svg"
         />
         <div>
           <h2
-            class="sc-htoDjs eTWClO"
+            class="sc-iwsKbI dVqGVr"
           >
             Thanks for reaching out.
           </h2>
           <p
-            class="sc-dnqmqq cbODAh"
+            class="sc-gZMcBi jypkxa"
           >
             We'll get back to you soon.
           </p>
@@ -61,20 +61,11 @@ exports[`SuccessNotificationPage renders 1`] = `
       </div>
     </div>
     <footer
-      class="footer"
+      class="sc-bZQynM dLbktm"
     >
       <div
-        class="sc-iwsKbI dRZuUw"
+        class="sc-gzVnrw kNlcbA"
       >
-        <button
-          class="sc-gZMcBi gNmHTl Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
-          data-garden-id="buttons.button"
-          data-garden-version="6.4.4"
-          tabindex="0"
-          type="button"
-        >
-          Done
-        </button>
         <a
           class="icon"
           data-testid="Icon--zendesk"
@@ -87,6 +78,15 @@ exports[`SuccessNotificationPage renders 1`] = `
             title="zendesk"
           />
         </a>
+        <button
+          class="Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+          data-garden-id="buttons.button"
+          data-garden-version="6.4.4"
+          tabindex="0"
+          type="button"
+        >
+          Done
+        </button>
       </div>
     </footer>
   </div>

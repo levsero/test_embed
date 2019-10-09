@@ -11,7 +11,6 @@ import PhoneField from 'src/embeds/talk/components/PhoneField'
 import NameField from 'src/embeds/talk/components/NameField'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
 import { Main, Footer } from 'src/components/Widget'
-import ZendeskLogo from 'src/components/ZendeskLogo'
 import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
@@ -25,10 +24,9 @@ import {
   getTalkDescriptionLabel,
   getTalkNameLabel,
   getTalkNickname,
-  getTalkServiceUrl,
-  getHideZendeskLogo
+  getTalkServiceUrl
 } from 'src/redux/modules/selectors'
-import { SubmitButton, FooterView, Form, Header, FormDivider } from './styles'
+import { SubmitButton, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
@@ -51,7 +49,6 @@ class CallbackForm extends Component {
     descriptionLabelText: PropTypes.string.isRequired,
     submitButtonLabel: PropTypes.string.isRequired,
     headerMessage: PropTypes.string.isRequired,
-    hideZendeskLogo: PropTypes.bool.isRequired,
 
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
@@ -109,8 +106,7 @@ class CallbackForm extends Component {
       averageWaitTime,
       supportedCountries,
       nameLabelText,
-      descriptionLabelText,
-      hideZendeskLogo
+      descriptionLabelText
     } = this.props
 
     if (callback.success) {
@@ -146,12 +142,8 @@ class CallbackForm extends Component {
           <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
           {errorMessage && <ErrorNotification message={errorMessage} />}
         </Main>
-        <Footer scrollShadowVisible={true}>
-          <FooterView hideZendeskLogo={hideZendeskLogo}>
-            {!hideZendeskLogo && <ZendeskLogo />}
-
-            <SubmitButton>{submitButtonLabel}</SubmitButton>
-          </FooterView>
+        <Footer>
+          <SubmitButton>{submitButtonLabel}</SubmitButton>
         </Footer>
       </Form>
     )
@@ -173,8 +165,7 @@ const mapStateToProps = state => {
     callback: getCallback(state),
     isRTL: i18n.isRTL(),
     isMobile: isMobileBrowser(),
-    locale: getLocale(state),
-    hideZendeskLogo: getHideZendeskLogo(state)
+    locale: getLocale(state)
   }
 }
 

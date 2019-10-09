@@ -127,6 +127,35 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c12 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 .c6 {
   text-align: center;
   font-size: 1rem !important;
@@ -256,20 +285,24 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
       </div>
     </div>
     <footer
-      class="footer"
+      class="c12"
     >
-      <a
-        class="icon"
-        data-testid="Icon--zendesk"
-        href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-        tabindex="-1"
-        target="_blank"
+      <div
+        class="c13"
       >
-        <svg
-          realfilename="widget-icon_zendesk.svg"
-          title="zendesk"
-        />
-      </a>
+        <a
+          class="icon"
+          data-testid="Icon--zendesk"
+          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+          tabindex="-1"
+          target="_blank"
+        >
+          <svg
+            realfilename="widget-icon_zendesk.svg"
+            title="zendesk"
+          />
+        </a>
+      </div>
     </footer>
   </div>
 </div>

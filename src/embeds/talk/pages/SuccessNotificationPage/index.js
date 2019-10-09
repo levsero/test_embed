@@ -4,15 +4,13 @@ import { connect } from 'react-redux'
 
 import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
+import { Button } from '@zendeskgarden/react-buttons'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import ZendeskLogo from 'src/components/ZendeskLogo'
 import SuccessNotification from 'src/embeds/talk/components/SuccessNotification'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
 import { getTitle } from 'src/embeds/talk/selectors'
-import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-import { Button, FooterView } from './styles'
 
-const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
+const SuccessNotificationPage = ({ title, doneText, onDone, history }) => {
   return (
     <Widget>
       <Header title={title} />
@@ -20,19 +18,16 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendesk
         <SuccessNotification />
       </Main>
       <Footer>
-        <FooterView>
-          <Button
-            primary={true}
-            onClick={() => {
-              onDone()
-              focusLauncher()
-              history.replace('/')
-            }}
-          >
-            {doneText}
-          </Button>
-          {!hideZendeskLogo && <ZendeskLogo />}
-        </FooterView>
+        <Button
+          primary={true}
+          onClick={() => {
+            onDone()
+            focusLauncher()
+            history.replace('/')
+          }}
+        >
+          {doneText}
+        </Button>
       </Footer>
     </Widget>
   )
@@ -44,14 +39,12 @@ SuccessNotificationPage.propTypes = {
   onDone: PropTypes.func.isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func
-  }),
-  hideZendeskLogo: PropTypes.bool.isRequired
+  })
 }
 
 const mapStateToProps = state => ({
   title: getTitle(state, 'embeddable_framework.talk.notify.success.title'),
-  doneText: i18n.t('embeddable_framework.common.button.done'),
-  hideZendeskLogo: getHideZendeskLogo(state)
+  doneText: i18n.t('embeddable_framework.common.button.done')
 })
 
 const actionCreators = {
