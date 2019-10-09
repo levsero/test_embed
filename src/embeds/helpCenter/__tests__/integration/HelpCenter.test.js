@@ -308,8 +308,6 @@ describe('mobile', () => {
   test('integration', () => {
     const { store, container, queryByText, getByPlaceholderText } = renderComponent()
 
-    expect(queryByText('Search our Help Center')).toBeInTheDocument()
-
     const form = container.querySelector('form')
     const input = getByPlaceholderText('How can we help?')
 
