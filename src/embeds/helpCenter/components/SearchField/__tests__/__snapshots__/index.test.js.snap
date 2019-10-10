@@ -133,7 +133,7 @@ Snapshot Diff:
 +       id="garden-field-container-4--input"
         placeholder="hello there"
         type="search"
-@@ -32,14 +32,32 @@
+@@ -32,14 +32,11 @@
         class="desktopSearchOrLoading"
       >
 -       <span
@@ -142,35 +142,15 @@ Snapshot Diff:
 -         role="button"
 -         tabindex="0"
 +       <div
-+         aria-busy="true"
-+         aria-live="polite"
-+         class="container "
-+         data-testid="Icon--ellipsis"
++         class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
++         font-size="inherit"
++         role="progressbar"
         >
 -         <svg
 -           realfilename="search.svg"
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-          />
+-         />
 -       </span>
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
++          
 +       </div>
       </div>
     </div>
@@ -214,39 +194,18 @@ Snapshot Diff:
 +       id="garden-field-container-6--input"
         placeholder="hello there"
         type="search"
-@@ -30,8 +30,40 @@
+@@ -30,8 +30,19 @@
       />
       <div
 -       class="desktopSearchOrLoading"
 +       class="mobileNonSearchIconContainer"
 +     >
 +       <div
-+         aria-busy="true"
-+         aria-live="polite"
-+         class="container "
-+         data-testid="Icon--ellipsis"
++         class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
++         font-size="inherit"
++         role="progressbar"
 +       >
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
++          
 +       </div>
 +     </div>
 +     <div

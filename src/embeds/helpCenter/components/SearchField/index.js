@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SearchIconButton from 'embeds/helpCenter/components/SearchIconButton'
 import ClearInputIcon from 'embeds/helpCenter/icons/clearInput.svg'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { locals as styles } from './styles.scss'
 import { FauxInput, Field, Input, Label } from '@zendeskgarden/react-forms'
 import classNames from 'classnames'
 import { TEST_IDS } from 'src/constants/shared'
+import { LoadingDots } from './styles'
 
 export default class SearchField extends Component {
   static propTypes = {
@@ -76,7 +76,7 @@ export default class SearchField extends Component {
     let icon = null
 
     if (this.props.isLoading) {
-      icon = <LoadingEllipses />
+      icon = <LoadingDots />
     } else if (this.state.value) {
       icon = (
         <IconButton
@@ -98,7 +98,7 @@ export default class SearchField extends Component {
 
   renderDesktopSearchOrLoadingIcon = () => {
     const icon = this.props.isLoading ? (
-      <LoadingEllipses />
+      <LoadingDots />
     ) : (
       <SearchIconButton onClick={this.props.onSearchIconClick} focused={this.state.focused} />
     )

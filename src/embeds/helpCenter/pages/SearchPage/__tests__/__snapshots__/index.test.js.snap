@@ -104,7 +104,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-bottom: 0;
 }
 
-.c10 {
+.c3 {
   display: inline-block;
   position: relative;
   -webkit-animation: drWeIq 750ms linear;
@@ -154,7 +154,11 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   content: '';
 }
 
-.c13 {
+.c0 {
+  margin-bottom: 0;
+}
+
+.c6 {
   position: relative !important;
   margin-top: 1.0714285714285714rem;
 }
