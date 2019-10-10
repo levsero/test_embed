@@ -1,6 +1,7 @@
 import zopimApi from '..'
 import * as chatActions from 'src/redux/modules/chat'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import * as chatLinkedSelectors from 'src/redux/modules/selectors/chat-linked-selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as baseActions from 'src/redux/modules/base'
 import * as apis from 'src/service/api/apis'
@@ -15,6 +16,7 @@ jest.mock('src/redux/modules/chat', () => ({
 }))
 jest.mock('src/redux/modules/chat/chat-selectors')
 jest.mock('src/redux/modules/base/base-selectors')
+jest.mock('src/redux/modules/selectors/chat-linked-selectors')
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
   badgeShowReceived: jest.fn(),
@@ -227,6 +229,24 @@ describe('setUpZopimApiMethods', () => {
         })
         it('does not update the active embed', () => {
           expect(baseActions.updateActiveEmbed).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when chat connection is delayed', () => {
+        beforeEach(() => {
+          jest.spyOn(chatLinkedSelectors, 'getDelayChatConnection').mockReturnValue(true)
+        })
+
+        it('calls the openApi method', () => {
+          expect(apis.openApi).toHaveBeenCalled()
+        })
+
+        it('calls the showApi method', () => {
+          expect(apis.showApi).toHaveBeenCalled()
+        })
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(baseActions.updateActiveEmbed).toHaveBeenCalledWith('chat')
         })
       })
     })
