@@ -80,7 +80,13 @@ export const apiExecute = (apiStructure, reduxStore, args) => {
       })
     ).join('.')
 
-    return _.get(apiStructure, keys, () => {})
+    const apiFunction = _.get(apiStructure, keys)
+
+    if (!apiFunction) {
+      throw new Error(`Method ${keys} does not exist`)
+    }
+
+    return _.get(apiStructure, keys)
   }
   const params = Array.from(args)
 

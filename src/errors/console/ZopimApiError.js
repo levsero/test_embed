@@ -1,7 +1,7 @@
-import ConsoleError from 'errors/ConsoleError'
+import NonFatalError from 'errors/NonFatalError'
 
-export default class ZopimApiError extends ConsoleError {
-  constructor(message = 'An error occurred in your use of the $zopim Widget API') {
+export default class ZopimApiError extends NonFatalError {
+  constructor(message) {
     super(message, 'ZopimApiError')
   }
 }
