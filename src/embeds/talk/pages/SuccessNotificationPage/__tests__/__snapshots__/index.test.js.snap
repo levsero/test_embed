@@ -16,6 +16,7 @@ exports[`SuccessNotificationPage renders when not on a mobile browser 1`] = `
     </div>
     <div
       class="container"
+      data-testid="scroll-container-content"
     >
       <div
         class="sc-bdVaJa biVTNi"

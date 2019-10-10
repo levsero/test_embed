@@ -42,6 +42,7 @@ exports[`default render matches snapshot 1`] = `
     </div>
     <div
       class="container"
+      data-testid="scroll-container-content"
     >
       <div
         class="content "
