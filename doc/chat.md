@@ -9,21 +9,21 @@ The Web Widget includes a chat component that lets users chat with an agent. The
 The `chat` object has the following settings:
 
 - [suppress](./settings#suppress)
-
-In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/articles/360022185074), the `chat` object has the following additional settings:
-
 - [title](./settings#title)
 - [badge](./settings#badge)
 - [concierge](./settings#concierge)
 - [departments](./settings#departments)
 - [hideWhenOffline](./settings#hidewhenoffline)
-- [menuOptions](./settings#menuOptions)
+- [menuOptions](./settings#menuoptions)
 - [navigation](./settings#navigation)
-- [prechatForm](./settings#prechatForm)
-- [offlineForm](./settings#offlineForm)
+- [prechatForm](./settings#prechatform)
+- [profileCard](./settings#profilecard)
+- [offlineForm](./settings#offlineform)
 - [notifications](./settings#notifications)
 - [tags](./settings#tags)
 - [authenticate](./settings#authenticate)
+
+The integrated Chat experience is enabled in Zendesk Support under **Admin** > **Channels** > **Widget** and turning the Chat toggle on. If you're not a Support admin, ask one to enable it for you.
 
 <a name="example-chat-settings"></a>
 
@@ -47,61 +47,24 @@ In the [integrated Chat in the Web Widget](https://support.zendesk.com/hc/en-us/
 </script>
 ```
 
-**_NOTE:_** The Integrated Chat feature must be enabled in Zendesk Support under Admin > Channels > Widget > Customization tab for the `chat` API settings to work.
-
-<img src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/web-widget/adminIntegratedChat.png" alt="Integrated Chat toggle" width="250px">
-
 ### Commands
 
-The Chat component has the following commands:
+The chat component has the following commands:
 
-- [Chat API](#chat-api)
-  - [Settings](#settings)
-    - [Example](#example)
-  - [Commands](#commands)
-    - [chat:send](#chatsend)
-      - [Parameters](#parameters)
-      - [Example](#example-1)
-    - [get chat:isChatting](#get-chatischatting)
-      - [Parameters](#parameters-1)
-      - [Return value](#return-value)
-    - [get chat:department](#get-chatdepartment)
-      - [Parameters](#parameters-2)
-      - [Example](#example-2)
-      - [Return value](#return-value-1)
-    - [get chat:departments](#get-chatdepartments)
-      - [Parameters](#parameters-3)
-      - [Return value](#return-value-2)
-      - [Example](#example-3)
-    - [chat:end](#chatend)
-      - [Parameters](#parameters-4)
-    - [updatePath](#updatepath)
-      - [Parameters](#parameters-5)
-      - [Example](#example-4)
-    - [on chat:connected](#on-chatconnected)
-      - [Parameters](#parameters-6)
-      - [Example](#example-5)
-    - [on chat:start](#on-chatstart)
-      - [Parameters](#parameters-7)
-      - [Example](#example-6)
-    - [on chat:end](#on-chatend)
-      - [Parameters](#parameters-8)
-      - [Example](#example-7)
-    - [on chat:status](#on-chatstatus)
-      - [Parameters](#parameters-9)
-      - [Example](#example-8)
-    - [on chat:departmentStatus](#on-chatdepartmentstatus)
-      - [Parameters](#parameters-10)
-      - [Example](#example-9)
-    - [on chat:unreadMessages](#on-chatunreadmessages)
-      - [Parameters](#parameters-11)
-      - [Example](#example-10)
-    - [popout](#popout)
-      - [Parameters](#parameters-12)
-      - [Example](#example-11)
-    - [on chat:popout](#on-chatpopout)
-      - [Parameters](#parameters-1e)
-      - [Example](#example-12)
+- [chat:send](#chatsend)
+- [get chat:isChatting](#get-chatischatting)
+- [get chat:department](#get-chatdepartment)
+- [get chat:departments](#get-chatdepartments)
+- [chat:end](#chatend)
+- [updatePath](#updatepath)
+- [on chat:connected](#on-chatconnected)
+- [on chat:start](#on-chatstart)
+- [on chat:end](#on-chatend)
+- [on chat:status](#on-chatstatus)
+- [on chat:departmentStatus](#on-chatdepartmentstatus)
+- [on chat:unreadMessages](#on-chatunreadmessages)
+- [popout](#popout)
+- [on chat:popout](#on-chatpopout)
 
 #### chat:send
 
@@ -139,7 +102,7 @@ Boolean
 
 `zE('webWidget:get', 'chat:department', department<int|string>);`
 
-Returns an object containing information about the specified department, including its id, name and status. Otherwise returns `undefined` if the department is not found or not enabled.
+Returns an object containing information about the specified department, including its id, name, and status. Otherwise returns `undefined` if the department is not found or not enabled.
 
 ##### Parameters
 
@@ -162,9 +125,9 @@ Returns an object containing information about the specified department, includi
 
 `zE('webWidget:get', 'chat:departments');`
 
-Returns a list of all enabled departments containing information about each department including its `id`, `name` and `status`. Returns `undefined` if chat is not connected.
+Returns a list of all enabled departments containing information about each department including its `id`, `name`, and `status`. Returns `undefined` if chat is not connected.
 
-**NOTE:** This function should only be called after the widget is connected (see example).
+**Note:** This function should only be called after the widget is connected (see example).
 
 ##### Parameters
 
@@ -201,7 +164,7 @@ None
 
 `zE('webWidget', 'updatePath', options<object>);`
 
-Programmatically updates the visitor’s webpath.
+Programmatically updates the visitor’s web path.
 
 **Note**: Chat triggers set to run "when a visitor has loaded the chat widget" will be fired when the visitor path is changed.
 
@@ -351,10 +314,10 @@ Registers a callback to be fired when the number of unread messages changes.
 `zE('webWidget', 'popout');`
 
 Attempts to open the live chat widget in a new window on desktop.
+The popout command functions when the Chat status is "online".
+It may not work on some devices or configurations.
 
-May not work on some devices or configurations.
-
-Important: Should only be called from a user event listener callback. See example.
+**Important**: This command should only be called from a user event listener callback. See example.
 
 ##### Parameters
 

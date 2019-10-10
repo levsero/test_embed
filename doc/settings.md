@@ -586,7 +586,7 @@ Set the chat concierge’s avatar, name, and title.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-concierge"></a>
 
@@ -689,7 +689,7 @@ The properties can be used singly or in any combination.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 #### departments.enabled
 
@@ -1092,7 +1092,7 @@ Determines if notifications should show on mobile.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-notifications"></a>
 
@@ -1208,7 +1208,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-offlineForm"></a>
 
@@ -1239,7 +1239,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-prechatForm"></a>
 
@@ -1268,28 +1268,21 @@ You can use different strings for different locales or use one string for all lo
 
 ### profileCard
 
-sets values related to the Agent Profile Card during a chat session.
+Sets values related to the agent profile card during a chat session. The setting can only be updated during a chat session using the [updateSettings API](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
 
-#### Availabiltiy
+The `profileCard` setting has the following properties:
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
-- Currently only available to be updated during a chat session via the [`updateSettings API`](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings).
+| Property | Type    | Description                        |
+| -------- | ------- | ---------------------------------- |
+| avatar   | boolean | Whether to show the agent's avatar |
+| title    | boolean | Whether to show the agent's title  |
+| rating   | boolean | Whether to show the agent's rating |
 
-`profileCard` contains three booleans that can be modified:
+#### Availability
 
-<a name="profileCard_avatar"><h5>avatar</h5></a>
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
-Dictates whether to show the agent's avatar.
-
-##### title
-
-Dictates whether to show the agent's title.
-
-##### rating
-
-Dictates whether to show the agent's rating.
-
-<a name="example-prechatForm"></a>
+<a name="example-profileCard"></a>
 
 #### Example
 
@@ -1498,7 +1491,7 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 
 #### Availability
 
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 
 <a name="example-tags"></a>
 
@@ -1597,7 +1590,7 @@ You can use different strings for different locales or use one string for all lo
 
 - [contactForm](./contact_form)
 - [helpCenter](./help_center)
-- [chat](./chat) in the [integrated Web and Chat Widget](https://chat.zendesk.com/hc/en-us/articles/360001024128) (limited availability)
+- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
 - [talk](./talk)
 - [answerBot](./answerbot)
 
