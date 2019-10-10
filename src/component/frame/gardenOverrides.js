@@ -61,7 +61,7 @@ const itemCheckOverrides = isMobile
 const selectOverrides = css`
   background-color: ${props => props.focused && `${zdColorGrey100} !important`};
   ${mobileOverrides}
-  ${isMobile ? `padding: ${10 / FONT_SIZE}rem ${25 / FONT_SIZE}rem !important` : ''};
+  ${isMobile ? `padding: ${16 / FONT_SIZE}rem ${25 / FONT_SIZE}rem !important` : ''};
   ${itemCheckOverrides}
 `
 
@@ -254,7 +254,12 @@ function getGardenOverrides(colors) {
       min-height: ${isMobile ? `${42.5 / FONT_SIZE}rem !important` : ''};
     `,
     'dropdowns.item': selectOverrides,
-    'dropdowns.next_item': selectArrowOverrides
+    'dropdowns.next_item': selectArrowOverrides,
+    'tooltip.tooltip':
+      isMobileBrowser() &&
+      css`
+        display: none !important;
+      `
   }
 }
 

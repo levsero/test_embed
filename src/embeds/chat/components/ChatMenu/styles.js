@@ -17,6 +17,12 @@ const StyledSoundOnIcon = StyledSoundOffIcon.withComponent(SoundOnIcon)
 const StyledIconButton = styled(IconButton)`
   margin: ${3 / FONT_SIZE}rem !important;
   height: 3rem !important;
+  width: 3rem !important;
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
 
   &:focus {
     outline: none !important;
