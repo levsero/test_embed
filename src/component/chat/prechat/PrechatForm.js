@@ -418,7 +418,7 @@ export class PrechatForm extends Component {
           {error}
         </DropdownField>
         <Menu
-          style={{ maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }}
+          maxHeight={`${140 / FONT_SIZE}rem`}
           popperModifiers={{
             flip: { enabled: false },
             preventOverflow: { escapeWithReference: true }
