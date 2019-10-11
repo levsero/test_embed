@@ -8,8 +8,7 @@
 
 .footer {
   box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
-  padding-top: #{8 / $font-size}rem !important;
-  padding-bottom: #{8 / $font-size}rem !important;
+  z-index: 1;
 }
 
 .scrollContainerMobile {
@@ -47,4 +46,8 @@
   [dir='ltr'] & {
     left: #{12 / $font-size}rem;
   }
+}
+
+.zendeskLogoContainer {
+  margin-top: #{10 / $font-size}rem;
 }
