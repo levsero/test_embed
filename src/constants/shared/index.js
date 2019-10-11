@@ -98,6 +98,7 @@ export const TEST_IDS = {
   SCROLL_CONTAINER_HEADER: 'scroll-container-header',
   SCROLL_CONTAINER_CONTENT: 'scroll-container-content',
   SCROLL_CONTAINER_FOOTER: 'scroll-container-footer',
+  WIDGET_MAIN_CONTENT: 'scroll-container-content', // Must change to a unique name once ScrollContainer component is no longer used.
   CHAT_HEADER_TEXT_CONTAINER: 'chat-header-text-container',
   CHAT_HEADER_TITLE: 'chat-header-title',
   CHAT_HEADER_SUBTEXT: 'chat-header-subtext',

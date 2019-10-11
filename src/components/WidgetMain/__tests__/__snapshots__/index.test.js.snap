@@ -4,6 +4,7 @@ exports[`Main matches default snapshot 1`] = `
 <div>
   <div
     class="container"
+    data-testid="scroll-container-content"
   >
     Hallo
   </div>
