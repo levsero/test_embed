@@ -1,13 +1,27 @@
 import Rollbar from 'rollbar'
-import logger from 'utility/logger'
+import _get from 'lodash/get'
 import { inDebugMode } from 'utility/runtime'
-import ConsoleError from 'errors/ConsoleError'
 import { getHostUrl } from 'src/util/utils'
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
 if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
+}
+
+const groupErrorClasses = {
+  ZEApiError: {
+    rollbarFingerprint: 'zE API user errors',
+    rollbarErrorTitle: 'Custom zE() API user error'
+  },
+  ZopimApiError: {
+    rollbarFingerprint: '$zopim API user errors',
+    rollbarErrorTitle: 'Custom $zopim() API user error'
+  },
+  LegacyApiError: {
+    rollbarFingerprint: 'legacy API user errors',
+    rollbarErrorTitle: 'Custom legacy API user error'
+  }
 }
 
 const ignoredMessagesList = [
@@ -26,11 +40,20 @@ const ignoredMessagesList = [
 
 export const ignoreException = (_isUncaught, _args, _payload) => {
   if (__EMBEDDABLE_FRAMEWORK_ENV__ === 'production') {
-    if (inDebugMode() && !__DEV__) return false
-    // throttles error notifications so that only 1 in 1000 errors is sent through to rollbar
+    if (inDebugMode()) return false
+    // throttles error notifications so that only 1 in 1000 errors are sent through to rollbar
     return Math.floor(Math.random() * 1000) !== 0
   }
   return false
+}
+
+const payloadTransformer = payload => {
+  const exceptionClassName = _get(payload, 'body.trace.exception.class', false)
+
+  if (groupErrorClasses.hasOwnProperty(exceptionClassName)) {
+    payload.fingerprint = groupErrorClasses[exceptionClassName].rollbarFingerprint
+    payload.title = groupErrorClasses[exceptionClassName].rollbarErrorTitle
+  }
 }
 
 const rollbarConfig = {
@@ -43,6 +66,8 @@ const rollbarConfig = {
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
   hostWhitelist: hostAllowList,
   maxItems: 10,
+  transform: payloadTransformer,
+  verbose: inDebugMode(),
   payload: {
     environment: __EMBEDDABLE_FRAMEWORK_ENV__,
     hostPageUrl: getHostUrl(),
@@ -58,21 +83,23 @@ const rollbarConfig = {
 
 const errorTracker = new Rollbar(rollbarConfig)
 
-const isApiUserError = error => {
-  return error && ['ZEApiError', 'ZopimApiError'].includes(error)
-}
-
-const errorHandler = (error, ...args) => {
-  if (inDebugMode() || (error && error instanceof ConsoleError)) {
-    logger.error(error.toString(), ...args)
-  }
-  errorTracker.configure({ payload: { isApiUserError: isApiUserError(error) } })
-  errorTracker.error(error, ...args)
-}
-
 export default {
   configure: (...args) => {
     errorTracker.configure(...args)
   },
-  error: errorHandler
+  critical: (...args) => {
+    errorTracker.critical.call(errorTracker, ...args)
+  },
+  error: (...args) => {
+    errorTracker.error.call(errorTracker, ...args)
+  },
+  warn: (...args) => {
+    errorTracker.warning.call(errorTracker, ...args)
+  },
+  info: (...args) => {
+    errorTracker.info.call(errorTracker, ...args)
+  },
+  debug: (...args) => {
+    errorTracker.debug.call(errorTracker, ...args)
+  }
 }

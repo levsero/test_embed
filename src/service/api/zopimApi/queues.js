@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { zopimExistsOnPage } from './helpers'
-import ZopimApiError from 'errors/console/ZopimApiError'
+import ZopimApiError from 'errors/nonFatal/ZopimApiError'
+import errorTracker from 'service/errorTracker'
+import logToCustomer from 'utility/logger'
 
 export function setupZopimQueue(win) {
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -44,7 +46,8 @@ export function handleZopimQueue(win) {
         ].join('\n\n')
       )
 
-      error.report()
+      logToCustomer.error(error.message)
+      errorTracker.warn(error)
     }
   })
   _.set(win.$zopim, 'flushed', true)
