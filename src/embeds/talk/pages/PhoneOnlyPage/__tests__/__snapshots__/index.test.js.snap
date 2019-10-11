@@ -10,7 +10,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -31,5 +31,0 @@
+@@ -51,5 +51,0 @@
 -         <p
 -           class="sc-bdVaJa ktbwkF"
 -         >
@@ -19,24 +19,121 @@ Snapshot Diff:
 `;
 
 exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] = `
-.c3 {
+.c9 {
   margin-bottom: 1.0714285714285714rem;
   data-testid: talk--averageWaitTime;
 }
 
-.c5 {
+.c11 {
   color: #1f73b7;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
-.c5:hover,
-.c5:focus,
-.c5:active {
+.c11:hover,
+.c11:focus,
+.c11:active {
   color: #1f73b7;
 }
 
 .c0 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: !important;
+  color: !important;
+}
+
+.c3 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c1:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c1 .c2:first-child {
+  margin-left: 4rem;
+}
+
+.c1 .c2:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c1 .c2:last-child {
+  margin-right: 4rem;
+}
+
+.c1 .c2:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c1 .c4 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c5 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c5 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c5 svg,
+.c5 path {
+  fill: #fff !important;
+  color: #fff !important;
+}
+
+.c5:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6 {
   text-align: center;
   font-size: 1rem !important;
   min-height: 70%;
@@ -58,39 +155,39 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   overflow-y: auto;
 }
 
-.c0:not(:disabled) svg,
-.c0:not(:disabled) svg path {
+.c6:not(:disabled) svg,
+.c6:not(:disabled) svg path {
   fill: !important;
 }
 
-.c1 {
+.c7 {
   min-width: 3.5714285714285716rem;
   min-height: 3.5714285714285716rem;
   height: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
 }
 
-.c1 path.customColor,
-.c1 rect.customColor {
+.c7 path.customColor,
+.c7 rect.customColor {
   fill: !important;
 }
 
-.c2 {
+.c8 {
   margin-top: 1.4285714285714286rem !important;
   margin-bottom: 0.7142857142857143rem !important;
 }
 
-.c4 {
+.c10 {
   text-align: center;
   font-size: 1.4285714285714286rem;
 }
 
-.c4 a,
-.c4 a span {
+.c10 a,
+.c10 a span {
   color: !important;
 }
 
-.c4 a:hover {
+.c10 a:hover {
   color: !important;
 }
 
@@ -99,41 +196,61 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
     class="container"
   >
     <div
-      class="header"
+      class="c0"
     >
-      <h1
-        class="title"
+      <div
+        class="c1"
       >
-        Phone only page
-      </h1>
+        <h1
+          class="c2 c3"
+        >
+          Phone only page
+        </h1>
+        <button
+          aria-label="Minimize"
+          class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+          data-garden-id="buttons.icon_button"
+          data-garden-version="6.4.4"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="index__c-btn__icon___3V0Rl"
+            data-garden-id="buttons.icon"
+            data-garden-version="6.4.4"
+            data-testid="Icon--dash"
+            realfilename="dash-fill.svg"
+          />
+        </button>
+      </div>
     </div>
     <div
       class="container"
       data-testid="scroll-container-content"
     >
       <div
-        class="c0"
+        class="c6"
         data-testid="talk--phoneOnlyPage"
       >
         <svg
-          class="c1"
+          class="c7"
           realfilename="talk.svg"
         />
         <p
-          class="c2"
+          class="c8"
         >
           Call us
         </p>
         <p
-          class="c3"
+          class="c9"
         >
           10
         </p>
         <div
-          class="c4"
+          class="c10"
         >
           <a
-            class="c5"
+            class="c11"
             data-testid="talk-phone-number"
             href="tel:+61412345678"
             target="_blank"
@@ -168,7 +285,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -31,5 +31,0 @@
+@@ -51,5 +51,0 @@
 -         <p
 -           class="sc-bdVaJa ktbwkF"
 -         >

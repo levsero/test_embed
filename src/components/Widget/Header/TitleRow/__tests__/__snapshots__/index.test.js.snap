@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TitleRow renders 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c0:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c0 .c2:first-child {
+  margin-left: 4rem;
+}
+
+.c0 .c2:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c0 .c2:last-child {
+  margin-right: 4rem;
+}
+
+.c0 .c2:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c0 .c1 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+<div
+  class="c0"
+>
+  <div>
+    Some child component
+  </div>
+</div>
+`;

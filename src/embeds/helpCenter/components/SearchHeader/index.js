@@ -1,28 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { locals as styles } from './styles.scss'
-import classNames from 'classnames'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import { TEST_IDS } from 'src/constants/shared'
+import { Header, HeaderRow } from 'components/Widget'
 
-const SearchHeader = React.forwardRef(({ children, isMobile }, ref) => {
-  const headerClasses = classNames(styles.header, {
-    [styles.headerMobile]: isMobile
-  })
-
+const SearchHeader = React.forwardRef(({ children }, ref) => {
   return (
-    <div className={headerClasses} data-testid={TEST_IDS.HEADER_CONTAINER}>
-      <h1 className={styles.title}>{children}</h1>
-      <div className={styles.form}>
-        <SearchForm ref={ref} />
-      </div>
-    </div>
+    <Header title={children}>
+      <HeaderRow>
+        <div className={styles.form} data-testid={TEST_IDS.HEADER_CONTAINER}>
+          <SearchForm ref={ref} />
+        </div>
+      </HeaderRow>
+    </Header>
   )
 })
 
 SearchHeader.propTypes = {
-  children: PropTypes.string,
-  isMobile: PropTypes.bool
+  children: PropTypes.string
 }
 
 export default SearchHeader

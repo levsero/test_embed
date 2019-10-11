@@ -64,9 +64,11 @@ describe('ChatOffline component', () => {
       'src/constants/shared': {
         TEST_IDS
       },
-      'src/components/WidgetContainer': {},
-      'src/components/WidgetHeader': {},
-      'src/components/WidgetMain': {}
+      'src/components/Widget': {
+        Widget: noopReactComponent(),
+        Header: noopReactComponent(),
+        Main: noopReactComponent()
+      }
     })
 
     mockery.registerAllowable(ChatOfflinePath)

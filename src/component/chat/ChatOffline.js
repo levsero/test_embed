@@ -34,9 +34,7 @@ import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 import ChatHistoryLink from './ChatHistoryLink'
 import { TEST_IDS } from 'src/constants/shared'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetHeader from 'src/components/WidgetHeader'
-import WidgetMain from 'src/components/WidgetMain'
+import { Widget, Header, Main } from 'src/components/Widget'
 
 import { locals as styles } from './ChatOffline.scss'
 
@@ -137,9 +135,9 @@ class ChatOffline extends Component {
 
   renderChatOfflineScreen = () => {
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+      <Widget>
+        <Header title={this.props.title} />
+        <Main>
           <div className={styles.innerContent}>
             <ChatHistoryLink
               isAuthenticated={this.props.isAuthenticated}
@@ -154,8 +152,8 @@ class ChatOffline extends Component {
               {i18n.t('embeddable_framework.chat.offline.button.close')}
             </Button>
           </div>
-        </WidgetMain>
-      </WidgetContainer>
+        </Main>
+      </Widget>
     )
   }
 

@@ -6,9 +6,8 @@ import { find } from 'styled-components/test-utils'
 import { isMobileBrowser } from 'utility/devices'
 import { onNextTick } from 'utility/utils'
 import { Component as ChatMenu } from './..'
-import { IconButton, SoundOffIcon, SoundOnIcon } from './../styles'
+import { SoundOffIcon, SoundOnIcon } from './../styles'
 import createStore from 'src/redux/createStore'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { TEST_IDS } from 'constants/shared'
 
 jest.mock('utility/devices')
@@ -48,13 +47,7 @@ describe('ChatMenu', () => {
     it('uses a menu icon as trigger', () => {
       const { container } = renderComponent()
 
-      expect(findSvg(container, 'widget-icon_menu.svg')).toBeInTheDocument()
-    })
-
-    it('is styled as a menu icon', () => {
-      const { container } = renderComponent()
-
-      expect(find(container, IconButton)).not.toBeNull()
+      expect(findSvg(container, 'menu-fill.svg')).toBeInTheDocument()
     })
   })
 
@@ -69,12 +62,6 @@ describe('ChatMenu', () => {
       const { container } = renderComponent()
 
       expect(findSvg(container, 'widget-icon_ellipsis.svg')).toBeInTheDocument()
-    })
-
-    it('is styled as a footer icon', () => {
-      const { container } = renderComponent()
-
-      expect(find(container, FooterIconButton)).not.toBeNull()
     })
   })
 

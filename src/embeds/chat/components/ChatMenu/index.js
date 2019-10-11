@@ -5,7 +5,7 @@ import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Icon } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import EllipsisIcon from 'icons/widget-icon_ellipsis.svg'
-import MenuIcon from 'icons/widget-icon_menu.svg'
+import MenuIcon from '@zendeskgarden/svg-icons/src/16/menu-fill.svg'
 import {
   getMenuVisible,
   getUserSoundSettings,
@@ -28,9 +28,10 @@ import {
   getHelpCenterAvailable
 } from 'src/redux/modules/selectors'
 import { TEST_IDS } from 'constants/shared'
-import { SoundOffIcon, SoundOnIcon, IconButton, Menu, MENU_PADDING } from './styles'
+import { SoundOffIcon, SoundOnIcon, Menu, MENU_PADDING } from './styles'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
+import { HeaderItem } from 'components/Widget'
 
 const ChatMenu = ({
   isOpen,
@@ -92,8 +93,6 @@ const ChatMenu = ({
     }
   }
 
-  const CurrentIconButton = isMobileBrowser() ? IconButton : FooterIconButton
-
   return (
     <div
       role="presentation"
@@ -116,21 +115,17 @@ const ChatMenu = ({
           placement={isMobileBrowser() ? 'bottom-start' : 'top-end'}
           trigger={
             <Trigger>
-              <CurrentIconButton
-                pill={false}
-                aria-label="Menu"
-                ignoreThemeOverride={true}
-                data-testid={TEST_IDS.CHAT_MENU}
-                colorType="fill"
-              >
-                <Icon>
-                  {isMobileBrowser() ? (
-                    <MenuIcon />
-                  ) : (
+              {isMobileBrowser() ? (
+                <HeaderItem aria-label="Menu" data-testid={TEST_IDS.CHAT_MENU}>
+                  <MenuIcon />
+                </HeaderItem>
+              ) : (
+                <FooterIconButton aria-label="Menu" data-testid={TEST_IDS.CHAT_MENU}>
+                  <Icon>
                     <EllipsisIcon data-testid={TEST_IDS.ICON_ELLIPSIS} />
-                  )}
-                </Icon>
-              </CurrentIconButton>
+                  </Icon>
+                </FooterIconButton>
+              )}
             </Trigger>
           }
         >

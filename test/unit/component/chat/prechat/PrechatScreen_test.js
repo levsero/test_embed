@@ -88,10 +88,12 @@ describe('PrechatScreen component', () => {
       },
       'src/redux/modules/chat/chat-selectors': {},
       'src/redux/modules/chat/chat-history-selectors': {},
-      'src/components/WidgetContainer': {},
-      'src/components/WidgetHeader': {},
-      'src/components/WidgetMain': {},
-      'src/components/WidgetFooter': {}
+      'src/components/Widget': {
+        Widget: noopReactComponent(),
+        Main: noopReactComponent(),
+        Footer: noopReactComponent()
+      },
+      'src/components/WidgetHeader': {}
     })
 
     mockery.registerAllowable(chatPath)

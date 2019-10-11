@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderItem renders 1`] = `
+.c0 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c0 svg,
+.c0 path {
+  fill: #fff !important;
+  color: #fff !important;
+}
+
+.c0:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+<button
+  class="index__c-btn--icon___1Yl4x c0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+  data-garden-id="buttons.icon_button"
+  data-garden-version="6.4.4"
+  tabindex="0"
+  type="button"
+>
+  <div
+    class="index__c-btn__icon___3V0Rl"
+    data-garden-id="buttons.icon"
+    data-garden-version="6.4.4"
+  >
+    Some child component
+  </div>
+</button>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Widget matches snapshot 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    web widget content
+  </div>
+</div>
+`;

@@ -38,6 +38,9 @@ describe('ScrollContainer component', () => {
         }
       },
       'component/Refocus': noopReactComponent(),
+      'components/Widget': {
+        Header: noopReactComponent()
+      },
       'src/constants/shared': {
         MAX_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
@@ -129,105 +132,6 @@ describe('ScrollContainer component', () => {
 
     it('renders desktop class', () => {
       expect(result.props.className).toContain('desktop')
-    })
-  })
-
-  describe('titleClasses', () => {
-    let container, mockTitleClasses, result
-
-    beforeEach(() => {
-      container = instanceRender(
-        <ScrollContainer titleClasses={mockTitleClasses} isMobile={mockIsMobile} />
-      )
-      result = container.render().props.children[0].props.children[0].props.className
-    })
-
-    it('includes title in titleClasses', () => {
-      expect(result).toContain('title')
-    })
-
-    describe('when title props are provided', () => {
-      beforeAll(() => {
-        mockTitleClasses = 'yolo'
-      })
-
-      it('includes titleMobile in titleClasses', () => {
-        expect(result).toContain('yolo')
-      })
-    })
-
-    describe('when title props are not provided', () => {
-      beforeAll(() => {
-        mockTitleClasses = ''
-      })
-
-      it('includes titleMobile in titleClasses', () => {
-        expect(result).not.toContain('yolo')
-      })
-    })
-
-    describe('when isMobile is true', () => {
-      beforeAll(() => {
-        mockIsMobile = true
-      })
-
-      it('includes titleMobile in titleClasses', () => {
-        expect(result).toContain('titleMobile')
-      })
-    })
-
-    describe('when isMobile is false', () => {
-      beforeAll(() => {
-        mockIsMobile = false
-      })
-
-      it('does not include titleMobile in titleClasses', () => {
-        expect(result).not.toContain('titleMobile')
-      })
-    })
-  })
-
-  describe('when headerContent is not null', () => {
-    describe('when fullscreen is true', () => {
-      it('should have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer fullscreen={true} headerContent={<div />} />
-        )
-
-        expect(container.props.children[1].props.className).toMatch('contentBigheaderClasses')
-      })
-    })
-
-    describe('when fullscreen is false', () => {
-      it('should not have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer fullscreen={false} headerContent={<div />} />
-        )
-
-        expect(container.props.children[1].props.className).not.toMatch('contentBigheaderClasses')
-      })
-    })
-
-    describe('when isMobile is true', () => {
-      it('has `contentBigheader` classes', () => {
-        const container = shallowRender(<ScrollContainer isMobile={true} headerContent={<div />} />)
-
-        expect(container.props.children[1].props.className).toMatch('contentBigheaderClasses')
-      })
-
-      it('should not have `contentBigheader` classes', () => {
-        const container = shallowRender(
-          <ScrollContainer isMobile={false} headerContent={<div />} />
-        )
-
-        expect(container.props.children[1].props.className).not.toMatch('contentBigheaderClasses')
-      })
-    })
-
-    it('has `userHeader` classes', () => {
-      const container = shallowRender(<ScrollContainer headerContent={<div />} />)
-
-      expect(container.props.children[0].props.className).toMatch('userHeaderClassesYo')
     })
   })
 

@@ -1,14 +1,12 @@
 import React from 'react'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main } from 'src/components/Widget'
 
 const Support = () => {
   return (
-    <WidgetContainer>
-      <WidgetHeader>WE ARE NEXT GEN SUPPORT</WidgetHeader>
-      <WidgetMain>I AM NEW SUPPORT</WidgetMain>
-    </WidgetContainer>
+    <Widget>
+      <Header title="WE ARE NEXT GEN SUPPORT" />
+      <Main>I AM NEW SUPPORT</Main>
+    </Widget>
   )
 }
 

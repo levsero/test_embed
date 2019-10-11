@@ -4,26 +4,23 @@ import { connect } from 'react-redux'
 
 import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetHeader from 'src/components/WidgetHeader'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetFooter from 'src/components/WidgetFooter'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import SuccessNotification from 'src/embeds/talk/components/SuccessNotification'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
 import { getTitle } from 'src/embeds/talk/selectors'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
-import { Button, Footer } from './styles'
+import { Button, FooterView } from './styles'
 
 const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendeskLogo }) => {
   return (
-    <WidgetContainer>
-      <WidgetHeader>{title}</WidgetHeader>
-      <WidgetMain>
+    <Widget>
+      <Header title={title} />
+      <Main>
         <SuccessNotification />
-      </WidgetMain>
-      <WidgetFooter>
-        <Footer>
+      </Main>
+      <Footer>
+        <FooterView>
           <Button
             primary={true}
             onClick={() => {
@@ -35,9 +32,9 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history, hideZendesk
             {doneText}
           </Button>
           {!hideZendeskLogo && <ZendeskLogo />}
-        </Footer>
-      </WidgetFooter>
-    </WidgetContainer>
+        </FooterView>
+      </Footer>
+    </Widget>
   )
 }
 

@@ -5,9 +5,7 @@ import { connect } from 'react-redux'
 import { Button } from '@zendeskgarden/react-buttons'
 
 import { HeaderTitle, TicketFormOption } from './styles'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Main, Header } from 'src/components/Widget'
 
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
@@ -26,9 +24,9 @@ const TicketFormsPage = ({
   handleFormOptionClick
 }) => {
   return (
-    <WidgetContainer>
-      <WidgetHeader>{formTitle}</WidgetHeader>
-      <WidgetMain>
+    <Widget>
+      <Header title={formTitle} />
+      <Main>
         <HeaderTitle>{selectTicketFormLabel}</HeaderTitle>
         {ticketForms.map(form => {
           return (
@@ -39,8 +37,8 @@ const TicketFormsPage = ({
             </TicketFormOption>
           )
         })}
-      </WidgetMain>
-    </WidgetContainer>
+      </Main>
+    </Widget>
   )
 }
 
