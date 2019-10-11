@@ -9,7 +9,6 @@ describe('RatingScreen component', () => {
   const endChatSpy = jasmine.createSpy('endChat')
 
   const FeedbackForm = noopReactComponent('FeedbackForm')
-  const ZendeskLogo = noopReactComponent('ZendeskLogo')
 
   beforeEach(() => {
     mockery.enable()
@@ -26,12 +25,6 @@ describe('RatingScreen component', () => {
       },
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
-      },
-      'component/ZendeskLogo': {
-        ZendeskLogo
-      },
-      'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
       },
       'components/Widget': {
         Widget: noopReactComponent(),

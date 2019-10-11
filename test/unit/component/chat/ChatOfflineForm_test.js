@@ -14,8 +14,6 @@ describe('ChatOfflineForm component', () => {
   const ChatOfflineMessageForm = noopReactComponent()
   const ChatMessagingChannels = noopReactComponent()
   const UserProfile = noopReactComponent()
-  const ZendeskLogo = noopReactComponent()
-  const ScrollContainer = noopReactComponent()
   const GardenField = noopReactComponent()
   const Message = noopReactComponent()
   const Linkify = noopReactComponent('Linkify')
@@ -106,8 +104,6 @@ describe('ChatOfflineForm component', () => {
         PHONE_PATTERN: /.+/,
         TEST_IDS
       },
-      'component/ZendeskLogo': { ZendeskLogo },
-      'component/container/ScrollContainer': { ScrollContainer },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         renderLabel: () => 'someLabel'

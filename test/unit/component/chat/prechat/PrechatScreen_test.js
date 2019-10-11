@@ -16,7 +16,6 @@ describe('PrechatScreen component', () => {
   const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm')
   const PrechatForm = noopReactComponent('PrechatForm')
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
-  const ZendeskLogo = noopReactComponent('ZendeskLogo')
 
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
 
@@ -41,17 +40,11 @@ describe('PrechatScreen component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner
       },
-      'component/ZendeskLogo': {
-        ZendeskLogo
-      },
       'component/chat/prechat/PrechatForm': {
         PrechatForm
       },
       'component/container/Container': {
         Container: noopReactComponent()
-      },
-      'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
       },
       'src/redux/modules/chat': {
         sendMsg: noop,
