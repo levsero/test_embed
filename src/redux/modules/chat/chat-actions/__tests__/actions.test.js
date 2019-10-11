@@ -48,6 +48,11 @@ const getState = (state = {}) => {
     chat: {
       vendor: {
         zChat
+      },
+      formState: {
+        preChatForm: {
+          department: ''
+        }
       }
     }
   }
