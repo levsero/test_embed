@@ -28,10 +28,7 @@ const useSearchForm = (callback, handleOnChangeValue) => {
 }
 
 const SearchForm = React.forwardRef(
-  (
-    { performSearch, isLoading, searchPlaceholder, isMobile, handleSearchFieldChange, value },
-    ref
-  ) => {
+  ({ performSearch, isLoading, searchPlaceholder, handleSearchFieldChange, value }, ref) => {
     const { handleOnChange, handleSubmit } = useSearchForm(performSearch, handleSearchFieldChange)
 
     return (
@@ -39,9 +36,7 @@ const SearchForm = React.forwardRef(
         <SearchField
           ref={ref}
           value={value}
-          isMobile={isMobile}
           onChangeValue={handleOnChange}
-          onSearchIconClick={handleSubmit}
           isLoading={isLoading}
           searchPlaceholder={searchPlaceholder}
           data-testid={TEST_IDS.SEARCH_FIELD}
@@ -55,7 +50,6 @@ SearchForm.propTypes = {
   performSearch: PropTypes.func.isRequired,
   searchPlaceholder: PropTypes.string,
   isLoading: PropTypes.bool,
-  isMobile: PropTypes.bool,
   handleSearchFieldChange: PropTypes.func,
   value: PropTypes.string
 }

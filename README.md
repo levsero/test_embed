@@ -81,7 +81,7 @@ This will allow you to make as many different configurations as you like to test
 
 ## Testing
 
-We use jest for unit tests (`bom run test`) and pupeteer for e2e tests (`npm run e2e`).
+We use jest for unit tests (`npm run test`) and pupeteer for e2e tests (`npm run e2e`).
 
 ## Running in Docker
 

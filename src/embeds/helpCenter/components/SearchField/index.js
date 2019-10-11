@@ -1,30 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SearchIconButton from 'embeds/helpCenter/components/SearchIconButton'
-import ClearInputIcon from 'embeds/helpCenter/icons/clearInput.svg'
-import { IconButton } from '@zendeskgarden/react-buttons'
-import { locals as styles } from './styles.scss'
-import { FauxInput, Field, Input, Label } from '@zendeskgarden/react-forms'
-import classNames from 'classnames'
+import { Field, MediaInput } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
-import { LoadingDots } from './styles'
+import { LoadingDots, SearchIcon, ClearInputButton, Container } from './styles'
+import { triggerOnEnter } from 'utility/keyboard'
 
 export default class SearchField extends Component {
   static propTypes = {
-    isMobile: PropTypes.bool,
     isLoading: PropTypes.bool,
     onChangeValue: PropTypes.func,
-    onClick: PropTypes.func,
-    onSearchIconClick: PropTypes.func,
     searchPlaceholder: PropTypes.string.isRequired,
     value: PropTypes.string
   }
 
   static defaultProps = {
-    isMobile: false,
     isLoading: false,
     onChangeValue: () => {},
-    onSearchIconClick: () => {},
     value: ''
   }
 
@@ -58,87 +49,47 @@ export default class SearchField extends Component {
       value: ''
     })
     this.props.onChangeValue('')
+    this.focus()
   }
 
   focus = () => {
     this.searchField.focus()
   }
 
-  renderMobileSearchIconButton = () => {
+  clearInputButton = () => {
     return (
-      <div key="search" className={styles.mobileSearchIcon}>
-        <SearchIconButton onClick={this.props.onSearchIconClick} isMobile={this.props.isMobile} />
-      </div>
+      <ClearInputButton
+        onClick={this.clearInput}
+        role="button"
+        cursor="pointer"
+        data-testid={TEST_IDS.ICON_CLEAR_INPUT}
+        tabIndex="0"
+        onKeyDown={triggerOnEnter(this.clearInput)}
+      />
     )
   }
 
-  renderMobileLoadingOrClearIcon = () => {
+  renderIcon = () => {
     let icon = null
 
     if (this.props.isLoading) {
-      icon = <LoadingDots />
+      icon = <LoadingDots data-testid={TEST_IDS.ICON_ELLIPSIS} />
     } else if (this.state.value) {
-      icon = (
-        <IconButton
-          data-testid="Icon--clearInput"
-          onClick={this.clearInput}
-          className={styles.mobileClearInput}
-        >
-          <ClearInputIcon />
-        </IconButton>
-      )
+      icon = this.clearInputButton()
     }
 
-    return (
-      <div key="loadingOrClear" className={styles.mobileNonSearchIconContainer}>
-        {icon}
-      </div>
-    )
-  }
-
-  renderDesktopSearchOrLoadingIcon = () => {
-    const icon = this.props.isLoading ? (
-      <LoadingDots />
-    ) : (
-      <SearchIconButton onClick={this.props.onSearchIconClick} focused={this.state.focused} />
-    )
-
-    return (
-      <div key="searchOrLoading" className={styles.desktopSearchOrLoading}>
-        {icon}
-      </div>
-    )
-  }
-
-  renderIcons = () => {
-    let icons = []
-
-    if (this.props.isMobile) {
-      icons.push(this.renderMobileLoadingOrClearIcon())
-      icons.push(this.renderMobileSearchIconButton())
-    } else {
-      icons.push(this.renderDesktopSearchOrLoadingIcon())
-    }
-
-    return icons
+    return <div key="clearInputOrLoading">{icon}</div>
   }
 
   render = () => {
-    const { isMobile, searchPlaceholder } = this.props
-    const searchContainerClasses = classNames({
-      [styles.mobileContainer]: isMobile,
-      [styles.desktopContainer]: !isMobile
-    })
-    const searchInputClasses = classNames(styles.searchInput, {
-      [styles.mobileSearchInput]: isMobile
-    })
+    const { searchPlaceholder } = this.props
 
     return (
-      <FauxInput onClick={this.props.onClick} className={searchContainerClasses}>
+      <Container>
         <Field>
-          <Label className={styles.label}>{searchPlaceholder}</Label>
-          <Input
-            bare={true}
+          <MediaInput
+            start={<SearchIcon data-testid={TEST_IDS.ICON_SEARCH} />}
+            end={this.renderIcon()}
             onChange={this.onChange}
             value={this.state.value}
             onFocus={this.onFocus}
@@ -146,15 +97,13 @@ export default class SearchField extends Component {
             ref={elem => {
               this.searchField = elem
             }}
-            autoCapitalize="off"
             placeholder={searchPlaceholder}
-            type="search"
-            className={searchInputClasses}
             data-testid={TEST_IDS.SEARCH_FIELD}
+            type="search"
+            autoCapitalize="off"
           />
-          {this.renderIcons()}
         </Field>
-      </FauxInput>
+      </Container>
     )
   }
 }
