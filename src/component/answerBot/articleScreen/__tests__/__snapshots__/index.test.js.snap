@@ -18,12 +18,13 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -108,12 +109,13 @@ exports[`feedback actions on no click asks for the reason 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -236,12 +238,13 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -326,12 +329,13 @@ exports[`passing of scroll container classes 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -416,12 +420,13 @@ exports[`renders the expected classes 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -505,12 +510,13 @@ exports[`renders the expected mobile classes 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -595,12 +601,13 @@ exports[`renders the expected title 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Support
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -685,12 +692,13 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"
@@ -813,12 +821,13 @@ exports[`renders the help center article 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             Help
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"

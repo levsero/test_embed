@@ -19,6 +19,7 @@ exports[`Title renders 1`] = `
 
 <h1
   class="c0"
+  data-testid="widget-title"
 >
   <div>
     Some child component

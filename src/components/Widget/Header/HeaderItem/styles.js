@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { FONT_SIZE } from 'constants/shared'
 
@@ -13,11 +13,19 @@ const StyledIconButton = styled(IconButton)`
     height: 1rem !important;
   }
 
-  svg,
-  path {
-    fill: #fff !important;
-    color: #fff !important;
-  }
+  ${props => {
+    if (!props.theme.headerTextColorStr) {
+      return ''
+    }
+
+    return css`
+      svg,
+      path {
+        fill: ${props => props.theme.headerTextColorStr} !important;
+        color: ${props => props.theme.headerTextColorStr} !important;
+      }
+    `
+  }}
 
   &:focus {
     outline: none !important;

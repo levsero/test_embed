@@ -24,12 +24,6 @@ exports[`HeaderItem renders 1`] = `
   height: 1rem !important;
 }
 
-.c0 svg,
-.c0 path {
-  fill: #fff !important;
-  color: #fff !important;
-}
-
 .c0:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;

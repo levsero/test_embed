@@ -6,6 +6,7 @@ import { BackIcon } from './styles'
 import { getShowBackButton } from 'src/redux/modules/selectors'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
 import useTranslation from 'src/hooks/useTranslation'
+import { TEST_IDS } from 'constants/shared'
 
 const BackButton = ({ onClick }) => {
   const isVisible = useSelector(getShowBackButton)
@@ -19,7 +20,7 @@ const BackButton = ({ onClick }) => {
   const onClickHandler = onClick || onBack
 
   return (
-    <HeaderItem onClick={onClickHandler} aria-label={label}>
+    <HeaderItem onClick={onClickHandler} aria-label={label} data-testid={TEST_IDS.ICON_BACK}>
       <BackIcon />
     </HeaderItem>
   )

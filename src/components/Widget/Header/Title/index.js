@@ -1,7 +1,9 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 
-const Title = styled.h1`
+const Title = styled.h1.attrs(() => ({
+  'data-testid': TEST_IDS.WIDGET_TITLE
+}))`
   font-weight: 700;
   text-align: center;
   letter-spacing: ${0.3 / FONT_SIZE}rem;

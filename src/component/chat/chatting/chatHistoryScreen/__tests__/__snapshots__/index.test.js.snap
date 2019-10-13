@@ -5,14 +5,14 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -195,5 +195,5 @@
+@@ -198,5 +198,5 @@
           </div>
           <div
 -           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
 +           class="content footerMargin headerMargin scrollContainerMessagesContentDesktop"
             data-testid="scroll-container-content"
           >
-@@ -220,31 +220,4 @@
+@@ -223,31 +223,4 @@
           />
         </div>
 -       <a
@@ -51,7 +51,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -187,7 +187,6 @@
+@@ -189,7 +189,6 @@
       <div>
         <div
 -         class="container flexContainer desktop containerDesktop"
@@ -60,7 +60,7 @@ Snapshot Diff:
 -         style="height: 550px;"
         >
           <div
-@@ -221,10 +220,10 @@
+@@ -224,10 +223,10 @@
           </div>
           <div
 -           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
@@ -73,7 +73,7 @@ Snapshot Diff:
 +               class="chatLogContainer chatLogContainerMobile"
               >
                 <div
-@@ -251,5 +250,5 @@
+@@ -254,5 +253,5 @@
         formSuccess
         
 -       zendeskLogo 
@@ -98,12 +98,13 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         >
           <h1
             class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
           >
             this is the title
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-id="buttons.icon_button"
             data-garden-version="6.4.4"
             tabindex="0"

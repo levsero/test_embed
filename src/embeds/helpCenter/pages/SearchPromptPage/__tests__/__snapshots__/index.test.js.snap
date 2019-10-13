@@ -87,12 +87,6 @@ exports[`renders the full page 1`] = `
   height: 1rem !important;
 }
 
-.c5 svg,
-.c5 path {
-  fill: #fff !important;
-  color: #fff !important;
-}
-
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
@@ -117,6 +111,7 @@ exports[`renders the full page 1`] = `
     >
       <h1
         class="c2 c3"
+        data-testid="widget-title"
       >
         Help
       </h1>

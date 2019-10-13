@@ -163,7 +163,8 @@ export const TEST_IDS = {
   CHAT_MENU_ITEM_TOGGLE_SOUND: 'chat-menu-item-toggle-sound',
   CHAT_MENU_ITEM_EMAIL_TRANSCRIPT: 'chat-menu-item-email-transcript',
   CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS: 'chat-menu-item-edit-contact-details',
-  CHAT_MENU_ITEM_END_CHAT: 'chat-menu-item-end-chat'
+  CHAT_MENU_ITEM_END_CHAT: 'chat-menu-item-end-chat',
+  WIDGET_TITLE: 'widget-title'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'
