@@ -20,12 +20,13 @@ exports[`active ticket form renders the expected components 1`] = `
           >
             <h1
               class="sc-htpNat jTlEqc"
+              data-testid="widget-title"
             >
               message
             </h1>
             <button
               aria-label="Minimize"
-              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
               data-garden-id="buttons.icon_button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -279,21 +280,21 @@ Snapshot Diff:
 -         style="height: 550px;"
         >
           <div
-@@ -40,5 +39,5 @@
+@@ -41,5 +40,5 @@
           </div>
           <div
 -           class="content container ticketFormContainer"
 +           class="content container ticketFormContainer containerMobile contentMobile"
             data-testid="scroll-container-content"
           >
-@@ -48,5 +47,5 @@
+@@ -49,5 +48,5 @@
               >
                 <h2
 -                 class="ticketFormTitle "
 +                 class="ticketFormTitle ticketFormTitleMobile"
                 >
                   Ticket Forms
-@@ -56,6 +55,6 @@
+@@ -57,6 +56,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-38--input"
@@ -302,7 +303,7 @@ Snapshot Diff:
 +                 id="garden-field-container-28--label"
                 >
                   <strong>
-@@ -65,12 +64,12 @@
+@@ -66,12 +65,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-38--hint"
@@ -318,7 +319,7 @@ Snapshot Diff:
 +                 id="garden-field-container-28--input"
                   name="name"
                   value=""
-@@ -80,6 +79,6 @@
+@@ -81,6 +80,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-39--input"
@@ -327,7 +328,7 @@ Snapshot Diff:
 +                 id="garden-field-container-29--label"
                 >
                   <strong>
-@@ -88,12 +87,12 @@
+@@ -89,12 +88,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-39--hint"
@@ -343,7 +344,7 @@ Snapshot Diff:
 +                 id="garden-field-container-29--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -111,6 +110,6 @@
+@@ -112,6 +111,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-40--input"
@@ -352,7 +353,7 @@ Snapshot Diff:
 +                   id="garden-field-container-30--label"
                   >
                     <strong>
-@@ -120,12 +119,12 @@
+@@ -121,12 +120,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-40--hint"
@@ -368,7 +369,7 @@ Snapshot Diff:
 +                   id="garden-field-container-30--input"
                     label="Description"
                     name="1"
-@@ -143,6 +142,6 @@
+@@ -144,6 +143,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-41--input"
@@ -377,7 +378,7 @@ Snapshot Diff:
 +                   id="garden-field-container-31--label"
                   >
                     <strong>
-@@ -152,12 +151,12 @@
+@@ -153,12 +152,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-41--hint"
@@ -393,7 +394,7 @@ Snapshot Diff:
 +                   id="garden-field-container-31--input"
                     label="Subject"
                     name="2"
-@@ -175,6 +174,6 @@
+@@ -176,6 +175,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="6.4.4"
 -                   for="garden-field-container-42--input"
@@ -402,7 +403,7 @@ Snapshot Diff:
 +                   id="garden-field-container-32--label"
                   >
                     <strong>
-@@ -183,12 +182,12 @@
+@@ -184,12 +183,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-42--hint"
@@ -418,7 +419,7 @@ Snapshot Diff:
 +                   id="garden-field-container-32--input"
                     label="Favorite Pizza"
                     name="5"
-@@ -207,15 +206,5 @@
+@@ -208,15 +207,5 @@
             <div
               class="container buttonRight buttonGroup"
 -           >
@@ -456,12 +457,13 @@ exports[`renders the expected components 1`] = `
           >
             <h1
               class="sc-htpNat jTlEqc"
+              data-testid="widget-title"
             >
               message
             </h1>
             <button
               aria-label="Minimize"
-              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
               data-garden-id="buttons.icon_button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -638,14 +640,14 @@ Snapshot Diff:
 -         style="height: 550px;"
         >
           <div
-@@ -40,5 +39,5 @@
+@@ -41,5 +40,5 @@
           </div>
           <div
 -           class="content container"
 +           class="content container containerMobile contentMobile"
             data-testid="scroll-container-content"
           >
-@@ -51,6 +50,6 @@
+@@ -52,6 +51,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-12--input"
@@ -654,7 +656,7 @@ Snapshot Diff:
 +                 id="garden-field-container-6--label"
                 >
                   <strong>
-@@ -60,12 +59,12 @@
+@@ -61,12 +60,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-12--hint"
@@ -670,7 +672,7 @@ Snapshot Diff:
 +                 id="garden-field-container-6--input"
                   name="name"
                   value=""
-@@ -75,6 +74,6 @@
+@@ -76,6 +75,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-13--input"
@@ -679,7 +681,7 @@ Snapshot Diff:
 +                 id="garden-field-container-7--label"
                 >
                   <strong>
-@@ -83,12 +82,12 @@
+@@ -84,12 +83,12 @@
                 </label>
                 <input
 -                 aria-describedby="garden-field-container-13--hint"
@@ -695,7 +697,7 @@ Snapshot Diff:
 +                 id="garden-field-container-7--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -100,6 +99,6 @@
+@@ -101,6 +100,6 @@
                   data-garden-id="forms.text_label"
                   data-garden-version="6.4.4"
 -                 for="garden-field-container-14--input"
@@ -704,7 +706,7 @@ Snapshot Diff:
 +                 id="garden-field-container-8--label"
                 >
                   <strong>
-@@ -108,12 +107,12 @@
+@@ -109,12 +108,12 @@
                 </label>
                 <textarea
 -                 aria-describedby="garden-field-container-14--hint"
@@ -720,7 +722,7 @@ Snapshot Diff:
 +                 id="garden-field-container-8--input"
                   name="description"
                   required=""
-@@ -131,14 +130,4 @@
+@@ -132,14 +131,4 @@
               class="container buttonRight buttonGroup"
             >
 -             <button
@@ -752,12 +754,13 @@ exports[`renders the loading bar content 1`] = `
       >
         <h1
           class="sc-htpNat jTlEqc"
+          data-testid="widget-title"
         >
           message
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x kVrTLz Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-id="buttons.icon_button"
           data-garden-version="6.4.4"
           tabindex="0"

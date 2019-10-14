@@ -99,12 +99,6 @@ exports[`renders correctly on desktop 1`] = `
   height: 1rem !important;
 }
 
-.c5 svg,
-.c5 path {
-  fill: #fff !important;
-  color: #fff !important;
-}
-
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
@@ -119,6 +113,7 @@ exports[`renders correctly on desktop 1`] = `
     >
       <h1
         class="c2 c3"
+        data-testid="widget-title"
       >
         Search
       </h1>
@@ -206,7 +201,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -49,13 +49,13 @@
+@@ -50,13 +50,13 @@
                 data-garden-id="forms.text_label"
                 data-garden-version="6.4.4"
 -               for="garden-field-container-1--input"
@@ -224,7 +219,7 @@ Snapshot Diff:
 +               aria-labelledby="garden-field-container-2--label"
                 autocapitalize="off"
                 class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-@@ -63,5 +63,5 @@
+@@ -64,5 +64,5 @@
                 data-garden-version="6.4.4"
                 data-testid="search-field"
 -               id="garden-field-container-1--input"
