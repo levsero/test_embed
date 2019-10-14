@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import Transition from 'react-transition-group/Transition'
 
 import HistoryLog from 'component/chat/chatting/HistoryLog'
-import { getScrollBottom } from 'component/container/ScrollContainer'
+import getScrollBottom from 'utility/get-scroll-bottom'
 import { i18n } from 'service/i18n'
 import { isFirefox, isIE } from 'utility/devices'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'

@@ -98,9 +98,7 @@ describe('ChattingScreen component', () => {
         Main: noopReactComponent(),
         Footer: noopReactComponent()
       },
-      'component/container/ScrollContainer': {
-        getScrollBottom
-      },
+      'utility/get-scroll-bottom': getScrollBottom,
       'component/shared/QuickReplies': {
         QuickReply,
         QuickReplies
