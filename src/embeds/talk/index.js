@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import WidgetThemeProvider from 'src/components/WidgetThemeProvider'
+import { WidgetThemeProvider } from 'src/components/Widget'
 import { CONTACT_OPTIONS } from './constants'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'

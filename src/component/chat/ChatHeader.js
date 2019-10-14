@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import { Avatar } from 'component/Avatar'
 import { RatingGroup } from 'component/chat/rating/RatingGroup'
-import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './ChatHeader.scss'
 
@@ -83,7 +83,7 @@ export class ChatHeader extends Component {
   }
 
   textContainerStyle = () => {
-    const { concierges, showAvatar, showTitle } = this.props
+    const { showAvatar, showTitle } = this.props
 
     if (!showTitle) {
       return { visibility: 'hidden' }
@@ -93,14 +93,7 @@ export class ChatHeader extends Component {
       return null
     }
 
-    const basePadding = 22
-    const paddingAvatarModifier = 20
-    const numAvatars = Math.min(concierges.length, 3)
-    const paddingAdjustment = basePadding + numAvatars * paddingAvatarModifier
-
-    return i18n.isRTL()
-      ? { paddingRight: `${paddingAdjustment / FONT_SIZE}rem` }
-      : { paddingLeft: `${paddingAdjustment / FONT_SIZE}rem` }
+    return i18n.isRTL() ? { paddingRight: '12px' } : { paddingLeft: '12px' }
   }
 
   renderTextContainer = () => {

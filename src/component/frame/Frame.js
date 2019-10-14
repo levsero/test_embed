@@ -171,6 +171,16 @@ class Frame extends Component {
   }
 
   componentDidUpdate = prevProps => {
+    if (this.props.name === 'launcher') {
+      onNextTick(() => {
+        const newWidth = this.computeIframeStyle().width
+        const oldStyles = this.iframe.getAttribute('style')
+
+        if (newWidth !== oldStyles.width) {
+          this.iframe.setAttribute('style', oldStyles + `width: ${newWidth}px;`)
+        }
+      })
+    }
     if (!prevProps.visible && this.props.visible) {
       this.show()
     }

@@ -5,14 +5,14 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -138,5 +138,5 @@
-          </header>
+@@ -198,5 +198,5 @@
+          </div>
           <div
 -           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
 +           class="content footerMargin headerMargin scrollContainerMessagesContentDesktop"
             data-testid="scroll-container-content"
           >
-@@ -163,31 +163,4 @@
+@@ -223,31 +223,4 @@
           />
         </div>
 -       <a
@@ -51,7 +51,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -149,7 +149,6 @@
+@@ -189,7 +189,6 @@
       <div>
         <div
 -         class="container flexContainer desktop containerDesktop"
@@ -59,16 +59,9 @@ Snapshot Diff:
           data-testid="scroll-container"
 -         style="height: 550px;"
         >
-          <header
-@@ -158,5 +157,5 @@
-          >
-            <h1
--             class="title"
-+             class="title titleMobile"
-            >
-              this is the title
-@@ -164,10 +163,10 @@
-          </header>
+          <div
+@@ -224,10 +223,10 @@
+          </div>
           <div
 -           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
 +           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContent scrollContainerMobile contentMobile"
@@ -80,7 +73,7 @@ Snapshot Diff:
 +               class="chatLogContainer chatLogContainerMobile"
               >
                 <div
-@@ -194,5 +193,5 @@
+@@ -254,5 +253,5 @@
         formSuccess
         
 -       zendeskLogo 
@@ -97,16 +90,36 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
       data-testid="scroll-container"
       style="height: 550px;"
     >
-      <header
-        class="header userHeader"
-        data-testid="scroll-container-header"
+      <div
+        class="sc-bwzfXH jaHvNe"
       >
-        <h1
-          class="title"
+        <div
+          class="sc-bxivhb sc-ifAKCX kPfswV"
         >
-          this is the title
-        </h1>
-      </header>
+          <h1
+            class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
+          >
+            this is the title
+          </h1>
+          <button
+            aria-label="Minimize"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-id="buttons.icon_button"
+            data-garden-version="6.4.4"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="index__c-btn__icon___3V0Rl"
+              data-garden-id="buttons.icon"
+              data-garden-version="6.4.4"
+              data-testid="Icon--dash"
+              realfilename="dash-fill.svg"
+            />
+          </button>
+        </div>
+      </div>
       <div
         class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
         data-testid="scroll-container-content"

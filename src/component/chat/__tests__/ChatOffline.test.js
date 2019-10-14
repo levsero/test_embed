@@ -1,6 +1,8 @@
 import { Component as ChatOffline } from '../ChatOffline'
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
 
 jest.mock('component/chat/ChatOfflineForm', () => {
   return {
@@ -41,7 +43,11 @@ const renderComponent = inProps => {
     ...inProps
   }
 
-  return render(<ChatOffline {...props} />)
+  return render(
+    <Provider store={createStore()}>
+      <ChatOffline {...props} />
+    </Provider>
+  )
 }
 
 describe('render', () => {

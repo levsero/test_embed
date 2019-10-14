@@ -14,6 +14,7 @@ import * as connectedSelectors from 'src/redux/modules/selectors/selectors'
 import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import zopimApi from 'service/api/zopimApi'
 import * as zChat from 'chat-web-sdk'
+import { win } from 'utility/globals'
 
 import {
   handleChatSDKInitialized,
@@ -48,6 +49,11 @@ const getState = (state = {}) => {
     chat: {
       vendor: {
         zChat
+      },
+      formState: {
+        preChatForm: {
+          department: ''
+        }
       }
     }
   }
@@ -791,7 +797,10 @@ describe('chatLogout', () => {
       it('calls init with correct args', () => {
         logoutDispatch(actions.chatLogout())
 
-        expect(zChat.init).toHaveBeenCalledWith({ account_key: 123 })
+        expect(zChat.init).toHaveBeenCalledWith({
+          account_key: 123,
+          activity_window: win
+        })
       })
 
       it('calls the "on" api with the correct args', () => {

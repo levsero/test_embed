@@ -93,6 +93,12 @@ describe('ChattingScreen component', () => {
       'component/loading/LoadingEllipses': {
         LoadingEllipses: noopReactComponent()
       },
+      'embeds/chat/components/ChatWidgetHeader': noopReactComponent(),
+      'components/Widget': {
+        Widget: noopReactComponent(),
+        Main: noopReactComponent(),
+        Footer: noopReactComponent()
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
@@ -655,6 +661,8 @@ describe('ChattingScreen component', () => {
     })
   })
 
+  const getScrollContainer = renderResult => renderResult.props.children[2].props.children
+
   describe('#render', () => {
     let component, result, mockFullscreen, mockIsMobile
     const renderChatComponent = ({
@@ -727,7 +735,7 @@ describe('ChattingScreen component', () => {
           })
 
           it('renders headerMargin', () => {
-            expect(result.props.children[0].props.containerClasses).toContain('headerMargin')
+            expect(getScrollContainer(result).props.containerClasses).toContain('headerMargin')
           })
         })
 
@@ -741,7 +749,7 @@ describe('ChattingScreen component', () => {
           })
 
           it('does not render headerMargin', () => {
-            expect(result.props.children[0].props.containerClasses).not.toContain('headerMargin')
+            expect(getScrollContainer(result).props.containerClasses).not.toContain('headerMargin')
           })
         })
 
@@ -758,7 +766,7 @@ describe('ChattingScreen component', () => {
           })
 
           it('does not render headerMargin', () => {
-            expect(result.props.children[0].props.containerClasses).not.toContain('headerMargin')
+            expect(getScrollContainer(result).props.containerClasses).not.toContain('headerMargin')
           })
         })
 
@@ -772,7 +780,7 @@ describe('ChattingScreen component', () => {
           })
 
           it('renders headerMargin', () => {
-            expect(result.props.children[0].props.containerClasses).toContain('headerMargin')
+            expect(getScrollContainer(result).props.containerClasses).toContain('headerMargin')
           })
         })
       })
@@ -782,9 +790,11 @@ describe('ChattingScreen component', () => {
       describe('on non-mobile devices', () => {
         it('has desktop specific classes', () => {
           result = component.render()
-          expect(result.props.children[0].props.footerClasses).toContain('footerClasses')
-          expect(result.props.children[0].props.footerClasses).not.toContain('footerMobileClasses')
-          expect(result.props.children[0].props.footerClasses).not.toContain(
+          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
+          expect(getScrollContainer(result).props.footerClasses).not.toContain(
+            'footerMobileClasses'
+          )
+          expect(getScrollContainer(result).props.footerClasses).not.toContain(
             'footerMobileWithLogoClasses'
           )
         })
@@ -799,9 +809,9 @@ describe('ChattingScreen component', () => {
 
         it('has mobile specific classes', () => {
           result = component.render()
-          expect(result.props.children[0].props.footerClasses).toContain('footerClasses')
-          expect(result.props.children[0].props.footerClasses).toContain('footerMobileClasses')
-          expect(result.props.children[0].props.footerClasses).toContain(
+          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
+          expect(getScrollContainer(result).props.footerClasses).toContain('footerMobileClasses')
+          expect(getScrollContainer(result).props.footerClasses).toContain(
             'footerMobileWithLogoClasses'
           )
         })
@@ -817,9 +827,9 @@ describe('ChattingScreen component', () => {
 
         it('has mobile specific classes', () => {
           result = component.render()
-          expect(result.props.children[0].props.footerClasses).toContain('footerClasses')
-          expect(result.props.children[0].props.footerClasses).toContain('footerMobileClasses')
-          expect(result.props.children[0].props.footerClasses).not.toContain(
+          expect(getScrollContainer(result).props.footerClasses).toContain('footerClasses')
+          expect(getScrollContainer(result).props.footerClasses).toContain('footerMobileClasses')
+          expect(getScrollContainer(result).props.footerClasses).not.toContain(
             'footerMobileWithLogoClasses'
           )
         })
@@ -844,19 +854,19 @@ describe('ChattingScreen component', () => {
       })
 
       it('adds the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.render().props.children[0].props.containerClasses).toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
           'scrollContainerMessagesContentDesktopClass'
         )
       })
 
       it('does not add the scrollContainerMobile class to it', () => {
-        expect(component.render().props.children[0].props.containerClasses).not.toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
           'scrollContainerMobileClasses'
         )
       })
 
       it('does not add scrollContainerMessagesContent class to it', () => {
-        expect(component.render().props.children[0].props.containerClasses).not.toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
           'scrollContainerMessagesContentClass'
         )
       })
@@ -868,19 +878,19 @@ describe('ChattingScreen component', () => {
       })
 
       it('does not add the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.render().props.children[0].props.containerClasses).not.toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).not.toContain(
           'scrollContainerMessagesContentDesktopClass'
         )
       })
 
       it('adds mobile container classes to scrollContainer', () => {
-        expect(component.render().props.children[0].props.containerClasses).toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
           'scrollContainerMobileClasses'
         )
       })
 
       it('adds scrollContainerMessagesContent class to it', () => {
-        expect(component.render().props.children[0].props.containerClasses).toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
           'scrollContainerMessagesContentClass'
         )
       })
@@ -893,7 +903,7 @@ describe('ChattingScreen component', () => {
       })
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.render().props.children[0].props.containerClasses).toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
           'scrollBarFix'
         )
       })
@@ -906,7 +916,7 @@ describe('ChattingScreen component', () => {
       })
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.render().props.children[0].props.containerClasses).toContain(
+        expect(getScrollContainer(component.render()).props.containerClasses).toContain(
           'scrollBarFix'
         )
       })
@@ -1467,8 +1477,7 @@ describe('ChattingScreen component', () => {
 
     beforeEach(() => {
       const component = instanceRender(<ChattingScreen showContactDetails={spyFn} />)
-      const result = component.render()
-      const scrollContainer = result.props.children[0]
+      const scrollContainer = getScrollContainer(component.render())
 
       chatLog = scrollContainer.props.children[0].props.children[1]
     })

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import createStore from 'src/redux/createStore'
 
-import Footer from '../index'
+import HelpCenterFooter from '../index'
 
 const renderComponent = props => {
   const mergedProps = {
@@ -17,7 +17,7 @@ const renderComponent = props => {
 
   return render(
     <Provider store={createStore()}>
-      <Footer {...mergedProps} />
+      <HelpCenterFooter {...mergedProps} />
     </Provider>
   )
 }

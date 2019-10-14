@@ -1,6 +1,7 @@
 import { store } from 'service/persistence'
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth'
 import { createSelector } from 'reselect'
+import { win } from 'utility/globals'
 import _ from 'lodash'
 
 export const getHiddenByHideAPI = state => state.base.hidden.hideApi
@@ -102,6 +103,7 @@ export const getZChatConfig = createSelector(
     /* eslint-disable camelcase */
     return {
       account_key: zopimId,
+      activity_window: win,
       ...(overrideProxy && { override_proxy: overrideProxy })
     }
     /* eslint-enable camelcase */

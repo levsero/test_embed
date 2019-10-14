@@ -1,0 +1,22 @@
+import React from 'react'
+import { Widget } from 'components/Widget'
+import { render } from '@testing-library/react'
+
+const renderWidgetContainer = inProps => {
+  const defaultProps = {}
+
+  const props = {
+    ...defaultProps,
+    ...inProps
+  }
+
+  return render(<Widget {...props}>web widget content</Widget>)
+}
+
+describe('Widget', () => {
+  it('matches snapshot', () => {
+    const { container } = renderWidgetContainer()
+
+    expect(container).toMatchSnapshot()
+  })
+})

@@ -2,6 +2,8 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import { Component as ChatHistoryScreen } from '../'
 import snapshotDiff from 'snapshot-diff'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 
 jest.mock('component/chat/chatting/HistoryLog')
 
@@ -26,7 +28,11 @@ const renderChatHistoryScreen = (customProps = {}) => {
     ...customProps
   }
 
-  return render(<ChatHistoryScreen {...props} />)
+  return render(
+    <Provider store={createStore()}>
+      <ChatHistoryScreen {...props} />
+    </Provider>
+  )
 }
 
 describe('ChatHistoryScreen', () => {

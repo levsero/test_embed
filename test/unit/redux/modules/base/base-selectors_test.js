@@ -22,6 +22,9 @@ describe('base selectors', () => {
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage
+      },
+      'utility/globals': {
+        win: {}
       }
     })
 
@@ -57,7 +60,8 @@ describe('base selectors', () => {
         /* eslint-disable camelcase */
         expect(result).toEqual({
           account_key: 'id',
-          override_proxy: 'someProxy'
+          override_proxy: 'someProxy',
+          activity_window: {}
         })
         /* eslint-enable camelcase */
       })
@@ -83,7 +87,8 @@ describe('base selectors', () => {
       it('returns the chat config', () => {
         /* eslint-disable camelcase */
         expect(result).toEqual({
-          account_key: 'id'
+          account_key: 'id',
+          activity_window: {}
         })
         /* eslint-enable camelcase */
       })

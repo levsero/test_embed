@@ -4,7 +4,6 @@ import AvatarStyles from 'component/Avatar.scss'
 import IconStyles from 'component/Icon.scss'
 import ButtonNavStyles from 'component/button/ButtonNav.scss'
 import ZendeskLogoStyles from 'component/ZendeskLogo.scss'
-import NavigationStyles from 'component/frame/Navigation.scss'
 
 export const sharedStyles = `
   ${LoadingSpinnerStyles}
@@ -13,5 +12,4 @@ export const sharedStyles = `
   ${ButtonNavStyles}
   ${ZendeskLogoStyles}
   ${IconStyles}
-  ${NavigationStyles}
 `

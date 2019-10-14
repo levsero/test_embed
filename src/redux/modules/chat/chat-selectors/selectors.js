@@ -61,6 +61,7 @@ export const getAccountDefaultDepartmentId = state => chatState(state).defaultDe
 export const getDepartmentsList = state => _.values(getDepartments(state))
 export const getIsLoggingOut = state => chatState(state).isLoggingOut
 export const getChatLog = state => state.chat.chatLog.groups
+export const getSelectedDepartment = state => state.chat.formState.preChatForm.department
 export const getFirstMessageTimestamp = state => {
   const first = getChats(state)
     .values()

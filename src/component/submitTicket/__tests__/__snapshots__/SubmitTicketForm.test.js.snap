@@ -11,16 +11,36 @@ exports[`form ticket forms validation renders the error messages 1`] = `
       data-testid="scroll-container"
       style="height: 550px;"
     >
-      <header
-        class="header userHeader"
-        data-testid="scroll-container-header"
+      <div
+        class="sc-bwzfXH jaHvNe"
       >
-        <h1
-          class="title"
+        <div
+          class="sc-bxivhb sc-ifAKCX kPfswV"
         >
-          message
-        </h1>
-      </header>
+          <h1
+            class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
+          >
+            message
+          </h1>
+          <button
+            aria-label="Minimize"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-id="buttons.icon_button"
+            data-garden-version="6.4.4"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="index__c-btn__icon___3V0Rl"
+              data-garden-id="buttons.icon"
+              data-garden-version="6.4.4"
+              data-testid="Icon--dash"
+              realfilename="dash-fill.svg"
+            />
+          </button>
+        </div>
+      </div>
       <div
         class="content container ticketFormContainer"
         data-testid="scroll-container-content"
@@ -396,7 +416,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="sc-bdVaJa chbGzG"
+                class="sc-bZQynM eUepGy"
               >
                 <div
                   aria-expanded="false"
@@ -570,16 +590,36 @@ exports[`renders the expected components 1`] = `
       data-testid="scroll-container"
       style="height: 550px;"
     >
-      <header
-        class="header userHeader"
-        data-testid="scroll-container-header"
+      <div
+        class="sc-bwzfXH jaHvNe"
       >
-        <h1
-          class="title"
+        <div
+          class="sc-bxivhb sc-ifAKCX kPfswV"
         >
-          message
-        </h1>
-      </header>
+          <h1
+            class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
+          >
+            message
+          </h1>
+          <button
+            aria-label="Minimize"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-id="buttons.icon_button"
+            data-garden-version="6.4.4"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="index__c-btn__icon___3V0Rl"
+              data-garden-id="buttons.icon"
+              data-garden-version="6.4.4"
+              data-testid="Icon--dash"
+              realfilename="dash-fill.svg"
+            />
+          </button>
+        </div>
+      </div>
       <div
         class="content container ticketFormContainer"
         data-testid="scroll-container-content"
@@ -689,16 +729,36 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
       data-testid="scroll-container"
       style="height: 550px;"
     >
-      <header
-        class="header userHeader"
-        data-testid="scroll-container-header"
+      <div
+        class="sc-bwzfXH jaHvNe"
       >
-        <h1
-          class="title"
+        <div
+          class="sc-bxivhb sc-ifAKCX kPfswV"
         >
-          message
-        </h1>
-      </header>
+          <h1
+            class="sc-htpNat jTlEqc"
+            data-testid="widget-title"
+          >
+            message
+          </h1>
+          <button
+            aria-label="Minimize"
+            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-id="buttons.icon_button"
+            data-garden-version="6.4.4"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="index__c-btn__icon___3V0Rl"
+              data-garden-id="buttons.icon"
+              data-garden-version="6.4.4"
+              data-testid="Icon--dash"
+              realfilename="dash-fill.svg"
+            />
+          </button>
+        </div>
+      </div>
       <div
         class="content container ticketFormContainer"
         data-testid="scroll-container-content"
@@ -1090,7 +1150,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               style="opacity: 1; bottom: 10px;"
             >
               <div
-                class="sc-bdVaJa chbGzG"
+                class="sc-bZQynM eUepGy"
               >
                 <div
                   aria-expanded="false"

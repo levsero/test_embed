@@ -5,6 +5,8 @@ import React from 'react'
 import { http } from 'service/transport'
 
 import { Component as ArticleScreen } from '../index'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 
 http.init({
   zendeskHost: 'a.zendesk.com'
@@ -36,7 +38,11 @@ const renderComponent = (props = {}) => {
 
   const componentProps = _.merge({}, defaultProps, props)
 
-  return render(<ArticleScreen {...componentProps} />)
+  return render(
+    <Provider store={createStore()}>
+      <ArticleScreen {...componentProps} />
+    </Provider>
+  )
 }
 
 test('renders the expected classes', () => {

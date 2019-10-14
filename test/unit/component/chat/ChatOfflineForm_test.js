@@ -119,9 +119,11 @@ describe('ChatOfflineForm component', () => {
         Icon: noop
       },
       'src/embeds/chat/components/Footer/index': {},
-      'src/components/WidgetContainer': 'form',
-      'src/components/WidgetMain': {},
-      'src/components/WidgetHeader': {}
+      'src/components/Widget': {
+        Widget: 'form',
+        Header: noopReactComponent(),
+        Main: noopReactComponent()
+      }
     })
 
     mockery.registerAllowable(ChatOfflineFormPath)

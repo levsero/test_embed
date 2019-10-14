@@ -33,9 +33,9 @@ describe('EmbedWrapper', () => {
           }
         }
       },
-      'src/components/WidgetThemeProvider': ({ children }) => (
-        <React.Fragment>{children}</React.Fragment>
-      ),
+      'src/components/Widget': {
+        WidgetThemeProvider: ({ children }) => <React.Fragment>{children}</React.Fragment>
+      },
       'component/frame/Navigation': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop

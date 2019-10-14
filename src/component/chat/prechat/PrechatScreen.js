@@ -8,9 +8,7 @@ import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
-import WidgetContainer from 'src/components/WidgetContainer'
-import WidgetMain from 'src/components/WidgetMain'
-import WidgetHeader from 'src/components/WidgetHeader'
+import { Widget, Header, Main } from 'src/components/Widget'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   sendMsg,
@@ -175,15 +173,15 @@ class PrechatScreen extends Component {
 
   renderChatOfflineForm() {
     return (
-      <WidgetContainer>
-        <WidgetHeader>{this.props.title}</WidgetHeader>
-        <WidgetMain>
+      <Widget>
+        <Header title={this.props.title} />
+        <Main>
           <ChatOfflineMessageForm
             offlineMessage={this.props.offlineMessage}
             onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
           />
-        </WidgetMain>
-      </WidgetContainer>
+        </Main>
+      </Widget>
     )
   }
 

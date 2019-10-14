@@ -15,13 +15,13 @@ const SubmitButton = styled(Button).attrs({
   padding-left: ${10 / FONT_SIZE}rem !important;
 `
 
-const Footer = styled.div`
+const FooterView = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: ${props => (props.hideZendeskLogo ? 'flex-end' : 'space-between')};
   margin-top: ${15 / FONT_SIZE}rem;
 `
-Footer.propTypes = {
+FooterView.propTypes = {
   hideZendeskLogo: PropTypes.bool
 }
 
@@ -43,4 +43,4 @@ const FormDivider = styled.div`
   border: ${0.5 / FONT_SIZE}rem solid ${zdColorGrey200};
 `
 
-export { SubmitButton, Footer, StyledForm as Form, Header, FormDivider }
+export { SubmitButton, FooterView, StyledForm as Form, Header, FormDivider }

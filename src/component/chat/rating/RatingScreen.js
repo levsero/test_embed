@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
-
 import { FeedbackForm } from 'component/chat/rating/FeedbackForm'
 import { ChatHeader } from 'component/chat/ChatHeader'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { ZendeskLogo } from 'component/ZendeskLogo'
 import { i18n } from 'service/i18n'
 import { updateChatScreen, sendChatRating, endChat, sendChatComment } from 'src/redux/modules/chat'
@@ -16,6 +13,8 @@ import {
   getChatRating
 } from 'src/redux/modules/chat/chat-selectors'
 import { getCurrentConcierges, getChatTitle, getHideZendeskLogo } from 'src/redux/modules/selectors'
+import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
+import { Widget, Main, Footer } from 'components/Widget'
 import { locals as styles } from './RatingScreen.scss'
 
 const mapStateToProps = state => {
@@ -31,7 +30,6 @@ const mapStateToProps = state => {
 
 class RatingScreen extends Component {
   static propTypes = {
-    isMobile: PropTypes.bool,
     concierges: PropTypes.array.isRequired,
     hideZendeskLogo: PropTypes.bool.isRequired,
     endChatFromFeedbackForm: PropTypes.bool,
@@ -42,9 +40,7 @@ class RatingScreen extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     endChat: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
-    sendChatRating: PropTypes.func.isRequired,
-    fullscreen: PropTypes.bool,
-    title: PropTypes.string.isRequired
+    sendChatRating: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -54,12 +50,6 @@ class RatingScreen extends Component {
     sendChatRating: () => {},
     postChatFormSettings: {},
     onRatingButtonClick: () => {}
-  }
-
-  renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ? (
-      <ZendeskLogo className={`${styles.zendeskLogo}`} fullscreen={false} />
-    ) : null
   }
 
   skipClick = () => {
@@ -90,25 +80,16 @@ class RatingScreen extends Component {
   }
 
   render = () => {
-    const { isMobile, fullscreen } = this.props
     const { message } = this.props.postChatFormSettings
-    const logoFooterClasses = classNames({
-      [styles.logoFooter]: !this.props.hideZendeskLogo
-    })
     const cancelButtonTextKey = this.props.isChatting
       ? 'embeddable_framework.common.button.cancel'
       : 'embeddable_framework.chat.postChat.rating.button.skip'
 
     return (
-      <div>
-        <ScrollContainer
-          headerContent={this.renderChatHeader()}
-          title={this.props.title}
-          containerClasses={styles.scrollContainerContent}
-          footerClasses={logoFooterClasses}
-          fullscreen={fullscreen}
-          isMobile={isMobile}
-        >
+      <Widget>
+        <ChatWidgetHeader />
+        {this.renderChatHeader()}
+        <Main>
           <FeedbackForm
             feedbackMessage={message}
             rating={this.props.rating}
@@ -116,9 +97,13 @@ class RatingScreen extends Component {
             sendClickFn={this.sendClick}
             cancelButtonText={i18n.t(cancelButtonTextKey)}
           />
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </div>
+        </Main>
+        <Footer>
+          {!this.props.hideZendeskLogo && (
+            <ZendeskLogo className={`${styles.zendeskLogo}`} fullscreen={false} />
+          )}
+        </Footer>
+      </Widget>
     )
   }
 }
