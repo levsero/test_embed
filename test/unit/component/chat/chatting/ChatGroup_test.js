@@ -588,6 +588,50 @@ describe('ChatGroup component', () => {
       })
     })
 
+    describe('when message contain quick replies', () => {
+      beforeAll(() => {
+        isAgent = true
+        showAvatar = false
+        messages = [
+          {
+            type: 'chat.msg',
+            nick: 'agent',
+            display_name: 'Agent 123',
+            msg: 'Fallback message',
+            options: ['fallback_opt_1', 'fallback_opt_2'],
+            structured_msg: {
+              type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
+              msg: "Quick replies' message",
+              quick_replies: [{}, {}]
+            }
+          }
+        ]
+      })
+
+      it('call renderPrintedMessage once', () => {
+        expect(component.renderPrintedMessage.calls.count()).toEqual(1)
+      })
+
+      it('call renderPrintedMessage with expected args', () => {
+        expect(component.renderPrintedMessage).toHaveBeenCalledWith(
+          {
+            type: 'chat.msg',
+            nick: 'agent',
+            display_name: 'Agent 123',
+            msg: "Quick replies' message",
+            options: [],
+            structured_msg: {
+              type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
+              msg: "Quick replies' message",
+              quick_replies: [{}, {}]
+            }
+          },
+          true,
+          false
+        )
+      })
+    })
+
     describe('when messages contain a chat.file type', () => {
       beforeAll(() => {
         isAgent = false

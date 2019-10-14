@@ -512,13 +512,7 @@ describe('chat reducer chats', () => {
           })
 
           it('adds the message to the chats collection', () => {
-            const expectedMsg = {
-              ...detail,
-              msg: detail.structured_msg.msg, // discard fallback
-              options: [] // discard fallback
-            }
-
-            expect(state.get(detail.timestamp)).toEqual(jasmine.objectContaining(expectedMsg))
+            expect(state.get(detail.timestamp)).toEqual(jasmine.objectContaining(detail))
           })
 
           it('adds a quick reply item to the chats collection', () => {

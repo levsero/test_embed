@@ -105,6 +105,19 @@ export default class ChatGroup extends Component {
           })
 
           message = this.renderCarousel(chat.structured_msg.items)
+        } else if (
+          chat.structured_msg &&
+          chat.structured_msg.type === CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
+        ) {
+          // For quick replies, render the message in `structured_msg` property instead of
+          // the fallback message and options (`msg` and `options` of the `chat` object)
+          const newChat = {
+            ...chat,
+            msg: chat.structured_msg.msg,
+            options: []
+          }
+
+          message = this.renderPrintedMessage(newChat, isAgent, showAvatar)
         } else {
           message = this.renderPrintedMessage(chat, isAgent, showAvatar)
         }
