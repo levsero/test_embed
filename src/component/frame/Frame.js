@@ -360,7 +360,8 @@ class Frame extends Component {
       zIndex: this.props.zIndex,
       transform: 'translateZ(0)',
       position: 'fixed',
-      transition: `all ${transitionDuration}ms cubic-bezier(0.645, 0.045, 0.355, 1)`,
+      transitionDuration: `${transitionDuration}ms`,
+      transitionTimingFunction: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
       transitionProperty: 'opacity, top, bottom',
       opacity: 0
     }
