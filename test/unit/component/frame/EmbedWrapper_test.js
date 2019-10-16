@@ -37,6 +37,7 @@ describe('EmbedWrapper', () => {
         WidgetThemeProvider: ({ children }) => <React.Fragment>{children}</React.Fragment>
       },
       'component/frame/Navigation': noopReactComponent(),
+      'components/FrameFocusJail': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop
       },
@@ -62,16 +63,14 @@ describe('EmbedWrapper', () => {
   })
 
   describe('render', () => {
-    let instance, styleBlock, rootElem, handleEscapeKeyPressedSpy
+    let instance, styleBlock, rootElem
 
     beforeEach(() => {
-      handleEscapeKeyPressedSpy = jasmine.createSpy()
       instance = domRender(
         <EmbedWrapper
           popoutButtonVisible={() => {}}
           reduxStore={{ getState: () => undefined, subscribe: () => undefined }}
           baseCSS=".base-css-file {}"
-          handleEscapeKeyPressed={handleEscapeKeyPressedSpy}
         >
           <MockChildComponent />
         </EmbedWrapper>
@@ -91,89 +90,6 @@ describe('EmbedWrapper', () => {
 
     it('adds a rootComponent ref to that child', () => {
       expect(instance.refs.rootComponent).toBeDefined()
-    })
-
-    describe('on keypress', () => {
-      let target, targetId, keypressId
-
-      beforeEach(() => {
-        target = {
-          ownerDocument: {
-            defaultView: {
-              frameElement: {
-                id: targetId
-              }
-            }
-          }
-        }
-
-        TestUtils.Simulate.keyDown(rootElem, {
-          key: 'Escape',
-          keyCode: keypressId,
-          which: keypressId,
-          target
-        })
-      })
-
-      describe('when ESC is pressed', () => {
-        beforeAll(() => {
-          keypressId = 27
-        })
-
-        describe('when webWidget is focused', () => {
-          beforeAll(() => {
-            targetId = 'webWidget'
-          })
-
-          it('calls handleOnCloseFocusChange', () => {
-            expect(focusSpy).toHaveBeenCalled()
-          })
-
-          it('calls handleEscapeKeyPressed', () => {
-            expect(handleEscapeKeyPressedSpy).toHaveBeenCalled()
-          })
-        })
-
-        describe('when launcher is focused', () => {
-          beforeAll(() => {
-            targetId = 'launcher'
-          })
-
-          it('does not call handleOnCloseFocusChange', () => {
-            expect(focusSpy).not.toHaveBeenCalled()
-          })
-
-          it('does not call handleEscapeKeyPressed', () => {
-            expect(handleEscapeKeyPressedSpy).not.toHaveBeenCalled()
-          })
-        })
-      })
-
-      describe('when TAB is pressed', () => {
-        beforeAll(() => {
-          keypressId = 9
-        })
-
-        describe('when webWidget is focused', () => {
-          beforeAll(() => {
-            targetId = 'webWidget'
-          })
-
-          it('does not give document focus', () => {
-            expect(hostDocumentFocusSpy).not.toHaveBeenCalled()
-          })
-        })
-
-        describe('when launcher is focused', () => {
-          beforeAll(() => {
-            targetId = 'launcher'
-          })
-
-          it('gives the document focus', () => {
-            expect(hostDocumentFocusSpy).toHaveBeenCalled()
-          })
-        })
-      })
     })
   })
 })
