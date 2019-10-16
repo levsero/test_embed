@@ -94,36 +94,6 @@
   }
 }
 
-.Icon--popout {
-  display: inline-block;
-
-  svg {
-    stroke: none;
-    min-width: #{10 / $font-size}rem; /* 1 */
-    min-height: #{10 / $font-size}rem; /* 1 */
-    height: #{10 / $font-size}rem;
-    width: #{10 / $font-size}rem;
-  }
-}
-
-.Icon--back {
-  display: block;
-  margin-top: #{-2 / $font-size}rem;
-
-  &.is-mobile {
-    margin-top: 0;
-    padding-left: #{1 / $font-size}rem;
-  }
-
-  svg {
-    stroke: none;
-    min-width: #{14 / $font-size}rem; /* 1 */
-    min-height: #{14 / $font-size}rem; /* 1 */
-    height: #{14 / $font-size}rem;
-    width: #{14 / $font-size}rem;
-  }
-}
-
 .Icon--arrow-down {
   position: relative;
   top: #{1 / $font-size}rem;
@@ -305,15 +275,6 @@
 .Icon--remove {
   path {
     fill: $zd-color-grey-500;
-  }
-}
-
-.Icon--menu {
-  svg {
-    min-width: #{13 / $font-size}rem;
-    min-height: #{13 / $font-size}rem;
-    height: #{13 / $font-size}rem;
-    width: #{13 / $font-size}rem;
   }
 }
 

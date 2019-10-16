@@ -9,13 +9,10 @@ import classNames from 'classnames'
 
 const icons = {
   Icon: require('icons/widget-icon_help.svg'),
-  [ICONS.BACK]: require('icons/widget-icon_back.svg'),
-  [ICONS.POPOUT]: require('icons/widget-icon_popout.svg'),
   [ICONS.DASH]: require('icons/widget-icon_dash.svg'),
   [ICONS.ELLIPSIS]: require('icons/widget-icon_ellipsis.svg'),
   [ICONS.END_CHAT]: require('icons/widget-icon_endChat.svg'),
   [ICONS.ERROR_FILL]: require('@zendeskgarden/svg-icons/src/14/error-fill.svg'),
-  [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
   [ICONS.PAPERCLIP_SMALL]: require('@zendeskgarden/svg-icons/src/14/attachment.svg'),
   [ICONS.SEND_CHAT]: require('icons/widget-icon_sendChat.svg'),
   'Icon--agent-avatar': require('icons/widget-icon_avatar.svg'),
@@ -57,7 +54,6 @@ const icons = {
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
   [ICONS.CC_CHAT]: require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),
-  [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
   [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg')
 }
 
