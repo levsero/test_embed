@@ -13,6 +13,7 @@ import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selec
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { handlePopoutButtonClicked } from 'src/redux/modules/base'
 import { PopoutIcon } from './styles'
+import { TEST_IDS } from 'src/constants/shared'
 
 const ChatWidgetHeader = ({
   title,
@@ -42,7 +43,7 @@ const ChatWidgetHeader = ({
 
         {isPopoutButtonVisible && (
           <HeaderItem onClick={onPopoutClicked} aria-label="Popout">
-            <PopoutIcon />
+            <PopoutIcon data-testid={TEST_IDS.ICON_POPOUT} />
           </HeaderItem>
         )}
 
