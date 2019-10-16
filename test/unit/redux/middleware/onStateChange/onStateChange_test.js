@@ -609,26 +609,11 @@ describe('onStateChange middleware', () => {
       beforeEach(() => {
         broadcastSpy.calls.reset()
         dispatchSpy.calls.reset()
-        updateBackButtonVisibilitySpy.calls.reset()
-      })
-
-      afterEach(() => {
-        updateBackButtonVisibilitySpy.calls.reset()
       })
 
       describe('articleDisplayed goes from false to true', () => {
         beforeEach(() => {
           stateChangeFn(false, true, dispatchSpy)
-        })
-
-        describe('ipm widget', () => {
-          beforeAll(() => {
-            mockIPMWidget = true
-          })
-
-          it('hides back button', () => {
-            expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-          })
         })
 
         describe('main widget', () => {
@@ -653,26 +638,6 @@ describe('onStateChange middleware', () => {
 
             it('does not call mediator', () => {
               expect(broadcastSpy).not.toHaveBeenCalled()
-            })
-          })
-
-          describe('hc is not available', () => {
-            beforeAll(() => {
-              mockHelpCenterEmbed = false
-            })
-
-            it('hides the back button', () => {
-              expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-            })
-          })
-
-          describe('hc is available', () => {
-            beforeAll(() => {
-              mockHelpCenterEmbed = true
-            })
-
-            it('shows the back button', () => {
-              expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
             })
           })
         })

@@ -62,7 +62,7 @@
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
-      "maxSize": "425 KB"
+      "maxSize": "426 KB"
     },
     {
       "path": "dist/common_vendor.*.js",

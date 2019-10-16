@@ -1,8 +1,9 @@
-import { Component as ChattingScreen } from '../ChattingScreen'
 import { render } from '@testing-library/react'
 import React from 'react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
+
+import { ContextProvider } from 'src/util/testHelpers'
+import { Component as ChattingScreen } from '../ChattingScreen'
 
 const sendAttachmentsSpy = jest.fn(),
   showChatEndSpy = jest.fn(),
@@ -33,9 +34,11 @@ const renderComponent = (inProps, renderer) => {
   }
 
   const component = (
-    <Provider store={createStore()}>
-      <ChattingScreen {...props} />
-    </Provider>
+    <ContextProvider>
+      <ThemeProvider>
+        <ChattingScreen {...props} />
+      </ThemeProvider>
+    </ContextProvider>
   )
 
   if (renderer) {

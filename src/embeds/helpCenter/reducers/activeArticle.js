@@ -1,5 +1,5 @@
 import {
-  ARTICLE_CLICKED,
+  ARTICLE_VIEWED,
   ARTICLE_CLOSED,
   GET_ARTICLE_REQUEST_SUCCESS
 } from 'embeds/helpCenter/actions/action-types'
@@ -11,7 +11,7 @@ const activeArticle = (state = initialState, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case ARTICLE_CLICKED:
+    case ARTICLE_VIEWED:
     case GET_ARTICLE_REQUEST_SUCCESS:
       return payload
     case ARTICLE_CLOSED:

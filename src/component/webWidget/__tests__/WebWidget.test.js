@@ -1,11 +1,26 @@
 import React from 'react'
 import { render, wait } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { Component as WebWidget } from '../WebWidget'
 
-import createStore from 'src/redux/createStore'
+import { Component as WebWidget } from '../WebWidget'
+import { ContextProvider } from 'src/util/testHelpers'
 
 let originalError
+
+const renderComponent = updatedProps => {
+  const defaultProps = {
+    submitTicketAvailable: true,
+    activeEmbed: 'ticketSubmissionForm',
+    webWidgetReactRouterSupport: true
+  }
+
+  const props = { ...defaultProps, ...updatedProps }
+
+  return render(
+    <ContextProvider>
+      <WebWidget {...props} />
+    </ContextProvider>
+  )
+}
 
 beforeEach(() => {
   // Suppress console errors as we do not care about required props complaints
@@ -21,15 +36,7 @@ afterEach(() => {
 })
 
 it('show new support embed', async () => {
-  const { queryByText } = render(
-    <Provider store={createStore()}>
-      <WebWidget
-        submitTicketAvailable={true}
-        activeEmbed="ticketSubmissionForm"
-        webWidgetReactRouterSupport={true}
-      />
-    </Provider>
-  )
+  const { queryByText } = renderComponent()
 
   await wait(() => {
     expect(queryByText('I AM NEW SUPPORT')).toBeInTheDocument()
@@ -37,15 +44,7 @@ it('show new support embed', async () => {
 })
 
 it('show old support embed', () => {
-  const { queryByText } = render(
-    <Provider store={createStore()}>
-      <WebWidget
-        submitTicketAvailable={true}
-        activeEmbed="ticketSubmissionForm"
-        webWidgetReactRouterSupport={false}
-      />
-    </Provider>
-  )
+  const { queryByText } = renderComponent({ webWidgetReactRouterSupport: false })
 
   expect(queryByText('I AM NEW SUPPORT')).not.toBeInTheDocument()
   expect(queryByText('Leave us a message')).toBeInTheDocument()

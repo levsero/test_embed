@@ -3,10 +3,8 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { http } from 'service/transport'
-
 import { Component as ArticleScreen } from '../index'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { ContextProvider } from 'src/util/testHelpers'
 
 http.init({
   zendeskHost: 'a.zendesk.com'
@@ -39,9 +37,9 @@ const renderComponent = (props = {}) => {
   const componentProps = _.merge({}, defaultProps, props)
 
   return render(
-    <Provider store={createStore()}>
+    <ContextProvider>
       <ArticleScreen {...componentProps} />
-    </Provider>
+    </ContextProvider>
   )
 }
 

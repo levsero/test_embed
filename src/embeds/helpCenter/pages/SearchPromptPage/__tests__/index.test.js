@@ -1,12 +1,15 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 
 import createStore from 'src/redux/createStore'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import SearchPromptPage, { Component } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
 import 'jest-styled-components'
+import * as utility from 'utility/devices'
+
+import SearchPromptPage, { Component } from '../index'
 
 jest.mock('service/transport')
 
@@ -14,7 +17,9 @@ const renderInitialSearchPage = () => {
   const store = createStore()
   const utils = render(
     <Provider store={store}>
-      <SearchPromptPage />
+      <MemoryRouter>
+        <SearchPromptPage />
+      </MemoryRouter>
     </Provider>
   )
 
@@ -29,49 +34,81 @@ const renderComponent = props => {
   const componentProps = {
     title: 'title',
     hideZendeskLogo: false,
+    hasSearched: false,
+    isMobile: false,
     ...props
   }
   return render(
     <Provider store={store}>
-      <Component {...componentProps} />
+      <MemoryRouter>
+        <Component {...componentProps} />
+      </MemoryRouter>
     </Provider>
   )
 }
 
-it('renders the full page', () => {
-  const { container } = renderInitialSearchPage()
+const mockHeader = 'Search our Help Centre'
+const placeHolder = 'How can we help?'
 
-  expect(container.firstChild).toMatchSnapshot()
-})
+describe('SearchPromptPage', () => {
+  it('focuses on search field on load', () => {
+    const { getByPlaceholderText } = renderInitialSearchPage()
+    expect(document.activeElement).toEqual(getByPlaceholderText(placeHolder))
+  })
 
-it('focuses on search field on load', () => {
-  const { getByPlaceholderText } = renderInitialSearchPage()
-  expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
-})
+  it('searches when text provided', () => {
+    const { inputNode, formNode, store } = renderInitialSearchPage()
 
-it('searches when text provided', () => {
-  const { inputNode, formNode, store } = renderInitialSearchPage()
+    expect(getSearchLoading(store.getState())).toEqual(false)
+    fireEvent.change(inputNode, { target: { value: 'help me!' } })
+    fireEvent.submit(formNode)
+    expect(getSearchLoading(store.getState())).toEqual(true)
+  })
 
-  expect(getSearchLoading(store.getState())).toEqual(false)
-  fireEvent.change(inputNode, { target: { value: 'help me!' } })
-  fireEvent.submit(formNode)
-  expect(getSearchLoading(store.getState())).toEqual(true)
-})
+  it('hides the footer when requested', () => {
+    const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
-it('hides the footer when requested', () => {
-  const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
+    expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
+  })
 
-  expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
-})
+  describe('when a search has been previously performed', () => {
+    it('redirects and does not render the SearchPromptPage', () => {
+      const { queryByText } = renderComponent({ hasSearched: true })
 
-it('renders the header when in mobile', () => {
-  const { queryByText } = renderComponent({ header: 'this is my header', isMobile: true })
+      expect(queryByText(placeHolder)).not.toBeInTheDocument()
+    })
+  })
 
-  expect(queryByText('this is my header')).toBeInTheDocument()
-})
+  describe('when no search has been previously performed', () => {
+    describe('on desktop', () => {
+      beforeEach(() => {
+        jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(false)
+      })
 
-it('does not render the header when in desktop', () => {
-  const { queryByText } = renderComponent({ header: 'this is my header', isMobile: false })
+      it('renders a halfling search prompt with no header', () => {
+        const { getByPlaceholderText, queryByText } = renderComponent({
+          header: mockHeader
+        })
 
-  expect(queryByText('this is my header')).not.toBeInTheDocument()
+        expect(getByPlaceholderText(placeHolder)).toBeInTheDocument()
+        expect(queryByText(mockHeader)).not.toBeInTheDocument()
+      })
+    })
+
+    describe('on mobile', () => {
+      beforeEach(() => {
+        jest.spyOn(utility, 'isMobileBrowser').mockReturnValue(true)
+      })
+
+      it('renders a full screen search prompt with a header', () => {
+        const { getByText, getByPlaceholderText } = renderComponent({
+          header: mockHeader,
+          isMobile: true
+        })
+
+        expect(getByText(mockHeader)).toBeInTheDocument()
+        expect(getByPlaceholderText(placeHolder)).toBeInTheDocument()
+      })
+    })
+  })
 })
