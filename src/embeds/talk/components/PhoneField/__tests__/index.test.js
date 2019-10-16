@@ -15,11 +15,9 @@ describe('PhoneField', () => {
     label: 'Phone field label',
     supportedCountries: ['AU', 'US'],
     libphonenumber: {
-      AsYouType: jest.fn().mockImplementation(() => ({ input: asYouTypeInput })),
-      isValidNumber: jest.fn()
+      AsYouType: jest.fn().mockImplementation(() => ({ input: asYouTypeInput }))
     },
     value: '+61412345678',
-    errorMessage: 'Field is invalid',
     showError: false
   }
 
@@ -87,44 +85,6 @@ describe('PhoneField', () => {
       const expectedCountryCode = countriesByIso.BB.code.replace('-', ' ')
 
       expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(`+${expectedCountryCode}`)
-    })
-  })
-
-  describe('error message', () => {
-    describe('showError is false', () => {
-      it('does not render error message when field is valid', () => {
-        defaultProps.libphonenumber.isValidNumber.mockReturnValue(true)
-
-        const { queryByText } = renderComponent({ showError: false })
-
-        expect(queryByText(defaultProps.errorMessage)).not.toBeInTheDocument()
-      })
-
-      it('does not render error message when field is invalid', () => {
-        defaultProps.libphonenumber.isValidNumber.mockReturnValue(false)
-
-        const { queryByText } = renderComponent({ showError: false })
-
-        expect(queryByText(defaultProps.errorMessage)).not.toBeInTheDocument()
-      })
-    })
-
-    describe('showError is true', () => {
-      it('does not render error message when field is valid', () => {
-        defaultProps.libphonenumber.isValidNumber.mockReturnValue(true)
-
-        const { queryByText } = renderComponent({ showError: true })
-
-        expect(queryByText(defaultProps.errorMessage)).not.toBeInTheDocument()
-      })
-
-      it('renders error message when field is invalid', () => {
-        defaultProps.libphonenumber.isValidNumber.mockReturnValue(false)
-
-        const { queryByText } = renderComponent({ showError: true })
-
-        expect(queryByText(defaultProps.errorMessage)).toBeInTheDocument()
-      })
     })
   })
 
