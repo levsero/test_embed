@@ -3,7 +3,6 @@ import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { http } from 'service/transport'
-
 import { Component as ArticleScreen } from '../index'
 import { render } from 'src/util/testHelpers'
 

@@ -3,7 +3,6 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { i18n } from 'service/i18n'
-
 import { SubmitTicketForm } from '../SubmitTicketForm'
 
 jest.useFakeTimers()

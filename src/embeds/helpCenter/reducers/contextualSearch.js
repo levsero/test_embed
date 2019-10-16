@@ -1,8 +1,7 @@
 import {
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_SENT,
-  CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-  SEARCH_REQUEST_SUCCESS
+  CONTEXTUAL_SEARCH_REQUEST_FAILURE
 } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
 
@@ -27,7 +26,6 @@ const contextualSearch = (state = initialState, action) => {
         screen: type
       }
     case API_CLEAR_HC_SEARCHES:
-    case SEARCH_REQUEST_SUCCESS:
       return initialState
     default:
       return state

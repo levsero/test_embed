@@ -16,6 +16,7 @@ let actions,
   mockExtractTokenId,
   mockPersistentStoreValue,
   mockHasContextuallySearched,
+  mockGetArticleDisplayed,
   mockActiveEmbed,
   mockIsTokenExpired,
   mockAfterWidgetShowAnimationQueue,
@@ -88,7 +89,8 @@ describe('base redux actions', () => {
         getWebWidgetVisible: () => mockWebWidgetVisible
       },
       'embeds/helpCenter/selectors': {
-        getHasContextuallySearched: () => mockHasContextuallySearched
+        getHasContextuallySearched: () => mockHasContextuallySearched,
+        getArticleDisplayed: () => mockGetArticleDisplayed
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormRequired: () => false
@@ -336,6 +338,18 @@ describe('base redux actions', () => {
 
       it('calls contextualSearch', () => {
         expect(contextualSearchSpy).toHaveBeenCalled()
+      })
+    })
+
+    describe('when ipm article is displayed', () => {
+      beforeEach(() => {
+        mockHasContextuallySearched = false
+        mockGetArticleDisplayed = true
+        mockStore.dispatch(actions.updateWidgetShown(true))
+      })
+
+      it('does not call contextualSearch', () => {
+        expect(contextualSearchSpy).not.toHaveBeenCalled()
       })
     })
 

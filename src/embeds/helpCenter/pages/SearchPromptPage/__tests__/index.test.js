@@ -2,15 +2,18 @@ import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import SearchPromptPage, { Component } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
 import 'jest-styled-components'
 
+import SearchPromptPage, { Component } from '../index'
+
 jest.mock('service/transport')
+
+const placeHolder = 'How can we help?'
 
 const renderInitialSearchPage = () => {
   const utils = render(<SearchPromptPage />)
-  const inputNode = utils.getByPlaceholderText('How can we help?')
+  const inputNode = utils.getByPlaceholderText(placeHolder)
   const formNode = utils.container.querySelector('form')
 
   return { ...utils, inputNode, formNode }
@@ -19,21 +22,16 @@ const renderInitialSearchPage = () => {
 const renderComponent = props => {
   const componentProps = {
     title: 'title',
+    hasSearched: false,
     ...props
   }
   return render(<Component {...componentProps} />)
 }
 
 describe('SearchPromptPage', () => {
-  it('renders the full page', () => {
-    const { container } = renderInitialSearchPage()
-
-    expect(container.firstChild).toMatchSnapshot()
-  })
-
   it('focuses on search field on load', () => {
-    const { getByPlaceholderText } = renderInitialSearchPage()
-    expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
+    const { inputNode } = renderInitialSearchPage()
+    expect(document.activeElement).toEqual(inputNode)
   })
 
   it('searches when text provided', () => {
@@ -49,5 +47,13 @@ describe('SearchPromptPage', () => {
     const { queryByTestId } = renderComponent()
 
     expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).toBeInTheDocument()
+  })
+
+  describe('when a search has been previously performed', () => {
+    it('redirects and does not render the SearchPromptPage', () => {
+      const { queryByText } = renderComponent({ hasSearched: true })
+
+      expect(queryByText(placeHolder)).not.toBeInTheDocument()
+    })
   })
 })

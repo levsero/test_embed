@@ -95,7 +95,7 @@ describe('WebWidget component', () => {
         proactiveChatNotificationDismissed: noop
       },
       'embeds/helpCenter/actions': {
-        resetActiveArticle: noop
+        closeCurrentArticle: noop
       },
       'src/redux/modules/base/base-selectors': {
         getZopimChatEmbed: noop
@@ -569,19 +569,19 @@ describe('WebWidget component', () => {
     let component,
       componentProps,
       updateBackButtonVisibilitySpy,
-      resetActiveArticleSpy,
+      closeCurrentArticleSpy,
       updateActiveEmbedSpy,
       clearFormSpy
 
     beforeEach(() => {
       updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
-      resetActiveArticleSpy = jasmine.createSpy('resetActiveArticle')
+      closeCurrentArticleSpy = jasmine.createSpy('closeCurrentArticleSpy')
       updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
       clearFormSpy = jasmine.createSpy('clearForm')
 
       _.assign(componentProps, {
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
-        resetActiveArticle: resetActiveArticleSpy,
+        closeCurrentArticle: closeCurrentArticleSpy,
         updateActiveEmbed: updateActiveEmbedSpy,
         clearForm: clearFormSpy
       })
@@ -665,48 +665,6 @@ describe('WebWidget component', () => {
 
       it('calls updateActiveEmbed with answerBot', () => {
         expect(updateActiveEmbedSpy).toHaveBeenCalledWith('answerBot')
-      })
-    })
-
-    describe('when the activeEmbed is helpCenter', () => {
-      beforeAll(() => {
-        componentProps = { activeEmbed: 'helpCenterForm' }
-      })
-
-      describe('when ipmHelpCenterAvailable is true', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { ipmHelpCenterAvailable: true })
-        })
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-        })
-
-        it('calls resetActiveArticleSpy', () => {
-          expect(resetActiveArticleSpy).toHaveBeenCalled()
-        })
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('channelChoice')
-        })
-      })
-
-      describe('when ipmHelpCenterAvailable is false', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { ipmHelpCenterAvailable: false })
-        })
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-        })
-
-        it('calls resetActiveArticleSpy', () => {
-          expect(resetActiveArticleSpy).toHaveBeenCalled()
-        })
-
-        it('does not call updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy).not.toHaveBeenCalledWith('channelChoice')
-        })
       })
     })
 
@@ -797,8 +755,8 @@ describe('WebWidget component', () => {
           componentProps = { ipmHelpCenterAvailable: true }
         })
 
-        it('calls resetActiveArticle', () => {
-          expect(resetActiveArticleSpy).toHaveBeenCalled()
+        it('calls closeCurrentArticle', () => {
+          expect(closeCurrentArticleSpy).toHaveBeenCalled()
         })
 
         it('calls updateActiveEmbed with channelChoice', () => {
@@ -815,8 +773,8 @@ describe('WebWidget component', () => {
           componentProps = { ipmHelpCenterAvailable: false }
         })
 
-        it('does not call resetActiveArticle', () => {
-          expect(resetActiveArticleSpy).not.toHaveBeenCalled()
+        it('does not call closeCurrentArticle', () => {
+          expect(closeCurrentArticleSpy).not.toHaveBeenCalled()
         })
 
         it('calls updateActiveEmbed with channelChoice', () => {

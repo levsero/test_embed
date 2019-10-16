@@ -36,7 +36,7 @@ testReducer(articles, [
   },
   {
     action: {
-      type: actionTypes.ARTICLE_CLICKED,
+      type: actionTypes.ARTICLE_VIEWED,
       payload: { id: 123, body: 'body' }
     },
     initialState: { current: 2, previous: 3 },

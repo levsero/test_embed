@@ -1,7 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'utility/testHelpers'
 import { Component as AgentScreen } from 'component/chat/agents/AgentScreen'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
@@ -12,11 +10,7 @@ describe('AgentScreen', () => {
   }
 
   const renderComponent = (props = {}) => {
-    return render(
-      <Provider store={createStore()}>
-        <AgentScreen {...defaultProps} {...props} />
-      </Provider>
-    )
+    return render(<AgentScreen {...defaultProps} {...props} />)
   }
 
   it('renders the agent screen title', () => {

@@ -14,7 +14,7 @@ testReducer(articleClicked, [
     expected: true
   },
   {
-    action: { type: actionTypes.ARTICLE_CLICKED },
+    action: { type: actionTypes.ARTICLE_VIEWED },
     expected: true
   },
   {

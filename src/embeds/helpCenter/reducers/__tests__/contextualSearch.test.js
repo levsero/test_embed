@@ -44,10 +44,5 @@ testReducer(contextualSearch, [
     action: { type: API_CLEAR_HC_SEARCHES },
     initialState: { hasSearched: true, screen: 'blh' },
     expected: initialState
-  },
-  {
-    action: { type: actionTypes.SEARCH_REQUEST_SUCCESS },
-    initialState: { hasSearched: true, screen: 'blh' },
-    expected: initialState
   }
 ])

@@ -39,8 +39,6 @@ import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors
 import {
   getActiveEmbed,
   getWidgetShown,
-  getIPMWidget,
-  getHelpCenterEmbed,
   getHasWidgetShown,
   getChatEmbed
 } from 'src/redux/modules/base/base-selectors'
@@ -198,11 +196,8 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
   const nextDisplay = getArticleDisplayed(nextState)
 
   if (!prevDisplay && nextDisplay) {
-    const ipmWidget = getIPMWidget(prevState)
-    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState)
     const widgetShown = getWidgetShown(prevState)
 
-    dispatch(updateBackButtonVisibility(isBackButtonVisible))
     if (!widgetShown) dispatch(activateReceived())
   }
 }

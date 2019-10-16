@@ -117,56 +117,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   align-items: flex-end;
 }
 
-.c11 {
-  display: inline-block;
-  position: relative;
-  -webkit-animation: drWeIq 750ms linear;
-  animation: drWeIq 750ms linear;
-  border-radius: 4px;
-  background-color: rgba(47,57,65,0.1);
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  line-height: 0.6;
-}
-
-.c11::before {
-  position: absolute;
-  top: 0;
-  left: -1800px;
-  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
-  width: 1000px;
-  height: 100%;
-  content: '';
-}
-
-.c12 {
-  display: inline-block;
-  position: relative;
-  -webkit-animation: drWeIq 750ms linear;
-  animation: drWeIq 750ms linear;
-  border-radius: 4px;
-  background-color: rgba(47,57,65,0.1);
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  line-height: 0.6;
-}
-
-.c12::before {
-  position: absolute;
-  top: 0;
-  left: -1800px;
-  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
-  width: 1000px;
-  height: 100%;
-  content: '';
-}
-
 .c9 {
   color: #c2c8cc !important;
   height: 1.2rem !important;
@@ -192,8 +142,35 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c10 {
-  height: 0.8571428571428571rem !important;
-  margin-bottom: 1.1428571428571428rem;
+  text-align: center !important;
+  color: #2f3941;
+  font-size: 1.0714285714285714rem;
+  height: 80%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c11 {
+  margin-bottom: 0 !important;
+  margin-top: 1.4285714285714286 !important;
+}
+
+.c12 {
+  color: #68737d;
+  margin-bottom: 1.4285714285714286 !important;
 }
 
 <div>
@@ -291,39 +268,18 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       data-testid="scroll-container-content"
     >
       <div
-        class="c10 c11"
-        data-garden-id="loaders.skeleton"
-        data-garden-version="7.0.0"
+        class="c10"
       >
-         
-      </div>
-      <div
-        class="c10 c12"
-        data-garden-id="loaders.skeleton"
-        data-garden-version="7.0.0"
-      >
-         
-      </div>
-      <div
-        class="c10 c12"
-        data-garden-id="loaders.skeleton"
-        data-garden-version="7.0.0"
-      >
-         
-      </div>
-      <div
-        class="c10 c12"
-        data-garden-id="loaders.skeleton"
-        data-garden-version="7.0.0"
-      >
-         
-      </div>
-      <div
-        class="c10 c12"
-        data-garden-id="loaders.skeleton"
-        data-garden-version="7.0.0"
-      >
-         
+        <p
+          class="c11"
+        >
+          There are no results for ""
+        </p>
+        <p
+          class="c12"
+        >
+          Try searching for something else.
+        </p>
       </div>
     </div>
     <footer
