@@ -19,7 +19,7 @@ testReducer(activeArticle, [
     expected: mockArticle
   },
   {
-    action: { type: actionTypes.ARTICLE_CLICKED, payload: mockArticle },
+    action: { type: actionTypes.ARTICLE_VIEWED, payload: mockArticle },
     expected: mockArticle
   },
   {

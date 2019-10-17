@@ -1,15 +1,13 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
-import { Provider } from 'react-redux'
 
 import createStore from 'src/redux/createStore'
 import { http } from 'service/transport'
-
+import { ContextProvider } from 'src/util/testHelpers'
 import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
-import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
-import { resetActiveArticle } from 'embeds/helpCenter/actions'
-
+import { setContextualSuggestionsManually, contextualSearch } from 'embeds/helpCenter/actions'
+import { TEST_IDS } from 'src/constants/shared'
 import HelpCenter from '../../index'
 
 const renderComponent = () => {
@@ -23,9 +21,9 @@ const renderComponent = () => {
   return {
     store,
     ...render(
-      <Provider store={store}>
+      <ContextProvider store={store}>
         <HelpCenter />
-      </Provider>
+      </ContextProvider>
     )
   }
 }
@@ -251,8 +249,10 @@ test('shows no result page when there are no results', () => {
 
 test('renders the expected messages for contextual search', () => {
   const { getByText, store, container, getByPlaceholderText } = renderComponent()
+
   setupNoResultsMock()
   store.dispatch(setContextualSuggestionsManually({ search: 'blah' }, noop))
+  store.dispatch(contextualSearch(noop))
 
   expect(getByText('Enter a term in the search bar above to find articles.')).toBeInTheDocument()
 
@@ -268,7 +268,7 @@ test('renders the expected messages for contextual search', () => {
 
 describe('desktop', () => {
   test('integration', () => {
-    const { store, container, getByPlaceholderText, queryByText } = renderComponent()
+    const { queryByTestId, container, getByPlaceholderText, queryByText } = renderComponent()
 
     const form = container.querySelector('form')
     const input = getByPlaceholderText('How can we help?')
@@ -287,7 +287,7 @@ describe('desktop', () => {
     expect(queryByText('this is the third article')).toBeInTheDocument()
 
     // Go back to search page
-    store.dispatch(resetActiveArticle())
+    fireEvent.click(queryByTestId(TEST_IDS.ICON_BACK))
 
     // focus is set on the previously clicked article
     expect(document.activeElement).toEqual(
@@ -309,12 +309,12 @@ describe('mobile', () => {
     const input = getByPlaceholderText('How can we help?')
     fireEvent.change(input, { target: { value: 'Help me' } })
     expect(input.value).toEqual('Help me')
-    fireEvent.click(getByTestId('Icon--clearInput'))
+    fireEvent.click(getByTestId(TEST_IDS.ICON_CLEAR_INPUT))
     expect(input.value).toEqual('')
   })
 
   test('integration', () => {
-    const { store, container, queryByText, getByPlaceholderText } = renderComponent()
+    const { queryByTestId, container, queryByText, getByPlaceholderText } = renderComponent()
 
     expect(queryByText('Search our Help Center')).toBeInTheDocument()
 
@@ -334,7 +334,7 @@ describe('mobile', () => {
     expect(queryByText('this is the second article')).toBeInTheDocument()
 
     // Go back to search page
-    store.dispatch(resetActiveArticle())
+    fireEvent.click(queryByTestId(TEST_IDS.ICON_BACK))
 
     // focus is set on the previously clicked article
     expect(document.activeElement).toEqual(

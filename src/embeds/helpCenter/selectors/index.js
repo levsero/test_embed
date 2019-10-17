@@ -17,6 +17,7 @@ export const getPreviousActiveArticle = state => state.helpCenter.clickedArticle
 export const getSearchLoading = state => state.helpCenter.searchLoading
 export const getArticleClicked = state => state.helpCenter.articleClicked
 export const getSearchFailed = state => state.helpCenter.searchFailed
+export const getSearchAttempted = state => state.helpCenter.searchAttempted
 export const getSearchTerm = state => state.helpCenter.searchTerm.current
 export const getPreviousSearchTerm = state => state.helpCenter.searchTerm.previous
 export const getTotalUserSearches = state => state.helpCenter.totalUserSearches
@@ -53,10 +54,8 @@ export const getIsContextualSearchComplete = state => {
 }
 
 export const getHasSearched = createSelector(
-  [getHasContextuallySearched, getTotalUserSearches],
-  (hasContextuallySearched, numOfUserSearches) => {
-    return hasContextuallySearched || numOfUserSearches > 0
-  }
+  [getHasContextuallySearched, getSearchAttempted],
+  (hasContextuallySearched, searchAttempted) => hasContextuallySearched || searchAttempted
 )
 
 const getContextualHelpRequestedViaConfig = createSelector(

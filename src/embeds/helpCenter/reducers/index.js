@@ -15,6 +15,7 @@ import articleDisplayed from './articleDisplayed'
 import contextualSearch from './contextualSearch'
 import lastSearchTimestamp from './lastSearchTimestamp'
 import manualContextualSuggestions from './manualContextualSuggestions'
+import searchAttempted from './searchAttempted'
 import config from './config'
 import clickedArticles from './clickedArticles'
 
@@ -30,6 +31,7 @@ export default combineReducers({
   restrictedImages,
   resultsCount,
   resultsLocale,
+  searchAttempted,
   searchFailed,
   searchFieldValue,
   searchLoading,

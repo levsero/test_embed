@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { Provider } from 'react-redux'
+
 import { Component as TicketFormsPage } from '../index'
-import createStore from 'src/redux/createStore'
+import { ContextProvider } from 'src/util/testHelpers'
 
 const renderComponent = ({
   handleFormOptionClick = () => {},
@@ -11,14 +11,14 @@ const renderComponent = ({
   ticketForms = []
 }) => {
   return render(
-    <Provider store={createStore()}>
+    <ContextProvider>
       <TicketFormsPage
         handleFormOptionClick={handleFormOptionClick}
         formTitle={formTitle}
         selectTicketFormLabel={selectTicketFormLabel}
         ticketForms={ticketForms}
       />
-    </Provider>
+    </ContextProvider>
   )
 }
 

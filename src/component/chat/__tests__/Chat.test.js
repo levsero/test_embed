@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 
+import { ContextProvider } from 'src/util/testHelpers'
 import reducer from 'src/redux/modules/reducer'
 import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
@@ -25,9 +26,11 @@ const renderChat = (fullscreen = false) => {
   const store = createStore(reducer)
 
   return render(
-    <Provider store={store}>
-      <Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />
-    </Provider>
+    <ContextProvider store={store}>
+      <ThemeProvider>
+        <Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />
+      </ThemeProvider>
+    </ContextProvider>
   )
 }
 

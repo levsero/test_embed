@@ -2,12 +2,10 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
+import { ContextProvider } from 'src/util/testHelpers'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { i18n } from 'service/i18n'
-
 import { SubmitTicketForm } from '../SubmitTicketForm'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 
 jest.useFakeTimers()
 
@@ -22,9 +20,9 @@ const renderSubmitTicketForm = (props, renderer) => {
   const mergedProps = { ...defaultProps, ...props }
   const component = (
     <ThemeProvider theme={{}}>
-      <Provider store={createStore()}>
+      <ContextProvider>
         <SubmitTicketForm {...mergedProps} />
-      </Provider>
+      </ContextProvider>
     </ThemeProvider>
   )
   IdManager.setIdCounter(0)

@@ -5,7 +5,7 @@ import {
   LAUNCHER_CLICKED
 } from 'src/redux/modules/base/base-action-types'
 import {
-  ARTICLE_CLICKED,
+  ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE
@@ -267,7 +267,7 @@ export function sendBlips({ getState }) {
         }
         sendChannelChoiceBlip(prevState, payload)
         break
-      case ARTICLE_CLICKED:
+      case ARTICLE_VIEWED:
         sendArticleClickedBlip(prevState, payload)
         break
       case SEARCH_REQUEST_SUCCESS:

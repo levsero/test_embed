@@ -26,7 +26,7 @@ import {
   showStandaloneMobileNotification,
   closedChatHistory
 } from 'src/redux/modules/chat'
-import { resetActiveArticle } from 'embeds/helpCenter/actions'
+import { closeCurrentArticle } from 'embeds/helpCenter/actions'
 import {
   getChatAvailable,
   getChatOfflineAvailable,
@@ -131,7 +131,7 @@ class WebWidget extends Component {
       serviceUrl: PropTypes.string,
       nickname: PropTypes.string
     }),
-    resetActiveArticle: PropTypes.func.isRequired,
+    closeCurrentArticle: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
@@ -168,7 +168,7 @@ class WebWidget extends Component {
     talkOnline: false,
     onBackButtonClick: () => {},
     talkConfig: {},
-    resetActiveArticle: () => {},
+    closeCurrentArticle: () => {},
     articleViewActive: false,
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
@@ -217,7 +217,7 @@ class WebWidget extends Component {
       activeEmbed,
       updateBackButtonVisibility,
       updateActiveEmbed,
-      resetActiveArticle,
+      closeCurrentArticle,
       helpCenterAvailable,
       answerBotAvailable,
       updateAnswerBotScreen,
@@ -234,12 +234,6 @@ class WebWidget extends Component {
       updateAnswerBotScreen(CONVERSATION_SCREEN)
     } else if (isShowingChatHistory) {
       closedChatHistory()
-    } else if (activeEmbed === helpCenter) {
-      updateBackButtonVisibility(false)
-      resetActiveArticle()
-      if (ipmHelpCenterAvailable) {
-        updateActiveEmbed(channelChoice)
-      }
     } else if (showTicketFormsBackButton) {
       activeComponent.clearForm()
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable)
@@ -253,7 +247,7 @@ class WebWidget extends Component {
       this.showHelpCenter()
     } else {
       if (ipmHelpCenterAvailable) {
-        resetActiveArticle()
+        closeCurrentArticle()
       }
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(false)
@@ -473,7 +467,7 @@ class WebWidget extends Component {
 }
 
 const actionCreators = {
-  resetActiveArticle,
+  closeCurrentArticle,
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,

@@ -1,8 +1,8 @@
-import { Component as ChatOffline } from '../ChatOffline'
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+
+import { Component as ChatOffline } from '../ChatOffline'
+import { ContextProvider } from 'src/util/testHelpers'
 
 jest.mock('component/chat/ChatOfflineForm', () => {
   return {
@@ -44,9 +44,9 @@ const renderComponent = inProps => {
   }
 
   return render(
-    <Provider store={createStore()}>
+    <ContextProvider>
       <ChatOffline {...props} />
-    </Provider>
+    </ContextProvider>
   )
 }
 
