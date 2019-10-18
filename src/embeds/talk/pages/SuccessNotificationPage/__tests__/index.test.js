@@ -1,10 +1,8 @@
 jest.mock('utility/devices')
 
 import React from 'react'
-import { Provider } from 'react-redux'
-import { render } from '@testing-library/react'
+import { render } from 'src/util/testHelpers'
 
-import createStore from 'src/redux/createStore'
 import SuccessNotificationPage from '../'
 
 const defaultProps = {
@@ -12,11 +10,7 @@ const defaultProps = {
 }
 
 const renderComponent = (props = {}) => {
-  return render(
-    <Provider store={createStore()}>
-      <SuccessNotificationPage {...defaultProps} {...props} />
-    </Provider>
-  )
+  return render(<SuccessNotificationPage {...defaultProps} {...props} />)
 }
 
 describe('SuccessNotificationPage', () => {

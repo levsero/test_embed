@@ -1,8 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'src/util/testHelpers'
 import { http } from 'service/transport'
 import { screenChanged } from 'src/redux/modules/answerBot/root/actions'
 
@@ -106,12 +105,7 @@ const setupAnswerBotServerMocks = () => {
 }
 
 test('integration', () => {
-  const store = createStore()
-  const utils = render(
-    <Provider store={store}>
-      <AnswerBot />
-    </Provider>
-  )
+  const utils = render(<AnswerBot />)
   const textArea = utils.getByPlaceholderText('Type your question here...')
 
   setupAnswerBotServerMocks()
@@ -221,7 +215,7 @@ test('integration', () => {
   expect(utils.queryByText('Does this article answer your question?')).not.toBeInTheDocument()
 
   // Go back to conversation screen
-  store.dispatch(screenChanged(CONVERSATION_SCREEN))
+  utils.store.dispatch(screenChanged(CONVERSATION_SCREEN))
 
   // Click the second article
   fireEvent.click(utils.getByText('The second article'))
@@ -230,7 +224,7 @@ test('integration', () => {
   expect(utils.getByText('second article')).toBeInTheDocument()
 
   // Go back to conversation screen
-  store.dispatch(screenChanged(CONVERSATION_SCREEN))
+  utils.store.dispatch(screenChanged(CONVERSATION_SCREEN))
 
   // The in-conversation feedback is displayed
   expect(
@@ -277,7 +271,7 @@ test('integration', () => {
   )
 
   // Go back to conversation screen
-  store.dispatch(screenChanged(CONVERSATION_SCREEN))
+  utils.store.dispatch(screenChanged(CONVERSATION_SCREEN))
 
   // Let animation kick in
   jest.advanceTimersByTime(1000)

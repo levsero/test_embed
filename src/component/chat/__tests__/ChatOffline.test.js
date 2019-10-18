@@ -1,8 +1,8 @@
-import { Component as ChatOffline } from '../ChatOffline'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import React from 'react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+
+import { Component as ChatOffline } from '../ChatOffline'
 
 jest.mock('component/chat/ChatOfflineForm', () => {
   return {
@@ -42,12 +42,7 @@ const renderComponent = inProps => {
     chatHistoryLabel: 'testChatHistoryLabel',
     ...inProps
   }
-
-  return render(
-    <Provider store={createStore()}>
-      <ChatOffline {...props} />
-    </Provider>
-  )
+  return render(<ChatOffline {...props} />)
 }
 
 describe('render', () => {

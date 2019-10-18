@@ -5,45 +5,45 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -198,5 +198,5 @@
-          </div>
-          <div
--           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
-+           class="content footerMargin headerMargin scrollContainerMessagesContentDesktop"
-            data-testid="scroll-container-content"
-          >
-@@ -223,31 +223,4 @@
-          />
+@@ -37,5 +37,5 @@
         </div>
--       <a
--         class="
+        <div
+-         class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
++         class="content footerMargin headerMargin scrollContainerMessagesContentDesktop"
+          data-testid="scroll-container-content"
+        >
+@@ -62,31 +62,4 @@
+        />
+      </div>
+-     <a
+-       class="
 -       logo
 -       formSuccess
 -       
 -       zendeskLogo 
 -     "
--         href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
--         tabindex="-1"
--         target="_blank"
+-       href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
+-       tabindex="-1"
+-       target="_blank"
+-     >
+-       <span
+-         class="container icon Icon--zendesk"
+-         data-testid="Icon--zendesk"
+-         type="Icon--zendesk"
 -       >
--         <span
--           class="container icon Icon--zendesk"
--           data-testid="Icon--zendesk"
--           type="Icon--zendesk"
--         >
--           <svg
--             aria-hidden="true"
--             realfilename="widget-icon_zendesk.svg"
--           />
--         </span>
--         <span
--           class="hidden"
--         >
--           zendesk
--         </span>
--       </a>
-      </div>
-    </div>,
+-         <svg
+-           aria-hidden="true"
+-           realfilename="widget-icon_zendesk.svg"
+-         />
+-       </span>
+-       <span
+-         class="hidden"
+-       >
+-         zendesk
+-       </span>
+-     </a>
+    </div>
+  </div>
 `;
 
 exports[`ChatHistoryScreen when mobile renders mobile classes 1`] = `
@@ -51,128 +51,35 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -189,7 +189,6 @@
-      <div>
+@@ -2,7 +2,6 @@
+    <div>
+      <div
+-       class="container flexContainer desktop containerDesktop"
++       class="container flexContainer mobile"
+        data-testid="scroll-container"
+-       style="height: 550px;"
+      >
         <div
--         class="container flexContainer desktop containerDesktop"
-+         class="container flexContainer mobile"
-          data-testid="scroll-container"
--         style="height: 550px;"
+@@ -37,10 +36,10 @@
+        </div>
+        <div
+-         class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
++         class="content footerMarginWithLogo headerMargin scrollContainerMessagesContent scrollContainerMobile contentMobile"
+          data-testid="scroll-container-content"
         >
-          <div
-@@ -224,10 +223,10 @@
-          </div>
-          <div
--           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
-+           class="content footerMarginWithLogo headerMargin scrollContainerMessagesContent scrollContainerMobile contentMobile"
-            data-testid="scroll-container-content"
-          >
-            <div>
+          <div>
+            <div
+-             class="chatLogContainer"
++             class="chatLogContainer chatLogContainerMobile"
+            >
               <div
--               class="chatLogContainer"
-+               class="chatLogContainer chatLogContainerMobile"
-              >
-                <div
-@@ -254,5 +253,5 @@
+@@ -67,5 +66,5 @@
         formSuccess
         
 -       zendeskLogo 
 +       zendeskLogo zendeskLogoChatMobile
       "
-          href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
+        href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
 `;
 
-exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
-<div>
-  <div>
-    <div
-      class="container flexContainer desktop containerDesktop"
-      data-testid="scroll-container"
-      style="height: 550px;"
-    >
-      <div
-        class="sc-bwzfXH jaHvNe"
-      >
-        <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
-        >
-          <h1
-            class="sc-htpNat jTlEqc"
-            data-testid="widget-title"
-          >
-            this is the title
-          </h1>
-          <button
-            aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
-            data-garden-id="buttons.icon_button"
-            data-garden-version="6.4.4"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              class="index__c-btn__icon___3V0Rl"
-              data-garden-id="buttons.icon"
-              data-garden-version="6.4.4"
-              data-testid="Icon--dash"
-              realfilename="dash-fill.svg"
-            />
-          </button>
-        </div>
-      </div>
-      <div
-        class="content footerMarginWithLogo headerMargin scrollContainerMessagesContentDesktop"
-        data-testid="scroll-container-content"
-      >
-        <div>
-          <div
-            class="chatLogContainer"
-          >
-            <div
-              class="historyFetchingContainer"
-            >
-              <div
-                class="historyFetchingText"
-                style="opacity: 0;"
-              >
-                Loading messages...
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <footer
-        class="footer  "
-        data-testid="scroll-container-footer"
-      />
-    </div>
-    <a
-      class="
-      logo
-      formSuccess
-      
-      zendeskLogo 
-    "
-      href="https://www.zendesk.com/chat/live-chat-widget/?utm_source=webwidgetchat&utm_medium=poweredbyzendeskchat&utm_campaign=poweredbyzendesk&utm_term=id-1012&utm_content=testingHost&iref=id-1012&lang="
-      tabindex="-1"
-      target="_blank"
-    >
-      <span
-        class="container icon Icon--zendesk"
-        data-testid="Icon--zendesk"
-        type="Icon--zendesk"
-      >
-        <svg
-          aria-hidden="true"
-          realfilename="widget-icon_zendesk.svg"
-        />
-      </span>
-      <span
-        class="hidden"
-      >
-        zendesk
-      </span>
-    </a>
-  </div>
-</div>
-`;
+exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `undefined`;

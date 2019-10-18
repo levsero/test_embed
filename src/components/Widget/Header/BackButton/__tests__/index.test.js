@@ -1,7 +1,6 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+
+import { render } from 'src/util/testHelpers'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import BackButton from '../'
@@ -13,12 +12,7 @@ describe('BackButton', () => {
     onClick: undefined
   }
 
-  const renderComponent = (props = {}) =>
-    render(
-      <Provider store={createStore()}>
-        <BackButton {...defaultProps} {...props} />
-      </Provider>
-    )
+  const renderComponent = (props = {}) => render(<BackButton {...defaultProps} {...props} />)
 
   it('renders nothing when is not visible', () => {
     jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(false)

@@ -1,9 +1,6 @@
-import { render } from '@testing-library/react'
 import React from 'react'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
 
-import reducer from 'src/redux/modules/reducer'
+import { render } from 'src/util/testHelpers'
 import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
@@ -22,13 +19,7 @@ afterEach(() => {
 })
 
 const renderChat = (fullscreen = false) => {
-  const store = createStore(reducer)
-
-  return render(
-    <Provider store={store}>
-      <Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />
-    </Provider>
-  )
+  return render(<Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />)
 }
 
 describe('show offline chat is true', () => {

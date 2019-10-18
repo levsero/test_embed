@@ -1,8 +1,8 @@
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+
+import { http } from 'service/transport/http'
+import { render } from 'src/util/testHelpers'
 import 'jest-styled-components'
 
 const performImageSearch = jest.fn(),
@@ -26,11 +26,7 @@ const renderComponent = inProps => {
     ...inProps
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <ArticlePage {...props} />
-    </Provider>
-  )
+  return render(<ArticlePage {...props} />)
 }
 
 describe('default render', () => {

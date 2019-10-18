@@ -1,9 +1,8 @@
 import { Component as SearchPage } from '../index'
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 import 'jest-styled-components'
+
+import { render } from 'src/util/testHelpers'
 
 const renderComponent = inProps => {
   const props = {
@@ -16,11 +15,7 @@ const renderComponent = inProps => {
     ...inProps
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <SearchPage {...props} />
-    </Provider>
-  )
+  return render(<SearchPage {...props} />)
 }
 
 describe('render', () => {

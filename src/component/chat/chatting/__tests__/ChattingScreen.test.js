@@ -1,8 +1,7 @@
-import { Component as ChattingScreen } from '../ChattingScreen'
-import { render } from '@testing-library/react'
 import React from 'react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+
+import { render } from 'src/util/testHelpers'
+import { Component as ChattingScreen } from '../ChattingScreen'
 
 const sendAttachmentsSpy = jest.fn(),
   showChatEndSpy = jest.fn(),
@@ -12,7 +11,7 @@ const sendAttachmentsSpy = jest.fn(),
   updateChatScreenSpy = jest.fn(),
   toggleMenuSpy = jest.fn(),
   markAsReadSpy = jest.fn()
-const renderComponent = (inProps, renderer) => {
+const renderComponent = inProps => {
   const props = {
     lastMessageAuthor: 'bob',
     currentMessage: 'hello',
@@ -31,18 +30,8 @@ const renderComponent = (inProps, renderer) => {
 
     ...inProps
   }
-
-  const component = (
-    <Provider store={createStore()}>
-      <ChattingScreen {...props} />
-    </Provider>
-  )
-
-  if (renderer) {
-    return renderer(component)
-  } else {
-    return render(component)
-  }
+  const component = <ChattingScreen {...props} />
+  return render(component)
 }
 
 describe('markAsRead', () => {

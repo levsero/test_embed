@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
 
 import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
@@ -8,6 +10,11 @@ import thunk from 'redux-thunk'
 import reducer from 'src/redux/modules/reducer'
 import configureStore from 'redux-mock-store'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import { createMemoryHistory } from 'history'
+import { render as rtlRender } from '@testing-library/react'
+import { Router } from 'react-router-dom'
+import { IdManager } from '@zendeskgarden/react-selection'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
@@ -105,4 +112,24 @@ export const testTranslationStringSelector = selector => {
       i18n.getSettingTranslation.mockRestore()
     })
   })
+}
+
+export function render(
+  ui,
+  { render, store, route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}
+) {
+  IdManager.setIdCounter(0)
+  const reduxStore = store || createStore()
+  const renderFn = render || rtlRender
+  return {
+    ...renderFn(
+      <Provider store={reduxStore}>
+        <ThemeProvider>
+          <Router history={history}>{ui}</Router>
+        </ThemeProvider>
+      </Provider>
+    ),
+    history,
+    store: reduxStore
+  }
 }
