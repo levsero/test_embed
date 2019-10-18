@@ -1,13 +1,10 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { render } from 'utility/testHelpers'
 import { find } from 'styled-components/test-utils'
 import { isMobileBrowser } from 'utility/devices'
 import { onNextTick } from 'utility/utils'
 import { Component as ChatMenu } from './..'
 import { SoundOffIcon, SoundOnIcon } from './../styles'
-import createStore from 'src/redux/createStore'
 import { TEST_IDS } from 'constants/shared'
 
 jest.mock('utility/devices')
@@ -30,14 +27,7 @@ describe('ChatMenu', () => {
 
   const findSvg = (container, svgName) => container.querySelector(`[realfilename="${svgName}"]`)
 
-  const renderComponent = (props = {}) =>
-    render(
-      <Provider store={createStore()}>
-        <ThemeProvider>
-          <ChatMenu {...defaultProps} {...props} />
-        </ThemeProvider>
-      </Provider>
-    )
+  const renderComponent = (props = {}) => render(<ChatMenu {...defaultProps} {...props} />)
 
   describe('when on mobile', () => {
     beforeEach(() => {

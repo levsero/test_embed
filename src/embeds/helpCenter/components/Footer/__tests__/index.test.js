@@ -1,8 +1,5 @@
-import { render } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import React from 'react'
-import { Provider } from 'react-redux'
-
-import createStore from 'src/redux/createStore'
 
 import HelpCenterFooter from '../index'
 
@@ -15,11 +12,7 @@ const renderComponent = props => {
     ...props
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <HelpCenterFooter {...mergedProps} />
-    </Provider>
-  )
+  return render(<HelpCenterFooter {...mergedProps} />)
 }
 
 describe('when on desktop', () => {

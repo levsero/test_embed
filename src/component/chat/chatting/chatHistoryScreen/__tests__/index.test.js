@@ -38,7 +38,7 @@ describe('ChatHistoryScreen', () => {
     })
 
     it('renders ChatHistory', () => {
-      expect(result.container).toMatchSnapshot()
+      expect(result).toMatchSnapshot()
     })
   })
 

@@ -1,11 +1,8 @@
 import Footer from '../'
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
-import { getByTestId, queryByTestId } from '@testing-library/dom'
-
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'utility/testHelpers'
 
 const onClickSpy = jest.fn()
 
@@ -15,12 +12,7 @@ const renderComponent = inProps => {
     onClick: onClickSpy,
     ...inProps
   }
-
-  return render(
-    <Provider store={createStore()}>
-      <Footer {...props} />
-    </Provider>
-  )
+  return render(<Footer {...props} />)
 }
 
 describe('default render', () => {
@@ -39,17 +31,17 @@ describe('default render', () => {
   })
 
   it('renders zendesk logo', () => {
-    const { container } = renderComponent()
+    const { queryByTestId } = renderComponent()
 
-    expect(getByTestId(container, TEST_IDS.ICON_ZENDESK)).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).toBeInTheDocument()
   })
 })
 
 describe('hideZendeskLogo is true', () => {
   it('does not render zendeskLogo', () => {
-    const { container } = renderComponent({ hideZendeskLogo: true })
+    const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
 
-    expect(queryByTestId(container, TEST_IDS.ICON_ZENDESK)).toBeNull()
+    expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).toBeNull()
   })
 })
 

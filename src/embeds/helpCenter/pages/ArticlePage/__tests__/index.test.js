@@ -1,7 +1,6 @@
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 import React from 'react'
 
-import { http } from 'service/transport/http'
 import { render } from 'src/util/testHelpers'
 import 'jest-styled-components'
 

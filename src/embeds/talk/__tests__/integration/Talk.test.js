@@ -1,15 +1,13 @@
-import { render, fireEvent, queryByAltText } from '@testing-library/react'
+import { fireEvent, queryByAltText } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 import libphonenumber from 'libphonenumber-js'
 
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
-import { dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
+import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import Talk from '../../'
 import { http } from 'service/transport'
-import { MemoryRouter } from 'react-router-dom'
 import { TEST_IDS } from 'src/constants/shared/'
 
 jest.mock('service/transport')
@@ -35,13 +33,7 @@ const setUpComponent = (config = {}) => {
     return { phone_number: '+15417543010' }
   }
 
-  const result = render(
-    <MemoryRouter>
-      <Provider store={store}>
-        <Talk isMobile={false} />
-      </Provider>
-    </MemoryRouter>
-  )
+  const result = render(<Talk isMobile={false} />, { store })
 
   return {
     ...result,

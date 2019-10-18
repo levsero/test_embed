@@ -1,8 +1,5 @@
-import { render } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import React from 'react'
-
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 
 import Messages from '../index'
 
@@ -74,26 +71,12 @@ test('renders expected classes and components with default props for non-visitor
       body: 'body of contextual search results'
     }
   ])
-
-  const store = createStore()
-  const { container } = render(
-    <Provider store={store}>
-      <Messages messages={messages} isVisitor={false} />
-    </Provider>
-  )
-
+  const { container } = render(<Messages messages={messages} isVisitor={false} />)
   expect(container).toMatchSnapshot()
 })
 
 test('renders expected classes and components with default props for visitor messages', () => {
   const messages = [textMessage]
-
-  const store = createStore()
-  const { container } = render(
-    <Provider store={store}>
-      <Messages messages={messages} isVisitor={true} />
-    </Provider>
-  )
-
+  const { container } = render(<Messages messages={messages} isVisitor={true} />)
   expect(container).toMatchSnapshot()
 })

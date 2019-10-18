@@ -1,8 +1,6 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import { Provider } from 'react-redux'
-
-import createStore from 'src/redux/createStore'
+import { fireEvent } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchPromptPage, { Component } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
@@ -11,31 +9,20 @@ import 'jest-styled-components'
 jest.mock('service/transport')
 
 const renderInitialSearchPage = () => {
-  const store = createStore()
-  const utils = render(
-    <Provider store={store}>
-      <SearchPromptPage />
-    </Provider>
-  )
-
+  const utils = render(<SearchPromptPage />)
   const inputNode = utils.getByPlaceholderText('How can we help?')
   const formNode = utils.container.querySelector('form')
 
-  return { ...utils, inputNode, formNode, store }
+  return { ...utils, inputNode, formNode }
 }
 
 const renderComponent = props => {
-  const store = createStore()
   const componentProps = {
     title: 'title',
     hideZendeskLogo: false,
     ...props
   }
-  return render(
-    <Provider store={store}>
-      <Component {...componentProps} />
-    </Provider>
-  )
+  return render(<Component {...componentProps} />)
 }
 
 it('renders the full page', () => {
