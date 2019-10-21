@@ -8,6 +8,9 @@ import HelpCenterArticle from '../index'
 const renderComponent = props => {
   const mergedProps = {
     isMobile: false,
+    imagesSender: noop,
+    updateStoredImages: noop,
+    storedImages: {},
     ...props
   }
 

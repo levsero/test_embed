@@ -27,11 +27,11 @@ export default class HelpCenterArticle extends Component {
   static propTypes = {
     activeArticle: PropTypes.object.isRequired,
     locale: PropTypes.string,
-    imagesSender: PropTypes.func,
+    imagesSender: PropTypes.func.isRequired,
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
-    storedImages: PropTypes.object,
-    updateStoredImages: PropTypes.func,
+    storedImages: PropTypes.objectOf(PropTypes.string).isRequired,
+    updateStoredImages: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired
   }
 

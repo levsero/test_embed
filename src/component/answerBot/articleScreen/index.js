@@ -20,7 +20,8 @@ import {
 import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
-import { getFormTitleKey } from 'embeds/helpCenter/selectors'
+import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'
+import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
@@ -39,6 +40,7 @@ class ArticleScreen extends Component {
     isFeedbackRequired: PropTypes.bool.isRequired,
     saveConversationScroll: PropTypes.func,
     authToken: PropTypes.string,
+    storedImages: PropTypes.objectOf(PropTypes.string).isRequired,
     actions: PropTypes.shape({
       screenChanged: PropTypes.func.isRequired,
       articleDismissed: PropTypes.func.isRequired,
@@ -48,7 +50,9 @@ class ArticleScreen extends Component {
       botFeedbackMessage: PropTypes.func.isRequired,
       botFeedbackRequested: PropTypes.func.isRequired,
       botFallbackMessage: PropTypes.func.isRequired,
-      originalArticleClicked: PropTypes.func.isRequired
+      originalArticleClicked: PropTypes.func.isRequired,
+      addRestrictedImage: PropTypes.func.isRequired,
+      performImageSearch: PropTypes.func.isRequired
     })
   }
 
@@ -170,6 +174,13 @@ class ArticleScreen extends Component {
             activeArticle={{ ...this.props.article, html_url: url }}
             originalArticleButton={true}
             isMobile={this.props.isMobile}
+            imagesSender={(...args) => {
+              this.props.actions.performImageSearch(...args)
+            }}
+            updateStoredImages={(...args) => {
+              this.props.actions.addRestrictedImage(...args)
+            }}
+            storedImages={this.props.storedImages}
             handleOriginalArticleClick={() => {
               this.props.actions.originalArticleClicked(this.props.article.id)
             }}
@@ -186,7 +197,8 @@ const mapStateToProps = state => ({
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
   locale: baseSelectors.getLocale(state),
   authToken: rootSelectors.getAuthToken(state),
-  articleTitleKey: getFormTitleKey(state)
+  articleTitleKey: getFormTitleKey(state),
+  storedImages: getRestrictedImages(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -200,7 +212,9 @@ const mapDispatchToProps = dispatch => ({
       botFeedbackMessage,
       botFeedbackRequested,
       botFallbackMessage,
-      originalArticleClicked
+      originalArticleClicked,
+      performImageSearch,
+      addRestrictedImage
     },
     dispatch
   )
