@@ -10,8 +10,7 @@ import {
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
-  getZChatVendor,
-  getSelectedDepartment
+  getZChatVendor
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
 import { getChatStandalone, getZChatConfig } from 'src/redux/modules/base/base-selectors'
@@ -489,11 +488,6 @@ export function chatOfflineFormChanged(formState) {
 
 export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
   return (dispatch, getState) => {
-    if (getSelectedDepartment(getState()) === departmentId) {
-      successCallback()
-      return
-    }
-
     zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, err => {
       dispatch(setDefaultDepartment(departmentId))
 
