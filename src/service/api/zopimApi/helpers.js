@@ -156,6 +156,10 @@ export const setOnStatusApi = (store, callback) => {
     const wrappedCallbackWithArgs = () => {
       const chatStatus = getChatStatus(store.getState())
 
+      if (!chatStatus) {
+        return
+      }
+
       callback(chatStatus)
     }
 
@@ -167,8 +171,10 @@ export const setOnStatusApi = (store, callback) => {
     // https://zendesk.slack.com/archives/C0R1EJ3UP/p1564446511266300
     wrappedCallbackWithArgs()
 
-    callbacks.registerCallback(wrappedCallbackWithArgs, CHAT_STATUS_EVENT)
-    callbacks.registerCallback(callback, CHAT_DEPARTMENT_STATUS_EVENT)
+    const debouncedWrappedCallbackWithArgs = _.debounce(wrappedCallbackWithArgs, 0)
+
+    callbacks.registerCallback(debouncedWrappedCallbackWithArgs, CHAT_STATUS_EVENT)
+    callbacks.registerCallback(debouncedWrappedCallbackWithArgs, CHAT_DEPARTMENT_STATUS_EVENT)
   }
 }
 

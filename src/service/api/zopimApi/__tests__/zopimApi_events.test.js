@@ -104,6 +104,14 @@ describe('zopim events', () => {
   })
 
   describe('setOnStatus', () => {
+    it('does not call setOnStatus when no chat status exists', () => {
+      const { callback, mockWin } = setup()
+
+      mockWin.$zopim.livechat.setOnStatus(callback)
+
+      expect(callback).not.toHaveBeenCalled()
+    })
+
     it('dispatches the SDK_ACCOUNT_STATUS and SDK_DEPARTMENT_UPDATE actions', async () => {
       const { callback, mockWin, store } = setup()
 
@@ -116,12 +124,17 @@ describe('zopim events', () => {
       expect(callback).toHaveBeenCalled()
 
       callbacks.fireFor(CHAT_STATUS_EVENT)
-      callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData'])
+      ;[new Array(10).fill(null)].forEach(() => {
+        callbacks.fireFor(CHAT_DEPARTMENT_STATUS_EVENT, ['someActionPayloadData'])
+      })
 
       await wait(() => {
+        // it always gets called at least once
         expect(callback).toHaveBeenCalledWith('yeetStat')
-        expect(callback).toHaveBeenCalledWith('someActionPayloadData')
-        expect(callback).toHaveBeenCalledTimes(3)
+
+        // further calls are debounced
+        expect(callback).toHaveBeenCalledWith('yeetStat')
+        expect(callback).toHaveBeenCalledTimes(2)
       })
     })
   })
