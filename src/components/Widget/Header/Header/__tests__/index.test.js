@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-
-import { ContextProvider } from 'src/util/testHelpers'
+import { Provider } from 'react-redux'
 import { find } from 'styled-components/test-utils'
+import createStore from 'src/redux/createStore'
 import Title from 'components/Widget/Header/Title'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import Header from '../'
@@ -16,9 +16,9 @@ describe('Header', () => {
 
   const renderComponent = (props = {}) =>
     render(
-      <ContextProvider>
+      <Provider store={createStore()}>
         <Header {...defaultProps} {...props} />
-      </ContextProvider>
+      </Provider>
     )
 
   beforeEach(() => {

@@ -2,7 +2,7 @@ describe('blip middleware', () => {
   let sendBlips, beaconSpy, i18nSpy
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS'
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED'
-  const ARTICLE_VIEWED = 'widget/helpCenter/ARTICLE_VIEWED'
+  const ARTICLE_CLICKED = 'widget/helpCenter/ARTICLE_CLICKED'
   const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED'
   const SEARCH_REQUEST_SUCCESS = 'widget/helpCenter/SEARCH_REQUEST_SUCCESS'
   const SEARCH_REQUEST_FAILURE = 'widget/helpCenter/SEARCH_REQUEST_FAILURE'
@@ -56,7 +56,7 @@ describe('blip middleware', () => {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
       },
       'src/embeds/helpCenter/actions/action-types': {
-        ARTICLE_VIEWED: ARTICLE_VIEWED,
+        ARTICLE_CLICKED: ARTICLE_CLICKED,
         ORIGINAL_ARTICLE_CLICKED: ORIGINAL_ARTICLE_CLICKED,
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,
         SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE
@@ -413,7 +413,7 @@ describe('blip middleware', () => {
       })
     })
 
-    describe('action has type ARTICLE_VIEWED', () => {
+    describe('action has type ARTICLE_CLICKED', () => {
       let flatState
 
       beforeEach(() => {
@@ -431,7 +431,7 @@ describe('blip middleware', () => {
       describe('latest article is not null', () => {
         beforeEach(() => {
           action = {
-            type: ARTICLE_VIEWED,
+            type: ARTICLE_CLICKED,
             payload: { id: 121212112 }
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
@@ -458,7 +458,7 @@ describe('blip middleware', () => {
       describe('latest article is null', () => {
         beforeEach(() => {
           action = {
-            type: ARTICLE_VIEWED,
+            type: ARTICLE_CLICKED,
             payload: null
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)

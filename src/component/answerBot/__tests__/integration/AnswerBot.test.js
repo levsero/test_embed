@@ -1,8 +1,8 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
-import { ContextProvider } from 'src/util/testHelpers'
 import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 import { http } from 'service/transport'
 import { screenChanged } from 'src/redux/modules/answerBot/root/actions'
 
@@ -108,9 +108,9 @@ const setupAnswerBotServerMocks = () => {
 test('integration', () => {
   const store = createStore()
   const utils = render(
-    <ContextProvider store={store}>
+    <Provider store={store}>
       <AnswerBot />
-    </ContextProvider>
+    </Provider>
   )
   const textArea = utils.getByPlaceholderText('Type your question here...')
 

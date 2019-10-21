@@ -1,8 +1,9 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 import snapshotDiff from 'snapshot-diff'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
 
-import { ContextProvider } from 'src/util/testHelpers'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'src/constants/shared'
 import { Component as SubmitTicket } from '../SubmitTicket'
@@ -42,9 +43,9 @@ const submitTicket = props => {
   IdManager.setIdCounter(0)
 
   return (
-    <ContextProvider>
+    <Provider store={createStore()}>
       <SubmitTicket {...mergedProps} />
-    </ContextProvider>
+    </Provider>
   )
 }
 

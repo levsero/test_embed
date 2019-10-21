@@ -23,7 +23,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-  ARTICLE_VIEWED,
+  ARTICLE_CLICKED,
   ORIGINAL_ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   ADD_RESTRICTED_IMAGE,
@@ -208,14 +208,14 @@ export function handleOriginalArticleClicked() {
   }
 }
 
-export function handleArticleView(article) {
+export function handleArticleClick(article) {
   return {
-    type: ARTICLE_VIEWED,
+    type: ARTICLE_CLICKED,
     payload: article
   }
 }
 
-export function closeCurrentArticle() {
+export function resetActiveArticle() {
   return { type: ARTICLE_CLOSED }
 }
 

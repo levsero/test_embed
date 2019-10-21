@@ -12,7 +12,7 @@ import {
   getSettingsHelpCenterTitle,
   getShowNextButton
 } from 'src/redux/modules/selectors'
-import { getSearchLoading, getArticles } from 'embeds/helpCenter/selectors'
+import { getIsContextualSearchPending, getArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 
@@ -21,11 +21,11 @@ const SearchPage = ({
   showNextButton,
   hideZendeskLogo,
   isMobile,
-  isSearchLoading,
+  isContextualSearchPending,
   articles
 }) => {
   const searchHeaderRef = useRef(null)
-  const content = isSearchLoading ? <LoadingBarContent /> : <Results />
+  const content = isContextualSearchPending ? <LoadingBarContent /> : <Results />
   useEffect(() => {
     if (!articles.length) {
       searchHeaderRef.current.focus()
@@ -52,7 +52,7 @@ SearchPage.propTypes = {
   showNextButton: PropTypes.bool,
   title: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
-  isSearchLoading: PropTypes.bool,
+  isContextualSearchPending: PropTypes.bool,
   articles: PropTypes.array
 }
 
@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
   showNextButton: getShowNextButton(state),
   isMobile: isMobileBrowser(),
   hideZendeskLogo: getHideZendeskLogo(state),
-  isSearchLoading: getSearchLoading(state),
+  isContextualSearchPending: getIsContextualSearchPending(state),
   articles: getArticles(state)
 })
 

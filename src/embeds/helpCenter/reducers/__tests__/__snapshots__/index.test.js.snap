@@ -30,7 +30,6 @@ Object {
   "restrictedImages": Object {},
   "resultsCount": 0,
   "resultsLocale": "",
-  "searchAttempted": false,
   "searchFailed": false,
   "searchFieldValue": "",
   "searchLoading": false,

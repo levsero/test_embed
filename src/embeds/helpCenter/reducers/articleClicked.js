@@ -1,6 +1,6 @@
 import {
   SEARCH_REQUEST_SENT,
-  ARTICLE_VIEWED,
+  ARTICLE_CLICKED,
   ARTICLE_CLOSED
 } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
@@ -15,7 +15,7 @@ const articleClicked = (state = initialState, action) => {
     case SEARCH_REQUEST_SENT:
     case API_CLEAR_HC_SEARCHES:
       return false
-    case ARTICLE_VIEWED:
+    case ARTICLE_CLICKED:
       return true
     default:
       return state

@@ -1,26 +1,18 @@
-import React from 'react'
-import { render } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-
 import { Component as HasResults } from '../'
-
-const handleArticleViewSpy = jest.fn()
-
-const article1 = { id: 1, title: 'hello darkness', body: 'my old friend' }
-const article2 = { id: 2, title: 'Hamlet', body: 'Alas, poor Yorrick!' }
+import React from 'react'
+import { render, fireEvent } from '@testing-library/react'
+const handleArticleClickSpy = jest.fn()
+const updateBackButtonVisibilitySpy = jest.fn()
 
 const renderComponent = inProps => {
   const props = {
-    handleArticleView: handleArticleViewSpy,
-    articles: [article1, article2],
+    handleArticleClick: handleArticleClickSpy,
+    updateBackButtonVisibility: updateBackButtonVisibilitySpy,
+    articles: [{ title: 'hello darkness' }, { title: 'my old friend' }],
     ...inProps
   }
 
-  return render(
-    <MemoryRouter>
-      <HasResults {...props} />
-    </MemoryRouter>
-  )
+  return render(<HasResults {...props} />)
 }
 
 describe('default render', () => {
@@ -33,7 +25,24 @@ describe('default render', () => {
   it('renders article names in list', () => {
     const { getByText } = renderComponent()
 
-    expect(getByText(article1.title)).toBeInTheDocument()
-    expect(getByText(article2.title)).toBeInTheDocument()
+    expect(getByText('hello darkness')).toBeInTheDocument()
+    expect(getByText('my old friend')).toBeInTheDocument()
+  })
+
+  describe('when an item is clicked', () => {
+    it('fires handleArticleClick with the clicked article', () => {
+      const { getByText } = renderComponent()
+
+      fireEvent.click(getByText('hello darkness'))
+      expect(handleArticleClickSpy).toHaveBeenCalledWith({ title: 'hello darkness' })
+    })
+
+    it('fires updateBackButtonVisibility', () => {
+      const { getByText } = renderComponent()
+
+      fireEvent.click(getByText('my old friend'))
+      expect(handleArticleClickSpy).toHaveBeenCalledWith({ title: 'my old friend' })
+      expect(updateBackButtonVisibilitySpy).toHaveBeenCalled()
+    })
   })
 })

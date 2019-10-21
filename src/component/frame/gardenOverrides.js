@@ -126,7 +126,9 @@ const messageOverrides = isMobile
 const getButtonOverrides = colorVariables => {
   return css`
     ${props => {
-      if (props.ignoreThemeOverride) return ''
+      if (props.ignoreThemeOverride) {
+        return ''
+      }
 
       return css`
         height: ${38 / FONT_SIZE}rem !important;

@@ -1,5 +1,5 @@
 import {
-  ARTICLE_VIEWED,
+  ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS
@@ -12,7 +12,7 @@ const clickedArticles = (state = initialState, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case ARTICLE_VIEWED:
+    case ARTICLE_CLICKED:
       return { ...state, current: payload.id }
     case ARTICLE_CLOSED:
       return { current: null, previous: state.current }

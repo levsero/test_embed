@@ -1,9 +1,9 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
-import { ContextProvider } from 'src/util/testHelpers'
-import createStore from 'src/redux/createStore'
 import { dispatchChatAccountSettings } from 'utility/testHelpers'
 import { settings } from 'service/settings'
 import ChatOnline from '../../ChatOnline'
@@ -29,11 +29,11 @@ const timestamp = () => {
 
 const renderComponent = () => {
   return render(
-    <ContextProvider store={store}>
+    <Provider store={store}>
       <ThemeProvider>
         <ChatOnline updateChatBackButtonVisibility={() => {}} />
       </ThemeProvider>
-    </ContextProvider>
+    </Provider>
   )
 }
 

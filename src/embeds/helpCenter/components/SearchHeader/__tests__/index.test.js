@@ -2,9 +2,9 @@ jest.mock('utility/devices')
 
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import snapshotDiff from 'snapshot-diff'
-
-import { ContextProvider } from 'src/util/testHelpers'
+import createStore from 'src/redux/createStore'
 import SearchHeader from '../index'
 import 'jest-styled-components'
 
@@ -16,9 +16,9 @@ const renderComponent = inProps => {
   }
 
   return render(
-    <ContextProvider>
+    <Provider store={createStore()}>
       <SearchHeader {...props} />
-    </ContextProvider>
+    </Provider>
   )
 }
 

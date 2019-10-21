@@ -1,8 +1,7 @@
 import {
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_SUCCESS,
-  SEARCH_REQUEST_FAILURE,
-  GET_ARTICLE_REQUEST_SUCCESS
+  SEARCH_REQUEST_FAILURE
 } from 'embeds/helpCenter/actions/action-types'
 import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
 
@@ -18,8 +17,6 @@ const articles = (state = initialState, action) => {
     case SEARCH_REQUEST_FAILURE:
     case API_CLEAR_HC_SEARCHES:
       return initialState
-    case GET_ARTICLE_REQUEST_SUCCESS:
-      return [payload]
     default:
       return state
   }

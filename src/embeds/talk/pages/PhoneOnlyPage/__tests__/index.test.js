@@ -2,10 +2,11 @@ jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('utility/devices')
 
 import React from 'react'
+import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
 
-import { ContextProvider } from 'src/util/testHelpers'
+import createStore from 'src/redux/createStore'
 import { Component as PhoneOnlyPage } from './../'
 import 'jest-styled-components'
 
@@ -22,9 +23,9 @@ describe('PhoneOnlyPage', () => {
 
   const renderComponent = (props = {}) =>
     render(
-      <ContextProvider>
+      <Provider store={createStore()}>
         <PhoneOnlyPage {...defaultProps} {...props} />
-      </ContextProvider>
+      </Provider>
     ).container
 
   describe('on mobile', () => {

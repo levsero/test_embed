@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
-import { Link } from 'react-router-dom'
 
 export const ListItem = styled.li`
   color: ${zdColorGrey800};
@@ -20,7 +19,7 @@ export const ListItem = styled.li`
  `}
 `
 
-export const StyledLink = styled(Link)`
+export const Link = styled.a`
   color: ${props => props.theme.listColorStr} !important;
   :hover,
   :active,

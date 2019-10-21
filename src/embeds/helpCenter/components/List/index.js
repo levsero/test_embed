@@ -10,7 +10,8 @@ export default class List extends PureComponent {
     articles: PropTypes.array,
     showNextButton: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    locale: PropTypes.string
+    locale: PropTypes.string,
+    onItemClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -28,7 +29,7 @@ export default class List extends PureComponent {
     }
   }
 
-  renderResultRow = article => {
+  renderResultRow = (article, index) => {
     const assignRef = ref => {
       this.itemRefs[article.id] = ref
     }
@@ -39,6 +40,7 @@ export default class List extends PureComponent {
         key={_.uniqueId('article_')}
         article={article}
         isMobile={this.props.isMobile}
+        onClick={e => this.props.onItemClick(index, e)}
       />
     )
   }

@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
-
 import { useSelector } from 'react-redux'
 import { HeaderItem } from 'components/Widget/Header'
 import { BackIcon } from './styles'
@@ -10,20 +8,16 @@ import { useOnBack } from 'component/webWidget/OnBackProvider'
 import useTranslation from 'src/hooks/useTranslation'
 import { TEST_IDS } from 'constants/shared'
 
-const BackButton = ({ useReactRouter, history }) => {
+const BackButton = ({ onClick }) => {
   const isVisible = useSelector(getShowBackButton)
   const onBack = useOnBack()
   const label = useTranslation('embeddable_framework.navigation.back')
 
-  if (!useReactRouter && !isVisible) {
+  if (!isVisible) {
     return null
   }
 
-  if (useReactRouter && history.length <= 1) {
-    return null
-  }
-
-  const onClickHandler = useReactRouter ? history.goBack : onBack
+  const onClickHandler = onClick || onBack
 
   return (
     <HeaderItem onClick={onClickHandler} aria-label={label} data-testid={TEST_IDS.ICON_BACK}>
@@ -33,10 +27,7 @@ const BackButton = ({ useReactRouter, history }) => {
 }
 
 BackButton.propTypes = {
-  useReactRouter: PropTypes.bool,
-  history: PropTypes.object
+  onClick: PropTypes.func
 }
 
-const connectedComponent = withRouter(BackButton)
-
-export { connectedComponent as default, BackButton as Component }
+export default BackButton

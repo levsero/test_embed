@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MemoryRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 
 import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
@@ -93,15 +90,4 @@ export const testTranslationStringSelector = selector => {
       i18n.getSettingTranslation.mockRestore()
     })
   })
-}
-
-export const ContextProvider = ({ store = null, children }) => (
-  <MemoryRouter>
-    <Provider store={store || createStore()}>{children}</Provider>
-  </MemoryRouter>
-)
-
-ContextProvider.propTypes = {
-  store: PropTypes.object,
-  children: PropTypes.node
 }

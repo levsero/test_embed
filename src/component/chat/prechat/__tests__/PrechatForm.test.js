@@ -1,6 +1,7 @@
 import { render, fireEvent, queryByText } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
-import { ContextProvider } from 'src/util/testHelpers'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 import React from 'react'
 import { IdManager } from '@zendeskgarden/react-selection'
 
@@ -45,9 +46,9 @@ const renderPrechatForm = (inProps = {}) => {
 
   return render(
     <ThemeProvider>
-      <ContextProvider>
+      <Provider store={createStore()}>
         <PrechatForm {...combinedProps} />
-      </ContextProvider>
+      </Provider>
     </ThemeProvider>
   )
 }
