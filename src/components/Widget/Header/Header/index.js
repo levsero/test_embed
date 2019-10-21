@@ -6,12 +6,12 @@ import Title from 'components/Widget/Header/Title'
 import CloseButton from 'components/Widget/Header/CloseButton'
 import TitleRow from 'components/Widget/Header/TitleRow'
 
-const Header = ({ children, title, useReactRouter = false }) => {
+const Header = ({ children, title }) => {
   if (title !== undefined) {
     return (
       <Container>
         <TitleRow>
-          <BackButton useReactRouter={useReactRouter} />
+          <BackButton />
           <Title>{title}</Title>
           <CloseButton />
         </TitleRow>
@@ -25,8 +25,7 @@ const Header = ({ children, title, useReactRouter = false }) => {
 
 Header.propTypes = {
   children: PropTypes.node,
-  title: PropTypes.string,
-  useReactRouter: PropTypes.bool
+  title: PropTypes.string
 }
 
 export default Header

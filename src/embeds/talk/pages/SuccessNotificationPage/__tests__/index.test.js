@@ -1,9 +1,10 @@
 jest.mock('utility/devices')
 
 import React from 'react'
+import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
-import { ContextProvider } from 'src/util/testHelpers'
 
+import createStore from 'src/redux/createStore'
 import SuccessNotificationPage from '../'
 
 const defaultProps = {
@@ -12,9 +13,9 @@ const defaultProps = {
 
 const renderComponent = (props = {}) => {
   return render(
-    <ContextProvider>
+    <Provider store={createStore()}>
       <SuccessNotificationPage {...defaultProps} {...props} />
-    </ContextProvider>
+    </Provider>
   )
 }
 

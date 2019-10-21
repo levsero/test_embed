@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
-
 import { Widget, Main, Header } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { getRestrictedImages, getResultsLocale, getArticles } from 'src/embeds/helpCenter/selectors'
+import {
+  getActiveArticle,
+  getRestrictedImages,
+  getResultsLocale
+} from 'src/embeds/helpCenter/selectors'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleOriginalArticleClicked,
   performImageSearch,
-  addRestrictedImage,
-  closeCurrentArticle,
-  handleArticleView
+  addRestrictedImage
 } from 'src/embeds/helpCenter/actions'
 import {
   getSettingsHelpCenterTitle,
@@ -27,7 +27,7 @@ import HelpCenterArticle from 'src/components/HelpCenterArticle'
 import { isMobileBrowser } from 'utility/devices'
 
 const ArticlePage = ({
-  articles,
+  activeArticle,
   addRestrictedImage,
   handleOriginalArticleClicked,
   hideZendeskLogo,
@@ -38,28 +38,14 @@ const ArticlePage = ({
   restrictedImages,
   resultsLocale,
   title,
-  showNextButton,
-  match,
-  handleArticleView,
-  closeCurrentArticle
+  showNextButton
 }) => {
-  const { params } = match
-  const article = _.find(articles, ['id', parseInt(params.id)])
-
-  useEffect(() => {
-    handleArticleView(article)
-
-    return () => {
-      closeCurrentArticle()
-    }
-  }, [article, closeCurrentArticle, handleArticleView])
-
   return (
     <Widget>
-      <Header title={title} useReactRouter={true} />
+      <Header title={title} />
       <Main>
         <HelpCenterArticle
-          activeArticle={article}
+          activeArticle={activeArticle}
           locale={resultsLocale}
           originalArticleButton={originalArticleButton}
           handleOriginalArticleClick={handleOriginalArticleClicked}
@@ -80,11 +66,10 @@ const ArticlePage = ({
 }
 
 ArticlePage.propTypes = {
-  handleArticleView: PropTypes.func.isRequired,
-  handleOriginalArticleClicked: PropTypes.func.isRequired,
-  closeCurrentArticle: PropTypes.func.isRequired,
+  activeArticle: PropTypes.object,
   originalArticleButton: PropTypes.bool,
   performImageSearch: PropTypes.func.isRequired,
+  handleOriginalArticleClicked: PropTypes.func.isRequired,
   restrictedImages: PropTypes.object.isRequired,
   addRestrictedImage: PropTypes.func,
   resultsLocale: PropTypes.string,
@@ -92,9 +77,7 @@ ArticlePage.propTypes = {
   isMobile: PropTypes.bool,
   hideZendeskLogo: PropTypes.bool,
   onClick: PropTypes.func,
-  showNextButton: PropTypes.bool,
-  match: PropTypes.object,
-  articles: PropTypes.array
+  showNextButton: PropTypes.bool
 }
 
 ArticlePage.defaultProps = {
@@ -107,8 +90,8 @@ const mapStateToProps = state => {
 
   return {
     locale: getLocale(state),
-    articles: getArticles(state),
-    showOriginalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
+    activeArticle: getActiveArticle(state),
+    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     resultsLocale: getResultsLocale(state),
     restrictedImages: getRestrictedImages(state),
     title: getSettingsHelpCenterTitle(state, titleKey),
@@ -124,9 +107,7 @@ const mapStateToProps = state => {
 const actionCreators = {
   handleOriginalArticleClicked,
   performImageSearch,
-  addRestrictedImage,
-  closeCurrentArticle,
-  handleArticleView
+  addRestrictedImage
 }
 
 const connectedComponent = connect(

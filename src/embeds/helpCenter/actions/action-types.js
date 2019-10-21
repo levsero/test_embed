@@ -6,7 +6,7 @@ export const CONTEXTUAL_SEARCH_REQUEST_SUCCESS =
   'widget/helpCenter/CONTEXTUAL_SEARCH_REQUEST_SUCCESS'
 export const CONTEXTUAL_SEARCH_REQUEST_FAILURE =
   'widget/helpCenter/CONTEXTUAL_SEARCH_REQUEST_FAILURE'
-export const ARTICLE_VIEWED = 'widget/helpCenter/ARTICLE_VIEWED'
+export const ARTICLE_CLICKED = 'widget/helpCenter/ARTICLE_CLICKED'
 export const ARTICLE_CLOSED = 'widget/helpCenter/ARTICLE_CLOSED'
 export const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED'
 export const ADD_RESTRICTED_IMAGE = 'widget/helpCenter/ADD_RESTRICTED_IMAGE'

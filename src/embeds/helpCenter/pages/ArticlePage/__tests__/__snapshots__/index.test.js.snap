@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ArticlePage default render matches snapshot 1`] = `
+exports[`default render matches snapshot 1`] = `
 .c0 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
@@ -165,35 +165,13 @@ exports[`ArticlePage default render matches snapshot 1`] = `
           class="title"
           data-testid="hc-article-title"
         >
-          dire straits
+          articleTitle
         </h2>
-        <div
-          class="originalArticleButton"
-        >
-          <a
-            aria-label="View original article"
-            target="_blank"
-            title="View original article"
-          >
-            <span
-              class="container Icon--link-external"
-              data-testid="Icon--link-external"
-              type="Icon--link-external"
-            >
-              <svg
-                aria-hidden="true"
-                realfilename="link-external.svg"
-              />
-            </span>
-          </a>
-        </div>
         <div
           class="article"
           data-testid="hc-article-body"
           role="presentation"
-        >
-          down to the waterline
-        </div>
+        />
       </div>
     </div>
     <footer

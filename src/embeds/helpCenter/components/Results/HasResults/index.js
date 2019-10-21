@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Legend from 'embeds/helpCenter/components/Legend'
@@ -11,48 +11,77 @@ import {
   getPreviousActiveArticle
 } from 'embeds/helpCenter/selectors'
 import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
-import { handleArticleView } from 'src/embeds/helpCenter/actions'
+import { handleArticleClick } from 'embeds/helpCenter/actions'
+import { updateBackButtonVisibility } from 'src/redux/modules/base'
 
-const HasResults = ({
-  isMobile,
-  articles,
-  showNextButton,
-  hideZendeskLogo,
-  locale,
-  hasContextuallySearched,
-  previousArticle
-}) => {
-  const listRef = useRef(null)
+class HasResults extends PureComponent {
+  static propTypes = {
+    isMobile: PropTypes.bool,
+    articles: PropTypes.array,
+    showNextButton: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool,
+    locale: PropTypes.string,
+    handleArticleClick: PropTypes.func,
+    hasContextuallySearched: PropTypes.bool,
+    updateBackButtonVisibility: PropTypes.func,
+    previousActiveArticle: PropTypes.number
+  }
 
-  useEffect(() => {
-    if (articles) {
-      listRef.current.focusOn(previousArticle || articles[0].id)
+  constructor() {
+    super()
+    this.list = null
+  }
+
+  componentDidMount() {
+    if (this.props.articles.length) {
+      this.focus()
     }
-  }, [articles, previousArticle])
+  }
 
-  return (
-    <div>
-      <Legend hasContextuallySearched={hasContextuallySearched} locale={locale} />
-      <List
-        ref={listRef}
-        isMobile={isMobile}
-        articles={articles}
-        showNextButton={showNextButton}
-        hideZendeskLogo={hideZendeskLogo}
-        locale={locale}
-      />
-    </div>
-  )
-}
+  componentDidUpdate() {
+    if (this.props.articles.length) {
+      this.focus()
+    }
+  }
 
-HasResults.propTypes = {
-  isMobile: PropTypes.bool,
-  articles: PropTypes.array,
-  showNextButton: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool,
-  locale: PropTypes.string,
-  hasContextuallySearched: PropTypes.bool,
-  previousArticle: PropTypes.number
+  onArticleClick = (articleIndex, e) => {
+    e.preventDefault()
+    this.props.handleArticleClick(this.props.articles[articleIndex])
+    this.props.updateBackButtonVisibility()
+  }
+
+  focus = () => {
+    if (this.list) {
+      const id = this.props.previousActiveArticle || this.props.articles[0].id
+      this.list.focusOn(id)
+    }
+  }
+
+  render() {
+    const {
+      isMobile,
+      articles,
+      showNextButton,
+      hideZendeskLogo,
+      locale,
+      hasContextuallySearched
+    } = this.props
+
+    return (
+      <div>
+        <Legend hasContextuallySearched={hasContextuallySearched} locale={locale} />
+        <List
+          ref={el => (this.list = el)}
+          isMobile={isMobile}
+          articles={articles}
+          showNextButton={showNextButton}
+          hideZendeskLogo={hideZendeskLogo}
+          locale={locale}
+          onItemClick={this.onArticleClick}
+        />
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => {
@@ -63,12 +92,13 @@ const mapStateToProps = state => {
     hideZendeskLogo: getHideZendeskLogo(state),
     locale: getLocale(state),
     hasContextuallySearched: getHasContextuallySearched(state),
-    previousArticle: getPreviousActiveArticle(state)
+    previousActiveArticle: getPreviousActiveArticle(state)
   }
 }
 
 const actionCreators = {
-  handleArticleView
+  handleArticleClick,
+  updateBackButtonVisibility
 }
 
 const connectedComponent = connect(

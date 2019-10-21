@@ -1,101 +1,62 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-
-import { ContextProvider } from 'src/util/testHelpers'
-import { TEST_IDS } from 'constants/shared'
+import { Provider } from 'react-redux'
+import createStore from 'src/redux/createStore'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
 import * as selectors from 'src/redux/modules/selectors/selectors'
-import { Component as BackButton } from '../'
+import BackButton from '../'
 
 jest.mock('component/webWidget/OnBackProvider')
 
 describe('BackButton', () => {
-  const goBackSpy = jest.fn()
-
-  const renderComponent = (props = {}) => {
-    const defaultProps = {
-      useReactRouter: true,
-      history: {}
-    }
-
-    return render(
-      <ContextProvider>
-        <BackButton {...defaultProps} {...props} />
-      </ContextProvider>
-    )
+  const defaultProps = {
+    onClick: undefined
   }
 
-  describe('when using React Router', () => {
-    const history = {
-      goBack: goBackSpy,
-      length: 2
-    }
+  const renderComponent = (props = {}) =>
+    render(
+      <Provider store={createStore()}>
+        <BackButton {...defaultProps} {...props} />
+      </Provider>
+    )
 
-    it('uses the history goBack method', () => {
-      const { queryByTestId } = renderComponent({ history })
+  it('renders nothing when is not visible', () => {
+    jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(false)
+    const { queryByLabelText } = renderComponent()
 
-      queryByTestId(TEST_IDS.ICON_BACK).click(0)
-
-      expect(goBackSpy).toHaveBeenCalled()
-    })
-
-    describe('visibility is controlled by the presence of history', () => {
-      describe('when history is >= two layers deep', () => {
-        it('renders', () => {
-          const { queryByTestId } = renderComponent({ history })
-
-          expect(queryByTestId(TEST_IDS.ICON_BACK)).toBeInTheDocument()
-        })
-      })
-
-      describe('when history is < 2 layers deep', () => {
-        ;[0, 1].forEach(length => {
-          it('does not render', () => {
-            const { queryByTestId } = renderComponent({ history: { ...history, length } })
-
-            expect(queryByTestId(TEST_IDS.ICON_BACK)).not.toBeInTheDocument()
-          })
-        })
-      })
-    })
+    expect(queryByLabelText('Back')).not.toBeInTheDocument()
   })
 
-  describe('when using the legacy routing rules', () => {
+  describe('when visible', () => {
     beforeEach(() => {
       jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(true)
     })
 
-    it('uses the onBack hook', () => {
+    it('renders when it is visible', () => {
+      const { queryByLabelText } = renderComponent()
+
+      expect(queryByLabelText('Back')).toBeInTheDocument()
+    })
+
+    it('calls onClick prop when it is provided', () => {
+      const onClick = jest.fn()
+
+      const { queryByLabelText } = renderComponent({ onClick })
+
+      queryByLabelText('Back').click(0)
+
+      expect(onClick).toHaveBeenCalled()
+    })
+
+    it('uses the useOnBack hook when onClick is not provided', () => {
       const onBack = jest.fn()
       useOnBack.mockReturnValue(onBack)
 
-      const { queryByTestId } = renderComponent({ useReactRouter: false })
+      const { queryByLabelText } = renderComponent()
 
-      queryByTestId(TEST_IDS.ICON_BACK).click(0)
+      queryByLabelText('Back').click(0)
 
       expect(onBack).toHaveBeenCalled()
-    })
-
-    describe('visibility is controlled by showBackButton', () => {
-      describe('when showBackButton is true', () => {
-        it('renders', () => {
-          const { queryByTestId } = renderComponent({ useReactRouter: false })
-
-          expect(queryByTestId(TEST_IDS.ICON_BACK)).toBeInTheDocument()
-        })
-      })
-
-      describe('when showBackButton is false', () => {
-        beforeEach(() => {
-          jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(false)
-        })
-
-        it('does not render', () => {
-          const { queryByTestId } = renderComponent({ useReactRouter: false })
-
-          expect(queryByTestId(TEST_IDS.ICON_BACK)).not.toBeInTheDocument()
-        })
-      })
     })
   })
 })

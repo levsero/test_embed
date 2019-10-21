@@ -455,7 +455,6 @@ describe('helpCenter selectors', () => {
           contextualSearch: {
             hasSearched: false
           },
-          searchAttempted: false,
           totalUserSearches: 0,
           articles: [1]
         }
@@ -467,9 +466,9 @@ describe('helpCenter selectors', () => {
         mockHelpCenterState.helpCenter.contextualSearch.hasSearched = true
       })
 
-      describe('when searchAttempted is true', () => {
+      describe('when totalUserSearches is greater than 0', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.searchAttempted = true
+          mockHelpCenterState.helpCenter.totalUserSearches = 10
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -478,9 +477,9 @@ describe('helpCenter selectors', () => {
         })
       })
 
-      describe('when searchAttempted is false', () => {
+      describe('when totalUserSearches is 0', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.searchAttempted = false
+          mockHelpCenterState.helpCenter.totalUserSearches = 0
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -495,9 +494,9 @@ describe('helpCenter selectors', () => {
         mockHelpCenterState.helpCenter.contextualSearch.hasSearched = false
       })
 
-      describe('when searchAttempted is true', () => {
+      describe('when totalUserSearches is greater than 0', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.searchAttempted = true
+          mockHelpCenterState.helpCenter.totalUserSearches = 10
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -506,9 +505,9 @@ describe('helpCenter selectors', () => {
         })
       })
 
-      describe('when searchAttempted is false', () => {
+      describe('when totalUserSearches is 0', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.searchAttempted = false
+          mockHelpCenterState.helpCenter.totalUserSearches = 0
           result = getHasSearched(mockHelpCenterState)
         })
 

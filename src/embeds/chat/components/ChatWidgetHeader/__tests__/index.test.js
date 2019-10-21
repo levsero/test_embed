@@ -1,8 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
-
-import { ContextProvider } from 'src/util/testHelpers'
+import createStore from 'src/redux/createStore'
+import OnBackProvider from 'component/webWidget/OnBackProvider'
 import { createChatPopoutWindow } from 'utility/chat'
 import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'
 import { isMobileBrowser } from 'utility/devices'
@@ -34,13 +35,15 @@ describe('ChatWidgetHeader', () => {
     handlePopoutButtonClicked: jest.fn()
   }
 
-  const renderComponent = (props = {}) => {
+  const renderComponent = (props = {}, onBack = jest.fn()) => {
     return render(
-      <ContextProvider>
+      <Provider store={createStore()}>
         <ThemeProvider>
-          <ChatWidgetHeader {...defaultProps} {...props} />
+          <OnBackProvider value={onBack}>
+            <ChatWidgetHeader {...defaultProps} {...props} />
+          </OnBackProvider>
         </ThemeProvider>
-      </ContextProvider>
+      </Provider>
     )
   }
 

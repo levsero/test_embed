@@ -39,6 +39,5 @@ test('getPreviousActiveArticle', () => {
       }
     }
   })
-
   expect(result).toEqual(456)
 })

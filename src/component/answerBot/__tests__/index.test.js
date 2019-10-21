@@ -2,7 +2,8 @@ import { render } from '@testing-library/react'
 import React from 'react'
 
 import createStore from 'src/redux/createStore'
-import { ContextProvider } from 'src/util/testHelpers'
+import { Provider } from 'react-redux'
+
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import { http } from 'service/transport'
 
@@ -23,9 +24,9 @@ const renderComponent = (props = {}) => {
   }
 
   return render(
-    <ContextProvider store={store}>
+    <Provider store={store}>
       <AnswerBot {...componentProps} />
-    </ContextProvider>
+    </Provider>
   )
 }
 

@@ -27,19 +27,19 @@ test('handleOriginalArticleClicked dispatches expected action', () => {
 
 test('handleArticleClick dispatches expected action', () => {
   const expected = {
-    type: types.ARTICLE_VIEWED,
+    type: types.ARTICLE_CLICKED,
     payload: { x: 123 }
   }
 
-  expect(actions.handleArticleView({ x: 123 })).toEqual(expected)
+  expect(actions.handleArticleClick({ x: 123 })).toEqual(expected)
 })
 
-test('closeCurrentArticle dispatches expected action', () => {
+test('resetActiveArticle dispatches expected action', () => {
   const expected = {
     type: types.ARTICLE_CLOSED
   }
 
-  expect(actions.closeCurrentArticle()).toEqual(expected)
+  expect(actions.resetActiveArticle()).toEqual(expected)
 })
 
 test('addRestrictedImage dispatches expected action', () => {
