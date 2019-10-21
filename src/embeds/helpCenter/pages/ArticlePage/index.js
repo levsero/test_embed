@@ -70,7 +70,7 @@ ArticlePage.propTypes = {
   originalArticleButton: PropTypes.bool,
   performImageSearch: PropTypes.func.isRequired,
   handleOriginalArticleClicked: PropTypes.func.isRequired,
-  restrictedImages: PropTypes.object.isRequired,
+  restrictedImages: PropTypes.objectOf(PropTypes.string).isRequired,
   addRestrictedImage: PropTypes.func,
   resultsLocale: PropTypes.string,
   title: PropTypes.string,
