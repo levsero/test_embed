@@ -2,31 +2,24 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MemoryRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { FocusJailContainer } from '@zendeskgarden/react-modals'
-import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
 import { WidgetThemeProvider } from 'src/components/Widget'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from './gardenOverrides'
-import { focusLauncher, getDocumentHost } from 'utility/globals'
 import { getColor } from 'src/redux/modules/selectors'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
+import FocusJail from 'components/FrameFocusJail'
 
 class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
     customCSS: PropTypes.string,
     children: PropTypes.object,
-    fullscreen: PropTypes.bool,
-    handleBackClick: PropTypes.func,
-    hideNavigationButtons: PropTypes.bool,
     reduxStore: PropTypes.object.isRequired,
-    useBackButton: PropTypes.bool,
     document: PropTypes.object,
-    isMobile: PropTypes.bool.isRequired,
     dataTestId: PropTypes.string,
-    handleEscapeKeyPressed: PropTypes.func.isRequired
+    name: PropTypes.string
   }
 
   static defaultProps = {
@@ -34,7 +27,6 @@ class EmbedWrapper extends Component {
     customCSS: '',
     children: undefined,
     fullscreen: false,
-    handleBackClick: () => {},
     hideNavigationButtons: false,
     useBackButton: false,
     isChatPreview: false
@@ -44,35 +36,6 @@ class EmbedWrapper extends Component {
     super(props, context)
     this.embed = null
     this.nav = null
-  }
-
-  getEmbedWrapperProps = ref => {
-    return {
-      ref,
-      onKeyDown: evt => {
-        const {
-          target: { ownerDocument },
-          keyCode
-        } = evt
-        const frameElem = ownerDocument.defaultView.frameElement
-
-        if (frameElem.id === 'launcher') {
-          if (keyCode === KEY_CODES.TAB && getDocumentHost().querySelector('body')) {
-            getDocumentHost()
-              .querySelector('body')
-              .focus()
-            evt.preventDefault()
-          }
-
-          return
-        }
-
-        if (keyCode === KEY_CODES.ESCAPE) {
-          focusLauncher()
-          this.props.handleEscapeKeyPressed()
-        }
-      }
-    }
   }
 
   render = () => {
@@ -91,25 +54,18 @@ class EmbedWrapper extends Component {
           document={this.props.document}
         >
           <WidgetThemeProvider>
-            <FocusJailContainer focusOnMount={false}>
-              {({ getContainerProps, containerRef }) => (
-                <div
-                  {...getContainerProps(this.getEmbedWrapperProps(containerRef))}
-                  data-testid={`position-${this.props.dataTestId}`}
-                >
-                  {css}
-                  {styleTag}
-                  <div
-                    id="Embed"
-                    ref={el => {
-                      this.embed = el
-                    }}
-                  >
-                    {newChild}
-                  </div>
-                </div>
-              )}
-            </FocusJailContainer>
+            <FocusJail name={this.props.name} data-testid={`position-${this.props.dataTestId}`}>
+              {css}
+              {styleTag}
+              <div
+                id="Embed"
+                ref={el => {
+                  this.embed = el
+                }}
+              >
+                {newChild}
+              </div>
+            </FocusJail>
           </WidgetThemeProvider>
         </ThemeProvider>
       </MemoryRouter>
