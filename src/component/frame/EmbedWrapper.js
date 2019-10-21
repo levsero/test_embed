@@ -54,11 +54,12 @@ class EmbedWrapper extends Component {
           document={this.props.document}
         >
           <WidgetThemeProvider>
-            <FocusJail name={this.props.name} data-testid={`position-${this.props.dataTestId}`}>
+            <FocusJail name={this.props.name}>
               {css}
               {styleTag}
               <div
                 id="Embed"
+                data-testid={`position-${this.props.dataTestId}`}
                 ref={el => {
                   this.embed = el
                 }}
