@@ -23,7 +23,9 @@ const actions = Object.freeze({
   screenChanged: jest.fn(),
   sessionResolved: jest.fn(),
   botFallbackMessage: jest.fn(),
-  originalArticleClicked: jest.fn()
+  originalArticleClicked: jest.fn(),
+  addRestrictedImage: jest.fn(),
+  performImageSearch: jest.fn()
 })
 
 const renderComponent = (props = {}) => {
@@ -33,7 +35,8 @@ const renderComponent = (props = {}) => {
     },
     isFeedbackRequired: false,
     locale: 'en-US',
-    actions
+    actions,
+    storedImages: {}
   }
 
   const componentProps = _.merge({}, defaultProps, props)
