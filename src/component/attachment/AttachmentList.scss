@@ -17,10 +17,11 @@
 }
 
 .label {
-  /* Force a single line to have exact font height  */
-  line-height: 0.9;
+  /* Match garden's visual style  */
+  line-height: 2.14286;
 
-  margin-bottom: #{6 / $font-size}rem;
+  display: block;
+  margin-top: #{16 / $font-size}rem;
   font-weight: 700;
   color: $zd-color-grey-800;
 }
