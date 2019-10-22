@@ -4,12 +4,27 @@ import PropTypes from 'prop-types'
 import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import { i18n } from 'src/service/i18n'
+import thunk from 'redux-thunk'
+import reducer from 'src/redux/modules/reducer'
+import configureStore from 'redux-mock-store'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
     type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload: settings
   })
+}
+
+const mockStore = configureStore([thunk])
+
+export const initialState = () => reducer({}, {})
+export const createMockStore = state => mockStore(state || initialState())
+
+export const mockZChatVendor = obj => {
+  const zChat = obj || jest.fn()
+  jest.spyOn(chatSelectors, 'getZChatVendor').mockReturnValue(zChat)
+  return zChat
 }
 
 export const dispatchUpdateEmbeddableConfig = (store, config) => {
