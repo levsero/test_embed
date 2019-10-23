@@ -2,7 +2,7 @@ import { UPDATE_SETTINGS } from '../../settings-action-types'
 
 import _ from 'lodash'
 
-const initialState = ''
+const initialState = null
 
 const select = (state = initialState, action) => {
   const { type, payload } = action

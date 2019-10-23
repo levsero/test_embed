@@ -19,8 +19,8 @@ describe('chat reducer departments select', () => {
   })
 
   describe('initial state', () => {
-    it('is set to empty string', () => {
-      expect(initialState).toEqual('')
+    it('is set to null', () => {
+      expect(initialState).toEqual(null)
     })
   })
 
@@ -43,8 +43,8 @@ describe('chat reducer departments select', () => {
         }
       })
 
-      it('sets the action payload as the state', () => {
-        expect(state).toEqual('')
+      it('remains null', () => {
+        expect(state).toEqual(null)
       })
     })
 
