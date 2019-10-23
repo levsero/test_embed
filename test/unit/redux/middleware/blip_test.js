@@ -12,6 +12,7 @@ describe('blip middleware', () => {
   const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED'
   const ZOPIM_ON_OPEN = 'widget/zopim_chat/ZOPIM_ON_OPEN'
   const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED'
+  const CHAT_STARTED = 'widget/chat/CHAT_STARTED'
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/blip')
@@ -86,6 +87,12 @@ describe('blip middleware', () => {
       'src/constants/answerBot': {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation'
+      },
+      'src/redux/modules/selectors': {
+        getDefaultSelectedDepartment: state => state.department
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        CHAT_STARTED
       }
     })
 
@@ -688,6 +695,44 @@ describe('blip middleware', () => {
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
           label: 'helpCenterForm',
           value: expectedValue
+        })
+      })
+    })
+
+    describe('action has type CHAT_STARTED', () => {
+      const run = department => {
+        beaconSpy.trackUserAction.calls.reset()
+        nextSpy = jasmine.createSpy('nextSpy')
+        action = {
+          type: CHAT_STARTED
+        }
+        sendBlips({ getState: () => ({ department }) })(nextSpy)(action)
+      }
+
+      it('tracks a chatStarted blip with empty data when no department is selected', () => {
+        run()
+
+        expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'chatStarted', {
+          label: 'newChat',
+          value: {
+            departmentId: null,
+            departmentName: null
+          }
+        })
+      })
+
+      it('tracks a chatStarted blip with the department information when one is selected', () => {
+        run({
+          id: 1337,
+          name: 'department name'
+        })
+
+        expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'chatStarted', {
+          label: 'newChat',
+          value: {
+            departmentId: 1337,
+            departmentName: 'department name'
+          }
         })
       })
     })

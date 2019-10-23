@@ -8,6 +8,8 @@ import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 
+jest.mock('service/transport/http')
+
 jest.useFakeTimers()
 
 let store
