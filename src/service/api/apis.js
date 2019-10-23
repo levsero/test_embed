@@ -130,6 +130,7 @@ export const updateSettingsApi = (reduxStore, newSettings) => {
 
 export const logoutApi = reduxStore => {
   reduxStore.dispatch(logout())
+  reduxStore.dispatch(closeReceived())
   mediator.channel.broadcast('.logout')
   reduxStore.dispatch(chatLogout())
   reduxStore.dispatch(apiResetWidget())

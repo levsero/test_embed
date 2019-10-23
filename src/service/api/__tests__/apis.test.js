@@ -349,8 +349,9 @@ describe('updateSettingsApi', () => {
 describe('logoutApi', () => {
   const logoutValue = Date.now(),
     chatLogoutValue = Date.now(),
-    resetValue = { type: 'API_RESET_WIDGET' }
-  let baseSpy, chatSpy, resetSpy, store
+    resetValue = { type: 'API_RESET_WIDGET' },
+    closeReceivedValue = 'closeReceivedValue'
+  let baseSpy, chatSpy, resetSpy, closeReceivedSpy, store
 
   beforeEach(() => {
     store = createStore()
@@ -358,11 +359,13 @@ describe('logoutApi', () => {
     store.dispatch = jest.fn()
     const logout = jest.fn(() => logoutValue),
       chatLogout = jest.fn(() => chatLogoutValue),
-      apiReset = jest.fn(() => resetValue)
+      apiReset = jest.fn(() => resetValue),
+      closeReceived = jest.fn(() => closeReceivedValue)
 
     baseSpy = jest.spyOn(baseActions, 'logout').mockImplementation(logout)
     chatSpy = jest.spyOn(chatActions, 'chatLogout').mockImplementation(chatLogout)
     resetSpy = jest.spyOn(baseActions, 'apiResetWidget').mockImplementation(apiReset)
+    closeReceivedSpy = jest.spyOn(baseActions, 'closeReceived').mockImplementation(closeReceived)
 
     apis.logoutApi(store)
   })
@@ -371,10 +374,15 @@ describe('logoutApi', () => {
     baseSpy.mockRestore()
     chatSpy.mockRestore()
     resetSpy.mockRestore()
+    closeReceivedSpy.mockRestore()
   })
 
   it('dispatches the chatLogout action', () => {
     expect(store.dispatch).toHaveBeenCalledWith(chatLogoutValue)
+  })
+
+  it('dispatches the closeReceived action', () => {
+    expect(store.dispatch).toHaveBeenCalledWith(closeReceivedValue)
   })
 
   it('dispatches the logout action', () => {
