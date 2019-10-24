@@ -33,8 +33,13 @@
 .formWrapper {
   margin-bottom: #{15 / $font-size}rem;
 
-  > div {
-    margin-top: #{16 / $font-size}rem !important;
+  label:first-of-type {
+    margin-top: 0;
+  }
+
+  > div,
+  label {
+    margin-top: #{16 / $font-size}rem;
   }
 }
 

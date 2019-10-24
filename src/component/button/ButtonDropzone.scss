@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .dropzone {
-  composes: u-isActionable u-marginTS from global;
+  composes: u-isActionable from global;
   composes: Container--dashed from '../../styles/components/Container.scss';
 
   padding: #{14 / $font-size}rem #{10 / $font-size}rem;
