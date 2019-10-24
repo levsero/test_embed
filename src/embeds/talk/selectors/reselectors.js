@@ -10,8 +10,10 @@ export const getPhoneNumber = createSelector(
 export const getFormattedPhoneNumber = createSelector(
   [getPhoneNumber, getLibPhoneNumberVendor],
   (phoneNumber, phoneNumberUtils) => {
-    const parsed = phoneNumberUtils.parse(phoneNumber)
-
-    return phoneNumberUtils.format(parsed, 'International')
+    try {
+      return phoneNumberUtils.format(phoneNumberUtils.parse(phoneNumber), 'International')
+    } catch {
+      return null
+    }
   }
 )

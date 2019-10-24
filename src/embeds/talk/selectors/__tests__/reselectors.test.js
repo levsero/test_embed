@@ -15,23 +15,36 @@ test('getPhoneNumber', () => {
 })
 
 describe('getFormattedPhoneNumber', () => {
-  it('makes the correct calls', () => {
-    const stubbedFormat = jest.fn().mockReturnValue('formatted phone')
-    const stubbedParse = jest.fn().mockReturnValue('parsed phone')
-    const state = {
-      embeddableConfig: {
-        phoneNumber: '1231231'
-      },
-      vendor: {
-        libphonenumber: {
-          parse: stubbedParse,
-          format: stubbedFormat
-        }
+  const stubbedFormat = jest.fn().mockReturnValue('formatted phone')
+  const state = parse => ({
+    embeddableConfig: {
+      phoneNumber: '1231231'
+    },
+    vendor: {
+      libphonenumber: {
+        parse,
+        format: stubbedFormat
       }
     }
+  })
 
-    expect(selectors.getFormattedPhoneNumber(talkConfig(state))).toEqual('formatted phone')
+  it('makes the correct calls', () => {
+    const stubbedParse = jest.fn().mockReturnValue('parsed phone')
+
+    expect(selectors.getFormattedPhoneNumber(talkConfig(state(stubbedParse)))).toEqual(
+      'formatted phone'
+    )
     expect(stubbedParse).toHaveBeenCalledWith('1231231')
     expect(stubbedFormat).toHaveBeenCalledWith('parsed phone', 'International')
+  })
+
+  describe('when libphonenumber throws an error', () => {
+    it('returns null', () => {
+      const stubbedParse = jest.fn(() => {
+        throw new Error()
+      })
+
+      expect(selectors.getFormattedPhoneNumber(talkConfig(state(stubbedParse)))).toBeNull()
+    })
   })
 })

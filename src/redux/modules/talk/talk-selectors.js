@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { i18n } from 'service/i18n'
 import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types'
 export const getEmbeddableConfig = state => state.talk.embeddableConfig
+export const getPhoneNumber = state => getEmbeddableConfig(state).phoneNumber
 export const getCapability = state => getEmbeddableConfig(state).capability
 export const getEmbeddableConfigEnabled = state => getEmbeddableConfig(state).enabled
 export const getEmbeddableConfigConnected = state => getEmbeddableConfig(state).connected
