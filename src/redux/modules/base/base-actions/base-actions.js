@@ -24,6 +24,7 @@ import { http } from 'service/transport'
 import { PHONE_PATTERN } from 'src/constants/shared'
 import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import { focusLauncher } from 'utility/globals'
 import * as callbacks from 'service/api/callbacks'
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
@@ -256,6 +257,7 @@ export const handleCloseButtonClicked = () => {
       type: actions.CLOSE_BUTTON_CLICKED
     })
 
+    focusLauncher()
     callbacks.fireFor(WIDGET_CLOSED_EVENT)
   }
 }
