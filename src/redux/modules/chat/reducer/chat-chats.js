@@ -49,13 +49,6 @@ const concatChat = (chats, chat) => {
 const concatQuickReply = (chats, chat) => {
   const copy = new Map(chats)
   const timestamp = chat.timestamp
-  const newMsg = chat.structured_msg.msg
-  const chatMessage = {
-    ...chat,
-    timestamp,
-    msg: newMsg,
-    options: [] // We do not want options for a quick reply message
-  }
   const quickReplies = {
     type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
     nick: chat.nick,
@@ -63,7 +56,7 @@ const concatQuickReply = (chats, chat) => {
     timestamp: timestamp + 1
   }
 
-  copy.set(timestamp, chatMessage)
+  copy.set(timestamp, chat)
   copy.set(timestamp + 1, quickReplies)
 
   return copy
