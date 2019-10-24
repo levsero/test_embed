@@ -129,7 +129,8 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/selectors': {
         getOfflineFormSettings: () => mockOfflineFormSettings,
         getDefaultSelectedDepartment: () => mockDepartment,
-        getAnswerBotAvailable: () => mockAnswerBotAvailable
+        getAnswerBotAvailable: () => mockAnswerBotAvailable,
+        getSubmitTicketAvailable: () => mockSubmitTicketAvailable
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
@@ -173,7 +174,6 @@ describe('onStateChange middleware', () => {
           return mockActiveEmbed
         },
         getWidgetShown: () => mockWidgetShown,
-        getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
         getIPMWidget: () => mockIPMWidget,
         getHasWidgetShown: () => mockHasWidgetShown,

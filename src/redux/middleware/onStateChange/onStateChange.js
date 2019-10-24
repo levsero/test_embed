@@ -41,7 +41,6 @@ import {
   getWidgetShown,
   getIPMWidget,
   getHelpCenterEmbed,
-  getSubmitTicketEmbed,
   getHasWidgetShown,
   getChatEmbed
 } from 'src/redux/modules/base/base-selectors'
@@ -50,7 +49,7 @@ import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
-import { getAnswerBotAvailable } from 'src/redux/modules/selectors'
+import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import { resetShouldWarn } from 'src/util/nullZChat'
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen'
@@ -171,7 +170,7 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (!getChatOnline(nextState)) {
       if (
-        getSubmitTicketEmbed(nextState) &&
+        getSubmitTicketAvailable(nextState) &&
         !getIsChattingState(nextState) &&
         getActiveEmbed(nextState) === 'chat' &&
         !isPopout()
@@ -184,9 +183,10 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
 
 const onChatEnd = (nextState, action, dispatch) => {
   if (action.type === END_CHAT_REQUEST_SUCCESS) {
-    if (!getChatOnline(nextState) && getSubmitTicketEmbed(nextState) && !isPopout()) {
+    if (!getChatOnline(nextState) && getSubmitTicketAvailable(nextState) && !isPopout()) {
       dispatch(updateActiveEmbed('ticketSubmissionForm'))
     }
+
     if (getAnswerBotAvailable(nextState)) {
       dispatch(updateBackButtonVisibility(true))
     }
