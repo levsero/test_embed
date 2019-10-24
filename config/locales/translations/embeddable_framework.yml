@@ -135,6 +135,16 @@ parts:
       key: "embeddable_framework.web_widget.frame.title"
       title: "This string is used by screen readers to identify the currently opened Web Widget. The text will be read out for the visually impaired. Capitalization doesn't matter."
       value: "Find more information here"
+  - translation:
+      key: "embeddable_framework.common.notify.message.thanks_for_reaching_out_v2"
+      title: "Success message that is displayed after a form is completed, indicating appreciation from customer for user reaching out."
+      screenshot: "https://drive.google.com/open?id=12o4HJswLNlnnzSKoX1XJ6DZOkL28NdhJ"
+      value: "Thanks for reaching out"
+  - translation:
+      key: "embeddable_framework.common.notify.message.get_back_v2"
+      title: "Success message that is displayed after a form is completed, indicating a customer agent will get back to user soon."
+      screenshot: "https://drive.google.com/open?id=1wT564ldlhIIcXg3nW3keCXzsJERpi9mq"
+      value: "Someone will get back to you soon"
 
   # Validation errors
   - translation:
