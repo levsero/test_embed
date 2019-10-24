@@ -12,7 +12,7 @@ describe('widget close behavior', () => {
     await page.evaluate(() => zE.activate())
     await expect(launcher).toBeHidden()
     await expect(widget).toBeVisible()
-    await widget.close()
+    await widget.clickClose()
     await expect(launcher).toBeHidden()
     await expect(widget).toBeHidden()
   })
@@ -22,7 +22,7 @@ describe('widget close behavior', () => {
     await expect(launcher).toBeHidden()
     await expect(widget).toBeVisible()
 
-    await widget.close()
+    await widget.clickClose()
     await expect(launcher).toBeVisible()
     await expect(widget).toBeHidden()
   })
@@ -30,7 +30,7 @@ describe('widget close behavior', () => {
   test('hides the widget if hideOnClose is true', async () => {
     await page.evaluate(() => zE.activate({ hideOnClose: true }))
 
-    await widget.close()
+    await widget.clickClose()
     await expect(launcher).toBeHidden()
     await expect(widget).toBeHidden()
   })
@@ -38,7 +38,7 @@ describe('widget close behavior', () => {
   test('shows the launcher if hideOnClose is false', async () => {
     await page.evaluate(() => zE.activate({ hideOnClose: false }))
 
-    await widget.close()
+    await widget.clickClose()
     await expect(launcher).toBeVisible()
     await expect(widget).toBeHidden()
   })
