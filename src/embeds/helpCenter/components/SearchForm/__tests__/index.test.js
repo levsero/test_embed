@@ -1,24 +1,18 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+import { fireEvent, wait } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchForm, { Component } from '../index'
 
 jest.mock('service/transport')
 
 const renderInitialSearchForm = () => {
-  const store = createStore()
-  const utils = render(
-    <Provider store={store}>
-      <SearchForm />
-    </Provider>
-  )
+  const utils = render(<SearchForm />)
 
   const inputNode = utils.getByPlaceholderText('How can we help?')
   const formNode = utils.container.querySelector('form')
 
-  return { ...utils, inputNode, formNode, store }
+  return { ...utils, inputNode, formNode }
 }
 
 it('searches when text provided', async () => {

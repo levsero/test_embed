@@ -1,12 +1,11 @@
 import { ChatOfflineForm } from '../ChatOfflineForm'
-import { render, getByTestId } from '@testing-library/react'
+import { getByTestId } from '@testing-library/react'
 import React from 'react'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import { queryByTestId, fireEvent } from '@testing-library/dom'
 
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'src/util/testHelpers'
 
 const handleOperatingHoursClickSpy = jest.fn(),
   handleOfflineFormBackSpy = jest.fn()
@@ -33,11 +32,7 @@ const renderForm = (props = {}) => {
     ...props
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <ChatOfflineForm {...combinedProps} />
-    </Provider>
-  )
+  return render(<ChatOfflineForm {...combinedProps} />)
 }
 
 describe('render', () => {

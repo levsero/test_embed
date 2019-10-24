@@ -1,9 +1,7 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { Component as ChatHistoryScreen } from '../'
 import snapshotDiff from 'snapshot-diff'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'src/util/testHelpers'
 
 jest.mock('component/chat/chatting/HistoryLog')
 
@@ -28,11 +26,7 @@ const renderChatHistoryScreen = (customProps = {}) => {
     ...customProps
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <ChatHistoryScreen {...props} />
-    </Provider>
-  )
+  return render(<ChatHistoryScreen {...props} />)
 }
 
 describe('ChatHistoryScreen', () => {
@@ -40,18 +34,18 @@ describe('ChatHistoryScreen', () => {
 
   describe('when not mobile', () => {
     beforeEach(() => {
-      result = renderChatHistoryScreen()
+      result = renderChatHistoryScreen().container
     })
 
     it('renders ChatHistory', () => {
-      expect(result.container).toMatchSnapshot()
+      expect(result).toMatchSnapshot()
     })
   })
 
   describe('when mobile', () => {
     beforeEach(() => {
-      defaultProps = renderChatHistoryScreen()
-      result = renderChatHistoryScreen({ isMobile: true })
+      defaultProps = renderChatHistoryScreen().container
+      result = renderChatHistoryScreen({ isMobile: true }).container
     })
 
     it('renders mobile classes', () => {
@@ -61,8 +55,8 @@ describe('ChatHistoryScreen', () => {
 
   describe('when hideZendeskLogo is true', () => {
     beforeEach(() => {
-      defaultProps = renderChatHistoryScreen()
-      result = renderChatHistoryScreen({ hideZendeskLogo: true })
+      defaultProps = renderChatHistoryScreen().container
+      result = renderChatHistoryScreen({ hideZendeskLogo: true }).container
     })
 
     it('has no logo and correct margin', () => {

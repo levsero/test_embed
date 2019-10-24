@@ -1,16 +1,12 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
 
-import createStore from 'src/redux/createStore'
+import { render } from 'src/util/testHelpers'
 import { Component as OfflinePage } from '../index'
 
 describe('OfflineMessage', () => {
   it('renders a label explaining that talk is offline', () => {
     const { container } = render(
-      <Provider store={createStore()}>
-        <OfflinePage message="Offline message" title={'title'} hideZendeskLogo={false} />
-      </Provider>
+      <OfflinePage message="Offline message" title={'title'} hideZendeskLogo={false} />
     )
 
     expect(container).toMatchSnapshot()

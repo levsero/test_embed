@@ -1,10 +1,8 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 import snapshotDiff from 'snapshot-diff'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 
-import { IdManager } from '@zendeskgarden/react-selection'
+import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'src/constants/shared'
 import { Component as SubmitTicket } from '../SubmitTicket'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
@@ -40,13 +38,7 @@ const submitTicket = props => {
     onCancelClick: jest.fn()
   }
   const mergedProps = { ...defaultProps, ...props }
-  IdManager.setIdCounter(0)
-
-  return (
-    <Provider store={createStore()}>
-      <SubmitTicket {...mergedProps} />
-    </Provider>
-  )
+  return <SubmitTicket {...mergedProps} />
 }
 
 test('renders the expected components', () => {

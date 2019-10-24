@@ -1,15 +1,12 @@
 import React from 'react'
-import { render } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
 
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'src/util/testHelpers'
 import ChannelChoiceContainer from '../ChannelChoiceContainer'
 import { TEST_IDS } from 'src/constants/shared'
 
 describe('rendering', () => {
   const renderComponent = (props = {}) => {
-    const store = createStore()
     const defaultProps = {
       chatAvailable: false,
       formTitleKey: 'support',
@@ -21,11 +18,7 @@ describe('rendering', () => {
     }
     const mergedProps = { ...defaultProps, ...props }
 
-    return render(
-      <Provider store={store}>
-        <ChannelChoiceContainer {...mergedProps} />
-      </Provider>
-    )
+    return render(<ChannelChoiceContainer {...mergedProps} />)
   }
 
   describe('renders ChannelChoiceContainer correctly', () => {

@@ -1,10 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
-
-import { dispatchChatAccountSettings } from 'utility/testHelpers'
+import { render, dispatchChatAccountSettings } from 'utility/testHelpers'
 import { settings } from 'service/settings'
 import ChatOnline from '../../ChatOnline'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
@@ -28,13 +25,7 @@ const timestamp = () => {
 }
 
 const renderComponent = () => {
-  return render(
-    <Provider store={store}>
-      <ThemeProvider>
-        <ChatOnline updateChatBackButtonVisibility={() => {}} />
-      </ThemeProvider>
-    </Provider>
-  )
+  return render(<ChatOnline updateChatBackButtonVisibility={() => {}} />, { store })
 }
 
 describe('chat log', () => {

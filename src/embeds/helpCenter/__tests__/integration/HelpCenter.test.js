@@ -1,10 +1,9 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
-import { Provider } from 'react-redux'
 
 import createStore from 'src/redux/createStore'
 import { http } from 'service/transport'
-
+import { render } from 'src/util/testHelpers'
 import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
@@ -20,14 +19,7 @@ const renderComponent = () => {
   store.dispatch(updateEmbedAccessible('helpCenterForm', true))
   store.dispatch(updateActiveEmbed('helpCenterForm'))
 
-  return {
-    store,
-    ...render(
-      <Provider store={store}>
-        <HelpCenter />
-      </Provider>
-    )
-  }
+  return render(<HelpCenter />)
 }
 
 const search = jest.fn(options => {

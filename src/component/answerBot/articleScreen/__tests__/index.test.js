@@ -1,12 +1,11 @@
 import _ from 'lodash'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { http } from 'service/transport'
 
 import { Component as ArticleScreen } from '../index'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { render } from 'src/util/testHelpers'
 
 http.init({
   zendeskHost: 'a.zendesk.com'
@@ -38,14 +37,8 @@ const renderComponent = (props = {}) => {
     actions,
     storedImages: {}
   }
-
   const componentProps = _.merge({}, defaultProps, props)
-
-  return render(
-    <Provider store={createStore()}>
-      <ArticleScreen {...componentProps} />
-    </Provider>
-  )
+  return render(<ArticleScreen {...componentProps} />)
 }
 
 test('renders the expected classes', () => {

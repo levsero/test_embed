@@ -1,8 +1,7 @@
-import { render, fireEvent, getByTestId } from '@testing-library/react'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { fireEvent, getByTestId } from '@testing-library/react'
 import React from 'react'
 
+import { render } from 'src/util/testHelpers'
 import { Component as PrechatScreen } from 'src/component/chat/prechat/PrechatScreen'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import { TEST_IDS } from 'src/constants/shared'
@@ -45,11 +44,7 @@ const renderComponent = inProps => {
     ...inProps
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <PrechatScreen {...props} />
-    </Provider>
-  )
+  return render(<PrechatScreen {...props} />)
 }
 
 describe('render', () => {

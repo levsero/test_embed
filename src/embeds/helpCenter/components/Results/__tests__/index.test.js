@@ -1,7 +1,5 @@
-import { render } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import React from 'react'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
 
 import { Component as Results } from '../index'
 
@@ -11,11 +9,7 @@ const renderComponent = props => {
     ...props
   }
 
-  return render(
-    <Provider store={createStore()}>
-      <Results {...mergedProps} />
-    </Provider>
-  )
+  return render(<Results {...mergedProps} />)
 }
 
 describe('render', () => {

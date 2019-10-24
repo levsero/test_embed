@@ -1,12 +1,11 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import { Component as CallbackForm } from '../'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import * as libphonenumber from 'libphonenumber-js'
 import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
 import { TEST_IDS } from 'src/constants/shared'
+import createStore from 'src/redux/createStore'
 
 beforeEach(() => {
   jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
@@ -48,11 +47,7 @@ describe('CallbackForm', () => {
 
     store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
 
-    return render(
-      <Provider store={store}>
-        <CallbackForm {...defaultProps} {...props} />
-      </Provider>
-    )
+    return render(<CallbackForm {...defaultProps} {...props} />, { store })
   }
 
   it('renders the header message', () => {

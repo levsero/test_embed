@@ -1,8 +1,7 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
+
+import { render } from 'src/util/testHelpers'
 import { find } from 'styled-components/test-utils'
-import createStore from 'src/redux/createStore'
 import Title from 'components/Widget/Header/Title'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import Header from '../'
@@ -14,12 +13,7 @@ describe('Header', () => {
     children: <div>Some child component</div>
   }
 
-  const renderComponent = (props = {}) =>
-    render(
-      <Provider store={createStore()}>
-        <Header {...defaultProps} {...props} />
-      </Provider>
-    )
+  const renderComponent = (props = {}) => render(<Header {...defaultProps} {...props} />)
 
   beforeEach(() => {
     jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(true)

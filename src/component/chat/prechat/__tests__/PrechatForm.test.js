@@ -1,9 +1,6 @@
-import { render, fireEvent, queryByText } from '@testing-library/react'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
+import { fireEvent, queryByText } from '@testing-library/react'
+import { render } from 'src/util/testHelpers'
 import React from 'react'
-import { IdManager } from '@zendeskgarden/react-selection'
 
 import { PrechatForm } from '../PrechatForm'
 
@@ -42,15 +39,7 @@ const renderPrechatForm = (inProps = {}) => {
     ...inProps
   }
 
-  IdManager.setIdCounter(0)
-
-  return render(
-    <ThemeProvider>
-      <Provider store={createStore()}>
-        <PrechatForm {...combinedProps} />
-      </Provider>
-    </ThemeProvider>
-  )
+  return render(<PrechatForm {...combinedProps} />)
 }
 
 test('renders a greeting message', () => {
@@ -242,7 +231,7 @@ describe('Departments', () => {
 })
 
 test('renders fields as optional if required is false', () => {
-  let formProp = {
+  const formProp = {
     name: { name: 'name' },
     email: { name: 'email' },
     phone: {

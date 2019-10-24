@@ -1,9 +1,8 @@
 import React from 'react'
-import { render, wait } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import { Component as WebWidget } from '../WebWidget'
+import { wait } from '@testing-library/react'
 
-import createStore from 'src/redux/createStore'
+import { Component as WebWidget } from '../WebWidget'
+import { render } from 'src/util/testHelpers'
 
 let originalError
 
@@ -22,13 +21,11 @@ afterEach(() => {
 
 it('show new support embed', async () => {
   const { queryByText } = render(
-    <Provider store={createStore()}>
-      <WebWidget
-        submitTicketAvailable={true}
-        activeEmbed="ticketSubmissionForm"
-        webWidgetReactRouterSupport={true}
-      />
-    </Provider>
+    <WebWidget
+      submitTicketAvailable={true}
+      activeEmbed="ticketSubmissionForm"
+      webWidgetReactRouterSupport={true}
+    />
   )
 
   await wait(() => {
@@ -38,13 +35,11 @@ it('show new support embed', async () => {
 
 it('show old support embed', () => {
   const { queryByText } = render(
-    <Provider store={createStore()}>
-      <WebWidget
-        submitTicketAvailable={true}
-        activeEmbed="ticketSubmissionForm"
-        webWidgetReactRouterSupport={false}
-      />
-    </Provider>
+    <WebWidget
+      submitTicketAvailable={true}
+      activeEmbed="ticketSubmissionForm"
+      webWidgetReactRouterSupport={false}
+    />
   )
 
   expect(queryByText('I AM NEW SUPPORT')).not.toBeInTheDocument()

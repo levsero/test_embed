@@ -12,6 +12,7 @@ import {
 import { EMAIL_PATTERN } from 'constants/shared'
 import { noopReactComponent } from 'utility/testHelpers'
 import snapshotDiff from 'snapshot-diff'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?'
@@ -318,7 +319,7 @@ describe('customFields', () => {
 
     it('renders the correct components for each key', () => {
       customFields.allFields.forEach(customField => {
-        const { container } = render(customField)
+        const { container } = render(<ThemeProvider>{customField}</ThemeProvider>)
 
         expect(container).toMatchSnapshot()
       })

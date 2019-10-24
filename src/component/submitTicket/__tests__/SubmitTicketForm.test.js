@@ -1,17 +1,14 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
 
-import { IdManager } from '@zendeskgarden/react-selection'
+import { render } from 'src/util/testHelpers'
 import { i18n } from 'service/i18n'
 
 import { SubmitTicketForm } from '../SubmitTicketForm'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 
 jest.useFakeTimers()
 
-const renderSubmitTicketForm = (props, renderer) => {
+const renderSubmitTicketForm = (props, renderer, history) => {
   const defaultProps = {
     attachmentSender: noop,
     submit: noop,
@@ -20,15 +17,8 @@ const renderSubmitTicketForm = (props, renderer) => {
     nameFieldEnabled: true
   }
   const mergedProps = { ...defaultProps, ...props }
-  const component = (
-    <ThemeProvider theme={{}}>
-      <Provider store={createStore()}>
-        <SubmitTicketForm {...mergedProps} />
-      </Provider>
-    </ThemeProvider>
-  )
-  IdManager.setIdCounter(0)
-  return renderer ? renderer(component) : render(component)
+  const component = <SubmitTicketForm {...mergedProps} />
+  return render(component, { render: renderer, history })
 }
 
 test('renders the expected components', () => {
@@ -381,7 +371,7 @@ describe('form', () => {
       })
     })
 
-    const renderWithState = (state, renderer) => {
+    const renderWithState = (state, renderer, history) => {
       const submit = jest.fn()
       const setFormState = jest.fn()
       const getLatestState = () => {
@@ -399,13 +389,14 @@ describe('form', () => {
             submit,
             setFormState
           },
-          renderer
+          renderer,
+          history
         )
       }
     }
 
-    const ticketFieldAct = (state, renderer, cb) => {
-      const getState = renderWithState(state, renderer).getLatestState
+    const ticketFieldAct = (state, renderer, history, cb) => {
+      const getState = renderWithState(state, renderer, history).getLatestState
       cb()
       return getState()
     }
@@ -413,7 +404,7 @@ describe('form', () => {
     describe('submission', () => {
       it('submits the expected object and changes the button text', () => {
         let state = {}
-        const { container, rerender, getByText, getByLabelText } = renderWithState(state)
+        const { container, rerender, getByText, getByLabelText, history } = renderWithState(state)
         fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'))
         fireEvent.click(getByText('three'))
         jest.runAllTimers()
@@ -421,28 +412,28 @@ describe('form', () => {
         fireEvent.change(getByLabelText('Your name (optional)'), {
           target: { value: 'Slim Shady' }
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Favorite Integer'), { target: { value: '99' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Favorite Decimal'), { target: { value: '100.00' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Description'), { target: { value: 'despacito' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Subject'), { target: { value: 'subject' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Favorite Textarea'), { target: { value: 'textarea' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.change(getByLabelText('Favorite Burger'), { target: { value: 'burger' } })
         })
-        state = ticketFieldAct(state, rerender, () => {
+        state = ticketFieldAct(state, rerender, history, () => {
           fireEvent.click(getByLabelText('Favorite Checkbox'))
         })
-        const { submit } = renderWithState(state, rerender)
+        const { submit } = renderWithState(state, rerender, history)
         fireEvent.click(getByText('Send'))
         expect(submit).toHaveBeenCalledWith(expect.anything(), {
           isFormValid: true,
