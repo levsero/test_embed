@@ -590,14 +590,19 @@ describe('getTalkEnabled', () => {
 
 describe('getTalkAvailable', () => {
   test.each([
-    [true, true, true],
-    [true, false, false],
-    [false, false, false],
-    [false, true, false]
+    [true, true, '123456', true],
+    [true, false, '123456', false],
+    [false, false, '123456', false],
+    [false, true, '123456', false],
+    [true, true, '', false],
+    [true, true, undefined, false],
+    [true, true, null, false]
   ])(
-    'when talkEnabled is %p, && configEnabled is %p, it returns %p',
-    (talkEnabled, configEnabled, expected) => {
-      expect(selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled)).toEqual(expected)
+    'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, it returns %p',
+    (talkEnabled, configEnabled, phoneNumber, expected) => {
+      expect(
+        selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled, phoneNumber)
+      ).toEqual(expected)
     }
   )
 })

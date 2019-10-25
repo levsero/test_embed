@@ -11,9 +11,10 @@ import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types
 import { DisplayLabel } from './styles'
 
 const CallbackPhone = ({ capability, phoneNumber, formattedPhoneNumber, phoneLabel }) => {
-  if (capability !== CALLBACK_AND_PHONE) {
+  if (!(capability === CALLBACK_AND_PHONE && phoneNumber && formattedPhoneNumber)) {
     return null
   }
+
   return (
     <DisplayLabel>
       {`${phoneLabel} `}

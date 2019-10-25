@@ -63,7 +63,8 @@ import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
   getAgentAvailability,
   getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
-  isCallbackEnabled
+  isCallbackEnabled,
+  getPhoneNumber
 } from '../talk/talk-selectors'
 import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
@@ -322,8 +323,9 @@ export const getTalkEnabled = createSelector(
 )
 
 export const getTalkAvailable = createSelector(
-  [getTalkEnabled, getTalkEmbeddableConfigEnabled],
-  (talkEnabled, configEnabled) => talkEnabled && configEnabled
+  [getTalkEnabled, getTalkEmbeddableConfigEnabled, getPhoneNumber],
+  (talkEnabled, configEnabled, phoneNumber) =>
+    talkEnabled && configEnabled && !_.isEmpty(phoneNumber)
 )
 
 export const getTalkOnline = createSelector(
