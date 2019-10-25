@@ -12,7 +12,7 @@ test('callback is called when widget is closed', async () => {
   })
 
   await launcher.click()
-  await widget.close()
+  await widget.clickClose()
   const result = await page.evaluate(() => window.onCloseCalled)
   expect(result).toEqual(true)
 })

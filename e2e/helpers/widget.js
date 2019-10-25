@@ -6,7 +6,7 @@ const getDocument = async () => {
   return frame.getDocument('webWidget')
 }
 
-const close = async () => {
+const clickClose = async () => {
   const widget = await getDocument()
   const closeButton = await queries.getByTestId(widget, TEST_IDS.ICON_DASH)
   await closeButton.click()
@@ -14,6 +14,6 @@ const close = async () => {
 
 export default {
   getDocument,
-  close,
+  clickClose,
   selector: 'iframe#webWidget'
 }

@@ -28,7 +28,8 @@ let actions,
   contextualSearchSpy = jasmine
     .createSpy('contextualSearch')
     .and.returnValue({ type: 'someActionType' }),
-  fireEventsForSpy = jasmine.createSpy('fireFor')
+  fireEventsForSpy = jasmine.createSpy('fireFor'),
+  focusLauncherSpy = jasmine.createSpy('focusLauncher')
 
 const middlewares = [thunk]
 const createMockStore = configureMockStore(middlewares)
@@ -119,6 +120,9 @@ describe('base redux actions', () => {
         http: {
           send: httpPostSpy
         }
+      },
+      'utility/globals': {
+        focusLauncher: focusLauncherSpy
       }
     })
 
@@ -808,6 +812,10 @@ describe('base redux actions', () => {
 
     it('fires off widget close event', () => {
       expect(fireEventsForSpy).toHaveBeenCalledWith(WIDGET_CLOSED_EVENT)
+    })
+
+    it('calls focusLauncher', () => {
+      expect(focusLauncherSpy).toHaveBeenCalled()
     })
 
     it('dispatches a CLOSE_BUTTON_CLICKED event', () => {
