@@ -396,7 +396,13 @@ test('submits expected form data', () => {
     email: 'me@zd.com',
     name: 'Homer Simpson',
     phone: '555-555-5555',
-    message: 'This is the message'
+    message: 'This is the message',
+    department: {
+      name: 'department',
+      label: 'Choose Department',
+      required: false
+    },
+    departments: [{ name: 'dept', id: 1234, isDefault: false }]
   }
   const formHandler = jest.fn()
   const { getByText } = renderPrechatForm({
