@@ -112,7 +112,7 @@ export default class HelpCenterArticle extends Component {
         a: ['id', 'href', 'target', 'title', 'name'],
         span: ['id', 'name'],
         div: ['id'],
-        img: ['id', 'src', 'alt', 'name'],
+        img: ['id', 'src', 'alt', 'name', 'width', 'height'],
         h1: ['id'],
         h2: ['id'],
         h3: ['id'],
