@@ -9,6 +9,7 @@ import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as actions from 'src/redux/modules/chat/chat-actions/actions'
+import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 
 jest.mock('service/transport/http')
 
@@ -908,6 +909,7 @@ describe('prechat form', () => {
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
       payload: {
+        type: 'chat',
         detail: {
           nick: 'visitor',
           type: 'chat.memberjoin',
@@ -938,6 +940,59 @@ describe('prechat form', () => {
     expect(zChat.clearVisitorDefaultDepartment).toHaveBeenCalled()
     expect(zChat.sendChatMsg).not.toHaveBeenCalled()
     expect(queryByText('Live Support')).toBeInTheDocument()
+  })
+
+  it('sends online message even if department field is hidden', () => {
+    store.dispatch({
+      type: chatActionTypes.SDK_VISITOR_UPDATE,
+      payload: {
+        detail: {
+          display_name: 'Visitor 12345',
+          email: ''
+        }
+      }
+    })
+    store.dispatch({
+      type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+      payload: {
+        detail: {
+          name: 'eight',
+          status: 'online',
+          id: 1
+        }
+      }
+    })
+    store.dispatch(updateSettings({ chat: { departments: { enabled: [] } } }))
+    const {
+      queryByLabelText,
+      getByLabelText,
+      getByText,
+      queryByText,
+      queryByTestId
+    } = renderComponent()
+    fireEvent.change(getByLabelText('Message (optional)'), { target: { value: 'hello world' } })
+    expect(queryByLabelText('Department (optional)')).not.toBeInTheDocument()
+    jest.runAllTimers()
+    fireEvent.click(getByText('Start chat'))
+    expect(zChat.setVisitorDefaultDepartment).not.toHaveBeenCalled()
+    // The new screen is now chatting screen
+    expect(queryByText('Live Support')).toBeInTheDocument()
+    jest.runAllTimers()
+    expect(zChat.sendTyping).toHaveBeenCalledWith(false)
+    expect(zChat.sendChatMsg).toHaveBeenCalledWith('hello world', expect.any(Function))
+    store.dispatch({
+      type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+      payload: {
+        type: 'chat',
+        detail: {
+          nick: 'visitor',
+          type: 'chat.memberjoin',
+          timestamp: 12345,
+          display_name: 'Visitor 12345'
+        }
+      }
+    })
+    expect(queryByTestId('chat-msg-user').textContent).toEqual('hello world')
   })
 
   it('submits offline message if offline department is selected', () => {
