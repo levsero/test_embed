@@ -876,13 +876,17 @@ describe('prechat form', () => {
       }
     })
     const { container, getByLabelText, getByText, queryByText, queryByTestId } = renderComponent()
+
     fireEvent.change(getByLabelText('Message (optional)'), { target: { value: 'burger' } })
     fireEvent.change(getByLabelText('Name (optional)'), { target: { value: 'Bruised Wayne' } })
     fireEvent.change(getByLabelText('Email (optional)'), { target: { value: 'bat@man.com' } })
     fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'))
     fireEvent.click(getByText('eight'))
+
     jest.runAllTimers()
+
     fireEvent.click(getByText('Start chat'))
+
     expect(zChat.setVisitorInfo).toHaveBeenCalledWith(
       {
         display_name: 'Bruised Wayne',
@@ -933,9 +937,13 @@ describe('prechat form', () => {
       }
     })
     const { getByText, queryByText } = renderComponent()
+
     jest.runAllTimers()
+
     fireEvent.click(getByText('Start chat'))
+
     jest.runAllTimers()
+
     expect(zChat.setVisitorInfo).not.toHaveBeenCalled()
     expect(zChat.clearVisitorDefaultDepartment).toHaveBeenCalled()
     expect(zChat.sendChatMsg).not.toHaveBeenCalled()
@@ -970,7 +978,9 @@ describe('prechat form', () => {
       queryByText,
       queryByTestId
     } = renderComponent()
+
     fireEvent.change(getByLabelText('Message (optional)'), { target: { value: 'hello world' } })
+
     expect(queryByLabelText('Department (optional)')).not.toBeInTheDocument()
     jest.runAllTimers()
     fireEvent.click(getByText('Start chat'))
@@ -1007,13 +1017,17 @@ describe('prechat form', () => {
       }
     })
     const { container, getByLabelText, getByText } = renderComponent()
+
     fireEvent.change(getByLabelText('Message (optional)'), { target: { value: 'my offline msg' } })
     fireEvent.change(getByLabelText('Name (optional)'), { target: { value: 'Bruised Wayne' } })
     fireEvent.change(getByLabelText('Email (optional)'), { target: { value: 'bat@man.com' } })
     fireEvent.click(container.querySelector('[data-garden-id="dropdowns.select"]'))
     fireEvent.click(getByText('nine (offline)'))
+
     jest.runAllTimers()
+
     fireEvent.click(getByText('Send message'))
+
     expect(zChat.sendOfflineMsg).toHaveBeenCalledWith(
       {
         '': '', // the submit button serializes to an empty prop
