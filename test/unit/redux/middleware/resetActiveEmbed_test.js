@@ -1,10 +1,7 @@
 describe('resetActiveEmbed middleware', () => {
   let resetActiveEmbed,
     mockActiveEmbed = 'ticketSubmissionForm',
-    mockZopimIsChatting = false,
-    mockZopimChatOnline = false,
     mockChatStandalone = false,
-    mockZopimChatEmbed = false,
     mockChatAvailable = false,
     mockTalkOnline = false,
     mockChannelChoiceAvailable = false,
@@ -26,9 +23,6 @@ describe('resetActiveEmbed middleware', () => {
   const TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT = 'TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT'
   const SDK_CONNECTION_UPDATE = 'SDK_CONNECTION_UPDATE'
   const SDK_ACCOUNT_STATUS = 'SDK_ACCOUNT_STATUS'
-  const ZOPIM_CHAT_ON_STATUS_UPDATE = 'ZOPIM_CHAT_ON_STATUS_UPDATE'
-  const ZOPIM_END_CHAT = 'ZOPIM_END_CHAT'
-  const ZOPIM_HIDE = 'ZOPIM_HIDE'
   const API_RESET_WIDGET = 'API_RESET_WIDGET'
   const GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS = 'GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS'
   const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
@@ -43,7 +37,6 @@ describe('resetActiveEmbed middleware', () => {
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
-        getZopimChatEmbed: () => mockZopimChatEmbed,
         getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/selectors': {
@@ -59,10 +52,6 @@ describe('resetActiveEmbed middleware', () => {
       },
       'embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive
-      },
-      'src/redux/modules/zopimChat/zopimChat-selectors': {
-        getZopimChatOnline: () => mockZopimChatOnline,
-        getZopimIsChatting: () => mockZopimIsChatting
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => mockIsChatting,
@@ -89,11 +78,6 @@ describe('resetActiveEmbed middleware', () => {
       'src/redux/modules/talk/talk-action-types': {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT
-      },
-      'src/redux/modules/zopimChat/zopimChat-action-types': {
-        ZOPIM_CHAT_ON_STATUS_UPDATE,
-        ZOPIM_END_CHAT,
-        ZOPIM_HIDE
       },
       'utility/globals': {
         isPopout: () => mockIsPopout
@@ -127,15 +111,12 @@ describe('resetActiveEmbed middleware', () => {
       TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
       TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       WIDGET_INITIALISED,
-      ZOPIM_HIDE,
       ACTIVATE_RECEIVED,
       AUTHENTICATION_SUCCESS,
-      ZOPIM_END_CHAT,
       API_RESET_WIDGET,
       GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
     ]
     const chatActions = [SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS]
-    const zopimChatActions = [ZOPIM_CHAT_ON_STATUS_UPDATE]
     let prevState, nextState, action
 
     beforeEach(() => {
@@ -218,22 +199,6 @@ describe('resetActiveEmbed middleware', () => {
             action = { type: actionToTest }
           })
 
-          describe('when activeEmbed is zopimChat and zopimIsChatting is true', () => {
-            beforeAll(() => {
-              mockActiveEmbed = 'zopimChat'
-              mockZopimIsChatting = true
-            })
-
-            afterAll(() => {
-              mockActiveEmbed = 'ticketSubmissionForm'
-              mockZopimIsChatting = false
-            })
-
-            it('does not call updateActiveEmbed', () => {
-              expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-            })
-          })
-
           describe('when activeEmbed is chat and isChatting is true', () => {
             beforeAll(() => {
               mockActiveEmbed = 'chat'
@@ -250,7 +215,7 @@ describe('resetActiveEmbed middleware', () => {
             })
           })
 
-          describe('when neither zopimChat or chat is chatting', () => {
+          describe('when chat is not chatting', () => {
             it('calls updateActiveEmbed', () => {
               expect(updateActiveEmbedSpy).toHaveBeenCalled()
             })
@@ -295,88 +260,6 @@ describe('resetActiveEmbed middleware', () => {
           })
 
           describe('when the active embed is not chat or channelChoice', () => {
-            beforeAll(() => {
-              mockActiveEmbed = 'helpCenterForm'
-            })
-
-            it('does not call updateActiveEmbed', () => {
-              expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-            })
-          })
-        })
-      })
-
-      _.forEach(zopimChatActions, actionToTest => {
-        describe(`when action type is ${actionToTest}`, () => {
-          beforeAll(() => {
-            action = { type: actionToTest }
-          })
-
-          describe('when active embed is ticketSubmissionForm', () => {
-            beforeAll(() => {
-              mockActiveEmbed = 'ticketSubmissionForm'
-            })
-
-            it('calls updateActiveEmbed', () => {
-              expect(updateActiveEmbedSpy).toHaveBeenCalled()
-            })
-          })
-
-          describe('when active embed is empty string', () => {
-            beforeAll(() => {
-              mockActiveEmbed = NIL_EMBED
-            })
-
-            it('calls updateActiveEmbed', () => {
-              expect(updateActiveEmbedSpy).toHaveBeenCalled()
-            })
-          })
-
-          _.forEach(['zopimChat', 'channelChoice'], activeEmbed => {
-            describe(`when the active embed is ${activeEmbed}`, () => {
-              beforeAll(() => {
-                mockActiveEmbed = activeEmbed
-              })
-
-              describe('when online', () => {
-                beforeAll(() => {
-                  mockZopimChatOnline = true
-                })
-
-                it('does not call updateActiveEmbed', () => {
-                  expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-                })
-              })
-
-              describe('when offline', () => {
-                beforeAll(() => {
-                  mockZopimChatOnline = false
-                })
-
-                describe('when chatting', () => {
-                  beforeAll(() => {
-                    mockZopimIsChatting = true
-                  })
-
-                  it('does not call updateActiveEmbed', () => {
-                    expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-                  })
-                })
-
-                describe('when not chatting', () => {
-                  beforeAll(() => {
-                    mockZopimIsChatting = false
-                  })
-
-                  it('calls updateActiveEmbed', () => {
-                    expect(updateActiveEmbedSpy).toHaveBeenCalled()
-                  })
-                })
-              })
-            })
-          })
-
-          describe('when the active embed is not zopimChat or channelChoice', () => {
             beforeAll(() => {
               mockActiveEmbed = 'helpCenterForm'
             })
@@ -461,29 +344,15 @@ describe('resetActiveEmbed middleware', () => {
 
       describe('when there is a chat session on going', () => {
         beforeAll(() => {
-          mockZopimIsChatting = true
+          mockIsChatting = true
         })
 
         afterAll(() => {
-          mockZopimIsChatting = false
+          mockIsChatting = false
         })
 
         it('calls "chat"', () => {
           expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-        })
-
-        describe('when zopim embed is available', () => {
-          beforeAll(() => {
-            mockZopimChatEmbed = true
-          })
-
-          afterAll(() => {
-            mockZopimChatEmbed = true
-          })
-
-          it('calls "zopimChat"', () => {
-            expect(updateActiveEmbedSpy).toHaveBeenCalledWith('zopimChat')
-          })
         })
       })
     })
@@ -555,7 +424,6 @@ describe('resetActiveEmbed middleware', () => {
     describe('when Talk is not available', () => {
       describe('when Chat is available', () => {
         beforeAll(() => {
-          mockZopimChatEmbed = false
           mockChatAvailable = true
         })
 

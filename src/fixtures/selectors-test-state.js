@@ -86,9 +86,6 @@ const defaultState = {
       connectOnDemand: false,
       trackAllVisitors: true
     }
-  },
-  zopimChat: {
-    status: 'offline'
   }
 }
 

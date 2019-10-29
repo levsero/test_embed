@@ -1,6 +1,5 @@
 import _ from 'lodash'
 
-import { chat } from 'embed/chat/chat'
 import { launcher } from 'embed/launcher/launcher'
 import WebWidgetFactory from 'embed/webWidget/webWidget'
 import { i18n } from 'service/i18n'
@@ -13,7 +12,6 @@ import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
 
 const embedsMap = {
-  chat: chat,
   launcher: launcher,
   webWidget: new WebWidgetFactory(),
   ipmWidget: new WebWidgetFactory('ipm')
@@ -175,9 +173,7 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 function initMediator(config, store) {
   const embeds = config.embeds
 
-  if (_.get(embeds, 'zopimChat.props.standalone') && !config.newChat) {
-    mediator.initZopimStandalone()
-  } else if (embeds) {
+  if (embeds) {
     mediator.init(store)
   } else if (!_.isEmpty(embeds)) {
     errorTracker.error(new Error('Could not find correct embeds to initialise.'), {

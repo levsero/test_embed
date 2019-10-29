@@ -7,7 +7,7 @@ import {
   getThemeColor as getChatThemeColor,
   getThemePosition as getChatThemePosition,
   getStandaloneMobileNotificationVisible,
-  getChatConnected as getNewChatConnected,
+  getChatConnected,
   getChatConnectionMade,
   getBadgeColor as getAccountSettingsBadgeColor,
   getHideBranding as getAccountSettingsHideBranding,
@@ -22,12 +22,6 @@ import {
   getOfflineFormEnabled,
   getDelayChatConnection
 } from 'src/redux/modules/selectors/chat-linked-selectors'
-import {
-  getZopimChatOnline,
-  getZopimChatConnected,
-  getZopimIsChatting,
-  getZopimChatOpen
-} from '../zopimChat/zopimChat-selectors'
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -71,9 +65,8 @@ import {
   getActiveEmbed,
   getHelpCenterEmbed,
   getSubmitTicketEmbed,
-  getZopimChatEmbed,
   getTalkEmbed,
-  getChatEmbed as getNewChatEmbed,
+  getChatEmbed,
   getIPMWidget,
   getEmbeddableConfig,
   getHiddenByHideAPI,
@@ -213,8 +206,6 @@ export const getLauncherLabel = createSelector(
     i18n.getSettingTranslation(settingsLauncherLabel) || i18n.t(label)
 )
 
-const getChatEmbed = state => getNewChatEmbed(state) || getZopimChatEmbed(state)
-
 const getWidgetFixedFrameStyles = createSelector(
   [getStandaloneMobileNotificationVisible, getIPMWidget, getCanShowHelpCenterIntroState],
   (standaloneMobileNotificationVisible, isUsingIPMWidgetOnly, canShowHelpCenterIntroState) => {
@@ -249,8 +240,7 @@ const getChannelChoiceEnabled = state => {
   return getSettingsContactOptionsEnabled(state) && getSubmitTicketAvailable(state)
 }
 
-export const getChatOnline = state => getZopimChatOnline(state) || !getShowOfflineChat(state)
-export const getChatConnected = state => getZopimChatConnected(state) || getNewChatConnected(state)
+export const getChatOnline = state => !getShowOfflineChat(state)
 
 export const getChatConnectionSuppressed = createSelector(
   [
@@ -291,19 +281,9 @@ export const getChatReady = createSelector(
 export const getChatOfflineAvailable = state =>
   getChatEnabled(state) &&
   !getChatOnline(state) &&
-  getNewChatEmbed(state) &&
+  getChatEmbed(state) &&
   getOfflineFormEnabled(state) &&
   !getSubmitTicketEmbed(state)
-
-export const getResetToContactFormOnChatOffline = createSelector(
-  [getZopimChatOnline, getZopimIsChatting, getSubmitTicketEmbed, getZopimChatOpen, getActiveEmbed],
-  (zopimChatOnline, zopimChatting, submitTicketEmbed, zopimOpen, activeEmbed) =>
-    !zopimChatOnline &&
-    !zopimChatting &&
-    submitTicketEmbed &&
-    zopimOpen &&
-    activeEmbed === 'ticketSubmissionForm'
-)
 
 export const getChatAvailable = state => {
   const offlineFormOn = getChatOfflineAvailable(state) && !getSettingsChatHideWhenOffline(state)
@@ -575,12 +555,10 @@ export const getFrameVisible = (state, frame = 'webWidget') => {
 }
 
 export const getWidgetDisplayInfo = createSelector(
-  [getLauncherVisible, getWebWidgetVisible, getZopimChatOpen, getActiveEmbed],
-  (launcherVisible, webWidgetVisible, zopimChatOpen, activeEmbed) => {
+  [getLauncherVisible, getWebWidgetVisible, getActiveEmbed],
+  (launcherVisible, webWidgetVisible, activeEmbed) => {
     if (webWidgetVisible) {
       return EMBED_MAP[activeEmbed]
-    } else if (zopimChatOpen) {
-      return EMBED_MAP.zopimChat
     } else if (launcherVisible) {
       return LAUNCHER
     } else {
@@ -672,7 +650,7 @@ export const getChannelAvailable = state => {
 }
 
 export const getChatConnectionConnecting = createSelector(
-  [getChatConnection, getNewChatEmbed, getCookiesDisabled],
+  [getChatConnection, getChatEmbed, getCookiesDisabled],
   (connection, chatEnabled, cookiesDisabled) =>
     !cookiesDisabled &&
     chatEnabled &&

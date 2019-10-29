@@ -304,25 +304,6 @@ describe('base selectors', () => {
     })
   })
 
-  describe('getZopimChatEmbed', () => {
-    let result
-    const mockState = {
-      base: {
-        embeds: {
-          zopimChat: true
-        }
-      }
-    }
-
-    beforeEach(() => {
-      result = selectors.getZopimChatEmbed(mockState)
-    })
-
-    it('returns the current state of embed.zopimChat', () => {
-      expect(result).toEqual(true)
-    })
-  })
-
   describe('getHelpCenterEmbed', () => {
     let result
     const mockState = {

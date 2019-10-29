@@ -54,9 +54,6 @@ describe('ChatBadge component', () => {
       '@zendeskgarden/react-forms': {
         Input: noopReactComponent()
       },
-      'src/redux/modules/base/base-selectors': {
-        getZopimChatEmbed: noop
-      },
       'src/redux/modules/selectors': {
         getChatOnline: noop
       },

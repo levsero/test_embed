@@ -15,7 +15,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getLocale, getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'
 import { triggerOnEnter } from 'utility/keyboard'
 import { ICONS, TEST_IDS } from 'src/constants/shared'
@@ -31,7 +31,6 @@ class ChannelChoice extends Component {
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
-    oldChat: PropTypes.bool,
     submitTicketLabel: PropTypes.string.isRequired,
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
@@ -42,8 +41,7 @@ class ChannelChoice extends Component {
   }
 
   static defaultProps = {
-    useLeadingMessageAsFallback: false,
-    oldChat: false
+    useLeadingMessageAsFallback: false
   }
 
   constructor(props) {
@@ -88,9 +86,6 @@ class ChannelChoice extends Component {
   handleClick = channel => {
     return () => {
       this.props.actions.updateBackButtonVisibility(true)
-      if (this.props.oldChat && channel === 'chat') {
-        channel = 'zopimChat'
-      }
       this.props.actions.updateActiveEmbed(channel)
     }
   }
@@ -186,7 +181,6 @@ const mapStateToProps = state => ({
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
   chatOfflineAvailable: getChatOfflineAvailable(state),
-  oldChat: getZopimChatEmbed(state),
   submitTicketAvailable: getSubmitTicketAvailable(state),
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),

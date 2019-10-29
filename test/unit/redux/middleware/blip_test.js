@@ -10,7 +10,6 @@ describe('blip middleware', () => {
   const CONTEXTUAL_ARTICLE_SHOWN = 'widget/answerBot/CONTEXTUAL_ARTICLE_SHOWN'
   const UPDATE_WIDGET_SHOWN = 'widget/base/UPDATE_WIDGET_SHOWN'
   const SCREEN_CHANGED = 'widget/answerBot/SCREEN_CHANGED'
-  const ZOPIM_ON_OPEN = 'widget/zopim_chat/ZOPIM_ON_OPEN'
   const LAUNCHER_CLICKED = 'widget/base/LAUNCHER_CLICKED'
   const CHAT_STARTED = 'widget/chat/CHAT_STARTED'
 
@@ -37,9 +36,6 @@ describe('blip middleware', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: prevState => prevState.isChatting
-      },
-      'src/redux/modules/zopimChat/zopimChat-action-types': {
-        ZOPIM_ON_OPEN: ZOPIM_ON_OPEN
       },
       'src/redux/modules/base/base-selectors': {
         getWebWidgetVisible: prevState => prevState.webWidgetVisible,
@@ -203,47 +199,6 @@ describe('blip middleware', () => {
       })
     })
 
-    describe('action has type ZOPIM_ON_OPEN', () => {
-      describe('when called once', () => {
-        beforeEach(() => {
-          action = {
-            type: ZOPIM_ON_OPEN
-          }
-
-          beaconSpy.trackUserAction.calls.reset()
-          nextSpy = jasmine.createSpy('nextSpy')
-          sendBlips({ getState: () => {} })(nextSpy)(action)
-        })
-
-        it('calls trackUserAction', () => {
-          expect(beaconSpy.trackUserAction.calls.count()).toEqual(1)
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', {
-            label: 'zopimChat'
-          })
-        })
-      })
-
-      describe('when called twice', () => {
-        beforeEach(() => {
-          action = {
-            type: ZOPIM_ON_OPEN
-          }
-
-          beaconSpy.trackUserAction.calls.reset()
-          nextSpy = jasmine.createSpy('nextSpy')
-          sendBlips({ getState: () => {} })(nextSpy)(action)
-          sendBlips({ getState: () => {} })(nextSpy)(action)
-        })
-
-        it('calls trackUserAction only once', () => {
-          expect(beaconSpy.trackUserAction.calls.count()).toEqual(1)
-          expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', {
-            label: 'zopimChat'
-          })
-        })
-      })
-    })
-
     describe('action has type LAUNCHER_CLICKED', () => {
       describe('when called once', () => {
         beforeEach(() => {
@@ -313,16 +268,6 @@ describe('blip middleware', () => {
       describe('when not chatting', () => {
         beforeAll(() => {
           mockIsChatting = false
-        })
-
-        describe('payload is zopimChat', () => {
-          beforeAll(() => {
-            payload = 'zopimChat'
-          })
-
-          it('does not send chatOpened blip', () => {
-            expect(beaconSpy.trackUserAction).not.toHaveBeenCalled()
-          })
         })
 
         describe('payload is chat', () => {

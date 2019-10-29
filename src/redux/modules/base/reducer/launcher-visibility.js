@@ -12,7 +12,6 @@ import {
   POPOUT_BUTTON_CLICKED,
   ESCAPE_KEY_PRESSED
 } from '../base-action-types'
-import { ZOPIM_HIDE, ZOPIM_SHOW, ZOPIM_ON_CLOSE } from '../../zopimChat/zopimChat-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
@@ -37,16 +36,13 @@ const launcherVisible = (state = initialState, action) => {
       return false
     case CLOSE_BUTTON_CLICKED:
     case POPOUT_BUTTON_CLICKED:
-    case ZOPIM_HIDE:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
-    case ZOPIM_ON_CLOSE:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
     case CHAT_BANNED:
     case CLOSE_RECEIVED:
     case ESCAPE_KEY_PRESSED:
       return true
-    case ZOPIM_SHOW:
     case NEXT_BUTTON_CLICKED:
       return isMobileBrowser()
     case TOGGLE_RECEIVED:

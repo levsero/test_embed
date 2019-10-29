@@ -119,7 +119,7 @@ describe('analytics middleware', () => {
 
         describe('payload is not chat', () => {
           beforeAll(() => {
-            payload = 'zopimChat'
+            payload = 'helpCenter'
           })
 
           it('does not call GA.track', () => {

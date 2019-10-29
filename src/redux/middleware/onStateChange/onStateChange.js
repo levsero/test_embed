@@ -56,9 +56,7 @@ import { resetShouldWarn } from 'src/util/nullZChat'
 import onWidgetOpen from 'src/redux/middleware/onStateChange/onWidgetOpen'
 import onChatOpen from 'src/redux/middleware/onStateChange/onChatOpen'
 import onAgentLeave from 'src/redux/middleware/onStateChange/onAgentLeave'
-import onChannelChoiceTransition from 'src/redux/middleware/onStateChange/onChannelChoiceTransition'
 import onChatConnectOnDemandTrigger from 'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger'
-import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZopimStateChange'
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
@@ -275,7 +273,6 @@ const onCookiePermissionsChange = (action, prevState, nextState, dispatch) => {
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStarted(prevState, nextState, dispatch)
   onChatStatusChange(prevState, nextState, dispatch)
-  onZopimChatStateChange(prevState, nextState, dispatch)
   onChatConnected(prevState, nextState, dispatch)
   onNewChatMessage(prevState, nextState, dispatch)
   onLastReadTimestampChange(prevState, nextState, dispatch)
@@ -286,7 +283,6 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onWidgetOpen(prevState, nextState, dispatch)
   onChatOpen(prevState, nextState, dispatch)
   onUpdateEmbeddableConfig(action)
-  onChannelChoiceTransition(prevState, nextState, action, dispatch)
   onChatConnectOnDemandTrigger(prevState, action, dispatch)
   onCookiePermissionsChange(action, prevState, nextState, dispatch)
 }

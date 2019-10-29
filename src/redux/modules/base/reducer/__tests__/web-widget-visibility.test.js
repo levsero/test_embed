@@ -14,10 +14,6 @@ import {
   ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
-  ZOPIM_SHOW,
-  ZOPIM_CHAT_GONE_OFFLINE
-} from 'src/redux/modules/zopimChat/zopimChat-action-types'
-import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
@@ -56,10 +52,6 @@ testReducer(webWidgetVisibility, [
     expected: true
   },
   {
-    action: { type: ZOPIM_CHAT_GONE_OFFLINE },
-    expected: true
-  },
-  {
     action: { type: CLOSE_BUTTON_CLICKED },
     expected: false
   },
@@ -73,10 +65,6 @@ testReducer(webWidgetVisibility, [
   },
   {
     action: { type: CANCEL_BUTTON_CLICKED },
-    expected: false
-  },
-  {
-    action: { type: ZOPIM_SHOW },
     expected: false
   },
   {

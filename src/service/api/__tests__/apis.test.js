@@ -10,7 +10,6 @@ import * as hcActions from 'src/embeds/helpCenter/actions'
 import { i18n } from 'service/i18n'
 import { wait } from '@testing-library/react'
 
-import { chat as zopimChat } from 'embed/chat/chat'
 import { mediator } from 'service/mediator'
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
@@ -23,13 +22,9 @@ jest.mock('service/mediator')
 jest.mock('service/settings')
 jest.mock('service/beacon')
 jest.mock('service/identity')
-jest.mock('embed/chat/chat')
 
 const mockActionValue = Date.now()
 const mockAction = jest.fn(() => mockActionValue)
-const setActiveEmbed = activeEmbed => {
-  baseSelectors.getActiveEmbed = jest.fn(() => activeEmbed)
-}
 
 describe('endChatApi', () => {
   let spy, store
@@ -112,7 +107,6 @@ describe('identify', () => {
     it('calls identify and chat setUser', () => {
       expect(beacon.identify).toHaveBeenCalledWith(params)
       expect(identity.setUserIdentity).toHaveBeenCalledWith(params.name, params.email)
-      expect(zopimChat.setUser).toHaveBeenCalledWith(params)
     })
   })
 
@@ -138,10 +132,6 @@ describe('identify', () => {
         params.email
       )
     })
-
-    it('calls chat setUser', () => {
-      expect(zopimChat.setUser).toHaveBeenCalledWith(params)
-    })
   })
 
   describe('when name is invalid', () => {
@@ -162,10 +152,6 @@ describe('identify', () => {
 
     it('prints a warning', () => {
       expect(console.warn).toHaveBeenCalledWith('invalid name passed into zE.identify', params.name)
-    })
-
-    it('calls chat setUser', () => {
-      expect(zopimChat.setUser).toHaveBeenCalledWith(params)
     })
   })
 
@@ -188,10 +174,6 @@ describe('identify', () => {
     it('prints a warning', () => {
       expect(console.warn).toHaveBeenCalledWith('invalid params passed into zE.identify', params)
     })
-
-    it('does not call chat setUser', () => {
-      expect(zopimChat.setUser).not.toHaveBeenCalledWith(params)
-    })
   })
   /* eslint-enable no-console */
 })
@@ -199,107 +181,47 @@ describe('identify', () => {
 describe('openApi', () => {
   let store
 
-  describe('when the active embed is not zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-      store.dispatch = jest.fn()
-      baseActions.openReceived = jest.fn()
-      setActiveEmbed('something')
-      apis.openApi(store)
-    })
-
-    it('dispatches the openReceived action', () => {
-      expect(baseActions.openReceived).toHaveBeenCalled()
-      expect(mediator.channel.broadcast).not.toHaveBeenCalledWith('zopimChat.show')
-    })
+  beforeEach(() => {
+    store = createStore()
+    store.dispatch = jest.fn()
+    baseActions.openReceived = jest.fn()
+    apis.openApi(store)
   })
 
-  describe('when the active embed is zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-      store.dispatch = jest.fn()
-      baseActions.openReceived = jest.fn()
-      setActiveEmbed('zopimChat')
-      apis.openApi(store)
-    })
-
-    it('broadcasts "zopimChat.show" on mediator', () => {
-      expect(baseActions.openReceived).not.toHaveBeenCalled()
-      expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.show')
-    })
+  it('dispatches the openReceived action', () => {
+    expect(baseActions.openReceived).toHaveBeenCalled()
   })
 })
 
 describe('closeApi', () => {
   let store
 
-  describe('when the active embed is not zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-      store.dispatch = jest.fn()
-      baseActions.closeReceived = jest.fn()
-      setActiveEmbed('not zopim')
-      apis.closeApi(store)
-    })
-
-    it('dispatches only closedReceived action', async () => {
-      expect(mediator.channel.broadcast).not.toHaveBeenCalledWith('zopimChat.hide')
-      expect(baseActions.closeReceived).toHaveBeenCalled()
-    })
+  beforeEach(() => {
+    store = createStore()
+    store.dispatch = jest.fn()
+    baseActions.closeReceived = jest.fn()
+    apis.closeApi(store)
   })
 
-  describe('when the active embed is zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-      store.dispatch = jest.fn()
-      baseActions.closeReceived = jest.fn()
-      setActiveEmbed('zopimChat')
-      apis.closeApi(store)
-    })
-
-    it('dispatches the closedReceived action and broadcasts "zopimChat.hide" on mediator', () => {
-      expect(baseActions.closeReceived).toHaveBeenCalled()
-      expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.hide')
-    })
+  it('dispatches only closedReceived action', async () => {
+    expect(baseActions.closeReceived).toHaveBeenCalled()
   })
 })
 
 describe('toggleApi', () => {
   let store
-  const setupTestData = activeEmbed => {
-    setActiveEmbed(activeEmbed)
+
+  beforeEach(() => {
+    store = createStore()
+
+    store.dispatch = jest.fn()
+
     apis.toggleApi(store)
-  }
-
-  describe('when the active embed is not zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-
-      store.dispatch = jest.fn()
-      setupTestData('totallyNotZopim')
-    })
-
-    it('only dispatches the toggleReceived action', () => {
-      expect(store.dispatch).toHaveBeenCalledWith({
-        type: baseActionTypes.TOGGLE_RECEIVED
-      })
-
-      expect(mediator.channel.broadcast).not.toHaveBeenCalled()
-    })
   })
 
-  describe('when the active embed is zopim chat', () => {
-    beforeEach(() => {
-      store = createStore()
-
-      store.dispatch = jest.fn()
-      setupTestData('zopimChat')
-    })
-
-    it('only broadcasts "zopimChat.toggle" on mediator', () => {
-      expect(store.dispatch).not.toHaveBeenCalled()
-
-      expect(mediator.channel.broadcast).toHaveBeenCalledWith('zopimChat.toggle')
+  it('dispatches the toggleReceived action', () => {
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: baseActionTypes.TOGGLE_RECEIVED
     })
   })
 })

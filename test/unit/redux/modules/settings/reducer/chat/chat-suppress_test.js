@@ -1,16 +1,14 @@
 describe('chat reducer suppress', () => {
-  let reducer, actionTypes, zopimActionTypes, initialState
+  let reducer, actionTypes, initialState
 
   beforeAll(() => {
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/chat-suppress')
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types')
-    const zopimActionTypesPath = buildSrcPath('redux/modules/zopimChat/zopimChat-action-types')
 
     reducer = requireUncached(reducerPath).default
 
     initialState = reducer(undefined, { type: '' })
     actionTypes = requireUncached(actionTypesPath)
-    zopimActionTypes = requireUncached(zopimActionTypesPath)
   })
 
   afterAll(() => {
@@ -62,36 +60,6 @@ describe('chat reducer suppress', () => {
       it('does nothing', () => {
         expect(state).toEqual(initialState)
       })
-    })
-  })
-
-  describe('when an ZOPIM_IS_CHATTING action is dispatched', () => {
-    let payload, state
-
-    beforeEach(() => {
-      state = reducer(true, {
-        type: zopimActionTypes.ZOPIM_IS_CHATTING,
-        payload: payload
-      })
-    })
-
-    it('sets the state to false', () => {
-      expect(state).toEqual(false)
-    })
-  })
-
-  describe('when an ZOPIM_END_CHAT action is dispatched', () => {
-    let payload, state
-
-    beforeEach(() => {
-      state = reducer(true, {
-        type: zopimActionTypes.ZOPIM_END_CHAT,
-        payload: payload
-      })
-    })
-
-    it('sets the state to the initialState', () => {
-      expect(state).toEqual(initialState)
     })
   })
 })

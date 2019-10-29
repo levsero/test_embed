@@ -13,7 +13,6 @@ import {
   SHOW_WIDGET,
   ESCAPE_KEY_PRESSED
 } from '../base-action-types'
-import { ZOPIM_SHOW, ZOPIM_CHAT_GONE_OFFLINE } from '../../zopimChat/zopimChat-action-types'
 import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
@@ -33,12 +32,10 @@ const webWidgetVisible = (state = initialState, action) => {
     case ACTIVATE_RECEIVED:
     case CHAT_WINDOW_OPEN_ON_NAVIGATE:
     case OPEN_RECEIVED:
-    case ZOPIM_CHAT_GONE_OFFLINE:
     case SHOW_WIDGET:
       return true
     case CLOSE_BUTTON_CLICKED:
     case POPOUT_BUTTON_CLICKED:
-    case ZOPIM_SHOW:
     case CHAT_BANNED:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
