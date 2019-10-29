@@ -814,7 +814,8 @@ describe('prechat form', () => {
     setVisitorInfo: jest.fn(),
     sendOfflineMsg: jest.fn(),
     sendTyping: jest.fn(),
-    sendChatMsg: jest.fn()
+    sendChatMsg: jest.fn(),
+    clearVisitorDefaultDepartment: jest.fn()
   }
 
   beforeEach(() => {
@@ -916,6 +917,27 @@ describe('prechat form', () => {
       }
     })
     expect(queryByTestId('chat-msg-user').textContent).toEqual('burger')
+  })
+
+  it('clears the department if no department is selected', () => {
+    store.dispatch({
+      type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
+      payload: {
+        detail: {
+          name: 'eight',
+          status: 'online',
+          id: 1
+        }
+      }
+    })
+    const { getByText, queryByText } = renderComponent()
+    jest.runAllTimers()
+    fireEvent.click(getByText('Start chat'))
+    jest.runAllTimers()
+    expect(zChat.setVisitorInfo).not.toHaveBeenCalled()
+    expect(zChat.clearVisitorDefaultDepartment).toHaveBeenCalled()
+    expect(zChat.sendChatMsg).not.toHaveBeenCalled()
+    expect(queryByText('Live Support')).toBeInTheDocument()
   })
 
   it('submits offline message if offline department is selected', () => {
