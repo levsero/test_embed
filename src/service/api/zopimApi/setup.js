@@ -45,6 +45,7 @@ import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
+import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { settings } from 'service/settings'
 
 const noop = () => {}
@@ -71,13 +72,19 @@ export function setUpZopimApiMethods(win, store) {
         toggle: () => toggleApi(store),
         hide: () => hideApi(store),
         show: () => {
-          onChatConnected(() => {
+          if (getDelayChatConnection(store.getState())) {
             showApi(store)
             openApi(store)
-            if (getCanShowOnlineChat(store.getState())) {
-              store.dispatch(updateActiveEmbed('chat'))
-            }
-          })
+            store.dispatch(updateActiveEmbed('chat'))
+          } else {
+            onChatConnected(() => {
+              showApi(store)
+              openApi(store)
+              if (getCanShowOnlineChat(store.getState())) {
+                store.dispatch(updateActiveEmbed('chat'))
+              }
+            })
+          }
         },
         setSize: noop,
         getDisplay: () => getWebWidgetVisible(store.getState()),
