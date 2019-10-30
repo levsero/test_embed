@@ -348,7 +348,13 @@ describe('validation', () => {
       name: { name: 'name', required: true },
       email: { name: 'email', required: true },
       phone: { name: 'phone', label: 'Phone Number', required: true },
-      message: { name: 'message', label: 'Message', required: true }
+      message: { name: 'message', label: 'Message', required: true },
+      department: {
+        name: 'department',
+        label: 'Choose Department',
+        required: true
+      },
+      departments: [{ name: 'dept', id: 1234, isDefault: false }]
     }
     const { getByText, queryByText } = renderPrechatForm({
       form: formProp
@@ -360,6 +366,7 @@ describe('validation', () => {
     expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
     expect(queryByText('Please enter a valid phone number.')).toBeInTheDocument()
     expect(queryByText('Please enter a valid message.')).toBeInTheDocument()
+    expect(queryByText('Please select a department.')).toBeInTheDocument()
   })
 
   it('validates email value is a valid email', () => {
@@ -396,7 +403,13 @@ test('submits expected form data', () => {
     email: 'me@zd.com',
     name: 'Homer Simpson',
     phone: '555-555-5555',
-    message: 'This is the message'
+    message: 'This is the message',
+    department: {
+      name: 'department',
+      label: 'Choose Department',
+      required: false
+    },
+    departments: [{ name: 'dept', id: 1234, isDefault: false }]
   }
   const formHandler = jest.fn()
   const { getByText } = renderPrechatForm({

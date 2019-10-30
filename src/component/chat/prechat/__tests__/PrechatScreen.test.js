@@ -2,7 +2,7 @@ import { fireEvent, getByTestId } from '@testing-library/react'
 import React from 'react'
 
 import { render } from 'src/util/testHelpers'
-import { Component as PrechatScreen } from 'src/component/chat/prechat/PrechatScreen'
+import { Component } from 'src/component/chat/prechat/PrechatScreen'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -44,94 +44,116 @@ const renderComponent = inProps => {
     ...inProps
   }
 
-  return render(<PrechatScreen {...props} />)
+  return render(<Component {...props} />)
 }
 
 describe('render', () => {
-  let result
-
   describe('when screen is prechat screen', () => {
-    beforeEach(() => {
-      result = renderComponent()
-    })
-
     describe('renders Prechat Form', () => {
       it('renders title', () => {
-        expect(result.getByText('mockTitle')).toBeInTheDocument()
+        expect(renderComponent().getByText('mockTitle')).toBeInTheDocument()
       })
 
       it('renders intro message', () => {
-        expect(result.getByText('hello friend, intro message')).toBeInTheDocument()
+        expect(renderComponent().getByText('hello friend, intro message')).toBeInTheDocument()
       })
 
       it('renders message field', () => {
-        expect(result.getByText('Message')).toBeInTheDocument()
+        expect(renderComponent().getByText('Message')).toBeInTheDocument()
       })
 
       it('renders email field', () => {
-        expect(result.getByText('Email')).toBeInTheDocument()
+        expect(renderComponent().getByText('Email')).toBeInTheDocument()
       })
 
       it('renders name field', () => {
-        expect(result.getByText('Name')).toBeInTheDocument()
+        expect(renderComponent().getByText('Name')).toBeInTheDocument()
+      })
+    })
+
+    describe('submits the prechat form', () => {
+      it('validates the fields', () => {
+        const form = {
+          name: { name: 'name', required: true },
+          email: { name: 'email', required: true },
+          phone: {
+            name: 'phone',
+            label: 'Phone Number',
+            required: true,
+            hidden: false
+          },
+          message: { name: 'message', label: 'Message', required: true },
+          department: {
+            name: 'department',
+            label: 'Choose Department',
+            required: true
+          },
+          departments: [{ name: 'dept', id: 1234, isDefault: false }]
+        }
+        const { getByText, queryByText } = renderComponent({ prechatFormSettings: { form } })
+        fireEvent.click(getByText('Start chat'))
+        expect(queryByText('Please enter a valid name.')).toBeInTheDocument()
+        expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+        expect(queryByText('Please select a department.')).toBeInTheDocument()
+        expect(queryByText('Please enter a valid phone number.')).toBeInTheDocument()
+        expect(queryByText('Please enter a valid message.')).toBeInTheDocument()
       })
     })
   })
 
   describe('when screen is loading screen', () => {
-    beforeEach(() => {
-      result = renderComponent({ screen: screens.LOADING_SCREEN })
-    })
+    const renderLoadingScreen = () => renderComponent({ screen: screens.LOADING_SCREEN })
 
     it('renders title', () => {
-      expect(result.getByText('mockTitle')).toBeInTheDocument()
+      expect(renderLoadingScreen().getByText('mockTitle')).toBeInTheDocument()
     })
 
     it('renders loading spinner', () => {
-      expect(getByTestId(result.container, TEST_IDS.LOADING_SPINNER)).toBeInTheDocument()
+      expect(
+        getByTestId(renderLoadingScreen().container, TEST_IDS.LOADING_SPINNER)
+      ).toBeInTheDocument()
     })
   })
 
   describe('when screen is offline message screen', () => {
-    beforeEach(() => {
-      result = renderComponent({ screen: screens.OFFLINE_MESSAGE_SCREEN })
-    })
+    const renderOfflineScreen = () => renderComponent({ screen: screens.OFFLINE_MESSAGE_SCREEN })
 
     it('renders success message', () => {
       expect(
-        result.getByText("Thanks for the message! We'll get back to you as soon as we can.")
+        renderOfflineScreen().getByText(
+          "Thanks for the message! We'll get back to you as soon as we can."
+        )
       ).toBeInTheDocument()
     })
 
     it('renders name field', () => {
-      expect(result.getByText('testName')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('testName')).toBeInTheDocument()
     })
 
     it('renders email field', () => {
-      expect(result.getByText('testEmail@test.com')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('testEmail@test.com')).toBeInTheDocument()
     })
 
     it('renders phone field', () => {
-      expect(result.getByText('0400000000')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('0400000000')).toBeInTheDocument()
     })
 
     it('renders message field', () => {
-      expect(result.getByText('Hello Message')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('Hello Message')).toBeInTheDocument()
     })
 
     it('renders Send Another button', () => {
-      expect(result.getByText('Send Another')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('Send Another')).toBeInTheDocument()
     })
 
     it('renders the title', () => {
-      expect(result.getByText('mockTitle')).toBeInTheDocument()
+      expect(renderOfflineScreen().getByText('mockTitle')).toBeInTheDocument()
     })
 
     it('when send another button is pressed, call updateChatScreen', () => {
+      const result = renderOfflineScreen()
       expect(updateChatScreenSpy).not.toHaveBeenCalled()
-
       fireEvent.click(result.getByText('Send Another'))
-
       expect(updateChatScreenSpy).toHaveBeenCalledWith(screens.PRECHAT_SCREEN)
     })
   })
