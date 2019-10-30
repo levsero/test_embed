@@ -7,6 +7,7 @@ import { http } from 'service/transport'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
+import { getMetaTagsByName, isMobileBrowser } from 'utility/devices'
 
 let configLoadTime
 
@@ -51,6 +52,7 @@ const sendPageView = () => {
     : referrer.href
   const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {}
   const frameworkLoadTime = getFrameworkLoadTime()
+  const metaTag = getMetaTagsByName(doc, 'viewport')[0]
 
   const pageView = {
     time: timeOnLastPage(),
@@ -58,6 +60,9 @@ const sendPageView = () => {
     navigatorLanguage: navigator.language,
     pageTitle: doc.title,
     userAgent: navigator.userAgent,
+    isMobile: isMobileBrowser(),
+    isResponsive: Boolean(metaTag),
+    viewportMeta: metaTag ? metaTag.getAttribute('content') : '',
     helpCenterDedup: isOnHelpCenterPage()
   }
   const payload = {

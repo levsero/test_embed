@@ -5,6 +5,7 @@ import { mediator } from 'service/mediator'
 import { i18n } from 'service/i18n'
 import * as pages from 'utility/pages'
 import * as globals from 'utility/globals'
+import { appendMetaTag } from 'utility/devices'
 
 globals.navigator = {
   userAgent: 'myuseragent',
@@ -173,6 +174,9 @@ describe('sendPageView', () => {
         params: {
           pageView: {
             helpCenterDedup: false,
+            isMobile: false,
+            isResponsive: false,
+            viewportMeta: '',
             pageTitle: 'hello world',
             referrer: 'http://localhost/',
             userAgent: 'myuseragent',
@@ -331,6 +335,26 @@ describe('sendPageView', () => {
         params: {
           pageView: expect.objectContaining({
             helpCenterDedup: true
+          })
+        }
+      })
+    )
+  })
+
+  it('sends through information on mobile and responsive websites', () => {
+    appendMetaTag(document, 'viewport', 'initial-scale=1')
+    globals.navigator.userAgent = 'iphone'
+
+    http.sendWithMeta.mockClear()
+    beacon.sendPageView()
+
+    expect(http.sendWithMeta).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: {
+          pageView: expect.objectContaining({
+            isMobile: true,
+            isResponsive: true,
+            viewportMeta: 'initial-scale=1'
           })
         }
       })
