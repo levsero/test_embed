@@ -33,7 +33,7 @@ test('renders loading classes', () => {
 
 test('renders loading classes in mobile', () => {
   const field = renderComponent(),
-    loadingField = renderComponent({ isMobile: true, isLoading: true })
+    loadingField = renderComponent({ isLoading: true })
   expect(
     snapshotDiff(field.container, loadingField.container, { contextLines: 2 })
   ).toMatchSnapshot()
@@ -49,19 +49,4 @@ test('onChange handler', () => {
   const { getByPlaceholderText } = renderComponent({ onChangeValue })
   fireEvent.change(getByPlaceholderText('hello there'), { target: { value: 'tsk' } })
   expect(onChangeValue).toHaveBeenCalledWith('tsk')
-})
-
-test('onSearchIconClick handler', () => {
-  const onSearchIconClick = jest.fn()
-  const { getByTestId } = renderComponent({ onSearchIconClick, isMobile: true })
-  fireEvent.click(getByTestId('Icon--search'))
-  expect(onSearchIconClick).toHaveBeenCalled()
-})
-
-test('on focus and on blur of search field', () => {
-  const { getByPlaceholderText, getByTestId } = renderComponent()
-  fireEvent.focus(getByPlaceholderText('hello there'))
-  expect(getByTestId('Icon--search')).toHaveClass('focused')
-  fireEvent.blur(getByPlaceholderText('hello there'))
-  expect(getByTestId('Icon--search')).not.toHaveClass('focused')
 })

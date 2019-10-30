@@ -50,15 +50,3 @@ it('hides the footer when requested', () => {
 
   expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
 })
-
-it('renders the header when in mobile', () => {
-  const { queryByText } = renderComponent({ header: 'this is my header', isMobile: true })
-
-  expect(queryByText('this is my header')).toBeInTheDocument()
-})
-
-it('does not render the header when in desktop', () => {
-  const { queryByText } = renderComponent({ header: 'this is my header', isMobile: false })
-
-  expect(queryByText('this is my header')).not.toBeInTheDocument()
-})

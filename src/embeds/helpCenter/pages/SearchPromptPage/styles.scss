@@ -3,15 +3,3 @@
 .footer {
   margin-top: #{10 / $font-size}rem;
 }
-
-.title {
-  text-align: center;
-  margin-top: #{15 / $font-size}rem;
-  font-size: $font-size-mobile;
-  padding-top: 20%; /* 2 */
-  padding-top: calc(30% - (#{40 / $font-size}rem));
-  @media screen and (orientation: landscape) {
-    padding-top: calc(10% - (#{40 / $font-size}rem));
-  }
-  margin-bottom: #{10 / $font-size}rem;
-}

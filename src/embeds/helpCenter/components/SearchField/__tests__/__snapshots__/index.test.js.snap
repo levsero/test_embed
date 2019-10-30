@@ -3,47 +3,39 @@
 exports[`renders expected classes 1`] = `
 <div>
   <div
-    aria-invalid="false"
-    class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
-    data-garden-id="forms.faux_input"
-    data-garden-version="6.4.4"
+    class="sc-bxivhb jzJuAV"
   >
-    <label
-      class="label StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-      data-garden-id="forms.text_label"
-      data-garden-version="6.4.4"
-      for="garden-field-container-0--input"
-      id="garden-field-container-0--label"
-    >
-      hello there
-    </label>
-    <input
-      aria-describedby="garden-field-container-0--hint"
-      aria-invalid="false"
-      aria-labelledby="garden-field-container-0--label"
-      autocapitalize="off"
-      class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-      data-garden-id="forms.input"
-      data-garden-version="6.4.4"
-      data-testid="search-field"
-      id="garden-field-container-0--input"
-      placeholder="hello there"
-      type="search"
-      value=""
-    />
     <div
-      class="desktopSearchOrLoading"
+      aria-invalid="false"
+      class="StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
+      data-garden-id="forms.media_input"
+      data-garden-version="6.4.4"
     >
-      <span
-        class="icon notFocused"
-        data-testid="Icon--search"
-        role="button"
-        tabindex="0"
+      <div
+        class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
       >
         <svg
-          realfilename="search.svg"
+          class="sc-bwzfXH jSekad"
+          data-testid="Icon--search"
+          realfilename="search-stroke.svg"
         />
-      </span>
+      </div>
+      <input
+        aria-invalid="false"
+        aria-labelledby="garden-field-container-0--label"
+        autocapitalize="off"
+        class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+        data-testid="search-field"
+        id="garden-field-container-0--input"
+        placeholder="hello there"
+        type="search"
+        value=""
+      />
+      <div
+        class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+      >
+        <div />
+      </div>
     </div>
   </div>
 </div>
@@ -54,53 +46,18 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -2,5 +2,5 @@
-    <div
-      aria-invalid="false"
--     class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
-+     class="mobileContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
-      data-garden-id="forms.faux_input"
-      data-garden-version="6.4.4"
-@@ -10,19 +10,19 @@
-        data-garden-id="forms.text_label"
-        data-garden-version="6.4.4"
--       for="garden-field-container-1--input"
--       id="garden-field-container-1--label"
-+       for="garden-field-container-2--input"
-+       id="garden-field-container-2--label"
-      >
-        hello there
-      </label>
-      <input
--       aria-describedby="garden-field-container-1--hint"
-+       aria-describedby="garden-field-container-2--hint"
-        aria-invalid="false"
--       aria-labelledby="garden-field-container-1--label"
-+       aria-labelledby="garden-field-container-2--label"
-        autocapitalize="off"
--       class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-+       class="searchInput mobileSearchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-        data-garden-id="forms.input"
-        data-garden-version="6.4.4"
-        data-testid="search-field"
--       id="garden-field-container-1--input"
-+       id="garden-field-container-2--input"
-        placeholder="hello there"
-        type="search"
-@@ -30,8 +30,11 @@
-      />
-      <div
--       class="desktopSearchOrLoading"
-+       class="mobileNonSearchIconContainer"
-+     />
-+     <div
-+       class="mobileSearchIcon"
-      >
-        <span
--         class="icon notFocused"
-+         class="icon"
-          data-testid="Icon--search"
-          role="button"
+@@ -20,9 +20,9 @@
+        <input
+          aria-invalid="false"
+-         aria-labelledby="garden-field-container-1--label"
++         aria-labelledby="garden-field-container-2--label"
+          autocapitalize="off"
+          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+          data-testid="search-field"
+-         id="garden-field-container-1--input"
++         id="garden-field-container-2--input"
+          placeholder="hello there"
+          type="search"
 `;
 
 exports[`renders loading classes 1`] = `
@@ -108,72 +65,33 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -10,13 +10,13 @@
-        data-garden-id="forms.text_label"
-        data-garden-version="6.4.4"
--       for="garden-field-container-3--input"
--       id="garden-field-container-3--label"
-+       for="garden-field-container-4--input"
-+       id="garden-field-container-4--label"
-      >
-        hello there
-      </label>
-      <input
--       aria-describedby="garden-field-container-3--hint"
-+       aria-describedby="garden-field-container-4--hint"
-        aria-invalid="false"
--       aria-labelledby="garden-field-container-3--label"
-+       aria-labelledby="garden-field-container-4--label"
-        autocapitalize="off"
-        class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-@@ -24,5 +24,5 @@
-        data-garden-version="6.4.4"
-        data-testid="search-field"
--       id="garden-field-container-3--input"
-+       id="garden-field-container-4--input"
-        placeholder="hello there"
-        type="search"
-@@ -32,14 +32,32 @@
-        class="desktopSearchOrLoading"
-      >
--       <span
--         class="icon notFocused"
--         data-testid="Icon--search"
--         role="button"
--         tabindex="0"
-+       <div
-+         aria-busy="true"
-+         aria-live="polite"
-+         class="container "
-+         data-testid="Icon--ellipsis"
+@@ -20,9 +20,9 @@
+        <input
+          aria-invalid="false"
+-         aria-labelledby="garden-field-container-3--label"
++         aria-labelledby="garden-field-container-4--label"
+          autocapitalize="off"
+          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+          data-testid="search-field"
+-         id="garden-field-container-3--input"
++         id="garden-field-container-4--input"
+          placeholder="hello there"
+          type="search"
+@@ -32,5 +32,13 @@
+          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
         >
--         <svg
--           realfilename="search.svg"
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-          />
--       </span>
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+       </div>
+-         <div />
++         <div>
++           <div
++             class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
++             font-size="inherit"
++             role="progressbar"
++           >
++              
++           </div>
++         </div>
+        </div>
       </div>
-    </div>
 `;
 
 exports[`renders loading classes in mobile 1`] = `
@@ -181,80 +99,31 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -2,5 +2,5 @@
-    <div
-      aria-invalid="false"
--     class="desktopContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
-+     class="mobileContainer StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd kFNGHY"
-      data-garden-id="forms.faux_input"
-      data-garden-version="6.4.4"
-@@ -10,19 +10,19 @@
-        data-garden-id="forms.text_label"
-        data-garden-version="6.4.4"
--       for="garden-field-container-5--input"
--       id="garden-field-container-5--label"
-+       for="garden-field-container-6--input"
-+       id="garden-field-container-6--label"
-      >
-        hello there
-      </label>
-      <input
--       aria-describedby="garden-field-container-5--hint"
-+       aria-describedby="garden-field-container-6--hint"
-        aria-invalid="false"
--       aria-labelledby="garden-field-container-5--label"
-+       aria-labelledby="garden-field-container-6--label"
-        autocapitalize="off"
--       class="searchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-+       class="searchInput mobileSearchInput StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV icTNBi"
-        data-garden-id="forms.input"
-        data-garden-version="6.4.4"
-        data-testid="search-field"
--       id="garden-field-container-5--input"
-+       id="garden-field-container-6--input"
-        placeholder="hello there"
-        type="search"
-@@ -30,8 +30,40 @@
-      />
-      <div
--       class="desktopSearchOrLoading"
-+       class="mobileNonSearchIconContainer"
-+     >
-+       <div
-+         aria-busy="true"
-+         aria-live="polite"
-+         class="container "
-+         data-testid="Icon--ellipsis"
-+       >
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+         <div
-+           class="
-+       circle 
-+       bounce
-+       u-userBackgroundColor
-+     "
-+         />
-+       </div>
-+     </div>
-+     <div
-+       class="mobileSearchIcon"
-      >
-        <span
--         class="icon notFocused"
-+         class="icon"
-          data-testid="Icon--search"
-          role="button"
+@@ -20,9 +20,9 @@
+        <input
+          aria-invalid="false"
+-         aria-labelledby="garden-field-container-5--label"
++         aria-labelledby="garden-field-container-6--label"
+          autocapitalize="off"
+          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+          data-testid="search-field"
+-         id="garden-field-container-5--input"
++         id="garden-field-container-6--input"
+          placeholder="hello there"
+          type="search"
+@@ -32,5 +32,13 @@
+          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+        >
+-         <div />
++         <div>
++           <div
++             class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
++             font-size="inherit"
++             role="progressbar"
++           >
++              
++           </div>
++         </div>
+        </div>
+      </div>
 `;

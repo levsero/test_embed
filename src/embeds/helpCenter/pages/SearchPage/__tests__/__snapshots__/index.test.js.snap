@@ -96,39 +96,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c8 {
-  display: block;
-}
-
-.c7 {
-  margin-bottom: 0;
-}
-
-.c10 {
-  display: inline-block;
-  position: relative;
-  -webkit-animation: drWeIq 750ms linear;
-  animation: drWeIq 750ms linear;
-  border-radius: 4px;
-  background-color: rgba(47,57,65,0.1);
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  line-height: 0.6;
-}
-
-.c10::before {
-  position: absolute;
-  top: 0;
-  left: -1800px;
-  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  animation: juhHqy 1.5s ease-in-out 300ms infinite;
-  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
-  width: 1000px;
-  height: 100%;
-  content: '';
-}
-
 .c11 {
   display: inline-block;
   position: relative;
@@ -136,7 +103,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   animation: drWeIq 750ms linear;
   border-radius: 4px;
   background-color: rgba(47,57,65,0.1);
-  width: 100%;
+  width: 50%;
   height: 100%;
   overflow: hidden;
   line-height: 0.6;
@@ -154,18 +121,57 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   content: '';
 }
 
-.c13 {
+.c12 {
+  display: inline-block;
+  position: relative;
+  -webkit-animation: drWeIq 750ms linear;
+  animation: drWeIq 750ms linear;
+  border-radius: 4px;
+  background-color: rgba(47,57,65,0.1);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  line-height: 0.6;
+}
+
+.c12::before {
+  position: absolute;
+  top: 0;
+  left: -1800px;
+  -webkit-animation: juhHqy 1.5s ease-in-out 300ms infinite;
+  animation: juhHqy 1.5s ease-in-out 300ms infinite;
+  background-image: linear-gradient(45deg,transparent,rgba(255,255,255,0.6),transparent);
+  width: 1000px;
+  height: 100%;
+  content: '';
+}
+
+.c9 {
+  color: #c2c8cc !important;
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+}
+
+.c8 > div > div {
+  max-height: unset;
+}
+
+.c7 {
+  margin-bottom: 0;
+}
+
+.c14 {
   position: relative !important;
   margin-top: 1.0714285714285714rem;
 }
 
-.c14 {
+.c15 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
 }
 
-.c12 {
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -180,7 +186,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   justify-content: space-between;
 }
 
-.c9 {
+.c10 {
   height: 0.8571428571428571rem !important;
   margin-bottom: 1.1428571428571428rem;
 }
@@ -230,47 +236,39 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             novalidate=""
           >
             <div
-              aria-invalid="false"
-              class="desktopContainer -div text__c-txt__input___38pRd text__is-focused___26DQb "
-              data-garden-id="forms.faux_input"
-              data-garden-version="6.4.4"
+              class="c8"
             >
-              <label
-                class="label text__c-txt__label___3wMPZ c8"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-2--input"
-                id="garden-field-container-2--label"
-              >
-                How can we help?
-              </label>
-              <input
-                aria-describedby="garden-field-container-2--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-2--label"
-                autocapitalize="off"
-                class="searchInput text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV "
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                data-testid="search-field"
-                id="garden-field-container-2--input"
-                placeholder="How can we help?"
-                type="search"
-                value=""
-              />
               <div
-                class="desktopSearchOrLoading"
+                aria-invalid="false"
+                class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb "
+                data-garden-id="forms.media_input"
+                data-garden-version="6.4.4"
               >
-                <span
-                  class="icon focused notFocused"
-                  data-testid="Icon--search"
-                  role="button"
-                  tabindex="0"
+                <div
+                  class="text__c-txt__input--media__figure___gBDfx "
                 >
                   <svg
-                    realfilename="search.svg"
+                    class="c9"
+                    data-testid="Icon--search"
+                    realfilename="search-stroke.svg"
                   />
-                </span>
+                </div>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-field-container-2--label"
+                  autocapitalize="off"
+                  class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+                  data-testid="search-field"
+                  id="garden-field-container-2--input"
+                  placeholder="How can we help?"
+                  type="search"
+                  value=""
+                />
+                <div
+                  class="text__c-txt__input--media__figure___gBDfx "
+                >
+                  <div />
+                </div>
               </div>
             </div>
           </form>
@@ -282,35 +280,35 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       data-testid="scroll-container-content"
     >
       <div
-        class="c9 c10"
+        class="c10 c11"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c9 c11"
+        class="c10 c12"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c9 c11"
+        class="c10 c12"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c9 c11"
+        class="c10 c12"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
          
       </div>
       <div
-        class="c9 c11"
+        class="c10 c12"
         data-garden-id="loaders.skeleton"
         data-garden-version="6.2.0"
       >
@@ -321,7 +319,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       class="footer footerShadow"
     >
       <div
-        class="c12"
+        class="c13"
       >
         <a
           class="icon"
@@ -336,13 +334,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c13"
+          class="c14"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c14 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c15 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -454,26 +452,32 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c8 {
-  display: block;
+.c9 {
+  color: #c2c8cc !important;
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+}
+
+.c8 > div > div {
+  max-height: unset;
 }
 
 .c7 {
   margin-bottom: 0;
 }
 
-.c13 {
+.c14 {
   position: relative !important;
   margin-top: 1.0714285714285714rem;
 }
 
-.c14 {
+.c15 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
 }
 
-.c12 {
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -488,7 +492,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   justify-content: space-between;
 }
 
-.c9 {
+.c10 {
   text-align: center !important;
   color: #2f3941;
   font-size: 1.0714285714285714rem;
@@ -510,12 +514,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   flex-direction: column;
 }
 
-.c10 {
+.c11 {
   margin-bottom: 0 !important;
   margin-top: 1.4285714285714286 !important;
 }
 
-.c11 {
+.c12 {
   color: #68737d;
   margin-bottom: 1.4285714285714286 !important;
 }
@@ -565,47 +569,39 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             novalidate=""
           >
             <div
-              aria-invalid="false"
-              class="desktopContainer -div text__c-txt__input___38pRd text__is-focused___26DQb "
-              data-garden-id="forms.faux_input"
-              data-garden-version="6.4.4"
+              class="c8"
             >
-              <label
-                class="label text__c-txt__label___3wMPZ c8"
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
-                for="garden-field-container-0--input"
-                id="garden-field-container-0--label"
-              >
-                How can we help?
-              </label>
-              <input
-                aria-describedby="garden-field-container-0--hint"
-                aria-invalid="false"
-                aria-labelledby="garden-field-container-0--label"
-                autocapitalize="off"
-                class="searchInput text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV "
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
-                data-testid="search-field"
-                id="garden-field-container-0--input"
-                placeholder="How can we help?"
-                type="search"
-                value=""
-              />
               <div
-                class="desktopSearchOrLoading"
+                aria-invalid="false"
+                class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb "
+                data-garden-id="forms.media_input"
+                data-garden-version="6.4.4"
               >
-                <span
-                  class="icon focused notFocused"
-                  data-testid="Icon--search"
-                  role="button"
-                  tabindex="0"
+                <div
+                  class="text__c-txt__input--media__figure___gBDfx "
                 >
                   <svg
-                    realfilename="search.svg"
+                    class="c9"
+                    data-testid="Icon--search"
+                    realfilename="search-stroke.svg"
                   />
-                </span>
+                </div>
+                <input
+                  aria-invalid="false"
+                  aria-labelledby="garden-field-container-0--label"
+                  autocapitalize="off"
+                  class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+                  data-testid="search-field"
+                  id="garden-field-container-0--input"
+                  placeholder="How can we help?"
+                  type="search"
+                  value=""
+                />
+                <div
+                  class="text__c-txt__input--media__figure___gBDfx "
+                >
+                  <div />
+                </div>
               </div>
             </div>
           </form>
@@ -617,15 +613,15 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       data-testid="scroll-container-content"
     >
       <div
-        class="c9"
+        class="c10"
       >
         <p
-          class="c10"
+          class="c11"
         >
           There are no results for ""
         </p>
         <p
-          class="c11"
+          class="c12"
         >
           Try searching for something else.
         </p>
@@ -635,7 +631,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       class="footer footerShadow"
     >
       <div
-        class="c12"
+        class="c13"
       >
         <a
           class="icon"
@@ -650,13 +646,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c13"
+          class="c14"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c14 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c15 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"

@@ -92,8 +92,14 @@ exports[`renders the full page 1`] = `
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c7 {
-  display: block;
+.c8 {
+  color: #c2c8cc !important;
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+}
+
+.c7 > div > div {
+  max-height: unset;
 }
 
 .c6 {
@@ -142,47 +148,39 @@ exports[`renders the full page 1`] = `
       novalidate=""
     >
       <div
-        aria-invalid="false"
-        class="desktopContainer -div text__c-txt__input___38pRd text__is-focused___26DQb "
-        data-garden-id="forms.faux_input"
-        data-garden-version="6.4.4"
+        class="c7"
       >
-        <label
-          class="label text__c-txt__label___3wMPZ c7"
-          data-garden-id="forms.text_label"
-          data-garden-version="6.4.4"
-          for="garden-field-container-0--input"
-          id="garden-field-container-0--label"
-        >
-          How can we help?
-        </label>
-        <input
-          aria-describedby="garden-field-container-0--hint"
-          aria-invalid="false"
-          aria-labelledby="garden-field-container-0--label"
-          autocapitalize="off"
-          class="searchInput text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV "
-          data-garden-id="forms.input"
-          data-garden-version="6.4.4"
-          data-testid="search-field"
-          id="garden-field-container-0--input"
-          placeholder="How can we help?"
-          type="search"
-          value=""
-        />
         <div
-          class="desktopSearchOrLoading"
+          aria-invalid="false"
+          class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb "
+          data-garden-id="forms.media_input"
+          data-garden-version="6.4.4"
         >
-          <span
-            class="icon focused notFocused"
-            data-testid="Icon--search"
-            role="button"
-            tabindex="0"
+          <div
+            class="text__c-txt__input--media__figure___gBDfx "
           >
             <svg
-              realfilename="search.svg"
+              class="c8"
+              data-testid="Icon--search"
+              realfilename="search-stroke.svg"
             />
-          </span>
+          </div>
+          <input
+            aria-invalid="false"
+            aria-labelledby="garden-field-container-0--label"
+            autocapitalize="off"
+            class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+            data-testid="search-field"
+            id="garden-field-container-0--input"
+            placeholder="How can we help?"
+            type="search"
+            value=""
+          />
+          <div
+            class="text__c-txt__input--media__figure___gBDfx "
+          >
+            <div />
+          </div>
         </div>
       </div>
     </form>
