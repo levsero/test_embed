@@ -2,6 +2,8 @@
 
 .form {
   composes: u-cf from global;
+  word-break: break-word;
+  overflow-wrap: break-word;
   margin: 0;
 }
 
