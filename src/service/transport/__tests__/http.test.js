@@ -2,6 +2,7 @@ import { http } from '../http'
 import { identity } from 'service/identity'
 import { base64decode } from 'utility/utils'
 import superagent from 'superagent'
+import errorTracker from 'service/errorTracker'
 
 jest.mock('superagent')
 jest.mock('service/settings', () => {
@@ -11,6 +12,10 @@ jest.mock('service/settings', () => {
     }
   }
 })
+
+jest.mock('service/errorTracker', () => ({
+  error: jest.fn()
+}))
 
 beforeEach(() => {
   superagent.__clearInstances()
@@ -196,23 +201,41 @@ describe('#send', () => {
   })
 
   describe('if response is unsuccessful', () => {
-    it('triggers the fail and always callbacks', () => {
+    let calls, recentCall, callback
+
+    beforeEach(() => {
       http.init(config)
       http.send(payload)
 
+      calls = superagent.__mostRecent().end.mock.calls
+      recentCall = calls[calls.length - 1]
+      callback = recentCall[0]
+    })
+
+    it('triggers the fail and always callbacks', () => {
       expect(superagent.__mostRecent().end).toHaveBeenCalled()
-
-      const calls = superagent.__mostRecent().end.mock.calls
-
-      const recentCall = calls[calls.length - 1]
-
-      const callback = recentCall[0]
 
       callback({ error: true }, undefined)
 
       expect(payload.callbacks.fail).toHaveBeenCalled()
 
       expect(payload.callbacks.always).toHaveBeenCalled()
+    })
+
+    describe('when the error is a 404', () => {
+      it('does not track the error in rollbar', () => {
+        callback({ status: 404 }, undefined)
+
+        expect(errorTracker.error).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('when the error is not a 404', () => {
+      it('tracks the error in rollbar', () => {
+        callback({ status: 500 }, undefined)
+
+        expect(errorTracker.error).toHaveBeenCalledTimes(1)
+      })
     })
   })
 
@@ -472,6 +495,32 @@ describe('#sendFile', () => {
       http.init(config)
     })
 
+    describe('when the request fails', () => {
+      let callback
+
+      beforeEach(() => {
+        http.sendFile(payload)
+
+        callback = superagent.__mostRecent().end.mock.calls[0][0]
+      })
+
+      describe('when the error is a 404', () => {
+        it('does not track the error in rollbar', () => {
+          callback({ status: 404 }, undefined)
+
+          expect(errorTracker.error).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when the error is not a 404', () => {
+        it('tracks the error in rollbar', () => {
+          callback({ status: 500 }, undefined)
+
+          expect(errorTracker.error).toHaveBeenCalledTimes(1)
+        })
+      })
+    })
+
     describe('when callbacks are present', () => {
       beforeEach(() => {
         http.sendFile(payload)
@@ -584,25 +633,23 @@ describe('callMeRequest', () => {
 
   beforeEach(() => {
     http.init()
+
+    payload = {
+      params: {
+        phoneNumber: '+61412345678',
+        subdomain: 'bob',
+        keyword: 'Support'
+      },
+      callbacks: {
+        done: jest.fn(),
+        fail: jest.fn()
+      }
+    }
+
+    http.callMeRequest('http://talk_service.com', payload)
   })
 
   describe('sends a post request', () => {
-    beforeEach(() => {
-      payload = {
-        params: {
-          phoneNumber: '+61412345678',
-          subdomain: 'bob',
-          keyword: 'Support'
-        },
-        callbacks: {
-          done: jest.fn(),
-          fail: jest.fn()
-        }
-      }
-
-      http.callMeRequest('http://talk_service.com', payload)
-    })
-
     it('with the correct url', () => {
       expect(superagent).toHaveBeenCalledWith(
         'POST',
@@ -612,6 +659,30 @@ describe('callMeRequest', () => {
 
     it('with the specified params', () => {
       expect(superagent.__mostRecent().send).toHaveBeenCalledWith(payload.params)
+    })
+  })
+
+  describe('when the request fails', () => {
+    let callback
+
+    beforeEach(() => {
+      callback = superagent.__mostRecent().end.mock.calls[0][0]
+    })
+
+    describe('when the error is a 404', () => {
+      it('does not track the error in rollbar', () => {
+        callback({ status: 404 }, undefined)
+
+        expect(errorTracker.error).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('when the error is not a 404', () => {
+      it('tracks the error in rollbar', () => {
+        callback({ status: 500 }, undefined)
+
+        expect(errorTracker.error).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })
