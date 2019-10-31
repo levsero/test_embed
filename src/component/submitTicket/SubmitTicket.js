@@ -306,12 +306,23 @@ class SubmitTicket extends Component {
   }
 
   render = () => {
-    if (this.props.showNotification) {
-      return this.renderNotification()
-    }
-
-    if (_.isEmpty(this.props.ticketForms) || this.props.activeTicketForm) {
-      return this.renderForm()
+    if (
+      this.props.showNotification ||
+      _.isEmpty(this.props.ticketForms) ||
+      this.props.activeTicketForm
+    ) {
+      // We need to keep form rendered while success page is shown, since it relies on accessing
+      // dom elements once api call has been completed.
+      return (
+        <>
+          {this.props.showNotification && this.renderNotification()}
+          {
+            <div style={{ display: this.props.showNotification ? 'none' : 'block' }}>
+              {this.renderForm()}
+            </div>
+          }
+        </>
+      )
     }
 
     return <TicketFormsPage handleFormOptionClick={this.handleTicketFormsListClick} />
