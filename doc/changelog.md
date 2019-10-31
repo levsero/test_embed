@@ -11,6 +11,26 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 31 October 2019
+
+- Fixed an issue where images weren't displaying correctly in the Web Widget when they had been resized in Help Center.
+
+### 23 October 2019
+
+- Fixed an issue with the `$zopim.livechat.setOnStatus` parameter. It was receiving an object with the Account Status as a key instead of the status as a string.
+
+### 10 October 2019
+
+- Fixed an issue where the prefill settings weren't displaying in the Ticket Forms.
+
+### 9 October 2019
+
+- Fixed an issue where the Chat Offline Form wasn't displaying newlines in the offline form greeting.
+
+### 7 October 2019
+
+- Fixed an issue where the escape key wasn't closing the Web Widget.
+
 ### 24 September 2019
 
 - Fixed an issue where the `$zopim.livechat.getDisplay` wasn't returning `false` when the Web Widget was closed.
