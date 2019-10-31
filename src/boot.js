@@ -112,11 +112,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     i18n.setLocale(undefined, renderCallback, config.locale)
   }
-  const fail = error => {
-    if (error.status !== 404) {
-      errorTracker.error(error)
-    }
-  }
 
   const embeddableConfig = persistenceStore.get('embeddableConfig')
 
@@ -129,8 +124,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       method: 'get',
       path: '/embeddable/config',
       callbacks: {
-        done,
-        fail
+        done
       }
     },
     false
