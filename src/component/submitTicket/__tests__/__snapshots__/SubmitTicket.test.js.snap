@@ -2,235 +2,239 @@
 
 exports[`active ticket form renders the expected components 1`] = `
 <div>
-  <form
-    class="form "
-    novalidate=""
+  <div
+    style="display: block;"
   >
-    <div
-      class="container"
+    <form
+      class="form "
+      novalidate=""
     >
       <div
-        class="sc-htpNat fufVln"
-      >
-        <div
-          class="sc-ifAKCX sc-EHOje cFboZL"
-        >
-          <h1
-            class="sc-bxivhb krnEZd"
-            data-testid="widget-title"
-          >
-            message
-          </h1>
-          <button
-            aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
-            data-garden-id="buttons.icon_button"
-            data-garden-version="6.4.4"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              class="index__c-btn__icon___3V0Rl"
-              data-garden-id="buttons.icon"
-              data-garden-version="6.4.4"
-              data-testid="Icon--dash"
-              realfilename="dash-fill.svg"
-            />
-          </button>
-        </div>
-      </div>
-      <div
         class="container"
-        data-testid="scroll-container-content"
       >
         <div
-          class="formWrapper"
+          class="sc-htpNat fufVln"
         >
-          <h2
-            class="ticketFormTitle "
-          >
-            Ticket Forms
-          </h2>
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-18--input"
-            id="garden-field-container-18--label"
-          >
-            <strong>
-              Your name
-            </strong>
-             (optional)
-          </label>
-          <input
-            aria-describedby="garden-field-container-18--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-18--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="name-field"
-            id="garden-field-container-18--input"
-            name="name"
-            value=""
-          />
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-19--input"
-            id="garden-field-container-19--label"
-          >
-            <strong>
-              Email address
-            </strong>
-          </label>
-          <input
-            aria-describedby="garden-field-container-19--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-19--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="email-field"
-            id="garden-field-container-19--input"
-            name="email"
-            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-            required=""
-            value=""
-          />
           <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
+            class="sc-ifAKCX sc-EHOje cFboZL"
           >
+            <h1
+              class="sc-bxivhb krnEZd"
+              data-testid="widget-title"
+            >
+              message
+            </h1>
+            <button
+              aria-label="Minimize"
+              class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              data-garden-id="buttons.icon_button"
+              data-garden-version="6.4.4"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                class="index__c-btn__icon___3V0Rl"
+                data-garden-id="buttons.icon"
+                data-garden-version="6.4.4"
+                data-testid="Icon--dash"
+                realfilename="dash-fill.svg"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="container"
+          data-testid="scroll-container-content"
+        >
+          <div
+            class="formWrapper"
+          >
+            <h2
+              class="ticketFormTitle "
+            >
+              Ticket Forms
+            </h2>
             <label
               class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
-              for="garden-field-container-20--input"
-              id="garden-field-container-20--label"
+              for="garden-field-container-18--input"
+              id="garden-field-container-18--label"
             >
               <strong>
-                Description
+                Your name
               </strong>
                (optional)
             </label>
             <input
-              aria-describedby="garden-field-container-20--hint"
+              aria-describedby="garden-field-container-18--hint"
               aria-invalid="false"
-              aria-labelledby="garden-field-container-20--label"
-              aria-required="false"
+              aria-labelledby="garden-field-container-18--label"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
               data-garden-id="forms.input"
               data-garden-version="6.4.4"
-              id="garden-field-container-20--input"
-              label="Description"
-              name="1"
+              data-testid="name-field"
+              id="garden-field-container-18--input"
+              name="name"
               value=""
             />
-          </div>
-          <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
-          >
             <label
               class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
               data-garden-id="forms.text_label"
               data-garden-version="6.4.4"
-              for="garden-field-container-21--input"
-              id="garden-field-container-21--label"
+              for="garden-field-container-19--input"
+              id="garden-field-container-19--label"
             >
               <strong>
-                Subject
-              </strong>
-               (optional)
-            </label>
-            <input
-              aria-describedby="garden-field-container-21--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-21--label"
-              aria-required="false"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-21--input"
-              label="Subject"
-              name="2"
-              value=""
-            />
-          </div>
-          <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
-          >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-22--input"
-              id="garden-field-container-22--label"
-            >
-              <strong>
-                Favorite Pizza
+                Email address
               </strong>
             </label>
             <input
-              aria-describedby="garden-field-container-22--hint"
+              aria-describedby="garden-field-container-19--hint"
               aria-invalid="false"
-              aria-labelledby="garden-field-container-22--label"
-              aria-required="true"
+              aria-labelledby="garden-field-container-19--label"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
               data-garden-id="forms.input"
               data-garden-version="6.4.4"
-              id="garden-field-container-22--input"
-              label="Favorite Pizza"
-              name="5"
+              data-testid="email-field"
+              id="garden-field-container-19--input"
+              name="email"
+              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
               required=""
               value=""
             />
+            <div
+              class=""
+              data-testid="slide-appear-container"
+              role="presentation"
+              style="opacity: 1; bottom: 10px;"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+                for="garden-field-container-20--input"
+                id="garden-field-container-20--label"
+              >
+                <strong>
+                  Description
+                </strong>
+                 (optional)
+              </label>
+              <input
+                aria-describedby="garden-field-container-20--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-20--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="6.4.4"
+                id="garden-field-container-20--input"
+                label="Description"
+                name="1"
+                value=""
+              />
+            </div>
+            <div
+              class=""
+              data-testid="slide-appear-container"
+              role="presentation"
+              style="opacity: 1; bottom: 10px;"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+                for="garden-field-container-21--input"
+                id="garden-field-container-21--label"
+              >
+                <strong>
+                  Subject
+                </strong>
+                 (optional)
+              </label>
+              <input
+                aria-describedby="garden-field-container-21--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-21--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="6.4.4"
+                id="garden-field-container-21--input"
+                label="Subject"
+                name="2"
+                value=""
+              />
+            </div>
+            <div
+              class=""
+              data-testid="slide-appear-container"
+              role="presentation"
+              style="opacity: 1; bottom: 10px;"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+                for="garden-field-container-22--input"
+                id="garden-field-container-22--label"
+              >
+                <strong>
+                  Favorite Pizza
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-22--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-22--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="6.4.4"
+                id="garden-field-container-22--input"
+                label="Favorite Pizza"
+                name="5"
+                required=""
+                value=""
+              />
+            </div>
+            <span />
           </div>
-          <span />
         </div>
-      </div>
-      <footer
-        class="sc-gzVnrw bKySxc"
-      >
-        <div
-          class="sc-htoDjs kgaGXd"
+        <footer
+          class="sc-gzVnrw bKySxc"
         >
-          <a
-            class="icon"
-            data-testid="Icon--zendesk"
-            href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-            tabindex="-1"
-            target="_blank"
+          <div
+            class="sc-htoDjs kgaGXd"
           >
-            <svg
-              realfilename="widget-icon_zendesk.svg"
-              title="zendesk"
-            />
-          </a>
-          <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
-            data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
-            data-testid="button-ok"
-            tabindex="0"
-            type="submit"
-          >
-            Send
-          </button>
-        </div>
-      </footer>
-    </div>
-  </form>
+            <a
+              class="icon"
+              data-testid="Icon--zendesk"
+              href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+              tabindex="-1"
+              target="_blank"
+            >
+              <svg
+                realfilename="widget-icon_zendesk.svg"
+                title="zendesk"
+              />
+            </a>
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="6.4.4"
+              data-testid="button-ok"
+              tabindex="0"
+              type="submit"
+            >
+              Send
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+  </div>
 </div>
 `;
 
@@ -239,142 +243,387 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -45,5 +45,5 @@
-          >
-            <h2
--             class="ticketFormTitle "
-+             class="ticketFormTitle ticketFormTitleMobile"
+@@ -48,5 +48,5 @@
             >
-              Ticket Forms
-@@ -53,6 +53,6 @@
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
--             for="garden-field-container-38--input"
--             id="garden-field-container-38--label"
-+             for="garden-field-container-28--input"
-+             id="garden-field-container-28--label"
-            >
-              <strong>
-@@ -62,12 +62,12 @@
-            </label>
-            <input
--             aria-describedby="garden-field-container-38--hint"
-+             aria-describedby="garden-field-container-28--hint"
-              aria-invalid="false"
--             aria-labelledby="garden-field-container-38--label"
-+             aria-labelledby="garden-field-container-28--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="name-field"
--             id="garden-field-container-38--input"
-+             id="garden-field-container-28--input"
-              name="name"
-              value=""
-@@ -77,6 +77,6 @@
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
--             for="garden-field-container-39--input"
--             id="garden-field-container-39--label"
-+             for="garden-field-container-29--input"
-+             id="garden-field-container-29--label"
-            >
-              <strong>
-@@ -85,12 +85,12 @@
-            </label>
-            <input
--             aria-describedby="garden-field-container-39--hint"
-+             aria-describedby="garden-field-container-29--hint"
-              aria-invalid="false"
--             aria-labelledby="garden-field-container-39--label"
-+             aria-labelledby="garden-field-container-29--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="email-field"
--             id="garden-field-container-39--input"
-+             id="garden-field-container-29--input"
-              name="email"
-              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -108,6 +108,6 @@
+              <h2
+-               class="ticketFormTitle "
++               class="ticketFormTitle ticketFormTitleMobile"
+              >
+                Ticket Forms
+@@ -56,6 +56,6 @@
                 data-garden-id="forms.text_label"
                 data-garden-version="6.4.4"
--               for="garden-field-container-40--input"
--               id="garden-field-container-40--label"
-+               for="garden-field-container-30--input"
-+               id="garden-field-container-30--label"
+-               for="garden-field-container-38--input"
+-               id="garden-field-container-38--label"
++               for="garden-field-container-28--input"
++               id="garden-field-container-28--label"
               >
                 <strong>
-@@ -117,12 +117,12 @@
+@@ -65,12 +65,12 @@
               </label>
               <input
--               aria-describedby="garden-field-container-40--hint"
-+               aria-describedby="garden-field-container-30--hint"
+-               aria-describedby="garden-field-container-38--hint"
++               aria-describedby="garden-field-container-28--hint"
                 aria-invalid="false"
--               aria-labelledby="garden-field-container-40--label"
-+               aria-labelledby="garden-field-container-30--label"
-                aria-required="false"
+-               aria-labelledby="garden-field-container-38--label"
++               aria-labelledby="garden-field-container-28--label"
                 class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                 data-garden-id="forms.input"
                 data-garden-version="6.4.4"
--               id="garden-field-container-40--input"
-+               id="garden-field-container-30--input"
-                label="Description"
-                name="1"
-@@ -140,6 +140,6 @@
+                data-testid="name-field"
+-               id="garden-field-container-38--input"
++               id="garden-field-container-28--input"
+                name="name"
+                value=""
+@@ -80,6 +80,6 @@
                 data-garden-id="forms.text_label"
                 data-garden-version="6.4.4"
--               for="garden-field-container-41--input"
--               id="garden-field-container-41--label"
-+               for="garden-field-container-31--input"
-+               id="garden-field-container-31--label"
+-               for="garden-field-container-39--input"
+-               id="garden-field-container-39--label"
++               for="garden-field-container-29--input"
++               id="garden-field-container-29--label"
               >
                 <strong>
-@@ -149,12 +149,12 @@
+@@ -88,12 +88,12 @@
               </label>
               <input
--               aria-describedby="garden-field-container-41--hint"
-+               aria-describedby="garden-field-container-31--hint"
+-               aria-describedby="garden-field-container-39--hint"
++               aria-describedby="garden-field-container-29--hint"
                 aria-invalid="false"
--               aria-labelledby="garden-field-container-41--label"
-+               aria-labelledby="garden-field-container-31--label"
-                aria-required="false"
+-               aria-labelledby="garden-field-container-39--label"
++               aria-labelledby="garden-field-container-29--label"
                 class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                 data-garden-id="forms.input"
                 data-garden-version="6.4.4"
--               id="garden-field-container-41--input"
-+               id="garden-field-container-31--input"
-                label="Subject"
-                name="2"
-@@ -172,6 +172,6 @@
-                data-garden-id="forms.text_label"
-                data-garden-version="6.4.4"
--               for="garden-field-container-42--input"
--               id="garden-field-container-42--label"
-+               for="garden-field-container-32--input"
-+               id="garden-field-container-32--label"
-              >
-                <strong>
-@@ -180,12 +180,12 @@
-              </label>
-              <input
--               aria-describedby="garden-field-container-42--hint"
-+               aria-describedby="garden-field-container-32--hint"
-                aria-invalid="false"
--               aria-labelledby="garden-field-container-42--label"
-+               aria-labelledby="garden-field-container-32--label"
-                aria-required="true"
-                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-                data-garden-id="forms.input"
-                data-garden-version="6.4.4"
--               id="garden-field-container-42--input"
-+               id="garden-field-container-32--input"
-                label="Favorite Pizza"
-                name="5"
+                data-testid="email-field"
+-               id="garden-field-container-39--input"
++               id="garden-field-container-29--input"
+                name="email"
+                pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+@@ -111,6 +111,6 @@
+                  data-garden-id="forms.text_label"
+                  data-garden-version="6.4.4"
+-                 for="garden-field-container-40--input"
+-                 id="garden-field-container-40--label"
++                 for="garden-field-container-30--input"
++                 id="garden-field-container-30--label"
+                >
+                  <strong>
+@@ -120,12 +120,12 @@
+                </label>
+                <input
+-                 aria-describedby="garden-field-container-40--hint"
++                 aria-describedby="garden-field-container-30--hint"
+                  aria-invalid="false"
+-                 aria-labelledby="garden-field-container-40--label"
++                 aria-labelledby="garden-field-container-30--label"
+                  aria-required="false"
+                  class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                  data-garden-id="forms.input"
+                  data-garden-version="6.4.4"
+-                 id="garden-field-container-40--input"
++                 id="garden-field-container-30--input"
+                  label="Description"
+                  name="1"
+@@ -143,6 +143,6 @@
+                  data-garden-id="forms.text_label"
+                  data-garden-version="6.4.4"
+-                 for="garden-field-container-41--input"
+-                 id="garden-field-container-41--label"
++                 for="garden-field-container-31--input"
++                 id="garden-field-container-31--label"
+                >
+                  <strong>
+@@ -152,12 +152,12 @@
+                </label>
+                <input
+-                 aria-describedby="garden-field-container-41--hint"
++                 aria-describedby="garden-field-container-31--hint"
+                  aria-invalid="false"
+-                 aria-labelledby="garden-field-container-41--label"
++                 aria-labelledby="garden-field-container-31--label"
+                  aria-required="false"
+                  class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                  data-garden-id="forms.input"
+                  data-garden-version="6.4.4"
+-                 id="garden-field-container-41--input"
++                 id="garden-field-container-31--input"
+                  label="Subject"
+                  name="2"
+@@ -175,6 +175,6 @@
+                  data-garden-id="forms.text_label"
+                  data-garden-version="6.4.4"
+-                 for="garden-field-container-42--input"
+-                 id="garden-field-container-42--label"
++                 for="garden-field-container-32--input"
++                 id="garden-field-container-32--label"
+                >
+                  <strong>
+@@ -183,12 +183,12 @@
+                </label>
+                <input
+-                 aria-describedby="garden-field-container-42--hint"
++                 aria-describedby="garden-field-container-32--hint"
+                  aria-invalid="false"
+-                 aria-labelledby="garden-field-container-42--label"
++                 aria-labelledby="garden-field-container-32--label"
+                  aria-required="true"
+                  class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                  data-garden-id="forms.input"
+                  data-garden-version="6.4.4"
+-                 id="garden-field-container-42--input"
++                 id="garden-field-container-32--input"
+                  label="Favorite Pizza"
+                  name="5"
 `;
 
 exports[`renders the expected components 1`] = `
 <div>
+  <div
+    style="display: block;"
+  >
+    <form
+      class="form "
+      novalidate=""
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="sc-htpNat fufVln"
+        >
+          <div
+            class="sc-ifAKCX sc-EHOje cFboZL"
+          >
+            <h1
+              class="sc-bxivhb krnEZd"
+              data-testid="widget-title"
+            >
+              message
+            </h1>
+            <button
+              aria-label="Minimize"
+              class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              data-garden-id="buttons.icon_button"
+              data-garden-version="6.4.4"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                class="index__c-btn__icon___3V0Rl"
+                data-garden-id="buttons.icon"
+                data-garden-version="6.4.4"
+                data-testid="Icon--dash"
+                realfilename="dash-fill.svg"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="container"
+          data-testid="scroll-container-content"
+        >
+          <div
+            class="formWrapper"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-0--input"
+              id="garden-field-container-0--label"
+            >
+              <strong>
+                Your name
+              </strong>
+               (optional)
+            </label>
+            <input
+              aria-describedby="garden-field-container-0--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-0--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              data-testid="name-field"
+              id="garden-field-container-0--input"
+              name="name"
+              value=""
+            />
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-1--input"
+              id="garden-field-container-1--label"
+            >
+              <strong>
+                Email address
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-1--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-1--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="6.4.4"
+              data-testid="email-field"
+              id="garden-field-container-1--input"
+              name="email"
+              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+              required=""
+              value=""
+            />
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              data-garden-id="forms.text_label"
+              data-garden-version="6.4.4"
+              for="garden-field-container-2--input"
+              id="garden-field-container-2--label"
+            >
+              <strong>
+                How can we help you?
+              </strong>
+            </label>
+            <textarea
+              aria-describedby="garden-field-container-2--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-2--label"
+              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+              data-garden-id="forms.textarea"
+              data-garden-version="6.4.4"
+              data-testid="message-field"
+              id="garden-field-container-2--input"
+              name="description"
+              required=""
+              rows="5"
+            />
+            <span />
+          </div>
+        </div>
+        <footer
+          class="sc-gzVnrw bKySxc"
+        >
+          <div
+            class="sc-htoDjs kgaGXd"
+          >
+            <a
+              class="icon"
+              data-testid="Icon--zendesk"
+              href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+              tabindex="-1"
+              target="_blank"
+            >
+              <svg
+                realfilename="widget-icon_zendesk.svg"
+                title="zendesk"
+              />
+            </a>
+            <button
+              class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+              data-garden-id="buttons.button"
+              data-garden-version="6.4.4"
+              data-testid="button-ok"
+              tabindex="0"
+              type="submit"
+            >
+              Send
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`renders the expected components in mobile mode 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -51,6 +51,6 @@
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+-               for="garden-field-container-12--input"
+-               id="garden-field-container-12--label"
++               for="garden-field-container-6--input"
++               id="garden-field-container-6--label"
+              >
+                <strong>
+@@ -60,12 +60,12 @@
+              </label>
+              <input
+-               aria-describedby="garden-field-container-12--hint"
++               aria-describedby="garden-field-container-6--hint"
+                aria-invalid="false"
+-               aria-labelledby="garden-field-container-12--label"
++               aria-labelledby="garden-field-container-6--label"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="6.4.4"
+                data-testid="name-field"
+-               id="garden-field-container-12--input"
++               id="garden-field-container-6--input"
+                name="name"
+                value=""
+@@ -75,6 +75,6 @@
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+-               for="garden-field-container-13--input"
+-               id="garden-field-container-13--label"
++               for="garden-field-container-7--input"
++               id="garden-field-container-7--label"
+              >
+                <strong>
+@@ -83,12 +83,12 @@
+              </label>
+              <input
+-               aria-describedby="garden-field-container-13--hint"
++               aria-describedby="garden-field-container-7--hint"
+                aria-invalid="false"
+-               aria-labelledby="garden-field-container-13--label"
++               aria-labelledby="garden-field-container-7--label"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="6.4.4"
+                data-testid="email-field"
+-               id="garden-field-container-13--input"
++               id="garden-field-container-7--input"
+                name="email"
+                pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+@@ -100,6 +100,6 @@
+                data-garden-id="forms.text_label"
+                data-garden-version="6.4.4"
+-               for="garden-field-container-14--input"
+-               id="garden-field-container-14--label"
++               for="garden-field-container-8--input"
++               id="garden-field-container-8--label"
+              >
+                <strong>
+@@ -108,12 +108,12 @@
+              </label>
+              <textarea
+-               aria-describedby="garden-field-container-14--hint"
++               aria-describedby="garden-field-container-8--hint"
+                aria-invalid="false"
+-               aria-labelledby="garden-field-container-14--label"
++               aria-labelledby="garden-field-container-8--label"
+                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+                data-garden-id="forms.textarea"
+                data-garden-version="6.4.4"
+                data-testid="message-field"
+-               id="garden-field-container-14--input"
++               id="garden-field-container-8--input"
+                name="description"
+                required=""
+`;
+
+exports[`renders the loading bar content 1`] = `
+<div
+  style="display: block;"
+>
   <form
     class="form "
     novalidate=""
@@ -423,8 +672,8 @@ exports[`renders the expected components 1`] = `
             class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
             data-garden-id="forms.text_label"
             data-garden-version="6.4.4"
-            for="garden-field-container-0--input"
-            id="garden-field-container-0--label"
+            for="garden-field-container-54--input"
+            id="garden-field-container-54--label"
           >
             <strong>
               Your name
@@ -432,14 +681,14 @@ exports[`renders the expected components 1`] = `
              (optional)
           </label>
           <input
-            aria-describedby="garden-field-container-0--hint"
+            aria-describedby="garden-field-container-54--hint"
             aria-invalid="false"
-            aria-labelledby="garden-field-container-0--label"
+            aria-labelledby="garden-field-container-54--label"
             class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
             data-garden-id="forms.input"
             data-garden-version="6.4.4"
             data-testid="name-field"
-            id="garden-field-container-0--input"
+            id="garden-field-container-54--input"
             name="name"
             value=""
           />
@@ -447,22 +696,22 @@ exports[`renders the expected components 1`] = `
             class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
             data-garden-id="forms.text_label"
             data-garden-version="6.4.4"
-            for="garden-field-container-1--input"
-            id="garden-field-container-1--label"
+            for="garden-field-container-55--input"
+            id="garden-field-container-55--label"
           >
             <strong>
               Email address
             </strong>
           </label>
           <input
-            aria-describedby="garden-field-container-1--hint"
+            aria-describedby="garden-field-container-55--hint"
             aria-invalid="false"
-            aria-labelledby="garden-field-container-1--label"
+            aria-labelledby="garden-field-container-55--label"
             class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
             data-garden-id="forms.input"
             data-garden-version="6.4.4"
             data-testid="email-field"
-            id="garden-field-container-1--input"
+            id="garden-field-container-55--input"
             name="email"
             pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
             required=""
@@ -472,22 +721,22 @@ exports[`renders the expected components 1`] = `
             class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
             data-garden-id="forms.text_label"
             data-garden-version="6.4.4"
-            for="garden-field-container-2--input"
-            id="garden-field-container-2--label"
+            for="garden-field-container-56--input"
+            id="garden-field-container-56--label"
           >
             <strong>
               How can we help you?
             </strong>
           </label>
           <textarea
-            aria-describedby="garden-field-container-2--hint"
+            aria-describedby="garden-field-container-56--hint"
             aria-invalid="false"
-            aria-labelledby="garden-field-container-2--label"
+            aria-labelledby="garden-field-container-56--label"
             class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
             data-garden-id="forms.textarea"
             data-garden-version="6.4.4"
             data-testid="message-field"
-            id="garden-field-container-2--input"
+            id="garden-field-container-56--input"
             name="description"
             required=""
             rows="5"
@@ -528,241 +777,4 @@ exports[`renders the expected components 1`] = `
     </div>
   </form>
 </div>
-`;
-
-exports[`renders the expected components in mobile mode 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-@@ -48,6 +48,6 @@
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
--             for="garden-field-container-12--input"
--             id="garden-field-container-12--label"
-+             for="garden-field-container-6--input"
-+             id="garden-field-container-6--label"
-            >
-              <strong>
-@@ -57,12 +57,12 @@
-            </label>
-            <input
--             aria-describedby="garden-field-container-12--hint"
-+             aria-describedby="garden-field-container-6--hint"
-              aria-invalid="false"
--             aria-labelledby="garden-field-container-12--label"
-+             aria-labelledby="garden-field-container-6--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="name-field"
--             id="garden-field-container-12--input"
-+             id="garden-field-container-6--input"
-              name="name"
-              value=""
-@@ -72,6 +72,6 @@
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
--             for="garden-field-container-13--input"
--             id="garden-field-container-13--label"
-+             for="garden-field-container-7--input"
-+             id="garden-field-container-7--label"
-            >
-              <strong>
-@@ -80,12 +80,12 @@
-            </label>
-            <input
--             aria-describedby="garden-field-container-13--hint"
-+             aria-describedby="garden-field-container-7--hint"
-              aria-invalid="false"
--             aria-labelledby="garden-field-container-13--label"
-+             aria-labelledby="garden-field-container-7--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              data-testid="email-field"
--             id="garden-field-container-13--input"
-+             id="garden-field-container-7--input"
-              name="email"
-              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -97,6 +97,6 @@
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
--             for="garden-field-container-14--input"
--             id="garden-field-container-14--label"
-+             for="garden-field-container-8--input"
-+             id="garden-field-container-8--label"
-            >
-              <strong>
-@@ -105,12 +105,12 @@
-            </label>
-            <textarea
--             aria-describedby="garden-field-container-14--hint"
-+             aria-describedby="garden-field-container-8--hint"
-              aria-invalid="false"
--             aria-labelledby="garden-field-container-14--label"
-+             aria-labelledby="garden-field-container-8--label"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-              data-garden-id="forms.textarea"
-              data-garden-version="6.4.4"
-              data-testid="message-field"
--             id="garden-field-container-14--input"
-+             id="garden-field-container-8--input"
-              name="description"
-              required=""
-`;
-
-exports[`renders the loading bar content 1`] = `
-<form
-  class="form "
-  novalidate=""
->
-  <div
-    class="container"
-  >
-    <div
-      class="sc-htpNat fufVln"
-    >
-      <div
-        class="sc-ifAKCX sc-EHOje cFboZL"
-      >
-        <h1
-          class="sc-bxivhb krnEZd"
-          data-testid="widget-title"
-        >
-          message
-        </h1>
-        <button
-          aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
-          data-garden-id="buttons.icon_button"
-          data-garden-version="6.4.4"
-          tabindex="0"
-          type="button"
-        >
-          <svg
-            class="index__c-btn__icon___3V0Rl"
-            data-garden-id="buttons.icon"
-            data-garden-version="6.4.4"
-            data-testid="Icon--dash"
-            realfilename="dash-fill.svg"
-          />
-        </button>
-      </div>
-    </div>
-    <div
-      class="container"
-      data-testid="scroll-container-content"
-    >
-      <div
-        class="formWrapper"
-      >
-        <label
-          class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-          data-garden-id="forms.text_label"
-          data-garden-version="6.4.4"
-          for="garden-field-container-54--input"
-          id="garden-field-container-54--label"
-        >
-          <strong>
-            Your name
-          </strong>
-           (optional)
-        </label>
-        <input
-          aria-describedby="garden-field-container-54--hint"
-          aria-invalid="false"
-          aria-labelledby="garden-field-container-54--label"
-          class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-          data-garden-id="forms.input"
-          data-garden-version="6.4.4"
-          data-testid="name-field"
-          id="garden-field-container-54--input"
-          name="name"
-          value=""
-        />
-        <label
-          class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-          data-garden-id="forms.text_label"
-          data-garden-version="6.4.4"
-          for="garden-field-container-55--input"
-          id="garden-field-container-55--label"
-        >
-          <strong>
-            Email address
-          </strong>
-        </label>
-        <input
-          aria-describedby="garden-field-container-55--hint"
-          aria-invalid="false"
-          aria-labelledby="garden-field-container-55--label"
-          class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-          data-garden-id="forms.input"
-          data-garden-version="6.4.4"
-          data-testid="email-field"
-          id="garden-field-container-55--input"
-          name="email"
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-          required=""
-          value=""
-        />
-        <label
-          class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-          data-garden-id="forms.text_label"
-          data-garden-version="6.4.4"
-          for="garden-field-container-56--input"
-          id="garden-field-container-56--label"
-        >
-          <strong>
-            How can we help you?
-          </strong>
-        </label>
-        <textarea
-          aria-describedby="garden-field-container-56--hint"
-          aria-invalid="false"
-          aria-labelledby="garden-field-container-56--label"
-          class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-          data-garden-id="forms.textarea"
-          data-garden-version="6.4.4"
-          data-testid="message-field"
-          id="garden-field-container-56--input"
-          name="description"
-          required=""
-          rows="5"
-        />
-        <span />
-      </div>
-    </div>
-    <footer
-      class="sc-gzVnrw bKySxc"
-    >
-      <div
-        class="sc-htoDjs kgaGXd"
-      >
-        <a
-          class="icon"
-          data-testid="Icon--zendesk"
-          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-          tabindex="-1"
-          target="_blank"
-        >
-          <svg
-            realfilename="widget-icon_zendesk.svg"
-            title="zendesk"
-          />
-        </a>
-        <button
-          class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
-          data-garden-id="buttons.button"
-          data-garden-version="6.4.4"
-          data-testid="button-ok"
-          tabindex="0"
-          type="submit"
-        >
-          Send
-        </button>
-      </div>
-    </footer>
-  </div>
-</form>
 `;
