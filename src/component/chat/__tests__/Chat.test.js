@@ -4,7 +4,6 @@ import { render } from 'src/util/testHelpers'
 import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
-import { TEST_IDS } from 'src/constants/shared'
 
 let showOfflineChatMock, getShowChatHistoryMock
 
@@ -39,22 +38,6 @@ describe('show offline chat is false', () => {
 
   it('renders the chatting screen', () => {
     expect(renderChat().getByText('Live Support')).toBeInTheDocument()
-  })
-
-  describe('when is Fullscreen', () => {
-    it('offline form contains fullscreen style class', () => {
-      expect(renderChat(true).getByTestId(TEST_IDS.SCROLL_CONTAINER)).toHaveClass(
-        'desktopFullscreen'
-      )
-    })
-  })
-
-  describe('when is not fullscreen', () => {
-    it('offline form does not contain fullscreen style class', () => {
-      expect(renderChat(false).getByTestId(TEST_IDS.SCROLL_CONTAINER)).not.toHaveClass(
-        'desktopFullscreen'
-      )
-    })
   })
 })
 

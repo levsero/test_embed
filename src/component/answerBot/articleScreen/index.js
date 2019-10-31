@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import FeedbackPopup from './feedbackPopup'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { SlideAppear } from 'component/transition/SlideAppear'
 
 import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
@@ -29,12 +28,12 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './ArticleScreen.scss'
 import { appendParams } from 'utility/utils'
 import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
+import { Widget, Header, Main, Footer } from 'components/Widget'
 
 class ArticleScreen extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     isMobile: PropTypes.bool,
-    scrollContainerClasses: PropTypes.string,
     articleTitleKey: PropTypes.string,
     article: PropTypes.object.isRequired,
     isFeedbackRequired: PropTypes.bool.isRequired,
@@ -150,26 +149,16 @@ class ArticleScreen extends Component {
   }
 
   render = () => {
-    let popupStyles = ''
-
-    if (this.state.popupDisplayed) {
-      popupStyles = this.state.initialOptions
-        ? styles.optionsPopupSpacing
-        : styles.reasonsPopupSpacing
-    }
-
     const url = this.props.authToken
       ? appendParams(this.props.article.html_url, `auth_token=${this.props.authToken}`)
       : this.props.article.html_url
 
     return (
-      <div className={styles.container}>
-        <ScrollContainer
-          containerClasses={`${this.props.scrollContainerClasses} ${styles.scrollContainer} ${popupStyles}`}
+      <Widget>
+        <Header
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.articleTitleKey}`)}
-          isMobile={this.props.isMobile}
-          footerClasses={styles.footer}
-        >
+        />
+        <Main>
           <HelpCenterArticle
             activeArticle={{ ...this.props.article, html_url: url }}
             originalArticleButton={true}
@@ -185,9 +174,10 @@ class ArticleScreen extends Component {
               this.props.actions.originalArticleClicked(this.props.article.id)
             }}
           />
-        </ScrollContainer>
+        </Main>
+        <Footer />
         {this.feedbackPopup()}
-      </div>
+      </Widget>
     )
   }
 }

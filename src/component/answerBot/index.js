@@ -2,16 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { ZendeskLogo } from 'component/ZendeskLogo'
 
 import AnswerBotContainer from './AnswerBotContainer'
-
 import ArticleScreen from './articleScreen/'
 import ConversationFooter from './conversationScreen/footer/'
 import ConversationScreen from './conversationScreen/'
 
-import { ScrollContainer } from 'component/container/ScrollContainer'
-import { i18n } from 'service/i18n'
 import { onNextTick } from 'src/util/utils'
 
 import { updateBackButtonVisibility } from 'src/redux/modules/base'
@@ -20,8 +16,9 @@ import { getCurrentScreen } from 'src/redux/modules/answerBot/root/selectors'
 import { conversationScrollChanged } from 'src/redux/modules/answerBot/conversation/actions'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { Widget, Header, Main, FooterView } from 'components/Widget'
+import ZendeskLogo from 'components/ZendeskLogo'
 
-import classNames from 'classnames'
 import { locals as styles } from './AnswerBot.scss'
 
 const SCROLL_TO_BOTTOM_INDICATOR = -1
@@ -84,45 +81,27 @@ class AnswerBot extends Component {
     )
   }
 
-  renderZendeskLogo = () => {
-    const logoClasses = classNames({
-      [styles.zendeskLogoChatMobile]: this.props.isMobile
-    })
-
-    return !this.props.hideZendeskLogo ? (
-      <ZendeskLogo
-        className={`${styles.zendeskLogo} ${logoClasses}`}
-        rtl={i18n.isRTL()}
-        fullscreen={false}
-      />
-    ) : null
-  }
-
   conversationScreen = () => {
-    const { isMobile, hideZendeskLogo } = this.props
-    const footerClasses = classNames({
-      [styles.footer]: !isMobile && hideZendeskLogo,
-      [styles.footerWithLogo]: !isMobile && !hideZendeskLogo,
-      [styles.footerMobile]: isMobile,
-      [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
-    })
-
     return (
-      <div>
-        <ScrollContainer
+      <Widget>
+        <Header title={this.props.title} />
+        <Main
           ref={el => {
             this.conversationContainer = el
           }}
-          containerClasses={this.containerStyle()}
-          title={this.props.title}
-          isMobile={this.props.isMobile}
-          footerContent={this.renderFooterContent()}
-          footerClasses={footerClasses}
         >
           <ConversationScreen scrollToBottom={this.scrollToBottom} />
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </div>
+        </Main>
+        <FooterView className={styles.footer}>
+          {this.renderFooterContent()}
+
+          {!this.props.hideZendeskLogo && (
+            <div className={styles.zendeskLogoContainer}>
+              <ZendeskLogo />
+            </div>
+          )}
+        </FooterView>
+      </Widget>
     )
   }
 
@@ -139,7 +118,7 @@ class AnswerBot extends Component {
   scrollToBottom = () => {
     onNextTick(() => {
       if (this.conversationContainer) {
-        this.conversationContainer.scrollToBottom()
+        this.conversationContainer.scrollTop = this.conversationContainer.scrollHeight
       }
     })
   }
@@ -152,7 +131,7 @@ class AnswerBot extends Component {
     } else {
       onNextTick(() => {
         if (this.conversationContainer) {
-          this.conversationContainer.scrollTo(scrollTop)
+          this.conversationContainer.scrollTop = scrollTop
         }
       })
     }
@@ -161,9 +140,7 @@ class AnswerBot extends Component {
   saveConversationScroll = (opts = {}) => {
     if (opts.scrollToBottom || this.conversationContainer) {
       this.props.actions.conversationScrollChanged(
-        opts.scrollToBottom
-          ? SCROLL_TO_BOTTOM_INDICATOR
-          : this.conversationContainer.content.scrollTop
+        opts.scrollToBottom ? SCROLL_TO_BOTTOM_INDICATOR : this.conversationContainer.scrollTop
       )
     }
   }

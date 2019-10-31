@@ -9,7 +9,6 @@ describe('RatingScreen component', () => {
   const endChatSpy = jasmine.createSpy('endChat')
 
   const FeedbackForm = noopReactComponent('FeedbackForm')
-  const ZendeskLogo = noopReactComponent('ZendeskLogo')
 
   beforeEach(() => {
     mockery.enable()
@@ -26,12 +25,6 @@ describe('RatingScreen component', () => {
       },
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
-      },
-      'component/ZendeskLogo': {
-        ZendeskLogo
-      },
-      'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
       },
       'components/Widget': {
         Widget: noopReactComponent(),
@@ -190,48 +183,6 @@ describe('RatingScreen component', () => {
 
         it('ends the chat', () => {
           expect(endChatSpy).toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('hideZendeskLogo', () => {
-      let result
-
-      describe('when hideZendeskLogo is false', () => {
-        beforeEach(() => {
-          result = domRender(
-            <RatingScreen
-              rating={defaultRating}
-              updateChatScreen={updateChatScreenSpy}
-              endChat={endChatSpy}
-              sendChatRating={sendChatRatingSpy}
-              sendChatComment={sendChatCommentSpy}
-              hideZendeskLogo={false}
-            />
-          )
-        })
-
-        it('renders logo in footer', () => {
-          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).not.toThrow()
-        })
-      })
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeEach(() => {
-          result = domRender(
-            <RatingScreen
-              rating={defaultRating}
-              updateChatScreen={updateChatScreenSpy}
-              endChat={endChatSpy}
-              sendChatRating={sendChatRatingSpy}
-              sendChatComment={sendChatCommentSpy}
-              hideZendeskLogo={true}
-            />
-          )
-        })
-
-        it('does not render logo in footer', () => {
-          expect(() => TestUtils.findRenderedComponentWithType(result, ZendeskLogo)).toThrow()
         })
       })
     })

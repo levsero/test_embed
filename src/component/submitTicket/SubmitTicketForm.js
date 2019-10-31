@@ -4,18 +4,15 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import { locals as styles } from './SubmitTicketForm.scss'
-import classNames from 'classnames'
-
 import { AttachmentList } from 'component/attachment/AttachmentList'
 import { Button } from '@zendeskgarden/react-buttons'
-import { ButtonGroup } from 'component/button/ButtonGroup'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
 import { Field, Textarea, Label, Input, Message } from '@zendeskgarden/react-forms'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
+import { Widget, Header, Main, Footer } from 'components/Widget'
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send'
 const sendingButtonMessageString =
@@ -72,6 +69,8 @@ export class SubmitTicketForm extends Component {
     this.state = _.extend({}, this.initialState, {
       isValid: props.previewEnabled
     })
+
+    this.main = React.createRef()
   }
 
   componentDidMount = () => {
@@ -120,7 +119,13 @@ export class SubmitTicketForm extends Component {
       buttonMessage: sendButtonMessageString
     })
 
-    this.refs.scrollContainer.scrollToBottom()
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    if (this.main.current) {
+      this.main.current.scrollTop = this.main.current.scrollHeight
+    }
   }
 
   handleSubmit = e => {
@@ -268,11 +273,11 @@ export class SubmitTicketForm extends Component {
 
   handleOnDrop = files => {
     this.refs.attachments.handleOnDrop(files)
-    onNextTick(() => this.refs.scrollContainer.scrollToBottom())
+    onNextTick(() => this.scrollToBottom())
   }
 
   handleAttachmentsError = () => {
-    onNextTick(() => this.refs.scrollContainer.scrollToBottom())
+    onNextTick(() => this.scrollToBottom())
   }
 
   clear = () => {
@@ -501,18 +506,13 @@ export class SubmitTicketForm extends Component {
   }
 
   render = () => {
-    const { attachmentsEnabled, fullscreen, formTitle, hide, isMobile } = this.props
+    const { attachmentsEnabled, hide } = this.props
 
     const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody()
-    const buttonCancel = isMobile ? null : this.renderCancelButton()
     const attachments = attachmentsEnabled ? this.renderAttachments() : null
     const hiddenClass = hide ? styles.hidden : ''
-    const containerClasses = classNames(styles.container, {
-      [styles.ticketFormContainer]: this.props.activeTicketForm,
-      [styles.containerMobile]: isMobile
-    })
+
     const buttonDisabled = !this.state.canSubmit || this.state.isSubmitting
-    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled
 
     return (
       <form
@@ -522,31 +522,24 @@ export class SubmitTicketForm extends Component {
         ref="form"
         className={`${styles.form} ${hiddenClass}`}
       >
-        <ScrollContainer
-          ref="scrollContainer"
-          title={formTitle}
-          containerClasses={containerClasses}
-          scrollShadowVisible={showShadow}
-          footerContent={
-            <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
-              {buttonCancel}
-              <Button
-                primary={true}
-                disabled={buttonDisabled}
-                type="submit"
-                className={styles.button}
-                data-testid={TEST_IDS.BUTTON_OK}
-              >
-                {i18n.t(this.state.buttonMessage)}
-              </Button>
-            </ButtonGroup>
-          }
-          fullscreen={fullscreen}
-          isMobile={isMobile}
-        >
-          {form}
-          {attachments}
-        </ScrollContainer>
+        <Widget>
+          <Header title={this.props.formTitle} />
+          <Main ref={this.main}>
+            {form}
+            {attachments}
+          </Main>
+          <Footer>
+            <Button
+              primary={true}
+              disabled={buttonDisabled}
+              type="submit"
+              className={styles.button}
+              data-testid={TEST_IDS.BUTTON_OK}
+            >
+              {i18n.t(this.state.buttonMessage)}
+            </Button>
+          </Footer>
+        </Widget>
       </form>
     )
   }

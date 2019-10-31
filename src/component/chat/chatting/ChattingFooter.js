@@ -9,9 +9,11 @@ import { Dropzone } from 'component/Dropzone'
 import { TooltipContainer, TooltipView } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
 
+import { FooterView } from 'components/Widget'
 import { ICONS, TEST_IDS } from 'constants/shared'
 import ChatMenu from 'embeds/chat/components/ChatMenu'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
+import ZendeskLogo from 'components/ZendeskLogo'
 
 export class ChattingFooter extends Component {
   static propTypes = {
@@ -23,7 +25,8 @@ export class ChattingFooter extends Component {
     menuVisible: PropTypes.bool,
     toggleMenu: PropTypes.func,
     attachmentsEnabled: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
+    hideZendeskLogo: PropTypes.bool
   }
 
   static defaultProps = {
@@ -126,14 +129,18 @@ export class ChattingFooter extends Component {
 
   renderDesktop = () => {
     return (
-      <div>
+      <FooterView className={styles.footer}>
         {this.props.children}
-        <div className={styles.iconContainer} data-testid={TEST_IDS.CHAT_FOOTER_MENU_BUTTONS}>
-          {this.renderEndChatOption()}
-          {this.renderAttachmentOption()}
-          <ChatMenu />
+        <div className={styles.bottomRow}>
+          {!this.props.hideZendeskLogo && <ZendeskLogo linkToChat={true} />}
+
+          <div className={styles.iconContainer} data-testid={TEST_IDS.CHAT_FOOTER_MENU_BUTTONS}>
+            {this.renderEndChatOption()}
+            {this.renderAttachmentOption()}
+            <ChatMenu />
+          </div>
         </div>
-      </div>
+      </FooterView>
     )
   }
 

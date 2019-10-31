@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Form } from 'component/form/Form'
@@ -14,16 +12,6 @@ const SubmitButton = styled(Button).attrs({
   padding-right: ${10 / FONT_SIZE}rem !important;
   padding-left: ${10 / FONT_SIZE}rem !important;
 `
-
-const FooterView = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: ${props => (props.hideZendeskLogo ? 'flex-end' : 'space-between')};
-  margin-top: ${15 / FONT_SIZE}rem;
-`
-FooterView.propTypes = {
-  hideZendeskLogo: PropTypes.bool
-}
 
 const StyledForm = styled(Form)`
   flex: 1;
@@ -43,4 +31,4 @@ const FormDivider = styled.div`
   border: ${0.5 / FONT_SIZE}rem solid ${zdColorGrey200};
 `
 
-export { SubmitButton, FooterView, StyledForm as Form, Header, FormDivider }
+export { SubmitButton, StyledForm as Form, Header, FormDivider }

@@ -5,8 +5,7 @@ import classNames from 'classnames'
 import Transition from 'react-transition-group/Transition'
 
 import HistoryLog from 'component/chat/chatting/HistoryLog'
-import { ScrollContainer } from 'component/container/ScrollContainer'
-import { ZendeskLogo } from 'component/ZendeskLogo'
+import getScrollBottom from 'utility/get-scroll-bottom'
 import { i18n } from 'service/i18n'
 import { isFirefox, isIE } from 'utility/devices'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
@@ -20,6 +19,7 @@ import { getChatTitle } from 'src/redux/modules/selectors'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './styles/index.scss'
 import { onNextTick } from 'src/util/utils'
+import { Widget, Header, Main, Footer } from 'components/Widget'
 
 const mapStateToProps = state => {
   return {
@@ -47,24 +47,18 @@ class ChatHistoryScreen extends Component {
     allAgents: PropTypes.object.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     fetchConversationHistory: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string,
     firstMessageTimestamp: PropTypes.number,
-    fullscreen: PropTypes.bool,
     title: PropTypes.string
   }
 
   static defaultProps = {
     isMobile: false,
-    fullscreen: false,
     concierges: [],
     historyLength: 0,
     hasMoreHistory: false,
     historyRequestStatus: '',
     allAgents: {},
     fetchConversationHistory: () => {},
-    hideZendeskLogo: false,
-    chatId: '',
     firstMessageTimestamp: null,
     showContactDetails: () => {},
     markAsRead: () => {}
@@ -92,7 +86,7 @@ class ChatHistoryScreen extends Component {
       prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
       this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
     ) {
-      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight()
+      this.scrollHeightBeforeUpdate = this.scrollContainer.scrollHeight
     }
   }
 
@@ -109,29 +103,29 @@ class ChatHistoryScreen extends Component {
   didUpdateFetchHistory = () => {
     if (!this.scrollHeightBeforeUpdate) return
 
-    const scrollTop = this.scrollContainer.getScrollTop()
-    const scrollHeight = this.scrollContainer.getScrollHeight()
+    const scrollTop = this.scrollContainer.scrollTop
+    const scrollHeight = this.scrollContainer.scrollHeight
     const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate
 
     // When chat history is fetched, we record the scroll just before
     // the component updates in order to adjust the  scrollTop
     // by the difference in container height of pre and post update.
     if (lengthDifference !== 0) {
-      this.scrollContainer.scrollTo(scrollTop + lengthDifference)
+      this.scrollContainer.scrollTop = scrollTop + lengthDifference
       this.scrollHeightBeforeUpdate = null
     }
   }
 
   isScrollCloseToBottom = () => {
     return this.scrollContainer
-      ? this.scrollContainer.getScrollBottom() < SCROLL_BOTTOM_THRESHOLD
+      ? getScrollBottom(this.scrollContainer) < SCROLL_BOTTOM_THRESHOLD
       : false
   }
 
   scrollToBottom = () => {
     this.scrollToBottomTimer = onNextTick(() => {
       if (this.scrollContainer) {
-        this.scrollContainer.scrollToBottom()
+        this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight
       }
     })
   }
@@ -140,7 +134,7 @@ class ChatHistoryScreen extends Component {
     if (!this.scrollContainer) return
 
     if (
-      this.scrollContainer.isAtTop() &&
+      this.scrollContainer.scrollTop === 0 &&
       this.props.hasMoreHistory &&
       this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
@@ -176,47 +170,24 @@ class ChatHistoryScreen extends Component {
     ) : null
   }
 
-  renderZendeskLogo = () => {
-    const logoClasses = classNames({
-      [styles.zendeskLogoChatMobile]: this.props.isMobile
-    })
-
-    return !this.props.hideZendeskLogo ? (
-      <ZendeskLogo
-        className={`${styles.zendeskLogo} ${logoClasses}`}
-        fullscreen={false}
-        chatId={this.props.chatId}
-        logoLink="chat"
-      />
-    ) : null
-  }
-
   render = () => {
-    const { isMobile, fullscreen, hideZendeskLogo, title } = this.props
-    const containerClasses = classNames({
-      [styles.footerMarginWithLogo]: !hideZendeskLogo,
-      [styles.footerMargin]: hideZendeskLogo,
-      [styles.headerMargin]: true,
-      [styles.scrollContainerMessagesContent]: isMobile,
-      [styles.scrollContainerMessagesContentDesktop]: !isMobile,
-      [styles.scrollContainerMobile]: isMobile,
-      [styles.scrollBarFix]: isFirefox() || isIE()
-    })
+    const { isMobile, title } = this.props
+
     const chatLogContainerClasses = classNames(styles.chatLogContainer, {
       [styles.chatLogContainerMobile]: isMobile
     })
 
     return (
-      <div>
-        <ScrollContainer
+      <Widget>
+        <Header title={title} />
+        <Main
           ref={el => {
             this.scrollContainer = el
           }}
-          title={title}
-          onContentScrolled={this.handleChatScreenScrolled}
-          containerClasses={containerClasses}
-          fullscreen={fullscreen}
-          isMobile={isMobile}
+          onScroll={this.handleChatScreenScrolled}
+          className={classNames({
+            [styles.scrollBarFix]: isFirefox() || isIE()
+          })}
         >
           <div className={chatLogContainerClasses}>
             <HistoryLog
@@ -227,9 +198,9 @@ class ChatHistoryScreen extends Component {
             />
             {this.renderHistoryFetching()}
           </div>
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </div>
+        </Main>
+        <Footer />
+      </Widget>
     )
   }
 }

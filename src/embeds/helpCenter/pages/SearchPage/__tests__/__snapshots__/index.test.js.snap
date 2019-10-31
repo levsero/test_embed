@@ -96,6 +96,27 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c13 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
 .c11 {
   display: inline-block;
   position: relative;
@@ -160,30 +181,14 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-bottom: 0;
 }
 
-.c14 {
+.c15 {
   position: relative !important;
-  margin-top: 1.0714285714285714rem;
 }
 
-.c15 {
+.c16 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .c10 {
@@ -316,10 +321,10 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       </div>
     </div>
     <footer
-      class="footer footerShadow"
+      class="c13"
     >
       <div
-        class="c13"
+        class="c14"
       >
         <a
           class="icon"
@@ -334,13 +339,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c14"
+          class="c15"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c15 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c16 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"
@@ -452,6 +457,27 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c13 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
 .c9 {
   color: #c2c8cc !important;
   height: 1.2rem !important;
@@ -466,30 +492,14 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin-bottom: 0;
 }
 
-.c14 {
+.c15 {
   position: relative !important;
-  margin-top: 1.0714285714285714rem;
 }
 
-.c15 {
+.c16 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .c10 {
@@ -628,10 +638,10 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       </div>
     </div>
     <footer
-      class="footer footerShadow"
+      class="c13"
     >
       <div
-        class="c13"
+        class="c14"
       >
         <a
           class="icon"
@@ -646,13 +656,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c14"
+          class="c15"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c15 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c16 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-id="buttons.button"
               data-garden-version="6.4.4"
               tabindex="0"

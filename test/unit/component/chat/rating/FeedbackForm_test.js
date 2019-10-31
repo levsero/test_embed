@@ -32,9 +32,6 @@ describe('FeedbackForm component', () => {
         RatingGroup: noopReactComponent(),
         ratings: mockChatRatings
       },
-      'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
-      },
       'service/i18n': {
         i18n: {
           t: _.noop

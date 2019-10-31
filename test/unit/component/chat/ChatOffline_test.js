@@ -31,9 +31,6 @@ describe('ChatOffline component', () => {
           isRTL: () => {}
         }
       },
-      'component/container/ScrollContainer': {
-        ScrollContainer: noopReactComponent()
-      },
       '@zendeskgarden/react-buttons': { Button },
       'component/chat/ChatOfflineForm': { ChatOfflineForm },
       'src/redux/modules/chat': {

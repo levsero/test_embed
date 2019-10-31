@@ -6,8 +6,6 @@ describe('PrechatForm component', () => {
     TEST_IDS
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm')
   const UserProfile = noopReactComponent()
-  const ScrollContainer = noopReactComponent()
-  const ZendeskLogo = noopReactComponent()
   const Field = noopReactComponent()
   const Input = noopReactComponent()
   const Item = noopReactComponent()
@@ -93,8 +91,6 @@ describe('PrechatForm component', () => {
         Item,
         Select: noopReactComponent()
       },
-      'component/container/ScrollContainer': { ScrollContainer },
-      'component/ZendeskLogo': { ZendeskLogo },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         renderLabel: renderLabelSpy

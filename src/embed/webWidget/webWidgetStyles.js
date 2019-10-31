@@ -6,7 +6,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ButtonPillStyles from 'component/button/ButtonPill.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
-import ChannelChoiceContainerStyles from 'component/channelChoice/ChannelChoiceContainer.scss'
 import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
 import ChatPopupStyles from 'component/chat/ChatPopup.scss'
@@ -33,8 +32,6 @@ import ChatMessagingChannelsStyles from 'component/chat/ChatMessagingChannels.sc
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss'
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss'
 import ChattHistoryScreenStyles from 'component/chat/chatting/chatHistoryScreen/styles/index.scss'
-import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss'
-import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss'
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
@@ -48,7 +45,6 @@ import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
 import answerBotStyles from 'component/answerBot/styles'
 import helpCenterStyles from 'embeds/helpCenter/styles'
-import chatStyles from 'embeds/chat/styles'
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
@@ -67,7 +63,6 @@ export const webWidgetStyles = `
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
   ${ChannelChoiceMenuStyles}
-  ${ChannelChoiceContainerStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChattHistoryScreenStyles}
@@ -93,8 +88,6 @@ export const webWidgetStyles = `
   ${ChatMessagingChannelsStyles}
   ${ChatOnlineStyles}
   ${ChattingScreenStyles}
-  ${AgentScreenStyles}
-  ${RatingScreenStyles}
   ${PrechatScreenStyles}
   ${ContainerStyles}
   ${ImageMessageStyles}
@@ -110,5 +103,4 @@ export const webWidgetStyles = `
   ${answerBotStyles}
   ${helpCenterStyles}
   ${componentStyles}
-  ${chatStyles}
 `

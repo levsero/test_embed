@@ -19,34 +19,35 @@ const renderInitialSearchPage = () => {
 const renderComponent = props => {
   const componentProps = {
     title: 'title',
-    hideZendeskLogo: false,
     ...props
   }
   return render(<Component {...componentProps} />)
 }
 
-it('renders the full page', () => {
-  const { container } = renderInitialSearchPage()
+describe('SearchPromptPage', () => {
+  it('renders the full page', () => {
+    const { container } = renderInitialSearchPage()
 
-  expect(container.firstChild).toMatchSnapshot()
-})
+    expect(container.firstChild).toMatchSnapshot()
+  })
 
-it('focuses on search field on load', () => {
-  const { getByPlaceholderText } = renderInitialSearchPage()
-  expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
-})
+  it('focuses on search field on load', () => {
+    const { getByPlaceholderText } = renderInitialSearchPage()
+    expect(document.activeElement).toEqual(getByPlaceholderText('How can we help?'))
+  })
 
-it('searches when text provided', () => {
-  const { inputNode, formNode, store } = renderInitialSearchPage()
+  it('searches when text provided', () => {
+    const { inputNode, formNode, store } = renderInitialSearchPage()
 
-  expect(getSearchLoading(store.getState())).toEqual(false)
-  fireEvent.change(inputNode, { target: { value: 'help me!' } })
-  fireEvent.submit(formNode)
-  expect(getSearchLoading(store.getState())).toEqual(true)
-})
+    expect(getSearchLoading(store.getState())).toEqual(false)
+    fireEvent.change(inputNode, { target: { value: 'help me!' } })
+    fireEvent.submit(formNode)
+    expect(getSearchLoading(store.getState())).toEqual(true)
+  })
 
-it('hides the footer when requested', () => {
-  const { queryByTestId } = renderComponent({ hideZendeskLogo: true })
+  it('renders the footer', () => {
+    const { queryByTestId } = renderComponent()
 
-  expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).toBeInTheDocument()
+  })
 })

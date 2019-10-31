@@ -80,21 +80,6 @@
   }
 }
 
-.footer {
-  box-shadow: 0 0 #{12 / $font-size}rem #{8 / $font-size}rem $zd-color-white;
-  padding: #{8 / $font-size}rem #{15 / $font-size}rem !important;
-}
-
-.footerMobile {
-  padding: 0 !important;
-  border-top: $thin-border-size solid $zd-color-grey-200;
-  margin-top: #{12 / $font-size}rem !important;
-}
-
-.footerMobileWithLogo {
-  margin-top: #{24 / $font-size}rem !important;
-}
-
 .header {
   composes: u-marginBM from global;
   position: relative;

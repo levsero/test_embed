@@ -19,7 +19,6 @@ describe('ChatOnline component', () => {
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble')
   const ButtonPill = noopReactComponent('ButtonPill')
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
-  const ZendeskLogo = noopReactComponent('ZendeskLogo')
   const AgentScreen = noopReactComponent('AgentScreen')
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES
@@ -34,9 +33,6 @@ describe('ChatOnline component', () => {
       },
       'component/loading/LoadingSpinner': {
         LoadingSpinner
-      },
-      'component/ZendeskLogo': {
-        ZendeskLogo
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
       'component/chat/agents/AgentScreen': AgentScreen,
@@ -61,9 +57,6 @@ describe('ChatOnline component', () => {
       },
       'component/chat/ChatReconnectionBubble': {
         ChatReconnectionBubble: ChatReconnectionBubble
-      },
-      'component/container/ScrollContainer': {
-        ScrollContainer: scrollContainerComponent()
       },
       'component/attachment/AttachmentBox': {
         AttachmentBox: AttachmentBox

@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import classNames from 'classnames'
-
 import { AgentList } from 'component/chat/agents/AgentList'
-import { ScrollContainer } from 'component/container/ScrollContainer'
 import { Button } from '@zendeskgarden/react-buttons'
-import { ZendeskLogo } from 'component/ZendeskLogo'
-import { i18n } from 'service/i18n'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { getActiveAgents } from 'src/redux/modules/chat/chat-selectors'
-import { locals as styles } from './AgentScreen.scss'
+import { Widget, Header, Main, Footer } from 'components/Widget'
+import useTranslation from 'src/hooks/useTranslation'
 
 const mapStateToProps = state => {
   return {
@@ -19,75 +15,42 @@ const mapStateToProps = state => {
   }
 }
 
-class AgentScreen extends Component {
-  static propTypes = {
-    isMobile: PropTypes.bool,
-    activeAgents: PropTypes.object.isRequired,
-    hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string,
-    updateChatScreen: PropTypes.func.isRequired,
-    fullscreen: PropTypes.bool
-  }
+const AgentScreen = ({ activeAgents, updateChatScreen }) => {
+  const title = useTranslation('embeddable_framework.helpCenter.label.link.chat')
+  const backButtonLabel = useTranslation('embeddable_framework.chat.agentList.button.backToChat')
 
-  static defaultProps = {
-    isMobile: false,
-    activeAgents: {},
-    hideZendeskLogo: false,
-    chatId: '',
-    fullscreen: false
-  }
-
-  renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ? (
-      <ZendeskLogo
-        className={`${styles.zendeskLogo}`}
-        logoLink="chat"
-        chatId={this.props.chatId}
-        fullscreen={false}
-      />
-    ) : null
-  }
-
-  renderBackButton = () => {
-    const backToChatClasses = classNames(styles.agentListBackButton, {
-      [styles.agentListBackButtonWithLogo]: !this.props.hideZendeskLogo
-    })
-    const backButtonOnClick = () => {
-      this.props.updateChatScreen(CHATTING_SCREEN)
-    }
-
-    return (
-      <Button primary={true} onClick={backButtonOnClick} className={backToChatClasses}>
-        {i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
-      </Button>
-    )
-  }
-
-  render = () => {
-    const { activeAgents, isMobile, fullscreen } = this.props
-
-    return (
-      <div>
-        <ScrollContainer
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          containerClasses={styles.scrollContainerContent}
-          footerContent={this.renderBackButton()}
-          fullscreen={fullscreen}
-          isMobile={isMobile}
+  return (
+    <Widget>
+      <Header title={title} />
+      <Main>
+        <AgentList agents={activeAgents} />
+      </Main>
+      <Footer>
+        <Button
+          primary={true}
+          onClick={() => {
+            updateChatScreen(CHATTING_SCREEN)
+          }}
         >
-          <AgentList agents={activeAgents} />
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </div>
-    )
-  }
+          {backButtonLabel}
+        </Button>
+      </Footer>
+    </Widget>
+  )
+}
+
+AgentScreen.propTypes = {
+  activeAgents: PropTypes.object.isRequired,
+  updateChatScreen: PropTypes.func.isRequired
 }
 
 const actionCreators = { updateChatScreen }
 
-export default connect(
+const connectedComponent = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(AgentScreen)
+
+export { connectedComponent as default, AgentScreen as Component }

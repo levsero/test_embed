@@ -6,13 +6,11 @@ import { i18n } from 'service/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import ZendeskLogo from 'src/components/ZendeskLogo'
 import {
   getAverageWaitTimeString,
   getEmbeddableConfig
 } from 'src/redux/modules/talk/talk-selectors'
 import { getFormattedPhoneNumber, getTitle } from 'src/embeds/talk/selectors'
-import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -21,8 +19,7 @@ const PhoneOnlyPage = ({
   averageWaitTime,
   phoneNumber,
   formattedPhoneNumber,
-  title,
-  hideZendeskLogo
+  title
 }) => {
   return (
     <Widget>
@@ -37,7 +34,7 @@ const PhoneOnlyPage = ({
           </PhoneNumberContainer>
         </Container>
       </Main>
-      <Footer>{hideZendeskLogo ? null : <ZendeskLogo />}</Footer>
+      <Footer />
     </Widget>
   )
 }
@@ -47,8 +44,7 @@ PhoneOnlyPage.propTypes = {
   formattedPhoneNumber: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
   callUsMessage: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  hideZendeskLogo: PropTypes.bool.isRequired
+  title: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => {
@@ -58,8 +54,7 @@ const mapStateToProps = state => {
     averageWaitTime: getAverageWaitTimeString(state),
     phoneNumber: getEmbeddableConfig(state).phoneNumber,
     formattedPhoneNumber: getFormattedPhoneNumber(state),
-    title: getTitle(state, 'embeddable_framework.talk.phoneOnly.title'),
-    hideZendeskLogo: getHideZendeskLogo(state)
+    title: getTitle(state, 'embeddable_framework.talk.phoneOnly.title')
   }
 }
 

@@ -82,30 +82,6 @@ describe('subject field', () => {
   })
 })
 
-describe('footer', () => {
-  it('renders scrollContainer without footer shadow when attachments and ticket fields are false', () => {
-    const { container } = renderSubmitTicketForm()
-
-    expect(container.querySelector('footer').className).not.toContain('footerShadow')
-  })
-
-  it('renders scrollContainer with footer when attachments are true', () => {
-    const { container } = renderSubmitTicketForm({
-      attachmentsEnabled: true
-    })
-
-    expect(container.querySelector('footer').className).toContain('footerShadow')
-  })
-
-  it('renders scrollContainer with footer when ticket fields are true', () => {
-    const { container } = renderSubmitTicketForm({
-      ticketFields: [1, 2, 3]
-    })
-
-    expect(container.querySelector('footer').className).toContain('footerShadow')
-  })
-})
-
 describe('ticket forms', () => {
   /* eslint-disable camelcase */
   const activeTicketForm = {
