@@ -6,35 +6,39 @@ exports[`renders expected classes 1`] = `
     class="sc-bxivhb jzJuAV"
   >
     <div
-      aria-invalid="false"
-      class="StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
-      data-garden-id="forms.media_input"
-      data-garden-version="6.4.4"
+      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
     >
       <div
-        class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
-      >
-        <svg
-          class="sc-bwzfXH jSekad"
-          data-testid="Icon--search"
-          realfilename="search-stroke.svg"
-        />
-      </div>
-      <input
         aria-invalid="false"
-        aria-labelledby="garden-field-container-0--label"
-        autocapitalize="off"
-        class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-        data-testid="search-field"
-        id="garden-field-container-0--input"
-        placeholder="hello there"
-        type="search"
-        value=""
-      />
-      <div
-        class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+        class="StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
+        data-garden-id="forms.media_input"
+        data-garden-version="7.0.2"
       >
-        <div />
+        <div
+          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+        >
+          <svg
+            class="sc-bwzfXH jSekad"
+            data-testid="Icon--search"
+            realfilename="search-stroke.svg"
+          />
+        </div>
+        <input
+          aria-invalid="false"
+          aria-labelledby="garden-field-container-0--label"
+          autocapitalize="off"
+          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+          data-testid="search-field"
+          id="garden-field-container-0--input"
+          placeholder="hello there"
+          type="search"
+          value=""
+        />
+        <div
+          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+        >
+          <div />
+        </div>
       </div>
     </div>
   </div>
@@ -46,18 +50,18 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -20,9 +20,9 @@
-        <input
-          aria-invalid="false"
--         aria-labelledby="garden-field-container-1--label"
-+         aria-labelledby="garden-field-container-2--label"
-          autocapitalize="off"
-          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-          data-testid="search-field"
--         id="garden-field-container-1--input"
-+         id="garden-field-container-2--input"
-          placeholder="hello there"
-          type="search"
+@@ -23,9 +23,9 @@
+          <input
+            aria-invalid="false"
+-           aria-labelledby="garden-field-container-1--label"
++           aria-labelledby="garden-field-container-2--label"
+            autocapitalize="off"
+            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+            data-testid="search-field"
+-           id="garden-field-container-1--input"
++           id="garden-field-container-2--input"
+            placeholder="hello there"
+            type="search"
 `;
 
 exports[`renders loading classes 1`] = `
@@ -65,33 +69,33 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -20,9 +20,9 @@
-        <input
-          aria-invalid="false"
--         aria-labelledby="garden-field-container-3--label"
-+         aria-labelledby="garden-field-container-4--label"
-          autocapitalize="off"
-          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-          data-testid="search-field"
--         id="garden-field-container-3--input"
-+         id="garden-field-container-4--input"
-          placeholder="hello there"
-          type="search"
-@@ -32,5 +32,13 @@
-          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
-        >
--         <div />
-+         <div>
-+           <div
-+             class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
-+             font-size="inherit"
-+             role="progressbar"
-+           >
-+              
+@@ -23,9 +23,9 @@
+          <input
+            aria-invalid="false"
+-           aria-labelledby="garden-field-container-3--label"
++           aria-labelledby="garden-field-container-4--label"
+            autocapitalize="off"
+            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+            data-testid="search-field"
+-           id="garden-field-container-3--input"
++           id="garden-field-container-4--input"
+            placeholder="hello there"
+            type="search"
+@@ -35,5 +35,13 @@
+            class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+          >
+-           <div />
++           <div>
++             <div
++               class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 jJKdlq"
++               font-size="inherit"
++               role="progressbar"
++             >
++                
++             </div>
 +           </div>
-+         </div>
+          </div>
         </div>
-      </div>
 `;
 
 exports[`renders loading classes in mobile 1`] = `
@@ -99,31 +103,31 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -20,9 +20,9 @@
-        <input
-          aria-invalid="false"
--         aria-labelledby="garden-field-container-5--label"
-+         aria-labelledby="garden-field-container-6--label"
-          autocapitalize="off"
-          class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-          data-testid="search-field"
--         id="garden-field-container-5--input"
-+         id="garden-field-container-6--input"
-          placeholder="hello there"
-          type="search"
-@@ -32,5 +32,13 @@
-          class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
-        >
--         <div />
-+         <div>
-+           <div
-+             class="styled-elements__LoadingPlaceholder-sc-19dhio6-3 hmhejt"
-+             font-size="inherit"
-+             role="progressbar"
-+           >
-+              
+@@ -23,9 +23,9 @@
+          <input
+            aria-invalid="false"
+-           aria-labelledby="garden-field-container-5--label"
++           aria-labelledby="garden-field-container-6--label"
+            autocapitalize="off"
+            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+            data-testid="search-field"
+-           id="garden-field-container-5--input"
++           id="garden-field-container-6--input"
+            placeholder="hello there"
+            type="search"
+@@ -35,5 +35,13 @@
+            class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
+          >
+-           <div />
++           <div>
++             <div
++               class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 jJKdlq"
++               font-size="inherit"
++               role="progressbar"
++             >
++                
++             </div>
 +           </div>
-+         </div>
+          </div>
         </div>
-      </div>
 `;

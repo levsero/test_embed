@@ -24,15 +24,17 @@ exports[`form ticket forms validation renders the error messages 1`] = `
           <button
             aria-label="Minimize"
             class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             tabindex="0"
             type="button"
           >
             <svg
               class="index__c-btn__icon___3V0Rl"
               data-garden-id="buttons.icon"
-              data-garden-version="6.4.4"
+              data-garden-version="7.0.2"
               data-testid="Icon--dash"
               realfilename="dash-fill.svg"
             />
@@ -51,101 +53,73 @@ exports[`form ticket forms validation renders the error messages 1`] = `
           >
             Ticket Forms
           </h2>
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-140--input"
-            id="garden-field-container-140--label"
-          >
-            <strong>
-              Your name
-            </strong>
-             (optional)
-          </label>
-          <input
-            aria-describedby="garden-field-container-140--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-140--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="name-field"
-            id="garden-field-container-140--input"
-            name="name"
-            value=""
-          />
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-141--input"
-            id="garden-field-container-141--label"
-          >
-            <strong>
-              Email address
-            </strong>
-          </label>
-          <input
-            aria-describedby="garden-field-container-141--hint"
-            aria-invalid="true"
-            aria-labelledby="garden-field-container-141--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="email-field"
-            id="garden-field-container-141--input"
-            name="email"
-            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-            required=""
-            value=""
-          />
           <div
-            class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-            data-garden-id="forms.text_message"
-            data-garden-version="6.4.4"
-            role="alert"
-          >
-            Please enter a valid email address.
-          </div>
-          <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-142--input"
-              id="garden-field-container-142--label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-140--input"
+              id="garden-field-container-140--label"
             >
               <strong>
-                Description
+                Your name
+              </strong>
+               (optional)
+            </label>
+            <input
+              aria-describedby="garden-field-container-140--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-140--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="7.0.2"
+              data-testid="name-field"
+              id="garden-field-container-140--input"
+              name="name"
+              value=""
+            />
+          </div>
+          <div
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
+              data-garden-id="forms.text_label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-141--input"
+              id="garden-field-container-141--label"
+            >
+              <strong>
+                Email address
               </strong>
             </label>
             <input
-              aria-describedby="garden-field-container-142--hint"
+              aria-describedby="garden-field-container-141--hint"
               aria-invalid="true"
-              aria-labelledby="garden-field-container-142--label"
-              aria-required="true"
+              aria-labelledby="garden-field-container-141--label"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
               data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-142--input"
-              label="Description"
-              name="1"
+              data-garden-version="7.0.2"
+              data-testid="email-field"
+              id="garden-field-container-141--input"
+              name="email"
+              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
               required=""
               value=""
             />
             <div
               class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
               data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
+              data-garden-version="7.0.2"
               role="alert"
             >
-              Please enter a value.
+              Please enter a valid email address.
             </div>
           </div>
           <div
@@ -154,38 +128,44 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-143--input"
-              id="garden-field-container-143--label"
-            >
-              <strong>
-                Subject
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-143--hint"
-              aria-invalid="true"
-              aria-labelledby="garden-field-container-143--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-143--input"
-              label="Subject"
-              name="2"
-              required=""
-              value=""
-            />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
-              role="alert"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              Please enter a value.
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-142--input"
+                id="garden-field-container-142--label"
+              >
+                <strong>
+                  Description
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-142--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-142--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-142--input"
+                label="Description"
+                name="1"
+                required=""
+                value=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a value.
+              </div>
             </div>
           </div>
           <div
@@ -194,46 +174,44 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-144--input"
-              id="garden-field-container-144--label"
-            >
-              <strong>
-                Favorite Burger
-              </strong>
-            </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-              data-garden-id="forms.text_hint"
-              data-garden-version="6.4.4"
-              id="garden-field-container-144--hint"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              blah blah
-            </div>
-            <input
-              aria-describedby="garden-field-container-144--hint"
-              aria-invalid="true"
-              aria-labelledby="garden-field-container-144--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-144--input"
-              label="Favorite Burger"
-              name="4"
-              required=""
-              value=""
-            />
-            <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
-              role="alert"
-            >
-              Please enter a value.
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-143--input"
+                id="garden-field-container-143--label"
+              >
+                <strong>
+                  Subject
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-143--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-143--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-143--input"
+                label="Subject"
+                name="2"
+                required=""
+                value=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a value.
+              </div>
             </div>
           </div>
           <div
@@ -242,40 +220,52 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-145--input"
-              id="garden-field-container-145--label"
-            >
-              <strong>
-                Favorite Integer
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-145--hint"
-              aria-invalid="true"
-              aria-labelledby="garden-field-container-145--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-145--input"
-              label="Favorite Integer"
-              name="7"
-              pattern="/\\\\d+/"
-              required=""
-              type="number"
-              value=""
-            />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
-              role="alert"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              Please enter a number.
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-144--input"
+                id="garden-field-container-144--label"
+              >
+                <strong>
+                  Favorite Burger
+                </strong>
+              </label>
+              <div
+                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+                data-garden-id="forms.text_hint"
+                data-garden-version="7.0.2"
+                id="garden-field-container-144--hint"
+              >
+                blah blah
+              </div>
+              <input
+                aria-describedby="garden-field-container-144--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-144--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-144--input"
+                label="Favorite Burger"
+                name="4"
+                required=""
+                value=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a value.
+              </div>
             </div>
           </div>
           <div
@@ -284,41 +274,46 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-146--input"
-              id="garden-field-container-146--label"
-            >
-              <strong>
-                Favorite Decimal
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-146--hint"
-              aria-invalid="true"
-              aria-labelledby="garden-field-container-146--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-146--input"
-              label="Favorite Decimal"
-              name="8"
-              pattern="/\\\\d*([.,]\\\\d+)?/"
-              required=""
-              step="any"
-              type="number"
-              value=""
-            />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
-              role="alert"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              Please enter a number.
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-145--input"
+                id="garden-field-container-145--label"
+              >
+                <strong>
+                  Favorite Integer
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-145--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-145--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-145--input"
+                label="Favorite Integer"
+                name="7"
+                pattern="/\\\\d+/"
+                required=""
+                type="number"
+                value=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a number.
+              </div>
             </div>
           </div>
           <div
@@ -327,37 +322,92 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-147--input"
-              id="garden-field-container-147--label"
-            >
-              <strong>
-                Favorite Textarea
-              </strong>
-            </label>
-            <textarea
-              aria-describedby="garden-field-container-147--hint"
-              aria-invalid="true"
-              aria-labelledby="garden-field-container-147--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 ffjHNh"
-              data-garden-id="forms.textarea"
-              data-garden-version="6.4.4"
-              id="garden-field-container-147--input"
-              label="Favorite Textarea"
-              name="10"
-              required=""
-            />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="6.4.4"
-              role="alert"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              Please enter a value.
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-146--input"
+                id="garden-field-container-146--label"
+              >
+                <strong>
+                  Favorite Decimal
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-146--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-146--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-146--input"
+                label="Favorite Decimal"
+                name="8"
+                pattern="/\\\\d*([.,]\\\\d+)?/"
+                required=""
+                step="any"
+                type="number"
+                value=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a number.
+              </div>
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-147--input"
+                id="garden-field-container-147--label"
+              >
+                <strong>
+                  Favorite Textarea
+                </strong>
+              </label>
+              <textarea
+                aria-describedby="garden-field-container-147--hint"
+                aria-invalid="true"
+                aria-labelledby="garden-field-container-147--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 ffjHNh"
+                data-garden-id="forms.textarea"
+                data-garden-version="7.0.2"
+                id="garden-field-container-147--input"
+                label="Favorite Textarea"
+                name="10"
+                required=""
+              />
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a value.
+              </div>
             </div>
           </div>
           <div
@@ -370,38 +420,46 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               data-testid="checkbox-field"
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
               >
-                <input
-                  aria-labelledby="garden-field-container-148--label"
-                  aria-required="true"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                  data-garden-id="forms.checkbox"
-                  data-garden-version="6.4.4"
-                  id="garden-field-container-148--input"
-                  label="Favorite Checkbox"
-                  name="11"
-                  required=""
-                  tabindex="0"
-                  type="checkbox"
-                />
-                <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                  data-garden-id="forms.checkbox_label"
-                  data-garden-version="6.4.4"
-                  for="garden-field-container-148--input"
-                  id="garden-field-container-148--label"
-                >
-                  <strong>
-                    Favorite Checkbox
-                  </strong>
-                </label>
                 <div
-                  class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
-                  data-garden-id="forms.checkbox_message"
-                  data-garden-version="6.4.4"
+                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
                 >
-                  Please check this box to proceed.
+                  <input
+                    aria-labelledby="garden-field-container-148--label"
+                    aria-required="true"
+                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                    data-garden-container-id="keyboardfocus"
+                    data-garden-container-version="0.2.6"
+                    data-garden-id="forms.checkbox"
+                    data-garden-version="7.0.2"
+                    id="garden-field-container-148--input"
+                    label="Favorite Checkbox"
+                    name="11"
+                    required=""
+                    tabindex="0"
+                    type="checkbox"
+                  />
+                  <label
+                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                    data-garden-container-id="field"
+                    data-garden-container-version="1.1.3"
+                    data-garden-id="forms.checkbox_label"
+                    data-garden-version="7.0.2"
+                    for="garden-field-container-148--input"
+                    id="garden-field-container-148--label"
+                  >
+                    <strong>
+                      Favorite Checkbox
+                    </strong>
+                  </label>
+                  <div
+                    class="StyledCheckMessage-sc-6pyg7y-0 checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE fmsVOs"
+                    data-garden-id="forms.checkbox_message"
+                    data-garden-version="7.0.2"
+                  >
+                    Please check this box to proceed.
+                  </div>
                 </div>
               </div>
             </div>
@@ -421,13 +479,13 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 aria-labelledby="downshift-2-label"
                 class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
                 data-garden-id="dropdowns.field"
-                data-garden-version="6.4.4"
+                data-garden-version="7.0.2"
                 role="combobox"
               >
                 <label
                   class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
                   data-garden-id="dropdowns.label"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                   for="downshift-2-input"
                   id="downshift-2-label"
                 >
@@ -438,14 +496,14 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 <div
                   class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
                   data-garden-id="dropdowns.hint"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                 />
                 <div
                   aria-haspopup="true"
                   aria-invalid="false"
                   class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                   data-garden-id="dropdowns.select"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                   data-testid="dropdown-field"
                   data-toggle="true"
                   role="button"
@@ -467,7 +525,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 <div
                   class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
                   data-garden-id="dropdowns.message"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                   role="alert"
                 >
                   Please select a value.
@@ -483,7 +541,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                     aria-labelledby="downshift-2-label"
                     class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
                     data-garden-id="dropdowns.menu"
-                    data-garden-version="6.4.4"
+                    data-garden-version="7.0.2"
                     data-testid="dropdown-options"
                     id="downshift-2-menu"
                     role="listbox"
@@ -496,7 +554,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                         aria-selected="false"
                         class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                         data-garden-id="dropdowns.item"
-                        data-garden-version="6.4.4"
+                        data-garden-version="7.0.2"
                         data-testid="dropdown-option"
                         id="downshift-2-item-0"
                         role="option"
@@ -507,7 +565,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                         aria-selected="false"
                         class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                         data-garden-id="dropdowns.item"
-                        data-garden-version="6.4.4"
+                        data-garden-version="7.0.2"
                         data-testid="dropdown-option"
                         id="downshift-2-item-1"
                         role="option"
@@ -518,7 +576,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                         aria-selected="false"
                         class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                         data-garden-id="dropdowns.item"
-                        data-garden-version="6.4.4"
+                        data-garden-version="7.0.2"
                         data-testid="dropdown-option"
                         id="downshift-2-item-2"
                         role="option"
@@ -561,8 +619,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
           </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             data-testid="button-ok"
             tabindex="0"
             type="submit"
@@ -600,15 +660,17 @@ exports[`renders the expected components 1`] = `
           <button
             aria-label="Minimize"
             class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             tabindex="0"
             type="button"
           >
             <svg
               class="index__c-btn__icon___3V0Rl"
               data-garden-id="buttons.icon"
-              data-garden-version="6.4.4"
+              data-garden-version="7.0.2"
               data-testid="Icon--dash"
               realfilename="dash-fill.svg"
             />
@@ -625,55 +687,67 @@ exports[`renders the expected components 1`] = `
           <h2
             class="ticketFormTitle "
           />
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-0--input"
-            id="garden-field-container-0--label"
+          <div
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
           >
-            <strong>
-              Your name
-            </strong>
-             (optional)
-          </label>
-          <input
-            aria-describedby="garden-field-container-0--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-0--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="name-field"
-            id="garden-field-container-0--input"
-            name="name"
-            value=""
-          />
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-1--input"
-            id="garden-field-container-1--label"
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
+              data-garden-id="forms.text_label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-0--input"
+              id="garden-field-container-0--label"
+            >
+              <strong>
+                Your name
+              </strong>
+               (optional)
+            </label>
+            <input
+              aria-describedby="garden-field-container-0--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-0--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="7.0.2"
+              data-testid="name-field"
+              id="garden-field-container-0--input"
+              name="name"
+              value=""
+            />
+          </div>
+          <div
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
           >
-            <strong>
-              Email address
-            </strong>
-          </label>
-          <input
-            aria-describedby="garden-field-container-1--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-1--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="email-field"
-            id="garden-field-container-1--input"
-            name="email"
-            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-            required=""
-            value=""
-          />
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
+              data-garden-id="forms.text_label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-1--input"
+              id="garden-field-container-1--label"
+            >
+              <strong>
+                Email address
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-1--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-1--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="7.0.2"
+              data-testid="email-field"
+              id="garden-field-container-1--input"
+              name="email"
+              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+              required=""
+              value=""
+            />
+          </div>
           <span />
         </div>
       </div>
@@ -697,8 +771,10 @@ exports[`renders the expected components 1`] = `
           </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             data-testid="button-ok"
             tabindex="0"
             type="submit"
@@ -736,15 +812,17 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
           <button
             aria-label="Minimize"
             class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             tabindex="0"
             type="button"
           >
             <svg
               class="index__c-btn__icon___3V0Rl"
               data-garden-id="buttons.icon"
-              data-garden-version="6.4.4"
+              data-garden-version="7.0.2"
               data-testid="Icon--dash"
               realfilename="dash-fill.svg"
             />
@@ -763,84 +841,64 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
           >
             Ticket Forms
           </h2>
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-36--input"
-            id="garden-field-container-36--label"
-          >
-            <strong>
-              Your name
-            </strong>
-             (optional)
-          </label>
-          <input
-            aria-describedby="garden-field-container-36--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-36--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="name-field"
-            id="garden-field-container-36--input"
-            name="name"
-            value=""
-          />
-          <label
-            class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-            data-garden-id="forms.text_label"
-            data-garden-version="6.4.4"
-            for="garden-field-container-37--input"
-            id="garden-field-container-37--label"
-          >
-            <strong>
-              Email address
-            </strong>
-          </label>
-          <input
-            aria-describedby="garden-field-container-37--hint"
-            aria-invalid="false"
-            aria-labelledby="garden-field-container-37--label"
-            class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-            data-garden-id="forms.input"
-            data-garden-version="6.4.4"
-            data-testid="email-field"
-            id="garden-field-container-37--input"
-            name="email"
-            pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-            required=""
-            value=""
-          />
           <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-38--input"
-              id="garden-field-container-38--label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-36--input"
+              id="garden-field-container-36--label"
             >
               <strong>
-                Description
+                Your name
               </strong>
                (optional)
             </label>
             <input
-              aria-describedby="garden-field-container-38--hint"
+              aria-describedby="garden-field-container-36--hint"
               aria-invalid="false"
-              aria-labelledby="garden-field-container-38--label"
-              aria-required="false"
+              aria-labelledby="garden-field-container-36--label"
               class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
               data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-38--input"
-              label="Description"
-              name="1"
+              data-garden-version="7.0.2"
+              data-testid="name-field"
+              id="garden-field-container-36--input"
+              name="name"
+              value=""
+            />
+          </div>
+          <div
+            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+          >
+            <label
+              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              data-garden-container-id="field"
+              data-garden-container-version="1.1.3"
+              data-garden-id="forms.text_label"
+              data-garden-version="7.0.2"
+              for="garden-field-container-37--input"
+              id="garden-field-container-37--label"
+            >
+              <strong>
+                Email address
+              </strong>
+            </label>
+            <input
+              aria-describedby="garden-field-container-37--hint"
+              aria-invalid="false"
+              aria-labelledby="garden-field-container-37--label"
+              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              data-garden-id="forms.input"
+              data-garden-version="7.0.2"
+              data-testid="email-field"
+              id="garden-field-container-37--input"
+              name="email"
+              pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
+              required=""
               value=""
             />
           </div>
@@ -850,71 +908,37 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-39--input"
-              id="garden-field-container-39--label"
-            >
-              <strong>
-                Subject
-              </strong>
-               (optional)
-            </label>
-            <input
-              aria-describedby="garden-field-container-39--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-39--label"
-              aria-required="false"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-39--input"
-              label="Subject"
-              name="2"
-              value=""
-            />
-          </div>
-          <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
-          >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-40--input"
-              id="garden-field-container-40--label"
-            >
-              <strong>
-                Favorite Burger
-              </strong>
-               (optional)
-            </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-              data-garden-id="forms.text_hint"
-              data-garden-version="6.4.4"
-              id="garden-field-container-40--hint"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              blah blah
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-38--input"
+                id="garden-field-container-38--label"
+              >
+                <strong>
+                  Description
+                </strong>
+                 (optional)
+              </label>
+              <input
+                aria-describedby="garden-field-container-38--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-38--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-38--input"
+                label="Description"
+                name="1"
+                value=""
+              />
             </div>
-            <input
-              aria-describedby="garden-field-container-40--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-40--label"
-              aria-required="false"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-40--input"
-              label="Favorite Burger"
-              name="4"
-              value=""
-            />
           </div>
           <div
             class=""
@@ -922,73 +946,37 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-41--input"
-              id="garden-field-container-41--label"
-            >
-              <strong>
-                Favorite Pizza
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-41--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-41--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-41--input"
-              label="Favorite Pizza"
-              name="5"
-              required=""
-              value=""
-            />
-          </div>
-          <div
-            class=""
-            data-testid="slide-appear-container"
-            role="presentation"
-            style="opacity: 1; bottom: 10px;"
-          >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-42--input"
-              id="garden-field-container-42--label"
-            >
-              <strong>
-                Favorite Integer
-              </strong>
-               (optional)
-            </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-              data-garden-id="forms.text_hint"
-              data-garden-version="6.4.4"
-              id="garden-field-container-42--hint"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              description number
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-39--input"
+                id="garden-field-container-39--label"
+              >
+                <strong>
+                  Subject
+                </strong>
+                 (optional)
+              </label>
+              <input
+                aria-describedby="garden-field-container-39--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-39--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-39--input"
+                label="Subject"
+                name="2"
+                value=""
+              />
             </div>
-            <input
-              aria-describedby="garden-field-container-42--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-42--label"
-              aria-required="false"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-42--input"
-              label="Favorite Integer"
-              name="7"
-              pattern="/\\\\d+/"
-              type="number"
-              value=""
-            />
           </div>
           <div
             class=""
@@ -996,34 +984,45 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-43--input"
-              id="garden-field-container-43--label"
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              <strong>
-                Favorite Decimal
-              </strong>
-            </label>
-            <input
-              aria-describedby="garden-field-container-43--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-43--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-              data-garden-id="forms.input"
-              data-garden-version="6.4.4"
-              id="garden-field-container-43--input"
-              label="Favorite Decimal"
-              name="8"
-              pattern="/\\\\d*([.,]\\\\d+)?/"
-              required=""
-              step="any"
-              type="number"
-              value=""
-            />
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-40--input"
+                id="garden-field-container-40--label"
+              >
+                <strong>
+                  Favorite Burger
+                </strong>
+                 (optional)
+              </label>
+              <div
+                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+                data-garden-id="forms.text_hint"
+                data-garden-version="7.0.2"
+                id="garden-field-container-40--hint"
+              >
+                blah blah
+              </div>
+              <input
+                aria-describedby="garden-field-container-40--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-40--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-40--input"
+                label="Favorite Burger"
+                name="4"
+                value=""
+              />
+            </div>
           </div>
           <div
             class=""
@@ -1031,30 +1030,37 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-44--input"
-              id="garden-field-container-44--label"
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              <strong>
-                Favorite Description
-              </strong>
-            </label>
-            <textarea
-              aria-describedby="garden-field-container-44--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-44--label"
-              aria-required="true"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-              data-garden-id="forms.textarea"
-              data-garden-version="6.4.4"
-              id="garden-field-container-44--input"
-              label="Favorite Description"
-              name="9"
-              required=""
-            />
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-41--input"
+                id="garden-field-container-41--label"
+              >
+                <strong>
+                  Favorite Pizza
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-41--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-41--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-41--input"
+                label="Favorite Pizza"
+                name="5"
+                required=""
+                value=""
+              />
+            </div>
           </div>
           <div
             class=""
@@ -1062,30 +1068,162 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             role="presentation"
             style="opacity: 1; bottom: 10px;"
           >
-            <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-              data-garden-id="forms.text_label"
-              data-garden-version="6.4.4"
-              for="garden-field-container-45--input"
-              id="garden-field-container-45--label"
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              <strong>
-                Favorite Textarea
-              </strong>
-               (optional)
-            </label>
-            <textarea
-              aria-describedby="garden-field-container-45--hint"
-              aria-invalid="false"
-              aria-labelledby="garden-field-container-45--label"
-              aria-required="false"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-              data-garden-id="forms.textarea"
-              data-garden-version="6.4.4"
-              id="garden-field-container-45--input"
-              label="Favorite Textarea"
-              name="10"
-            />
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-42--input"
+                id="garden-field-container-42--label"
+              >
+                <strong>
+                  Favorite Integer
+                </strong>
+                 (optional)
+              </label>
+              <div
+                class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+                data-garden-id="forms.text_hint"
+                data-garden-version="7.0.2"
+                id="garden-field-container-42--hint"
+              >
+                description number
+              </div>
+              <input
+                aria-describedby="garden-field-container-42--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-42--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-42--input"
+                label="Favorite Integer"
+                name="7"
+                pattern="/\\\\d+/"
+                type="number"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-43--input"
+                id="garden-field-container-43--label"
+              >
+                <strong>
+                  Favorite Decimal
+                </strong>
+              </label>
+              <input
+                aria-describedby="garden-field-container-43--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-43--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+                data-garden-id="forms.input"
+                data-garden-version="7.0.2"
+                id="garden-field-container-43--input"
+                label="Favorite Decimal"
+                name="8"
+                pattern="/\\\\d*([.,]\\\\d+)?/"
+                required=""
+                step="any"
+                type="number"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-44--input"
+                id="garden-field-container-44--label"
+              >
+                <strong>
+                  Favorite Description
+                </strong>
+              </label>
+              <textarea
+                aria-describedby="garden-field-container-44--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-44--label"
+                aria-required="true"
+                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+                data-garden-id="forms.textarea"
+                data-garden-version="7.0.2"
+                id="garden-field-container-44--input"
+                label="Favorite Description"
+                name="9"
+                required=""
+              />
+            </div>
+          </div>
+          <div
+            class=""
+            data-testid="slide-appear-container"
+            role="presentation"
+            style="opacity: 1; bottom: 10px;"
+          >
+            <div
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            >
+              <label
+                class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                data-garden-container-id="field"
+                data-garden-container-version="1.1.3"
+                data-garden-id="forms.text_label"
+                data-garden-version="7.0.2"
+                for="garden-field-container-45--input"
+                id="garden-field-container-45--label"
+              >
+                <strong>
+                  Favorite Textarea
+                </strong>
+                 (optional)
+              </label>
+              <textarea
+                aria-describedby="garden-field-container-45--hint"
+                aria-invalid="false"
+                aria-labelledby="garden-field-container-45--label"
+                aria-required="false"
+                class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+                data-garden-id="forms.textarea"
+                data-garden-version="7.0.2"
+                id="garden-field-container-45--input"
+                label="Favorite Textarea"
+                name="10"
+              />
+            </div>
           </div>
           <div
             class=""
@@ -1097,39 +1235,47 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               data-testid="checkbox-field"
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
               >
-                <input
-                  aria-labelledby="garden-field-container-46--label"
-                  aria-required="true"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                  data-garden-id="forms.checkbox"
-                  data-garden-version="6.4.4"
-                  id="garden-field-container-46--input"
-                  label="Favorite Checkbox"
-                  name="11"
-                  required=""
-                  tabindex="0"
-                  type="checkbox"
-                />
-                <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                  data-garden-id="forms.checkbox_label"
-                  data-garden-version="6.4.4"
-                  for="garden-field-container-46--input"
-                  id="garden-field-container-46--label"
-                >
-                  <strong>
-                    Favorite Checkbox
-                  </strong>
-                </label>
                 <div
-                  class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-                  data-garden-id="forms.checkbox_hint"
-                  data-garden-version="6.4.4"
-                  id="garden-field-container-46--hint"
+                  class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
                 >
-                  this is the description
+                  <input
+                    aria-labelledby="garden-field-container-46--label"
+                    aria-required="true"
+                    class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                    data-garden-container-id="keyboardfocus"
+                    data-garden-container-version="0.2.6"
+                    data-garden-id="forms.checkbox"
+                    data-garden-version="7.0.2"
+                    id="garden-field-container-46--input"
+                    label="Favorite Checkbox"
+                    name="11"
+                    required=""
+                    tabindex="0"
+                    type="checkbox"
+                  />
+                  <label
+                    class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                    data-garden-container-id="field"
+                    data-garden-container-version="1.1.3"
+                    data-garden-id="forms.checkbox_label"
+                    data-garden-version="7.0.2"
+                    for="garden-field-container-46--input"
+                    id="garden-field-container-46--label"
+                  >
+                    <strong>
+                      Favorite Checkbox
+                    </strong>
+                  </label>
+                  <div
+                    class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+                    data-garden-id="forms.checkbox_hint"
+                    data-garden-version="7.0.2"
+                    id="garden-field-container-46--hint"
+                  >
+                    this is the description
+                  </div>
                 </div>
               </div>
             </div>
@@ -1149,13 +1295,13 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 aria-labelledby="downshift-0-label"
                 class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
                 data-garden-id="dropdowns.field"
-                data-garden-version="6.4.4"
+                data-garden-version="7.0.2"
                 role="combobox"
               >
                 <label
                   class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
                   data-garden-id="dropdowns.label"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                   for="downshift-0-input"
                   id="downshift-0-label"
                 >
@@ -1166,7 +1312,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 <div
                   class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
                   data-garden-id="dropdowns.hint"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                 >
                   this is the tagger description
                 </div>
@@ -1175,7 +1321,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   aria-invalid="false"
                   class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                   data-garden-id="dropdowns.select"
-                  data-garden-version="6.4.4"
+                  data-garden-version="7.0.2"
                   data-testid="dropdown-field"
                   data-toggle="true"
                   role="button"
@@ -1205,7 +1351,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                     aria-labelledby="downshift-0-label"
                     class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
                     data-garden-id="dropdowns.menu"
-                    data-garden-version="6.4.4"
+                    data-garden-version="7.0.2"
                     data-testid="dropdown-options"
                     id="downshift-0-menu"
                     role="listbox"
@@ -1218,7 +1364,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                         aria-selected="false"
                         class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                         data-garden-id="dropdowns.item"
-                        data-garden-version="6.4.4"
+                        data-garden-version="7.0.2"
                         data-testid="dropdown-option"
                         id="downshift-0-item-0"
                         role="option"
@@ -1229,7 +1375,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                         aria-selected="false"
                         class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                         data-garden-id="dropdowns.item"
-                        data-garden-version="6.4.4"
+                        data-garden-version="7.0.2"
                         data-testid="dropdown-option"
                         id="downshift-0-item-1"
                         role="option"
@@ -1272,8 +1418,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
           </a>
           <button
             class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
-            data-garden-version="6.4.4"
+            data-garden-version="7.0.2"
             data-testid="button-ok"
             tabindex="0"
             type="submit"

@@ -5,25 +5,25 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -281,1 +281,1 @@
--           aria-labelledby="downshift-4-label"
-+           aria-labelledby="downshift-3-label"
-@@ -307,1 +307,1 @@
--               aria-labelledby="downshift-4-label"
-+               aria-labelledby="downshift-3-label"
-@@ -310,1 +310,1 @@
--               id="downshift-4-input"
-+               id="downshift-3-input"
+@@ -298,1 +298,1 @@
+-             aria-labelledby="downshift-4-label"
++             aria-labelledby="downshift-3-label"
 @@ -324,1 +324,1 @@
--               aria-labelledby="downshift-4-label"
-+               aria-labelledby="downshift-3-label"
-@@ -329,1 +329,1 @@
--               id="downshift-4-menu"
-+               id="downshift-3-menu"
+-                 aria-labelledby="downshift-4-label"
++                 aria-labelledby="downshift-3-label"
+@@ -327,1 +327,1 @@
+-                 id="downshift-4-input"
++                 id="downshift-3-input"
 @@ -341,1 +341,1 @@
--                   id="downshift-4-item-0"
-+                   id="downshift-3-item-0"
-@@ -356,1 +356,1 @@
--                   id="downshift-4-item-1"
-+                   id="downshift-3-item-1"
+-                 aria-labelledby="downshift-4-label"
++                 aria-labelledby="downshift-3-label"
+@@ -346,1 +346,1 @@
+-                 id="downshift-4-menu"
++                 id="downshift-3-menu"
+@@ -358,1 +358,1 @@
+-                     id="downshift-4-item-0"
++                     id="downshift-3-item-0"
+@@ -373,1 +373,1 @@
+-                     id="downshift-4-item-1"
++                     id="downshift-3-item-1"
 `;

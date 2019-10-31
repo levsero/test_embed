@@ -1,37 +1,40 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { FocusJailContainer } from '@zendeskgarden/react-modals'
+import { useFocusJail } from '@zendeskgarden/container-focusjail'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { focusLauncher } from 'utility/globals'
+import { focusLauncher, getWebWidgetFrameContentDocument } from 'utility/globals'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 import { connect } from 'react-redux'
 
 const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
+  const containerRef = useRef()
+  const { getContainerProps } = useFocusJail({
+    focusOnMount: false,
+    environment: getWebWidgetFrameContentDocument(),
+    containerRef
+  })
+
   if (name === 'launcher') {
     return children
   }
 
   return (
-    <FocusJailContainer focusOnMount={false}>
-      {({ getContainerProps, containerRef }) => (
-        <div
-          {...getContainerProps({
-            ref: containerRef,
-            onKeyDown: evt => {
-              const { keyCode } = evt
+    <div
+      {...getContainerProps({
+        ref: containerRef,
+        onKeyDown: evt => {
+          const { keyCode } = evt
 
-              if (keyCode === KEY_CODES.ESCAPE) {
-                focusLauncher()
-                handleEscapeKeyPressed()
-              }
-            }
-          })}
-          {...props}
-        >
-          {children}
-        </div>
-      )}
-    </FocusJailContainer>
+          if (keyCode === KEY_CODES.ESCAPE) {
+            focusLauncher()
+            handleEscapeKeyPressed()
+          }
+        }
+      })}
+      {...props}
+    >
+      {children}
+    </div>
   )
 }
 
