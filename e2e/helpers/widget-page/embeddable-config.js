@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import presets from './embeddable-config-presets'
-import { defaultRequestHandler } from '../utils'
 
 const baseConfig = {
   locale: 'en-GB',
@@ -19,7 +18,7 @@ const baseConfig = {
   }
 }
 
-const createEmbeddableConfig = (...configs) => {
+const mergeEmbeddableConfigs = configs => {
   const values = configs
     .map(config => {
       if (typeof config !== 'object') {
@@ -33,24 +32,17 @@ const createEmbeddableConfig = (...configs) => {
   return _.merge({}, baseConfig, ...values)
 }
 
-const mockEmbeddableConfigEndpoint = async (config = {}) => {
-  await page.setRequestInterception(true)
-  await page.on('request', request => {
-    if (defaultRequestHandler(request)) {
-      return
-    }
+const mockEmbeddableConfigEndpoint = (...configs) => request => {
+  if (!request.url().includes('config')) {
+    return false
+  }
 
-    if (request.url().includes('config')) {
-      request.respond({
-        status: 200,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        contentType: 'application/json',
-        body: JSON.stringify(config)
-      })
-    } else {
-      request.continue()
-    }
+  request.respond({
+    status: 200,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    contentType: 'application/json',
+    body: JSON.stringify(mergeEmbeddableConfigs(configs))
   })
 }
 
-export { mockEmbeddableConfigEndpoint, createEmbeddableConfig }
+export { mockEmbeddableConfigEndpoint, mergeEmbeddableConfigs }

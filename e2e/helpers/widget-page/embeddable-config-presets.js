@@ -16,7 +16,7 @@ const presets = {
       ticketSubmissionForm: {
         props: {
           attachmentsEnabled: true,
-          nameFieldEnabled: false,
+          nameFieldEnabled: true,
           nameFieldRequired: false,
           color: '#1F73B7',
           maxFileSize: 20971520

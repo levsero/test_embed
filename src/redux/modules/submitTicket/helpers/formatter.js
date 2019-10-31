@@ -72,7 +72,7 @@ export const formatRequestData = (
       via_id: 48,
       comment: {
         body: formatDescriptionField(descriptionData),
-        uploads: attachments
+        uploads: attachments ? attachments : []
       },
       requester: {
         name: formState.name || formatNameFromEmail(formState.email),

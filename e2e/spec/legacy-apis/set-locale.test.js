@@ -1,6 +1,6 @@
 import { wait } from 'pptr-testing-library'
-import widgetPage from 'helpers/widget-page'
-import launcher from 'helpers/launcher'
+import widgetPage from 'e2e/helpers/widget-page'
+import launcher from 'e2e/helpers/launcher'
 
 describe('zE.setLocale(locale)', () => {
   beforeEach(async () => {
