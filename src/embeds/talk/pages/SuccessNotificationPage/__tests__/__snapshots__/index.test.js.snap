@@ -44,6 +44,7 @@ exports[`SuccessNotificationPage renders 1`] = `
       >
         <div
           class="sc-dnqmqq jeHjlD"
+          data-testid="Icon--success-notification-icon"
         >
           <svg
             realfilename="talk_success.svg"
