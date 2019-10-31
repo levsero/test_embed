@@ -127,9 +127,9 @@ test('renders the loading bar content', () => {
 test('renders the success notification', () => {
   const { queryByText } = renderComponent({ showNotification: true })
 
-  expect(queryByText('Thanks for reaching out.')).toBeInTheDocument()
-  expect(queryByText("We'll get back to you soon.")).toBeInTheDocument()
-  expect(queryByText('Done')).toBeInTheDocument()
+  expect(queryByText('Thanks for reaching out')).toBeInTheDocument()
+  expect(queryByText('Someone will get back to you soon')).toBeInTheDocument()
+  expect(queryByText('Go Back')).toBeInTheDocument()
 })
 
 test('renders the attachment box when something is dragged to it', () => {

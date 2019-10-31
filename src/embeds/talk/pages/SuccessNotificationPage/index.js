@@ -4,31 +4,28 @@ import { connect } from 'react-redux'
 
 import { focusLauncher } from 'utility/globals'
 import { i18n } from 'service/i18n'
-import { Button } from '@zendeskgarden/react-buttons'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import SuccessNotification from 'src/embeds/talk/components/SuccessNotification'
+import SuccessNotification from 'src/components/SuccessNotification'
 import { successDoneButtonClicked } from 'src/redux/modules/talk'
 import { getTitle } from 'src/embeds/talk/selectors'
+import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
 
-const SuccessNotificationPage = ({ title, doneText, onDone, history }) => {
+const SuccessNotificationPage = ({ title, doneText, onClick, history }) => {
   return (
     <Widget>
       <Header title={title} />
       <Main>
-        <SuccessNotification />
-      </Main>
-      <Footer>
-        <Button
-          primary={true}
+        <SuccessNotification
+          doneText={doneText}
+          icon={<TalkSuccessIcon />}
           onClick={() => {
-            onDone()
+            onClick()
             focusLauncher()
             history.replace('/')
           }}
-        >
-          {doneText}
-        </Button>
-      </Footer>
+        />
+      </Main>
+      <Footer />
     </Widget>
   )
 }
@@ -36,7 +33,7 @@ const SuccessNotificationPage = ({ title, doneText, onDone, history }) => {
 SuccessNotificationPage.propTypes = {
   title: PropTypes.string.isRequired,
   doneText: PropTypes.string.isRequired,
-  onDone: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func
   })
@@ -44,11 +41,11 @@ SuccessNotificationPage.propTypes = {
 
 const mapStateToProps = state => ({
   title: getTitle(state, 'embeddable_framework.talk.notify.success.title'),
-  doneText: i18n.t('embeddable_framework.common.button.done')
+  doneText: i18n.t('embeddable_framework.common.button.goBack')
 })
 
 const actionCreators = {
-  onDone: successDoneButtonClicked
+  onClick: successDoneButtonClicked
 }
 
 export default connect(

@@ -2,7 +2,6 @@ import MessageBubbleStyles from './MessageBubble/MessageBubble.scss'
 import MessageBubbleChoicesStyles from './MessageBubbleChoices/MessageBubbleChoices.scss'
 import MessageOptionsStyles from './MessageOptions/MessageOptions.scss'
 import QuickRepliesStyles from './QuickReplies/QuickReplies.scss'
-import SuccessNotificationStyles from './SuccessNotification/SuccessNotification.scss'
 import ButtonStyles from './StructuredMessage/pure/Button.scss'
 import ButtonListStyles from './StructuredMessage/pure/ButtonList.scss'
 import CardStyles from './StructuredMessage/pure/Card.scss'
@@ -19,7 +18,6 @@ const styles = `
   ${MessageOptionsStyles}
   ${MessageBubbleChoicesStyles}
   ${QuickRepliesStyles}
-  ${SuccessNotificationStyles}
   ${ButtonStyles}
   ${ButtonListStyles}
   ${CardStyles}

@@ -143,7 +143,7 @@ describe('success screen', () => {
     })
 
   it('renders Done button', () => {
-    expect(testComponent().getByText('Done')).toBeInTheDocument()
+    expect(testComponent().getByText('Go Back')).toBeInTheDocument()
   })
 
   it('renders with the correct title', () => {
@@ -152,8 +152,8 @@ describe('success screen', () => {
 
   it('renders success text', () => {
     const { getByText } = testComponent()
-    expect(getByText('Thanks for reaching out.')).toBeInTheDocument()
-    expect(getByText("We'll get back to you soon.")).toBeInTheDocument()
+    expect(getByText('Thanks for reaching out')).toBeInTheDocument()
+    expect(getByText('Someone will get back to you soon')).toBeInTheDocument()
   })
 })
 

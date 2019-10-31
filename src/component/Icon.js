@@ -53,8 +53,7 @@ const icons = {
   'Icon--twitter': require('icons/widget-icon_twitter.svg'),
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
   [ICONS.CC_CHAT]: require('icons/widget-icon_channelChoice-chat.svg'),
-  'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),
-  [ICONS.SUCCESS_CONTACT_FORM]: require('icons/widget-icon_success_contactForm.svg')
+  'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg')
 }
 
 export class Icon extends Component {
