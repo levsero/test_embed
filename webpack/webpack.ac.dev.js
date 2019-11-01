@@ -4,6 +4,7 @@ const merge = require('webpack-merge')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
+const DashboardPlugin = require('./dashboard-plugin')
 
 const CWD = process.cwd()
 const CSP_HEADER =
@@ -44,6 +45,7 @@ module.exports = () => {
       }
     },
     plugins: [
+      new DashboardPlugin({ isAvailable: process.env.USE_DASHBOARD === 'true' }),
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(true)
