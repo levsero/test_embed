@@ -10,13 +10,14 @@ module.exports = () => {
 
   return merge(common, {
     mode: 'development',
-    devtool: 'eval-source-map',
     output: {
       filename: '[name].js',
       publicPath: '/'
     },
     devServer: {
       host: '0.0.0.0',
+      hot: false,
+      inline: false,
       port: 5123,
       disableHostCheck: true,
       headers: {
@@ -26,7 +27,7 @@ module.exports = () => {
     plugins: [
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(true)
+        __DEV__: JSON.stringify(false)
       }),
       new webpack.WatchIgnorePlugin([
         path.resolve(__dirname, './test/'),
