@@ -2,27 +2,33 @@
 
 exports[`DescriptionField 1`] = `
 <div>
-  <label
-    class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-    data-garden-id="forms.text_label"
-    data-garden-version="6.4.4"
-    for="garden-field-container-0--input"
-    id="garden-field-container-0--label"
+  <div
+    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
   >
-    This is a description field
-  </label>
-  <textarea
-    aria-describedby="garden-field-container-0--hint"
-    aria-invalid="false"
-    aria-labelledby="garden-field-container-0--label"
-    class="StyledTextInput-sc-1ezxcjx-0-textarea sc-bdVaJa ksseBe StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
-    data-garden-id="forms.textarea"
-    data-garden-version="6.4.4"
-    id="garden-field-container-0--input"
-    name="description"
-    rows="4"
-  >
-    this value should be populated
-  </textarea>
+    <label
+      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      data-garden-container-id="field"
+      data-garden-container-version="1.1.3"
+      data-garden-id="forms.text_label"
+      data-garden-version="7.0.2"
+      for="garden-field-container-0--input"
+      id="garden-field-container-0--label"
+    >
+      This is a description field
+    </label>
+    <textarea
+      aria-describedby="garden-field-container-0--hint"
+      aria-invalid="false"
+      aria-labelledby="garden-field-container-0--label"
+      class="StyledTextInput-sc-1ezxcjx-0-textarea sc-bdVaJa ksseBe StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+      data-garden-id="forms.textarea"
+      data-garden-version="7.0.2"
+      id="garden-field-container-0--input"
+      name="description"
+      rows="4"
+    >
+      this value should be populated
+    </textarea>
+  </div>
 </div>
 `;

@@ -5,62 +5,68 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -76,2 +76,2 @@
--       for="garden-field-container-1--input"
--       id="garden-field-container-1--label"
-+       for="garden-field-container-2--input"
-+       id="garden-field-container-2--label"
-@@ -82,0 +82,1 @@
-+        (optional)
-@@ -87,1 +88,1 @@
--       id="garden-field-container-1--hint"
-+       id="garden-field-container-2--hint"
-@@ -92,1 +93,1 @@
--       aria-describedby="garden-field-container-1--hint"
-+       aria-describedby="garden-field-container-2--hint"
-@@ -94,1 +95,1 @@
--       aria-labelledby="garden-field-container-1--label"
-+       aria-labelledby="garden-field-container-2--label"
-@@ -98,1 +99,1 @@
--       id="garden-field-container-1--input"
-+       id="garden-field-container-2--input"
-@@ -101,1 +102,0 @@
--       required=""
+@@ -93,2 +93,2 @@
+-         for="garden-field-container-1--input"
+-         id="garden-field-container-1--label"
++         for="garden-field-container-2--input"
++         id="garden-field-container-2--label"
+@@ -99,0 +99,1 @@
++          (optional)
+@@ -104,1 +105,1 @@
+-         id="garden-field-container-1--hint"
++         id="garden-field-container-2--hint"
+@@ -109,1 +110,1 @@
+-         aria-describedby="garden-field-container-1--hint"
++         aria-describedby="garden-field-container-2--hint"
+@@ -111,1 +112,1 @@
+-         aria-labelledby="garden-field-container-1--label"
++         aria-labelledby="garden-field-container-2--label"
+@@ -115,1 +116,1 @@
+-         id="garden-field-container-1--input"
++         id="garden-field-container-2--input"
+@@ -118,1 +119,0 @@
+-         required=""
 `;
 
 exports[`Text when required renders the expected component 1`] = `
 <div>
-  <label
-    class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ lmNEmJ"
-    data-garden-id="forms.text_label"
-    data-garden-version="6.4.4"
-    for="garden-field-container-0--input"
-    id="garden-field-container-0--label"
-  >
-    <strong>
-      this is a label
-    </strong>
-  </label>
   <div
-    class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
-    data-garden-id="forms.text_hint"
-    data-garden-version="6.4.4"
-    id="garden-field-container-0--hint"
+    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
   >
-    description of field
+    <label
+      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      data-garden-container-id="field"
+      data-garden-container-version="1.1.3"
+      data-garden-id="forms.text_label"
+      data-garden-version="7.0.2"
+      for="garden-field-container-0--input"
+      id="garden-field-container-0--label"
+    >
+      <strong>
+        this is a label
+      </strong>
+    </label>
+    <div
+      class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+      data-garden-id="forms.text_hint"
+      data-garden-version="7.0.2"
+      id="garden-field-container-0--hint"
+    >
+      description of field
+    </div>
+    <input
+      aria-describedby="garden-field-container-0--hint"
+      aria-invalid="false"
+      aria-labelledby="garden-field-container-0--label"
+      class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+      data-garden-id="forms.input"
+      data-garden-version="7.0.2"
+      id="garden-field-container-0--input"
+      label="this is a label"
+      name="text"
+      required=""
+    />
   </div>
-  <input
-    aria-describedby="garden-field-container-0--hint"
-    aria-invalid="false"
-    aria-labelledby="garden-field-container-0--label"
-    class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-    data-garden-id="forms.input"
-    data-garden-version="6.4.4"
-    id="garden-field-container-0--input"
-    label="this is a label"
-    name="text"
-    required=""
-  />
 </div>
 `;
 
@@ -69,31 +75,31 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -82,2 +82,2 @@
--       for="garden-field-container-3--input"
--       id="garden-field-container-3--label"
-+       for="garden-field-container-4--input"
-+       id="garden-field-container-4--label"
-@@ -93,1 +93,1 @@
--       id="garden-field-container-3--hint"
-+       id="garden-field-container-4--hint"
-@@ -98,4 +98,4 @@
--       aria-describedby="garden-field-container-3--hint"
--       aria-invalid="false"
--       aria-labelledby="garden-field-container-3--label"
--       class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-+       aria-describedby="garden-field-container-4--hint"
-+       aria-invalid="true"
-+       aria-labelledby="garden-field-container-4--label"
-+       class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
-@@ -104,1 +104,1 @@
--       id="garden-field-container-3--input"
-+       id="garden-field-container-4--input"
-@@ -108,0 +108,6 @@
-+     />
-+     <div
-+       class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-+       data-garden-id="forms.text_message"
-+       data-garden-version="6.4.4"
-+       role="alert"
+@@ -99,2 +99,2 @@
+-         for="garden-field-container-3--input"
+-         id="garden-field-container-3--label"
++         for="garden-field-container-4--input"
++         id="garden-field-container-4--label"
+@@ -110,1 +110,1 @@
+-         id="garden-field-container-3--hint"
++         id="garden-field-container-4--hint"
+@@ -115,4 +115,4 @@
+-         aria-describedby="garden-field-container-3--hint"
+-         aria-invalid="false"
+-         aria-labelledby="garden-field-container-3--label"
+-         class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
++         aria-describedby="garden-field-container-4--hint"
++         aria-invalid="true"
++         aria-labelledby="garden-field-container-4--label"
++         class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+@@ -121,1 +121,1 @@
+-         id="garden-field-container-3--input"
++         id="garden-field-container-4--input"
+@@ -125,0 +125,6 @@
++       />
++       <div
++         class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
++         data-garden-id="forms.text_message"
++         data-garden-version="7.0.2"
++         role="alert"
 `;

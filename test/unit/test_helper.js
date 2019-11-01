@@ -42,6 +42,9 @@ global.document.createRange = () => ({
 global.requestAnimationFrame = global.window.requestAnimationFrame =
   global.window.requestAnimationFrame || (callback => setTimeout(callback, 0))
 
+global.cancelAnimationFrame = global.window.cancelAnimationFrame =
+  global.window.cancelAnimationFrame || (() => {})
+
 // This global is a workaround for a bug in ThemeProvider from Garden
 global.Element = global.window.Element
 

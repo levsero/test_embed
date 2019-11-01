@@ -94,25 +94,26 @@ const ChatMenu = ({
   }
 
   return (
-    <div
-      role="presentation"
-      onKeyDown={e => {
-        if (e.key === 'Escape' && isOpen) {
-          e.stopPropagation()
-        }
-      }}
-    >
-      <Dropdown
-        onSelect={onSelect}
-        isOpen={isOpen}
-        highlightedIndex={highlightedIndex}
-        onStateChange={onStateChange}
-        downshiftProps={{
-          environment: getWebWidgetFrameContentWindow()
-        }}
-      >
-        <Tooltip
-          trigger={
+    <Tooltip
+      trigger={
+        <div
+          role="presentation"
+          onKeyDown={e => {
+            if (e.key === 'Escape' && isOpen) {
+              e.stopPropagation()
+            }
+          }}
+          tabIndex="-1"
+        >
+          <Dropdown
+            onSelect={onSelect}
+            isOpen={isOpen}
+            highlightedIndex={highlightedIndex}
+            onStateChange={onStateChange}
+            downshiftProps={{
+              environment: getWebWidgetFrameContentWindow()
+            }}
+          >
             <Trigger>
               {isMobileBrowser() ? (
                 <HeaderItem aria-label="Menu" data-testid={TEST_IDS.CHAT_MENU}>
@@ -126,50 +127,49 @@ const ChatMenu = ({
                 </FooterIconButton>
               )}
             </Trigger>
-          }
-        >
-          {tooltipLabel}
-        </Tooltip>
+            <Menu
+              placement={isMobileBrowser() ? 'bottom' : 'top'}
+              data-testid={TEST_IDS.CHAT_MENU_LIST}
+              popperModifiers={{
+                preventOverflow: {
+                  padding: isMobileBrowser() ? 0 : MENU_PADDING
+                }
+              }}
+            >
+              {goBackIsVisible && (
+                <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
+                  {goBackLabel}
+                </Item>
+              )}
 
-        <Menu
-          placement={isMobileBrowser() ? 'bottom' : 'top'}
-          data-testid={TEST_IDS.CHAT_MENU_LIST}
-          popperModifiers={{
-            preventOverflow: {
-              padding: isMobileBrowser() ? 0 : MENU_PADDING
-            }
-          }}
-        >
-          {goBackIsVisible && (
-            <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
-              {goBackLabel}
-            </Item>
-          )}
+              {soundIsVisible && (
+                <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
+                  {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
+                </Item>
+              )}
 
-          {soundIsVisible && (
-            <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
-              {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
-            </Item>
-          )}
-
-          {emailTranscriptEnabled && (
-            <Item value="email" data-testid={TEST_IDS.CHAT_MENU_ITEM_EMAIL_TRANSCRIPT}>
-              {emailTranscriptLabel}
-            </Item>
-          )}
-          <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
-            {contactDetailsLabel}
-          </Item>
-          <Item
-            value="endChat"
-            disabled={endChatDisabled}
-            data-testid={TEST_IDS.CHAT_MENU_ITEM_END_CHAT}
-          >
-            {endChatLabel}
-          </Item>
-        </Menu>
-      </Dropdown>
-    </div>
+              {emailTranscriptEnabled && (
+                <Item value="email" data-testid={TEST_IDS.CHAT_MENU_ITEM_EMAIL_TRANSCRIPT}>
+                  {emailTranscriptLabel}
+                </Item>
+              )}
+              <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
+                {contactDetailsLabel}
+              </Item>
+              <Item
+                value="endChat"
+                disabled={endChatDisabled}
+                data-testid={TEST_IDS.CHAT_MENU_ITEM_END_CHAT}
+              >
+                {endChatLabel}
+              </Item>
+            </Menu>
+          </Dropdown>
+        </div>
+      }
+    >
+      {tooltipLabel}
+    </Tooltip>
   )
 }
 

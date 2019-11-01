@@ -44,18 +44,22 @@ exports[`renders the component 1`] = `
     <div
       class="inputContainer"
     >
-      <input
-        aria-describedby="garden-field-container-0--hint"
-        aria-invalid="false"
-        aria-labelledby="garden-field-container-0--label"
-        class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-        data-garden-id="forms.input"
-        data-garden-version="6.4.4"
-        data-testid="message-field"
-        id="garden-field-container-0--input"
-        placeholder="Type your message here"
-        value=""
-      />
+      <div
+        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      >
+        <input
+          aria-describedby="garden-field-container-0--hint"
+          aria-invalid="false"
+          aria-labelledby="garden-field-container-0--label"
+          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          data-garden-id="forms.input"
+          data-garden-version="7.0.2"
+          data-testid="message-field"
+          id="garden-field-container-0--input"
+          placeholder="Type your message here"
+          value=""
+        />
+      </div>
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"
@@ -129,18 +133,22 @@ exports[`with chatBadgeColor passed in 1`] = `
     <div
       class="inputContainer"
     >
-      <input
-        aria-describedby="garden-field-container-1--hint"
-        aria-invalid="false"
-        aria-labelledby="garden-field-container-1--label"
-        class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-        data-garden-id="forms.input"
-        data-garden-version="6.4.4"
-        data-testid="message-field"
-        id="garden-field-container-1--input"
-        placeholder="Type your message here"
-        value=""
-      />
+      <div
+        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      >
+        <input
+          aria-describedby="garden-field-container-1--hint"
+          aria-invalid="false"
+          aria-labelledby="garden-field-container-1--label"
+          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          data-garden-id="forms.input"
+          data-garden-version="7.0.2"
+          data-testid="message-field"
+          id="garden-field-container-1--input"
+          placeholder="Type your message here"
+          value=""
+        />
+      </div>
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"
@@ -216,18 +224,22 @@ exports[`with label passed in 1`] = `
     <div
       class="inputContainer"
     >
-      <input
-        aria-describedby="garden-field-container-2--hint"
-        aria-invalid="false"
-        aria-labelledby="garden-field-container-2--label"
-        class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
-        data-garden-id="forms.input"
-        data-garden-version="6.4.4"
-        data-testid="message-field"
-        id="garden-field-container-2--input"
-        placeholder="Type your message here"
-        value=""
-      />
+      <div
+        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      >
+        <input
+          aria-describedby="garden-field-container-2--hint"
+          aria-invalid="false"
+          aria-labelledby="garden-field-container-2--label"
+          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          data-garden-id="forms.input"
+          data-garden-version="7.0.2"
+          data-testid="message-field"
+          id="garden-field-container-2--input"
+          placeholder="Type your message here"
+          value=""
+        />
+      </div>
       <span
         class="container sendButton Icon--sendChat"
         data-testid="Icon--sendChat"

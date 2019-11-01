@@ -83,5 +83,6 @@ export {
   getReferrerPolicy,
   getWebWidgetFrameContentDocumentBody,
   getWebWidgetFrameContentWindow,
+  getWebWidgetFrameContentDocument,
   focusLauncher
 }
