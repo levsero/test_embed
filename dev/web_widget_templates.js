@@ -14,8 +14,9 @@ const CHUNKS = [
 const TEMPLATES_PATH = './dev/templates/web_widget'
 const NONCE = 'abc123'
 
-module.exports = function(config) {
-  const templates = fs.readdirSync(TEMPLATES_PATH).filter(file => file.endsWith('.html'))
+module.exports = function(config, options = {}) {
+  const templatesFilter = options.templatesFilter || filterHtmlOnly
+  const templates = fs.readdirSync(TEMPLATES_PATH).filter(templatesFilter)
   const plugins = templates.map(template => {
     return [
       new HtmlWebpackPlugin({
@@ -41,6 +42,10 @@ module.exports = function(config) {
   })
 
   return [].concat(...plugins)
+}
+
+function filterHtmlOnly(file) {
+  return file.endsWith('.html')
 }
 
 function snippet(zendeskHost) {

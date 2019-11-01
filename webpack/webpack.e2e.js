@@ -6,6 +6,9 @@ const webWidgetTemplates = require('../dev/web_widget_templates')
 const fs = require('fs')
 
 module.exports = () => {
+  const templatesOptions = {
+    templatesFilter: file => file === 'e2e.html'
+  }
   const config = JSON.parse(fs.readFileSync('./e2e/fixtures/account-config/z3nwebwidget2019.json'))
 
   return merge(common, {
@@ -25,7 +28,7 @@ module.exports = () => {
       }
     },
     plugins: [
-      ...webWidgetTemplates(config),
+      ...webWidgetTemplates(config, templatesOptions),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(false)
       }),
