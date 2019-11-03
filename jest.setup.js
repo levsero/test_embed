@@ -1,7 +1,13 @@
 import '@testing-library/jest-dom/extend-expect'
 import '@testing-library/react/cleanup-after-each'
 
-jest.mock('translation/ze_localeIdMap')
+jest.mock('translation/ze_localeIdMap', () => require('translation/__mocks__/ze_localeIdMap'), {
+  virtual: true
+})
+
+jest.mock('translation/ze_countries', () => require('translation/__mocks__/ze_countries'), {
+  virtual: true
+})
 
 jest.mock('component/Refocus')
 jest.mock('src/redux/middleware/preventLoops/index')

@@ -10,36 +10,33 @@ cache:
     - vendor/bundle
 
 env:
-  - TASK=build:validate
+  - TASK=validate-build
   - TASK=lint
   - TASK=test:ci
-  - TASK=build:prod
   - TASK=securityscan SECURITYSCAN=srcclr
-  - TASK=validate-i18n
   - TASK=fossa
-  - TASK=e2e:ci
+  - TASK=e2e
   - TASK=audit
 
 before_install:
   - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
-  - rvm install 2.5.5
   - npm i -g npm@6.5.0
 
 install:
-  - bundle install --jobs=3 --retry=3 --path=vendor/bundle
   - npm set progress=false && npm install
-  - npm run build-setup:prod
+  - npm run build:version:generate
 
 script:
   - |
+    download_translations() {
+      rvm install 2.5.5
+      bundle install --jobs=3 --retry=3 --path=vendor/bundle
+      npm run build-setup:prod
+    }
     if [[ "$SECURITYSCAN" == "srcclr" ]]
     then
         echo "Starting Source clear scan ...";
         ./script/run_sourceclear.sh;
-    elif [[ "$TASK" == "validate-i18n" ]]
-    then
-        echo "Validating translation files";
-        bundle exec ruby ./script/validate_i18n.rb;
     elif [[ "$TASK" == "fossa" ]]
     then
         echo "Starting Fossa open source scan";
@@ -48,8 +45,19 @@ script:
     then
         echo "Starting npm audit";
         audit-ci --critical
+    elif [[ "$TASK" == "e2e" ]]
+    then
+        echo "Starting end-to-end tests";
+        download_translations
+        npm run e2e:ci
+    elif [[ "$TASK" == "validate-build" ]]
+    then
+        echo "Validating prod builds";
+        download_translations
+        bundle exec ruby ./script/validate_i18n.rb || travis_terminate 1
+        npm run build:validate
     else
-        echo "Running unit or integration tests";
+        echo "Running task";
         npm run $TASK;
     fi
 branches:
