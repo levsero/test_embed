@@ -12,7 +12,7 @@ const renderComponent = () => {
 
 describe('when there are articles', () => {
   beforeEach(() => {
-    jest.spyOn(selectors, 'getArticles').mockReturnValue(articles)
+    jest.spyOn(selectors, 'getSearchedArticles').mockReturnValue(articles)
   })
 
   it('renders the HasResultsPage with a list of articles', () => {
@@ -26,7 +26,7 @@ describe('when there are articles', () => {
 
 describe('when there are no articles', () => {
   beforeEach(() => {
-    jest.spyOn(selectors, 'getArticles').mockReturnValue([])
+    jest.spyOn(selectors, 'getSearchedArticles').mockReturnValue([])
   })
 
   it('renders the NoResults page suggesting a different search', () => {

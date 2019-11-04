@@ -9,15 +9,13 @@ const performImageSearch = jest.fn(),
   onClick = jest.fn(),
   closeCurrentArticleSpy = jest.fn(),
   handleArticleViewSpy = jest.fn(),
-  article1 = { id: 1, title: 'dire straits', body: 'down to the waterline' },
-  article2 = { id: 2, title: 'angus', body: 'feed me' },
-  articles = [article1, article2],
+  article = { id: 1, title: 'dire straits', body: 'down to the waterline' },
   addRestrictedImage = jest.fn(),
   goBackSpy = jest.fn()
 
 const renderComponent = inProps => {
   const props = {
-    articles,
+    article,
     addRestrictedImage,
     showOriginalArticleButton: false,
     performImageSearch,
@@ -32,7 +30,6 @@ const renderComponent = inProps => {
     closeCurrentArticle: closeCurrentArticleSpy,
     handleArticleView: handleArticleViewSpy,
     history: { length: 2, goBack: goBackSpy },
-    match: { params: { id: article1.id } },
     ...inProps
   }
 
@@ -58,8 +55,8 @@ describe('ArticlePage', () => {
     it('renders the article', () => {
       const { getByText } = renderComponent()
 
-      expect(getByText(article1.title)).toBeInTheDocument()
-      expect(getByText(article1.body)).toBeInTheDocument()
+      expect(getByText(article.title)).toBeInTheDocument()
+      expect(getByText(article.body)).toBeInTheDocument()
     })
 
     it('renders page title', () => {

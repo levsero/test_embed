@@ -50,7 +50,7 @@ describe('blip middleware', () => {
         getSearchTerm: prevState => prevState.searchTerm,
         getResultsCount: prevState => prevState.resultsCount,
         getArticleClicked: prevState => prevState.articleClicked,
-        getActiveArticle: prevState => prevState.activeArticle,
+        getCurrentActiveArticle: prevState => prevState.activeArticle,
         getHasContextuallySearched: prevState => prevState.hasContextuallySearched
       },
       'src/redux/modules/talk/talk-action-types': {
@@ -576,7 +576,7 @@ describe('blip middleware', () => {
         beaconSpy.trackUserAction.calls.reset()
         nextSpy = jasmine.createSpy('nextSpy')
         flatState = {
-          activeArticle: { id: 1213211232123 },
+          activeArticle: 1213211232123,
           resultsCount: 1,
           searchTerm: 'i made a query...',
           articleClicked: true,

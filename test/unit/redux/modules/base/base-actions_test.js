@@ -341,18 +341,6 @@ describe('base redux actions', () => {
       })
     })
 
-    describe('when ipm article is displayed', () => {
-      beforeEach(() => {
-        mockHasContextuallySearched = false
-        mockGetArticleDisplayed = true
-        mockStore.dispatch(actions.updateWidgetShown(true))
-      })
-
-      it('does not call contextualSearch', () => {
-        expect(contextualSearchSpy).not.toHaveBeenCalled()
-      })
-    })
-
     describe('when the widget is hidden', () => {
       beforeEach(() => {
         mockStore.dispatch(actions.updateWidgetShown(false))

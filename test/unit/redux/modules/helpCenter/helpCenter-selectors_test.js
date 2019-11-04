@@ -9,7 +9,6 @@ describe('helpCenter selectors', () => {
     getIsContextualSearchPending,
     getIsContextualSearchSuccessful,
     getIsContextualSearchFailure,
-    getActiveArticle,
     getResultsCount,
     getResultsLocale,
     getArticles,
@@ -62,7 +61,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched = selectors.getHasContextuallySearched
     getIsContextualSearchPending = selectors.getIsContextualSearchPending
     getIsContextualSearchSuccessful = selectors.getIsContextualSearchSuccessful
-    getActiveArticle = selectors.getActiveArticle
     getResultsCount = selectors.getResultsCount
     getResultsLocale = selectors.getResultsLocale
     getArticles = selectors.getArticles
@@ -84,7 +82,7 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       let mockState = {
         helpCenter: {
-          activeArticle: mockActiveArticle,
+          clickedArticles: { current: mockActiveArticle },
           manualContextualSuggestions: mockManualContextualSuggestions,
           contextualSearch: {
             hasSearched: mockHasSearched
@@ -737,24 +735,6 @@ describe('helpCenter selectors', () => {
     })
   })
 
-  describe('getActiveArticle', () => {
-    let result
-    const mockArticle = { id: 1337, body: '<p>money money money</p>' }
-    const mockHelpCenterState = {
-      helpCenter: {
-        activeArticle: mockArticle
-      }
-    }
-
-    beforeEach(() => {
-      result = getActiveArticle(mockHelpCenterState)
-    })
-
-    it('returns the current state of activeArticle', () => {
-      expect(result).toEqual(mockArticle)
-    })
-  })
-
   describe('getResultsCount', () => {
     let result
     const mockHelpCenterState = {
@@ -812,7 +792,7 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        activeArticle: { id: 360 }
+        clickedArticles: { current: 360 }
       }
     }
 

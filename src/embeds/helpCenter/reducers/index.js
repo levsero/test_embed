@@ -1,12 +1,11 @@
 import { combineReducers } from 'redux'
 
-import activeArticle from './activeArticle'
 import searchLoading from './searchLoading'
-import articleClicked from './articleClicked'
 import searchFailed from './searchFailed'
 import searchTerm from './searchTerm'
 import totalUserSearches from './totalUserSearches'
 import articles from './articles'
+import searchedArticles from './searchedArticles'
 import resultsCount from './resultsCount'
 import resultsLocale from './resultsLocale'
 import restrictedImages from './restrictedImages'
@@ -20,10 +19,9 @@ import config from './config'
 import clickedArticles from './clickedArticles'
 
 export default combineReducers({
-  activeArticle,
-  articleClicked,
   articleDisplayed,
   articles,
+  searchedArticles,
   config,
   contextualSearch,
   lastSearchTimestamp,

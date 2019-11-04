@@ -6,7 +6,7 @@ import List from 'src/embeds/helpCenter/components/List'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { isMobileBrowser } from 'utility/devices'
 import {
-  getArticles,
+  getSearchedArticles,
   getHasContextuallySearched,
   getPreviousActiveArticle
 } from 'embeds/helpCenter/selectors'
@@ -58,7 +58,7 @@ HasResults.propTypes = {
 const mapStateToProps = state => {
   return {
     isMobile: isMobileBrowser(),
-    articles: getArticles(state),
+    articles: getSearchedArticles(state),
     showNextButton: getShowNextButton(state),
     hideZendeskLogo: getHideZendeskLogo(state),
     locale: getLocale(state),

@@ -39,7 +39,7 @@ import {
   getSubmitTicketAvailable,
   getAnswerBotAvailable
 } from 'src/redux/modules/selectors'
-import { getArticleViewActive, getResultsCount } from 'embeds/helpCenter/selectors'
+import { getResultsCount } from 'embeds/helpCenter/selectors'
 import {
   getZopimChatEmbed,
   getActiveEmbed,
@@ -68,7 +68,6 @@ const answerBot = 'answerBot'
 
 const mapStateToProps = state => {
   return {
-    articleViewActive: getArticleViewActive(state),
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
@@ -132,7 +131,6 @@ class WebWidget extends Component {
       nickname: PropTypes.string
     }),
     closeCurrentArticle: PropTypes.func.isRequired,
-    articleViewActive: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -169,7 +167,6 @@ class WebWidget extends Component {
     onBackButtonClick: () => {},
     talkConfig: {},
     closeCurrentArticle: () => {},
-    articleViewActive: false,
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
@@ -205,10 +202,7 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, articleViewActive } = this.props
-
-    updateActiveEmbed(helpCenter)
-    updateBackButtonVisibility(articleViewActive)
+    this.props.updateActiveEmbed(helpCenter)
   }
 
   onBackClick = () => {

@@ -28,12 +28,6 @@ testReducer(loading, [
     expected: true
   },
   {
-    action: {
-      type: actionTypes.GET_ARTICLE_REQUEST_SENT
-    },
-    expected: true
-  },
-  {
     action: { type: API_CLEAR_HC_SEARCHES },
     initialState: true,
     expected: false
@@ -49,22 +43,12 @@ testReducer(loading, [
     expected: false
   },
   {
-    action: { type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS },
-    initialState: true,
-    expected: false
-  },
-  {
     action: { type: actionTypes.SEARCH_REQUEST_FAILURE },
     initialState: true,
     expected: false
   },
   {
     action: { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE },
-    initialState: true,
-    expected: false
-  },
-  {
-    action: { type: actionTypes.GET_ARTICLE_REQUEST_FAILURE },
     initialState: true,
     expected: false
   }

@@ -12,7 +12,7 @@ import {
   getSettingsHelpCenterTitle,
   getShowNextButton
 } from 'src/redux/modules/selectors'
-import { getSearchLoading, getArticles } from 'embeds/helpCenter/selectors'
+import { getSearchLoading, getSearchedArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 
@@ -50,7 +50,7 @@ const mapStateToProps = state => ({
   isMobile: isMobileBrowser(),
   hideZendeskLogo: getHideZendeskLogo(state),
   isSearchLoading: getSearchLoading(state),
-  articles: getArticles(state)
+  articles: getSearchedArticles(state)
 })
 
 const connectedComponent = connect(mapStateToProps)(SearchPage)

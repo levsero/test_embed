@@ -35,13 +35,14 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors'
-import { getArticleDisplayed, getHasSearched, getActiveArticle } from 'embeds/helpCenter/selectors'
+import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getWidgetShown,
   getHasWidgetShown,
   getChatEmbed,
-  getHelpCenterEmbed
+  getHelpCenterEmbed,
+  getIPMWidget
 } from 'src/redux/modules/base/base-selectors'
 import { store } from 'service/persistence'
 import history from 'service/history'
@@ -196,13 +197,14 @@ const onChatEnd = (nextState, action, dispatch) => {
 
 const onArticleDisplayed = (prevState, nextState, dispatch) => {
   const prevDisplay = getArticleDisplayed(prevState)
-  const nextDisplay = getArticleDisplayed(nextState)
+  const articleID = getArticleDisplayed(nextState)
 
-  if (!prevDisplay && nextDisplay) {
-    const article = getActiveArticle(nextState)
+  if (!prevDisplay && articleID) {
+    dispatch(updateActiveEmbed('helpCenterForm'))
     const helpCenterEnabled = getHelpCenterEmbed(nextState)
-    const articlePath = HC_ROUTES.articles(article.id)
-    if (!helpCenterEnabled) {
+    const ipmWidget = getIPMWidget(nextState)
+    const articlePath = HC_ROUTES.articles(articleID)
+    if (ipmWidget || !helpCenterEnabled) {
       history.replace(articlePath)
     } else {
       history.push(articlePath)

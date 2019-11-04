@@ -14,6 +14,7 @@ describe('onStateChange middleware', () => {
     useArg,
     mockIsPopout = false,
     mockCookiesDisabled,
+    mockIPMWidget,
     mockChatEnabled
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings')
   const getIsChattingSpy = jasmine.createSpy('getIsChatting')
@@ -69,6 +70,7 @@ describe('onStateChange middleware', () => {
     mockHasUnseenAgentMessage = false
     useArg = false
     mockChatEnabled = true
+    mockIPMWidget = false
 
     initMockRegistry({
       'src/redux/modules/chat/chat-actions/actions': {
@@ -185,7 +187,8 @@ describe('onStateChange middleware', () => {
         getWidgetShown: () => mockWidgetShown,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
         getHasWidgetShown: () => mockHasWidgetShown,
-        getChatEmbed: () => mockChatEnabled
+        getChatEmbed: () => mockChatEnabled,
+        getIPMWidget: () => mockIPMWidget
       },
       'service/persistence': {
         store: {
@@ -615,19 +618,30 @@ describe('onStateChange middleware', () => {
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
 
       beforeEach(() => {
-        broadcastSpy.calls.reset()
         dispatchSpy.calls.reset()
         mockActiveArticle = { id: 123 }
       })
 
-      describe('articleDisplayed goes from false to true', () => {
+      describe('articleDisplayed goes from null to id', () => {
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: false }, { articleDisplayed: true }, dispatchSpy)
+          stateChangeFn({ articleDisplayed: null }, { articleDisplayed: 123 }, dispatchSpy)
         })
 
         describe('no help center available', () => {
           beforeAll(() => {
             mockHelpCenterEmbed = null
+            mockIPMWidget = false
+          })
+
+          it('replaces history with article page', () => {
+            expect(historySpy.replace).toHaveBeenCalledWith('/articles/123')
+          })
+        })
+
+        describe('IPM help center available', () => {
+          beforeAll(() => {
+            mockHelpCenterEmbed = true
+            mockIPMWidget = true
           })
 
           it('replaces history with article page', () => {
@@ -638,6 +652,7 @@ describe('onStateChange middleware', () => {
         describe('help center available', () => {
           beforeAll(() => {
             mockHelpCenterEmbed = true
+            mockIPMWidget = false
           })
 
           it('pushes article page to history', () => {
@@ -646,6 +661,10 @@ describe('onStateChange middleware', () => {
         })
 
         describe('main widget', () => {
+          afterEach(() => {
+            activateReceivedSpy.calls.reset()
+          })
+
           describe('widget is not shown', () => {
             beforeAll(() => {
               mockWidgetShown = false
@@ -661,30 +680,30 @@ describe('onStateChange middleware', () => {
               mockWidgetShown = true
             })
 
-            it('does not call mediator', () => {
-              expect(broadcastSpy).not.toHaveBeenCalled()
+            it('does not call activate', () => {
+              expect(activateReceivedSpy).not.toHaveBeenCalled()
             })
           })
         })
       })
 
-      describe('articleDisplayed goes from true to true', () => {
+      describe('articleDisplayed goes from id to id', () => {
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: true }, dispatchSpy)
+          stateChangeFn({ articleDisplayed: 123 }, { articleDisplayed: 123 }, dispatchSpy)
         })
 
-        it('does not call mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
+        it('does not call dispatch', () => {
+          expect(dispatchSpy).not.toHaveBeenCalled()
         })
       })
 
-      describe('articleDisplayed goes from true to false', () => {
+      describe('articleDisplayed goes from id to null', () => {
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: false }, dispatchSpy)
+          stateChangeFn({ articleDisplayed: 123 }, { articleDisplayed: null }, dispatchSpy)
         })
 
-        it('does not call mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
+        it('does not call dispatch', () => {
+          expect(dispatchSpy).not.toHaveBeenCalled()
         })
       })
     })

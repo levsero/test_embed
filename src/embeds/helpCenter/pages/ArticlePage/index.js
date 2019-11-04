@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
 import { Widget, Main, Header } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import {
-  getActiveArticle,
-  getRestrictedImages,
-  getResultsLocale,
-  getArticles
-} from 'src/embeds/helpCenter/selectors'
+import { getRestrictedImages, getResultsLocale, getArticles } from 'src/embeds/helpCenter/selectors'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 import {
   handleOriginalArticleClicked,
@@ -31,7 +25,6 @@ import HelpCenterArticle from 'src/components/HelpCenterArticle'
 import { isMobileBrowser } from 'utility/devices'
 
 const ArticlePage = ({
-  articles,
   addRestrictedImage,
   handleOriginalArticleClicked,
   isMobile,
@@ -42,22 +35,10 @@ const ArticlePage = ({
   resultsLocale,
   title,
   showNextButton,
-  match,
   handleArticleView,
   closeCurrentArticle,
-  activeArticle
+  article
 }) => {
-  const { params } = match
-  const id = parseInt(params.id)
-
-  let article
-  // activeArticle is present, that means IPM requested that article
-  if (activeArticle && activeArticle.id == id) {
-    article = activeArticle
-  } else {
-    article = _.find(articles, ['id', id]) || activeArticle
-  }
-
   useEffect(() => {
     handleArticleView(article)
 
@@ -99,22 +80,22 @@ ArticlePage.propTypes = {
   isMobile: PropTypes.bool,
   onClick: PropTypes.func,
   showNextButton: PropTypes.bool,
-  match: PropTypes.object,
-  articles: PropTypes.array,
-  activeArticle: PropTypes.object
+  article: PropTypes.object
 }
 
 ArticlePage.defaultProps = {
   onClick: () => {}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const articleTitleKey = 'help'
   const titleKey = `embeddable_framework.helpCenter.form.title.${articleTitleKey}`
+  const { params } = ownProps.match
+  const id = parseInt(params.id)
 
   return {
     locale: getLocale(state),
-    articles: getArticles(state),
+    article: getArticles(state)[id],
     showOriginalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     resultsLocale: getResultsLocale(state),
     restrictedImages: getRestrictedImages(state),
@@ -123,8 +104,7 @@ const mapStateToProps = state => {
     loading: getChatConnectionConnecting(state),
     isMobile: isMobileBrowser(),
     isRTL: i18n.isRTL(),
-    showNextButton: getShowNextButton(state),
-    activeArticle: getActiveArticle(state)
+    showNextButton: getShowNextButton(state)
   }
 }
 

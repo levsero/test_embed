@@ -26,8 +26,7 @@ import {
   getTotalUserSearches,
   getResultsCount,
   getSearchTerm,
-  getArticleClicked,
-  getActiveArticle,
+  getCurrentActiveArticle,
   getHasContextuallySearched
 } from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
@@ -68,7 +67,7 @@ const getArticleClickValues = (state, articleId, answerBot) => {
   const trackPayload = {
     query: getSearchTerm(state),
     resultsCount: resultsCount > 3 ? 3 : resultsCount,
-    uniqueSearchResultClick: !getArticleClicked(state),
+    uniqueSearchResultClick: !getCurrentActiveArticle(state),
     articleId,
     locale: i18n.getLocale(),
     contextualSearch: getHasContextuallySearched(state),
@@ -129,9 +128,9 @@ const sendArticleClickedBlip = (state, latestArticle) => {
 }
 
 const sendHelpCenterOriginalArticleClickedBlip = state => {
-  const article = getActiveArticle(state)
+  const article = getCurrentActiveArticle(state)
 
-  sendOriginalArticleClickedBlip(state, article.id)
+  sendOriginalArticleClickedBlip(state, article)
 }
 
 const sendOriginalArticleClickedBlip = (state, articleId, answerBot) => {
