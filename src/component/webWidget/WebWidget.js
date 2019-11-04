@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import LoadingPage from 'src/components/LoadingPage'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
-import Talk from 'embeds/talk'
+const LazyLoadedTalk = lazy(() => {
+  return import(/* webpackChunkName: 'talk' */ 'embeds/talk')
+})
 import Support from 'embeds/support'
 import HelpCenter from 'embeds/helpCenter'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
@@ -327,7 +330,11 @@ class WebWidget extends Component {
   renderTalk = () => {
     if (this.props.activeEmbed !== talk) return null
 
-    return <Talk />
+    return (
+      <Suspense fallback={<LoadingPage />}>
+        <LazyLoadedTalk />
+      </Suspense>
+    )
   }
 
   renderChatNotification = () => {
