@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MemoryRouter } from 'react-router'
+import { Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 
@@ -10,6 +10,7 @@ import { getGardenOverrides } from './gardenOverrides'
 import { getColor } from 'src/redux/modules/selectors'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 import FocusJail from 'components/FrameFocusJail'
+import history from 'service/history'
 
 class EmbedWrapper extends Component {
   static propTypes = {
@@ -47,7 +48,7 @@ class EmbedWrapper extends Component {
     })
 
     return (
-      <MemoryRouter>
+      <Router history={history}>
         <ThemeProvider
           theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
           rtl={i18n.isRTL()}
@@ -69,7 +70,7 @@ class EmbedWrapper extends Component {
             </FocusJail>
           </WidgetThemeProvider>
         </ThemeProvider>
-      </MemoryRouter>
+      </Router>
     )
   }
 }

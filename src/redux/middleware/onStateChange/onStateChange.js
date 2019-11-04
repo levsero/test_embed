@@ -35,14 +35,16 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors'
-import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors'
+import { getArticleDisplayed, getHasSearched, getActiveArticle } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getWidgetShown,
   getHasWidgetShown,
-  getChatEmbed
+  getChatEmbed,
+  getHelpCenterEmbed
 } from 'src/redux/modules/base/base-selectors'
 import { store } from 'service/persistence'
+import history from 'service/history'
 import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled
@@ -59,6 +61,7 @@ import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZop
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { ROUTES as HC_ROUTES } from 'embeds/helpCenter/constants'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false
@@ -196,6 +199,15 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
   const nextDisplay = getArticleDisplayed(nextState)
 
   if (!prevDisplay && nextDisplay) {
+    const article = getActiveArticle(nextState)
+    const helpCenterEnabled = getHelpCenterEmbed(nextState)
+    const articlePath = HC_ROUTES.articles(article.id)
+    if (!helpCenterEnabled) {
+      history.replace(articlePath)
+    } else {
+      history.push(articlePath)
+    }
+
     const widgetShown = getWidgetShown(prevState)
 
     if (!widgetShown) dispatch(activateReceived())

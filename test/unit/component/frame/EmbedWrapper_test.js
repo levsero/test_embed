@@ -1,4 +1,6 @@
 import React from 'react'
+import { createMemoryHistory } from 'history'
+
 describe('EmbedWrapper', () => {
   let EmbedWrapper
   let focusSpy = jasmine.createSpy()
@@ -41,6 +43,7 @@ describe('EmbedWrapper', () => {
       'src/redux/modules/selectors': {
         getColor: noop
       },
+      'service/history': createMemoryHistory(),
       lodash: _,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL'])

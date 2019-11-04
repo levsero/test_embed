@@ -2,6 +2,7 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
+    mockActiveArticle,
     mockOfflineFormSettings,
     mockStoreValue,
     mockIsProactiveSession,
@@ -21,6 +22,7 @@ describe('onStateChange middleware', () => {
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
   const audioPlaySpy = jasmine.createSpy('audioPlay')
+  const historySpy = jasmine.createSpyObj('history', ['push', 'replace'])
   const broadcastSpy = jasmine.createSpy('broadcast')
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset')
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity)
@@ -43,7 +45,6 @@ describe('onStateChange middleware', () => {
   let mockDepartment
   let mockGetSettingsChatDepartment = ''
   let mockWidgetShown = false
-  let mockIPMWidget = false
   let mockHelpCenterEmbed = false
   let mockMobileNotificationsDisabled = false
   let mockIsMobileBrowser = false
@@ -58,6 +59,7 @@ describe('onStateChange middleware', () => {
 
     mockUserSoundSetting = false
     mockActiveEmbed = ''
+    mockActiveArticle = null
     mockStoreValue = { widgetShown: false }
     mockOfflineFormSettings = { enabled: false }
     mockChatScreen = ''
@@ -100,6 +102,7 @@ describe('onStateChange middleware', () => {
           play: audioPlaySpy
         }
       },
+      'service/history': historySpy,
       'service/mediator': {
         mediator: {
           channel: {
@@ -165,8 +168,14 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
       'embeds/helpCenter/selectors': {
-        getArticleDisplayed: _.identity,
-        getHasSearched: () => mockHasSearched
+        getArticleDisplayed: x => x && x.articleDisplayed,
+        getHasSearched: () => mockHasSearched,
+        getActiveArticle: () => mockActiveArticle
+      },
+      'embeds/helpCenter/constants': {
+        ROUTES: {
+          articles: id => `/articles/${id}`
+        }
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: arg => {
@@ -175,7 +184,6 @@ describe('onStateChange middleware', () => {
         },
         getWidgetShown: () => mockWidgetShown,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
-        getIPMWidget: () => mockIPMWidget,
         getHasWidgetShown: () => mockHasWidgetShown,
         getChatEmbed: () => mockChatEnabled
       },
@@ -609,18 +617,35 @@ describe('onStateChange middleware', () => {
       beforeEach(() => {
         broadcastSpy.calls.reset()
         dispatchSpy.calls.reset()
+        mockActiveArticle = { id: 123 }
       })
 
       describe('articleDisplayed goes from false to true', () => {
         beforeEach(() => {
-          stateChangeFn(false, true, dispatchSpy)
+          stateChangeFn({ articleDisplayed: false }, { articleDisplayed: true }, dispatchSpy)
+        })
+
+        describe('no help center available', () => {
+          beforeAll(() => {
+            mockHelpCenterEmbed = null
+          })
+
+          it('replaces history with article page', () => {
+            expect(historySpy.replace).toHaveBeenCalledWith('/articles/123')
+          })
+        })
+
+        describe('help center available', () => {
+          beforeAll(() => {
+            mockHelpCenterEmbed = true
+          })
+
+          it('pushes article page to history', () => {
+            expect(historySpy.push).toHaveBeenCalledWith('/articles/123')
+          })
         })
 
         describe('main widget', () => {
-          beforeAll(() => {
-            mockIPMWidget = false
-          })
-
           describe('widget is not shown', () => {
             beforeAll(() => {
               mockWidgetShown = false
@@ -645,7 +670,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to true', () => {
         beforeEach(() => {
-          stateChangeFn(true, true, dispatchSpy)
+          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: true }, dispatchSpy)
         })
 
         it('does not call mediator', () => {
@@ -655,7 +680,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
-          stateChangeFn(true, false, dispatchSpy)
+          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: false }, dispatchSpy)
         })
 
         it('does not call mediator', () => {
@@ -793,7 +818,6 @@ describe('onStateChange middleware', () => {
 
         describe('when answer bot is not available', () => {
           beforeEach(() => {
-            mockIPMWidget = true
             mockAnswerBotAvailable = false
             stateChangeFn(null, 'offline', { type: actionType })
           })

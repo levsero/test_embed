@@ -49,12 +49,13 @@ const ArticlePage = ({
 }) => {
   const { params } = match
   const id = parseInt(params.id)
+
   let article
   // activeArticle is present, that means IPM requested that article
   if (activeArticle && activeArticle.id == id) {
     article = activeArticle
   } else {
-    article = _.find(articles, ['id', id])
+    article = _.find(articles, ['id', id]) || activeArticle
   }
 
   useEffect(() => {
