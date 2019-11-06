@@ -1,11 +1,9 @@
-import _ from 'lodash'
 import React from 'react'
 import { render } from '@testing-library/react'
 import {
   getStyledLabelText,
   shouldRenderErrorMessage,
   renderLabel,
-  getDefaultFieldValues,
   getCustomFields,
   updateConditionalVisibility
 } from '../fields'
@@ -13,6 +11,8 @@ import { EMAIL_PATTERN } from 'constants/shared'
 import { noopReactComponent } from 'utility/testHelpers'
 import snapshotDiff from 'snapshot-diff'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+import createStore from 'src/redux/createStore'
+import { Provider } from 'react-redux'
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?'
@@ -128,38 +128,6 @@ describe('renderLabel', () => {
       const result = callRenderLabel('yolo', false)
 
       expect(result).toContain('<strong>yolo</strong> (optional)')
-    })
-  })
-})
-
-describe('getDefaultFieldValues', () => {
-  describe('with values', () => {
-    test.each([
-      ['text', 'a', { value: 'a' }],
-      ['subject', 'b', { value: 'b' }],
-      ['integer', 1, { value: 1 }],
-      ['decimal', 1.1, { value: 1.1 }],
-      ['textarea', 'a\tb', { value: 'a\tb' }],
-      ['description', 'blah', { value: 'blah' }],
-      ['checkbox', true, { checked: true }],
-      ['tagger', 'bob', { value: 'bob' }]
-    ])('getDefaultFieldValues(%s,%s)', (type, value, expected) => {
-      expect(getDefaultFieldValues(type, value)).toEqual(expected)
-    })
-  })
-
-  describe('without values', () => {
-    test.each([
-      ['text', { value: '' }],
-      ['subject', { value: '' }],
-      ['integer', { value: '' }],
-      ['decimal', { value: '' }],
-      ['textarea', { value: '' }],
-      ['description', { value: '' }],
-      ['checkbox', { checked: 0 }],
-      ['tagger', { value: undefined }]
-    ])('getDefaultFieldValues(%s)', (type, expected) => {
-      expect(getDefaultFieldValues(type)).toEqual(expected)
     })
   })
 })
@@ -319,31 +287,13 @@ describe('customFields', () => {
 
     it('renders the correct components for each key', () => {
       customFields.allFields.forEach(customField => {
-        const { container } = render(<ThemeProvider>{customField}</ThemeProvider>)
+        const { container } = render(
+          <ThemeProvider>
+            <Provider store={createStore()}>{customField}</Provider>
+          </ThemeProvider>
+        )
 
         expect(container).toMatchSnapshot()
-      })
-    })
-
-    describe('When editable prop is undefined', () => {
-      beforeEach(() => {
-        payload.forEach(field => {
-          field.editable_in_portal = false
-          field.visible_in_portal = false
-        })
-
-        payload[1].editable_in_portal = undefined
-        payload[3].visible_in_portal = undefined
-
-        setupTest()
-
-        customFields.visibleFields = _.remove(customFields.allFields, field => {
-          return field.props.trigger === true
-        })
-      })
-
-      it('return the not-conditional components', () => {
-        expect(customFields.visibleFields.length).toEqual(2)
       })
     })
   })
