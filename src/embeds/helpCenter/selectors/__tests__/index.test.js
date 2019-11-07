@@ -39,5 +39,20 @@ test('getPreviousActiveArticle', () => {
       }
     }
   })
+
   expect(result).toEqual(456)
+})
+
+test('getSearchedArticles', () => {
+  const result = selectors.getSearchedArticles({
+    helpCenter: {
+      searchedArticles: [1, 2],
+      articles: {
+        0: { a: 1 },
+        1: { b: 2 },
+        2: { c: 3 }
+      }
+    }
+  })
+  expect(result).toEqual([{ b: 2 }, { c: 3 }])
 })

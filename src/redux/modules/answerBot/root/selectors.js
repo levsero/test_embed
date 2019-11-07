@@ -88,7 +88,7 @@ export const getCurrentArticleSessionID = createSelector(
 
 const getCurrentContextualArticle = createSelector(
   [getCurrentContextualArticleID, getArticles],
-  (articleID, articles) => (articleID ? _.find(articles, { id: articleID }) : null)
+  (articleID, articles) => (articleID ? articles[articleID] : null)
 )
 
 export const getCurrentArticle = createSelector(

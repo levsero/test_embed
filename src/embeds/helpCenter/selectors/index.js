@@ -11,16 +11,18 @@ import {
 
 const getContextualSearch = state => state.helpCenter.contextualSearch
 const getContextualSearchScreen = state => getContextualSearch(state).screen
+const getRawSearchedArticles = state => state.helpCenter.searchedArticles
 
-export const getActiveArticle = state => state.helpCenter.activeArticle
 export const getPreviousActiveArticle = state => state.helpCenter.clickedArticles.previous
+export const getCurrentActiveArticle = state => state.helpCenter.clickedArticles.current
 export const getSearchLoading = state => state.helpCenter.searchLoading
 export const getArticleClicked = state => state.helpCenter.articleClicked
 export const getSearchFailed = state => state.helpCenter.searchFailed
+export const getSearchAttempted = state => state.helpCenter.searchAttempted
 export const getSearchTerm = state => state.helpCenter.searchTerm.current
 export const getPreviousSearchTerm = state => state.helpCenter.searchTerm.previous
 export const getTotalUserSearches = state => state.helpCenter.totalUserSearches
-export const getArticleViewActive = state => !!getActiveArticle(state)
+export const getArticleViewActive = state => !!getCurrentActiveArticle(state)
 export const getArticles = state => state.helpCenter.articles
 export const getResultsCount = state => state.helpCenter.resultsCount
 export const getResultsLocale = state => state.helpCenter.resultsLocale
@@ -53,10 +55,8 @@ export const getIsContextualSearchComplete = state => {
 }
 
 export const getHasSearched = createSelector(
-  [getHasContextuallySearched, getTotalUserSearches],
-  (hasContextuallySearched, numOfUserSearches) => {
-    return hasContextuallySearched || numOfUserSearches > 0
-  }
+  [getHasContextuallySearched, getSearchAttempted],
+  (hasContextuallySearched, searchAttempted) => hasContextuallySearched || searchAttempted
 )
 
 const getContextualHelpRequestedViaConfig = createSelector(
@@ -127,4 +127,9 @@ export const shouldShowContextualResults = createSelector(
   ) =>
     (hasContextualSearched && isContextualSearchComplete) ||
     (contextualHelpRequestNeeded && totalUserSearches === 0)
+)
+
+export const getSearchedArticles = createSelector(
+  [getRawSearchedArticles, getArticles],
+  (searchedArticles, articles) => searchedArticles.map(id => articles[id])
 )

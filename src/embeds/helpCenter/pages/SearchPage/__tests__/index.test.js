@@ -1,8 +1,8 @@
-import { Component as SearchPage } from '../index'
 import React from 'react'
 import 'jest-styled-components'
 
 import { render } from 'src/util/testHelpers'
+import { Component as SearchPage } from '../index'
 
 const renderComponent = inProps => {
   const props = {

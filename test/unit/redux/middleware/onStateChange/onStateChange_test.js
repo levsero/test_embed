@@ -2,6 +2,7 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
+    mockActiveArticle,
     mockOfflineFormSettings,
     mockStoreValue,
     mockIsProactiveSession,
@@ -13,6 +14,7 @@ describe('onStateChange middleware', () => {
     useArg,
     mockIsPopout = false,
     mockCookiesDisabled,
+    mockIPMWidget,
     mockChatEnabled
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings')
   const getIsChattingSpy = jasmine.createSpy('getIsChatting')
@@ -21,6 +23,7 @@ describe('onStateChange middleware', () => {
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
   const audioPlaySpy = jasmine.createSpy('audioPlay')
+  const historySpy = jasmine.createSpyObj('history', ['push', 'replace'])
   const broadcastSpy = jasmine.createSpy('broadcast')
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset')
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity)
@@ -43,7 +46,6 @@ describe('onStateChange middleware', () => {
   let mockDepartment
   let mockGetSettingsChatDepartment = ''
   let mockWidgetShown = false
-  let mockIPMWidget = false
   let mockHelpCenterEmbed = false
   let mockMobileNotificationsDisabled = false
   let mockIsMobileBrowser = false
@@ -58,6 +60,7 @@ describe('onStateChange middleware', () => {
 
     mockUserSoundSetting = false
     mockActiveEmbed = ''
+    mockActiveArticle = null
     mockStoreValue = { widgetShown: false }
     mockOfflineFormSettings = { enabled: false }
     mockChatScreen = ''
@@ -67,6 +70,7 @@ describe('onStateChange middleware', () => {
     mockHasUnseenAgentMessage = false
     useArg = false
     mockChatEnabled = true
+    mockIPMWidget = false
 
     initMockRegistry({
       'src/redux/modules/chat/chat-actions/actions': {
@@ -100,6 +104,7 @@ describe('onStateChange middleware', () => {
           play: audioPlaySpy
         }
       },
+      'service/history': historySpy,
       'service/mediator': {
         mediator: {
           channel: {
@@ -165,8 +170,12 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
       'embeds/helpCenter/selectors': {
-        getArticleDisplayed: _.identity,
-        getHasSearched: () => mockHasSearched
+        getArticleDisplayed: x => x && x.articleDisplayed,
+        getHasSearched: () => mockHasSearched,
+        getActiveArticle: () => mockActiveArticle
+      },
+      'embeds/helpCenter/routes': {
+        articles: id => `/articles/${id}`
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: arg => {
@@ -175,9 +184,9 @@ describe('onStateChange middleware', () => {
         },
         getWidgetShown: () => mockWidgetShown,
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
-        getIPMWidget: () => mockIPMWidget,
         getHasWidgetShown: () => mockHasWidgetShown,
-        getChatEmbed: () => mockChatEnabled
+        getChatEmbed: () => mockChatEnabled,
+        getIPMWidget: () => mockIPMWidget
       },
       'service/persistence': {
         store: {
@@ -607,33 +616,51 @@ describe('onStateChange middleware', () => {
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
 
       beforeEach(() => {
-        broadcastSpy.calls.reset()
         dispatchSpy.calls.reset()
-        updateBackButtonVisibilitySpy.calls.reset()
+        mockActiveArticle = { id: 123 }
       })
 
-      afterEach(() => {
-        updateBackButtonVisibilitySpy.calls.reset()
-      })
-
-      describe('articleDisplayed goes from false to true', () => {
+      describe('articleDisplayed goes from null to id', () => {
         beforeEach(() => {
-          stateChangeFn(false, true, dispatchSpy)
+          stateChangeFn({ articleDisplayed: null }, { articleDisplayed: 123 }, dispatchSpy)
         })
 
-        describe('ipm widget', () => {
+        describe('no help center available', () => {
           beforeAll(() => {
+            mockHelpCenterEmbed = null
+            mockIPMWidget = false
+          })
+
+          it('replaces history with article page', () => {
+            expect(historySpy.replace).toHaveBeenCalledWith('/articles/123')
+          })
+        })
+
+        describe('IPM help center available', () => {
+          beforeAll(() => {
+            mockHelpCenterEmbed = true
             mockIPMWidget = true
           })
 
-          it('hides back button', () => {
-            expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
+          it('replaces history with article page', () => {
+            expect(historySpy.replace).toHaveBeenCalledWith('/articles/123')
+          })
+        })
+
+        describe('help center available', () => {
+          beforeAll(() => {
+            mockHelpCenterEmbed = true
+            mockIPMWidget = false
+          })
+
+          it('pushes article page to history', () => {
+            expect(historySpy.push).toHaveBeenCalledWith('/articles/123')
           })
         })
 
         describe('main widget', () => {
-          beforeAll(() => {
-            mockIPMWidget = false
+          afterEach(() => {
+            activateReceivedSpy.calls.reset()
           })
 
           describe('widget is not shown', () => {
@@ -651,50 +678,30 @@ describe('onStateChange middleware', () => {
               mockWidgetShown = true
             })
 
-            it('does not call mediator', () => {
-              expect(broadcastSpy).not.toHaveBeenCalled()
-            })
-          })
-
-          describe('hc is not available', () => {
-            beforeAll(() => {
-              mockHelpCenterEmbed = false
-            })
-
-            it('hides the back button', () => {
-              expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-            })
-          })
-
-          describe('hc is available', () => {
-            beforeAll(() => {
-              mockHelpCenterEmbed = true
-            })
-
-            it('shows the back button', () => {
-              expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
+            it('does not call activate', () => {
+              expect(activateReceivedSpy).not.toHaveBeenCalled()
             })
           })
         })
       })
 
-      describe('articleDisplayed goes from true to true', () => {
+      describe('articleDisplayed goes from id to id', () => {
         beforeEach(() => {
-          stateChangeFn(true, true, dispatchSpy)
+          stateChangeFn({ articleDisplayed: 123 }, { articleDisplayed: 123 }, dispatchSpy)
         })
 
-        it('does not call mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
+        it('does not call dispatch', () => {
+          expect(dispatchSpy).not.toHaveBeenCalled()
         })
       })
 
-      describe('articleDisplayed goes from true to false', () => {
+      describe('articleDisplayed goes from id to null', () => {
         beforeEach(() => {
-          stateChangeFn(true, false, dispatchSpy)
+          stateChangeFn({ articleDisplayed: 123 }, { articleDisplayed: null }, dispatchSpy)
         })
 
-        it('does not call mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
+        it('does not call dispatch', () => {
+          expect(dispatchSpy).not.toHaveBeenCalled()
         })
       })
     })
@@ -828,7 +835,6 @@ describe('onStateChange middleware', () => {
 
         describe('when answer bot is not available', () => {
           beforeEach(() => {
-            mockIPMWidget = true
             mockAnswerBotAvailable = false
             stateChangeFn(null, 'offline', { type: actionType })
           })

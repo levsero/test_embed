@@ -1,60 +1,24 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
+import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 import SearchPromptPage from 'embeds/helpCenter/pages/SearchPromptPage'
 import ArticlePage from 'embeds/helpCenter/pages/ArticlePage'
 import SearchPage from 'embeds/helpCenter/pages/SearchPage'
-import {
-  getHasSearched,
-  getArticleViewActive,
-  getContextualHelpRequestNeeded
-} from 'embeds/helpCenter/selectors'
+import routes from './routes'
 
-const mapStateToProps = state => {
-  return {
-    hasSearched: getHasSearched(state),
-    articleViewActive: getArticleViewActive(state),
-    contextualHelpRequestNeeded: getContextualHelpRequestNeeded(state)
-  }
-}
+const HelpCenter = () => (
+  <WidgetThemeProvider>
+    <Switch>
+      <Route path={routes.articles()} component={ArticlePage} />
+      <Route path={routes.searchPrompt()} component={SearchPromptPage} />
+      <Route path={routes.search()} component={SearchPage} />
+      <Redirect exact={true} from={routes.home()} to={routes.searchPrompt()} />
+    </Switch>
+  </WidgetThemeProvider>
+)
 
-class HelpCenter extends Component {
-  static propTypes = {
-    onNextClick: PropTypes.func,
-    hasSearched: PropTypes.bool.isRequired,
-    articleViewActive: PropTypes.bool.isRequired,
-    contextualHelpRequestNeeded: PropTypes.bool.isRequired
-  }
-
-  static defaultProps = {
-    onNextClick: () => {}
-  }
-
-  handleNextClick = e => {
-    e.preventDefault()
-
-    this.props.onNextClick()
-  }
-
-  render = () => {
-    const { articleViewActive, hasSearched, contextualHelpRequestNeeded } = this.props
-
-    if (articleViewActive) {
-      return <ArticlePage onClick={this.handleNextClick} />
-    } else if (hasSearched || contextualHelpRequestNeeded) {
-      return <SearchPage onClick={this.handleNextClick} />
-    } else {
-      return <SearchPromptPage />
-    }
-  }
-}
-
-const connectedComponent = connect(
-  mapStateToProps,
-  null,
-  null,
-  { forwardRef: true }
-)(HelpCenter)
+const connectedComponent = connect()(HelpCenter)
 
 export { connectedComponent as default, HelpCenter as Component }

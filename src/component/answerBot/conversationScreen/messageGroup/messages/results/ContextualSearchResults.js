@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Results from './index'
 
 import { screenChanged, contextualArticleShown } from 'src/redux/modules/answerBot/root/actions/'
-import { getArticles } from 'embeds/helpCenter/selectors'
+import { getSearchedArticles } from 'embeds/helpCenter/selectors'
 
 import { ARTICLE_SCREEN } from 'src/constants/answerBot'
 
@@ -36,7 +36,7 @@ class ContextualSearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
-  articles: getArticles(state)
+  articles: getSearchedArticles(state)
 })
 
 const mapDispatchToProps = dispatch => ({

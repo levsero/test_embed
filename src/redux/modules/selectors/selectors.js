@@ -745,7 +745,7 @@ export const getHelpCenterButtonLabel = createSelector(
 )
 
 export const getShowBackButton = createSelector(
-  [getShowChatHistory, getBackButtonVisible, getShowTalkBackButton],
-  (showChatHistory, backButtonVisible, showTalkBackButton) =>
-    showChatHistory || backButtonVisible || showTalkBackButton
+  [getShowChatHistory, getBackButtonVisible, getShowTalkBackButton, getActiveEmbed],
+  (showChatHistory, backButtonVisible, showTalkBackButton, activeEmbed) =>
+    (showChatHistory || backButtonVisible || showTalkBackButton) && activeEmbed !== 'helpCenterForm'
 )

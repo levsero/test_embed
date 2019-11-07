@@ -26,7 +26,7 @@ import {
   showStandaloneMobileNotification,
   closedChatHistory
 } from 'src/redux/modules/chat'
-import { resetActiveArticle } from 'embeds/helpCenter/actions'
+import { closeCurrentArticle } from 'embeds/helpCenter/actions'
 import {
   getChatAvailable,
   getChatOfflineAvailable,
@@ -39,7 +39,7 @@ import {
   getSubmitTicketAvailable,
   getAnswerBotAvailable
 } from 'src/redux/modules/selectors'
-import { getArticleViewActive, getResultsCount } from 'embeds/helpCenter/selectors'
+import { getResultsCount } from 'embeds/helpCenter/selectors'
 import {
   getZopimChatEmbed,
   getActiveEmbed,
@@ -68,7 +68,6 @@ const answerBot = 'answerBot'
 
 const mapStateToProps = state => {
   return {
-    articleViewActive: getArticleViewActive(state),
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
@@ -131,8 +130,7 @@ class WebWidget extends Component {
       serviceUrl: PropTypes.string,
       nickname: PropTypes.string
     }),
-    resetActiveArticle: PropTypes.func.isRequired,
-    articleViewActive: PropTypes.bool.isRequired,
+    closeCurrentArticle: PropTypes.func.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -168,8 +166,7 @@ class WebWidget extends Component {
     talkOnline: false,
     onBackButtonClick: () => {},
     talkConfig: {},
-    resetActiveArticle: () => {},
-    articleViewActive: false,
+    closeCurrentArticle: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
@@ -205,10 +202,7 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, articleViewActive } = this.props
-
-    updateActiveEmbed(helpCenter)
-    updateBackButtonVisibility(articleViewActive)
+    this.props.updateActiveEmbed(helpCenter)
   }
 
   onBackClick = () => {
@@ -217,7 +211,7 @@ class WebWidget extends Component {
       activeEmbed,
       updateBackButtonVisibility,
       updateActiveEmbed,
-      resetActiveArticle,
+      closeCurrentArticle,
       helpCenterAvailable,
       answerBotAvailable,
       updateAnswerBotScreen,
@@ -234,12 +228,6 @@ class WebWidget extends Component {
       updateAnswerBotScreen(CONVERSATION_SCREEN)
     } else if (isShowingChatHistory) {
       closedChatHistory()
-    } else if (activeEmbed === helpCenter) {
-      updateBackButtonVisibility(false)
-      resetActiveArticle()
-      if (ipmHelpCenterAvailable) {
-        updateActiveEmbed(channelChoice)
-      }
     } else if (showTicketFormsBackButton) {
       activeComponent.clearForm()
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable)
@@ -253,7 +241,7 @@ class WebWidget extends Component {
       this.showHelpCenter()
     } else {
       if (ipmHelpCenterAvailable) {
-        resetActiveArticle()
+        closeCurrentArticle()
       }
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(false)
@@ -473,7 +461,7 @@ class WebWidget extends Component {
 }
 
 const actionCreators = {
-  resetActiveArticle,
+  closeCurrentArticle,
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,

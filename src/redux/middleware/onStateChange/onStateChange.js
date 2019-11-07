@@ -39,12 +39,13 @@ import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors
 import {
   getActiveEmbed,
   getWidgetShown,
-  getIPMWidget,
-  getHelpCenterEmbed,
   getHasWidgetShown,
-  getChatEmbed
+  getChatEmbed,
+  getHelpCenterEmbed,
+  getIPMWidget
 } from 'src/redux/modules/base/base-selectors'
 import { store } from 'service/persistence'
+import history from 'service/history'
 import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled
@@ -61,6 +62,7 @@ import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZop
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import routes from 'embeds/helpCenter/routes'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false
@@ -195,14 +197,21 @@ const onChatEnd = (nextState, action, dispatch) => {
 
 const onArticleDisplayed = (prevState, nextState, dispatch) => {
   const prevDisplay = getArticleDisplayed(prevState)
-  const nextDisplay = getArticleDisplayed(nextState)
+  const articleID = getArticleDisplayed(nextState)
 
-  if (!prevDisplay && nextDisplay) {
-    const ipmWidget = getIPMWidget(prevState)
-    const isBackButtonVisible = ipmWidget ? false : getHelpCenterEmbed(prevState)
+  if (!prevDisplay && articleID) {
+    dispatch(updateActiveEmbed('helpCenterForm'))
+    const helpCenterEnabled = getHelpCenterEmbed(nextState)
+    const ipmWidget = getIPMWidget(nextState)
+    const articlePath = routes.articles(articleID)
+    if (ipmWidget || !helpCenterEnabled) {
+      history.replace(articlePath)
+    } else {
+      history.push(articlePath)
+    }
+
     const widgetShown = getWidgetShown(prevState)
 
-    dispatch(updateBackButtonVisibility(isBackButtonVisible))
     if (!widgetShown) dispatch(activateReceived())
   }
 }

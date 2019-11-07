@@ -4,11 +4,9 @@ import { connect } from 'react-redux'
 
 import NoResults from 'src/embeds/helpCenter/components/Results/NoResults'
 import HasResults from 'src/embeds/helpCenter/components/Results/HasResults'
-import { getArticles } from 'embeds/helpCenter/selectors'
+import { getSearchedArticles } from 'embeds/helpCenter/selectors'
 
-const Results = ({ articles }) => {
-  return articles.length > 0 ? <HasResults /> : <NoResults />
-}
+const Results = ({ articles }) => (articles.length > 0 ? <HasResults /> : <NoResults />)
 
 Results.propTypes = {
   articles: PropTypes.array
@@ -16,7 +14,7 @@ Results.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    articles: getArticles(state)
+    articles: getSearchedArticles(state)
   }
 }
 const connectedComponent = connect(mapStateToProps)(Results)

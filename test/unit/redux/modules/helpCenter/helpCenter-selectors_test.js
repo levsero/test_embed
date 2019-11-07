@@ -9,7 +9,6 @@ describe('helpCenter selectors', () => {
     getIsContextualSearchPending,
     getIsContextualSearchSuccessful,
     getIsContextualSearchFailure,
-    getActiveArticle,
     getResultsCount,
     getResultsLocale,
     getArticles,
@@ -62,7 +61,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched = selectors.getHasContextuallySearched
     getIsContextualSearchPending = selectors.getIsContextualSearchPending
     getIsContextualSearchSuccessful = selectors.getIsContextualSearchSuccessful
-    getActiveArticle = selectors.getActiveArticle
     getResultsCount = selectors.getResultsCount
     getResultsLocale = selectors.getResultsLocale
     getArticles = selectors.getArticles
@@ -84,7 +82,7 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       let mockState = {
         helpCenter: {
-          activeArticle: mockActiveArticle,
+          clickedArticles: { current: mockActiveArticle },
           manualContextualSuggestions: mockManualContextualSuggestions,
           contextualSearch: {
             hasSearched: mockHasSearched
@@ -455,6 +453,7 @@ describe('helpCenter selectors', () => {
           contextualSearch: {
             hasSearched: false
           },
+          searchAttempted: false,
           totalUserSearches: 0,
           articles: [1]
         }
@@ -466,9 +465,9 @@ describe('helpCenter selectors', () => {
         mockHelpCenterState.helpCenter.contextualSearch.hasSearched = true
       })
 
-      describe('when totalUserSearches is greater than 0', () => {
+      describe('when searchAttempted is true', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.totalUserSearches = 10
+          mockHelpCenterState.helpCenter.searchAttempted = true
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -477,9 +476,9 @@ describe('helpCenter selectors', () => {
         })
       })
 
-      describe('when totalUserSearches is 0', () => {
+      describe('when searchAttempted is false', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.totalUserSearches = 0
+          mockHelpCenterState.helpCenter.searchAttempted = false
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -494,9 +493,9 @@ describe('helpCenter selectors', () => {
         mockHelpCenterState.helpCenter.contextualSearch.hasSearched = false
       })
 
-      describe('when totalUserSearches is greater than 0', () => {
+      describe('when searchAttempted is true', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.totalUserSearches = 10
+          mockHelpCenterState.helpCenter.searchAttempted = true
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -505,9 +504,9 @@ describe('helpCenter selectors', () => {
         })
       })
 
-      describe('when totalUserSearches is 0', () => {
+      describe('when searchAttempted is false', () => {
         beforeEach(() => {
-          mockHelpCenterState.helpCenter.totalUserSearches = 0
+          mockHelpCenterState.helpCenter.searchAttempted = false
           result = getHasSearched(mockHelpCenterState)
         })
 
@@ -736,24 +735,6 @@ describe('helpCenter selectors', () => {
     })
   })
 
-  describe('getActiveArticle', () => {
-    let result
-    const mockArticle = { id: 1337, body: '<p>money money money</p>' }
-    const mockHelpCenterState = {
-      helpCenter: {
-        activeArticle: mockArticle
-      }
-    }
-
-    beforeEach(() => {
-      result = getActiveArticle(mockHelpCenterState)
-    })
-
-    it('returns the current state of activeArticle', () => {
-      expect(result).toEqual(mockArticle)
-    })
-  })
-
   describe('getResultsCount', () => {
     let result
     const mockHelpCenterState = {
@@ -811,7 +792,7 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        activeArticle: { id: 360 }
+        clickedArticles: { current: 360 }
       }
     }
 

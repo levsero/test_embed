@@ -65,7 +65,7 @@ test('renders expected classes and components with default props for non-visitor
     botTyping
   ]
 
-  jest.spyOn(selectors, 'getArticles').mockReturnValue([
+  jest.spyOn(selectors, 'getSearchedArticles').mockReturnValue([
     {
       title: 'contextual search results',
       body: 'body of contextual search results'

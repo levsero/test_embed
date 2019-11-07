@@ -1,56 +1,96 @@
 import React from 'react'
 
+import { TEST_IDS } from 'constants/shared'
 import { render } from 'src/util/testHelpers'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
 import * as selectors from 'src/redux/modules/selectors/selectors'
-import BackButton from '../'
+import { Component as BackButton } from '../'
 
 jest.mock('component/webWidget/OnBackProvider')
 
 describe('BackButton', () => {
-  const defaultProps = {
-    onClick: undefined
+  const goBackSpy = jest.fn()
+
+  const renderComponent = (props = {}) => {
+    const defaultProps = {
+      useReactRouter: true,
+      history: {}
+    }
+
+    return render(<BackButton {...defaultProps} {...props} />)
   }
 
-  const renderComponent = (props = {}) => render(<BackButton {...defaultProps} {...props} />)
+  describe('when using React Router', () => {
+    const history = {
+      goBack: goBackSpy,
+      length: 2
+    }
 
-  it('renders nothing when is not visible', () => {
-    jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(false)
-    const { queryByLabelText } = renderComponent()
+    it('uses the history goBack method', () => {
+      const { queryByTestId } = renderComponent({ history })
 
-    expect(queryByLabelText('Back')).not.toBeInTheDocument()
+      queryByTestId(TEST_IDS.ICON_BACK).click(0)
+
+      expect(goBackSpy).toHaveBeenCalled()
+    })
+
+    describe('visibility is controlled by the presence of history', () => {
+      describe('when history is >= two layers deep', () => {
+        it('renders', () => {
+          const { queryByTestId } = renderComponent({ history })
+
+          expect(queryByTestId(TEST_IDS.ICON_BACK)).toBeInTheDocument()
+        })
+      })
+
+      describe('when history is < 2 layers deep', () => {
+        ;[0, 1].forEach(length => {
+          it('does not render', () => {
+            const { queryByTestId } = renderComponent({ history: { ...history, length } })
+
+            expect(queryByTestId(TEST_IDS.ICON_BACK)).not.toBeInTheDocument()
+          })
+        })
+      })
+    })
   })
 
-  describe('when visible', () => {
+  describe('when using the legacy routing rules', () => {
     beforeEach(() => {
       jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(true)
     })
 
-    it('renders when it is visible', () => {
-      const { queryByLabelText } = renderComponent()
-
-      expect(queryByLabelText('Back')).toBeInTheDocument()
-    })
-
-    it('calls onClick prop when it is provided', () => {
-      const onClick = jest.fn()
-
-      const { queryByLabelText } = renderComponent({ onClick })
-
-      queryByLabelText('Back').click(0)
-
-      expect(onClick).toHaveBeenCalled()
-    })
-
-    it('uses the useOnBack hook when onClick is not provided', () => {
+    it('uses the onBack hook', () => {
       const onBack = jest.fn()
       useOnBack.mockReturnValue(onBack)
 
-      const { queryByLabelText } = renderComponent()
+      const { queryByTestId } = renderComponent({ useReactRouter: false })
 
-      queryByLabelText('Back').click(0)
+      queryByTestId(TEST_IDS.ICON_BACK).click(0)
 
       expect(onBack).toHaveBeenCalled()
+    })
+
+    describe('visibility is controlled by showBackButton', () => {
+      describe('when showBackButton is true', () => {
+        it('renders', () => {
+          const { queryByTestId } = renderComponent({ useReactRouter: false })
+
+          expect(queryByTestId(TEST_IDS.ICON_BACK)).toBeInTheDocument()
+        })
+      })
+
+      describe('when showBackButton is false', () => {
+        beforeEach(() => {
+          jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(false)
+        })
+
+        it('does not render', () => {
+          const { queryByTestId } = renderComponent({ useReactRouter: false })
+
+          expect(queryByTestId(TEST_IDS.ICON_BACK)).not.toBeInTheDocument()
+        })
+      })
     })
   })
 })

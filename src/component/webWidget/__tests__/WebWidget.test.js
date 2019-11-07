@@ -6,6 +6,18 @@ import { render } from 'src/util/testHelpers'
 
 let originalError
 
+const renderComponent = updatedProps => {
+  const defaultProps = {
+    submitTicketAvailable: true,
+    activeEmbed: 'ticketSubmissionForm',
+    webWidgetReactRouterSupport: true
+  }
+
+  const props = { ...defaultProps, ...updatedProps }
+
+  return render(<WebWidget {...props} />)
+}
+
 beforeEach(() => {
   // Suppress console errors as we do not care about required props complaints
   // in the two tests below. Note that these tests will be removed after the arturo
@@ -20,13 +32,7 @@ afterEach(() => {
 })
 
 it('show new support embed', async () => {
-  const { queryByText } = render(
-    <WebWidget
-      submitTicketAvailable={true}
-      activeEmbed="ticketSubmissionForm"
-      webWidgetReactRouterSupport={true}
-    />
-  )
+  const { queryByText } = renderComponent()
 
   await wait(() => {
     expect(queryByText('I AM NEW SUPPORT')).toBeInTheDocument()
@@ -34,13 +40,7 @@ it('show new support embed', async () => {
 })
 
 it('show old support embed', () => {
-  const { queryByText } = render(
-    <WebWidget
-      submitTicketAvailable={true}
-      activeEmbed="ticketSubmissionForm"
-      webWidgetReactRouterSupport={false}
-    />
-  )
+  const { queryByText } = renderComponent({ webWidgetReactRouterSupport: false })
 
   expect(queryByText('I AM NEW SUPPORT')).not.toBeInTheDocument()
   expect(queryByText('Leave us a message')).toBeInTheDocument()
