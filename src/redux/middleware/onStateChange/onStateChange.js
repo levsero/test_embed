@@ -62,7 +62,7 @@ import { onZopimChatStateChange } from 'src/redux/middleware/onStateChange/onZop
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
-import { ROUTES as HC_ROUTES } from 'embeds/helpCenter/constants'
+import routes from 'embeds/helpCenter/routes'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false
@@ -203,7 +203,7 @@ const onArticleDisplayed = (prevState, nextState, dispatch) => {
     dispatch(updateActiveEmbed('helpCenterForm'))
     const helpCenterEnabled = getHelpCenterEmbed(nextState)
     const ipmWidget = getIPMWidget(nextState)
-    const articlePath = HC_ROUTES.articles(articleID)
+    const articlePath = routes.articles(articleID)
     if (ipmWidget || !helpCenterEnabled) {
       history.replace(articlePath)
     } else {

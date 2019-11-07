@@ -174,10 +174,8 @@ describe('onStateChange middleware', () => {
         getHasSearched: () => mockHasSearched,
         getActiveArticle: () => mockActiveArticle
       },
-      'embeds/helpCenter/constants': {
-        ROUTES: {
-          articles: id => `/articles/${id}`
-        }
+      'embeds/helpCenter/routes': {
+        articles: id => `/articles/${id}`
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: arg => {

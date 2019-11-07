@@ -8,7 +8,7 @@ import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import { getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
 import { performSearch } from 'embeds/helpCenter/actions'
 import { getHasSearched } from '../../selectors'
-import { ROUTES } from 'src/embeds/helpCenter/constants'
+import routes from 'src/embeds/helpCenter/routes'
 
 const SearchPromptPage = ({ title, hasSearched }) => {
   const searchFormRef = useRef(null)
@@ -17,7 +17,7 @@ const SearchPromptPage = ({ title, hasSearched }) => {
     searchFormRef.current.focus()
   }, [])
 
-  if (hasSearched) return <Redirect to={ROUTES.SEARCH} />
+  if (hasSearched) return <Redirect to={routes.search()} />
 
   return (
     <Widget>
