@@ -5,8 +5,8 @@ import { wait } from 'pptr-testing-library'
   This seems stupid, but it catches the elusive React bug that popped
   up in this ticket: https://support.zendesk.com/agent/tickets/4863667
 */
-export const allowsInputTextEditing = async inputField => {
-  inputField.focus()
+export const allowsInputTextEditing = async (inputField, value) => {
+  await inputField.focus()
   await page.keyboard.type('Hello!!')
   await page.keyboard.press('ArrowLeft')
   await page.keyboard.press('ArrowLeft')
@@ -17,4 +17,12 @@ export const allowsInputTextEditing = async inputField => {
 
     expect(await searchFieldValue.jsonValue()).toBe('Hello world!!')
   })
+
+  // clear input field
+  await inputField.click({ clickCount: 3 })
+  await inputField.press('Backspace')
+
+  if (value) {
+    await page.keyboard.type(value)
+  }
 }

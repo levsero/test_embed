@@ -1,9 +1,9 @@
 import { queries, wait } from 'pptr-testing-library'
-import { TEST_IDS } from '../../src/constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 import { allowsInputTextEditing } from './shared-examples'
-import widgetPage from '../helpers/widget-page'
-import launcher from '../helpers/launcher'
-import widget from '../helpers/widget'
+import widgetPage from 'e2e/helpers/widget-page'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
 
 describe('Help center smoke test', () => {
   beforeEach(async () => {

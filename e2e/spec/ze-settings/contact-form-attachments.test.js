@@ -1,7 +1,7 @@
-import widgetPage from 'helpers/widget-page'
-import launcher from 'helpers/launcher'
-import widget from 'helpers/widget'
 import { queries } from 'pptr-testing-library'
+import widgetPage from 'e2e/helpers/widget-page'
+import launcher from 'e2e/helpers/launcher'
+import widget from 'e2e/helpers/widget'
 
 describe('zESettings.webWidget.contactForm.attachments', () => {
   const queryAttachments = async attachments => {

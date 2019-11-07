@@ -1,5 +1,5 @@
-import launcher from 'helpers/launcher'
-import widgetPage from 'helpers/widget-page'
+import launcher from 'e2e/helpers/launcher'
+import widgetPage from 'e2e/helpers/widget-page'
 
 beforeEach(async () => {
   await widgetPage.loadWithConfig('helpCenter')
