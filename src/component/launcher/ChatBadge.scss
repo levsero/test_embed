@@ -84,6 +84,7 @@
   border-bottom-left-radius: #{8 / $font-size}rem;
   border-bottom-right-radius: #{8 / $font-size}rem;
   border-top: #{1 / $font-size}rem $zd-color-grey-300 solid;
+  display: flex;
 }
 
 .input {
