@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import ChatOffline from 'component/chat/ChatOffline'
+import LoadingPage from 'components/LoadingPage'
 import ChatOnline from 'component/chat/ChatOnline'
 import { getShowOfflineChat, getShowChatHistory } from 'src/redux/modules/chat/chat-selectors'
 import { cancelButtonClicked } from 'src/redux/modules/base'
@@ -17,6 +18,7 @@ const mapStateToProps = state => {
 
 class Chat extends Component {
   static propTypes = {
+    sdkConnected: PropTypes.bool,
     isMobile: PropTypes.bool,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -33,7 +35,8 @@ class Chat extends Component {
     isMobile: false,
     fullscreen: false,
     hideZendeskLogo: false,
-    chatId: ''
+    chatId: '',
+    sdkConnected: true
   }
 
   constructor() {
@@ -106,7 +109,23 @@ class Chat extends Component {
     )
   }
 
+  renderLoadingPage = () => {
+    return (
+      <LoadingPage
+        ref={el => {
+          this.offline = el
+        }}
+        handleCloseClick={this.props.cancelButtonClicked}
+        isMobile={this.props.isMobile}
+        chatId={this.props.chatId}
+        fullscreen={this.props.fullscreen}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+      />
+    )
+  }
+
   render() {
+    if (!this.props.sdkConnected) return this.renderLoadingPage()
     return (
       <div>
         {this.renderChatHistory()}
