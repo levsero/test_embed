@@ -5,7 +5,6 @@ import * as devices from 'utility/devices'
 import { testTranslationStringSelector } from 'src/util/testHelpers'
 
 import * as selectors from 'src/redux/modules/selectors/selectors'
-import * as zopimChatSelectors from 'src/redux/modules/zopimChat/zopimChat-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 
@@ -693,8 +692,8 @@ describe('getFrameStyle', () => {
   describe('when not a known frame', () => {
     it('when should show chat badge launcher', () => {
       jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
-      jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(true)
       jest.spyOn(chatSelectors, 'getIsChatting').mockReturnValue(false)
+      jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
 
       result = selectors.getFrameStyle(getModifiedState())
 
@@ -711,7 +710,6 @@ describe('getFrameStyle', () => {
       })
 
       devices.isMobileBrowser.mockRestore()
-      zopimChatSelectors.getZopimChatOnline.mockRestore()
       chatSelectors.getIsChatting.mockRestore()
     })
 
@@ -736,13 +734,11 @@ describe('getShowChatBadgeLauncher', () => {
 
   beforeEach(() => {
     jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
-    jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(true)
     jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(false)
   })
 
   afterEach(() => {
     devices.isMobileBrowser.mockRestore()
-    zopimChatSelectors.getZopimChatOnline.mockRestore()
     chatReselectors.getShowOfflineChat.mockRestore()
   })
 
@@ -779,14 +775,6 @@ describe('getShowChatBadgeLauncher', () => {
 
     it('is mobile browser', () => {
       jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
-      result = selectors.getShowChatBadgeLauncher(getModifiedState())
-
-      expect(result).toEqual(false)
-    })
-
-    it('zopimChat is not online', () => {
-      jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(false)
-      jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(true)
       result = selectors.getShowChatBadgeLauncher(getModifiedState())
 
       expect(result).toEqual(false)
@@ -831,32 +819,6 @@ describe('getFixedStyles', () => {
   // TODO - Complete when selectors have been split
 })
 
-describe('getResetToContactFormOnChatOffline', () => {
-  describe('when values are incorrect', () => {
-    test.each([
-      [false, false, true, true, 'ticketSubmissionForm', true],
-      [true, false, true, true, 'ticketSubmissionForm', false],
-      [false, true, true, true, 'ticketSubmissionForm', false],
-      [false, false, false, true, 'ticketSubmissionForm', false],
-      [false, false, true, false, 'ticketSubmissionForm', false],
-      [false, false, true, true, 'notTheRightForm', false]
-    ])(
-      'when passed %p %p %p %p %p return %p',
-      (embedName, form, status, chatting, isOpen, expectedValue) => {
-        const result = selectors.getResetToContactFormOnChatOffline.resultFunc(
-          embedName,
-          form,
-          status,
-          chatting,
-          isOpen
-        )
-
-        expect(result).toEqual(expectedValue)
-      }
-    )
-  })
-})
-
 describe('getChatOfflineAvailable', () => {
   let result
 
@@ -869,7 +831,6 @@ describe('getChatOfflineAvailable', () => {
   describe('when values are incorrect', () => {
     test.each([
       ['chatEmbed is null', { base: { embeds: { chat: null } } }],
-      ['zopimChat is online', { zopimChat: { status: 'online' } }],
       ['chat is not enabled in settings', { settings: { chat: { suppress: true } } }],
       [
         'offlineForm is disabled in settings',
@@ -898,24 +859,6 @@ describe('getShowTalkBackButton', () => {
     )
 
     expect(result).toEqual(expectedValue)
-  })
-})
-
-describe('getChatOnline', () => {
-  let result
-
-  test.each([
-    ['when neither are online', false, true, false],
-    ['when zopimChat is online', true, false, true],
-    ['when showOffline is false', false, false, true]
-  ])('%p', (_title, zopimOnline, offlineChatVisible, expectedValue) => {
-    jest.spyOn(zopimChatSelectors, 'getZopimChatOnline').mockReturnValue(zopimOnline)
-    jest.spyOn(chatReselectors, 'getShowOfflineChat').mockReturnValue(offlineChatVisible)
-    result = selectors.getChatOnline()
-
-    expect(result).toEqual(expectedValue)
-    zopimChatSelectors.getZopimChatOnline.mockRestore()
-    chatReselectors.getShowOfflineChat.mockRestore()
   })
 })
 
@@ -1002,40 +945,6 @@ describe('getShowTicketFormsBackButton', () => {
     )
 
     expect(result).toEqual(expectedValue)
-  })
-})
-
-describe('getChatConnected', () => {
-  let result
-
-  beforeEach(() => {
-    jest.spyOn(zopimChatSelectors, 'getZopimChatConnected').mockReturnValue(false)
-    jest.spyOn(chatReselectors, 'getChatConnected').mockReturnValue(false)
-  })
-
-  afterEach(() => {
-    zopimChatSelectors.getZopimChatConnected.mockRestore()
-    chatReselectors.getChatConnected.mockRestore()
-  })
-
-  it('when zopimChatConnected is true', () => {
-    jest.spyOn(zopimChatSelectors, 'getZopimChatConnected').mockReturnValue(true)
-    result = selectors.getChatConnected(getModifiedState())
-
-    expect(result).toEqual(true)
-  })
-
-  it('when new chat is connected', () => {
-    jest.spyOn(chatReselectors, 'getChatConnected').mockReturnValue(true)
-    result = selectors.getChatConnected(getModifiedState())
-
-    expect(result).toEqual(true)
-  })
-
-  it('when neither are connected', () => {
-    result = selectors.getChatConnected(getModifiedState())
-
-    expect(result).toEqual(false)
   })
 })
 
@@ -1492,30 +1401,18 @@ describe('getLauncherVisible', () => {
 
 describe('getWidgetDisplayInfo', () => {
   test.each([
-    [
-      'widget is not visible, zopim is not open, launcher is not visible',
-      false,
-      false,
-      false,
-      '',
-      'hidden'
-    ],
-    ['launcher is visible', true, false, false, '', LAUNCHER],
-    ['widget is visible', false, true, false, 'channelChoice', 'contactOptions'],
-    ['zopimChat is active', false, false, true, '', 'chat']
-  ])(
-    '%p',
-    (_title, launcherVisible, webWidgetVisible, zopimChatOpen, activeEmbed, expectedValue) => {
-      const result = selectors.getWidgetDisplayInfo.resultFunc(
-        launcherVisible,
-        webWidgetVisible,
-        zopimChatOpen,
-        activeEmbed
-      )
+    ['widget is not visible, launcher is not visible', false, false, '', 'hidden'],
+    ['launcher is visible', true, false, '', LAUNCHER],
+    ['widget is visible', false, true, 'channelChoice', 'contactOptions']
+  ])('%p', (_title, launcherVisible, webWidgetVisible, activeEmbed, expectedValue) => {
+    const result = selectors.getWidgetDisplayInfo.resultFunc(
+      launcherVisible,
+      webWidgetVisible,
+      activeEmbed
+    )
 
-      expect(result).toEqual(expectedValue)
-    }
-  )
+    expect(result).toEqual(expectedValue)
+  })
 })
 
 describe('getContactOptionsChatLabelOnline', () => {

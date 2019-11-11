@@ -48,7 +48,6 @@ import { updateSettings } from 'src/redux/modules/settings'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
 
-import { chat as zopimChat } from 'embed/chat/chat'
 import { i18n } from 'service/i18n'
 import { identity } from 'service/identity'
 import { mediator } from 'service/mediator'
@@ -56,7 +55,7 @@ import { beacon } from 'service/beacon'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { nameValid, emailValid } from 'utility/utils'
 import { apiResetWidget } from 'src/redux/modules/base/base-actions'
-import { getActiveEmbed, getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
+import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 
 export const endChatApi = reduxStore => {
@@ -76,46 +75,25 @@ export const identifyApi = (_reduxStore, user) => {
   if (isEmailValid && isNameValid) {
     beacon.identify(user)
     identity.setUserIdentity(user.name, user.email)
-    zopimChat.setUser(user)
   } else if (isEmailValid) {
     console.warn('invalid name passed into zE.identify', user.name) // eslint-disable-line no-console
-    zopimChat.setUser(user)
   } else if (isNameValid) {
     console.warn('invalid email passed into zE.identify', user.email) // eslint-disable-line no-console
-    zopimChat.setUser(user)
   } else {
     console.warn('invalid params passed into zE.identify', user) // eslint-disable-line no-console
   }
 }
 
 export const openApi = reduxStore => {
-  const state = reduxStore.getState()
-
-  if (getActiveEmbed(state) === 'zopimChat') {
-    mediator.channel.broadcast('zopimChat.show')
-  } else {
-    reduxStore.dispatch(openReceived())
-  }
+  reduxStore.dispatch(openReceived())
 }
 
 export const closeApi = reduxStore => {
-  const state = reduxStore.getState()
-
-  if (getActiveEmbed(state) === 'zopimChat') {
-    mediator.channel.broadcast('zopimChat.hide')
-  }
-
   reduxStore.dispatch(closeReceived())
 }
 
 export const toggleApi = reduxStore => {
-  const state = reduxStore.getState()
-
-  if (getActiveEmbed(state) === 'zopimChat') {
-    mediator.channel.broadcast('zopimChat.toggle')
-  } else {
-    reduxStore.dispatch(toggleReceived())
-  }
+  reduxStore.dispatch(toggleReceived())
 }
 
 export const setLocaleApi = locale => {

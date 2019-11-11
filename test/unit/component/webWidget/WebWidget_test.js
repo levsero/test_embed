@@ -97,9 +97,7 @@ describe('WebWidget component', () => {
       'embeds/helpCenter/actions': {
         closeCurrentArticle: noop
       },
-      'src/redux/modules/base/base-selectors': {
-        getZopimChatEmbed: noop
-      },
+      'src/redux/modules/base/base-selectors': {},
       'src/redux/modules/selectors': {
         getChatNotification: noop,
         getChatOnline: noop

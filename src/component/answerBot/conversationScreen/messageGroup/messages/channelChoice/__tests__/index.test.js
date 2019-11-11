@@ -137,17 +137,6 @@ describe('actions', () => {
     expect(actions.updateBackButtonVisibility).toHaveBeenCalledWith(true)
   })
 
-  test('clicking on Live chat (old chat)', () => {
-    const { getByText } = renderComponent({
-      oldChat: true,
-      chatAvailable: true
-    })
-
-    fireEvent.click(getByText('Live chat'))
-    expect(actions.updateActiveEmbed).toHaveBeenCalledWith('zopimChat')
-    expect(actions.updateBackButtonVisibility).toHaveBeenCalledWith(true)
-  })
-
   test('clicking on Request a callback', () => {
     const { getByText } = renderComponent({
       callbackAvailable: true,

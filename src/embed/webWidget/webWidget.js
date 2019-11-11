@@ -20,7 +20,7 @@ import {
   getTalkEnabled
 } from 'src/redux/modules/selectors'
 import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors'
-import { setVisitorInfo, chatNotificationDismissed, setUpChat } from 'src/redux/modules/chat'
+import { chatNotificationDismissed, setUpChat } from 'src/redux/modules/chat'
 import {
   getSettingsHelpCenterSuppress,
   getSettingsContactFormSuppress,
@@ -30,8 +30,7 @@ import { getTicketForms, getTicketFields } from 'src/redux/modules/submitTicket'
 import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
-import { nameValid, emailValid, onNextTick } from 'src/util/utils'
-import { updateActiveEmbed } from 'src/redux/modules/base'
+import { onNextTick } from 'src/util/utils'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
@@ -228,14 +227,6 @@ export default function WebWidgetFactory(name) {
       }
     })
 
-    mediator.channel.subscribe(prefix + 'webWidget.zopimChatStarted', () => {
-      waitForRootComponent(() => {
-        if (!embed.instance.props.visible) {
-          embed.store.dispatch(updateActiveEmbed('zopimChat'))
-        }
-      })
-    })
-
     mediator.channel.subscribe(prefix + 'webWidget.refreshLocale', () => {
       waitForRootComponent(() => {
         const store = embed.store
@@ -254,20 +245,6 @@ export default function WebWidgetFactory(name) {
         }
 
         embed.instance.getChild().forceUpdate()
-      })
-    })
-
-    mediator.channel.subscribe(prefix + 'zopimChat.setUser', user => {
-      waitForRootComponent(() => {
-        if (embed.embedsAvailable.chat) {
-          // Fallback to null or empty string because Chat SDK doesn't accept "undefined" or "null"
-          const validUser = {}
-
-          if (nameValid(user.name)) validUser.display_name = user.name // eslint-disable-line camelcase
-          if (emailValid(user.email)) validUser.email = user.email
-
-          embed.store.dispatch(setVisitorInfo(validUser))
-        }
       })
     })
   }

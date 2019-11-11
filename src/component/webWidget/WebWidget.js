@@ -41,7 +41,6 @@ import {
 } from 'src/redux/modules/selectors'
 import { getResultsCount } from 'embeds/helpCenter/selectors'
 import {
-  getZopimChatEmbed,
   getActiveEmbed,
   getChatStandalone,
   getWebWidgetVisible
@@ -76,7 +75,6 @@ const mapStateToProps = state => {
     chatAvailable: getChatAvailable(state),
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatEnabled: getChatEnabled(state),
-    oldChat: getZopimChatEmbed(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
     resultsCount: getResultsCount(state),

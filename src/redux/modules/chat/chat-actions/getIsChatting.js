@@ -22,8 +22,6 @@ export function getIsChatting() {
     if (isChatting) {
       let activeEmbed = storedActiveEmbed
 
-      if (storedActiveEmbed === 'zopimChat') activeEmbed = 'chat'
-
       if (activeEmbed) {
         dispatch(updateActiveEmbed(activeEmbed))
       }

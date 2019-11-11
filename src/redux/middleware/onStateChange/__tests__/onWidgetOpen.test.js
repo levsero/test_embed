@@ -30,14 +30,6 @@ beforeEach(() => {
   jest.spyOn(baseSelectors, 'getActiveEmbed').mockImplementation(() => 'helpCenter')
 })
 
-test('nothing happens when the active embed is zopim', () => {
-  jest.spyOn(baseSelectors, 'getActiveEmbed').mockImplementation(() => 'zopimChat')
-
-  onWidgetOpen(false, true, dispatch)
-
-  expect(dispatch).not.toHaveBeenCalled()
-})
-
 describe('when widget visibility transitions from false to true', () => {
   it('dispatches updateWidgetShown with true', () => {
     onWidgetOpen(false, true, dispatch)

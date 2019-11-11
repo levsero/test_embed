@@ -3,7 +3,6 @@ import { settings } from 'service/settings'
 import {
   getOAuth,
   getBaseIsAuthenticated,
-  getActiveEmbed,
   getAfterWidgetShowAnimation,
   getWebWidgetVisible,
   getWidgetAlreadyHidden
@@ -282,10 +281,8 @@ export const showWidget = () => {
 }
 
 export const handlePopoutButtonClicked = () => {
-  return dispatch => {
-    dispatch({ type: actions.POPOUT_BUTTON_CLICKED })
-    callbacks.fireFor(CHAT_POPOUT_EVENT)
-  }
+  callbacks.fireFor(CHAT_POPOUT_EVENT)
+  return { type: actions.POPOUT_BUTTON_CLICKED }
 }
 
 export const apiClearForm = () => {
@@ -323,14 +320,8 @@ export const apiResetWidget = () => {
 }
 
 export const launcherClicked = () => {
-  return (dispatch, getState) => {
-    const state = getState()
-
-    if (getActiveEmbed(state) === 'zopimChat') {
-      mediator.channel.broadcast('zopimChat.show')
-    } else {
-      dispatch({ type: actions.LAUNCHER_CLICKED })
-    }
+  return dispatch => {
+    dispatch({ type: actions.LAUNCHER_CLICKED })
 
     callbacks.fireFor(WIDGET_OPENED_EVENT)
   }
@@ -355,35 +346,15 @@ export const widgetInitialised = () => {
 }
 
 export const activateReceived = (options = {}) => {
-  return (dispatch, getState) => {
-    const state = getState()
-
-    if (getActiveEmbed(state) === 'zopimChat') {
-      mediator.channel.broadcast('zopimChat.show')
-    } else {
-      dispatch({
-        type: actions.ACTIVATE_RECEIVED,
-        payload: options
-      })
-    }
+  return {
+    type: actions.ACTIVATE_RECEIVED,
+    payload: options
   }
 }
 
 export const hideReceived = () => {
-  return (dispatch, getState) => {
-    const state = getState()
-
-    // Handle zopim chat standalone.
-    mediator.channel.broadcast('.hide')
-
-    // Handle with other embeds.
-    if (getActiveEmbed(state) === 'zopimChat') {
-      mediator.channel.broadcast('zopimChat.hide')
-    }
-
-    dispatch({
-      type: actions.HIDE_RECEIVED
-    })
+  return {
+    type: actions.HIDE_RECEIVED
   }
 }
 
@@ -394,8 +365,6 @@ export const showReceived = () => {
 }
 
 export const legacyShowReceived = () => {
-  mediator.channel.broadcast('.show')
-
   return {
     type: actions.LEGACY_SHOW_RECEIVED
   }

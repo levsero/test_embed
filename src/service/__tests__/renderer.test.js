@@ -16,7 +16,6 @@ store.dispatch = jest.fn()
 
 let mockSettings,
   mockWebWidget,
-  mockChat,
   mockLauncher,
   renderer,
   baseActions,
@@ -33,14 +32,12 @@ beforeEach(() => {
     offset: { vertical: 20, horizontal: 30 }
   }
   mockLauncher = embedMocker()
-  mockChat = embedMocker()
   mockWebWidget = embedMocker()
   const mockWebWidgetFactory = () => mockWebWidget
 
   settings = require('service/settings').settings
   settings.get = value => _.get(mockSettings, value, null)
   const embedLauncher = require('embed/launcher/launcher')
-  const embedChat = require('embed/chat/chat')
   const WebWidgetFactory = require('embed/webWidget/webWidget').default
 
   baseActions = require('src/redux/modules/base')
@@ -49,7 +46,6 @@ beforeEach(() => {
   i18n = require('service/i18n').i18n
 
   embedLauncher.launcher = mockLauncher
-  embedChat.chat = mockChat
   WebWidgetFactory.mockImplementation(mockWebWidgetFactory)
 
   renderer = require('../renderer').renderer
@@ -116,12 +112,6 @@ describe('init', () => {
     expect(mediator.init).toHaveBeenCalled()
 
     expect(mockLauncher.create).toHaveBeenCalled()
-
-    expect(mockChat.create).toHaveBeenCalledWith(
-      'zopimChat',
-      expect.any(Object),
-      expect.any(Object)
-    )
   })
 
   it('handles dodgy config values', () => {
@@ -218,32 +208,6 @@ describe('init', () => {
     expect(mockLauncher.render).toHaveBeenCalledTimes(1)
   })
 
-  describe('zopimStandalone', () => {
-    const configJSON = {
-      newChat: false,
-      embeds: {
-        zopimChat: {
-          embed: 'chat',
-          props: {
-            zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-            position: 'br',
-            standalone: true
-          }
-        }
-      }
-    }
-
-    it('calls mediator.initZopimStandalone', () => {
-      renderer.init(configJSON)
-      expect(mediator.initZopimStandalone).toHaveBeenCalled()
-    })
-
-    it('does not call mediator.init', () => {
-      renderer.init(configJSON)
-      expect(mediator.init).not.toHaveBeenCalled()
-    })
-  })
-
   describe('when config is not naked zopim', () => {
     beforeEach(() => {
       renderer.init(testConfig())
@@ -267,58 +231,30 @@ describe('init', () => {
         expect.anything()
       )
     })
-
-    it('still creates zopimChat', () => {
-      expect(mockChat.create).toHaveBeenCalled()
-    })
   })
 
   describe('when the config is naked zopim', () => {
-    describe('newChat is false', () => {
-      beforeEach(() => {
-        const config = {
-          embeds: { zopimChat: { embed: 'chat' } }
-        }
+    beforeEach(() => {
+      const config = {
+        newChat: true,
+        embeds: { zopimChat: { embed: 'chat' } }
+      }
 
-        renderer.init(config)
-      })
-
-      it('does not create webWidget embed', () => {
-        expect(mockWebWidget.create).not.toHaveBeenCalled()
-      })
-
-      it('creates zopimChat', () => {
-        expect(mockChat.create).toHaveBeenCalled()
-      })
+      renderer.init(config)
     })
 
-    describe('newChat is true', () => {
-      beforeEach(() => {
-        const config = {
-          newChat: true,
-          embeds: { zopimChat: { embed: 'chat' } }
-        }
+    it('creates a webWidget embed', () => {
+      expect(mockWebWidget.create).toHaveBeenCalled()
+    })
 
-        renderer.init(config)
-      })
-
-      it('does not create a zopimChat embed', () => {
-        expect(mockChat.create).not.toHaveBeenCalled()
-      })
-
-      it('creates a webWidget embed', () => {
-        expect(mockWebWidget.create).toHaveBeenCalled()
-      })
-
-      it('sets visibile prop in config to false', () => {
-        expect(mockWebWidget.create).toHaveBeenCalledWith(
-          expect.anything(),
-          expect.objectContaining({
-            visible: false
-          }),
-          expect.anything()
-        )
-      })
+    it('sets visibile prop in config to false', () => {
+      expect(mockWebWidget.create).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          visible: false
+        }),
+        expect.anything()
+      )
     })
   })
 

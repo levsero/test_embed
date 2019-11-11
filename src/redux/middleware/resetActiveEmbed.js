@@ -20,18 +20,8 @@ import {
   SDK_ACCOUNT_STATUS,
   SDK_CONNECTION_UPDATE
 } from 'src/redux/modules/chat/chat-action-types'
-import {
-  ZOPIM_CHAT_ON_STATUS_UPDATE,
-  ZOPIM_END_CHAT,
-  ZOPIM_HIDE,
-  ZOPIM_CONNECTED
-} from 'src/redux/modules/zopimChat/zopimChat-action-types'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
-import {
-  getChatStandalone,
-  getZopimChatEmbed,
-  getActiveEmbed
-} from 'src/redux/modules/base/base-selectors'
+import { getChatStandalone, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import {
   getChatAvailable,
   getTalkOnline,
@@ -44,10 +34,6 @@ import {
   getWebWidgetVisible
 } from 'src/redux/modules/selectors'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
-import {
-  getZopimChatOnline,
-  getZopimIsChatting
-} from 'src/redux/modules/zopimChat/zopimChat-selectors'
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
 import { isPopout } from 'utility/globals'
 import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
@@ -60,38 +46,6 @@ const shouldResetForChat = (type, state) => {
   const isActiveEmbedEligible = _.includes(eligibleActiveEmbeds, activeEmbed)
 
   return isChatActionEligible && isActiveEmbedEligible
-}
-
-const shouldResetForZopimChat = (type, state) => {
-  const activeEmbed = getActiveEmbed(state)
-  const eligibleZopimChatActions = [ZOPIM_CHAT_ON_STATUS_UPDATE]
-  const isZopimChatActionEligible = _.includes(eligibleZopimChatActions, type)
-  const isChatting = getZopimIsChatting(state)
-  const zopimChatGoneOffline = !isChatting && !getZopimChatOnline(state)
-
-  if (
-    zopimChatGoneOffline &&
-    isZopimChatActionEligible &&
-    (activeEmbed === 'zopimChat' || activeEmbed === 'channelChoice')
-  ) {
-    return true
-  }
-  if (
-    isZopimChatActionEligible &&
-    (activeEmbed === 'ticketSubmissionForm' || activeEmbed === NIL_EMBED)
-  ) {
-    return true
-  }
-  return false
-}
-
-const getChatActiveEmbed = state => {
-  // old chat
-  if (getZopimChatEmbed(state)) {
-    return 'zopimChat'
-  } else {
-    return 'chat'
-  }
 }
 
 const shouldResetForSuppress = (action, state) => {
@@ -131,8 +85,8 @@ const setNewActiveEmbed = (state, dispatch) => {
     if (articleViewActive) {
       activeEmbed = 'helpCenterForm'
       backButton = true
-    } else if (getZopimIsChatting(state)) {
-      activeEmbed = getChatActiveEmbed(state)
+    } else if (getIsChatting(state)) {
+      activeEmbed = 'chat'
     } else {
       activeEmbed = 'answerBot'
       backButton = false
@@ -149,7 +103,7 @@ const setNewActiveEmbed = (state, dispatch) => {
   } else if (getTalkOnline(state)) {
     activeEmbed = 'talk'
   } else if (getChatAvailable(state) || (getChatStandalone(state) && !getChatBanned(state))) {
-    activeEmbed = getChatActiveEmbed(state)
+    activeEmbed = 'chat'
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm'
     backButton = getShowTicketFormsBackButton(state)
@@ -167,23 +121,17 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
     TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
     WIDGET_INITIALISED,
-    ZOPIM_HIDE,
     ACTIVATE_RECEIVED,
     AUTHENTICATION_SUCCESS,
     CHAT_CONNECTED,
-    ZOPIM_CONNECTED,
-    ZOPIM_END_CHAT,
     API_RESET_WIDGET,
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     TALK_SUCCESS_DONE_BUTTON_CLICKED
   ]
   const widgetVisible = getWebWidgetVisible(prevState)
-  const isZopimChatting = getZopimIsChatting(nextState) && getActiveEmbed(nextState) === 'zopimChat'
   const isNewChatChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat'
   const shouldReset =
-    (_.includes(updateActions, type) && !isZopimChatting && !isNewChatChatting) ||
-    shouldResetForChat(type, nextState) ||
-    shouldResetForZopimChat(type, nextState)
+    (_.includes(updateActions, type) && !isNewChatChatting) || shouldResetForChat(type, nextState)
   const shouldResetForChatChannelChoice =
     type === CLOSE_BUTTON_CLICKED &&
     !getChatAvailable(prevState) &&

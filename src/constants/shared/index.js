@@ -176,7 +176,6 @@ export const NAME_PATTERN = /^.{1,255}$/
 export const EMBED_MAP = {
   ticketSubmissionForm: 'contactForm',
   helpCenterForm: 'helpCenter',
-  zopimChat: 'chat',
   chat: 'chat',
   talk: 'talk',
   channelChoice: 'contactOptions',

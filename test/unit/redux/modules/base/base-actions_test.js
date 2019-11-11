@@ -895,28 +895,8 @@ describe('base redux actions', () => {
       expect(fireEventsForSpy).toHaveBeenCalledWith(WIDGET_OPENED_EVENT)
     })
 
-    describe('when the activeEmbed is not zopimChat', () => {
-      beforeAll(() => {
-        mockActiveEmbed = 'helpCenterForm'
-      })
-
-      it('dispatches a LAUNCHER_CLICKED event', () => {
-        expect(dispatchedActions[0].type).toEqual(actionTypes.LAUNCHER_CLICKED)
-      })
-    })
-
-    describe('when the activeEmbed is zopimChat', () => {
-      beforeAll(() => {
-        mockActiveEmbed = 'zopimChat'
-      })
-
-      it('calls mediator zopimChat.show', () => {
-        expect(broadcastSpy).toHaveBeenCalledWith('zopimChat.show')
-      })
-
-      it('fires off widget open event', () => {
-        expect(fireEventsForSpy).toHaveBeenCalledWith(WIDGET_OPENED_EVENT)
-      })
+    it('dispatches a LAUNCHER_CLICKED event', () => {
+      expect(dispatchedActions[0].type).toEqual(actionTypes.LAUNCHER_CLICKED)
     })
   })
 
@@ -1004,36 +984,12 @@ describe('base redux actions', () => {
         action = mockStore.getActions()[0]
       })
 
-      describe('when the activeEmbed is zopimChat', () => {
-        beforeAll(() => {
-          mockActiveEmbed = 'zopimChat'
-        })
-
-        it('calls mediator zopimChat.show', () => {
-          expect(broadcastSpy).toHaveBeenCalledWith('zopimChat.show')
-        })
-
-        it('does not dispatch an action', () => {
-          expect(action).toEqual(undefined)
-        })
+      it('dispatches an action with ACTIVATE_RECEIVED', () => {
+        expect(action.type).toEqual(actionTypes.ACTIVATE_RECEIVED)
       })
 
-      describe('when the activeEmbed is not zopimChat', () => {
-        beforeAll(() => {
-          mockActiveEmbed = 'helpCenterForm'
-        })
-
-        it('dispatches an action with ACTIVATE_RECEIVED', () => {
-          expect(action.type).toEqual(actionTypes.ACTIVATE_RECEIVED)
-        })
-
-        it('does not call mediator zopimChat.show', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
-        })
-
-        it('dispatches the correct payload', () => {
-          expect(action.payload).toEqual(mockOptions)
-        })
+      it('dispatches the correct payload', () => {
+        expect(action.payload).toEqual(mockOptions)
       })
     })
 
@@ -1058,28 +1014,8 @@ describe('base redux actions', () => {
       action = mockStore.getActions()[0]
     })
 
-    describe('when the activeEmbed is zopimChat', () => {
-      beforeAll(() => {
-        mockActiveEmbed = 'zopimChat'
-      })
-
-      it('calls mediator zopimChat.hide', () => {
-        expect(broadcastSpy).toHaveBeenCalledWith('zopimChat.hide')
-      })
-    })
-
-    describe('when the activeEmbed is not zopimChat', () => {
-      beforeAll(() => {
-        mockActiveEmbed = 'helpCenterForm'
-      })
-
-      it('dispatches an action with HIDE_RECEIVED', () => {
-        expect(action.type).toEqual(actionTypes.HIDE_RECEIVED)
-      })
-
-      it('calls mediator .hide', () => {
-        expect(broadcastSpy).toHaveBeenCalledWith('.hide')
-      })
+    it('dispatches an action with HIDE_RECEIVED', () => {
+      expect(action.type).toEqual(actionTypes.HIDE_RECEIVED)
     })
   })
 
@@ -1106,10 +1042,6 @@ describe('base redux actions', () => {
 
     it('dispatches an action with LEGACY_SHOW_RECEIVED', () => {
       expect(action.type).toEqual(actionTypes.LEGACY_SHOW_RECEIVED)
-    })
-
-    it('calls mediator .show', () => {
-      expect(broadcastSpy).toHaveBeenCalledWith('.show')
     })
   })
 

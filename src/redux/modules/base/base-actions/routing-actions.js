@@ -1,6 +1,5 @@
 import * as actions from './../base-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { isMobileBrowser } from 'utility/devices'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { cancelButtonClicked } from './base-actions'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
@@ -11,9 +10,6 @@ import {
   getChatAvailable,
   getTalkOnline
 } from 'src/redux/modules/selectors'
-import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors'
-import { setScrollKiller } from 'utility/scrollHacks'
-import { chat as zopimChat } from 'embed/chat/chat'
 
 export const updateActiveEmbed = embedName => {
   return {
@@ -30,21 +26,10 @@ export const updateBackButtonVisibility = (visible = true) => {
 }
 
 export const showChat = (options = { proactive: false }) => {
-  return (dispatch, getState) => {
-    const oldChat = getZopimChatEmbed(getState())
-
-    if (oldChat) {
-      zopimChat.show('zopimChat')
-      if (isMobileBrowser()) {
-        setScrollKiller(false)
-      }
-
-      dispatch(updateActiveEmbed('zopimChat'))
-    } else {
-      dispatch(updateActiveEmbed('chat'))
-      if (options.proactive) {
-        dispatch(updateChatScreen(CHATTING_SCREEN))
-      }
+  return dispatch => {
+    dispatch(updateActiveEmbed('chat'))
+    if (options.proactive) {
+      dispatch(updateChatScreen(CHATTING_SCREEN))
     }
   }
 }
@@ -89,7 +74,6 @@ export const onHelpCenterNextClick = () => {
   return (dispatch, getState) => {
     const state = getState()
     const chatAvailable = getChatAvailable(state)
-    const oldChat = getZopimChatEmbed(state)
     const talkOnline = getTalkOnline(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
     const helpCenterAvailable = getHelpCenterAvailable(state)
@@ -101,9 +85,7 @@ export const onHelpCenterNextClick = () => {
       }
     } else if (chatAvailable) {
       dispatch(showChat())
-      if (!oldChat) {
-        dispatch(updateBackButtonVisibility(true))
-      }
+      dispatch(updateBackButtonVisibility(true))
     } else if (talkOnline) {
       dispatch(updateActiveEmbed('talk'))
       dispatch(updateBackButtonVisibility(true))

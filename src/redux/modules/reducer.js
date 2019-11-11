@@ -6,7 +6,6 @@ import settings from './settings/reducer'
 import chat from './chat/reducer'
 import talk from './talk/reducer'
 import helpCenter from 'embeds/helpCenter/reducers'
-import zopimChat from './zopimChat/reducer'
 import submitTicket from './submitTicket/reducer'
 import answerBot from './answerBot/reducer'
 import preview from './preview/reducer'
@@ -18,7 +17,6 @@ const combinedReducers = combineReducers({
   chat,
   talk,
   helpCenter,
-  zopimChat,
   submitTicket,
   answerBot,
   preview,

@@ -41,9 +41,6 @@ describe('WidgetLauncher component', () => {
           isRTL: () => mockIsRTL
         }
       },
-      'src/redux/modules/base/base-selectors': {
-        getZopimChatEmbed: noop
-      },
       'src/redux/modules/selectors': {
         getChatOnline: noop
       },
@@ -58,14 +55,14 @@ describe('WidgetLauncher component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getNotification: noop
       },
+      'src/redux/modules/base/base-selectors': {
+        getActiveEmbed: noop
+      },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsLauncherMobile: noop
       },
       'src/redux/modules/base/': {
         launcherClicked: noop
-      },
-      'src/redux/modules/zopimChat/zopimChat-selectors': {
-        getZopimMessageCount: noop
       },
       'utility/keyboard': {
         keyCodes: {
@@ -95,7 +92,7 @@ describe('WidgetLauncher component', () => {
     describe('when there are unreadMessages', () => {
       describe('when there is one unread message', () => {
         beforeEach(() => {
-          launcher = domRender(<Launcher unreadMessages={1} notificationCount={0} />)
+          launcher = domRender(<Launcher notificationCount={1} />)
         })
 
         it('returns the single message label', () => {
@@ -105,7 +102,7 @@ describe('WidgetLauncher component', () => {
 
       describe('when there is more then one unread message', () => {
         beforeEach(() => {
-          launcher = domRender(<Launcher unreadMessages={2} notificationCount={0} />)
+          launcher = domRender(<Launcher notificationCount={2} />)
         })
 
         it('returns the multiple messages label', () => {
@@ -404,7 +401,7 @@ describe('WidgetLauncher component', () => {
     describe('when the active embed is chat', () => {
       describe('when chat is available', () => {
         beforeEach(() => {
-          launcher = instanceRender(<Launcher activeEmbed="zopimChat" chatAvailable={true} />)
+          launcher = instanceRender(<Launcher activeEmbed="chat" chatAvailable={true} />)
         })
 
         it('returns the string Icon--chat', () => {
@@ -415,7 +412,7 @@ describe('WidgetLauncher component', () => {
       describe('when chat is available but chat is offline', () => {
         beforeEach(() => {
           launcher = instanceRender(
-            <Launcher activeEmbed="zopimChat" chatAvailable={true} chatOfflineAvailable={true} />
+            <Launcher activeEmbed="chat" chatAvailable={true} chatOfflineAvailable={true} />
           )
         })
 
@@ -429,7 +426,7 @@ describe('WidgetLauncher component', () => {
 
         beforeEach(() => {
           getIconTypeSpy = jasmine.createSpy('getIcon').and.returnValue('get-icon-value')
-          launcher = instanceRender(<Launcher activeEmbed="zopimChat" chatAvailable={false} />)
+          launcher = instanceRender(<Launcher activeEmbed="chat" chatAvailable={false} />)
 
           launcher.getIconType = getIconTypeSpy
         })
@@ -518,34 +515,6 @@ describe('WidgetLauncher component', () => {
         expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML).toEqual(
           'Icon--chat'
         )
-      })
-    })
-  })
-
-  describe('getNotificationCount', () => {
-    let result
-
-    describe('when unread messages is greater than 0', () => {
-      beforeEach(() => {
-        const launcher = domRender(<Launcher notificationCount={5} unreadMessages={10} />)
-
-        result = launcher.getNotificationCount()
-      })
-
-      it('returns the value from the state', () => {
-        expect(result).toEqual(10)
-      })
-    })
-
-    describe('when unread messages is 0 and notification count is greater than 0', () => {
-      beforeEach(() => {
-        const launcher = domRender(<Launcher notificationCount={5} unreadMessages={0} />)
-
-        result = launcher.getNotificationCount()
-      })
-
-      it('returns the value from the props', () => {
-        expect(result).toEqual(5)
       })
     })
   })

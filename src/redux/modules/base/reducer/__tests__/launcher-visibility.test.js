@@ -14,11 +14,6 @@ import {
   ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
-  ZOPIM_HIDE,
-  ZOPIM_SHOW,
-  ZOPIM_ON_CLOSE
-} from 'src/redux/modules/zopimChat/zopimChat-action-types'
-import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
@@ -70,19 +65,11 @@ testReducer(launcherVisibility, [
     expected: true
   },
   {
-    action: { type: ZOPIM_HIDE },
-    expected: true
-  },
-  {
     action: { type: LEGACY_SHOW_RECEIVED },
     expected: true
   },
   {
     action: { type: CANCEL_BUTTON_CLICKED },
-    expected: true
-  },
-  {
-    action: { type: ZOPIM_ON_CLOSE },
     expected: true
   },
   {
@@ -107,16 +94,15 @@ testReducer(launcherVisibility, [
     expected: true
   }
 ])
-;[ZOPIM_SHOW, NEXT_BUTTON_CLICKED].forEach(type => {
-  describe(type, () => {
-    it('returns true if mobile browser', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
-      expect(launcherVisibility(undefined, { type: type })).toEqual(true)
-    })
 
-    it('returns false if not mobile browser', () => {
-      jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
-      expect(launcherVisibility(undefined, { type: type })).toEqual(false)
-    })
+describe('when the action is NEXT_BUTTON_CLICKED', () => {
+  it('returns true if mobile browser', () => {
+    jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(true)
+    expect(launcherVisibility(undefined, { type: NEXT_BUTTON_CLICKED })).toEqual(true)
+  })
+
+  it('returns false if not mobile browser', () => {
+    jest.spyOn(devices, 'isMobileBrowser').mockReturnValue(false)
+    expect(launcherVisibility(undefined, { type: NEXT_BUTTON_CLICKED })).toEqual(false)
   })
 })

@@ -16,7 +16,6 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
 import { launcherClicked } from 'src/redux/modules/base/'
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors'
-import { getZopimMessageCount } from 'src/redux/modules/zopimChat/zopimChat-selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 
@@ -31,7 +30,6 @@ const mapStateToProps = (state, ownProps) => {
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatLabel: getLauncherChatLabel(state),
     launcherLabel: getLauncherLabel(state, ownProps.label),
-    unreadMessages: getZopimMessageCount(state),
     showLabelMobile: getSettingsLauncherMobile(state).labelVisible
   }
 }
@@ -51,7 +49,6 @@ class WidgetLauncher extends Component {
     isMobile: PropTypes.bool,
     launcherLabel: PropTypes.string.isRequired,
     chatLabel: PropTypes.string.isRequired,
-    unreadMessages: PropTypes.number.isRequired,
     showLabelMobile: PropTypes.bool.isRequired
   }
 
@@ -71,15 +68,15 @@ class WidgetLauncher extends Component {
     }
   }
 
-  getNotificationCount = () => {
-    const { notificationCount, unreadMessages } = this.props
-
-    return Math.max(notificationCount, unreadMessages)
-  }
-
   getLabel = () => {
-    const { helpCenterAvailable, talkOnline, chatAvailable, launcherLabel, chatLabel } = this.props
-    const notificationCount = this.getNotificationCount()
+    const {
+      helpCenterAvailable,
+      talkOnline,
+      chatAvailable,
+      launcherLabel,
+      chatLabel,
+      notificationCount
+    } = this.props
 
     if (notificationCount) {
       return notificationCount > 1
@@ -103,9 +100,9 @@ class WidgetLauncher extends Component {
       chatAvailable,
       chatLabel,
       chatOfflineAvailable,
-      activeEmbed
+      activeEmbed,
+      notificationCount
     } = this.props
-    const notificationCount = this.getNotificationCount()
 
     if (notificationCount) {
       return notificationCount > 1
@@ -120,7 +117,6 @@ class WidgetLauncher extends Component {
       case 'helpCenterForm':
         return launcherLabel
       case 'chat':
-      case 'zopimChat':
         if (chatOfflineAvailable) {
           return launcherLabel
         }
@@ -140,7 +136,6 @@ class WidgetLauncher extends Component {
 
     switch (this.props.activeEmbed) {
       case 'chat':
-      case 'zopimChat':
         if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.chat.title')
         return defaultTitle
       case 'talk':
@@ -165,7 +160,6 @@ class WidgetLauncher extends Component {
       case 'ticketSubmissionForm':
         return 'Icon'
       case 'chat':
-      case 'zopimChat':
         if (this.props.chatAvailable && !this.props.chatOfflineAvailable) return ICONS.CHAT
         return this.getIconType()
       case 'talk':
@@ -179,7 +173,7 @@ class WidgetLauncher extends Component {
     const { isMobile } = this.props
     const baseMobileClasses = isMobile ? styles.wrapperMobile : ''
     const shouldShowMobileClasses =
-      isMobile && !(this.getNotificationCount() > 0) && !this.props.showLabelMobile
+      isMobile && !(this.props.notificationCount > 0) && !this.props.showLabelMobile
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : ''
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : ''
     const type = this.getActiveEmbedIconType()

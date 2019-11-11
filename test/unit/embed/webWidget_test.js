@@ -724,29 +724,6 @@ describe('embed.webWidget', () => {
       webWidget.render()
     })
 
-    it('should subscribe to webWidget.zopimChatStarted', () => {
-      expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-        'webWidget.zopimChatStarted',
-        jasmine.any(Function)
-      )
-    })
-
-    describe('zopimChat.setUser', () => {
-      let user
-
-      beforeEach(() => {
-        user = { name: 'bob', email: 'bob@zd.com' }
-        pluckSubscribeCall(mockMediator, 'zopimChat.setUser')(user)
-      })
-
-      it('should subscribe to zopimChat.setUser', () => {
-        expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-          'zopimChat.setUser',
-          jasmine.any(Function)
-        )
-      })
-    })
-
     describe('webWidget.proactiveChat', () => {
       beforeEach(() => {
         pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')

@@ -58,18 +58,6 @@ describe('getIsChatting', () => {
       })
     })
 
-    test('dispatches updateActiveEmbed with chat when the stored activeEmbed is zopimChat', () => {
-      store.set('store', { activeEmbed: 'zopimChat' })
-      resetMocks()
-
-      const reduxStore = callAction()
-
-      expect(reduxStore.getActions()[1]).toEqual({
-        type: UPDATE_ACTIVE_EMBED,
-        payload: 'chat'
-      })
-    })
-
     test('dispatches chatWindowOpenOnNavigate when the stored value widgetShown is true', () => {
       store.set('store', { widgetShown: true })
       resetMocks()
