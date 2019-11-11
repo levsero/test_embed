@@ -229,5 +229,6 @@ export const http = {
   callMeRequest,
   updateConfig,
   getConfig,
-  getDynamicHostname
+  getDynamicHostname,
+  logFailure //for testing purposes
 }

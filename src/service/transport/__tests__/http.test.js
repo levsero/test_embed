@@ -345,7 +345,7 @@ describe('#send', () => {
   })
 })
 
-describe('sendWithMeta', () => {
+describe('#sendWithMeta', () => {
   let base64result
 
   const payload = {
@@ -395,7 +395,7 @@ describe('sendWithMeta', () => {
   })
 })
 
-describe('getImage', () => {
+describe('#getImage', () => {
   let payload, config, onEndHandler
 
   beforeEach(() => {
@@ -628,7 +628,7 @@ describe('#sendFile', () => {
   })
 })
 
-describe('callMeRequest', () => {
+describe('#callMeRequest', () => {
   let payload
 
   beforeEach(() => {
@@ -687,7 +687,7 @@ describe('callMeRequest', () => {
   })
 })
 
-describe('getDynamicHostname', () => {
+describe('#getDynamicHostname', () => {
   let result, mockConfig
 
   describe('when useHostmappingIfAvailable is true', () => {
@@ -733,6 +733,45 @@ describe('getDynamicHostname', () => {
 
     it('returns the config.zendeskHost', () => {
       expect(result).toEqual(mockConfig.zendeskHost)
+    })
+  })
+})
+
+describe('#logFailure', () => {
+  const baseError = {
+    message: 'whatcha want'
+  }
+  const payload = {
+    method: 'get',
+    path: '/beastie/boys.json'
+  }
+
+  let error
+  describe('when the error is a 404', () => {
+    beforeEach(() => {
+      error = { status: 404 }
+      http.logFailure(error, payload)
+    })
+
+    it('returns and does not report to rollbar', () => {
+      expect(errorTracker.error).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when the error is not a 404', () => {
+    beforeEach(() => {
+      error = { status: 500 }
+      http.logFailure({ ...baseError, ...error }, payload)
+    })
+
+    it('uses errorTracker to report to rollbar andsends the correct params', () => {
+      expect(errorTracker.error).toHaveBeenNthCalledWith(1, 'HttpApiError: whatcha want', {
+        actualErrorMessage: 'whatcha want',
+        hostname: 'localhost',
+        method: 'GET',
+        path: '/beastie/boys.json',
+        status: 500
+      })
     })
   })
 })
