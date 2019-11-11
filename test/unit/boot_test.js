@@ -206,8 +206,7 @@ describe('boot', () => {
         method: 'get',
         path: '/embeddable/config',
         callbacks: {
-          done: jasmine.any(Function),
-          fail: jasmine.any(Function)
+          done: jasmine.any(Function)
         }
       }
 
@@ -431,38 +430,6 @@ describe('boot', () => {
 
         it('calls beacon.setConfigLoadTime with the load time', () => {
           expect(beaconSpy.beacon.setConfigLoadTime).toHaveBeenCalledWith(1000)
-        })
-      })
-    })
-
-    describe('when the request fails', () => {
-      let failHandler
-
-      beforeEach(() => {
-        boot.getConfig(win, postRenderQueue)
-
-        failHandler = mockGetCalls.mostRecent().args[0].callbacks.fail
-      })
-
-      describe('when the error status code is 404', () => {
-        beforeEach(() => {
-          failHandler({ status: 404 })
-        })
-
-        it('does not call logging.error', () => {
-          expect(errorTracker.error).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('when the error status code is not 404', () => {
-        const error = { status: 500 }
-
-        beforeEach(() => {
-          failHandler(error)
-        })
-
-        it('calls logging.error', () => {
-          expect(errorTracker.error).toHaveBeenCalledWith(error)
         })
       })
     })

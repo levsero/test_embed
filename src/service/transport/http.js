@@ -5,6 +5,8 @@ import { identity } from 'service/identity'
 import { settings } from 'service/settings'
 import { location, getReferrerPolicy } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
+import errorTracker from 'service/errorTracker'
+import HttpApiError from 'errors/nonFatal/HttpApiError'
 
 let config
 const defaultPayload = {
@@ -71,6 +73,10 @@ function send(payload, addType = true) {
       if (_.isFunction(payload.callbacks.always)) {
         payload.callbacks.always()
       }
+    }
+
+    if (err) {
+      logFailure(err, payload)
     }
   })
 }
@@ -140,6 +146,10 @@ function sendFile(payload) {
           }
         }
       }
+
+      if (err) {
+        logFailure(err, payload)
+      }
     })
 }
 
@@ -175,7 +185,10 @@ function getDynamicHostname(useHostMappingIfAvailable) {
 }
 
 function callMeRequest(talkServiceUrl, payload) {
-  superagent('POST', `${talkServiceUrl}/talk_embeddables_service/callback_request`)
+  const path = 'talk_embeddables_service/callback_request'
+  const method = 'POST'
+
+  superagent(method, `${talkServiceUrl}/${path}`)
     .send(payload.params)
     .end((err, res) => {
       const { done, fail } = payload.callbacks
@@ -184,10 +197,26 @@ function callMeRequest(talkServiceUrl, payload) {
         if (_.isFunction(fail)) {
           fail(err, res)
         }
+        logFailure(err, { path, method, ...payload })
       } else if (_.isFunction(done)) {
         done(res)
       }
     })
+}
+
+function logFailure(error, payload) {
+  if (error.status == 404) return
+
+  const apiError = new HttpApiError(error)
+  const errorTitle = `${apiError.name}: ${apiError.message}`
+  const errorData = {
+    method: payload.method.toUpperCase(),
+    path: payload.path,
+    actualErrorMessage: apiError.message,
+    status: apiError.data.status,
+    hostname: location.hostname
+  }
+  errorTracker.error(errorTitle, errorData)
 }
 
 export const http = {
@@ -200,5 +229,6 @@ export const http = {
   callMeRequest,
   updateConfig,
   getConfig,
-  getDynamicHostname
+  getDynamicHostname,
+  logFailure //for testing purposes
 }
