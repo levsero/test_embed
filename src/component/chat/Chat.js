@@ -5,20 +5,25 @@ import { connect } from 'react-redux'
 import ChatOffline from 'component/chat/ChatOffline'
 import LoadingPage from 'components/LoadingPage'
 import ChatOnline from 'component/chat/ChatOnline'
-import { getShowOfflineChat, getShowChatHistory } from 'src/redux/modules/chat/chat-selectors'
+import {
+  getShowOfflineChat,
+  getShowChatHistory,
+  getHasChatSdkConnected
+} from 'src/redux/modules/chat/chat-selectors'
 import { cancelButtonClicked } from 'src/redux/modules/base'
 import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 
 const mapStateToProps = state => {
   return {
     showOfflineChat: getShowOfflineChat(state),
-    showChatHistory: getShowChatHistory(state)
+    showChatHistory: getShowChatHistory(state),
+    hasSdkConnected: getHasChatSdkConnected(state)
   }
 }
 
 class Chat extends Component {
   static propTypes = {
-    sdkConnected: PropTypes.bool,
+    hasSdkConnected: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -35,8 +40,7 @@ class Chat extends Component {
     isMobile: false,
     fullscreen: false,
     hideZendeskLogo: false,
-    chatId: '',
-    sdkConnected: true
+    chatId: ''
   }
 
   constructor() {
@@ -109,23 +113,8 @@ class Chat extends Component {
     )
   }
 
-  renderLoadingPage = () => {
-    return (
-      <LoadingPage
-        ref={el => {
-          this.offline = el
-        }}
-        handleCloseClick={this.props.cancelButtonClicked}
-        isMobile={this.props.isMobile}
-        chatId={this.props.chatId}
-        fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
-    )
-  }
-
   render() {
-    if (!this.props.sdkConnected) return this.renderLoadingPage()
+    if (!this.props.hasSdkConnected) return <LoadingPage />
     return (
       <div>
         {this.renderChatHistory()}

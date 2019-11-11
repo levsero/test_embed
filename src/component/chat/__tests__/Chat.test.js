@@ -5,24 +5,37 @@ import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as simpleSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 
-let showOfflineChatMock, getShowChatHistoryMock
+let showOfflineChatMock, getShowChatHistoryMock, hasChatSdkConnected
 
 beforeEach(() => {
   showOfflineChatMock = jest.spyOn(selectors, 'getShowOfflineChat')
   getShowChatHistoryMock = jest.spyOn(simpleSelectors, 'getShowChatHistory')
+  hasChatSdkConnected = jest.spyOn(simpleSelectors, 'getHasChatSdkConnected')
 })
 
 afterEach(() => {
   showOfflineChatMock.mockRestore()
   getShowChatHistoryMock.mockRestore()
+  hasChatSdkConnected.mockRestore()
 })
 
 const renderChat = (fullscreen = false) => {
   return render(<Chat updateChatBackButtonVisibility={() => {}} fullscreen={fullscreen} />)
 }
 
+describe('chat sdk has not connected', () => {
+  beforeEach(() => {
+    hasChatSdkConnected.mockReturnValue(false)
+  })
+
+  it('renders the loading page', () => {
+    expect(renderChat().container).toMatchSnapshot()
+  })
+})
+
 describe('show offline chat is true', () => {
   beforeEach(() => {
+    hasChatSdkConnected.mockReturnValue(true)
     showOfflineChatMock.mockReturnValue(true)
   })
 
@@ -33,6 +46,7 @@ describe('show offline chat is true', () => {
 
 describe('show offline chat is false', () => {
   beforeEach(() => {
+    hasChatSdkConnected.mockReturnValue(true)
     showOfflineChatMock.mockReturnValue(false)
   })
 
@@ -43,6 +57,7 @@ describe('show offline chat is false', () => {
 
 describe('when showChatHistory is true', () => {
   beforeEach(() => {
+    hasChatSdkConnected.mockReturnValue(true)
     getShowChatHistoryMock.mockReturnValue(true)
   })
 
@@ -61,6 +76,7 @@ describe('when showChatHistory is true', () => {
 
 describe('when showChatHistory is false', () => {
   beforeEach(() => {
+    hasChatSdkConnected.mockReturnValue(true)
     getShowChatHistoryMock.mockReturnValue(false)
   })
 

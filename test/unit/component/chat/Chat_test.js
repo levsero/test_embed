@@ -5,6 +5,7 @@ describe('Chat component', () => {
 
   const ChatOffline = noopReactComponent()
   const ChatOnline = noopReactComponent()
+  const LoadingPage = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -12,6 +13,7 @@ describe('Chat component', () => {
     initMockRegistry({
       'component/chat/ChatOffline': ChatOffline,
       'component/chat/ChatOnline': ChatOnline,
+      'components/LoadingPage': LoadingPage,
       'src/redux/modules/chat/chat-selectors': {
         getShowOfflineChat: ''
       },
@@ -36,7 +38,7 @@ describe('Chat component', () => {
 
     describe('when props.showOfflineChat is true', () => {
       beforeEach(() => {
-        component = domRender(<Chat showOfflineChat={true} />)
+        component = domRender(<Chat showOfflineChat={true} hasSdkConnected={true} />)
       })
 
       it('renders ChatOffline component', () => {
@@ -72,7 +74,7 @@ describe('Chat component', () => {
 
     describe('when props.showOfflineForm is false', () => {
       beforeEach(() => {
-        component = domRender(<Chat showOfflineForm={false} />)
+        component = domRender(<Chat showOfflineForm={false} hasSdkConnected={true} />)
       })
 
       it('renders ChatOnline component', () => {

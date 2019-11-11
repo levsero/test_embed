@@ -109,6 +109,7 @@ export const getLatestAgentLeaveEvent = state => state.chat.chatLog.latestAgentL
 export const getLatestQuickReplyKey = state => state.chat.chatLog.latestQuickReply
 export const getChatBanned = state => state.chat.chatBanned
 
+export const getHasChatSdkConnected = state => state.chat.sdkConnected
 export const getHasBackfillCompleted = state => state.chat.chatLogBackfillCompleted
 export const getIsEndChatModalVisible = state => state.chat.endChatModalVisible
 export const getDefaultToChatWidgetLite = state => state.chat.config.defaultToChatWidgetLite
