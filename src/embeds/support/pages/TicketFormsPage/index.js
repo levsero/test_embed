@@ -2,11 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { Button } from '@zendeskgarden/react-buttons'
-
-import { HeaderTitle, TicketFormOption } from './styles'
+import TicketFormList from 'src/embeds/support/components/TicketFormList'
+import { HeaderTitle } from './styles'
 import { Widget, Main, Header, Footer } from 'src/components/Widget'
-
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
@@ -28,15 +26,7 @@ const TicketFormsPage = ({
       <Header title={formTitle} />
       <Main>
         <HeaderTitle>{selectTicketFormLabel}</HeaderTitle>
-        {ticketForms.map(form => {
-          return (
-            <TicketFormOption key={form.id}>
-              <Button link={true} onClick={() => handleFormOptionClick(form.id)}>
-                {form.display_name}
-              </Button>
-            </TicketFormOption>
-          )
-        })}
+        <TicketFormList ticketForms={ticketForms} handleFormOptionClick={handleFormOptionClick} />
       </Main>
       <Footer />
     </Widget>
