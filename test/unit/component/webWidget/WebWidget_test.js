@@ -74,6 +74,7 @@ describe('WebWidget component', () => {
       'component/chat/Chat': connectedComponent(<MockChat />),
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'embeds/support': connectedComponent(<MockSupport />),
+      'src/components/LoadingPage': noopReactComponent(),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
