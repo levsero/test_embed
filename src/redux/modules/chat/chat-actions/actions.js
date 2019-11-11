@@ -6,15 +6,13 @@ import {
   getChatVisitor,
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
-  getChatOnline,
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
   getZChatVendor
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
-import { getChatStandalone, getZChatConfig } from 'src/redux/modules/base/base-selectors'
-import { mediator } from 'service/mediator'
+import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
 import { audio } from 'service/audio'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { formatSchedule } from 'src/util/chat'
@@ -327,14 +325,6 @@ export function getAccountSettings() {
 
     if (accountSettings.forms.pre_chat_form.required && !getIsChattingState(getState())) {
       dispatch(updateChatScreen(PRECHAT_SCREEN))
-    }
-
-    if (
-      !accountSettings.chat_button.hide_when_offline &&
-      getChatStandalone(getState()) &&
-      !getChatOnline(getState())
-    ) {
-      mediator.channel.broadcast('newChat.offlineFormOn')
     }
 
     if (!accountSettings.sound.disabled) {

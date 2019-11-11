@@ -7,7 +7,7 @@ import { mediator } from 'service/mediator'
 import errorTracker from 'service/errorTracker'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
-import { updateEmbedAccessible, updateArturos, widgetInitialised } from 'src/redux/modules/base'
+import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
 
@@ -38,10 +38,6 @@ function parseConfig(config) {
     )
   })
 
-  if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
-    rendererConfig.helpCenterForm.props.showNextButton = false
-  }
-
   return rendererConfig
 }
 
@@ -66,11 +62,7 @@ function mergeEmbedConfigs(config, embeddableConfig) {
 }
 
 function addPropsToConfig(name, config, parsedConfig, reduxStore) {
-  const { newChat } = config
-  const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk']
-
-  // Only send chat to WebWidget if new chat is on. Otherwise use old one.
-  if (newChat) webWidgetEmbeds.push('zopimChat')
+  const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk', 'zopimChat']
 
   const widgetEmbedsConfig = _.pick(parsedConfig, webWidgetEmbeds)
   const webWidgetConfig = _.mapValues(widgetEmbedsConfig, 'props')
@@ -126,29 +118,20 @@ function init(config, reduxStore = dummyStore) {
       setLocaleApi(config.locale)
     }
 
-    const { newChat, embeds = {} } = config
-    const useNewChatEmbed = !!embeds.zopimChat && newChat
-    const hasSingleIframeEmbeds =
-      !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || !!embeds.talk || useNewChatEmbed
+    const { embeds = {} } = config
+    const hasSingleIframeEmbeds = Object.keys(embeds).length !== 0
     let parsedConfig = parseConfig(config)
 
     if (hasSingleIframeEmbeds) {
       parsedConfig = addPropsToConfig('webWidget', config, parsedConfig, reduxStore)
     }
 
-    const arturos = {
-      newChat: !!newChat,
-      chatPopout: !!config.chatPopout,
-      chatBadge: !!config.chatBadge
-    }
-
-    reduxStore.dispatch(updateArturos(arturos))
     renderEmbeds(parsedConfig, config, reduxStore)
 
     renderedEmbeds = parsedConfig
 
     initMediator(config, reduxStore)
-    reduxStore.dispatch(widgetInitialised(arturos))
+    reduxStore.dispatch(widgetInitialised())
 
     initialised = true
 
@@ -175,10 +158,6 @@ function initMediator(config, store) {
 
   if (embeds) {
     mediator.init(store)
-  } else if (!_.isEmpty(embeds)) {
-    errorTracker.error(new Error('Could not find correct embeds to initialise.'), {
-      params: { config: config }
-    })
   }
 }
 

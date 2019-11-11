@@ -145,7 +145,6 @@ export default function WebWidgetFactory(name) {
       fullscreenable: true,
       fullscreen: popout,
       isMobile: isMobile,
-      newChat: chatAvailable,
       store: reduxStore,
       visible: false,
       useBackButton: !popout,

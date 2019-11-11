@@ -271,9 +271,9 @@ describe('boot', () => {
         )
       })
 
-      describe('when newChat is not part of config', () => {
+      describe('when zopimChat is not part of config', () => {
         beforeAll(() => {
-          config = { newChat: false }
+          config = { embeds: { helpCenter: {} } }
         })
 
         it('does not call zopimApi setUpZopimApiMethods', () => {
@@ -281,9 +281,9 @@ describe('boot', () => {
         })
       })
 
-      describe('when newChat is part of config', () => {
+      describe('when zopimChat is part of config', () => {
         beforeAll(() => {
-          config = { newChat: true }
+          config = { embeds: { zopimChat: {} } }
         })
 
         it('calls zopimApi setUpZopimApiMethods with the win and reduxStore', () => {
@@ -321,49 +321,6 @@ describe('boot', () => {
 
           it('filters out talk from config', () => {
             expect(beaconSpy.beacon.setConfig).toHaveBeenCalledWith({
-              embeds: {
-                helpCenterForm: {
-                  embed: 'helpCenter',
-                  props: {
-                    position: 'right'
-                  }
-                }
-              }
-            })
-          })
-        })
-
-        describe('chat config is available but chat feature is not', () => {
-          beforeAll(() => {
-            document.zendesk = {
-              web_widget: {
-                // eslint-disable-line camelcase
-                features: ['help_center']
-              }
-            }
-
-            config = {
-              newChat: true,
-              embeds: {
-                helpCenterForm: {
-                  embed: 'helpCenter',
-                  props: {
-                    position: 'right'
-                  }
-                },
-                zopimChat: {
-                  embed: 'chat',
-                  props: {
-                    zopimId: 'P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA'
-                  }
-                }
-              }
-            }
-          })
-
-          it('filters out zopimChat from config', () => {
-            expect(beaconSpy.beacon.setConfig).toHaveBeenCalledWith({
-              newChat: true,
               embeds: {
                 helpCenterForm: {
                   embed: 'helpCenter',

@@ -99,12 +99,6 @@ describe('init', () => {
   it('calls and renders correct embeds from config', () => {
     renderer.init(testConfig())
 
-    expect(baseActions.updateArturos).toHaveBeenCalledWith({
-      newChat: false,
-      chatPopout: false,
-      chatBadge: false
-    })
-
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
 
     expect(baseActions.widgetInitialised).toHaveBeenCalled()
@@ -233,10 +227,9 @@ describe('init', () => {
     })
   })
 
-  describe('when the config is naked zopim', () => {
+  describe('when the config is chat standalone', () => {
     beforeEach(() => {
       const config = {
-        newChat: true,
         embeds: { zopimChat: { embed: 'chat' } }
       }
 
