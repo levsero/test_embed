@@ -27,7 +27,7 @@ module.exports = () => {
     },
     output: {
       filename: '[name].js',
-      publicPath: '/'
+      publicPath: 'http://localhost:1337/'
     },
     devServer: {
       host: '0.0.0.0',
