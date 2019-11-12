@@ -772,6 +772,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m"
       value: "Type a message here.."
   - translation:
+      key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere_v2"
+      title: "A placeholder text that is displayed in the chat box when there is no content"
+      screenshot: "https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m"
+      value: "Type a message here..."
+  - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.type_your_message"
       title: "A placeholder text that is displayed in the chat launcher badge when there is no content"
       screenshot: "https://drive.google.com/file/d/1Dea0PqY15FzEBElJCBob1-EvhnmF3apr/view?usp=sharing"
