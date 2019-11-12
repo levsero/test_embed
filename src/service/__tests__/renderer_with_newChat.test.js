@@ -29,6 +29,10 @@ test('new chat', () => {
           position: 'br',
           standalone: true
         }
+      },
+      launcher: {
+        embed: 'launcher',
+        props: {}
       }
     }
   }

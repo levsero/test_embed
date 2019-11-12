@@ -26,6 +26,10 @@ class Launcher extends Component {
     isMobile: PropTypes.bool
   }
 
+  static defaultProps = {
+    labelKey: 'help'
+  }
+
   constructor(props, context) {
     super(props, context)
 
@@ -59,7 +63,7 @@ class Launcher extends Component {
         ref={el => (this.launcher = el)}
         onClick={this.props.onClickHandler}
         updateFrameTitle={this.props.updateFrameTitle}
-        label={this.props.labelKey}
+        label={`embeddable_framework.launcher.label.${this.props.labelKey}`}
         isMobile={this.props.isMobile}
       />
     )
