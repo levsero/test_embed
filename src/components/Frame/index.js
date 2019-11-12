@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
 import PropTypes from 'prop-types'
+import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
 
 const useCombinedRefs = extraRef => {
   const targetRef = useRef(null)
@@ -69,7 +70,14 @@ const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forw
     <iframe ref={frameRef} title={title} {...props}>
       {loaded && isTargetReady && (
         <StyleSheetManager target={frame.current.contentDocument.querySelector('head')}>
-          <>{ReactDOM.createPortal(children, container.current)}</>
+          <CurrentFrameProvider
+            value={{
+              document: frame.current.contentDocument,
+              window: frame.current.contentWindow
+            }}
+          >
+            {ReactDOM.createPortal(children, container.current)}
+          </CurrentFrameProvider>
         </StyleSheetManager>
       )}
     </iframe>
@@ -83,3 +91,4 @@ Frame.propTypes = {
 }
 
 export default Frame
+export { useCurrentFrame, CurrentFrameConsumer }

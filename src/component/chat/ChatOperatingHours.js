@@ -8,7 +8,7 @@ import { i18nTimeFromMinutes } from 'utility/time'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './ChatOperatingHours.scss'
 import { FONT_SIZE } from 'src/constants/shared'
-import { getWebWidgetFrameContentWindow } from 'utility/globals'
+import { CurrentFrameConsumer } from 'components/Frame'
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
@@ -156,33 +156,37 @@ export class ChatOperatingHours extends Component {
     const selectedDepartmentSchedule = this.getSelectedDepartmentSchedule()
 
     return (
-      <div>
-        <Dropdown
-          name="department"
-          selectedItem={String(this.state.activeDepartment)}
-          onSelect={this.setActiveDepartment}
-          downshiftProps={{
-            environment: getWebWidgetFrameContentWindow()
-          }}
-        >
-          <Field>
-            <Label>
-              {i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
-            </Label>
-            <Select>{selectedDepartmentSchedule.name}</Select>
-          </Field>
-          <Menu
-            style={{ maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }}
-            popperModifiers={{
-              flip: { enabled: false },
-              preventOverflow: { escapeWithReference: true }
-            }}
-          >
-            {departments}
-          </Menu>
-        </Dropdown>
-        {this.renderSchedule(selectedDepartmentSchedule.schedule)}
-      </div>
+      <CurrentFrameConsumer>
+        {frame => (
+          <div>
+            <Dropdown
+              name="department"
+              selectedItem={String(this.state.activeDepartment)}
+              onSelect={this.setActiveDepartment}
+              downshiftProps={{
+                environment: frame.window
+              }}
+            >
+              <Field>
+                <Label>
+                  {i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
+                </Label>
+                <Select>{selectedDepartmentSchedule.name}</Select>
+              </Field>
+              <Menu
+                style={{ maxHeight: `${140 / FONT_SIZE}rem`, overflow: 'auto' }}
+                popperModifiers={{
+                  flip: { enabled: false },
+                  preventOverflow: { escapeWithReference: true }
+                }}
+              >
+                {departments}
+              </Menu>
+            </Dropdown>
+            {this.renderSchedule(selectedDepartmentSchedule.schedule)}
+          </div>
+        )}
+      </CurrentFrameConsumer>
     )
   }
 

@@ -90,12 +90,6 @@ describe('ChatOperatingHours component', () => {
     i18nTimeFromMinutes.calls.reset()
 
     initMockRegistry({
-      'utility/globals': {
-        getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
-          'getWebWidgetFrameContentDocumentBody'
-        ),
-        getWebWidgetFrameContentWindow: jasmine.createSpy('getWebWidgetFrameContentWindow')
-      },
       './ChatOperatingHours.scss': {
         locals: {
           container: 'containerClass',
@@ -124,6 +118,12 @@ describe('ChatOperatingHours component', () => {
       'utility/time': { i18nTimeFromMinutes },
       'src/constants/shared': {
         FONT_SIZE: 14
+      },
+      'components/Frame': {
+        CurrentFrameConsumer: noopReactRenderPropComponent({
+          document: 'document',
+          window: 'window'
+        })
       }
     })
 
@@ -308,7 +308,7 @@ describe('ChatOperatingHours component', () => {
         spyOn(component, 'renderSchedule')
 
         result = component.renderDepartmentSchedule()
-        dropdown = result.props.children[0]
+        dropdown = result.props.children({}).props.children[0]
       })
 
       it('renders a Dropdown component', () => {

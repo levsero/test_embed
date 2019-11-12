@@ -18,7 +18,6 @@ import {
   updateEndChatModalVisibility,
   updateMenuVisibility
 } from 'src/redux/modules/chat'
-import { getWebWidgetFrameContentWindow } from 'utility/globals'
 
 import { isMobileBrowser } from 'utility/devices'
 import useTranslation from 'src/hooks/useTranslation'
@@ -32,6 +31,7 @@ import { SoundOffIcon, SoundOnIcon, Menu, MENU_PADDING } from './styles'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
+import { useCurrentFrame } from 'components/Frame'
 
 const ChatMenu = ({
   isOpen,
@@ -54,6 +54,7 @@ const ChatMenu = ({
   const soundLabel = useTranslation('embeddable_framework.chat.options.sound')
   const tooltipLabel = useTranslation('embeddable_framework.chat.icon.menu.hover.label')
   const goBackLabel = useTranslation('embeddable_framework.common.button.goBack')
+  const frame = useCurrentFrame()
 
   const actions = {
     sound: () => handleSoundIconClick({ sound: !soundEnabled }),
@@ -111,7 +112,7 @@ const ChatMenu = ({
             highlightedIndex={highlightedIndex}
             onStateChange={onStateChange}
             downshiftProps={{
-              environment: getWebWidgetFrameContentWindow()
+              environment: frame.window
             }}
           >
             <Trigger>

@@ -6,9 +6,11 @@ import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 
 import { Item, Menu } from './styles'
-import { getWebWidgetFrameContentWindow } from 'utility/globals'
+import { useCurrentFrame } from 'components/Frame'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {
+  const frame = useCurrentFrame()
+
   return (
     <Dropdown
       isOpen={isOpen}
@@ -20,7 +22,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
         onToggleOpen(isOpen)
       }}
       downshiftProps={{
-        environment: getWebWidgetFrameContentWindow()
+        environment: frame.window
       }}
     >
       <Field>

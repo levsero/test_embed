@@ -2,15 +2,17 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useFocusJail } from '@zendeskgarden/container-focusjail'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { focusLauncher, getWebWidgetFrameContentDocument } from 'utility/globals'
+import { focusLauncher } from 'utility/globals'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 import { connect } from 'react-redux'
+import { useCurrentFrame } from 'components/Frame'
 
 const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
   const containerRef = useRef()
+  const frame = useCurrentFrame()
   const { getContainerProps } = useFocusJail({
     focusOnMount: false,
-    environment: getWebWidgetFrameContentDocument(),
+    environment: frame.document,
     containerRef
   })
 
