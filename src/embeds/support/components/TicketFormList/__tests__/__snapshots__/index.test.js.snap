@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TicketFormList when there are no forms does not render 1`] = `<div />`;
