@@ -36,7 +36,8 @@ module.exports = () => {
       disableHostCheck: true,
       headers: {
         'Cache-Control': 'no-cache, no-store',
-        'Content-Security-Policy': CSP_HEADER
+        'Content-Security-Policy': CSP_HEADER,
+        'Access-Control-Allow-Origin': '*'
       }
     },
     resolve: {
