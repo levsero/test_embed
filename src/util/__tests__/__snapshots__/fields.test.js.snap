@@ -37,91 +37,96 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 2`] = `
 <div>
   <div
-    aria-expanded="false"
-    aria-haspopup="listbox"
-    aria-labelledby="downshift-0-label"
-    class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
-    data-garden-id="dropdowns.field"
-    data-garden-version="7.0.2"
-    role="combobox"
-  >
-    <label
-      class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
-      data-garden-id="dropdowns.label"
-      data-garden-version="7.0.2"
-      for="downshift-0-input"
-      id="downshift-0-label"
-    >
-      <strong>
-        Nested Drop Down
-      </strong>
-    </label>
-    <div
-      aria-haspopup="true"
-      aria-invalid="false"
-      class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
-      data-garden-id="dropdowns.select"
-      data-garden-version="7.0.2"
-      data-toggle="true"
-      role="button"
-      tabindex="0"
-      type="button"
-    >
-      -
-      <input
-        aria-autocomplete="list"
-        aria-labelledby="downshift-0-label"
-        autocomplete="off"
-        class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
-        id="downshift-0-input"
-        readonly=""
-        tabindex="-1"
-        value=""
-      />
-    </div>
-  </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+    role="presentation"
+    tabindex="-1"
   >
     <div
-      class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-labelledby="downshift-0-label"
+      class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+      data-garden-id="dropdowns.field"
+      data-garden-version="7.0.2"
+      role="combobox"
     >
-      <ul
-        aria-labelledby="downshift-0-label"
-        class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
-        data-garden-id="dropdowns.menu"
+      <label
+        class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+        data-garden-id="dropdowns.label"
         data-garden-version="7.0.2"
-        id="downshift-0-menu"
-        role="listbox"
-        style="width: 0px;"
+        for="downshift-0-input"
+        id="downshift-0-label"
       >
-        <div
-          class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
+        <strong>
+          Nested Drop Down
+        </strong>
+      </label>
+      <div
+        aria-haspopup="true"
+        aria-invalid="false"
+        class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+        data-garden-id="dropdowns.select"
+        data-garden-version="7.0.2"
+        data-toggle="true"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        -
+        <input
+          aria-autocomplete="list"
+          aria-labelledby="downshift-0-label"
+          autocomplete="off"
+          class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+          id="downshift-0-input"
+          readonly=""
+          tabindex="-1"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+    >
+      <div
+        class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+      >
+        <ul
+          aria-labelledby="downshift-0-label"
+          class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+          data-garden-id="dropdowns.menu"
+          data-garden-version="7.0.2"
+          id="downshift-0-menu"
+          role="listbox"
+          style="width: 0px;"
         >
-          <li
-            aria-expanded="true"
-            aria-selected="false"
-            class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
-            data-garden-id="dropdowns.next_item"
-            data-garden-version="7.0.2"
-            id="downshift-0-item-0"
-            role="option"
+          <div
+            class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
           >
-            Option1
-          </li>
-          <li
-            aria-expanded="true"
-            aria-selected="false"
-            class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
-            data-garden-id="dropdowns.next_item"
-            data-garden-version="7.0.2"
-            id="downshift-0-item-1"
-            role="option"
-          >
-            Option2
-          </li>
-        </div>
-      </ul>
+            <li
+              aria-expanded="true"
+              aria-selected="false"
+              class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
+              data-garden-id="dropdowns.next_item"
+              data-garden-version="7.0.2"
+              id="downshift-0-item-0"
+              role="option"
+            >
+              Option1
+            </li>
+            <li
+              aria-expanded="true"
+              aria-selected="false"
+              class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
+              data-garden-id="dropdowns.next_item"
+              data-garden-version="7.0.2"
+              id="downshift-0-item-1"
+              role="option"
+            >
+              Option2
+            </li>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
   <input
@@ -135,89 +140,94 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 3`] = `
 <div>
   <div
-    aria-expanded="false"
-    aria-haspopup="listbox"
-    aria-labelledby="downshift-1-label"
-    class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
-    data-garden-id="dropdowns.field"
-    data-garden-version="7.0.2"
-    role="combobox"
-  >
-    <label
-      class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
-      data-garden-id="dropdowns.label"
-      data-garden-version="7.0.2"
-      for="downshift-1-input"
-      id="downshift-1-label"
-    >
-      <strong>
-        Department
-      </strong>
-    </label>
-    <div
-      aria-haspopup="true"
-      aria-invalid="false"
-      class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
-      data-garden-id="dropdowns.select"
-      data-garden-version="7.0.2"
-      data-toggle="true"
-      role="button"
-      tabindex="0"
-      type="button"
-    >
-      -
-      <input
-        aria-autocomplete="list"
-        aria-labelledby="downshift-1-label"
-        autocomplete="off"
-        class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
-        id="downshift-1-input"
-        readonly=""
-        tabindex="-1"
-        value=""
-      />
-    </div>
-  </div>
-  <div
-    style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+    role="presentation"
+    tabindex="-1"
   >
     <div
-      class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-labelledby="downshift-1-label"
+      class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+      data-garden-id="dropdowns.field"
+      data-garden-version="7.0.2"
+      role="combobox"
     >
-      <ul
-        aria-labelledby="downshift-1-label"
-        class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
-        data-garden-id="dropdowns.menu"
+      <label
+        class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+        data-garden-id="dropdowns.label"
         data-garden-version="7.0.2"
-        id="downshift-1-menu"
-        role="listbox"
-        style="width: 0px;"
+        for="downshift-1-input"
+        id="downshift-1-label"
       >
-        <div
-          class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
+        <strong>
+          Department
+        </strong>
+      </label>
+      <div
+        aria-haspopup="true"
+        aria-invalid="false"
+        class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+        data-garden-id="dropdowns.select"
+        data-garden-version="7.0.2"
+        data-toggle="true"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        -
+        <input
+          aria-autocomplete="list"
+          aria-labelledby="downshift-1-label"
+          autocomplete="off"
+          class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+          id="downshift-1-input"
+          readonly=""
+          tabindex="-1"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
+    >
+      <div
+        class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+      >
+        <ul
+          aria-labelledby="downshift-1-label"
+          class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+          data-garden-id="dropdowns.menu"
+          data-garden-version="7.0.2"
+          id="downshift-1-menu"
+          role="listbox"
+          style="width: 0px;"
         >
-          <li
-            aria-selected="false"
-            class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-            data-garden-id="dropdowns.item"
-            data-garden-version="7.0.2"
-            id="downshift-1-item-0"
-            role="option"
+          <div
+            class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
           >
-            Sales
-          </li>
-          <li
-            aria-selected="false"
-            class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
-            data-garden-id="dropdowns.item"
-            data-garden-version="7.0.2"
-            id="downshift-1-item-1"
-            role="option"
-          >
-            Support
-          </li>
-        </div>
-      </ul>
+            <li
+              aria-selected="false"
+              class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+              data-garden-id="dropdowns.item"
+              data-garden-version="7.0.2"
+              id="downshift-1-item-0"
+              role="option"
+            >
+              Sales
+            </li>
+            <li
+              aria-selected="false"
+              class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+              data-garden-id="dropdowns.item"
+              data-garden-version="7.0.2"
+              id="downshift-1-item-1"
+              role="option"
+            >
+              Support
+            </li>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
   <input

@@ -89,83 +89,93 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
   const emptyId = Symbol()
 
   return (
-    <GardenDropdown
-      selectedItem={value}
-      isOpen={isOpen}
-      downshiftProps={{
-        environment: getWebWidgetFrameContentWindow()
+    <div
+      role="presentation"
+      onKeyDown={e => {
+        if (e.key === 'Escape' && isOpen) {
+          e.stopPropagation()
+        }
       }}
-      onStateChange={state => {
-        if (state.selectedItem !== undefined) {
-          // When the empty option is clicked
-          if (state.selectedItem === emptyId) {
-            onChange('')
+      tabIndex="-1"
+    >
+      <GardenDropdown
+        selectedItem={value}
+        isOpen={isOpen}
+        downshiftProps={{
+          environment: getWebWidgetFrameContentWindow()
+        }}
+        onStateChange={state => {
+          if (state.selectedItem) {
+            // When the empty option is clicked
+            if (state.selectedItem === emptyId) {
+              onChange('')
+              setIsOpen(false)
+              return
+            }
+
+            const item = getItem(state.selectedItem)
+
+            // When an option with children is clicked, open the nested view
+            if (item.children.length > 0) {
+              open(item)
+              return
+            }
+
+            // When an "end node" option is clicked
+            onChange(item.value)
             setIsOpen(false)
             return
           }
 
-          const item = getItem(state.selectedItem)
-
-          // When an option with children is clicked, open the nested view
-          if (item.children.length > 0) {
-            open(item)
-            return
+          if (state.isOpen !== undefined) {
+            setIsOpen(state.isOpen)
           }
+        }}
+      >
+        <Field>
+          {field.title_in_portal && (
+            <ContactFormLabel
+              value={field.title_in_portal}
+              as={Label}
+              required={field.required_in_portal}
+            />
+          )}
 
-          // When an "end node" option is clicked
-          onChange(item.value)
-          setIsOpen(false)
-          return
-        }
+          {field.description && <Hint>{field.description}</Hint>}
 
-        if (state.isOpen !== undefined) {
-          setIsOpen(state.isOpen)
-        }
-      }}
-    >
-      <Field>
-        {field.title_in_portal && (
-          <ContactFormLabel
-            value={field.title_in_portal}
-            as={Label}
-            required={field.required_in_portal}
-          />
-        )}
+          {errorMessage && <Message validation="error">{errorMessage}</Message>}
 
-        {field.description && <Hint>{field.description}</Hint>}
+          <Select>{current}</Select>
+        </Field>
+        <Menu>
+          {view.parent && <PreviousItem value={view.parent}>{view.name}</PreviousItem>}
 
-        {errorMessage && <Message validation="error">{errorMessage}</Message>}
+          {Boolean(isRoot() && !field.required_in_portal) && <Item value={emptyId}>-</Item>}
 
-        <Select>{current}</Select>
-      </Field>
-      <Menu>
-        {view.parent && <PreviousItem value={view.parent}>{view.name}</PreviousItem>}
+          {view.children.map(itemId => {
+            const item = getItem(itemId)
 
-        {Boolean(isRoot() && !field.required_in_portal) && <Item value={emptyId}>-</Item>}
+            if (!item) {
+              return null
+            }
 
-        {view.children.map(itemId => {
-          const item = getItem(itemId)
+            if (item.children.length > 0) {
+              return (
+                <NextItem value={itemId} key={itemId.toString()}>
+                  {item.name}
+                </NextItem>
+              )
+            }
 
-          if (!item) {
-            return null
-          }
-
-          if (item.children.length > 0) {
             return (
-              <NextItem value={itemId} key={itemId.toString()}>
+              <Item value={itemId} key={itemId.toString()}>
                 {item.name}
-              </NextItem>
+              </Item>
             )
-          }
-
-          return (
-            <Item value={itemId} key={itemId.toString()}>
-              {item.name}
-            </Item>
-          )
-        })}
-      </Menu>
-    </GardenDropdown>
+          })}
+        </Menu>
+      </GardenDropdown>
+    </div>
   )
 }
 
