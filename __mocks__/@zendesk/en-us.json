@@ -191,7 +191,7 @@
       "embeddable_framework.chat.form.emailTranscript.title": "Email chat transcript",
       "embeddable_framework.chat.popup.button.dismiss": "Dismiss",
       "embeddable_framework.chat.popup.button.reply": "Reply",
-      "embeddable_framework.chat.chatBox.placeholder.typeMessageHere": "Type a message here..",
+      "embeddable_framework.chat.chatBox.placeholder.typeMessageHere_v2": "Type a message here...",
       "embeddable_framework.chat.chatBox.placeholder.type_your_message": "Type your message here",
       "embeddable_framework.chat.agentList.button.backToChat": "Back to chat",
       "embeddable_framework.chat.attachments.error.not_supported": "Upload failed. File sending is not supported on this browser.",
