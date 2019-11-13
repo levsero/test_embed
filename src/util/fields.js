@@ -3,30 +3,8 @@ import _ from 'lodash'
 import sanitizeHtml from 'sanitize-html'
 
 import { i18n } from 'service/i18n'
-import { isMobileBrowser, isLandscape } from 'utility/devices'
-import { Label } from '@zendeskgarden/react-forms'
-import { Label as DropdownLabel } from '@zendeskgarden/react-dropdowns'
-import { Checkbox, Text, TextArea } from 'src/component/field'
-import NestedDropdown from 'src/components/NestedDropdown'
-import { SlideAppear } from 'component/transition/SlideAppear'
 
-const TICKET_FIELD_TRANSITION_DURATION = 150
-
-const getDefaultFieldValues = (elementType, existingValue) => {
-  switch (elementType) {
-    case 'text':
-    case 'subject':
-    case 'integer':
-    case 'decimal':
-    case 'textarea':
-    case 'description':
-      return { value: existingValue || '' }
-    case 'checkbox':
-      return { checked: existingValue || 0 }
-    default:
-      return { value: existingValue }
-  }
-}
+import FormField from 'src/embeds/support/components/FormField'
 
 const setupConditionCheck = (customFields, formState) => {
   return (fieldId, value) => {
@@ -40,6 +18,50 @@ const setupConditionCheck = (customFields, formState) => {
     }
 
     return value === formState[fieldId]
+  }
+}
+
+const getFieldValues = field => {
+  switch (field.type) {
+    case 'text':
+    case 'subject':
+      return {
+        field: {
+          ...field,
+          type: 'text'
+        },
+        errorMessage: i18n.t('embeddable_framework.validation.error.input')
+      }
+    case 'tagger':
+      return {
+        field: {
+          ...field,
+          type: 'legacyDropdown'
+        },
+        errorMessage: i18n.t('embeddable_framework.validation.error.input')
+      }
+    case 'integer':
+    case 'decimal':
+      return {
+        field,
+        errorMessage: i18n.t('embeddable_framework.validation.error.number')
+      }
+    case 'textarea':
+    case 'description':
+      return {
+        field: {
+          ...field,
+          type: 'textarea'
+        },
+        errorMessage: i18n.t('embeddable_framework.validation.error.input')
+      }
+    case 'checkbox':
+      return {
+        field,
+        errorMessage: i18n.t('embeddable_framework.validation.error.checkbox')
+      }
+    default:
+      return {}
   }
 }
 
@@ -86,139 +108,55 @@ const getCustomFields = (customFields, formState, options, conditions = {}) => {
 }
 
 const getFields = (customFields, formState, options) => {
-  const renderField = sharedProps => {
-    const props = {
-      ...sharedProps,
-      Component: Label
-    }
-
-    return <Text key={sharedProps.key} {...props} inputProps={props} />
-  }
-
-  const isCheckbox = field => {
-    return _.get(field, 'props.children.type') === Checkbox
-  }
-
   const mapFields = field => {
-    const title = field.title_in_portal || ''
-    const sharedProps = {
-      ...options,
-      description: field.description,
-      fullscreen: isMobileBrowser(),
-      key: title,
-      landscape: isLandscape(),
-      name: _.toString(field.id),
-      label: title,
-      errorString: i18n.t('embeddable_framework.validation.error.input'),
-      required: !!field.required_in_portal,
-      'aria-required': !!field.required_in_portal,
-      ...getDefaultFieldValues(field.type, formState[field.id])
-    }
-
-    const { visible_in_portal: visible, editable_in_portal: editable } = field // eslint-disable-line camelcase
-
-    const showError = shouldRenderErrorMessage(
-      formState[sharedProps.name],
-      sharedProps.required,
-      sharedProps.showErrors
-    )
-
     // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
     // While the ticket_forms/show_many.json endpoint will always have them present even for invalid ones. This means
     // we must check if either are undefined or if both are true.
-    const shouldShow = _.isUndefined(editable) || _.isUndefined(visible) || (editable && visible),
-      duration = TICKET_FIELD_TRANSITION_DURATION
-
-    sharedProps.showError = showError
-
-    switch (field.type) {
-      case 'text':
-      case 'subject':
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            {renderField(sharedProps)}
-          </SlideAppear>
-        )
-
-      case 'tagger':
-        const defaultOption = _.find(field.custom_field_options, option => option.default)
-        const dropdownProps = {
-          ...sharedProps,
-          options: field.custom_field_options,
-          defaultOption,
-          label: renderLabel(DropdownLabel, sharedProps.label, sharedProps.required),
-          formState
-        }
-
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            <NestedDropdown {...dropdownProps} />
-          </SlideAppear>
-        )
-
-      case 'integer':
-        const integerFieldProps = {
-          ...sharedProps,
-          pattern: /\d+/,
-          type: 'number',
-          errorString: i18n.t('embeddable_framework.validation.error.number')
-        }
-
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            {renderField(integerFieldProps)}
-          </SlideAppear>
-        )
-
-      case 'decimal':
-        const decimalFieldProps = {
-          ...sharedProps,
-          pattern: /\d*([.,]\d+)?/,
-          type: 'number',
-          step: 'any',
-          errorString: i18n.t('embeddable_framework.validation.error.number')
-        }
-
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            {renderField(decimalFieldProps)}
-          </SlideAppear>
-        )
-
-      case 'textarea':
-      case 'description':
-        const textAreaProps = {
-          ...sharedProps
-        }
-
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            <TextArea {...textAreaProps} textareaProps={textAreaProps} />
-          </SlideAppear>
-        )
-
-      case 'checkbox':
-        return (
-          <SlideAppear key={field.id} duration={duration} trigger={shouldShow}>
-            <Checkbox
-              key={sharedProps.key}
-              errorString={i18n.t('embeddable_framework.validation.error.checkbox')}
-              showError={showError}
-              description={field.description}
-              label={getStyledLabelText(title, sharedProps.required)}
-              checkboxProps={sharedProps}
-            />
-          </SlideAppear>
-        )
+    const shouldShow =
+      _.isUndefined(field.editable_in_portal) ||
+      _.isUndefined(field.visible_in_portal) ||
+      (field.editable_in_portal && field.visible_in_portal)
+    if (!shouldShow) {
+      return null
     }
+
+    const showError = shouldRenderErrorMessage(
+      formState[field.id],
+      field.required_in_portal,
+      options.showErrors
+    )
+
+    const { field: updatedField, errorMessage } = getFieldValues(field)
+
+    if (!updatedField) {
+      return null
+    }
+
+    return (
+      <FormField
+        key={field.id}
+        field={updatedField}
+        errorMessage={showError ? errorMessage : null}
+        value={formState[field.id]}
+        onChange={() => {
+          options.onChange()
+        }}
+      />
+    )
   }
 
-  const fields = _.compact(_.map(customFields, mapFields))
+  const allFields = _.compact(_.map(customFields, mapFields))
+  const withoutCheckboxes = _.compact(
+    customFields.filter(field => field.type !== 'checkbox').map(mapFields)
+  )
+  const checkboxes = _.compact(
+    customFields.filter(field => field.type === 'checkbox').map(mapFields)
+  )
 
   return {
-    fields: _.reject(fields, isCheckbox),
-    checkboxes: _.filter(fields, isCheckbox),
-    allFields: fields
+    fields: withoutCheckboxes,
+    checkboxes: checkboxes,
+    allFields
   }
 }
 
@@ -249,11 +187,4 @@ const renderLabel = (Component, label, required) => {
   return <Component dangerouslySetInnerHTML={{ __html: labelText }} />
 }
 
-export {
-  getCustomFields,
-  shouldRenderErrorMessage,
-  renderLabel,
-  getStyledLabelText,
-  // Exported for testing
-  getDefaultFieldValues
-}
+export { getCustomFields, shouldRenderErrorMessage, renderLabel, getStyledLabelText }
