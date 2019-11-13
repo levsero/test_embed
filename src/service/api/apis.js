@@ -118,15 +118,12 @@ export const updateSettingsApi = (reduxStore, newSettings) => {
 export const logoutApi = reduxStore => {
   reduxStore.dispatch(logout())
   reduxStore.dispatch(closeReceived())
-  mediator.channel.broadcast('.logout')
   reduxStore.dispatch(chatLogout())
   reduxStore.dispatch(apiResetWidget())
 }
 
 export const setHelpCenterSuggestionsApi = (reduxStore, options) => {
-  const onDone = () => mediator.channel.broadcast('.setHelpCenterSuggestions')
-
-  reduxStore.dispatch(setContextualSuggestionsManually(options, onDone))
+  reduxStore.dispatch(setContextualSuggestionsManually(options))
 }
 
 export const prefill = (reduxStore, payload) => {

@@ -34,7 +34,6 @@ function onAuthRequestSuccess(res, id, dispatch, webToken) {
     createdAt: res.body.oauth_created_at,
     webToken: webToken
   })
-  mediator.channel.broadcast('authentication.onSuccess')
   dispatch({
     type: actions.AUTHENTICATION_SUCCESS
   })
@@ -73,7 +72,6 @@ export const authenticate = webToken => {
 
       http.send(payload)
     } else {
-      mediator.channel.broadcast('authentication.onSuccess')
       dispatch({
         type: actions.AUTHENTICATION_SUCCESS
       })

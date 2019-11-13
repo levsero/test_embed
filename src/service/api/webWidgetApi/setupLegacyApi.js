@@ -1,6 +1,5 @@
 import _ from 'lodash'
 
-import { mediator } from 'service/mediator'
 import { renderer } from 'service/renderer'
 import { activateReceived, legacyShowReceived } from 'src/redux/modules/base'
 import { displayArticle } from 'embeds/helpCenter/actions'
@@ -54,7 +53,6 @@ export function legacyApiSetup(win, reduxStore) {
   win.zE.logout = () => logoutApi(reduxStore)
   win.zE.setHelpCenterSuggestions = options => setHelpCenterSuggestionsApi(reduxStore, options)
   win.zE.activate = options => {
-    mediator.channel.broadcast('.activate', options)
     reduxStore.dispatch(activateReceived(options))
   }
   win.zE.activateIpm = () => {} // no-op until rest of connect code is removed

@@ -574,10 +574,6 @@ describe('base redux actions', () => {
         mockOAuth = null
       })
 
-      it('broadcasts authentication.onSuccess', () => {
-        expect(broadcastSpy).toHaveBeenCalledWith('authentication.onSuccess')
-      })
-
       it('dispatchs AUTHENTICATION_SUCCESS action', () => {
         expect(actionsList[1].type).toEqual(actionTypes.AUTHENTICATION_SUCCESS)
       })
@@ -662,10 +658,6 @@ describe('base redux actions', () => {
             createdAt: 'createdAt',
             webToken: jwt
           })
-        })
-
-        it('broadcasts authentication.onSuccess', () => {
-          expect(broadcastSpy).toHaveBeenCalledWith('authentication.onSuccess')
         })
 
         it('dispatchs AUTHENTICATION_SUCCESS action', () => {
