@@ -65,12 +65,10 @@ const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forw
     return () => currentFrame.contentDocument.body.removeChild(currentContainer)
   }, [frame, rootElement, loaded])
 
-  const frameTarget = frame.current && frame.current.contentDocument.querySelector('head')
-
   return (
     <iframe ref={frameRef} title={title} {...props}>
       {loaded && isTargetReady && (
-        <StyleSheetManager target={frameTarget}>
+        <StyleSheetManager target={frame.current.contentDocument.querySelector('head')}>
           <>{ReactDOM.createPortal(children, container.current)}</>
         </StyleSheetManager>
       )}
