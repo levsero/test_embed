@@ -358,45 +358,49 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            data-testid="checkbox-field"
           >
             <div
-              class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              <input
-                aria-labelledby="garden-field-container-148--label"
-                class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                data-garden-container-id="keyboardfocus"
-                data-garden-container-version="0.2.6"
-                data-garden-id="forms.checkbox"
-                data-garden-version="7.0.2"
-                id="garden-field-container-148--input"
-                name="11"
-                required=""
-                tabindex="0"
-                type="checkbox"
-              />
-              <label
-                class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                data-garden-container-id="field"
-                data-garden-container-version="1.1.3"
-                data-garden-id="forms.checkbox_label"
-                data-garden-version="7.0.2"
-                for="garden-field-container-148--input"
-                id="garden-field-container-148--label"
+              <div
+                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
               >
-                <strong>
-                  Favorite Checkbox
-                </strong>
-              </label>
-            </div>
-            <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
-              data-garden-id="forms.text_message"
-              data-garden-version="7.0.2"
-              role="alert"
-            >
-              Please check this box to proceed.
+                <input
+                  aria-labelledby="garden-field-container-148--label"
+                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  data-garden-container-id="keyboardfocus"
+                  data-garden-container-version="0.2.6"
+                  data-garden-id="forms.checkbox"
+                  data-garden-version="7.0.2"
+                  id="garden-field-container-148--input"
+                  name="11"
+                  required=""
+                  tabindex="0"
+                  type="checkbox"
+                />
+                <label
+                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  data-garden-container-id="field"
+                  data-garden-container-version="1.1.3"
+                  data-garden-id="forms.checkbox_label"
+                  data-garden-version="7.0.2"
+                  for="garden-field-container-148--input"
+                  id="garden-field-container-148--label"
+                >
+                  <strong>
+                    Favorite Checkbox
+                  </strong>
+                </label>
+              </div>
+              <div
+                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                data-garden-id="forms.text_message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please check this box to proceed.
+              </div>
             </div>
           </div>
           <div
@@ -437,6 +441,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
+                data-testid="dropdown-field"
                 data-toggle="true"
                 role="button"
                 tabindex="0"
@@ -466,6 +471,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
                   data-garden-id="dropdowns.menu"
                   data-garden-version="7.0.2"
+                  data-testid="dropdown-options"
                   id="downshift-2-menu"
                   role="listbox"
                   style="width: 0px;"
@@ -478,6 +484,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                       class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
+                      data-testid="dropdown-option"
                       id="downshift-2-item-0"
                       role="option"
                     >
@@ -488,6 +495,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                       class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
+                      data-testid="dropdown-option"
                       id="downshift-2-item-1"
                       role="option"
                     >
@@ -498,6 +506,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                       class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
+                      data-testid="dropdown-option"
                       id="downshift-2-item-2"
                       role="option"
                     >
@@ -509,6 +518,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <input
+            data-testid="dropdown-selected-value"
             name="12"
             type="hidden"
             value=""
@@ -1073,44 +1083,48 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            data-testid="checkbox-field"
           >
             <div
-              class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
             >
-              <input
-                aria-labelledby="garden-field-container-46--label"
-                class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
-                data-garden-container-id="keyboardfocus"
-                data-garden-container-version="0.2.6"
-                data-garden-id="forms.checkbox"
-                data-garden-version="7.0.2"
-                id="garden-field-container-46--input"
-                name="11"
-                required=""
-                tabindex="0"
-                type="checkbox"
-              />
-              <label
-                class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
-                data-garden-container-id="field"
-                data-garden-container-version="1.1.3"
-                data-garden-id="forms.checkbox_label"
-                data-garden-version="7.0.2"
-                for="garden-field-container-46--input"
-                id="garden-field-container-46--label"
-              >
-                <strong>
-                  Favorite Checkbox
-                </strong>
-              </label>
               <div
-                class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
-                data-garden-id="forms.checkbox_hint"
-                data-garden-version="7.0.2"
-                id="garden-field-container-46--hint"
+                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
               >
-                this is the description
+                <input
+                  aria-labelledby="garden-field-container-46--label"
+                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  data-garden-container-id="keyboardfocus"
+                  data-garden-container-version="0.2.6"
+                  data-garden-id="forms.checkbox"
+                  data-garden-version="7.0.2"
+                  id="garden-field-container-46--input"
+                  name="11"
+                  required=""
+                  tabindex="0"
+                  type="checkbox"
+                />
+                <label
+                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  data-garden-container-id="field"
+                  data-garden-container-version="1.1.3"
+                  data-garden-id="forms.checkbox_label"
+                  data-garden-version="7.0.2"
+                  for="garden-field-container-46--input"
+                  id="garden-field-container-46--label"
+                >
+                  <strong>
+                    Favorite Checkbox
+                  </strong>
+                </label>
+                <div
+                  class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+                  data-garden-id="forms.checkbox_hint"
+                  data-garden-version="7.0.2"
+                  id="garden-field-container-46--hint"
+                >
+                  this is the description
+                </div>
               </div>
             </div>
           </div>
@@ -1151,6 +1165,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
+                data-testid="dropdown-field"
                 data-toggle="true"
                 role="button"
                 tabindex="0"
@@ -1180,6 +1195,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
                   data-garden-id="dropdowns.menu"
                   data-garden-version="7.0.2"
+                  data-testid="dropdown-options"
                   id="downshift-0-menu"
                   role="listbox"
                   style="width: 0px;"
@@ -1192,6 +1208,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                       class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
+                      data-testid="dropdown-option"
                       id="downshift-0-item-0"
                       role="option"
                     >
@@ -1202,6 +1219,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                       class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 index__is-checked___34Qxa dSbjOw"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
+                      data-testid="dropdown-option"
                       id="downshift-0-item-1"
                       role="option"
                     >
@@ -1213,6 +1231,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             </div>
           </div>
           <input
+            data-testid="dropdown-selected-value"
             name="12"
             type="hidden"
             value="2"

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Dropdown from 'embeds/support/components/FormField/Dropdown/index'
+import { TEST_IDS } from 'constants/shared'
 
 // All field components for FormField expect to be controlled (i.e. be provided value and onChange) props.
 // This is the case for all fields, except for the current Dropdown in SubmitTicket. This is because the SubmitTicket
@@ -28,7 +29,12 @@ const LegacyDropdown = ({ field, value, errorMessage, onChange }) => {
         }}
         errorMessage={errorMessage}
       />
-      <input type="hidden" name={field.id} value={selectedItem} />
+      <input
+        type="hidden"
+        name={field.id}
+        value={selectedItem}
+        data-testid={TEST_IDS.DROPDOWN_SELECTED_VALUE}
+      />
     </>
   )
 }

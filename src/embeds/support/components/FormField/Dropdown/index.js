@@ -14,6 +14,7 @@ import {
 } from '@zendeskgarden/react-dropdowns'
 import ContactFormLabel from 'embeds/support/components/FormField/ContactFormLabel'
 import { useCurrentFrame } from 'components/Frame'
+import { TEST_IDS } from 'constants/shared'
 
 const useDropdownTree = (items = []) => {
   const [root, tree, rootId] = useMemo(() => {
@@ -146,9 +147,9 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
 
           {errorMessage && <Message validation="error">{errorMessage}</Message>}
 
-          <Select>{current}</Select>
+          <Select data-testid={TEST_IDS.DROPDOWN_FIELD}>{current}</Select>
         </Field>
-        <Menu>
+        <Menu data-testid={TEST_IDS.DROPDOWN_OPTIONS}>
           {view.parent && <PreviousItem value={view.parent}>{view.name}</PreviousItem>}
 
           {Boolean(isRoot() && !field.required_in_portal) && <Item value={emptyId}>-</Item>}
@@ -169,7 +170,7 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
             }
 
             return (
-              <Item value={itemId} key={itemId.toString()}>
+              <Item value={itemId} key={itemId.toString()} data-testid={TEST_IDS.DROPDOWN_OPTION}>
                 {item.name}
               </Item>
             )
