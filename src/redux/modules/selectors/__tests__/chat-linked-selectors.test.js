@@ -320,8 +320,8 @@ describe('getEnabledDepartments', () => {
 })
 
 describe('getDefaultSelectedDepartment', () => {
-  describe('when the selected default department is not enabled', () => {
-    it('returns the department', () => {
+  describe('when the settings default is null', () => {
+    it('returns the default account department', () => {
       const result = selectors.getDefaultSelectedDepartment(
         getModifiedState({ chat: { defaultDepartment: { id: 333 } } })
       )
@@ -330,41 +330,48 @@ describe('getDefaultSelectedDepartment', () => {
     })
   })
 
-  it('in accountSettings, return that department if settings is not set', () => {
-    const result = selectors.getDefaultSelectedDepartment(
-      getModifiedState({
-        chat: { defaultDepartment: { id: 111 } }
-      })
-    )
+  describe('when the settings default is an empty string', () => {
+    it('returns an empty object', () => {
+      const result = selectors.getDefaultSelectedDepartment(
+        getModifiedState({
+          chat: { defaultDepartment: { id: 333 } },
+          settings: { chat: { departments: { select: '' } } }
+        })
+      )
 
-    expect(result).toEqual({ id: 111, name: 'burgers' })
-  })
-
-  it('ID in settings, override the chat dept', () => {
-    const result = selectors.getDefaultSelectedDepartment(
-      getModifiedState({
-        settings: { chat: { departments: { select: 111 } } },
-        chat: { defaultDepartment: { id: 222 } }
-      })
-    )
-
-    expect(result).toEqual({
-      id: 111,
-      name: 'burgers'
+      expect(result).toEqual({})
     })
   })
 
-  it('name in settings, return that department', () => {
-    const result = selectors.getDefaultSelectedDepartment(
-      getModifiedState({
-        settings: { chat: { departments: { select: 'burgers' } } },
-        chat: { defaultDepartment: { id: 222 } }
-      })
-    )
+  describe('when the settings default is a valid ID', () => {
+    it('return the settings default department', () => {
+      const result = selectors.getDefaultSelectedDepartment(
+        getModifiedState({
+          settings: { chat: { departments: { select: 111 } } },
+          chat: { defaultDepartment: { id: 222 } }
+        })
+      )
 
-    expect(result).toEqual({
-      id: 111,
-      name: 'burgers'
+      expect(result).toEqual({
+        id: 111,
+        name: 'burgers'
+      })
+    })
+  })
+
+  describe('when the settings default is a valid name', () => {
+    it('return the settings default department', () => {
+      const result = selectors.getDefaultSelectedDepartment(
+        getModifiedState({
+          settings: { chat: { departments: { select: 'burgers' } } },
+          chat: { defaultDepartment: { id: 222 } }
+        })
+      )
+
+      expect(result).toEqual({
+        id: 111,
+        name: 'burgers'
+      })
     })
   })
 })

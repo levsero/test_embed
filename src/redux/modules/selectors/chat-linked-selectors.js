@@ -28,7 +28,7 @@ import {
   getSettingsChatOfflineForm,
   getSettingsChatPrechatForm,
   getSettingsChatDepartmentsEnabled,
-  getSettingsChatDepartment,
+  getRawSettingsChatDepartment,
   getSettingsNavigationPopoutButtonEnabled,
   getSettingsChatConnectOnDemand,
   getSettingsChatTrackAllVisitors
@@ -177,12 +177,18 @@ const getFormFields = createSelector(
   }
 )
 
-export const getDefaultSelectedDepartment = createSelector(
-  [getSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
-  (settingsDefault, accountDefault, departments) => {
-    const selector = settingsDefault || accountDefault
+const formatDepartment = (department = '') =>
+  _.isInteger(department) ? department : department.toLowerCase()
 
-    return _.find(departments, dept => dept.name.toLowerCase() === selector || dept.id === selector)
+export const getDefaultSelectedDepartment = createSelector(
+  [getRawSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
+  (settingsDefault, accountDefault, departments) => {
+    const selector = settingsDefault !== null ? formatDepartment(settingsDefault) : accountDefault
+
+    return (
+      _.find(departments, dept => dept.name.toLowerCase() === selector || dept.id === selector) ||
+      {}
+    )
   }
 )
 
