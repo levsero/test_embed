@@ -7,6 +7,10 @@ exports[`renders correctly on desktop 1`] = `
   width: 1.2rem !important;
 }
 
+.c8 {
+  margin-top: 0.2857142857142857rem;
+}
+
 .c8 > div > div {
   max-height: unset;
 }

@@ -6,7 +6,7 @@ import ZendeskLogo from 'components/ZendeskLogo'
 import { Container } from './styles'
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
-const Footer = ({ hideZendeskLogo, children }) => {
+const Footer = ({ hideZendeskLogo, children, shadow = true }) => {
   if (!children && hideZendeskLogo) {
     return null
   }
@@ -14,7 +14,7 @@ const Footer = ({ hideZendeskLogo, children }) => {
   const justLogo = !children
 
   return (
-    <FooterView shadow={true} size={justLogo ? 'small' : 'large'}>
+    <FooterView shadow={shadow} size={justLogo ? 'small' : 'large'}>
       <Container justLogo={justLogo} justChildren={hideZendeskLogo}>
         {!hideZendeskLogo && <ZendeskLogo />}
 
@@ -26,6 +26,7 @@ const Footer = ({ hideZendeskLogo, children }) => {
 
 Footer.propTypes = {
   hideZendeskLogo: PropTypes.bool,
+  shadow: PropTypes.bool,
   children: PropTypes.node
 }
 

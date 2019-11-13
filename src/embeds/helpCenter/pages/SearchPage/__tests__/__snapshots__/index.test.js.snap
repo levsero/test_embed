@@ -123,6 +123,10 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   width: 1.2rem !important;
 }
 
+.c8 {
+  margin-top: 0.2857142857142857rem;
+}
+
 .c8 > div > div {
   max-height: unset;
 }
@@ -446,6 +450,10 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   color: #c2c8cc !important;
   height: 1.2rem !important;
   width: 1.2rem !important;
+}
+
+.c8 {
+  margin-top: 0.2857142857142857rem;
 }
 
 .c8 > div > div {

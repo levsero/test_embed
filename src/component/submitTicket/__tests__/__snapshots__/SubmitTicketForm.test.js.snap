@@ -527,7 +527,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM dLbktm"
+        class="sc-bZQynM bbmYGO"
       >
         <div
           class="sc-gzVnrw eLrsMK"
@@ -679,7 +679,7 @@ exports[`renders the expected components 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM dLbktm"
+        class="sc-bZQynM bbmYGO"
       >
         <div
           class="sc-gzVnrw eLrsMK"
@@ -1240,7 +1240,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <footer
-        class="sc-bZQynM dLbktm"
+        class="sc-bZQynM bbmYGO"
       >
         <div
           class="sc-gzVnrw eLrsMK"

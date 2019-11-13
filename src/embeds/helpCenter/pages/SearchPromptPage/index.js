@@ -25,7 +25,7 @@ const SearchPromptPage = ({ title, hasSearched }) => {
       <Main>
         <SearchForm ref={searchFormRef} />
       </Main>
-      <Footer />
+      <Footer shadow={false} />
     </Widget>
   )
 }
