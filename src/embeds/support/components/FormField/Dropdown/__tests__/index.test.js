@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
 import Dropdown from '../'
+import { fireEvent } from '@testing-library/dom'
 
 describe('Dropdown', () => {
   const defaultProps = {
@@ -16,7 +17,12 @@ describe('Dropdown', () => {
     errorMessage: null
   }
 
-  const renderComponent = (props = {}) => render(<Dropdown {...defaultProps} {...props} />)
+  const renderComponent = (props = {}, containerOnKeyDown = jest.fn()) =>
+    render(
+      <div onKeyDown={containerOnKeyDown} role="presentation">
+        <Dropdown {...defaultProps} {...props} />
+      </div>
+    )
 
   describe('when title exists', () => {
     it('displays the title', () => {
@@ -188,5 +194,47 @@ describe('Dropdown', () => {
     })
 
     expect(queryByText('-')).toBeInTheDocument()
+  })
+
+  it('propagates escape events when closed', () => {
+    const onKeyDown = jest.fn()
+    const { queryByLabelText } = renderComponent(
+      {
+        field: {
+          ...defaultProps.field,
+          title_in_portal: 'Some title',
+          required_in_portal: true
+        }
+      },
+      onKeyDown
+    )
+
+    fireEvent.keyDown(queryByLabelText('Some title'), {
+      key: 'Escape'
+    })
+
+    expect(onKeyDown).toHaveBeenCalled()
+  })
+
+  it("doesn't propagate escape events when open", () => {
+    const onKeyDown = jest.fn()
+    const { queryByLabelText } = renderComponent(
+      {
+        field: {
+          ...defaultProps.field,
+          title_in_portal: 'Some title',
+          required_in_portal: true
+        }
+      },
+      onKeyDown
+    )
+
+    queryByLabelText('Some title').click()
+
+    fireEvent.keyDown(queryByLabelText('Some title'), {
+      key: 'Escape'
+    })
+
+    expect(onKeyDown).not.toHaveBeenCalled()
   })
 })
