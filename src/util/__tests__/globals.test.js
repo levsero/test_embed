@@ -73,17 +73,3 @@ describe('setReferrerMetas', () => {
     expect(globals.getReferrerPolicy()).toEqual('world')
   })
 })
-
-describe('getWebWidgetFrameContentDocument', () => {
-  it('return the content document body', () => {
-    document.getElementById = jest.fn(() => {
-      return {
-        contentDocument: {
-          body: 'this is the body'
-        }
-      }
-    })
-
-    expect(globals.getWebWidgetFrameContentDocumentBody()).toEqual('this is the body')
-  })
-})

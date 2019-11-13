@@ -24,9 +24,9 @@ import { locals as styles } from './PrechatForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import ChatHistoryLink from '../ChatHistoryLink'
-import { getWebWidgetFrameContentWindow } from 'utility/globals'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
+import { CurrentFrameConsumer } from 'components/Frame'
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -394,37 +394,43 @@ export class PrechatForm extends Component {
     const departmentLabel = departmentSettings.label
 
     return (
-      <Dropdown
-        required={required}
-        aria-required={required}
-        name="department"
-        selectedItem={value}
-        onSelect={this.handleSelectChange}
-        downshiftProps={{
-          environment: getWebWidgetFrameContentWindow()
-        }}
-        validation={error ? 'error' : undefined}
-      >
-        <DropdownField className={styles.dropdown}>
-          {renderLabel(DropdownLabel, departmentLabel, required)}
-          <Select
-            placeholder={i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')}
-            className={styles.dropdownSelect}
+      <CurrentFrameConsumer>
+        {frame => (
+          <Dropdown
+            required={required}
+            aria-required={required}
+            name="department"
+            selectedItem={value}
+            onSelect={this.handleSelectChange}
+            downshiftProps={{
+              environment: frame.window
+            }}
+            validation={error ? 'error' : undefined}
           >
-            {selectedDepartment.name}
-          </Select>
-          {error}
-        </DropdownField>
-        <Menu
-          maxHeight={`${140 / FONT_SIZE}rem`}
-          popperModifiers={{
-            flip: { enabled: false },
-            preventOverflow: { escapeWithReference: true }
-          }}
-        >
-          {options}
-        </Menu>
-      </Dropdown>
+            <DropdownField className={styles.dropdown}>
+              {renderLabel(DropdownLabel, departmentLabel, required)}
+              <Select
+                placeholder={i18n.t(
+                  'embeddable_framework.chat.form.common.dropdown.chooseDepartment'
+                )}
+                className={styles.dropdownSelect}
+              >
+                {selectedDepartment.name}
+              </Select>
+              {error}
+            </DropdownField>
+            <Menu
+              maxHeight={`${140 / FONT_SIZE}rem`}
+              popperModifiers={{
+                flip: { enabled: false },
+                preventOverflow: { escapeWithReference: true }
+              }}
+            >
+              {options}
+            </Menu>
+          </Dropdown>
+        )}
+      </CurrentFrameConsumer>
     )
   }
 

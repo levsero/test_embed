@@ -46,12 +46,6 @@ describe('PrechatForm component', () => {
     mockFormValidity = false
 
     initMockRegistry({
-      'utility/globals': {
-        getWebWidgetFrameContentDocumentBody: jasmine.createSpy(
-          'getWebWidgetFrameContentDocumentBody'
-        ),
-        getWebWidgetFrameContentWindow: jasmine.createSpy('getWebWidgetFrameContentWindow')
-      },
       './PrechatForm.scss': {
         locals: {
           nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
@@ -110,7 +104,8 @@ describe('PrechatForm component', () => {
         Main: noopReactComponent(),
         Footer: noopReactComponent()
       },
-      'src/embeds/chat/components/Footer': {}
+      'src/embeds/chat/components/Footer': {},
+      'components/Frame': {}
     })
 
     mockery.registerAllowable(PrechatFormPath)

@@ -1,6 +1,5 @@
 describe('Frame', () => {
   let Frame,
-    mockWindowHeight,
     mockRegistryMocks,
     mockChild,
     mockSettingsValue,
@@ -70,7 +69,6 @@ describe('Frame', () => {
     mockIsRTLValue = false
     mockLocaleValue = 'en-US'
     mockZoomSizingRatioValue = 1
-    mockWindowHeight = 1000
 
     TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
@@ -88,14 +86,6 @@ describe('Frame', () => {
       'utility/utils': {
         cssTimeToMs: () => 300
       },
-      'utility/globals': {
-        win: {
-          innerWidth: 100,
-          innerHeight: mockWindowHeight
-        },
-        isPopout: () => mockIsPopout
-      },
-
       'utility/color/styles': {},
       'utility/devices': {
         getZoomSizingRatio: () => {

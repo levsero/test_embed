@@ -72,6 +72,13 @@ global.noopReactComponent = () =>
     }
   }
 
+global.noopReactRenderPropComponent = value =>
+  class extends Component {
+    render() {
+      return this.props.children(value)
+    }
+  }
+
 global.scrollContainerComponent = () =>
   class extends Component {
     render() {

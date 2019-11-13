@@ -35,30 +35,6 @@ const getZendeskHost = doc => {
 
 const isPopout = () => win.zEPopout === true
 
-const getWebWidgetFrameContentDocument = () => {
-  try {
-    return document.getElementById('webWidget').contentDocument
-  } catch (err) {
-    return null
-  }
-}
-
-const getWebWidgetFrameContentWindow = () => {
-  try {
-    return document.getElementById('webWidget').contentWindow
-  } catch (err) {
-    return undefined
-  }
-}
-
-const getWebWidgetFrameContentDocumentBody = () => {
-  try {
-    return getWebWidgetFrameContentDocument().body
-  } catch (err) {
-    return null
-  }
-}
-
 const focusLauncher = () => {
   // Due to the tabIndex switching based on visibility
   // we need to move focus on the next tick
@@ -81,8 +57,5 @@ export {
   isPopout,
   setReferrerMetas,
   getReferrerPolicy,
-  getWebWidgetFrameContentDocumentBody,
-  getWebWidgetFrameContentWindow,
-  getWebWidgetFrameContentDocument,
   focusLauncher
 }

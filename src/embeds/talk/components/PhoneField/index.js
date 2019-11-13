@@ -15,10 +15,10 @@ import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
-import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
 import styleOverrides from './styles.overrides'
 import { Container, FauxInput, Input } from './styles'
 import { onNextTick } from 'src/util/utils'
+import { CurrentFrameConsumer } from 'components/Frame'
 
 const mapStateToProps = state => {
   return {
@@ -169,66 +169,66 @@ class PhoneField extends ControlledComponent {
 
     return (
       <Container>
-        <ThemeProvider
-          rtl={this.props.rtl}
-          document={getWebWidgetFrameContentDocumentBody()}
-          theme={styleOverrides}
-        >
-          <FieldContainer>
-            {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
-              return (
-                <Field>
-                  <Label
-                    {...this.getLabelProps(getFieldLabelProps())}
-                    dangerouslySetInnerHTML={{ __html: this.props.label }}
-                  />
-                  <FauxInput
-                    {...focused}
-                    validation={showError ? 'error' : undefined}
-                    mediaLayout={true}
-                    ref={container => {
-                      if (!container) {
-                        return
-                      }
+        <CurrentFrameConsumer>
+          {frame => (
+            <ThemeProvider rtl={this.props.rtl} document={frame.document} theme={styleOverrides}>
+              <FieldContainer>
+                {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
+                  return (
+                    <Field>
+                      <Label
+                        {...this.getLabelProps(getFieldLabelProps())}
+                        dangerouslySetInnerHTML={{ __html: this.props.label }}
+                      />
+                      <FauxInput
+                        {...focused}
+                        validation={showError ? 'error' : undefined}
+                        mediaLayout={true}
+                        ref={container => {
+                          if (!container) {
+                            return
+                          }
 
-                      this.containerRef = container
+                          this.containerRef = container
 
-                      if (!this.state.dropdownWidth) {
-                        this.setState({
-                          dropdownWidth: this.containerRef.getBoundingClientRect().width || '100%'
-                        })
-                      }
-                    }}
-                  >
-                    <CountryDropdown
-                      selectedKey={this.state.selectedKey}
-                      onChange={this.onFlagChange}
-                      countries={this.state.countries}
-                      width={this.state.dropdownWidth || '100%'}
-                      appendToNode={getWebWidgetFrameContentDocumentBody()}
-                      isOpen={this.state.countryDropdownOpen}
-                      onToggleOpen={countryDropdownOpen => {
-                        this.setState({ countryDropdownOpen })
-                      }}
-                    />
-                    <Input
-                      {...getFieldInputProps()}
-                      value={this.state.inputValue}
-                      onChange={this.onInputChange}
-                      type="tel"
-                      name="phone"
-                      autoComplete="off"
-                      ref={node => (this.phoneInput = node)}
-                      required={this.props.required}
-                      bare={true}
-                      data-testid={TEST_IDS.PHONE_FIELD}
-                    />
-                  </FauxInput>
-                </Field>
-              )
-            }}
-          </FieldContainer>
-        </ThemeProvider>
+                          if (!this.state.dropdownWidth) {
+                            this.setState({
+                              dropdownWidth:
+                                this.containerRef.getBoundingClientRect().width || '100%'
+                            })
+                          }
+                        }}
+                      >
+                        <CountryDropdown
+                          selectedKey={this.state.selectedKey}
+                          onChange={this.onFlagChange}
+                          countries={this.state.countries}
+                          width={this.state.dropdownWidth || '100%'}
+                          isOpen={this.state.countryDropdownOpen}
+                          onToggleOpen={countryDropdownOpen => {
+                            this.setState({ countryDropdownOpen })
+                          }}
+                        />
+                        <Input
+                          {...getFieldInputProps()}
+                          value={this.state.inputValue}
+                          onChange={this.onInputChange}
+                          type="tel"
+                          name="phone"
+                          autoComplete="off"
+                          ref={node => (this.phoneInput = node)}
+                          required={this.props.required}
+                          bare={true}
+                          data-testid={TEST_IDS.PHONE_FIELD}
+                        />
+                      </FauxInput>
+                    </Field>
+                  )
+                }}
+              </FieldContainer>
+            </ThemeProvider>
+          )}
+        </CurrentFrameConsumer>
         {showError && <Message validation="error">{this.props.errorMessage}</Message>}
       </Container>
     )

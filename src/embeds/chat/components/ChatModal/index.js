@@ -4,10 +4,11 @@ import { hot } from 'react-hot-loader/root'
 import { useModal } from '@zendeskgarden/container-modal'
 import { Backdrop, Header, ModalActions, SlideAppear } from './styles'
 import { isMobileBrowser } from 'utility/devices'
-import { getWebWidgetFrameContentDocumentBody } from 'utility/globals'
+import { useCurrentFrame } from 'components/Frame'
 
 const ChatModal = ({ title, children, onClose, focusOnMount, 'data-testid': testId }) => {
   const modalRef = useRef(null)
+  const frame = useCurrentFrame()
   const { getBackdropProps, getModalProps, getTitleProps, getContentProps } = useModal({
     onClose: e => {
       e.stopPropagation()
@@ -15,7 +16,7 @@ const ChatModal = ({ title, children, onClose, focusOnMount, 'data-testid': test
     },
     modalRef,
     focusOnMount,
-    environment: getWebWidgetFrameContentDocumentBody()
+    environment: frame.document
   })
 
   return (

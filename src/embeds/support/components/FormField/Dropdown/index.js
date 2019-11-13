@@ -12,8 +12,8 @@ import {
   Hint,
   Message
 } from '@zendeskgarden/react-dropdowns'
-import { getWebWidgetFrameContentWindow } from 'utility/globals'
 import ContactFormLabel from 'embeds/support/components/FormField/ContactFormLabel'
+import { useCurrentFrame } from 'components/Frame'
 
 const useDropdownTree = (items = []) => {
   const [root, tree, rootId] = useMemo(() => {
@@ -82,6 +82,7 @@ const useDropdownTree = (items = []) => {
 const Dropdown = ({ field, value, errorMessage, onChange }) => {
   const { view, open, getItem, isRoot } = useDropdownTree(field.custom_field_options)
   const [isOpen, setIsOpen] = useState(false)
+  const frame = useCurrentFrame()
 
   const current = getItem(value) ? getItem(value).name : '-'
 
@@ -102,7 +103,7 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
         selectedItem={value}
         isOpen={isOpen}
         downshiftProps={{
-          environment: getWebWidgetFrameContentWindow()
+          environment: frame.window
         }}
         onStateChange={state => {
           if (state.selectedItem) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import styled from 'styled-components'
-import Frame from '../'
+import Frame, { useCurrentFrame } from '../'
 
 describe('Frame', () => {
   const defaultProps = {
@@ -64,5 +64,31 @@ describe('Frame', () => {
     const { baseElement } = renderComponent({ ref })
 
     expect(current).toBe(baseElement.querySelector('#frame-test'))
+  })
+
+  it('provides the document and window to its children by context', () => {
+    // eslint-disable-next-line react/prop-types
+    const ExampleComponent = ({ onClick }) => {
+      const frame = useCurrentFrame()
+
+      return (
+        <button id="exampleComponent" onClick={() => onClick(frame)}>
+          Example component
+        </button>
+      )
+    }
+
+    const onClick = jest.fn()
+
+    const { baseElement } = renderComponent({ children: <ExampleComponent onClick={onClick} /> })
+
+    getIFrame(baseElement)
+      .querySelector('#exampleComponent')
+      .click()
+
+    expect(onClick).toHaveBeenCalledWith({
+      document: document.querySelector('#frame-test').contentDocument,
+      window: document.querySelector('#frame-test').contentWindow
+    })
   })
 })
