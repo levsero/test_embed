@@ -26,9 +26,10 @@ import {
 } from 'constants/event'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
-import { updateBackButtonVisibility, showWidget } from 'src/redux/modules/base'
+import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 import { onChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
+import { isMobileBrowser } from 'utility/devices'
 
 const chatTypingTimeout = 2000
 let history = []
@@ -700,10 +701,18 @@ export function handleChatVendorLoaded(vendor) {
   }
 }
 
-export function proactiveMessageReceived() {
+export function proactiveMessageReceived(agentMessage) {
   return dispatch => {
     dispatch({ type: actions.PROACTIVE_CHAT_RECEIVED })
     dispatch(showWidget())
+
+    if (isMobileBrowser()) {
+      dispatch(showStandaloneMobileNotification())
+    } else {
+      if (agentMessage.show) {
+        dispatch(showChat({ proactive: true }))
+      }
+    }
   }
 }
 

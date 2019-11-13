@@ -15,6 +15,7 @@ import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-lin
 import zopimApi from 'service/api/zopimApi'
 import * as zChat from 'chat-web-sdk'
 import { win } from 'utility/globals'
+import { isMobileBrowser } from 'utility/devices'
 
 import {
   handleChatSDKInitialized,
@@ -55,6 +56,7 @@ const getState = (state = {}) => {
 
   return _.merge(defaults, state)
 }
+jest.mock('utility/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 
@@ -962,8 +964,12 @@ test('newAgentMessageReceived', () => {
 })
 
 describe('proactiveMessageReceived', () => {
+  const agentMessage = {
+    show: true
+  }
+
   it('dispatches expected actions when not hidden', () => {
-    const results = dispatchAction(actions.proactiveMessageReceived(), {
+    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
       base: {
         hidden: {
           hideApi: false
@@ -979,12 +985,22 @@ describe('proactiveMessageReceived', () => {
               Object {
                 "type": "widget/base/SHOW_WIDGET",
               },
+              Object {
+                "payload": "chat",
+                "type": "widget/base/UPDATE_ACTIVE_EMBED",
+              },
+              Object {
+                "payload": Object {
+                  "screen": "widget/chat/CHATTING_SCREEN",
+                },
+                "type": "widget/chat/UPDATE_CHAT_SCREEN",
+              },
             ]
         `)
   })
 
   it('dispatches expected actions when hidden', () => {
-    const results = dispatchAction(actions.proactiveMessageReceived(), {
+    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
       base: {
         hidden: {
           hideApi: true
@@ -996,6 +1012,41 @@ describe('proactiveMessageReceived', () => {
       Array [
         Object {
           "type": "widget/chat/PROACTIVE_CHAT_RECEIVED",
+        },
+        Object {
+          "payload": "chat",
+          "type": "widget/base/UPDATE_ACTIVE_EMBED",
+        },
+        Object {
+          "payload": Object {
+            "screen": "widget/chat/CHATTING_SCREEN",
+          },
+          "type": "widget/chat/UPDATE_CHAT_SCREEN",
+        },
+      ]
+    `)
+  })
+
+  it('dispatches expected actions when on mobile', () => {
+    isMobileBrowser.mockReturnValue(true)
+    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
+      base: {
+        hidden: {
+          hideApi: false
+        }
+      }
+    })
+
+    expect(results).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "type": "widget/chat/PROACTIVE_CHAT_RECEIVED",
+        },
+        Object {
+          "type": "widget/base/SHOW_WIDGET",
+        },
+        Object {
+          "type": "widget/chat/SHOW_STANDALONE_MOBILE_NOTIFICATION",
         },
       ]
     `)

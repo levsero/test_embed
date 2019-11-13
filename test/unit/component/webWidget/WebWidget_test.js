@@ -786,41 +786,6 @@ describe('WebWidget component', () => {
     })
   })
 
-  describe('showProactiveChat', () => {
-    let webWidget
-
-    describe('when on mobile', () => {
-      let showStandaloneMobileNotificationSpy
-
-      beforeEach(() => {
-        showStandaloneMobileNotificationSpy = jasmine.createSpy('showStandaloneMobileNotification')
-        webWidget = instanceRender(
-          <WebWidget
-            oldChat={false}
-            isMobile={true}
-            showStandaloneMobileNotification={showStandaloneMobileNotificationSpy}
-          />
-        )
-        webWidget.showProactiveChat()
-      })
-
-      it('calls showStandaloneMobileNotification', () => {
-        expect(showStandaloneMobileNotificationSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when not on mobile', () => {
-      const mockChatNotification = { proactive: true, show: true }
-
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget oldChat={false} isMobile={false} chatNotification={mockChatNotification} />
-        )
-        webWidget.showProactiveChat()
-      })
-    })
-  })
-
   describe('#onContainerDragEnter', () => {
     let webWidget
 

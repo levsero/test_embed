@@ -41,6 +41,7 @@ describe('onStateChange middleware', () => {
   const setUpChatSpy = jasmine.createSpy('setUpChat')
   const chatStartedSpy = jasmine.createSpy('chatStarted')
   const endChatSpy = jasmine.createSpy('endChat')
+  const proactiveMessageReceivedSpy = jasmine.createSpy('proactiveMessageReceived')
   const path = buildSrcPath('redux/middleware/onStateChange/onStateChange')
   let initialTimestamp = 80
   let mockDepartment
@@ -86,7 +87,8 @@ describe('onStateChange middleware', () => {
         chatWindowOpenOnNavigate: chatWindowOpenOnNavigateSpy,
         chatNotificationReset: chatNotificationResetSpy,
         chatStarted: chatStartedSpy,
-        endChat: endChatSpy
+        endChat: endChatSpy,
+        proactiveMessageReceived: proactiveMessageReceivedSpy
       },
       'src/redux/modules/chat/chat-actions/setUpChat': {
         setUpChat: setUpChatSpy
@@ -320,6 +322,7 @@ describe('onStateChange middleware', () => {
         newAgentMessageReceivedSpy.calls.reset()
         audioPlaySpy.calls.reset()
         updateActiveEmbedSpy.calls.reset()
+        proactiveMessageReceivedSpy.calls.reset()
       })
 
       describe('when there are no new messages', () => {
@@ -447,8 +450,27 @@ describe('onStateChange middleware', () => {
                   stateChangeFn(prevState, nextState, {}, dispatchSpy)
                 })
 
-                it('calls mediator with newChat.newMessage', () => {
-                  expect(broadcastSpy).toHaveBeenCalledWith('newChat.newMessage')
+                describe('when widget has not been shown', () => {
+                  beforeEach(() => {
+                    mockHasWidgetShown = false
+                    stateChangeFn(prevState, nextState, {}, dispatchSpy)
+                  })
+
+                  it('dispatches proactiveMessageReceived', () => {
+                    expect(proactiveMessageReceivedSpy).toHaveBeenCalled()
+                  })
+                })
+
+                describe('when widget has been shown', () => {
+                  beforeEach(() => {
+                    proactiveMessageReceivedSpy.calls.reset()
+                    mockHasWidgetShown = true
+                    stateChangeFn(prevState, nextState, {}, dispatchSpy)
+                  })
+
+                  it('does not dispatch proactiveMessageReceived', () => {
+                    expect(proactiveMessageReceivedSpy).not.toHaveBeenCalled()
+                  })
                 })
               })
 
@@ -458,8 +480,8 @@ describe('onStateChange middleware', () => {
                   stateChangeFn(prevState, nextState, {}, dispatchSpy)
                 })
 
-                it('does not call mediator with newChat.newMessage', () => {
-                  expect(broadcastSpy).not.toHaveBeenCalled()
+                it('does not dispatch proactiveMessageReceived', () => {
+                  expect(proactiveMessageReceivedSpy).not.toHaveBeenCalled()
                 })
               })
 
@@ -472,8 +494,8 @@ describe('onStateChange middleware', () => {
                   stateChangeFn(prevState, nextState, {}, dispatchSpy)
                 })
 
-                it('does not call mediator with newChat.newMessage', () => {
-                  expect(broadcastSpy).not.toHaveBeenCalled()
+                it('does not dispatch proactiveMessageReceived', () => {
+                  expect(proactiveMessageReceivedSpy).not.toHaveBeenCalled()
                 })
               })
 
@@ -481,13 +503,14 @@ describe('onStateChange middleware', () => {
                 beforeEach(() => {
                   mockIsProactiveSession = true
                   mockWidgetShown = false
+                  mockHasWidgetShown = false
                   mockIsMobileBrowser = true
                   mockMobileNotificationsDisabled = false
                   stateChangeFn(prevState, nextState, {}, dispatchSpy)
                 })
 
-                it('does call mediator with newChat.newMessage', () => {
-                  expect(broadcastSpy).toHaveBeenCalled()
+                it('dispatches proactiveMessageReceived', () => {
+                  expect(proactiveMessageReceivedSpy).toHaveBeenCalled()
                 })
               })
             })

@@ -6,7 +6,8 @@ import {
   chatNotificationReset,
   getOperatingHours,
   chatConnected,
-  chatStarted
+  chatStarted,
+  proactiveMessageReceived
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
@@ -121,11 +122,12 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
     if (
       !widgetShown &&
+      !hasWidgetShown &&
       recentMessage &&
       agentMessage.proactive &&
       !(isMobile && isMobileNotificationsDisabled)
     ) {
-      mediator.channel.broadcast('newChat.newMessage')
+      dispatch(proactiveMessageReceived(agentMessage))
     }
   }
 }

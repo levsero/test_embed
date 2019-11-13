@@ -186,11 +186,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupMediator() {
-    mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
-      embed.instance.show(options)
-      getWebWidgetComponent().showProactiveChat()
-    })
-
     mediator.channel.subscribe(prefix + 'webWidget.clearAttachments', () => {
       const webWidgetComponent = getWebWidgetComponent()
 
