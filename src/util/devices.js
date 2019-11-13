@@ -49,6 +49,12 @@ function isFirefox() {
   return FIREFOX_BROWSER.test(navigator.userAgent)
 }
 
+function isSafari() {
+  const SAFARI_BROWSER = /Apple/i
+
+  return SAFARI_BROWSER.test(navigator.vendor)
+}
+
 // Taken from Zopim Mobile.js
 // Detects mobile and tablet user agents
 function isMobileBrowser() {
@@ -184,6 +190,7 @@ export {
   isIE,
   isIos,
   isFirefox,
+  isSafari,
   isDevice,
   clickBusterHandler,
   clickBusterRegister,

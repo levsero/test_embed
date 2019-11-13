@@ -7,6 +7,7 @@ import {
 import { FONT_SIZE } from 'constants/shared'
 import { css } from 'styled-components'
 import { isMobileBrowser } from 'utility/devices'
+import { isSafari } from 'utility/devices'
 import { getThemeColor } from 'utility/color/validate'
 import { getWidgetColorVariables } from 'utility/color/styles'
 
@@ -101,9 +102,20 @@ const genericOverrides = css`
   cursor: ${({ readOnly }) => (readOnly ? 'default' : 'auto')} ${mobileOverrides};
 `
 
+// This is a workaround for a Safari bug
+// See Jira Issue https://zendesk.atlassian.net/browse/EWW-848
+// Webkit Bug report: https://bugs.webkit.org/show_bug.cgi?id=204138
+// If Safari fix this problem, or Garden adopt this setting across all components we can remove this method
+const safariInputOverrides = isSafari()
+  ? css`
+      text-rendering: auto;
+    `
+  : ''
+
 const inputOverrides = css`
   ${genericOverrides}
   ${borderOverrides}
+  ${safariInputOverrides}
 `
 
 const messageOverrides = isMobile
