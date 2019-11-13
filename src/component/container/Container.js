@@ -11,7 +11,6 @@ export class Container extends Component {
     className: PropTypes.string,
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
-    onDragEnter: PropTypes.func,
     style: PropTypes.object
   }
 
@@ -20,7 +19,6 @@ export class Container extends Component {
     className: '',
     isMobile: false,
     onClick: () => {},
-    onDragEnter: () => {},
     style: null
   }
 
@@ -33,7 +31,6 @@ export class Container extends Component {
         role="presentation"
         onClick={this.props.onClick}
         className={`${styles.container} ${this.props.className} ${platformClasses} ${styleClasses}`}
-        onDragEnter={this.props.onDragEnter}
         style={this.props.style}
         data-testid={TEST_IDS.PAGE_CONTAINER}
       >

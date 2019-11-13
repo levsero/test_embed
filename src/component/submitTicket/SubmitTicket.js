@@ -251,7 +251,7 @@ class SubmitTicket extends Component {
     const fields = activeTicketForm ? activeTicketFormFields : ticketFields
 
     return (
-      <>
+      <div onDragEnter={this.handleDragEnter}>
         <SubmitTicketForm
           ref="submitTicketForm"
           formTitle={this.props.formTitle}
@@ -278,7 +278,7 @@ class SubmitTicket extends Component {
           {this.renderErrorMessage()}
         </SubmitTicketForm>
         {this.renderAttachmentBox()}
-      </>
+      </div>
     )
   }
 

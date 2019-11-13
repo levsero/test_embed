@@ -230,14 +230,6 @@ class WebWidget extends Component {
     }
   }
 
-  onContainerDragEnter = () => {
-    const { activeEmbed } = this.props
-
-    if (activeEmbed === submitTicket || activeEmbed === chat) {
-      this.getActiveComponent().handleDragEnter()
-    }
-  }
-
   renderChat = () => {
     if (this.props.activeEmbed !== chat) return
 
@@ -425,7 +417,6 @@ class WebWidget extends Component {
           fullscreen={fullscreen}
           isMobile={isMobile}
           position={position}
-          onDragEnter={this.onContainerDragEnter}
         >
           <OnBackProvider value={this.onBackClick}>
             {this.renderSubmitTicket()}
