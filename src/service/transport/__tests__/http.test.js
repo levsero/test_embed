@@ -739,18 +739,42 @@ describe('#getDynamicHostname', () => {
 
 describe('#logFailure', () => {
   const baseError = {
+    status: 500,
     message: 'whatcha want'
   }
-  const payload = {
+  const basePayload = {
     method: 'get',
     path: '/beastie/boys.json'
   }
 
-  let error
+  let error, payload
+
   describe('when the error is a 404', () => {
     beforeEach(() => {
       error = { status: 404 }
-      http.logFailure(error, payload)
+      http.logFailure({ ...baseError, ...error }, basePayload)
+    })
+
+    it('returns and does not report to rollbar', () => {
+      expect(errorTracker.error).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when the request is a blip', () => {
+    beforeEach(() => {
+      payload = { path: 'https://sd.zendesk.com/embeddable_blip?type=pageView&data=abcde' }
+      http.logFailure(baseError, { ...basePayload, ...payload })
+    })
+
+    it('returns and does not report to rollbar', () => {
+      expect(errorTracker.error).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when the request is an identify blip', () => {
+    beforeEach(() => {
+      payload = { path: 'https://sd.zendesk.com/embeddable_identify?type=pageView&data=abcde' }
+      http.logFailure(baseError, { ...basePayload, ...payload })
     })
 
     it('returns and does not report to rollbar', () => {
@@ -760,8 +784,7 @@ describe('#logFailure', () => {
 
   describe('when the error is not a 404', () => {
     beforeEach(() => {
-      error = { status: 500 }
-      http.logFailure({ ...baseError, ...error }, payload)
+      http.logFailure(baseError, basePayload)
     })
 
     it('uses errorTracker to report to rollbar andsends the correct params', () => {
