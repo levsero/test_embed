@@ -49,7 +49,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const scrollingStyleDelay = 50 // small delay so that safari has finished rendering
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
 const transitionDuration = FRAME_TRANSITION_DURATION
@@ -68,7 +67,6 @@ class Frame extends Component {
         vertical: PropTypes.number
       })
     }).isRequired,
-    afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
     frameStyleModifier: PropTypes.func,
     frameOffsetWidth: PropTypes.number,
@@ -128,7 +126,6 @@ class Frame extends Component {
   }
 
   static defaultProps = {
-    afterShowAnimate: () => {},
     css: '',
     frameStyleModifier: () => {},
     frameOffsetWidth: 15,
@@ -180,9 +177,6 @@ class Frame extends Component {
           this.iframe.setAttribute('style', oldStyles + `width: ${newWidth}px;`)
         }
       })
-    }
-    if (!prevProps.visible && this.props.visible) {
-      this.show()
     }
 
     if (this.props.color !== prevProps.color) {
@@ -309,23 +303,6 @@ class Frame extends Component {
     const htmlElem = this.getContentDocument().documentElement
 
     htmlElem.style.fontSize = fontSize
-  }
-
-  show = () => {
-    const frameFirstChild = this.getRootComponentElement()
-
-    setTimeout(() => {
-      const existingStyle = frameFirstChild.style
-
-      if (!existingStyle.webkitOverflowScrolling) {
-        existingStyle.webkitOverflowScrolling = 'touch'
-      }
-    }, scrollingStyleDelay)
-
-    // refs aren't available until next tick
-    onNextTick(() => {
-      this.props.afterShowAnimate(this)
-    })
   }
 
   back = e => {

@@ -15,7 +15,6 @@ describe('embed.webWidget', () => {
     mockNicknameValue,
     zChatInitSpy,
     authenticateSpy,
-    mockIsIE,
     mockActiveEmbed,
     mockStore,
     mockWebWidget,
@@ -37,7 +36,6 @@ describe('embed.webWidget', () => {
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false
-    mockIsIE = false
     mockHelpCenterSuppressedValue = false
     mockContactFormSuppressedValue = false
     mockTalkSuppressedValue = false
@@ -174,9 +172,6 @@ describe('embed.webWidget', () => {
       'utility/devices': {
         isMobileBrowser() {
           return mockIsMobileBrowser
-        },
-        isIE() {
-          return mockIsIE
         },
         getZoomSizingRatio: noop
       },
@@ -327,18 +322,6 @@ describe('embed.webWidget', () => {
           spyOn(grandchild, 'resetTicketFormVisibility')
 
           frame.props.onShow(frame)
-        })
-      })
-
-      describe('afterShowAnimate', () => {
-        beforeEach(() => {
-          spyOn(child, 'focusField')
-        })
-
-        it('should call focusField', () => {
-          frame.props.afterShowAnimate(frame)
-
-          expect(child.focusField).toHaveBeenCalled()
         })
       })
     })

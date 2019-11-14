@@ -250,47 +250,6 @@ describe('Frame', () => {
     })
   })
 
-  describe('show', () => {
-    let frame, frameProps, mockAfterShowAnimate
-    const animationDuration = 300
-
-    beforeEach(async () => {
-      mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate')
-
-      frameProps = {
-        transitions: {
-          upShow: {
-            start: { transitionDuration: `${animationDuration}ms` },
-            end: { transitionDuration: `${animationDuration}ms` }
-          }
-        },
-        afterShowAnimate: mockAfterShowAnimate,
-        store: {
-          dispatch: noop
-        }
-      }
-
-      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>)
-
-      await forceFrameReady(frame)
-
-      frame.show()
-    })
-
-    it('calls afterShowAnimate', async () => {
-      await wait(animationDuration)
-      expect(mockAfterShowAnimate).toHaveBeenCalled()
-    })
-
-    it('applies webkitOverflowScrolling when not set', async () => {
-      await wait(50)
-
-      const frameContainerStyle = frame.getRootComponentElement().style
-
-      expect(frameContainerStyle.webkitOverflowScrolling).toEqual('touch')
-    })
-  })
-
   describe('forceUpdateWorld', () => {
     let frame, rootComponent, activeComponentForceUpdateSpy
 
