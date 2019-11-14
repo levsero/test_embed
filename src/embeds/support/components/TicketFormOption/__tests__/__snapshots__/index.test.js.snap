@@ -2,17 +2,9 @@
 
 exports[`TicketFormOption renders 1`] = `
 <div>
-  <li
-    class="sc-bdVaJa gjyzFy"
-  >
+  <li>
     <button
-      class="Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--anchor___ZpkO7 lcPfmb"
-      data-garden-container-id="keyboardfocus"
-      data-garden-container-version="0.2.6"
-      data-garden-id="buttons.button"
-      data-garden-version="7.0.2"
-      tabindex="0"
-      type="button"
+      class="sc-bdVaJa iIUgYC"
     >
       the goggles do nothing
     </button>
