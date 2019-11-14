@@ -96,7 +96,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     locale: getLocale(state),
     article: getArticles(state)[id],
-    showOriginalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
+    originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
     resultsLocale: getResultsLocale(state),
     restrictedImages: getRestrictedImages(state),
     title: getSettingsHelpCenterTitle(state, titleKey),
