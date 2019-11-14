@@ -10,7 +10,7 @@ import { i18n } from 'service/i18n'
 import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
-import { isIE, isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import {
@@ -44,18 +44,6 @@ export default function WebWidgetFactory(name) {
 
   const onBack = () => {
     getWebWidgetComponent().onBackClick()
-  }
-  const afterShowAnimate = () => {
-    const rootComponent = getActiveComponent()
-
-    if (rootComponent && isIE()) {
-      if (rootComponent.refs.submitTicketForm) {
-        rootComponent.refs.submitTicketForm.focusField()
-      }
-    }
-    if (rootComponent && rootComponent.focusField) {
-      rootComponent.focusField()
-    }
   }
 
   function create(name, config, reduxStore) {
@@ -134,7 +122,6 @@ export default function WebWidgetFactory(name) {
       useBackButton: !popout,
       hideNavigationButtons: popout && isMobile,
       name: name,
-      afterShowAnimate,
       onBack,
       title: i18n.t('embeddable_framework.web_widget.frame.title')
     }
