@@ -6,7 +6,7 @@ import { CenteredDiv, LoadingSpinner } from './styles'
 const LoadingPage = () => {
   return (
     <Widget>
-      <Header showBackButton={false} />
+      <Header />
       <Main>
         <CenteredDiv>
           <LoadingSpinner size="4rem" />

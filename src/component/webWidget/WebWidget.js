@@ -1,8 +1,7 @@
-import React, { Component, Suspense, lazy } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import LoadingPage from 'src/components/LoadingPage'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 const LazyLoadedTalk = lazy(() => {
@@ -57,6 +56,7 @@ import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answer
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
+import SuspensePage from 'src/components/Widget/SuspensePage'
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -331,9 +331,9 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== talk) return null
 
     return (
-      <Suspense fallback={<LoadingPage />}>
+      <SuspensePage>
         <LazyLoadedTalk />
-      </Suspense>
+      </SuspensePage>
     )
   }
 
