@@ -219,7 +219,7 @@ function logFailure(error, payload) {
   errorTracker.error(errorTitle, errorData)
 }
 
-function shouldExclude(error, payload) {
+function shouldExclude(error, payload = {}) {
   return error.status == 404 || /embeddable_(blip|identify)/.test(payload.path)
 }
 
