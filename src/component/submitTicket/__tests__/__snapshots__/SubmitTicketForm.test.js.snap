@@ -10,20 +10,20 @@ exports[`form ticket forms validation renders the error messages 1`] = `
       class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -428,17 +428,9 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 </strong>
               </label>
               <div
-                class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
-                data-garden-id="dropdowns.message"
-                data-garden-version="7.0.2"
-                role="alert"
-              >
-                Please enter a value.
-              </div>
-              <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="sc-bdVaJa gJJXLY StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"
@@ -459,6 +451,14 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   value=""
                 />
               </div>
+              <div
+                class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
+                data-garden-id="dropdowns.message"
+                data-garden-version="7.0.2"
+                role="alert"
+              >
+                Please enter a value.
+              </div>
             </div>
             <div
               style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
@@ -477,7 +477,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   style="width: 0px;"
                 >
                   <div
-                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
+                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
                   >
                     <li
                       aria-selected="false"
@@ -527,10 +527,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM bbmYGO"
+        class="sc-gzVnrw gjKPtN"
       >
         <div
-          class="sc-gzVnrw eLrsMK"
+          class="sc-htoDjs kgaGXd"
         >
           <a
             class="icon"
@@ -573,20 +573,20 @@ exports[`renders the expected components 1`] = `
       class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -679,10 +679,10 @@ exports[`renders the expected components 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM bbmYGO"
+        class="sc-gzVnrw gjKPtN"
       >
         <div
-          class="sc-gzVnrw eLrsMK"
+          class="sc-htoDjs kgaGXd"
         >
           <a
             class="icon"
@@ -725,20 +725,20 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
       class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -1162,7 +1162,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="sc-bdVaJa gJJXLY StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"
@@ -1201,7 +1201,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   style="width: 0px;"
                 >
                   <div
-                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 gKwRYx"
+                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
                   >
                     <li
                       aria-selected="false"
@@ -1240,10 +1240,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <footer
-        class="sc-bZQynM bbmYGO"
+        class="sc-gzVnrw gjKPtN"
       >
         <div
-          class="sc-gzVnrw eLrsMK"
+          class="sc-htoDjs kgaGXd"
         >
           <a
             class="icon"

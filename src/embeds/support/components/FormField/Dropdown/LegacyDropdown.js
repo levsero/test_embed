@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Dropdown from 'embeds/support/components/FormField/Dropdown/index'
 import { TEST_IDS } from 'constants/shared'
 
@@ -17,6 +17,14 @@ const LegacyDropdown = ({ field, value, errorMessage, onChange }) => {
   const [selectedItem, setSelectedItem] = useState(
     (customFieldOptions.find(option => option.default) || {}).value || value
   )
+  const prevValue = useRef(null)
+
+  useEffect(() => {
+    if (prevValue.current !== selectedItem) {
+      onChange()
+      prevValue.current = selectedItem
+    }
+  }, [onChange, selectedItem])
 
   return (
     <>
@@ -25,14 +33,13 @@ const LegacyDropdown = ({ field, value, errorMessage, onChange }) => {
         value={selectedItem}
         onChange={item => {
           setSelectedItem(item)
-          onChange()
         }}
         errorMessage={errorMessage}
       />
       <input
         type="hidden"
         name={field.id}
-        value={selectedItem}
+        value={selectedItem || ''}
         data-testid={TEST_IDS.DROPDOWN_SELECTED_VALUE}
       />
     </>
