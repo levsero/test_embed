@@ -771,6 +771,17 @@ describe('#logFailure', () => {
     })
   })
 
+  describe('when the request is an identify blip', () => {
+    beforeEach(() => {
+      payload = { path: 'https://sd.zendesk.com/embeddable_identify?type=pageView&data=abcde' }
+      http.logFailure(baseError, { ...basePayload, ...payload })
+    })
+
+    it('returns and does not report to rollbar', () => {
+      expect(errorTracker.error).not.toHaveBeenCalled()
+    })
+  })
+
   describe('when the error is not a 404', () => {
     beforeEach(() => {
       http.logFailure(baseError, basePayload)

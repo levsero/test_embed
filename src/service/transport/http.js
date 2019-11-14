@@ -220,7 +220,7 @@ function logFailure(error, payload) {
 }
 
 function shouldExclude(error, payload) {
-  return error.status == 404 || /embeddable_blip/.test(payload.path)
+  return error.status == 404 || /embeddable_(blip|identify)/.test(payload.path)
 }
 
 export const http = {
