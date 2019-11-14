@@ -4,7 +4,7 @@ import { find } from 'styled-components/test-utils'
 import { Provider } from 'react-redux'
 import 'jest-styled-components'
 import { Component as Footer } from '../'
-import FooterView, { padding } from 'components/Widget/Footer/FooterView'
+import FooterView, { padding, shadow } from 'components/Widget/Footer/FooterView'
 import { Container } from '../styles'
 import { TEST_IDS } from 'constants/shared'
 import createStore from 'src/redux/createStore'
@@ -71,5 +71,20 @@ describe('Footer', () => {
     expect(find(container, FooterView)).toHaveStyle(`
       padding: ${padding('small')}
     `)
+  })
+
+  it('defaults to having a shadow', () => {
+    const { container } = renderComponent({ children: <div>children</div> })
+    expect(find(container, FooterView)).toHaveStyle(
+      `
+        box-shadow: ${shadow()};
+      `
+    )
+  })
+
+  it('can have its shadow hidden', () => {
+    const { container } = renderComponent({ children: null, shadow: false })
+
+    expect(find(container, FooterView)).not.toHaveStyle(`box-shadow: ${shadow()}`)
   })
 })

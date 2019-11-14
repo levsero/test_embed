@@ -208,7 +208,7 @@ exports[`active ticket form renders the expected components 1`] = `
           </div>
         </div>
         <footer
-          class="sc-bZQynM dLbktm"
+          class="sc-bZQynM bbmYGO"
         >
           <div
             class="sc-gzVnrw eLrsMK"
@@ -527,7 +527,7 @@ exports[`renders the expected components 1`] = `
           </div>
         </div>
         <footer
-          class="sc-bZQynM dLbktm"
+          class="sc-bZQynM bbmYGO"
         >
           <div
             class="sc-gzVnrw eLrsMK"
@@ -791,7 +791,7 @@ exports[`renders the loading bar content 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM dLbktm"
+        class="sc-bZQynM bbmYGO"
       >
         <div
           class="sc-gzVnrw eLrsMK"

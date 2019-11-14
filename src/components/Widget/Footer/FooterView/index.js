@@ -14,6 +14,10 @@ const padding = props => {
   }
 }
 
+const shadow = () => {
+  return `0 -${1 / FONT_SIZE}rem ${12 / FONT_SIZE}rem rgba(0,0,0,0.08)`
+}
+
 const FooterView = styled.footer`
   padding: ${padding};
 
@@ -21,7 +25,7 @@ const FooterView = styled.footer`
     props.shadow &&
     `
     border-top: ${1.1 / FONT_SIZE}rem solid ${zdColorGrey200};
-    box-shadow: 0 -${1 / FONT_SIZE}rem ${12 / FONT_SIZE}rem rgba(0, 0, 0, 0.08);
+    box-shadow: ${shadow()};
   `}
 `
 
@@ -36,4 +40,4 @@ FooterView.defaultProps = {
 
 export default FooterView
 
-export { padding }
+export { padding, shadow }

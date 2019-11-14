@@ -3,6 +3,7 @@ import { Dots } from '@zendeskgarden/react-loaders'
 import SearchIcon from '@zendeskgarden/svg-icons/src/16/search-stroke.svg'
 import ClearInputIcon from '@zendeskgarden/svg-icons/src/16/x-stroke.svg'
 import { zdColorGrey600, zdColorGrey400, zdColorGrey800 } from '@zendeskgarden/css-variables'
+import { FONT_SIZE } from 'constants/shared'
 
 const ClearInputButton = styled(ClearInputIcon)`
   color: ${zdColorGrey600} !important;
@@ -25,6 +26,7 @@ const LoadingDots = styled(Dots)`
 `
 
 const Container = styled.div`
+  margin-top: ${4 / FONT_SIZE}rem;
   > div > div {
     max-height: unset;
   }

@@ -105,7 +105,8 @@ import {
   EMBED_MAP,
   LAUNCHER,
   MAX_WIDGET_HEIGHT_NO_SEARCH,
-  WIDGET_MARGIN
+  WIDGET_MARGIN,
+  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
@@ -164,6 +165,10 @@ export const getSettingsHelpCenterSearchPlaceholder = createSelector(
     i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')
 )
 
+export const getHideZendeskLogo = state => {
+  return getEmbeddableConfig(state).hideZendeskLogo || getAccountSettingsHideBranding(state)
+}
+
 export const getSettingsHelpCenterMessageButton = createSelector(
   [getHelpCenterMessageButton, getLocale, getButtonLabelKey],
   (helpCenterMessageButton, _locale, buttonLabelKey) => {
@@ -207,15 +212,30 @@ export const getLauncherLabel = createSelector(
 )
 
 const getWidgetFixedFrameStyles = createSelector(
-  [getStandaloneMobileNotificationVisible, getIPMWidget, getCanShowHelpCenterIntroState],
-  (standaloneMobileNotificationVisible, isUsingIPMWidgetOnly, canShowHelpCenterIntroState) => {
+  [
+    getHideZendeskLogo,
+    getStandaloneMobileNotificationVisible,
+    getIPMWidget,
+    getCanShowHelpCenterIntroState
+  ],
+  (
+    hideZendeskLogo,
+    standaloneMobileNotificationVisible,
+    isUsingIPMWidgetOnly,
+    canShowHelpCenterIntroState
+  ) => {
     if (isUsingIPMWidgetOnly) {
       return {}
     }
 
     if (canShowHelpCenterIntroState) {
+      const height = hideZendeskLogo
+        ? MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
+        : MAX_WIDGET_HEIGHT_NO_SEARCH
+
       return {
-        maxHeight: `${MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN}px`
+        maxHeight: `${height + WIDGET_MARGIN}px`,
+        minHeight: `${height + WIDGET_MARGIN}px`
       }
     }
 
@@ -607,10 +627,6 @@ export const getFrameStyle = (state, frame) => {
 
     return defaultFrameStyle
   }
-}
-
-export const getHideZendeskLogo = state => {
-  return getEmbeddableConfig(state).hideZendeskLogo || getAccountSettingsHideBranding(state)
 }
 
 export const getAttachmentsEnabled = state => {
