@@ -205,7 +205,7 @@ function callMeRequest(talkServiceUrl, payload) {
 }
 
 function logFailure(error, payload) {
-  if (error.status == 404) return
+  if (shouldExclude(error, payload)) return
 
   const apiError = new HttpApiError(error)
   const errorTitle = `${apiError.name}: ${apiError.message}`
@@ -217,6 +217,10 @@ function logFailure(error, payload) {
     hostname: location.hostname
   }
   errorTracker.error(errorTitle, errorData)
+}
+
+function shouldExclude(error, payload) {
+  return error.status == 404 || /embeddable_blip/.test(payload.path)
 }
 
 export const http = {
