@@ -79,17 +79,20 @@ describe('sendChatMsgApi', () => {
 })
 
 describe('identify', () => {
-  let store
+  let store, setVisitorInfoSpy
 
   /* eslint-disable no-console */
   beforeEach(() => {
     store = createStore()
     jest.spyOn(console, 'warn')
+    setVisitorInfoSpy = jest.spyOn(chatActions, 'setVisitorInfo')
+
     console.warn.mockReturnValue()
   })
 
   afterEach(() => {
     console.warn.mockRestore()
+    setVisitorInfoSpy.mockRestore()
   })
 
   describe('when valid', () => {
@@ -108,6 +111,13 @@ describe('identify', () => {
       expect(beacon.identify).toHaveBeenCalledWith(params)
       expect(identity.setUserIdentity).toHaveBeenCalledWith(params.name, params.email)
     })
+
+    it('calls setVisitorInfo with the name and email', () => {
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+        display_name: params.name,
+        email: params.email
+      })
+    })
   })
 
   describe('when email is invalid', () => {
@@ -124,6 +134,12 @@ describe('identify', () => {
 
     it('does not call identify', () => {
       expect(beacon.identify).not.toHaveBeenCalled()
+    })
+
+    it('still calls setVisitorInfo with the name', () => {
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+        display_name: params.name
+      })
     })
 
     it('prints a warning', () => {
@@ -150,6 +166,12 @@ describe('identify', () => {
       expect(beacon.identify).not.toHaveBeenCalled()
     })
 
+    it('still calls setVisitorInfo with the email', () => {
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+        email: params.email
+      })
+    })
+
     it('prints a warning', () => {
       expect(console.warn).toHaveBeenCalledWith('invalid name passed into zE.identify', params.name)
     })
@@ -169,6 +191,10 @@ describe('identify', () => {
 
     it('does not call identify', () => {
       expect(beacon.identify).not.toHaveBeenCalled()
+    })
+
+    it('does not call setVisitorInfo', () => {
+      expect(setVisitorInfoSpy).not.toHaveBeenCalled()
     })
 
     it('prints a warning', () => {
