@@ -8,6 +8,7 @@ import * as utility from 'utility/devices'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 import { setContextualSuggestionsManually, contextualSearch } from 'embeds/helpCenter/actions'
 import { TEST_IDS } from 'src/constants/shared'
+import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 import HelpCenter from '../../index'
 
 const renderComponent = () => {
@@ -257,6 +258,23 @@ test('renders the expected messages for contextual search', () => {
 
   expect(getByText('There are no results for "Help me"')).toBeInTheDocument()
   expect(getByText('Try searching for something else.')).toBeInTheDocument()
+})
+
+describe('article page', () => {
+  it('hides the original article button when originalArticleButton setting is false', () => {
+    const { queryByTestId, container, getByPlaceholderText, queryByText, store } = renderComponent()
+
+    store.dispatch(updateSettings({ helpCenter: { originalArticleButton: false } }))
+
+    const form = container.querySelector('form')
+    const input = getByPlaceholderText('How can we help?')
+
+    fireEvent.change(input, { target: { value: 'Help me' } })
+    fireEvent.submit(form)
+
+    fireEvent.click(queryByText('What are these sections and articles doing here?'))
+    expect(queryByTestId('Icon--link-external')).not.toBeInTheDocument()
+  })
 })
 
 describe('desktop', () => {
