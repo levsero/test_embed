@@ -19,6 +19,7 @@ const supportedFields = {
   decimal: Decimal,
   checkbox: Checkbox,
   dropdown: Dropdown,
+  tagger: Dropdown,
   legacyDropdown: LegacyDropdown
 }
 

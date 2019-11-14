@@ -2,6 +2,8 @@
 
 exports[`includes all expected substates 1`] = `
 Object {
+  "activeFormName": "",
   "config": Object {},
+  "formStates": Object {},
 }
 `;

@@ -3,7 +3,7 @@ import { Field, Hint, Message, Textarea as GardenTextarea } from '@zendeskgarden
 import ContactFormLabel from 'src/embeds/support/components/FormField/ContactFormLabel'
 import PropTypes from 'prop-types'
 
-const Textarea = ({ field, value, errorMessage, onChange }) => {
+const Textarea = ({ field, value, errorMessage, onChange, isReadOnly }) => {
   return (
     <Field>
       {field.title_in_portal && (
@@ -13,6 +13,7 @@ const Textarea = ({ field, value, errorMessage, onChange }) => {
       <GardenTextarea
         name={field.id}
         value={value || ''}
+        readOnly={isReadOnly}
         onChange={e => {
           onChange(e.target.value)
         }}
@@ -34,7 +35,8 @@ Textarea.propTypes = {
   }),
   value: PropTypes.string,
   onChange: PropTypes.func,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  isReadOnly: PropTypes.bool
 }
 
 export default Textarea

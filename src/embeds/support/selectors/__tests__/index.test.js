@@ -2,7 +2,9 @@ import {
   getSupportConfig,
   getNewSupportEmbedEnabled,
   getMaxFileCount,
-  getMaxFileSize
+  getMaxFileSize,
+  getActiveFormName,
+  getFormState
 } from '../index'
 
 const state = {
@@ -12,7 +14,10 @@ const state = {
       maxFileCount: 10,
       maxFileSize: 5,
       webWidgetReactRouterSupport: true
-    }
+    },
+    activeFormName: 'ticketForm',
+    formStates: { contactForm: { name: 'Bobby' } },
+    showFormErrors: 'blap'
   }
 }
 
@@ -43,4 +48,16 @@ test('getMaxFileCount', () => {
   const result = getMaxFileCount(state)
 
   expect(result).toEqual(10)
+})
+
+test('getActiveFormName', () => {
+  const result = getActiveFormName(state)
+
+  expect(result).toEqual('ticketForm')
+})
+
+test('getFormState', () => {
+  const result = getFormState(state, 'contactForm')
+
+  expect(result).toEqual({ name: 'Bobby' })
 })

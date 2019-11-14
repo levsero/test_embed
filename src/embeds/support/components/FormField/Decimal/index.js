@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, Hint, Input, Message } from '@zendeskgarden/react-forms'
 import ContactFormLabel from 'embeds/support/components/FormField/ContactFormLabel'
 
-const Decimal = ({ field, value, errorMessage, onChange }) => {
+const Decimal = ({ field, value, errorMessage, onChange, isReadOnly }) => {
   return (
     <Field>
       {field.title_in_portal && (
@@ -15,6 +15,7 @@ const Decimal = ({ field, value, errorMessage, onChange }) => {
       <Input
         name={field.id}
         value={value || ''}
+        readOnly={isReadOnly}
         onChange={e => {
           onChange(e.target.value)
         }}
@@ -38,7 +39,8 @@ Decimal.propTypes = {
   }),
   value: PropTypes.string,
   onChange: PropTypes.func,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  isReadOnly: PropTypes.bool
 }
 
 export default Decimal
