@@ -32,7 +32,13 @@ import {
   CHAT_DEPARTMENT_STATUS_EVENT,
   CHAT_POPOUT_EVENT
 } from 'constants/event'
-import { chatLogout, sendVisitorPath, endChat, sendMsg } from 'src/redux/modules/chat/chat-actions'
+import {
+  chatLogout,
+  sendVisitorPath,
+  endChat,
+  sendMsg,
+  setVisitorInfo
+} from 'src/redux/modules/chat/chat-actions'
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import {
   getDepartment,
@@ -68,17 +74,20 @@ export const sendChatMsgApi = (reduxStore, msg) => {
   reduxStore.dispatch(sendMsg(message))
 }
 
-export const identifyApi = (_reduxStore, user) => {
+export const identifyApi = (reduxStore, user) => {
   const isEmailValid = emailValid(user.email),
     isNameValid = nameValid(user.name)
 
   if (isEmailValid && isNameValid) {
     beacon.identify(user)
     identity.setUserIdentity(user.name, user.email)
+    reduxStore.dispatch(setVisitorInfo({ display_name: user.name, email: user.email }))
   } else if (isEmailValid) {
     console.warn('invalid name passed into zE.identify', user.name) // eslint-disable-line no-console
+    reduxStore.dispatch(setVisitorInfo({ email: user.email }))
   } else if (isNameValid) {
     console.warn('invalid email passed into zE.identify', user.email) // eslint-disable-line no-console
+    reduxStore.dispatch(setVisitorInfo({ display_name: user.name }))
   } else {
     console.warn('invalid params passed into zE.identify', user) // eslint-disable-line no-console
   }
