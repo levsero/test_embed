@@ -129,9 +129,9 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     TALK_SUCCESS_DONE_BUTTON_CLICKED
   ]
   const widgetVisible = getWebWidgetVisible(prevState)
-  const isNewChatChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat'
+  const isChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat'
   const shouldReset =
-    (_.includes(updateActions, type) && !isNewChatChatting) || shouldResetForChat(type, nextState)
+    (_.includes(updateActions, type) && !isChatting) || shouldResetForChat(type, nextState)
   const shouldResetForChatChannelChoice =
     type === CLOSE_BUTTON_CLICKED &&
     !getChatAvailable(prevState) &&

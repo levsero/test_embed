@@ -21,7 +21,6 @@ class Chat extends Component {
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     cancelButtonClicked: PropTypes.func,
-    position: PropTypes.string,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
@@ -80,7 +79,6 @@ class Chat extends Component {
         }}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
-        position={this.props.position}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
         chatId={this.props.chatId}

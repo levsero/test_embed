@@ -106,7 +106,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -155,7 +154,6 @@ class WebWidget extends Component {
     fullscreen: true,
     helpCenterAvailable: false,
     hideZendeskLogo: false,
-    position: 'right',
     style: null,
     showTicketFormsBackButton: false,
     ticketFieldSettings: [],
@@ -272,7 +270,6 @@ class WebWidget extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        position={this.props.position}
         chatId={this.props.chatId}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -412,7 +409,6 @@ class WebWidget extends Component {
       isMobile,
       style,
       activeEmbed,
-      position,
       mobileNotificationsDisabled,
       webWidgetVisible,
       chatStandaloneMobileNotificationVisible
@@ -440,7 +436,6 @@ class WebWidget extends Component {
           style={containerStyle}
           fullscreen={fullscreen}
           isMobile={isMobile}
-          position={position}
           onDragEnter={this.onContainerDragEnter}
         >
           <OnBackProvider value={this.onBackClick}>

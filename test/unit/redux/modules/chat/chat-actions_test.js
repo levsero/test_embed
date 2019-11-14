@@ -638,34 +638,6 @@ describe('chat redux actions', () => {
           expect(broadcastSpy).not.toHaveBeenCalled()
         })
       })
-
-      describe('when chat is standalone', () => {
-        beforeEach(() => {
-          mockChatStandalone = true
-        })
-
-        describe('when chat is online', () => {
-          beforeEach(() => {
-            mockChatOnline = true
-            mockStore.dispatch(actions.getAccountSettings())
-          })
-
-          it('does not broadcast to mediator', () => {
-            expect(broadcastSpy).not.toHaveBeenCalledWith('newChat.offlineFormOn')
-          })
-        })
-
-        describe('when chat is offline', () => {
-          beforeEach(() => {
-            mockChatOnline = false
-            mockStore.dispatch(actions.getAccountSettings())
-          })
-
-          it('broadcasts show to mediator', () => {
-            expect(broadcastSpy).toHaveBeenCalledWith('newChat.offlineFormOn')
-          })
-        })
-      })
     })
   })
 
