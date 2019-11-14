@@ -29,4 +29,8 @@
 .attachment {
   composes: u-marginTS from global;
   border-radius: #{4 / $font-size}rem;
+
+  &:last-of-type {
+    margin-bottom: $spacing-sml !important;
+  }
 }
