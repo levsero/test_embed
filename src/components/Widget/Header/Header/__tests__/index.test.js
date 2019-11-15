@@ -2,7 +2,7 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { find } from 'styled-components/test-utils'
-import HeaderContainer from 'components/Widget/Header/HeaderContainer'
+import HeaderView from 'components/Widget/Header/HeaderView'
 import Title from 'components/Widget/Header/Title'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import Header from '../'
@@ -68,7 +68,7 @@ describe('Header', () => {
     it('renders children after the title row', () => {
       const { container } = renderComponent({ children: <div>children</div> })
 
-      const lastChild = find(container, HeaderContainer).lastChild
+      const lastChild = find(container, HeaderView).lastChild
 
       expect(lastChild).toHaveTextContent('children')
     })

@@ -3,14 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ChatMenu from 'embeds/chat/components/ChatMenu'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
-import {
-  HeaderContainer,
-  Title,
-  CloseButton,
-  TitleRow,
-  BackButton,
-  HeaderItem
-} from 'components/Widget'
+import { HeaderView, Title, CloseButton, TitleRow, BackButton, HeaderItem } from 'components/Widget'
 import { isMobileBrowser } from 'utility/devices'
 import { getChatTitle, getIsPopoutButtonVisible } from 'src/redux/modules/selectors'
 import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
@@ -43,7 +36,7 @@ const ChatWidgetHeader = ({
   }
 
   return (
-    <HeaderContainer>
+    <HeaderView>
       <TitleRow>
         {isMobileBrowser() ? <ChatMenu onBackClick={onBack} /> : <BackButton />}
         <Title>{title}</Title>
@@ -56,7 +49,7 @@ const ChatWidgetHeader = ({
 
         <CloseButton />
       </TitleRow>
-    </HeaderContainer>
+    </HeaderView>
   )
 }
 
