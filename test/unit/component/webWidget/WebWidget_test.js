@@ -75,6 +75,8 @@ describe('WebWidget component', () => {
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'embeds/support': connectedComponent(<MockSupport />),
       'src/components/LoadingPage': noopReactComponent(),
+      'src/components/LoadingPageErrorBoundary': noopReactComponent(),
+      'src/components/Widget/SuspensePage': noopSuspenseComponent(),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),

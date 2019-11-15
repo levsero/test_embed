@@ -62,6 +62,7 @@ const TestRenderer = require('react-test-renderer')
 
 global.React = React
 global.Component = React.Component
+global.Suspense = React.Suspense
 global.ReactDOM = ReactDOM
 global.TestUtils = TestUtils
 
@@ -69,6 +70,18 @@ global.noopReactComponent = () =>
   class extends Component {
     render() {
       return <div className={this.props.className}>{this.props.children}</div>
+    }
+  }
+
+global.noopSuspenseComponent = () =>
+  class extends Component {
+    render() {
+      const Suspense = global.Suspense
+      return (
+        <div>
+          <Suspense fallback={<h6>Suspense fallback</h6>}>{this.props.children}</Suspense>
+        </div>
+      )
     }
   }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import LoadingPage from 'src/components/LoadingPage'
 import errorTracker from 'service/errorTracker'
 
-export default class ErrorBoundary extends Component {
+export default class LoadingPageErrorBoundary extends Component {
   static getDerivedStateFromError(_error) {
     return { hasError: true }
   }
@@ -27,10 +27,10 @@ export default class ErrorBoundary extends Component {
   }
 }
 
-ErrorBoundary.propTypes = {
+LoadingPageErrorBoundary.propTypes = {
   children: PropTypes.node
 }
 
-ErrorBoundary.defaultProps = {
+LoadingPageErrorBoundary.defaultProps = {
   children: []
 }
