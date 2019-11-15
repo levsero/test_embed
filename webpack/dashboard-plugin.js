@@ -5,7 +5,9 @@ const spawn = require('child_process').spawn
 let running = false
 
 function DashboardPlugin({ isAvailable }) {
-  const dashboardPath = path.resolve(process.env.ZENDESK_CODE_DIR, 'widget-developer-dashboard')
+  const zendeskCodePath = process.env.ZENDESK_CODE_DIR || path.resolve(__dirname, '../')
+
+  const dashboardPath = path.resolve(zendeskCodePath, 'widget-developer-dashboard')
 
   if (isAvailable && !fs.existsSync(dashboardPath)) {
     throw new Error(
