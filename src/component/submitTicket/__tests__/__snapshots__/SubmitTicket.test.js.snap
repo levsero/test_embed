@@ -13,20 +13,20 @@ exports[`active ticket form renders the expected components 1`] = `
         class="container"
       >
         <div
-          class="sc-bwzfXH jaHvNe"
+          class="sc-htpNat fufVln"
         >
           <div
-            class="sc-bxivhb sc-ifAKCX kPfswV"
+            class="sc-ifAKCX sc-EHOje cFboZL"
           >
             <h1
-              class="sc-htpNat jTlEqc"
+              class="sc-bxivhb krnEZd"
               data-testid="widget-title"
             >
               message
             </h1>
             <button
               aria-label="Minimize"
-              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.icon_button"
@@ -208,10 +208,10 @@ exports[`active ticket form renders the expected components 1`] = `
           </div>
         </div>
         <footer
-          class="sc-bZQynM bbmYGO"
+          class="sc-gzVnrw gjKPtN"
         >
           <div
-            class="sc-gzVnrw eLrsMK"
+            class="sc-htoDjs kgaGXd"
           >
             <a
               class="icon"
@@ -394,20 +394,20 @@ exports[`renders the expected components 1`] = `
         class="container"
       >
         <div
-          class="sc-bwzfXH jaHvNe"
+          class="sc-htpNat fufVln"
         >
           <div
-            class="sc-bxivhb sc-ifAKCX kPfswV"
+            class="sc-ifAKCX sc-EHOje cFboZL"
           >
             <h1
-              class="sc-htpNat jTlEqc"
+              class="sc-bxivhb krnEZd"
               data-testid="widget-title"
             >
               message
             </h1>
             <button
               aria-label="Minimize"
-              class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.icon_button"
@@ -527,10 +527,10 @@ exports[`renders the expected components 1`] = `
           </div>
         </div>
         <footer
-          class="sc-bZQynM bbmYGO"
+          class="sc-gzVnrw gjKPtN"
         >
           <div
-            class="sc-gzVnrw eLrsMK"
+            class="sc-htoDjs kgaGXd"
           >
             <a
               class="icon"
@@ -658,20 +658,20 @@ exports[`renders the loading bar content 1`] = `
       class="container"
     >
       <div
-        class="sc-bwzfXH jaHvNe"
+        class="sc-htpNat fufVln"
       >
         <div
-          class="sc-bxivhb sc-ifAKCX kPfswV"
+          class="sc-ifAKCX sc-EHOje cFboZL"
         >
           <h1
-            class="sc-htpNat jTlEqc"
+            class="sc-bxivhb krnEZd"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -791,10 +791,10 @@ exports[`renders the loading bar content 1`] = `
         </div>
       </div>
       <footer
-        class="sc-bZQynM bbmYGO"
+        class="sc-gzVnrw gjKPtN"
       >
         <div
-          class="sc-gzVnrw eLrsMK"
+          class="sc-htoDjs kgaGXd"
         >
           <a
             class="icon"

@@ -8,13 +8,13 @@ import {
   Item,
   Label,
   Field,
-  Select,
   Hint,
   Message
 } from '@zendeskgarden/react-dropdowns'
 import ContactFormLabel from 'embeds/support/components/FormField/ContactFormLabel'
 import { useCurrentFrame } from 'components/Frame'
-import { TEST_IDS } from 'constants/shared'
+import { FONT_SIZE, TEST_IDS } from 'constants/shared'
+import { SupportSelect } from './styles'
 
 const useDropdownTree = (items = []) => {
   const [root, tree, rootId] = useMemo(() => {
@@ -145,11 +145,11 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
 
           {field.description && <Hint>{field.description}</Hint>}
 
-          {errorMessage && <Message validation="error">{errorMessage}</Message>}
+          <SupportSelect data-testid={TEST_IDS.DROPDOWN_FIELD}>{current}</SupportSelect>
 
-          <Select data-testid={TEST_IDS.DROPDOWN_FIELD}>{current}</Select>
+          {errorMessage && <Message validation="error">{errorMessage}</Message>}
         </Field>
-        <Menu data-testid={TEST_IDS.DROPDOWN_OPTIONS}>
+        <Menu data-testid={TEST_IDS.DROPDOWN_OPTIONS} maxHeight={`${240 / FONT_SIZE}rem`}>
           {view.parent && <PreviousItem value={view.parent}>{view.name}</PreviousItem>}
 
           {Boolean(isRoot() && !field.required_in_portal) && <Item value={emptyId}>-</Item>}
