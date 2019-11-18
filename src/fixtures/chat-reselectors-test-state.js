@@ -92,8 +92,7 @@ const getModifiedState = inputState => {
           title: { '*': 'overrideTitle' }
         },
         departments: {
-          enabled: ['burgers', 222],
-          select: null
+          enabled: ['burgers', 222]
         },
         offlineForm: { greeting: { '*': 'hello fren' } },
         profileCard: {
