@@ -21,7 +21,6 @@ beforeEach(() => {
 
 test('new chat', () => {
   const configJSON = {
-    newChat: true,
     embeds: {
       zopimChat: {
         embed: 'chat',
@@ -30,6 +29,10 @@ test('new chat', () => {
           position: 'br',
           standalone: true
         }
+      },
+      launcher: {
+        embed: 'launcher',
+        props: {}
       }
     }
   }
