@@ -52,30 +52,45 @@ export default function WebWidgetFactory(name) {
     const popout = isPopout(),
       isMobile = isMobileBrowser()
     const state = reduxStore.getState()
-    const { embeds } = config
 
-    const helpCenterAvailable = !!embeds.helpCenterForm && !getSettingsHelpCenterSuppress(state)
+    const configDefaults = {
+      hideZendeskLogo: false,
+      color: '#1F73B7'
+    }
+    const talkConfig = config.talk
+    const helpCenterAvailable = !!config.helpCenterForm && !getSettingsHelpCenterSuppress(state)
     const talkEnabled = getTalkEnabled(state)
     const submitTicketAvailable =
-      !!embeds.ticketSubmissionForm && !getSettingsContactFormSuppress(state)
+      !!config.ticketSubmissionForm && !getSettingsContactFormSuppress(state)
+    const chatConfig = config.zopimChat
     const chatAvailable =
-      !!embeds.zopimChat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
-
-    const talkConfig = talkEnabled ? embeds.talk.props : {}
-    const submitTicketConfig = submitTicketAvailable ? embeds.ticketSubmissionForm.props : {}
-    const chatConfig = chatAvailable ? embeds.zopimChat.props : {}
-    const helpCenterConfig = helpCenterAvailable ? embeds.helpCenterForm.props : {}
-
+      !!chatConfig && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
     const submitTicketSettings = submitTicketAvailable
-      ? setUpSubmitTicket(submitTicketConfig, reduxStore)
+      ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {}
+    const helpCenterSettings = setUpHelpCenter(config.helpCenterForm)
     // if HC is unavailable, then IPM help center is available
     const ipmHelpCenterAvailable = !helpCenterAvailable
+    const rootConfig = _.omit(config, [
+      'ticketSubmissionForm',
+      'helpCenterForm',
+      'zopimChat',
+      'talk'
+    ])
+    const globalConfig = _.extend(
+      configDefaults,
+      helpCenterSettings.config,
+      submitTicketSettings.config,
+      talkConfig,
+      chatConfig,
+      rootConfig
+    )
 
     embed = {
       submitTicketSettings,
       config: {
-        helpCenterForm: helpCenterConfig,
+        global: globalConfig,
+        helpCenterForm: helpCenterSettings.config,
         ticketSubmissionForm: submitTicketSettings.config,
         zopimChat: chatConfig
       },
@@ -114,9 +129,11 @@ export default function WebWidgetFactory(name) {
       },
       css: webWidgetCSS + frameBodyCss,
       generateUserCSS: generateUserWidgetCSS,
+      position: globalConfig.position,
       fullscreenable: true,
       fullscreen: popout,
       isMobile: isMobile,
+      newChat: chatAvailable,
       store: reduxStore,
       visible: false,
       useBackButton: !popout,
@@ -134,7 +151,9 @@ export default function WebWidgetFactory(name) {
             isMobile={isMobile}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
             isOnHelpCenterPage={isOnHelpCenterPage()}
+            imagesSender={helpCenterSettings.imagesSenderFn}
             originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+            position={globalConfig.position}
             style={containerStyle}
             ticketFormSettings={settings.get('contactForm.ticketForms')}
             ticketFieldSettings={settings.get('contactForm.fields')}
@@ -330,6 +349,12 @@ export default function WebWidgetFactory(name) {
         getTalkNickname(store.getState())
       )
     )
+  }
+
+  function setUpHelpCenter(config) {
+    return {
+      config
+    }
   }
 
   const webWidget = {

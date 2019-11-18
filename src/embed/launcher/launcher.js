@@ -18,6 +18,18 @@ const launcherCSS = `${require('globalCSS')} ${launcherStyles}`
 
 let embed
 
+const getEmbedConfig = (config = {}) => {
+  const configDefaults = {
+    onClick: () => {},
+    icon: 'Icon',
+    labelKey: 'help',
+    visible: true,
+    color: '#659700'
+  }
+
+  return _.extend({}, configDefaults, config)
+}
+
 const adjustWidth = (frameStyle, el) => {
   const width = Math.max(el.clientWidth, el.offsetWidth)
 
@@ -43,8 +55,8 @@ const adjustStylesForZoom = (frameStyle, el) => {
   return _.extend({}, frameStyle, adjustWidth(frameStyle, el), result, height)
 }
 
-function create(name, config = { props: {} }, reduxStore) {
-  const embedConfig = config
+function create(name, config = {}, reduxStore) {
+  const embedConfig = getEmbedConfig(config)
   const { visible } = embedConfig
   const isMobile = isMobileBrowser()
   const params = {
@@ -84,8 +96,8 @@ function create(name, config = { props: {} }, reduxStore) {
         <Launcher
           onClickHandler={onClickHandler}
           updateFrameTitle={updateFrameTitle}
-          hideBranding={config.props.hideZendeskLogo}
-          labelKey={config.props.labelKey}
+          labelKey={`embeddable_framework.launcher.label.${embedConfig.labelKey}`}
+          hideBranding={config.hideZendeskLogo}
           fullscreen={false}
           isMobile={isMobile}
         />
