@@ -3,15 +3,15 @@ import _ from 'lodash'
 
 const initialState = true
 
-const trackAllVisitors = (state = initialState, action) => {
+const connectOnPageLoad = (state = initialState, action) => {
   const { type, payload } = action
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return Boolean(_.get(payload, 'webWidget.chat.trackAllVisitors', state))
+      return Boolean(_.get(payload, 'webWidget.chat.connectOnPageLoad', state))
     default:
       return state
   }
 }
 
-export default trackAllVisitors
+export default connectOnPageLoad

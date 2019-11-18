@@ -1,4 +1,4 @@
-import trackAllVisitors from '../trackAllVisitors'
+import connectOnPageLoad from '../connectOnPageLoad'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
@@ -6,15 +6,15 @@ const initialState = true
 const badPayload = {
   foo: 'bar'
 }
-const goodPayload = trackAllVisitors => ({
+const goodPayload = connectOnPageLoad => ({
   webWidget: {
     chat: {
-      trackAllVisitors
+      connectOnPageLoad
     }
   }
 })
 
-testReducer(trackAllVisitors, [
+testReducer(connectOnPageLoad, [
   {
     action: { type: undefined },
     expected: initialState

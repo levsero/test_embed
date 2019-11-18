@@ -31,7 +31,7 @@ import {
   getSettingsChatDepartment,
   getSettingsNavigationPopoutButtonEnabled,
   getSettingsChatConnectOnDemand,
-  getSettingsChatTrackAllVisitors
+  getSettingsChatConnectOnPageLoad
 } from 'src/redux/modules/settings/settings-selectors'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
 import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
@@ -295,9 +295,9 @@ export const isInChattingScreen = createSelector(
 export const getOfflineFormEnabled = state => getOfflineFormSettings(state).enabled
 
 export const getDelayChatConnection = createSelector(
-  [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatTrackAllVisitors],
-  (defaultToChatWidgetLite, connectOnDemand, trackAllVisitors) => {
-    return connectOnDemand || !trackAllVisitors || defaultToChatWidgetLite
+  [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],
+  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad) => {
+    return connectOnDemand || !connectOnPageLoad || defaultToChatWidgetLite
   }
 )
 
