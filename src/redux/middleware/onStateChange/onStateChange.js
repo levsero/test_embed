@@ -36,7 +36,7 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors'
-import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors'
+import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getWidgetShown,
@@ -109,15 +109,6 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState)
     const isMobile = isMobileBrowser()
 
-    if (
-      _.size(getChatMessagesFromAgents(nextState)) === 1 &&
-      !isMobile &&
-      activeEmbed === 'helpCenterForm' &&
-      !getHasSearched(nextState)
-    ) {
-      dispatch(updateActiveEmbed('chat'))
-    }
-
     startChatNotificationTimer(agentMessage)
 
     if (
@@ -127,7 +118,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
       agentMessage.proactive &&
       !(isMobile && isMobileNotificationsDisabled)
     ) {
-      dispatch(proactiveMessageReceived(agentMessage))
+      dispatch(proactiveMessageReceived())
     }
   }
 }

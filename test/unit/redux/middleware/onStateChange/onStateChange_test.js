@@ -584,18 +584,6 @@ describe('onStateChange middleware', () => {
                       expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
                     })
                   })
-
-                  describe('when device is not mobile and user has not searched', () => {
-                    beforeEach(() => {
-                      mockIsMobileBrowser = false
-                      mockHasSearched = false
-                      stateChangeFn(prevState, nextState, {}, dispatchSpy)
-                    })
-
-                    it('updates active embed to chat', () => {
-                      expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-                    })
-                  })
                 })
               })
             })

@@ -701,17 +701,14 @@ export function handleChatVendorLoaded(vendor) {
   }
 }
 
-export function proactiveMessageReceived(agentMessage) {
+export function proactiveMessageReceived() {
   return dispatch => {
     dispatch({ type: actions.PROACTIVE_CHAT_RECEIVED })
     dispatch(showWidget())
+    dispatch(showChat({ proactive: true }))
 
     if (isMobileBrowser()) {
       dispatch(showStandaloneMobileNotification())
-    } else {
-      if (agentMessage.show) {
-        dispatch(showChat({ proactive: true }))
-      }
     }
   }
 }

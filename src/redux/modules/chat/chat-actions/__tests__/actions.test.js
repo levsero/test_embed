@@ -964,12 +964,8 @@ test('newAgentMessageReceived', () => {
 })
 
 describe('proactiveMessageReceived', () => {
-  const agentMessage = {
-    show: true
-  }
-
   it('dispatches expected actions when not hidden', () => {
-    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
+    const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
           hideApi: false
@@ -1000,7 +996,7 @@ describe('proactiveMessageReceived', () => {
   })
 
   it('dispatches expected actions when hidden', () => {
-    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
+    const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
           hideApi: true
@@ -1029,7 +1025,7 @@ describe('proactiveMessageReceived', () => {
 
   it('dispatches expected actions when on mobile', () => {
     isMobileBrowser.mockReturnValue(true)
-    const results = dispatchAction(actions.proactiveMessageReceived(agentMessage), {
+    const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
           hideApi: false
@@ -1044,6 +1040,16 @@ describe('proactiveMessageReceived', () => {
         },
         Object {
           "type": "widget/base/SHOW_WIDGET",
+        },
+        Object {
+          "payload": "chat",
+          "type": "widget/base/UPDATE_ACTIVE_EMBED",
+        },
+        Object {
+          "payload": Object {
+            "screen": "widget/chat/CHATTING_SCREEN",
+          },
+          "type": "widget/chat/UPDATE_CHAT_SCREEN",
         },
         Object {
           "type": "widget/chat/SHOW_STANDALONE_MOBILE_NOTIFICATION",
