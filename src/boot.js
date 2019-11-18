@@ -100,7 +100,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       beacon.trackSettings(settings.getTrackSettings())
     }
 
-    if (_.get(config, 'embeds.zopimChat')) {
+    if (config.newChat) {
       zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 

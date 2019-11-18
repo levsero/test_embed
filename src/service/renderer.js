@@ -4,9 +4,10 @@ import { launcher } from 'embed/launcher/launcher'
 import WebWidgetFactory from 'embed/webWidget/webWidget'
 import { i18n } from 'service/i18n'
 import { mediator } from 'service/mediator'
+import errorTracker from 'service/errorTracker'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
-import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
+import { updateEmbedAccessible, updateArturos, widgetInitialised } from 'src/redux/modules/base'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
 
@@ -17,39 +18,101 @@ const embedsMap = {
 }
 let initialised = false
 let hideLauncher = false
+let renderedEmbeds
 
 function hide() {
   hideLauncher = true
+}
+
+function parseConfig(config) {
+  const rendererConfig = _.clone(config.embeds, true) || {}
+
+  _.forEach(rendererConfig, function(configItem) {
+    configItem.props = _.reduce(
+      configItem.props,
+      function(result, value, key) {
+        result[key] = value
+        return result
+      },
+      {}
+    )
+  })
+
+  if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
+    rendererConfig.helpCenterForm.props.showNextButton = false
+  }
+
+  return rendererConfig
 }
 
 const dummyStore = {
   dispatch: () => {}
 }
 
-function renderWebWidget(config, reduxStore) {
-  const webWidget = embedsMap['webWidget']
+function mergeEmbedConfigs(config, embeddableConfig) {
+  const embeds = embeddableConfig && embeddableConfig.embeds
 
-  webWidget.create('webWidget', _.omit(config, 'embeds.launcher'), reduxStore)
-  webWidget.render('webWidget')
-}
+  if (embeds) {
+    _.forEach(config.embeds, (value, key) => {
+      if (embeds[key]) {
+        const newConfig = _.merge({}, embeds[key], config.embeds[key])
 
-function renderLauncher(config, reduxStore) {
-  const visible = config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher
-
-  const parsedConfig = {
-    ...config.embeds.launcher,
-    visible
+        config.embeds[key] = newConfig
+      }
+    })
   }
 
-  launcher.create('launcher', parsedConfig, reduxStore)
-  launcher.render('launcher')
+  return config
 }
 
-function registerEmbedsInRedux(config, reduxStore) {
-  Object.keys(config.embeds).forEach(embed => {
+function addPropsToConfig(name, config, parsedConfig, reduxStore) {
+  const { newChat } = config
+  const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk']
+
+  // Only send chat to WebWidget if new chat is on. Otherwise use old one.
+  if (newChat) webWidgetEmbeds.push('zopimChat')
+
+  const widgetEmbedsConfig = _.pick(parsedConfig, webWidgetEmbeds)
+  const webWidgetConfig = _.mapValues(widgetEmbedsConfig, 'props')
+
+  _.keys(webWidgetConfig).forEach(embed => {
     const name = embed === 'zopimChat' ? 'chat' : embed
 
     reduxStore.dispatch(updateEmbedAccessible(name, true))
+  })
+
+  parsedConfig = _.omit(parsedConfig, webWidgetEmbeds)
+
+  parsedConfig[name] = {
+    embed: name,
+    props: webWidgetConfig
+  }
+
+  return parsedConfig
+}
+
+function renderEmbeds(parsedConfig, config, reduxStore) {
+  _.forEach(parsedConfig, (configItem, embedName) => {
+    try {
+      reduxStore.dispatch(updateEmbedAccessible(embedName, true))
+      configItem.props.visible =
+        config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher
+      configItem.props.brand = config.brand
+      configItem.props.color = { base: config.color, text: config.textColor }
+      configItem.props.brandCount = config.brandCount
+
+      embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore)
+      embedsMap[configItem.embed].render(embedName)
+    } catch (err) {
+      const customData = {
+        embedName: embedName,
+        configItem: configItem
+      }
+
+      if (!_.isEmpty(err)) {
+        errorTracker.error(err, customData)
+      }
+    }
   })
 }
 
@@ -63,15 +126,29 @@ function init(config, reduxStore = dummyStore) {
       setLocaleApi(config.locale)
     }
 
-    if (!_.isEmpty(config.embeds)) {
-      registerEmbedsInRedux(config, reduxStore)
-      renderLauncher(config, reduxStore)
-      renderWebWidget(config, reduxStore)
+    const { newChat, embeds = {} } = config
+    const useNewChatEmbed = !!embeds.zopimChat && newChat
+    const hasSingleIframeEmbeds =
+      !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || !!embeds.talk || useNewChatEmbed
+    let parsedConfig = parseConfig(config)
 
-      mediator.init(reduxStore)
+    if (hasSingleIframeEmbeds) {
+      parsedConfig = addPropsToConfig('webWidget', config, parsedConfig, reduxStore)
     }
 
-    reduxStore.dispatch(widgetInitialised())
+    const arturos = {
+      newChat: !!newChat,
+      chatPopout: !!config.chatPopout,
+      chatBadge: !!config.chatBadge
+    }
+
+    reduxStore.dispatch(updateArturos(arturos))
+    renderEmbeds(parsedConfig, config, reduxStore)
+
+    renderedEmbeds = parsedConfig
+
+    initMediator(config, reduxStore)
+    reduxStore.dispatch(widgetInitialised(arturos))
 
     initialised = true
 
@@ -85,36 +162,44 @@ function init(config, reduxStore = dummyStore) {
   }
 }
 
-function initIPM(config, embeddableConfig = { embeds: {} }, reduxStore = dummyStore) {
-  const ipmWidget = embedsMap['ipmWidget']
+function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
+  config = mergeEmbedConfigs(config, embeddableConfig)
+  let parsedConfig = parseConfig(config)
 
-  const parsedConfig = {
-    embeds: {
-      ...embeddableConfig.embeds,
-      ...config.embeds
-    }
+  parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore)
+  renderEmbeds(parsedConfig, config, reduxStore)
+}
+
+function initMediator(config, store) {
+  const embeds = config.embeds
+
+  if (embeds) {
+    mediator.init(store)
+  } else if (!_.isEmpty(embeds)) {
+    errorTracker.error(new Error('Could not find correct embeds to initialise.'), {
+      params: { config: config }
+    })
   }
-
-  ipmWidget.create('ipmWidget', parsedConfig, reduxStore)
-  ipmWidget.render('ipmWidget')
-
-  reduxStore.dispatch(updateEmbedAccessible('ipmWidget', true))
 }
 
 function renderedEmbedsApply(fn) {
-  ;['webWidget', 'launcher', 'ipmWidget'].forEach(function(name) {
-    const currentEmbed = embedsMap[name].get()
+  _.forEach(renderedEmbeds, function(embed, name) {
+    const currentEmbed = embedsMap[embed.embed].get(name).instance
 
-    if (currentEmbed && currentEmbed.instance) {
-      fn(currentEmbed.instance)
+    if (currentEmbed) {
+      fn(currentEmbed)
     }
   })
 }
 
 function postRenderCallbacks() {
-  const webWidget = embedsMap['webWidget']
+  _.forEach(renderedEmbeds, function(embed, name) {
+    const currentEmbed = embedsMap[embed.embed]
 
-  webWidget.postRender('webWidget')
+    if (currentEmbed.postRender) {
+      currentEmbed.postRender(name)
+    }
+  })
 }
 
 function propagateFontRatio(ratio) {

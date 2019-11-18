@@ -24,6 +24,7 @@ describe('embed.webWidget', () => {
     chatNotificationDismissedSpy,
     mockIsPopout,
     mockTalkRequired = true,
+    mockConfig = { talk: { serviceUrl: 'talk.io' } },
     mockCookiesDisabled
 
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget')
@@ -32,14 +33,6 @@ describe('embed.webWidget', () => {
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields')
   const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED'
   const callMeScreen = 'widget/talk/CALLBACK_SCREEN'
-  const createMockConfig = (overrides = {}) => {
-    return {
-      embeds: {
-        talk: { props: { serviceUrl: 'talk.io' } },
-        ...overrides
-      }
-    }
-  }
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false
@@ -232,7 +225,7 @@ describe('embed.webWidget', () => {
     let faythe
 
     it('creates the embed component', () => {
-      webWidget.create('', createMockConfig(), mockStore)
+      webWidget.create('', mockConfig, mockStore)
 
       faythe = webWidget.get()
 
@@ -245,10 +238,11 @@ describe('embed.webWidget', () => {
       let child, grandchild, frame
 
       const createRender = () => {
-        const config = createMockConfig({
-          ticketSubmissionForm: { props: { attachmentsEnabled: true } },
-          helpCenterForm: { props: {} }
-        })
+        const config = {
+          ...mockConfig,
+          ticketSubmissionForm: { attachmentsEnabled: true },
+          helpCenterForm: {}
+        }
 
         webWidget.create('', config, mockStore)
         webWidget.render()
@@ -264,7 +258,7 @@ describe('embed.webWidget', () => {
       })
 
       it('applies webWidget.scss to the frame factory', () => {
-        webWidget.create('', createMockConfig(), mockStore)
+        webWidget.create('', mockConfig, mockStore)
 
         expect(webWidget.get().component.props.children.props.css).toContain('mockCss')
       })
@@ -335,9 +329,10 @@ describe('embed.webWidget', () => {
     describe('ipm', () => {
       describe('ipm mode is not on', () => {
         beforeEach(() => {
-          const config = createMockConfig({
-            ticketSubmissionForm: { props: { formTitleKey: 'foo' } }
-          })
+          const config = {
+            ...mockConfig,
+            ticketSubmissionForm: { formTitleKey: 'foo' }
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.render()
@@ -352,9 +347,10 @@ describe('embed.webWidget', () => {
 
       describe('no hc and ipm mode on', () => {
         beforeEach(() => {
-          const config = createMockConfig({
-            ticketSubmissionForm: { props: { formTitleKey: 'foo' } }
-          })
+          const config = {
+            ...mockConfig,
+            ticketSubmissionForm: { formTitleKey: 'foo' }
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.render()
@@ -369,10 +365,11 @@ describe('embed.webWidget', () => {
 
       describe('has hc and ipm mode on', () => {
         beforeEach(() => {
-          const config = createMockConfig({
-            ticketSubmissionForm: { props: { formTitleKey: 'foo' } },
-            helpCenterForm: { props: { formTitleKey: 'bar' } }
-          })
+          const config = {
+            ...mockConfig,
+            ticketSubmissionForm: { formTitleKey: 'foo' },
+            helpCenterForm: { formTitleKey: 'bar' }
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.render()
@@ -388,9 +385,10 @@ describe('embed.webWidget', () => {
 
     describe('child props', () => {
       beforeEach(() => {
-        const config = createMockConfig({
-          ticketSubmissionForm: { props: { formTitleKey: 'foo' } }
-        })
+        const config = {
+          ...mockConfig,
+          ticketSubmissionForm: { formTitleKey: 'foo' }
+        }
 
         webWidget.create('', config, mockStore)
         webWidget.render()
@@ -409,7 +407,7 @@ describe('embed.webWidget', () => {
       describe('when on mobile', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true
-          webWidget.create('', createMockConfig(), mockStore)
+          webWidget.create('', mockConfig, mockStore)
           webWidget.render()
 
           faythe = webWidget.get().instance.props.children
@@ -436,7 +434,7 @@ describe('embed.webWidget', () => {
 
         beforeEach(() => {
           mockIsPopout = true
-          webWidget.create('', createMockConfig(), mockStore)
+          webWidget.create('', mockConfig, mockStore)
           webWidget.render()
 
           result = webWidget.get().instance.props.children
@@ -452,10 +450,50 @@ describe('embed.webWidget', () => {
       })
     })
 
+    describe('global config', () => {
+      let globalConf
+
+      beforeEach(() => {
+        const config = {
+          ...mockConfig,
+          root: true,
+          baz: 2,
+          ticketSubmissionForm: {
+            foo: true,
+            baz: 1
+          },
+          helpCenterForm: {
+            bar: true
+          }
+        }
+
+        webWidget.create('', config, mockStore)
+
+        faythe = webWidget.get()
+        globalConf = faythe.config.global
+      })
+
+      it('has ticketSubmissionForm values', () => {
+        expect(globalConf.foo).toBeTruthy()
+      })
+
+      it('has helpCenterForm values', () => {
+        expect(globalConf.bar).toBeTruthy()
+      })
+
+      it('has the default values', () => {
+        expect(globalConf.hideZendeskLogo).toBe(false)
+      })
+
+      it('uses root level values before embed values', () => {
+        expect(globalConf.baz).toBe(2)
+      })
+    })
+
     describe('when no embeds are part of config', () => {
       beforeEach(() => {
         zChatInitSpy.calls.reset()
-        webWidget.create('', createMockConfig(), mockStore)
+        webWidget.create('', mockConfig, mockStore)
         webWidget.render()
 
         faythe = webWidget.get().instance.getRootComponent()
@@ -478,14 +516,13 @@ describe('embed.webWidget', () => {
       describe('config', () => {
         beforeEach(() => {
           const submitTicketConfig = {
-            props: {
-              formTitleKey: 'test_title',
-              attachmentsEnabled: true
-            }
+            formTitleKey: 'test_title',
+            attachmentsEnabled: true
           }
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             ticketSubmissionForm: submitTicketConfig
-          })
+          }
 
           webWidget.create('', config, mockStore)
 
@@ -510,13 +547,12 @@ describe('embed.webWidget', () => {
               '/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields'
             )
           }
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             ticketSubmissionForm: {
-              props: {
-                ticketForms: [{ id: 1 }]
-              }
+              ticketForms: [{ id: 1 }]
             }
-          })
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.waitForRootComponent(expectFn)
@@ -526,13 +562,12 @@ describe('embed.webWidget', () => {
           const expectFn = () => {
             expect(mockTransport.get.calls.mostRecent().args[0].path).toContain('212')
           }
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             ticketSubmissionForm: {
-              props: {
-                ticketForms: [{ id: 121 }]
-              }
+              ticketForms: [{ id: 121 }]
             }
-          })
+          }
 
           mockTicketFormsValue = [{ id: 212 }]
           webWidget.create('', config, mockStore)
@@ -553,15 +588,14 @@ describe('embed.webWidget', () => {
               '/embeddable/ticket_fields?field_ids=1,2,3&locale=fr'
             )
           }
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             ticketSubmissionForm: {
-              props: {
-                customFields: {
-                  ids: [1, 2, 3]
-                }
+              customFields: {
+                ids: [1, 2, 3]
               }
             }
-          })
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.waitForRootComponent(expectFn)
@@ -581,13 +615,12 @@ describe('embed.webWidget', () => {
               '/embeddable/ticket_fields?locale=fr'
             )
           }
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             ticketSubmissionForm: {
-              props: {
-                customFields: { all: true }
-              }
+              customFields: { all: true }
             }
-          })
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.waitForRootComponent(expectFn)
@@ -604,12 +637,8 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockTalkConfig = {
-          talk: {
-            props: {
-              serviceUrl: 'https://customer.zendesk.com',
-              nickname: mockNicknameValue
-            }
-          }
+          serviceUrl: 'https://customer.zendesk.com',
+          nickname: mockNicknameValue
         }
         loadTalkVendorsSpy = jasmine
           .createSpy('loadTalkVendors')
@@ -617,7 +646,7 @@ describe('embed.webWidget', () => {
 
         mockRegistry['src/redux/modules/talk'].loadTalkVendors = loadTalkVendorsSpy
 
-        webWidget.create('', createMockConfig(mockTalkConfig), mockStore)
+        webWidget.create('', { talk: mockTalkConfig }, mockStore)
       })
 
       it('dispatches the loadTalkVendors action creator', () => {
@@ -652,7 +681,7 @@ describe('embed.webWidget', () => {
 
   describe('#render', () => {
     it('renders a webWidget form to the document', () => {
-      webWidget.create('', createMockConfig(), mockStore)
+      webWidget.create('', mockConfig, mockStore)
       webWidget.render()
 
       expect(document.querySelectorAll('.mock-frame').length).toEqual(1)
@@ -661,7 +690,7 @@ describe('embed.webWidget', () => {
     })
 
     it('should only be allowed to render an webWidget form once', () => {
-      webWidget.create('', createMockConfig(), mockStore)
+      webWidget.create('', mockConfig, mockStore)
 
       expect(() => webWidget.render()).not.toThrow()
 
@@ -674,7 +703,7 @@ describe('embed.webWidget', () => {
 
     beforeEach(() => {
       mockMediator = mockRegistry['service/mediator'].mediator
-      webWidget.create('', createMockConfig(), mockStore)
+      webWidget.create('', mockConfig, mockStore)
       webWidget.render()
     })
 
@@ -692,7 +721,7 @@ describe('embed.webWidget', () => {
 
       describe('when webWidget.proactiveChat is dispatched', () => {
         beforeEach(() => {
-          webWidget.create('', createMockConfig(), mockStore)
+          webWidget.create('', mockConfig, mockStore)
           webWidget.render()
           frame = webWidget.get().instance
           component = frame.getRootComponent()
@@ -728,7 +757,7 @@ describe('embed.webWidget', () => {
           let child
 
           beforeEach(() => {
-            webWidget.create('', createMockConfig(), mockStore)
+            webWidget.create('', mockConfig, mockStore)
             webWidget.render()
 
             child = webWidget
@@ -755,9 +784,10 @@ describe('embed.webWidget', () => {
         const customFields = { ids: [10000, 10001] }
 
         beforeEach(() => {
-          const config = createMockConfig({
-            ticketSubmissionForm: { props: { customFields } }
-          })
+          const config = {
+            ...mockConfig,
+            ticketSubmissionForm: { customFields }
+          }
 
           getTicketFormsSpy.calls.reset()
           webWidget.create('', config, mockStore)
@@ -783,9 +813,10 @@ describe('embed.webWidget', () => {
 
       describe('when there are ticket forms', () => {
         const ticketForms = [10000, 10001]
-        const config = createMockConfig({
-          ticketSubmissionForm: { props: { ticketForms } }
-        })
+        const config = {
+          ...mockConfig,
+          ticketSubmissionForm: { ticketForms }
+        }
 
         beforeEach(() => {
           webWidget.create('', config, mockStore)
@@ -817,7 +848,7 @@ describe('embed.webWidget', () => {
 
     describe('when webWidget.hideChatNotification is broadcast', () => {
       beforeEach(() => {
-        webWidget.create('', createMockConfig(), mockStore)
+        webWidget.create('', mockConfig, mockStore)
         webWidget.render()
         frame = webWidget.get().instance
         component = frame.getRootComponent()
@@ -881,9 +912,10 @@ describe('embed.webWidget', () => {
 
     describe('initInterval blip', () => {
       const renderWidget = () => {
-        const config = createMockConfig({
-          helpCenterForm: { props: {} }
-        })
+        const config = {
+          ...mockConfig,
+          helpCenterForm: {}
+        }
 
         webWidget.create('', config, mockStore)
         mockSupportJwtValue = 'token'
@@ -910,9 +942,10 @@ describe('embed.webWidget', () => {
     describe('authentication', () => {
       describe('when there is a jwt', () => {
         beforeEach(() => {
-          const config = createMockConfig({
-            helpCenterForm: { props: {} }
-          })
+          const config = {
+            ...mockConfig,
+            helpCenterForm: {}
+          }
 
           webWidget.create('', config, mockStore)
           mockSupportJwtValue = 'token'
@@ -925,9 +958,10 @@ describe('embed.webWidget', () => {
 
         describe('when there is a jwtFn', () => {
           beforeEach(() => {
-            const config = createMockConfig({
-              helpCenterForm: { props: {} }
-            })
+            const config = {
+              ...mockConfig,
+              helpCenterForm: {}
+            }
 
             webWidget.create('', config, mockStore)
             mockSupportJwtFnValue = callback => {
@@ -942,13 +976,12 @@ describe('embed.webWidget', () => {
         })
 
         describe('when there is a tokensRevokedAt property in the config', () => {
-          const config = createMockConfig({
+          const config = {
+            ...mockConfig,
             helpCenterForm: {
-              props: {
-                tokensRevokedAt: Math.floor(Date.now() / 1000)
-              }
+              tokensRevokedAt: Math.floor(Date.now() / 1000)
             }
-          })
+          }
 
           beforeEach(() => {
             webWidget.create('', config, mockStore)
@@ -973,9 +1006,10 @@ describe('embed.webWidget', () => {
         })
 
         beforeEach(() => {
-          const config = createMockConfig({
-            helpCenterForm: { props: {} }
-          })
+          const config = {
+            ...mockConfig,
+            helpCenterForm: {}
+          }
 
           webWidget.create('', config, mockStore)
           webWidget.postRender()
