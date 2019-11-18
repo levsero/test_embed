@@ -193,7 +193,6 @@ export function handleChatBoxChange(msg) {
 export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
   return (dispatch, getState) => {
     const state = getState()
-    const zChat = getZChatVendor(state)
     const isAuthenticated = getIsAuthenticated(state)
 
     if (!isAuthenticated) {
@@ -202,7 +201,7 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
         payload: { ...visitor, timestamp }
       })
 
-      zChat &&
+      onChatSDKInitialized(() => {
         zChatWithTimeout(getState, 'setVisitorInfo')(visitor, err => {
           if (canBeIgnored(err)) {
             dispatch({
@@ -214,6 +213,7 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
             dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
           }
         })
+      })
     }
   }
 }

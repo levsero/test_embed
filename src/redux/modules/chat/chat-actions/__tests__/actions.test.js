@@ -212,6 +212,14 @@ describe('setVisitorInfo', () => {
     payload: { ...mockVisitor, timestamp: mockTimestamp }
   }
 
+  beforeEach(() => {
+    handleChatSDKInitialized()
+  })
+
+  afterEach(() => {
+    resetChatSDKInitializedQueue()
+  })
+
   describe('if authenticated', () => {
     beforeEach(() => {
       jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(true)
@@ -877,6 +885,11 @@ describe('editContactDetailsSubmitted', () => {
 
   beforeEach(() => {
     Date.now = () => 123456
+    handleChatSDKInitialized()
+  })
+
+  afterEach(() => {
+    resetChatSDKInitializedQueue()
   })
 
   it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS and CHAT_CONTACT_DETAILS_UPDATE_SUCCESS', () => {
