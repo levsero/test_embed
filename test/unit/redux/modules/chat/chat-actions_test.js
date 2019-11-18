@@ -161,6 +161,9 @@ describe('chat redux actions', () => {
       'src/util/chat': {
         formatSchedule: formatScheduleSpy
       },
+      'utility/devices': {
+        isMobileBrowser: () => false
+      },
       'src/redux/modules/base': {},
       'src/redux/modules/selectors': {
         getHelpCenterAvailable: () => mockHelpCenterAvailable,

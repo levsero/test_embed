@@ -6,7 +6,8 @@ import {
   chatNotificationReset,
   getOperatingHours,
   chatConnected,
-  chatStarted
+  chatStarted,
+  proactiveMessageReceived
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
@@ -35,7 +36,7 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage
 } from 'src/redux/modules/chat/chat-selectors'
-import { getArticleDisplayed, getHasSearched } from 'embeds/helpCenter/selectors'
+import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getWidgetShown,
@@ -108,24 +109,16 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState)
     const isMobile = isMobileBrowser()
 
-    if (
-      _.size(getChatMessagesFromAgents(nextState)) === 1 &&
-      !isMobile &&
-      activeEmbed === 'helpCenterForm' &&
-      !getHasSearched(nextState)
-    ) {
-      dispatch(updateActiveEmbed('chat'))
-    }
-
     startChatNotificationTimer(agentMessage)
 
     if (
       !widgetShown &&
+      !hasWidgetShown &&
       recentMessage &&
       agentMessage.proactive &&
       !(isMobile && isMobileNotificationsDisabled)
     ) {
-      mediator.channel.broadcast('newChat.newMessage')
+      dispatch(proactiveMessageReceived())
     }
   }
 }

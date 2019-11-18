@@ -707,72 +707,33 @@ describe('embed.webWidget', () => {
       webWidget.render()
     })
 
-    describe('webWidget.proactiveChat', () => {
+    describe('webWidget.clearAttachments', () => {
       beforeEach(() => {
-        pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')
+        pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')
       })
 
-      it('should subscribe to webWidget.proactiveChat', () => {
+      it('subscribes to webWidget.clearAttachments', () => {
         expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-          'webWidget.proactiveChat',
+          'webWidget.clearAttachments',
           jasmine.any(Function)
         )
       })
 
-      describe('when webWidget.proactiveChat is dispatched', () => {
+      describe('when webWidget.clearAttachments is dispatched', () => {
+        let child
+
         beforeEach(() => {
           webWidget.create('', mockConfig, mockStore)
           webWidget.render()
-          frame = webWidget.get().instance
-          component = frame.getRootComponent()
 
-          spyOn(frame, 'show')
-          spyOn(component, 'showProactiveChat')
+          child = webWidget
+            .get()
+            .instance.getRootComponent()
+            .getActiveComponent()
 
-          pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')()
-        })
+          spyOn(child, 'clearAttachments')
 
-        it('call show on Frame', () => {
-          expect(frame.show).toHaveBeenCalled()
-        })
-
-        it('calls showProactiveChat on the component', () => {
-          expect(component.showProactiveChat).toHaveBeenCalled()
-        })
-      })
-
-      describe('webWidget.clearAttachments', () => {
-        beforeEach(() => {
-          pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')
-        })
-
-        it('subscribes to webWidget.clearAttachments', () => {
-          expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-            'webWidget.clearAttachments',
-            jasmine.any(Function)
-          )
-        })
-
-        describe('when webWidget.clearAttachments is dispatched', () => {
-          let child
-
-          beforeEach(() => {
-            webWidget.create('', mockConfig, mockStore)
-            webWidget.render()
-
-            child = webWidget
-              .get()
-              .instance.getRootComponent()
-              .getActiveComponent()
-
-            spyOn(child, 'clearAttachments')
-
-            pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')()
-          })
-
-          it('calls clearAttachments on the child', () => {
-            expect(child.clearAttachments).toHaveBeenCalled()
-          })
+          pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')()
         })
       })
     })

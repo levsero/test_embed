@@ -15,15 +15,13 @@ import {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  onChannelChoiceNextClick,
-  showChat
+  onChannelChoiceNextClick
 } from 'src/redux/modules/base'
 import {
   proactiveChatNotificationDismissed,
   chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
-  showStandaloneMobileNotification,
   closedChatHistory
 } from 'src/redux/modules/chat'
 import { closeCurrentArticle } from 'embeds/helpCenter/actions'
@@ -130,7 +128,6 @@ class WebWidget extends Component {
     }),
     closeCurrentArticle: PropTypes.func.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
     mobileNotificationsDisabled: PropTypes.bool,
@@ -146,7 +143,6 @@ class WebWidget extends Component {
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
     showChatHistory: PropTypes.bool.isRequired,
-    showChat: PropTypes.func.isRequired,
     webWidgetReactRouterSupport: PropTypes.bool
   }
 
@@ -186,18 +182,6 @@ class WebWidget extends Component {
   getHelpCenterComponent = () => this.refs[helpCenter]
 
   noActiveEmbed = () => this.props.activeEmbed === ''
-
-  showProactiveChat = () => {
-    if (this.props.isMobile) {
-      this.props.showStandaloneMobileNotification()
-    } else {
-      const { proactive, show } = this.props.chatNotification
-
-      if (proactive && show) {
-        this.props.showChat({ proactive: true })
-      }
-    }
-  }
 
   showHelpCenter = () => {
     this.props.updateActiveEmbed(helpCenter)
@@ -466,12 +450,10 @@ const actionCreators = {
   chatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
-  showStandaloneMobileNotification,
   proactiveChatNotificationDismissed,
   updateAnswerBotScreen,
   closedChatHistory,
-  onChannelChoiceNextClick,
-  showChat
+  onChannelChoiceNextClick
 }
 
 const connectedComponent = connect(
