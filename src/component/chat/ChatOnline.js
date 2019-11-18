@@ -367,7 +367,12 @@ class Chat extends Component {
 
   render = () => {
     return (
-      <div onKeyDown={this.onKeyDown} role="presentation" className={styles.chat}>
+      <div
+        onKeyDown={this.onKeyDown}
+        role="presentation"
+        className={styles.chat}
+        onDragEnter={this.handleDragEnter}
+      >
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}

@@ -785,44 +785,4 @@ describe('WebWidget component', () => {
       })
     })
   })
-
-  describe('#onContainerDragEnter', () => {
-    let webWidget
-
-    describe('when the activeEmbed is submitTicket', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget
-            submitTicketAvailable={true}
-            helpCenterAvailable={true}
-            activeEmbed="ticketSubmissionForm"
-          />
-        )
-
-        webWidget.onContainerDragEnter()
-      })
-
-      it('calls the submitTicket onDragEnter handler', () => {
-        expect(submitTicketOnDragEnterSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when the activeEmbed is not submitTicket', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget
-            submitTicketAvailable={true}
-            helpCenterAvailable={true}
-            activeEmbed="helpCenter"
-          />
-        )
-
-        webWidget.onContainerDragEnter()
-      })
-
-      it('does not call the submitTicket onDragEnter handler', () => {
-        expect(submitTicketOnDragEnterSpy).not.toHaveBeenCalled()
-      })
-    })
-  })
 })
