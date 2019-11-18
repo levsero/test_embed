@@ -125,7 +125,7 @@ export const getSettingsChatDepartmentsEnabled = createSelector(
   getRawSettingsChatDepartmentsEnabled,
   departments => {
     if (_.isArray(departments)) {
-      return _.compact(departments.map(department => formatDepartment(department)))
+      return _.compact(departments.map(department => validateDepartment(department)))
     }
   }
 )
@@ -139,10 +139,10 @@ export const getSettingsChatDepartmentsEmpty = createSelector(
 
 export const getSettingsChatDepartment = createSelector(
   getRawSettingsChatDepartment,
-  department => formatDepartment(department)
+  department => validateDepartment(department)
 )
 
-const formatDepartment = department =>
+const validateDepartment = department =>
   _.isInteger(department) ? department : _.toLower(department)
 
 export const getSettingsChatPopout = createSelector(
