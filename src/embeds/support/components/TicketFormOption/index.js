@@ -1,15 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@zendeskgarden/react-buttons'
-import { ListItem } from './styles'
+import { Button } from './styles'
 
 const TicketFormOption = ({ form, onClick }) => (
-  <ListItem>
-    <Button link={true} onClick={() => onClick(form.id)}>
-      {form.display_name}
-    </Button>
-  </ListItem>
+  <li>
+    <Button onClick={() => onClick(form.id)}>{form.display_name}</Button>
+  </li>
 )
 
 TicketFormOption.propTypes = {

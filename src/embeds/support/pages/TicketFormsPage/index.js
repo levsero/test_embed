@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 
 import TicketFormList from 'src/embeds/support/components/TicketFormList'
 import { HeaderTitle } from './styles'
-import { Widget, Main, Header, Footer } from 'src/components/Widget'
+import { Widget, Header, Footer } from 'src/components/Widget'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
+import { TicketFormsMain } from 'embeds/support/pages/TicketFormsPage/styles'
 
 const mapStateToProps = state => ({
   ticketForms: selectors.getTicketForms(state),
@@ -24,10 +25,10 @@ const TicketFormsPage = ({
   return (
     <Widget>
       <Header title={formTitle} />
-      <Main>
+      <TicketFormsMain>
         <HeaderTitle>{selectTicketFormLabel}</HeaderTitle>
         <TicketFormList ticketForms={ticketForms} handleFormOptionClick={handleFormOptionClick} />
-      </Main>
+      </TicketFormsMain>
       <Footer />
     </Widget>
   )
