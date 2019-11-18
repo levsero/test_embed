@@ -12,6 +12,7 @@ set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
 set :popout_file_location, 'dist/'
+set :lazy_loaded_chunks_location, 'dist/lazy'
 set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
@@ -74,8 +75,16 @@ namespace :ac_embeddable_framework do
 
   desc 'Upload translation assets to S3'
   task :upload_translations_to_s3 do
-    s3_deployer.upload_translations(
+    s3_deployer.upload_js_assets_directory(
       fetch(:locales_file_location),
+      fetch(:ekr_s3_release_directory_latest)
+    )
+  end
+
+  desc 'Upload lazy loaded chunked assets to S3'
+  task :upload_lazy_loaded_chunks_to_s3 do
+    s3_deployer.upload_js_assets_directory(
+      fetch(:lazy_loaded_chunks_location),
       fetch(:ekr_s3_release_directory_latest)
     )
   end
@@ -148,5 +157,6 @@ end
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_translations_to_s3'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_lazy_loaded_chunks_to_s3'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
 after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'

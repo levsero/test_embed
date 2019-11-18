@@ -44,7 +44,7 @@ class S3Deployer
     end
   end
 
-  def upload_translations(local_directory, remote_directory)
+  def upload_js_assets_directory(local_directory, remote_directory)
     Dir.glob("#{local_directory}/*.js") do |file|
       upload_file("#{remote_directory}/#{file.partition('/').last}", file)
 

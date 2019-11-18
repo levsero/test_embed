@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 const LazyLoadedTalk = lazy(() => {
-  return import(/* webpackChunkName: 'talk' */ 'embeds/talk')
+  return import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk')
 })
 import Support from 'embeds/support'
 import HelpCenter from 'embeds/helpCenter'
