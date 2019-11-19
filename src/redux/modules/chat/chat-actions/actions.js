@@ -28,7 +28,7 @@ import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
-import { onChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
+import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { isMobileBrowser } from 'utility/devices'
 
 const chatTypingTimeout = 2000
@@ -232,7 +232,7 @@ export function editContactDetailsSubmitted(visitor) {
 
 export function sendVisitorPath(options = {}) {
   return (dispatch, getState) => {
-    onChatSDKInitialized(() => {
+    onChatConnected(() => {
       const zChat = getZChatVendor(getState())
       let page = {}
 

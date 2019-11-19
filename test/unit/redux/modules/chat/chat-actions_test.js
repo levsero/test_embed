@@ -23,10 +23,10 @@ let actions,
   mockChatMessagesByAgent,
   mockInit = jasmine.createSpy('init'),
   mockOnChatSDKInitializedSpy = jasmine.createSpy('onChatSDKInitialized').and.callFake(cb => cb()),
+  mockOnChatConnectedSpy = jasmine.createSpy('onChatConnected').and.callFake(cb => cb()),
   mockLogout = jasmine.createSpy('logout'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('setVisitorInfo'),
-  mockSendVisitorPath = jasmine.createSpy('sendVisitorPath'),
   mockEndChat = jasmine.createSpy('endChat'),
   mockSendChatRating = jasmine.createSpy('sendChatRating'),
   mockSendChatComment = jasmine.createSpy('sendChatComment'),
@@ -93,7 +93,8 @@ describe('chat redux actions', () => {
         getZChatConfig: () => mockZChatConfig
       },
       'src/service/api/zopimApi/callbacks': {
-        onChatSDKInitialized: mockOnChatSDKInitializedSpy
+        onChatSDKInitialized: mockOnChatSDKInitializedSpy,
+        onChatConnected: mockOnChatConnectedSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
@@ -109,7 +110,6 @@ describe('chat redux actions', () => {
             sendTyping: mockSendTyping,
             endChat: mockEndChat,
             setVisitorInfo: mockSetVisitorInfo,
-            sendVisitorPath: mockSendVisitorPath,
             sendChatRating: mockSendChatRating,
             sendChatComment: mockSendChatComment,
             sendFile: mockSendFile,
@@ -384,127 +384,6 @@ describe('chat redux actions', () => {
         expect(mockStore.getActions()).not.toContain({
           type: actionTypes.UPDATE_CHAT_SCREEN,
           payload: { screen: screenTypes.FEEDBACK_SCREEN }
-        })
-      })
-    })
-  })
-
-  describe('sendVisitorPath', () => {
-    let page = {}
-
-    beforeEach(() => {
-      mockPageTitle = 'mockTitle'
-      mockHostUrl = 'mockHostUrl'
-
-      mockStore.dispatch(actions.sendVisitorPath(page))
-    })
-
-    describe('when the param url is valid', () => {
-      beforeAll(() => {
-        page.url = 'https://zd.com#payments'
-        mockIsValidUrl = true
-      })
-
-      describe('when the param title is valid', () => {
-        beforeAll(() => {
-          page.title = 'title'
-        })
-
-        it('calls sendVisitorPath on the Web SDK', () => {
-          expect(mockSendVisitorPath).toHaveBeenCalledWith(page, jasmine.any(Function))
-        })
-      })
-
-      describe('when the param title is invalid', () => {
-        beforeAll(() => {
-          page.title = undefined
-        })
-
-        it('calls sendVisitorPath on the Web SDK', () => {
-          expect(mockSendVisitorPath).toHaveBeenCalledWith(
-            {
-              ...page,
-              title: mockPageTitle
-            },
-            jasmine.any(Function)
-          )
-        })
-      })
-    })
-
-    describe('when the param url is invalid', () => {
-      beforeAll(() => {
-        page.url = 'https//zd.com#payments'
-        mockIsValidUrl = false
-      })
-
-      describe('when the param title is valid', () => {
-        beforeAll(() => {
-          page.title = 'title'
-        })
-
-        it('calls sendVisitorPath on the Web SDK', () => {
-          expect(mockSendVisitorPath).toHaveBeenCalledWith(
-            {
-              ...page,
-              url: mockHostUrl
-            },
-            jasmine.any(Function)
-          )
-        })
-      })
-
-      describe('when the param title is invalid', () => {
-        beforeAll(() => {
-          page.title = undefined
-        })
-
-        it('calls sendVisitorPath on the Web SDK', () => {
-          expect(mockSendVisitorPath).toHaveBeenCalledWith(
-            {
-              url: mockHostUrl,
-              title: mockPageTitle
-            },
-            jasmine.any(Function)
-          )
-        })
-      })
-    })
-
-    describe('Web SDK callback', () => {
-      let callbackFn
-
-      beforeEach(() => {
-        const sendVisitorPathArgs = mockSendVisitorPath.calls.mostRecent().args
-
-        callbackFn = sendVisitorPathArgs[1]
-      })
-
-      describe('when there are no errors', () => {
-        beforeEach(() => {
-          callbackFn()
-        })
-
-        it('dispatches a SEND_VISITOR_PATH_REQUEST_SUCCESS action with the correct payload', () => {
-          expect(mockStore.getActions()).toContain({
-            type: actionTypes.SEND_VISITOR_PATH_REQUEST_SUCCESS,
-            payload: {
-              title: 'mockTitle',
-              url: 'mockHostUrl'
-            }
-          })
-        })
-      })
-
-      describe('when there are errors', () => {
-        beforeEach(() => {
-          callbackFn(['error!'])
-        })
-
-        it('dispatches a SEND_VISITOR_PATH_REQUEST_FAILURE action', () => {
-          expect(mockStore.getActions()).toContain({
-            type: actionTypes.SEND_VISITOR_PATH_REQUEST_FAILURE
-          })
         })
       })
     })
