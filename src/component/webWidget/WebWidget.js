@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
-import Talk from 'embeds/talk'
+const LazyLoadedTalk = lazy(() => {
+  return import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk')
+})
 import Support from 'embeds/support'
 import HelpCenter from 'embeds/helpCenter'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
@@ -54,6 +56,7 @@ import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answer
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
+import SuspensePage from 'src/components/Widget/SuspensePage'
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -327,7 +330,11 @@ class WebWidget extends Component {
   renderTalk = () => {
     if (this.props.activeEmbed !== talk) return null
 
-    return <Talk />
+    return (
+      <SuspensePage>
+        <LazyLoadedTalk />
+      </SuspensePage>
+    )
   }
 
   renderChatNotification = () => {

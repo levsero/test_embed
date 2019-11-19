@@ -2,10 +2,10 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { find } from 'styled-components/test-utils'
+import HeaderView from 'components/Widget/Header/HeaderView'
 import Title from 'components/Widget/Header/Title'
 import * as selectors from 'src/redux/modules/selectors/selectors'
 import Header from '../'
-import { Container } from '../styles'
 
 describe('Header', () => {
   const defaultProps = {
@@ -19,11 +19,11 @@ describe('Header', () => {
     jest.spyOn(selectors, 'getShowBackButton').mockReturnValue(true)
   })
 
-  describe('when title is provided', () => {
+  describe('with default props', () => {
     let result
 
     beforeEach(() => {
-      result = renderComponent({ title: 'Widget title', children: <div>children</div> })
+      result = renderComponent()
     })
 
     it('renders a back button', () => {
@@ -32,10 +32,10 @@ describe('Header', () => {
       expect(queryByLabelText('Back')).toBeInTheDocument()
     })
 
-    it('renders the title is provided', () => {
+    it('renders an empty title component so that button positioning works', () => {
       const { container } = result
 
-      expect(find(container, Title)).toHaveTextContent('Widget title')
+      expect(find(container, Title)).toHaveTextContent('')
     })
 
     it('renders a close button', () => {
@@ -43,20 +43,34 @@ describe('Header', () => {
 
       expect(queryByLabelText('Minimize')).toBeInTheDocument()
     })
+  })
 
-    it('renders the children after the title row', () => {
-      const { container } = result
+  describe('with custom props', () => {
+    it('can hide the back button', () => {
+      const result = renderComponent({ showBackButton: false })
+      const { queryByLabelText } = result
 
-      const lastChild = find(container, Container).lastChild
+      expect(queryByLabelText('Back')).not.toBeInTheDocument()
+    })
+
+    it('renders a title when provided', () => {
+      const { container } = renderComponent({ title: 'Widget title' })
+
+      expect(find(container, Title)).toHaveTextContent('Widget title')
+    })
+
+    it('can hide the close button', () => {
+      const { queryByLabelText } = renderComponent({ showCloseButton: false })
+
+      expect(queryByLabelText('Minimize')).not.toBeInTheDocument()
+    })
+
+    it('renders children after the title row', () => {
+      const { container } = renderComponent({ children: <div>children</div> })
+
+      const lastChild = find(container, HeaderView).lastChild
 
       expect(lastChild).toHaveTextContent('children')
     })
-  })
-
-  it('only renders the base Header element when title is not provided', () => {
-    const { container } = renderComponent()
-
-    expect(find(container, Title)).not.toBeInTheDocument()
-    expect(find(container, Container)).toHaveTextContent('Some child component')
   })
 })

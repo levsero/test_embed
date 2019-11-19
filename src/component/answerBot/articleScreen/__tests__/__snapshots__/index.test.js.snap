@@ -6,7 +6,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -107,7 +107,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -246,7 +246,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -347,7 +347,7 @@ exports[`passing of scroll container classes 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -448,7 +448,7 @@ exports[`renders the expected classes 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -549,7 +549,7 @@ exports[`renders the expected mobile classes 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -650,7 +650,7 @@ exports[`renders the expected title 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -751,7 +751,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -890,7 +890,7 @@ exports[`renders the help center article 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-bwzfXH bwWnNX"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"

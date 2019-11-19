@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderView renders 1`] = `
+.c0 {
+  min-height: 3rem;
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: !important;
+  color: !important;
+}
+
+<div
+  class="c0"
+>
+  <div>
+    Some child component
+  </div>
+</div>
+`;

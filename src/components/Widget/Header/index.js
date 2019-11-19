@@ -1,6 +1,7 @@
 export { default as BackButton } from './BackButton'
 export { default as CloseButton } from './CloseButton'
 export { default as Header } from './Header'
+export { default as HeaderView } from './HeaderView'
 export { default as HeaderItem } from './HeaderItem'
 export { default as Title } from './Title'
 export { default as HeaderRow } from './HeaderRow'

@@ -14,6 +14,7 @@
     "mockery": true,
     "noop": true,
     "noopReactComponent": true,
+    "noopSuspenseComponent": true,
     "noopReactRenderPropComponent": true,
     "scrollContainerComponent": true,
     "pluckSubscribeCall": true,
