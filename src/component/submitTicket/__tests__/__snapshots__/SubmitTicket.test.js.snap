@@ -14,7 +14,7 @@ exports[`active ticket form renders the expected components 1`] = `
           class="container"
         >
           <div
-            class="sc-htpNat fMkFIo"
+            class="sc-htpNat fufVln"
           >
             <div
               class="sc-ifAKCX sc-EHOje cFboZL"
@@ -397,7 +397,7 @@ exports[`renders the expected components 1`] = `
           class="container"
         >
           <div
-            class="sc-htpNat fMkFIo"
+            class="sc-htpNat fufVln"
           >
             <div
               class="sc-ifAKCX sc-EHOje cFboZL"
@@ -663,7 +663,7 @@ exports[`renders the loading bar content 1`] = `
         class="container"
       >
         <div
-          class="sc-htpNat fMkFIo"
+          class="sc-htpNat fufVln"
         >
           <div
             class="sc-ifAKCX sc-EHOje cFboZL"

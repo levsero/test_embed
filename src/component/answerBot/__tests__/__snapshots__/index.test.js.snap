@@ -6,7 +6,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
     class="container"
   >
     <div
-      class="sc-bwzfXH bwWnNX"
+      class="sc-bwzfXH jaHvNe"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -110,7 +110,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
     class="container"
   >
     <div
-      class="sc-bwzfXH bwWnNX"
+      class="sc-bwzfXH jaHvNe"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -214,7 +214,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
     class="container"
   >
     <div
-      class="sc-bwzfXH bwWnNX"
+      class="sc-bwzfXH jaHvNe"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
@@ -313,7 +313,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
     class="container"
   >
     <div
-      class="sc-bwzfXH bwWnNX"
+      class="sc-bwzfXH jaHvNe"
     >
       <div
         class="sc-bxivhb sc-ifAKCX kPfswV"
