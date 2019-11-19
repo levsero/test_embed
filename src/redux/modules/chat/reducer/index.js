@@ -12,6 +12,7 @@ import connection from './chat-connection'
 import currentMessage from './chat-current-message'
 import departments from './chat-departments'
 import isChatting from './chat-is-chatting'
+import sdkConnected from './chat-sdk-connected'
 import visitor from './chat-visitor'
 import rating from './chat-rating'
 import notification from './chat-notification'
@@ -69,6 +70,7 @@ const combinedReducers = combineReducers({
   queuePosition,
   rating,
   screen,
+  sdkConnected,
   socialLogin,
   standaloneMobileNotificationVisible,
   userSettings,

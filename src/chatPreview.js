@@ -21,7 +21,7 @@ import { CHAT, CHAT_BADGE } from 'src/constants/preview'
 import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
 import PreviewContainer from 'src/component/preview/PreviewContainer'
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
-
+import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN
 const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN
 const BOX_SHADOW_SIZE = 6
@@ -62,7 +62,8 @@ const renderPreview = options => {
       PREVIEWER_LOADED,
       LOCALE_SET,
       UPDATE_SETTINGS,
-      PREVIEW_CHOICE_SELECTED
+      PREVIEW_CHOICE_SELECTED,
+      CHAT_CONNECTED
     ]
 
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0
@@ -73,6 +74,7 @@ const renderPreview = options => {
     throttleEvents: true,
     allowedActionsFn: allowThrottleActions
   })
+  store.dispatch({ type: CHAT_CONNECTED })
 
   const setColor = (color = defaultOptions.color) => {
     store.dispatch(updateColor({ color: { theme: color, button: color } }))

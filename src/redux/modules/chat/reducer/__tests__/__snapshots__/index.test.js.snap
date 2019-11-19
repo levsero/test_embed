@@ -198,6 +198,7 @@ Object {
     "value": null,
   },
   "screen": "widget/chat/CHATTING_SCREEN",
+  "sdkConnected": false,
   "showChatHistory": false,
   "socialLogin": Object {
     "authenticated": false,
