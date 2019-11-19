@@ -79,7 +79,6 @@ function create(name, config = {}, reduxStore) {
   const onClickHandler = e => {
     e.preventDefault()
 
-    mediator.channel.broadcast(name + '.onClick')
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     reduxStore.dispatch(renewToken())
   }

@@ -1,7 +1,6 @@
 import _ from 'lodash'
 
 import { i18n } from 'service/i18n'
-import { mediator } from 'service/mediator'
 import { store } from 'service/persistence'
 import { http } from 'service/transport'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
@@ -114,9 +113,6 @@ function init() {
   const now = Date.now()
 
   store.set('currentTime', now, 'session')
-
-  mediator.channel.subscribe('beacon.identify', identify)
-  mediator.channel.subscribe('beacon.trackUserAction', trackUserAction)
 }
 
 function setConfigLoadTime(time) {

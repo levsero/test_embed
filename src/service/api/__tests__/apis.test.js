@@ -337,10 +337,6 @@ describe('logoutApi', () => {
     expect(store.dispatch).toHaveBeenCalledWith(logoutValue)
   })
 
-  it('calls mediator with the expected broadcast', () => {
-    expect(mediator.channel.broadcast).toHaveBeenCalledWith('.logout')
-  })
-
   it('dispatches apiResetWidget', () => {
     expect(store.dispatch).toHaveBeenCalledWith(resetValue)
   })

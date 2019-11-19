@@ -1,7 +1,6 @@
 import { beacon } from '../beacon'
 import { store } from 'service/persistence'
 import { http } from 'service/transport'
-import { mediator } from 'service/mediator'
 import { i18n } from 'service/i18n'
 import * as pages from 'utility/pages'
 import * as globals from 'utility/globals'
@@ -106,50 +105,6 @@ describe('init', () => {
 
   it('stores the current time in session storage', () => {
     expect(store.get('currentTime', 'session')).not.toBeNull()
-  })
-
-  it('subscribes to beacon.identify', () => {
-    i18n.getLocaleId = jest.fn(() => 12345)
-    mediator.channel.broadcast('beacon.identify', {
-      name: 'hello',
-      email: 'a@a.com'
-    })
-
-    expect(http.sendWithMeta).toHaveBeenCalledWith({
-      method: 'GET',
-      path: '/embeddable_identify',
-      type: 'user',
-      params: {
-        user: {
-          email: 'a@a.com',
-          name: 'hello',
-          localeId: 12345
-        },
-        userAgent: 'myuseragent'
-      }
-    })
-  })
-
-  it('subscribes to beacon.trackUserAction', () => {
-    mediator.channel.broadcast('beacon.trackUserAction', 'mycategory', 'myaction', {
-      label: 'mylabel',
-      value: 'myvalue'
-    })
-
-    expect(http.sendWithMeta).toHaveBeenCalledWith({
-      method: 'GET',
-      path: '/embeddable_blip',
-      type: 'userAction',
-      params: {
-        channel: 'web_widget',
-        userAction: {
-          action: 'myaction',
-          category: 'mycategory',
-          label: 'mylabel',
-          value: 'myvalue'
-        }
-      }
-    })
   })
 })
 
