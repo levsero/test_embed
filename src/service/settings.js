@@ -27,7 +27,7 @@ const optionAllowList = {
     'chat.notifications.mobile.disable',
     'chat.prechatForm.departmentLabel',
     'chat.title',
-    'chat.trackAllVisitors',
+    'chat.connectOnPageLoad',
     'chat.prechatForm.greeting',
     'chat.offlineForm.greeting',
     'chat.connectionSuppress',

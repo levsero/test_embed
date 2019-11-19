@@ -635,12 +635,12 @@ describe('getDelayChatConnection', () => {
     [true, false, true, true],
     [true, true, true, true]
   ])(
-    'when defaultToChatWidgetLite == %p, connectOnDemand == %p && trackAllVisitors == %p it returns %p',
-    (defaultToChatWidgetLite, connectOnDemand, trackAllVisitors, expectedValue) => {
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p && connectOnPageLoad == %p it returns %p',
+    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, expectedValue) => {
       const result = selectors.getDelayChatConnection.resultFunc(
         defaultToChatWidgetLite,
         connectOnDemand,
-        trackAllVisitors
+        connectOnPageLoad
       )
 
       expect(result).toEqual(expectedValue)

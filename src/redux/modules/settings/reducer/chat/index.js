@@ -15,7 +15,7 @@ import mobileNotificationsDisabled from './chat-mobile-notifications-disabled'
 import tags from './chat-tags'
 import hideWhenOffline from './chat-hideWhenOffline'
 import emailTranscriptEnabled from './email-transcript-enabled'
-import trackAllVisitors from './trackAllVisitors'
+import connectOnPageLoad from './connectOnPageLoad'
 
 export default combineReducers({
   concierge,
@@ -31,5 +31,5 @@ export default combineReducers({
   suppress,
   tags,
   title,
-  trackAllVisitors
+  connectOnPageLoad
 })

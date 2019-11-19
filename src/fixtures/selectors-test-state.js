@@ -84,7 +84,7 @@ const defaultState = {
       connectionSuppress: false,
       enabled: true,
       connectOnDemand: false,
-      trackAllVisitors: true
+      connectOnPageLoad: true
     }
   }
 }
