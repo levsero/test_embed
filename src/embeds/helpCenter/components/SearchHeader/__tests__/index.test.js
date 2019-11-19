@@ -9,7 +9,7 @@ import 'jest-styled-components'
 
 const renderComponent = inProps => {
   const props = {
-    children: 'Search',
+    title: 'Search',
     isMobile: false,
     ...inProps
   }
