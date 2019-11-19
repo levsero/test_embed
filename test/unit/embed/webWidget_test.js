@@ -670,7 +670,7 @@ describe('embed.webWidget', () => {
   })
 
   describe('setUpMediator', () => {
-    let mockMediator, frame, component
+    let mockMediator
 
     beforeEach(() => {
       mockMediator = mockRegistry['service/mediator'].mediator
@@ -776,62 +776,6 @@ describe('embed.webWidget', () => {
 
         it('does not call getTicketFields', () => {
           expect(getTicketFieldsSpy).not.toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('when webWidget.hideChatNotification is broadcast', () => {
-      beforeEach(() => {
-        webWidget.create('', createMockConfig(), mockStore)
-        webWidget.render()
-        frame = webWidget.get().instance
-        component = frame.getRootComponent()
-
-        spyOn(component, 'dismissStandaloneChatPopup')
-      })
-
-      describe('when a chat standalone mobile notification is visible', () => {
-        beforeEach(() => {
-          mockStandaloneMobileNotificationVisible = true
-          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')()
-        })
-
-        it('calls dismissStandaloneChatPopup on the Web Widget component', () => {
-          expect(component.dismissStandaloneChatPopup).toHaveBeenCalled()
-        })
-      })
-
-      describe('when a chat notification is visible', () => {
-        beforeEach(() => {
-          mockStandaloneMobileNotificationVisible = false
-          mockChatNotification = { show: true }
-
-          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')()
-        })
-
-        it('calls chatNotificationDismissed action', () => {
-          expect(chatNotificationDismissedSpy).toHaveBeenCalled()
-        })
-
-        it('does not call dismissStandaloneChatPopup on the Web Widget component', () => {
-          expect(component.dismissStandaloneChatPopup).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('when a chat notification is not visible', () => {
-        beforeEach(() => {
-          mockStandaloneMobileNotificationVisible = false
-          mockChatNotification = { show: false }
-
-          pluckSubscribeCall(mockMediator, 'webWidget.hideChatNotification')()
-        })
-
-        it('does not call chatNotificationDismissed action', () => {
-          expect(chatNotificationDismissedSpy).not.toHaveBeenCalled()
-        })
-
-        it('does not call dismissStandaloneChatPopup on the Web Widget component', () => {
-          expect(component.dismissStandaloneChatPopup).not.toHaveBeenCalled()
         })
       })
     })

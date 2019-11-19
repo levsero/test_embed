@@ -7,7 +7,8 @@ import {
   getOperatingHours,
   chatConnected,
   chatStarted,
-  proactiveMessageReceived
+  proactiveMessageReceived,
+  chatNotificationTimedOut
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
@@ -24,7 +25,6 @@ import {
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { audio } from 'service/audio'
-import { mediator } from 'service/mediator'
 import {
   getChatMessagesFromAgents,
   getConnection,
@@ -67,7 +67,7 @@ const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false
 let chatNotificationTimeout = null
 
-const startChatNotificationTimer = ({ proactive }) => {
+const startChatNotificationTimer = ({ proactive }, dispatch) => {
   if (chatNotificationTimeout) {
     clearTimeout(chatNotificationTimeout)
   }
@@ -75,7 +75,7 @@ const startChatNotificationTimer = ({ proactive }) => {
   const timeout = proactive ? 5000 : 3000
 
   chatNotificationTimeout = setTimeout(() => {
-    mediator.channel.broadcast('webWidget.hideChatNotification')
+    dispatch(chatNotificationTimedOut())
   }, timeout)
 }
 
@@ -109,7 +109,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState)
     const isMobile = isMobileBrowser()
 
-    startChatNotificationTimer(agentMessage)
+    startChatNotificationTimer(agentMessage, dispatch)
 
     if (
       !widgetShown &&

@@ -94,8 +94,7 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
-        updateChatScreen: noop,
-        proactiveChatNotificationDismissed: noop
+        updateChatScreen: noop
       },
       'embeds/helpCenter/actions': {
         closeCurrentArticle: noop
@@ -278,29 +277,6 @@ describe('WebWidget component', () => {
           expect(webWidget.renderStandaloneChatPopup).not.toHaveBeenCalled()
         })
       })
-    })
-  })
-
-  describe('dismissStandaloneChatPopup', () => {
-    let webWidget, proactiveChatNotificationDismissedSpy, closeFrameSpy
-
-    beforeEach(() => {
-      proactiveChatNotificationDismissedSpy = jasmine.createSpy(
-        'proactiveChatNotificationDismissed'
-      )
-      closeFrameSpy = jasmine.createSpy('closeFrame')
-      webWidget = instanceRender(
-        <WebWidget
-          proactiveChatNotificationDismissed={proactiveChatNotificationDismissedSpy}
-          closeFrame={closeFrameSpy}
-        />
-      )
-
-      webWidget.dismissStandaloneChatPopup()
-    })
-
-    it('calls props.proactiveChatNotificationDismissed', () => {
-      expect(proactiveChatNotificationDismissedSpy).toHaveBeenCalled()
     })
   })
 
