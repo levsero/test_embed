@@ -91,21 +91,16 @@ describe('embed.launcher', () => {
       expect(alice.config).toBeDefined()
     })
 
-    it('changes config.labelKey if labelKey is set', () => {
-      launcher.create('launcher', { labelKey: 'test_label' }, mockReduxStore)
-
-      const alice = launcher.get()
-
-      expect(alice.config.labelKey).toEqual('test_label')
-    })
-
     describe('config', () => {
       let config, frame, child, alice
 
       beforeEach(() => {
         config = {
-          onClick: jasmine.createSpy(),
-          visible: true
+          props: {
+            onClick: jasmine.createSpy(),
+            labelKey: 'help',
+            visible: true
+          }
         }
         launcher.create('launcher', config, mockReduxStore)
         launcher.render()
@@ -114,14 +109,8 @@ describe('embed.launcher', () => {
         child = frame.props.children
       })
 
-      it('applies the position from config to frame', () => {
-        expect(frame.props.position).toEqual(alice.config.position)
-      })
-
       it('applies the label from config', () => {
-        expect(child.props.labelKey).toEqual(
-          `embeddable_framework.launcher.label.${alice.config.labelKey}`
-        )
+        expect(child.props.labelKey).toEqual(alice.config.props.labelKey)
       })
 
       it('sets fullscreenable to false', () => {
@@ -130,14 +119,14 @@ describe('embed.launcher', () => {
     })
 
     describe('launcher onClick', () => {
-      let config, reduxStore, dispatchSpy, bob, frame, child
+      let reduxStore, dispatchSpy, bob, frame, child
 
       beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatch')
         reduxStore = {
           dispatch: dispatchSpy
         }
-        launcher.create('bob', config, reduxStore)
+        launcher.create('bob', undefined, reduxStore)
         bob = launcher.get()
         frame = bob.component.props.children
         child = frame.props.children
@@ -155,10 +144,12 @@ describe('embed.launcher', () => {
   describe('get', () => {
     it('should return the correct launcher', () => {
       const config = {
-        position: 'test_alice_position',
-        onClick: () => 'launcher',
-        icon: '',
-        visible: true
+        props: {
+          position: 'test_alice_position',
+          onClick: () => 'launcher',
+          icon: '',
+          visible: true
+        }
       }
 
       launcher.create('launcher', config, mockReduxStore)
@@ -212,7 +203,7 @@ describe('embed.launcher', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator
-        launcher.create('launcher', { labelKey: 'test_label' }, mockReduxStore)
+        launcher.create('launcher', undefined, mockReduxStore)
         launcher.render()
         alice = launcher.get()
         aliceLauncher = alice.instance.getRootComponent()

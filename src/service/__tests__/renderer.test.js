@@ -99,12 +99,6 @@ describe('init', () => {
   it('calls and renders correct embeds from config', () => {
     renderer.init(testConfig())
 
-    expect(baseActions.updateArturos).toHaveBeenCalledWith({
-      newChat: false,
-      chatPopout: false,
-      chatBadge: false
-    })
-
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
 
     expect(baseActions.widgetInitialised).toHaveBeenCalled()
@@ -112,54 +106,6 @@ describe('init', () => {
     expect(mediator.init).toHaveBeenCalled()
 
     expect(mockLauncher.create).toHaveBeenCalled()
-  })
-
-  it('handles dodgy config values', () => {
-    expect(() => {
-      renderer.init({
-        embeds: {
-          aSubmissionForm: {
-            embed: 'launcher',
-            props: {
-              onMouserMove: {
-                name: 'foobar',
-                method: 'show'
-              }
-            }
-          },
-          thing: {
-            embed: 'submitTicket'
-          },
-          thingLauncher: {
-            embed: 'launcher',
-            props: {
-              onDoubleClick: {
-                name: 'thing',
-                method: 'show'
-              }
-            }
-          }
-        }
-      })
-    }).not.toThrow()
-
-    expect(mockLauncher.create).toHaveBeenCalled()
-
-    expect(mockLauncher.create).toHaveBeenCalledWith(
-      'aSubmissionForm',
-      expect.any(Object),
-      expect.any(Object)
-    )
-
-    expect(mockLauncher.create).toHaveBeenCalledWith(
-      'thingLauncher',
-      expect.any(Object),
-      expect.any(Object)
-    )
-
-    expect(mockLauncher.render).toHaveBeenCalledWith('aSubmissionForm')
-
-    expect(mockLauncher.render).toHaveBeenCalledWith('thingLauncher')
   })
 
   it('handles empty config', () => {
@@ -225,30 +171,36 @@ describe('init', () => {
       expect(mockWebWidget.create).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
-          ticketSubmissionForm: expect.any(Object),
-          helpCenterForm: expect.any(Object)
+          embeds: {
+            ticketSubmissionForm: expect.any(Object),
+            helpCenterForm: expect.any(Object),
+            zopimChat: expect.any(Object)
+          }
         }),
         expect.anything()
       )
     })
   })
 
-  describe('when the config is naked zopim', () => {
+  describe('when the config is chat standalone', () => {
     beforeEach(() => {
       const config = {
-        newChat: true,
         embeds: { zopimChat: { embed: 'chat' } }
       }
 
       renderer.init(config)
     })
 
-    it('creates a webWidget embed', () => {
+    it('creates a webWidget', () => {
       expect(mockWebWidget.create).toHaveBeenCalled()
     })
 
-    it('sets visibile prop in config to false', () => {
-      expect(mockWebWidget.create).toHaveBeenCalledWith(
+    it('creates a launcher', () => {
+      expect(mockLauncher.create).toHaveBeenCalled()
+    })
+
+    it('sets visibile prop in launcher config to false', () => {
+      expect(mockLauncher.create).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
           visible: false
@@ -299,14 +251,9 @@ describe('propagateFontRatio', () => {
         ticketSubmissionForm: {
           embed: 'ticketSubmissionForm'
         },
-        thingLauncher: {
+        launcher: {
           embed: 'launcher',
-          props: {
-            onDoubleClick: {
-              name: 'thing',
-              method: 'show'
-            }
-          }
+          props: {}
         }
       }
     })
@@ -317,7 +264,7 @@ describe('propagateFontRatio', () => {
 
     expect(updateBaseFontSize).toHaveBeenCalledWith(`${FONT_SIZE * 2}px`)
 
-    expect(updateBaseFontSize).toHaveBeenCalledTimes(2)
+    expect(updateBaseFontSize).toHaveBeenCalledTimes(3)
   })
 })
 
@@ -342,7 +289,7 @@ describe('#initIPM', () => {
 
     expect(mockWebWidget.create).toHaveBeenCalledTimes(1)
 
-    expect(mockWebWidgetRecentCall[1].helpCenterForm.color).toEqual(hcProps.color)
+    expect(mockWebWidgetRecentCall[1].embeds.helpCenterForm.props.color).toEqual(hcProps.color)
   })
 
   describe('embeddableConfig present', () => {
@@ -365,9 +312,7 @@ describe('#initIPM', () => {
 
       const mockWebWidgetRecentCall = mockWebWidget.create.mock.calls[0]
 
-      expect(mockWebWidgetRecentCall[1].helpCenterForm.color).toEqual(hcProps.color)
-
-      expect(mockWebWidgetRecentCall[1].helpCenterForm.position).toEqual('left')
+      expect(mockWebWidgetRecentCall[1].embeds.helpCenterForm.props.color).toEqual(hcProps.color)
     })
   })
 })
@@ -391,6 +336,6 @@ describe('updateEmbeds', () => {
   it('loops over all rendered embeds and calls forceUpdateWorld on them', () => {
     renderer.propagateFontRatio(2)
 
-    expect(forceUpdateWorld).toHaveBeenCalledTimes(2)
+    expect(forceUpdateWorld).toHaveBeenCalledTimes(3)
   })
 })

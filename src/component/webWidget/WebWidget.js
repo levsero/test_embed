@@ -107,7 +107,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -154,7 +153,6 @@ class WebWidget extends Component {
     fullscreen: true,
     helpCenterAvailable: false,
     hideZendeskLogo: false,
-    position: 'right',
     style: null,
     showTicketFormsBackButton: false,
     ticketFieldSettings: [],
@@ -251,7 +249,6 @@ class WebWidget extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        position={this.props.position}
         chatId={this.props.chatId}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -395,7 +392,6 @@ class WebWidget extends Component {
       isMobile,
       style,
       activeEmbed,
-      position,
       mobileNotificationsDisabled,
       webWidgetVisible,
       chatStandaloneMobileNotificationVisible
@@ -419,12 +415,7 @@ class WebWidget extends Component {
     return (
       // data-embed is needed for our integration tests
       <div data-embed={activeEmbed} style={{ height: '100%' }}>
-        <Container
-          style={containerStyle}
-          fullscreen={fullscreen}
-          isMobile={isMobile}
-          position={position}
-        >
+        <Container style={containerStyle} fullscreen={fullscreen} isMobile={isMobile}>
           <OnBackProvider value={this.onBackClick}>
             {this.renderSubmitTicket()}
             {this.renderChat()}
