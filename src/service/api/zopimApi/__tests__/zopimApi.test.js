@@ -1083,36 +1083,131 @@ describe('setUpZopimApiMethods', () => {
     })
   })
 
-  test('setName', () => {
-    mockWin.$zopim.livechat.setName('wayne')
+  describe('setName', () => {
+    describe('with valid input', () => {
+      it('prefills and sets visitor info', () => {
+        mockWin.$zopim.livechat.setName('wayne')
 
-    expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-      name: { value: 'wayne' }
+        expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
+          name: { value: 'wayne' }
+        })
+
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
+          display_name: 'wayne'
+        }) // eslint-disable-line camelcase
+      })
     })
 
-    expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
-      display_name: 'wayne'
-    }) // eslint-disable-line camelcase
+    describe('with invalid input', () => {
+      beforeEach(() => {
+        jest.spyOn(console, 'warn')
+        console.warn.mockReturnValue()
+      })
+
+      afterEach(() => {
+        console.warn.mockRestore()
+      })
+      it('does not prefill, does not setVisitor info, does call console.warn', () => {
+        mockWin.$zopim.livechat.setName('')
+
+        expect(apis.prefill).not.toHaveBeenCalled()
+
+        expect(chatActions.setVisitorInfo).not.toHaveBeenCalled()
+
+        expect(console.warn).toHaveBeenCalledWith(`invalid name passed into setName: `)
+      })
+    })
   })
 
-  test('setEmail', () => {
-    mockWin.$zopim.livechat.setEmail('wayne@see.com')
+  describe('setEmail', () => {
+    describe('with valid input', () => {
+      it('prefills and sets visitor info', () => {
+        mockWin.$zopim.livechat.setEmail('wayne@see.com')
 
-    expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-      email: { value: 'wayne@see.com' }
+        expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
+          email: { value: 'wayne@see.com' }
+        })
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
+          email: 'wayne@see.com'
+        })
+      })
     })
-    expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
-      email: 'wayne@see.com'
+    describe('with invalid input', () => {
+      beforeEach(() => {
+        jest.spyOn(console, 'warn')
+        console.warn.mockReturnValue()
+      })
+
+      afterEach(() => {
+        console.warn.mockRestore()
+      })
+
+      describe('empty', () => {
+        it('does not prefill or set visitor info, calls console.warning', () => {
+          mockWin.$zopim.livechat.setEmail('')
+
+          expect(apis.prefill).not.toHaveBeenCalled()
+          expect(chatActions.setVisitorInfo).not.toHaveBeenCalled()
+
+          expect(console.warn).toHaveBeenCalledWith(`invalid email passed into setEmail: `)
+        })
+      })
+
+      describe('invalid email', () => {
+        it('does not prefill or set visitor info, calls console.warning', () => {
+          mockWin.$zopim.livechat.setEmail('bobby')
+
+          expect(apis.prefill).not.toHaveBeenCalled()
+          expect(chatActions.setVisitorInfo).not.toHaveBeenCalled()
+
+          expect(console.warn).toHaveBeenCalledWith(`invalid email passed into setEmail: bobby`)
+        })
+      })
     })
   })
 
-  test('setPhone', () => {
-    mockWin.$zopim.livechat.setPhone('011111')
+  describe('setPhone', () => {
+    describe('with valid input', () => {
+      it('prefills and sets visitor info', () => {
+        mockWin.$zopim.livechat.setPhone('011111')
 
-    expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-      phone: { value: '011111' }
+        expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
+          phone: { value: '011111' }
+        })
+        expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({ phone: '011111' })
+      })
     })
-    expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({ phone: '011111' })
+
+    describe('with invalid input', () => {
+      beforeEach(() => {
+        jest.spyOn(console, 'warn')
+        console.warn.mockReturnValue()
+      })
+
+      afterEach(() => {
+        console.warn.mockRestore()
+      })
+
+      it('does not prefill or set visitor info, calls console.warn', () => {
+        mockWin.$zopim.livechat.setPhone('')
+
+        expect(apis.prefill).not.toHaveBeenCalled()
+        expect(chatActions.setVisitorInfo).not.toHaveBeenCalled()
+
+        expect(console.warn).toHaveBeenCalledWith(`invalid phone number passed into setPhone: `)
+      })
+
+      it('does not prefill or set visitor info, calls console.warn', () => {
+        mockWin.$zopim.livechat.setPhone('abcde')
+
+        expect(apis.prefill).not.toHaveBeenCalled()
+        expect(chatActions.setVisitorInfo).not.toHaveBeenCalled()
+
+        expect(console.warn).toHaveBeenCalledWith(
+          `invalid phone number passed into setPhone: abcde`
+        )
+      })
+    })
   })
 
   test('sendVisitorPath', () => {

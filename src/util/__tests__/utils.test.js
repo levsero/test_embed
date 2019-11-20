@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {
   getPageKeywords,
   getPageTitle,
@@ -13,7 +12,8 @@ import {
   referrerPolicyUrl,
   isValidUrl,
   onNextTick,
-  appendParams
+  appendParams,
+  phoneValid
 } from '../utils'
 import * as globals from 'utility/globals'
 
@@ -289,13 +289,13 @@ describe('emailValid()', () => {
     10000
   ]
 
-  _.forEach(validEmails, email =>
+  validEmails.forEach(email =>
     it(`returns true for ${email}`, () => {
       expect(emailValid(email)).toEqual(true)
     })
   )
 
-  _.forEach(invalidEmails, email =>
+  invalidEmails.forEach(email =>
     it(`returns false for ${email}`, () => {
       expect(emailValid(email)).toEqual(false)
     })
@@ -308,17 +308,40 @@ describe('emailValid()', () => {
   })
 })
 
+describe('phoneValid()', () => {
+  const validPhones = ['+12342412312412412414123', '+1', '1', '312342412312412412414123']
+  const invalidPhones = ['a', 'abc', '31234241231241241241412312']
+
+  validPhones.forEach(phone => {
+    it(`returns true for '$phone'`, () => {
+      expect(phoneValid(phone)).toEqual(true)
+    })
+  })
+
+  invalidPhones.forEach(phone => {
+    it(`returns false for '$phone'`, () => {
+      expect(phoneValid(phone)).toEqual(false)
+    })
+  })
+
+  describe('when allowEmpty is true', () => {
+    it('returns true for an empty string', () => {
+      expect(phoneValid('', { allowEmpty: true })).toEqual(true)
+    })
+  })
+})
+
 describe('nameValid()', () => {
   const validNames = ['a'.repeat(255), 'b', 'xyz']
   const invalidNames = ['a'.repeat(256), '', 123, undefined, null, {}, []]
 
-  _.forEach(validNames, name =>
+  validNames.forEach(name =>
     it(`returns true for ${name}`, () => {
       expect(nameValid(name)).toEqual(true)
     })
   )
 
-  _.forEach(invalidNames, name =>
+  invalidNames.forEach(name =>
     it(`returns false for ${name}`, () => {
       expect(nameValid(name)).toEqual(false)
     })

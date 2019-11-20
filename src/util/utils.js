@@ -2,7 +2,7 @@ import _ from 'lodash'
 import jsSha1 from 'sha1'
 
 import { document as doc, location } from 'utility/globals'
-import { NAME_PATTERN, EMAIL_PATTERN } from 'constants/shared'
+import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'constants/shared'
 
 function parseUrl(url) {
   const anchor = document.createElement('a')
@@ -118,6 +118,12 @@ function nameValid(name, options = { allowEmpty: false }) {
   return (_.isString(name) && NAME_PATTERN.test(name)) || validEmpty
 }
 
+function phoneValid(phone, options = { allowEmpty: false }) {
+  const validEmpty = options.allowEmpty && phone === ''
+
+  return PHONE_PATTERN.test(phone) || validEmpty
+}
+
 function referrerPolicyUrl(policy, url) {
   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy#Examples
   // for reference on why each case does what it does
@@ -185,6 +191,7 @@ export {
   sha1,
   nameValid,
   emailValid,
+  phoneValid,
   referrerPolicyUrl,
   getHostUrl,
   isValidUrl,

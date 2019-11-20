@@ -47,6 +47,7 @@ import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
 import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { settings } from 'service/settings'
+import { nameValid, emailValid, phoneValid } from 'utility/utils'
 
 const noop = () => {}
 
@@ -186,23 +187,35 @@ export function setUpZopimApiMethods(win, store) {
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
       setName: name => {
-        onChatSDKInitialized(() => {
-          store.dispatch(setVisitorInfo({ display_name: name })) // eslint-disable-line camelcase
+        if (nameValid(name)) {
+          onChatSDKInitialized(() => {
+            store.dispatch(setVisitorInfo({ display_name: name })) // eslint-disable-line camelcase
 
-          prefill(store, { name: { value: name } })
-        })
+            prefill(store, { name: { value: name } })
+          })
+        } else {
+          console.warn(`invalid name passed into setName: ${name}`) // eslint-disable-line no-console
+        }
       },
       setPhone: phone => {
-        onChatSDKInitialized(() => {
-          store.dispatch(setVisitorInfo({ phone }))
-          prefill(store, { phone: { value: phone } })
-        })
+        if (phoneValid(phone)) {
+          onChatSDKInitialized(() => {
+            store.dispatch(setVisitorInfo({ phone }))
+            prefill(store, { phone: { value: phone } })
+          })
+        } else {
+          console.warn(`invalid phone number passed into setPhone: ${phone}`) // eslint-disable-line no-console
+        }
       },
       setEmail: email => {
-        onChatSDKInitialized(() => {
-          store.dispatch(setVisitorInfo({ email }))
-          prefill(store, { email: { value: email } })
-        })
+        if (emailValid(email)) {
+          onChatSDKInitialized(() => {
+            store.dispatch(setVisitorInfo({ email }))
+            prefill(store, { email: { value: email } })
+          })
+        } else {
+          console.warn(`invalid email passed into setEmail: ${email}`) // eslint-disable-line no-console
+        }
       },
       setLanguage: setLocaleApi,
       sendVisitorPath: page => updatePathApi(store, page),

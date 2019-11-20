@@ -16,11 +16,10 @@ import {
   isTokenExpired
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
-import { nameValid, emailValid } from 'src/util/utils'
+import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import { mediator } from 'service/mediator'
 import { store } from 'service/persistence'
 import { http } from 'service/transport'
-import { PHONE_PATTERN } from 'src/constants/shared'
 import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { focusLauncher } from 'utility/globals'
@@ -203,7 +202,7 @@ export const handlePrefillReceived = payload => {
     prefillValues.email = email.value
   }
 
-  if (PHONE_PATTERN.test(phone.value)) {
+  if (phoneValid(phone.value)) {
     prefillValues.phone = phone.value
   }
 
