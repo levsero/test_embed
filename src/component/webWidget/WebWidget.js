@@ -7,7 +7,7 @@ import Chat from 'component/chat/Chat'
 
 import Support from 'embeds/support'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
-import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
+import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
 import SubmitTicket from 'component/submitTicket/SubmitTicket'
 import {
@@ -18,7 +18,6 @@ import {
 } from 'src/redux/modules/base'
 import {
   proactiveChatNotificationDismissed,
-  chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
   closedChatHistory
@@ -36,7 +35,6 @@ import {
   getSubmitTicketAvailable,
   getAnswerBotAvailable
 } from 'src/redux/modules/selectors'
-import { getResultsCount } from 'embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getChatStandalone,
@@ -80,7 +78,6 @@ const mapStateToProps = state => {
     chatEnabled: getChatEnabled(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    resultsCount: getResultsCount(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
@@ -119,7 +116,6 @@ class WebWidget extends Component {
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    chatNotificationDismissed: PropTypes.func.isRequired,
     proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
@@ -128,7 +124,6 @@ class WebWidget extends Component {
     talkOnline: PropTypes.bool.isRequired,
     closeCurrentArticle: PropTypes.func.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
     mobileNotificationsDisabled: PropTypes.bool,
     chatOfflineAvailable: PropTypes.bool.isRequired,
@@ -335,30 +330,6 @@ class WebWidget extends Component {
     )
   }
 
-  renderChatNotification = () => {
-    // For now only display notifications inside Help Center
-    if (this.props.activeEmbed !== helpCenter) return null
-
-    const onNotificatonResponded = () => {
-      this.props.updateActiveEmbed(chat)
-      this.props.chatNotificationRespond()
-    }
-
-    const shouldShow = !this.props.isMobile
-
-    return (
-      <ChatNotificationPopup
-        resultsCount={this.props.resultsCount}
-        isMobile={this.props.isMobile}
-        notification={this.props.chatNotification}
-        shouldShow={shouldShow}
-        fullscreen={this.props.fullscreen}
-        chatNotificationRespond={onNotificatonResponded}
-        chatNotificationDismissed={this.props.chatNotificationDismissed}
-      />
-    )
-  }
-
   renderStandaloneChatPopup() {
     const {
       style,
@@ -425,7 +396,6 @@ class WebWidget extends Component {
             {this.renderChannelChoice()}
             {this.renderTalk()}
             {this.renderAnswerBot()}
-            {this.renderChatNotification()}
           </OnBackProvider>
         </Container>
       </div>
@@ -438,7 +408,6 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  chatNotificationDismissed,
   proactiveChatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
