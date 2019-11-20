@@ -19,6 +19,7 @@ import { isMobileBrowser } from 'utility/devices'
 
 import {
   handleChatSDKInitialized,
+  handleChatConnected,
   reset as resetChatSDKInitializedQueue
 } from 'src/service/api/zopimApi/callbacks'
 
@@ -1056,5 +1057,98 @@ describe('proactiveMessageReceived', () => {
         },
       ]
     `)
+  })
+})
+
+describe('sendVisitorPath', () => {
+  beforeEach(() => {
+    handleChatConnected()
+    jest.spyOn(zChat, 'sendVisitorPath')
+  })
+
+  afterEach(() => {
+    resetChatSDKInitializedQueue()
+  })
+
+  const dispatchAction = arg => {
+    const store = mockStore(getState())
+    store.dispatch(actions.sendVisitorPath(arg))
+    return store
+  }
+
+  describe('passed in arguments', () => {
+    it('calls zChat.sendVisitorPath with expected parameters', () => {
+      const page = { title: 'this title', url: 'http://us.com' }
+      dispatchAction(page)
+      expect(zChat.sendVisitorPath).toHaveBeenCalledWith(page, expect.any(Function))
+    })
+
+    describe('invalid title', () => {
+      it('calls zChat with page title', () => {
+        document.title = 'hello world'
+        dispatchAction({ title: 123, url: 'http://us.com' })
+        expect(zChat.sendVisitorPath).toHaveBeenCalledWith(
+          { title: 'hello world', url: 'http://us.com' },
+          expect.any(Function)
+        )
+      })
+    })
+
+    describe('invalid url', () => {
+      it('calls zChat with page title', () => {
+        dispatchAction({ title: '123', url: 'httpus.com' })
+        expect(zChat.sendVisitorPath).toHaveBeenCalledWith(
+          { title: '123', url: 'http://localhost/' },
+          expect.any(Function)
+        )
+      })
+    })
+  })
+
+  describe('no arguments', () => {
+    it('calls zChat with host page info', () => {
+      document.title = 'hello world'
+      dispatchAction()
+      expect(zChat.sendVisitorPath).toHaveBeenCalledWith(
+        { title: 'hello world', url: 'http://localhost/' },
+        expect.any(Function)
+      )
+    })
+  })
+
+  describe('callbacks', () => {
+    it('dispatches expected actions on success', () => {
+      jest.spyOn(zChat, 'sendVisitorPath').mockImplementation((page, cb) => {
+        cb()
+      })
+      const page = { title: 'this title', url: 'http://us.com' }
+      const store = dispatchAction(page)
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "title": "this title",
+              "url": "http://us.com",
+            },
+            "type": "widget/chat/SEND_VISITOR_PATH_REQUEST_SUCCESS",
+          },
+        ]
+      `)
+    })
+
+    it('dispatches expected actions on failure', () => {
+      jest.spyOn(zChat, 'sendVisitorPath').mockImplementation((page, cb) => {
+        cb({ error: 'hello' })
+      })
+      const page = { title: 'this title', url: 'http://us.com' }
+      const store = dispatchAction(page)
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "type": "widget/chat/SEND_VISITOR_PATH_REQUEST_FAILURE",
+          },
+        ]
+      `)
+    })
   })
 })
