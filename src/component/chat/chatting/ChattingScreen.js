@@ -10,8 +10,8 @@ import HistoryLog from 'component/chat/chatting/HistoryLog'
 import { ChatHeader } from 'component/chat/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import { ButtonPill } from 'component/button/ButtonPill'
-import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
+import { AgentTyping } from 'src/embeds/chat/online/components/AgentTyping'
 import { i18n } from 'service/i18n'
 import { isAgent } from 'utility/chat'
 import { isFirefox, isIE } from 'utility/devices'
@@ -265,46 +265,6 @@ class ChattingScreen extends Component {
     )
   }
 
-  renderAgentTyping = (typingAgents = []) => {
-    let typingNotification
-    const agentTypingStyles = this.props.isMobile ? styles.agentTypingMobile : styles.agentTyping
-    const noAgentTypingStyles = this.props.isMobile
-      ? styles.noAgentTypingMobile
-      : styles.noAgentTyping
-
-    switch (typingAgents.length) {
-      case 0:
-        return <div className={noAgentTypingStyles} />
-      case 1:
-        const agent = typingAgents[0].display_name
-
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping', { agent })
-        break
-      case 2:
-        const agent1 = typingAgents[0].display_name,
-          agent2 = typingAgents[1].display_name
-
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_two', {
-          agent1,
-          agent2
-        })
-        break
-      default:
-        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_multiple')
-    }
-
-    return (
-      <div className={agentTypingStyles} aria-live="polite">
-        <LoadingEllipses
-          useUserColor={false}
-          className={styles.loadingEllipses}
-          itemClassName={styles.loadingEllipsesItem}
-        />
-        {typingNotification}
-      </div>
-    )
-  }
-
   renderChatFooter = () => {
     const {
       currentMessage,
@@ -468,7 +428,7 @@ class ChattingScreen extends Component {
               socialLogin={this.props.socialLogin}
             />
             {this.renderQueuePosition()}
-            {this.renderAgentTyping(agentsTyping)}
+            <AgentTyping agentsTyping={agentsTyping} />
             <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
             {this.renderScrollPill()}
           </div>

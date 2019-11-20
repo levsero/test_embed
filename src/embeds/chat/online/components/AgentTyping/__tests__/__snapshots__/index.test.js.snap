@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AgentTyping returns an empty div if there are no agents typing 1`] = `
+<div>
+  <div
+    aria-live="polite"
+  />
+</div>
+`;
+
+exports[`AgentTyping when one agent is typing renders the expected container 1`] = `
+<div>
+  <div
+    aria-live="polite"
+  >
+    <div
+      class="sc-iRbamj kjilnc"
+    >
+      <svg
+        class="sc-gPEVay INNyr Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
+        color="inherit"
+        data-garden-id="loaders.inline"
+        data-garden-version="7.0.0"
+        data-testid="Icon--ellipsis"
+        height="4"
+        size="16"
+        viewBox="0 0 16 4"
+        width="16"
+      >
+        <circle
+          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          cx="14"
+          cy="2"
+          fill="currentColor"
+          r="2"
+        />
+        <circle
+          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          cx="8"
+          cy="2"
+          fill="currentColor"
+          r="2"
+        />
+        <circle
+          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          cx="2"
+          cy="2"
+          fill="currentColor"
+          r="2"
+        />
+      </svg>
+      Cordelia is typing
+    </div>
+  </div>
+</div>
+`;

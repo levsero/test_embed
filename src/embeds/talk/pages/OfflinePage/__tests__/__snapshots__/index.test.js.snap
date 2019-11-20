@@ -42,7 +42,7 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-jbKcbu hJVIAA"
+        class="sc-jqCOkK gRPRiD"
         data-testid="talk--offlinePage"
       >
         Offline message
