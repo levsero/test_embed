@@ -1092,6 +1092,15 @@ describe('sendVisitorPath', () => {
           expect.any(Function)
         )
       })
+
+      it('calls zChat.sendVisitorPath with placeholder if no title is found', () => {
+        document.title = ''
+        dispatchAction({ title: 123, url: 'http://us.com' })
+        expect(zChat.sendVisitorPath).toHaveBeenCalledWith(
+          { title: 'http://us.com', url: 'http://us.com' },
+          expect.any(Function)
+        )
+      })
     })
 
     describe('invalid url', () => {
