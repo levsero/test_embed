@@ -41,6 +41,19 @@ describe('chatLog', () => {
     })
   })
 
+  describe('when a CHAT_DROPPED action is received', () => {
+    const mockState = {
+      firstVisitorMessage: 'you shall not pass',
+      latestRating: 'good',
+      lastMessageAuthor: 'Gandalf'
+    }
+    const action = { type: actions.CHAT_DROPPED }
+
+    it('returns the initial state', () => {
+      expect(chatLog(mockState, action)).toEqual(initialState())
+    })
+  })
+
   describe('firstVisitorMessage', () => {
     beforeEach(() => {
       state = initialState()

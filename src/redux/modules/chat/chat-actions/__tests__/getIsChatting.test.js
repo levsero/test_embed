@@ -1,7 +1,11 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
-import { IS_CHATTING, CHAT_WINDOW_OPEN_ON_NAVIGATE } from 'src/redux/modules/chat/chat-action-types'
+import {
+  IS_CHATTING,
+  CHAT_WINDOW_OPEN_ON_NAVIGATE,
+  CHAT_DROPPED
+} from 'src/redux/modules/chat/chat-action-types'
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
 import { store } from 'service/persistence'
 
@@ -90,6 +94,26 @@ describe('getIsChatting', () => {
       expect(reduxStore.getActions()[1]).not.toEqual({
         type: CHAT_WINDOW_OPEN_ON_NAVIGATE
       })
+    })
+  })
+
+  describe('when isChatting is false', () => {
+    test('dispatches chatDropped if is_chatting is true in localStorage', () => {
+      store.set('store', { is_chatting: true })
+
+      const reduxStore = callAction(false)
+
+      expect(reduxStore.getActions()[1]).toEqual({
+        type: CHAT_DROPPED
+      })
+    })
+
+    test('does not dispatch chatDropped if is_chatting is false in localStorage', () => {
+      store.set('store', { is_chatting: false })
+
+      const reduxStore = callAction(false)
+
+      expect(reduxStore.getActions()[1]).toBeUndefined()
     })
   })
 })

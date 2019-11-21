@@ -129,8 +129,9 @@ const onChatConnected = (prevState, nextState, dispatch) => {
     getConnection(nextState) === CONNECTION_STATUSES.CONNECTED
   ) {
     dispatch(updateChatSettings())
+    // Order matters, getIsChatting needs to happen before getAccountSettings: https://github.com/zendesk/embeddable_framework/pull/3052
+    dispatch(getIsChatting())
     if (!chatAccountSettingsFetched) {
-      dispatch(getIsChatting())
       dispatch(getAccountSettings())
       dispatch(getOperatingHours())
       chatAccountSettingsFetched = true
