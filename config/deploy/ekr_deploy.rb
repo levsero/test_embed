@@ -1,6 +1,7 @@
 require 'json'
 require 'jwt'
 require_relative './s3_deployer'
+require_relative './package_size_reporter'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
 set :ekr_s3_release_directory_versioned, "web_widget/#{fetch(:version)}"
@@ -9,6 +10,9 @@ set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
 set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
+set :datadog_api_key, ENV['DATADOG_API_KEY']
+set :deploy_stage, ENV['STAGE']
+set :reference, ENV['REFERENCE']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
 set :popout_file_location, 'dist/'
@@ -31,6 +35,21 @@ namespace :ac_embeddable_framework do
     sh 'npm dedupe'
     sh 'npm run build'
     sh 'npm run build:previewer'
+  end
+
+  desc 'Reports package sizes to Datadog'
+  task :report_package_size do
+    options = { reference: fetch(:reference), deploy_stage: fetch(:deploy_stage) }
+
+    reporter = PackageSize::Reporter.new(
+      fetch(:datadog_api_key), logger, options
+    )
+
+    reporter.packages.each do |p|
+      logger.info "Package: #{p.name}. Size: #{p.size} (#{p.size(:human)})"
+    end
+
+    reporter.report_to_datadog
   end
 
   desc 'Upload previewer assets to Amazon S3'
@@ -159,4 +178,5 @@ before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_a
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_translations_to_s3'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_lazy_loaded_chunks_to_s3'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:report_package_size'
 after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'

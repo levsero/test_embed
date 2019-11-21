@@ -70,7 +70,21 @@ let config = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } }
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsOptions: {
+        assets: true,
+        assetsSort: 'size',
+        builtAt: true,
+        chunks: false,
+        errors: false,
+        logging: 'none',
+        warnings: false,
+        modules: false
+      }
+    })
   ]
 })
 
