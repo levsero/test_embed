@@ -4,7 +4,7 @@ export default fn => store => next => action => {
   const result = next(action)
   const nextState = store.getState()
 
-  fn(prevState, nextState, action, store.dispatch)
+  fn(prevState, nextState, action, store.dispatch, store.getState)
 
   return result
 }
