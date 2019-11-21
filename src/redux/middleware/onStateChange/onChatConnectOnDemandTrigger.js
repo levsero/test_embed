@@ -19,7 +19,7 @@ export default function onChatConnectOnDemandTrigger(state, action, dispatch) {
   const chatEnabled = getChatEmbed(state)
 
   if (chatEnabled && !setupChatCalled && _.includes(actionsToTrigger, action.type)) {
-    dispatch(setUpChat())
+    dispatch(setUpChat(false))
     setupChatCalled = true
   }
 }

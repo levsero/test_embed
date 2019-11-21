@@ -81,8 +81,8 @@ export default function WebWidgetFactory(name) {
       store: reduxStore
     }
 
-    if (chatAvailable) {
-      reduxStore.dispatch(setUpChat())
+    if (chatConfig) {
+      reduxStore.dispatch(setUpChat(true))
     }
 
     if (talkEnabled) {

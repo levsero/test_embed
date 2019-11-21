@@ -2,6 +2,8 @@ import * as selectors from '../selectors'
 import testState from 'src/fixtures/chat-selectors-test-state'
 import { getHasBackfillCompleted } from '../selectors'
 import { getIsEndChatModalVisible } from '../selectors'
+import { getChatOnline } from '../selectors'
+import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
 
 test('getChats', () => {
   const result = selectors.getChats(testState)
@@ -355,5 +357,88 @@ describe('getIsEndChatModalVisible', () => {
 
   it('returns false when the end chat modal is not visible', () => {
     expect(getIsEndChatModalVisible({ chat: { endChatModalVisible: true } })).toBe(true)
+  })
+})
+
+describe('getChatOnline', () => {
+  it('returns true when chat is forced to be online', () => {
+    expect(
+      getChatOnline({
+        chat: {
+          forcedStatus: 'online'
+        }
+      })
+    ).toBe(true)
+  })
+
+  it('returns true when chat is forced to be offline', () => {
+    expect(
+      getChatOnline({
+        chat: {
+          forcedStatus: 'offline'
+        }
+      })
+    ).toBe(false)
+  })
+
+  it('returns true if an agent is online', () => {
+    expect(
+      getChatOnline({
+        chat: {
+          account_status: 'online'
+        }
+      })
+    ).toBe(true)
+  })
+
+  it('returns true if an agent is away', () => {
+    expect(
+      getChatOnline({
+        chat: {
+          account_status: 'away'
+        }
+      })
+    ).toBe(true)
+  })
+
+  it('returns false if an agent is not online or away', () => {
+    expect(
+      getChatOnline({
+        chat: {
+          account_status: 'offline'
+        }
+      })
+    ).toBe(false)
+  })
+})
+
+describe('getDeferredChatApi', () => {
+  const createState = (mediatorHost, zopimId) => ({
+    base: {
+      embeddableConfig: {
+        embeds: {
+          zopimChat: {
+            props: {
+              mediatorHost,
+              zopimId
+            }
+          }
+        }
+      }
+    }
+  })
+
+  it('returns null when "mediatorHost" does not exist in config', () => {
+    expect(getDeferredChatApi(createState(undefined, 'someId'))).toBeNull()
+  })
+
+  it('returns null when zopimId does not exist', () => {
+    expect(getDeferredChatApi(createState('example.com', undefined))).toBeNull()
+  })
+
+  it('returns the url to get deferred chat status', () => {
+    expect(getDeferredChatApi(createState('example.com', 'someId'))).toBe(
+      `https://example.com/client/widget/account/status?embed_key=someId`
+    )
   })
 })

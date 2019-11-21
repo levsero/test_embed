@@ -18,10 +18,7 @@ import {
   getNotificationCount,
   getShowChatHistory
 } from '../chat/chat-selectors'
-import {
-  getOfflineFormEnabled,
-  getDelayChatConnection
-} from 'src/redux/modules/selectors/chat-linked-selectors'
+import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -263,15 +260,9 @@ const getChannelChoiceEnabled = state => {
 export const getChatOnline = state => !getShowOfflineChat(state)
 
 export const getChatConnectionSuppressed = createSelector(
-  [
-    getDelayChatConnection,
-    getIsChatting,
-    getChatConnected,
-    getSettingsChatConnectionSuppress,
-    getCookiesDisabled
-  ],
-  (delayChatConnection, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
-    const chatDelay = (delayChatConnection || cookiesDisabled) && !isChatting && !chatConnected
+  [getIsChatting, getChatConnected, getSettingsChatConnectionSuppress, getCookiesDisabled],
+  (isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled) => {
+    const chatDelay = cookiesDisabled && !isChatting && !chatConnected
 
     return chatDelay || chatConnectionSuppress
   }

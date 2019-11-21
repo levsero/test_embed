@@ -90,7 +90,8 @@ describe('resetActiveEmbed middleware', () => {
           submitTicketForm: 'contactForm'
         },
         NIL_EMBED
-      }
+      },
+      'embeds/chat/actions/action-types': {}
     })
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed')

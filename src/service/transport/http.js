@@ -219,9 +219,14 @@ function logFailure(error, payload) {
   errorTracker.error(errorTitle, errorData)
 }
 
-function getChatOnlineStatus(onCompletion) {
+function getChatOnlineStatus(endpoint, onCompletion) {
+  if (!endpoint) {
+    onCompletion(new Error('Failed to get deferred chat status, no endpoint specific'))
+    return
+  }
+
   // Chat haven't yet provided a URL for this, so leaving it pointing at localhost for now
-  superagent('GET', 'http://127.0.0.1:8000/test.json').end((err, res) => {
+  superagent('GET', endpoint).end((err, res) => {
     onCompletion(err, res)
   })
 }

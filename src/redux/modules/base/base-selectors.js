@@ -68,6 +68,7 @@ export const getZopimId = createSelector(
     return embeddableConfig.embeds.zopimChat.props.zopimId
   }
 )
+
 export const getConfigColor = createSelector(
   [getEmbeddableConfig],
   embeddableConfig => ({
