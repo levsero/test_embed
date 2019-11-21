@@ -54,6 +54,7 @@ function registerEmbedsInRedux(config, reduxStore) {
 }
 
 function init(config, reduxStore = dummyStore) {
+  if (_.isEmpty(config.embeds)) return
   if (!initialised) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations()

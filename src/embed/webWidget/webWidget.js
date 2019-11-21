@@ -235,6 +235,7 @@ export default function WebWidgetFactory(name) {
   }
 
   function postRender() {
+    if (!embed) return
     // Only send 1/10 times
     if (Math.random() <= 0.1) {
       beacon.sendWidgetInitInterval()

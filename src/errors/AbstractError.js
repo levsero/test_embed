@@ -12,4 +12,8 @@ export default class AbstractError extends extendableError() {
       this.stack = new Error(message).stack
     }
   }
+
+  toString() {
+    return this.message
+  }
 }

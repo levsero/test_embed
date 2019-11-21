@@ -7,6 +7,10 @@ export function mockBlipEndpoint(request) {
     return false
   }
 
+  if (!request.url().includes('embeddable_identify')) {
+    return false
+  }
+
   request.respond({
     status: 200,
     headers: { 'Access-Control-Allow-Origin': '*' },
