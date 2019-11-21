@@ -139,7 +139,8 @@ describe('embed.webWidget', () => {
       'embeds/chat/actions/connectOnPageLoad': {},
       'src/redux/modules/chat': {
         setVisitorInfo: user => user,
-        chatNotificationDismissed: chatNotificationDismissedSpy
+        chatNotificationDismissed: chatNotificationDismissedSpy,
+        setUpChat: () => undefined
       },
       'src/redux/modules/talk': {
         loadTalkVendors: noop

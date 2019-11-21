@@ -37,7 +37,7 @@ import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
 import { isPopout } from 'utility/globals'
 import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
-import { UPDATE_DEFERRED_CHAT_ONLINE_STATUS } from 'embeds/chat/actions/action-types'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)
@@ -128,7 +128,7 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     API_RESET_WIDGET,
     GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     TALK_SUCCESS_DONE_BUTTON_CLICKED,
-    UPDATE_DEFERRED_CHAT_ONLINE_STATUS
+    RECEIVE_DEFERRED_CHAT_STATUS
   ]
   const widgetVisible = getWebWidgetVisible(prevState)
   const isChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat'

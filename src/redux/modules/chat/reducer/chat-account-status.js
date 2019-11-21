@@ -1,5 +1,5 @@
 import { SDK_ACCOUNT_STATUS, UPDATE_PREVIEWER_SCREEN } from '../chat-action-types'
-import { UPDATE_DEFERRED_CHAT_ONLINE_STATUS } from 'embeds/chat/actions/action-types'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 
 const initialState = ''
 
@@ -8,7 +8,7 @@ const accountStatus = (state = initialState, action) => {
     case SDK_ACCOUNT_STATUS:
       return action.payload.detail
     case UPDATE_PREVIEWER_SCREEN:
-    case UPDATE_DEFERRED_CHAT_ONLINE_STATUS:
+    case RECEIVE_DEFERRED_CHAT_STATUS:
       return action.payload.status
     default:
       return state

@@ -17,9 +17,9 @@ import zopimApi from 'service/api/zopimApi'
 import { win, isPopout } from 'utility/globals'
 import { cleanBrandName } from 'utility/chat'
 import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
-import pollChatForOnlineStatus from 'src/redux/modules/chat/helpers/pollChatForOnlineStatus'
 import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/modules/selectors'
 import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
+import { deferChatSetup, beginChatSetup } from 'embeds/chat/actions/setup-chat'
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -48,11 +48,11 @@ export function setUpChat(canBeDeferred = true) {
     }
 
     if (canBeDeferred && getDelayChatConnection(getState())) {
-      pollChatForOnlineStatus.beginPolling(dispatch, getState)
+      dispatch(deferChatSetup())
       return
     }
 
-    pollChatForOnlineStatus.stopPolling()
+    dispatch(beginChatSetup())
 
     zopimApi.handleZopimQueue(win)
 

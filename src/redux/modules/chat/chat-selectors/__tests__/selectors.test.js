@@ -371,7 +371,7 @@ describe('getChatOnline', () => {
     ).toBe(true)
   })
 
-  it('returns true when chat is forced to be offline', () => {
+  it('returns false when chat is forced to be offline', () => {
     expect(
       getChatOnline({
         chat: {
@@ -428,7 +428,7 @@ describe('getDeferredChatApi', () => {
     }
   })
 
-  it('returns null when "mediatorHost" does not exist in config', () => {
+  it('returns null when mediatorHost does not exist in config', () => {
     expect(getDeferredChatApi(createState(undefined, 'someId'))).toBeNull()
   })
 

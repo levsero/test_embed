@@ -219,27 +219,8 @@ function logFailure(error, payload) {
   errorTracker.error(errorTitle, errorData)
 }
 
-function getChatOnlineStatus(endpoint, onCompletion) {
-  if (!endpoint) {
-    onCompletion(new Error('Failed to get deferred chat status, no endpoint specific'))
-    return
-  }
-
-  // Chat haven't yet provided a URL for this, so leaving it pointing at localhost for now
-  superagent('GET', endpoint).end((err, res) => {
-    onCompletion(err, res)
-  })
-}
-
 function shouldExclude(error, payload = {}) {
   return error.status == 404 || /embeddable_(blip|identify)/.test(payload.path)
-}
-
-function getChatOnlineStatus(onCompletion) {
-  // Chat haven't yet provided a URL for this, so leaving it pointing at localhost for now
-  superagent('GET', 'http://127.0.0.1:8000/test.json').end((err, res) => {
-    onCompletion(err, res)
-  })
 }
 
 export const http = {
@@ -253,6 +234,5 @@ export const http = {
   updateConfig,
   getConfig,
   getDynamicHostname,
-  logFailure, //for testing purposes
-  getChatOnlineStatus
+  logFailure //for testing purposes
 }

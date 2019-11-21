@@ -129,6 +129,7 @@ Object {
   "defaultDepartment": Object {
     "id": null,
   },
+  "deferredChatIsPolling": false,
   "departments": Object {},
   "editContactDetails": Object {
     "display_name": null,

@@ -798,24 +798,3 @@ describe('#logFailure', () => {
     })
   })
 })
-
-describe('getChatOnlineStatus', () => {
-  const onCompletion = jest.fn()
-
-  beforeEach(() => {})
-
-  it('calls the callback', () => {
-    http.getChatOnlineStatus('example.com', onCompletion)
-
-    expect(superagent.__mostRecent().end).toHaveBeenCalled()
-    expect(onCompletion).toHaveBeenCalled()
-  })
-
-  it('calls the callback with an error when no endpoint provided', () => {
-    http.getChatOnlineStatus(null, onCompletion)
-
-    expect(onCompletion).toHaveBeenCalledWith(
-      new Error('Failed to get deferred chat status, no endpoint specific')
-    )
-  })
-})
