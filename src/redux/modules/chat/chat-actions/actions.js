@@ -234,8 +234,10 @@ export function sendVisitorPath(options = {}) {
       const zChat = getZChatVendor(getState())
       let page = {}
 
-      page.title = _.isString(options.title) ? options.title : getPageTitle()
+      page.title = options.title && _.isString(options.title) ? options.title : getPageTitle()
       page.url = isValidUrl(options.url) ? options.url : getHostUrl()
+
+      if (!page.title) page.title = page.url
 
       zChat.sendVisitorPath(page, err => {
         if (!err) {
