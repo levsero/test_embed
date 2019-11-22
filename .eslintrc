@@ -35,7 +35,8 @@
     "context": true,
     "jestPuppeteer": true,
     "zE": true,
-    "$zopim": true
+    "$zopim": true,
+    "fail": true
   },
   "rules": {
     "no-var": 0,
