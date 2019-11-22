@@ -1,5 +1,5 @@
 import { mockEmbeddableConfigEndpoint } from './embeddable-config'
-import { mockBlipEndpoint, goToTestPage } from './../utils'
+import { mockBlipEndpoint, goToTestPage, failOnConsoleError } from './../utils'
 
 const defaultMocks = [mockBlipEndpoint]
 
@@ -40,6 +40,7 @@ const mockRequests = async mockFns => {
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
+  failOnConsoleError(page)
   await goToTestPage()
   await page.waitForSelector('iframe#launcher', { visible: true })
 }

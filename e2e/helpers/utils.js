@@ -14,3 +14,11 @@ export function mockBlipEndpoint(request) {
     body: ''
   })
 }
+
+export function failOnConsoleError() {
+  page.on('console', msg => {
+    if (msg.type() === 'error' && msg.location().url.includes('rollbar')) {
+      fail(`Console error detected: ${msg.text()}`)
+    }
+  })
+}
