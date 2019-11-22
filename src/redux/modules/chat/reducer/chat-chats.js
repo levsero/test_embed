@@ -14,7 +14,8 @@ import {
   CHAT_FILE_REQUEST_SUCCESS,
   CHAT_FILE_REQUEST_FAILURE,
   CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
-  CHAT_BANNED
+  CHAT_BANNED,
+  CHAT_DROPPED
 } from '../chat-action-types'
 import {
   CHAT_MESSAGE_TYPES,
@@ -109,6 +110,7 @@ const chats = (state = initialState, action) => {
     case CHAT_CONTACT_DETAILS_UPDATE_SUCCESS:
       return concatContactDetailsUpdated(state, action.payload)
     case API_RESET_WIDGET:
+    case CHAT_DROPPED:
     case CHAT_BANNED:
       return initialState
     default:

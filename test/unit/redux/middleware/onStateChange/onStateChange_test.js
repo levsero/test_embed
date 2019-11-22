@@ -300,10 +300,6 @@ describe('onStateChange middleware', () => {
           it('does not dispatch the getAccountSettings action creator', () => {
             expect(getAccountSettingsSpy).not.toHaveBeenCalled()
           })
-
-          it('does not dispatch the getIsChatting action creator', () => {
-            expect(getIsChattingSpy).not.toHaveBeenCalled()
-          })
         })
       })
     })

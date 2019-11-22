@@ -226,5 +226,19 @@ describe('chat reducer agents', () => {
         expect(state).toEqual(new Map())
       })
     })
+
+    describe('when a CHAT_DROPPED action is dispatched', () => {
+      beforeEach(() => {
+        const currentState = new Map([['agent:cena', {}]])
+
+        state = reducer(currentState, {
+          type: actionTypes.CHAT_DROPPED
+        })
+      })
+
+      it('resets reducer to initial state', () => {
+        expect(state).toEqual(new Map())
+      })
+    })
   })
 })

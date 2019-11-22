@@ -4,7 +4,8 @@ import {
   SDK_AGENT_UPDATE,
   SDK_CHAT_MEMBER_LEAVE,
   END_CHAT_REQUEST_SUCCESS,
-  CHAT_RECONNECT
+  CHAT_RECONNECT,
+  CHAT_DROPPED
 } from '../chat-action-types'
 
 const initialState = new Map()
@@ -58,6 +59,7 @@ const agents = (state = initialState, action = {}) => {
       }
     case END_CHAT_REQUEST_SUCCESS:
     case CHAT_RECONNECT:
+    case CHAT_DROPPED:
       return initialState
     default:
       return state

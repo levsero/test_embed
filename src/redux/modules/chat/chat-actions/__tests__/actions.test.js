@@ -1161,3 +1161,11 @@ describe('sendVisitorPath', () => {
     })
   })
 })
+
+describe('chatDropped', () => {
+  it('dispatches CHAT_DROPPED', () => {
+    const result = dispatchAction(actions.chatDropped())[0]
+
+    expect(result).toEqual({ type: actionTypes.CHAT_DROPPED })
+  })
+})

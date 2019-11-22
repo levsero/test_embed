@@ -468,6 +468,10 @@ export function chatBanned() {
   return { type: actions.CHAT_BANNED }
 }
 
+export function chatDropped() {
+  return { type: actions.CHAT_DROPPED }
+}
+
 export function chatConnectionError() {
   return { type: actions.CHAT_CONNECTION_ERROR }
 }

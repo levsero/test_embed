@@ -12,6 +12,7 @@ import {
   CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT,
   CHAT_BANNED,
+  CHAT_DROPPED,
   END_CHAT_REQUEST_SUCCESS
 } from '../chat-action-types'
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
@@ -35,6 +36,7 @@ const firstVisitorMessage = (state = initialState.firstVisitorMessage, action) =
       return state === initialState.firstVisitorMessage ? action.payload.detail.timestamp : state
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
       return initialState.firstVisitorMessage
     default:
       return state
@@ -47,6 +49,7 @@ const latestRating = (state = initialState.latestRating, action) => {
       return action.payload.detail.timestamp
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
     case END_CHAT_REQUEST_SUCCESS:
       return initialState.latestRating
     default:
@@ -60,6 +63,7 @@ const latestRatingRequest = (state = initialState.latestRatingRequest, action) =
       return action.payload.detail.timestamp
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
       return initialState.latestRatingRequest
     default:
       return state
@@ -84,6 +88,7 @@ const latestQuickReply = (state = initialState.latestQuickReply, action) => {
       return UNSET_TIMESTAMP
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
       return initialState.latestQuickReply
     default:
       return state
@@ -98,6 +103,7 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
         : state
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
     case END_CHAT_REQUEST_SUCCESS:
       return initialState.latestAgentLeaveEvent
     default:
@@ -114,6 +120,7 @@ const lastMessageAuthor = (state = initialState.lastMessageAuthor, action) => {
       return action.payload.detail.nick
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
       return initialState.lastMessageAuthor
     default:
       return state
@@ -152,6 +159,7 @@ const groups = (state = initialState.groups, action) => {
       return [...state, newGroup(action.payload, 'event')]
     case API_RESET_WIDGET:
     case CHAT_BANNED:
+    case CHAT_DROPPED:
       return initialState.groups
     default:
       return state
