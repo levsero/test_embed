@@ -14,13 +14,11 @@ import { isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import {
-  getChatNotification,
   getChatConnectionSuppressed,
   getTalkNickname,
   getTalkEnabled
 } from 'src/redux/modules/selectors'
-import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors'
-import { chatNotificationDismissed, setUpChat } from 'src/redux/modules/chat'
+import { setUpChat } from 'src/redux/modules/chat'
 import {
   getSettingsHelpCenterSuppress,
   getSettingsContactFormSuppress,
@@ -176,17 +174,6 @@ export default function WebWidgetFactory(name) {
         if (submitTicket) {
           submitTicket.clearAttachments()
         }
-      }
-    })
-
-    mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {
-      const state = embed.store.getState()
-      const { show } = getChatNotification(state)
-
-      if (getStandaloneMobileNotificationVisible(state)) {
-        getWebWidgetComponent().dismissStandaloneChatPopup()
-      } else if (show) {
-        embed.store.dispatch(chatNotificationDismissed())
       }
     })
 

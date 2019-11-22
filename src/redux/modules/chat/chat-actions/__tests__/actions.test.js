@@ -1169,3 +1169,32 @@ describe('chatDropped', () => {
     expect(result).toEqual({ type: actionTypes.CHAT_DROPPED })
   })
 })
+
+describe('chatNotificationTimedOut', () => {
+  it('dispatches PROACTIVE_CHAT_NOTIFICATION_DISMISSED when getStandaloneMobileNotificationVisible is true', () => {
+    jest.spyOn(selectors, 'getNotification').mockReturnValue({ show: true })
+    jest.spyOn(selectors, 'getStandaloneMobileNotificationVisible').mockReturnValue(true)
+
+    const result = dispatchAction(actions.chatNotificationTimedOut())[0]
+
+    expect(result).toEqual({ type: 'widget/chat/PROACTIVE_CHAT_NOTIFICATION_DISMISSED' })
+  })
+
+  it('dispatches CHAT_NOTIFICATION_DISMISSED when getStandaloneMobileNotificationVisible is false', () => {
+    jest.spyOn(selectors, 'getNotification').mockReturnValue({ show: true })
+    jest.spyOn(selectors, 'getStandaloneMobileNotificationVisible').mockReturnValue(false)
+
+    const result = dispatchAction(actions.chatNotificationTimedOut())[0]
+
+    expect(result).toEqual({ type: 'widget/chat/CHAT_NOTIFICATION_DISMISSED' })
+  })
+
+  it('dispatches nothing when getNotification show is false', () => {
+    jest.spyOn(selectors, 'getNotification').mockReturnValue({ show: false })
+    jest.spyOn(selectors, 'getStandaloneMobileNotificationVisible').mockReturnValue(false)
+
+    const result = dispatchAction(actions.chatNotificationTimedOut())
+
+    expect(result).toEqual([])
+  })
+})

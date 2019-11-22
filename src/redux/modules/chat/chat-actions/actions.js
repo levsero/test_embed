@@ -9,7 +9,9 @@ import {
   getActiveAgents,
   getIsAuthenticated,
   getIsLoggingOut,
-  getZChatVendor
+  getZChatVendor,
+  getStandaloneMobileNotificationVisible,
+  getNotification
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
 import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
@@ -373,6 +375,19 @@ export function getOperatingHours() {
         type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS,
         payload: formattedOperatingHours
       })
+    }
+  }
+}
+
+export function chatNotificationTimedOut() {
+  return (dispatch, getState) => {
+    const state = getState()
+    const { show } = getNotification(state)
+
+    if (getStandaloneMobileNotificationVisible(state)) {
+      dispatch(proactiveChatNotificationDismissed())
+    } else if (show) {
+      dispatch(chatNotificationDismissed())
     }
   }
 }

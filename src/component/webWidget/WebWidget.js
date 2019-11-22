@@ -20,7 +20,6 @@ import {
   onChannelChoiceNextClick
 } from 'src/redux/modules/base'
 import {
-  proactiveChatNotificationDismissed,
   chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -118,7 +117,6 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
-    proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -164,7 +162,6 @@ class WebWidget extends Component {
     closeCurrentArticle: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
-    proactiveChatNotificationDismissed: () => {},
     chatId: '',
     webWidgetVisible: true,
     answerBotAvailable: false,
@@ -358,10 +355,6 @@ class WebWidget extends Component {
     )
   }
 
-  dismissStandaloneChatPopup = () => {
-    this.props.proactiveChatNotificationDismissed()
-  }
-
   renderStandaloneChatPopup() {
     const { style, chatNotification, chatNotificationRespond } = this.props
     const onNotificatonResponded = () => {
@@ -439,7 +432,6 @@ const actionCreators = {
   chatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
-  proactiveChatNotificationDismissed,
   updateAnswerBotScreen,
   closedChatHistory,
   onChannelChoiceNextClick
