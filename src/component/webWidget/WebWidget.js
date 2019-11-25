@@ -20,6 +20,7 @@ import {
   onChannelChoiceNextClick
 } from 'src/redux/modules/base'
 import {
+  proactiveChatNotificationDismissed,
   chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -117,6 +118,7 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
+    proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
@@ -163,6 +165,7 @@ class WebWidget extends Component {
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     chatId: '',
+    proactiveChatNotificationDismissed: () => {},
     webWidgetVisible: true,
     answerBotAvailable: false,
     updateAnswerBotScreen: () => {},
@@ -356,7 +359,12 @@ class WebWidget extends Component {
   }
 
   renderStandaloneChatPopup() {
-    const { style, chatNotification, chatNotificationRespond } = this.props
+    const {
+      style,
+      chatNotification,
+      chatNotificationRespond,
+      proactiveChatNotificationDismissed
+    } = this.props
     const onNotificatonResponded = () => {
       chatNotificationRespond()
     }
@@ -372,7 +380,7 @@ class WebWidget extends Component {
             fullscreen={this.props.fullscreen}
             shouldShow={true}
             chatNotificationRespond={onNotificatonResponded}
-            chatNotificationDismissed={this.dismissStandaloneChatPopup}
+            chatNotificationDismissed={proactiveChatNotificationDismissed}
           />
         </Container>
       </div>
@@ -430,6 +438,7 @@ const actionCreators = {
   updateEmbedAccessible,
   updateBackButtonVisibility,
   chatNotificationDismissed,
+  proactiveChatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,
   updateAnswerBotScreen,
