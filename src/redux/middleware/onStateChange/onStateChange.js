@@ -264,7 +264,13 @@ const onCookiePermissionsChange = (action, prevState, nextState, dispatch) => {
   }
 }
 
-export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
+export default function onStateChange(
+  prevState,
+  nextState,
+  action = {},
+  dispatch = () => {},
+  getState = () => {}
+) {
   onChatStarted(prevState, nextState, dispatch)
   onChatStatusChange(prevState, nextState, dispatch)
   onChatConnected(prevState, nextState, dispatch)
@@ -274,7 +280,7 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatEnd(nextState, action, dispatch)
   onAgentLeave(prevState, nextState, action, dispatch)
   onVisitorUpdate(action, dispatch)
-  onWidgetOpen(prevState, nextState, dispatch)
+  onWidgetOpen(prevState, nextState, dispatch, getState)
   onChatOpen(prevState, nextState, dispatch)
   onUpdateEmbeddableConfig(action)
   onChatConnectOnDemandTrigger(prevState, action, dispatch)

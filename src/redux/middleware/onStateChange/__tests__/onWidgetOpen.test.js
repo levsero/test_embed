@@ -40,7 +40,7 @@ describe('when widget visibility transitions from false to true', () => {
   it('calls mobile functions when on mobile', () => {
     devices.isMobileBrowser.mockReturnValue(true)
 
-    onWidgetOpen(false, true, dispatch)
+    onWidgetOpen(false, true, dispatch, () => true)
 
     jest.runAllTimers()
 
