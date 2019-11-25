@@ -64,7 +64,7 @@ const isApiUserError = error => {
 
 const errorHandler = (error, ...args) => {
   if (inDebugMode() || (error && error instanceof ConsoleError)) {
-    logger.error(error, ...args)
+    logger.error(error.toString(), ...args)
   }
   errorTracker.configure({ payload: { isApiUserError: isApiUserError(error) } })
   errorTracker.error(error, ...args)

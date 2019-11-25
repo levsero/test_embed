@@ -215,7 +215,8 @@ describe('init', () => {
       renderer.init(
         {
           locale: 'en',
-          webWidgetCustomizations: true
+          webWidgetCustomizations: true,
+          embeds: { x: 1 }
         },
         store
       )

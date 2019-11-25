@@ -215,7 +215,11 @@ describe('boot', () => {
 
     describe('when the request succeeds', () => {
       let doneHandler, reduxStore
-      let config = {}
+      let config = {
+        embeds: {
+          a: 1
+        }
+      }
 
       beforeEach(() => {
         jasmine.clock().install()
@@ -337,7 +341,8 @@ describe('boot', () => {
       describe('when hostMapping is present', () => {
         beforeAll(() => {
           config = {
-            hostMapping: 'test.zd.com'
+            hostMapping: 'test.zd.com',
+            embeds: { a: 1 }
           }
         })
 
