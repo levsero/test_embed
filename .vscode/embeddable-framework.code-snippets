@@ -141,7 +141,9 @@
       "\t\tdefault:",
       "\t\t\treturn state",
       "\t}",
-      "}"
+      "}",
+      "",
+      "export default ${2}"
     ],
     "description": "empty reducer class"
   },
@@ -212,7 +214,7 @@
       "",
       "const connectedComponent = connect(",
       "\tmapStateToProps,",
-      "\tactionCreators,",
+      "\tactionCreators",
       ")(${1})",
       "",
       "export { connectedComponent as default, ${1} as Component } "
