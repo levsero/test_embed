@@ -1,3 +1,13 @@
+export const SDK_ACTION_TYPE_PREFIX = 'websdk'
+export const JWT_ERROR = 'jwt verification error'
+export const SCROLL_BOTTOM_THRESHOLD = 200 // Unit in px
+export const TIMEOUT = 5000 // milliseconds
+export const CHAT_POLL_INTERVAL = 60000 // milliseconds
+
+export const EDIT_CONTACT_DETAILS_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_SCREEN'
+export const EDIT_CONTACT_DETAILS_LOADING_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_LOADING_SCREEN'
+export const EDIT_CONTACT_DETAILS_ERROR_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_ERROR_SCREEN'
+
 export const HISTORY_REQUEST_STATUS = {
   PENDING: 'pending',
   DONE: 'done',
@@ -45,10 +55,6 @@ export const ATTACHMENT_ERROR_TYPES = {
   INVALID_PLAN: 'not_allowed'
 }
 
-export const EDIT_CONTACT_DETAILS_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_SCREEN'
-export const EDIT_CONTACT_DETAILS_LOADING_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_LOADING_SCREEN'
-export const EDIT_CONTACT_DETAILS_ERROR_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_ERROR_SCREEN'
-
 export const CHAT_SOCIAL_LOGIN_SCREENS = {
   LOGOUT_PENDING: 'widget/chat/CHAT_SOCIAL_LOGOUT_PENDING',
   LOGOUT_SUCCESS: 'widget/chat/CHAT_SOCIAL_LOGOUT_SUCCESS',
@@ -83,12 +89,6 @@ export const DEPARTMENT_STATUSES = {
   AWAY: 'away'
 }
 
-export const SDK_ACTION_TYPE_PREFIX = 'websdk'
-
-export const JWT_ERROR = 'jwt verification error'
-
-export const SCROLL_BOTTOM_THRESHOLD = 200 // Unit in px
-
 export const CHAT_STRUCTURED_CONTENT_TYPE = {
   QUICK_REPLIES: 'QUICK_REPLIES',
   CHAT_STRUCTURED_MESSAGE_TYPE: {
@@ -100,8 +100,6 @@ export const CHAT_STRUCTURED_CONTENT_TYPE = {
     PANEL_TEMPLATE: 'PANEL_TEMPLATE_CAROUSEL'
   }
 }
-
-export const TIMEOUT = 5000
 
 export const CHAT_STRUCTURED_MESSAGE_ACTION_TYPE = {
   QUICK_REPLY_ACTION: 'QUICK_REPLY_ACTION',
