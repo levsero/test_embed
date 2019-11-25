@@ -771,6 +771,7 @@ parts:
       title: "A placeholder text that is displayed in the chat box when there is no content"
       screenshot: "https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m"
       value: "Type a message here.."
+      obsolete: "2019-12-31"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere_v2"
       title: "A placeholder text that is displayed in the chat box when there is no content"
