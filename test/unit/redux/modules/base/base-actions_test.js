@@ -8,6 +8,7 @@ let actions,
   chatOpenedSpy,
   mockNameValidValue,
   mockEmailValidValue,
+  mockPhoneValidValue,
   mockStore,
   mockJwtFn,
   mockOAuth,
@@ -44,6 +45,8 @@ describe('base redux actions', () => {
 
     mockNameValidValue = true
     mockEmailValidValue = true
+    mockPhoneValidValue = true
+
     mockAfterWidgetShowAnimationQueue = []
 
     chatNotificationDismissedSpy = jasmine
@@ -74,7 +77,8 @@ describe('base redux actions', () => {
       },
       'src/util/utils': {
         nameValid: () => mockNameValidValue,
-        emailValid: () => mockEmailValidValue
+        emailValid: () => mockEmailValidValue,
+        phoneValid: () => mockPhoneValidValue
       },
       'service/settings': {
         settings: {
@@ -479,7 +483,7 @@ describe('base redux actions', () => {
           phone: { value: 'number' },
           name: { value: 'Harry Potter' }
         }
-
+        mockPhoneValidValue = false
         mockStore.dispatch(actions.handlePrefillReceived(payload))
         action = mockStore.getActions()[0]
       })
