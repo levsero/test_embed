@@ -80,8 +80,8 @@ export default function WebWidgetFactory(name) {
       store: reduxStore
     }
 
-    if (chatAvailable) {
-      reduxStore.dispatch(setUpChat())
+    if (embeds.zopimChat) {
+      reduxStore.dispatch(setUpChat(true))
     }
 
     if (talkEnabled) {

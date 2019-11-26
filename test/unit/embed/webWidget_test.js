@@ -135,9 +135,12 @@ describe('embed.webWidget', () => {
         webWidgetStyles: 'mockCss'
       },
       'component/frame/Frame': mockFrame,
+      'src/redux/modules/chat/helpers/pollChatForOnlineStatus': {},
+      'embeds/chat/actions/connectOnPageLoad': {},
       'src/redux/modules/chat': {
         setVisitorInfo: user => user,
-        chatNotificationDismissed: chatNotificationDismissedSpy
+        chatNotificationDismissed: chatNotificationDismissedSpy,
+        setUpChat: () => undefined
       },
       'src/redux/modules/talk': {
         loadTalkVendors: noop
@@ -164,7 +167,8 @@ describe('embed.webWidget', () => {
         getTalkEnabled: () => mockTalkRequired,
         getTalkNickname: () => mockNicknameValue,
         getChatNotification: () => mockChatNotification,
-        getChatConnectionSuppressed: () => false
+        getChatConnectionSuppressed: () => false,
+        getDelayChatConnection: () => false
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_SCREEN: callMeScreen

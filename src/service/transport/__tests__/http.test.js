@@ -798,16 +798,3 @@ describe('#logFailure', () => {
     })
   })
 })
-
-describe('getChatOnlineStatus', () => {
-  const onCompletion = jest.fn()
-
-  beforeEach(() => {})
-
-  it('calls the callback', () => {
-    http.getChatOnlineStatus(onCompletion)
-
-    expect(superagent.__mostRecent().end).toHaveBeenCalled()
-    expect(onCompletion).toHaveBeenCalled()
-  })
-})

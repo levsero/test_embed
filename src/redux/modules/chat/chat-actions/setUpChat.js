@@ -17,6 +17,9 @@ import zopimApi from 'service/api/zopimApi'
 import { win, isPopout } from 'utility/globals'
 import { cleanBrandName } from 'utility/chat'
 import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
+import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/modules/selectors'
+import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
+import { deferChatSetup, beginChatSetup } from 'embeds/chat/actions/setup-chat'
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -38,8 +41,19 @@ function makeChatConfig(config) {
   /* eslint-enable camelcase */
 }
 
-export function setUpChat() {
+export function setUpChat(canBeDeferred = true) {
   return (dispatch, getState) => {
+    if (getChatConnectionSuppressed(getState()) || getCookiesDisabled(getState())) {
+      return
+    }
+
+    if (canBeDeferred && getDelayChatConnection(getState())) {
+      dispatch(deferChatSetup())
+      return
+    }
+
+    dispatch(beginChatSetup())
+
     zopimApi.handleZopimQueue(win)
 
     const authentication = settings.getChatAuthSettings()

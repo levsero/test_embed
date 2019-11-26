@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
 
 const chatState = state => state.chat
 
@@ -113,3 +114,15 @@ export const getHasChatSdkConnected = state => state.chat.sdkConnected
 export const getHasBackfillCompleted = state => state.chat.chatLogBackfillCompleted
 export const getIsEndChatModalVisible = state => state.chat.endChatModalVisible
 export const getDefaultToChatWidgetLite = state => state.chat.config.defaultToChatWidgetLite
+
+export const getDeferredChatApi = state => {
+  const config = getEmbeddableConfig(state)
+  const zopimId = getZopimId(state)
+
+  const mediatorUrl = _.get(config, 'embeds.zopimChat.props.mediatorHost')
+  if (!mediatorUrl || !zopimId) {
+    return null
+  }
+
+  return `https://${mediatorUrl}/client/widget/account/status?embed_key=${zopimId}`
+}

@@ -864,23 +864,13 @@ describe('getShowTalkBackButton', () => {
 
 describe('getChatConnectionSuppressed', () => {
   test.each([
-    ['chat delay is enabled', true, false, false, false, false, true],
-    ['when chatting and connection suppress is false', true, true, true, false, false, false],
-    ['chat is connection suppressed', false, false, false, true, false, true],
-    ['cookies are disabled', false, false, false, true, true, true]
+    ['when chatting and connection suppress is false', true, true, false, false, false],
+    ['chat is connection suppressed', false, false, true, false, true],
+    ['cookies are disabled', false, false, true, true, true]
   ])(
     '%p',
-    (
-      _title,
-      delayChatConnection,
-      isChatting,
-      chatConnected,
-      chatConnectionSuppress,
-      cookiesDisabled,
-      expectedValue
-    ) => {
+    (_title, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled, expectedValue) => {
       const result = selectors.getChatConnectionSuppressed.resultFunc(
-        delayChatConnection,
         isChatting,
         chatConnected,
         chatConnectionSuppress,
@@ -896,8 +886,7 @@ describe('getChatEnabled', () => {
   test.each([
     ['defaultstate', {}, true],
     ['chatEmbed is missing', { base: { embeds: { chat: null } } }, false],
-    ['chat is suppressed', { settings: { chat: { suppress: true } } }, false],
-    ['chat is connection suppressed', { settings: { chat: { connectionSuppress: true } } }, false]
+    ['chat is suppressed', { settings: { chat: { suppress: true } } }, false]
   ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatEnabled(getModifiedState(modifier))
 

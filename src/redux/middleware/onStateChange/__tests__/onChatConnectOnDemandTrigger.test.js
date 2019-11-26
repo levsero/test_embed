@@ -34,6 +34,7 @@ describe('onChatConnectOnDemandTrigger', () => {
     onChatConnectOnDemandTrigger(getState(), getAction(), jest.fn())
 
     expect(setUpChat).toHaveBeenCalledTimes(1)
+    expect(setUpChat).toHaveBeenCalledWith(false)
   })
 
   test('when action is not one of the trigger actions it does not call setupChat', () => {
