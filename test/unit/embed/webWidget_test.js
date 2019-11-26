@@ -398,10 +398,6 @@ describe('embed.webWidget', () => {
         faythe = webWidget.get().instance.props.children
       })
 
-      it('should apply the different formTitleKey props to the correct embed props', () => {
-        expect(faythe.props.submitTicketConfig.formTitleKey).toEqual('foo')
-      })
-
       it('should have default container styles', () => {
         expect(faythe.props.style).toEqual({ width: 342 })
       })
