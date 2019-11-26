@@ -9,8 +9,6 @@ import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.s
 import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatAttachmentStyles from 'component/chat/attachment/Attachment.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
-import ChatPopupStyles from 'component/chat/ChatPopup.scss'
-import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss'
 import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopup.scss'
 import ChatEmailTranscriptPopupStyles from 'component/chat/ChatEmailTranscriptPopup.scss'
 import ChatHeaderStyles from 'component/chat/ChatHeader.scss'
@@ -66,10 +64,11 @@ export const webWidgetStyles = `
   ${ChannelChoiceMenuStyles}
   ${ChatAttachmentStyles}
   ${ChatBoxStyles}
-  ${ChatPopupStyles}
+<<<<<<< HEAD
   ${ChatProgressBarStyles}
+=======
+>>>>>>> mobile also uses new component
   ${ChattHistoryScreenStyles}
-  ${ChatNotificationPopupStyles}
   ${ChatContactDetailsPopupStyles}
   ${ChatEmailTranscriptPopupStyles}
   ${ChatHeaderStyles}
