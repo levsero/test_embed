@@ -11,7 +11,7 @@ const mobileStyles = `
 
 export const Button = styled.button`
   border: 0;
-  color: ${({ theme }) => `${theme.listColorStr} !important`};
+  color: ${({ theme }) => `${theme.baseHighlightColor} !important`};
   text-decoration-color: ${({ theme }) => `${theme.baseColor} !important`};
   border-bottom: ${1.1 / FONT_SIZE}rem solid ${zdColorGrey200};
   padding: ${18 / FONT_SIZE}rem ${12 / FONT_SIZE}rem !important;
@@ -30,7 +30,7 @@ export const Button = styled.button`
   &:focus,
   &:active {
     text-decoration: underline;
-    color: ${({ theme }) => `${theme.listHighlightColorStr} !important`};
+    color: ${({ theme }) => `${theme.baseHighlightColor} !important`};
     background-color: ${zdColorGrey100};
   }
 
