@@ -124,10 +124,6 @@ class WebWidget extends Component {
     chatAvailable: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     talkOnline: PropTypes.bool.isRequired,
-    talkConfig: PropTypes.shape({
-      serviceUrl: PropTypes.string,
-      nickname: PropTypes.string
-    }),
     closeCurrentArticle: PropTypes.func.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -160,7 +156,6 @@ class WebWidget extends Component {
     updateBackButtonVisibility: () => {},
     talkOnline: false,
     onBackButtonClick: () => {},
-    talkConfig: {},
     closeCurrentArticle: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,

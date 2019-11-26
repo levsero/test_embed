@@ -12,7 +12,6 @@ import { settings } from 'service/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
-import { isOnHelpCenterPage } from 'utility/pages'
 import {
   getChatConnectionSuppressed,
   getTalkNickname,
@@ -131,13 +130,9 @@ export default function WebWidgetFactory(name) {
             fullscreen={popout}
             isMobile={isMobile}
             ipmHelpCenterAvailable={ipmHelpCenterAvailable}
-            isOnHelpCenterPage={isOnHelpCenterPage()}
-            originalArticleButton={settings.get('helpCenter.originalArticleButton')}
             style={containerStyle}
             ticketFormSettings={settings.get('contactForm.ticketForms')}
             ticketFieldSettings={settings.get('contactForm.fields')}
-            submitTicketConfig={submitTicketSettings.config}
-            talkConfig={talkConfig}
             chatId={_.get(chatConfig, 'zopimId')}
           />
         </Frame>
