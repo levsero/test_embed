@@ -117,7 +117,8 @@ class ChattingScreen extends Component {
     notificationCount: PropTypes.number,
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
-    unreadMessages: PropTypes.bool
+    unreadMessages: PropTypes.bool,
+    isPreview: PropTypes.bool
   }
 
   static defaultProps = {
@@ -144,7 +145,8 @@ class ChattingScreen extends Component {
     profileConfig: {},
     notificationCount: 0,
     markAsRead: () => {},
-    visible: false
+    visible: false,
+    isPreview: false
   }
 
   constructor(props) {
@@ -361,6 +363,7 @@ class ChattingScreen extends Component {
         menuVisible={menuVisible}
         toggleMenu={this.props.toggleMenu}
         hideZendeskLogo={this.props.hideZendeskLogo}
+        isPreview={this.props.isPreview}
       >
         <ChatBox
           isMobile={isMobile}

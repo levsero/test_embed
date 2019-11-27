@@ -25,13 +25,15 @@ export class ChattingFooter extends Component {
     toggleMenu: PropTypes.func,
     attachmentsEnabled: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    isPreview: PropTypes.bool
   }
 
   static defaultProps = {
     endChat: () => {},
     isChatting: false,
-    toggleMenu: () => {}
+    toggleMenu: () => {},
+    isPreview: false
   }
 
   tooltipPlacement = () => {
@@ -92,6 +94,8 @@ export class ChattingFooter extends Component {
         <Icon type={ICONS.PAPERCLIP_SMALL} />
       </FooterIconButton>
     )
+
+    if (this.props.isPreview) return attachmentButton
 
     if (this.props.isMobile) {
       return <Dropzone onDrop={this.props.handleAttachmentDrop}>{attachmentButton}</Dropzone>

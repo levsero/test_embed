@@ -18,7 +18,7 @@ export class WebWidgetPreview extends Component {
   render() {
     return (
       <Container style={this.props.containerStyle}>
-        <Chat locale={i18n.getLocale()} updateChatBackButtonVisibility={noop} />
+        <Chat locale={i18n.getLocale()} updateChatBackButtonVisibility={noop} isPreview={true} />
       </Container>
     )
   }
