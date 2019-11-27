@@ -1198,3 +1198,52 @@ describe('chatNotificationTimedOut', () => {
     expect(result).toEqual([])
   })
 })
+
+describe('sendMsg', () => {
+  describe('when chat is connected', () => {
+    it('fires off a CHAT_MSG_REQUEST_SENT action', () => {
+      const mockVisitor = {
+        name: 'Boromir',
+        email: 'dadsfav@gondor.gd'
+      }
+
+      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
+      handleChatConnected()
+      const result = dispatchAction(actions.sendMsg('boop'))
+
+      expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
+      resetChatSDKInitializedQueue()
+    })
+  })
+
+  describe('when chat is not connected', () => {
+    it('does not fire any actions', () => {
+      const mockVisitor = {
+        name: 'Boromir',
+        email: 'dadsfav@gondor.gd'
+      }
+
+      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
+      const result = dispatchAction(actions.sendMsg('boop'))
+
+      expect(result).toEqual([])
+    })
+
+    it('after connection, fires the action', () => {
+      const mockVisitor = {
+        name: 'Boromir',
+        email: 'dadsfav@gondor.gd'
+      }
+
+      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
+      const result = dispatchAction(actions.sendMsg('boop'))
+
+      expect(result).toEqual([])
+
+      handleChatConnected()
+
+      expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
+      resetChatSDKInitializedQueue()
+    })
+  })
+})

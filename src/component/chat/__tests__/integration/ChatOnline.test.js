@@ -10,7 +10,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as actions from 'src/redux/modules/chat/chat-actions/actions'
 import { updateSettings } from 'src/redux/modules/settings/settings-actions'
-import { handleChatSDKInitialized } from 'src/service/api/zopimApi/callbacks'
+import { handleChatSDKInitialized, handleChatConnected } from 'src/service/api/zopimApi/callbacks'
 
 jest.mock('service/transport/http')
 
@@ -22,6 +22,7 @@ beforeEach(() => {
   store = createStore()
   settings.init(store)
   handleChatSDKInitialized()
+  handleChatConnected()
 })
 
 let counter = 0

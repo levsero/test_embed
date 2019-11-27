@@ -88,18 +88,20 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
 
 export function sendMsg(msg, timestamp = Date.now()) {
   return (dispatch, getState) => {
-    let visitor = getChatVisitor(getState())
+    onChatConnected(() => {
+      let visitor = getChatVisitor(getState())
 
-    dispatch(sendMsgRequest(msg, visitor, timestamp))
+      dispatch(sendMsgRequest(msg, visitor, timestamp))
 
-    zChatWithTimeout(getState, 'sendChatMsg')(msg, err => {
-      visitor = getChatVisitor(getState())
+      zChatWithTimeout(getState, 'sendChatMsg')(msg, err => {
+        visitor = getChatVisitor(getState())
 
-      if (!err) {
-        dispatch(sendMsgSuccess(msg, visitor, timestamp))
-      } else {
-        dispatch(sendMsgFailure(msg, visitor, timestamp))
-      }
+        if (!err) {
+          dispatch(sendMsgSuccess(msg, visitor, timestamp))
+        } else {
+          dispatch(sendMsgFailure(msg, visitor, timestamp))
+        }
+      })
     })
   }
 }
