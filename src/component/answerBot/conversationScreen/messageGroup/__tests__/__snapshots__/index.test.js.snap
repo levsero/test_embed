@@ -49,7 +49,7 @@ exports[`bot avatar renders agent avatar 1`] = `
       </div>
     </div>
     <img
-      alt=""
+      alt="avatar"
       aria-hidden="true"
       class="avatar avatar fadeIn"
       src="http://url"
@@ -107,7 +107,7 @@ exports[`bot avatar renders brand logo 1`] = `
       </div>
     </div>
     <img
-      alt=""
+      alt="avatar"
       aria-hidden="true"
       class="avatar avatar fadeIn"
       src="http://url"

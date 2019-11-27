@@ -18,7 +18,7 @@ export const CtaContainer = styled.div`
     padding-right: ${20 / FONT_SIZE}rem !important;`}
 `
 
-export const PopupContainerStyle = styled.div`
+export const PopupContainer = styled.div`
   top: 0;
   bottom: 0;
   left: 0;

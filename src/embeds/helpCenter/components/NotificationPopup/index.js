@@ -60,8 +60,7 @@ const actionCreators = {
 
 const connectedComponent = connect(
   mapStateToProps,
-  actionCreators,
-  null
+  actionCreators
 )(Popup)
 
 export { connectedComponent as default, Popup as Component }

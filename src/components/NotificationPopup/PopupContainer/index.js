@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 import {
   MobileOverlay,
-  PopupContainerStyle,
+  PopupContainer,
   CtaContainer,
   CtaButtonLeft,
   CtaButtonRight,
@@ -162,7 +162,7 @@ export default class ChatPopup extends Component {
     const body = this.renderChildren()
 
     return (
-      <PopupContainerStyle hide={!show}>
+      <PopupContainer hide={!show}>
         <MobileOverlay />
         <MobileSlideAppear
           direction="down"
@@ -181,7 +181,7 @@ export default class ChatPopup extends Component {
             {this.renderCloseIcon()}
           </div>
         </MobileSlideAppear>
-      </PopupContainerStyle>
+      </PopupContainer>
     )
   }
 

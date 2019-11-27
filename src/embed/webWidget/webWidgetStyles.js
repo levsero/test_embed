@@ -64,10 +64,7 @@ export const webWidgetStyles = `
   ${ChannelChoiceMenuStyles}
   ${ChatAttachmentStyles}
   ${ChatBoxStyles}
-<<<<<<< HEAD
   ${ChatProgressBarStyles}
-=======
->>>>>>> mobile also uses new component
   ${ChattHistoryScreenStyles}
   ${ChatContactDetailsPopupStyles}
   ${ChatEmailTranscriptPopupStyles}

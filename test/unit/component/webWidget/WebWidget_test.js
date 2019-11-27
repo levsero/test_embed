@@ -80,6 +80,7 @@ describe('WebWidget component', () => {
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
+      'components/NotificationPopup': noopReactComponent(),
       'embeds/support/selectors': {
         getNewSupportEmbedEnabled: () => false
       },
@@ -161,12 +162,6 @@ describe('WebWidget component', () => {
       expect(webWidget.renderChat()).toBeFalsy()
     })
 
-    it('renders the chatPopup component', () => {
-      const chatNotification = webWidget.renderChatNotification()
-
-      expect(TestUtils.isElementOfType(chatNotification, ChatNotificationPopup)).toEqual(true)
-    })
-
     describe('when component is set to answerBot', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed="answerBot" />)
@@ -191,10 +186,6 @@ describe('WebWidget component', () => {
 
         expect(webWidget.renderChat()).toBeFalsy()
       })
-
-      it('does not render the chatPopup component', () => {
-        expect(webWidget.renderChatNotification()).toBeFalsy()
-      })
     })
 
     describe('when component is set to chat', () => {
@@ -209,10 +200,6 @@ describe('WebWidget component', () => {
 
         expect(webWidget.renderChat()).toBeTruthy()
       })
-
-      it('does not render the chatPopup component', () => {
-        expect(webWidget.renderChatNotification()).toBeFalsy()
-      })
     })
 
     describe('when component is set to talk', () => {
@@ -222,10 +209,6 @@ describe('WebWidget component', () => {
 
       it('shows talk component', () => {
         expect(webWidget.renderTalk()).toBeTruthy()
-      })
-
-      it('does not render the chatPopup component', () => {
-        expect(webWidget.renderChatNotification()).toBeFalsy()
       })
     })
 
@@ -413,349 +396,6 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           chatComponent = webWidget.renderChat()
           chatComponent.props.updateChatBackButtonVisibility()
-        })
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-        })
-      })
-    })
-  })
-
-  describe('renderChatNotification', () => {
-    let result,
-      chatNotification,
-      chatNotificationDismissedSpy,
-      chatNotificationRespondSpy,
-      updateActiveEmbedSpy
-
-    describe('when props.chatNotificationRespond is called', () => {
-      beforeEach(() => {
-        chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond')
-        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
-
-        result = instanceRender(
-          <WebWidget
-            activeEmbed="helpCenterForm"
-            hasSearched={true}
-            chatNotificationRespond={chatNotificationRespondSpy}
-            updateActiveEmbed={updateActiveEmbedSpy}
-          />
-        )
-
-        const chatNotification = result.renderChatNotification()
-
-        chatNotification.props.chatNotificationRespond()
-      })
-
-      it('calls chatNotificationRespond', () => {
-        expect(chatNotificationRespondSpy).toHaveBeenCalled()
-      })
-
-      it('calls updateActiveEmbed with chat', () => {
-        expect(updateActiveEmbedSpy).toHaveBeenCalledWith('chat')
-      })
-    })
-
-    describe('when props.chatNotificationDismissed is called', () => {
-      beforeEach(() => {
-        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed')
-
-        result = instanceRender(
-          <WebWidget
-            activeEmbed="helpCenterForm"
-            hasSearched={true}
-            chatNotificationDismissed={chatNotificationDismissedSpy}
-          />
-        )
-
-        const chatNotification = result.renderChatNotification()
-
-        chatNotification.props.chatNotificationDismissed()
-      })
-
-      it('calls chatNotificationDismissed', () => {
-        expect(chatNotificationDismissedSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when activeEmbed is not helpCenter', () => {
-      beforeEach(() => {
-        const result = instanceRender(<WebWidget activeEmbed="chat" hasSearched={true} />)
-
-        chatNotification = result.renderChatNotification()
-      })
-
-      it('does not render the ChatNotificationPopup component', () => {
-        expect(chatNotification).toEqual(null)
-      })
-    })
-
-    describe('when the activeEmbed is helpCenter and it has previously searched', () => {
-      beforeEach(() => {
-        const result = instanceRender(<WebWidget activeEmbed="helpCenterForm" hasSearched={true} />)
-
-        chatNotification = result.renderChatNotification()
-      })
-
-      it('renders the ChatNotificationPopup component', () => {
-        expect(TestUtils.isElementOfType(chatNotification, ChatNotificationPopup)).toEqual(true)
-      })
-    })
-
-    describe('when props.isMobile and props.helpCenterSearchFocused are true', () => {
-      beforeEach(() => {
-        const webWidget = instanceRender(
-          <WebWidget
-            activeEmbed="helpCenterForm"
-            hasSearched={true}
-            isMobile={true}
-            helpCenterSearchFocused={true}
-          />
-        )
-
-        result = webWidget.renderChatNotification()
-      })
-
-      it('pass shouldShow as false to ChatNotificationPopup', () => {
-        expect(result.props.shouldShow).toEqual(false)
-      })
-    })
-
-    describe('when props.isMobile is false', () => {
-      beforeEach(() => {
-        const webWidget = instanceRender(
-          <WebWidget
-            activeEmbed="helpCenterForm"
-            hasSearched={true}
-            isMobile={false}
-            helpCenterSearchFocused={true}
-          />
-        )
-
-        result = webWidget.renderChatNotification()
-      })
-
-      it('pass shouldShow as true to ChatNotificationPopup', () => {
-        expect(result.props.shouldShow).toEqual(true)
-      })
-    })
-  })
-
-  describe('onBackClick', () => {
-    let component,
-      componentProps,
-      updateBackButtonVisibilitySpy,
-      closeCurrentArticleSpy,
-      updateActiveEmbedSpy,
-      clearFormSpy
-
-    beforeEach(() => {
-      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
-      closeCurrentArticleSpy = jasmine.createSpy('closeCurrentArticleSpy')
-      updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
-      clearFormSpy = jasmine.createSpy('clearForm')
-
-      _.assign(componentProps, {
-        updateBackButtonVisibility: updateBackButtonVisibilitySpy,
-        closeCurrentArticle: closeCurrentArticleSpy,
-        updateActiveEmbed: updateActiveEmbedSpy,
-        clearForm: clearFormSpy
-      })
-
-      component = instanceRender(<WebWidget {...componentProps} />)
-
-      spyOn(component, 'showHelpCenter')
-      spyOn(component, 'getActiveComponent').and.callFake(() => ({
-        clearForm: clearFormSpy
-      }))
-
-      component.onBackClick()
-    })
-
-    describe('when the activeEmbed is answerBot', () => {
-      const updateAnswerBotScreen = jasmine.createSpy()
-
-      beforeAll(() => {
-        componentProps = {
-          activeEmbed: 'answerBot',
-          updateAnswerBotScreen
-        }
-      })
-
-      it('calls updateBackButtonVisibility prop', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalled()
-      })
-
-      it('calls updateAnswerBotScreen with conversation', () => {
-        expect(updateAnswerBotScreen).toHaveBeenCalledWith('conversation')
-      })
-    })
-
-    describe('when the activeEmbed is Chat', () => {
-      let closedChatHistorySpy, mockGetShowChatHistory
-
-      describe('and in ChatHistoryScreen', () => {
-        beforeAll(() => {
-          mockGetShowChatHistory = true
-          closedChatHistorySpy = jasmine.createSpy('closedChatHistory')
-          componentProps = {
-            activeEmbed: 'chat',
-            closedChatHistory: closedChatHistorySpy,
-            showChatHistory: mockGetShowChatHistory
-          }
-        })
-
-        it('calls closedChatHistory', () => {
-          expect(closedChatHistorySpy).toHaveBeenCalled()
-        })
-      })
-
-      describe('when not in chatHistoryScreen', () => {
-        beforeEach(() => {
-          mockGetShowChatHistory = false
-          closedChatHistorySpy = jasmine.createSpy('closedChatHistory')
-          componentProps = {
-            activeEmbed: 'chat',
-            closedChatHistory: closedChatHistorySpy,
-            showChatHistory: mockGetShowChatHistory
-          }
-        })
-
-        it('does not call closedChatHistory', () => {
-          expect(closedChatHistorySpy).not.toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('when answer bot is available but not the active component', () => {
-      beforeAll(() => {
-        componentProps = {
-          answerBotAvailable: true,
-          activeEmbed: 'ticketSubmissionForm'
-        }
-      })
-
-      it('calls updateBackButtonVisibility prop', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalled()
-      })
-
-      it('calls updateActiveEmbed with answerBot', () => {
-        expect(updateActiveEmbedSpy).toHaveBeenCalledWith('answerBot')
-      })
-    })
-
-    describe('when showTicketFormsBackButton is true', () => {
-      beforeAll(() => {
-        componentProps = { showTicketFormsBackButton: true }
-      })
-
-      describe('when helpCenterAvailable is true', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { helpCenterAvailable: true })
-        })
-
-        it('calls clearForm on the rootComponent', () => {
-          expect(clearFormSpy).toHaveBeenCalled()
-        })
-
-        it('calls updateBackButtonVisibility with true', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-        })
-      })
-
-      describe('when channelChoiceAvailable is true', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { channelChoiceAvailable: true })
-        })
-
-        it('calls clearForm on the rootComponent', () => {
-          expect(clearFormSpy).toHaveBeenCalled()
-        })
-
-        it('calls updateBackButtonVisibility with true', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(true)
-        })
-      })
-
-      describe('when helpCenterAvailable and channelChoiceAvailable are false', () => {
-        beforeAll(() => {
-          _.assign(componentProps, {
-            helpCenterAvailable: false,
-            channelChoiceAvailable: false
-          })
-        })
-
-        it('calls clearForm on the rootComponent', () => {
-          expect(clearFormSpy).toHaveBeenCalled()
-        })
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-        })
-      })
-    })
-
-    describe('when activeEmbed is not channelChoice', () => {
-      beforeAll(() => {
-        _.assign(componentProps, {
-          channelChoiceAvailable: true,
-          activeEmbed: 'channelChoice',
-          helpCenterAvailable: true
-        })
-      })
-
-      it('calls updateActiveEmbed with channelChoice', () => {
-        expect(clearFormSpy).toHaveBeenCalled()
-      })
-
-      it('calls updateBackButtonVisibility expected values', () => {
-        expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(
-          componentProps.helpCenterAvailable
-        )
-      })
-    })
-
-    describe('when helpCenterAvailable is true', () => {
-      beforeAll(() => {
-        componentProps = { helpCenterAvailable: true }
-      })
-
-      it('calls showHelpCenter', () => {
-        expect(component.showHelpCenter).toHaveBeenCalled()
-      })
-    })
-
-    describe('when none of the previous conditions are true', () => {
-      describe('when ipmHelpCenterAvailable is true', () => {
-        beforeAll(() => {
-          componentProps = { ipmHelpCenterAvailable: true }
-        })
-
-        it('calls closeCurrentArticle', () => {
-          expect(closeCurrentArticleSpy).toHaveBeenCalled()
-        })
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('channelChoice')
-        })
-
-        it('calls updateBackButtonVisibility with false', () => {
-          expect(updateBackButtonVisibilitySpy).toHaveBeenCalledWith(false)
-        })
-      })
-
-      describe('when ipmHelpCenterAvailable is false', () => {
-        beforeAll(() => {
-          componentProps = { ipmHelpCenterAvailable: false }
-        })
-
-        it('does not call closeCurrentArticle', () => {
-          expect(closeCurrentArticleSpy).not.toHaveBeenCalled()
-        })
-
-        it('calls updateActiveEmbed with channelChoice', () => {
-          expect(updateActiveEmbedSpy).toHaveBeenCalledWith('channelChoice')
         })
 
         it('calls updateBackButtonVisibility with false', () => {

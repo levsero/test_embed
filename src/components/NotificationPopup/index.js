@@ -17,7 +17,13 @@ import classNames from 'classnames'
 export default class NotificationPopup extends Component {
   static propTypes = {
     isMobile: PropTypes.bool,
-    notification: PropTypes.object.isRequired,
+    notification: PropTypes.shape({
+      show: PropTypes.bool,
+      proactive: PropTypes.bool,
+      avatar_path: PropTypes.string,
+      display_name: PropTypes.string,
+      msg: PropTypes.string
+    }).isRequired,
     resultsCount: PropTypes.number.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired
