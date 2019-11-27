@@ -89,7 +89,8 @@ class Chat extends Component {
     initiateSocialLogout: PropTypes.func.isRequired,
     contactDetailsRequiredFormData: PropTypes.object,
     endChatModalVisible: PropTypes.bool,
-    updateEndChatModalVisibility: PropTypes.func
+    updateEndChatModalVisibility: PropTypes.func,
+    isPreview: PropTypes.bool
   }
 
   static defaultProps = {
@@ -112,7 +113,8 @@ class Chat extends Component {
     hideZendeskLogo: false,
     chatId: '',
     isAuthenticated: false,
-    isLoggingOut: false
+    isLoggingOut: false,
+    isPreview: false
   }
 
   constructor(props) {
@@ -183,6 +185,7 @@ class Chat extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         showContactDetails={this.showContactDetailsFn}
+        isPreview={this.props.isPreview}
       />
     )
   }
@@ -201,9 +204,14 @@ class Chat extends Component {
   }
 
   renderAttachmentsBox = () => {
-    const { screen, attachmentsEnabled } = this.props
+    const { screen, attachmentsEnabled, isPreview } = this.props
 
-    if (screen !== screens.CHATTING_SCREEN || !this.state.isDragActive || !attachmentsEnabled)
+    if (
+      screen !== screens.CHATTING_SCREEN ||
+      !this.state.isDragActive ||
+      !attachmentsEnabled ||
+      isPreview
+    )
       return
 
     return <AttachmentBox onDragLeave={this.handleDragLeave} onDrop={this.handleDragDrop} />
