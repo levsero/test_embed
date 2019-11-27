@@ -12,6 +12,9 @@
   padding: #{10 / $font-size}rem;
 
   svg {
+    height: #{16 / $font-size}rem;
+    width: #{16 / $font-size}rem;
+
     path,
     rect {
       stroke: $zd-color-grey-600 !important;
