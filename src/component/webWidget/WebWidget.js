@@ -4,11 +4,8 @@ import { connect } from 'react-redux'
 
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
-const LazyLoadedTalk = lazy(() => {
-  return import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk')
-})
+
 import Support from 'embeds/support'
-import HelpCenter from 'embeds/helpCenter'
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup'
 import { Container } from 'component/container/Container'
@@ -57,6 +54,11 @@ import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
+
+const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
+const HelpCenter = lazy(() =>
+  import(/* webpackChunkName: 'lazy/help_center' */ 'embeds/helpCenter')
+)
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -267,7 +269,11 @@ class WebWidget extends Component {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
     if (this.props.activeEmbed !== helpCenter) return null
 
-    return <HelpCenter />
+    return (
+      <SuspensePage>
+        <HelpCenter />
+      </SuspensePage>
+    )
   }
 
   renderSubmitTicket = () => {
@@ -324,7 +330,7 @@ class WebWidget extends Component {
 
     return (
       <SuspensePage>
-        <LazyLoadedTalk />
+        <Talk />
       </SuspensePage>
     )
   }
