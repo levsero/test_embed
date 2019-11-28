@@ -1,6 +1,7 @@
 import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
+import { waitForHelpCenter } from 'e2e/helpers/utils'
 
 describe('widget navbar', () => {
   beforeEach(async () => {
@@ -11,6 +12,7 @@ describe('widget navbar', () => {
     await expect(launcher).not.toHaveFocus()
 
     await launcher.click()
+    await waitForHelpCenter()
     await widget.clickClose()
 
     await expect(launcher).toHaveFocus()

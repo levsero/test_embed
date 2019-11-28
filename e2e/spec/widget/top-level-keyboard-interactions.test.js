@@ -1,6 +1,7 @@
 import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
+import { wait } from 'pptr-testing-library'
 
 describe('widget top level keyboard interactions', () => {
   const openWidgetViaKeyboard = async () => {
@@ -8,7 +9,7 @@ describe('widget top level keyboard interactions', () => {
     await page.keyboard.press('Tab')
     await page.keyboard.press('Enter')
     await expect(widget).toBeVisible()
-    await expect(widget).toHaveFocus()
+    await wait(() => expect(widget).toHaveFocus())
   }
 
   beforeEach(async () => {

@@ -85,6 +85,7 @@ export const TEST_IDS = {
   DESCRIPTION: 'description',
   DROPZONE: 'dropzone',
   LABEL: 'label',
+  LAUNCHER: 'launcher',
   LAUNCHER_LABEL: 'launcher-label',
   TRANSLATE_LINK: 'translate-link',
   PROGRESS_BAR: 'progress-bar',

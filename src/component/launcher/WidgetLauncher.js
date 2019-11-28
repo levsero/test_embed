@@ -192,6 +192,7 @@ class WidgetLauncher extends Component {
 
     return (
       <button
+        data-testid={TEST_IDS.LAUNCHER}
         aria-haspopup="true"
         className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={e => {

@@ -1,5 +1,7 @@
 import { mockEmbeddableConfigEndpoint } from './embeddable-config'
 import { mockBlipEndpoint, goToTestPage, failOnConsoleError } from './../utils'
+import _ from 'lodash'
+import devices from 'puppeteer/DeviceDescriptors'
 
 const defaultMocks = [mockBlipEndpoint]
 
@@ -12,7 +14,7 @@ const defaultMocks = [mockBlipEndpoint]
  * E.g.
  *
  * const mockCatEndpoint = request => {
- *   if (!request.url().contains('cat') {
+ *   if (!request.url().includes('cat')) {
  *     // return false since the url is not the cat endpoint
  *     return false
  *   }
@@ -37,16 +39,27 @@ const mockRequests = async mockFns => {
 
 // options
 // - mockRequests [fn] An array of functions that will be provided to the mockRequests function
+// - mobile [bool] If true, emulate mobile mode
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
+  if (options.mobile) {
+    await page.emulate(devices['iPhone 6'])
+  }
   failOnConsoleError(page)
   await goToTestPage()
   await page.waitForSelector('iframe#launcher', { visible: true })
 }
 
-const loadWithConfig = async (...configs) => {
-  await load({ mockRequests: [mockEmbeddableConfigEndpoint(...configs)] })
+const loadWithConfig = async (...args) => {
+  const last = _.last(args)
+  let mockRequests
+  if (_.isFunction(last)) {
+    mockRequests = [mockEmbeddableConfigEndpoint(..._.initial(args)), last]
+  } else {
+    mockRequests = [mockEmbeddableConfigEndpoint(...args)]
+  }
+  await load({ mockRequests })
 }
 
 export default {
