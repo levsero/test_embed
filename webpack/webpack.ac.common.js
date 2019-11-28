@@ -8,7 +8,7 @@ const CWD = process.cwd()
 const splitChunkConfig = (name, type = 'initial') => {
   const test =
     name === chunks.COMMON_VENDOR_CHUNK
-      ? /[\\/]node_modules[\\/](react|react-dom|lodash|redux|rollbar)[\\/]/
+      ? /[\\/]node_modules[\\/](core-js|entities|htmlparser2|lodash|react|react-dom|readable-stream|redux|redux-logger|rollbar|tlds)[\\/]/
       : name
 
   return {
