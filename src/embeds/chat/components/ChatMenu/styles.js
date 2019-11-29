@@ -41,10 +41,15 @@ const StyledMenu = styled(Menu)`
   }
 `
 
+const Container = styled.div`
+  position: relative;
+`
+
 export {
   StyledSoundOffIcon as SoundOffIcon,
   StyledSoundOnIcon as SoundOnIcon,
   StyledIconButton as IconButton,
   StyledMenu as Menu,
-  MENU_PADDING
+  MENU_PADDING,
+  Container
 }
