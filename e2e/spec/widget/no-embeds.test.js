@@ -44,5 +44,5 @@ test('page view blip is still fired when there are no embeds', async done => {
     } else {
       done.fail('did not send blip')
     }
-  }, 1000)
+  }, 2000)
 })

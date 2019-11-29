@@ -1,16 +1,19 @@
-// These presets can be used when creating a mock embeddable config with the createEmbeddableConfig function
-const presets = {
-  helpCenter: {
-    embeds: {
-      helpCenterForm: {
-        embed: 'helpCenter',
-        props: {
-          color: '#1F73B7',
-          contextualHelpEnabled: false
-        }
+const helpCenterEmbed = (props = {}) => ({
+  embeds: {
+    helpCenterForm: {
+      embed: 'helpCenter',
+      props: {
+        color: '#1F73B7',
+        contextualHelpEnabled: false,
+        ...props
       }
     }
-  },
+  }
+})
+
+// These presets can be used when creating a mock embeddable config with the createEmbeddableConfig function
+const presets = {
+  helpCenter: helpCenterEmbed(),
   contactForm: {
     embeds: {
       ticketSubmissionForm: {
@@ -24,7 +27,7 @@ const presets = {
       }
     }
   },
-  zopimChat: {
+  chat: {
     embeds: {
       zopimChat: {
         embed: 'chat',
@@ -34,7 +37,8 @@ const presets = {
         }
       }
     }
-  }
+  },
+  helpCenterWithContextualHelp: helpCenterEmbed({ contextualHelpEnabled: true })
 }
 
 export default presets

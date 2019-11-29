@@ -2,7 +2,7 @@ import widgetPage from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig('helpCenter', 'zopimChat')
+  await widgetPage.loadWithConfig('helpCenter', 'chat')
 })
 
 test('api returns false when launcher is visible', async () => {

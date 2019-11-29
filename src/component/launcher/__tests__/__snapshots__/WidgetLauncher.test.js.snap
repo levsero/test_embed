@@ -5,6 +5,7 @@ exports[`WidgetLauncher renders the component 1`] = `
   <button
     aria-haspopup="true"
     class="wrapper "
+    data-testid="launcher"
   >
     <span
       class="container icon  Icon"

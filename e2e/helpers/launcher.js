@@ -5,11 +5,12 @@ import frame from './frame'
 const getDocument = async () => frame.getDocument('launcher')
 const getLabel = async () => queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
 const getLabelText = async () => queries.getNodeText(await getLabel())
+const getButton = async () => queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER)
 const getFrame = async () => frame.getByName('launcher')
 
 const click = async () => {
-  const label = await getLabel()
-  await label.click()
+  const button = await getButton()
+  await button.click()
 }
 
 export default {
@@ -18,5 +19,6 @@ export default {
   getLabel,
   getLabelText,
   selector: 'iframe#launcher',
-  getFrame
+  getFrame,
+  getButton
 }

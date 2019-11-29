@@ -3,7 +3,7 @@ import widgetPage from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig('helpCenter', 'zopimChat')
+  await widgetPage.loadWithConfig('helpCenter', 'chat')
 })
 
 test('api changes the language of the widget', async () => {
