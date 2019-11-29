@@ -27,7 +27,7 @@ import {
   getHelpCenterAvailable
 } from 'src/redux/modules/selectors'
 import { TEST_IDS } from 'constants/shared'
-import { SoundOffIcon, SoundOnIcon, Menu, MENU_PADDING } from './styles'
+import { SoundOffIcon, SoundOnIcon, Menu, MENU_PADDING, Container } from './styles'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
@@ -97,7 +97,7 @@ const ChatMenu = ({
   return (
     <Tooltip
       trigger={
-        <div
+        <Container
           role="presentation"
           onKeyDown={e => {
             if (e.key === 'Escape' && isOpen) {
@@ -166,7 +166,7 @@ const ChatMenu = ({
               </Item>
             </Menu>
           </Dropdown>
-        </div>
+        </Container>
       }
     >
       {tooltipLabel}
