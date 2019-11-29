@@ -182,7 +182,7 @@ export function setUpZopimApiMethods(win, store) {
       hideAll: () => hideApi(store),
       set: options => onChatSDKInitialized(() => setApi(win, options)),
       isChatting: () => isChattingApi(store),
-      say: msg => onChatConnected(() => sendChatMsgApi(store, msg)),
+      say: msg => sendChatMsgApi(store, msg),
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
