@@ -258,7 +258,7 @@ class ChattingScreen extends Component {
     if (!queuePosition || _.size(activeAgents) > 0) return null
 
     return (
-      <div className={styles.queuePosition}>
+      <div className={styles.queuePosition} role="status" aria-live="polite">
         {i18n.t('embeddable_framework.chat.chatLog.queuePosition', {
           value: queuePosition
         })}
@@ -295,7 +295,7 @@ class ChattingScreen extends Component {
     }
 
     return (
-      <div className={agentTypingStyles}>
+      <div className={agentTypingStyles} aria-live="polite">
         <LoadingEllipses
           useUserColor={false}
           className={styles.loadingEllipses}
