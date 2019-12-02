@@ -18,7 +18,6 @@ const renderComponent = (props = {}) => {
     callbackEnabled: false,
     onClick: noop,
     notificationCount: 0,
-    forceUpdateWorld: noop,
     launcherClicked: noop,
     chatOfflineAvailable: false,
     launcherLabel: 'launcherLabel',

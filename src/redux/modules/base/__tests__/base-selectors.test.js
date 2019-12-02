@@ -29,6 +29,126 @@ test('getTalkConfig', () => {
   expect(selectors.getTalkConfig(state)).toEqual(config.talk)
 })
 
+describe('getCustomFieldsAvailable', () => {
+  describe('when config contains the setting', () => {
+    describe('when ids are present', () => {
+      const config = {
+        ticketSubmission: {
+          props: {
+            customFields: {
+              ids: [10, 20]
+            }
+          }
+        }
+      }
+
+      it('returns true', () => {
+        const state = mockConfig(config)
+
+        expect(selectors.getCustomFieldsAvailable(state)).toEqual(true)
+      })
+    })
+
+    describe('when "all" is present', () => {
+      const config = {
+        ticketSubmission: {
+          props: {
+            customFields: {
+              all: true
+            }
+          }
+        }
+      }
+
+      it('returns true', () => {
+        const state = mockConfig(config)
+
+        expect(selectors.getCustomFieldsAvailable(state)).toEqual(true)
+      })
+    })
+  })
+
+  describe('when config does not contain the setting', () => {
+    const config = {
+      ticketSubmission: {
+        props: {}
+      }
+    }
+
+    it('returns the setting', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getCustomFieldsAvailable(state)).toEqual(false)
+    })
+  })
+})
+
+describe('getCustomFieldIds', () => {
+  describe('when config contains the setting', () => {
+    const config = {
+      ticketSubmission: {
+        props: {
+          customFields: {
+            ids: [10, 20]
+          }
+        }
+      }
+    }
+
+    it('returns the setting', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getCustomFieldIds(state)).toEqual({ ids: [10, 20] })
+    })
+  })
+
+  describe('when config does not contain the setting', () => {
+    const config = {
+      ticketSubmission: {
+        props: {}
+      }
+    }
+
+    it('returns the setting', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getCustomFieldIds(state)).toEqual({})
+    })
+  })
+})
+
+describe('getTicketFormIds', () => {
+  describe('when config contains the setting', () => {
+    const config = {
+      ticketSubmission: {
+        props: {
+          ticketForms: [10, 20, 30]
+        }
+      }
+    }
+
+    it('returns the setting', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getTicketFormIds(state)).toEqual([10, 20, 30])
+    })
+  })
+
+  describe('when config does not contain the setting', () => {
+    const config = {
+      ticketSubmission: {
+        props: {}
+      }
+    }
+
+    it('returns the setting', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getTicketFormIds(state)).toEqual([])
+    })
+  })
+})
+
 describe('getFormTitleKey', () => {
   describe('when config contains a setting', () => {
     const config = {

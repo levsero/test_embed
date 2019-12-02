@@ -251,10 +251,6 @@ class Frame extends Component {
     })
   }
 
-  forceUpdateWorld = () => {
-    this.forceUpdate()
-  }
-
   updateFrameTitle = title => {
     const doc = this.getContentDocument()
 
@@ -477,7 +473,6 @@ class Frame extends Component {
               dataTestId={this.props.horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
             >
               {React.cloneElement(this.props.children, {
-                forceUpdateWorld: this.forceUpdateWorld,
                 onBackButtonClick: this.back
               })}
             </EmbedWrapper>

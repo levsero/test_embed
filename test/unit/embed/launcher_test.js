@@ -1,5 +1,5 @@
 describe('embed.launcher', () => {
-  let launcher, mockFrame, mockRegistry, mockIsMobileBrowser, mockZoomSizingRatioValue
+  let launcher, mockFrame, mockIsMobileBrowser, mockZoomSizingRatioValue
   const mockToken = 'someMockedToken'
   const launcherPath = buildSrcPath('embed/launcher/launcher')
 
@@ -16,7 +16,7 @@ describe('embed.launcher', () => {
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       React: React,
       'utility/globals': {
         document: global.document,
@@ -196,42 +196,6 @@ describe('embed.launcher', () => {
       launcher.render()
 
       expect(launcher.get().component.props.children.props.css).toContain('mockCss')
-    })
-
-    describe('mediator subscriptions', () => {
-      let mockMediator, alice, aliceLauncher
-
-      beforeEach(() => {
-        mockMediator = mockRegistry['service/mediator'].mediator
-        launcher.create('launcher', undefined, mockReduxStore)
-        launcher.render()
-        alice = launcher.get()
-        aliceLauncher = alice.instance.getRootComponent()
-      })
-
-      describe('<name>.refreshLocale', () => {
-        beforeEach(() => {
-          spyOn(alice.instance, 'updateFrameLocale')
-          spyOn(aliceLauncher, 'forceUpdate')
-
-          pluckSubscribeCall(mockMediator, 'launcher.refreshLocale')()
-        })
-
-        it('subscribes to <name>.refreshLocale', () => {
-          expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-            'launcher.refreshLocale',
-            jasmine.any(Function)
-          )
-        })
-
-        it('should call setLabel', () => {
-          expect(alice.instance.updateFrameLocale).toHaveBeenCalled()
-        })
-
-        it('should call forceUpdate', () => {
-          expect(aliceLauncher.forceUpdate).toHaveBeenCalled()
-        })
-      })
     })
 
     describe('frameStyleModifier prop', () => {

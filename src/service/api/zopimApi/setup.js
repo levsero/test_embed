@@ -217,7 +217,7 @@ export function setUpZopimApiMethods(win, store) {
           console.warn(`invalid email passed into setEmail: ${email}`) // eslint-disable-line no-console
         }
       },
-      setLanguage: setLocaleApi,
+      setLanguage: locale => setLocaleApi(store, locale),
       sendVisitorPath: page => updatePathApi(store, page),
       clearAll: () => onChatSDKInitialized(() => logoutApi(store)),
       setStatus: status => {

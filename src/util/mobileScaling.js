@@ -104,8 +104,6 @@ function initMobileScaling() {
   )
 
   win.addEventListener('orientationchange', () => {
-    renderer.updateEmbeds()
-
     setTimeout(() => {
       propagateFontRatioChange()
     }, 1000)

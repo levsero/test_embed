@@ -171,35 +171,10 @@ export default function WebWidgetFactory(name) {
         }
       }
     })
-
-    mediator.channel.subscribe(prefix + 'webWidget.refreshLocale', () => {
-      waitForRootComponent(() => {
-        const store = embed.store
-        const { ticketForms, customFields = {} } = embed.submitTicketSettings
-
-        embed.instance.updateFrameLocale()
-        getWebWidgetComponent().forceUpdate()
-        if (getActiveComponent()) {
-          getActiveComponent().forceUpdate()
-        }
-
-        if (!_.isEmpty(ticketForms)) {
-          store.dispatch(getTicketForms(ticketForms, i18n.getLocale()))
-        } else if (customFields.ids || customFields.all) {
-          store.dispatch(getTicketFields(customFields, i18n.getLocale()))
-        }
-
-        embed.instance.getChild().forceUpdate()
-      })
-    })
   }
 
   function get() {
     return embed
-  }
-
-  function getActiveComponent() {
-    return getWebWidgetComponent().getActiveComponent()
   }
 
   function getWebWidgetComponent() {

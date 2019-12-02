@@ -7,10 +7,8 @@ import * as chatActions from 'src/redux/modules/chat/chat-actions/actions'
 import * as settingsActions from 'src/redux/modules/settings/settings-actions'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import * as hcActions from 'src/embeds/helpCenter/actions'
-import { i18n } from 'service/i18n'
 import { wait } from '@testing-library/react'
 
-import { mediator } from 'service/mediator'
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
@@ -22,6 +20,7 @@ jest.mock('service/mediator')
 jest.mock('service/settings')
 jest.mock('service/beacon')
 jest.mock('service/identity')
+jest.mock('src/redux/modules/submitTicket/submitTicket-actions')
 
 const mockActionValue = Date.now()
 const mockAction = jest.fn(() => mockActionValue)
@@ -260,17 +259,6 @@ test('closeApi dispatches the closeReceived action', () => {
   apis.closeApi(store)
 
   expect(baseActions.closeReceived).toHaveBeenCalled()
-})
-
-describe('setLocale', () => {
-  beforeEach(() => {
-    i18n.init(createStore())
-    apis.setLocaleApi('en')
-  })
-
-  it('calls mediator', () => {
-    expect(mediator.channel.broadcast).toHaveBeenCalledWith('.onSetLocale')
-  })
 })
 
 describe('updateSettingsApi', () => {

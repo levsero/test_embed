@@ -53,6 +53,19 @@ export const getConfigNameFieldEnabled = state => {
 export const getConfigNameFieldRequired = state => {
   return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.nameFieldRequired
 }
+export const getTicketFormIds = state => {
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.ticketForms || []
+}
+export const getCustomFieldIds = state => {
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.customFields || {}
+}
+export const getCustomFieldsAvailable = state => {
+  const embeddableConfig = getEmbeddableConfig(state)
+  return (
+    _.has(embeddableConfig, 'embeds.ticketSubmissionForm.props.customFields.ids') ||
+    _.has(embeddableConfig, 'embeds.ticketSubmissionForm.props.customFields.all')
+  )
+}
 export const getChatStandalone = createSelector(
   getEmbeddableConfig,
   embeddableConfig => {

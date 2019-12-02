@@ -61,7 +61,7 @@ function init(config, reduxStore = dummyStore) {
     }
 
     if (!i18n.getLocale()) {
-      setLocaleApi(config.locale)
+      setLocaleApi(reduxStore, config.locale)
     }
 
     if (!_.isEmpty(config.embeds)) {
@@ -132,18 +132,11 @@ function hideByZoom(hide) {
   })
 }
 
-function updateEmbeds() {
-  renderedEmbedsApply(embed => {
-    embed.forceUpdateWorld()
-  })
-}
-
 export const renderer = {
   init: init,
   initIPM: initIPM,
   postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
-  hide: hide,
-  updateEmbeds
+  hide: hide
 }

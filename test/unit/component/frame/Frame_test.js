@@ -22,9 +22,6 @@ describe('Frame', () => {
     constructor(props, context) {
       super(props, context)
       this.embed = null
-      this.nav = {
-        forceUpdate: noop
-      }
     }
 
     setCustomCSS() {}
@@ -212,7 +209,6 @@ describe('Frame', () => {
 
         await forceFrameReady(frame)
 
-        spyOn(frame, 'forceUpdateWorld')
         frame.updateFrameLocale()
         documentElem = frame.getContentDocument().documentElement
       })
@@ -235,7 +231,6 @@ describe('Frame', () => {
 
         await forceFrameReady(frame)
 
-        spyOn(frame, 'forceUpdateWorld')
         frame.updateFrameLocale()
         documentElem = frame.getContentDocument().documentElement
       })
@@ -247,26 +242,6 @@ describe('Frame', () => {
       it('updates html dir attribute to ltr', () => {
         expect(documentElem.dir).toEqual('ltr')
       })
-    })
-  })
-
-  describe('forceUpdateWorld', () => {
-    let frame, rootComponent, activeComponentForceUpdateSpy
-
-    beforeEach(() => {
-      frame = domRender(<Frame>{mockChild}</Frame>)
-
-      rootComponent = frame.getRootComponent()
-      activeComponentForceUpdateSpy = jasmine.createSpy('activeComponent.forceUpdate')
-
-      spyOn(rootComponent, 'getActiveComponent').and.returnValue({
-        forceUpdate: activeComponentForceUpdateSpy
-      })
-
-      spyOn(frame.child, 'forceUpdate')
-      spyOn(frame.child.nav, 'forceUpdate')
-
-      frame.forceUpdateWorld()
     })
   })
 
@@ -717,10 +692,6 @@ describe('Frame', () => {
     describe('constructEmbed', () => {
       it('adds onBackButtonClick to the child component', () => {
         expect(frame.getRootComponent().props.onBackButtonClick).toBeDefined()
-      })
-
-      it('adds forceUpdateWorld to the child component', () => {
-        expect(frame.getRootComponent().props.forceUpdateWorld).toBeDefined()
       })
 
       it('adds css styles to the element', () => {
