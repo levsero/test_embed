@@ -7,7 +7,6 @@ const trackTicketSubmitted = params => {
     query: params.searchTerm,
     locale: params.searchLocale,
     ticketId: response.id,
-    email: params.email,
     attachmentsCount: params.attachmentsCount,
     attachmentTypes: params.attachmentTypes,
     contextualSearch: params.contextualSearch
