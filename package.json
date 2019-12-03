@@ -67,7 +67,7 @@
     },
     {
       "path": "dist/common_vendor.*.js",
-      "maxSize": "130 KB"
+      "maxSize": "135 KB"
     },
     {
       "path": "dist/talk_vendor.*.js",
