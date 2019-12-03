@@ -139,3 +139,5 @@ export const getChatBadgeEnabled = state => {
 export const getBadgeColor = state => {
   return getAccountSettingsBadgeColor(state) || getEmbeddableConfigBadgeSettingsColor(state)
 }
+export const getEmbeddableConfigOfflineEnabled = state =>
+  _.get(state.chat.config, 'forms.offlineEnabled', false)

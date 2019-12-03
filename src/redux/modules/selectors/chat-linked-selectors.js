@@ -19,7 +19,8 @@ import {
   getDefaultToChatWidgetLite,
   getIsChatting,
   getActiveAgentCount,
-  getEmbeddableConfigBadgeSettings
+  getEmbeddableConfigBadgeSettings,
+  getEmbeddableConfigOfflineEnabled
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -305,7 +306,10 @@ export const isInChattingScreen = createSelector(
   (screen, embed, widgetShown) => widgetShown && screen === CHATTING_SCREEN && embed === 'chat'
 )
 
-export const getOfflineFormEnabled = state => getOfflineFormSettings(state).enabled
+export const getOfflineFormEnabled = createSelector(
+  [getOfflineFormSettings, getEmbeddableConfigOfflineEnabled],
+  (offlineFormSettings, configOfflineEnabled) => offlineFormSettings.enabled || configOfflineEnabled
+)
 
 export const getDelayChatConnection = createSelector(
   [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],

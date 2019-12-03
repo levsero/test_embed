@@ -66,6 +66,9 @@ export default {
         text: 'blahtext',
         image: 'blahmage',
         enabled: true
+      },
+      forms: {
+        offlineEnabled: true
       }
     },
     defaultDepartment: {
