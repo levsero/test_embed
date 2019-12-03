@@ -480,3 +480,8 @@ describe('getDeferredChatApi', () => {
     )
   })
 })
+
+test('getEmbeddableConfigOfflineEnabled', () => {
+  const result = selectors.getEmbeddableConfigOfflineEnabled(testState)
+  expect(result).toEqual(true)
+})

@@ -37,6 +37,7 @@ const getModifiedState = inputState => {
           }
         },
         offlineForm: {
+          enabled: true,
           boop: 'boop2',
           message: 'huh...',
           form: {

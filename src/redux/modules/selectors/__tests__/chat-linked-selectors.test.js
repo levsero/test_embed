@@ -239,6 +239,7 @@ describe('getOfflineFormSettings', () => {
     const result = selectors.getOfflineFormSettings(getModifiedState())
 
     expect(result).toEqual({
+      enabled: true,
       boop: 'boop2',
       message: 'hello fren',
       form: {
@@ -258,6 +259,7 @@ describe('getOfflineFormSettings', () => {
       )
 
       expect(result).toEqual({
+        enabled: true,
         boop: 'boop2',
         message: 'huh...',
         form: {
@@ -619,7 +621,63 @@ describe('getIsPopoutButtonVisible', () => {
 })
 
 describe('getOfflineFormEnabled', () => {
-  // TODO
+  test('returns true when offline form is enabled via account settings', () => {
+    const result = selectors.getOfflineFormEnabled(getModifiedState())
+    expect(result).toEqual(true)
+  })
+
+  test('returns false when offline form is not enabled', () => {
+    const result = selectors.getOfflineFormEnabled(
+      getModifiedState({
+        chat: {
+          accountSettings: {
+            offlineForm: {
+              enabled: false
+            }
+          }
+        }
+      })
+    )
+    expect(result).toEqual(false)
+  })
+
+  test('returns true when offline form is enabled via config', () => {
+    const result = selectors.getOfflineFormEnabled(
+      getModifiedState({
+        chat: {
+          accountSettings: {
+            offlineForm: {
+              enabled: false
+            }
+          },
+          config: {
+            forms: {
+              offlineEnabled: true
+            }
+          }
+        }
+      })
+    )
+    expect(result).toEqual(true)
+  })
+
+  test('returns false when no settings are enabled', () => {
+    const result = selectors.getOfflineFormEnabled(
+      getModifiedState({
+        chat: {
+          accountSettings: {
+            offlineForm: {
+              enabled: false
+            }
+          },
+          config: {
+            forms: {}
+          }
+        }
+      })
+    )
+    expect(result).toEqual(false)
+  })
 })
 
 describe('getPrechatFormFields', () => {
