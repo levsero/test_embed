@@ -4,9 +4,7 @@ describe('ChatBadge component', () => {
     mockLocale = 'en',
     mockIsRTL = false,
     component,
-    updateChatScreenSpy = jasmine.createSpy('updateChatScreen'),
     sendMsgSpy = jasmine.createSpy('sendMsg'),
-    resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage'),
     onSendSpy = jasmine.createSpy('onSend'),
     TEST_IDS
 
@@ -73,16 +71,10 @@ describe('ChatBadge component', () => {
       },
       'src/redux/modules/chat': {
         sendMsg: sendMsgSpy,
-        resetCurrentMessage: resetCurrentMessageSpy,
-        handleChatBadgeMessageChange: noop,
-        updateChatScreen: updateChatScreenSpy
+        handleChatBadgeMessageChange: noop
       },
       'src/redux/modules/base': {
         handleChatBadgeMinimize: noop
-      },
-      'src/redux/modules/chat/chat-screen-types': {
-        PRECHAT_SCREEN: 'PRECHAT_SCREEN',
-        CHATTING_SCREEN: 'CHATTING_SCREEN'
       }
     })
 
@@ -93,8 +85,6 @@ describe('ChatBadge component', () => {
     mockery.deregisterAll()
     mockery.disable()
     sendMsgSpy.calls.reset()
-    resetCurrentMessageSpy.calls.reset()
-    updateChatScreenSpy.calls.reset()
     onSendSpy.calls.reset()
   })
 
@@ -313,19 +303,11 @@ describe('ChatBadge component', () => {
     let mockMessage,
       mockEvent = {
         preventDefault: () => {}
-      },
-      mockPrechatFormRequired
+      }
 
     beforeEach(() => {
       component = instanceRender(
-        <ChatBadge
-          currentMessage={mockMessage}
-          updateChatScreen={updateChatScreenSpy}
-          sendMsg={sendMsgSpy}
-          resetCurrentMessage={resetCurrentMessageSpy}
-          onSend={onSendSpy}
-          prechatFormRequired={mockPrechatFormRequired}
-        />
+        <ChatBadge currentMessage={mockMessage} sendMsg={sendMsgSpy} onSend={onSendSpy} />
       )
       component.sendChatMsg(mockEvent)
     })
@@ -337,8 +319,6 @@ describe('ChatBadge component', () => {
 
       it('does not send message', () => {
         expect(sendMsgSpy).not.toHaveBeenCalled()
-        expect(updateChatScreenSpy).not.toHaveBeenCalled()
-        expect(resetCurrentMessageSpy).not.toHaveBeenCalled()
         expect(onSendSpy).not.toHaveBeenCalled()
       })
     })
@@ -348,34 +328,9 @@ describe('ChatBadge component', () => {
         mockMessage = 'yolo'
       })
 
-      describe('when nextScreen is PRECHAT_SCREEN', () => {
-        beforeAll(() => {
-          mockPrechatFormRequired = true
-        })
-
-        it('updates to PRECHAT_SCREEN', () => {
-          expect(updateChatScreenSpy).toHaveBeenCalledWith('PRECHAT_SCREEN')
-        })
-
-        it('does not send message', () => {
-          expect(sendMsgSpy).not.toHaveBeenCalled()
-          expect(resetCurrentMessageSpy).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('when nextScreen is CHATTING_SCREEN', () => {
-        beforeAll(() => {
-          mockPrechatFormRequired = false
-        })
-
-        it('updates to CHATTING_SCREEN', () => {
-          expect(updateChatScreenSpy).toHaveBeenCalledWith('CHATTING_SCREEN')
-        })
-
-        it('sends message', () => {
-          expect(sendMsgSpy).toHaveBeenCalledWith('yolo')
-          expect(resetCurrentMessageSpy).toHaveBeenCalled()
-        })
+      it('sends message', () => {
+        expect(sendMsgSpy).toHaveBeenCalledWith('yolo')
+        expect(onSendSpy).toHaveBeenCalled()
       })
     })
   })

@@ -5,15 +5,9 @@ import classNames from 'classnames'
 import _ from 'lodash'
 
 import { triggerOnEnter } from 'utility/keyboard'
-import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import {
-  sendMsg,
-  resetCurrentMessage,
-  handleChatBadgeMessageChange,
-  updateChatScreen
-} from 'src/redux/modules/chat'
+import { handleChatBadgeMessageChange, sendChatBadgeMessage } from 'src/redux/modules/chat'
 import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/base'
-import { getCurrentMessage, getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
+import { getCurrentMessage } from 'src/redux/modules/chat/chat-selectors'
 import { getLauncherBadgeSettings } from 'src/redux/modules/selectors'
 import { Field, Input } from '@zendeskgarden/react-forms'
 import { Icon } from 'component/Icon'
@@ -25,7 +19,6 @@ import { locals as styles } from './ChatBadge.scss'
 const mapStateToProps = state => {
   return {
     currentMessage: getCurrentMessage(state),
-    prechatFormRequired: getPrechatFormRequired(state),
     bannerSettings: getLauncherBadgeSettings(state)
   }
 }
@@ -35,20 +28,16 @@ class ChatBadge extends Component {
     onSend: PropTypes.func.isRequired,
     handleChatBadgeMessageChange: PropTypes.func.isRequired,
     currentMessage: PropTypes.string,
-    resetCurrentMessage: PropTypes.func.isRequired,
     sendMsg: PropTypes.func.isRequired,
     handleChatBadgeMinimize: PropTypes.func.isRequired,
-    updateChatScreen: PropTypes.func.isRequired,
     bannerSettings: PropTypes.object.isRequired,
     chatBadgeClicked: PropTypes.func.isRequired,
-    prechatFormRequired: PropTypes.bool,
     hideBranding: PropTypes.bool
   }
 
   static defaultProps = {
     currentMessage: '',
     bannerSettings: {},
-    prechatFormRequired: false,
     hideBranding: false
   }
 
@@ -185,16 +174,7 @@ class ChatBadge extends Component {
 
   sendChatMsg = e => {
     if (_.isEmpty(this.props.currentMessage)) return
-
-    const nextScreen = this.props.prechatFormRequired ? PRECHAT_SCREEN : CHATTING_SCREEN
-
-    this.props.updateChatScreen(nextScreen)
-
-    if (!this.props.prechatFormRequired) {
-      this.props.sendMsg(this.props.currentMessage)
-      this.props.resetCurrentMessage()
-    }
-
+    this.props.sendMsg(this.props.currentMessage)
     this.props.onSend(e)
   }
 
@@ -215,11 +195,9 @@ class ChatBadge extends Component {
 }
 
 const actionCreators = {
-  resetCurrentMessage,
-  sendMsg,
+  sendMsg: sendChatBadgeMessage,
   handleChatBadgeMessageChange,
   handleChatBadgeMinimize,
-  updateChatScreen,
   chatBadgeClicked
 }
 
