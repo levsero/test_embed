@@ -737,21 +737,44 @@ exports[`chat log visitor message success 1`] = `
 
 exports[`update chat header 1`] = `
 <div
-  class="textContainer"
+  class="sc-fjdhpX ozFXi"
   data-testid="chat-header-text-container"
-  style="padding-left: 12px;"
 >
   <h2
-    class="title"
+    class="sc-jzJRlG iSzHjY"
     data-testid="chat-header-title"
   >
     Mr F
   </h2>
   <div
-    class="subTextContainer"
-    data-testid="chat-header-subtext"
+    class="Tooltip__TriggerWrapper-lty2bj-1 kvOgTM"
   >
-    Mistah J
+    <div
+      aria-describedby="garden-tooltip-container-290"
+      class="sc-cSHVUG hSBhFZ"
+      data-garden-container-id="tooltip"
+      data-garden-container-version="0.2.6"
+      data-testid="chat-header-subtext"
+      tabindex="0"
+    >
+      Mistah J
+    </div>
+  </div>
+  <div
+    aria-hidden="true"
+    class="Tooltip__TooltipWrapper-lty2bj-0 bNmkNU"
+    style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
+  >
+    <div
+      aria-hidden="true"
+      class="TooltipView-yjjo4k-0 index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT bmFPrL"
+      data-garden-id="tooltip.tooltip"
+      data-garden-version="7.0.2"
+      id="garden-tooltip-container-290"
+      role="tooltip"
+    >
+      Mistah J
+    </div>
   </div>
 </div>
 `;
