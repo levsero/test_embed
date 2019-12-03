@@ -12,7 +12,6 @@ The `chat` object has the following settings:
 - [title](./settings#title)
 - [badge](./settings#badge)
 - [concierge](./settings#concierge)
-- [connectOnPageLoad](./settings#connectOnPageLoad)
 - [departments](./settings#departments)
 - [hideWhenOffline](./settings#hidewhenoffline)
 - [menuOptions](./settings#menuoptions)
