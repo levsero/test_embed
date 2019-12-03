@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import * as actions from '../chat-action-types'
-import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from '../chat-screen-types'
+import { CHATTING_SCREEN, PRECHAT_SCREEN, FEEDBACK_SCREEN } from '../chat-screen-types'
 import {
   getChatVisitor,
   getShowRatingScreen,
@@ -11,7 +11,8 @@ import {
   getIsLoggingOut,
   getZChatVendor,
   getStandaloneMobileNotificationVisible,
-  getNotification
+  getNotification,
+  getPrechatFormRequired
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
 import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
@@ -783,5 +784,21 @@ export function updateEndChatModalVisibility(isVisible) {
     payload: {
       isVisible
     }
+  }
+}
+
+export function sendChatBadgeMessage(message) {
+  return (dispatch, getState) => {
+    onChatConnected(() => {
+      const prechatFormRequired = getPrechatFormRequired(getState())
+      const nextScreen = prechatFormRequired ? PRECHAT_SCREEN : CHATTING_SCREEN
+
+      dispatch(updateChatScreen(nextScreen))
+
+      if (!prechatFormRequired) {
+        dispatch(sendMsg(message))
+        dispatch(resetCurrentMessage())
+      }
+    })
   }
 }

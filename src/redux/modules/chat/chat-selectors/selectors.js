@@ -48,7 +48,6 @@ export const getThemeColor = state => ({
   base: chatState(state).accountSettings.theme.color.primary,
   text: undefined
 })
-export const getBadgeColor = state => chatState(state).accountSettings.theme.color.banner
 export const getChatAccountSettingsConcierge = state => chatState(state).accountSettings.concierge
 export const getChatAccountSettingsOfflineForm = state =>
   chatState(state).accountSettings.offlineForm
@@ -56,7 +55,8 @@ export const getChatAccountSettingsPrechatForm = state =>
   chatState(state).accountSettings.prechatForm
 export const getDepartments = state => chatState(state).departments
 export const getAccountSettingsLauncherBadge = state => chatState(state).accountSettings.banner
-export const getChatBadgeEnabled = state => getAccountSettingsLauncherBadge(state).enabled
+const getAccountSettingsChatBadgeEnabled = state => getAccountSettingsLauncherBadge(state).enabled
+const getAccountSettingsBadgeColor = state => chatState(state).accountSettings.theme.color.banner
 export const getHideBranding = state => chatState(state).accountSettings.branding.hide_branding
 export const getAccountDefaultDepartmentId = state => chatState(state).defaultDepartment.id
 export const getDepartmentsList = state => _.values(getDepartments(state))
@@ -125,4 +125,17 @@ export const getDeferredChatApi = state => {
   }
 
   return `https://${mediatorUrl}/client/widget/account/status?embed_key=${zopimId}`
+}
+
+export const getEmbeddableConfigBadgeSettings = state => state.chat.config.badge
+const getEmbeddableConfigBadgeSettingsEnabled = state =>
+  Boolean(state.chat.config.badge && state.chat.config.badge.enabled)
+const getEmbeddableConfigBadgeSettingsColor = state =>
+  state.chat.config.badge && state.chat.config.badge.color
+
+export const getChatBadgeEnabled = state => {
+  return getAccountSettingsChatBadgeEnabled(state) || getEmbeddableConfigBadgeSettingsEnabled(state)
+}
+export const getBadgeColor = state => {
+  return getAccountSettingsBadgeColor(state) || getEmbeddableConfigBadgeSettingsColor(state)
 }

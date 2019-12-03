@@ -6,11 +6,9 @@ import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 describe('getShowMenu', () => {
-  let result
-
   test('when values are correct', () => {
     jest.spyOn(globals, 'isPopout').mockReturnValue(false)
-    result = selectors.getShowMenu(getModifiedState())
+    const result = selectors.getShowMenu(getModifiedState())
 
     expect(result).toEqual(true)
     globals.isPopout.mockRestore()
@@ -18,13 +16,13 @@ describe('getShowMenu', () => {
 
   describe('when a value is false', () => {
     test('when activeEmbed is not chat', () => {
-      result = selectors.getShowMenu(getModifiedState({ base: { activeEmbed: 'notChat' } }))
+      const result = selectors.getShowMenu(getModifiedState({ base: { activeEmbed: 'notChat' } }))
 
       expect(result).toEqual(false)
     })
 
     test('when chat screen is not CHATTING_SCREEN', () => {
-      result = selectors.getShowMenu(
+      const result = selectors.getShowMenu(
         getModifiedState({ chat: { screen: 'ohLookThisIsIncorrect' } })
       )
 
@@ -41,14 +39,14 @@ describe('getShowMenu', () => {
 
     test('when chat screen is CHATTING_SCREEN and user is viewing offline page', () => {
       chatReselectors.getShowOfflineChat = jest.fn().mockReturnValue(true)
-      result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
+      const result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
 
       expect(result).toEqual(false)
     })
 
     test('when chat screen is CHATTING_SCREEN and user is not viewing offline page', () => {
       chatReselectors.getShowOfflineChat = jest.fn().mockReturnValue(false)
-      result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
+      const result = selectors.getShowMenu(getModifiedState({ chat: { screen: CHATTING_SCREEN } }))
 
       expect(result).toEqual(true)
     })
@@ -66,16 +64,14 @@ test('getProfileConfig returns the expected value', () => {
 })
 
 describe('getChatAccountSettingsTitle', () => {
-  let result
-
   test('returns the expected value when state is correct', () => {
-    result = selectors.getChatAccountSettingsTitle(getModifiedState())
+    const result = selectors.getChatAccountSettingsTitle(getModifiedState())
 
     expect(result).toEqual('blorp')
   })
 
   test("returns i18n'd title when windowSettings title is undefined", () => {
-    result = selectors.getChatAccountSettingsTitle(
+    const result = selectors.getChatAccountSettingsTitle(
       getModifiedState({
         chat: { accountSettings: { chatWindow: { title: null } } }
       })
@@ -86,16 +82,14 @@ describe('getChatAccountSettingsTitle', () => {
 })
 
 describe('getChatTitle', () => {
-  let result
-
   test('returns i18n of settings Chat Title when translations are included', () => {
-    result = selectors.getChatTitle(getModifiedState())
+    const result = selectors.getChatTitle(getModifiedState())
 
     expect(result).toEqual('Hello World')
   })
 
   test('returns Account Settings Title when translation is not included', () => {
-    result = selectors.getChatTitle(
+    const result = selectors.getChatTitle(
       getModifiedState({
         settings: { chat: { title: null } }
       })
@@ -106,12 +100,11 @@ describe('getChatTitle', () => {
 })
 
 describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
-  let result
-
   test('when label is correctly set', () => {
-    result = selectors.getLauncherBadgeSettings(getModifiedState())
+    const result = selectors.getLauncherBadgeSettings(getModifiedState())
 
     expect(result).toEqual({
+      enabled: true,
       text: 'badgeText',
       image: 'heyLookA.img',
       label: 'badgeLabel',
@@ -120,7 +113,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
   })
 
   test('when label is incorrectly set, use badgeText', () => {
-    result = selectors.getLauncherBadgeSettings(
+    const result = selectors.getLauncherBadgeSettings(
       getModifiedState({
         settings: {
           launcher: { badge: { label: 'ThisIsTheIncorrectStructure ' } }
@@ -129,19 +122,91 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
     )
 
     expect(result).toEqual({
+      enabled: true,
       text: 'badgeText',
       image: 'heyLookA.img',
       label: 'badgeText',
       layout: 'left, no right... The other left?'
     })
   })
+
+  test('pulls settings out of config', () => {
+    const state = getModifiedState({
+      chat: {
+        config: {
+          badge: {
+            enabled: true,
+            text: 'new text',
+            imagePath: 'a.jpg',
+            layout: 'new layout'
+          }
+        }
+      }
+    })
+    state.chat.accountSettings.banner = {}
+    state.settings.launcher.badge = {}
+    const result = selectors.getLauncherBadgeSettings(state)
+    expect(result).toMatchObject({
+      enabled: true,
+      image: 'a.jpg',
+      layout: 'new layout',
+      label: 'new text'
+    })
+  })
+
+  describe('both account settings and config are present', () => {
+    it('uses account settings first', () => {
+      const state = getModifiedState({
+        chat: {
+          config: {
+            badge: {
+              enabled: true,
+              text: 'new text',
+              imagePath: 'a.jpg',
+              layout: 'new layout'
+            }
+          }
+        }
+      })
+      const result = selectors.getLauncherBadgeSettings(state)
+      expect(result).toEqual({
+        enabled: true,
+        text: 'badgeText',
+        image: 'heyLookA.img',
+        label: 'badgeLabel',
+        layout: 'left, no right... The other left?'
+      })
+    })
+
+    it('uses config when account settings is disabled', () => {
+      const state = getModifiedState({
+        chat: {
+          config: {
+            badge: {
+              enabled: true,
+              text: 'new text',
+              imagePath: 'a.jpg',
+              layout: 'new layout'
+            }
+          }
+        }
+      })
+      state.chat.accountSettings.banner.enabled = false
+      state.settings.launcher.badge = {}
+      const result = selectors.getLauncherBadgeSettings(state)
+      expect(result).toMatchObject({
+        enabled: true,
+        image: 'a.jpg',
+        layout: 'new layout',
+        label: 'new text'
+      })
+    })
+  })
 })
 
 describe('getConciergeSettings', () => {
-  let result
-
   test('overrides chat state with settings', () => {
-    result = selectors.getConciergeSettings(getModifiedState())
+    const result = selectors.getConciergeSettings(getModifiedState())
 
     expect(result).toEqual({
       avatar_path: 'overrideAvatarPath',
@@ -151,7 +216,7 @@ describe('getConciergeSettings', () => {
   })
 
   test('when no overrides present, use chat state', () => {
-    result = selectors.getConciergeSettings(
+    const result = selectors.getConciergeSettings(
       getModifiedState({
         settings: {
           chat: {
@@ -170,10 +235,8 @@ describe('getConciergeSettings', () => {
 })
 
 describe('getOfflineFormSettings', () => {
-  let result
-
   test('when accountSettings is set and greeting is also set', () => {
-    result = selectors.getOfflineFormSettings(getModifiedState())
+    const result = selectors.getOfflineFormSettings(getModifiedState())
 
     expect(result).toEqual({
       boop: 'boop2',
@@ -188,7 +251,7 @@ describe('getOfflineFormSettings', () => {
 
   describe('when accountSettings set and greeting is not set', () => {
     test('returns the chat message', () => {
-      result = selectors.getOfflineFormSettings(
+      const result = selectors.getOfflineFormSettings(
         getModifiedState({
           settings: { chat: { offlineForm: null } }
         })
@@ -208,7 +271,7 @@ describe('getOfflineFormSettings', () => {
 
   describe('when neither the greeting or message is set', () => {
     test('returns the chat message', () => {
-      result = selectors.getOfflineFormSettings(
+      const result = selectors.getOfflineFormSettings(
         getModifiedState({
           settings: {
             chat: {
@@ -280,7 +343,7 @@ describe('getEnabledDepartments', () => {
 
   describe('when enabled is an empty array', () => {
     it('returns no department', () => {
-      let modifiedState = getModifiedState({})
+      const modifiedState = getModifiedState({})
 
       modifiedState.settings.chat.departments.enabled = []
       const result = selectors.getEnabledDepartments(modifiedState)
@@ -291,7 +354,7 @@ describe('getEnabledDepartments', () => {
 
   describe('when a department is not enabled, but it is the default', () => {
     it('does not return it', () => {
-      let modifiedState = getModifiedState({})
+      const modifiedState = getModifiedState({})
 
       modifiedState.settings.chat.departments.enabled = []
       modifiedState.chat.defaultDepartment.id = 333
@@ -370,10 +433,8 @@ describe('getDefaultSelectedDepartment', () => {
 })
 
 describe('getCurrentConcierges', () => {
-  let result
-
   test('when values are correct', () => {
-    result = selectors.getCurrentConcierges(
+    const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: { agents: new Map([]) }
       })
@@ -389,7 +450,7 @@ describe('getCurrentConcierges', () => {
   })
 
   test('when there are no agents, return default concierge settings', () => {
-    result = selectors.getCurrentConcierges(
+    const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
           agents: new Map([])
@@ -407,7 +468,7 @@ describe('getCurrentConcierges', () => {
   })
 
   test('when there are no agents and no override concierge settings, returns regular concierge', () => {
-    result = selectors.getCurrentConcierges(
+    const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
           agents: new Map([])
@@ -433,10 +494,8 @@ describe('getCurrentConcierges', () => {
 })
 
 describe('getOfflineFormFields', () => {
-  let result
-
   test('returns our predefined offline form fields', () => {
-    result = selectors.getOfflineFormFields(getModifiedState())
+    const result = selectors.getOfflineFormFields(getModifiedState())
 
     expect(result).toEqual({
       message: { label: 'Message', required: false, name: 'message' },
@@ -447,10 +506,8 @@ describe('getOfflineFormFields', () => {
 })
 
 describe('getChatNotification', () => {
-  let result
-
   it('returns mcbob by default', () => {
-    result = selectors.getChatNotification(getModifiedState())
+    const result = selectors.getChatNotification(getModifiedState())
 
     expect(result).toEqual({
       avatar_path: 'bobPath',
@@ -459,7 +516,7 @@ describe('getChatNotification', () => {
   })
 
   test('returns the concierge avatar_path if agent has no avatar_path', () => {
-    result = selectors.getChatNotification(
+    const result = selectors.getChatNotification(
       getModifiedState({
         chat: { notification: { nick: 'agent:trigger' } }
       })
@@ -473,16 +530,14 @@ describe('getChatNotification', () => {
 })
 
 describe('isInChattingScreen', () => {
-  let result
-
   test('when values are correct', () => {
-    result = selectors.isInChattingScreen(getModifiedState())
+    const result = selectors.isInChattingScreen(getModifiedState())
 
     expect(result).toEqual(true)
   })
 
   test('when widget has not been shown', () => {
-    result = selectors.isInChattingScreen(
+    const result = selectors.isInChattingScreen(
       getModifiedState({
         base: {
           widgetShown: false
@@ -494,7 +549,7 @@ describe('isInChattingScreen', () => {
   })
 
   test('screen is not CHATTING_SCREEN', () => {
-    result = selectors.isInChattingScreen(
+    const result = selectors.isInChattingScreen(
       getModifiedState({
         chat: {
           screen: 'notChattingScreen'
@@ -506,7 +561,7 @@ describe('isInChattingScreen', () => {
   })
 
   test('activeEmbed is not chat', () => {
-    result = selectors.isInChattingScreen(
+    const result = selectors.isInChattingScreen(
       getModifiedState({
         base: {
           activeEmbed: 'notChat'
@@ -519,29 +574,25 @@ describe('isInChattingScreen', () => {
 })
 
 describe('getChatHistoryLabel', () => {
-  let result
-
   it('returns the expected string', () => {
-    result = selectors.getChatHistoryLabel(getModifiedState())
+    const result = selectors.getChatHistoryLabel(getModifiedState())
 
     expect(result).toEqual('View past chats')
   })
 })
 
 describe('getIsPopoutButtonVisible', () => {
-  let result
-
   test('when values are correct', () => {
     jest.spyOn(globals, 'isPopout').mockReturnValue(false)
 
-    result = selectors.getIsPopoutButtonVisible(getModifiedState())
+    const result = selectors.getIsPopoutButtonVisible(getModifiedState())
 
     expect(result).toEqual(true)
   })
 
   describe('when values are incorrect', () => {
     test('when getIsPopoutAvailable returns false', () => {
-      result = selectors.getIsPopoutButtonVisible(
+      const result = selectors.getIsPopoutButtonVisible(
         getModifiedState({ chat: { isAuthenticated: true } })
       )
       expect(result).toEqual(false)
@@ -549,7 +600,7 @@ describe('getIsPopoutButtonVisible', () => {
 
     test('when activeEmbed is not chat', () => {
       jest.spyOn(globals, 'isPopout').mockReturnValue(false)
-      result = selectors.getIsPopoutButtonVisible(
+      const result = selectors.getIsPopoutButtonVisible(
         getModifiedState({ base: { activeEmbed: 'notChat' } })
       )
       expect(result).toEqual(false)
@@ -557,7 +608,7 @@ describe('getIsPopoutButtonVisible', () => {
     })
 
     test('when popout button is not enabled in settings', () => {
-      result = selectors.getIsPopoutButtonVisible(
+      const result = selectors.getIsPopoutButtonVisible(
         getModifiedState({
           settings: { navigation: { popoutButton: { enabled: false } } }
         })
@@ -572,9 +623,8 @@ describe('getOfflineFormEnabled', () => {
 })
 
 describe('getPrechatFormFields', () => {
-  let result
   describe('with departments enabled', () => {
-    beforeEach(() => {
+    const select = () => {
       const stateOverride = {
         chat: {
           department: [
@@ -593,11 +643,11 @@ describe('getPrechatFormFields', () => {
         }
       }
 
-      result = selectors.getPrechatFormFields(getModifiedState(stateOverride))
-    })
+      return selectors.getPrechatFormFields(getModifiedState(stateOverride))
+    }
 
     it('returns the expected fields', () => {
-      expect(result).toEqual({
+      expect(select()).toEqual({
         department: { label: 'Choose a department' },
         departments: [
           { id: 111, isDefault: true, name: 'burgers', value: 111 },
@@ -608,15 +658,15 @@ describe('getPrechatFormFields', () => {
   })
 
   describe('with no departments enabled', () => {
-    beforeEach(() => {
+    const select = () => {
       const modifiedState = getModifiedState()
       modifiedState.settings.chat.departments.enabled = []
 
-      result = selectors.getPrechatFormFields(modifiedState)
-    })
+      return selectors.getPrechatFormFields(modifiedState)
+    }
 
     it('returns the expected fields', () => {
-      expect(result).toEqual({
+      expect(select()).toEqual({
         department: { label: 'Choose a department' },
         departments: []
       })

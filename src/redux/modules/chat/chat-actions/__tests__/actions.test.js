@@ -51,6 +51,9 @@ const getState = (state = {}) => {
     chat: {
       vendor: {
         zChat
+      },
+      accountSettings: {
+        prechatForm: false
       }
     }
   }
@@ -1200,50 +1203,155 @@ describe('chatNotificationTimedOut', () => {
 })
 
 describe('sendMsg', () => {
+  const mockVisitor = {
+    name: 'Boromir',
+    email: 'dadsfav@gondor.gd'
+  }
+
+  beforeEach(() => {
+    jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
+  })
+
+  afterEach(() => {
+    resetChatSDKInitializedQueue()
+  })
+
   describe('when chat is connected', () => {
     it('fires off a CHAT_MSG_REQUEST_SENT action', () => {
-      const mockVisitor = {
-        name: 'Boromir',
-        email: 'dadsfav@gondor.gd'
-      }
-
-      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
       handleChatConnected()
       const result = dispatchAction(actions.sendMsg('boop'))
-
       expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
-      resetChatSDKInitializedQueue()
     })
   })
 
   describe('when chat is not connected', () => {
     it('does not fire any actions', () => {
-      const mockVisitor = {
-        name: 'Boromir',
-        email: 'dadsfav@gondor.gd'
-      }
-
-      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
       const result = dispatchAction(actions.sendMsg('boop'))
-
       expect(result).toEqual([])
     })
 
     it('after connection, fires the action', () => {
-      const mockVisitor = {
-        name: 'Boromir',
-        email: 'dadsfav@gondor.gd'
-      }
-
-      jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
       const result = dispatchAction(actions.sendMsg('boop'))
-
       expect(result).toEqual([])
-
       handleChatConnected()
-
       expect(result[0].type).toEqual('widget/chat/CHAT_MSG_REQUEST_SENT')
-      resetChatSDKInitializedQueue()
+    })
+  })
+})
+
+describe('sendChatBadgeMessage', () => {
+  const mockVisitor = {
+    name: 'Boromir',
+    email: 'dadsfav@gondor.gd'
+  }
+
+  beforeEach(() => {
+    jest.spyOn(selectors, 'getChatVisitor').mockReturnValue(mockVisitor)
+  })
+
+  afterEach(() => {
+    resetChatSDKInitializedQueue()
+  })
+
+  describe('when chat is connected', () => {
+    describe('prechat form is not required', () => {
+      it('fires off expected actions', () => {
+        handleChatConnected()
+        const results = dispatchAction(actions.sendChatBadgeMessage('boop'), {
+          chat: {
+            accountSettings: {
+              prechatForm: {
+                required: false
+              }
+            }
+          }
+        })
+
+        expect(results).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "payload": Object {
+                "screen": "widget/chat/CHATTING_SCREEN",
+              },
+              "type": "widget/chat/UPDATE_CHAT_SCREEN",
+            },
+            Object {
+              "payload": Object {
+                "detail": Object {
+                  "display_name": undefined,
+                  "msg": "boop",
+                  "nick": undefined,
+                  "timestamp": 123456,
+                  "type": "chat.msg",
+                },
+                "status": "CHAT_MESSAGE_PENDING",
+              },
+              "type": "widget/chat/CHAT_MSG_REQUEST_SENT",
+            },
+            Object {
+              "type": "widget/chat/RESET_CURRENT_MESSAGE",
+            },
+          ]
+        `)
+      })
+    })
+
+    describe('prechat form is required', () => {
+      it('dispatches expected actions', () => {
+        handleChatConnected()
+        const results = dispatchAction(actions.sendChatBadgeMessage('boop'), {
+          chat: {
+            accountSettings: {
+              prechatForm: {
+                required: true
+              }
+            }
+          }
+        })
+        expect(results).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "payload": Object {
+                "screen": "widget/chat/PRECHAT_SCREEN",
+              },
+              "type": "widget/chat/UPDATE_CHAT_SCREEN",
+            },
+          ]
+        `)
+      })
+    })
+  })
+
+  describe('when chat is not connected', () => {
+    it('does not fire any actions', () => {
+      const results = dispatchAction(actions.sendChatBadgeMessage('boop'))
+
+      expect(results).toEqual([])
+    })
+
+    it('after connection, fires the action', () => {
+      const results = dispatchAction(actions.sendChatBadgeMessage('boop'), {
+        chat: {
+          accountSettings: {
+            prechatForm: {
+              required: true
+            }
+          }
+        }
+      })
+
+      expect(results).toEqual([])
+      handleChatConnected()
+      expect(results).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "screen": "widget/chat/PRECHAT_SCREEN",
+            },
+            "type": "widget/chat/UPDATE_CHAT_SCREEN",
+          },
+        ]
+      `)
     })
   })
 })

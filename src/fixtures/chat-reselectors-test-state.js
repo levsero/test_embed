@@ -15,9 +15,9 @@ const getModifiedState = inputState => {
     chat: {
       accountSettings: {
         banner: {
+          enabled: true,
           text: 'badgeText',
           image: 'heyLookA.img',
-          label: 'whatChoLabellinAt?',
           layout: 'left, no right... The other left?'
         },
         chatWindow: {
@@ -59,6 +59,7 @@ const getModifiedState = inputState => {
         }
       },
       agents: new Map([['agent:mcbob', { avatar_path: 'bobPath' }], ['agent:trigger', {}]]),
+      config: {},
       departments: [
         { id: 111, name: 'burgers' },
         { id: 222, name: 'pizza' },

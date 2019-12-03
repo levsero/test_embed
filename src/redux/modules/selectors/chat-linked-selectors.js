@@ -18,7 +18,8 @@ import {
   getShowOfflineChat,
   getDefaultToChatWidgetLite,
   getIsChatting,
-  getActiveAgentCount
+  getActiveAgentCount,
+  getEmbeddableConfigBadgeSettings
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -71,20 +72,32 @@ export const getChatHistoryLabel = createSelector(
 )
 
 export const getLauncherBadgeSettings = createSelector(
-  [getSettingsLauncherBadge, getAccountSettingsLauncherBadge, getLocale],
-  (settingsBadge, accountSettingsBadge, _locale) => {
+  [
+    getSettingsLauncherBadge,
+    getAccountSettingsLauncherBadge,
+    getEmbeddableConfigBadgeSettings,
+    getLocale
+  ],
+  (settingsBadge, accountSettingsBadge, embeddableConfigBadge, _locale) => {
+    let badgeSettings = {}
+    if (accountSettingsBadge.enabled) {
+      badgeSettings = accountSettingsBadge
+    } else if (embeddableConfigBadge && embeddableConfigBadge.enabled) {
+      badgeSettings = embeddableConfigBadge
+      badgeSettings.image = embeddableConfigBadge.imagePath
+    }
     const maxLabelLength = 60
     const settingsLabel = _.get(settingsBadge, 'label', {})
     const fullLabel =
       i18n.getSettingTranslation(settingsLabel) ||
-      accountSettingsBadge.text ||
+      badgeSettings.text ||
       i18n.t('embeddable_framework.chat.badge.label')
     const label = _.truncate(fullLabel, {
       length: maxLabelLength,
       omission: '…'
     })
 
-    return _.mergeWith({}, accountSettingsBadge, settingsBadge, { label: label }, (a, b) => {
+    return _.mergeWith({}, badgeSettings, settingsBadge, { label: label }, (a, b) => {
       if (b === null) return a
       return b
     })
