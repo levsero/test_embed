@@ -46,6 +46,7 @@ Available settings:
 - [cookies](#cookies)
 - [color](#color)
 - [concierge](#concierge)
+- [connectOnPageLoad](#connectOnPageLoad)
 - [contactButton](#contactbutton)
 - [contactFormLabel](#contactformlabel)
 - [departments](#departments)
@@ -602,6 +603,31 @@ Set the chat concierge’s avatar, name, and title.
           name: 'Jane Doe',
           title: { '*': 'Live support' }
         }
+      }
+    }
+  };
+</script>
+```
+
+### connectOnPageLoad
+
+Controls when the widget connects to the Chat backend. When set to the default `true`, it connects on page load before the widget loads. When set to `false`, it connects when the user interacts with the widget, which helps improve the widget load time and performance.
+**Warning:** This setting disables certain features including pro-active chat, some analytics, and affects the usage of some APIs. To learn more, see [Optimising Chat and Web Widget performance](https://support.zendesk.com/hc/en-us/articles/360039299153).
+
+#### Availability
+
+- [chat](./chat)
+
+<a name="example-connectOnPageLoad"></a>
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      chat: {
+        connectOnPageLoad: false
       }
     }
   };
