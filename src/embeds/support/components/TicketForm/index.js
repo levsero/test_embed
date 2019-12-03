@@ -3,18 +3,14 @@ import PropTypes from 'prop-types'
 import { Footer } from 'src/components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'
 import FormField from 'src/embeds/support/components/FormField'
-import {
-  convertFieldValue,
-  getParsedValues,
-  mapKeyFields
-} from 'src/embeds/support/utils/fieldConversion'
+import { convertFieldValue, mapKeyFields } from 'src/embeds/support/utils/fieldConversion'
 import { getValidate } from 'src/embeds/support/utils/formFieldRules'
 import FormStateRetriever from 'src/embeds/support/components/TicketForm/FormStateRetriever'
 import { Form as ReactFinalForm } from 'react-final-form'
 import { Form as StyledForm, Main, FieldWrapper } from './styles'
 import { Field } from 'react-final-form'
-import _ from 'lodash'
 import { useTranslate } from 'src/hooks/useTranslation'
+import { useSubmit } from 'src/hooks/useSubmit'
 
 const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFields }) => {
   const mappedTicketFields = mapKeyFields(ticketFields)
@@ -28,18 +24,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
 
   const validate = getValidate(mappedTicketFields, translate)
 
-  const onSubmit = async (values, _form, callback) => {
-    const errors = validate(values, true)
-    const parsedValues = getParsedValues(values, mappedTicketFields)
-
-    if (_.isEmpty(errors)) {
-      submitForm(parsedValues)
-      callback(true)
-    } else {
-      setShowFormErrors(true)
-      callback(false)
-    }
-  }
+  const onSubmit = useSubmit(submitForm, validate, setShowFormErrors, mappedTicketFields)
 
   return (
     <ReactFinalForm

@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
-import useTranslation, { useTranslate } from './../useTranslation'
+import useTranslation, { useTranslate } from '../useTranslation'
 
 describe('useTranslation', () => {
   const SomeComponent = () => {
