@@ -149,6 +149,7 @@ describe('ticket forms', () => {
   })
 
   it('prefills the form state', () => {
+    jest.useFakeTimers()
     const setFormState = jest.fn()
     jest.spyOn(i18n, 'getLocale').mockReturnValue('fr')
     renderSubmitTicketForm({
@@ -172,6 +173,7 @@ describe('ticket forms', () => {
         { id: 1234, Ezel: 'Berbier' }
       ]
     })
+    jest.runAllTimers()
     expect(setFormState).toHaveBeenCalledWith(
       expect.objectContaining({
         '6': 'hello world',
