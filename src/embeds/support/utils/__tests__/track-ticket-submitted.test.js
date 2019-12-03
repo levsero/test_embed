@@ -15,7 +15,6 @@ describe('trackTicketSubmitted', () => {
       body: {
         [responseParam]: {
           id: 'response id',
-          email: 'trackTicketSubmitted@example.com',
           attachmentsCount: 5,
           attachmentTypes: 'attachment types',
           contextualSearch: true
@@ -35,7 +34,6 @@ describe('trackTicketSubmitted', () => {
           query: params.searchTerm,
           locale: params.searchLocale,
           ticketId: params.res.body.request.id,
-          email: params.email,
           attachmentsCount: params.attachmentsCount,
           attachmentTypes: params.attachmentTypes,
           contextualSearch: params.contextualSearch
@@ -55,7 +53,6 @@ describe('trackTicketSubmitted', () => {
           query: params.searchTerm,
           locale: params.searchLocale,
           ticketId: params.res.body.suspended_ticket.id,
-          email: params.email,
           attachmentsCount: params.attachmentsCount,
           attachmentTypes: params.attachmentTypes,
           contextualSearch: params.contextualSearch
