@@ -74,11 +74,12 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount = () => {
-    this.prefillFormState()
-
     const form = ReactDOM.findDOMNode(this.refs.form)
 
-    this.updateFormValidity(form)
+    setTimeout(() => {
+      this.prefillFormState()
+      this.updateFormValidity(form)
+    }, 0)
   }
 
   componentDidUpdate = () => {

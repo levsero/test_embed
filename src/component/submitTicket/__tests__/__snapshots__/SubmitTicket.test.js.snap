@@ -66,8 +66,8 @@ exports[`active ticket form renders the expected components 1`] = `
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.text_label"
                   data-garden-version="7.0.2"
-                  for="garden-field-container-18--input"
-                  id="garden-field-container-18--label"
+                  for="garden-field-container-9--input"
+                  id="garden-field-container-9--label"
                 >
                   <strong>
                     Your name
@@ -75,14 +75,14 @@ exports[`active ticket form renders the expected components 1`] = `
                    (optional)
                 </label>
                 <input
-                  aria-describedby="garden-field-container-18--hint"
+                  aria-describedby="garden-field-container-9--hint"
                   aria-invalid="false"
-                  aria-labelledby="garden-field-container-18--label"
+                  aria-labelledby="garden-field-container-9--label"
                   class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                   data-garden-id="forms.input"
                   data-garden-version="7.0.2"
                   data-testid="name-field"
-                  id="garden-field-container-18--input"
+                  id="garden-field-container-9--input"
                   name="name"
                   value=""
                 />
@@ -96,22 +96,22 @@ exports[`active ticket form renders the expected components 1`] = `
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.text_label"
                   data-garden-version="7.0.2"
-                  for="garden-field-container-19--input"
-                  id="garden-field-container-19--label"
+                  for="garden-field-container-10--input"
+                  id="garden-field-container-10--label"
                 >
                   <strong>
                     Email address
                   </strong>
                 </label>
                 <input
-                  aria-describedby="garden-field-container-19--hint"
+                  aria-describedby="garden-field-container-10--hint"
                   aria-invalid="false"
-                  aria-labelledby="garden-field-container-19--label"
+                  aria-labelledby="garden-field-container-10--label"
                   class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                   data-garden-id="forms.input"
                   data-garden-version="7.0.2"
                   data-testid="email-field"
-                  id="garden-field-container-19--input"
+                  id="garden-field-container-10--input"
                   name="email"
                   pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
                   required=""
@@ -127,8 +127,8 @@ exports[`active ticket form renders the expected components 1`] = `
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.text_label"
                   data-garden-version="7.0.2"
-                  for="garden-field-container-20--input"
-                  id="garden-field-container-20--label"
+                  for="garden-field-container-11--input"
+                  id="garden-field-container-11--label"
                 >
                   <strong>
                     Description
@@ -136,13 +136,13 @@ exports[`active ticket form renders the expected components 1`] = `
                    (optional)
                 </label>
                 <input
-                  aria-describedby="garden-field-container-20--hint"
+                  aria-describedby="garden-field-container-11--hint"
                   aria-invalid="false"
-                  aria-labelledby="garden-field-container-20--label"
+                  aria-labelledby="garden-field-container-11--label"
                   class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                   data-garden-id="forms.input"
                   data-garden-version="7.0.2"
-                  id="garden-field-container-20--input"
+                  id="garden-field-container-11--input"
                   name="1"
                   value=""
                 />
@@ -156,8 +156,8 @@ exports[`active ticket form renders the expected components 1`] = `
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.text_label"
                   data-garden-version="7.0.2"
-                  for="garden-field-container-21--input"
-                  id="garden-field-container-21--label"
+                  for="garden-field-container-12--input"
+                  id="garden-field-container-12--label"
                 >
                   <strong>
                     Subject
@@ -165,13 +165,13 @@ exports[`active ticket form renders the expected components 1`] = `
                    (optional)
                 </label>
                 <input
-                  aria-describedby="garden-field-container-21--hint"
+                  aria-describedby="garden-field-container-12--hint"
                   aria-invalid="false"
-                  aria-labelledby="garden-field-container-21--label"
+                  aria-labelledby="garden-field-container-12--label"
                   class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                   data-garden-id="forms.input"
                   data-garden-version="7.0.2"
-                  id="garden-field-container-21--input"
+                  id="garden-field-container-12--input"
                   name="2"
                   value=""
                 />
@@ -185,21 +185,21 @@ exports[`active ticket form renders the expected components 1`] = `
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.text_label"
                   data-garden-version="7.0.2"
-                  for="garden-field-container-22--input"
-                  id="garden-field-container-22--label"
+                  for="garden-field-container-13--input"
+                  id="garden-field-container-13--label"
                 >
                   <strong>
                     Favorite Pizza
                   </strong>
                 </label>
                 <input
-                  aria-describedby="garden-field-container-22--hint"
+                  aria-describedby="garden-field-container-13--hint"
                   aria-invalid="false"
-                  aria-labelledby="garden-field-container-22--label"
+                  aria-labelledby="garden-field-container-13--label"
                   class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                   data-garden-id="forms.input"
                   data-garden-version="7.0.2"
-                  id="garden-field-container-22--input"
+                  id="garden-field-container-13--input"
                   name="5"
                   required=""
                   value=""
@@ -262,123 +262,123 @@ Snapshot Diff:
 @@ -64,6 +64,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-38--input"
--                   id="garden-field-container-38--label"
-+                   for="garden-field-container-28--input"
-+                   id="garden-field-container-28--label"
+-                   for="garden-field-container-19--input"
+-                   id="garden-field-container-19--label"
++                   for="garden-field-container-14--input"
++                   id="garden-field-container-14--label"
                   >
                     <strong>
 @@ -73,12 +73,12 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-38--hint"
-+                   aria-describedby="garden-field-container-28--hint"
+-                   aria-describedby="garden-field-container-19--hint"
++                   aria-describedby="garden-field-container-14--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-38--label"
-+                   aria-labelledby="garden-field-container-28--label"
+-                   aria-labelledby="garden-field-container-19--label"
++                   aria-labelledby="garden-field-container-14--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
                     data-testid="name-field"
--                   id="garden-field-container-38--input"
-+                   id="garden-field-container-28--input"
+-                   id="garden-field-container-19--input"
++                   id="garden-field-container-14--input"
                     name="name"
                     value=""
 @@ -94,6 +94,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-39--input"
--                   id="garden-field-container-39--label"
-+                   for="garden-field-container-29--input"
-+                   id="garden-field-container-29--label"
+-                   for="garden-field-container-20--input"
+-                   id="garden-field-container-20--label"
++                   for="garden-field-container-15--input"
++                   id="garden-field-container-15--label"
                   >
                     <strong>
 @@ -102,12 +102,12 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-39--hint"
-+                   aria-describedby="garden-field-container-29--hint"
+-                   aria-describedby="garden-field-container-20--hint"
++                   aria-describedby="garden-field-container-15--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-39--label"
-+                   aria-labelledby="garden-field-container-29--label"
+-                   aria-labelledby="garden-field-container-20--label"
++                   aria-labelledby="garden-field-container-15--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
                     data-testid="email-field"
--                   id="garden-field-container-39--input"
-+                   id="garden-field-container-29--input"
+-                   id="garden-field-container-20--input"
++                   id="garden-field-container-15--input"
                     name="email"
                     pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
 @@ -125,6 +125,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-40--input"
--                   id="garden-field-container-40--label"
-+                   for="garden-field-container-30--input"
-+                   id="garden-field-container-30--label"
+-                   for="garden-field-container-21--input"
+-                   id="garden-field-container-21--label"
++                   for="garden-field-container-16--input"
++                   id="garden-field-container-16--label"
                   >
                     <strong>
 @@ -134,11 +134,11 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-40--hint"
-+                   aria-describedby="garden-field-container-30--hint"
+-                   aria-describedby="garden-field-container-21--hint"
++                   aria-describedby="garden-field-container-16--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-40--label"
-+                   aria-labelledby="garden-field-container-30--label"
+-                   aria-labelledby="garden-field-container-21--label"
++                   aria-labelledby="garden-field-container-16--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
--                   id="garden-field-container-40--input"
-+                   id="garden-field-container-30--input"
+-                   id="garden-field-container-21--input"
++                   id="garden-field-container-16--input"
                     name="1"
                     value=""
 @@ -154,6 +154,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-41--input"
--                   id="garden-field-container-41--label"
-+                   for="garden-field-container-31--input"
-+                   id="garden-field-container-31--label"
+-                   for="garden-field-container-22--input"
+-                   id="garden-field-container-22--label"
++                   for="garden-field-container-17--input"
++                   id="garden-field-container-17--label"
                   >
                     <strong>
 @@ -163,11 +163,11 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-41--hint"
-+                   aria-describedby="garden-field-container-31--hint"
+-                   aria-describedby="garden-field-container-22--hint"
++                   aria-describedby="garden-field-container-17--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-41--label"
-+                   aria-labelledby="garden-field-container-31--label"
+-                   aria-labelledby="garden-field-container-22--label"
++                   aria-labelledby="garden-field-container-17--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
--                   id="garden-field-container-41--input"
-+                   id="garden-field-container-31--input"
+-                   id="garden-field-container-22--input"
++                   id="garden-field-container-17--input"
                     name="2"
                     value=""
 @@ -183,6 +183,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-42--input"
--                   id="garden-field-container-42--label"
-+                   for="garden-field-container-32--input"
-+                   id="garden-field-container-32--label"
+-                   for="garden-field-container-23--input"
+-                   id="garden-field-container-23--label"
++                   for="garden-field-container-18--input"
++                   id="garden-field-container-18--label"
                   >
                     <strong>
 @@ -191,11 +191,11 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-42--hint"
-+                   aria-describedby="garden-field-container-32--hint"
+-                   aria-describedby="garden-field-container-23--hint"
++                   aria-describedby="garden-field-container-18--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-42--label"
-+                   aria-labelledby="garden-field-container-32--label"
+-                   aria-labelledby="garden-field-container-23--label"
++                   aria-labelledby="garden-field-container-18--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
--                   id="garden-field-container-42--input"
-+                   id="garden-field-container-32--input"
+-                   id="garden-field-container-23--input"
++                   id="garden-field-container-18--input"
                     name="5"
                     required=""
 `;
@@ -576,76 +576,76 @@ Snapshot Diff:
 @@ -59,6 +59,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-12--input"
--                   id="garden-field-container-12--label"
-+                   for="garden-field-container-6--input"
-+                   id="garden-field-container-6--label"
+-                   for="garden-field-container-6--input"
+-                   id="garden-field-container-6--label"
++                   for="garden-field-container-3--input"
++                   id="garden-field-container-3--label"
                   >
                     <strong>
 @@ -68,12 +68,12 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-12--hint"
-+                   aria-describedby="garden-field-container-6--hint"
+-                   aria-describedby="garden-field-container-6--hint"
++                   aria-describedby="garden-field-container-3--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-12--label"
-+                   aria-labelledby="garden-field-container-6--label"
+-                   aria-labelledby="garden-field-container-6--label"
++                   aria-labelledby="garden-field-container-3--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
                     data-testid="name-field"
--                   id="garden-field-container-12--input"
-+                   id="garden-field-container-6--input"
+-                   id="garden-field-container-6--input"
++                   id="garden-field-container-3--input"
                     name="name"
                     value=""
 @@ -89,6 +89,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-13--input"
--                   id="garden-field-container-13--label"
-+                   for="garden-field-container-7--input"
-+                   id="garden-field-container-7--label"
+-                   for="garden-field-container-7--input"
+-                   id="garden-field-container-7--label"
++                   for="garden-field-container-4--input"
++                   id="garden-field-container-4--label"
                   >
                     <strong>
 @@ -97,12 +97,12 @@
                   </label>
                   <input
--                   aria-describedby="garden-field-container-13--hint"
-+                   aria-describedby="garden-field-container-7--hint"
+-                   aria-describedby="garden-field-container-7--hint"
++                   aria-describedby="garden-field-container-4--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-13--label"
-+                   aria-labelledby="garden-field-container-7--label"
+-                   aria-labelledby="garden-field-container-7--label"
++                   aria-labelledby="garden-field-container-4--label"
                     class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                     data-garden-id="forms.input"
                     data-garden-version="7.0.2"
                     data-testid="email-field"
--                   id="garden-field-container-13--input"
-+                   id="garden-field-container-7--input"
+-                   id="garden-field-container-7--input"
++                   id="garden-field-container-4--input"
                     name="email"
                     pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
 @@ -120,6 +120,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
--                   for="garden-field-container-14--input"
--                   id="garden-field-container-14--label"
-+                   for="garden-field-container-8--input"
-+                   id="garden-field-container-8--label"
+-                   for="garden-field-container-8--input"
+-                   id="garden-field-container-8--label"
++                   for="garden-field-container-5--input"
++                   id="garden-field-container-5--label"
                   >
                     <strong>
 @@ -128,12 +128,12 @@
                   </label>
                   <textarea
--                   aria-describedby="garden-field-container-14--hint"
-+                   aria-describedby="garden-field-container-8--hint"
+-                   aria-describedby="garden-field-container-8--hint"
++                   aria-describedby="garden-field-container-5--hint"
                     aria-invalid="false"
--                   aria-labelledby="garden-field-container-14--label"
-+                   aria-labelledby="garden-field-container-8--label"
+-                   aria-labelledby="garden-field-container-8--label"
++                   aria-labelledby="garden-field-container-5--label"
                     class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
                     data-garden-id="forms.textarea"
                     data-garden-version="7.0.2"
                     data-testid="message-field"
--                   id="garden-field-container-14--input"
-+                   id="garden-field-container-8--input"
+-                   id="garden-field-container-8--input"
++                   id="garden-field-container-5--input"
                     name="description"
                     required=""
 `;
@@ -710,8 +710,8 @@ exports[`renders the loading bar content 1`] = `
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
                 data-garden-version="7.0.2"
-                for="garden-field-container-54--input"
-                id="garden-field-container-54--label"
+                for="garden-field-container-27--input"
+                id="garden-field-container-27--label"
               >
                 <strong>
                   Your name
@@ -719,14 +719,14 @@ exports[`renders the loading bar content 1`] = `
                  (optional)
               </label>
               <input
-                aria-describedby="garden-field-container-54--hint"
+                aria-describedby="garden-field-container-27--hint"
                 aria-invalid="false"
-                aria-labelledby="garden-field-container-54--label"
+                aria-labelledby="garden-field-container-27--label"
                 class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                 data-garden-id="forms.input"
                 data-garden-version="7.0.2"
                 data-testid="name-field"
-                id="garden-field-container-54--input"
+                id="garden-field-container-27--input"
                 name="name"
                 value=""
               />
@@ -740,22 +740,22 @@ exports[`renders the loading bar content 1`] = `
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
                 data-garden-version="7.0.2"
-                for="garden-field-container-55--input"
-                id="garden-field-container-55--label"
+                for="garden-field-container-28--input"
+                id="garden-field-container-28--label"
               >
                 <strong>
                   Email address
                 </strong>
               </label>
               <input
-                aria-describedby="garden-field-container-55--hint"
+                aria-describedby="garden-field-container-28--hint"
                 aria-invalid="false"
-                aria-labelledby="garden-field-container-55--label"
+                aria-labelledby="garden-field-container-28--label"
                 class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
                 data-garden-id="forms.input"
                 data-garden-version="7.0.2"
                 data-testid="email-field"
-                id="garden-field-container-55--input"
+                id="garden-field-container-28--input"
                 name="email"
                 pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
                 required=""
@@ -771,22 +771,22 @@ exports[`renders the loading bar content 1`] = `
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
                 data-garden-version="7.0.2"
-                for="garden-field-container-56--input"
-                id="garden-field-container-56--label"
+                for="garden-field-container-29--input"
+                id="garden-field-container-29--label"
               >
                 <strong>
                   How can we help you?
                 </strong>
               </label>
               <textarea
-                aria-describedby="garden-field-container-56--hint"
+                aria-describedby="garden-field-container-29--hint"
                 aria-invalid="false"
-                aria-labelledby="garden-field-container-56--label"
+                aria-labelledby="garden-field-container-29--label"
                 class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
                 data-garden-id="forms.textarea"
                 data-garden-version="7.0.2"
                 data-testid="message-field"
-                id="garden-field-container-56--input"
+                id="garden-field-container-29--input"
                 name="description"
                 required=""
                 rows="5"
