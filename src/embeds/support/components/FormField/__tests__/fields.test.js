@@ -17,6 +17,7 @@ describe('getField', () => {
     ['checkbox', Checkbox],
     ['dropdown', Dropdown],
     ['legacyDropdown', LegacyDropdown],
+    ['tagger', Dropdown],
     ['', FallbackField],
     ['some unknown field', FallbackField],
     [null, FallbackField],

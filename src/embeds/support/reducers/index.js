@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 
 import config from './config'
+import activeFormName from './activeFormName'
+import formStates from './formStates'
 export default combineReducers({
-  config
+  activeFormName,
+  config,
+  formStates
 })

@@ -1,0 +1,6 @@
+export const SUBMITTED_FORM = 'widget/support/SUBMITTED_FORM'
+export const SET_ACTIVE_FORM_NAME = 'widget/support/SET_ACTIVE_FORM_NAME'
+export const CLEARED_ACTIVE_FORM_NAME = 'widget/support/CLEAR_FORM_NAME'
+export const SET_FORM_STATE = 'widget/support/SET_FORM_STATE'
+export const CLEARED_FORM_STATE = 'widget/support/CLEARED_FORM_STATE'
+export const CLEARED_FORM_STATES = 'widget/support/CLEARED_FORM_STATES'

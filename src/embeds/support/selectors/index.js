@@ -6,3 +6,7 @@ export const getNewSupportEmbedEnabled = state =>
 export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
 
 export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
+
+export const getActiveFormName = state => state.support.activeFormName
+
+export const getFormState = (state, name) => state.support.formStates[name]

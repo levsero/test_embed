@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
 
-const getTicketFieldsResponse = state => state.submitTicket.ticketFields
+export const getTicketFieldsResponse = state => state.submitTicket.ticketFields
 
 export const getFormState = state => state.submitTicket.formState
 export const getReadOnlyState = state => state.submitTicket.readOnlyState
