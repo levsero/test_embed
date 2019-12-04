@@ -1,3 +1,6 @@
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+
 import * as apis from '../apis'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
@@ -15,6 +18,7 @@ import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import createStore from 'src/redux/createStore'
 import * as callbacks from 'service/api/callbacks'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 
 jest.mock('service/mediator')
 jest.mock('service/settings')
@@ -22,6 +26,7 @@ jest.mock('service/beacon')
 jest.mock('service/identity')
 jest.mock('src/redux/modules/submitTicket/submitTicket-actions')
 
+const mockStore = configureMockStore([thunk])
 const mockActionValue = Date.now()
 const mockAction = jest.fn(() => mockActionValue)
 
@@ -431,16 +436,15 @@ describe('showApi', () => {
   })
 })
 
-test('clearFormState dispatches the apiClearform action', () => {
-  const store = createStore()
-
-  store.dispatch = jest.fn()
+test('clearFormState dispatches apiClearform and attachmentsCleared actions', () => {
+  const store = mockStore()
 
   apis.clearFormState(store)
 
-  expect(store.dispatch).toHaveBeenCalledWith(
-    expect.objectContaining({ type: baseActionTypes.API_CLEAR_FORM })
-  )
+  expect(store.getActions()).toEqual([
+    { type: baseActionTypes.API_CLEAR_FORM },
+    { type: ATTACHMENTS_CLEARED }
+  ])
 })
 
 describe('updatePathApi', () => {

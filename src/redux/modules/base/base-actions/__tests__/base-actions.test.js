@@ -7,8 +7,11 @@ import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
+import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 import { WIDGET_CLOSED_EVENT } from 'constants/event'
+import { mediator } from 'service/mediator'
 
+jest.mock('service/mediator')
 jest.mock('service/api/callbacks')
 
 const mockState = {
@@ -44,19 +47,25 @@ describe('apiResetWidget', () => {
     it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[1].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
+      expect(actionList[1].type).toEqual(ATTACHMENTS_CLEARED)
+    })
+
+    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
+      const actionList = dispatchAction(actions.apiResetWidget())
+
+      expect(actionList[2].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
     })
 
     it('dispatches an action of type API_RESET_WIDGET Third', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[2].type).toEqual(actionTypes.API_RESET_WIDGET)
+      expect(actionList[3].type).toEqual(actionTypes.API_RESET_WIDGET)
     })
 
     it('does not dispatch an action of type UPDATE_CHAT_SCREEN', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[3]).toBeUndefined()
+      expect(actionList[4]).toBeUndefined()
     })
   })
 
@@ -68,7 +77,7 @@ describe('apiResetWidget', () => {
     it('dispatches an action of type UPDATE_CHAT_SCREEN', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[3].type).toEqual(UPDATE_CHAT_SCREEN)
+      expect(actionList[4].type).toEqual(UPDATE_CHAT_SCREEN)
     })
   })
 })
@@ -108,5 +117,25 @@ describe('handleEscapeKeyPressed', () => {
 
       expect(callbacks.fireFor).not.toHaveBeenCalledWith()
     })
+  })
+})
+
+describe('apiClearForm', () => {
+  it('broadcasts ".clear" on mediator', () => {
+    const broadCastSpy = jest.fn()
+
+    mediator.channel.broadcast.mockImplementation(broadCastSpy)
+    dispatchAction(actions.apiClearForm())
+
+    expect(broadCastSpy).toHaveBeenCalledWith('.clear')
+  })
+
+  it('dispatches API_CLEAR_FORM and ATTACHMENTS_CLEARED actions', () => {
+    const dispatchedActions = dispatchAction(actions.apiClearForm())
+
+    expect(dispatchedActions).toEqual([
+      { type: actionTypes.API_CLEAR_FORM },
+      { type: ATTACHMENTS_CLEARED }
+    ])
   })
 })

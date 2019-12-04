@@ -129,6 +129,9 @@ describe('base redux actions', () => {
       },
       'utility/globals': {
         focusLauncher: focusLauncherSpy
+      },
+      'src/embeds/support/actions': {
+        clearAttachments: () => {}
       }
     })
 
@@ -893,23 +896,6 @@ describe('base redux actions', () => {
 
     it('dispatches a LAUNCHER_CLICKED event', () => {
       expect(dispatchedActions[0].type).toEqual(actionTypes.LAUNCHER_CLICKED)
-    })
-  })
-
-  describe('apiClearForm', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.apiClearForm())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action with API_CLEAR_FORM', () => {
-      expect(action.type).toEqual(actionTypes.API_CLEAR_FORM)
-    })
-
-    it('broadcasts .clear to mediator', () => {
-      expect(broadcastSpy).toHaveBeenCalledWith('.clear')
     })
   })
 
