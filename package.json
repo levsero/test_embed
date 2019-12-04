@@ -63,11 +63,11 @@
   "bundlesize": [
     {
       "path": "dist/web_widget.*.js",
-      "maxSize": "417 KB"
+      "maxSize": "370 KB"
     },
     {
       "path": "dist/common_vendor.*.js",
-      "maxSize": "100 KB"
+      "maxSize": "135 KB"
     },
     {
       "path": "dist/talk_vendor.*.js",
