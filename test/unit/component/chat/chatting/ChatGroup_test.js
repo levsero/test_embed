@@ -38,7 +38,7 @@ describe('ChatGroup component', () => {
       'component/Icon': { Icon },
       'component/Avatar': { Avatar },
       'component/shared/MessageBubble': { MessageBubble },
-      'component/attachment/Attachment': { Attachment },
+      'component/chat/attachment/Attachment': { Attachment },
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
       'component/chat/chatting/StructuredMessage': StructuredMessage,
