@@ -18,8 +18,8 @@ zE('webWidget:<action>', '<event|property>', <parameters>);
 
 ```html
 <script type="text/javascript">
-  zE('webWidget:on', 'show', function() {
-    console.log('The widget has been shown!');
+  zE('webWidget:on', 'open', function() {
+    console.log('The widget has been opened!');
   });
 </script>
 ```
