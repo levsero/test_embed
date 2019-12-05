@@ -34,7 +34,8 @@ const initialState = {
   hideZendeskLogo: false,
   brand: undefined,
   brandCount: undefined,
-  brandLogoUrl: undefined
+  brandLogoUrl: undefined,
+  disableStatusPolling: false
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -85,7 +86,8 @@ const embeddableConfig = (state = initialState, action) => {
         hideZendeskLogo: _.get(payload, 'hideZendeskLogo', state.hideZendeskLogo),
         brand: _.get(payload, 'brand', state.brand),
         brandCount: _.get(payload, 'brandCount', state.brandCount),
-        brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl)
+        brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl),
+        disableStatusPolling: _.get(payload, 'disableStatusPolling', state.disableStatusPolling)
       }
     default:
       return state

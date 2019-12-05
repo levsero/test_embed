@@ -13,6 +13,7 @@ Object {
     "brandLogoUrl": undefined,
     "color": "#1F73B7",
     "cp4": false,
+    "disableStatusPolling": false,
     "embeds": Object {
       "talk": Object {
         "props": Object {

@@ -48,7 +48,8 @@ test('UPDATE_EMBEDDABLE_CONFIG', () => {
       hideZendeskLogo: true,
       brand: 'hello',
       brandCount: 2,
-      brandLogoUrl: 'helloworld'
+      brandLogoUrl: 'helloworld',
+      disableStatusPolling: true
     }
   }
 
