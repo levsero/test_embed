@@ -1,7 +1,7 @@
 import { BEGIN_CHAT_SETUP, RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import createStore from 'src/redux/createStore'
 import { fetchDeferredChatStatus } from 'embeds/chat/api/deferred-chat-api'
-import { CHAT_POLL_INTERVAL } from 'constants/chat'
+import { MAX_CHAT_POLL_INTERVAL, BASE_CHAT_POLL_INTERVAL } from 'constants/chat'
 import errorTracker from 'service/errorTracker/errorTracker'
 import { beginChatSetup, deferChatSetup } from '../setup-chat'
 
@@ -28,19 +28,19 @@ describe('chat embed actions', () => {
       })
     }
 
-    const waitForTimer = async () => {
+    const waitForTimer = async (time = MAX_CHAT_POLL_INTERVAL) => {
       await new Promise(res => {
         res()
       })
-      jest.advanceTimersByTime(CHAT_POLL_INTERVAL)
+      jest.advanceTimersByTime(time)
       await new Promise(res => {
         res()
       })
     }
 
-    const iteration = async () => {
+    const iteration = async time => {
       await waitForApi()
-      await waitForTimer()
+      await waitForTimer(time)
     }
 
     const response = {
@@ -61,6 +61,42 @@ describe('chat embed actions', () => {
     afterEach(() => {
       jest.clearAllTimers()
       fetchDeferredChatStatus.mockReset()
+    })
+
+    it('polls backing off exponentially', async () => {
+      fetchDeferredChatStatus.mockReturnValue(response)
+
+      const store = createStore()
+      const mockDispatch = jest.fn(store.dispatch)
+
+      deferChatSetup()(mockDispatch, store.getState)
+      mockDispatch.mockClear()
+
+      // initial call is immediate
+      await iteration(0)
+      expect(mockDispatch.mock.calls).toEqual([[expectedAction]])
+      mockDispatch.mockClear()
+
+      // subsequent 2 calls use base interval
+      await iteration(BASE_CHAT_POLL_INTERVAL)
+      await iteration(BASE_CHAT_POLL_INTERVAL)
+
+      expect(mockDispatch.mock.calls).toEqual([[expectedAction], [expectedAction]])
+      mockDispatch.mockClear()
+
+      // then waits double base time
+      await iteration(BASE_CHAT_POLL_INTERVAL)
+      expect(mockDispatch.mock.calls).toEqual([])
+      await iteration(BASE_CHAT_POLL_INTERVAL)
+      expect(mockDispatch.mock.calls).toEqual([[expectedAction]])
+      mockDispatch.mockClear()
+
+      // then waits four * base time
+      await iteration(BASE_CHAT_POLL_INTERVAL * 3)
+      expect(mockDispatch.mock.calls).toEqual([])
+      await iteration(BASE_CHAT_POLL_INTERVAL)
+      expect(mockDispatch.mock.calls).toEqual([[expectedAction]])
+      mockDispatch.mockClear()
     })
 
     it('polls the deferred chat api until stopped', async () => {
