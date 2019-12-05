@@ -1,3 +1,5 @@
+import superagent from 'superagent'
+
 const validStatus = {
   online: true,
   away: true,
@@ -9,14 +11,22 @@ const fetchDeferredChatStatus = async endpoint => {
     throw new Error('Failed to get deferred chat status, no endpoint specified')
   }
 
-  const response = await fetch(endpoint)
-    .then(res => {
-      if (res.status !== 200) {
-        throw new Error(`Unexpected status code, expected 200 got ${res.status}`)
-      }
-      return res
-    })
-    .then(res => res.json())
+  const response = await new Promise((resolve, reject) => {
+    superagent('GET', endpoint)
+      .responseType('json')
+      .end((err, result) => {
+        if (err) {
+          reject(err)
+          return
+        }
+
+        if (result.status !== 200) {
+          throw new Error(`Unexpected status code, expected 200 got ${result.status}`)
+        }
+
+        resolve(result.body)
+      })
+  })
 
   const status = response.status
   const departments =
