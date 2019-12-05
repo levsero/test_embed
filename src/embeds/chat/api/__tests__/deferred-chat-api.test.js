@@ -1,44 +1,53 @@
+import superagent from 'superagent'
 import { fetchDeferredChatStatus } from '../deferred-chat-api'
+
+jest.mock('superagent')
 
 describe('deferred chat api', () => {
   describe('fetchDeferredChatStatus', () => {
     const mockFetch = (response, statusCode = 200) => {
-      global.fetch = jest.fn(async () => ({
-        status: statusCode,
-        json: async () => response
-      }))
+      superagent.mockReturnValue({
+        responseType: () => ({
+          end: cb => {
+            cb(undefined, {
+              status: statusCode,
+              body: response
+            })
+          }
+        })
+      })
     }
 
     afterEach(() => {
-      delete global.fetch
+      superagent.mockReset()
     })
 
-    it('throws an error when no endpoint provided', () => {
-      expect(fetchDeferredChatStatus()).rejects.toThrow(
+    it('throws an error when no endpoint provided', async () => {
+      await expect(fetchDeferredChatStatus()).rejects.toThrow(
         new Error('Failed to get deferred chat status, no endpoint specified')
       )
     })
 
-    it('throws an error when api returns an unknown status code', () => {
+    it('throws an error when api returns an unknown status code', async () => {
       mockFetch({ status: 'unknown status', departments: [] }, 401)
 
-      expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
+      await expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
         new Error('Unexpected status code, expected 200 got 401')
       )
     })
 
-    it('throws an error when api returns an unknown chat status', () => {
+    it('throws an error when api returns an unknown chat status', async () => {
       mockFetch({ status: 'unknown status', departments: [] })
 
-      expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
+      await expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
         new Error(`Got invalid account status from deferred chat endpoint, "unknown status"`)
       )
     })
 
-    it('throws an error when api returns invalid departments', () => {
+    it('throws an error when api returns invalid departments', async () => {
       mockFetch({ status: 'unknown status', departments: [] })
 
-      expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
+      await expect(fetchDeferredChatStatus('example.com')).rejects.toThrow(
         new Error(`Got invalid account status from deferred chat endpoint, "unknown status"`)
       )
     })
@@ -53,7 +62,7 @@ describe('deferred chat api', () => {
         ]
       })
 
-      expect(await fetchDeferredChatStatus('example.com')).toEqual({
+      await expect(await fetchDeferredChatStatus('example.com')).toEqual({
         status: 'online',
         departments: {
           1: { id: '1', name: 'online' },
@@ -66,7 +75,7 @@ describe('deferred chat api', () => {
     it('allows departments to be undefined', async () => {
       mockFetch({ status: 'online' })
 
-      expect(await fetchDeferredChatStatus('example.com')).toEqual({
+      await expect(await fetchDeferredChatStatus('example.com')).toEqual({
         status: 'online',
         departments: {}
       })
