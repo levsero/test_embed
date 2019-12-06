@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import { zopimExistsOnPage } from './helpers'
 import ZopimApiError from 'errors/nonFatal/ZopimApiError'
-import errorTracker from 'service/errorTracker'
-import logToCustomer from 'utility/logger'
+import { logAndTrackApiError } from 'src/service/api/errorHandlers'
 
 export function setupZopimQueue(win) {
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -35,19 +34,8 @@ export function handleZopimQueue(win) {
     try {
       method()
     } catch (e) {
-      const formattedCode = `${method}`.trim().replace(/\s{2,}/, ' ')
-      const error = new ZopimApiError(
-        [
-          'An error occurred in your use of the $zopim Widget API:',
-          formattedCode,
-          "Check out the Developer API docs to make sure you're using it correctly",
-          'https://api.zopim.com/files/meshim/widget/controllers/LiveChatAPI-js.html',
-          e.stack
-        ].join('\n\n')
-      )
-
-      logToCustomer.error(error.message)
-      errorTracker.warn(error)
+      const zopimCodeBlock = `${method}`.trim().replace(/\s{2,}/, ' ')
+      logAndTrackApiError(new ZopimApiError(zopimCodeBlock, e))
     }
   })
   _.set(win.$zopim, 'flushed', true)

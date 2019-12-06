@@ -78,7 +78,7 @@ describe('handleZopimQueue', () => {
       it('logs the error', () => {
         expect(console.error).toHaveBeenCalledWith(
           expect.stringMatching(
-            /An error occurred in your use of the \$zopim Widget API:\s+undefined/
+            /An error occurred within your use of the \$zopim Widget API:\s+undefined/
           )
         )
       })

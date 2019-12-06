@@ -1,5 +1,5 @@
 import Rollbar from 'rollbar'
-import _get from 'lodash/get'
+import _ from 'lodash'
 import { inDebugMode } from 'utility/runtime'
 import { getHostUrl } from 'src/util/utils'
 
@@ -7,21 +7,6 @@ const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|z
 
 if (__DEV__) {
   hostAllowList.push('localhost', '127.0.0.1')
-}
-
-const groupErrorClasses = {
-  ZEApiError: {
-    rollbarFingerprint: 'zE API user errors',
-    rollbarErrorTitle: 'Custom zE() API user error'
-  },
-  ZopimApiError: {
-    rollbarFingerprint: '$zopim API user errors',
-    rollbarErrorTitle: 'Custom $zopim() API user error'
-  },
-  LegacyApiError: {
-    rollbarFingerprint: 'legacy API user errors',
-    rollbarErrorTitle: 'Custom legacy API user error'
-  }
 }
 
 const ignoredMessagesList = [
@@ -48,12 +33,11 @@ export const ignoreException = (_isUncaught, _args, _payload) => {
 }
 
 const payloadTransformer = payload => {
-  const exceptionClassName = _get(payload, 'body.trace.exception.class', false)
+  const rollbarFingerprint = _.get(payload, 'body.trace.extra.rollbarFingerprint', false)
+  const rollbarTitle = _.get(payload, 'body.trace.extra.rollbarTitle', false)
 
-  if (groupErrorClasses.hasOwnProperty(exceptionClassName)) {
-    payload.fingerprint = groupErrorClasses[exceptionClassName].rollbarFingerprint
-    payload.title = groupErrorClasses[exceptionClassName].rollbarErrorTitle
-  }
+  if (rollbarFingerprint) payload.fingerprint = rollbarFingerprint
+  if (rollbarTitle) payload.title = rollbarTitle
 }
 
 const rollbarConfig = {
