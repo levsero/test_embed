@@ -34,9 +34,8 @@ export function apisExecutePostRenderQueue(win, legacyPostRenderQueue, reduxStor
   let apiFunctionArray
 
   try {
-    legacyPostRenderQueue.forEach(method => {
-      legacyApiFunctionName = method[0]
-      win.zE[legacyApiFunctionName](...method[1])
+    legacyPostRenderQueue.forEach(([legacyApiFunctionName, functionArguments]) => {
+      win.zE[legacyApiFunctionName](...functionArguments)
     })
   } catch (e) {
     logLegacyZEApiError(legacyApiFunctionNameSignature(legacyApiFunctionName), e)
