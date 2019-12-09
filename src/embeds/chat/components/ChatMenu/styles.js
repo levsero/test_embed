@@ -5,6 +5,7 @@ import { FONT_SIZE } from 'constants/shared'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { Menu } from '@zendeskgarden/react-dropdowns'
 import { isMobileBrowser } from 'utility/devices'
+import EllipsisIcon from '@zendeskgarden/svg-icons/src/16/overflow-stroke.svg'
 
 const StyledSoundOffIcon = styled(SoundOffIcon)`
   height: 1em;
@@ -45,11 +46,19 @@ const Container = styled.div`
   position: relative;
 `
 
+const StyledEllipsisIcon = styled(EllipsisIcon)`
+  &&& {
+    color: inherit;
+    margin-top: 0;
+  }
+`
+
 export {
   StyledSoundOffIcon as SoundOffIcon,
   StyledSoundOnIcon as SoundOnIcon,
   StyledIconButton as IconButton,
   StyledMenu as Menu,
+  StyledEllipsisIcon as EllipsisIcon,
   MENU_PADDING,
   Container
 }
