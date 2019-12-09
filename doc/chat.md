@@ -78,17 +78,11 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 Passing non-string types results in a Zendesk Chat Web SDK error. No message is sent.
 
-##### Examples
+##### Example
 
 ```html
 <script type="text/javascript">
   zE('webWidget', 'chat:send', "I'd like the Jambalaya, please");
-</script>
-```
-
-```html
-<script type="text/javascript">
-  zE('webWidget', 'chat:send', 'hello, there!');
 </script>
 ```
 
@@ -114,7 +108,7 @@ Returns an object containing information about the specified department, includi
 
 ##### Parameters
 
-- `department`: Integer or string. ID or name of the department.
+- `department`: Integer or string. ID or name of the department
 
 Any other input types will return `undefined`.
 
@@ -188,7 +182,7 @@ Programmatically updates the visitor’s web path.
 
 - `options`: Object (optional). An object with two keys: `url` (for the URL of the page) and `title` (to set the page's title). If not specified, the current page’s location and title will be used.
 
-If passed non-object types or objects with other keys, the chat reverts back to the browser's URL and title.
+If passed non-object types or objects with other keys, the chat reverts back to using the current page’s location and title.
 
 ##### Examples
 
