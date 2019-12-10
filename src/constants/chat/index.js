@@ -2,7 +2,9 @@ export const SDK_ACTION_TYPE_PREFIX = 'websdk'
 export const JWT_ERROR = 'jwt verification error'
 export const SCROLL_BOTTOM_THRESHOLD = 200 // Unit in px
 export const TIMEOUT = 5000 // milliseconds
-export const CHAT_POLL_INTERVAL = 60000 // milliseconds
+export const BASE_CHAT_POLL_INTERVAL = 60000 // milliseconds
+export const MAX_CHAT_POLL_INTERVAL = 1000 * 60 * 30 // milliseconds
+export const REQUESTS_BEFORE_BACKOFF = 1
 
 export const EDIT_CONTACT_DETAILS_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_SCREEN'
 export const EDIT_CONTACT_DETAILS_LOADING_SCREEN = 'widget/chat/EDIT_CONTACT_DETAILS_LOADING_SCREEN'
