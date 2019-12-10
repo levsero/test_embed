@@ -1,9 +1,10 @@
 import { mockEmbeddableConfigEndpoint } from './embeddable-config'
-import { mockBlipEndpoint, goToTestPage, failOnConsoleError } from './../utils'
+import { goToTestPage, failOnConsoleError } from './../utils'
+import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
 import _ from 'lodash'
 import devices from 'puppeteer/DeviceDescriptors'
 
-const defaultMocks = [mockBlipEndpoint]
+const defaultMocks = [mockBlipEndpoint, mockIdentifyEndpoint()]
 
 /*
  * mockRequests provides a way for each test to hook into Puppeteer's request interception functionality
@@ -25,7 +26,7 @@ const defaultMocks = [mockBlipEndpoint]
 const mockRequests = async mockFns => {
   await page.setRequestInterception(true)
   await page.on('request', request => {
-    const fns = defaultMocks.concat(...mockFns)
+    const fns = (mockFns || []).concat(defaultMocks)
 
     for (let i = 0; i < fns.length; i++) {
       if (fns[i](request) !== false) {
@@ -40,11 +41,33 @@ const mockRequests = async mockFns => {
 // options
 // - mockRequests [fn] An array of functions that will be provided to the mockRequests function
 // - mobile [bool] If true, emulate mobile mode
+// - preload [fn] A function that will be executed once the page is navigated to.
+// https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pageevaluateonnewdocumentpagefunction-args
+// - preloadArgs [array] An array of arguments to supply to preload
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
   if (options.mobile) {
     await page.emulate(devices['iPhone 6'])
+  }
+  if (options.preload) {
+    await page.evaluateOnNewDocument(() => {
+      window.zEmbed ||
+        (function(host) {
+          var queue = []
+
+          window.zEmbed = function() {
+            queue.push(arguments)
+          }
+
+          window.zE = window.zE || window.zEmbed
+          window.zEmbed.t = +new Date()
+          document.zendeskHost = host
+          document.zEQueue = queue
+        })('z3nwebwidget2019.zendesk.com')
+    })
+    const args = options.preloadArgs || []
+    await page.evaluateOnNewDocument(options.preload, ...args)
   }
   failOnConsoleError(page)
   await goToTestPage()

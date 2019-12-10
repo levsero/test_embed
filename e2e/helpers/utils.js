@@ -1,25 +1,8 @@
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 
 export function goToTestPage() {
   page.goto('http://localhost:5123/e2e.html')
-}
-
-export function mockBlipEndpoint(request) {
-  if (!request.url().includes('embeddable_blip')) {
-    return false
-  }
-
-  if (!request.url().includes('embeddable_identify')) {
-    return false
-  }
-
-  request.respond({
-    status: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-    contentType: 'text/html',
-    body: ''
-  })
 }
 
 export function failOnConsoleError() {
@@ -30,7 +13,9 @@ export function failOnConsoleError() {
   })
 }
 
-export const waitForHelpCenter = async () => {
+export const assertInputValue = async (label, value) => {
   const doc = await widget.getDocument()
-  await wait(() => queries.getByPlaceholderText(doc, 'How can we help?'))
+  const input = await queries.getByLabelText(doc, label)
+  const valueHandle = await input.getProperty('value')
+  expect(await valueHandle.jsonValue()).toEqual(value)
 }

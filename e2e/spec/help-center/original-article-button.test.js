@@ -1,8 +1,7 @@
 import { queries } from 'pptr-testing-library'
 import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
-import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
-import { waitForHelpCenter } from 'e2e/helpers/utils'
+import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 test('displays the original article button', async () => {
   await widgetPage.loadWithConfig('helpCenterWithContextualHelp', mockSearchEndpoint())

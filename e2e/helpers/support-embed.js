@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import widgetPage from './widget-page'
 import { mockEmbeddableConfigEndpoint } from './widget-page/embeddable-config'
@@ -66,7 +66,7 @@ const createTicketSubmissionEndpointResponse = (formId, fields) => {
 
 let id = 1
 const createField = (values = {}) => {
-  const fieldId = id++
+  const fieldId = values.id || id++
 
   return {
     id: fieldId,
@@ -80,9 +80,9 @@ const createField = (values = {}) => {
   }
 }
 
-const createForm = (name, ...fields) => {
+const createForm = (name, id, ...fields) => {
   const form = {
-    id: 123,
+    id,
     display_name: name,
     ticket_field_ids: fields.map(field => field.id)
   }
@@ -93,7 +93,7 @@ const createForm = (name, ...fields) => {
   }
 
   const embedConfig = {
-    ticketForms: [123],
+    ticketForms: [id],
     ticketFields: fields.map(field => field.id),
     nameFieldEnabled: false
   }
@@ -156,11 +156,17 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
   }
 }
 
+const waitForContactForm = async () => {
+  const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Leave us a message'))
+}
+
 export {
   mockTicketFieldsEndpoint,
   mockTicketFormsEndpoint,
   mockTicketSubmissionEndpoint,
   createTicketSubmissionEndpointResponse,
   createField,
-  createForm
+  createForm,
+  waitForContactForm
 }
