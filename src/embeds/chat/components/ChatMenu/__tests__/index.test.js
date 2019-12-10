@@ -51,7 +51,7 @@ describe('ChatMenu', () => {
 
       const { container } = renderComponent()
 
-      expect(findSvg(container, 'widget-icon_ellipsis.svg')).toBeInTheDocument()
+      expect(findSvg(container, 'overflow-stroke.svg')).toBeInTheDocument()
     })
   })
 
