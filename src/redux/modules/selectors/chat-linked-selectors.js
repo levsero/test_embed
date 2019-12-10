@@ -312,8 +312,14 @@ export const getOfflineFormEnabled = createSelector(
 )
 
 export const getDelayChatConnection = createSelector(
-  [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],
-  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad) => {
+  [
+    getDefaultToChatWidgetLite,
+    getSettingsChatConnectOnDemand,
+    getSettingsChatConnectOnPageLoad,
+    getIsChatting
+  ],
+  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting) => {
+    if (isChatting) return false
     return connectOnDemand || !connectOnPageLoad || defaultToChatWidgetLite
   }
 )

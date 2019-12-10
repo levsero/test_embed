@@ -734,21 +734,23 @@ describe('getPrechatFormFields', () => {
 
 describe('getDelayChatConnection', () => {
   test.each([
-    [false, false, true, false],
-    [false, false, false, true],
-    [false, true, true, true],
-    [false, true, false, true],
-    [true, true, false, true],
-    [true, false, false, true],
-    [true, false, true, true],
-    [true, true, true, true]
+    [false, false, true, false, false],
+    [false, false, false, false, true],
+    [false, true, true, false, true],
+    [false, true, false, false, true],
+    [true, true, false, false, true],
+    [true, false, false, false, true],
+    [true, false, true, false, true],
+    [true, true, true, false, true],
+    [true, true, true, true, false]
   ])(
-    'when defaultToChatWidgetLite == %p, connectOnDemand == %p && connectOnPageLoad == %p it returns %p',
-    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, expectedValue) => {
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, is chatting == %p it returns %p',
+    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting, expectedValue) => {
       const result = selectors.getDelayChatConnection.resultFunc(
         defaultToChatWidgetLite,
         connectOnDemand,
-        connectOnPageLoad
+        connectOnPageLoad,
+        isChatting
       )
 
       expect(result).toEqual(expectedValue)
