@@ -5,7 +5,6 @@ import { FONT_SIZE } from 'constants/shared'
 
 jest.mock('service/settings')
 jest.mock('src/redux/modules/base')
-jest.mock('service/mediator')
 jest.mock('embed/webWidget/webWidget')
 jest.mock('service/i18n')
 jest.mock('src/service/api/apis')
@@ -14,15 +13,7 @@ const store = createStore(reducer)
 
 store.dispatch = jest.fn()
 
-let mockSettings,
-  mockWebWidget,
-  mockLauncher,
-  renderer,
-  baseActions,
-  mediator,
-  setLocaleApi,
-  i18n,
-  settings
+let mockSettings, mockWebWidget, mockLauncher, renderer, baseActions, setLocaleApi, i18n, settings
 
 beforeEach(() => {
   jest.resetModules()
@@ -41,7 +32,6 @@ beforeEach(() => {
   const WebWidgetFactory = require('embed/webWidget/webWidget').default
 
   baseActions = require('src/redux/modules/base')
-  mediator = require('service/mediator').mediator
   setLocaleApi = require('src/service/api/apis').setLocaleApi
   i18n = require('service/i18n').i18n
 
@@ -102,8 +92,6 @@ describe('init', () => {
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
 
     expect(baseActions.widgetInitialised).toHaveBeenCalled()
-
-    expect(mediator.init).toHaveBeenCalled()
 
     expect(mockLauncher.create).toHaveBeenCalled()
   })

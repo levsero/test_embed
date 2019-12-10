@@ -7,7 +7,6 @@ import { webWidgetStyles } from './webWidgetStyles'
 import Frame from 'component/frame/Frame'
 import { beacon } from 'service/beacon'
 import { i18n } from 'service/i18n'
-import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isMobileBrowser } from 'utility/devices'
@@ -31,13 +30,8 @@ import { onNextTick } from 'src/util/utils'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
-export default function WebWidgetFactory(name) {
+export default function WebWidgetFactory() {
   let embed = null
-  let prefix = ''
-
-  if (name) {
-    prefix = name + '.'
-  }
 
   const onBack = () => {
     getWebWidgetComponent().onBackClick()
@@ -155,22 +149,6 @@ export default function WebWidgetFactory(name) {
     const element = getDocumentHost().appendChild(document.createElement('div'))
 
     ReactDOM.render(embed.component, element)
-
-    setupMediator()
-  }
-
-  function setupMediator() {
-    mediator.channel.subscribe(prefix + 'webWidget.clearAttachments', () => {
-      const webWidgetComponent = getWebWidgetComponent()
-
-      if (webWidgetComponent) {
-        const submitTicket = webWidgetComponent.getSubmitTicketComponent()
-
-        if (submitTicket) {
-          submitTicket.clearAttachments()
-        }
-      }
-    })
   }
 
   function get() {

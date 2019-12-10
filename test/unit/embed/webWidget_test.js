@@ -124,11 +124,6 @@ describe('embed.webWidget', () => {
           getChatAuthSettings: () => mockChatAuthValue
         }
       },
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
       'component/webWidget/WebWidget': mockWebWidget,
       globalCSS: '',
       './webWidgetStyles': {
@@ -666,51 +661,6 @@ describe('embed.webWidget', () => {
       expect(() => webWidget.render()).not.toThrow()
 
       expect(() => webWidget.render()).toThrow()
-    })
-  })
-
-  describe('setUpMediator', () => {
-    let mockMediator
-
-    beforeEach(() => {
-      mockMediator = mockRegistry['service/mediator'].mediator
-      webWidget.create('', createMockConfig(), mockStore)
-      webWidget.render()
-    })
-
-    describe('webWidget.clearAttachments', () => {
-      beforeEach(() => {
-        pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')
-      })
-
-      it('subscribes to webWidget.clearAttachments', () => {
-        expect(mockMediator.channel.subscribe).toHaveBeenCalledWith(
-          'webWidget.clearAttachments',
-          jasmine.any(Function)
-        )
-      })
-
-      describe('when webWidget.clearAttachments is dispatched', () => {
-        let child
-
-        beforeEach(() => {
-          webWidget.create('', createMockConfig(), mockStore)
-          webWidget.render()
-
-          child = webWidget
-            .get()
-            .instance.getRootComponent()
-            .getActiveComponent()
-
-          spyOn(child, 'clearAttachments')
-
-          pluckSubscribeCall(mockMediator, 'webWidget.clearAttachments')()
-        })
-
-        it('calls clearAttachments on the child', () => {
-          expect(child.clearAttachments).toHaveBeenCalled()
-        })
-      })
     })
   })
 

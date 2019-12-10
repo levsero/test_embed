@@ -68,8 +68,6 @@ function init(config, reduxStore = dummyStore) {
       registerEmbedsInRedux(config, reduxStore)
       renderLauncher(config, reduxStore)
       renderWebWidget(config, reduxStore)
-
-      mediator.init(reduxStore)
     }
 
     reduxStore.dispatch(widgetInitialised())

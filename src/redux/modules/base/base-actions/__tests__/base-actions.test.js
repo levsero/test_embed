@@ -9,9 +9,7 @@ import * as callbacks from 'service/api/callbacks'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 import { WIDGET_CLOSED_EVENT } from 'constants/event'
-import { mediator } from 'service/mediator'
 
-jest.mock('service/mediator')
 jest.mock('service/api/callbacks')
 
 const mockState = {
@@ -121,15 +119,6 @@ describe('handleEscapeKeyPressed', () => {
 })
 
 describe('apiClearForm', () => {
-  it('broadcasts ".clear" on mediator', () => {
-    const broadCastSpy = jest.fn()
-
-    mediator.channel.broadcast.mockImplementation(broadCastSpy)
-    dispatchAction(actions.apiClearForm())
-
-    expect(broadCastSpy).toHaveBeenCalledWith('.clear')
-  })
-
   it('dispatches API_CLEAR_FORM and ATTACHMENTS_CLEARED actions', () => {
     const dispatchedActions = dispatchAction(actions.apiClearForm())
 
