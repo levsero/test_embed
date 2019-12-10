@@ -939,18 +939,66 @@ describe('getShowTicketFormsBackButton', () => {
 
 describe('getChatReady', () => {
   test.each([
-    ['when chat embed exists and chat has not finished connecting', true, false, false, false],
-    ["when chat embed doesn't exist and chat connection is finished", false, false, false, true],
-    ['when chat embed exists and chat has not finished connecting', true, true, false, true],
-    ['when chat embed exists and chat is suppressed', true, false, true, true]
-  ])('%p', (_title, chatEmbed, chatConnectionFinished, chatSupressed, expectedValue) => {
-    const result = selectors.getChatReady.resultFunc(
+    [
+      'when chat embed exists and chat has not finished connecting',
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      "when chat embed doesn't exist and chat connection is finished",
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    ['when chat embed exists and chat has not finished connecting', true, true, false, false, true],
+    ['when chat embed exists and chat is suppressed', true, false, true, false, true],
+    ['when chat connection is delayed', false, false, false, true, true]
+  ])(
+    '%p',
+    (
+      _title,
       chatEmbed,
       chatConnectionFinished,
-      chatSupressed
-    )
+      chatSupressed,
+      chatODVRConnected,
+      expectedValue
+    ) => {
+      const result = selectors.getChatReady.resultFunc(
+        chatEmbed,
+        chatConnectionFinished,
+        chatSupressed,
+        chatODVRConnected
+      )
 
-    expect(result).toEqual(expectedValue)
+      expect(result).toEqual(expectedValue)
+    }
+  )
+})
+
+describe('getDeferredChatReady', () => {
+  describe('when not delaying chat connection', () => {
+    it('returns false regardless of response from SDK', () => {
+      expect(selectors.getDeferredChatReady.resultFunc(false, false)).toEqual(false)
+      expect(selectors.getDeferredChatReady.resultFunc(false, true)).toEqual(false)
+    })
+  })
+  describe('when delaying chat connection', () => {
+    describe('when has a response from SDK', () => {
+      it('returns  true', () => {
+        expect(selectors.getDeferredChatReady.resultFunc(true, true)).toEqual(true)
+      })
+    })
+
+    describe('when does not have a response from SDK', () => {
+      it('returns false', () => {
+        expect(selectors.getDeferredChatReady.resultFunc(true, false)).toEqual(false)
+      })
+    })
   })
 })
 
