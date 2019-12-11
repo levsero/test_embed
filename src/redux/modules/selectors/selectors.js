@@ -429,7 +429,7 @@ const getCoreColor = createSelector(
     getConfigColorText
   ],
   (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase, configColorText) => {
-    return embeddableConfig.cp4 && chatThemeColor
+    return embeddableConfig.cp4 && chatThemeColor && chatThemeColor.base
       ? { base: settingsColorTheme || chatThemeColor.base }
       : {
           base: settingsColorTheme || configColorBase,

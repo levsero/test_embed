@@ -91,10 +91,10 @@ Object {
     "theme": Object {
       "color": Object {
         "banner": "",
-        "primary": "#555555",
+        "primary": "",
       },
       "message_type": "",
-      "position": "br",
+      "position": "",
     },
   },
   "account_status": "",

@@ -26,10 +26,10 @@ describe('chat reducer accountSettings theme', () => {
         const expected = {
           message_type: '',
           color: {
-            primary: '#555555',
+            primary: '',
             banner: ''
           },
-          position: 'br'
+          position: ''
         }
 
         expect(initialState).toEqual(expected)

@@ -6,9 +6,9 @@ import {
 
 const initialState = {
   message_type: '',
-  position: 'br',
+  position: '',
   color: {
-    primary: '#555555',
+    primary: '',
     banner: ''
   }
 }

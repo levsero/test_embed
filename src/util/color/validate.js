@@ -1,6 +1,7 @@
+import { zdColorBlue600 } from '@zendeskgarden/css-variables'
 import _ from 'lodash'
 
-const defaultColor = '#78A300'
+const defaultColor = zdColorBlue600
 let selectedThemeColor = { base: defaultColor }
 
 function themeColor(base = null) {
