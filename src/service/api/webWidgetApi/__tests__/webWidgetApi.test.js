@@ -10,7 +10,6 @@ jest.mock('service/api/apis')
 jest.mock('service/tracker')
 jest.mock('src/redux/modules/base')
 jest.mock('src/service/renderer')
-jest.mock('src/service/mediator')
 
 const mockStore = {
   dispatch: jest.fn(),

@@ -26,7 +26,6 @@ let actions,
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
   httpPostSpy = jasmine.createSpy('http'),
-  broadcastSpy = jasmine.createSpy('broadcast'),
   contextualSearchSpy = jasmine
     .createSpy('contextualSearch')
     .and.returnValue({ type: 'someActionType' }),
@@ -108,13 +107,6 @@ describe('base redux actions', () => {
       'src/constants/shared': {
         PHONE_PATTERN: /^[0-9]+$/
       },
-      'service/mediator': {
-        mediator: {
-          channel: {
-            broadcast: broadcastSpy
-          }
-        }
-      },
       'service/persistence': {
         store: {
           get: () => mockPersistentStoreValue,
@@ -151,7 +143,6 @@ describe('base redux actions', () => {
     httpPostSpy.calls.reset()
     persistentStoreSetSpy.calls.reset()
     persistentStoreRemoveSpy.calls.reset()
-    broadcastSpy.calls.reset()
     contextualSearchSpy.calls.reset()
     mockery.disable()
     mockery.deregisterAll()

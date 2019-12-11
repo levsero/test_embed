@@ -63,7 +63,6 @@ let mockCanBeIgnored = jasmine.createSpy('canBeIgnored').and.returnValue(mockIgn
 const middlewares = [thunk]
 const createMockStore = configureMockStore(middlewares)
 const mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' }
-const broadcastSpy = jasmine.createSpy('broadcast')
 
 describe('chat redux actions', () => {
   beforeEach(() => {
@@ -139,13 +138,6 @@ describe('chat redux actions', () => {
         }
       },
       'constants/event': {},
-      'service/mediator': {
-        mediator: {
-          channel: {
-            broadcast: broadcastSpy
-          }
-        }
-      },
       'service/audio': {
         audio: { load: loadSoundSpy }
       },
@@ -509,16 +501,6 @@ describe('chat redux actions', () => {
           chat_button: { hide_when_offline: false },
           sound: { disabled: true }
         }
-      })
-
-      describe('when chat is not standalone', () => {
-        beforeEach(() => {
-          mockStore.dispatch(actions.getAccountSettings())
-        })
-
-        it('does not broadcast to mediator', () => {
-          expect(broadcastSpy).not.toHaveBeenCalled()
-        })
       })
     })
   })
