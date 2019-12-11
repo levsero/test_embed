@@ -18,9 +18,6 @@
 }
 
 .avatarContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .avatar:nth-child(1) {
@@ -71,40 +68,6 @@
   height: #{58 / $font-size}rem;
   padding: #{12 / $font-size}rem #{16 / $font-size}rem;
   z-index: $chat-header-zindex;
-}
-
-.textContainer {
-  color: $zd-color-grey-800;
-  line-height: #{16 / $font-size}rem;
-  padding-top: #{1 / $font-size}rem;
-}
-
-.title {
-  composes: u-textBold from global;
-
-  font-size: #{14 / $font-size}rem;
-  width: 100%;
-  max-height: #{16 / $font-size}rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  /*! autoprefixer: off */
-  -webkit-box-orient: vertical; /* 2 */
-  /*! autoprefixer: on */
-}
-
-.subTextContainer {
-  width: 100%;
-  margin-top: #{1 / $font-size}rem;
-  max-height: #{32 / $font-size}rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  /*! autoprefixer: off */
-  -webkit-box-orient: vertical; /* 2 */
-  /*! autoprefixer: on */
 }
 
 .clickable {

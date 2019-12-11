@@ -60,7 +60,7 @@ describe('ChatHeader component', () => {
   })
 
   describe('#render', () => {
-    let component, componentNode
+    let component
 
     beforeEach(() => {
       const props = {
@@ -74,63 +74,10 @@ describe('ChatHeader component', () => {
       }
 
       component = domRender(<ChatHeader {...props} />)
-      componentNode = ReactDOM.findDOMNode(component)
     })
 
     it('renders an Avatar', () => {
       expect(() => TestUtils.findRenderedComponentWithType(component, MockAvatar)).not.toThrow()
-    })
-
-    describe('title text', () => {
-      let titleElem
-
-      describe('when the prop is passed in', () => {
-        beforeEach(() => {
-          titleElem = componentNode.querySelector('.textContainer').firstChild
-        })
-
-        it('uses the agents name as the title', () => {
-          expect(titleElem.innerHTML).toEqual('Luke Skywalker')
-        })
-      })
-
-      describe('when it is not passed in', () => {
-        beforeEach(() => {
-          component = domRender(<ChatHeader />)
-          componentNode = ReactDOM.findDOMNode(component)
-          titleElem = componentNode.querySelector('.textContainer').firstChild
-        })
-
-        it('uses the default string for the title', () => {
-          expect(titleElem.innerHTML).toEqual('embeddable_framework.chat.header.default.title')
-        })
-      })
-    })
-
-    describe('byline text', () => {
-      let subTextElem
-
-      describe('when the prop is passed in', () => {
-        beforeEach(() => {
-          subTextElem = componentNode.querySelector('.textContainer').childNodes[1]
-        })
-
-        it('uses the agents name as the title', () => {
-          expect(subTextElem.innerHTML).toEqual('Jedi Knight')
-        })
-      })
-
-      describe('when it is not passed in', () => {
-        beforeEach(() => {
-          component = domRender(<ChatHeader />)
-          componentNode = ReactDOM.findDOMNode(component)
-          subTextElem = componentNode.querySelector('.textContainer').childNodes[1]
-        })
-
-        it('uses the default string for the title', () => {
-          expect(subTextElem.innerHTML).toEqual('embeddable_framework.chat.header.by_line')
-        })
-      })
     })
 
     it('passes Icon--avatar as the fallback icon to the avatar component', () => {

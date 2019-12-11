@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import _ from 'lodash'
+import { Tooltip } from '@zendeskgarden/react-tooltips'
 
 import { i18n } from 'service/i18n'
 import { Avatar } from 'component/Avatar'
 import { RatingGroup } from 'component/chat/rating/RatingGroup'
 import { TEST_IDS } from 'src/constants/shared'
-
+import { AvatarContainer, Subtext, Text, Title } from './ChatHeaderStyles'
 import { locals as styles } from './ChatHeader.scss'
 
 export class ChatHeader extends Component {
@@ -64,10 +65,10 @@ export class ChatHeader extends Component {
     const avatars = concierges.slice(0, overflowCount ? 2 : 3)
 
     return (
-      <div className={styles.avatarContainer}>
+      <AvatarContainer>
         {this.renderAvatars(avatars)}
         {this.renderOverflow(overflowCount)}
-      </div>
+      </AvatarContainer>
     )
   }
 
@@ -76,54 +77,48 @@ export class ChatHeader extends Component {
       <RatingGroup
         className={styles.ratingGroup}
         updateRating={this.props.updateRating}
-        rtl={i18n.isRTL()}
         rating={this.props.rating}
       />
     )
   }
 
-  textContainerStyle = () => {
-    const { showAvatar, showTitle } = this.props
-
-    if (!showTitle) {
-      return { visibility: 'hidden' }
-    }
-
-    if (!showAvatar) {
-      return null
-    }
-
-    return i18n.isRTL() ? { paddingRight: '12px' } : { paddingLeft: '12px' }
-  }
-
   renderTextContainer = () => {
-    const { concierges } = this.props
+    const { concierges, showTitle, showAvatar } = this.props
     const defaultTitleText = i18n.t('embeddable_framework.chat.header.default.title')
     const titleText = _.get(concierges[0], 'display_name') || defaultTitleText
 
+    if (!showTitle) return null
+
     return (
-      <div
+      <Text
         data-testid={TEST_IDS.CHAT_HEADER_TEXT_CONTAINER}
-        className={styles.textContainer}
-        style={this.textContainerStyle()}
+        showTitle={showTitle}
+        showAvatar={showAvatar}
       >
-        <h2 className={styles.title} data-testid={TEST_IDS.CHAT_HEADER_TITLE}>
-          {titleText}
-        </h2>
+        <Title data-testid={TEST_IDS.CHAT_HEADER_TITLE}>{titleText}</Title>
         {this.renderSubText()}
-      </div>
+      </Text>
     )
   }
 
   renderSubText = () => {
-    const { concierges } = this.props
+    const { concierges, showTitle } = this.props
     const defaultSubText = i18n.t('embeddable_framework.chat.header.by_line')
     const subText = _.get(concierges[0], 'title') || defaultSubText
+    const textContainer = (
+      <Subtext data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT} tooltip={subText}>
+        {subText}
+      </Subtext>
+    )
+
+    if (!showTitle) {
+      return textContainer
+    }
 
     return (
-      <div className={styles.subTextContainer} data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT}>
+      <Tooltip size="medium" trigger={textContainer}>
         {subText}
-      </div>
+      </Tooltip>
     )
   }
 
