@@ -4,7 +4,9 @@ exports[`chat log agent attachment 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -42,7 +44,9 @@ exports[`chat log agent join 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -60,7 +64,9 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -84,7 +90,9 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -108,7 +116,9 @@ exports[`chat log agent message 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -165,6 +175,7 @@ exports[`chat log agent typing 1`] = `
   class="chatLogContainer"
 >
   <div
+    aria-live="polite"
     class="agentTyping"
   >
     <div
@@ -204,7 +215,9 @@ exports[`chat log comment 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -222,7 +235,9 @@ exports[`chat log member join 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -240,7 +255,9 @@ exports[`chat log member leave 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -265,7 +282,9 @@ exports[`chat log queue position 1`] = `
   class="chatLogContainer"
 >
   <div
+    aria-live="polite"
     class="queuePosition"
+    role="status"
   >
     Queue position: 3
   </div>
@@ -279,7 +298,9 @@ exports[`chat log rating 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -297,7 +318,9 @@ exports[`chat log series of actions 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="eventMessage"
       data-testid="chat-msg-event"
@@ -423,7 +446,9 @@ exports[`chat log visitor message account settings login enabled displays update
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -469,7 +494,9 @@ exports[`chat log visitor message account settings login enabled displays update
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -515,7 +542,9 @@ exports[`chat log visitor message account settings login enabled does not displa
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -556,7 +585,9 @@ exports[`chat log visitor message account settings login enabled does not displa
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -597,7 +628,9 @@ exports[`chat log visitor message failure 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >
@@ -653,7 +686,9 @@ exports[`chat log visitor message success 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div>
+  <div
+    role="log"
+  >
     <div
       class="container"
     >

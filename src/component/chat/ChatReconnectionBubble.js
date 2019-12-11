@@ -13,7 +13,9 @@ export class ChatReconnectionBubble extends Component {
       <div className={styles.container}>
         <div className={styles.bubble}>
           <div className={styles.contentContainer}>
-            <div className={styles.title}>{title}</div>
+            <div className={styles.title} role="status" aria-live="polite">
+              {title}
+            </div>
             <LoadingSpinner className={styles.loadingSpinner} circleClasses={styles.circle} />
           </div>
         </div>
