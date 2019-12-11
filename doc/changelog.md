@@ -11,7 +11,43 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
-### 31 October 2019
+### 25 November 2019
+
+- Fixed an issue where the Web Widget was attempting to send visitor paths to Chat before the connection had been initialised.
+- Fixed an issue where the Web Widget crashed if `updatePath` was called with an empty string in the title attribute.
+- Fixed an issue where end users saw the host page being scrolled to the top before the Web Widget was fully opened on mobile.
+- Fixed an issue where Help Center articles could not be opened in a new window.
+- Fixed the Talk setting on the Admin page to only be accessible for customers with a Team, Professional, or Enterprise Talk plan.
+
+### 20 November 2019
+
+- Fixed an issue where Japanese inputs in Safari were rendered with a 1-2 second lag.
+
+### 19 November 2019
+
+- Fixed an issue where proactive chats failed to open the Web Widget.
+
+### 18 November 2019
+
+- Fixed an issue where visitor information from the Web Widget wasn't populated in Chat.
+- Fixed an issue which prevented Original Article buttons from being hidden via API.
+- Fixed an issue where the chat log wasn't cleared properly when the end user disconnected from the session.
+
+### 12 November 2019
+
+- Fixed an issue where the Chat Badge send button was displayed incorrectly.
+
+### 8 November 2019
+
+- Fixed an issue where the 'Add to Help Center' button on the Admin page threw an error.
+
+### 6 November 2019
+
+- Fixed an issue where text wrapping broke formatting in the Web Widget on older verions of iOS.
+- Changed the Help Center search input to provide a better user experience.
+- Changed the appearance of the buttons on mobile to be more consistent with the desktop experience.
+
+### 4 November 2019
 
 - Fixed an issue where images weren't displaying correctly in the Web Widget when they had been resized in Help Center.
 
