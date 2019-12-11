@@ -162,7 +162,7 @@ To authenticate with Chat, provide a function to zESettings.webWidget.authentica
 </script>
 ```
 
-An invalid type passed to the `jwtFn` key and/or the use of an invalid or expired JWT token will fail authentication and generate a Zendesk Chat Web SDK error.
+An invalid type passed to the `jwtFn` key and/or the use of an invalid or expired JWT token will fail authentication and generate an error.
 
 ##### Help Center
 

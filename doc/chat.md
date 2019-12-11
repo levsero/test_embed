@@ -76,7 +76,7 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 - `message`: String. Message to be sent
 
-Passing non-string types results in a Zendesk Chat Web SDK error. No message is sent.
+Passing non-string types results in an error. No message is sent.
 
 ##### Example
 
@@ -180,9 +180,9 @@ Programmatically updates the visitor’s web path.
 
 ##### Parameters
 
-- `options`: Object (optional). An object with two keys: `url` (for the URL of the page) and `title` (to set the page's title). If not specified, the current page’s location and title will be used.
+- `options`: Object (optional). An object with two keys: `url` (for the URL of the page) and `title` (to set the page's title). If not specified or invalid, the location and title of the current page will be used.
 
-If passed non-object types or objects with other keys, the chat reverts back to using the current page’s location and title.
+If passed non-object types or objects with other keys, the chat reverts back to using the location and title of the current page.
 
 ##### Examples
 
