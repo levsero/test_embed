@@ -1,11 +1,7 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/dom'
 import { render } from 'utility/testHelpers'
-import Text from '../Text'
-import getField from '../fields'
 import FormField from '../'
-
-jest.mock('../fields')
 
 describe('FormField', () => {
   const defaultProps = {
@@ -22,10 +18,6 @@ describe('FormField', () => {
   }
 
   const renderComponent = (props = {}) => render(<FormField {...defaultProps} {...props} />)
-
-  beforeEach(() => {
-    getField.mockReset().mockReturnValue(Text)
-  })
 
   it('provides the field with the current value', () => {
     const { queryByLabelText } = renderComponent()

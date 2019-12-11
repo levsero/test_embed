@@ -10,9 +10,7 @@ jest.mock('utility/chat', () => ({
   createChatPopoutWindow: jest.fn()
 }))
 
-jest.mock('utility/devices', () => ({
-  isMobileBrowser: jest.fn()
-}))
+jest.mock('utility/devices')
 
 jest.mock('src/redux/modules/selectors', () => ({
   ...jest.requireActual('src/redux/modules/selectors'),

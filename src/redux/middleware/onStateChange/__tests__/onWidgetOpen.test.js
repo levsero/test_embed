@@ -4,7 +4,7 @@ let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('utility/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
 let devices = require('utility/devices')
-let mediator = require('service/mediator').mediator
+let renderer = require('service/renderer').renderer
 
 const dispatch = jest.fn()
 
@@ -18,9 +18,9 @@ beforeEach(() => {
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
   scrollHacks = require('utility/scrollHacks')
-  mediator = require('service/mediator').mediator
+  renderer = require('service/renderer').renderer
 
-  jest.mock('service/mediator')
+  jest.mock('service/renderer')
   jest.mock('utility/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
@@ -48,6 +48,7 @@ describe('when widget visibility transitions from false to true', () => {
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(true)
     expect(devices.setScaleLock).toHaveBeenCalledWith(true)
     expect(devices.getZoomSizingRatio).toHaveBeenCalled()
+    expect(renderer.propagateFontRatio).toHaveBeenCalled()
   })
 
   it('does not call any mobile functions when on desktop', () => {
@@ -85,11 +86,5 @@ describe('when widget visibility transitions from true to false', () => {
     expect(scrollHacks.revertWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
     expect(devices.setScaleLock).not.toHaveBeenCalled()
-  })
-
-  it('broadcasts webWidget.onClose through mediator', () => {
-    onWidgetOpen(true, false, dispatch)
-
-    expect(mediator.channel.broadcast).toHaveBeenCalledWith('webWidget.onClose')
   })
 })
