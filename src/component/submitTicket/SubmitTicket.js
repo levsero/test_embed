@@ -7,7 +7,6 @@ import { locals as styles } from './SubmitTicket.scss'
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm'
-import SuccessNotification from 'src/components/SuccessNotification'
 import {
   handleFormChange,
   handleTicketFormClick,
@@ -33,12 +32,10 @@ import {
 import { getAttachmentsEnabled, getContactFormTitle } from 'src/redux/modules/selectors'
 import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
-import { onCancelClick } from 'src/redux/modules/base/base-actions/routing-actions'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
-import { Widget, Header, Main, Footer } from 'components/Widget'
 import TicketFormsPage from 'src/embeds/support/pages/TicketFormsPage'
-import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import SuccessPage from 'src/embeds/support/pages/SuccessPage'
 
 const mapStateToProps = state => {
   return {
@@ -70,7 +67,6 @@ const mapStateToProps = state => {
 
 class SubmitTicket extends Component {
   static propTypes = {
-    onCancelClick: PropTypes.func.isRequired,
     attachmentsEnabled: PropTypes.bool,
     errorMsg: PropTypes.string.isRequired,
     formTitle: PropTypes.string.isRequired,
@@ -265,7 +261,6 @@ class SubmitTicket extends Component {
         <SubmitTicketForm
           ref="submitTicketForm"
           formTitle={this.props.formTitle}
-          onCancel={this.props.onCancelClick}
           fullscreen={this.props.fullscreen}
           hide={this.props.showNotification}
           ticketFields={fields}
@@ -294,22 +289,6 @@ class SubmitTicket extends Component {
     )
   }
 
-  renderNotification = () => {
-    return (
-      <Widget>
-        <Header title={i18n.t('embeddable_framework.submitTicket.notify.message.success')} />
-        <Main>
-          <SuccessNotification
-            icon={<SuccessIcon />}
-            doneText={i18n.t('embeddable_framework.common.button.goBack')}
-            onClick={this.props.onCancelClick}
-          />
-        </Main>
-        <Footer />
-      </Widget>
-    )
-  }
-
   renderAttachmentBox = () => {
     return this.state.isDragActive && this.props.attachmentsEnabled ? (
       <AttachmentBox onDragLeave={this.handleDragLeave} onDrop={this.handleOnDrop} />
@@ -326,7 +305,7 @@ class SubmitTicket extends Component {
       // dom elements once api call has been completed.
       return (
         <>
-          {this.props.showNotification && this.renderNotification()}
+          {this.props.showNotification && <SuccessPage />}
           {
             <div style={{ display: this.props.showNotification ? 'none' : 'block' }}>
               {this.renderForm()}
@@ -344,7 +323,6 @@ const actionCreators = {
   handleFormChange,
   handleTicketFormClick,
   handleTicketSubmission,
-  onCancelClick,
   clearAttachments
 }
 
