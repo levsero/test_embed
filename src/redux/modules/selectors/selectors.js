@@ -18,7 +18,11 @@ import {
   getNotificationCount,
   getShowChatHistory
 } from '../chat/chat-selectors'
-import { getOfflineFormEnabled } from 'src/redux/modules/selectors/chat-linked-selectors'
+import {
+  getOfflineFormEnabled,
+  getDelayChatConnection
+} from 'src/redux/modules/selectors/chat-linked-selectors'
+import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
   getSettingsChatSuppress,
   getSettingsChatHideWhenOffline,
@@ -282,10 +286,15 @@ export const getChatEmailTranscriptEnabled = createSelector(
   }
 )
 
+export const getDeferredChatReady = createSelector(
+  [getDelayChatConnection, getDeferredChatHasResponse],
+  (delayChatConnection, deferredchatHasResponse) => delayChatConnection && deferredchatHasResponse
+)
+
 export const getChatReady = createSelector(
-  [getChatEmbed, getChatConnectionMade, getChatConnectionSuppressed],
-  (chatEmbed, chatConnectionFinished, chatConnectionSuppressed) => {
-    return !chatEmbed || chatConnectionFinished || chatConnectionSuppressed
+  [getChatEmbed, getChatConnectionMade, getChatConnectionSuppressed, getDeferredChatReady],
+  (chatEmbed, chatConnectionFinished, chatConnectionSuppressed, deferredChatReady) => {
+    return !chatEmbed || chatConnectionFinished || chatConnectionSuppressed || deferredChatReady
   }
 )
 

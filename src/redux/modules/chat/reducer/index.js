@@ -40,6 +40,7 @@ import chatLogBackfillCompleted from './chat-log-backfill-completed'
 import endChatModalVisible from './chat-end-chat-modal-visible'
 import config from './chat-config'
 import deferredChatIsPolling from 'embeds/chat/reducer/deferred-chat-is-polling'
+import deferredChatHasResponse from 'embeds/chat/reducer/deferred-chat-has-response'
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -80,7 +81,8 @@ const combinedReducers = combineReducers({
   showChatHistory,
   chatLogBackfillCompleted,
   endChatModalVisible,
-  deferredChatIsPolling
+  deferredChatIsPolling,
+  deferredChatHasResponse
 })
 
 export default function reducer(state, action) {

@@ -1,4 +1,4 @@
-import { getIsPollingChat } from '../index'
+import { getIsPollingChat, getDeferredChatHasResponse } from '../index'
 
 describe('chat selectors', () => {
   describe('getIsPollingChat', () => {
@@ -45,6 +45,16 @@ describe('chat selectors', () => {
           }
         })
       ).toBe(false)
+    })
+  })
+
+  describe('getDeferredChatHasResponse', () => {
+    it('returns the value of chat.deferredChatHasResponse', () => {
+      expect(
+        getDeferredChatHasResponse({
+          chat: { deferredChatHasResponse: 'boopidy' }
+        })
+      ).toEqual('boopidy')
     })
   })
 })

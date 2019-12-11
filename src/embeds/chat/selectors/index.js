@@ -4,3 +4,5 @@ const getState = state => state.chat
 
 export const getIsPollingChat = state =>
   !getEmbeddableConfig(state).disableStatusPolling && getState(state).deferredChatIsPolling
+
+export const getDeferredChatHasResponse = state => getState(state).deferredChatHasResponse
