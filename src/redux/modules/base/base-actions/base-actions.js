@@ -23,6 +23,7 @@ import { http } from 'service/transport'
 import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { focusLauncher } from 'utility/globals'
+import { clearAttachments } from 'src/embeds/support/actions'
 import * as callbacks from 'service/api/callbacks'
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {
@@ -282,12 +283,11 @@ export const handlePopoutButtonClicked = () => {
   return { type: actions.POPOUT_BUTTON_CLICKED }
 }
 
-export const apiClearForm = () => {
+export const apiClearForm = () => (dispatch, _getState) => {
   mediator.channel.broadcast('.clear')
 
-  return {
-    type: actions.API_CLEAR_FORM
-  }
+  dispatch({ type: actions.API_CLEAR_FORM })
+  dispatch(clearAttachments())
 }
 
 const goToPrechatScreen = () => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import { connect } from 'react-redux'
 
 import { Attachment } from 'component/attachment/Attachment'
 import { ButtonDropzone } from 'component/button/ButtonDropzone'
@@ -8,17 +9,21 @@ import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import { TEST_IDS } from 'src/constants/shared'
-import attachmentSender from 'embeds/support/utils/attachment-sender'
+import { uploadAttachment, deleteAttachment } from 'src/embeds/support/actions/index'
+import { getAllAttachments, getValidAttachments } from 'src/embeds/support/selectors'
 
 import { locals as styles } from './AttachmentList.scss'
 
-export class AttachmentList extends Component {
+class AttachmentList extends Component {
   static propTypes = {
     updateForm: PropTypes.func.isRequired,
     maxFileCount: PropTypes.number.isRequired,
-    maxFileSize: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool,
-    handleAttachmentsError: PropTypes.func
+    handleAttachmentsError: PropTypes.func,
+    validAttachments: PropTypes.array.isRequired,
+    allAttachments: PropTypes.array.isRequired,
+    uploadAttachment: PropTypes.func.isRequired,
+    deleteAttachment: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -35,15 +40,15 @@ export class AttachmentList extends Component {
     this.id = 'dropzone-input'
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     if (prevState.errorMessage === null && this.state.errorMessage) {
       this.props.handleAttachmentsError()
     }
   }
 
   handleOnDrop = files => {
-    const { maxFileCount, maxFileSize } = this.props
-    const numAttachments = this.numValidAttachments()
+    const { maxFileCount, validAttachments } = this.props
+    const numAttachments = validAttachments.length
     const numFilesToAdd = maxFileCount - numAttachments
     const setLimitError = () => {
       const errorMessage = i18n.t(
@@ -68,148 +73,42 @@ export class AttachmentList extends Component {
     }
 
     _.slice(files, 0, numFilesToAdd).forEach(file => {
-      const maxSize = Math.round(maxFileSize / 1024 / 1024)
-      const errorMessage =
-        file.size >= maxFileSize
-          ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
-              maxSize
-            })
-          : null
-
-      onNextTick(() => this.createAttachment(file, errorMessage))
+      this.props.uploadAttachment(file)
     })
 
     onNextTick(this.props.updateForm)
   }
 
   handleRemoveAttachment = attachmentId => {
-    this.setState({
-      attachments: _.omit(this.state.attachments, attachmentId),
-      errorMessage: null
-    })
-
+    this.props.deleteAttachment(attachmentId)
+    this.setState({ errorMessage: null })
     onNextTick(this.props.updateForm)
   }
 
-  createAttachment = (file, errorMessage) => {
-    const attachmentId = _.uniqueId()
-    const attachment = {
-      file: file,
-      uploading: true,
-      uploadProgress: 0,
-      uploadRequestSender: {},
-      errorMessage,
-      uploadToken: null
-    }
-
-    const doneFn = response => {
-      const token = JSON.parse(response.text).upload.token
-
-      this.updateAttachmentState(attachmentId, {
-        uploading: false,
-        uploadToken: token
-      })
-
-      onNextTick(this.props.updateForm)
-    }
-    const failFn = errorMessage => () => {
-      this.updateAttachmentState(attachmentId, {
-        uploading: false,
-        errorMessage: errorMessage
-      })
-
-      onNextTick(this.props.updateForm)
-    }
-    const progressFn = event => {
-      this.updateAttachmentState(attachmentId, {
-        uploadProgress: event.percent
-      })
-    }
-
-    this.setState({
-      attachments: _.extend({}, this.state.attachments, {
-        [attachmentId]: attachment
-      })
-    })
-
-    onNextTick(() => {
-      if (!errorMessage) {
-        const error = i18n.t('embeddable_framework.submitTicket.attachments.error.other')
-
-        this.updateAttachmentState(attachmentId, {
-          uploadRequestSender: attachmentSender(file, doneFn, failFn(error), progressFn)
-        })
-      } else {
-        failFn(errorMessage)()
-      }
-    })
-  }
-
-  updateAttachmentState = (attachmentId, newState = {}) => {
-    const attachment = _.extend({}, this.state.attachments[attachmentId], newState)
-
-    this.setState({
-      attachments: _.extend({}, this.state.attachments, {
-        [attachmentId]: attachment
-      })
-    })
-  }
-
-  getAttachmentTokens = () => {
-    return _.map(this.state.attachments, a => a.uploadToken)
-  }
-
-  filterAttachments = includeUploading =>
-    _.filter(
-      this.state.attachments,
-      attachment => (!attachment.uploading || includeUploading) && !attachment.errorMessage
-    )
-
-  uploadedAttachments = () => this.filterAttachments(false)
-
-  numUploadedAttachments = () => _.size(this.filterAttachments(false))
-
-  numValidAttachments = () => _.size(this.filterAttachments(true))
-
-  attachmentsReady = () => this.numUploadedAttachments() === _.size(this.state.attachments)
-
-  clear = () => {
-    this.setState({
-      attachments: {},
-      errorMessage: null
-    })
-  }
-
   renderAttachments = () => {
-    return _.map(this.state.attachments, (attachment, id) => {
-      const { file } = attachment
+    return this.props.allAttachments.map(attachment => {
+      const { id, fileName } = attachment
 
-      if (file && file.name) {
-        const extension = file.name
-          .split('.')
-          .pop()
-          .toUpperCase()
-        const icon = attachment.errorMessage
-          ? ''
-          : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
+      if (!fileName) return null
 
-        return (
-          <Attachment
-            key={id}
-            attachmentId={id}
-            className={styles.attachment}
-            file={file}
-            filenameMaxLength={30}
-            errorMessage={attachment.errorMessage}
-            handleRemoveAttachment={this.handleRemoveAttachment}
-            icon={icon}
-            isRemovable={true}
-            uploading={attachment.uploading}
-            uploadProgress={attachment.uploadProgress}
-            uploadRequestSender={attachment.uploadRequestSender}
-          />
-        )
-      }
+      const extension = fileName
+        .split('.')
+        .pop()
+        .toUpperCase()
+      const icon = attachment.errorMessage ? '' : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
+
+      return (
+        <Attachment
+          key={id}
+          attachment={attachment}
+          className={styles.attachment}
+          filenameMaxLength={30}
+          handleRemoveAttachment={this.handleRemoveAttachment}
+          icon={icon}
+          isRemovable={true}
+          uploadRequestSender={attachment.uploadRequestSender}
+        />
+      )
     })
   }
 
@@ -220,7 +119,7 @@ export class AttachmentList extends Component {
   )
 
   render() {
-    const numAttachments = this.numUploadedAttachments()
+    const numAttachments = this.props.validAttachments.length
     const title =
       numAttachments > 0
         ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount', {
@@ -248,3 +147,22 @@ export class AttachmentList extends Component {
     )
   }
 }
+
+const actionCreators = {
+  uploadAttachment,
+  deleteAttachment
+}
+
+const mapStateToProps = state => ({
+  allAttachments: getAllAttachments(state),
+  validAttachments: getValidAttachments(state)
+})
+
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators,
+  null,
+  { forwardRef: true }
+)(AttachmentList)
+
+export { connectedComponent as default, AttachmentList as Component }

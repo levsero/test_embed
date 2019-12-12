@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import { Avatar } from 'component/Avatar'
 import { MessageBubble } from 'component/shared/MessageBubble'
-import { Attachment } from 'component/attachment/Attachment'
+import { Attachment } from 'component/chat/attachment/Attachment'
 import { MessageError } from 'component/chat/chatting/MessageError'
 import { ImageMessage } from 'component/chat/chatting/ImageMessage'
 import { ICONS, FILETYPE_ICONS, TEST_IDS } from 'src/constants/shared'

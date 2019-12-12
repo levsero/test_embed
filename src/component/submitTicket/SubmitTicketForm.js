@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import { locals as styles } from './SubmitTicketForm.scss'
-import { AttachmentList } from 'component/attachment/AttachmentList'
+import AttachmentList from 'component/attachment/AttachmentList'
 import { Button } from '@zendeskgarden/react-buttons'
 import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
@@ -41,7 +41,8 @@ export class SubmitTicketForm extends Component {
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    attachmentsReady: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -60,7 +61,8 @@ export class SubmitTicketForm extends Component {
     onCancel: () => {},
     previewEnabled: false,
     setFormState: () => {},
-    subjectEnabled: false
+    subjectEnabled: false,
+    attachmentsReady: true
   }
 
   constructor(props, context) {
@@ -92,7 +94,6 @@ export class SubmitTicketForm extends Component {
   }
 
   initialState = {
-    attachments: [],
     buttonMessage: sendButtonMessageString,
     cancelButtonMessage: cancelButtonMessageString,
     isRTL: i18n.isRTL(),
@@ -255,7 +256,9 @@ export class SubmitTicketForm extends Component {
   }
 
   attachmentsReady = () => {
-    return this.props.attachmentsEnabled ? this.refs.attachments.attachmentsReady() : true
+    const { attachmentsEnabled, attachmentsReady } = this.props
+
+    return attachmentsEnabled ? attachmentsReady : true
   }
 
   updateFormValidity = form => {
@@ -291,20 +294,12 @@ export class SubmitTicketForm extends Component {
       }
     })
 
-    this.clearAttachments()
-
     this.setState(this.initialState)
     this.props.setFormState({
       name: formState.name,
       email: formState.email
     })
     this.prefillFormState()
-  }
-
-  clearAttachments = () => {
-    if (this.props.attachmentsEnabled) {
-      this.refs.attachments.clear()
-    }
   }
 
   renderSubjectField = () => {

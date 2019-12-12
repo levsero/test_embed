@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import sharedPropTypes from 'types/shared'
 import _ from 'lodash'
 
 import { Icon } from 'component/Icon'
-import { ProgressBar } from 'component/attachment/ProgressBar'
+import { ProgressBar } from './ProgressBar'
 import { Alert, Title, Close } from '@zendeskgarden/react-notifications'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './Attachment.scss'
@@ -12,35 +13,40 @@ import { TEST_IDS } from 'src/constants/shared'
 
 export class Attachment extends Component {
   static propTypes = {
-    attachment: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      fileName: PropTypes.string.isRequired,
-      fileSize: PropTypes.number.isRequired,
-      errorMessage: PropTypes.string,
-      fileUrl: PropTypes.string,
-      uploading: PropTypes.bool.isRequired,
-      uploadProgress: PropTypes.number.isRequired,
-      uploadToken: PropTypes.string
-    }),
+    attachmentId: PropTypes.string.isRequired,
     className: PropTypes.string,
+    downloading: PropTypes.bool,
+    errorMessage: PropTypes.string,
     fakeProgress: PropTypes.bool,
+    file: sharedPropTypes.file,
     filenameMaxLength: PropTypes.number,
     handleRemoveAttachment: PropTypes.func,
     isDownloadable: PropTypes.bool.isRequired,
     isRemovable: PropTypes.bool.isRequired,
-    icon: PropTypes.string
+    icon: PropTypes.string,
+    uploading: PropTypes.bool.isRequired,
+    uploadProgress: PropTypes.number,
+    uploadRequestSender: PropTypes.object
   }
 
   static defaultProps = {
+    attachmentId: '',
+    downloading: false,
     fakeProgress: false,
     icon: '',
     isDownloadable: false,
     isRemovable: false,
+    uploading: false,
+    uploadProgress: 0,
     uploadRequestSender: {}
   }
 
   handleIconClick = () => {
-    this.props.handleRemoveAttachment(this.props.attachment.id)
+    if (this.props.uploading) {
+      this.props.uploadRequestSender.abort()
+    }
+
+    this.props.handleRemoveAttachment(this.props.attachmentId)
   }
 
   formatAttachmentSize = bytes => {
@@ -56,11 +62,11 @@ export class Attachment extends Component {
         })
   }
 
-  truncateFilename = (fileName, fileNameMaxLength, trailingCharsLength) => {
-    if (fileName.length <= fileNameMaxLength) return fileName
+  truncateFilename = (filename, filenameMaxLength, trailingCharsLength) => {
+    if (filename.length <= filenameMaxLength) return filename
 
-    const nameStart = fileName.slice(0, fileNameMaxLength - trailingCharsLength - 1)
-    const nameEnd = fileName.slice(-trailingCharsLength)
+    const nameStart = filename.slice(0, filenameMaxLength - trailingCharsLength - 1)
+    const nameEnd = filename.slice(-trailingCharsLength)
 
     return `${nameStart}…${nameEnd}`
   }
@@ -73,10 +79,8 @@ export class Attachment extends Component {
     )
   }
 
-  renderSecondaryText(isDownloadable, downloading) {
-    const { attachment } = this.props
-    const { fileSize, fileUrl, uploading } = attachment
-    const attachmentSize = this.formatAttachmentSize(fileSize)
+  renderSecondaryText(file, isDownloadable, downloading, uploading) {
+    const attachmentSize = this.formatAttachmentSize(file.size)
     const downloadLink = (
       <div>
         <span className={styles.downloadSize}>{attachmentSize}</span>
@@ -94,7 +98,7 @@ export class Attachment extends Component {
         attachmentSize
       })
     } else if (isDownloadable) {
-      secondaryText = this.renderLinkedEl(downloadLink, fileUrl)
+      secondaryText = this.renderLinkedEl(downloadLink, file.url)
     } else {
       secondaryText = attachmentSize
     }
@@ -103,24 +107,22 @@ export class Attachment extends Component {
   }
 
   previewNameString = () => {
-    const { attachment, filenameMaxLength } = this.props
-    const { fileName } = attachment
+    const { file, filenameMaxLength } = this.props
 
-    return filenameMaxLength ? this.truncateFilename(fileName, filenameMaxLength, 7) : fileName
+    return filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name
   }
 
   renderPreviewIcon = () => {
     if (!this.props.icon) return null
 
-    const { isDownloadable, attachment } = this.props
+    const { file, isDownloadable } = this.props
     const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />
 
-    return isDownloadable ? this.renderLinkedEl(previewIcon, attachment.fileUrl) : previewIcon
+    return isDownloadable ? this.renderLinkedEl(previewIcon, file.url) : previewIcon
   }
 
   renderAttachmentBox() {
-    const { attachment, isDownloadable } = this.props
-    const { downloading, uploading, fileUrl, uploadProgress, errorMessage } = attachment
+    const { file, downloading, errorMessage, isDownloadable, uploading } = this.props
 
     if (errorMessage) return
 
@@ -133,31 +135,34 @@ export class Attachment extends Component {
     const containerClasses = classNames(styles.container, this.props.className)
 
     const progressBar = (
-      <ProgressBar percentLoaded={uploadProgress} fakeProgress={this.props.fakeProgress} />
+      <ProgressBar
+        percentLoaded={this.props.uploadProgress}
+        fakeProgress={this.props.fakeProgress}
+      />
     )
 
     return (
       <div
         className={containerClasses}
-        data-testid={`${TEST_IDS.FILE_NAME}-${this.props.attachment.id || 'attachment'}`}
+        data-testid={`${TEST_IDS.FILE_NAME}-${this.props.attachmentId || 'attachment'}`}
       >
         <div className={styles.preview}>
           {this.renderPreviewIcon()}
           <div className={styles.description} data-testid={TEST_IDS.DESCRIPTION}>
-            {isDownloadable ? this.renderLinkedEl(previewName, fileUrl) : previewName}
+            {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
             <div className={styles.secondaryText}>
-              {this.renderSecondaryText(isDownloadable, downloading)}
+              {this.renderSecondaryText(file, isDownloadable, downloading, uploading)}
             </div>
           </div>
           {this.props.isRemovable && removeIcon}
         </div>
-        {uploading && progressBar}
+        {uploading && !errorMessage && progressBar}
       </div>
     )
   }
 
   renderAttachmentError() {
-    const { errorMessage } = this.props.attachment
+    const { errorMessage } = this.props
 
     if (!errorMessage) return
 

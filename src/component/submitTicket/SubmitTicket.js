@@ -14,7 +14,12 @@ import {
   handleTicketSubmission
 } from 'src/redux/modules/submitTicket'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
-import { getMaxFileCount, getMaxFileSize } from 'embeds/support/selectors'
+import {
+  getMaxFileCount,
+  getMaxFileSize,
+  getAttachmentsReady,
+  getAttachmentTokens
+} from 'embeds/support/selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
@@ -54,7 +59,9 @@ const mapStateToProps = state => {
     formTitle: getContactFormTitle(state),
     locale: i18n.getLocale(),
     maxFileCount: getMaxFileCount(state),
-    maxFileSize: getMaxFileSize(state)
+    maxFileSize: getMaxFileSize(state),
+    attachmentsReady: getAttachmentsReady(state),
+    attachmentTokens: getAttachmentTokens(state)
   }
 }
 
@@ -88,7 +95,9 @@ class SubmitTicket extends Component {
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
     activeTicketFormFields: PropTypes.array,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    attachmentsReady: PropTypes.bool.isRequired,
+    attachmentTokens: PropTypes.array
   }
 
   static defaultProps = {
@@ -109,7 +118,8 @@ class SubmitTicket extends Component {
     activeTicketForm: null,
     activeTicketFormFields: [],
     hasContextuallySearched: false,
-    isMobile: false
+    isMobile: false,
+    attachmentsReady: true
   }
 
   constructor(props, context) {
@@ -143,7 +153,7 @@ class SubmitTicket extends Component {
     }
 
     const attachments = _.get(this.refs, 'submitTicketForm.refs.attachments')
-    const uploads = attachments ? attachments.getAttachmentTokens() : null
+    const uploads = attachments ? this.props.attachmentTokens : null
 
     const failCallback = () => {
       this.refs.submitTicketForm.failedToSubmit()
@@ -274,6 +284,7 @@ class SubmitTicket extends Component {
           activeTicketForm={this.props.activeTicketForm}
           previewEnabled={this.props.previewEnabled}
           isMobile={this.props.isMobile}
+          attachmentsReady={this.props.attachmentsReady}
         >
           {this.renderErrorMessage()}
         </SubmitTicketForm>
