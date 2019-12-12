@@ -22,18 +22,6 @@ describe('ChattingFooter component', () => {
       'service/i18n': {
         i18n
       },
-      './ChattingFooter.scss': {
-        locals: {
-          iconContainer: 'iconsClass',
-          containerMobile: 'containerMobileClass',
-          iconEndChat: 'iconEndChatClass',
-          iconDisabled: 'iconDisabledClasses',
-          iconAttachment: 'iconAttachmentClass',
-          iconAttachmentMobile: 'iconAttachmentMobileClass',
-          iconMenu: 'iconMenuClass',
-          iconSendChatMobile: 'iconSendChatMobileClass'
-        }
-      },
       'components/Widget': {
         FooterView: noopReactComponent()
       },
@@ -56,7 +44,8 @@ describe('ChattingFooter component', () => {
         TEST_IDS: {}
       },
       'component/Icon': { Icon },
-      '@zendeskgarden/react-buttons': { IconButton }
+      '@zendeskgarden/react-buttons': { IconButton },
+      'src/constants/shared': {}
     })
 
     mockery.registerAllowable(ChattingFooterPath)
@@ -66,53 +55,6 @@ describe('ChattingFooter component', () => {
   afterEach(() => {
     mockery.deregisterAll()
     mockery.disable()
-  })
-
-  describe('render', () => {
-    let component, componentNode
-
-    it('renders the chat menu', () => {
-      component = domRender(<ChattingFooter />)
-
-      expect(() => TestUtils.findRenderedComponentWithType(component, ChatMenu)).not.toThrow()
-    })
-
-    describe('icons', () => {
-      beforeEach(() => {
-        component = domRender(<ChattingFooter />)
-        componentNode = ReactDOM.findDOMNode(component)
-      })
-
-      it('renders the chat footer with styled icons', () => {
-        expect(componentNode.querySelector('.iconsClass')).toBeTruthy()
-      })
-    })
-
-    describe('on non-mobile devices', () => {
-      let result
-
-      beforeEach(() => {
-        component = instanceRender(<ChattingFooter isMobile={false} />)
-        result = component.render()
-      })
-
-      it('renders the desktop version', () => {
-        expect(result.props.className).not.toContain('containerMobileClass')
-      })
-    })
-
-    describe('on mobile devices', () => {
-      let result
-
-      beforeEach(() => {
-        component = instanceRender(<ChattingFooter isMobile={true} />)
-        result = component.render()
-      })
-
-      it('renders the mobile version', () => {
-        expect(result.props.className).toContain('containerMobileClass')
-      })
-    })
   })
 
   describe('renderEndChatOption', () => {
@@ -170,11 +112,6 @@ describe('ChattingFooter component', () => {
 
       result = component.renderSendChatOption()
     })
-
-    it('has correct classes', () => {
-      expect(result.props.className).toContain('iconSendChatMobileClass')
-    })
-
     it('passes sendChat to onClick handler', () => {
       expect(result.props.onClick).toBe(sendChatSpy)
     })
