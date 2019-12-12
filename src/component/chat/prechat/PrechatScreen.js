@@ -38,7 +38,8 @@ import {
   getPrechatFormSettings,
   getPrechatFormFields,
   getChatHistoryLabel,
-  getDefaultSelectedDepartment
+  getDefaultSelectedDepartment,
+  getOfflineFormEnabled
 } from 'src/redux/modules/selectors'
 import {
   getSettingsChatDepartmentsEmpty,
@@ -50,20 +51,26 @@ import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors
 const mapStateToProps = state => {
   const prechatForm = getPrechatFormSettings(state)
   const prechatFormFields = getPrechatFormFields(state)
+  const preChatFormState = getPreChatFormState(state)
+  const selectedDepartment = preChatFormState.department
+    ? getDepartments(state)[preChatFormState.department]
+    : undefined
 
   return {
     departments: getDepartments(state),
+    selectedDepartment,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     settingsDepartmentsEnabled: getSettingsChatDepartmentsEnabled(state),
     screen: getChatScreen(state),
     loginSettings: getLoginSettings(state),
     offlineMessage: getOfflineMessage(state),
+    offlineFormEnabled: getOfflineFormEnabled(state),
     authUrls: getAuthUrls(state),
     visitor: getChatVisitor(state),
     socialLogin: getSocialLogin(state),
     chatVisitor: getChatVisitor(state),
     readOnlyState: getReadOnlyState(state),
-    preChatFormState: getPreChatFormState(state),
+    preChatFormState,
     isAuthenticated: getIsAuthenticated(state),
     title: getChatTitle(state),
     departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
@@ -105,7 +112,12 @@ class PrechatScreen extends Component {
     departmentFieldHidden: PropTypes.bool.isRequired,
     openedChatHistory: PropTypes.func.isRequired,
     chatHistoryLabel: PropTypes.string.isRequired,
-    defaultDepartment: PropTypes.object
+    defaultDepartment: PropTypes.object,
+    selectedDepartment: PropTypes.shape({
+      id: PropTypes.number,
+      status: PropTypes.string
+    }),
+    offlineFormEnabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -197,6 +209,8 @@ class PrechatScreen extends Component {
         settingsDepartmentsEnabled={settingsDepartmentsEnabled}
         readOnlyState={this.props.readOnlyState}
         formState={this.props.preChatFormState}
+        selectedDepartment={this.props.selectedDepartment}
+        offlineFormEnabled={this.props.offlineFormEnabled}
         onPrechatFormChange={this.props.handlePreChatFormChange}
         loginEnabled={this.props.loginSettings.enabled}
         phoneEnabled={this.props.loginSettings.phoneEnabled}
