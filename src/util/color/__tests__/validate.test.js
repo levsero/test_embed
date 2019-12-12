@@ -21,7 +21,7 @@ describe('themeColor', () => {
         it("returns the widget's default colour", () => {
           mockSettingsValue = null
 
-          expect(validate.themeColor('#OMGWFTBBQ')).toEqual('#78A300')
+          expect(validate.themeColor('#OMGWFTBBQ')).toEqual('#1f73b7')
         })
       })
     })
@@ -30,7 +30,7 @@ describe('themeColor', () => {
       it("returns the widget's default colour", () => {
         mockSettingsValue = null
 
-        expect(validate.themeColor()).toEqual('#78A300')
+        expect(validate.themeColor()).toEqual('#1f73b7')
       })
     })
   })
