@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import classNames from 'classnames'
-import Transition from 'react-transition-group/Transition'
-
 import { ChatBox } from 'component/chat/chatting/ChatBox'
 import { ChattingFooter } from 'component/chat/chatting/ChattingFooter'
 import ChatLog from 'component/chat/chatting/ChatLog'
@@ -46,6 +44,7 @@ import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
+import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 
 const mapStateToProps = state => {
   return {
@@ -306,34 +305,6 @@ class ChattingScreen extends Component {
     )
   }
 
-  renderHistoryFetching = () => {
-    const { historyRequestStatus } = this.props
-    const duration = 300
-    const defaultStyle = {
-      transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0
-    }
-    const transitionStyles = {
-      entering: { opacity: 0.9 },
-      entered: { opacity: 1 }
-    }
-
-    return this.props.historyRequestStatus ? (
-      <div className={styles.historyFetchingContainer}>
-        <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
-          {state => (
-            <div
-              style={{ ...defaultStyle, ...transitionStyles[state] }}
-              className={styles.historyFetchingText}
-            >
-              {i18n.t('embeddable_framework.chat.fetching_history')}
-            </div>
-          )}
-        </Transition>
-      </div>
-    ) : null
-  }
-
   renderChatFooter = () => {
     const {
       currentMessage,
@@ -498,7 +469,7 @@ class ChattingScreen extends Component {
             />
             {this.renderQueuePosition()}
             {this.renderAgentTyping(agentsTyping)}
-            {this.renderHistoryFetching()}
+            <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
             {this.renderScrollPill()}
           </div>
           {this.renderQuickReply()}

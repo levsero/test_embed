@@ -38,6 +38,9 @@ exports[`chat log agent attachment 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -58,6 +61,9 @@ exports[`chat log agent join 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -86,6 +92,9 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -112,6 +121,9 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -162,6 +174,9 @@ exports[`chat log agent message 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -171,6 +186,9 @@ exports[`chat log agent stopped typing 1`] = `
 >
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -213,6 +231,9 @@ exports[`chat log agent typing 1`] = `
     </div>
     Mr F is typing
   </div>
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -234,6 +255,9 @@ exports[`chat log comment 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -254,6 +278,9 @@ exports[`chat log member join 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -282,6 +309,9 @@ exports[`chat log member leave 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -298,6 +328,9 @@ exports[`chat log queue position 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -319,6 +352,9 @@ exports[`chat log rating 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -449,6 +485,9 @@ exports[`chat log series of actions 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -497,6 +536,9 @@ exports[`chat log visitor message account settings login enabled displays update
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -547,6 +589,9 @@ exports[`chat log visitor message account settings login enabled displays update
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -591,6 +636,9 @@ exports[`chat log visitor message account settings login enabled does not displa
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -634,6 +682,9 @@ exports[`chat log visitor message account settings login enabled does not displa
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;
@@ -694,6 +745,9 @@ exports[`chat log visitor message failure 1`] = `
   <div
     class="noAgentTyping"
   />
+  <div
+    class="sc-kgoBCf glmJi"
+  />
 </div>
 `;
 
@@ -747,6 +801,9 @@ exports[`chat log visitor message success 1`] = `
   </div>
   <div
     class="noAgentTyping"
+  />
+  <div
+    class="sc-kgoBCf glmJi"
   />
 </div>
 `;

@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import Transition from 'react-transition-group/Transition'
 
 import HistoryLog from 'component/chat/chatting/HistoryLog'
 import getScrollBottom from 'utility/get-scroll-bottom'
-import { i18n } from 'service/i18n'
 import { isFirefox, isIE } from 'utility/devices'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
@@ -20,6 +18,7 @@ import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './styles/index.scss'
 import { onNextTick } from 'src/util/utils'
 import { Widget, Header, Main, Footer } from 'components/Widget'
+import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 
 const mapStateToProps = state => {
   return {
@@ -142,34 +141,6 @@ class ChatHistoryScreen extends Component {
     }
   }
 
-  renderHistoryFetching = () => {
-    const { historyRequestStatus } = this.props
-    const duration = 300
-    const defaultStyle = {
-      transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0
-    }
-    const transitionStyles = {
-      entering: { opacity: 0.9 },
-      entered: { opacity: 1 }
-    }
-
-    return this.props.historyRequestStatus ? (
-      <div className={styles.historyFetchingContainer}>
-        <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
-          {state => (
-            <div
-              style={{ ...defaultStyle, ...transitionStyles[state] }}
-              className={styles.historyFetchingText}
-            >
-              {i18n.t('embeddable_framework.chat.fetching_history')}
-            </div>
-          )}
-        </Transition>
-      </div>
-    ) : null
-  }
-
   render = () => {
     const { isMobile, title } = this.props
 
@@ -196,7 +167,7 @@ class ChatHistoryScreen extends Component {
               agents={this.props.allAgents}
               firstMessageTimestamp={this.props.firstMessageTimestamp}
             />
-            {this.renderHistoryFetching()}
+            <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
           </div>
         </Main>
         <Footer />

@@ -64,15 +64,8 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         class="chatLogContainer"
       >
         <div
-          class="historyFetchingContainer"
-        >
-          <div
-            class="historyFetchingText"
-            style="opacity: 0;"
-          >
-            Loading messages...
-          </div>
-        </div>
+          class="sc-htoDjs isRyuh"
+        />
       </div>
     </div>
     <footer
