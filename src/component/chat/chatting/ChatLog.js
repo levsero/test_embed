@@ -173,7 +173,11 @@ export class ChatLog extends PureComponent {
   render() {
     if (_.isEmpty(this.props.chatLog)) return null
 
-    return <div role="log">{_.map(this.props.chatLog, this.renderGroup)}</div>
+    return (
+      <div role="log" aria-live="polite">
+        {_.map(this.props.chatLog, this.renderGroup)}
+      </div>
+    )
   }
 }
 
