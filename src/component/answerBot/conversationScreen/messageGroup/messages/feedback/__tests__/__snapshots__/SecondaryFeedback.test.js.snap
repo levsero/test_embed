@@ -3,7 +3,7 @@
 exports[`renders the expected classes 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-VigVT bxTkDV"
   >
     <div
       class="container buttonRight "
@@ -11,7 +11,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      option
+      sc-jTzLTM ljqJxO
     "
         data-testid="pill-button"
       >
@@ -20,7 +20,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      option
+      sc-jTzLTM ljqJxO
     "
         data-testid="pill-button"
       >

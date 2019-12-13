@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import { ButtonGroup } from 'component/button/ButtonGroup'
 import { PillButton } from 'src/component/shared/PillButton'
@@ -13,80 +11,38 @@ import {
   botFeedbackMessage,
   botUserMessage
 } from 'src/redux/modules/answerBot/root/actions/bot'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
 
-import { locals as styles } from './style.scss'
+import { Container } from './styles'
 
-export class PrimaryFeedback extends Component {
-  static propTypes = {
-    actions: PropTypes.shape({
-      sessionResolved: PropTypes.func.isRequired,
-      botUserMessage: PropTypes.func.isRequired,
-      botFeedbackMessage: PropTypes.func.isRequired,
-      botFeedback: PropTypes.func.isRequired
-    })
+const PrimaryFeedback = () => {
+  const dispatch = useDispatch()
+  const handleYes = () => {
+    dispatch(sessionResolved())
+    dispatch(botUserMessage('embeddable_framework.answerBot.article.feedback.yes'))
+    dispatch(botFeedbackMessage('embeddable_framework.answerBot.msg.yes_acknowledgement'))
+    dispatch(botFeedbackMessage('embeddable_framework.answerBot.msg.prompt_again_after_yes'))
   }
 
-  renderOptions = () => {
-    return (
+  const handleNo = () => {
+    dispatch(botUserMessage('embeddable_framework.answerBot.article.feedback.no.need_help'))
+    dispatch(botFeedbackMessage('embeddable_framework.answerBot.article.feedback.no.reason.title'))
+    dispatch(botFeedback('secondary'))
+  }
+
+  return (
+    <Container>
       <ButtonGroup>
         <PillButton
           label={i18n.t('embeddable_framework.answerBot.article.feedback.yes')}
-          onClick={this.handleYes}
+          onClick={handleYes}
         />
         <PillButton
           label={i18n.t('embeddable_framework.answerBot.article.feedback.no.need_help')}
-          onClick={this.handleNo}
+          onClick={handleNo}
         />
       </ButtonGroup>
-    )
-  }
-
-  handleYes = () => {
-    this.props.actions.sessionResolved()
-    this.props.actions.botUserMessage('embeddable_framework.answerBot.article.feedback.yes')
-    this.props.actions.botFeedbackMessage('embeddable_framework.answerBot.msg.yes_acknowledgement')
-    this.props.actions.botFeedbackMessage(
-      'embeddable_framework.answerBot.msg.prompt_again_after_yes'
-    )
-  }
-
-  handleNo = () => {
-    this.props.actions.botUserMessage(
-      'embeddable_framework.answerBot.article.feedback.no.need_help'
-    )
-    this.props.actions.botFeedbackMessage(
-      'embeddable_framework.answerBot.article.feedback.no.reason.title'
-    )
-    this.props.actions.botFeedback('secondary')
-  }
-
-  render() {
-    return <div className={styles.container}>{this.renderOptions()}</div>
-  }
+    </Container>
+  )
 }
 
-const actionCreators = dispatch => ({
-  actions: bindActionCreators(
-    {
-      sessionResolved,
-      botUserMessage,
-      botFeedbackMessage,
-      botFeedback
-    },
-    dispatch
-  )
-})
-
-const mapStateToProps = state => ({
-  locale: getLocale(state)
-})
-
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(PrimaryFeedback)
-
-export { connectedComponent as default, PrimaryFeedback as Component }
+export default PrimaryFeedback

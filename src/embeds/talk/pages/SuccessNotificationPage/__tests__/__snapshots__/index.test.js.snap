@@ -42,10 +42,10 @@ exports[`SuccessNotificationPage renders 1`] = `
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-jTzLTM kdEhMd"
+        class="sc-jzJRlG dEkjXV"
       >
         <div
-          class="sc-fjdhpX dBZeja"
+          class="sc-cSHVUG jSbedX"
           data-testid="Icon--success-notification-icon"
         >
           <svg
@@ -54,19 +54,19 @@ exports[`SuccessNotificationPage renders 1`] = `
         </div>
         <div>
           <h2
-            class="sc-jzJRlG hYuBcb"
+            class="sc-kAzzGY bHDaiE"
           >
             Thanks for reaching out
           </h2>
           <p
-            class="sc-cSHVUG eQADjs"
+            class="sc-chPdSV hAstbo"
           >
             Someone will get back to you soon
           </p>
         </div>
         <div>
           <button
-            class="sc-kAzzGY jBzWtM Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--anchor___ZpkO7 lcPfmb"
+            class="sc-kgoBCf evsxxn Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--anchor___ZpkO7 lcPfmb"
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
