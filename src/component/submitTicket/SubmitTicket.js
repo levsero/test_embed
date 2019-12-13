@@ -21,6 +21,7 @@ import {
   getAttachmentTokens,
   getAttachmentTypes
 } from 'embeds/support/selectors'
+import { clearAttachments } from 'src/embeds/support/actions'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
@@ -146,10 +147,6 @@ class SubmitTicket extends Component {
     }
   }
 
-  clearAttachments = () => {
-    this.refs.submitTicketForm.clearAttachments()
-  }
-
   handleSubmit = (e, data) => {
     e.preventDefault()
 
@@ -210,8 +207,9 @@ class SubmitTicket extends Component {
   }
 
   handleOnDrop = files => {
-    this.setState({ isDragActive: false })
-    this.refs.submitTicketForm.handleOnDrop(files)
+    this.setState({ isDragActive: false }, () => {
+      this.refs.submitTicketForm.handleOnDrop(files)
+    })
   }
 
   setTicketForm = ticketFormId => {
@@ -287,6 +285,7 @@ class SubmitTicket extends Component {
           previewEnabled={this.props.previewEnabled}
           isMobile={this.props.isMobile}
           attachmentsReady={this.props.attachmentsReady}
+          clearAttachments={this.props.clearAttachments}
         >
           {this.renderErrorMessage()}
         </SubmitTicketForm>
@@ -345,7 +344,8 @@ const actionCreators = {
   handleFormChange,
   handleTicketFormClick,
   handleTicketSubmission,
-  onCancelClick
+  onCancelClick,
+  clearAttachments
 }
 
 const connectedComponent = connect(

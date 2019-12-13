@@ -42,7 +42,8 @@ export class SubmitTicketForm extends Component {
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
     submit: PropTypes.func.isRequired,
-    attachmentsReady: PropTypes.bool.isRequired
+    attachmentsReady: PropTypes.bool.isRequired,
+    clearAttachments: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -300,6 +301,7 @@ export class SubmitTicketForm extends Component {
       email: formState.email
     })
     this.prefillFormState()
+    this.props.clearAttachments()
   }
 
   renderSubjectField = () => {

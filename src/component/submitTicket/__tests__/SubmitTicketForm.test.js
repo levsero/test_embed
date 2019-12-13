@@ -13,7 +13,8 @@ const renderSubmitTicketForm = (props, renderer, history) => {
     submit: noop,
     formTitle: 'message',
     nameFieldRequired: false,
-    nameFieldEnabled: true
+    nameFieldEnabled: true,
+    clearAttachments: jest.fn()
   }
   const mergedProps = { ...defaultProps, ...props }
   const component = <SubmitTicketForm {...mergedProps} />
