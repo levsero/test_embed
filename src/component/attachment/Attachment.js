@@ -13,9 +13,10 @@ import { TEST_IDS } from 'src/constants/shared'
 export class Attachment extends Component {
   static propTypes = {
     attachment: PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       fileName: PropTypes.string.isRequired,
       fileSize: PropTypes.number.isRequired,
+      fileType: PropTypes.string.isRequired,
       errorMessage: PropTypes.string,
       fileUrl: PropTypes.string,
       uploading: PropTypes.bool.isRequired,

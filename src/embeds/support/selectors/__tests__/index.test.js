@@ -64,6 +64,7 @@ describe('attachments', () => {
     id: 1,
     fileName: 'screenshot-1.png',
     fileSize: 42356,
+    fileType: 'image/png',
     uploading: false,
     uploadProgress: 100,
     errorMessage: null,
@@ -73,6 +74,7 @@ describe('attachments', () => {
     id: 2,
     fileName: 'purchase-receipt.pdf',
     fileSize: 82354,
+    fileType: 'application/pdf',
     uploading: false,
     uploadProgress: 100,
     errorMessage: 'failed',
@@ -82,6 +84,7 @@ describe('attachments', () => {
     id: 3,
     fileName: 'proof-of-damage.jpg',
     fileSize: 135468,
+    fileType: 'image/jpg',
     uploading: true,
     uploadProgress: 0,
     errorMessage: null,
@@ -127,5 +130,12 @@ describe('attachments', () => {
         expect(selector(attachments, validAttachments)).toEqual(false)
       })
     })
+  })
+
+  test('getAttachmentTypes', () => {
+    const selector = selectors.getAttachmentTypes.resultFunc
+    const result = selector([attachment1])
+
+    expect(result).toEqual(['image/png'])
   })
 })
