@@ -3,20 +3,20 @@
 exports[`on no click displays the reasons 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-bxivhb kgDyes"
   >
     <h3
-      class="title"
+      class="sc-ifAKCX hSIQkB"
     >
       Please tell us why.
     </h3>
     <div
-      class="reasonButtons"
+      class="sc-bdVaJa kWWNCc"
     >
       <button
         class="
       button
-      relatedBtn
+      sc-bwzfXH hZdrme
     "
         data-testid="pill-button"
       >
@@ -25,7 +25,7 @@ exports[`on no click displays the reasons 1`] = `
       <button
         class="
       button
-      unrelatedBtn
+      sc-htpNat daVAfG
     "
         data-testid="pill-button"
       >
@@ -39,15 +39,15 @@ exports[`on no click displays the reasons 1`] = `
 exports[`renders the expected classes 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-bxivhb kgDyes"
   >
     <h3
-      class="title"
+      class="sc-ifAKCX hSIQkB"
     >
       Does this article answer your question?
     </h3>
     <div
-      class="container buttonRight optionButtons"
+      class="container buttonCenter "
     >
       <button
         class="
@@ -61,7 +61,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      noBtn
+      
     "
         data-testid="pill-button"
       >

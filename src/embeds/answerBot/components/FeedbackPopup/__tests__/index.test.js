@@ -1,7 +1,9 @@
 import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
 
 import FeedbackPopup from '../index'
+import createStore from 'src/redux/createStore'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
@@ -16,7 +18,11 @@ const renderComponent = (props = {}) => {
     ...props
   }
 
-  return render(<FeedbackPopup {...componentProps} />)
+  return render(
+    <Provider store={createStore()}>
+      <FeedbackPopup {...componentProps} />
+    </Provider>
+  )
 }
 
 test('renders the expected classes', () => {
