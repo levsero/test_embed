@@ -46,7 +46,7 @@ Available settings:
 - [cookies](#cookies)
 - [color](#color)
 - [concierge](#concierge)
-- [connectOnPageLoad](#connectOnPageLoad)
+- [connectOnPageLoad](#connectonpageload)
 - [contactButton](#contactbutton)
 - [contactFormLabel](#contactformlabel)
 - [departments](#departments)
