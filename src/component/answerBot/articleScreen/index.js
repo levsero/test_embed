@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import FeedbackPopup from './feedbackPopup'
+import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
 import { SlideAppear } from 'component/transition/SlideAppear'
@@ -142,7 +142,6 @@ class ArticleScreen extends Component {
           onYesClick={this.onYesFeedback}
           onNoClick={this.handleNoClick}
           onReasonClick={this.onNoFeedback}
-          locale={this.props.locale}
         />
       </SlideAppear>
     )
