@@ -35,7 +35,8 @@ const submitTicket = props => {
     fullscreen: false,
     showNotification: false,
     selectTicketFormLabel: 'submit ticket form',
-    onCancelClick: jest.fn()
+    onCancelClick: jest.fn(),
+    clearAttachments: jest.fn()
   }
   const mergedProps = { ...defaultProps, ...props }
   return <SubmitTicket {...mergedProps} />

@@ -108,6 +108,7 @@ export const uploadAttachment = file => (dispatch, getState) => {
     ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
     : null
   const id = _.uniqueId()
+  const fileType = file.type || 'application/octet-stream'
   const onUploadComplete = response => dispatch(uploadAttachmentSuccess(id, response))
   const onUploadFailure = error => dispatch(uploadAttachmentFailure(id, error))
   const onUploadUpdate = progress => dispatch(uploadAttachmentUpdate(id, progress))
@@ -115,6 +116,7 @@ export const uploadAttachment = file => (dispatch, getState) => {
     id,
     fileName: file.name,
     fileSize: file.size,
+    fileType,
     errorMessage,
     fileUrl: null,
     uploading: !fileOversize,

@@ -26,3 +26,8 @@ export const getAttachmentsReady = createSelector(
   [getAllAttachments, getValidAttachments],
   (allAttachments, validAttachments) => allAttachments.length === validAttachments.length
 )
+
+export const getAttachmentTypes = createSelector(
+  getValidAttachments,
+  attachments => attachments.map(attachment => attachment.fileType)
+)

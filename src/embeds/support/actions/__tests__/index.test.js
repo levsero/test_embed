@@ -12,7 +12,7 @@ jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 
 const mockId = 42
-const mockFileBlob = { name: 'blah.txt', size: 1024 }
+const mockFileBlob = { name: 'blah.txt', size: 1024, type: 'text/plain' }
 const mockStore = configureMockStore([thunk])
 const dispatchAction = action => {
   const store = mockStore()
@@ -130,12 +130,23 @@ describe('uploadAttachment', () => {
           id: mockId,
           fileName: mockFileBlob.name,
           fileSize: mockFileBlob.size,
+          fileType: mockFileBlob.type,
           fileUrl: null,
           uploading: true,
           uploadProgress: 0,
           errorMessage: null,
           uploadToken: null
         }
+      })
+    })
+
+    describe('when the file is of an unknown type', () => {
+      const mockFileBlob = { name: 'blah.txt', size: 1024, type: undefined }
+
+      it('falls back to "appliction/octet-stream', () => {
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+
+        expect(dispatchedActions[0].payload.fileType).toEqual('application/octet-stream')
       })
     })
 
@@ -172,6 +183,7 @@ describe('uploadAttachment', () => {
             id: mockId,
             fileName: mockFileBlob.name,
             fileSize: mockFileBlob.size,
+            fileType: mockFileBlob.type,
             fileUrl: null,
             uploading: false,
             uploadProgress: 0,

@@ -18,8 +18,10 @@ import {
   getMaxFileCount,
   getMaxFileSize,
   getAttachmentsReady,
-  getAttachmentTokens
+  getAttachmentTokens,
+  getAttachmentTypes
 } from 'embeds/support/selectors'
+import { clearAttachments } from 'src/embeds/support/actions'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { i18n } from 'service/i18n'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
@@ -61,7 +63,8 @@ const mapStateToProps = state => {
     maxFileCount: getMaxFileCount(state),
     maxFileSize: getMaxFileSize(state),
     attachmentsReady: getAttachmentsReady(state),
-    attachmentTokens: getAttachmentTokens(state)
+    attachmentTokens: getAttachmentTokens(state),
+    attachmentTypes: getAttachmentTypes(state)
   }
 }
 
@@ -97,7 +100,9 @@ class SubmitTicket extends Component {
     activeTicketFormFields: PropTypes.array,
     isMobile: PropTypes.bool,
     attachmentsReady: PropTypes.bool.isRequired,
-    attachmentTokens: PropTypes.array
+    attachmentTokens: PropTypes.array,
+    attachmentTypes: PropTypes.array,
+    clearAttachments: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -119,7 +124,9 @@ class SubmitTicket extends Component {
     activeTicketFormFields: [],
     hasContextuallySearched: false,
     isMobile: false,
-    attachmentsReady: true
+    attachmentsReady: true,
+    attachmentTokens: [],
+    attachmentTypes: []
   }
 
   constructor(props, context) {
@@ -140,10 +147,6 @@ class SubmitTicket extends Component {
     }
   }
 
-  clearAttachments = () => {
-    this.refs.submitTicketForm.clearAttachments()
-  }
-
   handleSubmit = (e, data) => {
     e.preventDefault()
 
@@ -152,9 +155,17 @@ class SubmitTicket extends Component {
       return
     }
 
-    const attachments = _.get(this.refs, 'submitTicketForm.refs.attachments')
-    const uploads = attachments ? this.props.attachmentTokens : null
+    const {
+      attachmentTokens,
+      attachmentsEnabled,
+      formState,
+      searchTerm,
+      locale,
+      hasContextuallySearched,
+      attachmentTypes
+    } = this.props
 
+    const uploads = attachmentTokens.length > 0 ? attachmentTokens : null
     const failCallback = () => {
       this.refs.submitTicketForm.failedToSubmit()
     }
@@ -166,29 +177,17 @@ class SubmitTicket extends Component {
 
       const params = {
         res: res,
-        email: _.get(this.props.formState, 'email'),
-        searchTerm: this.props.searchTerm,
-        searchLocale: this.props.locale,
-        contextualSearch: this.props.hasContextuallySearched
+        email: _.get(formState, 'email'),
+        searchTerm: searchTerm,
+        searchLocale: locale,
+        contextualSearch: hasContextuallySearched
       }
 
-      if (this.props.attachmentsEnabled) {
-        const attachmentsList = this.refs.submitTicketForm.refs.attachments
-        const attachments = attachmentsList.uploadedAttachments()
-
-        // When the MIME type is unknown use 'application/octet-stream' which
-        // represents arbitrary binary data.
-        // Reference: http://stackoverflow.com/questions/1176022/unknown-file-type-mime
-        const attachmentTypes = _.map(attachments, attachment => {
-          const fileType = _.get(attachment, 'file.type')
-
-          return _.isEmpty(fileType) ? 'application/octet-stream' : fileType
-        })
-
+      if (attachmentsEnabled) {
         _.extend(params, {
-          email: _.get(this.props.formState, 'email'),
-          attachmentsCount: attachmentsList.numUploadedAttachments(),
-          attachmentTypes: attachmentTypes
+          email: _.get(formState, 'email'),
+          attachmentsCount: attachmentTokens.length,
+          attachmentTypes
         })
       }
 
@@ -208,8 +207,9 @@ class SubmitTicket extends Component {
   }
 
   handleOnDrop = files => {
-    this.setState({ isDragActive: false })
-    this.refs.submitTicketForm.handleOnDrop(files)
+    this.setState({ isDragActive: false }, () => {
+      this.refs.submitTicketForm.handleOnDrop(files)
+    })
   }
 
   setTicketForm = ticketFormId => {
@@ -285,6 +285,7 @@ class SubmitTicket extends Component {
           previewEnabled={this.props.previewEnabled}
           isMobile={this.props.isMobile}
           attachmentsReady={this.props.attachmentsReady}
+          clearAttachments={this.props.clearAttachments}
         >
           {this.renderErrorMessage()}
         </SubmitTicketForm>
@@ -343,7 +344,8 @@ const actionCreators = {
   handleFormChange,
   handleTicketFormClick,
   handleTicketSubmission,
-  onCancelClick
+  onCancelClick,
+  clearAttachments
 }
 
 const connectedComponent = connect(
