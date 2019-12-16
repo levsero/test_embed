@@ -17,7 +17,6 @@ import { Widget, Header, Main, Footer } from 'components/Widget'
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send'
 const sendingButtonMessageString =
   'embeddable_framework.submitTicket.form.submitButton.label.sending'
-const cancelButtonMessageString = 'embeddable_framework.common.button.cancel'
 
 export class SubmitTicketForm extends Component {
   static propTypes = {
@@ -37,7 +36,6 @@ export class SubmitTicketForm extends Component {
     hide: PropTypes.bool,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
-    onCancel: PropTypes.func,
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
@@ -59,7 +57,6 @@ export class SubmitTicketForm extends Component {
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
     nameFieldEnabled: true,
-    onCancel: () => {},
     previewEnabled: false,
     setFormState: () => {},
     subjectEnabled: false,
@@ -96,7 +93,6 @@ export class SubmitTicketForm extends Component {
 
   initialState = {
     buttonMessage: sendButtonMessageString,
-    cancelButtonMessage: cancelButtonMessageString,
     isRTL: i18n.isRTL(),
     isSubmitting: false,
     isValid: false,
@@ -473,18 +469,6 @@ export class SubmitTicketForm extends Component {
         {ticketFields.checkboxes}
         {this.props.children}
       </div>
-    )
-  }
-
-  renderCancelButton = () => {
-    return (
-      <Button
-        onClick={this.props.onCancel}
-        className={styles.button}
-        data-testid={TEST_IDS.BUTTON_CANCEL}
-      >
-        {i18n.t(this.state.cancelButtonMessage)}
-      </Button>
     )
   }
 
