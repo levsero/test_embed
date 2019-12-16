@@ -734,23 +734,32 @@ describe('getPrechatFormFields', () => {
 
 describe('getDelayChatConnection', () => {
   test.each([
-    [false, false, true, false, false],
-    [false, false, false, false, true],
-    [false, true, true, false, true],
-    [false, true, false, false, true],
-    [true, true, false, false, true],
-    [true, false, false, false, true],
-    [true, false, true, false, true],
-    [true, true, true, false, true],
-    [true, true, true, true, false]
+    [false, false, true, false, '', false],
+    [false, false, false, false, '', true],
+    [false, true, true, false, '', true],
+    [false, true, false, false, '', true],
+    [true, true, false, false, '', true],
+    [true, false, false, false, '', true],
+    [true, false, true, false, '', true],
+    [true, true, true, false, '', true],
+    [true, true, true, true, '', false],
+    [true, true, true, false, 'connecting', false]
   ])(
-    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, is chatting == %p it returns %p',
-    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting, expectedValue) => {
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, is chatting == %p, chatConnection == %p, it returns %p',
+    (
+      defaultToChatWidgetLite,
+      connectOnDemand,
+      connectOnPageLoad,
+      isChatting,
+      connection,
+      expectedValue
+    ) => {
       const result = selectors.getDelayChatConnection.resultFunc(
         defaultToChatWidgetLite,
         connectOnDemand,
         connectOnPageLoad,
-        isChatting
+        isChatting,
+        connection
       )
 
       expect(result).toEqual(expectedValue)
