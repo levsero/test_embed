@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
@@ -8,8 +7,8 @@ import { queryAllByText } from 'e2e/helpers/queries'
 describe('support list page', () => {
   describe('when config returns multiple ticket forms', () => {
     it('displays a list of ticket forms', async () => {
-      const form1 = createForm('Example form 1', createField({ type: 'checkbox' }))
-      const form2 = createForm('Example form 1', createField({ type: 'text' }))
+      const form1 = createForm('Example form 1', 123, createField({ type: 'checkbox' }))
+      const form2 = createForm('Example form 2', 456, createField({ type: 'text' }))
 
       const mockConfigWithForms = {
         embeds: {
@@ -22,7 +21,14 @@ describe('support list page', () => {
         }
       }
 
-      const mockFormsResponse = _.merge(form1.mockFormsResponse, form2.mockFormsResponse)
+      const mockFormsResponse = {
+        ticket_forms: form1.mockFormsResponse.ticket_forms.concat(
+          form2.mockFormsResponse.ticket_forms
+        ),
+        ticket_fields: form1.mockFormsResponse.ticket_fields.concat(
+          form2.mockFormsResponse.ticket_fields
+        )
+      }
 
       await widgetPage.load({
         mockRequests: [

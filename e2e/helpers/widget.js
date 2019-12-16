@@ -16,6 +16,12 @@ const clickClose = async () => {
   await closeButton.click()
 }
 
+const clickBack = async () => {
+  const widget = await getDocument()
+  const backButton = await queries.getByTestId(widget, TEST_IDS.ICON_BACK)
+  await backButton.click()
+}
+
 const openByKeyboard = async () => {
   await page.keyboard.press('Tab')
   await page.keyboard.press('Enter')
@@ -25,6 +31,7 @@ export default {
   getDocument,
   getFrame,
   clickClose,
+  clickBack,
   openByKeyboard,
   selector: 'iframe#webWidget'
 }

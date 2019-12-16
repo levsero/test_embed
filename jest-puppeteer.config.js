@@ -4,5 +4,8 @@ module.exports = {
   preset: 'jest-puppeteer',
   globalSetup: './puppeteer.setup.js',
   globalTeardown: './puppeteer.teardown.js',
-  setupFilesAfterEnv: ['./setup.js']
+  setupFilesAfterEnv: ['./setup.js'],
+  launch: {
+    headless: process.env.HEADLESS !== 'false'
+  }
 }

@@ -3,8 +3,7 @@ import widgetPage from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
-import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
-import { waitForHelpCenter } from 'e2e/helpers/utils'
+import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 test('searching the help center', async () => {
   await widgetPage.load({
