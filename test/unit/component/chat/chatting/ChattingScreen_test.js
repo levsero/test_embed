@@ -22,6 +22,7 @@ describe('ChattingScreen component', () => {
   const ZendeskLogo = noopReactComponent('ZendeskLogo')
   const QuickReplies = noopReactComponent('QuickReplies')
   const QuickReply = noopReactComponent('QuickReply')
+  const LoadingMessagesIndicator = noopReactComponent('LoadingMessagesIndicator')
 
   const mockTitle = 'My custom title'
 
@@ -80,6 +81,7 @@ describe('ChattingScreen component', () => {
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
       },
+      'embeds/chat/components/LoadingMessagesIndicator': LoadingMessagesIndicator,
       'component/chat/chatting/ChattingFooter': {
         ChattingFooter: noopReactComponent()
       },
@@ -986,36 +988,6 @@ describe('ChattingScreen component', () => {
 
       it('does not show rating', () => {
         expect(chatHeaderComponent.props.showRating).toEqual(false)
-      })
-    })
-  })
-
-  describe('renderHistoryFetching', () => {
-    let requestStatus, result
-
-    beforeEach(() => {
-      const component = instanceRender(<ChattingScreen historyRequestStatus={requestStatus} />)
-
-      result = component.renderHistoryFetching()
-    })
-
-    describe('when the request status is set to pending', () => {
-      beforeAll(() => {
-        requestStatus = 'pending'
-      })
-
-      it('returns a div with the expected class', () => {
-        expect(result.props.className).toEqual('historyFetchingContainerClasses')
-      })
-    })
-
-    describe('when the request status is null', () => {
-      beforeAll(() => {
-        requestStatus = null
-      })
-
-      it('returns null', () => {
-        expect(result).toBeNull()
       })
     })
   })
