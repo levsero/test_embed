@@ -194,6 +194,8 @@ The Identify API call occurs when the widget loads. In the event that a ticket i
 
 - `data`: Object. Contains the properties `name`, `email`, and optional `organization`.
 
+A console warning occurs when there are invalid keys, invalid data on valid keys, or when passing non-object types.
+
 ##### Example
 
 ```html

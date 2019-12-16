@@ -77,6 +77,8 @@ Makes the visitor send a message. Starts a chat session if one is not already in
 
 - `message`: String. Message to be sent
 
+Passing non-string types results in an error. No message is sent.
+
 ##### Example
 
 ```html
@@ -109,11 +111,19 @@ Returns an object containing information about the specified department, includi
 
 - `department`: Integer or string. ID or name of the department
 
-##### Example
+Any other input types will return `undefined`.
+
+##### Examples
 
 ```html
 <script type="text/javascript">
   zE('webWidget:get', 'chat:department', 'Accounting');
+</script>
+```
+
+```html
+<script type="text/javascript">
+  zE('webWidget:get', 'chat:department', 5);
 </script>
 ```
 
@@ -171,15 +181,21 @@ Programmatically updates the visitor’s web path.
 
 ##### Parameters
 
-- `options`: Object (optional). If not specified, the current page’s location and title will be used; if specified, the updated page url and title will be taken from the options object
+- `options`: Object (optional). An object with two keys: `url` (for the URL of the page) and `title` (to set the page's title). If not specified or invalid, the location and title of the current page will be used.
 
-##### Example
+If passed non-object types or objects with other keys, the chat reverts back to using the location and title of the current page.
+
+##### Examples
 
 ```html
 <script type="text/javascript">
   // Without options
   zE('webWidget', 'updatePath');
+</script>
+```
 
+```html
+<script type="text/javascript">
   // With options
   zE('webWidget', 'updatePath', {
     url: 'http://example.com',
