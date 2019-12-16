@@ -20,7 +20,8 @@ import {
   getIsChatting,
   getActiveAgentCount,
   getEmbeddableConfigBadgeSettings,
-  getEmbeddableConfigOfflineEnabled
+  getEmbeddableConfigOfflineEnabled,
+  getConnection
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -316,10 +317,11 @@ export const getDelayChatConnection = createSelector(
     getDefaultToChatWidgetLite,
     getSettingsChatConnectOnDemand,
     getSettingsChatConnectOnPageLoad,
-    getIsChatting
+    getIsChatting,
+    getConnection
   ],
-  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting) => {
-    if (isChatting) return false
+  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting, chatConnection) => {
+    if (isChatting || chatConnection) return false
     return connectOnDemand || !connectOnPageLoad || defaultToChatWidgetLite
   }
 )
