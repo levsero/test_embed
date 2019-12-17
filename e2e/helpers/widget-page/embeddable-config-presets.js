@@ -38,7 +38,12 @@ const presets = {
       }
     }
   },
-  helpCenterWithContextualHelp: helpCenterEmbed({ contextualHelpEnabled: true })
+  helpCenterWithContextualHelp: helpCenterEmbed({ contextualHelpEnabled: true }),
+  answerBot: helpCenterEmbed({ answerBotEnabled: true }),
+  answerBotWithContextualHelp: helpCenterEmbed({
+    contextualHelpEnabled: true,
+    answerBotEnabled: true
+  })
 }
 
 export default presets
