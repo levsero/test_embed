@@ -304,7 +304,6 @@ describe('WebWidget component', () => {
     it('renders a ChatNotificationPopup with the correct props', () => {
       const expectedProps = {
         isMobile: true,
-        shouldShow: true,
         notification: { ...mockChatNotification, show: true }
       }
 

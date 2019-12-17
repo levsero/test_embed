@@ -350,7 +350,6 @@ class WebWidget extends Component {
             isMobile={true}
             notification={notification}
             fullscreen={this.props.fullscreen}
-            shouldShow={true}
             chatNotificationRespond={onNotificatonResponded}
             chatNotificationDismissed={proactiveChatNotificationDismissed}
           />

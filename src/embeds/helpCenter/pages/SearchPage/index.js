@@ -31,7 +31,7 @@ const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles
       <SearchHeader ref={searchHeaderRef} isMobile={isMobile} title={title} />
       <Main>{content}</Main>
       <HelpCenterFooter showNextButton={showNextButton} />
-      <NotificationPopup />
+      {!isMobile && <NotificationPopup />}
     </Widget>
   )
 }
