@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Footer } from 'src/components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'
+import { TEST_IDS } from 'constants/shared'
 import FormField from 'src/embeds/support/components/FormField'
 import { convertFieldValue, mapKeyFields } from 'src/embeds/support/utils/fieldConversion'
 import { getValidate } from 'src/embeds/support/utils/formFieldRules'
@@ -15,11 +16,6 @@ import { useSubmit } from 'src/hooks/useSubmit'
 const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFields }) => {
   const mappedTicketFields = mapKeyFields(ticketFields)
   const translate = useTranslate()
-  const sendString = translate('embeddable_framework.submitTicket.form.submitButton.label.send')
-  const sendingString = translate(
-    'embeddable_framework.submitTicket.form.submitButton.label.sending'
-  )
-
   const [showErrors, setShowFormErrors] = useState(false)
 
   const validate = getValidate(mappedTicketFields, translate)
@@ -32,7 +28,11 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
       onSubmit={onSubmit}
       initialValues={formState}
       render={({ handleSubmit, submitting }) => (
-        <StyledForm onSubmit={handleSubmit} noValidate={true}>
+        <StyledForm
+          onSubmit={handleSubmit}
+          noValidate={true}
+          data-testid={TEST_IDS.SUPPORT_TICKET_FORM}
+        >
           <FormStateRetriever formName={formName} />
           <Main>
             {mappedTicketFields.map(field => (
@@ -56,7 +56,11 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
           </Main>
           <Footer>
             <Button primary={true} type="submit" disabled={submitting} data-testid={'submitButton'}>
-              {submitting ? sendingString : sendString}
+              {translate(
+                submitting
+                  ? 'embeddable_framework.submitTicket.form.submitButton.label.sending'
+                  : 'embeddable_framework.submitTicket.form.submitButton.label.send'
+              )}
             </Button>
           </Footer>
         </StyledForm>
@@ -68,9 +72,16 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
 TicketForm.propTypes = {
   formName: PropTypes.string.isRequired,
   formState: PropTypes.object,
-  readOnlyState: PropTypes.object.isRequired,
+  readOnlyState: PropTypes.objectOf(PropTypes.bool).isRequired,
   submitForm: PropTypes.func.isRequired,
-  ticketFields: PropTypes.array.isRequired
+  ticketFields: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      keyID: PropTypes.string,
+      title_in_portal: PropTypes.string,
+      type: PropTypes.string
+    })
+  ).isRequired
 }
 
 export default TicketForm
