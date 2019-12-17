@@ -160,24 +160,20 @@ describe('UserProfile component', () => {
       expect(_.size(authUrls)).toBeGreaterThan(0)
     })
 
-    it('has an anchor element with expected attrs related to Google', () => {
+    it('has a button element with expected attrs related to Google', () => {
       const element = result[0]
       const icon = element.props.children
 
-      expect(element.type).toEqual('a')
-
-      expect(element.props.href).toEqual(authUrls.google)
+      expect(element.type.displayName).toEqual('IconButton')
 
       expect(icon.props.type).toEqual('Icon--google')
     })
 
-    it('has an anchor element with expected attrs related to Facebook', () => {
+    it('has a button element with expected attrs related to Facebook', () => {
       const element = result[1]
       const icon = element.props.children
 
-      expect(element.type).toEqual('a')
-
-      expect(element.props.href).toEqual(authUrls.facebook)
+      expect(element.type.displayName).toEqual('IconButton')
 
       expect(icon.props.type).toEqual('Icon--facebook')
     })
