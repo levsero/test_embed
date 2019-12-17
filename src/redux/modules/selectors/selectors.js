@@ -20,7 +20,7 @@ import {
 } from '../chat/chat-selectors'
 import {
   getOfflineFormEnabled,
-  getDelayChatConnection
+  getDelayChatConnectionEnabled
 } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
@@ -287,8 +287,10 @@ export const getChatEmailTranscriptEnabled = createSelector(
 )
 
 export const getDeferredChatReady = createSelector(
-  [getDelayChatConnection, getDeferredChatHasResponse],
-  (delayChatConnection, deferredchatHasResponse) => delayChatConnection && deferredchatHasResponse
+  [getDelayChatConnectionEnabled, getDeferredChatHasResponse],
+  (delayChatConnection, deferredChatHasResponse) => {
+    return delayChatConnection && deferredChatHasResponse
+  }
 )
 
 export const getChatReady = createSelector(
