@@ -55,7 +55,12 @@ export class PrechatForm extends Component {
       status: PropTypes.string,
       required: PropTypes.bool,
       disabled: PropTypes.bool
-    })
+    }),
+    selectedDepartment: PropTypes.shape({
+      id: PropTypes.number,
+      status: PropTypes.string
+    }),
+    offlineFormEnabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -90,6 +95,31 @@ export class PrechatForm extends Component {
 
   componentDidMount = () => {
     this.handleFormChange()
+    this.handleDepartmentGoingOffline(undefined, this.props.selectedDepartment)
+  }
+
+  componentDidUpdate = prevProps => {
+    this.handleDepartmentGoingOffline(prevProps.selectedDepartment, this.props.selectedDepartment)
+  }
+
+  handleDepartmentGoingOffline = (previousSelectedDepartment, currentSelectedDepartment) => {
+    if (!currentSelectedDepartment) {
+      return
+    }
+
+    previousSelectedDepartment = previousSelectedDepartment || {}
+
+    const departmentIsSame = previousSelectedDepartment.id === currentSelectedDepartment.id
+    const departmentStatusIsSame =
+      previousSelectedDepartment.status === currentSelectedDepartment.status
+
+    if (departmentIsSame && departmentStatusIsSame) {
+      return
+    }
+
+    if (currentSelectedDepartment.status === 'offline' && !this.props.offlineFormEnabled) {
+      this.props.onPrechatFormChange({ department: '' })
+    }
   }
 
   isDepartmentOffline = (departments, departmentId) => {

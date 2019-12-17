@@ -3,6 +3,7 @@ import { render } from 'src/util/testHelpers'
 import React from 'react'
 
 import { PrechatForm } from '../PrechatForm'
+import { TEST_IDS } from 'constants/shared'
 
 const mockFormProp = {
   name: { name: 'name', required: true },
@@ -39,7 +40,15 @@ const renderPrechatForm = (inProps = {}) => {
     ...inProps
   }
 
-  return render(<PrechatForm {...combinedProps} />)
+  const result = render(<PrechatForm {...combinedProps} />)
+
+  const rerender = (updatedProps = {}) =>
+    render(<PrechatForm {...combinedProps} {...updatedProps} />, { render: result.rerender })
+
+  return {
+    ...result,
+    rerender
+  }
 }
 
 test('renders a greeting message', () => {
@@ -225,6 +234,89 @@ describe('Departments', () => {
         expect(form.queryByText('enabledDept')).toBeInTheDocument()
 
         expect(form.queryByLabelText('defaultDept')).not.toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when offline forms are disabled', () => {
+    // PrechatForm seems very eager to call onPrechatFormChange on render with empty field values,
+    // so this helper function will filter out all calls to onPrechatFormChange that weren't called by handleDepartmentGoingOffline
+    const getDepartmentUpdateCalls = onPrechatFormChange =>
+      onPrechatFormChange.mock.calls.filter(([changes]) => {
+        const changedKeys = Object.keys(changes)
+        return changedKeys.length === 1 && changedKeys[0] === 'department'
+      })
+
+    describe('when selected department is offline', () => {
+      it('unsets the selected department', () => {
+        const onPrechatFormChange = jest.fn()
+        renderPrechatForm({
+          selectedDepartment: {
+            id: 123,
+            name: 'Something',
+            status: 'offline'
+          },
+          offlineFormEnabled: false,
+          formState: {
+            department: 123
+          },
+          onPrechatFormChange
+        })
+
+        expect(onPrechatFormChange).toHaveBeenCalledWith({ department: '' })
+      })
+
+      it('only calls onPrechatFormChange once to avoid potential infinite re-renders', () => {
+        const onPrechatFormChange = jest.fn()
+        const { queryByTestId } = renderPrechatForm({
+          selectedDepartment: {
+            id: 123,
+            name: 'Something',
+            status: 'offline'
+          },
+          offlineFormEnabled: false,
+          formState: {
+            department: 123
+          },
+          onPrechatFormChange
+        })
+
+        fireEvent.change(queryByTestId(TEST_IDS.EMAIL_FIELD), { target: { value: '1' } })
+        fireEvent.change(queryByTestId(TEST_IDS.EMAIL_FIELD), { target: { value: '2' } })
+        fireEvent.change(queryByTestId(TEST_IDS.EMAIL_FIELD), { target: { value: '3' } })
+
+        expect(onPrechatFormChange).toHaveBeenCalledWith({ department: '' })
+        expect(getDepartmentUpdateCalls(onPrechatFormChange)).toHaveLength(1)
+      })
+    })
+
+    describe('when the selected department goes offline', () => {
+      it('unsets the selected department', () => {
+        const onPrechatFormChange = jest.fn()
+        const { rerender } = renderPrechatForm({
+          selectedDepartment: {
+            id: 123,
+            name: 'Something',
+            status: 'online'
+          },
+          offlineFormEnabled: false,
+          formState: {
+            department: 123
+          },
+          onPrechatFormChange
+        })
+
+        expect(getDepartmentUpdateCalls(onPrechatFormChange)).toHaveLength(0)
+
+        rerender({
+          selectedDepartment: {
+            id: 123,
+            name: 'Something',
+            status: 'offline'
+          }
+        })
+
+        expect(onPrechatFormChange).toHaveBeenCalledWith({ department: '' })
       })
     })
   })
