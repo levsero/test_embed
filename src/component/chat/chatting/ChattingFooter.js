@@ -1,19 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { locals as styles } from './ChattingFooter.scss'
-
 import { i18n } from 'service/i18n'
 import { Dropzone } from 'component/Dropzone'
 
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
 
-import { FooterView } from 'components/Widget'
 import { ICONS, TEST_IDS } from 'constants/shared'
 import ChatMenu from 'embeds/chat/components/ChatMenu'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import ZendeskLogo from 'components/ZendeskLogo'
+import {
+  BottomRow,
+  ContainerMobile,
+  Footer,
+  IconContainer,
+  InputContainerMobile
+} from './ChattingFooterStyles'
 
 export class ChattingFooter extends Component {
   static propTypes = {
@@ -114,7 +118,6 @@ export class ChattingFooter extends Component {
     return (
       <FooterIconButton
         colorType="fill"
-        className={styles.iconSendChatMobile}
         onClick={this.props.sendChat}
         aria-label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
       >
@@ -125,28 +128,28 @@ export class ChattingFooter extends Component {
 
   renderDesktop = () => {
     return (
-      <FooterView className={styles.footer}>
+      <Footer>
         {this.props.children}
-        <div className={styles.bottomRow}>
+        <BottomRow>
           {!this.props.hideZendeskLogo && <ZendeskLogo linkToChat={true} />}
 
-          <div className={styles.iconContainer} data-testid={TEST_IDS.CHAT_FOOTER_MENU_BUTTONS}>
+          <IconContainer data-testid={TEST_IDS.CHAT_FOOTER_MENU_BUTTONS}>
             {this.renderEndChatOption()}
             {this.renderAttachmentOption()}
             <ChatMenu />
-          </div>
-        </div>
-      </FooterView>
+          </IconContainer>
+        </BottomRow>
+      </Footer>
     )
   }
 
   renderMobile = () => {
     return (
-      <div className={styles.containerMobile}>
+      <ContainerMobile>
         {this.renderAttachmentOption()}
-        <div className={styles.inputContainerMobile}>{this.props.children}</div>
+        <InputContainerMobile>{this.props.children}</InputContainerMobile>
         {this.renderSendChatOption()}
-      </div>
+      </ContainerMobile>
     )
   }
 
