@@ -8,7 +8,7 @@
   "engines": {
     "nvm": ">= 0.33.11",
     "node": ">= 8.9.4",
-    "npm": ">= 6.5.0"
+    "npm": ">= 6.13.4"
   },
   "scripts": {
     "latest": "git checkout master && git pull && ./script/setup_node_env",
@@ -217,6 +217,7 @@
     "webpack-dev-server": "^3.7.2",
     "webpack-manifest-plugin": "^2.0.3",
     "webpack-merge": "^4.1.5",
+    "webpack-stats-plugin": "~0.3.0",
     "when": "~3.7.8",
     "yaml-loader": "^0.5.0"
   }

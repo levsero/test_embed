@@ -20,7 +20,7 @@ env:
 
 before_install:
   - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
-  - npm i -g npm@6.5.0
+  - npm i -g npm@6.13.4
 
 install:
   - npm set progress=false && npm install

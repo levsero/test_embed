@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const { StatsWriterPlugin } = require('webpack-stats-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const chunks = require('./chunks')
@@ -73,16 +74,20 @@ let config = merge(common, {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-      generateStatsFile: true,
-      statsOptions: {
+      logLevel: 'silent'
+    }),
+    new StatsWriterPlugin({
+      filename: 'package_sizes.json',
+      stats: {
         assets: true,
         assetsSort: 'size',
         builtAt: true,
         chunks: false,
+        all: true,
+        modules: true,
+        maxModules: 0,
         errors: false,
-        logging: 'none',
-        warnings: false,
-        modules: false
+        warnings: false
       }
     })
   ]

@@ -7,7 +7,7 @@ require 'dogapi'
 
 module PackageSize
   class Reporter
-    STATS_FILE_LOCATION = 'dist/stats.json'
+    STATS_FILE_LOCATION = 'dist/package_sizes.json'
 
     attr_reader :report_sent
 
