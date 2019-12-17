@@ -64,7 +64,8 @@ describe('setupChat', () => {
         expect(zChat.init).toHaveBeenCalledWith({
           account_key: '123abc',
           activity_window: win,
-          popout: false
+          popout: false,
+          suppress_console_error: true
         })
       })
     })
@@ -93,7 +94,8 @@ describe('setupChat', () => {
           activity_window: win,
           override_proxy: 'staging.example.com',
           override_auth_server_host: 'staging.auth.example.com',
-          popout: false
+          popout: false,
+          suppress_console_error: true
         })
       })
     })

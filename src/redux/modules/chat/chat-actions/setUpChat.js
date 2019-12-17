@@ -20,6 +20,7 @@ import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
 import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/modules/selectors'
 import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { deferChatSetup, beginChatSetup } from 'embeds/chat/actions/setup-chat'
+import { chatBanned } from 'src/redux/modules/chat'
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -34,7 +35,8 @@ function makeChatConfig(config) {
         store.get('chatOverrideAuthServerHost') || config.overrideAuthServerHost,
       authentication,
       activity_window: win,
-      popout: isPopout()
+      popout: isPopout(),
+      suppress_console_error: true
     },
     _.isNil
   )
@@ -80,8 +82,13 @@ export function setUpChat(canBeDeferred = true) {
         })
       )
 
-      zChat.on('error', () => {
-        dispatch(chatConnectionError())
+      zChat.on('error', error => {
+        // eslint-disable-next-line no-console
+        console.warn(error.message)
+
+        if (error.message.includes('Visitor has been banned')) {
+          dispatch(chatBanned())
+        }
       })
 
       if (config.authentication) {
