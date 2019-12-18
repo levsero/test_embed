@@ -732,32 +732,41 @@ describe('getPrechatFormFields', () => {
   })
 })
 
-describe('getDelayChatConnection', () => {
+describe('getDelayChatConnectionEnabled', () => {
   test.each([
-    [false, false, true, false, '', false],
-    [false, false, false, false, '', true],
-    [false, true, true, false, '', true],
-    [false, true, false, false, '', true],
-    [true, true, false, false, '', true],
-    [true, false, false, false, '', true],
-    [true, false, true, false, '', true],
-    [true, true, true, false, '', true],
-    [true, true, true, true, '', false],
-    [true, true, true, false, 'connecting', false]
+    [false, false, true, false],
+    [false, false, false, true],
+    [false, true, true, true],
+    [false, true, false, true],
+    [true, true, false, true],
+    [true, false, false, true],
+    [true, false, true, true],
+    [true, true, true, true]
   ])(
-    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, is chatting == %p, chatConnection == %p, it returns %p',
-    (
-      defaultToChatWidgetLite,
-      connectOnDemand,
-      connectOnPageLoad,
-      isChatting,
-      connection,
-      expectedValue
-    ) => {
-      const result = selectors.getDelayChatConnection.resultFunc(
+    'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, it returns %p',
+    (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, expectedValue) => {
+      const result = selectors.getDelayChatConnectionEnabled.resultFunc(
         defaultToChatWidgetLite,
         connectOnDemand,
-        connectOnPageLoad,
+        connectOnPageLoad
+      )
+
+      expect(result).toEqual(expectedValue)
+    }
+  )
+})
+
+describe('getDelayChatConnection', () => {
+  test.each([
+    [true, false, '', true],
+    [false, false, '', false],
+    [true, true, '', false],
+    [true, false, 'connecting', false]
+  ])(
+    'when delayChatConnectionEnabled == %p, is chatting == %p, chatConnection == %p, it returns %p',
+    (delayChatConnectionEnabled, isChatting, connection, expectedValue) => {
+      const result = selectors.getDelayChatConnection.resultFunc(
+        delayChatConnectionEnabled,
         isChatting,
         connection
       )

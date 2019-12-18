@@ -312,17 +312,18 @@ export const getOfflineFormEnabled = createSelector(
   (offlineFormSettings, configOfflineEnabled) => offlineFormSettings.enabled || configOfflineEnabled
 )
 
-export const getDelayChatConnection = createSelector(
-  [
-    getDefaultToChatWidgetLite,
-    getSettingsChatConnectOnDemand,
-    getSettingsChatConnectOnPageLoad,
-    getIsChatting,
-    getConnection
-  ],
-  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, isChatting, chatConnection) => {
-    if (isChatting || chatConnection) return false
+export const getDelayChatConnectionEnabled = createSelector(
+  [getDefaultToChatWidgetLite, getSettingsChatConnectOnDemand, getSettingsChatConnectOnPageLoad],
+  (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad) => {
     return connectOnDemand || !connectOnPageLoad || defaultToChatWidgetLite
+  }
+)
+
+export const getDelayChatConnection = createSelector(
+  [getDelayChatConnectionEnabled, getIsChatting, getConnection],
+  (delayChatConnectionEnabled, isChatting, chatConnection) => {
+    if (isChatting || chatConnection) return false
+    return delayChatConnectionEnabled
   }
 )
 
