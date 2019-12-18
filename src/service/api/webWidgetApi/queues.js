@@ -3,9 +3,9 @@ import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
 import { setupPublicApi, setupDevApi } from './setupLegacyApi'
-import ZEApiError from 'errors/console/ZEApiError'
-import ApiExecuteError from 'errors/nonFatal/ApiExecuteError'
-import errorTracker from 'service/errorTracker'
+import { logAndTrackApiError } from 'src/service/api/errorHandlers'
+import ZEApiError from 'errors/nonFatal/ZEApiError'
+import LegacyZEApiError from 'errors/nonFatal/LegacyZEApiError'
 
 const newAPIPostRenderQueue = []
 
@@ -13,25 +13,47 @@ const apiAddToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args)
 }
 
-export function apisExecutePostRenderQueue(win, postRenderQueue, reduxStore) {
-  try {
-    postRenderQueue.forEach(method => {
-      win.zE[method[0]](...method[1])
-    })
-
-    newAPIPostRenderQueue.forEach(item => {
-      apiExecute(apiStructurePostRenderSetup(), reduxStore, ...item)
-    })
-
-    renderer.postRenderCallbacks()
-  } catch (e) {
-    errorTracker.error(new ApiExecuteError('Api execution error found with new api'), {
-      actualErrorMessage: e.message
-    })
-  }
+const legacyApiFunctionNameSignature = apiFunctionName => {
+  return `zE.${apiFunctionName}()`
 }
 
-export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
+const apiFunctionNameSignature = apiFunctionArray => {
+  return `zE('${apiFunctionArray[0]}', '${apiFunctionArray[1]}', ...)`
+}
+
+const logZEApiError = (apiFunctionNameSignature = null, e = {}) => {
+  logAndTrackApiError(new ZEApiError(apiFunctionNameSignature, e))
+}
+
+const logLegacyZEApiError = (apiFunctionNameSignature = null, e = {}) => {
+  logAndTrackApiError(new LegacyZEApiError(apiFunctionNameSignature, e))
+}
+
+export function apisExecutePostRenderQueue(win, legacyPostRenderQueue, reduxStore) {
+  let legacyApiFunctionName
+  let apiFunctionArray
+
+  try {
+    legacyPostRenderQueue.forEach(([legacyApiFunctionName, functionArguments]) => {
+      win.zE[legacyApiFunctionName](...functionArguments)
+    })
+  } catch (e) {
+    logLegacyZEApiError(legacyApiFunctionNameSignature(legacyApiFunctionName), e)
+  }
+
+  try {
+    newAPIPostRenderQueue.forEach(item => {
+      apiFunctionArray = item
+      apiExecute(apiStructurePostRenderSetup(), reduxStore, ...item)
+    })
+  } catch (e) {
+    logZEApiError(apiFunctionNameSignature(apiFunctionArray[0]), e)
+  }
+
+  renderer.postRenderCallbacks()
+}
+
+export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
   let devApi
 
   const postRenderCallback = (...args) => {
@@ -42,15 +64,13 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
         return apiExecute(apiStructurePostRenderSetup(), reduxStore, args)
       }
     } catch (e) {
-      errorTracker.error(new ApiExecuteError('Api execution error found with legacy api'), {
-        actualErrorMessage: e.message
-      })
+      logLegacyZEApiError(null, e)
     }
   }
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
   const postRenderQueueCallback = function(...args) {
     // "this" is bound to the method name
-    postRenderQueue.push([this, args])
+    legacyPostRenderQueue.push([this, args])
   }
   const publicApi = setupPublicApi(postRenderQueueCallback, reduxStore)
   const pairs = _.toPairs(win.zEmbed)
@@ -76,20 +96,6 @@ export function setupLegacyApiQueue(win, postRenderQueue, reduxStore) {
 }
 
 export function apisExecuteQueue(reduxStore, queue) {
-  const logApiError = (api, e = {}) => {
-    const error = new ZEApiError(
-      [
-        'An error occurred in your use of the Zendesk Widget API:',
-        api,
-        "Check out the Developer API docs to make sure you're using it correctly",
-        'https://developer.zendesk.com/embeddables/docs/widget/api',
-        e.stack
-      ].join('\n\n')
-    )
-
-    error.report()
-  }
-
   _.forEach(queue, method => {
     if (method[0].locale) {
       // Backwards compat with zE({locale: 'zh-CN'}) calls
@@ -99,17 +105,17 @@ export function apisExecuteQueue(reduxStore, queue) {
       try {
         method[0]()
       } catch (e) {
-        logApiError(method[0], e)
+        logLegacyZEApiError(null, e)
       }
     } else if (_.includes(method[0], 'webWidget')) {
       // New API
       try {
         apiExecute(apiStructurePreRenderSetup(apiAddToPostRenderQueue), reduxStore, method)
       } catch (e) {
-        logApiError(`"${method[0]} ${method[1]}"`, e)
+        logZEApiError(apiFunctionNameSignature(method), e)
       }
     } else {
-      logApiError(method[0])
+      logZEApiError(method[0])
     }
   })
 }
