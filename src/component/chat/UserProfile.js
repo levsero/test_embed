@@ -10,8 +10,6 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './UserProfile.scss'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 
-import { IconButton } from '@zendeskgarden/react-buttons'
-
 export class UserProfile extends Component {
   static propTypes = {
     authUrls: PropTypes.object.isRequired,
@@ -79,16 +77,15 @@ export class UserProfile extends Component {
 
   renderSocialLoginOptions(authUrls) {
     return _.map(authUrls, (loginUrl, loginType) => (
-      <IconButton
+      <a
         className={styles.socialLoginOptions}
         title={loginType}
         key={loginType}
-        onClick={() => {
-          window.open(loginUrl)
-        }}
+        href={loginUrl}
+        target="_blank"
       >
         <Icon type={`Icon--${loginType}`} />
-      </IconButton>
+      </a>
     ))
   }
 
