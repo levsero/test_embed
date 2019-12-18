@@ -27,7 +27,7 @@ const IconContainer = styled.div`
   flex: 1;
   justify-content: flex-end;
   align-items: center;
-  transform: tranlsateY(0px, 33%);
+  transform: translate(0px, 33%);
 
   button {
     margin-right: ${3 / FONT_SIZE}rem;
