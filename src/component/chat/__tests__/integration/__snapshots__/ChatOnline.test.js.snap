@@ -36,10 +36,10 @@ exports[`chat log agent attachment 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -60,10 +60,10 @@ exports[`chat log agent join 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -90,10 +90,10 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -120,10 +120,10 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -172,10 +172,10 @@ exports[`chat log agent message 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -185,10 +185,10 @@ exports[`chat log agent stopped typing 1`] = `
   class="chatLogContainer"
 >
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -199,48 +199,40 @@ exports[`chat log agent typing 1`] = `
 >
   <div
     aria-live="polite"
+    class="agentTyping"
   >
     <div
-      class="sc-iRbamj kjilnc"
+      aria-busy="true"
+      aria-live="polite"
+      class="container loadingEllipses"
+      data-testid="Icon--ellipsis"
     >
-      <svg
-        class="sc-gPEVay INNyr Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
-        color="inherit"
-        data-garden-id="loaders.inline"
-        data-garden-version="7.0.0"
-        data-testid="Icon--ellipsis"
-        height="4"
-        size="16"
-        viewBox="0 0 16 4"
-        width="16"
-      >
-        <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
-          cx="14"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-        <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
-          cx="8"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-        <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
-          cx="2"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-      </svg>
-      Mr F is typing
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
+      <div
+        class="
+      circle loadingEllipsesItem
+      bounce
+      
+    "
+      />
     </div>
+    Mr F is typing
   </div>
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -261,10 +253,10 @@ exports[`chat log comment 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -285,10 +277,10 @@ exports[`chat log member join 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -315,10 +307,10 @@ exports[`chat log member leave 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -335,10 +327,10 @@ exports[`chat log queue position 1`] = `
     Queue position: 3
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -359,10 +351,10 @@ exports[`chat log rating 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -491,10 +483,10 @@ exports[`chat log series of actions 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -543,10 +535,10 @@ exports[`chat log visitor message account settings login enabled displays update
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -595,10 +587,10 @@ exports[`chat log visitor message account settings login enabled displays update
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -642,10 +634,10 @@ exports[`chat log visitor message account settings login enabled does not displa
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -689,10 +681,10 @@ exports[`chat log visitor message account settings login enabled does not displa
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -751,10 +743,10 @@ exports[`chat log visitor message failure 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -808,10 +800,10 @@ exports[`chat log visitor message success 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
+    class="noAgentTyping"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
