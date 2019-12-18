@@ -10,22 +10,16 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
 
 .socialLoginContainer {
   margin-bottom: #{14 / $font-size}rem;
-  display: flex;
-  align-items: center;
 }
 
 .socialLoginOptions {
   position: relative;
+  top: #{3 / $font-size}rem;
   margin-left: #{5 / $font-size}rem;
   display: inline-block;
-  border: $thin-border-size solid $zd-color-grey-400 !important;
-  width: #{44 / $font-size}rem;
-  height: #{28 / $font-size}rem;
-  border-radius: #{14 / $font-size}rem;
-  background: $zd-color-white;
 
-  &:hover {
-    background: $zd-color-grey-100 !important;
+  &:focus {
+    outline: -webkit-focus-ring-color auto #{5 / $font-size}rem;
   }
 
   [dir='rtl'] & {
