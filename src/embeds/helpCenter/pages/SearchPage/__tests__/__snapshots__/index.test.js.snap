@@ -325,6 +325,9 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         </div>
       </div>
     </footer>
+    <div>
+      NotificationPopup
+    </div>
   </div>
 </div>
 `;
@@ -654,6 +657,9 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         </div>
       </div>
     </footer>
+    <div>
+      NotificationPopup
+    </div>
   </div>
 </div>
 `;

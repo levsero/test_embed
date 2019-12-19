@@ -18,7 +18,7 @@ export class Avatar extends Component {
   }
 
   renderCustom = classes => {
-    return <img aria-hidden={true} alt="" className={classes} src={this.props.src} />
+    return <img aria-hidden={true} alt="avatar" className={classes} src={this.props.src} />
   }
 
   renderDefault = (classes, icon) => {

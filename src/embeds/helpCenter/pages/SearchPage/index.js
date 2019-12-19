@@ -15,6 +15,7 @@ import {
 import { getSearchLoading, getSearchedArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
 import LoadingBarContent from 'src/components/LoadingBarContent'
+import NotificationPopup from 'src/embeds/helpCenter/components/NotificationPopup'
 
 const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles }) => {
   const searchHeaderRef = useRef(null)
@@ -30,6 +31,7 @@ const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles
       <SearchHeader ref={searchHeaderRef} isMobile={isMobile} title={title} />
       <Main>{content}</Main>
       <HelpCenterFooter showNextButton={showNextButton} />
+      {!isMobile && <NotificationPopup />}
     </Widget>
   )
 }
