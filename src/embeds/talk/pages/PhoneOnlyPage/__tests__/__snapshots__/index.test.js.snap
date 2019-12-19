@@ -12,30 +12,13 @@ Snapshot Diff:
 
 @@ -54,5 +54,0 @@
 -         <p
--           class="sc-bdVaJa ktbwkF"
+-           class="sc-fBuWsC cxbHCX"
 -         >
 -           10
 -         </p>
 `;
 
 exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] = `
-.c9 {
-  margin-bottom: 1.0714285714285714rem;
-  data-testid: talk--averageWaitTime;
-}
-
-.c11 {
-  color: #1f73b7;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-}
-
-.c11:hover,
-.c11:focus,
-.c11:active {
-  color: #1f73b7;
-}
-
 .c0 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
@@ -154,6 +137,23 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.c9 {
+  margin-bottom: 1.0714285714285714rem;
+  data-testid: talk--averageWaitTime;
+}
+
+.c11 {
+  color: #1f73b7;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c11:hover,
+.c11:focus,
+.c11:active {
+  color: #1f73b7;
 }
 
 .c6 {
@@ -317,7 +317,7 @@ Snapshot Diff:
 
 @@ -54,5 +54,0 @@
 -         <p
--           class="sc-bdVaJa ktbwkF"
+-           class="sc-fBuWsC cxbHCX"
 -         >
 -           10
 -         </p>

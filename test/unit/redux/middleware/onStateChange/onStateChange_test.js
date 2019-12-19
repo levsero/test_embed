@@ -24,7 +24,6 @@ describe('onStateChange middleware', () => {
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
   const audioPlaySpy = jasmine.createSpy('audioPlay')
   const historySpy = jasmine.createSpyObj('history', ['push', 'replace'])
-  const broadcastSpy = jasmine.createSpy('broadcast')
   const chatNotificationResetSpy = jasmine.createSpy('chatNotificationReset')
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity)
   const clearDepartmentSpy = jasmine.createSpy('clearDepartment')
@@ -107,13 +106,6 @@ describe('onStateChange middleware', () => {
         }
       },
       'service/history': historySpy,
-      'service/mediator': {
-        mediator: {
-          channel: {
-            broadcast: broadcastSpy
-          }
-        }
-      },
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
@@ -258,10 +250,6 @@ describe('onStateChange middleware', () => {
         it('does not dispatch the getOperatingHours action', () => {
           expect(getOperatingHoursSpy).not.toHaveBeenCalled()
         })
-
-        it('does not call mediator with newChat.connected', () => {
-          expect(broadcastSpy).not.toHaveBeenCalledWith('newChat.connected')
-        })
       })
 
       describe('when chat has connected', () => {
@@ -293,7 +281,6 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             getAccountSettingsSpy.calls.reset()
             getIsChattingSpy.calls.reset()
-            broadcastSpy.calls.reset()
             stateChangeFn(connectingState, connectedState, {}, dispatchSpy)
           })
 
@@ -314,7 +301,6 @@ describe('onStateChange middleware', () => {
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
 
       beforeEach(() => {
-        broadcastSpy.calls.reset()
         newAgentMessageReceivedSpy.calls.reset()
         audioPlaySpy.calls.reset()
         updateActiveEmbedSpy.calls.reset()
@@ -340,10 +326,6 @@ describe('onStateChange middleware', () => {
           it('does not dispatch newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy).not.toHaveBeenCalled()
           })
-
-          it('does not call mediator', () => {
-            expect(broadcastSpy).not.toHaveBeenCalled()
-          })
         })
       })
 
@@ -366,10 +348,6 @@ describe('onStateChange middleware', () => {
 
           it('does not dispatch newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy).not.toHaveBeenCalled()
-          })
-
-          it('does not call mediator', () => {
-            expect(broadcastSpy).not.toHaveBeenCalled()
           })
         })
 
@@ -516,10 +494,6 @@ describe('onStateChange middleware', () => {
                 stateChangeFn(prevState, nextState, {}, dispatchSpy)
               })
 
-              it('calls mediator with newChat.newMessage', () => {
-                expect(broadcastSpy).not.toHaveBeenCalledWith('newChat.newMessage')
-              })
-
               it('does not call sound', () => {
                 expect(audioPlaySpy).not.toHaveBeenCalled()
               })
@@ -593,10 +567,6 @@ describe('onStateChange middleware', () => {
 
               stateChangeFn(prevState, nextState, {}, dispatchSpy)
             })
-
-            it('does not call mediator', () => {
-              expect(broadcastSpy).not.toHaveBeenCalled()
-            })
           })
 
           describe('when the embed is shown and the active embed is chat', () => {
@@ -609,10 +579,6 @@ describe('onStateChange middleware', () => {
 
             it('does not dispatch updateActiveEmbed', () => {
               expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
-            })
-
-            it('does not call mediator', () => {
-              expect(broadcastSpy).not.toHaveBeenCalled()
             })
           })
         })
@@ -715,7 +681,6 @@ describe('onStateChange middleware', () => {
 
     describe('onChatStatusChange', () => {
       beforeEach(() => {
-        broadcastSpy.calls.reset()
         updateActiveEmbedSpy.calls.reset()
       })
 

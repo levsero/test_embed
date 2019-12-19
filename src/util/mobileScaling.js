@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { win, document as doc } from 'utility/globals'
 import { renderer } from 'service/renderer'
 import { getDeviceZoom, getZoomSizingRatio } from 'utility/devices'
-import { mediator } from 'service/mediator'
 import { setScrollKiller } from 'utility/scrollHacks'
 import { cappedTimeoutCall } from 'utility/utils'
 import { onNextTick } from 'src/util/utils'
@@ -19,8 +18,7 @@ const propagateFontRatioChange = () => {
     }
 
     renderer.hideByZoom(hideWidget)
-
-    mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
+    renderer.propagateFontRatio(getZoomSizingRatio())
   })
 }
 const zoomMonitor = (() => {

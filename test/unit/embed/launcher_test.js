@@ -41,11 +41,6 @@ describe('embed.launcher', () => {
           t: _.identity
         }
       },
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
       globalCSS: '',
       './launcherStyles': {
         launcherStyles: 'mockCss'

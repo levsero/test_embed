@@ -1,7 +1,7 @@
 import { isMobileBrowser } from 'utility/devices'
 import { updateWidgetShown } from 'src/redux/modules/base/base-actions'
 import { getWebWidgetVisible } from 'src/redux/modules/selectors'
-import { mediator } from 'service/mediator'
+import { renderer } from 'service/renderer'
 import { setScaleLock, getZoomSizingRatio } from 'utility/devices'
 import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'utility/scrollHacks'
 import { FRAME_ANIMATION_DELAY } from 'src/constants/shared'
@@ -16,13 +16,12 @@ export default function onWidgetOpen(prevState, nextState, dispatch, getState) {
           setScaleLock(true)
           setWindowScroll(0)
           setScrollKiller(true)
-          mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
+          renderer.propagateFontRatio(getZoomSizingRatio())
         }
       }, FRAME_ANIMATION_DELAY)
     }
   } else if (getWebWidgetVisible(prevState) && !getWebWidgetVisible(nextState)) {
     dispatch(updateWidgetShown(false))
-    mediator.channel.broadcast('webWidget.onClose')
 
     if (isMobileBrowser()) {
       setScaleLock(false)

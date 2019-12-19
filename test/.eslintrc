@@ -17,7 +17,6 @@
     "noopSuspenseComponent": true,
     "noopReactRenderPropComponent": true,
     "scrollContainerComponent": true,
-    "pluckSubscribeCall": true,
     "React": true,
     "TestUtils": true,
     "ReactDOM": true,

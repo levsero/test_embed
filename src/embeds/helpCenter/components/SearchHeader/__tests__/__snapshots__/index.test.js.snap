@@ -1,24 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on desktop 1`] = `
-.c9 {
-  color: #c2c8cc !important;
-  height: 1.2rem !important;
-  width: 1.2rem !important;
-}
-
-.c8 {
-  margin-top: 0.2857142857142857rem;
-}
-
-.c8 > div > div {
-  max-height: unset;
-}
-
-.c7 {
-  margin-bottom: 0;
-}
-
 .c0 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
@@ -112,6 +94,24 @@ exports[`renders correctly on desktop 1`] = `
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c9 {
+  color: #c2c8cc !important;
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+}
+
+.c8 {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c8 > div > div {
+  max-height: unset;
+}
+
+.c7 {
+  margin-bottom: 0;
 }
 
 <div>

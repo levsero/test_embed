@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { launcher } from 'embed/launcher/launcher'
 import WebWidgetFactory from 'embed/webWidget/webWidget'
 import { i18n } from 'service/i18n'
-import { mediator } from 'service/mediator'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
@@ -68,8 +67,6 @@ function init(config, reduxStore = dummyStore) {
       registerEmbedsInRedux(config, reduxStore)
       renderLauncher(config, reduxStore)
       renderWebWidget(config, reduxStore)
-
-      mediator.init(reduxStore)
     }
 
     reduxStore.dispatch(widgetInitialised())
@@ -79,10 +76,6 @@ function init(config, reduxStore = dummyStore) {
     if (Math.abs(win.orientation) === 90) {
       hideByZoom(true)
     }
-
-    mediator.channel.subscribe('.updateZoom', function(ratio) {
-      propagateFontRatio(ratio)
-    })
   }
 }
 

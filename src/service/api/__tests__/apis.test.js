@@ -20,7 +20,6 @@ import * as callbacks from 'service/api/callbacks'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 
-jest.mock('service/mediator')
 jest.mock('service/settings')
 jest.mock('service/beacon')
 jest.mock('service/identity')
