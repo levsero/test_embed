@@ -18,6 +18,8 @@ const mapStateToProps = state => {
   }
 }
 
+const supportResizeObserver = win.ResizeObserver !== undefined
+
 export class SliderContainer extends Component {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -94,7 +96,9 @@ export class SliderContainer extends Component {
      * As a workaround, need to ensure SliderContainer component get updated on
      * orientation change.
      */
-    win.addEventListener('orientationchange', this.handleOrientationChange)
+    if (!supportResizeObserver) {
+      win.addEventListener('orientationchange', this.handleOrientationChange)
+    }
   }
 
   componentDidUpdate() {
@@ -112,7 +116,9 @@ export class SliderContainer extends Component {
   }
 
   componentWillUnmount() {
-    win.removeEventListener('orientationchange', this.handleOrientationChange)
+    if (!supportResizeObserver) {
+      win.removeEventListener('orientationchange', this.handleOrientationChange)
+    }
   }
 
   handleOrientationChange = () => {
