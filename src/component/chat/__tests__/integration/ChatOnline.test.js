@@ -16,6 +16,8 @@ jest.mock('service/transport/http')
 
 jest.useFakeTimers()
 
+const updateChatBackButtonVisibility = jest.fn()
+
 let store
 
 beforeEach(() => {
@@ -32,8 +34,13 @@ const timestamp = () => {
   return 1544788677868 + counter
 }
 
-const renderComponent = () => {
-  return render(<ChatOnline updateChatBackButtonVisibility={() => {}} />, { store })
+const renderComponent = props => {
+  const mergedProps = {
+    updateChatBackButtonVisibility,
+    ...props
+  }
+
+  return render(<ChatOnline {...mergedProps} />, { store })
 }
 
 describe('chat log', () => {

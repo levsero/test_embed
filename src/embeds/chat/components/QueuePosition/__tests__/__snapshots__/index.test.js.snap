@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render matches structure 1`] = `
+.c0 {
+  text-align: center !important;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+<div>
+  <div
+    aria-live="polite"
+    class="c0"
+    role="status"
+  >
+    Queue position: 1
+  </div>
+</div>
+`;

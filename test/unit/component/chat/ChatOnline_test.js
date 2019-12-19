@@ -99,7 +99,8 @@ describe('ChatOnline component', () => {
       'src/redux/modules/chat/chat-selectors': {},
       'src/util/utils': {
         onNextTick: cb => setTimeout(cb, 0)
-      }
+      },
+      'src/embeds/chat/components/ButtonPill': {}
     })
 
     mockery.registerAllowable(chatPath)
@@ -617,51 +618,6 @@ describe('ChatOnline component', () => {
 
       it('returns a AgentDetailsPage component', () => {
         expect(TestUtils.isElementOfType(component, AgentDetailsPage)).toEqual(true)
-      })
-    })
-  })
-
-  describe('renderChatReconnectButton', () => {
-    let connectionStatus, isLoggingOut, result
-
-    beforeEach(() => {
-      const component = instanceRender(
-        <ChatOnline connection={connectionStatus} isLoggingOut={isLoggingOut} />
-      )
-
-      result = component.renderChatReconnectButton()
-    })
-
-    describe('when the connection prop is set to closed', () => {
-      beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CLOSED
-        isLoggingOut = false
-      })
-
-      it('returns a div with a ButtonPill component inside it', () => {
-        expect(TestUtils.isElementOfType(result.props.children, ButtonPill)).toEqual(true)
-      })
-    })
-
-    describe('when the connection prop is not set to closed', () => {
-      beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CONNECTED
-        isLoggingOut = false
-      })
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined()
-      })
-    })
-
-    describe('when user is logging out', () => {
-      beforeAll(() => {
-        connectionStatus = CONNECTION_STATUSES.CONNECTED
-        isLoggingOut = true
-      })
-
-      it('returns undefined', () => {
-        expect(result).toBeUndefined()
       })
     })
   })

@@ -3,7 +3,7 @@
 exports[`it renders 1`] = `
 <div>
   <div
-    class="sc-dVhcbM ipYxbu"
+    class="sc-caSCKo iUCPsp"
   >
     <svg
       alt="avatar"
@@ -11,15 +11,15 @@ exports[`it renders 1`] = `
       realfilename="widget-icon_avatar.svg"
     />
     <div
-      class="sc-eqIVtm kTcryj"
+      class="sc-gisBJw jBcqkN"
     >
       <div
-        class="sc-fAjcbJ bGHzHF"
+        class="sc-kjoXOD hdpiWb"
       >
         Agent Smith
       </div>
       <div
-        class="sc-caSCKo btztuX"
+        class="sc-cHGsZl fZVHHG"
       >
         kill_neo_666@hotmail.com
       </div>

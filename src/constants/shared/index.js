@@ -134,6 +134,7 @@ export const TEST_IDS = {
   CC_CONTAINER: 'channel-choice-container',
   AB_SELECTION_MESSAGE: 'answer-bot-selection-message',
   ATTACHMENT_LIST_CONTAINER: 'attachment-list-container',
+  ICON_ARROW_DOWN: 'Icon--arrow-down',
   ICON_ZENDESK: ICONS.ZENDESK,
   ICON_END_CHAT: ICONS.END_CHAT,
   ICON_ELLIPSIS: ICONS.ELLIPSIS,
