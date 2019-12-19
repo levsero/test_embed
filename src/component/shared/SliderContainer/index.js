@@ -10,6 +10,7 @@ import { locals as styles } from './SliderContainer.scss'
 
 import { Icon } from 'component/Icon'
 import { getSliderVendor } from 'src/redux/modules/chat/chat-selectors'
+import { win } from 'utility/globals'
 
 const mapStateToProps = state => {
   return {
@@ -81,6 +82,19 @@ export class SliderContainer extends Component {
       // slick track where the animation takes place
       this.slickTrack = getParent(this.child0, 'slick-track')
     }
+
+    /**
+     * This is to fix https://support.zendesk.com/agent/tickets/4836748 where
+     * customer complains that the structured message carousel does not behave
+     * properly in iOS device. It is caused by < iOS 13.2 devices does not
+     * support ResizeObserver. Even though the carousel library that we use
+     * (react-slick) do use resize-observer-polyfill, the polyfill does not
+     * work in WebWidget due to the problem described in
+     * https://zendesk.slack.com/archives/C0R1EJ3UP/p1574040302227800.
+     * As a workaround, need to ensure SliderContainer component get updated on
+     * orientation change.
+     */
+    win.addEventListener('orientationchange', this.handleOrientationChange)
   }
 
   componentDidUpdate() {
@@ -95,6 +109,14 @@ export class SliderContainer extends Component {
       // Browser affect the DOM's scrollLeft when we move the carousel manually via tabbing. This will reset scrollLeft behavior.
       getChild(this.sliderEle, 'slick-list').scrollLeft = 0
     }
+  }
+
+  componentWillUnmount() {
+    win.removeEventListener('orientationchange', this.handleOrientationChange)
+  }
+
+  handleOrientationChange = () => {
+    this.forceUpdate()
   }
 
   calculatePagesInfo() {
