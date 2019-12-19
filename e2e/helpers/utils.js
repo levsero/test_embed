@@ -13,6 +13,12 @@ export function failOnConsoleError() {
   })
 }
 
+export const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+}
+
 export const assertInputValue = async (label, value) => {
   const doc = await widget.getDocument()
   const input = await queries.getByLabelText(doc, label)
