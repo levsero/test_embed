@@ -2,6 +2,7 @@ import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import widgetPage from './widget-page'
 import { mockEmbeddableConfigEndpoint } from './widget-page/embeddable-config'
+import { CORS_HEADERS } from './utils'
 import widget from './widget'
 
 const mockTicketFormsEndpoint = response => request => {
@@ -11,7 +12,7 @@ const mockTicketFormsEndpoint = response => request => {
 
   request.respond({
     status: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: CORS_HEADERS,
     contentType: 'application/json',
     body: JSON.stringify(response)
   })
@@ -24,7 +25,7 @@ const mockTicketFieldsEndpoint = response => request => {
 
   request.respond({
     status: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: CORS_HEADERS,
     contentType: 'application/json',
     body: JSON.stringify(response)
   })
@@ -39,7 +40,7 @@ const mockTicketSubmissionEndpoint = callback => request => {
 
   request.respond({
     status: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: CORS_HEADERS,
     contentType: 'application/json',
     body: JSON.stringify({ request: { id: 123 } })
   })
