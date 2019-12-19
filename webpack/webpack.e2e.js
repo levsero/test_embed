@@ -32,6 +32,7 @@ module.exports = () => {
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(false)
       }),
+      new webpack.NormalModuleReplacementPlugin(/loadZChat\.js/, './loadZChat.e2e.js'),
       new webpack.WatchIgnorePlugin([
         path.resolve(__dirname, './test/'),
         path.resolve(__dirname, './node_modules/')

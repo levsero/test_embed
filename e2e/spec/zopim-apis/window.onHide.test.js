@@ -2,9 +2,11 @@ import widgetPage from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import zChat from 'e2e/helpers/zChat'
 
 beforeEach(async () => {
   await widgetPage.loadWithConfig('helpCenter', 'chat')
+  await zChat.online()
 })
 
 test('callback is called when widget is closed', async () => {
