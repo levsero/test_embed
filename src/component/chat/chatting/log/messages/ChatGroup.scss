@@ -187,6 +187,12 @@
   width: calc(90% + #{$structure-msg-card-margin/$font-size}rem);
 }
 
+@media (orientation: landscape) {
+  .carouselMobileContainer {
+    max-width: 75vh;
+  }
+}
+
 .defaultMessageContainer {
   position: relative;
 
