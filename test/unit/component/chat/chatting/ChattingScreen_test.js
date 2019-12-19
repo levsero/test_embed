@@ -50,16 +50,12 @@ describe('ChattingScreen component', () => {
           footer: 'footerClasses',
           footerMobile: 'footerMobileClasses',
           footerMobileWithLogo: 'footerMobileWithLogoClasses',
-          agentTyping: 'agentTypingClasses',
-          agentTypingMobile: 'agentTypingMobileClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollBarFix: 'scrollBarFix',
           logoFooter: 'logoFooterClasses',
           zendeskLogo: 'zendeskLogoClasses',
           zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
           historyFetchingContainer: 'historyFetchingContainerClasses',
-          noAgentTyping: 'noAgentTypingClass',
-          noAgentTypingMobile: 'noAgentTypingMobileClass',
           scrollBottomPill: 'scrollBottomPillClass',
           scrollBottomPillMobile: 'scrollBottomPillMobileClass',
           headerMargin: 'headerMargin'
@@ -82,6 +78,9 @@ describe('ChattingScreen component', () => {
         ChatHeader: noopReactComponent()
       },
       'embeds/chat/components/LoadingMessagesIndicator': LoadingMessagesIndicator,
+      'src/embeds/chat/online/components/AgentTyping': {
+        AgentTyping: noopReactComponent()
+      },
       'component/chat/chatting/ChattingFooter': {
         ChattingFooter: noopReactComponent()
       },
@@ -792,141 +791,6 @@ describe('ChattingScreen component', () => {
 
       it('returns null', () => {
         expect(queuePositionComponent).toBeNull()
-      })
-    })
-  })
-
-  describe('renderAgentTyping', () => {
-    let agentTypingComponent
-
-    describe('when called', () => {
-      describe('when it is mobile mode', () => {
-        beforeEach(() => {
-          const component = instanceRender(
-            <ChattingScreen isMobile={true} chat={{ rating: null }} />
-          )
-
-          agentTypingComponent = component.renderAgentTyping()
-        })
-
-        it('renders with agentTypingMobile class', () => {
-          expect(agentTypingComponent.props.className).toEqual('noAgentTypingMobileClass')
-        })
-      })
-
-      describe('when it is not mobile mode', () => {
-        beforeEach(() => {
-          const component = instanceRender(
-            <ChattingScreen isMobile={false} chat={{ rating: null }} />
-          )
-
-          agentTypingComponent = component.renderAgentTyping()
-        })
-
-        it('renders with agentTyping class', () => {
-          expect(agentTypingComponent.props.className).toEqual('noAgentTypingClass')
-        })
-      })
-    })
-
-    describe('when no agents are typing a message', () => {
-      describe('when it is mobile mode', () => {
-        beforeEach(() => {
-          const mockTypingAgents = []
-          const component = instanceRender(
-            <ChattingScreen isMobile={true} chat={{ rating: null }} />
-          )
-
-          agentTypingComponent = component.renderAgentTyping(mockTypingAgents)
-        })
-
-        it('renders a div with expected styles', () => {
-          expect(agentTypingComponent.type).toEqual('div')
-
-          expect(agentTypingComponent.props.className).toEqual('noAgentTypingMobileClass')
-        })
-      })
-
-      describe('when it is not mobile mode', () => {
-        beforeEach(() => {
-          const mockTypingAgents = []
-          const component = instanceRender(
-            <ChattingScreen isMobile={false} chat={{ rating: null }} />
-          )
-
-          agentTypingComponent = component.renderAgentTyping(mockTypingAgents)
-        })
-
-        it('renders a div with expected styles', () => {
-          expect(agentTypingComponent.type).toEqual('div')
-
-          expect(agentTypingComponent.props.className).toEqual('noAgentTypingClass')
-        })
-      })
-    })
-
-    describe('when there is an agent typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [{ nick: 'agent:1', typing: true }]
-        const component = instanceRender(<ChattingScreen chat={{ rating: null }} />)
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents)
-      })
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className).toEqual('agentTypingClasses')
-      })
-
-      it('renders a notification that signifies a single agent typing', () => {
-        expect(agentTypingComponent.props.children[1]).toEqual(
-          'embeddable_framework.chat.chatLog.isTyping'
-        )
-      })
-    })
-
-    describe('when two agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [
-          { nick: 'agent:1', typing: true },
-          { nick: 'agent:2', typing: true }
-        ]
-        const component = instanceRender(<ChattingScreen chat={{ rating: null }} />)
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents)
-      })
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className).toEqual('agentTypingClasses')
-      })
-
-      it('renders a notification that signifies two agents typing', () => {
-        expect(agentTypingComponent.props.children[1]).toEqual(
-          'embeddable_framework.chat.chatLog.isTyping_two'
-        )
-      })
-    })
-
-    describe('when more than two agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [
-          { nick: 'agent:1', typing: true },
-          { nick: 'agent:2', typing: true },
-          { nick: 'agent:3', typing: true }
-        ]
-
-        const component = instanceRender(<ChattingScreen chat={{ rating: null }} />)
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents)
-      })
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className).toEqual('agentTypingClasses')
-      })
-
-      it('renders a notification that signifies multiple agents typing', () => {
-        expect(agentTypingComponent.props.children[1]).toEqual(
-          'embeddable_framework.chat.chatLog.isTyping_multiple'
-        )
       })
     })
   })
