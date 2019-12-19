@@ -1,18 +1,19 @@
 import _ from 'lodash'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
+import { render } from 'src/util/testHelpers'
+import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
+import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/session-resolved'
 
-import { Component as PrimaryFeedback } from '../PrimaryFeedback'
-
-const actions = Object.freeze({
-  sessionResolved: jest.fn(),
-  botUserMessage: jest.fn(),
-  botFeedbackMessage: jest.fn(),
-  botFeedback: jest.fn()
-})
+import PrimaryFeedback from '../PrimaryFeedback'
 
 const renderComponent = (props = {}) => {
-  const componentProps = _.merge({}, { actions }, props)
+  const componentProps = _.merge({}, props)
+
+  jest.spyOn(botActions, 'botUserMessage')
+  jest.spyOn(botActions, 'botFeedbackMessage')
+  jest.spyOn(botActions, 'botFeedback')
+  jest.spyOn(sessionActions, 'sessionResolved').mockImplementation(() => () => {})
 
   return render(<PrimaryFeedback {...componentProps} />)
 }
@@ -25,19 +26,20 @@ test('renders the expected classes', () => {
 
 describe('on yes click', () => {
   it('fires the expected actions', () => {
-    const { getByText } = renderComponent()
+    const result = renderComponent()
+    const { getByText } = result
 
     fireEvent.click(getByText('Yes'))
-    expect(actions.sessionResolved).toHaveBeenCalled()
-    expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
+    expect(sessionActions.sessionResolved).toHaveBeenCalled()
+    expect(botActions.botFeedbackMessage).toHaveBeenNthCalledWith(
       1,
       'embeddable_framework.answerBot.msg.yes_acknowledgement'
     )
-    expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
+    expect(botActions.botFeedbackMessage).toHaveBeenNthCalledWith(
       2,
       'embeddable_framework.answerBot.msg.prompt_again_after_yes'
     )
-    expect(actions.botUserMessage).toHaveBeenCalledWith(
+    expect(botActions.botUserMessage).toHaveBeenCalledWith(
       'embeddable_framework.answerBot.article.feedback.yes'
     )
   })
@@ -48,11 +50,11 @@ describe('on no click', () => {
     const { getByText } = renderComponent()
 
     fireEvent.click(getByText('No, I need help'))
-    expect(actions.botFeedback).toHaveBeenCalledWith('secondary')
-    expect(actions.botFeedbackMessage).toHaveBeenCalledWith(
+    expect(botActions.botFeedback).toHaveBeenCalledWith('secondary')
+    expect(botActions.botFeedbackMessage).toHaveBeenCalledWith(
       'embeddable_framework.answerBot.article.feedback.no.reason.title'
     )
-    expect(actions.botUserMessage).toHaveBeenCalledWith(
+    expect(botActions.botUserMessage).toHaveBeenCalledWith(
       'embeddable_framework.answerBot.article.feedback.no.need_help'
     )
   })

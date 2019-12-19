@@ -39,7 +39,7 @@ exports[`chat log agent attachment 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -63,7 +63,7 @@ exports[`chat log agent join 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -93,7 +93,7 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -123,7 +123,7 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -175,7 +175,7 @@ exports[`chat log agent message 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -188,7 +188,7 @@ exports[`chat log agent stopped typing 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -232,7 +232,7 @@ exports[`chat log agent typing 1`] = `
     Mr F is typing
   </div>
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -256,7 +256,7 @@ exports[`chat log comment 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -280,7 +280,7 @@ exports[`chat log member join 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -310,7 +310,7 @@ exports[`chat log member leave 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -330,7 +330,7 @@ exports[`chat log queue position 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -354,7 +354,7 @@ exports[`chat log rating 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -486,7 +486,7 @@ exports[`chat log series of actions 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -538,7 +538,7 @@ exports[`chat log visitor message account settings login enabled displays update
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -590,7 +590,7 @@ exports[`chat log visitor message account settings login enabled displays update
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -637,7 +637,7 @@ exports[`chat log visitor message account settings login enabled does not displa
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -684,7 +684,7 @@ exports[`chat log visitor message account settings login enabled does not displa
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -746,7 +746,7 @@ exports[`chat log visitor message failure 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
@@ -803,18 +803,18 @@ exports[`chat log visitor message success 1`] = `
     class="noAgentTyping"
   />
   <div
-    class="sc-jDwBTQ ivXYOB"
+    class="sc-iRbamj dRktmZ"
   />
 </div>
 `;
 
 exports[`update chat header 1`] = `
 <div
-  class="sc-cvbbAY WJvri"
+  class="sc-brqgnP iEQrBO"
   data-testid="chat-header-text-container"
 >
   <h2
-    class="sc-jWBwVP fyEHme"
+    class="sc-cMljjf cgrzRH"
     data-testid="chat-header-title"
   >
     Mr F
@@ -824,7 +824,7 @@ exports[`update chat header 1`] = `
   >
     <div
       aria-describedby="garden-tooltip-container-290"
-      class="sc-brqgnP jMSgGe"
+      class="sc-jAaTju iSBAZt"
       data-garden-container-id="tooltip"
       data-garden-container-version="0.2.6"
       data-testid="chat-header-subtext"

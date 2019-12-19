@@ -1,20 +1,22 @@
 import _ from 'lodash'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
+import { render } from 'src/util/testHelpers'
 import React from 'react'
 
-import { Component as SecondaryFeedback } from '../SecondaryFeedback'
+import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
+import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/session-fallback-suggested'
+import * as articleActions from 'src/redux/modules/answerBot/article/actions/article-dismissed'
 
-const actions = Object.freeze({
-  articleDismissed: jest.fn(),
-  botUserMessage: jest.fn(),
-  botFeedbackMessage: jest.fn(),
-  sessionFallback: jest.fn(),
-  botFallbackMessage: jest.fn(),
-  getInTouchShown: jest.fn()
-})
+import SecondaryFeedback from '../SecondaryFeedback'
 
 const renderComponent = (props = {}) => {
-  const componentProps = _.merge({ locale: 'en-US' }, { actions }, props)
+  const componentProps = _.merge({ locale: 'en-US' }, props)
+
+  jest.spyOn(botActions, 'botFeedbackMessage')
+  jest.spyOn(botActions, 'botUserMessage')
+  jest.spyOn(botActions, 'botFallbackMessage')
+  jest.spyOn(sessionActions, 'sessionFallback').mockImplementation(() => () => {})
+  jest.spyOn(articleActions, 'articleDismissed').mockImplementation(() => () => {})
 
   return render(<SecondaryFeedback {...componentProps} />)
 }
@@ -31,15 +33,15 @@ describe('actions', () => {
 
     fireEvent.click(getByText("It's not related to my question"))
 
-    expect(actions.botUserMessage).toHaveBeenCalledWith(
+    expect(botActions.botUserMessage).toHaveBeenCalledWith(
       'embeddable_framework.answerBot.article.feedback.no.reason.unrelated'
     )
-    expect(actions.articleDismissed).toHaveBeenCalledWith(1)
-    expect(actions.sessionFallback).toHaveBeenCalled()
-    expect(actions.botFeedbackMessage).toHaveBeenNthCalledWith(
+    expect(articleActions.articleDismissed).toHaveBeenCalledWith(1)
+    expect(sessionActions.sessionFallback).toHaveBeenCalled()
+    expect(botActions.botFeedbackMessage).toHaveBeenNthCalledWith(
       1,
       'embeddable_framework.answerBot.msg.no_acknowledgement'
     )
-    expect(actions.botFallbackMessage).toHaveBeenCalledWith(true)
+    expect(botActions.botFallbackMessage).toHaveBeenCalledWith(true)
   })
 })
