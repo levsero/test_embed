@@ -71,7 +71,7 @@
     var queryParams = parseQueryParams(window.location.hash);
 
     if (queryParams.mid) {
-      document.cookie = '__zlcpomid=' + queryParams.mid;
+      document.cookie = '__zlcpomid=' + queryParams.mid + '; SameSite=Lax';
       window.location.href = (window.location.href || '').replace(/([#?&])mid=[^&#]+/, '$1');
     }
 
