@@ -3,7 +3,7 @@
 exports[`AgentTyping returns an empty div if there are no agents typing 1`] = `
 <div>
   <div
-    aria-live="polite"
+    class="sc-gipzik kKRUSQ"
   />
 </div>
 `;
@@ -11,10 +11,10 @@ exports[`AgentTyping returns an empty div if there are no agents typing 1`] = `
 exports[`AgentTyping when one agent is typing renders the expected container 1`] = `
 <div>
   <div
-    aria-live="polite"
+    class="sc-gipzik kKRUSQ"
   >
     <div
-      class="sc-gipzik kKRUSQ"
+      aria-live="polite"
     >
       <svg
         class="sc-jlyJG hMzdcG Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
