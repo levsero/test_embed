@@ -1,4 +1,177 @@
 import * as selectors from '..'
+import createStore from 'src/redux/createStore'
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
+import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { updateEmbeddableConfig } from 'src/redux/modules/base'
+
+describe('getCustomTicketFields', () => {
+  const emailField = {
+    id: 'email',
+    title_in_portal: 'Email address',
+    required_in_portal: true,
+    type: 'text',
+    validation: 'email',
+    keyID: 'email'
+  }
+  const descriptionField = {
+    id: 'description',
+    title_in_portal: 'How can we help you?',
+    required_in_portal: true,
+    type: 'textarea',
+    keyID: 'description'
+  }
+
+  const run = ({ nameFieldEnabled, nameFieldRequired, subjectFieldEnabled, fields = [] } = {}) => {
+    const store = createStore()
+
+    store.dispatch({
+      type: TICKET_FIELDS_REQUEST_SUCCESS,
+      payload: fields
+    })
+
+    store.dispatch({
+      type: UPDATE_SETTINGS,
+      payload: {
+        webWidget: {
+          contactForm: {
+            subject: Boolean(subjectFieldEnabled)
+          }
+        }
+      }
+    })
+
+    store.dispatch(
+      updateEmbeddableConfig({
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              nameFieldEnabled: Boolean(nameFieldEnabled),
+              nameFieldRequired: Boolean(nameFieldRequired)
+            }
+          }
+        }
+      })
+    )
+
+    return selectors.getCustomTicketFields(store.getState())
+  }
+
+  it('always includes an email and description field', () => {
+    const result = run()
+
+    expect(result).toEqual([emailField, descriptionField])
+  })
+
+  describe('when name field is enabled', () => {
+    it('includes a required name field when it is required ', () => {
+      const result = run({
+        nameFieldEnabled: true,
+        nameFieldRequired: true
+      })
+
+      expect(result).toEqual([
+        {
+          id: 'name',
+          title_in_portal: 'Your name',
+          required_in_portal: true,
+          type: 'text',
+          keyID: 'name'
+        },
+        emailField,
+        descriptionField
+      ])
+    })
+
+    it('includes a non-required name field when it is not required ', () => {
+      const result = run({
+        nameFieldEnabled: true,
+        nameFieldRequired: false
+      })
+
+      expect(result).toEqual([
+        {
+          id: 'name',
+          title_in_portal: 'Your name',
+          required_in_portal: false,
+          type: 'text',
+          keyID: 'name'
+        },
+        emailField,
+        descriptionField
+      ])
+    })
+  })
+
+  it('includes a subject field when enabled', () => {
+    const result = run({
+      subjectFieldEnabled: true
+    })
+
+    expect(result).toEqual([
+      emailField,
+      {
+        id: 'subject',
+        title_in_portal: 'subject',
+        required_in_portal: false,
+        type: 'text',
+        keyID: 'subject'
+      },
+      descriptionField
+    ])
+  })
+
+  it('displays all non-checkbox fields above subject/description and all checkbox fields after subject/description', () => {
+    const checkboxField = {
+      id: '123',
+      title_in_portal: 'Checkbox field',
+      required_in_portal: false,
+      type: 'checkbox',
+      keyID: '123'
+    }
+    const textField = {
+      id: '456',
+      title_in_portal: 'Text field',
+      required_in_portal: false,
+      type: 'text',
+      keyID: '456'
+    }
+    const textareaField = {
+      id: '789',
+      title_in_portal: 'Textarea field',
+      required_in_portal: false,
+      type: 'textarea',
+      keyID: '789'
+    }
+
+    const result = run({
+      subjectFieldEnabled: true,
+      nameFieldEnabled: true,
+      fields: [checkboxField, textField, textareaField]
+    })
+
+    expect(result).toEqual([
+      {
+        id: 'name',
+        title_in_portal: 'Your name',
+        required_in_portal: false,
+        type: 'text',
+        keyID: 'name'
+      },
+      emailField,
+      textField,
+      textareaField,
+      {
+        id: 'subject',
+        title_in_portal: 'subject',
+        required_in_portal: false,
+        type: 'text',
+        keyID: 'subject'
+      },
+      descriptionField,
+      checkboxField
+    ])
+  })
+})
 
 const state = {
   support: {
