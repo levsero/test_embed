@@ -38,14 +38,14 @@ export const AgentTyping = ({ agentsTyping = [] }) => {
   const translate = useTranslate()
 
   return (
-    <div aria-live="polite">
+    <Container>
       {agentsTyping.length != 0 && (
-        <Container>
+        <div aria-live="polite">
           <LoadingDots data-testid={TEST_IDS.ICON_ELLIPSIS} />
           {message(translate, agentsTyping)}
-        </Container>
+        </div>
       )}
-    </div>
+    </Container>
   )
 }
 
