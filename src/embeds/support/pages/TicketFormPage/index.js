@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
-import { getFormTicketFields, getFormState } from 'embeds/support/selectors'
+import { getFormTicketFields, getFormState, getReadOnlyState } from 'embeds/support/selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
-import { getReadOnlyState } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 
 const TicketFormPage = ({
   formTitle,

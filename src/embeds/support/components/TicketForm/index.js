@@ -6,7 +6,7 @@ import { TEST_IDS } from 'constants/shared'
 import FormField from 'src/embeds/support/components/FormField'
 import { convertFieldValue, mapKeyFields } from 'src/embeds/support/utils/fieldConversion'
 import { getValidate } from 'src/embeds/support/utils/formFieldRules'
-import FormStateRetriever from 'src/embeds/support/components/TicketForm/FormStateRetriever'
+import FormStateManager from 'src/embeds/support/components/TicketForm/FormStateManager'
 import { Form as ReactFinalForm } from 'react-final-form'
 import { Form as StyledForm, Main, FieldWrapper } from './styles'
 import { Field } from 'react-final-form'
@@ -17,9 +17,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
   const mappedTicketFields = mapKeyFields(ticketFields)
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
-
   const validate = getValidate(mappedTicketFields, translate)
-
   const onSubmit = useSubmit(submitForm, validate, setShowFormErrors, mappedTicketFields)
 
   return (
@@ -33,7 +31,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
           noValidate={true}
           data-testid={TEST_IDS.SUPPORT_TICKET_FORM}
         >
-          <FormStateRetriever formName={formName} />
+          <FormStateManager formName={formName} />
           <Main>
             {mappedTicketFields.map(field => (
               <FieldWrapper key={field.id}>
@@ -47,7 +45,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
                       errorMessage={showErrors ? meta.error : ''}
                       value={convertFieldValue(field.type, input.value)}
                       onChange={value => input.onChange(value)}
-                      readOnly={readOnlyState[field.keyID]}
+                      isReadOnly={readOnlyState[field.keyID]}
                     />
                   )}
                 />

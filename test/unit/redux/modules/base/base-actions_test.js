@@ -418,12 +418,16 @@ describe('base redux actions', () => {
     let action, payload
 
     describe('when invoked normally', () => {
+      const currentTime = 123
+
       beforeEach(() => {
         payload = {
           name: { value: 'Harry Potter', readOnly: true },
           email: { value: 'hpotter@hogwarts.edu.uk', readOnly: false },
           phone: { value: '12345678' }
         }
+
+        spyOn(Date, 'now').and.returnValue(currentTime)
 
         mockStore.dispatch(actions.handlePrefillReceived(payload))
         action = mockStore.getActions()[0]
@@ -443,7 +447,8 @@ describe('base redux actions', () => {
           isReadOnly: {
             name: true,
             email: false
-          }
+          },
+          timestamp: currentTime
         }
 
         expect(action.payload).toEqual(expected)

@@ -12,11 +12,11 @@ import FallbackField from 'embeds/support/components/FormField/FallbackField'
 // onChange - A func to call to update the value
 // errorMessage - An error message to display to the user, this will be null when there are no current errors
 // field - The field object retrieved from the server
-const supportedFields = {
+export const supportedFields = {
   text: Text,
+  subject: Text,
   textarea: Textarea,
   description: Textarea,
-  subject: Text,
   integer: Integer,
   decimal: Decimal,
   checkbox: Checkbox,
