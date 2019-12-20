@@ -3,23 +3,23 @@
 exports[`does not render the feedback popup if feedback is not required 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -38,7 +38,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -78,10 +78,10 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -104,23 +104,23 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
 exports[`feedback actions on no click asks for the reason 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -139,7 +139,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -179,10 +179,10 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -243,23 +243,23 @@ exports[`feedback actions on no click asks for the reason 1`] = `
 exports[`feedback actions on yes click hides the feedback popup 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -278,7 +278,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -318,10 +318,10 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -344,23 +344,23 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
 exports[`passing of scroll container classes 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -379,7 +379,7 @@ exports[`passing of scroll container classes 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -419,10 +419,10 @@ exports[`passing of scroll container classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -445,23 +445,23 @@ exports[`passing of scroll container classes 1`] = `
 exports[`renders the expected classes 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -480,7 +480,7 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -520,10 +520,10 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -546,23 +546,23 @@ exports[`renders the expected classes 1`] = `
 exports[`renders the expected mobile classes 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -581,7 +581,7 @@ exports[`renders the expected mobile classes 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -621,10 +621,10 @@ exports[`renders the expected mobile classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -647,23 +647,23 @@ exports[`renders the expected mobile classes 1`] = `
 exports[`renders the expected title 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Support
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -682,7 +682,7 @@ exports[`renders the expected title 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -722,10 +722,10 @@ exports[`renders the expected title 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -748,23 +748,23 @@ exports[`renders the expected title 1`] = `
 exports[`renders the feedback popup after a certain time has passed 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -783,7 +783,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -823,10 +823,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"
@@ -887,23 +887,23 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
 exports[`renders the help center article 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-EHOje jUTcpT"
   >
     <div
-      class="sc-bZQynM bkfpNv"
+      class="sc-gzVnrw bWlQoz"
     >
       <div
-        class="sc-htoDjs sc-dnqmqq etCzep"
+        class="sc-dnqmqq sc-iwsKbI ePJWJl"
       >
         <h1
-          class="sc-gzVnrw kshcgs"
+          class="sc-htoDjs fIBJbD"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-iwsKbI index__c-btn--icon___1Yl4x lfTmAb Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x bOzPaj Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -922,7 +922,7 @@ exports[`renders the help center article 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gqjmRU bRVMId"
       data-testid="scroll-container-content"
     >
       <div
@@ -968,10 +968,10 @@ exports[`renders the help center article 1`] = `
       </div>
     </div>
     <footer
-      class="sc-gZMcBi ggQiCF"
+      class="sc-VigVT dPeJIv"
     >
       <div
-        class="sc-gqjmRU dROTAx"
+        class="sc-jTzLTM fKEzbR"
       >
         <a
           class="icon"

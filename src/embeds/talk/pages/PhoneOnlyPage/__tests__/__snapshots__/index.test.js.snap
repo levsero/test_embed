@@ -12,7 +12,7 @@ Snapshot Diff:
 
 @@ -54,5 +54,0 @@
 -         <p
--           class="sc-jqCOkK ivdabO"
+-           class="sc-bbmXgH fmETSZ"
 -         >
 -           10
 -         </p>
@@ -20,13 +20,27 @@ Snapshot Diff:
 
 exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] = `
 .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: !important;
   color: !important;
 }
 
-.c3 {
+.c4 {
   font-weight: 700;
   text-align: center;
   -webkit-letter-spacing: 0.02142857142857143rem;
@@ -42,7 +56,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   margin-bottom: 2px;
 }
 
-.c1 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -57,32 +71,32 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   min-height: 2rem;
 }
 
-.c1:not(:first-child) {
+.c2:not(:first-child) {
   margin-top: 0.2857142857142857rem;
 }
 
-.c1 .c2:first-child {
+.c2 .c3:first-child {
   margin-left: 4rem;
 }
 
-.c1 .c2:nth-child(2) {
+.c2 .c3:nth-child(2) {
   margin-left: 2rem;
 }
 
-.c1 .c2:last-child {
+.c2 .c3:last-child {
   margin-right: 4rem;
 }
 
-.c1 .c2:nth-last-child(2) {
+.c2 .c3:nth-last-child(2) {
   margin-right: 2rem;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   width: 2rem !important;
   height: 2rem !important;
 }
 
-.c5 {
+.c6 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -100,23 +114,52 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   justify-content: center;
 }
 
-.c5 svg {
+.c6 svg {
   width: 1rem !important;
   height: 1rem !important;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c12 {
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c14 {
   padding: 0.7142857142857143rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c13 {
+.c15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -139,24 +182,24 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   align-items: center;
 }
 
-.c9 {
+.c11 {
   margin-bottom: 1.0714285714285714rem;
   data-testid: talk--averageWaitTime;
 }
 
-.c11 {
+.c13 {
   color: #1f73b7;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
-.c11:hover,
-.c11:focus,
-.c11:active {
+.c13:hover,
+.c13:focus,
+.c13:active {
   color: #1f73b7;
 }
 
-.c6 {
+.c8 {
   text-align: center;
   font-size: 1rem !important;
   min-height: 70%;
@@ -178,61 +221,61 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   overflow-y: auto;
 }
 
-.c6:not(:disabled) svg,
-.c6:not(:disabled) svg path {
+.c8:not(:disabled) svg,
+.c8:not(:disabled) svg path {
   fill: !important;
 }
 
-.c7 {
+.c9 {
   min-width: 3.5714285714285716rem;
   min-height: 3.5714285714285716rem;
   height: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
 }
 
-.c7 path.customColor,
-.c7 rect.customColor {
+.c9 path.customColor,
+.c9 rect.customColor {
   fill: !important;
 }
 
-.c8 {
+.c10 {
   margin-top: 1.4285714285714286rem !important;
   margin-bottom: 0.7142857142857143rem !important;
 }
 
-.c10 {
+.c12 {
   text-align: center;
   font-size: 1.4285714285714286rem;
 }
 
-.c10 a,
-.c10 a span {
+.c12 a,
+.c12 a span {
   color: !important;
 }
 
-.c10 a:hover {
+.c12 a:hover {
   color: !important;
 }
 
 <div>
   <div
-    class="container"
+    class="c0"
   >
     <div
-      class="c0"
+      class="c1"
     >
       <div
-        class="c1"
+        class="c2"
       >
         <h1
-          class="c2 c3"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Phone only page
         </h1>
         <button
           aria-label="Minimize"
-          class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -251,32 +294,32 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
       </div>
     </div>
     <div
-      class="container"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
-        class="c6"
+        class="c8"
         data-testid="talk--phoneOnlyPage"
       >
         <svg
-          class="c7"
+          class="c9"
           realfilename="talk.svg"
         />
         <p
-          class="c8"
+          class="c10"
         >
           Call us
         </p>
         <p
-          class="c9"
+          class="c11"
         >
           10
         </p>
         <div
-          class="c10"
+          class="c12"
         >
           <a
-            class="c11"
+            class="c13"
             data-testid="talk-phone-number"
             href="tel:+61412345678"
             target="_blank"
@@ -287,10 +330,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
       </div>
     </div>
     <footer
-      class="c12"
+      class="c14"
     >
       <div
-        class="c13"
+        class="c15"
       >
         <a
           class="icon"
@@ -317,7 +360,7 @@ Snapshot Diff:
 
 @@ -54,5 +54,0 @@
 -         <p
--           class="sc-jqCOkK ivdabO"
+-           class="sc-bbmXgH fmETSZ"
 -         >
 -           10
 -         </p>

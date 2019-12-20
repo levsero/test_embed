@@ -3,7 +3,7 @@
 exports[`Main matches default snapshot 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-bdVaJa ikmhaS"
     data-testid="scroll-container-content"
   >
     Hallo

@@ -3,21 +3,21 @@
 exports[`chat sdk has not connected renders the loading page 1`] = `
 <div>
   <div
-    class="container"
+    class="sc-bdVaJa gszxaC"
   >
     <div
-      class="sc-bwzfXH jaHvNe"
+      class="sc-htpNat fufVln"
     >
       <div
-        class="sc-bxivhb sc-ifAKCX kPfswV"
+        class="sc-ifAKCX sc-EHOje cFboZL"
       >
         <h1
-          class="sc-htpNat jTlEqc"
+          class="sc-bxivhb krnEZd"
           data-testid="widget-title"
         />
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-EHOje index__c-btn--icon___1Yl4x BqfmL Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -36,11 +36,11 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
       </div>
     </div>
     <div
-      class="container"
+      class="sc-gzVnrw hIzQnb"
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-kGXeez cledTu"
+        class="sc-dxgOiQ NtBZx"
       >
         <div
           class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 dWxKQn"
@@ -52,10 +52,10 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
       </div>
     </div>
     <footer
-      class="sc-bZQynM cvZVJM"
+      class="sc-htoDjs dEdnEq"
     >
       <div
-        class="sc-gzVnrw fiLCyX"
+        class="sc-dnqmqq jXpegG"
       >
         <a
           class="icon"

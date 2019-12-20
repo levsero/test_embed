@@ -39,7 +39,7 @@ exports[`chat log agent attachment 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -63,7 +63,7 @@ exports[`chat log agent join 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -93,7 +93,7 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -123,7 +123,7 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -175,7 +175,7 @@ exports[`chat log agent message 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -188,7 +188,7 @@ exports[`chat log agent stopped typing 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -201,10 +201,10 @@ exports[`chat log agent typing 1`] = `
     aria-live="polite"
   >
     <div
-      class="sc-iRbamj kjilnc"
+      class="sc-gipzik kKRUSQ"
     >
       <svg
-        class="sc-gPEVay INNyr Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
+        class="sc-jlyJG hMzdcG Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
         color="inherit"
         data-garden-id="loaders.inline"
         data-garden-version="7.0.0"
@@ -240,7 +240,7 @@ exports[`chat log agent typing 1`] = `
     </div>
   </div>
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -264,7 +264,7 @@ exports[`chat log comment 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -288,7 +288,7 @@ exports[`chat log member join 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -318,7 +318,7 @@ exports[`chat log member leave 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -338,7 +338,7 @@ exports[`chat log queue position 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -362,7 +362,7 @@ exports[`chat log rating 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -494,7 +494,7 @@ exports[`chat log series of actions 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -546,7 +546,7 @@ exports[`chat log visitor message account settings login enabled displays update
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -598,7 +598,7 @@ exports[`chat log visitor message account settings login enabled displays update
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -645,7 +645,7 @@ exports[`chat log visitor message account settings login enabled does not displa
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -692,7 +692,7 @@ exports[`chat log visitor message account settings login enabled does not displa
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -754,7 +754,7 @@ exports[`chat log visitor message failure 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
@@ -811,18 +811,18 @@ exports[`chat log visitor message success 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-gipzik jucVsV"
+    class="sc-Rmtcm sAxoK"
   />
 </div>
 `;
 
 exports[`update chat header 1`] = `
 <div
-  class="sc-brqgnP iEQrBO"
+  class="sc-jAaTju eWuHGe"
   data-testid="chat-header-text-container"
 >
   <h2
-    class="sc-cMljjf cgrzRH"
+    class="sc-jDwBTQ jhjHyQ"
     data-testid="chat-header-title"
   >
     Mr F
@@ -832,7 +832,7 @@ exports[`update chat header 1`] = `
   >
     <div
       aria-describedby="garden-tooltip-container-290"
-      class="sc-jAaTju iSBAZt"
+      class="sc-gPEVay jgjKre"
       data-garden-container-id="tooltip"
       data-garden-container-version="0.2.6"
       data-testid="chat-header-subtext"

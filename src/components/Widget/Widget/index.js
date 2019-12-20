@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { locals as styles } from './styles.scss'
+import { Container } from './styles'
 
-const Widget = ({ children }) => <div className={styles.container}>{children}</div>
+const Widget = ({ children }) => <Container>{children}</Container>
 
 Widget.propTypes = {
   children: PropTypes.node
-}
-
-Widget.defaultProps = {
-  children: []
 }
 
 export default Widget
