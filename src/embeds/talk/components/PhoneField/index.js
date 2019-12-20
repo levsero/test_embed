@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { Field, Message, Label } from '@zendeskgarden/react-forms'
+import { Field, Label } from '@zendeskgarden/react-forms'
 import {
   FieldContainer,
   composeEventHandlers,
@@ -16,7 +16,7 @@ import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
 import styleOverrides from './styles.overrides'
-import { Container, FauxInput, Input } from './styles'
+import { Container, FauxInput, Input, Message } from './styles'
 import { onNextTick } from 'src/util/utils'
 import { CurrentFrameConsumer } from 'components/Frame'
 
