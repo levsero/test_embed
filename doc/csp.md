@@ -39,27 +39,3 @@ img-src 'self'
 ```
 
 If you have custom directives specified such as `script-src` or `connect-src`, add the hosts specified in `default-src` above.
-
-### Additional setup with legacy Chat
-
-Add the extra hosts listed below:
-
-```
-https://*.zopim.com
-https://*.zopim.io
-https://*.zopim.io
-```
-
-You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src` directives. This is because the snippet and styles for chat are injected into the host page at runtime. An example header that uses a custom `script-src` directive would look like:
-
-```
-default-src 'self'
-            https://static.zdassets.com
-            https://ekr.zdassets.com
-            https://{zendeskSubdomain}.zendesk.com
-            wss://{zendeskSubdomain}.zendesk.com
-            https://*.zopim.com
-            wss://*.zopim.com
-            https://*.zopim.io 'unsafe-inline';
-            style-src 'unsafe-inline'
-```
