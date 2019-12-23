@@ -3,11 +3,19 @@ import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
 import { getFormTicketFields, getFormState } from 'embeds/support/selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
+import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import { getReadOnlyState } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 
-const TicketFormPage = ({ formTitle, formName, formState, readOnlyState, ticketFields }) => {
+const TicketFormPage = ({
+  formTitle,
+  formName,
+  formState,
+  readOnlyState,
+  ticketFields,
+  submitTicket
+}) => {
   return (
     <Widget>
       <Header title={formTitle} />
@@ -16,7 +24,7 @@ const TicketFormPage = ({ formTitle, formName, formState, readOnlyState, ticketF
         formName={formName}
         formState={formState}
         readOnlyState={readOnlyState}
-        submitForm={() => {}}
+        submitForm={formState => submitTicket(formState, 'contact-form')}
         ticketFields={ticketFields}
       />
     </Widget>
@@ -28,7 +36,8 @@ TicketFormPage.propTypes = {
   formName: PropTypes.string,
   formState: PropTypes.shape({}),
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
-  ticketFields: PropTypes.array
+  ticketFields: PropTypes.array,
+  submitTicket: PropTypes.func
 }
 
 const mapStateToProps = state => {
@@ -43,6 +52,9 @@ const mapStateToProps = state => {
   }
 }
 
-const connectedComponent = connect(mapStateToProps)(TicketFormPage)
+const connectedComponent = connect(
+  mapStateToProps,
+  { submitTicket }
+)(TicketFormPage)
 
 export { connectedComponent as default, TicketFormPage as Component }
