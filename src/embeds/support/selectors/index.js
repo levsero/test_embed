@@ -1,5 +1,9 @@
 import { createSelector } from 'reselect'
-import { getTicketFieldsResponse } from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import {
+  getTicketFieldsResponse,
+  getTicketFields,
+  getTicketForms
+} from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldEnabled,
@@ -91,3 +95,39 @@ export const getCustomTicketFields = createSelector(
     ].filter(Boolean)
   }
 )
+
+export const getTicketFormFields = (state, formId) => {
+  const ticketFields = getTicketFields(state)
+  const ticketForms = getTicketForms(state)
+  const ticketForm = ticketForms.find(form => {
+    return form.id === formId
+  })
+  const formTicketFields =
+    ticketForm && ticketForm.ticket_field_ids
+      ? Object.values(ticketFields).filter(field => {
+          return ticketForm.ticket_field_ids.includes(field.id)
+        })
+      : []
+
+  return [
+    {
+      id: 'email',
+      title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
+      required_in_portal: true,
+      type: 'text',
+      validation: 'email',
+      keyID: 'email'
+    },
+    ...formTicketFields
+    // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
+  ].filter(Boolean)
+}
+
+export const getFormTicketFields = (state, route = 'contact-form') => {
+  // 'contact-form' is placeholder for now, will be replaced with whatever the route ends up becoming
+  if (route === 'contact-form') {
+    return getCustomTicketFields(state)
+  }
+
+  return getTicketFormFields(state, route)
+}
