@@ -16,10 +16,9 @@ const LoadingDots = styled(Inline)`
 `
 
 const Container = styled.div`
-  height: ${26 / FONT_SIZE}rem;
   width: 100%;
-  margin-top: ${() => (isMobileBrowser() ? 0 : `${12 / FONT_SIZE}rem`)};
-  margin-bottom: ${() => (isMobileBrowser() ? 0 : `${1 / FONT_SIZE}rem`)};
+  padding-top: ${() => (isMobileBrowser() ? 0 : `${12 / FONT_SIZE}rem`)};
+  padding-bottom: ${() => (isMobileBrowser() ? `${4 / FONT_SIZE}rem` : `${6 / FONT_SIZE}rem`)};
   color: ${zdColorGrey600};
 `
 

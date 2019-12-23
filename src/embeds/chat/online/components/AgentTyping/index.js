@@ -34,21 +34,23 @@ const message = (translate, agentsTyping) => {
   }
 }
 
-export const AgentTyping = ({ agentsTyping = [] }) => {
+const AgentTyping = React.forwardRef(({ agentsTyping = [] }, ref) => {
   const translate = useTranslate()
 
   return (
-    <Container>
-      {agentsTyping.length != 0 && (
-        <div aria-live="polite">
+    <div aria-live="polite" ref={ref}>
+      {agentsTyping.length !== 0 && (
+        <Container>
           <LoadingDots data-testid={TEST_IDS.ICON_ELLIPSIS} />
           {message(translate, agentsTyping)}
-        </div>
+        </Container>
       )}
-    </Container>
+    </div>
   )
-}
+})
 
 AgentTyping.propTypes = {
   agentsTyping: PropTypes.array
 }
+
+export default AgentTyping

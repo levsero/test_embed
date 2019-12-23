@@ -11,7 +11,7 @@ import { ChatHeader } from 'component/chat/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import { ButtonPill } from 'component/button/ButtonPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
-import { AgentTyping } from 'src/embeds/chat/online/components/AgentTyping'
+import AgentTyping from 'src/embeds/chat/online/components/AgentTyping'
 import { i18n } from 'service/i18n'
 import { isAgent } from 'utility/chat'
 import { isFirefox, isIE } from 'utility/devices'
@@ -154,6 +154,7 @@ class ChattingScreen extends Component {
     this.scrollContainer = null
     this.scrollHeightBeforeUpdate = null
     this.scrollToBottomTimer = null
+    this.agentTypingRef = React.createRef()
   }
 
   componentDidMount() {
@@ -180,6 +181,7 @@ class ChattingScreen extends Component {
     if (this.scrollContainer) {
       this.didUpdateFetchHistory()
       this.didUpdateNewEntry(prevProps)
+      this.didUpdateAgentTypingIndicator(prevProps)
     }
   }
 
@@ -200,6 +202,23 @@ class ChattingScreen extends Component {
     if (lengthDifference !== 0) {
       this.scrollContainer.scrollTop = scrollTop + lengthDifference
       this.scrollHeightBeforeUpdate = null
+    }
+  }
+
+  didUpdateAgentTypingIndicator = prevProps => {
+    if (!this.agentTypingRef.current) {
+      return
+    }
+
+    const isTyping = this.props.agentsTyping.length !== 0
+    const wasTyping = prevProps.agentsTyping ? prevProps.agentsTyping.length !== 0 : false
+
+    if (!isTyping || wasTyping === isTyping) {
+      return
+    }
+
+    if (getScrollBottom(this.scrollContainer) <= this.agentTypingRef.current.offsetHeight) {
+      this.scrollToBottom()
     }
   }
 
@@ -428,7 +447,7 @@ class ChattingScreen extends Component {
               socialLogin={this.props.socialLogin}
             />
             {this.renderQueuePosition()}
-            <AgentTyping agentsTyping={agentsTyping} />
+            <AgentTyping agentsTyping={agentsTyping} ref={this.agentTypingRef} />
             <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
             {this.renderScrollPill()}
           </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
-import { AgentTyping } from '..'
+import AgentTyping from '..'
 
 describe('AgentTyping', () => {
   const defaultProps = {
