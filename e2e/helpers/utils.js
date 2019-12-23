@@ -13,10 +13,35 @@ export function failOnConsoleError() {
   })
 }
 
-export const CORS_HEADERS = {
+export const DEFAULT_CORS_HEADERS = {
+  'Access-Control-Allow-Credentials': 'true',
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  'Access-Control-Expose-Headers':
+    'X-Zendesk-API-Warn,X-Zendesk-User-Id,X-Zendesk-User-Session-Expires-At'
+}
+
+export const OPTIONS_RESPONSE = {
+  status: 200,
+  headers: {
+    ...DEFAULT_CORS_HEADERS,
+    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+    'Access-Control-Allow-Headers':
+      'Authorization,X-Requested-With,X-Prototype-Version,X-Zendesk-API,Content-Type,X-CSRF-Token,X-Zendesk-Renew-Session',
+    'Access-Control-Max-Age': '86400'
+  },
+  contentType: 'text/plain'
+}
+
+export const mockCorsRequest = (path, cb) => request => {
+  const url = request.url()
+  if (!url.includes(path)) {
+    return false
+  }
+  if (request.method() === 'OPTIONS') {
+    request.respond(OPTIONS_RESPONSE)
+  } else {
+    cb(request)
+  }
 }
 
 export const assertInputValue = async (label, value) => {
