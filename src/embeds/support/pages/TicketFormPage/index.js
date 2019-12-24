@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
-import { getCustomTicketFields, getFormState } from 'embeds/support/selectors'
+import { getFormTicketFields, getFormState } from 'embeds/support/selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
-import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import { getReadOnlyState } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 
 const TicketFormPage = ({ formTitle, formName, formState, readOnlyState, ticketFields }) => {
   return (
@@ -38,8 +38,8 @@ const mapStateToProps = state => {
     formName,
     formState: getFormState(state, formName),
     formTitle: getContactFormTitle(state),
-    ticketFields: getCustomTicketFields(state),
-    readOnlyState: selectors.getReadOnlyState(state)
+    ticketFields: getFormTicketFields(state),
+    readOnlyState: getReadOnlyState(state)
   }
 }
 

@@ -15,6 +15,8 @@ import FallbackField from 'embeds/support/components/FormField/FallbackField'
 const supportedFields = {
   text: Text,
   textarea: Textarea,
+  description: Textarea,
+  subject: Text,
   integer: Integer,
   decimal: Decimal,
   checkbox: Checkbox,

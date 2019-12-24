@@ -12,6 +12,8 @@ describe('getField', () => {
   const expectedFieldTypes = [
     ['text', Text],
     ['textarea', Textarea],
+    ['description', Textarea],
+    ['subject', Text],
     ['integer', Integer],
     ['decimal', Decimal],
     ['checkbox', Checkbox],
