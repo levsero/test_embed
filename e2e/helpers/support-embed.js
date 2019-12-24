@@ -2,7 +2,7 @@ import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import widgetPage from './widget-page'
 import { mockEmbeddableConfigEndpoint } from './widget-page/embeddable-config'
-import { CORS_HEADERS } from './utils'
+import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
 
 const mockTicketFormsEndpoint = response => request => {
@@ -12,7 +12,7 @@ const mockTicketFormsEndpoint = response => request => {
 
   request.respond({
     status: 200,
-    headers: CORS_HEADERS,
+    headers: DEFAULT_CORS_HEADERS,
     contentType: 'application/json',
     body: JSON.stringify(response)
   })
@@ -25,29 +25,27 @@ const mockTicketFieldsEndpoint = response => request => {
 
   request.respond({
     status: 200,
-    headers: CORS_HEADERS,
+    headers: DEFAULT_CORS_HEADERS,
     contentType: 'application/json',
     body: JSON.stringify(response)
   })
 }
 
-const mockTicketSubmissionEndpoint = callback => request => {
-  if (!request.url().includes('api/v2/requests')) {
-    return false
-  }
+const mockTicketSubmissionEndpoint = (payload, callback) => {
+  return mockCorsRequest('api/v2/requests', request => {
+    callback(request.postData())
 
-  callback(request.postData())
-
-  request.respond({
-    status: 200,
-    headers: CORS_HEADERS,
-    contentType: 'application/json',
-    body: JSON.stringify({ request: { id: 123 } })
+    request.respond({
+      status: 200,
+      headers: DEFAULT_CORS_HEADERS,
+      contentType: 'application/json',
+      body: JSON.stringify(payload)
+    })
   })
 }
 
 const createTicketSubmissionEndpointResponse = (formId, fields) => {
-  const { name, email, subject, description, ...other } = fields
+  const { name, email, subject, description, uploads, ...other } = fields
 
   return JSON.stringify({
     request: {
@@ -56,7 +54,7 @@ const createTicketSubmissionEndpointResponse = (formId, fields) => {
       via_id: 48,
       comment: {
         body: `${description}\n\n------------------\nSubmitted from: http://localhost:5123/e2e.html`,
-        uploads: []
+        uploads: uploads || []
       },
       requester: { name, email, locale_id: 1176 },
       ticket_form_id: formId,
@@ -120,7 +118,7 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
         }
       }),
       mockTicketFormsEndpoint(mockFormsResponse),
-      mockTicketSubmissionEndpoint(mockSubmissionEndpoint),
+      mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint),
       mockTicketFieldsEndpoint(mockFieldsResponse)
     ]
   })
@@ -138,9 +136,7 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
 
   const expectSuccess = async (formId, values = {}) => {
     await submit()
-
-    const widgetDocument = await widget.getDocument()
-    await expect(await widgetDocument.$('body')).toMatch('Message sent')
+    await waitForSubmissionSuccess()
 
     expect(mockSubmissionEndpoint).toHaveBeenCalledWith(
       createTicketSubmissionEndpointResponse(formId, {
@@ -162,6 +158,17 @@ const waitForContactForm = async () => {
   await wait(() => queries.getByText(doc, 'Leave us a message'))
 }
 
+const waitForSubmissionSuccess = async () => {
+  const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Message sent'))
+}
+
+const uploadFiles = async (...filePaths) => {
+  const doc = await widget.getDocument()
+  const upload = await queries.getByTestId(doc, 'dropzone-input')
+  filePaths.forEach(path => upload.uploadFile(path))
+}
+
 export {
   mockTicketFieldsEndpoint,
   mockTicketFormsEndpoint,
@@ -169,5 +176,7 @@ export {
   createTicketSubmissionEndpointResponse,
   createField,
   createForm,
-  waitForContactForm
+  waitForContactForm,
+  uploadFiles,
+  waitForSubmissionSuccess
 }

@@ -2,7 +2,7 @@ import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 
 beforeEach(async () => {
   const form1 = createForm('Example form 1', 123, createField({ type: 'checkbox' }))
@@ -55,5 +55,7 @@ test('selects the proper locale', async () => {
   })
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
-  expect(await queries.queryByText(doc, 'Please choose, but in French:')).not.toBeNull()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Please choose, but in French:')).not.toBeNull()
+  })
 })

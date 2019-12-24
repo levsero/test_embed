@@ -106,6 +106,7 @@ export class Dropzone extends Component {
             ref={el => (this.fileInputEl = el)}
             onChange={this.onDrop}
             id={this.props.dropzoneId}
+            data-testid={this.props.dropzoneId}
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
-import searchResults from 'e2e/fixtures/search-results'
+import searchResults from 'e2e/fixtures/responses/search-results.json'
 
 const assertUrlIncludes = (endpoint, matches) => {
   expect(endpoint).toHaveBeenCalled()
