@@ -7,6 +7,7 @@ const Form = styled.form`
   flex-direction: column;
   height: 100%;
   margin-block-end: 0;
+  overflow-y: hidden;
 `
 
 const StyledMain = styled(Main)`
