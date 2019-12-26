@@ -1,4 +1,4 @@
-import { CORS_HEADERS } from './utils'
+import { DEFAULT_CORS_HEADERS } from './utils'
 
 export function mockBlipEndpoint(request) {
   if (!request.url().includes('embeddable_blip')) {
@@ -7,7 +7,7 @@ export function mockBlipEndpoint(request) {
 
   request.respond({
     status: 200,
-    headers: CORS_HEADERS,
+    headers: DEFAULT_CORS_HEADERS,
     contentType: 'text/html',
     body: ''
   })
@@ -24,7 +24,7 @@ export const mockIdentifyEndpoint = callback => request => {
 
   request.respond({
     status: 200,
-    headers: CORS_HEADERS,
+    headers: DEFAULT_CORS_HEADERS,
     contentType: 'text/html',
     body: ''
   })
