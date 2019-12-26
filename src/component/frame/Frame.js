@@ -53,18 +53,18 @@ const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
 const transitionDuration = FRAME_TRANSITION_DURATION
 
-const marginPropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+const stringOrNumber = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 
 class Frame extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     store: PropTypes.object.isRequired,
     offset: PropTypes.shape({
-      horizontal: PropTypes.number,
-      vertical: PropTypes.number,
+      horizontal: stringOrNumber,
+      vertical: stringOrNumber,
       mobile: PropTypes.shape({
-        horizontal: PropTypes.number,
-        vertical: PropTypes.number
+        horizontal: stringOrNumber,
+        vertical: stringOrNumber
       })
     }).isRequired,
     css: PropTypes.string,
@@ -73,10 +73,10 @@ class Frame extends Component {
     frameOffsetHeight: PropTypes.number,
     frameStyle: PropTypes.shape({
       height: PropTypes.string,
-      marginBottom: marginPropType,
-      marginLeft: marginPropType,
-      marginRight: marginPropType,
-      marginTop: marginPropType,
+      marginBottom: stringOrNumber,
+      marginLeft: stringOrNumber,
+      marginRight: stringOrNumber,
+      marginTop: stringOrNumber,
       minHeight: PropTypes.string,
       zIndex: PropTypes.number
     }).isRequired,
@@ -92,7 +92,7 @@ class Frame extends Component {
     visible: PropTypes.bool,
     title: PropTypes.string,
     fixedStyles: PropTypes.shape({
-      height: marginPropType,
+      height: stringOrNumber,
       bottom: PropTypes.oneOf([0]),
       top: PropTypes.oneOf(['initial']),
       background: PropTypes.oneOf(['transparent']),
@@ -115,10 +115,10 @@ class Frame extends Component {
     fullscreen: PropTypes.bool.isRequired,
     customFrameStyle: PropTypes.shape({
       height: PropTypes.string,
-      marginBottom: marginPropType,
-      marginLeft: marginPropType,
-      marginRight: marginPropType,
-      marginTop: marginPropType,
+      marginBottom: stringOrNumber,
+      marginLeft: stringOrNumber,
+      marginRight: stringOrNumber,
+      marginTop: stringOrNumber,
       minHeight: PropTypes.string,
       zIndex: PropTypes.number
     }),
