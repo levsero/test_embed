@@ -93,7 +93,6 @@ const createForm = (name, id, ...fields) => {
 
   const embedConfig = {
     ticketForms: [id],
-    ticketFields: fields.map(field => field.id),
     nameFieldEnabled: false
   }
 

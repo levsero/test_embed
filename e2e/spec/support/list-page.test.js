@@ -14,8 +14,7 @@ describe('support list page', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketForms: [form1.form.id, form2.form.id],
-              ticketFields: form1.fields.concat(form2.fields).map(field => field.id)
+              ticketForms: [form1.form.id, form2.form.id]
             }
           }
         }

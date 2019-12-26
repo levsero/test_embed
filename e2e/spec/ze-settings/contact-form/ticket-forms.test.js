@@ -2,10 +2,10 @@ import widgetPage from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
-import { queries } from 'pptr-testing-library'
-import { assertInputValue } from 'e2e/helpers/utils'
+import { queries, wait } from 'pptr-testing-library'
+import { DEFAULT_CORS_HEADERS, assertInputValue } from 'e2e/helpers/utils'
 
-beforeEach(async () => {
+const setup = async () => {
   const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })
   const text = createField({ id: 3, title_in_portal: 'Text field', type: 'text' })
   const textarea = createField({ id: 4, type: 'textarea' })
@@ -16,8 +16,7 @@ beforeEach(async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketForms: [form1.form.id, form2.form.id],
-          ticketFields: form1.fields.concat(form2.fields).map(field => field.id)
+          ticketForms: [form1.form.id, form2.form.id]
         }
       }
     }
@@ -76,9 +75,10 @@ beforeEach(async () => {
     },
     preloadArgs: [form1.form.id, form2.form.id, text.id]
   })
-})
+}
 
 test('prefills the expected form fields', async () => {
+  await setup()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
 
@@ -94,6 +94,7 @@ test('prefills the expected form fields', async () => {
 })
 
 test('prefills by locale', async () => {
+  await setup()
   await page.evaluate(() => {
     zE('webWidget', 'setLocale', 'fr')
   })
@@ -103,4 +104,66 @@ test('prefills by locale', async () => {
   await form2Link.click()
   await assertInputValue('Description', 'My french field text')
   await assertInputValue('Text field', 'fischer random')
+})
+
+test('filters the ticket forms', async () => {
+  const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })
+  const form1 = createForm('Example form 1', 123, description)
+  const form2 = createForm('Example form 2', 456, description)
+  const mockConfigWithForms = {
+    embeds: {
+      ticketSubmissionForm: {
+        props: {
+          ticketForms: [form1.form.id, form2.form.id]
+        }
+      }
+    }
+  }
+
+  const ticketForms = jest.fn()
+  const mockTicketFormsEndpoint = request => {
+    if (!request.url().includes('ticket_forms')) {
+      return false
+    }
+    ticketForms(request.url())
+    request.respond({
+      status: 200,
+      headers: DEFAULT_CORS_HEADERS,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ticket_forms: form2.mockFormsResponse.ticket_forms,
+        ticket_fields: [form2.mockFormsResponse.ticket_fields]
+      })
+    })
+  }
+
+  await widgetPage.load({
+    mockRequests: [
+      mockEmbeddableConfigEndpoint('contactForm', mockConfigWithForms),
+      mockTicketFormsEndpoint
+    ],
+    preload: formId => {
+      window.zESettings = {
+        webWidget: {
+          contactForm: {
+            ticketForms: [
+              {
+                id: formId
+              }
+            ]
+          }
+        }
+      }
+    },
+    preloadArgs: [form2.form.id]
+  })
+  await widget.openByKeyboard()
+  const doc = await widget.getDocument()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Example form 2')).toBeTruthy()
+  })
+  expect(await queries.queryByText(doc, 'Example form 1')).toBeNull()
+  expect(ticketForms).toHaveBeenCalledWith(
+    expect.stringContaining(`ids=${form2.form.id}&include=ticket_fields`)
+  )
 })
