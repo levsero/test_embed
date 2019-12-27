@@ -20,4 +20,8 @@ const FieldWrapper = styled.div`
   }
 `
 
-export { Form, StyledMain as Main, FieldWrapper }
+const TicketFormTitle = styled.div`
+  margin-bottom: ${10 / FONT_SIZE}rem !important;
+`
+
+export { Form, StyledMain as Main, FieldWrapper, TicketFormTitle }

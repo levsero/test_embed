@@ -524,3 +524,31 @@ describe('getReadOnlyState', () => {
     })
   })
 })
+
+describe('getTicketFormTitle', () => {
+  it('returns the ticket form title for the id passed in', () => {
+    const result = selectors.getTicketFormTitle(
+      {
+        submitTicket: {
+          ticketForms: [
+            {
+              id: 123,
+              display_name: 'Geralt'
+            },
+            {
+              id: 234,
+              display_name: 'Yennifer'
+            },
+            {
+              id: 345,
+              display_name: 'Jaskier'
+            }
+          ]
+        }
+      },
+      234
+    )
+
+    expect(result).toEqual('Yennifer')
+  })
+})

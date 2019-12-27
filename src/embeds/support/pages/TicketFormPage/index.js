@@ -1,7 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
-import { getFormTicketFields, getFormState, getReadOnlyState } from 'embeds/support/selectors'
+import {
+  getFormTicketFields,
+  getFormState,
+  getReadOnlyState,
+  getTicketFormTitle
+} from 'embeds/support/selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
@@ -14,7 +19,8 @@ const TicketFormPage = ({
   readOnlyState,
   ticketFields,
   submitTicket,
-  match
+  match,
+  ticketFormTitle
 }) => {
   return (
     <Widget>
@@ -24,6 +30,7 @@ const TicketFormPage = ({
         formName={formName}
         formState={formState}
         readOnlyState={readOnlyState}
+        ticketFormTitle={ticketFormTitle}
         submitForm={formState => submitTicket(formState, match.params.id)}
         ticketFields={ticketFields}
       />
@@ -38,7 +45,8 @@ TicketFormPage.propTypes = {
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
-  match: PropTypes.object
+  match: PropTypes.object,
+  ticketFormTitle: PropTypes.string
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -50,6 +58,7 @@ const mapStateToProps = (state, ownProps) => {
     formState: getFormState(state, id),
     formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
+    ticketFormTitle: getTicketFormTitle(state, id),
     readOnlyState: getReadOnlyState(state)
   }
 }

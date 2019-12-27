@@ -87,11 +87,12 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
-export const getTicketFormsCount = createSelector(
-  getTicketForms,
-  ticketForms => ticketForms.length
-)
-
+export const getTicketFormTitle = (state, id) => {
+  const ticketForm = getTicketForms(state).find(form => {
+    return form.id === parseInt(id)
+  })
+  return ticketForm ? ticketForm.display_name : ''
+}
 export const getCustomTicketFields = createSelector(
   [
     getTicketFieldsResponse,
