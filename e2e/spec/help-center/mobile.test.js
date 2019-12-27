@@ -22,7 +22,7 @@ test('searching the help center', async () => {
     expect(await searchFieldValue.jsonValue()).toEqual('welcome')
   })
 
-  page.keyboard.press('Enter')
+  await page.keyboard.press('Enter')
   await wait(() => queries.getByText(doc, 'Top results'))
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()

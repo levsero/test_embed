@@ -59,8 +59,7 @@ describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
   }
 
   const getLabelVisible = async () => {
-    const frame = await launcher.getFrame()
-    return await frame.evaluate(testId => {
+    return await launcher.evaluate(testId => {
       return (
         getComputedStyle(document.querySelector(`[data-testid="${testId}"]`)).display !== 'none'
       )
