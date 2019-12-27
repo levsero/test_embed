@@ -40,7 +40,7 @@ const getState = (state = {}) => {
     base: {
       embeddableConfig: {
         embeds: {
-          zopimChat: {
+          chat: {
             props: {
               zopimId: 123
             }

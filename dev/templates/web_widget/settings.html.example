@@ -24,7 +24,7 @@
               position: 'right'
             }
           },
-          zopimChat: {
+          chat: {
             embed: 'chat',
             props: {
               zopimId: '<%= htmlWebpackPlugin.options.zopimId %>'

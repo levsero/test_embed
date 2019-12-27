@@ -16,7 +16,7 @@ const mockState = {
   base: {
     hasWidgetShown: false,
     embeds: {
-      zopimChat: {}
+      chat: {}
     }
   }
 }

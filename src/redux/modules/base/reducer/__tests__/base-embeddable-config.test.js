@@ -23,7 +23,7 @@ test('UPDATE_EMBEDDABLE_CONFIG', () => {
             answerBotEnabled: true
           }
         },
-        zopimChat: {
+        chat: {
           props: {
             zopimId: 'yoloId'
           }

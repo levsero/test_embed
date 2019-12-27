@@ -75,7 +75,7 @@ describe('setupChat', () => {
         base: {
           embeddableConfig: {
             embeds: {
-              zopimChat: {
+              chat: {
                 props: {
                   overrideProxy: 'staging.example.com',
                   overrideAuthServerHost: 'staging.auth.example.com'

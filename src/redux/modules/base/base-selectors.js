@@ -21,7 +21,7 @@ export const getLauncherVisible = state => state.base.launcherVisible
 export const getLocale = state => state.base.locale
 export const getIsChatBadgeMinimized = state => state.base.isChatBadgeMinimized
 export const getAfterWidgetShowAnimation = state => state.base.afterWidgetShowAnimation
-export const getChatConfig = state => state.base.embeddableConfig.embeds.zopimChat
+export const getChatConfig = state => state.base.embeddableConfig.embeds.chat
 export const getTalkConfig = state => state.base.embeddableConfig.embeds.talk
 export const getBrandLogoUrl = state => state.base.embeddableConfig.brandLogoUrl
 export const getBrand = state => state.base.embeddableConfig.brand
@@ -69,7 +69,7 @@ export const getCustomFieldsAvailable = state => {
 export const getChatStandalone = createSelector(
   getEmbeddableConfig,
   embeddableConfig => {
-    return embeddableConfig.embeds.zopimChat.props.standalone
+    return embeddableConfig.embeds.chat.props.standalone
   }
 )
 
@@ -78,7 +78,7 @@ export const getQueue = state => state.base.queue
 export const getZopimId = createSelector(
   [getEmbeddableConfig],
   embeddableConfig => {
-    return embeddableConfig.embeds.zopimChat.props.zopimId
+    return embeddableConfig.embeds.chat.props.zopimId
   }
 )
 export const getConfigColor = createSelector(
@@ -106,7 +106,7 @@ export const getConfigColorText = createSelector(
 export const getChatOverrideProxy = createSelector(
   [getEmbeddableConfig],
   embeddableConfig => {
-    return embeddableConfig.embeds.zopimChat.props.overrideProxy
+    return embeddableConfig.embeds.chat.props.overrideProxy
   }
 )
 export const getZChatConfig = createSelector(

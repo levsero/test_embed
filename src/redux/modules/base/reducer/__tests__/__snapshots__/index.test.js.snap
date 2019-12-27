@@ -15,6 +15,13 @@ Object {
     "cp4": false,
     "disableStatusPolling": false,
     "embeds": Object {
+      "chat": Object {
+        "props": Object {
+          "overrideProxy": null,
+          "standalone": false,
+          "zopimId": null,
+        },
+      },
       "talk": Object {
         "props": Object {
           "color": "",
@@ -27,13 +34,6 @@ Object {
           "attachmentsEnabled": false,
           "nameFieldEnabled": true,
           "nameFieldRequired": false,
-        },
-      },
-      "zopimChat": Object {
-        "props": Object {
-          "overrideProxy": null,
-          "standalone": false,
-          "zopimId": null,
         },
       },
     },

@@ -455,7 +455,7 @@ describe('getDeferredChatApi', () => {
     base: {
       embeddableConfig: {
         embeds: {
-          zopimChat: {
+          chat: {
             props: {
               mediatorHost,
               zopimId

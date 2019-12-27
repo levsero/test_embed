@@ -29,7 +29,7 @@ const presets = {
   },
   chat: {
     embeds: {
-      zopimChat: {
+      chat: {
         embed: 'chat',
         props: {
           color: '#1F73B7',

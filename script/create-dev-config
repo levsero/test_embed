@@ -93,7 +93,7 @@ const run = async () => {
 
   const updatedConfigValues = {
     zendeskHost: `${subdomain}.${environmentUrl}`,
-    zopimId: _.get(embeddableConfig, 'embeds.zopimChat.props.zopimId'),
+    zopimId: _.get(embeddableConfig, 'embeds.chat.props.zopimId'),
     talkIntegration: `https://${subdomain}.${environmentUrl}`,
     talkNickname: _.get(embeddableConfig, 'embeds.talk.props.nickname')
   }

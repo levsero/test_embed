@@ -7,7 +7,7 @@ describe('getZendeskLogoLink', () => {
   it('return chat url if on chat product', () => {
     const mockEmbeddableConfig = {
       embeds: {
-        zopimChat: {
+        chat: {
           props: {
             zopimId: 'randomZopimId'
           }

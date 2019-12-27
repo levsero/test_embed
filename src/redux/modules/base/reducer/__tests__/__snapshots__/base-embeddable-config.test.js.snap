@@ -9,6 +9,13 @@ Object {
   "cp4": true,
   "disableStatusPolling": true,
   "embeds": Object {
+    "chat": Object {
+      "props": Object {
+        "overrideProxy": null,
+        "standalone": false,
+        "zopimId": "yoloId",
+      },
+    },
     "talk": Object {
       "props": Object {
         "color": "#123123",
@@ -21,13 +28,6 @@ Object {
         "attachmentsEnabled": true,
         "nameFieldEnabled": true,
         "nameFieldRequired": false,
-      },
-    },
-    "zopimChat": Object {
-      "props": Object {
-        "overrideProxy": null,
-        "standalone": false,
-        "zopimId": "yoloId",
       },
     },
   },
@@ -46,6 +46,13 @@ Object {
   "cp4": false,
   "disableStatusPolling": false,
   "embeds": Object {
+    "chat": Object {
+      "props": Object {
+        "overrideProxy": null,
+        "standalone": false,
+        "zopimId": null,
+      },
+    },
     "talk": Object {
       "props": Object {
         "color": "",
@@ -58,13 +65,6 @@ Object {
         "attachmentsEnabled": false,
         "nameFieldEnabled": true,
         "nameFieldRequired": false,
-      },
-    },
-    "zopimChat": Object {
-      "props": Object {
-        "overrideProxy": null,
-        "standalone": false,
-        "zopimId": null,
       },
     },
   },

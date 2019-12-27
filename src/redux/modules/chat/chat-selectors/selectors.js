@@ -119,7 +119,7 @@ export const getDeferredChatApi = state => {
   const config = getEmbeddableConfig(state)
   const zopimId = getZopimId(state)
 
-  const mediatorUrl = _.get(config, 'embeds.zopimChat.props.mediatorHost')
+  const mediatorUrl = _.get(config, 'embeds.chat.props.mediatorHost')
   if (!mediatorUrl || !zopimId) {
     return null
   }
