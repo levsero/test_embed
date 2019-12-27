@@ -13,7 +13,8 @@ const TicketFormPage = ({
   formState,
   readOnlyState,
   ticketFields,
-  submitTicket
+  submitTicket,
+  match
 }) => {
   return (
     <Widget>
@@ -23,7 +24,7 @@ const TicketFormPage = ({
         formName={formName}
         formState={formState}
         readOnlyState={readOnlyState}
-        submitForm={formState => submitTicket(formState, 'contact-form')}
+        submitForm={formState => submitTicket(formState, match.params.id)}
         ticketFields={ticketFields}
       />
     </Widget>
@@ -36,7 +37,8 @@ TicketFormPage.propTypes = {
   formState: PropTypes.shape({}),
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
   ticketFields: PropTypes.array,
-  submitTicket: PropTypes.func
+  submitTicket: PropTypes.func,
+  match: PropTypes.object
 }
 
 const mapStateToProps = (state, ownProps) => {

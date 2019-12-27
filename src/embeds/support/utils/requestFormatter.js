@@ -49,26 +49,49 @@ const formatTicketFieldData = (formState, subjectFieldId, descriptionFieldId) =>
   return params
 }
 
-export default (state, formState, attachments, formTitle = 'contact-form') => {
+const getTicketFormValues = (formState, state) => {
   const ticketFields = getTicketFields(state)
-  const isTicketForm = formTitle !== 'contact-form'
   const descriptionField = findFieldId('description', ticketFields)
-  const descriptionData = isTicketForm ? formState[descriptionField] : formState.description
+  const description = formState[descriptionField]
   const subjectField = findFieldId('subject', ticketFields)
-  const subjectData = isTicketForm && subjectField ? formState[subjectField] : formState.subject
-  const subjectAllowed = getSettingsContactFormSubject(state) || isTicketForm
+  const subjectData = formState[subjectField]
+  const subject = !_.isEmpty(subjectData) ? subjectData : formatSubjetFromDescription(description)
+
+  return {
+    description,
+    subject,
+    descriptionField,
+    subjectField
+  }
+}
+
+const getContactFormValues = (formState, state) => {
+  const description = formState.description
+  const subjectData = formState.subject
   const subject =
-    subjectAllowed && !_.isEmpty(subjectData)
+    getSettingsContactFormSubject(state) && !_.isEmpty(subjectData)
       ? subjectData
-      : formatSubjetFromDescription(descriptionData)
+      : formatSubjetFromDescription(description)
+
+  return {
+    description,
+    subject
+  }
+}
+
+export default (state, formState, attachments, formTitle) => {
+  const isTicketForm = formTitle !== 'contact-form'
+  const params = !isTicketForm
+    ? getContactFormValues(formState, state)
+    : getTicketFormValues(formState, state)
 
   return {
     request: {
-      subject: subject,
+      subject: params.subject,
       tags: ['web_widget'].concat(getSettingsContactFormTags(state)),
       via_id: 48,
       comment: {
-        body: formatDescriptionField(descriptionData),
+        body: formatDescriptionField(params.description),
         uploads: attachments ? attachments : []
       },
       requester: {
@@ -76,8 +99,8 @@ export default (state, formState, attachments, formTitle = 'contact-form') => {
         email: formState.email,
         locale_id: i18n.getLocaleId()
       },
-      ticket_form_id: isTicketForm ? formTitle : null,
-      ...formatTicketFieldData(formState, subjectField, descriptionField)
+      ticket_form_id: isTicketForm ? parseInt(formTitle) : null,
+      ...formatTicketFieldData(formState, params.subjectField, params.descriptionField)
     }
   }
 }

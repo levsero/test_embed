@@ -16,7 +16,7 @@ describe('formatRequestData', () => {
     formStateOverrides = {},
     settingOverrides = {},
     submitTicketOverrides = {},
-    ticketFormName
+    ticketFormName = 'contact-form'
   ) => {
     jest.spyOn(i18n, 'getLocaleId').mockReturnValue('fr')
     jest.spyOn(i18n, 't').mockImplementation(st => st)
@@ -185,13 +185,13 @@ describe('formatRequestData', () => {
     }
 
     it('should correctly format custom fields', () => {
-      const result = format(mockValues, {}, { ticketFields, ticketForms }, 50)
+      const result = format(mockValues, {}, { ticketFields, ticketForms }, '50')
 
       expect(result.request.fields[456]).toBe('Cheeseburger')
     })
 
     it('uses the description as the subject when subject is not available', () => {
-      const result = format({ ...mockValues, subject: '' }, {}, { ticketFields, ticketForms }, 50)
+      const result = format({ ...mockValues, subject: '' }, {}, { ticketFields, ticketForms }, '50')
 
       expect(result.request.subject).toBe('Just saying Hi')
     })
@@ -213,7 +213,7 @@ describe('formatRequestData', () => {
     })
 
     it('correctly formats the description field based on the ticket field id', () => {
-      const result = format(mockValues, {}, { ticketFields, ticketForms }, 50)
+      const result = format(mockValues, {}, { ticketFields, ticketForms }, '50')
 
       expect(result.request.fields[123]).not.toBe('Just saying Hi')
 
@@ -221,7 +221,7 @@ describe('formatRequestData', () => {
     })
 
     it('sends through the ticket_form_id', () => {
-      const result = format(mockValues, {}, { ticketFields, ticketForms }, 50)
+      const result = format(mockValues, {}, { ticketFields, ticketForms }, '50')
 
       expect(result.request.ticket_form_id).toBe(50)
     })
