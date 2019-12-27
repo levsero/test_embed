@@ -20,10 +20,8 @@
     "scope": "javascript,typescript",
     "body": [
       "describe('${1:testName}', () => {",
-      "\tlet result",
-      "",
       "\tit('${2:testCriteriaName}', () => {",
-      "\t\tresult = ${3:testCriteria}",
+      "\t\tconst result = ${3:testCriteria}",
       "",
       "\t\texpect(result).toEqual(${4:expectedValue})",
       "\t})",
@@ -48,81 +46,6 @@
     "scope": "javascript,typescript",
     "body": ["export const ${1:name} = (${2:state}) => ${3:data}"],
     "description": "Basic selector with a name, state, and return value"
-  },
-  "ConnectedComponent": {
-    "prefix": "ConnectedComponent",
-    "scope": "javascript,typescript",
-    "body": [
-      "import React, { Component } from 'react'",
-      "import PropTypes from 'prop-types'",
-      "import { connnect } from 'react-redux'",
-      "",
-      "const mapStateToProps = (state) => {",
-      "\treturn {${1:mapPropData}}",
-      "}",
-      "",
-      "class ${2:className} extends Component {",
-      "\tstatic propTypes = {",
-      "\t\t${3:propTypeData}",
-      "\t}",
-      "\t",
-      "\tstatic defaultProps = {",
-      "\t\t${4:defaultPropData}",
-      "\t}",
-      "",
-      "\trender = () => {",
-      "\t\treturn (<div></div>)",
-      "\t}",
-      "}",
-      "",
-      "const actionCreators = {",
-      "\t${5:actionData}",
-      "}",
-      "",
-      "export default connect(mapStateToProps, actionCreators, null, { withRef: true })(${2:className})"
-    ],
-    "description": "Default Connected Component"
-  },
-  "Component": {
-    "prefix": "Component",
-    "scope": "javascript,typescript",
-    "body": [
-      "import React, { Component } from 'react'",
-      "import PropTypes from 'prop-types'",
-      "",
-      "class ${2:className} extends Component {",
-      "\tstatic propTypes = {",
-      "\t\t${3:propTypeData}",
-      "\t}",
-      "\t",
-      "\tstatic defaultProps = {",
-      "\t\t${4:defaultPropData}",
-      "\t}",
-      "",
-      "\trender = () => {",
-      "\t\treturn (<div></div>)",
-      "\t}",
-      "}"
-    ],
-    "description": "Empty Component"
-  },
-  "It test": {
-    "prefix": "it",
-    "scope": "javascript,typescript",
-    "body": [
-      "it('${1}', () => {",
-      "\tconst result = ${2:test}",
-      "",
-      "\texpect(result).toEqual(${3:expectedValue})",
-      "})"
-    ],
-    "description": "it test for use within describe"
-  },
-  "Component usage": {
-    "prefix": "<",
-    "scope": "javascript,typescript",
-    "body": ["<${1:name} ${2:props}>", "\t${3:body}", "</${1:name}>"],
-    "description": "Basic component implementation"
   },
   "Reducer": {
     "prefix": "reducer",
@@ -177,10 +100,6 @@
       "\t${3:propTypes}",
       "}",
       "",
-      "${1}.defaultProps = {",
-      "\t${4:defaultProps}",
-      "}",
-      "",
       "export default ${1}"
     ]
   },
@@ -200,10 +119,6 @@
       "\t${3:propTypes}",
       "}",
       "",
-      "${1}.defaultProps = {",
-      "\t${4:defaultProps}",
-      "}",
-      "",
       "const mapStateToProps = state => {",
       "\t${5:stateMaps}",
       "}",
@@ -219,5 +134,43 @@
       "",
       "export { connectedComponent as default, ${1} as Component } "
     ]
+  },
+  "StyledFunctionComponent": {
+    "prefix": "styledFunctionComponent",
+    "scope": "javascript,typescript",
+    "body": [
+      "import React from 'react'",
+      "import PropTypes from 'prop-types'",
+      "",
+      "import { } from './styles'",
+      "",
+      "const ${1:className} = ({${2:props}}) => {",
+      "\treturn <div></div>",
+      "}",
+      "",
+      "${1}.propTypes = {",
+      "\t${3:propTypes}",
+      "}",
+      "",
+      "export default ${1}"
+    ]
+  },
+  "StyledComponentStyles": {
+    "prefix": "style",
+    "scope": "javascript,typescript",
+    "body": [
+      "import styled from 'styled-components'",
+      "import { } from '@zendeskgarden/css-variables'",
+      "import { FONT_SIZE } from 'src/constants/shared'",
+      "",
+      "const ${1:ComponentName} = styled${2}`${3}`",
+      "",
+      "export { ${1} } "
+    ]
+  },
+  "ImportUseTranslate": {
+    "prefix": "useTranslate",
+    "scope": "javascript,typescript",
+    "body": ["import { useTranslate } from 'src/hooks/useTranslation'"]
   }
 }
