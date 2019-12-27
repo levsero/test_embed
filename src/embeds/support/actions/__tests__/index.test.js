@@ -6,10 +6,14 @@ import * as actions from '..'
 import * as actionTypes from '../action-types'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import * as supportSelectors from 'src/embeds/support/selectors'
+import { http } from 'service/transport'
+import formatRequestData from 'src/embeds/support/utils/requestFormatter'
+import { queuesReset } from 'utility/rateLimiting/helpers'
 
 jest.mock('lodash')
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
+jest.mock('src/embeds/support/utils/requestFormatter')
 
 const mockId = 42
 const mockFileBlob = { name: 'blah.txt', size: 1024, type: 'text/plain' }
@@ -327,5 +331,70 @@ describe('clearAttachments', () => {
     store.dispatch(actions.deleteAttachment(mockId))
 
     expect(abortSpy).not.toHaveBeenCalled()
+  })
+})
+
+describe('submitTicket', () => {
+  beforeEach(() => {
+    formatRequestData.mockReturnValue('params')
+    queuesReset()
+  })
+
+  it('sends the expected request and action', () => {
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+    expect(http.send).toHaveBeenCalledWith({
+      callbacks: { done: expect.any(Function), fail: expect.any(Function) },
+      method: 'post',
+      params: 'params',
+      path: '/api/v2/requests'
+    })
+    expect(store.getActions()[0]).toEqual({ type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT })
+  })
+
+  it('dispatches expected actions on successful request', () => {
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.done
+
+    cb({ text: JSON.stringify({ a: 123 }) })
+
+    expect(store.getActions()[1]).toEqual({
+      type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
+      payload: { a: 123 }
+    })
+  })
+
+  it('dispatches expected actions on failed timeout request', () => {
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.fail
+
+    cb({ timeout: true })
+
+    expect(store.getActions()[1]).toEqual({
+      type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+      payload: 'There was a problem. Please try again.'
+    })
+  })
+
+  it('dispatches expected actions on failed error request', () => {
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.fail
+
+    cb({ something: 'else' })
+
+    expect(store.getActions()[1]).toEqual({
+      type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+      payload: 'There was an error processing your request. Please try again later.'
+    })
   })
 })

@@ -4,6 +4,9 @@ import * as actionTypes from './action-types'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import { i18n } from 'service/i18n'
 import { getMaxFileSize } from 'src/embeds/support/selectors'
+import formatRequestData from 'src/embeds/support/utils/requestFormatter'
+import { http } from 'service/transport'
+import withRateLimiting from 'utility/rateLimiting'
 
 let attachmentUploaders = {}
 
@@ -133,5 +136,46 @@ export const uploadAttachment = file => (dispatch, getState) => {
       onUploadFailure,
       onUploadUpdate
     )
+  }
+}
+
+export function submitTicket(formState, formTitle) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const attachments = [] // Will update once https://zendesk.atlassian.net/browse/EWW-992 is done
+    const params = formatRequestData(state, formState, attachments, formTitle)
+
+    const payload = {
+      method: 'post',
+      path: '/api/v2/requests',
+      params: params,
+      callbacks: {
+        done(res) {
+          dispatch({
+            type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
+            payload: JSON.parse(res.text)
+          })
+        },
+        fail(err) {
+          dispatch({
+            type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+            payload: err.timeout
+              ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
+              : i18n.t('embeddable_framework.submitTicket.notify.message.error')
+          })
+        }
+      }
+    }
+
+    dispatch({
+      type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT
+    })
+
+    withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
+      dispatch({
+        type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+        payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
+      })
+    })
   }
 }
