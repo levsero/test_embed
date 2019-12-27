@@ -87,6 +87,11 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
+export const getTicketFormsCount = createSelector(
+  getTicketForms,
+  ticketForms => ticketForms.length
+)
+
 export const getCustomTicketFields = createSelector(
   [
     getTicketFieldsResponse,
@@ -145,8 +150,9 @@ export const getCustomTicketFields = createSelector(
 export const getTicketFormFields = (state, formId) => {
   const ticketFields = getTicketFields(state)
   const ticketForms = getTicketForms(state)
+  const ticketFormId = parseInt(formId)
   const ticketForm = ticketForms.find(form => {
-    return form.id === formId
+    return form.id === ticketFormId
   })
   const formTicketFields =
     ticketForm && ticketForm.ticket_field_ids
@@ -170,8 +176,7 @@ export const getTicketFormFields = (state, formId) => {
   ].filter(Boolean)
 }
 
-export const getFormTicketFields = (state, route = 'contact-form') => {
-  // 'contact-form' is placeholder for now, will be replaced with whatever the route ends up becoming
+export const getFormTicketFields = (state, route) => {
   if (route === 'contact-form') {
     return getCustomTicketFields(state)
   }

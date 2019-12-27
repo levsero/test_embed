@@ -1,5 +1,4 @@
 import React from 'react'
-import { wait } from '@testing-library/react'
 
 import { Component as WebWidget } from '../WebWidget'
 import { render } from 'src/util/testHelpers'
@@ -31,17 +30,15 @@ afterEach(() => {
   console.error = originalError // eslint-disable-line no-console
 })
 
-it('show new support embed', async () => {
-  const { queryByText } = renderComponent()
+it('show new support embed', () => {
+  const { container } = renderComponent()
 
-  await wait(() => {
-    expect(queryByText('I AM NEW SUPPORT')).toBeInTheDocument()
-  })
+  // The old submit ticket form still composes from 'form'. the new form does not
+  expect(container.querySelector('form').className).not.toEqual('form ')
 })
 
 it('show old support embed', () => {
-  const { queryByText } = renderComponent({ webWidgetReactRouterSupport: false })
+  const { container } = renderComponent({ webWidgetReactRouterSupport: false })
 
-  expect(queryByText('I AM NEW SUPPORT')).not.toBeInTheDocument()
-  expect(queryByText('Leave us a message')).toBeInTheDocument()
+  expect(container.querySelector('form').className).toEqual('form ')
 })

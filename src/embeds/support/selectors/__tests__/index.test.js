@@ -183,7 +183,7 @@ describe('getCustomTicketFields', () => {
 describe('getTicketFormFields', () => {
   const state = {
     submitTicket: {
-      ticketForms: [{ id: '123456', ticket_field_ids: ['123', '456', '789'] }],
+      ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
       ticketFields: {
         123: checkboxField,
         456: textField,
@@ -209,7 +209,7 @@ describe('getFormTicketFields', () => {
   const setUpState = fields => {
     return {
       submitTicket: {
-        ticketForms: [{ id: '123456', ticket_field_ids: ['123', '456', '789'] }],
+        ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
         ticketFields: fields
       },
       settings: { contactForm: { settings: { subject: false } } },

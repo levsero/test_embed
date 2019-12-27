@@ -6,7 +6,6 @@ import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
-import { getActiveTicketForm } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 
 const TicketFormPage = ({
   formTitle,
@@ -18,7 +17,7 @@ const TicketFormPage = ({
 }) => {
   return (
     <Widget>
-      <Header title={formTitle} />
+      <Header title={formTitle} useReactRouter={true} />
 
       <TicketForm
         formName={formName}
@@ -40,15 +39,15 @@ TicketFormPage.propTypes = {
   submitTicket: PropTypes.func
 }
 
-const mapStateToProps = state => {
-  const form = getActiveTicketForm(state)
-  const formName = form ? form.id : 'contact-form'
+const mapStateToProps = (state, ownProps) => {
+  const { params } = ownProps.match
+  const id = params.id
 
   return {
-    formName,
-    formState: getFormState(state, formName),
+    formName: id,
+    formState: getFormState(state, id),
     formTitle: getContactFormTitle(state),
-    ticketFields: getFormTicketFields(state),
+    ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state)
   }
 }
