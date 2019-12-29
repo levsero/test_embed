@@ -1,8 +1,7 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { wait } from 'pptr-testing-library'
 
 const getPosition = async selector => {
@@ -16,16 +15,16 @@ const getPosition = async selector => {
 }
 
 test('override left and top positions for launcher and frame', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-    preload: () => {
+  await loadWidget()
+    .withPresets('contactForm')
+    .evaluateOnNewDocument(() => {
       window.zESettings = {
         webWidget: {
           position: { horizontal: 'left', vertical: 'top' }
         }
       }
-    }
-  })
+    })
+    .load()
   expect(await getPosition(launcher.selector)).toEqual({
     top: '0px',
     left: '0px'

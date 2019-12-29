@@ -1,9 +1,8 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { wait } from 'pptr-testing-library'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 
 const getPosition = async selector => {
   return await page.evaluate(iframe => {
@@ -15,20 +14,24 @@ const getPosition = async selector => {
   }, selector)
 }
 
+const buildWidget = mobile => {
+  let builder = loadWidget().withPresets('helpCenter')
+  if (mobile) builder = builder.useMobile()
+  return builder
+}
+
 describe('desktop', () => {
-  const setup = async (mobile = false) => {
-    await widgetPage.load({
-      mockRequests: [mockEmbeddableConfigEndpoint('helpCenter')],
-      preload: () => {
+  const setup = (mobile = false) => {
+    return buildWidget(mobile)
+      .evaluateOnNewDocument(() => {
         window.zESettings = {
           offset: {
             horizontal: '100px',
             vertical: '150px'
           }
         }
-      },
-      mobile
-    })
+      })
+      .load()
   }
 
   test('adjusts the position of launcher', async () => {
@@ -68,10 +71,9 @@ describe('desktop', () => {
 })
 
 describe('mobile', () => {
-  const setup = async (mobile = true) => {
-    await widgetPage.load({
-      mockRequests: [mockEmbeddableConfigEndpoint('helpCenter')],
-      preload: () => {
+  const setup = (mobile = true) => {
+    return buildWidget(mobile)
+      .evaluateOnNewDocument(() => {
         window.zESettings = {
           offset: {
             mobile: {
@@ -80,9 +82,8 @@ describe('mobile', () => {
             }
           }
         }
-      },
-      mobile
-    })
+      })
+      .load()
   }
 
   test('adjusts the position of launcher', async () => {

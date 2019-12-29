@@ -1,13 +1,12 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
 import { TEST_IDS } from '../../../src/constants/shared'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 
 describe('zESettings.webWidget.launcher.label', () => {
-  it('overrides the launcher label', async () => {
-    await widgetPage.load({
-      mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-      preload: () => {
+  const buildWidget = () => {
+    return loadWidget()
+      .withPresets('contactForm')
+      .evaluateOnNewDocument(() => {
         window.zESettings = {
           launcher: {
             label: {
@@ -16,35 +15,29 @@ describe('zESettings.webWidget.launcher.label', () => {
             }
           }
         }
-      }
-    })
+      })
+  }
+
+  it('overrides the launcher label', async () => {
+    await buildWidget().load()
     expect(await launcher.getLabelText()).toEqual('Need help?')
   })
 
   it('sets the label according to locale', async () => {
-    await widgetPage.load({
-      mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-      preload: () => {
-        window.zESettings = {
-          launcher: {
-            label: {
-              '*': 'Need help?',
-              fr: "Besoin d'aide?"
-            }
-          }
-        }
+    await buildWidget()
+      .evaluateOnNewDocument(() => {
         zE('webWidget', 'setLocale', 'fr')
-      }
-    })
+      })
+      .load()
     expect(await launcher.getLabelText()).toEqual("Besoin d'aide?")
   })
 })
 
 describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
-  const setup = async (labelVisible, mobile = true) => {
-    await widgetPage.load({
-      mockRequests: [mockEmbeddableConfigEndpoint('helpCenter')],
-      preload: labelVisible => {
+  const buildWidget = labelVisible => {
+    return loadWidget()
+      .withPresets('helpCenter')
+      .evaluateOnNewDocument(labelVisible => {
         window.zESettings = {
           launcher: {
             mobile: {
@@ -52,10 +45,7 @@ describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
             }
           }
         }
-      },
-      preloadArgs: [labelVisible],
-      mobile
-    })
+      }, labelVisible)
   }
 
   const getLabelVisible = async () => {
@@ -67,17 +57,21 @@ describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
   }
 
   it('does not show the label when false', async () => {
-    await setup(false)
+    await buildWidget(false)
+      .useMobile()
+      .load()
     expect(await getLabelVisible()).toEqual(false)
   })
 
   it('does shows the label when true', async () => {
-    await setup(true)
+    await buildWidget(true)
+      .useMobile()
+      .load()
     expect(await getLabelVisible()).toEqual(true)
   })
 
   it('does not hide label on desktop', async () => {
-    await setup(true, false)
+    await buildWidget(false).load()
     expect(await getLabelVisible()).toEqual(true)
   })
 })

@@ -1,4 +1,5 @@
 import { goToTestPage, failOnConsoleError } from 'e2e/helpers/utils'
+import { wait } from 'pptr-testing-library'
 
 const noEmbeds = {
   locale: 'en-us',
@@ -7,11 +8,11 @@ const noEmbeds = {
   embeds: {}
 }
 
-test('page view blip is still fired when there are no embeds', async done => {
+test('page view blip is still fired when there are no embeds', async () => {
   await jestPuppeteer.resetPage()
   await page.setRequestInterception(true)
   failOnConsoleError()
-  let blipReceived
+  const blipReceived = jest.fn()
 
   await page.on('request', request => {
     if (request.url().includes('config')) {
@@ -28,7 +29,7 @@ test('page view blip is still fired when there are no embeds', async done => {
         contentType: 'text/html',
         body: ''
       })
-      blipReceived = true
+      blipReceived()
     } else {
       request.continue()
     }
@@ -38,11 +39,8 @@ test('page view blip is still fired when there are no embeds', async done => {
   await page.evaluate(() => {
     localStorage['ZD-debug'] = true
   })
-  setTimeout(() => {
-    if (blipReceived) {
-      done()
-    } else {
-      done.fail('did not send blip')
-    }
-  }, 2000)
+  page.waitFor(2000)
+  await wait(() => {
+    expect(blipReceived).toHaveBeenCalled()
+  })
 })

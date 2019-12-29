@@ -1,4 +1,4 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 import { queries } from 'pptr-testing-library'
@@ -53,11 +53,10 @@ const applyColorSetting = colorSetting =>
   })
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig(
-    'helpCenterWithContextualHelp',
-    'contactForm',
-    mockSearchEndpoint()
-  )
+  await loadWidget()
+    .withPresets('helpCenterWithContextualHelp', 'contactForm')
+    .intercept(mockSearchEndpoint())
+    .load()
 })
 
 describe('zESettings.webWidget.color.theme', () => {

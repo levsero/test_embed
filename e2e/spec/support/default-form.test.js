@@ -1,6 +1,5 @@
 import { queries } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import { createField, mockTicketFieldsEndpoint, testForm } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import { queryAllByText } from 'e2e/helpers/queries'
@@ -132,20 +131,18 @@ describe('support default form', () => {
       const description = createField({ type: 'description' })
 
       const ticketFields = [checkbox1, description, checkbox2]
-      await widgetPage.load({
-        mockRequests: [
-          mockEmbeddableConfigEndpoint('contactForm', {
-            embeds: {
-              ticketSubmissionForm: {
-                props: {
-                  customFields: { ids: ticketFields.map(form => form.id) }
-                }
+      await loadWidget()
+        .intercept(mockTicketFieldsEndpoint(ticketFields))
+        .withPresets('contactForm', {
+          embeds: {
+            ticketSubmissionForm: {
+              props: {
+                customFields: { ids: ticketFields.map(form => form.id) }
               }
             }
-          }),
-          mockTicketFieldsEndpoint(ticketFields)
-        ]
-      })
+          }
+        })
+        .load()
 
       await widget.openByKeyboard()
 

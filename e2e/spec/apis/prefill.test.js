@@ -1,21 +1,23 @@
 import { wait, queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { assertInputValue } from 'e2e/helpers/utils'
 
+const buildWidget = () => {
+  return loadWidget().withPresets('contactForm')
+}
+
 test('prefills the contact form', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-    preload: () => {
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu' },
         email: { value: 'isamu@voltron.com' },
         phone: { value: '61431909749' }
       })
-    }
-  })
+    })
+    .load()
   await launcher.click()
   const doc = await widget.getDocument()
   await wait(() => queries.getByText(doc, 'Leave us a message'))
@@ -30,15 +32,14 @@ const assertReadOnly = async (doc, label) => {
 }
 
 test('prefills the contact form and sets it as read only', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-    preload: () => {
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu', readOnly: true },
         email: { value: 'isamu@voltron.com', readOnly: true }
       })
-    }
-  })
+    })
+    .load()
   await launcher.click()
   const doc = await widget.getDocument()
   await wait(() => queries.getByText(doc, 'Leave us a message'))

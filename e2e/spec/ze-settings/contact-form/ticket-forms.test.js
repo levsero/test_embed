@@ -1,6 +1,5 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
 import { queries, wait } from 'pptr-testing-library'
 import { DEFAULT_CORS_HEADERS, assertInputValue } from 'e2e/helpers/utils'
@@ -27,54 +26,56 @@ const setup = async () => {
       form2.mockFormsResponse.ticket_fields
     )
   }
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm', mockConfigWithForms),
-      mockTicketFormsEndpoint(mockFormsResponse)
-    ],
-    preload: (form1Id, form2Id, textId) => {
-      window.zESettings = {
-        webWidget: {
-          contactForm: {
-            ticketForms: [
-              {
-                id: form1Id,
-                fields: [
-                  {
-                    id: 'description',
-                    prefill: {
-                      '*': 'hello world',
-                      fr: 'Bonjour le monde'
+  await loadWidget()
+    .withPresets('contactForm', mockConfigWithForms)
+    .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+    .evaluateOnNewDocument(
+      (form1Id, form2Id, textId) => {
+        window.zESettings = {
+          webWidget: {
+            contactForm: {
+              ticketForms: [
+                {
+                  id: form1Id,
+                  fields: [
+                    {
+                      id: 'description',
+                      prefill: {
+                        '*': 'hello world',
+                        fr: 'Bonjour le monde'
+                      }
                     }
-                  }
-                ]
-              },
-              {
-                id: form2Id,
-                fields: [
-                  {
-                    id: 'description',
-                    prefill: {
-                      '*': 'My field text',
-                      fr: 'My french field text'
+                  ]
+                },
+                {
+                  id: form2Id,
+                  fields: [
+                    {
+                      id: 'description',
+                      prefill: {
+                        '*': 'My field text',
+                        fr: 'My french field text'
+                      }
+                    },
+                    {
+                      id: textId,
+                      prefill: {
+                        '*': 'random',
+                        fr: 'fischer random'
+                      }
                     }
-                  },
-                  {
-                    id: textId,
-                    prefill: {
-                      '*': 'random',
-                      fr: 'fischer random'
-                    }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      }
-    },
-    preloadArgs: [form1.form.id, form2.form.id, text.id]
-  })
+      },
+      form1.form.id,
+      form2.form.id,
+      text.id
+    )
+    .load()
 }
 
 test('prefills the expected form fields', async () => {
@@ -137,12 +138,10 @@ test('filters the ticket forms', async () => {
     })
   }
 
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm', mockConfigWithForms),
-      mockTicketFormsEndpoint
-    ],
-    preload: formId => {
+  await loadWidget()
+    .withPresets('contactForm', mockConfigWithForms)
+    .intercept(mockTicketFormsEndpoint)
+    .evaluateOnNewDocument(formId => {
       window.zESettings = {
         webWidget: {
           contactForm: {
@@ -154,9 +153,8 @@ test('filters the ticket forms', async () => {
           }
         }
       }
-    },
-    preloadArgs: [form2.form.id]
-  })
+    }, form2.form.id)
+    .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   await wait(async () => {

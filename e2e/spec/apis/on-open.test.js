@@ -1,8 +1,8 @@
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
-import widgetPage from 'e2e/helpers/widget-page'
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig('helpCenter')
+  await loadWidget('helpCenter')
 })
 
 test('callback is called when launcher is clicked', async () => {

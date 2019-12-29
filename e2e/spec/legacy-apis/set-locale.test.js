@@ -1,10 +1,10 @@
 import { wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
 
 describe('zE.setLocale(locale)', () => {
   beforeEach(async () => {
-    await widgetPage.loadWithConfig('helpCenter')
+    await loadWidget('helpCenter')
   })
 
   it('updates the locale when called with a supported locale', async () => {

@@ -1,9 +1,8 @@
 import { queries, wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import {
   createTicketSubmissionEndpointResponse,
   waitForSubmissionSuccess,
@@ -19,6 +18,8 @@ const SUBMISSION_RESPONSE = {
     status: 'open'
   }
 }
+
+const buildWidget = () => loadWidget().intercept(mockUploadsRequest)
 
 let attachmentId = 0
 
@@ -97,13 +98,10 @@ const submissionPayload = ({ description, name, email, uploads }) => {
 
 test('attachments can be uploaded and submitted', async () => {
   const submission = jest.fn()
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm'),
-      mockUploadsRequest,
-      mockTicketSubmissionEndpoint(SUBMISSION_RESPONSE, submission)
-    ]
-  })
+  await buildWidget()
+    .withPresets('contactForm')
+    .intercept(mockTicketSubmissionEndpoint(SUBMISSION_RESPONSE, submission))
+    .load()
   await launcher.click()
 
   await uploadFiles(
@@ -140,13 +138,10 @@ test('attachments can be uploaded and submitted', async () => {
 
 test('attachments can be removed from the form', async () => {
   const submission = jest.fn()
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm'),
-      mockUploadsRequest,
-      mockTicketSubmissionEndpoint(SUBMISSION_RESPONSE, submission)
-    ]
-  })
+  await buildWidget()
+    .withPresets('contactForm')
+    .intercept(mockTicketSubmissionEndpoint(SUBMISSION_RESPONSE, submission))
+    .load()
   await launcher.click()
 
   await uploadFiles(
@@ -192,20 +187,17 @@ test('attachments can be removed from the form', async () => {
 })
 
 test('attachments too large are rejected', async () => {
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm', {
-        embeds: {
-          ticketSubmissionForm: {
-            props: {
-              maxFileSize: 1000000
-            }
+  await buildWidget()
+    .withPresets('contactForm', {
+      embeds: {
+        ticketSubmissionForm: {
+          props: {
+            maxFileSize: 1000000
           }
         }
-      }),
-      mockUploadsRequest
-    ]
-  })
+      }
+    })
+    .load()
   await launcher.click()
 
   await uploadFiles('e2e/fixtures/files/large-attachment.jpg')
@@ -221,7 +213,9 @@ test('attachments too large are rejected', async () => {
 })
 
 test('can only upload 5 attachments', async () => {
-  await widgetPage.loadWithConfig('contactForm', mockUploadsRequest)
+  await buildWidget()
+    .withPresets('contactForm')
+    .load()
   await launcher.click()
 
   const doc = await widget.getDocument()
@@ -253,7 +247,9 @@ const assertIcon = async (filename, icon) => {
 }
 
 test('displays file type icon', async () => {
-  await widgetPage.loadWithConfig('contactForm', mockUploadsRequest)
+  await buildWidget()
+    .withPresets('contactForm')
+    .load()
   await launcher.click()
   await assertIcon('text-attachment.txt', 'Icon--preview-document')
   await assertIcon('large-attachment.jpg', 'Icon--preview-image')

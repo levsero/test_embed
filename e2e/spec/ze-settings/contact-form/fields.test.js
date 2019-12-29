@@ -1,8 +1,7 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
 import { queries, wait } from 'pptr-testing-library'
 import launcher from 'e2e/helpers/launcher'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
 import { assertInputValue } from 'e2e/helpers/utils'
 
@@ -24,35 +23,38 @@ describe('zESettings.webWidget.contactForm.fields', () => {
       integer,
       decimal
     )
-    await widgetPage.load({
-      mockRequests: [
-        mockEmbeddableConfigEndpoint('contactForm', {
-          embeds: {
-            ticketSubmissionForm: {
-              props: embedConfig
-            }
-          }
-        }),
-        mockTicketFormsEndpoint(mockFormsResponse)
-      ],
-      preload: (textId, textAreaId, integerId, decimalId) => {
-        window.zESettings = {
-          webWidget: {
-            contactForm: {
-              fields: [
-                { id: 'description', prefill: { '*': 'Prefill description' } },
-                { id: 'subject', prefill: { '*': 'Prefill subject' } },
-                { id: textId, prefill: { '*': 'random text' } },
-                { id: textAreaId, prefill: { '*': 'gibberish' } },
-                { id: integerId, prefill: { '*': '456' } },
-                { id: decimalId, prefill: { '*': '456.08' } }
-              ]
-            }
+    await loadWidget()
+      .withPresets('contactForm', {
+        embeds: {
+          ticketSubmissionForm: {
+            props: embedConfig
           }
         }
-      },
-      preloadArgs: [text.id, textarea.id, integer.id, decimal.id]
-    })
+      })
+      .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+      .evaluateOnNewDocument(
+        (textId, textAreaId, integerId, decimalId) => {
+          window.zESettings = {
+            webWidget: {
+              contactForm: {
+                fields: [
+                  { id: 'description', prefill: { '*': 'Prefill description' } },
+                  { id: 'subject', prefill: { '*': 'Prefill subject' } },
+                  { id: textId, prefill: { '*': 'random text' } },
+                  { id: textAreaId, prefill: { '*': 'gibberish' } },
+                  { id: integerId, prefill: { '*': '456' } },
+                  { id: decimalId, prefill: { '*': '456.08' } }
+                ]
+              }
+            }
+          }
+        },
+        text.id,
+        textarea.id,
+        integer.id,
+        decimal.id
+      )
+      .load()
 
     await launcher.click()
     const doc = await widget.getDocument()
@@ -69,18 +71,16 @@ describe('zESettings.webWidget.contactForm.fields', () => {
     const subject = createField({ id: 1, title_in_portal: 'Subject', type: 'subject' })
     const text = createField({ id: 2, title_in_portal: 'Text', type: 'text' })
     const { mockFormsResponse, embedConfig } = createForm('Test form', 123, subject, text)
-    await widgetPage.load({
-      mockRequests: [
-        mockEmbeddableConfigEndpoint('contactForm', {
-          embeds: {
-            ticketSubmissionForm: {
-              props: embedConfig
-            }
+    await loadWidget()
+      .withPresets('contactForm', {
+        embeds: {
+          ticketSubmissionForm: {
+            props: embedConfig
           }
-        }),
-        mockTicketFormsEndpoint(mockFormsResponse)
-      ],
-      preload: textId => {
+        }
+      })
+      .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+      .evaluateOnNewDocument(textId => {
         window.zESettings = {
           webWidget: {
             contactForm: {
@@ -91,9 +91,8 @@ describe('zESettings.webWidget.contactForm.fields', () => {
             }
           }
         }
-      },
-      preloadArgs: [text.id]
-    })
+      }, text.id)
+      .load()
     await page.evaluate(() => {
       zE('webWidget', 'setLocale', 'fr')
     })

@@ -1,7 +1,6 @@
 import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
-import widgetPage from './widget-page'
-import { mockEmbeddableConfigEndpoint } from './widget-page/embeddable-config'
+import loadWidget from './widget-page/fluent'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
 
@@ -107,20 +106,18 @@ const createForm = (name, id, ...fields) => {
 export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }) => {
   const mockSubmissionEndpoint = jest.fn()
 
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm', {
-        embeds: {
-          ticketSubmissionForm: {
-            props: config
-          }
+  await loadWidget()
+    .withPresets('contactForm', {
+      embeds: {
+        ticketSubmissionForm: {
+          props: config
         }
-      }),
-      mockTicketFormsEndpoint(mockFormsResponse),
-      mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint),
-      mockTicketFieldsEndpoint(mockFieldsResponse)
-    ]
-  })
+      }
+    })
+    .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+    .intercept(mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint))
+    .intercept(mockTicketFieldsEndpoint(mockFieldsResponse))
+    .load()
 
   await widget.openByKeyboard()
 

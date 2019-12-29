@@ -1,12 +1,11 @@
 import { queries, wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 
 test('updates the title', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('answerBot')],
-    preload: () => {
+  await loadWidget()
+    .withPresets('answerBot')
+    .evaluateOnNewDocument(() => {
       window.zESettings = {
         webWidget: {
           answerBot: {
@@ -17,8 +16,8 @@ test('updates the title', async () => {
           }
         }
       }
-    }
-  })
+    })
+    .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   await wait(async () => {

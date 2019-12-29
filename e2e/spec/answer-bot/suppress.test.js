@@ -1,12 +1,11 @@
 import { queries, wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 
 test('shows help center when answer bot is suppressed', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('answerBot')],
-    preload: () => {
+  await loadWidget()
+    .withPresets('answerBot')
+    .evaluateOnNewDocument(() => {
       window.zESettings = {
         webWidget: {
           answerBot: {
@@ -14,8 +13,8 @@ test('shows help center when answer bot is suppressed', async () => {
           }
         }
       }
-    }
-  })
+    })
+    .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   await wait(async () => {
@@ -24,19 +23,21 @@ test('shows help center when answer bot is suppressed', async () => {
 })
 
 test('shows other embed when help center and answer bot are both suppressed', async () => {
-  await widgetPage.loadWithConfig('answerBot', 'contactForm')
-  await page.evaluate(() => {
-    zE('webWidget', 'updateSettings', {
-      webWidget: {
-        helpCenter: {
-          suppress: true
-        },
-        answerBot: {
-          suppress: true
+  await loadWidget()
+    .withPresets('answerBot', 'contactForm')
+    .evaluateOnNewDocument(() => {
+      window.zESettings = {
+        webWidget: {
+          helpCenter: {
+            suppress: true
+          },
+          answerBot: {
+            suppress: true
+          }
         }
       }
     })
-  })
+    .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   await wait(async () => {

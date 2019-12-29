@@ -1,10 +1,15 @@
 import { queries } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page/fluent'
 import widget from 'e2e/helpers/widget'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
+const buildWidget = () =>
+  loadWidget()
+    .withPresets('helpCenterWithContextualHelp')
+    .intercept(mockSearchEndpoint())
+
 test('displays the original article button', async () => {
-  await widgetPage.loadWithConfig('helpCenterWithContextualHelp', mockSearchEndpoint())
+  await buildWidget().load()
 
   await widget.openByKeyboard()
 
@@ -22,7 +27,7 @@ test('displays the original article button', async () => {
 })
 
 test('hides the original article button via api', async () => {
-  await widgetPage.loadWithConfig('helpCenterWithContextualHelp', mockSearchEndpoint())
+  await buildWidget().load()
   await page.evaluate(() => {
     zE('webWidget', 'updateSettings', {
       webWidget: {
