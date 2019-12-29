@@ -27,11 +27,17 @@ const openByKeyboard = async () => {
   await page.keyboard.press('Enter')
 }
 
+const evaluate = async (script, ...arg) => {
+  const frame = await getFrame()
+  return frame.evaluate(script, ...arg)
+}
+
 export default {
   getDocument,
   getFrame,
   clickClose,
   clickBack,
   openByKeyboard,
-  selector: 'iframe#webWidget'
+  selector: 'iframe#webWidget',
+  evaluate
 }

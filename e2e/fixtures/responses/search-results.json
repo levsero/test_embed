@@ -126,7 +126,7 @@
       "edited_at": "2018-09-03T07:12:33Z",
       "name": "How do I publish my content in other languages?",
       "title": "How do I publish my content in other languages?",
-      "body": "\u003cp\u003eHere's the workflow for localizing your Help Center in other languages:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eGet your content translated in the other languages.\u003c/li\u003e\n\u003cli\u003eConfigure the Help Center to support all your languages.\u003c/li\u003e\n\u003cli\u003eAdd the translated content to the Help Center.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eFor instructions, see \u003ca href=\"https://testing.zendesk.com/hc/en-us/articles/203664336#topic_inn_3qy_43\"\u003eLocalizing the Help Center\u003c/a\u003e.\u003cimg src=\"https://testing.zendesk.com/hc/article_attachments/360010375172/Screen_Shot_2018-08-31_at_3.50.51_pm.png\" alt=\"Screen_Shot_2018-08-31_at_3.50.51_pm.png\"\u003e\u003c/p\u003e",
+      "body": "\u003cp\u003eHere's the workflow for localizing your Help Center in other languages:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eGet your content translated in the other languages.\u003c/li\u003e\n\u003cli\u003eConfigure the Help Center to support all your languages.\u003c/li\u003e\n\u003cli\u003eAdd the translated content to the Help Center.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eFor instructions, see \u003ca id=\"for-testing\" href=\"https://testing.zendesk.com/hc/en-us/articles/203664336#topic_inn_3qy_43\"\u003eLocalizing the Help Center\u003c/a\u003e.\u003c/p\u003e",
       "source_locale": "en-us",
       "locale": "en-us",
       "outdated": false,
