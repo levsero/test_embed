@@ -44,38 +44,44 @@ const mockRequests = async mockFns => {
 // - preload [fn] A function that will be executed once the page is navigated to.
 // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pageevaluateonnewdocumentpagefunction-args
 // - preloadArgs [array] An array of arguments to supply to preload
-// - hidden [bool] If true, the widget won't be visible on boot
+// - hidden [bool] If true, the widget is hidden initially so we don't wait for the widget to become visible
+>>>>>>> 07209ed28... Add a new fluent api for building widgets in e2e tests
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
   if (options.mobile) {
     await page.emulate(devices['iPhone 6'])
   }
+  await page.evaluateOnNewDocument(() => {
+    window.zEmbed ||
+      (function(host) {
+        var queue = []
+
+        window.zEmbed = function() {
+          queue.push(arguments)
+        }
+
+        window.zE = window.zE || window.zEmbed
+        window.zEmbed.t = +new Date()
+        document.zendeskHost = host
+        document.zEQueue = queue
+      })('z3nwebwidget2019.zendesk.com')
+  })
   if (options.preload) {
-    await page.evaluateOnNewDocument(() => {
-      window.zEmbed ||
-        (function(host) {
-          var queue = []
-
-          window.zEmbed = function() {
-            queue.push(arguments)
-          }
-
-          window.zE = window.zE || window.zEmbed
-          window.zEmbed.t = +new Date()
-          document.zendeskHost = host
-          document.zEQueue = queue
-        })('z3nwebwidget2019.zendesk.com')
-    })
     const args = options.preloadArgs || []
     await page.evaluateOnNewDocument(options.preload, ...args)
   }
-  const selectorOptions = { visible: true }
-  if (options.hidden) {
-    selectorOptions.visible = false
+  if (options.beforeScriptLoads) {
+    options.beforeScriptLoads(page)
   }
   failOnConsoleError(page)
   await goToTestPage()
+  const selectorOptions = {
+    visible: true
+  }
+  if (options.hidden) {
+    selectorOptions.visible = false
+  }
   await page.waitForSelector('iframe#launcher', selectorOptions)
 }
 
