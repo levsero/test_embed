@@ -7,6 +7,14 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 
 const buildWidget = () => loadWidget().withPresets('helpCenter')
 
+const assertResults = async () => {
+  const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Top results'))
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
+  })
+}
+
 test('searching the help center', async () => {
   await buildWidget()
     .intercept(mockSearchEndpoint())
@@ -24,10 +32,7 @@ test('searching the help center', async () => {
   })
 
   await page.keyboard.press('Enter')
-  await wait(() => queries.getByText(doc, 'Top results'))
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
-  })
+  await assertResults()
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()
   await wait(async () => {
@@ -35,6 +40,9 @@ test('searching the help center', async () => {
   })
   // expect the original article button to exist
   expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
+
+  await widget.clickBack()
+  await assertResults()
 })
 
 test('allows the user to edit input text', async () => {

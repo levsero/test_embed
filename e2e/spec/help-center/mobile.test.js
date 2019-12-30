@@ -31,4 +31,9 @@ test('searching the help center', async () => {
   })
   // expect the original article button to exist
   expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
+
+  await widget.clickBack()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Top results')).toBeTruthy()
+  })
 })
