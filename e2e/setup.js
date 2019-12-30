@@ -1,4 +1,3 @@
-import 'expect-puppeteer'
 import toAppearInOrder from './extensions/to-appear-in-order'
 import toHaveFocus from './extensions/to-have-focus'
 import { toBeVisible, toBeHidden } from './extensions/visibility'
