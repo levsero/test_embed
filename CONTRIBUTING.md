@@ -32,6 +32,7 @@ Useful links:
 #### Git
 
 - Please follow our [git commit practices](https://zendesk.atlassian.net/wiki/spaces/CE/pages/279216606/Taipan+Git+Practices) when submitting a Pull Request for review.
+- QA testing must accompany code review. In order to facilitate smoother deploys and rollbacks, changes should, where possible, be tested thoroughly before merging to master.
 
 #### JS
 
