@@ -6,7 +6,7 @@ import {
   SEARCH_REQUEST_FAILURE,
   SEARCH_REQUEST_SENT
 } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {
   current: '',
@@ -31,7 +31,8 @@ const searchTerm = (state = initialState, action) => {
         ...state,
         current: payload.searchTerm
       }
-    case API_CLEAR_HC_SEARCHES:
+    case API_CLEAR_FORM:
+    case API_RESET_WIDGET:
       return initialState
     default:
       return state

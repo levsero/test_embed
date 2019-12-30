@@ -1,6 +1,6 @@
 import totalUserSearches from '../totalUserSearches'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 testReducer(totalUserSearches, [
@@ -27,7 +27,7 @@ testReducer(totalUserSearches, [
     expected: 1
   },
   {
-    action: { type: API_CLEAR_HC_SEARCHES },
+    action: { type: API_RESET_WIDGET },
     initialState: 20,
     expected: 0
   }

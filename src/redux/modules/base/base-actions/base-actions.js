@@ -291,21 +291,12 @@ const goToPrechatScreen = () => {
   return updateChatScreen(PRECHAT_SCREEN)
 }
 
-export const apiClearHcSearches = () => {
-  return {
-    type: actions.API_CLEAR_HC_SEARCHES
-  }
-}
-
 export const apiResetWidget = () => {
   return (dispatch, getState) => {
     const state = getState()
 
     dispatch(apiClearForm())
-    dispatch(apiClearHcSearches())
-    dispatch({
-      type: actions.API_RESET_WIDGET
-    })
+    dispatch({ type: actions.API_RESET_WIDGET })
 
     if (getPrechatFormRequired(state)) {
       dispatch(goToPrechatScreen())

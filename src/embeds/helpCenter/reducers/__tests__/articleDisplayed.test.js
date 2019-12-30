@@ -1,6 +1,6 @@
 import articleDisplayed from '../articleDisplayed'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 testReducer(articleDisplayed, [
@@ -26,7 +26,7 @@ testReducer(articleDisplayed, [
     expected: null
   },
   {
-    action: { type: API_CLEAR_HC_SEARCHES },
+    action: { type: API_RESET_WIDGET },
     initialState: 123,
     expected: null
   }

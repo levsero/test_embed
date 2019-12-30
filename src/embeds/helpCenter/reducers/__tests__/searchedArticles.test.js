@@ -1,6 +1,6 @@
 import searchedArticles from '../searchedArticles'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 const mockArticles = [{ id: 1, body: 'hello' }, { id: 2, body: 'world' }]
@@ -35,7 +35,7 @@ testReducer(searchedArticles, [
     expected: []
   },
   {
-    action: { type: API_CLEAR_HC_SEARCHES },
+    action: { type: API_RESET_WIDGET },
     initialState: mockArticles,
     expected: []
   }

@@ -1,6 +1,6 @@
 import searchFieldValue from '../searchFieldValue'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 testReducer(searchFieldValue, [
@@ -22,7 +22,12 @@ testReducer(searchFieldValue, [
     expected: 'blah'
   },
   {
-    action: { type: API_CLEAR_HC_SEARCHES },
+    action: { type: API_RESET_WIDGET },
+    initialState: 'blah',
+    expected: ''
+  },
+  {
+    action: { type: API_CLEAR_FORM },
     initialState: 'blah',
     expected: ''
   }

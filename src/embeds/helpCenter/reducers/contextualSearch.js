@@ -4,7 +4,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
   SEARCH_REQUEST_SUCCESS
 } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {
   hasSearched: false,
@@ -26,7 +26,7 @@ const contextualSearch = (state = initialState, action) => {
         ...state,
         screen: type
       }
-    case API_CLEAR_HC_SEARCHES:
+    case API_RESET_WIDGET:
     case SEARCH_REQUEST_SUCCESS:
       return initialState
     default:
