@@ -26,6 +26,8 @@ test('searching the help center', async () => {
   await page.keyboard.press('Enter')
   await wait(() => queries.getByText(doc, 'Top results'))
   expect(await widget.zendeskLogoVisible()).toEqual(true)
+  expect(await queries.queryByText(doc, 'Leave us a message')).not.toBeTruthy()
+
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()
   await wait(async () => {

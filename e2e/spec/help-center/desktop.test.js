@@ -14,6 +14,7 @@ const assertResults = async () => {
     expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
   })
   expect(await widget.zendeskLogoVisible()).toEqual(true)
+  expect(await queries.queryByText(doc, 'Leave us a message')).not.toBeTruthy()
 }
 
 test('searching the help center', async () => {
