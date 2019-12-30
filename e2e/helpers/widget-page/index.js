@@ -44,6 +44,7 @@ const mockRequests = async mockFns => {
 // - preload [fn] A function that will be executed once the page is navigated to.
 // https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pageevaluateonnewdocumentpagefunction-args
 // - preloadArgs [array] An array of arguments to supply to preload
+// - hidden [bool] If true, the widget won't be visible on boot
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
@@ -69,9 +70,13 @@ const load = async (options = {}) => {
     const args = options.preloadArgs || []
     await page.evaluateOnNewDocument(options.preload, ...args)
   }
+  const selectorOptions = { visible: true }
+  if (options.hidden) {
+    selectorOptions.visible = false
+  }
   failOnConsoleError(page)
   await goToTestPage()
-  await page.waitForSelector('iframe#launcher', { visible: true })
+  await page.waitForSelector('iframe#launcher', selectorOptions)
 }
 
 const loadWithConfig = async (...args) => {

@@ -21,6 +21,7 @@ import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/m
 import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { deferChatSetup, beginChatSetup } from 'embeds/chat/actions/setup-chat'
 import { chatBanned } from 'src/redux/modules/chat'
+import loadZChat from './loadZChat'
 
 function makeChatConfig(config) {
   /* eslint-disable camelcase */
@@ -75,6 +76,7 @@ export function setUpChat(canBeDeferred = true) {
     }
 
     const onChatImported = (zChat, slider) => {
+      zChat = loadZChat(zChat)
       dispatch(
         handleChatVendorLoaded({
           zChat,
@@ -128,6 +130,7 @@ export function setUpChat(canBeDeferred = true) {
       })
 
       zChat.getFirehose().on('data', firehoseListener(zChat, dispatch))
+
       zopimApi.handleChatSDKInitialized()
     }
     const onFailure = err => {
