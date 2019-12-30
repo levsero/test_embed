@@ -29,4 +29,6 @@ test('searching the help center', async () => {
   await wait(async () => {
     expect(await queries.queryByText(doc, 'This is the body.')).toBeTruthy()
   })
+  // expect the original article button to exist
+  expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
 })
