@@ -14,6 +14,7 @@ test('searching the help center', async () => {
   await waitForHelpCenter()
 
   const doc = await widget.getDocument()
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
   const helpCenterSearchInput = await queries.getByPlaceholderText(doc, 'How can we help?')
 
   await page.keyboard.type('welcome')
@@ -24,6 +25,7 @@ test('searching the help center', async () => {
 
   await page.keyboard.press('Enter')
   await wait(() => queries.getByText(doc, 'Top results'))
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()
   await wait(async () => {
@@ -31,6 +33,7 @@ test('searching the help center', async () => {
   })
   // expect the original article button to exist
   expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
 
   await widget.clickBack()
   await wait(async () => {
