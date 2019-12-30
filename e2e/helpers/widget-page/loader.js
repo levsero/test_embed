@@ -37,8 +37,9 @@ const mockRequests = async mockFns => {
 }
 
 // options
-// - mockRequests [fn] An array of functions that will be provided to the mockRequests function
+// - mockRequests [[fn]] An array of functions that will be provided to the mockRequests function
 // - mobile [bool] If true, emulate mobile mode
+// - beforeScriptLoads [fn] A callback that gets called before the widget loads
 // - hidden [bool] If true, the widget is hidden initially so we don't wait for the widget to become visible
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
