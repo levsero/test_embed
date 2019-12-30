@@ -11,10 +11,10 @@ import { getHasSearched } from '../../selectors'
 import routes from 'src/embeds/helpCenter/routes'
 
 const SearchPromptPage = ({ title, hasSearched }) => {
-  const searchFormRef = useRef(null)
+  const inputRef = useRef(null)
   useEffect(() => {
-    if (!searchFormRef.current) return
-    searchFormRef.current.focus()
+    if (!inputRef.current) return
+    inputRef.current.focus()
   }, [])
 
   if (hasSearched) return <Redirect to={routes.search()} />
@@ -23,7 +23,7 @@ const SearchPromptPage = ({ title, hasSearched }) => {
     <Widget>
       <Header title={title} />
       <Main>
-        <SearchForm ref={searchFormRef} />
+        <SearchForm inputRef={inputRef} />
       </Main>
       <Footer shadow={false} />
     </Widget>

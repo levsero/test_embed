@@ -18,17 +18,17 @@ import LoadingBarContent from 'src/components/LoadingBarContent'
 import NotificationPopup from 'src/embeds/helpCenter/components/NotificationPopup'
 
 const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles }) => {
-  const searchHeaderRef = useRef(null)
+  const inputRef = useRef(null)
   const content = isSearchLoading ? <LoadingBarContent /> : <Results />
   useEffect(() => {
     if (!articles.length) {
-      searchHeaderRef.current.focus()
+      inputRef.current.focus()
     }
   }, [articles])
 
   return (
     <Widget>
-      <SearchHeader ref={searchHeaderRef} isMobile={isMobile} title={title} />
+      <SearchHeader isMobile={isMobile} title={title} inputRef={inputRef} />
       <Main>{content}</Main>
       <HelpCenterFooter showNextButton={showNextButton} />
       {!isMobile && <NotificationPopup />}
