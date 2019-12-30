@@ -34,7 +34,8 @@ const renderComponent = (props = {}) => {
     isFeedbackRequired: false,
     locale: 'en-US',
     actions,
-    storedImages: {}
+    storedImages: {},
+    originalArticleButton: true
   }
   const componentProps = _.merge({}, defaultProps, props)
   return render(<ArticleScreen {...componentProps} />)
@@ -211,5 +212,19 @@ describe('original article button', () => {
     link.click()
 
     expect(originalArticleClicked).toHaveBeenCalledWith('article123')
+  })
+})
+
+describe('original article button', () => {
+  it('renders when originalArticleButton is true', () => {
+    const { getByTestId } = renderComponent({ originalArticleButton: true })
+
+    expect(getByTestId('Icon--link-external')).toBeInTheDocument()
+  })
+
+  it('does not render when originalArticleButton is false', () => {
+    const { queryByTestId } = renderComponent({ originalArticleButton: false })
+
+    expect(queryByTestId('Icon--link-external')).toBeNull()
   })
 })

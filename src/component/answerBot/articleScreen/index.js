@@ -21,6 +21,7 @@ import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'
 import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
+import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
@@ -37,6 +38,7 @@ class ArticleScreen extends Component {
     articleTitleKey: PropTypes.string,
     article: PropTypes.object.isRequired,
     isFeedbackRequired: PropTypes.bool.isRequired,
+    originalArticleButton: PropTypes.bool.isRequired,
     saveConversationScroll: PropTypes.func,
     authToken: PropTypes.string,
     storedImages: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -160,8 +162,8 @@ class ArticleScreen extends Component {
         <Main>
           <HelpCenterArticle
             activeArticle={{ ...this.props.article, html_url: url }}
-            originalArticleButton={true}
             isMobile={this.props.isMobile}
+            originalArticleButton={this.props.originalArticleButton}
             imagesSender={(...args) => {
               this.props.actions.performImageSearch(...args)
             }}
@@ -187,7 +189,8 @@ const mapStateToProps = state => ({
   locale: baseSelectors.getLocale(state),
   authToken: rootSelectors.getAuthToken(state),
   articleTitleKey: getFormTitleKey(state),
-  storedImages: getRestrictedImages(state)
+  storedImages: getRestrictedImages(state),
+  originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state)
 })
 
 const mapDispatchToProps = dispatch => ({
