@@ -1,5 +1,5 @@
 import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'

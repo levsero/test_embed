@@ -1,6 +1,6 @@
 import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
-import loadWidget from './widget-page/fluent'
+import loadWidget from './widget-page'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
 

@@ -1,5 +1,5 @@
 import { queries } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import { createField, mockTicketFieldsEndpoint, testForm } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import { queryAllByText } from 'e2e/helpers/queries'

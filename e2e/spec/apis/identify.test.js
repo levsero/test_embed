@@ -1,4 +1,4 @@
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
 
 const user = {

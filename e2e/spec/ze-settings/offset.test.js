@@ -1,4 +1,4 @@
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { wait } from 'pptr-testing-library'

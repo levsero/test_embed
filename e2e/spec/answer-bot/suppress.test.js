@@ -1,5 +1,5 @@
 import { queries, wait } from 'pptr-testing-library'
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 
 test('shows help center when answer bot is suppressed', async () => {

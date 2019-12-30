@@ -1,4 +1,4 @@
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { TEST_IDS } from '../../../src/constants/shared'
 

@@ -1,4 +1,4 @@
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
 import { queries, wait } from 'pptr-testing-library'

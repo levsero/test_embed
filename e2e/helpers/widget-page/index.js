@@ -1,102 +1,62 @@
 import { mockEmbeddableConfigEndpoint } from './embeddable-config'
-import { goToTestPage, failOnConsoleError } from './../utils'
-import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
-import _ from 'lodash'
-import devices from 'puppeteer/DeviceDescriptors'
+import { default as loadWidgetPage } from './loader'
 
-const defaultMocks = [mockBlipEndpoint, mockIdentifyEndpoint()]
+class WidgetBuilder {
+  constructor() {
+    this.intercepts = []
+    this.configs = []
+    this.preloads = []
+    this.mobile = false
+    this.hidden = false
+  }
+  useMobile() {
+    this.mobile = true
+    return this
+  }
 
-/*
- * mockRequests provides a way for each test to hook into Puppeteer's request interception functionality
- * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetrequestinterceptionvalue
- *
- * Each mock request will be called with the request object and is expected to check if the request matches the one
- * the function wants to mock. If the request does not match, the function should return false.
- * E.g.
- *
- * const mockCatEndpoint = request => {
- *   if (!request.url().includes('cat')) {
- *     // return false since the url is not the cat endpoint
- *     return false
- *   }
- *
- *   // mock out request
- * }
- */
-const mockRequests = async mockFns => {
-  await page.setRequestInterception(true)
-  await page.on('request', request => {
-    const fns = (mockFns || []).concat(defaultMocks)
+  hiddenInitially() {
+    this.hidden = true
+    return this
+  }
 
-    for (let i = 0; i < fns.length; i++) {
-      if (fns[i](request) !== false) {
-        return
-      }
+  withPresets(...presets) {
+    this.configs.push(mockEmbeddableConfigEndpoint(...presets))
+    return this
+  }
+
+  intercept(interceptor) {
+    this.intercepts.push(interceptor)
+    return this
+  }
+
+  evaluateOnNewDocument(...args) {
+    this.preloads.push(args)
+    return this
+  }
+
+  load() {
+    const mockRequests = this.configs.concat(this.intercepts)
+    const beforeScriptLoads = page => {
+      this.preloads.forEach(async arg => {
+        await page.evaluateOnNewDocument(...arg)
+      })
     }
-
-    request.continue()
-  })
+    return loadWidgetPage({
+      mockRequests,
+      beforeScriptLoads,
+      hidden: this.hidden,
+      mobile: this.mobile
+    })
+  }
 }
 
-// options
-// - mockRequests [fn] An array of functions that will be provided to the mockRequests function
-// - mobile [bool] If true, emulate mobile mode
-// - preload [fn] A function that will be executed once the page is navigated to.
-// https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#pageevaluateonnewdocumentpagefunction-args
-// - preloadArgs [array] An array of arguments to supply to preload
-// - hidden [bool] If true, the widget is hidden initially so we don't wait for the widget to become visible
->>>>>>> 07209ed28... Add a new fluent api for building widgets in e2e tests
-const load = async (options = {}) => {
-  await jestPuppeteer.resetPage()
-  await mockRequests(options.mockRequests)
-  if (options.mobile) {
-    await page.emulate(devices['iPhone 6'])
-  }
-  await page.evaluateOnNewDocument(() => {
-    window.zEmbed ||
-      (function(host) {
-        var queue = []
-
-        window.zEmbed = function() {
-          queue.push(arguments)
-        }
-
-        window.zE = window.zE || window.zEmbed
-        window.zEmbed.t = +new Date()
-        document.zendeskHost = host
-        document.zEQueue = queue
-      })('z3nwebwidget2019.zendesk.com')
-  })
-  if (options.preload) {
-    const args = options.preloadArgs || []
-    await page.evaluateOnNewDocument(options.preload, ...args)
-  }
-  if (options.beforeScriptLoads) {
-    options.beforeScriptLoads(page)
-  }
-  failOnConsoleError(page)
-  await goToTestPage()
-  const selectorOptions = {
-    visible: true
-  }
-  if (options.hidden) {
-    selectorOptions.visible = false
-  }
-  await page.waitForSelector('iframe#launcher', selectorOptions)
-}
-
-const loadWithConfig = async (...args) => {
-  const last = _.last(args)
-  let mockRequests
-  if (_.isFunction(last)) {
-    mockRequests = [mockEmbeddableConfigEndpoint(..._.initial(args)), last]
+const loadWidget = (...args) => {
+  const builder = new WidgetBuilder()
+  if (args.length > 0) {
+    return builder.withPresets(...args).load()
   } else {
-    mockRequests = [mockEmbeddableConfigEndpoint(...args)]
+    return builder
   }
-  await load({ mockRequests })
 }
 
-export default {
-  loadWithConfig,
-  load
-}
+export default loadWidget

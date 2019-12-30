@@ -1,4 +1,4 @@
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
 import { assertInputValue } from 'e2e/helpers/utils'

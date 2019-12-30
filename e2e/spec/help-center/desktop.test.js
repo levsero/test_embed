@@ -1,6 +1,6 @@
 import { queries, wait } from 'pptr-testing-library'
 import { allowsInputTextEditing } from '../shared-examples'
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'

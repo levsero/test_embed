@@ -1,6 +1,6 @@
 import { wait, queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
-import loadWidget from 'e2e/helpers/widget-page/fluent'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { assertInputValue } from 'e2e/helpers/utils'
 
