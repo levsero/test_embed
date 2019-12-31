@@ -17,17 +17,11 @@ const assertLogoHidden = async () => {
   await title.click()
   await wait(() => queries.getByText(doc, 'This is the body.'))
   expect(await widget.zendeskLogoVisible()).toEqual(false)
-  await widget.clickBack()
-  await wait(() => queries.getByText(doc, 'Top results'))
-  const button = await queries.getByText(doc, 'Leave us a message')
-  await button.click()
-  await wait(() => queries.getByLabelText(doc, 'Email address'))
-  expect(await widget.zendeskLogoVisible()).toEqual(false)
 }
 
 const buildWidget = () =>
   loadWidget()
-    .withPresets('helpCenter', 'contactForm', {
+    .withPresets('helpCenter', {
       hideZendeskLogo: true
     })
     .intercept(mockSearchEndpoint())

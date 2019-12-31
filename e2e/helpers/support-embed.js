@@ -32,7 +32,9 @@ const mockTicketFieldsEndpoint = response => request => {
 
 const mockTicketSubmissionEndpoint = (payload, callback) => {
   return mockCorsRequest('api/v2/requests', request => {
-    callback(request.postData())
+    if (callback) {
+      callback(request.postData())
+    }
 
     request.respond({
       status: 200,
