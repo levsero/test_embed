@@ -319,6 +319,7 @@ export class SubmitTicketForm extends Component {
           disabled={this.props.previewEnabled}
           readOnly={this.props.readOnlyState.subject}
           data-testid={TEST_IDS.SUBJECT_FIELD}
+          onChange={() => {}}
         />
       </Field>
     )

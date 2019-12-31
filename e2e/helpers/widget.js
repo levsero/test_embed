@@ -22,6 +22,11 @@ const clickBack = async () => {
   await backButton.click()
 }
 
+const zendeskLogoVisible = async () => {
+  const widget = await getDocument()
+  return !!(await queries.queryByTestId(widget, TEST_IDS.ICON_ZENDESK))
+}
+
 const openByKeyboard = async () => {
   await page.keyboard.press('Tab')
   await page.keyboard.press('Enter')
@@ -39,5 +44,6 @@ export default {
   clickBack,
   openByKeyboard,
   selector: 'iframe#webWidget',
-  evaluate
+  evaluate,
+  zendeskLogoVisible
 }

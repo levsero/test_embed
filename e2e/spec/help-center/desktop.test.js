@@ -7,6 +7,16 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 
 const buildWidget = () => loadWidget().withPresets('helpCenter')
 
+const assertResults = async () => {
+  const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Top results'))
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
+  })
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
+  expect(await queries.queryByText(doc, 'Leave us a message')).not.toBeTruthy()
+}
+
 test('searching the help center', async () => {
   await buildWidget()
     .intercept(mockSearchEndpoint())
@@ -16,6 +26,7 @@ test('searching the help center', async () => {
   await waitForHelpCenter()
   const doc = await widget.getDocument()
   const helpCenterSearchInput = await queries.getByPlaceholderText(doc, 'How can we help?')
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
 
   await page.keyboard.type('welcome')
   await wait(async () => {
@@ -24,15 +35,19 @@ test('searching the help center', async () => {
   })
 
   await page.keyboard.press('Enter')
-  await wait(() => queries.getByText(doc, 'Top results'))
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
-  })
+  await assertResults()
   const title = await queries.getByText(doc, 'Welcome to your Help Center!')
   await title.click()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'This is the body.')).toBeTruthy()
   })
+  // expect the original article button to exist
+  expect(await queries.queryByTestId(doc, 'Icon--link-external')).toBeTruthy()
+  // expect the logo to be visible
+  expect(await widget.zendeskLogoVisible()).toEqual(true)
+
+  await widget.clickBack()
+  await assertResults()
 })
 
 test('allows the user to edit input text', async () => {

@@ -3,16 +3,16 @@ import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-beforeEach(async () => {
-  await loadWidget('helpCenter')
-})
+const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 test('callback is called when widget is closed', async () => {
-  await page.evaluate(() => {
-    zE('webWidget:on', 'close', () => {
-      window.onCloseCalled = true
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'close', () => {
+        window.onCloseCalled = true
+      })
     })
-  })
+    .load()
 
   await launcher.click()
   await waitForHelpCenter()
@@ -22,11 +22,13 @@ test('callback is called when widget is closed', async () => {
 })
 
 test('callback is called when widget is closed via api', async () => {
-  await page.evaluate(() => {
-    zE('webWidget:on', 'close', () => {
-      window.onCloseCalledWithApi = true
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'close', () => {
+        window.onCloseCalledWithApi = true
+      })
     })
-  })
+    .load()
   await page.evaluate(() => zE('webWidget', 'open'))
   await page.evaluate(() => zE('webWidget', 'close'))
   const result = await page.evaluate(() => window.onCloseCalledWithApi)
