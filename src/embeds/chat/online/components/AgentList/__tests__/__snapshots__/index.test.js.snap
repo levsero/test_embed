@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders a list of AgentInfo components 1`] = `
+<div>
+  <ul>
+    <li>
+      <div
+        class="sc-jhAzac eJGEy"
+      >
+        <svg
+          alt="avatar"
+          aria-hidden="true"
+          realfilename="widget-icon_avatar.svg"
+        />
+        <div
+          class="sc-fBuWsC cWHqsX"
+        >
+          <div
+            class="sc-fMiknA btJCkC"
+          >
+            Butch Cassidy
+          </div>
+          <div
+            class="sc-dVhcbM detQEs"
+          >
+            agent1@example.com
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div
+        class="sc-jhAzac eJGEy"
+      >
+        <svg
+          alt="avatar"
+          aria-hidden="true"
+          realfilename="widget-icon_avatar.svg"
+        />
+        <div
+          class="sc-fBuWsC cWHqsX"
+        >
+          <div
+            class="sc-fMiknA btJCkC"
+          >
+            The Sundance Kid
+          </div>
+          <div
+            class="sc-dVhcbM detQEs"
+          >
+            agent2@example.com
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+`;

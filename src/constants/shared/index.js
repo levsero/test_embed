@@ -10,6 +10,7 @@ export const WIDGET_WIDTH = 342
 
 // TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 export const ICONS = {
+  AGENT_AVATAR: 'Icon--agent-avatar',
   ELLIPSIS: 'Icon--ellipsis',
   END_CHAT: 'Icon--endChat',
   ERROR_FILL: 'Icon--error-fill',
