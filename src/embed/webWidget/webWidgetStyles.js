@@ -6,7 +6,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ButtonPillStyles from 'component/button/ButtonPill.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
-import AgentListStyles from 'component/chat/agents/AgentList.scss'
 import ChatAttachmentStyles from 'component/chat/attachment/Attachment.scss'
 import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss'
 import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopup.scss'
@@ -53,7 +52,6 @@ import componentStyles from 'src/components/styles'
 export const webWidgetStyles = `
   ${sharedStyles}
   ${gardenStyles}
-  ${AgentListStyles}
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
