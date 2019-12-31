@@ -1,8 +1,8 @@
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
-import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
+import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 describe('message button', () => {
   const assertContactForm = async doc => {
@@ -11,30 +11,26 @@ describe('message button', () => {
     expect(await queries.queryByText(doc, 'Send')).toBeTruthy()
   }
 
+  const buildWidget = () => loadWidget().withPresets('helpCenterWithContextualHelp', 'contactForm')
+
   it('displays the button in the footer, and clicking it leads to the contact form', async () => {
-    await widgetPage.loadWithConfig(
-      'helpCenterWithContextualHelp',
-      'contactForm',
-      mockSearchEndpoint({ results: [] })
-    )
+    await buildWidget()
+      .intercept(mockSearchEndpoint({ results: [] }))
+      .load()
 
     await launcher.click()
+    await waitForHelpCenter()
     const doc = await widget.getDocument()
-
-    await wait(async () => {
-      const button = await queries.queryByText(doc, 'Leave us a message')
-      expect(button).toBeTruthy()
-      await button.click()
-    })
+    const button = await queries.queryByText(doc, 'Leave us a message')
+    expect(button).toBeTruthy()
+    await button.click()
     await assertContactForm(doc)
   })
 
   test('label can be overridden by settings', async () => {
-    await widgetPage.loadWithConfig(
-      'helpCenterWithContextualHelp',
-      'contactForm',
-      mockSearchEndpoint()
-    )
+    await buildWidget()
+      .intercept(mockSearchEndpoint())
+      .load()
 
     page.evaluate(() => {
       zE('webWidget', 'updateSettings', {
@@ -49,12 +45,11 @@ describe('message button', () => {
     })
 
     await launcher.click()
+    await waitForHelpCenter()
     const doc = await widget.getDocument()
-    await wait(async () => {
-      const button = await queries.queryByText(doc, 'Contact us now.')
-      expect(button).toBeTruthy()
-      await button.click()
-    })
+    const button = await queries.queryByText(doc, 'Contact us now.')
+    expect(button).toBeTruthy()
+    await button.click()
     await assertContactForm(doc)
   })
 })

@@ -1,10 +1,10 @@
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import widgetPage from 'e2e/helpers/widget-page'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig('helpCenter')
+  await loadWidget('helpCenter')
 })
 
 test('callback is called when widget is closed', async () => {

@@ -1,21 +1,22 @@
 import { queries } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 
 describe('zESettings.webWidget.contactForm.attachments', () => {
   const queryAttachments = async attachments => {
-    await widgetPage.loadWithConfig('contactForm')
-
-    await page.evaluate(attachments => {
-      zE('webWidget', 'updateSettings', {
-        webWidget: {
-          contactForm: {
-            attachments
+    await loadWidget()
+      .withPresets('contactForm')
+      .evaluateOnNewDocument(attachments => {
+        zE('webWidget', 'updateSettings', {
+          webWidget: {
+            contactForm: {
+              attachments
+            }
           }
-        }
-      })
-    }, attachments)
+        })
+      }, attachments)
+      .load()
     await launcher.click()
     return await queries.queryByText(await widget.getDocument(), 'Attachments')
   }

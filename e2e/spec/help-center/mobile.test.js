@@ -1,15 +1,15 @@
 import { queries, wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 test('searching the help center', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('helpCenter'), mockSearchEndpoint()],
-    mobile: true
-  })
+  await loadWidget()
+    .withPresets('helpCenter')
+    .intercept(mockSearchEndpoint())
+    .useMobile()
+    .load()
   await launcher.click()
   await waitForHelpCenter()
 

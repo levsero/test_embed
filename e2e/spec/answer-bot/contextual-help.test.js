@@ -1,5 +1,5 @@
 import { queries, wait } from 'pptr-testing-library'
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
@@ -22,11 +22,11 @@ const assertSuggestionsShown = async () => {
 describe('contextual search', () => {
   describe('no results', () => {
     it('shows fallback message and get in touch button', async () => {
-      await widgetPage.loadWithConfig(
-        'answerBotWithContextualHelp',
-        'contactForm',
-        mockSearchEndpoint({ results: [] })
-      )
+      await loadWidget()
+        .withPresets('answerBotWithContextualHelp', 'contactForm')
+        .intercept(mockSearchEndpoint({ results: [] }))
+        .load()
+
       await widget.openByKeyboard()
       const doc = await widget.getDocument()
       await wait(async () => {
@@ -43,7 +43,10 @@ describe('contextual search', () => {
 
   describe('via config', () => {
     it('displays the contextual search results on open of widget', async () => {
-      await widgetPage.loadWithConfig('answerBotWithContextualHelp', mockSearchEndpoint())
+      await loadWidget()
+        .withPresets('answerBotWithContextualHelp')
+        .intercept(mockSearchEndpoint())
+        .load()
       await widget.openByKeyboard()
       await assertSuggestionsShown()
     })
@@ -52,7 +55,10 @@ describe('contextual search', () => {
   describe('via api', () => {
     it('displays the contextual search results on open of widget', async () => {
       const endpoint = jest.fn()
-      await widgetPage.loadWithConfig('answerBot', mockSearchEndpoint(searchResults, endpoint))
+      await loadWidget()
+        .withPresets('answerBot')
+        .intercept(mockSearchEndpoint(searchResults, endpoint))
+        .load()
       await page.evaluate(() => {
         zE('webWidget', 'helpCenter:setSuggestions', { search: 'help' })
       })
@@ -63,7 +69,10 @@ describe('contextual search', () => {
 
     it('scrapes the url from the host page for contextual search when url: true', async () => {
       const endpoint = jest.fn()
-      await widgetPage.loadWithConfig('answerBot', mockSearchEndpoint(searchResults, endpoint))
+      await loadWidget()
+        .withPresets('answerBot')
+        .intercept(mockSearchEndpoint(searchResults, endpoint))
+        .load()
       await page.evaluate(() => {
         zE('webWidget', 'helpCenter:setSuggestions', { url: true })
       })
@@ -76,7 +85,10 @@ describe('contextual search', () => {
   describe('via legacy api', () => {
     it('displays the contextual search results on open of widget', async () => {
       const endpoint = jest.fn()
-      await widgetPage.loadWithConfig('answerBot', mockSearchEndpoint(searchResults, endpoint))
+      await loadWidget()
+        .withPresets('answerBot')
+        .intercept(mockSearchEndpoint(searchResults, endpoint))
+        .load()
       await page.evaluate(() => {
         zE.setHelpCenterSuggestions({ labels: ['credit card', 'help'] })
       })

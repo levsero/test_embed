@@ -1,9 +1,9 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 
 beforeEach(async () => {
-  await widgetPage.loadWithConfig('helpCenter')
+  await loadWidget('helpCenter')
 })
 
 test('api hides the widget and shows the launcher', async () => {

@@ -1,7 +1,6 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { assertInputValue } from 'e2e/helpers/utils'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
@@ -11,9 +10,17 @@ const user = {
   organization: 'Voltron, Inc.'
 }
 
-test('calls identify endpoint', async () => {
+const buildWidget = preset => {
   const identify = jest.fn()
-  await widgetPage.loadWithConfig('helpCenter', mockIdentifyEndpoint(identify))
+  const builder = loadWidget()
+    .withPresets(preset)
+    .intercept(mockIdentifyEndpoint(identify))
+  return [identify, builder]
+}
+
+test('calls identify endpoint', async () => {
+  const [identify, builder] = buildWidget('helpCenter')
+  await builder.load()
   await page.evaluate(user => {
     zE.identify(user)
   }, user)
@@ -21,29 +28,26 @@ test('calls identify endpoint', async () => {
 })
 
 test('calls identify endpoint even on prerender', async () => {
-  const identify = jest.fn()
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('helpCenter'), mockIdentifyEndpoint(identify)],
-    preload: user => {
+  const [identify, builder] = buildWidget('helpCenter')
+  await builder
+    .evaluateOnNewDocument(user => {
       zE(() => {
         zE.identify(user)
       })
-    },
-    preloadArgs: [user]
-  })
+    }, user)
+    .load()
   assertIdentifyPayload(identify, { ...user, localeId: 1176 })
 })
 
 test('prefills contact form', async () => {
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('contactForm')],
-    preload: user => {
+  const builder = buildWidget('contactForm')[1]
+  await builder
+    .evaluateOnNewDocument(user => {
       zE(() => {
         zE.identify(user)
       })
-    },
-    preloadArgs: [user]
-  })
+    }, user)
+    .load()
   await launcher.click()
   await waitForContactForm()
   await assertInputValue('Your name (optional)', 'Akira Kogane')

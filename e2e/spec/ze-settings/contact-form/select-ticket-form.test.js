@@ -1,6 +1,5 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
 import { queries, wait } from 'pptr-testing-library'
 
@@ -22,12 +21,10 @@ beforeEach(async () => {
       form2.mockFormsResponse.ticket_fields
     )
   }
-  await widgetPage.load({
-    mockRequests: [
-      mockEmbeddableConfigEndpoint('contactForm', mockConfigWithForms),
-      mockTicketFormsEndpoint(mockFormsResponse)
-    ],
-    preload: () => {
+  await loadWidget()
+    .withPresets('contactForm', mockConfigWithForms)
+    .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+    .evaluateOnNewDocument(() => {
       window.zESettings = {
         webWidget: {
           contactForm: {
@@ -38,8 +35,8 @@ beforeEach(async () => {
           }
         }
       }
-    }
-  })
+    })
+    .load()
 })
 
 test('customize the forms prompt', async () => {

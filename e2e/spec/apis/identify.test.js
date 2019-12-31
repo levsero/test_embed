@@ -1,6 +1,5 @@
-import widgetPage from 'e2e/helpers/widget-page'
+import loadWidget from 'e2e/helpers/widget-page'
 import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
-import { mockEmbeddableConfigEndpoint } from 'e2e/helpers/widget-page/embeddable-config'
 
 const user = {
   name: 'Akira Kogane',
@@ -8,9 +7,17 @@ const user = {
   organization: 'Voltron, Inc.'
 }
 
-test('calls identify endpoint', async () => {
+const buildWidget = () => {
   const identify = jest.fn()
-  await widgetPage.loadWithConfig('helpCenter', mockIdentifyEndpoint(identify))
+  const builder = loadWidget()
+    .withPresets('helpCenter')
+    .intercept(mockIdentifyEndpoint(identify))
+  return [builder, identify]
+}
+
+test('calls identify endpoint', async () => {
+  const [builder, identify] = buildWidget()
+  await builder.load()
   await page.evaluate(user => {
     zE('webWidget', 'identify', user)
   }, user)
@@ -18,13 +25,11 @@ test('calls identify endpoint', async () => {
 })
 
 test('calls identify endpoint even on prerender', async () => {
-  const identify = jest.fn()
-  await widgetPage.load({
-    mockRequests: [mockEmbeddableConfigEndpoint('helpCenter'), mockIdentifyEndpoint(identify)],
-    preload: user => {
+  const [builder, identify] = buildWidget()
+  await builder
+    .evaluateOnNewDocument(user => {
       zE('webWidget', 'identify', user)
-    },
-    preloadArgs: [user]
-  })
+    }, user)
+    .load()
   assertIdentifyPayload(identify, { ...user, localeId: 1176 })
 })
