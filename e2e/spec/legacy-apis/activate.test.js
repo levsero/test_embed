@@ -3,11 +3,11 @@ import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-beforeEach(async () => {
-  await loadWidget('helpCenter')
-})
-
 describe('widget close behavior', () => {
+  beforeEach(async () => {
+    await loadWidget('helpCenter')
+  })
+
   test('if initially hidden, closing hides widget', async () => {
     await page.evaluate(() => zE.hide())
     await page.evaluate(() => zE.activate())
@@ -49,9 +49,23 @@ describe('widget close behavior', () => {
 })
 
 test('api is no-op if widget is already opened', async () => {
+  await loadWidget('helpCenter')
   await launcher.click()
   await waitForHelpCenter()
   await page.evaluate(() => zE.activate())
+  await expect(launcher).toBeHidden()
+  await expect(widget).toBeVisible()
+})
+
+test('works on prerender as well', async () => {
+  await loadWidget()
+    .withPresets('helpCenter')
+    .evaluateOnNewDocument(() => {
+      zE(() => {
+        zE.activate()
+      })
+    })
+    .load()
   await expect(launcher).toBeHidden()
   await expect(widget).toBeVisible()
 })

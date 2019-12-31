@@ -1,16 +1,16 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 
-beforeEach(async () => {
-  await loadWidget('helpCenter')
-})
+const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 test('callback is called when launcher is clicked', async () => {
-  await page.evaluate(() => {
-    zE('webWidget:on', 'open', () => {
-      window.onOpenCalled = true
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'open', () => {
+        window.onOpenCalled = true
+      })
     })
-  })
+    .load()
 
   await launcher.click()
   const result = await page.evaluate(() => window.onOpenCalled)
@@ -18,11 +18,13 @@ test('callback is called when launcher is clicked', async () => {
 })
 
 test('callback is called when widget is opened via api', async () => {
-  await page.evaluate(() => {
-    zE('webWidget:on', 'open', () => {
-      window.onOpenCalledWithApi = true
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'open', () => {
+        window.onOpenCalledWithApi = true
+      })
     })
-  })
+    .load()
   await page.evaluate(() => zE('webWidget', 'open'))
   const result = await page.evaluate(() => window.onOpenCalledWithApi)
   expect(result).toEqual(true)
