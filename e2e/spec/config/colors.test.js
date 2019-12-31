@@ -8,11 +8,10 @@ const getBackgroundColor = selector =>
 const getColor = selector => getComputedStyle(document.querySelector(selector)).color
 const getLauncherColor = () => launcher.evaluate(getBackgroundColor, 'button')
 const getLauncherTextColor = () => launcher.evaluate(getColor, 'button')
-const getHeaderColor = async () =>
-  await widget.evaluate(() => {
-    return getComputedStyle(document.querySelector('h1').parentElement.parentElement)
-      .backgroundColor
-  })
+const getHeaderColor = () =>
+  widget.evaluate(
+    () => getComputedStyle(document.querySelector('h1').parentElement.parentElement).backgroundColor
+  )
 
 test('sets the launcher and widget colors based on config', async () => {
   await loadWidget()

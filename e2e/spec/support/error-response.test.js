@@ -4,7 +4,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { queries, wait } from 'pptr-testing-library'
 
-test('displays the error message', async () => {
+test('displays an error message when the endpoint returns an error', async () => {
   await loadWidget()
     .withPresets('contactForm')
     .intercept(

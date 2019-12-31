@@ -12,11 +12,10 @@ const openWidget = async () => {
 }
 
 const defaultThemeColor = 'rgb(183, 74, 30)'
-const getHeaderColor = async () =>
-  await widget.evaluate(() => {
-    return getComputedStyle(document.querySelector('h1').parentElement.parentElement)
-      .backgroundColor
-  })
+const getHeaderColor = () =>
+  widget.evaluate(
+    () => getComputedStyle(document.querySelector('h1').parentElement.parentElement).backgroundColor
+  )
 
 const getBackgroundColor = selector =>
   getComputedStyle(document.querySelector(selector)).backgroundColor

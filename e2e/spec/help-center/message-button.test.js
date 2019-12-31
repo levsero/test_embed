@@ -52,4 +52,24 @@ describe('message button', () => {
     await button.click()
     await assertContactForm(doc)
   })
+
+  it('uses the label from config', async () => {
+    await loadWidget()
+      .withPresets('contactForm', 'helpCenterWithContextualHelp', {
+        embeds: {
+          helpCenterForm: {
+            props: {
+              buttonLabelKey: 'contact'
+            }
+          }
+        }
+      })
+      .intercept(mockSearchEndpoint())
+      .load()
+    await launcher.click()
+    await waitForHelpCenter()
+    const doc = await widget.getDocument()
+    const button = await queries.queryByText(doc, 'Contact us')
+    expect(button).toBeTruthy()
+  })
 })
