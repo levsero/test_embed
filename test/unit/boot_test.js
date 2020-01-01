@@ -272,7 +272,7 @@ describe('boot', () => {
         )
       })
 
-      describe('when zopimChat is not part of config', () => {
+      describe('when chat is not part of config', () => {
         beforeAll(() => {
           config = { embeds: { helpCenter: {} } }
         })
@@ -282,9 +282,9 @@ describe('boot', () => {
         })
       })
 
-      describe('when zopimChat is part of config', () => {
+      describe('when chat is part of config', () => {
         beforeAll(() => {
-          config = { embeds: { zopimChat: {} } }
+          config = { embeds: { chat: {} } }
         })
 
         it('calls zopimApi setUpZopimApiMethods with the win and reduxStore', () => {

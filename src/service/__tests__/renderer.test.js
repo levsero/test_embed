@@ -75,7 +75,7 @@ const testConfig = () => ({
     ticketSubmissionForm: {
       embed: 'submitTicket'
     },
-    zopimChat: {
+    chat: {
       embed: 'chat',
       props: {
         zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
@@ -162,7 +162,7 @@ describe('init', () => {
           embeds: {
             ticketSubmissionForm: expect.any(Object),
             helpCenterForm: expect.any(Object),
-            zopimChat: expect.any(Object)
+            chat: expect.any(Object)
           }
         }),
         expect.anything()
@@ -173,7 +173,7 @@ describe('init', () => {
   describe('when the config is chat standalone', () => {
     beforeEach(() => {
       const config = {
-        embeds: { zopimChat: { embed: 'chat' } }
+        embeds: { chat: { embed: 'chat' } }
       }
 
       renderer.init(config)

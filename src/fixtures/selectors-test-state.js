@@ -6,7 +6,7 @@ const defaultState = {
     isChatBadgeMinimized: false,
     embeddableConfig: {
       embeds: {
-        zopimChat: {
+        chat: {
           props: {
             standalone: true,
             zopimId: '123abc',

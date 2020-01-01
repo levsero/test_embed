@@ -159,9 +159,6 @@ describe('onStateChange middleware', () => {
           CONNECTED: 'connected'
         }
       },
-      'src/redux/middleware/onStateChange/onZopimStateChange': {
-        onZopimChatStateChange: noop
-      },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
       'embeds/helpCenter/selectors': {
         getArticleDisplayed: x => x && x.articleDisplayed,

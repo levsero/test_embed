@@ -50,11 +50,11 @@ export default function WebWidgetFactory() {
     const submitTicketAvailable =
       !!embeds.ticketSubmissionForm && !getSettingsContactFormSuppress(state)
     const chatAvailable =
-      !!embeds.zopimChat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
+      !!embeds.chat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
 
     const talkConfig = talkEnabled ? embeds.talk.props : {}
     const submitTicketConfig = submitTicketAvailable ? embeds.ticketSubmissionForm.props : {}
-    const chatConfig = chatAvailable ? embeds.zopimChat.props : {}
+    const chatConfig = chatAvailable ? embeds.chat.props : {}
     const helpCenterConfig = helpCenterAvailable ? embeds.helpCenterForm.props : {}
 
     const submitTicketSettings = submitTicketAvailable
@@ -68,13 +68,13 @@ export default function WebWidgetFactory() {
       config: {
         helpCenterForm: helpCenterConfig,
         ticketSubmissionForm: submitTicketSettings.config,
-        zopimChat: chatConfig
+        chat: chatConfig
       },
       embedsAvailable: { chat: chatAvailable },
       store: reduxStore
     }
 
-    if (embeds.zopimChat) {
+    if (embeds.chat) {
       reduxStore.dispatch(setUpChat(true))
     }
 

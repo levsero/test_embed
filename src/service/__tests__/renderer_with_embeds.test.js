@@ -35,7 +35,7 @@ test('renders expected embeds from config', () => {
       ticketSubmissionForm: {
         embed: 'submitTicket'
       },
-      zopimChat: {
+      chat: {
         embed: 'chat',
         props: {
           zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',

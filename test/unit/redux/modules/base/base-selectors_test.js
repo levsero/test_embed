@@ -44,7 +44,7 @@ describe('base selectors', () => {
           base: {
             embeddableConfig: {
               embeds: {
-                zopimChat: {
+                chat: {
                   props: {
                     zopimId: 'id',
                     overrideProxy: 'someProxy'
@@ -73,7 +73,7 @@ describe('base selectors', () => {
           base: {
             embeddableConfig: {
               embeds: {
-                zopimChat: {
+                chat: {
                   props: {
                     zopimId: 'id'
                   }
@@ -101,7 +101,7 @@ describe('base selectors', () => {
       base: {
         embeddableConfig: {
           embeds: {
-            zopimChat: {
+            chat: {
               props: {
                 zopimId: 'id'
               }
@@ -126,7 +126,7 @@ describe('base selectors', () => {
       base: {
         embeddableConfig: {
           embeds: {
-            zopimChat: {
+            chat: {
               props: {
                 overrideProxy: 'yoloo'
               }
@@ -391,7 +391,7 @@ describe('base selectors', () => {
           base: {
             embeddableConfig: {
               embeds: {
-                zopimChat: {
+                chat: {
                   props: {
                     standalone: true
                   }
@@ -413,7 +413,7 @@ describe('base selectors', () => {
           base: {
             embeddableConfig: {
               embeds: {
-                zopimChat: {
+                chat: {
                   props: {
                     standalone: false
                   }

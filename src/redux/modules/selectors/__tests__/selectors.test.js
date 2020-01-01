@@ -764,7 +764,7 @@ describe('getShowChatBadgeLauncher', () => {
         getModifiedState({
           base: {
             embeddableConfig: {
-              embeds: { zopimChat: { props: { standalone: false } } }
+              embeds: { chat: { props: { standalone: false } } }
             }
           }
         })
@@ -1155,10 +1155,9 @@ const stateColorSettings = (colors, cp4 = false) => {
 
 const stateLauncherColorSettings = (color, cp4Enabled = false) => {
   return _.merge(stateColorSettings(color, cp4Enabled), {
-    zopimChat: {},
     base: {
       embeddableConfig: {
-        embeds: { zopimChat: { props: { standalone: true } } }
+        embeds: { chat: { props: { standalone: true } } }
       }
     },
     chat: {

@@ -33,7 +33,7 @@ function renderWebWidget(config, reduxStore) {
 }
 
 function renderLauncher(config, reduxStore) {
-  const visible = config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher
+  const visible = config.embeds && !config.embeds.talk && !config.embeds.chat && !hideLauncher
 
   const parsedConfig = {
     ...config.embeds.launcher,
@@ -46,9 +46,7 @@ function renderLauncher(config, reduxStore) {
 
 function registerEmbedsInRedux(config, reduxStore) {
   Object.keys(config.embeds).forEach(embed => {
-    const name = embed === 'zopimChat' ? 'chat' : embed
-
-    reduxStore.dispatch(updateEmbedAccessible(name, true))
+    reduxStore.dispatch(updateEmbedAccessible(embed, true))
   })
 }
 

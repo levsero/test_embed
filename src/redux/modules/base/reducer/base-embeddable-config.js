@@ -12,7 +12,7 @@ const initialState = {
         nameFieldRequired: false
       }
     },
-    zopimChat: {
+    chat: {
       props: {
         zopimId: null,
         overrideProxy: null,
@@ -51,10 +51,10 @@ const embeddableConfig = (state = initialState, action) => {
       return {
         ...state,
         embeds: {
-          zopimChat: {
+          chat: {
             props: {
-              ...state.embeds.zopimChat.props,
-              ..._.get(payload, 'embeds.zopimChat.props')
+              ...state.embeds.chat.props,
+              ..._.get(payload, 'embeds.chat.props')
             }
           },
           ticketSubmissionForm: {

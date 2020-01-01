@@ -66,9 +66,9 @@ const filterEmbeds = config => {
   if (!features) return config
   // If talk feature isn't available, act as if talk isn't in the config
   if (!_.includes(features, 'talk') && _.has(config.embeds, 'talk')) delete config.embeds.talk
-  // If chat feature isn't available and new chat is requested, act as if chat isn't in the config
-  if (!_.includes(features, 'chat') && config.newChat && _.has(config.embeds, 'zopimChat')) {
-    delete config.embeds.zopimChat
+  // If chat feature isn't available, act as if chat isn't in the config
+  if (!_.includes(features, 'chat') && _.has(config.embeds, 'chat')) {
+    delete config.embeds.chat
   }
 
   return config
@@ -99,7 +99,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       beacon.trackSettings(settings.getTrackSettings())
     }
 
-    if (_.get(config, 'embeds.zopimChat')) {
+    if (_.get(config, 'embeds.chat')) {
       zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 
