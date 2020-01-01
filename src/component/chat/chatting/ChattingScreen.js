@@ -13,7 +13,6 @@ import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
 import AgentTyping from 'src/embeds/chat/online/components/AgentTyping'
 import { isAgent } from 'utility/chat'
-import { isFirefox, isIE } from 'utility/devices'
 import {
   sendMsg,
   sendAttachments,
@@ -402,9 +401,6 @@ class ChattingScreen extends Component {
             this.scrollContainer = el
           }}
           onScroll={this.handleChatScreenScrolled}
-          className={classNames({
-            [styles.scrollBarFix]: isFirefox() || isIE()
-          })}
         >
           <div className={chatLogContainerClasses}>
             <HistoryLog
