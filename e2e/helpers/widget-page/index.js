@@ -20,7 +20,7 @@ class WidgetBuilder {
   }
 
   withPresets(...presets) {
-    this.configs.push(mockEmbeddableConfigEndpoint(...presets))
+    this.configs.push(...presets)
     return this
   }
 
@@ -35,7 +35,8 @@ class WidgetBuilder {
   }
 
   load() {
-    const mockRequests = this.configs.concat(this.intercepts)
+    const configs = this.configs.length > 0 ? [mockEmbeddableConfigEndpoint(...this.configs)] : []
+    const mockRequests = configs.concat(this.intercepts)
     const beforeScriptLoads = page => {
       this.preloads.forEach(async arg => {
         await page.evaluateOnNewDocument(...arg)

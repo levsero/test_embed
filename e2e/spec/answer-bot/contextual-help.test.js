@@ -41,6 +41,24 @@ describe('contextual search', () => {
     })
   })
 
+  it('does not ask for feedback and contains original article link', async () => {
+    await loadWidget()
+      .withPresets('answerBotWithContextualHelp')
+      .intercept(mockSearchEndpoint())
+      .load()
+    await widget.openByKeyboard()
+    await assertSuggestionsShown()
+    const doc = await widget.getDocument()
+    const link = await queries.getByText(doc, 'Welcome to your Help Center!')
+    await link.click()
+    await queries.getByText(doc, 'This is the body.')
+    const originalArticleLink = await queries.queryByTitle(doc, 'View original article')
+    expect(originalArticleLink).toBeTruthy()
+    await page.waitFor(3000)
+    const feedback = await queries.queryByText(doc, 'Does this article answer your question?')
+    expect(feedback).toBeNull()
+  })
+
   describe('via config', () => {
     it('displays the contextual search results on open of widget', async () => {
       await loadWidget()

@@ -18,13 +18,16 @@ test('displays an error message when the endpoint returns an error', async () =>
       })
     )
     .load()
+  await page.evaluate(() => {
+    localStorage['ZD-debug'] = true
+  })
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   const emailElement = await queries.queryByLabelText(doc, 'Email address')
   await allowsInputTextEditing(emailElement, 'fake@example.com')
   const descriptionElement = await queries.queryByLabelText(doc, 'How can we help you?')
   await allowsInputTextEditing(descriptionElement, 'Some message')
-  const submitButton = await queries.getByText(await widget.getDocument(), 'Send')
+  const submitButton = await queries.getByText(doc, 'Send')
   await submitButton.click()
   await wait(async () => {
     expect(
