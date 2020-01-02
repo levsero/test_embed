@@ -1,5 +1,6 @@
 import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
+import fs from 'fs'
 
 export const goToTestPage = () => page.goto('http://localhost:5123/e2e.html')
 
@@ -58,3 +59,36 @@ export const assertInputValue = async (label, value) => {
 }
 
 export const getJsonPayload = endpoint => JSON.parse(endpoint.mock.calls[0][0])
+
+const assetLookups = {
+  'chat-incoming-message-notification.mp3': {
+    contentType: 'audio/mpeg',
+    body: fs.readFileSync('src/asset/media/chat-incoming-message-notification.mp3')
+  },
+  'flags.png': {
+    contentType: 'image/png',
+    body: fs.readFileSync('src/asset/images/flags.png')
+  }
+}
+
+export const mockStaticAssets = request => {
+  const url = request.url(),
+    path = '/web_widget/static/',
+    length = path.length
+
+  if (!url.includes(path)) {
+    return false
+  }
+
+  const file = url.substr(url.indexOf(path) + length)
+  const asset = assetLookups[file]
+
+  if (asset) {
+    request.respond({
+      status: 200,
+      ...asset
+    })
+  } else {
+    request.abort()
+  }
+}
