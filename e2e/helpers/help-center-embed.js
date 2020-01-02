@@ -6,7 +6,7 @@ import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 export const mockSearchEndpoint = (results = searchResults, callback) => {
   return mockCorsRequest('embeddable_search.json', request => {
     if (callback) {
-      callback(request.url())
+      callback(request.url(), request.headers())
     }
     request.respond({
       status: 200,
@@ -20,4 +20,12 @@ export const mockSearchEndpoint = (results = searchResults, callback) => {
 export const waitForHelpCenter = async () => {
   const doc = await widget.getDocument()
   await wait(() => queries.getByPlaceholderText(doc, 'How can we help?'))
+}
+
+export const search = async keyword => {
+  const doc = await widget.getDocument()
+  const input = await queries.getByPlaceholderText(doc, 'How can we help?')
+  await input.focus()
+  await page.keyboard.type(keyword)
+  await page.keyboard.press('Enter')
 }
