@@ -36,10 +36,10 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              minimize: true,
-              modules: true,
-              localIdentName: cssModulesName,
-              importLoaders: 2
+              importLoaders: 2,
+              modules: {
+                localIdentName: cssModulesName
+              }
             }
           },
           'postcss-loader',
@@ -54,7 +54,15 @@ module.exports = {
       {
         test: /\.css$/,
         include: /node_modules\/@zendeskgarden/,
-        use: ['css-loader?importLoaders=1', 'postcss-loader']
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          'postcss-loader'
+        ]
       },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
