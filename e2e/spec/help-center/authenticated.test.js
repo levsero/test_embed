@@ -53,6 +53,30 @@ test('searches help center with the expected authentication token', async () => 
   expect(headers.authorization).toEqual('Bearer faketoken')
 })
 
+test('help center images include token as well', async () => {
+  const image = jest.fn()
+  await buildWidget()
+    .intercept(
+      mockCorsRequest('/hc/en-us/image.jpg', request => {
+        image(request.headers())
+        request.respond({
+          status: 200,
+          headers: DEFAULT_CORS_HEADERS,
+          contentType: 'image/jpg'
+        })
+      })
+    )
+    .load()
+  await launcher.click()
+  await waitForHelpCenter()
+  await searchAndWaitForResults()
+  const frame = await widget.getDocument()
+  await expect(frame).toClick('a', { text: 'What are these sections and articles doing here?' })
+  await wait(() => expect(image).toHaveBeenCalled())
+  const headers = image.mock.calls[0][0]
+  expect(headers.authorization).toEqual('Bearer faketoken')
+})
+
 test('logout clears the token', async () => {
   await buildWidget().load()
   await launcher.click()
