@@ -11,6 +11,7 @@ import FallbackField from 'embeds/support/components/FormField/FallbackField'
 describe('getField', () => {
   const expectedFieldTypes = [
     ['text', Text],
+    ['subject', Text],
     ['textarea', Textarea],
     ['description', Textarea],
     ['subject', Text],

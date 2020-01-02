@@ -3,6 +3,8 @@ import createStore from 'src/redux/createStore'
 import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
+import { getPrefillValues } from '..'
+import { getLastPrefillTimestamp } from '..'
 
 const emailField = {
   id: 'email',
@@ -42,7 +44,7 @@ const textareaField = {
 }
 const subjectField = {
   id: 'subject',
-  title_in_portal: 'subject',
+  title_in_portal: 'Subject',
   required_in_portal: false,
   type: 'text',
   keyID: 'subject'
@@ -158,7 +160,7 @@ describe('getCustomTicketFields', () => {
       textareaField,
       {
         id: 'subject',
-        title_in_portal: 'subject',
+        title_in_portal: 'Subject',
         required_in_portal: false,
         type: 'text',
         keyID: 'subject'
@@ -278,10 +280,63 @@ test('getActiveFormName', () => {
   expect(result).toEqual('ticketForm')
 })
 
-test('getFormState', () => {
-  const result = selectors.getFormState(state, 'contactForm')
+describe('getFormState', () => {
+  const createState = formExists => {
+    const state = {
+      support: {
+        formStates: {},
+        prefillValues: {
+          name: 'Prefill name'
+        }
+      }
+    }
 
-  expect(result).toEqual({ name: 'Bobby' })
+    if (formExists) {
+      state.support.formStates.contactForm = {
+        name: 'Bobby'
+      }
+    }
+
+    return state
+  }
+
+  it('returns the form state if it exists', () => {
+    const result = selectors.getFormState(createState(true), 'contactForm')
+
+    expect(result).toEqual({ name: 'Bobby' })
+  })
+
+  it('returns the prefill values if the form state does not exist', () => {
+    const result = selectors.getFormState(createState(false), 'contactForm')
+
+    expect(result).toEqual({ name: 'Prefill name' })
+  })
+})
+
+describe('getPrefillValues', () => {
+  it('returns the prefill values', () => {
+    const state = {
+      support: {
+        prefillValues: {
+          name: 'Some name'
+        }
+      }
+    }
+
+    expect(getPrefillValues(state)).toEqual({ name: 'Some name' })
+  })
+})
+
+describe('getLastPrefillTimestamp', () => {
+  it('returns the time of the last prefill', () => {
+    const state = {
+      support: {
+        prefillTimestamp: 123
+      }
+    }
+
+    expect(getLastPrefillTimestamp(state)).toBe(123)
+  })
 })
 
 describe('attachments', () => {
@@ -362,5 +417,23 @@ describe('attachments', () => {
     const result = selector([attachment1])
 
     expect(result).toEqual(['image/png'])
+  })
+})
+
+describe('getReadOnlyState', () => {
+  it('returns the read only state', () => {
+    const result = selectors.getReadOnlyState({
+      support: {
+        readOnly: {
+          email: true,
+          name: false
+        }
+      }
+    })
+
+    expect(result).toEqual({
+      email: true,
+      name: false
+    })
   })
 })

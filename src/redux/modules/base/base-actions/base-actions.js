@@ -208,7 +208,7 @@ export const handlePrefillReceived = payload => {
 
   return {
     type: actions.PREFILL_RECEIVED,
-    payload: { prefillValues, isReadOnly }
+    payload: { prefillValues, isReadOnly, timestamp: Date.now() }
   }
 }
 

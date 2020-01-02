@@ -19,8 +19,15 @@ export const getNewSupportEmbedEnabled = state =>
 export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
 export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
 export const getActiveFormName = state => state.support.activeFormName
-export const getFormState = (state, name) => state.support.formStates[name]
 export const getAllAttachments = state => state.support.attachments
+
+export const getPrefillValues = state => state.support.prefillValues
+export const getLastPrefillTimestamp = state => state.support.prefillTimestamp
+
+export const getReadOnlyState = state => state.support.readOnly
+
+export const getFormState = (state, name) =>
+  state.support.formStates[name] || getPrefillValues(state)
 
 export const getValidAttachments = createSelector(
   getAllAttachments,
@@ -78,7 +85,7 @@ export const getCustomTicketFields = createSelector(
       ...nonCheckBoxFields,
       subjectEnabled && {
         id: 'subject',
-        title_in_portal: 'subject',
+        title_in_portal: i18n.t('embeddable_framework.submitTicket.field.subject.label'),
         required_in_portal: false,
         type: 'text',
         keyID: 'subject'
