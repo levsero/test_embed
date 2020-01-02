@@ -12,11 +12,6 @@
   }
 }
 
-.dropzoneActive {
-  composes: u-userTextColor u-textBold from global;
-  composes: Anim-color from '../../styles/components/Animation.scss';
-}
-
 .dropzoneChild {
   composes: u-textCenter from global;
 }

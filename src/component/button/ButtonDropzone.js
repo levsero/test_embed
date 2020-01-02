@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Dropzone } from 'component/Dropzone'
+import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
 import { Icon } from 'component/Icon'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './ButtonDropzone.scss'
@@ -23,11 +23,9 @@ export class ButtonDropzone extends Component {
     const label = this.props.isMobile
       ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile')
       : i18n.t('embeddable_framework.submitTicket.attachments.button.new_label', { files: 5 })
-
     return (
-      <Dropzone
-        onDrop={this.props.onDrop}
-        activeClassName={styles.dropzoneActive}
+      <AttachmentInput
+        onFileSelect={this.props.onDrop}
         className={styles.dropzone}
         dropzoneId={this.props.dropzoneId}
       >
@@ -35,7 +33,7 @@ export class ButtonDropzone extends Component {
           <Icon type="Icon--paperclip-small" className={styles.icon} />
           <div className={styles.dropzoneChildLabel}>{label}</div>
         </div>
-      </Dropzone>
+      </AttachmentInput>
     )
   }
 }

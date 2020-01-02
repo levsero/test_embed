@@ -7,24 +7,20 @@ export class Dropzone extends Component {
     activeClassName: PropTypes.string,
     children: PropTypes.node,
     className: PropTypes.string,
-    disableClick: PropTypes.bool,
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
     onDrop: PropTypes.func.isRequired,
     style: PropTypes.object,
-    containerStyle: PropTypes.object,
-    dropzoneId: PropTypes.string
+    containerStyle: PropTypes.object
   }
 
   static defaultProps = {
     activeClassName: '',
     className: '',
-    disableClick: false,
     onDragEnter: () => {},
     onDragLeave: () => {},
     style: {},
-    containerStyle: {},
-    dropzoneId: ''
+    containerStyle: {}
   }
 
   constructor(props, context) {
@@ -65,23 +61,14 @@ export class Dropzone extends Component {
   onDrop = e => {
     e.preventDefault()
 
-    const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files
-
+    const droppedFiles = e.dataTransfer.files
     this.setState({ isDragActive: false })
     this.props.onDrop(droppedFiles, e)
-  }
-
-  onClick = () => {
-    if (!this.props.disableClick) {
-      this.fileInputEl.value = null
-      this.fileInputEl.click()
-    }
   }
 
   render = () => {
     const activeStyle = this.state.isDragActive ? this.props.activeClassName : ''
     const dropzoneClasses = `${this.props.className} ${activeStyle}`
-    const inputStyle = { display: 'none' }
 
     return (
       <div
@@ -92,22 +79,8 @@ export class Dropzone extends Component {
         style={this.props.containerStyle}
         onDrop={this.onDrop}
       >
-        <div
-          role="presentation"
-          onClick={this.onClick}
-          style={this.props.style}
-          className={dropzoneClasses}
-        >
+        <div role="presentation" style={this.props.style} className={dropzoneClasses}>
           {this.props.children}
-          <input
-            type="file"
-            style={inputStyle}
-            multiple={true}
-            ref={el => (this.fileInputEl = el)}
-            onChange={this.onDrop}
-            id={this.props.dropzoneId}
-            data-testid={this.props.dropzoneId}
-          />
         </div>
       </div>
     )
