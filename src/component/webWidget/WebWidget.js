@@ -6,7 +6,7 @@ import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 
 import Support from 'embeds/support'
-import { ChannelChoice } from 'component/channelChoice/ChannelChoice'
+import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
 import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
 import SubmitTicket from 'component/submitTicket/SubmitTicket'
@@ -24,12 +24,9 @@ import {
 } from 'src/redux/modules/chat'
 import { closeCurrentArticle } from 'embeds/helpCenter/actions'
 import {
-  getChatAvailable,
-  getChatOfflineAvailable,
   getChatEnabled,
   getHideZendeskLogo,
   getShowTicketFormsBackButton,
-  getTalkOnline,
   getHelpCenterAvailable,
   getChannelChoiceAvailable,
   getSubmitTicketAvailable,
@@ -71,17 +68,13 @@ const mapStateToProps = state => {
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
-    talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state),
-    chatAvailable: getChatAvailable(state),
-    chatOfflineAvailable: getChatOfflineAvailable(state),
     chatEnabled: getChatEnabled(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
     channelChoiceAvailable: getChannelChoiceAvailable(state),
-    onChannelChoiceNextClick: onChannelChoiceNextClick(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
     hideZendeskLogo: getHideZendeskLogo(state),
     webWidgetVisible: getWebWidgetVisible(state),
@@ -93,7 +86,6 @@ const mapStateToProps = state => {
 
 class WebWidget extends Component {
   static propTypes = {
-    callbackEnabled: PropTypes.bool.isRequired,
     chatNotification: PropTypes.shape({
       avatar_path: PropTypes.string, // eslint-disable-line camelcase
       count: PropTypes.number,
@@ -119,17 +111,12 @@ class WebWidget extends Component {
     proactiveChatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
-    chatAvailable: PropTypes.bool.isRequired,
-    chatEnabled: PropTypes.bool.isRequired,
-    talkOnline: PropTypes.bool.isRequired,
     closeCurrentArticle: PropTypes.func.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
     mobileNotificationsDisabled: PropTypes.bool,
-    chatOfflineAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
-    onChannelChoiceNextClick: PropTypes.func.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatId: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
@@ -303,21 +290,7 @@ class WebWidget extends Component {
   renderChannelChoice = () => {
     if (this.props.activeEmbed !== channelChoice) return null
 
-    return (
-      <ChannelChoice
-        ref={channelChoice}
-        style={this.props.style}
-        chatAvailable={this.props.chatAvailable}
-        chatOfflineAvailable={this.props.chatOfflineAvailable}
-        talkOnline={this.props.talkOnline}
-        callbackEnabled={this.props.callbackEnabled}
-        submitTicketAvailable={this.props.submitTicketAvailable}
-        chatEnabled={this.props.chatEnabled}
-        isMobile={this.props.isMobile}
-        onNextClick={this.props.onChannelChoiceNextClick}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
-    )
+    return <ChannelChoicePage />
   }
 
   renderTalk = () => {
