@@ -18,6 +18,7 @@ describe('AttachmentInput', () => {
 
     expect(queryByText('Add up to 5 files')).toBeInTheDocument()
   })
+
   describe('on mobile', () => {
     it('renders the correct label', () => {
       isMobileBrowser.mockReturnValue(true)

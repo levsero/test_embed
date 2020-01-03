@@ -32,7 +32,6 @@ const AttachmentInput = ({ onFileSelect, dropzoneId }) => {
       </Description>
       <input
         type="file"
-        style={{ display: 'none' }}
         multiple={true}
         ref={inputRef}
         onChange={onChange}

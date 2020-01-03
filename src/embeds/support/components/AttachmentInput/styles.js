@@ -9,7 +9,7 @@ import {
   zdColorGrey800,
   zdColorWhite
 } from '@zendeskgarden/css-variables'
-import PAPERCLIP_SMALL from '@zendeskgarden/svg-icons/src/14/attachment.svg'
+import Paperclip from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
 
 export const Container = styled.div`
   cursor: pointer !important;
@@ -30,6 +30,10 @@ export const Container = styled.div`
   &:hover {
     background-color: ${zdColorGrey100} !important;
   }
+
+  input {
+    display: none;
+  }
 `
 
 export const Description = styled.div`
@@ -43,28 +47,15 @@ export const Label = styled.div`
   color: ${zdColorGrey600};
 `
 
-export const Icon = styled(PAPERCLIP_SMALL)`
+export const Icon = styled(Paperclip)`
   max-width: 100%;
-  margin-right: ${5 / FONT_SIZE}rem;
-  margin-top: ${2 / FONT_SIZE}rem;
-  ${props => {
-    return props.theme.rtl
-      ? {
-          marginright: '0'
-        }
-      : { marginleft: `${5 / FONT_SIZE}rem` }
-  }}
+
+  ${props =>
+    props.theme.rtl ? `margin-left: ${5 / FONT_SIZE}rem;` : `margin-right: ${5 / FONT_SIZE}rem;`}
 
   color: ${props => props.theme.baseColor};
-
-  transform-origin: center;
-  transform: rotate(45deg);
-  svg {
-    min-width: ${16 / FONT_SIZE}rem; /* 1 */
-    min-height: ${16 / FONT_SIZE}rem; /* 1 */
-    height: ${16 / FONT_SIZE}rem;
-    width: ${16 / FONT_SIZE}rem;
-    transform-origin: center;
-    transform: rotate(45deg);
-  }
+  min-width: ${18 / FONT_SIZE}rem;
+  min-height: ${18 / FONT_SIZE}rem;
+  height: ${18 / FONT_SIZE}rem;
+  width: ${18 / FONT_SIZE}rem;
 `
