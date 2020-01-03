@@ -30,6 +30,7 @@ describe('resetActiveEmbed middleware', () => {
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed')
   const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility')
   const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
+  const history = jasmine.createSpyObj('history', ['replace'])
 
   beforeEach(() => {
     mockery.enable()
@@ -78,6 +79,10 @@ describe('resetActiveEmbed middleware', () => {
       'src/redux/modules/talk/talk-action-types': {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT
+      },
+      'service/history': history,
+      'embeds/helpCenter/routes': {
+        home: () => 'home'
       },
       'utility/globals': {
         isPopout: () => mockIsPopout
@@ -378,6 +383,10 @@ describe('resetActiveEmbed middleware', () => {
 
         it('calls updateActiveEmbed with helpCenterForm', () => {
           expect(updateActiveEmbedSpy).toHaveBeenCalledWith('helpCenterForm')
+        })
+
+        it('updates history', () => {
+          expect(history.replace).toHaveBeenCalledWith('home')
         })
 
         describe('when the article view is active', () => {
