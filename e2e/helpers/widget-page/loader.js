@@ -1,8 +1,8 @@
-import { goToTestPage, failOnConsoleError } from './../utils'
+import { mockRollbarEndpoint, goToTestPage, failOnConsoleError } from './../utils'
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
 import devices from 'puppeteer/DeviceDescriptors'
 
-const defaultMocks = [mockBlipEndpoint, mockIdentifyEndpoint()]
+const defaultMocks = [mockRollbarEndpoint, mockBlipEndpoint, mockIdentifyEndpoint()]
 
 /*
  * mockRequests provides a way for each test to hook into Puppeteer's request interception functionality
@@ -65,7 +65,7 @@ const load = async (options = {}) => {
   if (options.beforeScriptLoads) {
     options.beforeScriptLoads(page)
   }
-  failOnConsoleError(page)
+  await failOnConsoleError(page)
   await goToTestPage()
   const selectorOptions = {
     visible: true

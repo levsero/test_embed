@@ -11,7 +11,7 @@ const noEmbeds = {
 test('page view blip is still fired when there are no embeds', async () => {
   await jestPuppeteer.resetPage()
   await page.setRequestInterception(true)
-  failOnConsoleError()
+  await failOnConsoleError()
   const blipReceived = jest.fn()
 
   await page.on('request', request => {

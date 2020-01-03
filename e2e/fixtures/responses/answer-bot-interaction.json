@@ -1,0 +1,49 @@
+{
+  "deflection": { "id": 360060729351, "auth_token": "eyJ" },
+  "deflection_articles": [
+    {
+      "id": 360145219991,
+      "title": "The first article",
+      "html_url": "https://answerbot.zendesk.com/hc/en-us/articles/360002874212-Best-practices-Training-Answer-Bot-to-find-the-right-articles-more-easily",
+      "url": "https://answerbot.zendesk.com/api/v2/help_center/en-us/articles/360002874212-Best-practices-Training-Answer-Bot-to-find-the-right-articles-more-easily.json",
+      "label_names": [],
+      "body": "this is the first body",
+      "article_id": 360002874212,
+      "locale": "en-us",
+      "brand_id": 114094997791,
+      "score": 0.45848482847213745,
+      "html_body": "<div>first article</div>",
+      "snippet": "this is a snippet"
+    },
+    {
+      "id": 360145219992,
+      "title": "The second article",
+      "html_url": "https://answerbot.zendesk.com/hc/en-us/articles/2nd-article",
+      "url": "https://answerbot.zendesk.com/api/v2/help_center/en-us/articles/2nd-article",
+      "label_names": [],
+      "body": "this is the second body",
+      "article_id": 360002874213,
+      "locale": "en-us",
+      "brand_id": 114094997791,
+      "score": 0.8,
+      "html_body": "<div>body of second article</div>",
+      "snippet": "this is the second snippet"
+    },
+    {
+      "id": 360145219993,
+      "title": "The third article",
+      "html_url": "https://answerbot.zendesk.com/hc/en-us/articles/erd-article",
+      "url": "https://answerbot.zendesk.com/api/v2/help_center/en-us/articles/3rd-article",
+      "label_names": [],
+      "body": "this is the third body",
+      "article_id": 360002874214,
+      "locale": "en-us",
+      "brand_id": 114094997791,
+      "score": 0.8,
+      "html_body": "<div>third article</div>",
+      "snippet": "this is the third snippet"
+    }
+  ],
+  "model_meta": { "version": "00040300", "name": "megamike", "language": "en" },
+  "interaction_access_token": "eyJ0eXAi"
+}
