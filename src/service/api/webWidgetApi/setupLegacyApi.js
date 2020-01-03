@@ -67,15 +67,6 @@ export function legacyApiSetup(win, reduxStore) {
   tracker.addTo(win.zE, 'zE')
 }
 
-export function setupDevApi(win, reduxStore) {
-  return {
-    devRender: config => {
-      apiSetup(win, reduxStore, config)
-      renderer.init(config, reduxStore)
-    }
-  }
-}
-
 export function setupPublicApi(postRenderQueueCallback, reduxStore) {
   return {
     version: __EMBEDDABLE_VERSION__,

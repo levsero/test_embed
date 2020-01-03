@@ -137,14 +137,14 @@ const shouldSendZeDiffBlip = win => {
 const start = (win, doc) => {
   const reduxStore = createStore()
   const postRenderQueue = []
-  const { publicApi, devApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore)
+  const { publicApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore)
 
   i18n.init(reduxStore)
   boot.setupIframe(window.frameElement, doc)
   boot.setupServices(reduxStore)
   zopimApi.setupZopimQueue(win)
 
-  _.extend(win.zEmbed, publicApi, devApi)
+  _.extend(win.zEmbed, publicApi)
 
   webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue)
 
@@ -153,7 +153,7 @@ const start = (win, doc) => {
 
   webWidgetApi.legacyApiSetup(win, reduxStore)
 
-  boot.getConfig(win, postRenderQueue, reduxStore, devApi)
+  boot.getConfig(win, postRenderQueue, reduxStore)
 
   displayOssAttribution()
 
