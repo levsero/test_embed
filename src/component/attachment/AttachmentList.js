@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 
 import { Attachment } from 'component/attachment/Attachment'
-import { ButtonDropzone } from 'component/button/ButtonDropzone'
+import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
 import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
@@ -18,7 +18,6 @@ class AttachmentList extends Component {
   static propTypes = {
     updateForm: PropTypes.func.isRequired,
     maxFileCount: PropTypes.number.isRequired,
-    fullscreen: PropTypes.bool,
     handleAttachmentsError: PropTypes.func,
     validAttachments: PropTypes.array.isRequired,
     allAttachments: PropTypes.array.isRequired,
@@ -27,7 +26,6 @@ class AttachmentList extends Component {
   }
 
   static defaultProps = {
-    fullscreen: false,
     handleAttachmentsError: () => {}
   }
 
@@ -137,11 +135,7 @@ class AttachmentList extends Component {
           </label>
           {attachmentComponents}
           {errorMessage}
-          <ButtonDropzone
-            onDrop={this.handleOnDrop}
-            isMobile={this.props.fullscreen}
-            dropzoneId={this.id}
-          />
+          <AttachmentInput onFileSelect={this.handleOnDrop} dropzoneId={this.id} />
         </div>
       </div>
     )

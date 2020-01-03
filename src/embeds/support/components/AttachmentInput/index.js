@@ -1,9 +1,18 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
+import { Container, Description, Label, Icon } from './styles'
+import { useTranslate } from 'src/hooks/useTranslation'
+import { isMobileBrowser } from 'utility/devices'
 
-const AttachmentInput = ({ className, onFileSelect, dropzoneId, children }) => {
+const AttachmentInput = ({ onFileSelect, dropzoneId }) => {
   const inputRef = useRef(null)
+  const translate = useTranslate()
+
+  const label = isMobileBrowser()
+    ? translate('embeddable_framework.submitTicket.attachments.button.label_mobile')
+    : translate('embeddable_framework.submitTicket.attachments.button.new_label', { files: 5 })
+
   const onChange = e => {
     e.preventDefault()
 
@@ -15,35 +24,28 @@ const AttachmentInput = ({ className, onFileSelect, dropzoneId, children }) => {
     inputRef.current.click()
   }
 
-  const dropzoneClasses = `${className}`
-  const inputStyle = { display: 'none' }
-
   return (
-    <div
-      data-testid={TEST_IDS.DROPZONE}
-      role="presentation"
-      onClick={onClick}
-      className={dropzoneClasses}
-    >
-      {children}
+    <Container data-testid={TEST_IDS.DROPZONE} role="presentation" onClick={onClick}>
+      <Description>
+        <Icon />
+        <Label>{label}</Label>
+      </Description>
       <input
         type="file"
-        style={inputStyle}
+        style={{ display: 'none' }}
         multiple={true}
         ref={inputRef}
         onChange={onChange}
         id={dropzoneId}
         data-testid={dropzoneId}
       />
-    </div>
+    </Container>
   )
 }
 
 AttachmentInput.propTypes = {
-  className: PropTypes.string.isRequired,
   onFileSelect: PropTypes.func.isRequired,
-  dropzoneId: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  dropzoneId: PropTypes.string.isRequired
 }
 
 export default AttachmentInput
