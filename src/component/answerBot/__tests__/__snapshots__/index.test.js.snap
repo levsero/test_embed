@@ -19,7 +19,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -123,7 +123,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -227,7 +227,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -326,7 +326,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x kJovLk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"

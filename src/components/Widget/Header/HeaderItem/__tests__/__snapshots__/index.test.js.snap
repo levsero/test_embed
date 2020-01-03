@@ -29,6 +29,10 @@ exports[`HeaderItem renders 1`] = `
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c0:hover {
+  background: !important;
+}
+
 <button
   class="index__c-btn--icon___1Yl4x c0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
   data-garden-container-id="keyboardfocus"

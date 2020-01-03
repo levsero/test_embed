@@ -31,6 +31,10 @@ const StyledIconButton = styled(IconButton)`
     outline: none !important;
     box-shadow: 0 0 0 ${3 / FONT_SIZE}rem rgba(255, 255, 255, 0.4) !important;
   }
+
+  &:hover {
+    background: ${props => props.theme.headerBackgroundColorStr} !important;
+  }
 `
 
 export { StyledIconButton as IconButton }
