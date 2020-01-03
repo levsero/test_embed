@@ -124,6 +124,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c6:hover {
+  background: !important;
+}
+
 .c7 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;

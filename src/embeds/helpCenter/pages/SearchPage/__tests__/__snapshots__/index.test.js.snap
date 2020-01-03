@@ -110,6 +110,10 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
+.c6:hover {
+  background: !important;
+}
+
 .c11 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
@@ -483,6 +487,10 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 .c6:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: !important;
 }
 
 .c11 {
