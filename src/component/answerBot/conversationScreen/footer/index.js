@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { InputBox } from 'component/shared/InputBox'
+import InputBox from 'src/embeds/answerBot/components/InputBox'
 import { i18n } from 'service/i18n'
 import {
   questionSubmitted,
@@ -20,12 +20,15 @@ import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { Icon } from 'component/Icon'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { ICONS } from 'constants/shared'
+import ZendeskLogo from 'components/ZendeskLogo'
 
 import { locals as styles } from './Footer.scss'
 import classNames from 'classnames'
+import { FooterView } from 'components/Widget'
 
 class Footer extends Component {
   static propTypes = {
+    hideZendeskLogo: PropTypes.bool,
     currentMessage: PropTypes.string.isRequired,
     questionSubmitted: PropTypes.func.isRequired,
     getInTouchClicked: PropTypes.func.isRequired,
@@ -40,7 +43,8 @@ class Footer extends Component {
 
   static defaultProps = {
     scrollToBottom: () => {},
-    isMobile: false
+    isMobile: false,
+    hideZendeskLogo: false
   }
 
   handleQuestionSubmitted = (...args) => {
@@ -53,7 +57,7 @@ class Footer extends Component {
     const placeholder = i18n.t('embeddable_framework.answerBot.inputBox.placeholder')
 
     return (
-      <div>
+      <FooterView className={styles.footer}>
         {this.renderGetInTouch()}
         <InputBox
           inputValue={currentMessage}
@@ -62,7 +66,8 @@ class Footer extends Component {
           updateInputValue={questionValueChanged}
           handleSendInputValue={this.handleSendInputValue}
         />
-      </div>
+        {this.renderZendeskLogo()}
+      </FooterView>
     )
   }
 
@@ -75,13 +80,31 @@ class Footer extends Component {
     this.props.questionValueChanged('')
   }
 
+  renderZendeskLogo = () => {
+    if (this.props.hideZendeskLogo) {
+      return null
+    } else {
+      const classes = classNames({
+        [styles.logoMobile]: this.props.isMobile,
+        [styles.logoDesktop]: !this.props.isMobile
+      })
+
+      return (
+        <div className={classes}>
+          <ZendeskLogo />
+        </div>
+      )
+    }
+  }
+
   renderMobile = () => {
     const { currentMessage, questionValueChanged } = this.props
     const placeholder = i18n.t('embeddable_framework.answerBot.inputBox.placeholder')
 
     return (
-      <div>
+      <FooterView size="minimal" className={styles.footer}>
         {this.renderGetInTouch()}
+        {this.renderZendeskLogo()}
         <div className={styles.containerMobile}>
           <div className={styles.inputContainerMobile}>
             <InputBox
@@ -95,7 +118,7 @@ class Footer extends Component {
           </div>
           {this.renderSend()}
         </div>
-      </div>
+      </FooterView>
     )
   }
 

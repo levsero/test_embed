@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 import React from 'react'
 
 import { Component as Footer } from '../index'

@@ -10,7 +10,6 @@ import ButtonCardStyles from './StructuredMessage/ButtonCard.scss'
 import SliderContainerStyles from './SliderContainer/SliderContainer.scss'
 import CarouselStyles from './Carousel/Carousel.scss'
 import ListCardStyles from './StructuredMessage/ListCard.scss'
-import InputBoxStyles from './InputBox/InputBox.scss'
 import KeyboardFocusButton from './KeyboardFocusButton/KeyboardFocusButton.scss'
 
 const styles = `
@@ -26,7 +25,6 @@ const styles = `
   ${SliderContainerStyles}
   ${CarouselStyles}
   ${ListCardStyles}
-  ${InputBoxStyles}
   ${KeyboardFocusButton}
 `
 
