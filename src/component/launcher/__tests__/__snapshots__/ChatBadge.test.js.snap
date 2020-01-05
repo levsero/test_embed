@@ -4,6 +4,7 @@ exports[`renders the component 1`] = `
 <div>
   <div
     class="container"
+    data-testid="chat-badge"
   >
     <div
       class="title"
@@ -93,6 +94,7 @@ exports[`with chatBadgeColor passed in 1`] = `
 <div>
   <div
     class="container"
+    data-testid="chat-badge"
   >
     <div
       class="title"
@@ -182,6 +184,7 @@ exports[`with label passed in 1`] = `
 <div>
   <div
     class="container"
+    data-testid="chat-badge"
   >
     <div
       class="title"

@@ -184,7 +184,7 @@ class ChatBadge extends Component {
 
   render = () => {
     return (
-      <div className={styles.container}>
+      <div data-testid={TEST_IDS.CHAT_BADGE} className={styles.container}>
         {this.renderTitle()}
         {this.renderSplashDisplay()}
         {this.renderInputContainer()}

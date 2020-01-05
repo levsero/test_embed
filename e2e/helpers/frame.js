@@ -1,4 +1,4 @@
-const getByName = async name => {
+const getByName = name => {
   for (const frame of page.mainFrame().childFrames()) {
     if (frame.name() === name) {
       return frame

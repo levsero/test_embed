@@ -22,13 +22,8 @@ export const loadPreview = async () => {
   await renderPreview()
 }
 
-const getDocument = async () => {
-  return frame.getDocument('webWidgetPreview')
-}
-
-const getFrame = async () => {
-  return frame.getByName('webWidgetPreview')
-}
+const getDocument = () => frame.getDocument('webWidgetPreview')
+const getFrame = () => frame.getByName('webWidgetPreview')
 
 const evaluate = async (script, ...arg) => {
   const frame = await getFrame()

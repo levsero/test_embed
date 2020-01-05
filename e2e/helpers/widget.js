@@ -2,13 +2,9 @@ import { queries } from 'pptr-testing-library'
 import frame from './frame'
 import { TEST_IDS } from '../../src/constants/shared'
 
-const getDocument = async () => {
-  return frame.getDocument('webWidget')
-}
+const getDocument = () => frame.getDocument('webWidget')
 
-const getFrame = async () => {
-  return frame.getByName('webWidget')
-}
+const getFrame = () => frame.getByName('webWidget')
 
 const clickClose = async () => {
   const widget = await getDocument()
