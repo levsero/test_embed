@@ -2,8 +2,10 @@ import toAppearInOrder from './extensions/to-appear-in-order'
 import toHaveFocus from './extensions/to-have-focus'
 import { toBeVisible, toBeHidden } from './extensions/visibility'
 
-jest.setTimeout(30000)
-page.setDefaultTimeout(30000)
+const TIMEOUT = process.env.HEADLESS !== 'false' ? 30000 : 60000 * 10
+
+jest.setTimeout(TIMEOUT)
+page.setDefaultTimeout(20000)
 
 expect.extend({
   toBeVisible,

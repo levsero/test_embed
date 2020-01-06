@@ -1,5 +1,7 @@
 import preview, { loadPreview } from 'e2e/helpers/chat-preview'
 import { queries } from 'pptr-testing-library'
+import * as constants from '../../../src/redux/modules/chat/chat-screen-types'
+import { CHAT_BADGE } from '../../../src/constants/preview'
 
 const events = [
   { type: 'account_status', detail: 'online' },
@@ -65,7 +67,10 @@ beforeEach(async () => {
   }, events)
 })
 
+const goTo = screen => page.evaluate(screen => window.preview.updateScreen(screen), screen)
+
 test('renders chat log', async () => {
+  await goTo(constants.CHATTING_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
   expect(await queries.queryByText(doc, 'Chat started')).toBeTruthy()
@@ -77,7 +82,7 @@ test('renders chat log', async () => {
 })
 
 test('renders prechat screen', async () => {
-  await page.evaluate(() => window.preview.updateScreen('widget/chat/PRECHAT_SCREEN'))
+  await goTo(constants.PRECHAT_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByLabelText(doc, 'Choose a department (optional)')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'Message (optional)')).toBeTruthy()
@@ -89,13 +94,13 @@ test('renders prechat screen', async () => {
 })
 
 test('renders offline screen', async () => {
-  await page.evaluate(() => window.preview.updateScreen('widget/chat/OFFLINE_MESSAGE_SCREEN'))
+  await goTo(constants.OFFLINE_MESSAGE_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByText(doc, 'Sorry, we are not online at the moment')).toBeTruthy()
 })
 
 test('renders chat badge', async () => {
-  await page.evaluate(() => window.preview.updateScreen('preview/CHAT_BADGE'))
+  await goTo(CHAT_BADGE)
   const doc = await preview.getLauncherDocument()
   expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
   expect(await queries.queryByText(doc, 'zendesk chat')).toBeTruthy()
@@ -104,12 +109,12 @@ test('renders chat badge', async () => {
 
 test('updateLocale updates the translations', async () => {
   await page.evaluate(() => window.preview.updateLocale('fr'))
-  await page.evaluate(() => window.preview.updateScreen('widget/chat/OFFLINE_MESSAGE_SCREEN'))
+  await goTo(constants.OFFLINE_MESSAGE_SCREEN)
   const doc = await preview.getDocument()
   expect(
     await queries.queryByText(doc, 'Désolés, nous ne sommes pas en ligne actuellement')
   ).toBeTruthy()
-  await page.evaluate(() => window.preview.updateScreen('preview/CHAT_BADGE'))
+  await goTo(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
   const launcher = await preview.getLauncherDocument()
   expect(await queries.queryByPlaceholderText(launcher, 'Saisir un message ici')).toBeTruthy()
@@ -117,12 +122,12 @@ test('updateLocale updates the translations', async () => {
 
 test('setColor updates the color of the preview widget and badge', async () => {
   await page.evaluate(() => window.preview.setColor('#00FFFF'))
-  await page.evaluate(() => window.preview.updateScreen('widget/chat/PRECHAT_SCREEN'))
+  await goTo(constants.PRECHAT_SCREEN)
   const headerColor = await preview.evaluate(
     () => getComputedStyle(document.querySelector('h1').parentElement.parentElement).backgroundColor
   )
   expect(headerColor).toEqual('rgb(0, 255, 255)')
-  await page.evaluate(() => window.preview.updateScreen('preview/CHAT_BADGE'))
+  await goTo(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
   const badgeColor = await preview.getLauncherFrame().evaluate(() => {
     return getComputedStyle(document.querySelector('div[data-testid="chat-badge"]')).backgroundColor
@@ -132,7 +137,7 @@ test('setColor updates the color of the preview widget and badge', async () => {
 
 describe('updateSettings', () => {
   test('updates settings for chat badge', async () => {
-    await page.evaluate(() => window.preview.updateScreen('preview/CHAT_BADGE'))
+    await goTo(CHAT_BADGE)
     await page.evaluate(() => {
       window.preview.updateSettings({
         banner: {
@@ -187,7 +192,7 @@ describe('updateSettings', () => {
         }
       })
     })
-    await page.evaluate(() => window.preview.updateScreen('widget/chat/PRECHAT_SCREEN'))
+    await goTo(constants.PRECHAT_SCREEN)
     const doc = await preview.getDocument()
     expect(await queries.queryByLabelText(doc, 'Name (optional)')).toBeTruthy()
     expect(await queries.queryByLabelText(doc, 'Email')).toBeTruthy()
