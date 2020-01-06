@@ -1,13 +1,11 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
+import { render } from 'src/util/testHelpers'
 
-import { Component as Results } from '../SearchResults'
-
-const actions = Object.freeze({
-  screenChanged: jest.fn(),
-  articleShown: jest.fn(),
-  articleViewed: jest.fn()
-})
+import SearchResults from '../'
+import * as articleActions from 'src/redux/modules/answerBot/article/actions/article-viewed'
+import * as articleshownAction from 'src/redux/modules/answerBot/root/actions/article-shown'
+import * as screenChangedAction from 'src/redux/modules/answerBot/root/actions/screen-changed'
 
 const sessionID = 1234
 
@@ -33,8 +31,7 @@ const articles = [
 const renderComponent = (props = {}) => {
   const defaultProps = {
     articles,
-    sessionID,
-    actions
+    sessionID
   }
 
   const componentProps = {
@@ -42,7 +39,7 @@ const renderComponent = (props = {}) => {
     ...props
   }
 
-  return render(<Results {...componentProps} />)
+  return render(<SearchResults {...componentProps} />)
 }
 
 test('renders the expected classes', () => {
@@ -64,10 +61,19 @@ test('renders expected message when there is just 1 article', () => {
 })
 
 test('triggers expected actions on article click', () => {
-  const { getByText } = renderComponent()
+  const result = renderComponent()
 
-  fireEvent.click(getByText('title 123'))
-  expect(actions.articleShown).toHaveBeenCalledWith(sessionID, 123)
-  expect(actions.screenChanged).toHaveBeenCalledWith('article')
-  expect(actions.articleViewed).toHaveBeenCalledWith(sessionID, 123)
+  jest.spyOn(articleshownAction, 'articleShown').mockImplementation(() => ({
+    type: 'lookAMock'
+  }))
+  jest.spyOn(screenChangedAction, 'screenChanged')
+  jest
+    .spyOn(articleActions, 'articleViewed')
+    .mockImplementation(() => ({ type: 'mockingThisIsAPain' }))
+
+  fireEvent.click(result.getByText('title 123'))
+
+  expect(articleshownAction.articleShown).toHaveBeenCalledWith(sessionID, 123)
+  expect(screenChangedAction.screenChanged).toHaveBeenCalledWith('article')
+  expect(articleActions.articleViewed).toHaveBeenCalledWith(sessionID, 123)
 })

@@ -13,9 +13,7 @@ import { MAX_TITLE_LENGTH } from 'src/constants/answerBot'
 
 import { locals as styles } from './style.scss'
 
-const Results = props => {
-  const { articles, onArticleClick, leadingMessage } = props
-
+const Results = ({ articles, onArticleClick, leadingMessage }) => {
   return (
     <div>
       {renderLeadingMessage(leadingMessage)}
