@@ -34,3 +34,19 @@ test('callback is called when widget is closed via api', async () => {
   const result = await page.evaluate(() => window.onCloseCalledWithApi)
   expect(result).toEqual(true)
 })
+
+test('callback is called when widget is closed via toggle API', async () => {
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'close', () => {
+        window.onClosedCalledWithApi = true
+      })
+    })
+    .load()
+
+  await page.evaluate(() => zE('webWidget', 'open'))
+  await page.evaluate(() => zE('webWidget', 'toggle'))
+  const result = await page.evaluate(() => window.onClosedCalledWithApi)
+
+  expect(result).toEqual(true)
+})

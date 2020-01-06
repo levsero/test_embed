@@ -242,16 +242,13 @@ describe('toggleApi', () => {
 
   beforeEach(() => {
     store = createStore()
-
     store.dispatch = jest.fn()
-
+    baseActions.toggleReceived = jest.fn()
     apis.toggleApi(store)
   })
 
-  it('dispatches the toggleReceived action', () => {
-    expect(store.dispatch).toHaveBeenCalledWith({
-      type: baseActionTypes.TOGGLE_RECEIVED
-    })
+  it('dispatches a toggleApi action', () => {
+    expect(baseActions.toggleReceived).toHaveBeenCalled()
   })
 })
 
