@@ -1,8 +1,13 @@
-import { mockRollbarEndpoint, goToTestPage, failOnConsoleError } from './../utils'
+import { mockRollbarEndpoint, mockStaticAssets, goToTestPage, failOnConsoleError } from './../utils'
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
 import devices from 'puppeteer/DeviceDescriptors'
 
-const defaultMocks = [mockRollbarEndpoint, mockBlipEndpoint, mockIdentifyEndpoint()]
+const defaultMocks = [
+  mockRollbarEndpoint,
+  mockStaticAssets,
+  mockBlipEndpoint,
+  mockIdentifyEndpoint()
+]
 
 /*
  * mockRequests provides a way for each test to hook into Puppeteer's request interception functionality
