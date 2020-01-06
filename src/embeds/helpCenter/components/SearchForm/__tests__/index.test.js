@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
-import SearchForm, { Component } from '../index'
+import SearchForm from '../index'
 
 jest.mock('service/transport')
 
@@ -15,42 +15,44 @@ const renderInitialSearchForm = () => {
   return { ...utils, inputNode, formNode }
 }
 
-it('searches when text provided', async () => {
-  const { inputNode, formNode, store } = renderInitialSearchForm()
+describe('when a search term is provided', () => {
+  it('searches', async () => {
+    const { inputNode, formNode, store } = renderInitialSearchForm()
 
-  expect(getSearchLoading(store.getState())).toEqual(false)
-  fireEvent.change(inputNode, { target: { value: 'help me!' } })
-  fireEvent.submit(formNode)
+    expect(getSearchLoading(store.getState())).toEqual(false)
+    fireEvent.change(inputNode, { target: { value: 'help me!' } })
+    fireEvent.submit(formNode)
 
-  await wait(() => {
-    expect(getSearchLoading(store.getState())).toEqual(true)
+    await wait(() => {
+      expect(getSearchLoading(store.getState())).toEqual(true)
+    })
+  })
+
+  it('renders the search value', async () => {
+    const { inputNode, formNode, queryByPlaceholderText } = renderInitialSearchForm()
+
+    fireEvent.change(inputNode, { target: { value: 'help me!' } })
+    fireEvent.submit(formNode)
+
+    await wait(() => {
+      expect(queryByPlaceholderText('How can we help?').value).toEqual('help me!')
+    })
   })
 })
 
-it('does not search when no text provided', () => {
-  const { inputNode, formNode, store } = renderInitialSearchForm()
+describe('when no search term is provided', () => {
+  it('does not search', () => {
+    const { inputNode, formNode, store } = renderInitialSearchForm()
 
-  expect(getSearchLoading(store.getState())).toEqual(false)
-  fireEvent.change(inputNode, { target: { value: '' } })
-  fireEvent.submit(formNode)
-  expect(getSearchLoading(store.getState())).toEqual(false)
-})
+    expect(getSearchLoading(store.getState())).toEqual(false)
+    fireEvent.change(inputNode, { target: { value: '' } })
+    fireEvent.submit(formNode)
+    expect(getSearchLoading(store.getState())).toEqual(false)
+  })
 
-it('renders the search placeholder text', () => {
-  const { queryByPlaceholderText } = renderInitialSearchForm()
+  it('renders the search placeholder text', () => {
+    const { queryByPlaceholderText } = renderInitialSearchForm()
 
-  expect(queryByPlaceholderText('How can we help?')).toBeInTheDocument()
-})
-
-it('renders the initial search value', () => {
-  const { queryByPlaceholderText } = render(
-    <Component
-      value="Help"
-      performSearch={jest.fn()}
-      searchPlaceholder="HOw?"
-      handleSearchFieldChange={jest.fn()}
-    />
-  )
-
-  expect(queryByPlaceholderText('HOw?').value).toEqual('Help')
+    expect(queryByPlaceholderText('How can we help?')).toBeInTheDocument()
+  })
 })

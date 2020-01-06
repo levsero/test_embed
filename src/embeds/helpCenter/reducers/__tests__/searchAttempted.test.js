@@ -1,7 +1,7 @@
 import searchAttempted from '../searchAttempted'
 import { SEARCH_REQUEST_SENT } from 'embeds/helpCenter/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 testReducer(searchAttempted, [
   {
@@ -29,7 +29,7 @@ testReducer(searchAttempted, [
     expected: true
   },
   {
-    action: { type: API_CLEAR_HC_SEARCHES },
+    action: { type: API_RESET_WIDGET },
     initialState: true,
     expected: false
   }

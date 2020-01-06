@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders expected classes 1`] = `
+exports[`renders 1`] = `
 <div>
   <div
     class="sc-bxivhb bJeuNN"
@@ -43,91 +43,4 @@ exports[`renders expected classes 1`] = `
     </div>
   </div>
 </div>
-`;
-
-exports[`renders expected classes for mobile 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-@@ -23,9 +23,9 @@
-          <input
-            aria-invalid="false"
--           aria-labelledby="garden-field-container-1--label"
-+           aria-labelledby="garden-field-container-2--label"
-            autocapitalize="off"
-            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-            data-testid="search-field"
--           id="garden-field-container-1--input"
-+           id="garden-field-container-2--input"
-            placeholder="hello there"
-            type="search"
-`;
-
-exports[`renders loading classes 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-@@ -23,9 +23,9 @@
-          <input
-            aria-invalid="false"
--           aria-labelledby="garden-field-container-3--label"
-+           aria-labelledby="garden-field-container-4--label"
-            autocapitalize="off"
-            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-            data-testid="search-field"
--           id="garden-field-container-3--input"
-+           id="garden-field-container-4--input"
-            placeholder="hello there"
-            type="search"
-@@ -35,5 +35,13 @@
-            class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
-          >
--           <div />
-+           <div>
-+             <div
-+               class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 jJKdlq"
-+               font-size="inherit"
-+               role="progressbar"
-+             >
-+                
-+             </div>
-+           </div>
-          </div>
-        </div>
-`;
-
-exports[`renders loading classes in mobile 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-@@ -23,9 +23,9 @@
-          <input
-            aria-invalid="false"
--           aria-labelledby="garden-field-container-5--label"
-+           aria-labelledby="garden-field-container-6--label"
-            autocapitalize="off"
-            class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-            data-testid="search-field"
--           id="garden-field-container-5--input"
-+           id="garden-field-container-6--input"
-            placeholder="hello there"
-            type="search"
-@@ -35,5 +35,13 @@
-            class="StyledTextMediaFigure__StyledMediaFigure-sc-16w80xi-0 text__c-txt__input--media__figure___gBDfx nGlBe"
-          >
--           <div />
-+           <div>
-+             <div
-+               class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 jJKdlq"
-+               font-size="inherit"
-+               role="progressbar"
-+             >
-+                
-+             </div>
-+           </div>
-          </div>
-        </div>
 `;

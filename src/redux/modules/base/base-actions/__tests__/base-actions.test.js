@@ -42,22 +42,16 @@ describe('apiResetWidget', () => {
       expect(actionList[0].type).toEqual(actionTypes.API_CLEAR_FORM)
     })
 
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
+    it('dispatches an action of type API_RESET_WIDGET Second', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
       expect(actionList[1].type).toEqual(ATTACHMENTS_CLEARED)
     })
 
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES Second', () => {
-      const actionList = dispatchAction(actions.apiResetWidget())
-
-      expect(actionList[2].type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
-    })
-
     it('dispatches an action of type API_RESET_WIDGET Third', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[3].type).toEqual(actionTypes.API_RESET_WIDGET)
+      expect(actionList[2].type).toEqual(actionTypes.API_RESET_WIDGET)
     })
 
     it('does not dispatch an action of type UPDATE_CHAT_SCREEN', () => {
@@ -75,7 +69,7 @@ describe('apiResetWidget', () => {
     it('dispatches an action of type UPDATE_CHAT_SCREEN', () => {
       const actionList = dispatchAction(actions.apiResetWidget())
 
-      expect(actionList[4].type).toEqual(UPDATE_CHAT_SCREEN)
+      expect(actionList[3].type).toEqual(UPDATE_CHAT_SCREEN)
     })
   })
 })

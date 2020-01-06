@@ -3,7 +3,7 @@ import {
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE
 } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = []
 
@@ -15,7 +15,7 @@ const articles = (state = initialState, action) => {
     case SEARCH_REQUEST_SUCCESS:
       return payload.articles.map(article => article.id)
     case SEARCH_REQUEST_FAILURE:
-    case API_CLEAR_HC_SEARCHES:
+    case API_RESET_WIDGET:
       return initialState
     default:
       return state

@@ -229,7 +229,7 @@ export function addRestrictedImage(img) {
 export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
-    payload: value
+    payload: value || ''
   }
 }
 

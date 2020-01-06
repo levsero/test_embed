@@ -1,5 +1,5 @@
 import { SEARCH_FIELD_CHANGED } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 const initialState = ''
 
@@ -9,7 +9,8 @@ const searchFieldValue = (state = initialState, action) => {
   switch (type) {
     case SEARCH_FIELD_CHANGED:
       return payload
-    case API_CLEAR_HC_SEARCHES:
+    case API_CLEAR_FORM:
+    case API_RESET_WIDGET:
       return initialState
     default:
       return state

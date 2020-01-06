@@ -300,31 +300,6 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('apiClearHcSearches', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.apiClearHcSearches())
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES', () => {
-      expect(action.type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
-    })
-  })
-
-  describe('apiClearHcSearches', () => {
-    let action
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.apiClearHcSearches())
-      action = mockStore.getActions()[0]
-    })
-    it('dispatches an action of type API_CLEAR_HC_SEARCHES', () => {
-      expect(action.type).toEqual(actionTypes.API_CLEAR_HC_SEARCHES)
-    })
-  })
-
   describe('updateWidgetShown', () => {
     let action, actionList
 

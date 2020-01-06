@@ -293,11 +293,11 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                   </div>
                   <input
                     aria-invalid="false"
-                    aria-labelledby="garden-field-container-2--label"
+                    aria-labelledby="garden-field-container-1--label"
                     autocapitalize="off"
                     class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
                     data-testid="search-field"
-                    id="garden-field-container-2--input"
+                    id="garden-field-container-1--input"
                     placeholder="How can we help?"
                     type="search"
                     value=""

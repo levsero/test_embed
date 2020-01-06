@@ -4,7 +4,7 @@ import {
   GET_ARTICLE_REQUEST_FAILURE,
   ARTICLE_VIEWED
 } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = null
 
@@ -12,7 +12,7 @@ const articleDisplayed = (state = initialState, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case API_CLEAR_HC_SEARCHES:
+    case API_RESET_WIDGET:
     case GET_ARTICLE_REQUEST_FAILURE:
     case GET_ARTICLE_REQUEST_SENT:
     case ARTICLE_VIEWED:

@@ -1,109 +1,69 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
 import { Field, MediaInput } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import { LoadingDots, SearchIcon, ClearInputButton, Container } from './styles'
 import { triggerOnEnter } from 'utility/keyboard'
+import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
+import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selectors'
 
-export default class SearchField extends Component {
-  static propTypes = {
-    isLoading: PropTypes.bool,
-    onChangeValue: PropTypes.func,
-    searchPlaceholder: PropTypes.string.isRequired,
-    value: PropTypes.string
-  }
-
-  static defaultProps = {
-    isLoading: false,
-    onChangeValue: () => {},
-    value: ''
-  }
-
-  constructor(props, context) {
-    super(props, context)
-
-    this.state = {
-      focused: false,
-      value: props.value
-    }
-    this.searchField = null
-  }
-
-  onFocus = () => {
-    this.setState({ focused: true })
-  }
-
-  onBlur = () => {
-    this.setState({ focused: false })
-  }
-
-  onChange = e => {
-    const value = e.target.value
-
-    this.setState({ value })
-    this.props.onChangeValue(value)
-  }
-
-  clearInput = () => {
-    this.setState({
-      value: ''
-    })
-    this.props.onChangeValue('')
-    this.focus()
-  }
-
-  focus = () => {
-    this.searchField.focus()
-  }
-
-  clearInputButton = () => {
-    return (
-      <ClearInputButton
-        onClick={this.clearInput}
-        role="button"
-        cursor="pointer"
-        data-testid={TEST_IDS.ICON_CLEAR_INPUT}
-        tabIndex="0"
-        onKeyDown={triggerOnEnter(this.clearInput)}
-      />
-    )
-  }
-
-  renderIcon = () => {
+const SearchField = ({ isLoading, onChange, placeholder, value, inputRef }) => {
+  const endIcon = () => {
     let icon = null
 
-    if (this.props.isLoading) {
+    if (isLoading) {
       icon = <LoadingDots data-testid={TEST_IDS.ICON_ELLIPSIS} />
-    } else if (this.state.value) {
-      icon = this.clearInputButton()
+    } else if (value) {
+      icon = (
+        <ClearInputButton
+          onClick={() => onChange()}
+          role="button"
+          cursor="pointer"
+          data-testid={TEST_IDS.ICON_CLEAR_INPUT}
+          tabIndex="0"
+          onKeyDown={triggerOnEnter(() => onChange())}
+        />
+      )
     }
 
     return <div key="clearInputOrLoading">{icon}</div>
   }
 
-  render = () => {
-    const { searchPlaceholder } = this.props
-
-    return (
-      <Container>
-        <Field>
-          <MediaInput
-            start={<SearchIcon data-testid={TEST_IDS.ICON_SEARCH} />}
-            end={this.renderIcon()}
-            onChange={this.onChange}
-            value={this.state.value}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            ref={elem => {
-              this.searchField = elem
-            }}
-            placeholder={searchPlaceholder}
-            data-testid={TEST_IDS.SEARCH_FIELD}
-            type="search"
-            autoCapitalize="off"
-          />
-        </Field>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <Field>
+        <MediaInput
+          start={<SearchIcon data-testid={TEST_IDS.ICON_SEARCH} />}
+          end={endIcon()}
+          onChange={e => onChange(e.target.value)}
+          value={value}
+          ref={inputRef}
+          placeholder={placeholder}
+          data-testid={TEST_IDS.SEARCH_FIELD}
+          type="search"
+          autoCapitalize="off"
+        />
+      </Field>
+    </Container>
+  )
 }
+
+SearchField.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  inputRef: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+  isLoading: getSearchLoading(state),
+  placeholder: getSettingsHelpCenterSearchPlaceholder(state),
+  value: getSearchFieldValue(state)
+})
+
+const connectedComponent = connect(mapStateToProps)(SearchField)
+
+export { connectedComponent as default, SearchField as Component }

@@ -1,6 +1,6 @@
 import manualContextualSuggestions from '../manualContextualSuggestions'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
@@ -62,7 +62,7 @@ testReducer(manualContextualSuggestions, [
   },
   {
     action: {
-      type: API_CLEAR_HC_SEARCHES,
+      type: API_RESET_WIDGET,
       labels: ['yo', 'this', 'a', 'label'],
       url: true
     },

@@ -2,7 +2,7 @@ import {
   SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SENT
 } from 'embeds/helpCenter/actions/action-types'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = -1
 
@@ -13,7 +13,7 @@ const lastSearchTimestamp = (state = initialState, action) => {
     case SEARCH_REQUEST_SENT:
     case CONTEXTUAL_SEARCH_REQUEST_SENT:
       return payload.timestamp
-    case API_CLEAR_HC_SEARCHES:
+    case API_RESET_WIDGET:
       return initialState
     default:
       return state

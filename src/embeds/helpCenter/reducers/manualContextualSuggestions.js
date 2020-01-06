@@ -1,6 +1,7 @@
-import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from 'embeds/helpCenter/actions/action-types'
 import _ from 'lodash'
-import { API_CLEAR_HC_SEARCHES } from 'src/redux/modules/base/base-action-types'
+
+import { CONTEXTUAL_SUGGESTIONS_MANUALLY_SET } from 'embeds/helpCenter/actions/action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 // The reducer must have at most 1 non-falsy value.
 // This ensures that we only use one property for a contextual request and respect the
@@ -36,7 +37,7 @@ const manualContextualSuggestions = (state = initialState, action) => {
         }
       }
       return state
-    case API_CLEAR_HC_SEARCHES:
+    case API_RESET_WIDGET:
       return initialState
     default:
       return state
