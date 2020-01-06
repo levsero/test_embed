@@ -1,13 +1,7 @@
+import { setupContainer } from './previews'
 import frame from './frame'
 
 const goToTestPage = () => page.goto('http://localhost:5123/chatPreview.html')
-
-const setupContainer = () =>
-  page.evaluate(() => {
-    const div = document.createElement('div')
-    div.id = 'container'
-    document.querySelector('body').appendChild(div)
-  })
 
 const renderPreview = () =>
   page.evaluate(() => {
@@ -28,8 +22,8 @@ const getLauncherDocument = () => frame.getDocument('launcher')
 const getFrame = () => frame.getByName('webWidget')
 const getLauncherFrame = () => frame.getByName('launcher')
 
-const evaluate = async (script, ...arg) => {
-  const frame = await getFrame()
+const evaluate = (script, ...arg) => {
+  const frame = getFrame()
   return frame.evaluate(script, ...arg)
 }
 
