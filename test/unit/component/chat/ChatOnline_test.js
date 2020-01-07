@@ -19,7 +19,7 @@ describe('ChatOnline component', () => {
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble')
   const ButtonPill = noopReactComponent('ButtonPill')
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
-  const AgentScreen = noopReactComponent('AgentScreen')
+  const AgentDetailsPage = noopReactComponent('AgentDetailsPage')
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
@@ -35,7 +35,7 @@ describe('ChatOnline component', () => {
         LoadingSpinner
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
-      'component/chat/agents/AgentScreen': AgentScreen,
+      'src/embeds/chat/online/pages/AgentDetailsPage': AgentDetailsPage,
       'component/chat/rating/RatingScreen': noopReactComponent(),
       'component/chat/prechat/PrechatScreen': noopReactComponent(),
       'component/button/ButtonPill': {
@@ -615,16 +615,8 @@ describe('ChatOnline component', () => {
         screen = AGENT_LIST_SCREEN
       })
 
-      it('returns a AgentScreen component', () => {
-        expect(TestUtils.isElementOfType(component, AgentScreen)).toEqual(true)
-      })
-
-      it('component returns valid isMobile value', () => {
-        expect(component.props.isMobile).toEqual(true)
-      })
-
-      it('component returns valid fullscreen value', () => {
-        expect(component.props.fullscreen).toEqual(true)
+      it('returns a AgentDetailsPage component', () => {
+        expect(TestUtils.isElementOfType(component, AgentDetailsPage)).toEqual(true)
       })
     })
   })

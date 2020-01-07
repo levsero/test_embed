@@ -14,7 +14,7 @@ const icons = {
   [ICONS.ERROR_FILL]: require('@zendeskgarden/svg-icons/src/14/error-fill.svg'),
   [ICONS.PAPERCLIP_SMALL]: require('@zendeskgarden/svg-icons/src/14/attachment.svg'),
   [ICONS.SEND_CHAT]: require('icons/widget-icon_sendChat.svg'),
-  'Icon--agent-avatar': require('icons/widget-icon_avatar.svg'),
+  [ICONS.AGENT_AVATAR]: require('icons/widget-icon_avatar.svg'),
   'Icon--answerBot': require('icons/widget-icon_answerBot.svg'),
   'Icon--clock-stroke': require('@zendeskgarden/svg-icons/src/16/clock-stroke.svg'),
   [ICONS.ARTICLE]: require('icons/widget-icon_article.svg'),

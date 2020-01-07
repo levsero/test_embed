@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { ButtonPill } from 'component/button/ButtonPill'
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
-import AgentScreen from 'component/chat/agents/AgentScreen'
+import AgentDetailsPage from 'src/embeds/chat/online/pages/AgentDetailsPage'
 import RatingScreen from 'component/chat/rating/RatingScreen'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
@@ -348,14 +348,7 @@ class Chat extends Component {
   renderAgentListScreen = () => {
     if (this.props.screen !== screens.AGENT_LIST_SCREEN) return null
 
-    return (
-      <AgentScreen
-        chatId={this.props.chatId}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
-      />
-    )
+    return <AgentDetailsPage />
   }
 
   renderChatReconnectButton = () => {

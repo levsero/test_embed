@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div>
+  <div
+    class="sc-dVhcbM ipYxbu"
+  >
+    <svg
+      alt="avatar"
+      aria-hidden="true"
+      realfilename="widget-icon_avatar.svg"
+    />
+    <div
+      class="sc-eqIVtm kTcryj"
+    >
+      <div
+        class="sc-fAjcbJ bGHzHF"
+      >
+        Agent Smith
+      </div>
+      <div
+        class="sc-caSCKo btztuX"
+      >
+        kill_neo_666@hotmail.com
+      </div>
+    </div>
+  </div>
+</div>
+`;
