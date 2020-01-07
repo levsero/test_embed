@@ -40,7 +40,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
       data-testid="scroll-container-content"
     >
       <div
-        class="sc-dxgOiQ NtBZx"
+        class="sc-eNQAEJ juLHav"
       >
         <div
           class="styled-elements__LoadingPlaceholder-sc-19dhio6-6 dWxKQn"

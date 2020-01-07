@@ -16,8 +16,7 @@ import { getCurrentScreen } from 'src/redux/modules/answerBot/root/selectors'
 import { conversationScrollChanged } from 'src/redux/modules/answerBot/conversation/actions'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
-import { Widget, Header, Main, FooterView } from 'components/Widget'
-import ZendeskLogo from 'components/ZendeskLogo'
+import { Widget, Header, Main } from 'components/Widget'
 
 import { locals as styles } from './AnswerBot.scss'
 
@@ -92,26 +91,12 @@ class AnswerBot extends Component {
         >
           <ConversationScreen scrollToBottom={this.scrollToBottom} />
         </Main>
-        <FooterView className={styles.footer}>
-          {this.renderFooterContent()}
-
-          {!this.props.hideZendeskLogo && (
-            <div className={styles.zendeskLogoContainer}>
-              <ZendeskLogo />
-            </div>
-          )}
-        </FooterView>
+        <ConversationFooter
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          scrollToBottom={this.scrollToBottom}
+          isMobile={this.props.isMobile}
+        />
       </Widget>
-    )
-  }
-
-  renderFooterContent = () => {
-    return (
-      <ConversationFooter
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        scrollToBottom={this.scrollToBottom}
-        isMobile={this.props.isMobile}
-      />
     )
   }
 

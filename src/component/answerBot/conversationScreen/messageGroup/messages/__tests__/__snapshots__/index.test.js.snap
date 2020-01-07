@@ -182,7 +182,7 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="sc-fjdhpX kWAZBy"
+          class="sc-kAzzGY eQuZiU"
         >
           <div
             class="container buttonRight "
@@ -219,7 +219,7 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="sc-fjdhpX kWAZBy"
+          class="sc-kAzzGY eQuZiU"
         >
           <div
             class="container buttonRight "
@@ -227,7 +227,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      sc-jzJRlG hqVijU
+      sc-chPdSV dUMIIf
     "
               data-testid="pill-button"
             >
@@ -236,7 +236,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      sc-jzJRlG hqVijU
+      sc-chPdSV dUMIIf
     "
               data-testid="pill-button"
             >
