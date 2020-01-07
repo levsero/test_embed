@@ -8,7 +8,7 @@ import * as selectors from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
-import { WIDGET_CLOSED_EVENT } from 'constants/event'
+import { WIDGET_CLOSED_EVENT, WIDGET_OPENED_EVENT } from 'constants/event'
 
 jest.mock('service/api/callbacks')
 
@@ -120,5 +120,37 @@ describe('apiClearForm', () => {
       { type: actionTypes.API_CLEAR_FORM },
       { type: ATTACHMENTS_CLEARED }
     ])
+  })
+})
+
+describe('toggleReceived', () => {
+  beforeEach(() => {
+    jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(true)
+  })
+
+  it('dispatches a TOGGLE_RECEIVED action', () => {
+    const dispatchedActions = dispatchAction(actions.toggleReceived())
+
+    expect(dispatchedActions).toEqual([{ type: actionTypes.TOGGLE_RECEIVED }])
+  })
+
+  describe('when the widget is closed before calling toggle', () => {
+    it('fires the callback queue for a WIDGET_OPENED_EVENT', () => {
+      dispatchAction(actions.toggleReceived())
+
+      expect(callbacks.fireFor).toHaveBeenCalledWith(WIDGET_OPENED_EVENT)
+    })
+  })
+
+  describe('when the widget is open before calling toggle', () => {
+    beforeEach(() => {
+      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(false)
+    })
+
+    it('fires the callback queue for a WIDGET_CLOSED_EVENT', () => {
+      dispatchAction(actions.toggleReceived())
+
+      expect(callbacks.fireFor).toHaveBeenCalledWith(WIDGET_CLOSED_EVENT)
+    })
   })
 })

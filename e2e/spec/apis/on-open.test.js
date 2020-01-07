@@ -29,3 +29,18 @@ test('callback is called when widget is opened via api', async () => {
   const result = await page.evaluate(() => window.onOpenCalledWithApi)
   expect(result).toEqual(true)
 })
+
+test('callback is called when widget is opened via toggle API', async () => {
+  await buildWidget()
+    .evaluateOnNewDocument(() => {
+      zE('webWidget:on', 'open', () => {
+        window.onOpenCalledWithApi = true
+      })
+    })
+    .load()
+
+  await page.evaluate(() => zE('webWidget', 'toggle'))
+  const result = await page.evaluate(() => window.onOpenCalledWithApi)
+
+  expect(result).toEqual(true)
+})

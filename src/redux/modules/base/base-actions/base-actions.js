@@ -372,9 +372,13 @@ export const closeReceived = () => {
     }
   }
 }
-export const toggleReceived = () => {
-  return {
-    type: actions.TOGGLE_RECEIVED
+export const toggleReceived = () => (dispatch, getState) => {
+  dispatch({ type: actions.TOGGLE_RECEIVED })
+
+  if (getWebWidgetVisible(getState())) {
+    callbacks.fireFor(WIDGET_OPENED_EVENT)
+  } else {
+    callbacks.fireFor(WIDGET_CLOSED_EVENT)
   }
 }
 
