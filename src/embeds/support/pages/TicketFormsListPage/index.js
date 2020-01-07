@@ -9,6 +9,7 @@ import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selector
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
 import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
+import routes from 'embeds/support/routes'
 
 const mapStateToProps = state => ({
   ticketForms: selectors.getTicketForms(state),
@@ -20,14 +21,21 @@ const TicketFormsListPage = ({
   formTitle,
   selectTicketFormLabel,
   ticketForms,
-  handleFormOptionClick
+  handleFormOptionClick,
+  history
 }) => {
+  const onFormOptionClick = handleFormOptionClick
+    ? handleFormOptionClick
+    : formId => {
+        history.push(routes.form(formId))
+      }
+
   return (
     <Widget>
       <Header title={formTitle} />
       <TicketFormsMain>
         <HeaderTitle>{selectTicketFormLabel}</HeaderTitle>
-        <TicketFormList ticketForms={ticketForms} handleFormOptionClick={handleFormOptionClick} />
+        <TicketFormList ticketForms={ticketForms} handleFormOptionClick={onFormOptionClick} />
       </TicketFormsMain>
       <Footer />
     </Widget>
@@ -38,7 +46,10 @@ TicketFormsListPage.propTypes = {
   selectTicketFormLabel: PropTypes.string.isRequired,
   ticketForms: PropTypes.array.isRequired,
   handleFormOptionClick: PropTypes.func,
-  formTitle: PropTypes.string.isRequired
+  formTitle: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 }
 
 const ConnectedComponent = connect(mapStateToProps)(TicketFormsListPage)

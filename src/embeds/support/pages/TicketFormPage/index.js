@@ -7,6 +7,7 @@ import {
   getReadOnlyState,
   getTicketFormTitle
 } from 'embeds/support/selectors'
+import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
@@ -20,11 +21,12 @@ const TicketFormPage = ({
   ticketFields,
   submitTicket,
   match,
-  ticketFormTitle
+  ticketFormTitle,
+  ticketForms
 }) => {
   return (
     <Widget>
-      <Header title={formTitle} useReactRouter={true} />
+      <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
 
       <TicketForm
         formName={formName}
@@ -46,7 +48,8 @@ TicketFormPage.propTypes = {
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
   match: PropTypes.object,
-  ticketFormTitle: PropTypes.string
+  ticketFormTitle: PropTypes.string,
+  ticketForms: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -59,7 +62,8 @@ const mapStateToProps = (state, ownProps) => {
     formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
     ticketFormTitle: getTicketFormTitle(state, id),
-    readOnlyState: getReadOnlyState(state)
+    readOnlyState: getReadOnlyState(state),
+    ticketForms: getTicketForms(state)
   }
 }
 

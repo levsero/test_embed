@@ -35,11 +35,13 @@ import {
 } from 'src/redux/modules/selectors'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
+import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import { isPopout } from 'utility/globals'
 import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import history from 'service/history'
 import helpCenterRoutes from 'embeds/helpCenter/routes'
+import supportRoutes from 'embeds/support/routes'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)
@@ -78,6 +80,7 @@ const shouldResetForSuppress = (action, state) => {
 
 const setNewActiveEmbed = (state, dispatch) => {
   let backButton = false
+  let newRoute = null
   let activeEmbed = NIL_EMBED
   const articleViewActive = getArticleViewActive(state)
 
@@ -97,7 +100,7 @@ const setNewActiveEmbed = (state, dispatch) => {
   } else if (getHelpCenterAvailable(state)) {
     activeEmbed = 'helpCenterForm'
     backButton = articleViewActive
-    history.replace(helpCenterRoutes.home())
+    newRoute = helpCenterRoutes.home()
   } else if (getIpmHelpCenterAllowed(state) && articleViewActive) {
     // we only go into this condition if HC is injected by IPM
     activeEmbed = 'helpCenterForm'
@@ -111,12 +114,19 @@ const setNewActiveEmbed = (state, dispatch) => {
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm'
     backButton = getShowTicketFormsBackButton(state)
+    if (getNewSupportEmbedEnabled(state)) {
+      newRoute = supportRoutes.home()
+    }
   } else if (getChatBanned(state)) {
     activeEmbed = NIL_EMBED
   }
 
   dispatch(updateActiveEmbed(activeEmbed))
   dispatch(updateBackButtonVisibility(backButton))
+
+  if (newRoute) {
+    history.replace(newRoute)
+  }
 }
 
 export default function resetActiveEmbed(prevState, nextState, action, dispatch = () => {}) {

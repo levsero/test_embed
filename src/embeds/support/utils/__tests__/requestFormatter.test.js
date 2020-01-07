@@ -1,6 +1,7 @@
 import formatRequestData from '../requestFormatter'
 import { i18n } from 'service/i18n'
 import * as globals from 'utility/globals'
+import routes from 'embeds/support/routes'
 
 jest.mock('service/i18n')
 jest.mock('utility/globals')
@@ -16,7 +17,7 @@ describe('formatRequestData', () => {
     formStateOverrides = {},
     settingOverrides = {},
     submitTicketOverrides = {},
-    ticketFormName = 'contact-form'
+    ticketFormName = routes.defaultFormId
   ) => {
     jest.spyOn(i18n, 'getLocaleId').mockReturnValue('fr')
     jest.spyOn(i18n, 't').mockImplementation(st => st)

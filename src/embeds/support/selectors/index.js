@@ -13,6 +13,7 @@ import {
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
 import createKeyID from 'embeds/support/utils/createKeyID'
+import routes from 'embeds/support/routes'
 
 export const getSupportConfig = state => state.support.config
 export const getNewSupportEmbedEnabled = state =>
@@ -178,7 +179,7 @@ export const getTicketFormFields = (state, formId) => {
 }
 
 export const getFormTicketFields = (state, route) => {
-  if (route === 'contact-form') {
+  if (route === routes.defaultFormId) {
     return getCustomTicketFields(state)
   }
 

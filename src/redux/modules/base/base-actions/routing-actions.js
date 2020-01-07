@@ -10,6 +10,10 @@ import {
   getChatAvailable,
   getTalkOnline
 } from 'src/redux/modules/selectors'
+import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
+import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import history from 'service/history'
+import supportRoutes from 'embeds/support/routes'
 
 export const updateActiveEmbed = embedName => {
   return {
@@ -35,13 +39,18 @@ export const showChat = (options = { proactive: false }) => {
 }
 
 export const onChannelChoiceNextClick = newEmbed => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(updateBackButtonVisibility(true))
+
+    const reactRouterSupport = getNewSupportEmbedEnabled(getState())
 
     if (newEmbed === 'chat') {
       dispatch(showChat())
     } else {
       dispatch(updateActiveEmbed(newEmbed))
+      if (newEmbed === 'ticketSubmissionForm' && reactRouterSupport) {
+        history.push(supportRoutes.home())
+      }
     }
   }
 }
@@ -52,6 +61,8 @@ export const onCancelClick = () => {
     const helpCenterAvailable = getHelpCenterAvailable(state)
     const answerBotAvailable = getAnswerBotAvailable(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
+    const reactRouterSupport = getNewSupportEmbedEnabled(state)
+    const ticketForms = getTicketForms(state)
 
     if (answerBotAvailable) {
       dispatch(updateBackButtonVisibility(false))
@@ -61,6 +72,12 @@ export const onCancelClick = () => {
 
       dispatch(updateActiveEmbed('helpCenterForm'))
       dispatch(updateBackButtonVisibility(articleViewActive))
+      if (reactRouterSupport) {
+        history.goBack()
+        if (ticketForms.length > 1) {
+          history.goBack()
+        }
+      }
     } else if (channelChoiceAvailable) {
       dispatch(updateActiveEmbed('channelChoice'))
       dispatch(updateBackButtonVisibility(false))
@@ -77,6 +94,7 @@ export const onHelpCenterNextClick = () => {
     const talkOnline = getTalkOnline(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
     const helpCenterAvailable = getHelpCenterAvailable(state)
+    const reactRouterSupport = getNewSupportEmbedEnabled(state)
 
     if (channelChoiceAvailable) {
       dispatch(updateActiveEmbed('channelChoice'))
@@ -91,6 +109,9 @@ export const onHelpCenterNextClick = () => {
       dispatch(updateBackButtonVisibility(true))
     } else {
       dispatch(updateActiveEmbed('ticketSubmissionForm'))
+      if (reactRouterSupport) {
+        history.push(supportRoutes.home())
+      }
       if (helpCenterAvailable) {
         dispatch(updateBackButtonVisibility(true))
       }

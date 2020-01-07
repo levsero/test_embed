@@ -49,6 +49,7 @@ import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
+import history from 'service/history'
 
 const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
 const HelpCenter = lazy(() =>
@@ -180,7 +181,8 @@ class WebWidget extends Component {
       showTicketFormsBackButton,
       channelChoiceAvailable,
       showChatHistory,
-      closedChatHistory
+      closedChatHistory,
+      webWidgetReactRouterSupport
     } = this.props
     const activeComponent = this.getActiveComponent()
     const isShowingChatHistory = activeEmbed === chat && showChatHistory
@@ -199,8 +201,14 @@ class WebWidget extends Component {
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(helpCenterAvailable)
+      if (webWidgetReactRouterSupport) {
+        history.goBack()
+      }
     } else if (helpCenterAvailable) {
       this.showHelpCenter()
+      if (webWidgetReactRouterSupport) {
+        history.goBack()
+      }
     } else {
       if (ipmHelpCenterAvailable) {
         closeCurrentArticle()

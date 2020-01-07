@@ -6,6 +6,7 @@ import {
 import { getTicketFields } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { i18n } from 'service/i18n'
 import { location, getReferrerPolicy } from 'utility/globals'
+import routes from 'embeds/support/routes'
 
 const findFieldId = (name, ticketFields) => {
   const field = _.find(ticketFields, field => {
@@ -80,7 +81,7 @@ const getContactFormValues = (formState, state) => {
 }
 
 export default (state, formState, attachments, formTitle) => {
-  const isTicketForm = formTitle !== 'contact-form'
+  const isTicketForm = formTitle !== routes.defaultFormId
   const params = !isTicketForm
     ? getContactFormValues(formState, state)
     : getTicketFormValues(formState, state)

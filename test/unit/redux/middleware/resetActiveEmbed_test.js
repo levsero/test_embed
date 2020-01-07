@@ -14,7 +14,8 @@ describe('resetActiveEmbed middleware', () => {
     mockWidgetVisible = true,
     mockAnswerBotAvailable = false,
     mockIsPopout = true,
-    mockChatBanned = false
+    mockChatBanned = false,
+    mockNewSupportEmbedEnabled = false
 
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED'
@@ -51,6 +52,9 @@ describe('resetActiveEmbed middleware', () => {
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable
       },
+      'embeds/support/selectors': {
+        getNewSupportEmbedEnabled: () => mockNewSupportEmbedEnabled
+      },
       'embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive
       },
@@ -82,7 +86,10 @@ describe('resetActiveEmbed middleware', () => {
       },
       'service/history': history,
       'embeds/helpCenter/routes': {
-        home: () => 'home'
+        home: () => 'helpCenter/home'
+      },
+      'embeds/support/routes': {
+        home: () => 'support/home'
       },
       'utility/globals': {
         isPopout: () => mockIsPopout
@@ -108,6 +115,7 @@ describe('resetActiveEmbed middleware', () => {
     updateActiveEmbedSpy.calls.reset()
     updateBackButtonVisibilitySpy.calls.reset()
     dispatchSpy.calls.reset()
+    history.replace.calls.reset()
     mockery.disable()
     mockery.deregisterAll()
   })
@@ -386,7 +394,7 @@ describe('resetActiveEmbed middleware', () => {
         })
 
         it('updates history', () => {
-          expect(history.replace).toHaveBeenCalledWith('home')
+          expect(history.replace).toHaveBeenCalledWith('helpCenter/home')
         })
 
         describe('when the article view is active', () => {
@@ -482,6 +490,26 @@ describe('resetActiveEmbed middleware', () => {
       describe('when there are no other embeds available', () => {
         it('calls updateActiveEmbed with ticketSubmissionForm', () => {
           expect(updateActiveEmbedSpy).toHaveBeenCalledWith('ticketSubmissionForm')
+        })
+
+        describe('when new support embed is not enabled', () => {
+          it('does not update history', () => {
+            expect(history.replace).not.toHaveBeenCalled()
+          })
+        })
+
+        describe('when new support embed is enabled', () => {
+          beforeAll(() => {
+            mockNewSupportEmbedEnabled = true
+          })
+
+          afterAll(() => {
+            mockNewSupportEmbedEnabled = false
+          })
+
+          it('updates history', () => {
+            expect(history.replace).toHaveBeenCalledWith('support/home')
+          })
         })
       })
     })

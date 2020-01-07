@@ -8,6 +8,9 @@ import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
 import withRateLimiting from 'utility/rateLimiting'
 import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
+import history from 'service/history'
+import routes from 'embeds/support/routes'
+import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 
 let attachmentUploaders = {}
 
@@ -156,6 +159,9 @@ export function submitTicket(formState, formTitle) {
             type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
             payload: JSON.parse(res.text)
           })
+          if (getNewSupportEmbedEnabled(state)) {
+            history.replace(routes.success())
+          }
         },
         fail(err) {
           dispatch({
