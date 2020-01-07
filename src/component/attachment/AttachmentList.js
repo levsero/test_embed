@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 
-import { Attachment } from 'component/attachment/Attachment'
 import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
+import AttachmentError from 'src/embeds/support/components/AttachmentError'
+import Attachment from 'src/embeds/support/components/Attachment'
 import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
@@ -89,22 +90,27 @@ class AttachmentList extends Component {
 
       if (!fileName) return null
 
+      if (attachment.errorMessage) {
+        return (
+          <AttachmentError
+            key={id}
+            attachment={attachment}
+            handleRemoveAttachment={this.handleRemoveAttachment}
+          />
+        )
+      }
+
       const extension = fileName
         .split('.')
         .pop()
         .toUpperCase()
-      const icon = attachment.errorMessage ? '' : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
-
+      const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
       return (
         <Attachment
           key={id}
           attachment={attachment}
-          className={styles.attachment}
-          filenameMaxLength={30}
           handleRemoveAttachment={this.handleRemoveAttachment}
           icon={icon}
-          isRemovable={true}
-          uploadRequestSender={attachment.uploadRequestSender}
         />
       )
     })

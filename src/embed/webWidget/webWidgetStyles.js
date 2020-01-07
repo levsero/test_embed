@@ -1,4 +1,3 @@
-import AttachmentStyles from 'component/attachment/Attachment.scss'
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.scss'
 import AttachmentListStyles from 'component/attachment/AttachmentList.scss'
 import ButtonIconStyles from 'component/button/ButtonIcon.scss'
@@ -49,7 +48,6 @@ import componentStyles from 'src/components/styles'
 export const webWidgetStyles = `
   ${sharedStyles}
   ${gardenStyles}
-  ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
   ${ButtonIconStyles}
