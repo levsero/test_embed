@@ -348,9 +348,7 @@ describe('support custom fields', () => {
         })
       })
 
-      // TODO: Fix the bug this test is testing
-      // This test should be enabled once this bug is fixed
-      test.skip('required but not selected', async () => {
+      test('required but not selected', async () => {
         const field = createField({
           type: 'tagger',
           required_in_portal: true,
@@ -405,7 +403,8 @@ describe('support custom fields', () => {
       test('navigates to previous', async () => {
         const field = createField({
           type: 'tagger',
-          custom_field_options: customFieldOptions
+          custom_field_options: customFieldOptions,
+          required_in_portal: false
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
