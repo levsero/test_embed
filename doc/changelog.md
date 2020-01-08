@@ -11,9 +11,52 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 20 December 2019
+
+- Fixed an issue where the Chat message notification did not respect end user dismissal in Help Center.
+- Added `SameSite=Lax` to the cookie in the Chat popout page.
+- Fixed an issue with the padding around error messages in the Talk form.
+
+### 19 December 2019
+
+- Fixed an issue where the height of the Web Widget was not being respected in Internet Explorer.
+- Changed the way API errors are handled in the Web Widget. It now catches and reports useage errors in the browser console.
+
+### 18 December 2019
+
+- Fixed an issue where the Chat footer was not being rendered correctly in Internet Explorer.
+- Fixed an issue where the Chat connection would break if bad data was passed to some Chat APIs.
+- Fixed an issue where the Social login function would not redirect the user back to the Web Widget after logging in on iOS13.
+
+### 17 December 2019
+
+- Fixed an issue where end users were able to submit the Chat offline form while the feature was disabled.
+- Fixed an issue where the "loading messages..." message in the Chat log prevented user scrolling.
+
+### 13 December 2019
+
+- Added an ARIA label on the Chat log to improve usability with screen readers.
+- Added [connectOnPageLoad](https://support.zendesk.com/hc/en-us/articles/360039826494) setting. This allows site owners to defer the Chat web socket connection until an end user interacts with the Web Widget, significantly improving performance.
+
+### 11 December 2019
+
+- Fixed an issue where the ellipsis icon in Chat was not rendering correctly.
+
+### 05 December 2019
+
+- Fixed an issue where Chat `sendMsg` API would try to send a message before Chat was initialized.
+- Changed Help Center to load only when users need it, saving end user data and reducing overall widget loading time.
+- Fixed an issue where the Chat Menu wasn't displayed correctly in Safari.
+- Fixed an issue where form prefill wasn't filling data on initial render.
+
+### 26 November 2019
+
+- Fixed an issue where the proactive chat notification could not be dismissed on mobile.
+- Fixed an issue where bad data being passed to legacy `$zopim` APIs would cause the Web Widget to crash.
+
 ### 25 November 2019
 
-- Fixed an issue where the Web Widget was attempting to send visitor paths to Chat before the connection had been initialised.
+- Fixed an issue where the Web Widget was attempting to send visitor paths to Chat before the connection had been initialized.
 - Fixed an issue where the Web Widget crashed if `updatePath` was called with an empty string in the title attribute.
 - Fixed an issue where end users saw the host page being scrolled to the top before the Web Widget was fully opened on mobile.
 - Fixed an issue where Help Center articles could not be opened in a new window.
