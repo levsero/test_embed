@@ -36,7 +36,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
             {mappedTicketFields.map(field => (
               <FieldWrapper key={field.id}>
                 <Field
-                  name={field.keyID || field.title_in_portal}
+                  name={field.keyID}
                   key={field.id}
                   render={({ input, meta }) => (
                     <FormField
@@ -45,7 +45,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
                       errorMessage={showErrors ? meta.error : ''}
                       value={convertFieldValue(field.type, input.value)}
                       onChange={value => input.onChange(value)}
-                      isReadOnly={readOnlyState[field.keyID]}
+                      isReadOnly={readOnlyState[field.id]}
                     />
                   )}
                 />
@@ -68,7 +68,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
 }
 
 TicketForm.propTypes = {
-  formName: PropTypes.string.isRequired,
+  formName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formState: PropTypes.object,
   readOnlyState: PropTypes.objectOf(PropTypes.bool).isRequired,
   submitForm: PropTypes.func.isRequired,

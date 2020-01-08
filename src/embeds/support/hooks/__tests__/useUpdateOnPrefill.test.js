@@ -1,14 +1,14 @@
 import React from 'react'
 import { useForm } from 'react-final-form'
+import { wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 import { handlePrefillReceived } from 'src/redux/modules/base'
-import wait from 'utility/wait'
-import createStore from 'src/redux/createStore'
 import useUpdateOnPrefill from '../useUpdateOnPrefill'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 jest.mock('react-final-form')
 
-describe('useOnPrefill', () => {
+describe('useUpdateOnPrefill', () => {
   const ExampleComponent = () => {
     useUpdateOnPrefill()
     return null
@@ -39,36 +39,16 @@ describe('useOnPrefill', () => {
       })
     )
 
-    await wait()
-
-    expect(mockChange).toHaveBeenCalledWith('name', 'Some name')
-  })
-
-  it('does not update the form on first render', async () => {
-    const store = createStore()
+    await wait(() => expect(mockChange).toHaveBeenCalledWith(createKeyID('name'), 'Some name'))
 
     store.dispatch(
       handlePrefillReceived({
         name: {
-          value: 'Some name'
+          value: 'Another name'
         }
       })
     )
 
-    renderComponent(undefined, { store })
-
-    expect(mockChange).not.toHaveBeenCalled()
-
-    store.dispatch(
-      handlePrefillReceived({
-        name: {
-          value: 'A new name'
-        }
-      })
-    )
-
-    await wait()
-
-    expect(mockChange).toHaveBeenCalledWith('name', 'A new name')
+    await wait(() => expect(mockChange).toHaveBeenCalledWith(createKeyID('name'), 'Another name'))
   })
 })

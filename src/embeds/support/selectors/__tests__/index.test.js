@@ -1,53 +1,58 @@
-import * as selectors from '..'
 import createStore from 'src/redux/createStore'
 import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { getPrefillValues } from '..'
-import { getLastPrefillTimestamp } from '..'
+import createKeyID from 'embeds/support/utils/createKeyID'
+import * as selectors from '..'
 
 const emailField = {
   id: 'email',
   title_in_portal: 'Email address',
   required_in_portal: true,
+  visible_in_portal: true,
   type: 'text',
   validation: 'email',
-  keyID: 'email'
+  keyID: createKeyID('email')
 }
 const descriptionField = {
   id: 'description',
   title_in_portal: 'How can we help you?',
   required_in_portal: true,
+  visible_in_portal: true,
   type: 'textarea',
-  keyID: 'description'
+  keyID: createKeyID('description')
 }
 const checkboxField = {
   id: '123',
   title_in_portal: 'Checkbox field',
   required_in_portal: false,
+  visible_in_portal: true,
   type: 'checkbox',
-  keyID: '123'
+  keyID: createKeyID('123')
 }
 const textField = {
   id: '456',
   title_in_portal: 'Text field',
   required_in_portal: false,
+  visible_in_portal: true,
   type: 'text',
-  keyID: '456'
+  keyID: createKeyID('456')
 }
 const textareaField = {
   id: '789',
   title_in_portal: 'Textarea field',
   required_in_portal: false,
+  visible_in_portal: true,
   type: 'textarea',
-  keyID: '789'
+  keyID: createKeyID('789')
 }
 const subjectField = {
   id: 'subject',
   title_in_portal: 'Subject',
   required_in_portal: false,
+  visible_in_portal: true,
   type: 'text',
-  keyID: 'subject'
+  keyID: createKeyID('subject')
 }
 
 describe('getCustomTicketFields', () => {
@@ -104,8 +109,9 @@ describe('getCustomTicketFields', () => {
           id: 'name',
           title_in_portal: 'Your name',
           required_in_portal: true,
+          visible_in_portal: true,
           type: 'text',
-          keyID: 'name'
+          keyID: createKeyID('name')
         },
         emailField,
         descriptionField
@@ -123,8 +129,9 @@ describe('getCustomTicketFields', () => {
           id: 'name',
           title_in_portal: 'Your name',
           required_in_portal: false,
+          visible_in_portal: true,
           type: 'text',
-          keyID: 'name'
+          keyID: createKeyID('name')
         },
         emailField,
         descriptionField
@@ -152,8 +159,9 @@ describe('getCustomTicketFields', () => {
         id: 'name',
         title_in_portal: 'Your name',
         required_in_portal: false,
+        visible_in_portal: true,
         type: 'text',
-        keyID: 'name'
+        keyID: createKeyID('name')
       },
       emailField,
       textField,
@@ -162,8 +170,9 @@ describe('getCustomTicketFields', () => {
         id: 'subject',
         title_in_portal: 'Subject',
         required_in_portal: false,
+        visible_in_portal: true,
         type: 'text',
-        keyID: 'subject'
+        keyID: createKeyID('subject')
       },
       descriptionField,
       checkboxField
@@ -283,17 +292,23 @@ test('getActiveFormName', () => {
 describe('getFormState', () => {
   const createState = formExists => {
     const state = {
+      base: {
+        locale: 'en-US'
+      },
       support: {
         formStates: {},
         prefillValues: {
-          name: 'Prefill name'
-        }
+          '*': {
+            name: 'Prefill name'
+          }
+        },
+        prefillSpecificFormValues: {}
       }
     }
 
     if (formExists) {
       state.support.formStates.contactForm = {
-        name: 'Bobby'
+        [createKeyID('name')]: 'Bobby'
       }
     }
 
@@ -303,39 +318,111 @@ describe('getFormState', () => {
   it('returns the form state if it exists', () => {
     const result = selectors.getFormState(createState(true), 'contactForm')
 
-    expect(result).toEqual({ name: 'Bobby' })
+    expect(result).toEqual({ [createKeyID('name')]: 'Bobby' })
   })
 
   it('returns the prefill values if the form state does not exist', () => {
     const result = selectors.getFormState(createState(false), 'contactForm')
 
-    expect(result).toEqual({ name: 'Prefill name' })
+    expect(result).toEqual({ [createKeyID('name')]: 'Prefill name' })
   })
 })
 
 describe('getPrefillValues', () => {
-  it('returns the prefill values', () => {
+  const run = ({ formId = 123, genericValues = {}, specificValues = {}, locale = 'en-US' }) => {
+    const state = {
+      base: {
+        locale
+      },
+      support: {
+        prefillValues: genericValues,
+        prefillSpecificFormValues: specificValues
+      }
+    }
+
+    return selectors.getPrefillValues(formId)(state)
+  }
+
+  it('returns the prefill values prioritising specific values over generic ones', () => {
+    const result = run({
+      formId: 123,
+      genericValues: {
+        '*': {
+          ['name']: 'Some name'
+        }
+      },
+      specificValues: {
+        123: {
+          '*': {
+            ['name']: 'Specific name'
+          }
+        }
+      }
+    })
+
+    expect(result).toEqual({ [createKeyID('name')]: 'Specific name' })
+  })
+
+  it('returns the prefill values prioritising specific form locale values over specific fallback ones', () => {
+    const result = run({
+      locale: 'fr',
+      formId: 123,
+      specificValues: {
+        123: {
+          '*': {
+            ['name']: 'Specific name'
+          },
+          fr: {
+            ['name']: 'French name'
+          }
+        }
+      }
+    })
+
+    expect(result).toEqual({ [createKeyID('name')]: 'French name' })
+  })
+
+  it('returns the prefill values prioritising specific locale values over fallback ones', () => {
+    const result = run({
+      locale: 'fr',
+      formId: 123,
+      genericValues: {
+        '*': {
+          ['name']: 'Specific name'
+        },
+        fr: {
+          ['name']: 'French name'
+        }
+      }
+    })
+
+    expect(result).toEqual({ [createKeyID('name')]: 'French name' })
+  })
+})
+
+describe('getPrefillCount', () => {
+  it('returns the value used to determine if prefills have updated', () => {
     const state = {
       support: {
-        prefillValues: {
-          name: 'Some name'
+        prefillId: 2
+      }
+    }
+
+    expect(selectors.getPrefillId(state)).toBe(2)
+  })
+})
+
+describe('getLastFormPrefillId', () => {
+  it('returns the id of the last prefill the form has received', () => {
+    const state = {
+      support: {
+        lastFormPrefillId: {
+          123: 2
         }
       }
     }
 
-    expect(getPrefillValues(state)).toEqual({ name: 'Some name' })
-  })
-})
-
-describe('getLastPrefillTimestamp', () => {
-  it('returns the time of the last prefill', () => {
-    const state = {
-      support: {
-        prefillTimestamp: 123
-      }
-    }
-
-    expect(getLastPrefillTimestamp(state)).toBe(123)
+    expect(selectors.getLastFormPrefillId(state, 123)).toBe(2)
   })
 })
 

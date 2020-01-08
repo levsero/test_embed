@@ -4,7 +4,7 @@ import useFormBackup from 'embeds/support/hooks/useFormBackup'
 
 const FormStateManager = ({ formName }) => {
   useFormBackup(formName)
-  useUpdateOnPrefill()
+  useUpdateOnPrefill(formName)
 
   return null
 }

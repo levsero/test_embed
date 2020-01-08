@@ -7,6 +7,7 @@ import {
   getParsedValues,
   getFieldIdFromKeyID
 } from '../fieldConversion'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 describe('getCheckboxFields', () => {
   it('returns a new list with only checkboxes', () => {
@@ -58,7 +59,7 @@ describe('getSortedfields', () => {
 })
 
 describe('mapKeyFields', () => {
-  it(`maps the keyIDs to be '{id}{name}'`, () => {
+  it(`maps the keyIDs to be 'key:{id}'`, () => {
     const ticketFields = [
       { id: 0, title_in_portal: 'name' },
       { id: 1, title_in_portal: 'email' },
@@ -67,9 +68,9 @@ describe('mapKeyFields', () => {
     const mappedFields = mapKeyFields(ticketFields)
 
     expect(mappedFields).toEqual([
-      { id: 0, title_in_portal: 'name', keyID: '0name' },
-      { id: 1, title_in_portal: 'email', keyID: '1email' },
-      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' }
+      { id: 0, title_in_portal: 'name', keyID: createKeyID(0) },
+      { id: 1, title_in_portal: 'email', keyID: createKeyID('1') },
+      { id: 100000, title_in_portal: 'Custom field', keyID: createKeyID('100000') }
     ])
   })
 })

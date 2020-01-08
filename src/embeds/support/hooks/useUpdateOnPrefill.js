@@ -1,26 +1,35 @@
-import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { getLastPrefillTimestamp, getPrefillValues } from 'embeds/support/selectors'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getLastFormPrefillId, getPrefillId, getPrefillValues } from 'embeds/support/selectors'
 import { useForm } from 'react-final-form'
+import { formPrefilled } from 'embeds/support/actions'
+import { onNextTick } from 'utility/utils'
 
-const useUpdateOnPrefill = () => {
+const useUpdateOnPrefill = formId => {
   const form = useForm()
-  const lastUpdate = useRef(Date.now())
-  const prefillValues = useSelector(getPrefillValues)
-  const prefillTimestamp = useSelector(getLastPrefillTimestamp)
+  const prefillId = useSelector(getPrefillId)
+  const lastPrefill = useSelector(state => getLastFormPrefillId(state, formId))
+  const prefillValues = useSelector(getPrefillValues(formId))
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (lastUpdate.current >= prefillTimestamp) {
+    if (lastPrefill === prefillId) {
       return
     }
 
-    form.batch(() => {
-      Object.keys(prefillValues).forEach(key => {
-        form.change(key, prefillValues[key])
+    // React final form seems to have a bug where it doesn't update field elements if you update it too early
+    // on first render.
+    // To get around this, we just update it on next tick
+    onNextTick(() => {
+      form.batch(() => {
+        Object.keys(prefillValues).forEach(key => {
+          form.change(key, prefillValues[key])
+        })
       })
+
+      dispatch(formPrefilled(formId, prefillId))
     })
-    lastUpdate.current = prefillTimestamp
-  }, [form, prefillTimestamp, prefillValues])
+  }, [form, prefillId, prefillValues, lastPrefill, dispatch, formId])
 }
 
 export default useUpdateOnPrefill

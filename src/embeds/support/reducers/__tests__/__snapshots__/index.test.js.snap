@@ -6,7 +6,9 @@ Object {
   "attachments": Array [],
   "config": Object {},
   "formStates": Object {},
-  "prefillTimestamp": null,
+  "lastFormPrefillId": Object {},
+  "prefillId": 0,
+  "prefillSpecificFormValues": Object {},
   "prefillValues": Object {},
   "readOnly": Object {
     "email": false,
