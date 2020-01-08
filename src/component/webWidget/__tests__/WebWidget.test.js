@@ -31,14 +31,15 @@ afterEach(() => {
 })
 
 it('show new support embed', () => {
-  const { container } = renderComponent()
+  const { queryByRole } = renderComponent()
 
-  // The old submit ticket form still composes from 'form'. the new form does not
-  expect(container.querySelector('form').className).not.toEqual('form ')
+  // The new Support is wrapped in a Suspense page
+  expect(queryByRole('progressbar')).toBeTruthy()
 })
 
 it('show old support embed', () => {
-  const { container } = renderComponent({ webWidgetReactRouterSupport: false })
+  const { container, queryByRole } = renderComponent({ webWidgetReactRouterSupport: false })
 
   expect(container.querySelector('form').className).toEqual('form ')
+  expect(queryByRole('progressbar')).toBeFalsy()
 })

@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 
-import Support from 'embeds/support'
 import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
 import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
@@ -55,6 +54,7 @@ const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'
 const HelpCenter = lazy(() =>
   import(/* webpackChunkName: 'lazy/help_center' */ 'embeds/helpCenter')
 )
+const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'embeds/support'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -273,7 +273,11 @@ class WebWidget extends Component {
     const { webWidgetReactRouterSupport } = this.props
 
     if (webWidgetReactRouterSupport) {
-      return <Support />
+      return (
+        <SuspensePage>
+          <Support />
+        </SuspensePage>
+      )
     }
 
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''

@@ -364,11 +364,7 @@ Snapshot Diff:
 
 @@ -54,5 +54,0 @@
 -         <p
-<<<<<<< HEAD
 -           class="sc-esjQYD loNlVV"
-=======
--           class="sc-dqBHgY ecgQde"
->>>>>>> Add routing with other embeds enabled
 -         >
 -           10
 -         </p>
