@@ -32,7 +32,7 @@ export const mockIdentifyEndpoint = callback => request => {
 
 const base64Decode = encoded => {
   encoded = encoded.replace(/%3D/g, '=')
-  return new Buffer(encoded, 'base64').toString('utf8')
+  return Buffer.from(encoded, 'base64').toString('utf8')
 }
 
 export const getBlipPayload = endpoint => {

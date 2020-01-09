@@ -68,5 +68,5 @@ export const search = async query => {
   await page.keyboard.type(query)
   await page.keyboard.press('Enter')
   // delay for bot typing animation
-  await page.waitFor(100)
+  await page.waitFor(1000)
 }
