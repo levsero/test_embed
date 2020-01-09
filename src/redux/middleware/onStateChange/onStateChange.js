@@ -238,10 +238,8 @@ const onChatStarted = (prevState, nextState, dispatch) => {
 
 const onUpdateEmbeddableConfig = action => {
   if (action.type === UPDATE_EMBEDDABLE_CONFIG) {
-    if (action.payload) {
-      if (!action.payload.newChat) {
-        resetShouldWarn()
-      }
+    if (!_.get(action.payload, 'embeds.chat')) {
+      resetShouldWarn()
     }
   }
 }
