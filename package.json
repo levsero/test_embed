@@ -62,19 +62,19 @@
   },
   "bundlesize": [
     {
-      "path": "dist/web_widget.*.js",
-      "maxSize": "370 KB"
+      "path": "dist/*web_widget*.js",
+      "maxSize": "300 KB"
     },
     {
-      "path": "dist/common_vendor.*.js",
-      "maxSize": "138 KB"
+      "path": "dist/lazy/*.js",
+      "maxSize": "50 KB"
     },
     {
-      "path": "dist/talk_vendor.*.js",
+      "path": "dist/talk-sdk.*.js",
       "maxSize": "66 KB"
     },
     {
-      "path": "dist/chat_vendor.*.js",
+      "path": "dist/chat-sdk.*.js",
       "maxSize": "60 KB"
     }
   ],

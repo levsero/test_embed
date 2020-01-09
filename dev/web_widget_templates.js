@@ -2,15 +2,7 @@ const fs = require('fs')
 const jwt = require('jsonwebtoken')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
-const chunks = require('../webpack/chunks')
 
-const CHUNKS = [
-  chunks.RUNTIME_CHUNK,
-  chunks.COMMON_VENDOR_CHUNK,
-  chunks.CHAT_VENDOR_CHUNK,
-  chunks.TALK_VENDOR_CHUNK,
-  chunks.WEB_WIDGET_CHUNK
-]
 const TEMPLATES_PATH = './dev/templates/web_widget'
 const NONCE = 'abc123'
 
@@ -22,8 +14,6 @@ module.exports = function(config, options = {}) {
       new HtmlWebpackPlugin({
         template: `${TEMPLATES_PATH}/${template}`,
         filename: template,
-        chunks: CHUNKS,
-        chunksSortMode: 'manual',
         ...config,
         hcJwt: generateHcJwt(config.sharedSecret, config.user),
         chatJwt: generateChatJwt(config.chatSharedSecret, config.user),

@@ -22,10 +22,6 @@ module.exports = () => {
   return merge(common, {
     mode: 'development',
     devtool: 'eval-source-map',
-    entry: {
-      webWidgetPreview: path.join(CWD, '/src/webWidgetPreview.js'),
-      chatPreview: path.join(CWD, '/src/chatPreview.js')
-    },
     output: {
       filename: '[name].js',
       publicPath: 'http://localhost:1337/'
