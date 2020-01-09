@@ -116,7 +116,13 @@ export const testTranslationStringSelector = selector => {
 
 export function render(
   ui,
-  { render, store, route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}
+  {
+    render,
+    themeProps = {},
+    store,
+    route = '/',
+    history = createMemoryHistory({ initialEntries: [route] })
+  } = {}
 ) {
   IdManager.setIdCounter(0)
   const reduxStore = store || createStore()
@@ -124,7 +130,7 @@ export function render(
   return {
     ...renderFn(
       <Provider store={reduxStore}>
-        <ThemeProvider>
+        <ThemeProvider {...themeProps}>
           <Router history={history}>{ui}</Router>
         </ThemeProvider>
       </Provider>

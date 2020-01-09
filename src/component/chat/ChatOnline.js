@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import { ButtonPill } from 'component/button/ButtonPill'
+import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
 import AgentDetailsPage from 'src/embeds/chat/online/pages/AgentDetailsPage'
 import RatingScreen from 'component/chat/rating/RatingScreen'
@@ -358,10 +358,9 @@ class Chat extends Component {
 
     return (
       <div className={styles.reconnectContainer}>
-        <ButtonPill
-          onClick={this.props.handleReconnect}
-          label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')}
-        />
+        <ButtonPill onClick={this.props.handleReconnect}>
+          {i18n.t('embeddable_framework.chat.chatLog.reconnect.label')}
+        </ButtonPill>
       </div>
     )
   }
@@ -404,9 +403,11 @@ const actionCreators = {
   initiateSocialLogout
 }
 
-export default connect(
+const connected = connect(
   mapStateToProps,
   actionCreators,
   null,
   { forwardRef: true }
 )(Chat)
+
+export { connected as default, Chat as Component }

@@ -143,7 +143,10 @@ describe('ChattingScreen component', () => {
       'src/redux/modules/chat/chat-selectors': {},
       'src/util/utils': {
         onNextTick: cb => setTimeout(cb, 0)
-      }
+      },
+      'src/embeds/chat/components/QueuePosition': {},
+      'src/embeds/chat/components/ScrollPill': {},
+      'src/embeds/chat/components/ButtonPill': {}
     })
 
     mockery.registerAllowable(chatPath)
@@ -727,74 +730,6 @@ describe('ChattingScreen component', () => {
     })
   })
 
-  describe('renderQueuePosition', () => {
-    let queuePositionComponent, queuePosition, mockAgents
-
-    describe('when there is no agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = {}
-      })
-
-      describe('when the queuePosition prop is greater than zero', () => {
-        const translationKey = 'embeddable_framework.chat.chatLog.queuePosition'
-
-        beforeEach(() => {
-          queuePosition = 5
-          const component = instanceRender(
-            <ChattingScreen activeAgents={mockAgents} queuePosition={queuePosition} />
-          )
-
-          queuePositionComponent = component.renderQueuePosition()
-        })
-
-        it('calls the i18n translate function with the correct key and value', () => {
-          expect(translationSpy).toHaveBeenCalledWith(translationKey, {
-            value: queuePosition
-          })
-        })
-
-        it('returns a component displaying the result of the i18n translate call', () => {
-          const expectedContent = translationSpy(translationKey, {
-            value: queuePosition
-          })
-
-          expect(queuePositionComponent.props.children).toEqual(expectedContent)
-        })
-      })
-
-      describe('when the queuePosition prop is zero', () => {
-        beforeEach(() => {
-          queuePosition = 0
-          const component = instanceRender(
-            <ChattingScreen activeAgents={mockAgents} queuePosition={queuePosition} />
-          )
-
-          queuePositionComponent = component.renderQueuePosition()
-        })
-
-        it('returns null', () => {
-          expect(queuePositionComponent).toBeNull()
-        })
-      })
-    })
-
-    describe('when there is an agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = { agent123456: { display_name: 'Wayne', typing: false } }
-        queuePosition = 5
-        const component = instanceRender(
-          <ChattingScreen activeAgents={mockAgents} queuePosition={queuePosition} />
-        )
-
-        queuePositionComponent = component.renderQueuePosition()
-      })
-
-      it('returns null', () => {
-        expect(queuePositionComponent).toBeNull()
-      })
-    })
-  })
-
   describe('renderChatHeader', () => {
     let agentJoined, showRating, agents, updateChatScreenSpy, chatHeaderComponent
 
@@ -852,119 +787,6 @@ describe('ChattingScreen component', () => {
 
       it('does not show rating', () => {
         expect(chatHeaderComponent.props.showRating).toEqual(false)
-      })
-    })
-  })
-
-  describe('renderScrollPill', () => {
-    let result, component, componentProps, mockIsScrollCloseToBottom, mockNotificationCount
-
-    beforeEach(() => {
-      component = instanceRender(
-        <ChattingScreen notificationCount={mockNotificationCount} {...componentProps} />
-      )
-      component.scrollContainer = { getScrollHeight: noop }
-      component.isScrollCloseToBottom = () => mockIsScrollCloseToBottom
-
-      spyOn(component, 'scrollToBottom')
-
-      result = component.renderScrollPill()
-    })
-
-    describe('when notification count is 0', () => {
-      beforeAll(() => {
-        mockNotificationCount = 0
-        mockIsScrollCloseToBottom = false
-      })
-
-      it('does not render', () => {
-        expect(result).toBeNull()
-      })
-    })
-
-    describe('when scroll is near bottom', () => {
-      beforeAll(() => {
-        mockNotificationCount = 1
-        mockIsScrollCloseToBottom = true
-      })
-
-      it('does not render', () => {
-        expect(result).toBeNull()
-      })
-    })
-
-    describe('when onClick is called', () => {
-      beforeAll(() => {
-        mockIsScrollCloseToBottom = false
-        mockNotificationCount = 1
-        componentProps = {
-          markAsRead: markAsReadSpy,
-          visible: true
-        }
-      })
-
-      it('sets and calls the relevant items', () => {
-        result.props.onClick()
-
-        expect(component.scrollToBottom).toHaveBeenCalled()
-      })
-
-      it('calls markAsRead', () => {
-        result.props.onClick()
-
-        expect(markAsReadSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when chatNotification count is greater than 1', () => {
-      beforeAll(() => {
-        mockNotificationCount = 2
-      })
-
-      it('calls i18n with the expected key and args', () => {
-        const translationKey = 'embeddable_framework.common.notification.manyMessages'
-
-        expect(translationSpy).toHaveBeenCalledWith(translationKey, {
-          plural_number: 2
-        })
-      })
-    })
-
-    describe('when chatNotification count is not greater than 1', () => {
-      beforeAll(() => {
-        mockNotificationCount = 1
-      })
-
-      it('calls i18n with the expected key', () => {
-        const translationKey = 'embeddable_framework.common.notification.oneMessage'
-
-        expect(translationSpy).toHaveBeenCalledWith(translationKey)
-      })
-    })
-
-    describe('when it is mobile mode', () => {
-      beforeAll(() => {
-        mockNotificationCount = 1
-        componentProps = {
-          isMobile: true
-        }
-      })
-
-      it('has scrollBottomPillMobile class', () => {
-        expect(result.props.containerClass).toContain('scrollBottomPillMobileClass')
-      })
-    })
-
-    describe('when it is not mobile mode', () => {
-      beforeAll(() => {
-        mockNotificationCount = 1
-        componentProps = {
-          isMobile: false
-        }
-      })
-
-      it('has scrollBottomPill class', () => {
-        expect(result.props.containerClass).toContain('scrollBottomPillClass')
       })
     })
   })

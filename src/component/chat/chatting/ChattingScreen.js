@@ -9,10 +9,9 @@ import ChatLog from 'component/chat/chatting/ChatLog'
 import HistoryLog from 'component/chat/chatting/HistoryLog'
 import { ChatHeader } from 'component/chat/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
-import { ButtonPill } from 'component/button/ButtonPill'
+import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
 import AgentTyping from 'src/embeds/chat/online/components/AgentTyping'
-import { i18n } from 'service/i18n'
 import { isAgent } from 'utility/chat'
 import { isFirefox, isIE } from 'utility/devices'
 import {
@@ -45,6 +44,7 @@ import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
+import QueuePosition from 'src/embeds/chat/components/QueuePosition'
 
 const mapStateToProps = state => {
   return {
@@ -275,13 +275,7 @@ class ChattingScreen extends Component {
 
     if (!queuePosition || _.size(activeAgents) > 0) return null
 
-    return (
-      <div className={styles.queuePosition} role="status" aria-live="polite">
-        {i18n.t('embeddable_framework.chat.chatLog.queuePosition', {
-          value: queuePosition
-        })}
-      </div>
-    )
+    return <QueuePosition queuePosition={queuePosition} />
   }
 
   renderChatFooter = () => {
@@ -353,31 +347,16 @@ class ChattingScreen extends Component {
   }
 
   renderScrollPill = () => {
-    if (this.props.notificationCount === 0) return null
-    if (this.isScrollCloseToBottom()) return null
-
-    const { notificationCount } = this.props
-    const containerStyles = this.props.isMobile
-      ? styles.scrollBottomPillMobile
-      : styles.scrollBottomPill
-    const goToBottomFn = () => {
-      this.scrollToBottom()
-      this.props.markAsRead()
-    }
-
-    const pillLabel =
-      notificationCount > 1
-        ? i18n.t('embeddable_framework.common.notification.manyMessages', {
-            plural_number: notificationCount
-          })
-        : i18n.t('embeddable_framework.common.notification.oneMessage')
+    const { notificationCount, markAsRead } = this.props
+    if (notificationCount === 0 || this.isScrollCloseToBottom()) return null
 
     return (
-      <ButtonPill
-        showIcon={true}
-        containerClass={containerStyles}
-        onClick={goToBottomFn}
-        label={pillLabel}
+      <ScrollPill
+        notificationCount={notificationCount}
+        onClick={() => {
+          markAsRead()
+          this.scrollToBottom()
+        }}
       />
     )
   }
