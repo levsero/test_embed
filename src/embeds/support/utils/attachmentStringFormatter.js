@@ -1,6 +1,6 @@
+import _ from 'lodash'
 const MAX_FILENAME_LENGTH = 30
 const TRAILING_CHARS_LENGTH = 7
-import _ from 'lodash'
 
 export const formatNameString = fileName => {
   if (fileName.length <= MAX_FILENAME_LENGTH) return fileName

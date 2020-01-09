@@ -47,7 +47,7 @@ describe('Attachment', () => {
     expect(snapshotDiff(finishedUploading, uploading, { contextLines: 0 })).toMatchSnapshot()
   })
 
-  it('clicking the close button', () => {
+  it('clicking the close button fires handleRemoveAttachment', () => {
     const close = jest.fn()
     const { getByRole } = renderComponent({ handleRemoveAttachment: close })
     fireEvent.click(getByRole('button'))

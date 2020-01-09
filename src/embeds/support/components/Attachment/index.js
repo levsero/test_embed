@@ -17,9 +17,6 @@ import { formatNameString, secondaryText } from 'src/embeds/support/utils/attach
 
 const Attachment = ({ icon, handleRemoveAttachment, attachment }) => {
   const translate = useTranslate()
-  const handleIconClick = () => {
-    handleRemoveAttachment(attachment.id)
-  }
 
   const { uploading, uploadProgress, fileName, fileSize } = attachment
 
@@ -31,7 +28,12 @@ const Attachment = ({ icon, handleRemoveAttachment, attachment }) => {
           <PreviewName>{formatNameString(fileName)}</PreviewName>
           <AttachmentDetails>{secondaryText(fileSize, uploading, translate)}</AttachmentDetails>
         </Description>
-        <Close onClick={handleIconClick} />
+        <Close
+          data-testid={TEST_IDS.ICON_CLOSE}
+          onClick={() => {
+            handleRemoveAttachment(attachment.id)
+          }}
+        />
       </Preview>
       {uploading && <ProgressBar percentLoaded={uploadProgress} />}
     </Container>

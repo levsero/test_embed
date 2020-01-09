@@ -34,16 +34,12 @@ export const Container = styled(Well)`
 `
 
 export const StyledIcon = styled(Icon)`
-  padding-right: ${8 / FONT_SIZE}rem;
   padding-top: 0 !important;
   margin-top: 0 !important;
   display: inline-block !important;
   max-width: 100%;
-
-  [dir='rtl'] & {
-    padding-left: ${8 / FONT_SIZE}rem;
-    padding-right: 0;
-  }
+  padding-left: ${props => (props.theme.rtl ? 0 : `${8 / FONT_SIZE}rem`)};
+  padding-right: ${props => (props.theme.rtl ? `${8 / FONT_SIZE}rem` : 0)};
 
   svg {
     min-width: ${24 / FONT_SIZE}rem;

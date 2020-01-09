@@ -40,7 +40,7 @@ describe('AttachmentError', () => {
     expect(getByRole('button')).toBeInTheDocument()
   })
 
-  it('clicking the close button', () => {
+  it('clicking the close button fires handleRemoveAttachment', () => {
     const close = jest.fn()
     const { getByRole } = renderComponent({ handleRemoveAttachment: close })
     fireEvent.click(getByRole('button'))
