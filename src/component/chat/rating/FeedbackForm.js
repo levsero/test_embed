@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, Label, Textarea } from '@zendeskgarden/react-forms'
 
 import { i18n } from 'service/i18n'
-import { RatingGroup, ratings } from 'component/chat/rating/RatingGroup'
+import RatingGroup, { ratings } from 'src/embeds/chat/components/RatingGroup'
 import { Button } from '@zendeskgarden/react-buttons'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -69,7 +69,6 @@ export class FeedbackForm extends Component {
           {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.new_title')}
         </label>
         <RatingGroup
-          className={styles.ratingGroup}
           rating={this.state.selectedRating}
           updateRating={rating => this.setState({ selectedRating: rating })}
         />

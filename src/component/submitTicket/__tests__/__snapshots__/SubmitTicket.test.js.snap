@@ -11,23 +11,23 @@ exports[`active ticket form renders the expected components 1`] = `
         novalidate=""
       >
         <div
-          class="sc-bdVaJa gszxaC"
+          class="sc-htpNat iybLJI"
         >
           <div
-            class="sc-htpNat fufVln"
+            class="sc-ifAKCX eiCLeW"
           >
             <div
-              class="sc-ifAKCX sc-EHOje cFboZL"
+              class="sc-bZQynM sc-gzVnrw bQuIzm"
             >
               <h1
-                class="sc-bxivhb krnEZd"
+                class="sc-EHOje cygdwO"
                 data-testid="widget-title"
               >
                 message
               </h1>
               <button
                 aria-label="Minimize"
-                class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+                class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
                 data-garden-container-id="keyboardfocus"
                 data-garden-container-version="0.2.6"
                 data-garden-id="buttons.icon_button"
@@ -46,7 +46,7 @@ exports[`active ticket form renders the expected components 1`] = `
             </div>
           </div>
           <div
-            class="sc-gzVnrw hIzQnb"
+            class="sc-dnqmqq LbvIn"
             data-testid="scroll-container-content"
           >
             <div
@@ -209,10 +209,10 @@ exports[`active ticket form renders the expected components 1`] = `
             </div>
           </div>
           <footer
-            class="sc-htoDjs zHYvw"
+            class="sc-iwsKbI jgLzoz"
           >
             <div
-              class="sc-dnqmqq wngUt"
+              class="sc-gZMcBi dvvGXH"
             >
               <a
                 class="icon"
@@ -394,23 +394,23 @@ exports[`renders the expected components 1`] = `
         novalidate=""
       >
         <div
-          class="sc-bdVaJa gszxaC"
+          class="sc-htpNat iybLJI"
         >
           <div
-            class="sc-htpNat fufVln"
+            class="sc-ifAKCX eiCLeW"
           >
             <div
-              class="sc-ifAKCX sc-EHOje cFboZL"
+              class="sc-bZQynM sc-gzVnrw bQuIzm"
             >
               <h1
-                class="sc-bxivhb krnEZd"
+                class="sc-EHOje cygdwO"
                 data-testid="widget-title"
               >
                 message
               </h1>
               <button
                 aria-label="Minimize"
-                class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+                class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
                 data-garden-container-id="keyboardfocus"
                 data-garden-container-version="0.2.6"
                 data-garden-id="buttons.icon_button"
@@ -429,7 +429,7 @@ exports[`renders the expected components 1`] = `
             </div>
           </div>
           <div
-            class="sc-gzVnrw hIzQnb"
+            class="sc-dnqmqq LbvIn"
             data-testid="scroll-container-content"
           >
             <div
@@ -530,10 +530,10 @@ exports[`renders the expected components 1`] = `
             </div>
           </div>
           <footer
-            class="sc-htoDjs zHYvw"
+            class="sc-iwsKbI jgLzoz"
           >
             <div
-              class="sc-dnqmqq wngUt"
+              class="sc-gZMcBi dvvGXH"
             >
               <a
                 class="icon"
@@ -660,23 +660,23 @@ exports[`renders the loading bar content 1`] = `
       novalidate=""
     >
       <div
-        class="sc-bdVaJa gszxaC"
+        class="sc-htpNat iybLJI"
       >
         <div
-          class="sc-htpNat fufVln"
+          class="sc-ifAKCX eiCLeW"
         >
           <div
-            class="sc-ifAKCX sc-EHOje cFboZL"
+            class="sc-bZQynM sc-gzVnrw bQuIzm"
           >
             <h1
-              class="sc-bxivhb krnEZd"
+              class="sc-EHOje cygdwO"
               data-testid="widget-title"
             >
               message
             </h1>
             <button
               aria-label="Minimize"
-              class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+              class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.icon_button"
@@ -695,7 +695,7 @@ exports[`renders the loading bar content 1`] = `
           </div>
         </div>
         <div
-          class="sc-gzVnrw hIzQnb"
+          class="sc-dnqmqq LbvIn"
           data-testid="scroll-container-content"
         >
           <div
@@ -796,10 +796,10 @@ exports[`renders the loading bar content 1`] = `
           </div>
         </div>
         <footer
-          class="sc-htoDjs zHYvw"
+          class="sc-iwsKbI jgLzoz"
         >
           <div
-            class="sc-dnqmqq wngUt"
+            class="sc-gZMcBi dvvGXH"
           >
             <a
               class="icon"

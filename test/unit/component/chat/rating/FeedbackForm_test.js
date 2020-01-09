@@ -28,8 +28,9 @@ describe('FeedbackForm component', () => {
           }
         }
       },
-      'component/chat/rating/RatingGroup': {
-        RatingGroup: noopReactComponent(),
+      'src/embeds/chat/components/RatingGroup': {
+        __esModule: true,
+        default: noopReactComponent(),
         ratings: mockChatRatings
       },
       'service/i18n': {

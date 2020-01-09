@@ -80,16 +80,6 @@
   width: 100%;
 }
 
-.ratingGroup {
-  display: inline-flex;
-  margin-left: #{15 / $font-size}rem !important;
-
-  [dir='rtl'] & {
-    margin-left: 0 !important;
-    margin-right: #{15 / $font-size}rem !important;
-  }
-}
-
 .button {
   composes: u-hiddenButton from global;
 }

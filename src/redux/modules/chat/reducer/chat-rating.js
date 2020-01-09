@@ -9,7 +9,7 @@ import {
   SDK_CHAT_COMMENT
 } from '../chat-action-types'
 import { isAgent } from 'src/util/chat'
-import { ratings } from 'component/chat/rating/RatingGroup'
+import { ratings } from 'src/embeds/chat/components/RatingGroup'
 
 const initialState = {
   value: ratings.NOT_SET,
