@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { PillButton } from 'src/component/shared/PillButton'
+import { PillButton } from 'src/embeds/answerBot/components/PillButton'
 import { FONT_SIZE } from 'src/constants/shared'
 
 const ReasonButtons = styled.div`

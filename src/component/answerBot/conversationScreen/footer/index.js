@@ -12,7 +12,7 @@ import {
   getInTouchClicked
 } from 'src/redux/modules/answerBot/conversation/actions'
 import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
-import { PillButton } from 'src/component/shared/PillButton'
+import { PillButton } from 'src/embeds/answerBot/components/PillButton'
 import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
 import { SlideAppear } from 'component/transition/SlideAppear'
 import { botUserMessage, botChannelChoice } from 'src/redux/modules/answerBot/root/actions/bot'

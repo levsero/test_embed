@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useTranslate } from 'src/hooks/useTranslation'
 
-import { PillButton } from 'src/component/shared/PillButton'
+import { PillButton } from 'src/embeds/answerBot/components/PillButton'
 import { ButtonGroup } from 'src/component/button/ButtonGroup'
 
 const InitialOptions = ({ onYesClick, onNoClick }) => {
