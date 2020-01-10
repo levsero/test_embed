@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { i18n } from 'service/i18n'
-import { Dropzone } from 'component/Dropzone'
+import { Dropzone } from 'src/component/chat/attachment/Dropzone'
 
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { Icon } from 'component/Icon'
