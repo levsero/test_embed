@@ -5,7 +5,7 @@ import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 
 import { triggerOnEnter } from 'utility/keyboard'
-import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
+import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
 import { Icon } from 'component/Icon'
 import Text from '../text'
 import { ICONS, TEST_IDS } from 'src/constants/shared'
