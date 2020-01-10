@@ -15,8 +15,6 @@ exports[`channels does not render chat if chat is available 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -94,8 +92,6 @@ exports[`channels renders expected components if chat and chat offline are avail
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -173,8 +169,6 @@ exports[`channels renders expected components if only call us is available 1`] =
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -252,8 +246,6 @@ exports[`channels renders expected components if only chat is available 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -331,8 +323,6 @@ exports[`channels renders expected components if only submit ticket is available
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -410,8 +400,6 @@ exports[`channels renders expected components if talk and click to call are avai
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -489,8 +477,6 @@ exports[`channels renders expected components if talk and request callback are a
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -574,17 +560,6 @@ exports[`channels renders generic leading message if more than 1 channel is avai
   background-color: #f8f8f8;
 }
 
-.c3 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
-}
-
-.c3:hover {
-  background-color: #f8f8f8;
-}
-
 .c1 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
@@ -638,7 +613,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
       </div>
     </div>
     <div
-      class="c3"
+      class="c2"
     >
       <div
         class="channel "
@@ -685,17 +660,6 @@ exports[`channels renders leading message if more than 1 channel is available an
 }
 
 .c2:hover {
-  background-color: #f8f8f8;
-}
-
-.c3 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
-}
-
-.c3:hover {
   background-color: #f8f8f8;
 }
 
@@ -752,7 +716,7 @@ exports[`channels renders leading message if more than 1 channel is available an
       </div>
     </div>
     <div
-      class="c3"
+      class="c2"
     >
       <div
         class="channel "
@@ -796,8 +760,6 @@ exports[`channels renders the passed in leading message regardless of other prop
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {

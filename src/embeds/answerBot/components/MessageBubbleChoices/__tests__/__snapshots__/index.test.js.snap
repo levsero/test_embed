@@ -156,8 +156,6 @@ exports[`renders the expected classes when there is only one child 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-bottom-left-radius: 1.1428571428571428rem;
-  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {

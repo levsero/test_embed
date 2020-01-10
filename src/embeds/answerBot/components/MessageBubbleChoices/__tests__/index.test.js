@@ -1,15 +1,11 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 
-import { MessageBubbleChoices } from '../index'
+import MessageBubbleChoices from '../index'
 
 test('renders the expected classes', () => {
   const { container } = render(
-    <MessageBubbleChoices
-      leadingMessage="this is the leading message"
-      leadingMessageStyle="gangnamStyle"
-      containerStyle="containerStyle"
-    >
+    <MessageBubbleChoices leadingMessage="this is the leading message">
       <div className="firstChild" />
       <div className="secondChild" />
       <div className="thirdChild" />
@@ -21,11 +17,7 @@ test('renders the expected classes', () => {
 
 test('renders the expected classes when there is only one child', () => {
   const { container } = render(
-    <MessageBubbleChoices
-      leadingMessage="this is the leading message"
-      leadingMessageStyle="gangnamStyle"
-      containerStyle="containerStyle"
-    >
+    <MessageBubbleChoices leadingMessage="this is the leading message">
       <div className="onlyChild" />
     </MessageBubbleChoices>
   )
