@@ -174,11 +174,7 @@ class ChannelChoice extends Component {
 
   render = () => {
     return this.state.availableChannels.length > 0 ? (
-      <MessageBubbleChoices
-        leadingMessage={this.leadingMessage()}
-        containerStyle={styles.container}
-        leadingMessageStyle={styles.title}
-      >
+      <MessageBubbleChoices leadingMessage={this.leadingMessage()}>
         {this.renderChatChoice()}
         {this.renderTalkChoice()}
         {this.renderSubmitTicketChoice()}

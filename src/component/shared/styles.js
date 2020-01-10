@@ -1,5 +1,4 @@
 import MessageBubbleStyles from './MessageBubble/MessageBubble.scss'
-import MessageBubbleChoicesStyles from './MessageBubbleChoices/MessageBubbleChoices.scss'
 import MessageOptionsStyles from './MessageOptions/MessageOptions.scss'
 import QuickRepliesStyles from './QuickReplies/QuickReplies.scss'
 import ButtonStyles from './StructuredMessage/pure/Button.scss'
@@ -15,7 +14,6 @@ import KeyboardFocusButton from './KeyboardFocusButton/KeyboardFocusButton.scss'
 const styles = `
   ${MessageBubbleStyles}
   ${MessageOptionsStyles}
-  ${MessageBubbleChoicesStyles}
   ${QuickRepliesStyles}
   ${ButtonStyles}
   ${ButtonListStyles}

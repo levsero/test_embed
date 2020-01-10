@@ -1,6 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 18.428571428571427rem;
+}
+
+.c1 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+}
+
+.c1:hover {
+  background-color: #f8f8f8;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
 <div>
   <div>
     <div
@@ -21,12 +55,11 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <div
-      class="messageBubble
-        container"
+      class="c0"
       data-testid="answer-bot-selection-message"
     >
       <div
-        class="firstItem optionItem"
+        class="c1"
       >
         <div
           class="result"
@@ -63,7 +96,7 @@ exports[`renders the expected classes 1`] = `
         </div>
       </div>
       <div
-        class=" lastItem optionItem"
+        class="c2"
       >
         <div
           class="result"

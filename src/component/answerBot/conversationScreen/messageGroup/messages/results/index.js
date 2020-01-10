@@ -17,7 +17,7 @@ const Results = ({ articles, onArticleClick, leadingMessage }) => {
   return (
     <div>
       {renderLeadingMessage(leadingMessage)}
-      <MessageBubbleChoices containerStyle={styles.container}>
+      <MessageBubbleChoices>
         {articles.map((article, index) => renderResult(article, index, onArticleClick))}
       </MessageBubbleChoices>
     </div>
