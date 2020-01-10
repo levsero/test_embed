@@ -26,12 +26,12 @@ import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/se
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
 import { i18n } from 'service/i18n'
-import { locals as styles } from './ArticleScreen.scss'
+import { locals as styles } from './ArticlePage.scss'
 import { appendParams } from 'utility/utils'
 import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 
-class ArticleScreen extends Component {
+class ArticlePage extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     isMobile: PropTypes.bool,
@@ -217,6 +217,6 @@ const connectedComponent = connect(
   mapDispatchToProps,
   null,
   { forwardRef: true }
-)(ArticleScreen)
+)(ArticlePage)
 
-export { connectedComponent as default, ArticleScreen as Component }
+export { connectedComponent as default, ArticlePage as Component }
