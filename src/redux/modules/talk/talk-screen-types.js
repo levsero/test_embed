@@ -1,3 +1,0 @@
-export const CALLBACK_SCREEN = 'widget/talk/CALLBACK_SCREEN'
-export const PHONE_US_SCREEN = 'widget/talk/PHONE_US_SCREEN'
-export const SUCCESS_NOTIFICATION_SCREEN = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN'

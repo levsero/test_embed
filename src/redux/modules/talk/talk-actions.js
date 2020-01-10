@@ -105,8 +105,8 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
 
 export function loadTalkVendors(vendors, serviceUrl, nickname) {
   return dispatch => {
-    const onSuccess = ([{ default: io }, libphonenumber]) => {
-      dispatch(handleTalkVendorLoaded({ io, libphonenumber }))
+    const onSuccess = ([{ default: io }]) => {
+      dispatch(handleTalkVendorLoaded({ io }))
       if (_.isEmpty(nickname)) return
 
       const socket = socketio.connect(io, serviceUrl, nickname)

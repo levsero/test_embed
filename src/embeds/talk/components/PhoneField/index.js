@@ -9,20 +9,19 @@ import {
   ControlledComponent
 } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
 import { TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
-import { getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors'
 import { getStyledLabelText } from 'utility/fields'
 import styleOverrides from './styles.overrides'
 import { Container, FauxInput, Input, Message } from './styles'
 import { onNextTick } from 'src/util/utils'
 import { CurrentFrameConsumer } from 'components/Frame'
 
-const mapStateToProps = state => {
+const mapStateToProps = () => {
   return {
-    libphonenumber: getLibPhoneNumberVendor(state),
     isRTL: i18n.isRTL(),
     label: getStyledLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), true),
     errorMessage: i18n.t('embeddable_framework.validation.error.phone')
@@ -32,9 +31,6 @@ const mapStateToProps = state => {
 class PhoneField extends ControlledComponent {
   static propTypes = {
     supportedCountries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    libphonenumber: PropTypes.shape({
-      AsYouType: PropTypes.func
-    }).isRequired,
     rtl: PropTypes.bool,
     label: PropTypes.string,
     required: PropTypes.bool,
@@ -93,9 +89,7 @@ class PhoneField extends ControlledComponent {
   }
 
   formatPhoneNumber(country, phoneNumber) {
-    const { libphonenumber } = this.props
-
-    return new libphonenumber.AsYouType(country).input(phoneNumber)
+    return new AsYouType(country).input(phoneNumber)
   }
 
   getLabelProps = ({ onClick, ...other }) => {
@@ -108,8 +102,6 @@ class PhoneField extends ControlledComponent {
   }
 
   getErrorMessage(phoneValue, selectedKey) {
-    const { parsePhoneNumber } = this.props.libphonenumber
-
     try {
       parsePhoneNumber(phoneValue, selectedKey)
     } catch (error) {

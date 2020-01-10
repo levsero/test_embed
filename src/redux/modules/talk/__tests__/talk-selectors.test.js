@@ -106,20 +106,6 @@ test('getSocketIoVendor returns the socket.io vendor', () => {
   })
 })
 
-test('getLibPhoneNumberVendor returns the libphonenumber vendor', () => {
-  const state = {
-    vendor: {
-      libphonenumber: {
-        blah: 'blah'
-      }
-    }
-  }
-
-  expect(selectors.getLibPhoneNumberVendor(talkConfig(state))).toEqual({
-    blah: 'blah'
-  })
-})
-
 test.each([[PHONE_ONLY, false], [CALLBACK_ONLY, true], [CALLBACK_AND_PHONE, true]])(
   'isCallbackEnabled(%s)',
   (capability, expected) => {

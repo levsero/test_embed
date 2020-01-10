@@ -1,8 +1,7 @@
 import { TALK_VENDOR_LOADED } from '../talk-action-types'
 
 const initialState = {
-  io: null,
-  libphonenumber: null
+  io: null
 }
 
 const vendor = (state = initialState, action = {}) => {
