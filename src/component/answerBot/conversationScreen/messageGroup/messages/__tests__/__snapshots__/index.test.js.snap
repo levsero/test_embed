@@ -1,6 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders expected classes and components with default props for non-visitor messages 1`] = `
+.c3 {
+  background-color: transparent;
+  color: #1F73B7;
+  border-color: #1F73B7;
+  font-size: 1.0714285714285714rem;
+  padding-right: 1.7142857142857142rem;
+  padding-left: 1.7142857142857142rem;
+  min-width: 0;
+  padding: 0.5714285714285714rem 1rem;
+  border-radius: 1.1428571428571428rem;
+  border-width: 0.07142857142857142rem;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.c3:not([disabled]):hover,
+.c3:not([disabled]):active,
+.c3:not([disabled]):focus {
+  color: #FFFFFF;
+  background-color: #1F73B7;
+  border-color: #1F73B7;
+}
+
 .c0 {
   display: inline-block;
   white-space: pre-wrap;
@@ -27,7 +50,7 @@ exports[`renders expected classes and components with default props for non-visi
   margin-bottom: 0.5rem;
 }
 
-.c3 {
+.c4 {
   float: right !important;
   display: block;
   margin-bottom: 0.5rem !important;
@@ -218,19 +241,13 @@ exports[`renders expected classes and components with default props for non-visi
             class="container buttonRight "
           >
             <button
-              class="
-      button
-      
-    "
+              class="c3"
               data-testid="pill-button"
             >
               Yes
             </button>
             <button
-              class="
-      button
-      
-    "
+              class="c3"
               data-testid="pill-button"
             >
               No, I need help
@@ -255,19 +272,13 @@ exports[`renders expected classes and components with default props for non-visi
             class="container buttonRight "
           >
             <button
-              class="
-      button
-      c3
-    "
+              class="c4 c3"
               data-testid="pill-button"
             >
               It's related, but it didn't answer my question
             </button>
             <button
-              class="
-      button
-      c3
-    "
+              class="c4 c3"
               data-testid="pill-button"
             >
               It's not related to my question
