@@ -6,7 +6,9 @@ import formStates from './formStates'
 import attachments from './attachments'
 import prefillValues from './prefillValues'
 import readOnly from './readOnly'
-import prefillTimestamp from './prefillTimestamp'
+import prefillId from './prefillId'
+import prefillSpecificFormValues from 'embeds/support/reducers/prefillSpecificFormValues'
+import lastFormPrefillId from 'embeds/support/reducers/lastFormPrefillId'
 
 export default combineReducers({
   activeFormName,
@@ -15,5 +17,7 @@ export default combineReducers({
   attachments,
   prefillValues,
   readOnly,
-  prefillTimestamp
+  prefillId,
+  prefillSpecificFormValues,
+  lastFormPrefillId
 })

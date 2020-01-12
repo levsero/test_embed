@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 const getCheckboxFields = fields => fields.filter(field => field.type === 'checkbox')
 
@@ -34,7 +35,7 @@ const mapKeyFields = ticketFields => {
   return ticketFields.map(field => {
     return {
       ...field,
-      keyID: field.keyID ? field.keyID : `${field.id}${field.title_in_portal}`
+      keyID: createKeyID(field.id)
     }
   })
 }

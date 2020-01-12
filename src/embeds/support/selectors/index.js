@@ -12,6 +12,7 @@ import {
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 export const getSupportConfig = state => state.support.config
 export const getNewSupportEmbedEnabled = state =>
@@ -21,13 +22,47 @@ export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
 export const getActiveFormName = state => state.support.activeFormName
 export const getAllAttachments = state => state.support.attachments
 
-export const getPrefillValues = state => state.support.prefillValues
-export const getLastPrefillTimestamp = state => state.support.prefillTimestamp
+export const getPrefillId = state => state.support.prefillId
+export const getLastFormPrefillId = (state, formId) => state.support.lastFormPrefillId[formId]
+
+const getSpecificFormPrefills = state => state.support.prefillSpecificFormValues
+const getGenericFormPrefillValues = state => state.support.prefillValues
+
+export const getPrefillValues = formId =>
+  createSelector(
+    getSpecificFormPrefills,
+    getGenericFormPrefillValues,
+    getLocale,
+    (specific, generic, locale) => {
+      const getSpecificValues = locale => {
+        if (!specific[formId] || !specific[formId][locale]) {
+          return {}
+        }
+
+        return specific[formId][locale]
+      }
+
+      const values = {
+        ...(generic['*'] || {}),
+        ...(generic[locale] || {}),
+        ...getSpecificValues('*'),
+        ...getSpecificValues(locale)
+      }
+
+      return Object.keys(values).reduce(
+        (prev, key) => ({
+          ...prev,
+          [createKeyID(key)]: values[key]
+        }),
+        {}
+      )
+    }
+  )
 
 export const getReadOnlyState = state => state.support.readOnly
 
 export const getFormState = (state, name) =>
-  state.support.formStates[name] || getPrefillValues(state)
+  state.support.formStates[name] || getPrefillValues(name)(state)
 
 export const getValidAttachments = createSelector(
   getAllAttachments,
@@ -71,31 +106,35 @@ export const getCustomTicketFields = createSelector(
         id: 'name',
         title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
         required_in_portal: nameRequired,
+        visible_in_portal: true,
         type: 'text',
-        keyID: 'name'
+        keyID: 'key:name'
       },
       {
         id: 'email',
         title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
         required_in_portal: true,
+        visible_in_portal: true,
         type: 'text',
         validation: 'email',
-        keyID: 'email'
+        keyID: 'key:email'
       },
-      ...nonCheckBoxFields,
+      ...nonCheckBoxFields.filter(field => field.type !== 'description'),
       subjectEnabled && {
         id: 'subject',
         title_in_portal: i18n.t('embeddable_framework.submitTicket.field.subject.label'),
         required_in_portal: false,
+        visible_in_portal: true,
         type: 'text',
-        keyID: 'subject'
+        keyID: 'key:subject'
       },
       {
         id: 'description',
         title_in_portal: i18n.t('embeddable_framework.submitTicket.field.description.label'),
         required_in_portal: true,
+        visible_in_portal: true,
         type: 'textarea',
-        keyID: 'description'
+        keyID: 'key:description'
       },
       ...checkBoxFields
       // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
@@ -121,9 +160,10 @@ export const getTicketFormFields = (state, formId) => {
       id: 'email',
       title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
       required_in_portal: true,
+      visible_in_portal: true,
       type: 'text',
       validation: 'email',
-      keyID: 'email'
+      keyID: 'key:email'
     },
     ...formTicketFields
     // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992

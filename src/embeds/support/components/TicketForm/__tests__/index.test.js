@@ -4,6 +4,7 @@ import { render } from 'src/util/testHelpers'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import { fireEvent } from '@testing-library/react'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 const submitFormSpy = jest.fn()
 
@@ -72,7 +73,7 @@ describe('submit', () => {
           { id: 0, title_in_portal: 'testInputA', type: 'text', required_in_portal: true },
           { id: 1, title_in_portal: 'testInputB', type: 'text', required_in_portal: true }
         ],
-        formState: { '0testInputA': 'a', '1testInputB': '' }
+        formState: { [createKeyID(0)]: 'a', [createKeyID(1)]: '' }
       }
       return renderComponent(modifiedProps)
     }

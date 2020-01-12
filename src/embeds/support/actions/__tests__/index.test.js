@@ -9,6 +9,8 @@ import * as supportSelectors from 'src/embeds/support/selectors'
 import { http } from 'service/transport'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { queuesReset } from 'utility/rateLimiting/helpers'
+import { formPrefilled } from '..'
+import { FORM_PREFILLED } from '../action-types'
 
 jest.mock('lodash')
 jest.mock('service/transport')
@@ -395,6 +397,20 @@ describe('submitTicket', () => {
     expect(store.getActions()[1]).toEqual({
       type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
       payload: 'There was an error processing your request. Please try again later.'
+    })
+  })
+})
+
+describe('formPrefilled', () => {
+  it('returns a redux actions that describes a form has just updated with prefill values', () => {
+    const result = formPrefilled(123, 456)
+
+    expect(result).toEqual({
+      type: FORM_PREFILLED,
+      payload: {
+        formId: 123,
+        prefillId: 456
+      }
     })
   })
 })

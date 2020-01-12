@@ -7,6 +7,7 @@ import { getMaxFileSize } from 'src/embeds/support/selectors'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
 import withRateLimiting from 'utility/rateLimiting'
+import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
 
 let attachmentUploaders = {}
 
@@ -179,3 +180,11 @@ export function submitTicket(formState, formTitle) {
     })
   }
 }
+
+export const formPrefilled = (formId, prefillId) => ({
+  type: FORM_PREFILLED,
+  payload: {
+    formId,
+    prefillId
+  }
+})
