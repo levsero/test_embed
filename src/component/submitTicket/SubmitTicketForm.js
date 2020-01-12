@@ -128,12 +128,20 @@ export class SubmitTicketForm extends Component {
   }
 
   handleSubmit = e => {
+    const { formState, ticketFields } = this.props
     if (this.props.previewEnabled) {
       e.preventDefault()
       return
     }
 
-    const isFormValid = this.state.isValid
+    const anyTaggersInvalid = _.find(
+      ticketFields,
+      field =>
+        // Do I like it? No. Should this file be gone soon? Yes.
+        field.type === 'tagger' && field.required_in_portal && formState[field.id] === ''
+    )
+
+    const isFormValid = this.state.isValid && !anyTaggersInvalid
 
     if (isFormValid) {
       this.setState({
