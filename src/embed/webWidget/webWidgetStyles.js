@@ -1,7 +1,6 @@
 import AttachmentStyles from 'component/attachment/Attachment.scss'
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.scss'
 import AttachmentListStyles from 'component/attachment/AttachmentList.scss'
-import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss'
 import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
@@ -54,7 +53,6 @@ export const webWidgetStyles = `
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
-  ${ButtonDropzoneStyles}
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ChannelChoiceMenuStyles}

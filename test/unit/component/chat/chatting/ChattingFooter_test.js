@@ -26,7 +26,7 @@ describe('ChattingFooter component', () => {
         FooterView: noopReactComponent()
       },
       'components/ZendeskLogo': noopReactComponent(),
-      'component/Dropzone': {
+      'src/component/chat/attachment/Dropzone': {
         Dropzone: noopReactComponent()
       },
       'embeds/chat/components/FooterIconButton': FooterIconButton,

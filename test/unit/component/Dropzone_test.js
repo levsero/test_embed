@@ -25,23 +25,6 @@ describe('Dropzone component', () => {
     mockery.disable()
   })
 
-  describe('input', () => {
-    let input, dropzone
-
-    beforeEach(() => {
-      dropzone = domRender(<Dropzone />)
-      input = document.querySelectorAll('input')
-    })
-
-    it('renders a input element', () => {
-      expect(input.length).toEqual(1)
-    })
-
-    it('sets the ref properly', () => {
-      expect(dropzone.fileInputEl).toEqual(input[0])
-    })
-  })
-
   describe('classes', () => {
     let dropzone
 

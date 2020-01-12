@@ -40,7 +40,6 @@ export class AttachmentBox extends Component {
           style={style}
           containerStyle={dropzoneContainerStyles}
           onDragLeave={this.props.onDragLeave}
-          disableClick={true}
         >
           <div className={styles.dropzoneChild}>
             <Icon type="Icon--paperclip-large" />
