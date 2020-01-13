@@ -541,8 +541,8 @@ describe('social logins', () => {
         }
       })
 
-      expect(queryByTestId('Icon--google')).toBeInTheDocument()
-      expect(queryByTestId('Icon--facebook')).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.ICON_GOOGLE)).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.ICON_FACEBOOK)).toBeInTheDocument()
     })
   })
 

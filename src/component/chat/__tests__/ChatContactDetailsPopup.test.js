@@ -1,8 +1,9 @@
-import { ChatContactDetailsPopup } from '../ChatContactDetailsPopup'
-import { render } from '@testing-library/react'
 import React from 'react'
+import { render } from 'src/util/testHelpers'
 import { EDIT_CONTACT_DETAILS_SCREEN } from 'constants/chat'
 import { IdManager } from '@zendeskgarden/react-selection'
+import { ChatContactDetailsPopup } from '../ChatContactDetailsPopup'
+
 let initiateSocialLogoutSpy = () => {}
 
 const renderComponent = modifiedProps => {

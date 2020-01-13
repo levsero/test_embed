@@ -45,8 +45,6 @@ const icons = {
   'Icon--thumbDown': require('@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'),
   'Icon--thumbUp': require('@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
-  'Icon--facebook': require('icons/widget-icon_facebook.svg'),
-  'Icon--google': require('icons/widget-icon_google.svg'),
   'Icon--messenger': require('icons/widget-icon_messenger.svg'),
   'Icon--twitter': require('icons/widget-icon_twitter.svg'),
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),

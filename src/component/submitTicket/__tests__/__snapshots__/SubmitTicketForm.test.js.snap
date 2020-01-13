@@ -430,7 +430,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="sc-kpOJdX eTSBrb StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="sc-eNQAEJ hwZMao StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"
@@ -1162,7 +1162,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="sc-kpOJdX eTSBrb StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="sc-eNQAEJ hwZMao StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"

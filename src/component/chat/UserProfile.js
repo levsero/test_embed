@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
 import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
@@ -9,6 +8,8 @@ import { Avatar } from 'component/Avatar'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './UserProfile.scss'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
+
+import SocialLogin from 'src/embeds/chat/online/components/SocialLogin'
 
 export class UserProfile extends Component {
   static propTypes = {
@@ -69,35 +70,8 @@ export class UserProfile extends Component {
     return (
       <div className={styles.defaultProfileFieldsContainer}>
         {this.props.nameField}
-        {this.renderSocialLoginField()}
+        <SocialLogin authUrls={this.props.authUrls} />
         {this.props.emailField}
-      </div>
-    )
-  }
-
-  renderSocialLoginOptions(authUrls) {
-    return _.map(authUrls, (loginUrl, loginType) => (
-      <a
-        className={styles.socialLoginOptions}
-        title={loginType}
-        key={loginType}
-        href={loginUrl}
-        target="_blank"
-      >
-        <Icon type={`Icon--${loginType}`} />
-      </a>
-    ))
-  }
-
-  renderSocialLoginField() {
-    const { authUrls } = this.props
-
-    if (_.size(authUrls) === 0) return null
-
-    return (
-      <div className={styles.socialLoginContainer}>
-        {i18n.t('embeddable_framework.chat.form.common.field.social_login.label')}
-        {this.renderSocialLoginOptions(authUrls)}
       </div>
     )
   }

@@ -5,6 +5,7 @@ describe('UserProfile component', () => {
   const Icon = noopReactComponent()
   const LoadingSpinner = noopReactComponent()
   const Avatar = noopReactComponent()
+  const SocialLoginGroup = noopReactComponent()
 
   let chatConstants = requireUncached(chatConstantsPath)
   let CHAT_SOCIAL_LOGIN_SCREENS = chatConstants.CHAT_SOCIAL_LOGIN_SCREENS
@@ -24,6 +25,7 @@ describe('UserProfile component', () => {
       },
       'component/Icon': { Icon },
       'component/loading/LoadingSpinner': { LoadingSpinner },
+      'src/embeds/chat/online/components/SocialLogin': SocialLoginGroup,
       'component/Avatar': { Avatar },
       'service/i18n': {
         i18n: {
@@ -87,132 +89,20 @@ describe('UserProfile component', () => {
   })
 
   describe('renderSocialLoginField', () => {
-    let result, component, componentArgs
-
-    beforeEach(() => {
-      component = instanceRender(<UserProfile {...componentArgs} />)
-
-      spyOn(component, 'renderSocialLoginOptions')
-
-      result = component.renderSocialLoginField()
-    })
-
-    describe('when there is at least one social login available', () => {
-      beforeAll(() => {
-        componentArgs = {
-          socialLogin: { authenticated: true },
-          authUrls: [
+    it('renders the social login option', () => {
+      const component = domRender(
+        <UserProfile
+          socialLogin={{ authenticated: true }}
+          authUrls={[
             {
               Goggle:
                 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
             }
-          ]
-        }
-      })
+          ]}
+        />
+      )
 
-      it('renders a component', () => {
-        expect(result).not.toBeNull()
-      })
-
-      it('calls renderSocialLoginOptions with expected args', () => {
-        expect(component.renderSocialLoginOptions).toHaveBeenCalledWith(componentArgs.authUrls)
-      })
-
-      it('renders the social login label', () => {
-        expect(result.props.children[0]).toEqual(
-          'embeddable_framework.chat.form.common.field.social_login.label'
-        )
-      })
-    })
-
-    describe('when there are no social logins available', () => {
-      beforeAll(() => {
-        componentArgs = {
-          authUrls: []
-        }
-      })
-
-      it('returns null', () => {
-        expect(result).toBeNull()
-      })
-
-      it('does not call renderSocialLoginOptions', () => {
-        expect(component.renderSocialLoginOptions).not.toHaveBeenCalled()
-      })
-    })
-  })
-
-  describe('renderSocialLoginOptions', () => {
-    let result
-    const authUrls = {
-      google: 'https://www.zopim.com/auth/Google/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
-      facebook:
-        'https://www.zopim.com/auth/Facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-    }
-
-    beforeEach(() => {
-      const component = instanceRender(<UserProfile />)
-
-      result = component.renderSocialLoginOptions(authUrls)
-    })
-
-    it('has at least one element in the array', () => {
-      expect(_.size(authUrls)).toBeGreaterThan(0)
-    })
-
-    it('has an anchor element with expected attrs related to Google', () => {
-      const element = result[0]
-      const icon = element.props.children
-
-      expect(element.type).toEqual('a')
-
-      expect(element.props.href).toEqual(authUrls.google)
-
-      expect(icon.props.type).toEqual('Icon--google')
-    })
-
-    it('has an anchor element with expected attrs related to Facebook', () => {
-      const element = result[1]
-      const icon = element.props.children
-
-      expect(element.type).toEqual('a')
-
-      expect(element.props.href).toEqual(authUrls.facebook)
-
-      expect(icon.props.type).toEqual('Icon--facebook')
-    })
-  })
-
-  describe('renderDefaultProfileFields', () => {
-    let result, component, componentArgs
-
-    beforeEach(() => {
-      componentArgs = {
-        nameField: noopReactComponent(),
-        emailField: noopReactComponent()
-      }
-
-      component = instanceRender(<UserProfile {...componentArgs} />)
-
-      spyOn(component, 'renderSocialLoginField')
-
-      result = component.renderDefaultProfileFields()
-    })
-
-    it('calls renderSocialLoginField', () => {
-      expect(component.renderSocialLoginField).toHaveBeenCalled()
-    })
-
-    it('renders props.nameField', () => {
-      const element = result.props.children[0]
-
-      expect(element).toEqual(componentArgs.nameField)
-    })
-
-    it('renders props.emailField', () => {
-      const element = result.props.children[2]
-
-      expect(element).toEqual(componentArgs.emailField)
+      expect(() => TestUtils.findRenderedComponentWithType(component, SocialLoginGroup)).toThrow()
     })
   })
 
