@@ -25,12 +25,3 @@
   font-weight: 700;
   color: $zd-color-grey-800;
 }
-
-.attachment {
-  composes: u-marginTS from global;
-  border-radius: #{4 / $font-size}rem;
-
-  &:last-of-type {
-    margin-bottom: $spacing-sml !important;
-  }
-}
