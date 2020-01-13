@@ -11,15 +11,6 @@ const chunks = require('./chunks')
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
-// Assets must be downloaded in the order specified in CHUNKS
-const CHUNKS = [
-  { name: chunks.RUNTIME_CHUNK },
-  { name: chunks.COMMON_VENDOR_CHUNK },
-  { name: chunks.CHAT_VENDOR_CHUNK, feature: 'chat' },
-  { name: chunks.TALK_VENDOR_CHUNK, feature: 'talk' },
-  { name: chunks.WEB_WIDGET_CHUNK }
-]
-
 const PUBLIC_PATH = process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest'
 
 let config = merge(common, {
@@ -36,27 +27,25 @@ let config = merge(common, {
       publicPath: '',
       filter: file => {
         if (!file.isChunk) return false
-        return Object.values(chunks).indexOf(file.chunk.name) >= 0
+
+        return Boolean(chunks.http2Chunks(file.chunk.name))
       },
       sort: function(a, b) {
-        const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
-          indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name)
+        const priorityA = chunks.priority(a.chunk.name)
+        const priorityB = chunks.priority(b.chunk.name)
 
-        // Sanity check to make sure all chunks are accounted for
-        if (indexA === -1 || indexB === -1) {
-          throw "Found chunk that's not in CHUNKS constant!"
-        }
-
-        return indexA - indexB
+        return priorityA - priorityB
       },
       generate: function(seed, files) {
         const assets = files
           .filter(file => path.extname(file.path) !== '.map')
           .map(function(file) {
-            const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name)
+            const chunk = chunks.http2Chunks(file.chunk.name)
             const asset = { path: file.path }
 
-            if (chunk.feature) asset.feature = chunk.feature
+            if (chunk && chunk !== 'common') {
+              asset.feature = chunk
+            }
 
             return asset
           }, seed)

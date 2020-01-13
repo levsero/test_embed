@@ -1,7 +1,34 @@
+const http2Chunks = {
+  runtime: 'common',
+  web_widget: 'common',
+  'chat-sdk': 'chat',
+  'talk-sdk': 'talk'
+}
+
+const excludeFromVendoring = {
+  'chat-sdk': true,
+  'talk-sdk': true
+}
+
+const priority = {
+  runtime: 1,
+  web_widget: 999
+}
+
+const get = (chunkName, thing) => {
+  return Object.keys(thing)
+    .filter(chunk => chunkName.includes(chunk))
+    .map(chunk => thing[chunk])[0]
+}
+
 module.exports = {
-  COMMON_VENDOR_CHUNK: 'common_vendor',
-  CHAT_VENDOR_CHUNK: 'chat_vendor',
-  TALK_VENDOR_CHUNK: 'talk_vendor',
-  WEB_WIDGET_CHUNK: 'web_widget',
-  RUNTIME_CHUNK: 'runtime'
+  priority(name) {
+    return get(name, priority) || 500
+  },
+  http2Chunks(name) {
+    return get(name, http2Chunks)
+  },
+  excludeFromVendoring(name) {
+    return get(name, excludeFromVendoring)
+  }
 }

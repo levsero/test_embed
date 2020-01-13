@@ -137,7 +137,10 @@ export function setUpChat(canBeDeferred = true) {
       errorTracker.error(err)
     }
 
-    Promise.all([import('chat-web-sdk'), import('react-slick')])
+    Promise.all([
+      import(/* webpackChunkName: 'chat-sdk' */ 'chat-web-sdk'),
+      import(/* webpackChunkName: 'chat-sdk' */ 'react-slick')
+    ])
       .then(arr => onChatImported(...arr))
       .catch(onFailure)
   }
