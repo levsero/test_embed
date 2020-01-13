@@ -6,7 +6,7 @@ import { Tooltip } from '@zendeskgarden/react-tooltips'
 
 import { i18n } from 'service/i18n'
 import { Avatar } from 'component/Avatar'
-import { RatingGroup } from 'component/chat/rating/RatingGroup'
+import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { TEST_IDS } from 'src/constants/shared'
 import { AvatarContainer, Subtext, Text, Title } from './ChatHeaderStyles'
 import { locals as styles } from './ChatHeader.scss'
@@ -73,13 +73,7 @@ export class ChatHeader extends Component {
   }
 
   renderRatingButtons = () => {
-    return (
-      <RatingGroup
-        className={styles.ratingGroup}
-        updateRating={this.props.updateRating}
-        rating={this.props.rating}
-      />
-    )
+    return <RatingGroup updateRating={this.props.updateRating} rating={this.props.rating} />
   }
 
   renderTextContainer = () => {
@@ -106,7 +100,7 @@ export class ChatHeader extends Component {
     const defaultSubText = i18n.t('embeddable_framework.chat.header.by_line')
     const subText = _.get(concierges[0], 'title') || defaultSubText
     const textContainer = (
-      <Subtext data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT} tooltip={subText}>
+      <Subtext data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT} tooltip={subText} tabIndex="-1">
         {subText}
       </Subtext>
     )

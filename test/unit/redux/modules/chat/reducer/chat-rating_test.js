@@ -5,7 +5,7 @@ describe('chat ratings', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/chat/rating/RatingGroup': {
+      'src/embeds/chat/components/RatingGroup': {
         ratings: {
           GOOD: 'good',
           BAD: 'bad',

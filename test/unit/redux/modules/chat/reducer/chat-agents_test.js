@@ -8,7 +8,7 @@ describe('chat reducer agents', () => {
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
     initMockRegistry({
-      'component/chat/rating/RatingGroup': {
+      'src/embeds/chat/components/RatingGroup': {
         ratings: {}
       }
     })

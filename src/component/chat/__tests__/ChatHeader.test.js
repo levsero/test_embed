@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
-
+import { render } from 'src/util/testHelpers'
 import { ChatHeader } from '../ChatHeader'
+import { TEST_IDS } from 'constants/shared'
 
 const renderComponent = inProps => {
   const props = {
@@ -60,17 +60,17 @@ it('renders the default concierge name and title', () => {
 
 describe('showRating', () => {
   it('shows rating buttons when it is true', () => {
-    const { container } = renderComponent({ showRating: true })
+    const { queryByTestId } = renderComponent({ showRating: true })
 
-    expect(container.querySelector('.Icon--thumbUp')).toBeInTheDocument()
-    expect(container.querySelector('.Icon--thumbDown')).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_DOWN)).toBeInTheDocument()
   })
 
   it('does not show rating buttons when it is false', () => {
-    const { container } = renderComponent({ showRating: false })
+    const { queryByTestId } = renderComponent({ showRating: false })
 
-    expect(container.querySelector('.Icon--thumbUp')).not.toBeInTheDocument()
-    expect(container.querySelector('.Icon--thumbDown')).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_DOWN)).not.toBeInTheDocument()
   })
 })
 

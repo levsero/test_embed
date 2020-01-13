@@ -695,7 +695,7 @@ describe('rating', () => {
       rating: { enabled: false }
     })
 
-    const { container } = renderComponent()
+    const { queryByTestId } = renderComponent()
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -710,9 +710,8 @@ describe('rating', () => {
       }
     })
 
-    expect(container.querySelector('.Icon--thumbUp')).not.toBeInTheDocument()
-
-    expect(container.querySelector('.Icon--thumbDown')).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).not.toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_DOWN)).not.toBeInTheDocument()
   })
 
   it('shows rating on agent join if rating settings are enabled', () => {
@@ -720,7 +719,7 @@ describe('rating', () => {
       rating: { enabled: true }
     })
 
-    const { container } = renderComponent()
+    const { queryByTestId } = renderComponent()
 
     store.dispatch({
       type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -735,9 +734,8 @@ describe('rating', () => {
       }
     })
 
-    expect(container.querySelector('.Icon--thumbUp')).toBeInTheDocument()
-
-    expect(container.querySelector('.Icon--thumbDown')).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).toBeInTheDocument()
+    expect(queryByTestId(TEST_IDS.ICON_THUMB_DOWN)).toBeInTheDocument()
   })
 })
 
