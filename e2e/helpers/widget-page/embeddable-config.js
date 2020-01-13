@@ -5,7 +5,6 @@ const baseConfig = {
   locale: 'en-GB',
   brand: 'Browser tests',
   brandCount: 1,
-  newChat: true,
   color: '#b74a1e',
   captchaRequired: false,
   embeds: {

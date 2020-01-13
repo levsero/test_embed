@@ -1040,7 +1040,14 @@ describe('onStateChange middleware', () => {
           const action = {
             type: 'NOT_UPDATE_EMBEDDABLE_CONFIG',
             payload: {
-              newChat: false
+              embeds: {
+                chat: {
+                  embed: 'chat',
+                  props: {
+                    color: '#b74a1e'
+                  }
+                }
+              }
             }
           }
 
@@ -1053,12 +1060,19 @@ describe('onStateChange middleware', () => {
       })
 
       describe('when the action is UPDATE_EMBEDDABLE_CONFIG', () => {
-        describe('when newChat is not on', () => {
+        describe('when chat embed is not available', () => {
           beforeEach(() => {
             const action = {
               type: 'UPDATE_EMBEDDABLE_CONFIG',
               payload: {
-                newChat: false
+                embeds: {
+                  talk: {
+                    embed: 'talk',
+                    props: {
+                      color: '#b74a1e'
+                    }
+                  }
+                }
               }
             }
 
@@ -1070,12 +1084,19 @@ describe('onStateChange middleware', () => {
           })
         })
 
-        describe('when newChat is true', () => {
+        describe('when chat embed is available', () => {
           beforeEach(() => {
             const action = {
               type: 'UPDATE_EMBEDDABLE_CONFIG',
               payload: {
-                newChat: true
+                embeds: {
+                  chat: {
+                    embed: 'chat',
+                    props: {
+                      color: '#b74a1e'
+                    }
+                  }
+                }
               }
             }
 
