@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { setLocaleApi } from 'src/service/api/apis'
 import { renderer } from 'service/renderer'
 import { apiExecute, apiStructurePostRenderSetup, apiStructurePreRenderSetup } from './setupApi'
-import { setupPublicApi, setupDevApi } from './setupLegacyApi'
+import { setupPublicApi } from './setupLegacyApi'
 import { logAndTrackApiError } from 'src/service/api/errorHandlers'
 import ZEApiError from 'errors/nonFatal/ZEApiError'
 import LegacyZEApiError from 'errors/nonFatal/LegacyZEApiError'
@@ -54,8 +54,6 @@ export function apisExecutePostRenderQueue(win, legacyPostRenderQueue, reduxStor
 }
 
 export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
-  let devApi
-
   const postRenderCallback = (...args) => {
     try {
       if (typeof args[0] === 'function') {
@@ -75,9 +73,6 @@ export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
   const publicApi = setupPublicApi(postRenderQueueCallback, reduxStore)
   const pairs = _.toPairs(win.zEmbed)
 
-  if (__DEV__) {
-    devApi = setupDevApi(win, reduxStore)
-  }
   if (win.zE === win.zEmbed) {
     win.zE = win.zEmbed = postRenderCallback
   } else {
@@ -90,8 +85,7 @@ export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
   })
 
   return {
-    publicApi,
-    devApi
+    publicApi
   }
 }
 
