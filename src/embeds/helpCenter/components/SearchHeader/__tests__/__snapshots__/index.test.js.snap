@@ -4,8 +4,8 @@ exports[`renders correctly on desktop 1`] = `
 .c0 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
-  background: !important;
-  color: !important;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
 }
 
 .c3 {
@@ -91,13 +91,19 @@ exports[`renders correctly on desktop 1`] = `
   height: 1rem !important;
 }
 
+.c5 svg,
+.c5 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c5:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
 .c5:hover {
-  background: !important;
+  background: #227EC9 !important;
 }
 
 .c9 {

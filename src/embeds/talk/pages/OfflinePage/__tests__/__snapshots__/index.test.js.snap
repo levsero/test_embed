@@ -18,8 +18,8 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
 .c1 {
   border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
-  background: !important;
-  color: !important;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
 }
 
 .c4 {
@@ -101,13 +101,19 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
   height: 1rem !important;
 }
 
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
 .c6:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
 .c6:hover {
-  background: !important;
+  background: #227EC9 !important;
 }
 
 .c7 {

@@ -6,7 +6,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
     class="sc-htpNat iybLJI"
   >
     <div
-      class="sc-ifAKCX eiCLeW"
+      class="sc-ifAKCX iEHOTz"
     >
       <div
         class="sc-bZQynM sc-gzVnrw bQuIzm"
@@ -17,7 +17,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
         />
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"

@@ -25,7 +25,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
     class="sc-bdVaJa gszxaC"
   >
     <div
-      class="sc-htpNat fufVln"
+      class="sc-htpNat hnOZlw"
     >
       <div
         class="sc-ifAKCX sc-EHOje cFboZL"
@@ -38,7 +38,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x iykRND Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x fTbgqd Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
