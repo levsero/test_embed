@@ -38,8 +38,8 @@ export const StyledIcon = styled(Icon)`
   margin-top: 0 !important;
   display: inline-block !important;
   max-width: 100%;
-  padding-left: ${props => (props.theme.rtl ? 0 : `${8 / FONT_SIZE}rem`)};
-  padding-right: ${props => (props.theme.rtl ? `${8 / FONT_SIZE}rem` : 0)};
+  padding-left: ${props => (props.theme.rtl ? `${8 / FONT_SIZE}rem` : 0)};
+  padding-right: ${props => (props.theme.rtl ? 0 : `${8 / FONT_SIZE}rem`)};
 
   svg {
     min-width: ${24 / FONT_SIZE}rem;
