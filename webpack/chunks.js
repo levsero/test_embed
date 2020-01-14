@@ -7,7 +7,9 @@ const http2Chunks = {
 
 const excludeFromVendoring = {
   'chat-sdk': true,
-  'talk-sdk': true
+  'talk-sdk': true,
+  webWidgetPreview: true,
+  chatPreview: true
 }
 
 const priority = {
