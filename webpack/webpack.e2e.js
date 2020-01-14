@@ -6,14 +6,12 @@ const webWidgetTemplates = require('../dev/web_widget_templates')
 const fs = require('fs')
 const CWD = process.cwd()
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const chunks = require('./chunks')
 
 module.exports = () => {
   const templatesOptions = {
     templatesFilter: file => file === 'e2e.html'
   }
   const config = JSON.parse(fs.readFileSync('./e2e/fixtures/account-config/z3nwebwidget2019.json'))
-  const previewChunks = [chunks.RUNTIME_CHUNK, chunks.COMMON_VENDOR_CHUNK]
 
   return merge(common, {
     mode: 'development',
@@ -38,11 +36,11 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'webWidgetPreview.html',
-        chunks: previewChunks.concat('webWidgetPreview')
+        chunks: ['runtime', 'webWidgetPreview']
       }),
       new HtmlWebpackPlugin({
         filename: 'chatPreview.html',
-        chunks: previewChunks.concat('chatPreview')
+        chunks: ['runtime', 'chatPreview']
       }),
       ...webWidgetTemplates(config, templatesOptions),
       new webpack.DefinePlugin({
