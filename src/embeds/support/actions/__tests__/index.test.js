@@ -14,14 +14,59 @@ import { FORM_PREFILLED } from '../action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 
-jest.mock('lodash')
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('service/history')
 
+const mockFileBlob2 = {
+  name: 'blah2.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+const mockFileBlob3 = {
+  name: 'blah3.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+const mockFileBlob4 = {
+  name: 'blah4.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+const mockFileBlob5 = {
+  name: 'blah5.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+const mockFileBlob6 = {
+  name: 'blah6.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+const fiveFiles = [mockFileBlob2, mockFileBlob3, mockFileBlob4, mockFileBlob5, mockFileBlob6]
+
+export { mockFileBlob2, mockFileBlob3, mockFileBlob4, mockFileBlob5, mockFileBlob6, fiveFiles }
+
 const mockId = 42
-const mockFileBlob = { name: 'blah.txt', size: 1024, type: 'text/plain' }
+const mockFileBlob = {
+  name: 'blah.txt',
+  size: 1024,
+  type: 'text/plain',
+  uploading: false,
+  uploadToken: '123'
+}
+
 const mockStore = configureMockStore([thunk])
 const dispatchAction = action => {
   const store = mockStore()
@@ -336,6 +381,78 @@ describe('clearAttachments', () => {
     store.dispatch(actions.deleteAttachment(mockId))
 
     expect(abortSpy).not.toHaveBeenCalled()
+  })
+})
+
+describe('uploadAttachedFiles', () => {
+  it('dispatches attachmentLimitExceeded when already max attachments', () => {
+    const store = mockStore({
+      support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+    })
+    store.dispatch(actions.uploadAttachedFiles([mockFileBlob]))
+
+    const dispatchedActions = store.getActions()
+
+    expect(dispatchedActions[0]).toEqual({
+      type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+    })
+  })
+
+  it('dispatches uploadAttachment for files', () => {
+    const store = mockStore({
+      support: { config: { maxFileCount: 5 }, attachments: [] }
+    })
+    store.dispatch(actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3]))
+    const dispatchedActions = store.getActions()
+
+    expect(dispatchedActions).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "errorMessage": null,
+              "fileName": "blah2.txt",
+              "fileSize": 1024,
+              "fileType": "text/plain",
+              "fileUrl": null,
+              "id": 42,
+              "uploadProgress": 0,
+              "uploadToken": null,
+              "uploading": true,
+            },
+            "type": "widget/support/ATTACHMENT_UPLOAD_REQUESTED",
+          },
+          Object {
+            "payload": Object {
+              "errorMessage": null,
+              "fileName": "blah3.txt",
+              "fileSize": 1024,
+              "fileType": "text/plain",
+              "fileUrl": null,
+              "id": 42,
+              "uploadProgress": 0,
+              "uploadToken": null,
+              "uploading": true,
+            },
+            "type": "widget/support/ATTACHMENT_UPLOAD_REQUESTED",
+          },
+        ]
+      `)
+  })
+
+  it('with existing attachments handles additional attachments', () => {
+    const store = mockStore({
+      support: {
+        config: { maxFileCount: 5 },
+        attachments: [mockFileBlob2, mockFileBlob3]
+      }
+    })
+    store.dispatch(actions.uploadAttachedFiles(fiveFiles))
+    const dispatchedActions = store.getActions()
+
+    expect(dispatchedActions[0].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+    expect(dispatchedActions[1].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+    expect(dispatchedActions[2].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+    expect(dispatchedActions[3].type).toEqual(actionTypes.ATTACHMENT_LIMIT_EXCEEDED)
   })
 })
 

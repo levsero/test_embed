@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import { connect } from 'react-redux'
 
 import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
 import AttachmentError from 'src/embeds/support/components/AttachmentError'
 import AttachmentLimitError from 'src/embeds/support/components/AttachmentLimitError'
 import Attachment from 'src/embeds/support/components/Attachment'
-import { onNextTick } from 'src/util/utils'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 import { TEST_IDS } from 'src/constants/shared'
 import {
-  uploadAttachment,
   deleteAttachment,
-  attachmentLimitExceeded,
-  clearLimitExceededError
+  clearLimitExceededError,
+  uploadAttachedFiles
 } from 'src/embeds/support/actions/index'
 import {
   getAllAttachments,
@@ -27,16 +24,14 @@ import { locals as styles } from './AttachmentList.scss'
 
 class AttachmentList extends Component {
   static propTypes = {
-    updateForm: PropTypes.func.isRequired,
     maxFileCount: PropTypes.number.isRequired,
     handleAttachmentsError: PropTypes.func,
     validAttachments: PropTypes.array.isRequired,
     allAttachments: PropTypes.array.isRequired,
-    uploadAttachment: PropTypes.func.isRequired,
     deleteAttachment: PropTypes.func.isRequired,
     displayAttachmentLimitError: PropTypes.bool.isRequired,
-    attachmentLimitExceeded: PropTypes.func.isRequired,
-    clearLimitExceededError: PropTypes.func.isRequired
+    clearLimitExceededError: PropTypes.func.isRequired,
+    uploadAttachedFiles: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -55,32 +50,6 @@ class AttachmentList extends Component {
     if (!prevProps.displayAttachmentLimitError && this.props.displayAttachmentLimitError) {
       this.props.handleAttachmentsError()
     }
-  }
-
-  handleOnDrop = files => {
-    const { maxFileCount, validAttachments, attachmentLimitExceeded } = this.props
-    const numAttachments = validAttachments.length
-    const numFilesToAdd = maxFileCount - numAttachments
-    const setLimitError = () => {
-      attachmentLimitExceeded()
-    }
-
-    if (numAttachments >= maxFileCount) {
-      setLimitError()
-      return
-    }
-
-    // This check is needed so that we can fill the remaining space for attachments regardless of
-    // whether or not they go over the limit. If they do we notify them by displaying the limit error.
-    if (numAttachments + files.length > maxFileCount) {
-      setLimitError()
-    }
-
-    _.slice(files, 0, numFilesToAdd).forEach(file => {
-      this.props.uploadAttachment(file)
-    })
-
-    onNextTick(this.props.updateForm)
   }
 
   handleRemoveAttachment = attachmentId => {
@@ -120,7 +89,14 @@ class AttachmentList extends Component {
   }
 
   render() {
-    const numAttachments = this.props.validAttachments.length
+    const {
+      displayAttachmentLimitError,
+      clearLimitExceededError,
+      maxFileCount,
+      uploadAttachedFiles,
+      validAttachments
+    } = this.props
+    const numAttachments = validAttachments.length
     const title =
       numAttachments > 0
         ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount', {
@@ -136,13 +112,13 @@ class AttachmentList extends Component {
             {title}
           </label>
           {attachmentComponents}
-          {this.props.displayAttachmentLimitError && (
+          {displayAttachmentLimitError && (
             <AttachmentLimitError
-              handleClearError={this.props.clearLimitExceededError}
-              maxFileCount={this.props.maxFileCount}
+              handleClearError={clearLimitExceededError}
+              maxFileCount={maxFileCount}
             />
           )}
-          <AttachmentInput onFileSelect={this.handleOnDrop} dropzoneId={this.id} />
+          <AttachmentInput onFileSelect={uploadAttachedFiles} dropzoneId={this.id} />
         </div>
       </div>
     )
@@ -150,10 +126,9 @@ class AttachmentList extends Component {
 }
 
 const actionCreators = {
-  uploadAttachment,
   deleteAttachment,
-  attachmentLimitExceeded,
-  clearLimitExceededError
+  clearLimitExceededError,
+  uploadAttachedFiles
 }
 
 const mapStateToProps = state => ({
