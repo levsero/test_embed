@@ -19,6 +19,14 @@ export const submitForm = state => ({
   payload: { state }
 })
 
+export const attachmentLimitExceeded = () => ({
+  type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+})
+
+export const clearLimitExceededError = () => ({
+  type: actionTypes.CLEAR_LIMIT_EXCEEDED_ERROR
+})
+
 export const setActiveFormName = name => ({
   type: actionTypes.SET_ACTIVE_FORM_NAME,
   payload: { name }
