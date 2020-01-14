@@ -33,6 +33,20 @@ const StyledTestButton = styled(TestButton)`
   color: ${props => props.theme[props.themeVariableName]};
 `
 
+const TestParagraph = ({ className }) => (
+  <p id="testParagraph" className={className}>
+    Boop
+  </p>
+)
+
+TestParagraph.propTypes = {
+  className: PropTypes.string
+}
+
+const StyledTestParagraph = styled(TestParagraph)`
+  font-size: ${props => 2 * props.theme.fontSize}px;
+`
+
 describe('connected WidgetThemeProvider', () => {
   describe('using default widget theme', () => {
     const expectedDefaultColours = {
@@ -97,5 +111,13 @@ describe('connected WidgetThemeProvider', () => {
         )
       })
     }
+  })
+
+  describe('font sizes', () => {
+    it('uses themed fontSize', () => {
+      renderWithRedux(<StyledTestParagraph />)
+      expect(document.getElementById('testParagraph')).toHaveStyleRule(`
+      font-size: 28px`)
+    })
   })
 })

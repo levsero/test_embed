@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components'
 import { getThemeColor } from 'utility/color/validate'
 import { getWidgetColorVariables } from 'utility/color/styles'
 import { getColor } from 'src/redux/modules/selectors'
+import { FONT_SIZE } from 'src/constants/shared'
 
 const themeColors = baseColors => {
   const themeColor = getThemeColor()
@@ -41,7 +42,7 @@ WidgetThemeProvider.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  theme: themeColors(getColor(state, 'webWidget'))
+  theme: { ...themeColors(getColor(state, 'webWidget')), fontSize: FONT_SIZE }
 })
 
 const connectedComponent = connect(mapStateToProps)(WidgetThemeProvider)
