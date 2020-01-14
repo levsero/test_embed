@@ -128,6 +128,9 @@ describe('WebWidget component', () => {
       'src/constants/answerBot': {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation'
+      },
+      'service/history': {
+        history: {}
       }
     })
 

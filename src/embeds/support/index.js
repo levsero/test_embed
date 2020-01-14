@@ -1,13 +1,37 @@
 import React from 'react'
-import { Widget, Header, Main } from 'src/components/Widget'
+import PropTypes from 'prop-types'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-const Support = () => {
+import routes from './routes'
+import SuccessPage from 'embeds/support/pages/SuccessPage'
+import TicketFormPage from 'embeds/support/pages/TicketFormPage'
+import TicketFormsListPage from 'embeds/support/pages/TicketFormsListPage'
+import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
+
+const Support = ({ ticketForms }) => {
+  const formId = ticketForms.length ? ticketForms[0].id : routes.defaultFormId
+  const indexRoute = ticketForms.length > 1 ? routes.list() : routes.form(formId)
+
   return (
-    <Widget>
-      <Header title="WE ARE NEXT GEN SUPPORT" />
-      <Main>I AM NEW SUPPORT</Main>
-    </Widget>
+    <Switch>
+      <Route path={routes.form()} component={TicketFormPage} />
+      <Route path={routes.list()} component={TicketFormsListPage} />
+      <Route path={routes.success()} component={SuccessPage} />
+      <Redirect exact={true} from={'/'} to={indexRoute} />
+      <Redirect exact={true} from={routes.home()} to={indexRoute} />
+    </Switch>
   )
 }
 
-export default Support
+Support.propTypes = {
+  ticketForms: PropTypes.array.isRequired
+}
+
+const mapStateToProps = state => ({
+  ticketForms: getTicketForms(state)
+})
+
+const connectedComponent = connect(mapStateToProps)(Support)
+
+export { connectedComponent as default, Support as Component }

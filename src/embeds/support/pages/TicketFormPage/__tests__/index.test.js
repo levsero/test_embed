@@ -9,7 +9,8 @@ describe('TicketFormPage', () => {
     formName: 'Form name',
     formState: {},
     readOnlyState: {},
-    ticketFields: []
+    ticketFields: [],
+    ticketForms: []
   }
 
   const renderComponent = (props = {}) => render(<TicketFormPage {...defaultProps} {...props} />)

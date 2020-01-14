@@ -183,7 +183,7 @@ describe('getCustomTicketFields', () => {
 describe('getTicketFormFields', () => {
   const state = {
     submitTicket: {
-      ticketForms: [{ id: '123456', ticket_field_ids: ['123', '456', '789'] }],
+      ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
       ticketFields: {
         123: checkboxField,
         456: textField,
@@ -209,7 +209,7 @@ describe('getFormTicketFields', () => {
   const setUpState = fields => {
     return {
       submitTicket: {
-        ticketForms: [{ id: '123456', ticket_field_ids: ['123', '456', '789'] }],
+        ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
         ticketFields: fields
       },
       settings: { contactForm: { settings: { subject: false } } },
@@ -522,5 +522,33 @@ describe('getReadOnlyState', () => {
       email: true,
       name: false
     })
+  })
+})
+
+describe('getTicketFormTitle', () => {
+  it('returns the ticket form title for the id passed in', () => {
+    const result = selectors.getTicketFormTitle(
+      {
+        submitTicket: {
+          ticketForms: [
+            {
+              id: 123,
+              display_name: 'Geralt'
+            },
+            {
+              id: 234,
+              display_name: 'Yennifer'
+            },
+            {
+              id: 345,
+              display_name: 'Jaskier'
+            }
+          ]
+        }
+      },
+      234
+    )
+
+    expect(result).toEqual('Yennifer')
   })
 })

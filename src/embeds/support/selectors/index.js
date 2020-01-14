@@ -13,6 +13,7 @@ import {
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
 import createKeyID from 'embeds/support/utils/createKeyID'
+import routes from 'embeds/support/routes'
 
 export const getSupportConfig = state => state.support.config
 export const getNewSupportEmbedEnabled = state =>
@@ -87,6 +88,12 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
+export const getTicketFormTitle = (state, id) => {
+  const ticketForm = getTicketForms(state).find(form => {
+    return form.id === parseInt(id)
+  })
+  return ticketForm ? ticketForm.display_name : ''
+}
 export const getCustomTicketFields = createSelector(
   [
     getTicketFieldsResponse,
@@ -145,8 +152,9 @@ export const getCustomTicketFields = createSelector(
 export const getTicketFormFields = (state, formId) => {
   const ticketFields = getTicketFields(state)
   const ticketForms = getTicketForms(state)
+  const ticketFormId = parseInt(formId)
   const ticketForm = ticketForms.find(form => {
-    return form.id === formId
+    return form.id === ticketFormId
   })
   const formTicketFields =
     ticketForm && ticketForm.ticket_field_ids
@@ -170,9 +178,8 @@ export const getTicketFormFields = (state, formId) => {
   ].filter(Boolean)
 }
 
-export const getFormTicketFields = (state, route = 'contact-form') => {
-  // 'contact-form' is placeholder for now, will be replaced with whatever the route ends up becoming
-  if (route === 'contact-form') {
+export const getFormTicketFields = (state, route) => {
+  if (route === routes.defaultFormId) {
     return getCustomTicketFields(state)
   }
 

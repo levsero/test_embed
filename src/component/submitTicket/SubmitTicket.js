@@ -34,7 +34,7 @@ import { Alert } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
-import TicketFormsPage from 'src/embeds/support/pages/TicketFormsPage'
+import TicketFormsListPage from 'src/embeds/support/pages/TicketFormsListPage'
 import SuccessPage from 'src/embeds/support/pages/SuccessPage'
 
 const mapStateToProps = state => {
@@ -315,7 +315,7 @@ class SubmitTicket extends Component {
       )
     }
 
-    return <TicketFormsPage handleFormOptionClick={this.handleTicketFormsListClick} />
+    return <TicketFormsListPage handleFormOptionClick={this.handleTicketFormsListClick} />
   }
 }
 

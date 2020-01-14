@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 
-import { Component as TicketFormsPage } from '../index'
+import { Component as TicketFormsListPage } from '../index'
 import { render } from 'src/util/testHelpers'
 
 const renderComponent = ({
@@ -11,7 +11,7 @@ const renderComponent = ({
   ticketForms = []
 }) => {
   return render(
-    <TicketFormsPage
+    <TicketFormsListPage
       handleFormOptionClick={handleFormOptionClick}
       formTitle={formTitle}
       selectTicketFormLabel={selectTicketFormLabel}

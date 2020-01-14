@@ -11,11 +11,14 @@ import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { queuesReset } from 'utility/rateLimiting/helpers'
 import { formPrefilled } from '..'
 import { FORM_PREFILLED } from '../action-types'
+import history from 'service/history'
+import routes from 'embeds/support/routes'
 
 jest.mock('lodash')
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
+jest.mock('service/history')
 
 const mockId = 42
 const mockFileBlob = { name: 'blah.txt', size: 1024, type: 'text/plain' }
@@ -356,6 +359,8 @@ describe('submitTicket', () => {
   })
 
   it('dispatches expected actions on successful request', () => {
+    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+
     const store = mockStore()
 
     store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
@@ -368,6 +373,34 @@ describe('submitTicket', () => {
       type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
       payload: { a: 123 }
     })
+  })
+
+  it('does not replace history when getNewSupportEmbedEnabled is false', () => {
+    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.done
+
+    cb({ text: JSON.stringify({ a: 123 }) })
+
+    expect(history.replace).not.toHaveBeenCalled()
+  })
+
+  it('replaces history with the success page onto history when getNewSupportEmbedEnabled is true', () => {
+    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.done
+
+    cb({ text: JSON.stringify({ a: 123 }) })
+
+    expect(history.replace).toHaveBeenCalledWith(routes.success())
   })
 
   it('dispatches expected actions on failed timeout request', () => {

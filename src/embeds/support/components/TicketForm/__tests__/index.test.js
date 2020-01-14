@@ -17,7 +17,8 @@ const defaultProps = {
   ],
   formName: 'testForm',
   showErrors: false,
-  readOnlyState: {}
+  readOnlyState: {},
+  ticketFormTitle: 'formTitle'
 }
 
 const renderComponent = (props, rerender) => {
@@ -43,6 +44,12 @@ describe('initialRender', () => {
     expect(component.getByText('testInputB')).toBeInTheDocument()
 
     expect(component.getByText('Send')).toBeInTheDocument()
+  })
+
+  it('renders the form title', () => {
+    const component = renderComponent()
+
+    expect(component.getByText('formTitle')).toBeInTheDocument()
   })
 })
 

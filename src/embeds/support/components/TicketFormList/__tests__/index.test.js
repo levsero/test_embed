@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render } from 'src/util/testHelpers'
 import React from 'react'
 
 import Component from '..'

@@ -1,5 +1,4 @@
 import React from 'react'
-import { wait } from '@testing-library/react'
 
 import { Component as WebWidget } from '../WebWidget'
 import { render } from 'src/util/testHelpers'
@@ -31,17 +30,16 @@ afterEach(() => {
   console.error = originalError // eslint-disable-line no-console
 })
 
-it('show new support embed', async () => {
-  const { queryByText } = renderComponent()
+it('show new support embed', () => {
+  const { queryByRole } = renderComponent()
 
-  await wait(() => {
-    expect(queryByText('I AM NEW SUPPORT')).toBeInTheDocument()
-  })
+  // The new Support is wrapped in a Suspense page
+  expect(queryByRole('progressbar')).toBeTruthy()
 })
 
 it('show old support embed', () => {
-  const { queryByText } = renderComponent({ webWidgetReactRouterSupport: false })
+  const { container, queryByRole } = renderComponent({ webWidgetReactRouterSupport: false })
 
-  expect(queryByText('I AM NEW SUPPORT')).not.toBeInTheDocument()
-  expect(queryByText('Leave us a message')).toBeInTheDocument()
+  expect(container.querySelector('form').className).toEqual('form ')
+  expect(queryByRole('progressbar')).toBeFalsy()
 })

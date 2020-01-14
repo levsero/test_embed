@@ -8,12 +8,19 @@ import { convertFieldValue, mapKeyFields } from 'src/embeds/support/utils/fieldC
 import { getValidate } from 'src/embeds/support/utils/formFieldRules'
 import FormStateManager from 'src/embeds/support/components/TicketForm/FormStateManager'
 import { Form as ReactFinalForm } from 'react-final-form'
-import { Form as StyledForm, Main, FieldWrapper } from './styles'
+import { Form as StyledForm, Main, FieldWrapper, TicketFormTitle } from './styles'
 import { Field } from 'react-final-form'
 import { useTranslate } from 'src/hooks/useTranslation'
 import { useSubmit } from 'src/hooks/useSubmit'
 
-const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFields }) => {
+const TicketForm = ({
+  formName,
+  formState,
+  readOnlyState,
+  submitForm,
+  ticketFields,
+  ticketFormTitle
+}) => {
   const mappedTicketFields = mapKeyFields(ticketFields)
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
@@ -33,6 +40,7 @@ const TicketForm = ({ formName, formState, readOnlyState, submitForm, ticketFiel
         >
           <FormStateManager formName={formName} />
           <Main>
+            {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
             {mappedTicketFields.map(field => (
               <FieldWrapper key={field.id}>
                 <Field
@@ -72,6 +80,7 @@ TicketForm.propTypes = {
   formState: PropTypes.object,
   readOnlyState: PropTypes.objectOf(PropTypes.bool).isRequired,
   submitForm: PropTypes.func.isRequired,
+  ticketFormTitle: PropTypes.string,
   ticketFields: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

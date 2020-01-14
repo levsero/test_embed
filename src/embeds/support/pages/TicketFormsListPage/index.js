@@ -8,7 +8,8 @@ import { Widget, Header, Footer } from 'src/components/Widget'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
-import { TicketFormsMain } from 'embeds/support/pages/TicketFormsPage/styles'
+import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
+import routes from 'embeds/support/routes'
 
 const mapStateToProps = state => ({
   ticketForms: selectors.getTicketForms(state),
@@ -16,31 +17,41 @@ const mapStateToProps = state => ({
   formTitle: getContactFormTitle(state)
 })
 
-const TicketFormsPage = ({
+const TicketFormsListPage = ({
   formTitle,
   selectTicketFormLabel,
   ticketForms,
-  handleFormOptionClick
+  handleFormOptionClick,
+  history
 }) => {
+  const onFormOptionClick = handleFormOptionClick
+    ? handleFormOptionClick
+    : formId => {
+        history.push(routes.form(formId))
+      }
+
   return (
     <Widget>
       <Header title={formTitle} />
       <TicketFormsMain>
         <HeaderTitle>{selectTicketFormLabel}</HeaderTitle>
-        <TicketFormList ticketForms={ticketForms} handleFormOptionClick={handleFormOptionClick} />
+        <TicketFormList ticketForms={ticketForms} handleFormOptionClick={onFormOptionClick} />
       </TicketFormsMain>
       <Footer />
     </Widget>
   )
 }
 
-TicketFormsPage.propTypes = {
+TicketFormsListPage.propTypes = {
   selectTicketFormLabel: PropTypes.string.isRequired,
   ticketForms: PropTypes.array.isRequired,
-  handleFormOptionClick: PropTypes.func.isRequired,
-  formTitle: PropTypes.string.isRequired
+  handleFormOptionClick: PropTypes.func,
+  formTitle: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 }
 
-const ConnectedComponent = connect(mapStateToProps)(TicketFormsPage)
+const ConnectedComponent = connect(mapStateToProps)(TicketFormsListPage)
 
-export { ConnectedComponent as default, TicketFormsPage as Component }
+export { ConnectedComponent as default, TicketFormsListPage as Component }

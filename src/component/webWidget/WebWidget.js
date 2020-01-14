@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import AnswerBot from 'component/answerBot'
 import Chat from 'component/chat/Chat'
 
-import Support from 'embeds/support'
 import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
 import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
@@ -49,11 +48,13 @@ import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
+import history from 'service/history'
 
 const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
 const HelpCenter = lazy(() =>
   import(/* webpackChunkName: 'lazy/help_center' */ 'embeds/helpCenter')
 )
+const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'embeds/support'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -180,7 +181,8 @@ class WebWidget extends Component {
       showTicketFormsBackButton,
       channelChoiceAvailable,
       showChatHistory,
-      closedChatHistory
+      closedChatHistory,
+      webWidgetReactRouterSupport
     } = this.props
     const activeComponent = this.getActiveComponent()
     const isShowingChatHistory = activeEmbed === chat && showChatHistory
@@ -199,8 +201,14 @@ class WebWidget extends Component {
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(helpCenterAvailable)
+      if (webWidgetReactRouterSupport) {
+        history.goBack()
+      }
     } else if (helpCenterAvailable) {
       this.showHelpCenter()
+      if (webWidgetReactRouterSupport) {
+        history.goBack()
+      }
     } else {
       if (ipmHelpCenterAvailable) {
         closeCurrentArticle()
@@ -265,7 +273,11 @@ class WebWidget extends Component {
     const { webWidgetReactRouterSupport } = this.props
 
     if (webWidgetReactRouterSupport) {
-      return <Support />
+      return (
+        <SuspensePage>
+          <Support />
+        </SuspensePage>
+      )
     }
 
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''

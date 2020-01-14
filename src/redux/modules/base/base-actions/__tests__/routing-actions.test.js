@@ -5,12 +5,18 @@ import * as actions from 'src/redux/modules/base/base-actions'
 import * as actionTypes from 'src/redux/modules/base/base-action-types'
 import * as selectors from 'src/redux/modules/selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
+import * as supportSelectors from 'embeds/support/selectors'
+import * as submitTicketSelectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import history from 'service/history'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('embeds/helpCenter/selectors')
+jest.mock('embeds/support/selectors')
+jest.mock('src/redux/modules/submitTicket/submitTicket-selectors')
+jest.mock('service/history')
 
 const mockState = {
   base: {
@@ -77,6 +83,32 @@ describe('onCancelClick', () => {
           payload: true
         }
       ])
+    })
+
+    it('does not call goBack on history when getNewSupportEmbedEnabled is false', () => {
+      jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+
+      dispatchAction(actions.onCancelClick())
+
+      expect(history.goBack).not.toHaveBeenCalled()
+    })
+
+    it('does call goBack on history when getNewSupportEmbedEnabled is true', () => {
+      jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+      jest.spyOn(submitTicketSelectors, 'getTicketForms').mockReturnValue([])
+
+      dispatchAction(actions.onCancelClick())
+
+      expect(history.goBack).toHaveBeenCalled()
+    })
+
+    it('call goBack on history twice when there are multiple ticket forms', () => {
+      jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+      jest.spyOn(submitTicketSelectors, 'getTicketForms').mockReturnValue([{ id: 1 }, { id: 2 }])
+
+      dispatchAction(actions.onCancelClick())
+
+      expect(history.goBack).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -250,6 +282,22 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[1].type).not.toEqual(actionTypes.UPDATE_BACK_BUTTON_VISIBILITY)
     })
+
+    it('does not push anything to history when getNewSupportEmbedEnabled is false', () => {
+      jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+
+      dispatchAction(actions.onHelpCenterNextClick())
+
+      expect(history.push).not.toHaveBeenCalled()
+    })
+
+    it('pushes /support to history when getNewSupportEmbedEnabled is true', () => {
+      jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+
+      dispatchAction(actions.onHelpCenterNextClick())
+
+      expect(history.push).toHaveBeenCalledWith('/support')
+    })
   })
 
   it('dispatchs onNextClick', () => {
@@ -313,5 +361,21 @@ describe('onChannelChoiceNextClick', () => {
       type: actionTypes.UPDATE_ACTIVE_EMBED,
       payload: 'talk'
     })
+  })
+
+  it('does not push anything to history when getNewSupportEmbedEnabled is false', () => {
+    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+
+    dispatchAction(actions.onChannelChoiceNextClick('ticketSubmissionForm'))
+
+    expect(history.push).not.toHaveBeenCalled()
+  })
+
+  it('pushes /support to history when getNewSupportEmbedEnabled is true', () => {
+    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+
+    dispatchAction(actions.onChannelChoiceNextClick('ticketSubmissionForm'))
+
+    expect(history.push).toHaveBeenCalledWith('/support')
   })
 })
