@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getField from './fields'
 
 const FormField = ({ field, value, onChange, errorMessage, isReadOnly }) => {
@@ -17,9 +18,7 @@ const FormField = ({ field, value, onChange, errorMessage, isReadOnly }) => {
 }
 
 FormField.propTypes = {
-  field: PropTypes.shape({
-    type: PropTypes.string
-  }),
+  field: SupportPropTypes.ticketField,
   value: PropTypes.any,
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,

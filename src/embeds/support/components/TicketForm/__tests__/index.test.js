@@ -1,126 +1,174 @@
-import TicketForm from '../index'
 import React from 'react'
-import { render } from 'src/util/testHelpers'
-import { Provider } from 'react-redux'
-import createStore from 'src/redux/createStore'
+import { render } from 'utility/testHelpers'
+import TicketForm from '../'
+import useFormBackup from 'embeds/support/hooks/useFormBackup'
+import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
 import { fireEvent } from '@testing-library/react'
-import createKeyID from 'embeds/support/utils/createKeyID'
+import { TEST_IDS } from 'constants/shared'
+import wait from 'utility/wait'
 
-const submitFormSpy = jest.fn()
+jest.mock('embeds/support/hooks/useFormBackup')
+jest.mock('embeds/support/hooks/useUpdateOnPrefill')
 
-const defaultProps = {
-  formState: { '0testInputA': 'a', '1testInputB': 'b' },
-  submitForm: submitFormSpy,
-  ticketFields: [
-    { id: 0, title_in_portal: 'testInputA', type: 'text', required_in_portal: false },
-    { id: 1, title_in_portal: 'testInputB', type: 'text', required_in_portal: false }
-  ],
-  formName: 'testForm',
-  showErrors: false,
-  readOnlyState: {},
-  ticketFormTitle: 'formTitle'
+const field1 = {
+  id: 0,
+  keyID: 'key:0',
+  title_in_portal: 'testInputA',
+  type: 'text',
+  required_in_portal: false,
+  visible_in_portal: true
+}
+const field2 = {
+  id: 1,
+  keyID: 'key:1',
+  title_in_portal: 'testInputB',
+  type: 'text',
+  required_in_portal: false,
+  visible_in_portal: true
+}
+const field3 = {
+  id: 2,
+  keyID: 'key:2',
+  title_in_portal: 'testInputC',
+  type: 'text',
+  required_in_portal: false,
+  visible_in_portal: true
 }
 
-const renderComponent = (props, rerender) => {
-  const combinedProps = {
-    ...defaultProps,
-    ...props
+describe('TicketForm', () => {
+  const defaultProps = {
+    submitForm: jest.fn(),
+    formName: 'form name',
+    ticketFields: [field1, field2, field3],
+    readOnlyState: {},
+    conditions: []
   }
 
-  const component = (
-    <Provider store={createStore()}>
-      <TicketForm {...combinedProps} />
-    </Provider>
-  )
+  const renderComponent = (props = {}) => render(<TicketForm {...defaultProps} {...props} />)
 
-  return rerender ? rerender(component) : render(component)
-}
-
-describe('initialRender', () => {
-  it('renders both inputs and a submit button', () => {
-    const component = renderComponent()
-
-    expect(component.getByText('testInputA')).toBeInTheDocument()
-    expect(component.getByText('testInputB')).toBeInTheDocument()
-
-    expect(component.getByText('Send')).toBeInTheDocument()
+  it('uses the useFormBackup hook to save the form state to redux when needed', () => {
+    renderComponent()
+    expect(useFormBackup).toHaveBeenCalledWith('form name')
   })
 
-  it('renders the form title', () => {
-    const component = renderComponent()
-
-    expect(component.getByText('formTitle')).toBeInTheDocument()
-  })
-})
-
-describe('submit', () => {
-  describe('when validations pass', () => {
-    it('submits', () => {
-      const component = renderComponent()
-
-      fireEvent.click(component.getByText('Send'))
-
-      expect(submitFormSpy).toHaveBeenCalled()
-    })
-
-    it('does not show field required errors', () => {
-      const component = renderComponent()
-
-      fireEvent.click(component.getByText('Send'))
-
-      expect(component.queryByText('Please enter a value.')).toBeNull()
-    })
+  it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {
+    renderComponent()
+    expect(useUpdateOnPrefill).toHaveBeenCalledWith()
   })
 
-  describe('when validations will not pass', () => {
-    const renderTest = () => {
-      const modifiedProps = {
-        ...defaultProps,
+  describe('submit', () => {
+    const run = ({ isValid = true, ...props } = {}) => {
+      return renderComponent({
         ticketFields: [
-          { id: 0, title_in_portal: 'testInputA', type: 'text', required_in_portal: true },
-          { id: 1, title_in_portal: 'testInputB', type: 'text', required_in_portal: true }
+          field1,
+          {
+            ...field2,
+            required_in_portal: !isValid
+          }
         ],
-        formState: { [createKeyID(0)]: 'a', [createKeyID(1)]: '' }
-      }
-      return renderComponent(modifiedProps)
+        formState: { 'key:0': 'a', 'key:1': '' },
+        ...props
+      })
     }
 
-    it('renders field required errors', () => {
-      const { getByTestId, getByText } = renderTest()
+    it('calls submitForm when form is valid', async () => {
+      const submitForm = jest.fn()
+      const { getByText } = run({ submitForm, isValid: true })
 
-      fireEvent.click(getByTestId('submitButton'))
+      fireEvent.click(getByText('Send'))
+
+      await wait()
+
+      expect(submitForm).toHaveBeenCalled()
+    })
+
+    it('renders error messages if the form is not valid', async () => {
+      const { getByTestId, getByText } = run({ isValid: false })
+
+      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+
+      await wait()
+
       expect(getByText('Please enter a value.')).toBeInTheDocument()
     })
 
-    it('does not submit', () => {
-      fireEvent.click(renderTest().getByText('Send'))
+    it('does not display error messages until the form has been submitted', async () => {
+      const { getByTestId, queryByText, getByLabelText } = run({ isValid: false })
 
-      expect(submitFormSpy).not.toHaveBeenCalled()
+      const getErrorMessage = () => queryByText('Please enter a value.')
+      const field = getByLabelText('testInputB')
+
+      expect(getErrorMessage()).not.toBeInTheDocument()
+
+      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+
+      await wait()
+
+      expect(getErrorMessage()).toBeInTheDocument()
+
+      fireEvent.change(field, { target: { value: 'something' } })
+
+      expect(getErrorMessage()).not.toBeInTheDocument()
+
+      fireEvent.change(field, { target: { value: '' } })
+
+      expect(getErrorMessage()).toBeInTheDocument()
+    })
+
+    it('does not call submitForm if the form is not valid', () => {
+      const submitForm = jest.fn()
+      const { getByTestId } = run({ submitForm, isValid: false })
+
+      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+
+      expect(submitForm).not.toHaveBeenCalled()
     })
   })
-})
 
-describe('error status', () => {
-  it('when an error gets resolved, hides the error', () => {
-    const modifiedProps = {
-      ...defaultProps,
-      ticketFields: [
-        { id: 0, title_in_portal: 'testInputA', type: 'text', required_in_portal: true }
-      ],
-      formState: { '0testInputA': '' },
-      showErrors: true
-    }
+  describe('submit button', () => {
+    it('has a type submit so it can submit the form', () => {
+      const { queryByTestId } = renderComponent()
 
-    const { getByText, getByTestId, rerender, queryByText } = renderComponent(modifiedProps)
+      expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON).getAttribute('type')).toEqual('submit')
+    })
 
-    fireEvent.click(getByTestId('submitButton'))
+    describe('when the form is submitting', () => {
+      const run = async () => {
+        const submitForm = jest.fn(() => new Promise(() => {}))
+        const result = renderComponent({ submitForm })
 
-    expect(getByText('Please enter a value.')).toBeInTheDocument()
+        fireEvent.click(result.getByText('Send'))
 
-    let fixedErrorProps = { ...modifiedProps, ...{ formState: { '0testInputA': 'a' } } }
+        await wait()
 
-    renderComponent(fixedErrorProps, rerender)
+        return result
+      }
 
-    expect(queryByText('Please enter a value.')).toBeNull()
+      it('displays text to show that the form is currently submitting', async () => {
+        const { queryByTestId } = await run()
+
+        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toHaveTextContent('Submitting...')
+      })
+
+      it('is disabled', async () => {
+        const { queryByTestId } = await run()
+
+        await expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toBeDisabled()
+      })
+    })
+
+    describe('when the form is not currently submitting', () => {
+      it('renders text to show that it submits the form', () => {
+        const { queryByTestId } = renderComponent({ isSubmitting: false })
+
+        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toHaveTextContent('Send')
+      })
+
+      it('is not disabled', () => {
+        const { queryByTestId } = renderComponent({ isSubmitting: false })
+
+        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).not.toBeDisabled()
+      })
+    })
   })
 })

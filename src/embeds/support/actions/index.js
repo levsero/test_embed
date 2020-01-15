@@ -153,43 +153,47 @@ export const uploadAttachment = file => (dispatch, getState) => {
 
 export function submitTicket(formState, formTitle) {
   return (dispatch, getState) => {
-    const state = getState()
-    const attachments = [] // Will update once https://zendesk.atlassian.net/browse/EWW-992 is done
-    const params = formatRequestData(state, formState, attachments, formTitle)
+    return new Promise((resolve, reject) => {
+      const state = getState()
+      const attachments = [] // Will update once https://zendesk.atlassian.net/browse/EWW-992 is done
+      const params = formatRequestData(state, formState, attachments, formTitle)
 
-    const payload = {
-      method: 'post',
-      path: '/api/v2/requests',
-      params: params,
-      callbacks: {
-        done(res) {
-          dispatch({
-            type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-            payload: JSON.parse(res.text)
-          })
-          if (getNewSupportEmbedEnabled(state)) {
-            history.replace(routes.success())
+      const payload = {
+        method: 'post',
+        path: '/api/v2/requests',
+        params: params,
+        callbacks: {
+          done(res) {
+            dispatch({
+              type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
+              payload: JSON.parse(res.text)
+            })
+            if (getNewSupportEmbedEnabled(state)) {
+              history.replace(routes.success())
+            }
+            resolve()
+          },
+          fail(err) {
+            dispatch({
+              type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+              payload: err.timeout
+                ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
+                : i18n.t('embeddable_framework.submitTicket.notify.message.error')
+            })
+            reject()
           }
-        },
-        fail(err) {
-          dispatch({
-            type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
-            payload: err.timeout
-              ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
-              : i18n.t('embeddable_framework.submitTicket.notify.message.error')
-          })
         }
       }
-    }
 
-    dispatch({
-      type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT
-    })
-
-    withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
       dispatch({
-        type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
-        payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
+        type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT
+      })
+
+      withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
+        dispatch({
+          type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
+          payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
+        })
       })
     })
   }

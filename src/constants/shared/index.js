@@ -174,7 +174,8 @@ export const TEST_IDS = {
   SUCCESS_NOTIFICATION_ICON: 'Icon--success-notification-icon',
   TICKET_FORM_LIST: 'ticket-form-list',
   SUPPORT_TICKET_FORM: 'support-ticket-form',
-  CHAT_BADGE: 'chat-badge'
+  CHAT_BADGE: 'chat-badge',
+  SUPPORT_SUBMIT_BUTTON: 'support-submit-button'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'

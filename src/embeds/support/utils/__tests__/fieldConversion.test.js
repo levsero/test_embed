@@ -78,14 +78,14 @@ describe('mapKeyFields', () => {
 describe('getParsedValues', () => {
   it('returns an object with field values: {id: value} from {keyID: value}', () => {
     const ticketFields = [
-      { id: 0, title_in_portal: 'name', keyID: '0name' },
-      { id: 1, title_in_portal: 'email', keyID: '1email' },
-      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' }
+      { id: 0, title_in_portal: 'name', keyID: createKeyID(0) },
+      { id: 1, title_in_portal: 'email', keyID: createKeyID(1) },
+      { id: 100000, title_in_portal: 'Custom field', keyID: createKeyID(100000) }
     ]
     const values = {
-      '0name': 'hey a test',
-      '1email': 'bob@saget.com',
-      '100000Custom field': 'custom text'
+      [createKeyID(0)]: 'hey a test',
+      [createKeyID(1)]: 'bob@saget.com',
+      [createKeyID(100000)]: 'custom text'
     }
 
     const parsedValues = getParsedValues(values, ticketFields)
