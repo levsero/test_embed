@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
 import ClickToCallIcon from 'src/embeds/talk/icons/click_to_call.svg'
 import { Button } from '@zendeskgarden/react-buttons'
 
 const CallButton = styled(Button)`
   width: 100%;
   margin-top: auto;
-  margin-bottom: ${20 / FONT_SIZE}rem !important;
+  margin-bottom: ${props => 20 / props.theme.fontSize}rem !important;
   flex-shrink: 0;
 `
 
@@ -17,11 +16,11 @@ const Container = styled.div`
 `
 
 const StyledClickToCallIcon = styled(ClickToCallIcon)`
-  min-width: ${60 / FONT_SIZE}rem;
-  min-height: ${60 / FONT_SIZE}rem;
-  height: ${60 / FONT_SIZE}rem;
-  width: ${60 / FONT_SIZE}rem;
-  margin-bottom: ${20 / FONT_SIZE}rem !important;
+  min-width: ${props => 60 / props.theme.fontSize}rem;
+  min-height: ${props => 60 / props.theme.fontSize}rem;
+  height: ${props => 60 / props.theme.fontSize}rem;
+  width: ${props => 60 / props.theme.fontSize}rem;
+  margin-bottom: ${props => 20 / props.theme.fontSize}rem !important;
   flex-shrink: 0;
 
   path.customColor,
@@ -31,9 +30,9 @@ const StyledClickToCallIcon = styled(ClickToCallIcon)`
 `
 
 const Message = styled.p`
-  margin-bottom: ${20 / FONT_SIZE}rem !important;
+  margin-bottom: ${props => 20 / props.theme.fontSize}rem !important;
   text-align: center;
-  font-size: ${14 / FONT_SIZE}rem !important;
+  font-size: ${props => 14 / props.theme.fontSize}rem !important;
 `
 
 const PageContents = styled.div`
