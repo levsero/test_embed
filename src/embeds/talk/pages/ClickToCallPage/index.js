@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import { getTitle } from 'src/embeds/talk/selectors'
-import { getSnapcallButtonId } from 'src/redux/modules/talk/talk-selectors'
+import { getTitle, getSnapcallButtonId } from 'src/embeds/talk/selectors'
 import {
   Container,
   ClickToCallIcon,

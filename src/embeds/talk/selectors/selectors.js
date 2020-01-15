@@ -7,6 +7,9 @@ export const getTitle = (state, fallback) => {
   return i18n.getSettingTranslation(getSettingsTalkTitle(state)) || i18n.t(fallback)
 }
 
+// export const getSnapcallButtonId = state => getEmbeddableConfig(state).snapcallButtonId
+export const getSnapcallButtonId = _state => 'YOUR_SNAPCALL_BUTTON_ID'
+
 export const getOfflineTitle = state => {
   const capability = getCapability(state)
   const title = i18n.getSettingTranslation(getSettingsTalkTitle(state))
