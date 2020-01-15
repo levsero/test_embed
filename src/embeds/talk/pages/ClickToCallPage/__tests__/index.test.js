@@ -24,7 +24,7 @@ describe('when the user starts a call', () => {
 })
 
 describe('when there is an average wait time', () => {
-  it('renders the page with the average wait time component', () => {
+  it('displays the average wait time', () => {
     const { getByText } = renderComponent({
       averageWaitTime: 'Average wait time: 10 minutes',
       title: 'Call Us'
@@ -35,7 +35,7 @@ describe('when there is an average wait time', () => {
 })
 
 describe('when there is no average wait time', () => {
-  it('renders the page with the average wait time component', () => {
+  it('does not display the average wait time', () => {
     const { queryByText } = renderComponent({
       averageWaitTime: null,
       title: 'Call Us'
