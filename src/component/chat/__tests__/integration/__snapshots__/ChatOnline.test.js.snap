@@ -831,7 +831,7 @@ exports[`update chat header 1`] = `
     class="Tooltip__TriggerWrapper-lty2bj-1 kvOgTM"
   >
     <div
-      aria-describedby="garden-tooltip-container-290"
+      aria-describedby="garden-tooltip-container-466"
       class="sc-bRBYWo bzjPxV"
       data-garden-container-id="tooltip"
       data-garden-container-version="0.2.6"
@@ -851,7 +851,7 @@ exports[`update chat header 1`] = `
       class="TooltipView-yjjo4k-0 index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT bmFPrL"
       data-garden-id="tooltip.tooltip"
       data-garden-version="7.0.2"
-      id="garden-tooltip-container-290"
+      id="garden-tooltip-container-466"
       role="tooltip"
     >
       Mistah J

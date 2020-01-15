@@ -15,6 +15,7 @@ import { render as rtlRender } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
+import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
@@ -119,6 +120,7 @@ export function render(
   {
     render,
     themeProps = {},
+    widgetThemeProps = {},
     store,
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] })
@@ -131,7 +133,9 @@ export function render(
     ...renderFn(
       <Provider store={reduxStore}>
         <ThemeProvider {...themeProps}>
-          <Router history={history}>{ui}</Router>
+          <WidgetThemeProvider {...widgetThemeProps}>
+            <Router history={history}>{ui}</Router>
+          </WidgetThemeProvider>
         </ThemeProvider>
       </Provider>
     ),

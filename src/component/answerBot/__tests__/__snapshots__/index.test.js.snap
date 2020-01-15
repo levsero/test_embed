@@ -6,7 +6,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
     class="sc-htpNat iybLJI"
   >
     <div
-      class="sc-ifAKCX eiCLeW"
+      class="sc-ifAKCX iEHOTz"
     >
       <div
         class="sc-bZQynM sc-gzVnrw bQuIzm"
@@ -19,7 +19,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -110,7 +110,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
     class="sc-htpNat iybLJI"
   >
     <div
-      class="sc-ifAKCX eiCLeW"
+      class="sc-ifAKCX iEHOTz"
     >
       <div
         class="sc-bZQynM sc-gzVnrw bQuIzm"
@@ -123,7 +123,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -214,7 +214,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
     class="sc-htpNat iybLJI"
   >
     <div
-      class="sc-ifAKCX eiCLeW"
+      class="sc-ifAKCX iEHOTz"
     >
       <div
         class="sc-bZQynM sc-gzVnrw bQuIzm"
@@ -227,7 +227,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -315,7 +315,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
     class="sc-htpNat iybLJI"
   >
     <div
-      class="sc-ifAKCX eiCLeW"
+      class="sc-ifAKCX iEHOTz"
     >
       <div
         class="sc-bZQynM sc-gzVnrw bQuIzm"
@@ -328,7 +328,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x ytLkk Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -391,20 +391,20 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
                 data-garden-version="7.0.2"
-                for="garden-field-container-3--input"
-                id="garden-field-container-3--label"
+                for="garden-field-container-4--input"
+                id="garden-field-container-4--label"
               >
                 Type your question here...
               </label>
               <textarea
-                aria-describedby="garden-field-container-3--hint"
+                aria-describedby="garden-field-container-4--hint"
                 aria-invalid="false"
-                aria-labelledby="garden-field-container-3--label"
+                aria-labelledby="garden-field-container-4--label"
                 class="StyledTextInput-sc-1ezxcjx-0-textarea sc-chPdSV bAtvxP StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
                 data-garden-id="forms.textarea"
                 data-garden-version="7.0.2"
                 data-testid="message-field"
-                id="garden-field-container-3--input"
+                id="garden-field-container-4--input"
                 name="answerBotInputValue"
                 placeholder="Type your question here..."
                 rows="1"
