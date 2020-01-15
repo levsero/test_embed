@@ -1,13 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the component 1`] = `
+.c0 {
+  margin-bottom: 1.0714285714285714rem !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  background-color: rgba(#d93f4c,0.1);
+  border-radius: 0.2857142857142857rem;
+  border: 0.07142857142857142rem solid #f5b5ba;
+  color: #8c232c;
+  padding: 0.9285714285714286rem 0.9285714285714286rem;
+  line-height: 1.2857142857142858rem;
+}
+
+.c1 {
+  margin-top: 0.14285714285714285rem;
+  margin-right: 0.8571428571428571rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c1 g circle {
+  stroke: #cc3340;
+  fill: #cc3340;
+}
+
+.c1 g path {
+  stroke: #fff;
+}
+
+.c1 circle {
+  fill: #fff;
+}
+
 <div>
   <div
-    class="sc-bdVaJa lmtGzF"
+    class="c0"
     data-testid="error-message"
   >
     <svg
-      class="sc-bwzfXH cTfKdZ"
+      class="c1"
       realfilename="error.svg"
     />
     there was an error

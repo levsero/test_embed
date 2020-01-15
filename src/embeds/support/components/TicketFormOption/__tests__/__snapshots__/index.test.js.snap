@@ -1,10 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TicketFormOption renders 1`] = `
+.c0 {
+  border: 0;
+  color: undefined !important;
+  -webkit-text-decoration-color: undefined !important;
+  text-decoration-color: undefined !important;
+  border-bottom: 0.07857142857142858rem solid #e9ebed;
+  padding: 1.2857142857142858rem 0.8571428571428571rem !important;
+  line-height: 1.2857142857142858;
+  list-style: none;
+  display: block;
+  width: 100%;
+  text-align: start;
+  background-color: transparent;
+}
+
+.c0:hover {
+  cursor: pointer;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: undefined !important;
+  background-color: #f8f9f9;
+}
+
+.c0:not(:last-child) {
+  border-bottom: 0.07857142857142858rem solid #e9ebed;
+}
+
 <div>
   <li>
     <button
-      class="sc-bdVaJa iIUgYC"
+      class="c0"
     >
       the goggles do nothing
     </button>

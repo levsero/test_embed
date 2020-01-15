@@ -2,7 +2,6 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { Component as OfflinePage } from '../index'
-import 'jest-styled-components'
 
 describe('OfflineMessage', () => {
   it('renders a label explaining that talk is offline', () => {

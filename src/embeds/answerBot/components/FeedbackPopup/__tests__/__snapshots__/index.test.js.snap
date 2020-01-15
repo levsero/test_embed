@@ -1,22 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`on no click displays the reasons 1`] = `
+.c2 {
+  margin: 0 auto;
+  width: 85%;
+}
+
+.c3 {
+  margin-bottom: 0.7142857142857143rem;
+  width: 100%;
+}
+
+.c4 {
+  width: 100%;
+}
+
+.c0 {
+  background-color: #fff;
+  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
+  padding: 1.1428571428571428rem 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-bottom: 0.7142857142857143rem;
+  font-size: 0.9285714285714286rem;
+  font-weight: normal;
+  color: #333;
+}
+
 <div>
   <div
-    class="sc-bxivhb kgDyes"
+    class="c0"
   >
     <h3
-      class="sc-ifAKCX hSIQkB"
+      class="c1"
     >
       Please tell us why.
     </h3>
     <div
-      class="sc-bdVaJa kWWNCc"
+      class="c2"
     >
       <button
         class="
       button
-      sc-bwzfXH hZdrme
+      c3
     "
         data-testid="pill-button"
       >
@@ -25,7 +53,7 @@ exports[`on no click displays the reasons 1`] = `
       <button
         class="
       button
-      sc-htpNat daVAfG
+      c4
     "
         data-testid="pill-button"
       >
@@ -37,12 +65,26 @@ exports[`on no click displays the reasons 1`] = `
 `;
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  background-color: #fff;
+  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
+  padding: 1.1428571428571428rem 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-bottom: 0.7142857142857143rem;
+  font-size: 0.9285714285714286rem;
+  font-weight: normal;
+  color: #333;
+}
+
 <div>
   <div
-    class="sc-bxivhb kgDyes"
+    class="c0"
   >
     <h3
-      class="sc-ifAKCX hSIQkB"
+      class="c1"
     >
       Does this article answer your question?
     </h3>

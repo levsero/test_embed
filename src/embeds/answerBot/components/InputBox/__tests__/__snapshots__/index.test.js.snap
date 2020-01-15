@@ -1,15 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders as disabled 1`] = `
+.c0 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c1 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-bdVaJa hBxWkW"
+    class="c0"
   >
     <div
-      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="sc-bwzfXH cZfafi StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+        class="c1 text__c-txt__label___3wMPZ "
         data-garden-container-id="field"
         data-garden-container-version="1.1.3"
         data-garden-id="forms.text_label"
@@ -23,7 +39,7 @@ exports[`renders as disabled 1`] = `
         aria-describedby="garden-field-container-1--hint"
         aria-invalid="false"
         aria-labelledby="garden-field-container-1--label"
-        class="StyledTextInput-sc-1ezxcjx-0-textarea sc-htpNat dFMloS StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+        class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
         data-garden-id="forms.textarea"
         data-garden-version="7.0.2"
         data-testid="message-field"
@@ -38,15 +54,31 @@ exports[`renders as disabled 1`] = `
 `;
 
 exports[`renders as mobile 1`] = `
+.c0 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c1 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-bdVaJa hBxWkW"
+    class="c0"
   >
     <div
-      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="sc-bwzfXH cZfafi StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+        class="c1 text__c-txt__label___3wMPZ "
         data-garden-container-id="field"
         data-garden-container-version="1.1.3"
         data-garden-id="forms.text_label"
@@ -60,7 +92,7 @@ exports[`renders as mobile 1`] = `
         aria-describedby="garden-field-container-2--hint"
         aria-invalid="false"
         aria-labelledby="garden-field-container-2--label"
-        class="StyledTextInput-sc-1ezxcjx-0-textarea sc-htpNat dFMloS StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+        class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
         data-garden-id="forms.textarea"
         data-garden-version="7.0.2"
         data-testid="message-field"
@@ -75,15 +107,31 @@ exports[`renders as mobile 1`] = `
 `;
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c1 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-bdVaJa hBxWkW"
+    class="c0"
   >
     <div
-      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="sc-bwzfXH cZfafi StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+        class="c1 text__c-txt__label___3wMPZ "
         data-garden-container-id="field"
         data-garden-container-version="1.1.3"
         data-garden-id="forms.text_label"
@@ -97,7 +145,7 @@ exports[`renders the expected classes 1`] = `
         aria-describedby="garden-field-container-0--hint"
         aria-invalid="false"
         aria-labelledby="garden-field-container-0--label"
-        class="StyledTextInput-sc-1ezxcjx-0-textarea sc-htpNat dFMloS StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+        class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
         data-garden-id="forms.textarea"
         data-garden-version="7.0.2"
         data-testid="message-field"
@@ -112,15 +160,31 @@ exports[`renders the expected classes 1`] = `
 `;
 
 exports[`renders with value 1`] = `
+.c0 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c1 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-bdVaJa hBxWkW"
+    class="c0"
   >
     <div
-      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="sc-bwzfXH cZfafi StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+        class="c1 text__c-txt__label___3wMPZ "
         data-garden-container-id="field"
         data-garden-container-version="1.1.3"
         data-garden-id="forms.text_label"
@@ -134,7 +198,7 @@ exports[`renders with value 1`] = `
         aria-describedby="garden-field-container-3--hint"
         aria-invalid="false"
         aria-labelledby="garden-field-container-3--label"
-        class="StyledTextInput-sc-1ezxcjx-0-textarea sc-htpNat dFMloS StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+        class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
         data-garden-id="forms.textarea"
         data-garden-version="7.0.2"
         data-testid="message-field"

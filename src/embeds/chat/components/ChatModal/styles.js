@@ -44,7 +44,7 @@ const StyledSlideAppear = styled(SlideAppear)`
   max-height: calc(100% - 4.5rem);
   overflow-y: scroll;
   padding: 20px;
-  background: #fff;
+  background: ${zdColorWhite};
   position: relative;
   background-color: ${zdColorWhite};
   border-radius: ${3 / FONT_SIZE}rem;

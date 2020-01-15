@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import 'jest-styled-components'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { isMobileBrowser } from 'utility/devices'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'

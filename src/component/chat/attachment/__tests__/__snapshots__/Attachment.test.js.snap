@@ -411,7 +411,7 @@ exports[`renders with error message 1`] = `
 <div>
   <div>
     <div
-      class="containerError Alert-prppfq-0 index__c-callout___K1eQ- index__c-callout--error___NED0s ktWtOK"
+      class="containerError index__c-callout___K1eQ- index__c-callout--error___NED0s "
       data-garden-id="notifications.alert"
       data-garden-version="7.0.2"
       data-testid="error-message"
@@ -419,7 +419,7 @@ exports[`renders with error message 1`] = `
       type="error"
     >
       <div
-        class="previewError Title-sc-1329g54-0 index__c-callout__title___e5tnb fRGHFa"
+        class="previewError index__c-callout__title___e5tnb "
         data-garden-id="notifications.title"
         data-garden-version="7.0.2"
       >
@@ -431,7 +431,7 @@ exports[`renders with error message 1`] = `
         this is incorrect
       </div>
       <button
-        class="Close-oze0eo-0 index__c-callout__close___OudEV czaHBx"
+        class="index__c-callout__close___OudEV "
         data-garden-id="notifications.close"
         data-garden-version="7.0.2"
         type="button"

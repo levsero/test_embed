@@ -1,25 +1,198 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`does not render the feedback popup if feedback is not required 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -38,7 +211,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -78,10 +251,10 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -102,25 +275,226 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
 `;
 
 exports[`feedback actions on no click asks for the reason 1`] = `
+.c12 {
+  margin: 0 auto;
+  width: 85%;
+}
+
+.c13 {
+  margin-bottom: 0.7142857142857143rem;
+  width: 100%;
+}
+
+.c14 {
+  width: 100%;
+}
+
+.c10 {
+  background-color: #fff;
+  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
+  padding: 1.1428571428571428rem 0;
+}
+
+.c11 {
+  text-align: center;
+  margin-bottom: 0.7142857142857143rem;
+  font-size: 0.9285714285714286rem;
+  font-weight: normal;
+  color: #333;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -139,7 +513,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -179,10 +553,10 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -205,20 +579,20 @@ exports[`feedback actions on no click asks for the reason 1`] = `
       style="opacity: 1; bottom: 0px;"
     >
       <div
-        class="sc-bxivhb kgDyes"
+        class="c10"
       >
         <h3
-          class="sc-ifAKCX hSIQkB"
+          class="c11"
         >
           Please tell us why.
         </h3>
         <div
-          class="sc-bdVaJa kWWNCc"
+          class="c12"
         >
           <button
             class="
       button
-      sc-bwzfXH hZdrme
+      c13
     "
             data-testid="pill-button"
           >
@@ -227,7 +601,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
           <button
             class="
       button
-      sc-htpNat daVAfG
+      c14
     "
             data-testid="pill-button"
           >
@@ -241,25 +615,198 @@ exports[`feedback actions on no click asks for the reason 1`] = `
 `;
 
 exports[`feedback actions on yes click hides the feedback popup 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -278,7 +825,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -318,10 +865,10 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -342,25 +889,198 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
 `;
 
 exports[`passing of scroll container classes 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -379,7 +1099,7 @@ exports[`passing of scroll container classes 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -419,10 +1139,10 @@ exports[`passing of scroll container classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -443,25 +1163,198 @@ exports[`passing of scroll container classes 1`] = `
 `;
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -480,7 +1373,7 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -520,10 +1413,10 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -544,25 +1437,198 @@ exports[`renders the expected classes 1`] = `
 `;
 
 exports[`renders the expected mobile classes 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -581,7 +1647,7 @@ exports[`renders the expected mobile classes 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -621,10 +1687,10 @@ exports[`renders the expected mobile classes 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -645,25 +1711,198 @@ exports[`renders the expected mobile classes 1`] = `
 `;
 
 exports[`renders the expected title 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Support
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -682,7 +1921,7 @@ exports[`renders the expected title 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -722,10 +1961,10 @@ exports[`renders the expected title 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -746,25 +1985,212 @@ exports[`renders the expected title 1`] = `
 `;
 
 exports[`renders the feedback popup after a certain time has passed 1`] = `
+.c10 {
+  background-color: #fff;
+  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
+  padding: 1.1428571428571428rem 0;
+}
+
+.c11 {
+  text-align: center;
+  margin-bottom: 0.7142857142857143rem;
+  font-size: 0.9285714285714286rem;
+  font-weight: normal;
+  color: #333;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -783,7 +2209,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -823,10 +2249,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"
@@ -849,10 +2275,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
       style="opacity: 1; bottom: 0px;"
     >
       <div
-        class="sc-bxivhb kgDyes"
+        class="c10"
       >
         <h3
-          class="sc-ifAKCX hSIQkB"
+          class="c11"
         >
           Does this article answer your question?
         </h3>
@@ -885,25 +2311,198 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
 `;
 
 exports[`renders the help center article 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-EHOje jUTcpT"
+    class="c0"
   >
     <div
-      class="sc-gzVnrw gZskZ"
+      class="c1"
     >
       <div
-        class="sc-dnqmqq sc-iwsKbI ePJWJl"
+        class="c2"
       >
         <h1
-          class="sc-htoDjs fIBJbD"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-gZMcBi index__c-btn--icon___1Yl4x jlCyiE Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -922,7 +2521,7 @@ exports[`renders the help center article 1`] = `
       </div>
     </div>
     <div
-      class="sc-gqjmRU bRVMId"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -968,10 +2567,10 @@ exports[`renders the help center article 1`] = `
       </div>
     </div>
     <footer
-      class="sc-VigVT dPeJIv"
+      class="c8"
     >
       <div
-        class="sc-jTzLTM fKEzbR"
+        class="c9"
       >
         <a
           class="icon"

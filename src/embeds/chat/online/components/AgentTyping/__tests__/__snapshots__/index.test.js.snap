@@ -9,15 +9,60 @@ exports[`AgentTyping returns an empty div if there are no agents typing 1`] = `
 `;
 
 exports[`AgentTyping when one agent is typing renders the expected container 1`] = `
+.c2 {
+  color: inherit;
+}
+
+.c2 .c3 {
+  opacity: 0.2;
+}
+
+.c2 .c3:nth-child(1) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.c2 .c3:nth-child(2) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.c2 .c3:nth-child(3) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: unset;
+  animation-delay: unset;
+}
+
+.c1 {
+  color: #87929d !important;
+  vertical-align: middle;
+  height: 1.4rem !important;
+  width: 1.4rem !important;
+  padding-bottom: 0.14285714285714285rem;
+  margin-right: 0.35714285714285715rem;
+}
+
+.c0 {
+  width: 100%;
+  padding-top: 0.8571428571428571rem;
+  padding-bottom: 0.42857142857142855rem;
+  color: #68737d;
+}
+
 <div>
   <div
     aria-live="polite"
   >
     <div
-      class="sc-caSCKo cvbvIy"
+      class="c0"
     >
       <svg
-        class="sc-fAjcbJ kCEqVM Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
+        class="c1 c2"
         color="inherit"
         data-garden-id="loaders.inline"
         data-garden-version="7.0.0"
@@ -28,21 +73,21 @@ exports[`AgentTyping when one agent is typing renders the expected container 1`]
         width="16"
       >
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="14"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="8"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="2"
           cy="2"
           fill="currentColor"

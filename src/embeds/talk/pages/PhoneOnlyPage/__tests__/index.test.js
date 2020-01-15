@@ -6,7 +6,6 @@ import snapshotDiff from 'snapshot-diff'
 
 import { render } from 'src/util/testHelpers'
 import { Component as PhoneOnlyPage } from './../'
-import 'jest-styled-components'
 
 describe('PhoneOnlyPage', () => {
   const defaultProps = {

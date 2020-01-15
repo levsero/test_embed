@@ -46,13 +46,13 @@ exports[`renders the component 1`] = `
       class="inputContainer"
     >
       <div
-        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+        class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
           aria-describedby="garden-field-container-0--hint"
           aria-invalid="false"
           aria-labelledby="garden-field-container-0--label"
-          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
           data-garden-version="7.0.2"
           data-testid="message-field"
@@ -136,13 +136,13 @@ exports[`with chatBadgeColor passed in 1`] = `
       class="inputContainer"
     >
       <div
-        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+        class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
           aria-describedby="garden-field-container-1--hint"
           aria-invalid="false"
           aria-labelledby="garden-field-container-1--label"
-          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
           data-garden-version="7.0.2"
           data-testid="message-field"
@@ -228,13 +228,13 @@ exports[`with label passed in 1`] = `
       class="inputContainer"
     >
       <div
-        class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+        class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
           aria-describedby="garden-field-container-2--hint"
           aria-invalid="false"
           aria-labelledby="garden-field-container-2--label"
-          class="input StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+          class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
           data-garden-version="7.0.2"
           data-testid="message-field"

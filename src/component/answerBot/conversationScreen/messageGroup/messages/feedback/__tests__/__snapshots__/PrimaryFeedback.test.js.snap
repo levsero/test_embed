@@ -1,9 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  margin-bottom: 0.5rem;
+}
+
 <div>
   <div
-    class="sc-kgoBCf dRJrPp"
+    class="c0"
   >
     <div
       class="container buttonRight "

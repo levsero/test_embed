@@ -1,6 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`chat log agent attachment 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -39,12 +58,31 @@ exports[`chat log agent attachment 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent join 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -63,12 +101,31 @@ exports[`chat log agent join 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent member leave with disconnection reason 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -93,12 +150,31 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent member leave with non-disconnection reason 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -123,12 +199,31 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent message 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -175,12 +270,31 @@ exports[`chat log agent message 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent stopped typing 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -188,12 +302,76 @@ exports[`chat log agent stopped typing 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log agent typing 1`] = `
+.c2 {
+  color: inherit;
+}
+
+.c2 .c3 {
+  opacity: 0.2;
+}
+
+.c2 .c3:nth-child(1) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.c2 .c3:nth-child(2) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.c2 .c3:nth-child(3) {
+  -webkit-animation: dQzvEH 1s infinite;
+  animation: dQzvEH 1s infinite;
+  -webkit-animation-delay: unset;
+  animation-delay: unset;
+}
+
+.c1 {
+  color: #87929d !important;
+  vertical-align: middle;
+  height: 1.4rem !important;
+  width: 1.4rem !important;
+  padding-bottom: 0.14285714285714285rem;
+  margin-right: 0.35714285714285715rem;
+}
+
+.c0 {
+  width: 100%;
+  padding-top: 0.8571428571428571rem;
+  padding-bottom: 0.42857142857142855rem;
+  color: #68737d;
+}
+
+.c4 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -201,10 +379,10 @@ exports[`chat log agent typing 1`] = `
     aria-live="polite"
   >
     <div
-      class="sc-caSCKo cvbvIy"
+      class="c0"
     >
       <svg
-        class="sc-fAjcbJ kCEqVM Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
+        class="c1 c2"
         color="inherit"
         data-garden-id="loaders.inline"
         data-garden-version="7.0.0"
@@ -215,21 +393,21 @@ exports[`chat log agent typing 1`] = `
         width="16"
       >
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="14"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="8"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="Inline__StyledCircle-sc-1gjohp3-0 fAlTZX"
+          class="c3 "
           cx="2"
           cy="2"
           fill="currentColor"
@@ -240,12 +418,31 @@ exports[`chat log agent typing 1`] = `
     </div>
   </div>
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c4"
   />
 </div>
 `;
 
 exports[`chat log comment 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -264,12 +461,31 @@ exports[`chat log comment 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log member join 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -288,12 +504,31 @@ exports[`chat log member join 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log member leave 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -318,18 +553,44 @@ exports[`chat log member leave 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log queue position 1`] = `
+.c1 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
+.c0 {
+  text-align: center !important;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
 <div
   class="chatLogContainer"
 >
   <div
     aria-live="polite"
-    class="sc-TOsTZ iKtMbu"
+    class="c0"
     role="status"
   >
     Queue position: 3
@@ -338,12 +599,31 @@ exports[`chat log queue position 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log rating 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -362,12 +642,31 @@ exports[`chat log rating 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log series of actions 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -494,12 +793,31 @@ exports[`chat log series of actions 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor info is not available 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -546,12 +864,31 @@ exports[`chat log visitor message account settings login enabled displays update
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor name is default 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -598,12 +935,31 @@ exports[`chat log visitor message account settings login enabled displays update
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor email is already set 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -645,12 +1001,31 @@ exports[`chat log visitor message account settings login enabled does not displa
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor name is already set 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -692,12 +1067,31 @@ exports[`chat log visitor message account settings login enabled does not displa
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message failure 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -732,7 +1126,7 @@ exports[`chat log visitor message failure 1`] = `
               class="messageErrorContainer"
             >
               <div
-                class="container Alert-prppfq-0 index__c-callout___K1eQ- index__c-callout--error___NED0s ktWtOK"
+                class="container index__c-callout___K1eQ- index__c-callout--error___NED0s "
                 data-garden-id="notifications.alert"
                 data-garden-version="7.0.2"
                 role="alert"
@@ -754,12 +1148,31 @@ exports[`chat log visitor message failure 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`chat log visitor message success 1`] = `
+.c0 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div
   class="chatLogContainer"
 >
@@ -811,28 +1224,78 @@ exports[`chat log visitor message success 1`] = `
     aria-live="polite"
   />
   <div
-    class="sc-kjoXOD kkMxs"
+    class="c0"
   />
 </div>
 `;
 
 exports[`update chat header 1`] = `
+.c5 {
+  margin: 6px;
+}
+
+.c4 {
+  -webkit-transition: opacity 10ms;
+  transition: opacity 10ms;
+  opacity: 1;
+}
+
+.c4[aria-hidden='true'] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.c2 {
+  display: inline-block;
+}
+
+.c0 {
+  color: #2f3941;
+  line-height: 1.1428571428571428rem;
+  padding-top: 0.07142857142857142rem;
+  padding-left: 12px;
+}
+
+.c1 {
+  font-weight: 700;
+  font-size: 1rem;
+  width: 100%;
+  max-height: 1.1428571428571428rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.c3 {
+  width: 100%;
+  margin-top: 0.07142857142857142rem;
+  max-height: 2.2857142857142856rem;
+  max-width: 12.142857142857142rem;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 <div
-  class="sc-jhAzac iFjxbq"
+  class="c0"
   data-testid="chat-header-text-container"
 >
   <h2
-    class="sc-fBuWsC iuSqpy"
+    class="c1"
     data-testid="chat-header-title"
   >
     Mr F
   </h2>
   <div
-    class="Tooltip__TriggerWrapper-lty2bj-1 kvOgTM"
+    class="c2"
   >
     <div
       aria-describedby="garden-tooltip-container-466"
-      class="sc-fMiknA cRtAMu"
+      class="c3"
       data-garden-container-id="tooltip"
       data-garden-container-version="0.2.6"
       data-testid="chat-header-subtext"
@@ -843,12 +1306,12 @@ exports[`update chat header 1`] = `
   </div>
   <div
     aria-hidden="true"
-    class="Tooltip__TooltipWrapper-lty2bj-0 bNmkNU"
+    class="c4"
     style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
   >
     <div
       aria-hidden="true"
-      class="TooltipView-yjjo4k-0 index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT bmFPrL"
+      class="index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT c5"
       data-garden-id="tooltip.tooltip"
       data-garden-version="7.0.2"
       id="garden-tooltip-container-466"

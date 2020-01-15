@@ -1,25 +1,198 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`article screen renders expected components and styles in desktop 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-htpNat iybLJI"
+    class="c0"
   >
     <div
-      class="sc-ifAKCX iEHOTz"
+      class="c1"
     >
       <div
-        class="sc-bZQynM sc-gzVnrw bQuIzm"
+        class="c2"
       >
         <h1
-          class="sc-EHOje cygdwO"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -38,7 +211,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
       </div>
     </div>
     <div
-      class="sc-dnqmqq LbvIn"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -81,10 +254,10 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
       </div>
     </div>
     <footer
-      class="sc-iwsKbI ikJxeP"
+      class="c8"
     >
       <div
-        class="sc-gZMcBi kZYhVs"
+        class="c9"
       >
         <a
           class="icon"
@@ -105,25 +278,198 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
 `;
 
 exports[`article screen renders expected components and styles in mobile 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div>
   <div
-    class="sc-htpNat iybLJI"
+    class="c0"
   >
     <div
-      class="sc-ifAKCX iEHOTz"
+      class="c1"
     >
       <div
-        class="sc-bZQynM sc-gzVnrw bQuIzm"
+        class="c2"
       >
         <h1
-          class="sc-EHOje cygdwO"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Help
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -142,7 +488,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
       </div>
     </div>
     <div
-      class="sc-dnqmqq LbvIn"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -185,10 +531,10 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
       </div>
     </div>
     <footer
-      class="sc-iwsKbI ikJxeP"
+      class="c8"
     >
       <div
-        class="sc-gZMcBi kZYhVs"
+        class="c9"
       >
         <a
           class="icon"
@@ -209,25 +555,189 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
 `;
 
 exports[`conversation screen renders expected components and styles in desktop 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+}
+
+.c9 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c10 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-htpNat iybLJI"
+    class="c0"
   >
     <div
-      class="sc-ifAKCX iEHOTz"
+      class="c1"
     >
       <div
-        class="sc-bZQynM sc-gzVnrw bQuIzm"
+        class="c2"
       >
         <h1
-          class="sc-EHOje cygdwO"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Answer Bot
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -246,7 +756,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
       </div>
     </div>
     <div
-      class="sc-dnqmqq LbvIn"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -254,16 +764,16 @@ exports[`conversation screen renders expected components and styles in desktop 1
       />
     </div>
     <footer
-      class="footer sc-iwsKbI kKkMjC"
+      class="footer c8"
     >
       <div
-        class="sc-cSHVUG dgumTJ"
+        class="c9"
       >
         <div
-          class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+          class="text__c-txt___Uzv-G range__c-range___1aYaS "
         >
           <label
-            class="sc-kAzzGY fmYKCX StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+            class="c10 text__c-txt__label___3wMPZ "
             data-garden-container-id="field"
             data-garden-container-version="1.1.3"
             data-garden-id="forms.text_label"
@@ -277,7 +787,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
             aria-describedby="garden-field-container-0--hint"
             aria-invalid="false"
             aria-labelledby="garden-field-container-0--label"
-            class="StyledTextInput-sc-1ezxcjx-0-textarea sc-chPdSV bAtvxP StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+            class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
             data-garden-id="forms.textarea"
             data-garden-version="7.0.2"
             data-testid="message-field"
@@ -310,25 +820,189 @@ exports[`conversation screen renders expected components and styles in desktop 1
 `;
 
 exports[`conversation screen renders expected components and styles in mobile 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 0;
+}
+
+.c9 {
+  vertical-align: bottom !important;
+  margin: 0 0.07142857142857142rem;
+}
+
+.c10 {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+}
+
 <div>
   <div
-    class="sc-htpNat iybLJI"
+    class="c0"
   >
     <div
-      class="sc-ifAKCX iEHOTz"
+      class="c1"
     >
       <div
-        class="sc-bZQynM sc-gzVnrw bQuIzm"
+        class="c2"
       >
         <h1
-          class="sc-EHOje cygdwO"
+          class="c3 c4"
           data-testid="widget-title"
         >
           Answer Bot
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -347,7 +1021,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       </div>
     </div>
     <div
-      class="sc-dnqmqq LbvIn"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
@@ -355,7 +1029,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
       />
     </div>
     <footer
-      class="footer sc-iwsKbI isfCJk"
+      class="footer c8"
     >
       <div
         class="logoMobile"
@@ -380,13 +1054,13 @@ exports[`conversation screen renders expected components and styles in mobile 1`
           class="inputContainerMobile"
         >
           <div
-            class="sc-cSHVUG dgumTJ"
+            class="c9"
           >
             <div
-              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+              class="text__c-txt___Uzv-G range__c-range___1aYaS "
             >
               <label
-                class="sc-kAzzGY fmYKCX StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+                class="c10 text__c-txt__label___3wMPZ "
                 data-garden-container-id="field"
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
@@ -400,7 +1074,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                 aria-describedby="garden-field-container-4--hint"
                 aria-invalid="false"
                 aria-labelledby="garden-field-container-4--label"
-                class="StyledTextInput-sc-1ezxcjx-0-textarea sc-chPdSV bAtvxP StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+                class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
                 data-garden-id="forms.textarea"
                 data-garden-version="7.0.2"
                 data-testid="message-field"
@@ -414,7 +1088,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         </div>
         <button
           aria-label="Send"
-          class="button iconSendAnswerBotMobile IconButton-x15t1e-0 button iconSendAnswerBotMobile index__c-btn--icon___1Yl4x laoDmX Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--pill___QYWDJ index__c-btn--lg___33IF1 lcPfmb"
+          class="button iconSendAnswerBotMobile c5 button iconSendAnswerBotMobile index__c-btn--icon___1Yl4x index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--pill___QYWDJ index__c-btn--lg___33IF1 "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"

@@ -1,6 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders expected classes and components with default props for non-visitor messages 1`] = `
+.c0 {
+  margin-bottom: 0.5rem;
+}
+
+.c1 {
+  float: right !important;
+  display: block;
+  margin-bottom: 0.5rem !important;
+}
+
 <div>
   <div
     class="container"
@@ -182,7 +192,7 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="sc-kgoBCf dRJrPp"
+          class="c0"
         >
           <div
             class="container buttonRight "
@@ -219,7 +229,7 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="sc-kgoBCf dRJrPp"
+          class="c0"
         >
           <div
             class="container buttonRight "
@@ -227,7 +237,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      sc-kGXeez bVWakT
+      c1
     "
               data-testid="pill-button"
             >
@@ -236,7 +246,7 @@ exports[`renders expected classes and components with default props for non-visi
             <button
               class="
       button
-      sc-kGXeez bVWakT
+      c1
     "
               data-testid="pill-button"
             >

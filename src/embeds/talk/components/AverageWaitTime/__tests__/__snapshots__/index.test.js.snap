@@ -1,9 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the component 1`] = `
+.c0 {
+  margin-bottom: 1.0714285714285714rem;
+  data-testid: talk--averageWaitTime;
+}
+
 <div>
   <p
-    class="sc-bdVaJa ktbwkF"
+    class="c0"
   >
     Average wait time: 1 minute
   </p>

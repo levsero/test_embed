@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import TitleRow from '../'
-import 'jest-styled-components'
 
 describe('TitleRow', () => {
   const defaultProps = {
