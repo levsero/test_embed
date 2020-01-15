@@ -5,6 +5,8 @@ import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types'
 export const getEmbeddableConfig = state => state.talk.embeddableConfig
 export const getPhoneNumber = state => getEmbeddableConfig(state).phoneNumber
 export const getCapability = state => getEmbeddableConfig(state).capability
+// export const getSnapcallButtonId = state => getEmbeddableConfig(state).snapcallButtonId
+export const getSnapcallButtonId = _state => '15a9f4b02aad11eaa0610bafd9dace9d'
 export const getEmbeddableConfigEnabled = state => getEmbeddableConfig(state).enabled
 export const getEmbeddableConfigConnected = state => getEmbeddableConfig(state).connected
 export const getAgentAvailability = state => state.talk.agentAvailability

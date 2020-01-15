@@ -9,13 +9,15 @@ import { CONTACT_OPTIONS } from './constants'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'
 import PhoneOnlyPage from './pages/PhoneOnlyPage'
+import ClickToCallPage from './pages/ClickToCallPage'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
 
 const ROUTES = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: CallbackPage,
   [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: CallbackPage,
-  [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage
+  [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage,
+  [CONTACT_OPTIONS.CLICK_TO_CALL]: ClickToCallPage
 }
 
 // This component needs to be a class component since the parent WebWidget component expects to be able
