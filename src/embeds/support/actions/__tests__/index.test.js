@@ -18,7 +18,6 @@ jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('service/history')
-import * as mockFiles from './fixtures'
 
 const mockFileBlob2 = {
   name: 'blah2.txt',

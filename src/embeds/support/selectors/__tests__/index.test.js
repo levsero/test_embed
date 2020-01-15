@@ -470,6 +470,13 @@ describe('attachments', () => {
     const selector = selectors.getValidAttachments.resultFunc
     const result = selector(attachments)
 
+    expect(result).toEqual([attachment1, attachment3])
+  })
+
+  test('getSuccessfulAttachments', () => {
+    const selector = selectors.getSuccessfulAttachments.resultFunc
+    const result = selector(attachments)
+
     expect(result).toEqual([attachment1])
   })
 

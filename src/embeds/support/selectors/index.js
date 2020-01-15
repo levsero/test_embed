@@ -68,20 +68,22 @@ export const getFormState = (state, name) =>
 
 export const getValidAttachments = createSelector(
   getAllAttachments,
-  attachments =>
-    attachments.filter(
-      attachment => !attachment.uploading && !attachment.errorMessage && attachment.uploadToken
-    )
+  attachments => attachments.filter(attachment => attachment.uploading || attachment.uploadToken)
+)
+
+export const getSuccessfulAttachments = createSelector(
+  getAllAttachments,
+  attachments => attachments.filter(attachment => attachment.uploadToken)
 )
 
 export const getAttachmentTokens = createSelector(
-  getValidAttachments,
+  getSuccessfulAttachments,
   attachments => attachments.map(attachment => attachment.uploadToken)
 )
 
 export const getAttachmentsReady = createSelector(
-  [getAllAttachments, getValidAttachments],
-  (allAttachments, validAttachments) => allAttachments.length === validAttachments.length
+  [getAllAttachments, getSuccessfulAttachments],
+  (allAttachments, successfulAttachments) => allAttachments.length === successfulAttachments.length
 )
 
 export const getAttachmentTypes = createSelector(
