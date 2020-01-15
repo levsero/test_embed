@@ -14,10 +14,10 @@ exports[`AgentTyping when one agent is typing renders the expected container 1`]
     aria-live="polite"
   >
     <div
-      class="sc-fMiknA Hjaja"
+      class="sc-caSCKo cvbvIy"
     >
       <svg
-        class="sc-fBuWsC fAuifX Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
+        class="sc-fAjcbJ kCEqVM Inline__StyledTypingSvg-sc-1gjohp3-1 cFwtfj"
         color="inherit"
         data-garden-id="loaders.inline"
         data-garden-version="7.0.0"

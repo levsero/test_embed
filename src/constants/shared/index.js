@@ -42,7 +42,9 @@ export const ICONS = {
   CC_CHAT: 'Icon--channelChoice-chat',
   CC_TALK: 'Icon--channelChoice-talk',
   CHAT: 'Icon--chat',
-  ARTICLE: 'Icon--article'
+  ARTICLE: 'Icon--article',
+  FACEBOOK: 'Icon--facebook',
+  GOOGLE: 'Icon--google'
 }
 
 export const FILETYPE_ICONS = {
@@ -155,6 +157,8 @@ export const TEST_IDS = {
   ICON_CC_SUPPORT: ICONS.CC_SUPPORT,
   ICON_CC_CHAT: ICONS.CC_CHAT,
   ICON_CC_TALK: ICONS.CC_SUPPORT,
+  ICON_FACEBOOK: ICONS.FACEBOOK,
+  ICON_GOOGLE: ICONS.GOOGLE,
   MESSAGE_OPTION: 'message-option',
   CHAT_FOOTER_MENU_BUTTONS: 'chat-footer-menu-buttons',
   CHAT_ATTACHMENT_BUTTON: 'chat-attachment-button',

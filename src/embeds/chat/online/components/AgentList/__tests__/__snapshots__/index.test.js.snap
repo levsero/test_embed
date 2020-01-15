@@ -5,7 +5,7 @@ exports[`renders a list of AgentInfo components 1`] = `
   <ul>
     <li>
       <div
-        class="sc-kjoXOD cICYlO"
+        class="sc-cJSrbW NSxGa"
       >
         <svg
           alt="avatar"
@@ -13,15 +13,15 @@ exports[`renders a list of AgentInfo components 1`] = `
           realfilename="widget-icon_avatar.svg"
         />
         <div
-          class="sc-cHGsZl kvuvxw"
+          class="sc-ksYbfQ uGcjY"
         >
           <div
-            class="sc-TOsTZ gPPyyo"
+            class="sc-hmzhuo cRZjNr"
           >
             Butch Cassidy
           </div>
           <div
-            class="sc-kgAjT hyxbFV"
+            class="sc-frDJqD crPKxA"
           >
             agent1@example.com
           </div>
@@ -30,7 +30,7 @@ exports[`renders a list of AgentInfo components 1`] = `
     </li>
     <li>
       <div
-        class="sc-kjoXOD cICYlO"
+        class="sc-cJSrbW NSxGa"
       >
         <svg
           alt="avatar"
@@ -38,15 +38,15 @@ exports[`renders a list of AgentInfo components 1`] = `
           realfilename="widget-icon_avatar.svg"
         />
         <div
-          class="sc-cHGsZl kvuvxw"
+          class="sc-ksYbfQ uGcjY"
         >
           <div
-            class="sc-TOsTZ gPPyyo"
+            class="sc-hmzhuo cRZjNr"
           >
             The Sundance Kid
           </div>
           <div
-            class="sc-kgAjT hyxbFV"
+            class="sc-frDJqD crPKxA"
           >
             agent2@example.com
           </div>

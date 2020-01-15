@@ -8,26 +8,6 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
   color: $zd-color-grey-800;
 }
 
-.socialLoginContainer {
-  margin-bottom: #{14 / $font-size}rem;
-}
-
-.socialLoginOptions {
-  position: relative;
-  top: #{3 / $font-size}rem;
-  margin-left: #{5 / $font-size}rem;
-  display: inline-block;
-
-  &:focus {
-    outline: -webkit-focus-ring-color auto #{5 / $font-size}rem;
-  }
-
-  [dir='rtl'] & {
-    margin-left: 0;
-    margin-right: #{5 / $font-size}rem;
-  }
-}
-
 .defaultProfileFieldsContainer {
   margin-bottom: #{16 / $font-size}rem;
 }
