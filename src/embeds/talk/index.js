@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
@@ -9,9 +9,13 @@ import { CONTACT_OPTIONS } from './constants'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'
 import PhoneOnlyPage from './pages/PhoneOnlyPage'
-import ClickToCallPage from './pages/ClickToCallPage'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
+import SuspensePage from 'src/components/Widget/SuspensePage'
+
+const ClickToCallPage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk_click_to_call' */ './pages/ClickToCallPage')
+)
 
 const ROUTES = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: CallbackPage,
@@ -30,10 +34,12 @@ class Talk extends Component {
 
     return (
       <WidgetThemeProvider>
-        <Switch>
-          <Route path={'/talk/success'} component={SuccessNotificationPage} />
-          <Route component={IndexPage} />
-        </Switch>
+        <SuspensePage>
+          <Switch>
+            <Route path={'/talk/success'} component={SuccessNotificationPage} />
+            <Route component={IndexPage} />
+          </Switch>
+        </SuspensePage>
       </WidgetThemeProvider>
     )
   }

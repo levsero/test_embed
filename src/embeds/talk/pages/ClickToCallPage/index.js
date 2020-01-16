@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { snapcallAPI } from 'snapcall'
 
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { getTitle, getSnapcallButtonId } from 'src/embeds/talk/selectors'
+
 import {
   Container,
   ClickToCallIcon,
@@ -14,7 +16,6 @@ import {
   FlexContainer,
   PageContents
 } from './styles'
-import { snapcallAPI } from 'snapcall'
 
 const handleOnClick = buttonId => {
   const callStarted = snapcallAPI.startCall(buttonId)
