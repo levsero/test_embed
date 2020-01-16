@@ -36,6 +36,7 @@ import LoadingBarContent from 'src/components/LoadingBarContent'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import TicketFormsListPage from 'src/embeds/support/pages/TicketFormsListPage'
 import SuccessPage from 'src/embeds/support/pages/SuccessPage'
+import { uploadAttachedFiles } from 'src/embeds/support/actions/index'
 
 const mapStateToProps = state => {
   return {
@@ -98,7 +99,8 @@ class SubmitTicket extends Component {
     attachmentsReady: PropTypes.bool.isRequired,
     attachmentTokens: PropTypes.array,
     attachmentTypes: PropTypes.array,
-    clearAttachments: PropTypes.func.isRequired
+    clearAttachments: PropTypes.func.isRequired,
+    uploadAttachedFiles: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -204,7 +206,7 @@ class SubmitTicket extends Component {
 
   handleOnDrop = files => {
     this.setState({ isDragActive: false }, () => {
-      this.refs.submitTicketForm.handleOnDrop(files)
+      this.props.uploadAttachedFiles(files)
     })
   }
 
@@ -323,7 +325,8 @@ const actionCreators = {
   handleFormChange,
   handleTicketFormClick,
   handleTicketSubmission,
-  clearAttachments
+  clearAttachments,
+  uploadAttachedFiles
 }
 
 const connectedComponent = connect(

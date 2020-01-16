@@ -22,6 +22,7 @@ export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
 export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
 export const getActiveFormName = state => state.support.activeFormName
 export const getAllAttachments = state => state.support.attachments
+export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
 
 export const getPrefillId = state => state.support.prefillId
 export const getLastFormPrefillId = (state, formId) => state.support.lastFormPrefillId[formId]

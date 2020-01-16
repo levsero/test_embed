@@ -2,7 +2,9 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 
 import _ from 'lodash'
 
-const initialState = {}
+const initialState = {
+  maxFileCount: 5
+}
 
 const config = (state = initialState, action) => {
   const { type, payload } = action

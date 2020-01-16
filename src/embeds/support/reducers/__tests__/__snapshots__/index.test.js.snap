@@ -3,8 +3,11 @@
 exports[`includes all expected substates 1`] = `
 Object {
   "activeFormName": "",
+  "attachmentLimitExceeded": false,
   "attachments": Array [],
-  "config": Object {},
+  "config": Object {
+    "maxFileCount": 5,
+  },
   "formStates": Object {},
   "lastFormPrefillId": Object {},
   "prefillId": 0,

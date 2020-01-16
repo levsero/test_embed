@@ -4,6 +4,7 @@ import config from './config'
 import activeFormName from './activeFormName'
 import formStates from './formStates'
 import attachments from './attachments'
+import attachmentLimitExceeded from './attachmentLimitExceeded'
 import prefillValues from './prefillValues'
 import readOnly from './readOnly'
 import prefillId from './prefillId'
@@ -15,6 +16,7 @@ export default combineReducers({
   config,
   formStates,
   attachments,
+  attachmentLimitExceeded,
   prefillValues,
   readOnly,
   prefillId,

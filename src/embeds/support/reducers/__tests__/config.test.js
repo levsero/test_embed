@@ -2,7 +2,9 @@ import config from '../config'
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
-const initialState = {}
+const initialState = {
+  maxFileCount: 5
+}
 const embeddableConfigPayload = {
   embeds: {
     ticketSubmissionForm: {

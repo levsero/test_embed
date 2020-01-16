@@ -3,7 +3,7 @@ import _ from 'lodash'
 import * as actionTypes from './action-types'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import { i18n } from 'service/i18n'
-import { getMaxFileSize } from 'src/embeds/support/selectors'
+import { getMaxFileSize, getMaxFileCount, getValidAttachments } from 'src/embeds/support/selectors'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
 import withRateLimiting from 'utility/rateLimiting'
@@ -17,6 +17,14 @@ let attachmentUploaders = {}
 export const submitForm = state => ({
   type: actionTypes.SUBMITTED_FORM,
   payload: { state }
+})
+
+export const attachmentLimitExceeded = () => ({
+  type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+})
+
+export const clearLimitExceededError = () => ({
+  type: actionTypes.CLEAR_LIMIT_EXCEEDED_ERROR
 })
 
 export const setActiveFormName = name => ({
@@ -184,6 +192,23 @@ export function submitTicket(formState, formTitle) {
         payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
       })
     })
+  }
+}
+
+export const uploadAttachedFiles = files => (dispatch, getState) => {
+  const state = getState()
+  const maxFileCount = getMaxFileCount(state)
+  const validAttachments = getValidAttachments(state)
+
+  const numAttachments = validAttachments.length
+  const numFilesToAdd = maxFileCount - numAttachments
+
+  _.slice(files, 0, numFilesToAdd).forEach(file => {
+    dispatch(uploadAttachment(file))
+  })
+
+  if (numAttachments + files.length > maxFileCount) {
+    dispatch(attachmentLimitExceeded())
   }
 }
 
