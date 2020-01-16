@@ -1302,16 +1302,38 @@ parts:
       title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
       screenshot: "https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven"
       value: "The file is too big. Please attach files that are less than %(maxSize)s MB."
+      obsolete: "2020-03-16"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.limit_reached"
       title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated."
       screenshot: "https://zendesk.box.com/s/ka45f3gykenp9xil4uijbm6dwhd6d3e7"
       value: "You have already reached the limit of (%(maxFiles)s) attachments"
+      obsolete: "2020-03-16"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.other"
       title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
       screenshot: "https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq"
       value: "There was a problem attaching this file. Please try again."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.size_exceeded_header"
+      title: "Header text in the error notification that appears when trying to attach a file that's too large."
+      screenshot: "https://drive.google.com/file/d/1hioJi8S5pgieIZt0Yi4O_fm1lMdb0MI-/view?usp=sharing"
+      value: "File too large"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.size_exceeded_body"
+      title: "Body text in the error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %(maxSize)s stands for string and does not need to be translated (https://drive.google.com/file/d/1SGtqkWFIooadbJQnhlv4sGhk2amK1tg6/view)."
+      screenshot: "https://drive.google.com/file/d/1SGtqkWFIooadbJQnhlv4sGhk2amK1tg6/view?usp=sharing"
+      value: "Must be less than %(maxSize)s MB."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.limit_reached_header"
+      title: "Header text in the error notification that appears when trying to attach too many files."
+      screenshot: "https://drive.google.com/file/d/1HnK143OwbSJjrZ_oGUjvKAQxXWehNywH/view?usp=sharing"
+      value: "Attachment limit reached"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.limit_reached_body"
+      title: "Body text in the error notification that appears when trying to attach too many files. %(maxFiles)s will always be greater than 1."
+      screenshot: "https://drive.google.com/file/d/1ak63oEiFC4V7W2c5C6Mn4AGZxwjCWmQ1/view?usp=sharing"
+      value: "You can upload a maximum of %(maxFiles)s attachments."
 
   # ZendeskLogo component
   - translation:
