@@ -4,7 +4,6 @@ import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import styled from 'styled-components'
-import 'jest-styled-components'
 
 import reducer from 'src/redux/modules/reducer'
 import WidgetThemeProvider from '../index'

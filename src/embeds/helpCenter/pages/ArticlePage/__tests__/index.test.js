@@ -2,7 +2,6 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { http } from 'service/transport/http'
-import 'jest-styled-components'
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 
 const performImageSearch = jest.fn(),

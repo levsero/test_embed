@@ -1,9 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the component 1`] = `
+.c0 {
+  color: #1f73b7;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  color: #1f73b7;
+}
+
 <div>
   <a
-    class="sc-bdVaJa daVghx"
+    class="c0"
     data-testid="talk-phone-number"
     href="tel:95556666"
     target="_blank"

@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import HeaderRow from '../'
-import 'jest-styled-components'
 
 describe('HeaderRow', () => {
   const defaultProps = {

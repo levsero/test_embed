@@ -3,10 +3,10 @@
 exports[`customFields getCustomFields renders the correct components for each key 1`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -22,7 +22,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-0--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-0--label"
-      class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+      class="text__c-txt__input___38pRd "
       data-garden-id="forms.input"
       data-garden-version="7.0.2"
       id="garden-field-container-0--input"
@@ -35,6 +35,55 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 2`] = `
+.c2.c2 {
+  vertical-align: baseline;
+  position: absolute;
+  left: -100px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+  outline: 0;
+  border-width: 0;
+  border-style: initial;
+  border-color: initial;
+  background: 0 center;
+  width: 1px;
+  color: transparent;
+  font-size: inherit;
+}
+
+.c3.c3 {
+  position: relative;
+}
+
+.c3:focus {
+  outline: none;
+}
+
+.c4 {
+  overflow-y: auto;
+  max-height: 17.142857142857142rem;
+}
+
+.c5.c5.c5:hover {
+  background-color: inherit;
+}
+
+.c1 {
+  cursor: default;
+}
+
+.c1.c1 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c0.c0.c0 {
+  margin-bottom: 0 !important;
+}
+
 <div>
   <div
     role="presentation"
@@ -44,13 +93,13 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="downshift-0-label"
-      class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+      class="text__c-txt___3byGW "
       data-garden-id="dropdowns.field"
       data-garden-version="7.0.2"
       role="combobox"
     >
       <label
-        class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+        class="text__c-txt__label___2Nog7 "
         data-garden-id="dropdowns.label"
         data-garden-version="7.0.2"
         for="downshift-0-input"
@@ -63,7 +112,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       <div
         aria-haspopup="true"
         aria-invalid="false"
-        class="sc-bdVaJa gJJXLY StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+        class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
         data-garden-id="dropdowns.select"
         data-garden-version="7.0.2"
         data-testid="dropdown-field"
@@ -77,7 +126,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           aria-autocomplete="list"
           aria-labelledby="downshift-0-label"
           autocomplete="off"
-          class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+          class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c2"
           id="downshift-0-input"
           readonly=""
           tabindex="-1"
@@ -89,11 +138,11 @@ exports[`customFields getCustomFields renders the correct components for each ke
       style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
     >
       <div
-        class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+        class=""
       >
         <ul
           aria-labelledby="downshift-0-label"
-          class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+          class="index__c-menu___3N4tx c3"
           data-garden-id="dropdowns.menu"
           data-garden-version="7.0.2"
           data-testid="dropdown-options"
@@ -102,12 +151,12 @@ exports[`customFields getCustomFields renders the correct components for each ke
           style="width: 0px;"
         >
           <div
-            class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+            class="c4"
           >
             <li
               aria-expanded="true"
               aria-selected="false"
-              class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
+              class="index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b c5"
               data-garden-id="dropdowns.next_item"
               data-garden-version="7.0.2"
               id="downshift-0-item-0"
@@ -118,7 +167,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             <li
               aria-expanded="true"
               aria-selected="false"
-              class="StyledItem-sc-1xeog7q-0 StyledNextItem-sc-1bcygn5-0 index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b egoyPB"
+              class="index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b c5"
               data-garden-id="dropdowns.next_item"
               data-garden-version="7.0.2"
               id="downshift-0-item-1"
@@ -141,6 +190,55 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 3`] = `
+.c2.c2 {
+  vertical-align: baseline;
+  position: absolute;
+  left: -100px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+  outline: 0;
+  border-width: 0;
+  border-style: initial;
+  border-color: initial;
+  background: 0 center;
+  width: 1px;
+  color: transparent;
+  font-size: inherit;
+}
+
+.c3.c3 {
+  position: relative;
+}
+
+.c3:focus {
+  outline: none;
+}
+
+.c4 {
+  overflow-y: auto;
+  max-height: 17.142857142857142rem;
+}
+
+.c5.c5.c5:hover {
+  background-color: inherit;
+}
+
+.c1 {
+  cursor: default;
+}
+
+.c1.c1 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c0.c0.c0 {
+  margin-bottom: 0 !important;
+}
+
 <div>
   <div
     role="presentation"
@@ -150,13 +248,13 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="downshift-1-label"
-      class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+      class="text__c-txt___3byGW "
       data-garden-id="dropdowns.field"
       data-garden-version="7.0.2"
       role="combobox"
     >
       <label
-        class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+        class="text__c-txt__label___2Nog7 "
         data-garden-id="dropdowns.label"
         data-garden-version="7.0.2"
         for="downshift-1-input"
@@ -169,7 +267,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       <div
         aria-haspopup="true"
         aria-invalid="false"
-        class="sc-bdVaJa gJJXLY StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+        class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
         data-garden-id="dropdowns.select"
         data-garden-version="7.0.2"
         data-testid="dropdown-field"
@@ -183,7 +281,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           aria-autocomplete="list"
           aria-labelledby="downshift-1-label"
           autocomplete="off"
-          class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+          class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c2"
           id="downshift-1-input"
           readonly=""
           tabindex="-1"
@@ -195,11 +293,11 @@ exports[`customFields getCustomFields renders the correct components for each ke
       style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
     >
       <div
-        class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+        class=""
       >
         <ul
           aria-labelledby="downshift-1-label"
-          class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+          class="index__c-menu___3N4tx c3"
           data-garden-id="dropdowns.menu"
           data-garden-version="7.0.2"
           data-testid="dropdown-options"
@@ -208,11 +306,11 @@ exports[`customFields getCustomFields renders the correct components for each ke
           style="width: 0px;"
         >
           <div
-            class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+            class="c4"
           >
             <li
               aria-selected="false"
-              class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+              class="index__c-menu__item___36mO8 c5"
               data-garden-id="dropdowns.item"
               data-garden-version="7.0.2"
               data-testid="dropdown-option"
@@ -223,7 +321,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             </li>
             <li
               aria-selected="false"
-              class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+              class="index__c-menu__item___36mO8 c5"
               data-garden-id="dropdowns.item"
               data-garden-version="7.0.2"
               data-testid="dropdown-option"
@@ -249,10 +347,10 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 4`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -268,7 +366,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-1--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-1--label"
-      class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+      class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
       data-garden-id="forms.textarea"
       data-garden-version="7.0.2"
       id="garden-field-container-1--input"
@@ -283,10 +381,10 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 5`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -299,7 +397,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       </strong>
     </label>
     <div
-      class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+      class="text__c-txt__hint___24dmS "
       data-garden-id="forms.text_hint"
       data-garden-version="7.0.2"
       id="garden-field-container-2--hint"
@@ -310,7 +408,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-2--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-2--label"
-      class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+      class="text__c-txt__input___38pRd "
       data-garden-id="forms.input"
       data-garden-version="7.0.2"
       id="garden-field-container-2--input"
@@ -328,10 +426,10 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 6`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -344,7 +442,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       </strong>
     </label>
     <div
-      class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+      class="text__c-txt__hint___24dmS "
       data-garden-id="forms.text_hint"
       data-garden-version="7.0.2"
       id="garden-field-container-3--hint"
@@ -355,7 +453,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-3--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-3--label"
-      class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+      class="text__c-txt__input___38pRd "
       data-garden-id="forms.input"
       data-garden-version="7.0.2"
       id="garden-field-container-3--input"
@@ -375,14 +473,14 @@ exports[`customFields getCustomFields renders the correct components for each ke
     data-testid="checkbox-field"
   >
     <div
-      class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+      class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <div
-        class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+        class="checkbox__c-chk___1VO4F "
       >
         <input
           aria-labelledby="garden-field-container-4--label"
-          class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+          class="checkbox__c-chk__input___3419r "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="forms.checkbox"
@@ -394,7 +492,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           type="checkbox"
         />
         <label
-          class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+          class="checkbox__c-chk__label___12wm4 "
           data-garden-container-id="field"
           data-garden-container-version="1.1.3"
           data-garden-id="forms.checkbox_label"
@@ -407,7 +505,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           </strong>
         </label>
         <div
-          class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+          class="checkbox__c-chk__hint___1WMmR "
           data-garden-id="forms.checkbox_hint"
           data-garden-version="7.0.2"
           id="garden-field-container-4--hint"
@@ -423,10 +521,10 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 8`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -443,7 +541,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-5--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-5--label"
-      class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+      class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
       data-garden-id="forms.textarea"
       data-garden-version="7.0.2"
       id="garden-field-container-5--input"
@@ -457,10 +555,10 @@ exports[`customFields getCustomFields renders the correct components for each ke
 exports[`customFields getCustomFields renders the correct components for each key 9`] = `
 <div>
   <div
-    class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+    class="text__c-txt___Uzv-G range__c-range___1aYaS "
   >
     <label
-      class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+      class="text__c-txt__label___3wMPZ "
       data-garden-container-id="field"
       data-garden-container-version="1.1.3"
       data-garden-id="forms.text_label"
@@ -473,7 +571,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       </strong>
     </label>
     <div
-      class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+      class="text__c-txt__hint___24dmS "
       data-garden-id="forms.text_hint"
       data-garden-version="7.0.2"
       id="garden-field-container-6--hint"
@@ -484,7 +582,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-describedby="garden-field-container-6--hint"
       aria-invalid="false"
       aria-labelledby="garden-field-container-6--label"
-      class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+      class="text__c-txt__input___38pRd "
       data-garden-id="forms.input"
       data-garden-version="7.0.2"
       id="garden-field-container-6--input"

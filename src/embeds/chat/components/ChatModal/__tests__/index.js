@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import 'jest-styled-components'
 import { find } from 'styled-components/test-utils'
 import ChatModal from 'embeds/chat/components/ChatModal'
 import { Header, Backdrop } from 'embeds/chat/components/ChatModal/styles'

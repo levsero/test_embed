@@ -20,25 +20,217 @@ Snapshot Diff:
 `;
 
 exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c9 {
+  padding: 0.7142857142857143rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 <div>
   <div
-    class="sc-bdVaJa gszxaC"
+    class="c0"
   >
     <div
-      class="sc-htpNat hnOZlw"
+      class="c1"
     >
       <div
-        class="sc-ifAKCX sc-EHOje cFboZL"
+        class="c2"
       >
         <h1
-          class="sc-bxivhb krnEZd"
+          class="c3 c4"
           data-testid="widget-title"
         >
           this is the title
         </h1>
         <button
           aria-label="Minimize"
-          class="IconButton-x15t1e-0 sc-bZQynM index__c-btn--icon___1Yl4x fTbgqd Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
           data-garden-id="buttons.icon_button"
@@ -57,22 +249,22 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
       </div>
     </div>
     <div
-      class="sc-gzVnrw hIzQnb"
+      class="c7"
       data-testid="scroll-container-content"
     >
       <div
         class="chatLogContainer"
       >
         <div
-          class="sc-iwsKbI iIGZkz"
+          class="c8"
         />
       </div>
     </div>
     <footer
-      class="sc-htoDjs dEdnEq"
+      class="c9"
     >
       <div
-        class="sc-dnqmqq jXpegG"
+        class="c10"
       >
         <a
           class="icon"

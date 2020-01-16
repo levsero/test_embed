@@ -30,7 +30,7 @@ const Heading = styled.h2`
   font-weight: 700;
   color: ${props => props.theme.listColorStr} !important;
   fill: ${props => props.theme.listColorStr} !important;
-  font-size: #{15 / 14}rem;
+  font-size: ${15 / 14}rem;
   text-align: center;
 
   :hover,

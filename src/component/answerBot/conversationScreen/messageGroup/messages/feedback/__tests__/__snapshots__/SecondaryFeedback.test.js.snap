@@ -1,9 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  margin-bottom: 0.5rem;
+}
+
+.c1 {
+  float: right !important;
+  display: block;
+  margin-bottom: 0.5rem !important;
+}
+
 <div>
   <div
-    class="sc-kgoBCf dRJrPp"
+    class="c0"
   >
     <div
       class="container buttonRight "
@@ -11,7 +21,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      sc-kGXeez bVWakT
+      c1
     "
         data-testid="pill-button"
       >
@@ -20,7 +30,7 @@ exports[`renders the expected classes 1`] = `
       <button
         class="
       button
-      sc-kGXeez bVWakT
+      c1
     "
         data-testid="pill-button"
       >

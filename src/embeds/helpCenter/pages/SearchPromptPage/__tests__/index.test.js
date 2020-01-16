@@ -3,7 +3,6 @@ import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import { TEST_IDS } from 'src/constants/shared'
-import 'jest-styled-components'
 
 import SearchPromptPage, { Component } from '../index'
 

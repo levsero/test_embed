@@ -1,29 +1,243 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`form ticket forms validation renders the error messages 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c14 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.c10.c10 {
+  vertical-align: baseline;
+  position: absolute;
+  left: -100px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+  outline: 0;
+  border-width: 0;
+  border-style: initial;
+  border-color: initial;
+  background: 0 center;
+  width: 1px;
+  color: transparent;
+  font-size: inherit;
+}
+
+.c11.c11 {
+  position: relative;
+}
+
+.c11:focus {
+  outline: none;
+}
+
+.c12 {
+  overflow-y: auto;
+  max-height: 17.142857142857142rem;
+}
+
+.c13.c13.c13:hover {
+  background-color: inherit;
+}
+
+.c9 {
+  cursor: default;
+}
+
+.c9.c9 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c8.c8.c8 {
+  margin-bottom: 0 !important;
+}
+
 <div>
   <form
     class="form "
     novalidate=""
   >
     <div
-      class="sc-htpNat iybLJI"
+      class="c0"
     >
       <div
-        class="sc-ifAKCX iEHOTz"
+        class="c1"
       >
         <div
-          class="sc-bZQynM sc-gzVnrw bQuIzm"
+          class="c2"
         >
           <h1
-            class="sc-EHOje cygdwO"
+            class="c3 c4"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -42,7 +256,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <div
-        class="sc-dnqmqq LbvIn"
+        class="c7"
         data-testid="scroll-container-content"
       >
         <div
@@ -54,10 +268,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             Ticket Forms
           </h2>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -74,7 +288,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-118--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-118--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="name-field"
@@ -84,10 +298,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -103,7 +317,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-119--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-119--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="email-field"
@@ -114,7 +328,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -123,10 +337,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -142,7 +356,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-120--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-120--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-120--input"
@@ -151,7 +365,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -160,10 +374,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -179,7 +393,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-121--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-121--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-121--input"
@@ -188,7 +402,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -197,10 +411,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -213,7 +427,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               </strong>
             </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              class="text__c-txt__hint___24dmS "
               data-garden-id="forms.text_hint"
               data-garden-version="7.0.2"
               id="garden-field-container-122--hint"
@@ -224,7 +438,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-122--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-122--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-122--input"
@@ -233,7 +447,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -242,10 +456,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -261,7 +475,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-123--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-123--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-123--input"
@@ -273,7 +487,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -282,10 +496,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -301,7 +515,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-124--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-124--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj icTNBi"
+              class="text__c-txt__input___38pRd text__c-txt__input--error___2-sbj "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-124--input"
@@ -312,7 +526,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               value=""
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -321,10 +535,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             </div>
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -340,7 +554,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-describedby="garden-field-container-125--hint"
               aria-invalid="true"
               aria-labelledby="garden-field-container-125--label"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 ffjHNh"
+              class="-textarea text__c-txt__input___38pRd text__c-txt__input--error___2-sbj text__c-txt__input--area___9Qxj1 "
               data-garden-id="forms.textarea"
               data-garden-version="7.0.2"
               id="garden-field-container-125--input"
@@ -349,7 +563,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               rows="5"
             />
             <div
-              class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+              class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
               data-garden-id="forms.text_message"
               data-garden-version="7.0.2"
               role="alert"
@@ -361,14 +575,14 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             data-testid="checkbox-field"
           >
             <div
-              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+              class="text__c-txt___Uzv-G range__c-range___1aYaS "
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                class="checkbox__c-chk___1VO4F "
               >
                 <input
                   aria-labelledby="garden-field-container-126--label"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  class="checkbox__c-chk__input___3419r "
                   data-garden-container-id="keyboardfocus"
                   data-garden-container-version="0.2.6"
                   data-garden-id="forms.checkbox"
@@ -380,7 +594,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   type="checkbox"
                 />
                 <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  class="checkbox__c-chk__label___12wm4 "
                   data-garden-container-id="field"
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.checkbox_label"
@@ -394,7 +608,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 </label>
               </div>
               <div
-                class="StyledTextMessage-sc-1e3gsnp-0 text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE fsHTnL"
+                class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
                 data-garden-id="forms.text_message"
                 data-garden-version="7.0.2"
                 role="alert"
@@ -411,13 +625,13 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-2-label"
-              class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+              class="text__c-txt___3byGW "
               data-garden-id="dropdowns.field"
               data-garden-version="7.0.2"
               role="combobox"
             >
               <label
-                class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+                class="text__c-txt__label___2Nog7 "
                 data-garden-id="dropdowns.label"
                 data-garden-version="7.0.2"
                 for="downshift-2-input"
@@ -430,7 +644,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="sc-eNQAEJ hwZMao StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="c8 text__c-txt__input___17zQx text__c-txt__input--select___324ys c9"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"
@@ -444,7 +658,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   aria-autocomplete="list"
                   aria-labelledby="downshift-2-label"
                   autocomplete="off"
-                  class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+                  class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c10"
                   id="downshift-2-input"
                   readonly=""
                   tabindex="-1"
@@ -452,7 +666,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 />
               </div>
               <div
-                class="StyledMessage-v8pcfd-0 text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K kjtyHQ"
+                class="text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K "
                 data-garden-id="dropdowns.message"
                 data-garden-version="7.0.2"
                 role="alert"
@@ -464,11 +678,11 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
             >
               <div
-                class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+                class=""
               >
                 <ul
                   aria-labelledby="downshift-2-label"
-                  class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+                  class="index__c-menu___3N4tx c11"
                   data-garden-id="dropdowns.menu"
                   data-garden-version="7.0.2"
                   data-testid="dropdown-options"
@@ -477,11 +691,11 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   style="width: 0px;"
                 >
                   <div
-                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+                    class="c12"
                   >
                     <li
                       aria-selected="false"
-                      class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                      class="index__c-menu__item___36mO8 c13"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
                       data-testid="dropdown-option"
@@ -492,7 +706,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                     </li>
                     <li
                       aria-selected="false"
-                      class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                      class="index__c-menu__item___36mO8 c13"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
                       data-testid="dropdown-option"
@@ -503,7 +717,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                     </li>
                     <li
                       aria-selected="false"
-                      class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                      class="index__c-menu__item___36mO8 c13"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
                       data-testid="dropdown-option"
@@ -527,10 +741,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <footer
-        class="sc-iwsKbI jgLzoz"
+        class="c14"
       >
         <div
-          class="sc-gZMcBi dvvGXH"
+          class="c15"
         >
           <a
             class="icon"
@@ -545,7 +759,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
             />
           </a>
           <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
@@ -564,29 +778,194 @@ exports[`form ticket forms validation renders the error messages 1`] = `
 `;
 
 exports[`renders the expected components 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c8 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
 <div>
   <form
     class="form "
     novalidate=""
   >
     <div
-      class="sc-htpNat iybLJI"
+      class="c0"
     >
       <div
-        class="sc-ifAKCX iEHOTz"
+        class="c1"
       >
         <div
-          class="sc-bZQynM sc-gzVnrw bQuIzm"
+          class="c2"
         >
           <h1
-            class="sc-EHOje cygdwO"
+            class="c3 c4"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -605,7 +984,7 @@ exports[`renders the expected components 1`] = `
         </div>
       </div>
       <div
-        class="sc-dnqmqq LbvIn"
+        class="c7"
         data-testid="scroll-container-content"
       >
         <div
@@ -615,10 +994,10 @@ exports[`renders the expected components 1`] = `
             class="ticketFormTitle "
           />
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -635,7 +1014,7 @@ exports[`renders the expected components 1`] = `
               aria-describedby="garden-field-container-0--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-0--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="name-field"
@@ -645,10 +1024,10 @@ exports[`renders the expected components 1`] = `
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -664,7 +1043,7 @@ exports[`renders the expected components 1`] = `
               aria-describedby="garden-field-container-1--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-1--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="email-field"
@@ -679,10 +1058,10 @@ exports[`renders the expected components 1`] = `
         </div>
       </div>
       <footer
-        class="sc-iwsKbI jgLzoz"
+        class="c8"
       >
         <div
-          class="sc-gZMcBi dvvGXH"
+          class="c9"
         >
           <a
             class="icon"
@@ -697,7 +1076,7 @@ exports[`renders the expected components 1`] = `
             />
           </a>
           <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
@@ -716,29 +1095,243 @@ exports[`renders the expected components 1`] = `
 `;
 
 exports[`ticket forms renders the extra fields defined in the ticket form 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
+.c1 {
+  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
+  padding: 0.5714285714285714rem 1rem;
+  background: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c4 {
+  font-weight: 700;
+  text-align: center;
+  -webkit-letter-spacing: 0.02142857142857143rem;
+  -moz-letter-spacing: 0.02142857142857143rem;
+  -ms-letter-spacing: 0.02142857142857143rem;
+  letter-spacing: 0.02142857142857143rem;
+  line-height: 1.5;
+  font-size: 1.0714285714285714rem;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 2px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.c2:not(:first-child) {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c2 .c3:first-child {
+  margin-left: 4rem;
+}
+
+.c2 .c3:nth-child(2) {
+  margin-left: 2rem;
+}
+
+.c2 .c3:last-child {
+  margin-right: 4rem;
+}
+
+.c2 .c3:nth-last-child(2) {
+  margin-right: 2rem;
+}
+
+.c2 .c5 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.c6 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 svg {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.c6 svg,
+.c6 path {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.c6:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
+}
+
+.c6:hover {
+  background: #227EC9 !important;
+}
+
+.c7 {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.7142857142857143rem;
+  padding-top: 1.0714285714285714rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 0.7142857142857143rem;
+  height: 100%;
+}
+
+.c7::-webkit-scrollbar-track {
+  margin: 1.0714285714285714 0;
+}
+
+.c7::-webkit-scrollbar {
+  box-shadow: none;
+  width: 0.21428571428571427rem;
+}
+
+.c7::-webkit-scrollbar-thumb {
+  background: #d8dcde;
+  border-radius: 0.21428571428571427rem;
+}
+
+.c14 {
+  padding: 1.0714285714285714rem 1.4285714285714286rem;
+  border-top: 0.07857142857142858rem solid #e9ebed;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.c10.c10 {
+  vertical-align: baseline;
+  position: absolute;
+  left: -100px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+  outline: 0;
+  border-width: 0;
+  border-style: initial;
+  border-color: initial;
+  background: 0 center;
+  width: 1px;
+  color: transparent;
+  font-size: inherit;
+}
+
+.c11.c11 {
+  position: relative;
+}
+
+.c11:focus {
+  outline: none;
+}
+
+.c12 {
+  overflow-y: auto;
+  max-height: 17.142857142857142rem;
+}
+
+.c13.c13.c13:hover {
+  background-color: inherit;
+}
+
+.c9 {
+  cursor: default;
+}
+
+.c9.c9 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c8.c8.c8 {
+  margin-bottom: 0 !important;
+}
+
 <div>
   <form
     class="form "
     novalidate=""
   >
     <div
-      class="sc-htpNat iybLJI"
+      class="c0"
     >
       <div
-        class="sc-ifAKCX iEHOTz"
+        class="c1"
       >
         <div
-          class="sc-bZQynM sc-gzVnrw bQuIzm"
+          class="c2"
         >
           <h1
-            class="sc-EHOje cygdwO"
+            class="c3 c4"
             data-testid="widget-title"
           >
             message
           </h1>
           <button
             aria-label="Minimize"
-            class="IconButton-x15t1e-0 sc-htoDjs index__c-btn--icon___1Yl4x hhbqQ Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv lcPfmb"
+            class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.icon_button"
@@ -757,7 +1350,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <div
-        class="sc-dnqmqq LbvIn"
+        class="c7"
         data-testid="scroll-container-content"
       >
         <div
@@ -769,10 +1362,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             Ticket Forms
           </h2>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -789,7 +1382,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-18--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-18--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="name-field"
@@ -799,10 +1392,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -818,7 +1411,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-19--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-19--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               data-testid="email-field"
@@ -830,10 +1423,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -850,7 +1443,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-20--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-20--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-20--input"
@@ -859,10 +1452,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -879,7 +1472,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-21--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-21--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-21--input"
@@ -888,10 +1481,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -905,7 +1498,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                (optional)
             </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              class="text__c-txt__hint___24dmS "
               data-garden-id="forms.text_hint"
               data-garden-version="7.0.2"
               id="garden-field-container-22--hint"
@@ -916,7 +1509,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-22--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-22--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-22--input"
@@ -925,10 +1518,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -944,7 +1537,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-23--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-23--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-23--input"
@@ -954,10 +1547,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -971,7 +1564,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                (optional)
             </label>
             <div
-              class="StyledTextHint-sc-1se1nkb-0 text__c-txt__hint___24dmS kmdLlE"
+              class="text__c-txt__hint___24dmS "
               data-garden-id="forms.text_hint"
               data-garden-version="7.0.2"
               id="garden-field-container-24--hint"
@@ -982,7 +1575,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-24--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-24--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-24--input"
@@ -994,10 +1587,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -1013,7 +1606,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-25--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-25--label"
-              class="StyledTextInput-sc-1ezxcjx-0 text__c-txt__input___38pRd icTNBi"
+              class="text__c-txt__input___38pRd "
               data-garden-id="forms.input"
               data-garden-version="7.0.2"
               id="garden-field-container-25--input"
@@ -1025,10 +1618,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -1044,7 +1637,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-26--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-26--label"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+              class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
               data-garden-id="forms.textarea"
               data-garden-version="7.0.2"
               id="garden-field-container-26--input"
@@ -1054,10 +1647,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </div>
           <div
-            class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+            class="text__c-txt___Uzv-G range__c-range___1aYaS "
           >
             <label
-              class="StyledTextLabel-sc-1lq8qa5-0 text__c-txt__label___3wMPZ ksCHsT"
+              class="text__c-txt__label___3wMPZ "
               data-garden-container-id="field"
               data-garden-container-version="1.1.3"
               data-garden-id="forms.text_label"
@@ -1074,7 +1667,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-describedby="garden-field-container-27--hint"
               aria-invalid="false"
               aria-labelledby="garden-field-container-27--label"
-              class="StyledTextInput-sc-1ezxcjx-0-textarea StyledTextarea-p4bofl-0 text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 ffjHNh"
+              class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
               data-garden-id="forms.textarea"
               data-garden-version="7.0.2"
               id="garden-field-container-27--input"
@@ -1086,14 +1679,14 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             data-testid="checkbox-field"
           >
             <div
-              class="StyledField-zri3d-0 text__c-txt___Uzv-G range__c-range___1aYaS larjFb"
+              class="text__c-txt___Uzv-G range__c-range___1aYaS "
             >
               <div
-                class="StyledCheck__StyledCheckbox-hsbd5j-0 checkbox__c-chk___1VO4F ivLctR"
+                class="checkbox__c-chk___1VO4F "
               >
                 <input
                   aria-labelledby="garden-field-container-28--label"
-                  class="StyledCheckInput-zaakv6-0 checkbox__c-chk__input___3419r haaQZg"
+                  class="checkbox__c-chk__input___3419r "
                   data-garden-container-id="keyboardfocus"
                   data-garden-container-version="0.2.6"
                   data-garden-id="forms.checkbox"
@@ -1105,7 +1698,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   type="checkbox"
                 />
                 <label
-                  class="StyledCheckLabel-sc-1r3kdgk-0 checkbox__c-chk__label___12wm4 xKOVX"
+                  class="checkbox__c-chk__label___12wm4 "
                   data-garden-container-id="field"
                   data-garden-container-version="1.1.3"
                   data-garden-id="forms.checkbox_label"
@@ -1118,7 +1711,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   </strong>
                 </label>
                 <div
-                  class="StyledCheckHint-lfmg38-0 checkbox__c-chk__hint___1WMmR iEqtiQ"
+                  class="checkbox__c-chk__hint___1WMmR "
                   data-garden-id="forms.checkbox_hint"
                   data-garden-version="7.0.2"
                   id="garden-field-container-28--hint"
@@ -1136,13 +1729,13 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-0-label"
-              class="StyledField-ktuei3-0 text__c-txt___3byGW cYIRck"
+              class="text__c-txt___3byGW "
               data-garden-id="dropdowns.field"
               data-garden-version="7.0.2"
               role="combobox"
             >
               <label
-                class="StyledLabel-sc-1i8qu0f-0 text__c-txt__label___2Nog7 iEWMOR"
+                class="text__c-txt__label___2Nog7 "
                 data-garden-id="dropdowns.label"
                 data-garden-version="7.0.2"
                 for="downshift-0-input"
@@ -1153,7 +1746,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 </strong>
               </label>
               <div
-                class="StyledHint-sc-1m3rba2-0 text__c-txt__hint___3a0Q6 eiJLPr"
+                class="text__c-txt__hint___3a0Q6 "
                 data-garden-id="dropdowns.hint"
                 data-garden-version="7.0.2"
               >
@@ -1162,7 +1755,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               <div
                 aria-haspopup="true"
                 aria-invalid="false"
-                class="sc-eNQAEJ hwZMao StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys cJYChq"
+                class="c8 text__c-txt__input___17zQx text__c-txt__input--select___324ys c9"
                 data-garden-id="dropdowns.select"
                 data-garden-version="7.0.2"
                 data-testid="dropdown-field"
@@ -1176,7 +1769,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   aria-autocomplete="list"
                   aria-labelledby="downshift-0-label"
                   autocomplete="off"
-                  class="StyledInput-sc-1580ddl-0 text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg jKOqGP"
+                  class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c10"
                   id="downshift-0-input"
                   readonly=""
                   tabindex="-1"
@@ -1188,11 +1781,11 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
             >
               <div
-                class="StyledMenu__StyledMenuWrapper-sc-12lp0qs-1 hoPEzl"
+                class=""
               >
                 <ul
                   aria-labelledby="downshift-0-label"
-                  class="StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+                  class="index__c-menu___3N4tx c11"
                   data-garden-id="dropdowns.menu"
                   data-garden-version="7.0.2"
                   data-testid="dropdown-options"
@@ -1201,11 +1794,11 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   style="width: 0px;"
                 >
                   <div
-                    class="StyledMenu__StyledMaxHeightWrapper-sc-12lp0qs-2 fcTjZX"
+                    class="c12"
                   >
                     <li
                       aria-selected="false"
-                      class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 dSbjOw"
+                      class="index__c-menu__item___36mO8 c13"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
                       data-testid="dropdown-option"
@@ -1216,7 +1809,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                     </li>
                     <li
                       aria-selected="false"
-                      class="StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 index__is-checked___34Qxa dSbjOw"
+                      class="index__c-menu__item___36mO8 index__is-checked___34Qxa c13"
                       data-garden-id="dropdowns.item"
                       data-garden-version="7.0.2"
                       data-testid="dropdown-option"
@@ -1240,10 +1833,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <footer
-        class="sc-iwsKbI jgLzoz"
+        class="c14"
       >
         <div
-          class="sc-gZMcBi dvvGXH"
+          class="c15"
         >
           <a
             class="icon"
@@ -1258,7 +1851,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
             />
           </a>
           <button
-            class="button Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe index__c-btn--primary___1YOfW lcPfmb"
+            class="button index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"

@@ -1,11 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders a list of AgentInfo components 1`] = `
+.c0 {
+  width: 100% !important;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  height: 3.5714285714285716rem !important;
+}
+
+.c1 {
+  color: #2f3941;
+  line-height: 1.1428571428571428rem;
+  padding-left: 1.0714285714285714rem;
+  overflow: hidden;
+}
+
+[dir='rtl'] .c1 {
+  padding-left: 0 !important;
+  padding-right: 0.7142857142857143rem !important;
+}
+
+.c2 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: 700;
+}
+
+.c3 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #68737d;
+}
+
 <div>
   <ul>
     <li>
       <div
-        class="sc-cJSrbW NSxGa"
+        class="c0"
       >
         <svg
           alt="avatar"
@@ -13,15 +52,15 @@ exports[`renders a list of AgentInfo components 1`] = `
           realfilename="widget-icon_avatar.svg"
         />
         <div
-          class="sc-ksYbfQ uGcjY"
+          class="c1"
         >
           <div
-            class="sc-hmzhuo cRZjNr"
+            class="c2"
           >
             Butch Cassidy
           </div>
           <div
-            class="sc-frDJqD crPKxA"
+            class="c3"
           >
             agent1@example.com
           </div>
@@ -30,7 +69,7 @@ exports[`renders a list of AgentInfo components 1`] = `
     </li>
     <li>
       <div
-        class="sc-cJSrbW NSxGa"
+        class="c0"
       >
         <svg
           alt="avatar"
@@ -38,15 +77,15 @@ exports[`renders a list of AgentInfo components 1`] = `
           realfilename="widget-icon_avatar.svg"
         />
         <div
-          class="sc-ksYbfQ uGcjY"
+          class="c1"
         >
           <div
-            class="sc-hmzhuo cRZjNr"
+            class="c2"
           >
             The Sundance Kid
           </div>
           <div
-            class="sc-frDJqD crPKxA"
+            class="c3"
           >
             agent2@example.com
           </div>

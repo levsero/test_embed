@@ -1,9 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Widget matches snapshot 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: #2f3941;
+  height: 100%;
+  overflow: hidden;
+}
+
 <div>
   <div
-    class="sc-bdVaJa gszxaC"
+    class="c0"
   >
     web widget content
   </div>

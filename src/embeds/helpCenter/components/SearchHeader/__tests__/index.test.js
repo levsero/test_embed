@@ -5,7 +5,6 @@ import snapshotDiff from 'snapshot-diff'
 
 import { render } from 'src/util/testHelpers'
 import SearchHeader from '../index'
-import 'jest-styled-components'
 
 const renderComponent = inProps => {
   const props = {
