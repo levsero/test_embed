@@ -14,12 +14,10 @@ import {
   FlexContainer,
   PageContents
 } from './styles'
-import useSnapcallScript from 'src/hooks/useSnapcallScript'
+import { snapcallAPI } from 'snapcall'
 
 const handleOnClick = buttonId => {
-  /* eslint-disable no-undef*/
   const callStarted = snapcallAPI.startCall(buttonId)
-  /* eslint-enable no-undef */
 
   if (!callStarted) {
     alert('Something went wrong when trying to start a call')
@@ -28,9 +26,6 @@ const handleOnClick = buttonId => {
 }
 
 const ClickToCallPage = ({ title, averageWaitTime, buttonId }) => {
-  // Temporarily hard-coded. Add your own button ID here to test with you account.
-  useSnapcallScript(buttonId)
-
   return (
     <Widget>
       <Header title={title} />

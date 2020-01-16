@@ -1,4 +1,5 @@
 jest.mock('src/redux/modules/talk/talk-selectors')
+import { snapcallAPI } from 'snapcall'
 
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
@@ -10,8 +11,8 @@ const renderComponent = props => render(<ClickToCallPage {...props} />)
 
 describe('when the user starts a call', () => {
   it('calls the snapcall start call function', () => {
-    const startCall = jest.fn()
-    window.snapcallAPI = { startCall }
+    jest.spyOn(snapcallAPI, 'startCall')
+
     const { getByText } = renderComponent({
       title: 'Call Us',
       buttonId: '1234'
@@ -19,7 +20,7 @@ describe('when the user starts a call', () => {
 
     fireEvent.click(getByText('Start Call'))
 
-    expect(window.snapcallAPI.startCall).toHaveBeenCalledWith('1234')
+    expect(snapcallAPI.startCall).toHaveBeenCalledWith('1234')
   })
 })
 
