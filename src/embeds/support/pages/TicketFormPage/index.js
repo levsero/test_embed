@@ -12,6 +12,7 @@ import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
+import { mapKeyFields } from 'embeds/support/utils/fieldConversion'
 
 const TicketFormPage = ({
   formTitle,
@@ -24,6 +25,8 @@ const TicketFormPage = ({
   ticketFormTitle,
   ticketForms
 }) => {
+  const fields = mapKeyFields(ticketFields)
+
   return (
     <Widget>
       <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
@@ -34,7 +37,7 @@ const TicketFormPage = ({
         readOnlyState={readOnlyState}
         ticketFormTitle={ticketFormTitle}
         submitForm={formState => submitTicket(formState, match.params.id)}
-        ticketFields={ticketFields}
+        ticketFields={fields}
       />
     </Widget>
   )
@@ -61,8 +64,8 @@ const mapStateToProps = (state, ownProps) => {
     formState: getFormState(state, id),
     formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
-    ticketFormTitle: getTicketFormTitle(state, id),
     readOnlyState: getReadOnlyState(state),
+    ticketFormTitle: getTicketFormTitle(state, id),
     ticketForms: getTicketForms(state)
   }
 }
