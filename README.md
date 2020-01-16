@@ -75,9 +75,21 @@ You can use this config in the dev task by running
 USER_CONFIG={yourConfigName} npm run dev
 ```
 
-This will start the dev task using the values found in `dev/configs/${yourConfigName}.json`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.js` config which uses `dev.zd-dev.com`.
+This will start the dev task using the values found in `dev/configs/${yourConfigName}.js`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.js` config which uses `dev.zd-dev.com`.
 
 This will allow you to make as many different configurations as you like to test different scenarios with. It is recommended to have one for your production account.
+
+If you encounter a `Cannot GET /live.html` error after loading, you may need to re-run the below script from the root directory:
+
+```bash
+script/setup_html_templates.rb
+```
+
+**Widget Developer Dashboard**
+
+Instead of loading the dev task via the user config above, the [widget developer dashboard](https://github.com/zendesk/widget-developer-dashboard) provides UI controls to toggle widget settings and test it under different conditions for a better developer experience.
+
+To use the widget developer dashboard, follow the steps in the dashboard repo to clone and install the required dependencies. This repo and the dashboard repo need to be in your `Code/zendesk` folder. To setup, copy over the values used in your `dev/configs/${yourConfigName}.js` file into the `config/environments/` [folder](https://github.com/zendesk/widget-developer-dashboard/tree/master/config/environments) in the web widget dashboard. Then run `npm run dashboard` in this repo, the widget will be served up at `http://localhost:1338/`.
 
 ## Testing
 
