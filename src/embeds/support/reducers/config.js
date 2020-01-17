@@ -3,7 +3,8 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import _ from 'lodash'
 
 const initialState = {
-  maxFileCount: 5
+  maxFileCount: 5,
+  maxFileSize: 5 * 1024 * 1024
 }
 
 const config = (state = initialState, action) => {
