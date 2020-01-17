@@ -73,6 +73,9 @@ describe('WidgetLauncher component', () => {
       'src/constants/shared': {
         TEST_IDS,
         ICONS
+      },
+      'src/embeds/talk/selectors': {
+        getTalkTitleKey: noop
       }
     })
 
@@ -143,30 +146,6 @@ describe('WidgetLauncher component', () => {
 
         it('returns the prop label', () => {
           expect(launcher.getLabel()).toEqual('help')
-        })
-      })
-
-      describe('when Talk is available', () => {
-        describe('when callback capability is enabled', () => {
-          beforeEach(() => {
-            launcher = instanceRender(<Launcher talkOnline={true} callbackEnabled={true} />)
-          })
-
-          it('returns a "Request a callback" string', () => {
-            expect(launcher.getLabel()).toEqual(
-              'embeddable_framework.launcher.label.talk.request_callback'
-            )
-          })
-        })
-
-        describe('when callback capability is unavailable', () => {
-          beforeEach(() => {
-            launcher = instanceRender(<Launcher talkOnline={true} />)
-          })
-
-          it('returns a "Call us" string', () => {
-            expect(launcher.getLabel()).toEqual('embeddable_framework.launcher.label.talk.call_us')
-          })
         })
       })
 
@@ -258,32 +237,6 @@ describe('WidgetLauncher component', () => {
 
         it('returns the value of getLabel', () => {
           expect(launcher.getActiveEmbedLabel()).toBe('get-label-value')
-        })
-      })
-    })
-
-    describe('when the active embed is talk', () => {
-      describe('when callback capability is enabled', () => {
-        beforeEach(() => {
-          launcher = instanceRender(<Launcher activeEmbed="talk" callbackEnabled={true} />)
-        })
-
-        it('returns a "Request a callback" string', () => {
-          expect(launcher.getActiveEmbedLabel()).toEqual(
-            'embeddable_framework.launcher.label.talk.request_callback'
-          )
-        })
-      })
-
-      describe('when callback capability is unavailable', () => {
-        beforeEach(() => {
-          launcher = instanceRender(<Launcher activeEmbed="talk" />)
-        })
-
-        it('returns a "Call us" string', () => {
-          expect(launcher.getActiveEmbedLabel()).toEqual(
-            'embeddable_framework.launcher.label.talk.call_us'
-          )
         })
       })
     })

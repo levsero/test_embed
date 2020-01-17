@@ -1,7 +1,10 @@
+import { createSelector } from 'reselect'
+
 import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
 import { i18n } from 'service/i18n'
-import { getCapability } from 'src/redux/modules/talk/talk-selectors'
+import { getCapability, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 
 export const getTitle = (state, fallback) => {
   return i18n.getSettingTranslation(getSettingsTalkTitle(state)) || i18n.t(fallback)
@@ -27,3 +30,17 @@ export const getOfflineTitle = state => {
       return i18n.t('embeddable_framework.talk.form.title')
   }
 }
+
+export const getTalkTitleKey = createSelector(
+  [getCapability, isCallbackEnabled],
+  (capability, callbackEnabled) => {
+    if (capability === CLICK_TO_CALL) {
+      return 'embeddable_framework.talk.clickToCall.header.title'
+    }
+    if (callbackEnabled) {
+      return 'embeddable_framework.launcher.label.talk.request_callback'
+    } else {
+      return 'embeddable_framework.launcher.label.talk.call_us'
+    }
+  }
+)

@@ -1,6 +1,7 @@
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 
-import { getTitle, getOfflineTitle } from '../selectors'
+import { getTitle, getOfflineTitle, getTalkTitleKey } from '../selectors'
 
 describe('talk selectors', () => {
   describe('getTitle', () => {
@@ -60,5 +61,21 @@ describe('talk selectors', () => {
         expect(getOfflineTitle(state)).toBe('Request a callback')
       })
     })
+  })
+
+  describe('getTalkTitleKey', () => {
+    test.each([
+      [CLICK_TO_CALL, true, 'embeddable_framework.talk.clickToCall.header.title'],
+      [CLICK_TO_CALL, false, 'embeddable_framework.talk.clickToCall.header.title'],
+      ['something else', true, 'embeddable_framework.launcher.label.talk.request_callback'],
+      ['something else', false, 'embeddable_framework.launcher.label.talk.call_us']
+    ])(
+      'When capability is %p, callbackEnabled is %p, expect %p',
+      (capability, callbackEnabled, expectedValue) => {
+        const result = getTalkTitleKey.resultFunc(capability, callbackEnabled)
+
+        expect(result).toEqual(expectedValue)
+      }
+    )
   })
 })
