@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { i18n } from 'service/i18n'
 import { ButtonIcon } from 'component/button/ButtonIcon'
 import {
@@ -11,6 +12,7 @@ import {
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors'
+import { getCapability } from 'src/redux/modules/talk/talk-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 
 import { locals as styles } from './ChannelChoiceMenu.scss'
@@ -19,7 +21,8 @@ const mapStateToProps = state => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineLabel: getContactOptionsChatLabelOffline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
-  submitTicketLabel: getContactOptionsContactFormLabel(state)
+  submitTicketLabel: getContactOptionsContactFormLabel(state),
+  talkCapability: getCapability(state)
 })
 
 class ChannelChoiceMenu extends Component {
@@ -36,7 +39,8 @@ class ChannelChoiceMenu extends Component {
     chatOnlineAvailableLabel: PropTypes.string.isRequired,
     chatOfflineLabel: PropTypes.string.isRequired,
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
-    submitTicketLabel: PropTypes.string.isRequired
+    submitTicketLabel: PropTypes.string.isRequired,
+    talkCapability: PropTypes.string
   }
 
   static defaultProps = {
@@ -84,23 +88,33 @@ class ChannelChoiceMenu extends Component {
 
   getListStyle = () => classNames(styles.listItem, { [styles.listItemMobile]: this.props.isMobile })
 
-  renderTalkLabel = () => {
-    const { callbackEnabled, talkOnline } = this.props
-    const optionLabel = callbackEnabled
+  talkOptionLabel = () => {
+    const { callbackEnabled, talkCapability } = this.props
+
+    if (talkCapability == CLICK_TO_CALL) {
+      return i18n.t('embeddable_framework.channelChoice.button.label.click_to_call')
+    }
+
+    return callbackEnabled
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us')
+  }
+
+  renderTalkLabel = () => {
+    const { talkOnline } = this.props
+    const onlineLabel = this.talkOptionLabel()
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
-        <div className={styles.offlineLabelOption}>{optionLabel}</div>
+        <div className={styles.offlineLabelOption}>{onlineLabel}</div>
         <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
       </span>
     )
 
-    return talkOnline ? optionLabel : offlineLabel
+    return talkOnline ? onlineLabel : offlineLabel
   }
 
   renderTalkButton = () => {
-    const { talkOnline, buttonClasses } = this.props
+    const { talkOnline, buttonClasses, talkCapability } = this.props
 
     if (!this.state.talkWasOnline && !talkOnline) return null
 
@@ -123,7 +137,7 @@ class ChannelChoiceMenu extends Component {
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
           flipX={this.getIconFlipX()}
-          icon={ICONS.CC_TALK}
+          icon={talkCapability ? ICONS.CC_CLICK_TO_CALL : ICONS.CC_TALK}
         />
       </li>
     )

@@ -3,6 +3,7 @@ import { i18n } from 'service/i18n'
 import { render, fireEvent } from '@testing-library/react'
 
 import { Component as ChannelChoiceMenu } from '../ChannelChoiceMenu'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 
 beforeEach(() => {
   i18n.isRTL = () => false
@@ -39,6 +40,12 @@ describe('rendering', () => {
 
     describe('talkButton', () => {
       describe('when talkOnline is true', () => {
+        it('displays a label specific for click to call when talkCapability is CLICK_TO_CALL', () => {
+          const props = { talkOnline: true, talkCapability: CLICK_TO_CALL }
+          const { getByText } = renderComponent(props)
+
+          expect(getByText('Click to call')).toBeInTheDocument()
+        })
         it('when callbackEnabled is true', () => {
           const props = { talkOnline: true, callbackEnabled: true }
           const { container } = renderComponent(props)

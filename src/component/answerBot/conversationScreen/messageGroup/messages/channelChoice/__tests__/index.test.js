@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { Component as ChannelChoice } from '../index'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 
 const actions = Object.freeze({
   updateBackButtonVisibility: jest.fn(),
@@ -90,6 +91,15 @@ describe('channels', () => {
     assertExpected({
       callbackAvailable: true,
       talkAvailable: true,
+      leadingMessage: 'blah'
+    })
+  })
+
+  it('renders expected components if talk and click to call are available', () => {
+    assertExpected({
+      callbackAvailable: true,
+      talkAvailable: true,
+      talkCapability: CLICK_TO_CALL,
       leadingMessage: 'blah'
     })
   })

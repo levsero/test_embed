@@ -13,7 +13,8 @@ import {
   getContactOptionsChatLabelOnline,
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors'
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import { isCallbackEnabled, getCapability } from 'src/redux/modules/talk/talk-selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'
@@ -28,6 +29,7 @@ class ChannelChoice extends Component {
     useLeadingMessageAsFallback: PropTypes.bool,
     callbackAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
+    talkCapability: PropTypes.string,
     submitTicketAvailable: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatOfflineAvailable: PropTypes.bool.isRequired,
@@ -141,14 +143,23 @@ class ChannelChoice extends Component {
     return this.renderChannel(ICONS.CC_CHAT, label, 'chat')
   }
 
-  renderTalkChoice = () => {
-    if (!this.props.talkAvailable) return null
+  talkOptionLabel = talkCapability => {
+    if (talkCapability == CLICK_TO_CALL) {
+      return 'embeddable_framework.channelChoice.button.label.click_to_call'
+    }
 
-    const label = this.props.callbackAvailable
+    return this.props.callbackAvailable
       ? 'embeddable_framework.channelChoice.button.label.request_callback'
       : 'embeddable_framework.channelChoice.button.label.call_us'
+  }
 
-    return this.renderChannel(ICONS.CC_TALK, i18n.t(label), 'talk')
+  renderTalkChoice = () => {
+    const { talkAvailable, talkCapability } = this.props
+    if (!talkAvailable) return null
+
+    const label = this.talkOptionLabel(talkCapability)
+    const icon = talkCapability == CLICK_TO_CALL ? ICONS.CC_CLICK_TO_CALL : ICONS.CC_TALK
+    return this.renderChannel(icon, i18n.t(label), 'talk')
   }
 
   renderSubmitTicketChoice = () => {
@@ -178,6 +189,7 @@ class ChannelChoice extends Component {
 
 const mapStateToProps = state => ({
   talkAvailable: getTalkOnline(state),
+  talkCapability: getCapability(state),
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
   chatAvailable: getChatAvailable(state),
   chatOfflineAvailable: getChatOfflineAvailable(state),

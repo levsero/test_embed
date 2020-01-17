@@ -221,6 +221,7 @@
       "embeddable_framework.channelChoice.button.label.chat_offline_v2": "Live chat is offline",
       "embeddable_framework.channelChoice.button.label.request_callback": "Request a callback",
       "embeddable_framework.channelChoice.button.label.call_us": "Call us",
+      "embeddable_framework.channelChoice.button.label.click_to_call": "Click to call",
       "embeddable_framework.channelChoice.button.label.talk_offline_v2": "No agents are available",
       "embeddable_framework.helpCenter.content.useSearchBar": "Enter a term in the search bar above to find articles.",
       "embeddable_framework.helpCenter.form.title.help": "Help",

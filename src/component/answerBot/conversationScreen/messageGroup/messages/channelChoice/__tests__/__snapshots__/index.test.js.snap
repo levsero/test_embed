@@ -210,6 +210,48 @@ exports[`channels renders expected components if only submit ticket is available
 </div>
 `;
 
+exports[`channels renders expected components if talk and click to call are available 1`] = `
+<div>
+  <div
+    class="messageBubble
+        container"
+    data-testid="answer-bot-selection-message"
+  >
+    <div
+      class="header firstItem title"
+    >
+      blah
+    </div>
+    <div
+      class=" lastItem optionItem"
+    >
+      <div
+        class="channel singleChannel"
+        data-testid="list-item"
+        role="button"
+        tabindex="0"
+      >
+        <span
+          class="container icon Icon--channelChoice-clickToCall"
+          data-testid="Icon--channelChoice-clickToCall"
+          type="Icon--channelChoice-clickToCall"
+        >
+          <svg
+            aria-hidden="true"
+            realfilename="click_to_call.svg"
+          />
+        </span>
+        <div
+          class="optionText"
+        >
+          Click to call
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`channels renders expected components if talk and request callback are available 1`] = `
 <div>
   <div

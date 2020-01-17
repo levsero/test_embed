@@ -21,6 +21,7 @@ const icons = {
   [ICONS.AVATAR]: require('icons/widget-icon_concierge.svg'),
   [ICONS.CC_SUPPORT]: require('icons/widget-icon_channelChoice-contactForm.svg'),
   [ICONS.CC_TALK]: require('icons/widget-icon_channelChoice-talk.svg'),
+  [ICONS.CC_CLICK_TO_CALL]: require('src/embeds/talk/assets/icons/click_to_call.svg'),
   [ICONS.CHAT]: require('icons/widget-icon_chat.svg'),
   'Icon--checkmark-fill': require('@zendeskgarden/svg-icons/src/14/checkmark-fill.svg'),
   'Icon--chevron-left-fill': require('@zendeskgarden/svg-icons/src/16/chevron-left-fill.svg'),
