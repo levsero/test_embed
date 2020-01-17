@@ -28,7 +28,7 @@ module PackageSize
       @packages ||= stats['assetsByChunkName']
       .reject { |_name, filename| filename.is_a?(String) }
       .map do |name, filename|
-        Package.new(name, filename[0], assets)
+        Package.new(name, filename[0], assets, @stats['outputPath'])
       end
     end
 
@@ -73,13 +73,13 @@ module PackageSize
   end
 
   class Package
-    FILE_DIRECTORY = 'dist/'
     attr_reader :name, :filename, :sizes
 
-    def initialize(name, filename, assets)
+    def initialize(name, filename, assets, output_path)
       @name = name
       @filename = filename
       @assets = assets
+      @output_path = output_path
       @sizes = {}
       calculate_sizes
     end
@@ -95,7 +95,7 @@ module PackageSize
     def calculate_sizes
       @sizes[:bytes]      ||= assets.find { |asset| asset['name'] == filename }['size']
       @sizes[:human]      ||= Filesize.from(@sizes[:bytes].to_s).pretty
-      @sizes[:gzip]       ||= Zlib::Deflate.deflate(File.read(FILE_DIRECTORY + filename)).size
+      @sizes[:gzip]       ||= Zlib::Deflate.deflate(File.join(@output_path, filename)).size
       @sizes[:gzip_human] ||= Filesize.from(@sizes[:gzip].to_s).pretty
     rescue Errno::ENOENT
       raise ReportError.new 'Cannot find build files in specified location'

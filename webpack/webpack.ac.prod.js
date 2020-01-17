@@ -41,7 +41,7 @@ let config = merge(common, {
           .filter(file => path.extname(file.path) !== '.map')
           .map(function(file) {
             const chunk = chunks.http2Chunks(file.chunk.name)
-            const asset = { path: file.path }
+            const asset = { path: file.path.replace('public/', '') }
 
             if (chunk && chunk !== 'common') {
               asset.feature = chunk
@@ -63,10 +63,11 @@ let config = merge(common, {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-      logLevel: 'silent'
+      logLevel: 'silent',
+      reportFilename: '../report.html'
     }),
     new StatsWriterPlugin({
-      filename: 'package_sizes.json',
+      filename: '../package_sizes.json',
       stats: {
         assets: true,
         assetsSort: 'size',

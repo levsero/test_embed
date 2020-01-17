@@ -18,6 +18,12 @@ const babelLoaderPlugins =
   embeddableEnv === PROD ? [['react-remove-properties', { properties: ['data-testid'] }]] : []
 
 module.exports = {
+  output: {
+    path: path.resolve(__dirname, '../dist/public'),
+    publicPath: '/dist/',
+    filename: '[name].js',
+    jsonpFunction: WEBPACK_JSONP_GLOBAL
+  },
   module: {
     rules: [
       {
@@ -93,12 +99,6 @@ module.exports = {
         use: ['json-loader', 'yaml-loader']
       }
     ]
-  },
-  output: {
-    path: path.join(prefix, 'dist'),
-    publicPath: '/dist/',
-    filename: '[name].js',
-    jsonpFunction: WEBPACK_JSONP_GLOBAL
   },
   resolve: {
     alias: {

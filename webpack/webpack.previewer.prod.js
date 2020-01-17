@@ -24,6 +24,10 @@ module.exports = merge(common, {
     new OptimizeCSSAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } }
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
+    new BundleAnalyzerPlugin({
+      reportFilename: '../report.html',
+      analyzerMode: 'static',
+      openAnalyzer: false
+    })
   ]
 })

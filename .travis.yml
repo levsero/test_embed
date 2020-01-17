@@ -23,6 +23,7 @@ before_install:
   - npm i -g npm@6.13.4
 
 install:
+  - mkdir dist
   - npm set progress=false && npm install
   - npm run build:version:generate
 

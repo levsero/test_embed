@@ -44,11 +44,24 @@ class S3Deployer
     end
   end
 
-  def upload_js_assets_directory(local_directory, remote_directory)
-    Dir.glob("#{local_directory}/*.js") do |file|
-      upload_file("#{remote_directory}/#{file.partition('/').last}", file)
+  def upload_directory(local_directory, remote_directory, opts = {})
+    put_object("#{remote_directory}/")
 
-      logger.info "put_object #{file} on dir #{file.partition('/').last}"
+    Dir.glob("#{local_directory}/*") do |file|
+      puts "Inspecting #{file}"
+      if opts[:ignore_extensions]
+        next if opts[:ignore_extensions].include?(File.extname(file))
+      end
+
+      if File.directory? file
+        upload_directory(file, remote_directory, opts)
+      else
+        key = "#{remote_directory}/#{file.partition('/').last}"
+        if opts[:key_transform]
+          key = opts[:key_transform].call(key)
+        end
+        upload_file(key, file)
+      end
     end
   end
 
