@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader/root'
 import { Route, Switch } from 'react-router-dom'
@@ -11,11 +11,17 @@ import OfflinePage from './pages/OfflinePage'
 import PhoneOnlyPage from './pages/PhoneOnlyPage'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
+import SuspensePage from 'src/components/Widget/SuspensePage'
+
+const ClickToCallPage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk_click_to_call' */ './pages/ClickToCallPage')
+)
 
 const ROUTES = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: CallbackPage,
   [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: CallbackPage,
-  [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage
+  [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage,
+  [CONTACT_OPTIONS.CLICK_TO_CALL]: ClickToCallPage
 }
 
 // This component needs to be a class component since the parent WebWidget component expects to be able
@@ -28,10 +34,12 @@ class Talk extends Component {
 
     return (
       <WidgetThemeProvider>
-        <Switch>
-          <Route path={'/talk/success'} component={SuccessNotificationPage} />
-          <Route component={IndexPage} />
-        </Switch>
+        <SuspensePage>
+          <Switch>
+            <Route path={'/talk/success'} component={SuccessNotificationPage} />
+            <Route component={IndexPage} />
+          </Switch>
+        </SuspensePage>
       </WidgetThemeProvider>
     )
   }

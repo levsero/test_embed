@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { isMobileBrowser } from 'utility/devices'
 import { i18n } from 'service/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
@@ -49,7 +48,6 @@ PhoneOnlyPage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isMobile: isMobileBrowser(),
     callUsMessage: i18n.t('embeddable_framework.talk.phoneOnly.new_message'),
     averageWaitTime: getAverageWaitTimeString(state),
     phoneNumber: getEmbeddableConfig(state).phoneNumber,
