@@ -942,6 +942,11 @@ parts:
       title: "A notification that appears when channel choice is open and all talk agents become unavailable."
       value: "No agents are available"
       screenshot: "https://zendesk.box.com/s/ehtcqe25fqc7ecirqbxnxuc9l784h63v"
+  - translation:
+      key: 'embeddable_framework.channelChoice.button.label.click_to_call'
+      title: 'The label for the click to call option in the list.'
+      value: 'Click to call'
+      wip: true
 
   # Help Center component
   - translation:
@@ -1170,6 +1175,11 @@ parts:
       title: "Leading message when the only channel available is to call us. If you have formal/informal issues, please translate 'Would you like to contact us regarding the question?'"
       screenshot: "https://drive.google.com/open?id=1U1JCJ7FkcbAPfpOis944Am_hcgrRR9al"
       value: "Would you like to contact us regarding your question?"
+  - translation:
+      key: "embeddable_framework.answerBot.msg.channel_choice.click_to_call_only.title"
+      title: "Leading message when the only channel available is click to call. If you have formal/informal issues, please translate 'Would you like to contact us regarding the question?'"
+      value: "Would you like to contact us regarding your question?"
+      wip: true
   - translation:
       key: "embeddable_framework.answerBot.msg.channel_choice.submit_ticket_only.title"
       title: "Leading message when the only channel available is contact form. If you have formal/informal issues, please translate 'Would you like to leave a message so the team can follow up on the question'"
@@ -1402,3 +1412,25 @@ parts:
       title: "A message that displays when all agents go offline"
       screenshot: "https://drive.google.com/open?id=1FQGryGgTyF2XFH9PYds4Pi6AXjJDufCX"
       value: "All agents are currently offline. Try again later."
+
+  # Talk: Click To Call
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.header.title'
+      title: 'The title used for all the click to call pages.'
+      value: 'Call Us'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.message'
+      title: 'Message shown on the Click To Call introduction screen. Warns the user that they will be asked for microphone access at the next step.'
+      value: "Call Customer Support directy from your browser. You'll need to allow microphone access on your device when prompted."
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.button.startCall'
+      title: 'A button on the Click To Call page that starts a call through the browser when clicked.'
+      value: 'Start call'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callInProgress.button.endCall'
+      title: 'Label on a button that ends a call.'
+      value: 'Hang up'
+      wip: true

@@ -1,4 +1,5 @@
 src/translation/
+config/locales/translations/
 vendor/
 example/
 dist/
