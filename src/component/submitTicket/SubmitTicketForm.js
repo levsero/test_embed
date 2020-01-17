@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import { locals as styles } from './SubmitTicketForm.scss'
-import AttachmentList from 'component/attachment/AttachmentList'
+import AttachmentList from 'src/embeds/support/components/AttachmentList'
 import { Button } from '@zendeskgarden/react-buttons'
 import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
@@ -486,7 +486,6 @@ export class SubmitTicketForm extends Component {
 
     return (
       <AttachmentList
-        ref="attachments"
         updateForm={this.updateForm}
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
