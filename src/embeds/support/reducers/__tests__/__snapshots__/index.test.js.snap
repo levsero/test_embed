@@ -8,7 +8,10 @@ Object {
   "config": Object {
     "maxFileCount": 5,
   },
+  "contactFormFields": Array [],
+  "fields": Object {},
   "formStates": Object {},
+  "forms": Object {},
   "lastFormPrefillId": Object {},
   "prefillId": 0,
   "prefillSpecificFormValues": Object {},
