@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 import { locals as styles } from './SubmitTicketForm.scss'
-import AttachmentList from 'component/attachment/AttachmentList'
+import AttachmentField from 'src/embeds/support/components/AttachmentField'
 import { Button } from '@zendeskgarden/react-buttons'
 import { i18n } from 'service/i18n'
 import { getCustomFields, shouldRenderErrorMessage, renderLabel } from 'utility/fields'
@@ -31,11 +31,8 @@ export class SubmitTicketForm extends Component {
     formState: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
     formTitle: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool,
     isMobile: PropTypes.bool,
     hide: PropTypes.bool,
-    maxFileCount: PropTypes.number,
-    maxFileSize: PropTypes.number,
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
@@ -51,11 +48,8 @@ export class SubmitTicketForm extends Component {
     activeTicketForm: {},
     formState: {},
     readOnlyState: {},
-    fullscreen: false,
     isMobile: false,
     hide: false,
-    maxFileCount: 5,
-    maxFileSize: 5 * 1024 * 1024,
     nameFieldEnabled: true,
     previewEnabled: false,
     setFormState: () => {},
@@ -482,18 +476,7 @@ export class SubmitTicketForm extends Component {
   }
 
   renderAttachments = () => {
-    const { fullscreen } = this.props
-
-    return (
-      <AttachmentList
-        ref="attachments"
-        updateForm={this.updateForm}
-        maxFileCount={this.props.maxFileCount}
-        maxFileSize={this.props.maxFileSize}
-        fullscreen={fullscreen}
-        handleAttachmentsError={this.handleAttachmentsError}
-      />
-    )
+    return <AttachmentField handleAttachmentsError={this.handleAttachmentsError} />
   }
 
   render = () => {

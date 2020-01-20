@@ -24,7 +24,7 @@ const AttachmentError = ({
       <ErrorTitle>{errorMessage}</ErrorTitle>
       <FileName>{formatNameString(fileName)}</FileName>
       <FileSize>{formatAttachmentSize(fileSize, translate)}</FileSize>
-      <Close onClick={handleIconClick} />
+      <Close onClick={handleIconClick} data-testid={TEST_IDS.ICON_CLOSE} />
     </StyledAlert>
   )
 }

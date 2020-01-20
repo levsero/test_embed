@@ -3,7 +3,8 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
-  maxFileCount: 5
+  maxFileCount: 5,
+  maxFileSize: 5242880
 }
 const embeddableConfigPayload = {
   embeds: {
