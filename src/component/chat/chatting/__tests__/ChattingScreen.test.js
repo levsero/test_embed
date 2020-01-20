@@ -29,6 +29,13 @@ const renderComponent = (inProps, rerender) => {
     title: '',
     markAsRead: markAsReadSpy,
     unreadMessages: false,
+    concierges: [
+      {
+        avatar: 'https://example.com/snake',
+        display_name: 'Luke Skywalker',
+        title: 'Jedi Knight'
+      }
+    ],
 
     ...inProps
   }

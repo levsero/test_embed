@@ -1230,22 +1230,22 @@ exports[`chat log visitor message success 1`] = `
 `;
 
 exports[`update chat header 1`] = `
-.c5 {
+.c6 {
   margin: 6px;
 }
 
-.c4 {
+.c5 {
   -webkit-transition: opacity 10ms;
   transition: opacity 10ms;
   opacity: 1;
 }
 
-.c4[aria-hidden='true'] {
+.c5[aria-hidden='true'] {
   visibility: hidden;
   opacity: 0;
 }
 
-.c2 {
+.c3 {
   display: inline-block;
 }
 
@@ -1253,14 +1253,21 @@ exports[`update chat header 1`] = `
   color: #2f3941;
   line-height: 1.1428571428571428rem;
   padding-top: 0.07142857142857142rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  min-width: 0;
   padding-left: 12px;
+}
+
+.c2 > div {
+  display: block;
 }
 
 .c1 {
   font-weight: 700;
   font-size: 1rem;
   width: 100%;
-  max-height: 1.1428571428571428rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1268,11 +1275,9 @@ exports[`update chat header 1`] = `
   -webkit-box-orient: vertical;
 }
 
-.c3 {
+.c4 {
   width: 100%;
   margin-top: 0.07142857142857142rem;
-  max-height: 2.2857142857142856rem;
-  max-width: 12.142857142857142rem;
   overflow: hidden;
   display: -webkit-box;
   text-overflow: ellipsis;
@@ -1294,30 +1299,35 @@ exports[`update chat header 1`] = `
     class="c2"
   >
     <div
-      aria-describedby="garden-tooltip-container-466"
       class="c3"
-      data-garden-container-id="tooltip"
-      data-garden-container-version="0.2.6"
-      data-testid="chat-header-subtext"
-      tabindex="-1"
     >
-      Mistah J
+      <div
+        aria-describedby="garden-tooltip-container-544"
+        class="c4"
+        data-garden-container-id="tooltip"
+        data-garden-container-version="0.2.6"
+        data-testid="chat-header-subtext"
+        tabindex="-1"
+      >
+        Mistah J
+      </div>
     </div>
-  </div>
-  <div
-    aria-hidden="true"
-    class="c4"
-    style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
-  >
     <div
       aria-hidden="true"
-      class="index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT c5"
-      data-garden-id="tooltip.tooltip"
-      data-garden-version="7.0.2"
-      id="garden-tooltip-container-466"
-      role="tooltip"
+      class="c5"
+      style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
     >
-      Mistah J
+      <div
+        aria-hidden="true"
+        class="index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT c6"
+        data-garden-id="tooltip.tooltip"
+        data-garden-version="7.0.2"
+        id="garden-tooltip-container-544"
+        role="tooltip"
+        style="display: block;"
+      >
+        Mistah J
+      </div>
     </div>
   </div>
 </div>

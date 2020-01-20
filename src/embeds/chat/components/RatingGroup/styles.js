@@ -4,6 +4,7 @@ import { FONT_SIZE } from 'constants/shared'
 
 const Container = styled.div`
   display: inline-flex;
+  flex-shrink: 0;
 `
 
 const RatingButton = styled(IconButton)`
