@@ -84,14 +84,6 @@ export default function WebWidgetFactory() {
 
     if (isMobile || popout) {
       containerStyle = { width: '100%', minHeight: '100%', maxHeight: '100%' }
-
-      if (!isMobile) {
-        containerStyle = {
-          ...containerStyle,
-          maxWidth: '650px',
-          height: '100%'
-        }
-      }
     } else {
       containerStyle = { width: 342 }
       frameBodyCss = `
