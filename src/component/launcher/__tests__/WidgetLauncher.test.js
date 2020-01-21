@@ -22,6 +22,7 @@ const renderComponent = (props = {}) => {
     chatOfflineAvailable: false,
     launcherLabel: 'launcherLabel',
     chatLabel: 'chatLabel',
+    talkLabel: 'custom talk label',
     unreadMessages: 0,
     showLabelMobile: false
   }
@@ -60,6 +61,28 @@ describe('WidgetLauncher', () => {
 
         expect(label.innerHTML).toEqual(labelText)
         expect(labelClasses).toEqual(classes)
+      }
+    )
+  })
+
+  describe('non-chat widget label', () => {
+    test.each([
+      ['talk', 0, 'launcher boopity', 'beepity boopidy', 'beepity boopidy'],
+      ['helpCenterForm', 0, 'launcher boopity', 'beepity boopidy', 'launcher boopity'],
+      ['ticketSubmissionForm', 0, 'launcher boopity', 'beepity boopidy', 'launcher boopity']
+    ])(
+      'when activeEmbed is %p, notificationCount is %p, talkLabel is %p, launcherLabel is %p, expect %p',
+      (activeEmbed, notificationCount, launcherLabel, talkLabel, expectedLabel) => {
+        const { queryByTestId } = renderComponent({
+          activeEmbed,
+          launcherLabel,
+          notificationCount,
+          talkLabel
+        })
+
+        const label = queryByTestId(TEST_IDS.LAUNCHER_LABEL)
+
+        expect(label.innerHTML).toEqual(expectedLabel)
       }
     )
   })

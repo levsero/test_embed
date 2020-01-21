@@ -18,6 +18,7 @@ import { launcherClicked } from 'src/redux/modules/base/'
 import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
+import { getTalkTitleKey } from 'src/embeds/talk/selectors'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -30,7 +31,8 @@ const mapStateToProps = (state, ownProps) => {
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatLabel: getLauncherChatLabel(state),
     launcherLabel: getLauncherLabel(state, ownProps.label),
-    showLabelMobile: getSettingsLauncherMobile(state).labelVisible
+    showLabelMobile: getSettingsLauncherMobile(state).labelVisible,
+    talkLabel: i18n.t(getTalkTitleKey(state))
   }
 }
 
@@ -40,7 +42,6 @@ class WidgetLauncher extends Component {
     chatAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkOnline: PropTypes.bool.isRequired,
-    callbackEnabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     notificationCount: PropTypes.number.isRequired,
     updateFrameTitle: PropTypes.func,
@@ -49,7 +50,8 @@ class WidgetLauncher extends Component {
     isMobile: PropTypes.bool,
     launcherLabel: PropTypes.string.isRequired,
     chatLabel: PropTypes.string.isRequired,
-    showLabelMobile: PropTypes.bool.isRequired
+    showLabelMobile: PropTypes.bool.isRequired,
+    talkLabel: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -60,14 +62,6 @@ class WidgetLauncher extends Component {
     super(props, context)
   }
 
-  getTalkLabel = () => {
-    if (this.props.callbackEnabled) {
-      return i18n.t('embeddable_framework.launcher.label.talk.request_callback')
-    } else {
-      return i18n.t('embeddable_framework.launcher.label.talk.call_us')
-    }
-  }
-
   getLabel = () => {
     const {
       helpCenterAvailable,
@@ -75,7 +69,8 @@ class WidgetLauncher extends Component {
       chatAvailable,
       launcherLabel,
       chatLabel,
-      notificationCount
+      notificationCount,
+      talkLabel
     } = this.props
 
     if (notificationCount) {
@@ -89,7 +84,7 @@ class WidgetLauncher extends Component {
     } else if (chatAvailable && !helpCenterAvailable) {
       return chatLabel
     } else if (talkOnline && !helpCenterAvailable) {
-      return this.getTalkLabel()
+      return talkLabel
     }
     return launcherLabel
   }
@@ -101,7 +96,8 @@ class WidgetLauncher extends Component {
       chatLabel,
       chatOfflineAvailable,
       activeEmbed,
-      notificationCount
+      notificationCount,
+      talkLabel
     } = this.props
 
     if (notificationCount) {
@@ -125,7 +121,7 @@ class WidgetLauncher extends Component {
         }
         return this.getLabel()
       case 'talk':
-        return this.getTalkLabel()
+        return talkLabel
       default:
         return this.getLabel()
     }
