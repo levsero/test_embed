@@ -1,9 +1,4 @@
 import { createSelector } from 'reselect'
-import {
-  getTicketFieldsResponse,
-  getTicketFields,
-  getTicketForms
-} from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldEnabled,
@@ -91,15 +86,22 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
+export const getForm = (state, formId) => state.support.forms[formId]
+export const getField = (state, fieldId) => state.support.fields[fieldId]
+export const getContactFormFields = state => state.support.contactFormFields
+
 export const getTicketFormTitle = (state, id) => {
-  const ticketForm = getTicketForms(state).find(form => {
-    return form.id === parseInt(id)
-  })
-  return ticketForm ? ticketForm.display_name : ''
+  const form = getForm(state, id)
+  if (!form) {
+    return ''
+  }
+
+  return form.display_name
 }
-export const getCustomTicketFields = createSelector(
+
+export const getTicketFormFields = createSelector(
   [
-    getTicketFieldsResponse,
+    getContactFormFields,
     getSettingsContactFormSubject,
     getConfigNameFieldEnabled,
     getConfigNameFieldRequired,
@@ -108,8 +110,10 @@ export const getCustomTicketFields = createSelector(
     getLocale
   ],
   (ticketFields, subjectEnabled, nameEnabled, nameRequired) => {
-    const checkBoxFields = getCheckboxFields(ticketFields)
-    const nonCheckBoxFields = getNonCheckboxFields(ticketFields)
+    const fields = ticketFields.map(field => ({ ...field, visible_in_portal: true }))
+
+    const checkBoxFields = getCheckboxFields(fields)
+    const nonCheckBoxFields = getNonCheckboxFields(fields)
 
     return [
       nameEnabled && {
@@ -148,25 +152,33 @@ export const getCustomTicketFields = createSelector(
       },
       ...checkBoxFields
       // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
-    ].filter(Boolean)
+    ]
+      .filter(Boolean)
+      .map(field => ({
+        ...field,
+        keyID: field.keyID || createKeyID(field.id)
+      }))
   }
 )
 
-export const getTicketFormFields = (state, formId) => {
-  const ticketFields = getTicketFields(state)
-  const ticketForms = getTicketForms(state)
-  const ticketFormId = parseInt(formId)
-  const ticketForm = ticketForms.find(form => {
-    return form.id === ticketFormId
-  })
-  const formTicketFields =
-    ticketForm && ticketForm.ticket_field_ids
-      ? Object.values(ticketFields).filter(field => {
-          return ticketForm.ticket_field_ids.includes(field.id)
-        })
-      : []
+export const getCustomTicketFields = (state, formId) => {
+  const fallbackForm = {
+    ticket_field_ids: []
+  }
+  const ticketForm = getForm(state, formId) || fallbackForm
+  const nameEnabled = getConfigNameFieldEnabled(state)
+  const nameRequired = getConfigNameFieldRequired(state)
+  const fields = ticketForm.ticket_field_ids.map(id => getField(state, id))
 
   return [
+    nameEnabled && {
+      id: 'name',
+      title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
+      required_in_portal: nameRequired,
+      visible_in_portal: true,
+      type: 'text',
+      keyID: 'key:name'
+    },
     {
       id: 'email',
       title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
@@ -176,15 +188,36 @@ export const getTicketFormFields = (state, formId) => {
       validation: 'email',
       keyID: 'key:email'
     },
-    ...formTicketFields
+    ...fields
     // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
-  ].filter(Boolean)
+  ]
+    .filter(Boolean)
+    .map(field => {
+      if (field.type === 'description') {
+        return {
+          ...field,
+          keyID: createKeyID('description')
+        }
+      }
+
+      if (field.type === 'subject') {
+        return {
+          ...field,
+          keyID: createKeyID('subject')
+        }
+      }
+
+      return {
+        ...field,
+        keyID: createKeyID(field.id)
+      }
+    })
 }
 
-export const getFormTicketFields = (state, route) => {
-  if (route === routes.defaultFormId) {
-    return getCustomTicketFields(state)
+export const getFormTicketFields = (state, formId) => {
+  if (formId === routes.defaultFormId) {
+    return getTicketFormFields(state)
   }
 
-  return getTicketFormFields(state, route)
+  return getCustomTicketFields(state, formId)
 }

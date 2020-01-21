@@ -4,6 +4,18 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
+import { i18n } from 'service/i18n'
+import { getField, getForm } from 'embeds/support/selectors'
+import { getContactFormFields } from '..'
+
+const nameField = {
+  id: 'name',
+  title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
+  required_in_portal: false,
+  visible_in_portal: true,
+  type: 'text',
+  keyID: 'key:name'
+}
 
 const emailField = {
   id: 'email',
@@ -55,7 +67,7 @@ const subjectField = {
   keyID: createKeyID('subject')
 }
 
-describe('getCustomTicketFields', () => {
+describe('getTicketFormFields', () => {
   const run = ({ nameFieldEnabled, nameFieldRequired, subjectFieldEnabled, fields = [] } = {}) => {
     const store = createStore()
 
@@ -88,7 +100,7 @@ describe('getCustomTicketFields', () => {
       })
     )
 
-    return selectors.getCustomTicketFields(store.getState())
+    return selectors.getTicketFormFields(store.getState())
   }
 
   it('always includes an email and description field', () => {
@@ -180,37 +192,120 @@ describe('getCustomTicketFields', () => {
   })
 })
 
-describe('getTicketFormFields', () => {
-  const state = {
-    submitTicket: {
-      ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
-      ticketFields: {
-        123: checkboxField,
-        456: textField,
-        789: textareaField
-      }
-    }
+describe('getCustomTicketFields', () => {
+  const defaultTicketFields = {
+    123: checkboxField,
+    456: textField,
+    789: textareaField
   }
 
+  const getState = ({
+    nameFieldEnabled = false,
+    nameFieldRequired = false,
+    ticketFields = defaultTicketFields
+  } = {}) => ({
+    base: {
+      embeddableConfig: {
+        embeds: { ticketSubmissionForm: { props: { nameFieldEnabled, nameFieldRequired } } }
+      }
+    },
+    support: {
+      forms: {
+        123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields) }
+      },
+      fields: ticketFields
+    }
+  })
+
   it('always includes an email field', () => {
-    const result = selectors.getTicketFormFields(state)
+    const result = selectors.getCustomTicketFields(getState(), 'unknown form')
 
     expect(result).toEqual([emailField])
   })
 
   it('displays all other custom fields below the email field when the form is found', () => {
-    const result = selectors.getTicketFormFields(state, '123456')
+    const result = selectors.getCustomTicketFields(getState(), '123456')
 
     expect(result).toEqual([emailField, checkboxField, textField, textareaField])
+  })
+
+  it('includes a name field if enabled in config', () => {
+    const result = selectors.getCustomTicketFields(getState({ nameFieldEnabled: true }), '123456')
+
+    expect(result).toEqual([nameField, emailField, checkboxField, textField, textareaField])
+  })
+
+  it('includes the name field as required if set in config', () => {
+    const result = selectors.getCustomTicketFields(
+      getState({ nameFieldEnabled: true, nameFieldRequired: true }),
+      '123456'
+    )
+    const requiredNameField = {
+      ...nameField,
+      required_in_portal: true
+    }
+
+    expect(result).toEqual([requiredNameField, emailField, checkboxField, textField, textareaField])
+  })
+
+  it('adds a keyID of "description" to the description field so it can be prefilled with the key "description" instead of its id', () => {
+    const descriptionField = {
+      id: '123',
+      title_in_portal: 'Description',
+      required_in_portal: false,
+      visible_in_portal: true,
+      type: 'description'
+    }
+
+    const state = getState({
+      ticketFields: {
+        123: descriptionField
+      }
+    })
+
+    const expectedDescriptionField = {
+      ...descriptionField,
+      keyID: createKeyID('description')
+    }
+
+    const result = selectors.getCustomTicketFields(state, '123456')
+
+    expect(result).toEqual([emailField, expectedDescriptionField])
+  })
+
+  it('adds a keyID of "subject" to the subject field so it can be prefilled with the key "subject" instead of its id', () => {
+    const subjectField = {
+      id: '123',
+      title_in_portal: 'Subject',
+      required_in_portal: false,
+      visible_in_portal: true,
+      type: 'subject'
+    }
+
+    const state = getState({
+      ticketFields: {
+        123: subjectField
+      }
+    })
+
+    const expectedSubjectField = {
+      ...subjectField,
+      keyID: createKeyID('subject')
+    }
+
+    const result = selectors.getCustomTicketFields(state, '123456')
+
+    expect(result).toEqual([emailField, expectedSubjectField])
   })
 })
 
 describe('getFormTicketFields', () => {
-  const setUpState = fields => {
+  const setUpState = ({ fields, contactFormFields }) => {
     return {
-      submitTicket: {
-        ticketForms: [{ id: 123456, ticket_field_ids: ['123', '456', '789'] }],
-        ticketFields: fields
+      support: {
+        forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'] } },
+        fields,
+        contactFormFields
       },
       settings: { contactForm: { settings: { subject: false } } },
       base: { embeddableConfig: { embeds: { ticketSubmissionForm: { props: {} } } } }
@@ -218,8 +313,8 @@ describe('getFormTicketFields', () => {
   }
 
   it('returns the contact form when the contact-form route is passed in', () => {
-    const fields = [checkboxField, textField, textareaField]
-    const result = selectors.getFormTicketFields(setUpState(fields), 'contact-form')
+    const contactFormFields = [checkboxField, textField, textareaField]
+    const result = selectors.getFormTicketFields(setUpState({ contactFormFields }), 'contact-form')
 
     expect(result).toEqual([emailField, textField, textareaField, descriptionField, checkboxField])
   })
@@ -230,7 +325,7 @@ describe('getFormTicketFields', () => {
       456: textField,
       789: textareaField
     }
-    const result = selectors.getFormTicketFields(setUpState(fields), '123456')
+    const result = selectors.getFormTicketFields(setUpState({ fields }), '123456')
 
     expect(result).toEqual([emailField, checkboxField, textField, textareaField])
   })
@@ -536,26 +631,72 @@ describe('getTicketFormTitle', () => {
   it('returns the ticket form title for the id passed in', () => {
     const result = selectors.getTicketFormTitle(
       {
-        submitTicket: {
-          ticketForms: [
-            {
+        support: {
+          forms: {
+            123: {
               id: 123,
               display_name: 'Geralt'
             },
-            {
+            234: {
               id: 234,
               display_name: 'Yennifer'
             },
-            {
+            345: {
               id: 345,
               display_name: 'Jaskier'
             }
-          ]
+          }
         }
       },
       234
     )
 
     expect(result).toEqual('Yennifer')
+  })
+})
+
+describe('getForm', () => {
+  it('returns the form when it exists', () => {
+    const form = { id: 123 }
+
+    const result = getForm({ support: { forms: { 123: form } } }, 123)
+
+    expect(result).toBe(form)
+  })
+
+  it('returns undefined when the form does not exist', () => {
+    const form = { id: 123 }
+
+    const result = getForm({ support: { forms: { 456: form } } }, 123)
+
+    expect(result).toEqual(undefined)
+  })
+})
+
+describe('getField', () => {
+  it('returns the field when it exists', () => {
+    const field = { id: 123 }
+
+    const result = getField({ support: { fields: { 123: field } } }, 123)
+
+    expect(result).toBe(field)
+  })
+
+  it('returns undefined when the field does not exist', () => {
+    const field = { id: 123 }
+
+    const result = getField({ support: { fields: { 456: field } } }, 123)
+
+    expect(result).toEqual(undefined)
+  })
+})
+
+describe('getContactFormFields', () => {
+  it('returns the contact form fields', () => {
+    const fields = [{ id: 123 }, { id: 456 }]
+
+    const result = getContactFormFields({ support: { contactFormFields: fields } })
+
+    expect(result).toBe(fields)
   })
 })

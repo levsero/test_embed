@@ -10,6 +10,9 @@ import readOnly from './readOnly'
 import prefillId from './prefillId'
 import prefillSpecificFormValues from 'embeds/support/reducers/prefillSpecificFormValues'
 import lastFormPrefillId from 'embeds/support/reducers/lastFormPrefillId'
+import forms from './forms'
+import fields from './fields'
+import contactFormFields from 'embeds/support/reducers/contactFormFields'
 
 export default combineReducers({
   activeFormName,
@@ -21,5 +24,8 @@ export default combineReducers({
   readOnly,
   prefillId,
   prefillSpecificFormValues,
-  lastFormPrefillId
+  lastFormPrefillId,
+  forms,
+  fields,
+  contactFormFields
 })

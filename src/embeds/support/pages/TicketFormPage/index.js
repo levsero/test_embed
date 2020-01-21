@@ -5,13 +5,15 @@ import {
   getFormTicketFields,
   getFormState,
   getReadOnlyState,
-  getTicketFormTitle
+  getTicketFormTitle,
+  getForm
 } from 'embeds/support/selectors'
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
+import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { mapKeyFields } from 'embeds/support/utils/fieldConversion'
 
 const TicketFormPage = ({
@@ -23,10 +25,9 @@ const TicketFormPage = ({
   submitTicket,
   match,
   ticketFormTitle,
-  ticketForms
+  ticketForms,
+  conditions
 }) => {
-  const fields = mapKeyFields(ticketFields)
-
   return (
     <Widget>
       <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
@@ -37,7 +38,8 @@ const TicketFormPage = ({
         readOnlyState={readOnlyState}
         ticketFormTitle={ticketFormTitle}
         submitForm={formState => submitTicket(formState, match.params.id)}
-        ticketFields={fields}
+        ticketFields={mapKeyFields(ticketFields)}
+        conditions={conditions}
       />
     </Widget>
   )
@@ -52,12 +54,15 @@ TicketFormPage.propTypes = {
   submitTicket: PropTypes.func,
   match: PropTypes.object,
   ticketFormTitle: PropTypes.string,
-  ticketForms: PropTypes.array.isRequired
+  ticketForms: PropTypes.array.isRequired,
+  conditions: SupportPropTypes.conditions
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps.match
   const id = params.id
+
+  const form = getForm(state, id)
 
   return {
     formName: id,
@@ -66,7 +71,8 @@ const mapStateToProps = (state, ownProps) => {
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: getTicketFormTitle(state, id),
-    ticketForms: getTicketForms(state)
+    ticketForms: getTicketForms(state),
+    conditions: form ? form.end_user_conditions : []
   }
 }
 
