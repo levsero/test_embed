@@ -424,9 +424,7 @@ describe('embed.webWidget', () => {
           expectedResult = {
             minHeight: '100%',
             width: '100%',
-            maxHeight: '100%',
-            maxWidth: '650px',
-            height: '100%'
+            maxHeight: '100%'
           }
 
         beforeEach(() => {
