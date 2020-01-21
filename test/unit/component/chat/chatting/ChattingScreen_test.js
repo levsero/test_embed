@@ -706,28 +706,6 @@ describe('ChattingScreen component', () => {
         expect(component.renderChatHeader).toHaveBeenCalled()
       })
     })
-
-    describe('when the browser is Firefox', () => {
-      beforeEach(() => {
-        isFirefox = true
-        component = instanceRender(<ChattingScreen />)
-      })
-
-      it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(getScrollContainer(component.render()).props.className).toContain('scrollBarFix')
-      })
-    })
-
-    describe('when the browser is Internet Explorer', () => {
-      beforeEach(() => {
-        isIE = true
-        component = instanceRender(<ChattingScreen />)
-      })
-
-      it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(getScrollContainer(component.render()).props.className).toContain('scrollBarFix')
-      })
-    })
   })
 
   describe('renderChatHeader', () => {

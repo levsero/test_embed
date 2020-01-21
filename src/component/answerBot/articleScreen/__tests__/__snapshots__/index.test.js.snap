@@ -121,13 +121,13 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -137,7 +137,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -423,13 +423,13 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -439,7 +439,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -735,13 +735,13 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -751,7 +751,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -1009,13 +1009,13 @@ exports[`passing of scroll container classes 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -1025,7 +1025,7 @@ exports[`passing of scroll container classes 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -1283,13 +1283,13 @@ exports[`renders the expected classes 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -1299,7 +1299,7 @@ exports[`renders the expected classes 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -1557,13 +1557,13 @@ exports[`renders the expected mobile classes 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -1573,7 +1573,7 @@ exports[`renders the expected mobile classes 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -1831,13 +1831,13 @@ exports[`renders the expected title 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -1847,7 +1847,7 @@ exports[`renders the expected title 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -2119,13 +2119,13 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -2135,7 +2135,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {
@@ -2431,13 +2431,13 @@ exports[`renders the help center article 1`] = `
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
   flex-grow: 2;
-  margin-left: 0.7142857142857143rem;
-  margin-right: 0.7142857142857143rem;
   padding-top: 1.0714285714285714rem;
+  padding-left: 0.7142857142857143rem;
+  padding-right: 1.0714285714285714rem;
+  margin-left: 0.7142857142857143rem;
+  margin-right: 0.35714285714285715rem;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-left: 0.7142857142857143rem;
-  padding-right: 0.7142857142857143rem;
   height: 100%;
 }
 
@@ -2447,7 +2447,7 @@ exports[`renders the help center article 1`] = `
 
 .c7::-webkit-scrollbar {
   box-shadow: none;
-  width: 0.21428571428571427rem;
+  width: 0.42857142857142855rem;
 }
 
 .c7::-webkit-scrollbar-thumb {

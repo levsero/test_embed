@@ -1,32 +1,47 @@
 import styled from 'styled-components'
 import { zdColorGrey300 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'src/constants/shared'
+import { isFirefox, isIE } from 'src/util/devices'
 
-const Container = styled.div`
-  flex-grow: 2;
-  margin-left: ${10 / FONT_SIZE}rem;
-  margin-right: ${10 / FONT_SIZE}rem;
-  padding-top: ${15 / FONT_SIZE}rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-left: ${10 / FONT_SIZE}rem;
-  padding-right: ${10 / FONT_SIZE}rem;
-  height: 100%;
+const firefox = isFirefox()
+const ie = isIE()
 
-  /*
-   * Customise scrollbar for safari/chrome
-   */
+const webkitStyles = `
   &::-webkit-scrollbar-track {
     margin: ${15 / FONT_SIZE} 0;
   }
+
   &::-webkit-scrollbar {
     box-shadow: none;
-    width: ${3 / FONT_SIZE}rem;
+    width: ${6 / FONT_SIZE}rem;
   }
+
   &::-webkit-scrollbar-thumb {
     background: ${zdColorGrey300};
     border-radius: ${3 / FONT_SIZE}rem;
-  }
+  }`
+
+const firefoxStyles = `
+  padding-left: ${20 / FONT_SIZE}rem;
+  padding-right: ${10 / FONT_SIZE}rem;
+  margin: 0;
+  scrollbar-width: thin;
+`
+
+const Container = styled.div`
+  flex-grow: 2;
+  padding-top: ${15 / FONT_SIZE}rem;
+  padding-left: ${10 / FONT_SIZE}rem;
+  padding-right: ${15 / FONT_SIZE}rem;
+  margin-left: ${10 / FONT_SIZE}rem;
+  margin-right: ${5 / FONT_SIZE}rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+
+  ${!(firefox || ie) && webkitStyles}
+
+  ${firefox && firefoxStyles}
 `
 
 export { Container }
