@@ -26,6 +26,7 @@ Object {
     "name": "",
     "phone": "",
   },
+  "snapcallCallStatus": null,
   "vendor": Object {
     "io": null,
     "libphonenumber": null,

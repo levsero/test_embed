@@ -1,10 +1,13 @@
-import { END_SNAP_CALL } from './action-types'
-import { snapcallAPI } from 'snapcall'
+import { SNAPCALL_CALL_ENDED, SNAPCALL_CALL_STARTED } from './action-types'
 
-export const endSnapCall = () => {
-  snapcallAPI.endCall()
-
+export const snapcallCallEnded = () => {
   return {
-    type: END_SNAP_CALL
+    type: SNAPCALL_CALL_ENDED
+  }
+}
+
+export const snapcallCallStarted = () => {
+  return {
+    type: SNAPCALL_CALL_STARTED
   }
 }

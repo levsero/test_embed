@@ -3,10 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { snapcallAPI } from 'snapcall'
 
+import { useTranslate } from 'src/hooks/useTranslation'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
+
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
-import { Widget, Header, Main, Footer } from 'src/components/Widget'
-import { getTitle, getSnapcallButtonId } from 'src/embeds/talk/selectors'
+import { getSnapcallButtonId } from 'src/embeds/talk/selectors'
+import useSnapcallCallStartingEvent from 'src/embeds/talk/hooks/useSnapcallCallStartingEvent'
 
 import {
   Container,
@@ -21,29 +24,28 @@ const handleOnClick = buttonId => {
   const callStarted = snapcallAPI.startCall(buttonId)
 
   if (!callStarted) {
-    alert('Something went wrong when trying to start a call')
     return
   }
 }
 
-const ClickToCallPage = ({ title, averageWaitTime, buttonId }) => {
+const ClickToCallPage = ({ averageWaitTime, buttonId }) => {
+  useSnapcallCallStartingEvent()
+  const translate = useTranslate()
+
   return (
     <Widget>
-      <Header title={title} />
+      <Header title={translate('embeddable_framework.talk.clickToCall.header.title')} />
       <Main>
         <Container>
           <FlexContainer>
             <PageContents>
               <ClickToCallIcon />
-              <Message>
-                Call Customer Support directy from your browser. You'll need to allow microphone
-                access on your device when prompted.
-              </Message>
+              <Message>{translate('embeddable_framework.talk.clickToCall.message')}</Message>
               {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
             </PageContents>
           </FlexContainer>
           <CallButton onClick={() => handleOnClick(buttonId)} primary={true}>
-            Start Call
+            {translate('embeddable_framework.talk.clickToCall.button.startCall')}
           </CallButton>
         </Container>
       </Main>
@@ -54,12 +56,10 @@ const ClickToCallPage = ({ title, averageWaitTime, buttonId }) => {
 
 ClickToCallPage.propTypes = {
   averageWaitTime: PropTypes.string,
-  title: PropTypes.string.isRequired,
   buttonId: PropTypes.string
 }
 
 const mapStateToProps = state => ({
-  title: getTitle(state, 'embeddable_framework.talk.form.title'),
   averageWaitTime: getAverageWaitTimeString(state),
   buttonId: getSnapcallButtonId(state)
 })

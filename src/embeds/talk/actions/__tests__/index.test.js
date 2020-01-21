@@ -1,9 +1,10 @@
-import { endSnapCall } from '../'
-import { END_SNAP_CALL } from '../action-types'
-import { snapcallAPI } from 'snapcall'
+import { snapcallCallEnded, snapcallCallStarted } from '../'
+import { SNAPCALL_CALL_ENDED, SNAPCALL_CALL_STARTED } from '../action-types'
 
-test('endSnapCall', () => {
-  expect(endSnapCall()).toEqual({ type: END_SNAP_CALL })
+test('snapcallCallEnded', () => {
+  expect(snapcallCallEnded()).toEqual({ type: SNAPCALL_CALL_ENDED })
+})
 
-  expect(snapcallAPI.endCall).toHaveBeenCalled()
+test('snapcallCallStarted', () => {
+  expect(snapcallCallStarted()).toEqual({ type: SNAPCALL_CALL_STARTED })
 })

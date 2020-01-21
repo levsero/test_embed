@@ -1,10 +1,10 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
+import { snapcallAPI } from 'snapcall'
 
 import { render } from 'src/util/testHelpers'
 
 import { TEST_IDS } from 'src/embeds/talk/constants'
-import * as actions from 'embeds/talk/actions'
 
 import ClickToCallInProgressPage from '../'
 
@@ -37,12 +37,11 @@ describe('render', () => {
     expect(getByTestId(TEST_IDS.BUTTON_HANG_UP)).toBeInTheDocument()
   })
 
-  it('calls endSnapCall on Hang Up button click', () => {
-    jest.spyOn(actions, 'endSnapCall')
+  it('calls snapcallCallEnded on Hang Up button click', () => {
     const { getByText } = renderComponent()
 
     fireEvent.click(getByText('Hang up'))
 
-    expect(actions.endSnapCall).toHaveBeenCalled()
+    expect(snapcallAPI.endCall).toHaveBeenCalled()
   })
 })

@@ -17,7 +17,7 @@ const capabilityMap = {
   '2': CALLBACK_AND_PHONE
 }
 
-// When Click To Call is ready for use in prode we can fold this into the main capability map
+// When Click To Call is ready for use in prod we can fold this into the main capability map
 if (__DEV__) {
   capabilityMap['3'] = CLICK_TO_CALL
 }
