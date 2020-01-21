@@ -465,13 +465,24 @@ export class PrechatForm extends Component {
   }
 
   renderUserProfile() {
+    const {
+      authUrls,
+      socialLogin,
+      visitor,
+      initiateSocialLogout,
+      isAuthenticated,
+      loginEnabled
+    } = this.props
+
+    if (!loginEnabled) return
+
     return (
       <UserProfile
-        authUrls={this.props.authUrls}
-        socialLogin={this.props.socialLogin}
-        visitor={this.props.visitor}
-        initiateSocialLogout={this.props.initiateSocialLogout}
-        isAuthenticated={this.props.isAuthenticated}
+        authUrls={authUrls}
+        socialLogin={socialLogin}
+        visitor={visitor}
+        initiateSocialLogout={initiateSocialLogout}
+        isAuthenticated={isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()}
       />

@@ -344,27 +344,49 @@ test('renders fields as optional if required is false', () => {
   expect(queryByLabelText('Message (optional)')).toBeInTheDocument()
 })
 
+describe('loginEnabled', () => {
+  describe('when loginEnabled is false', () => {
+    it('does not render user profile fields', () => {
+      const { queryByTestId } = renderPrechatForm({
+        loginEnabled: false,
+        name: { required: true },
+        email: { required: true },
+        phone: { required: true }
+      })
+
+      expect(queryByTestId(TEST_IDS.NAME_FIELD)).toBeNull()
+      expect(queryByTestId(TEST_IDS.EMAIL_FIELD)).toBeNull()
+      expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toBeNull()
+    })
+  })
+
+  describe('when loginEnabled is true', () => {
+    it('does render user profile fields', () => {
+      const { queryByTestId } = renderPrechatForm({
+        loginEnabled: true,
+        name: { required: true },
+        email: { required: true },
+        phone: { required: true }
+      })
+
+      expect(queryByTestId(TEST_IDS.NAME_FIELD)).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.EMAIL_FIELD)).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toBeInTheDocument()
+    })
+  })
+})
+
 test('does not render phoneEnabled is true', () => {
   let formProp = {
     ...mockFormProp,
     phone: { name: 'phone', required: false, hidden: true }
   }
-  const { queryByLabelText } = renderPrechatForm({
+  const { queryByTestId } = renderPrechatForm({
     phoneEnabled: false,
     form: formProp
   })
 
-  expect(queryByLabelText(/Phone/)).not.toBeInTheDocument()
-})
-
-test('does not render contact information if loginEnabled is false', () => {
-  const { queryByLabelText } = renderPrechatForm({
-    loginEnabled: false
-  })
-
-  expect(queryByLabelText('Name')).not.toBeInTheDocument()
-  expect(queryByLabelText('Email')).not.toBeInTheDocument()
-  expect(queryByLabelText(/Phone Number/)).not.toBeInTheDocument()
+  expect(queryByTestId(TEST_IDS.PHONE_FIELD)).not.toBeInTheDocument()
 })
 
 describe('submit button', () => {
