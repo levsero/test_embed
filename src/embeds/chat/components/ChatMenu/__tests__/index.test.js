@@ -15,6 +15,7 @@ describe('ChatMenu', () => {
     onToggle: jest.fn(),
     soundEnabled: false,
     endChatDisabled: false,
+    editContactDetailsEnabled: false,
     emailTranscriptEnabled: true,
     goBackIsVisible: true,
     soundIsVisible: true,
@@ -205,6 +206,7 @@ describe('ChatMenu', () => {
     const updateContactDetailsVisibility = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
+      editContactDetailsEnabled: true,
       updateContactDetailsVisibility
     })
 
@@ -214,6 +216,14 @@ describe('ChatMenu', () => {
       expect(updateContactDetailsVisibility).toHaveBeenCalledWith(true)
       done()
     })
+  })
+
+  it('does not render the edit contact details option when contact details are not enabled', () => {
+    const { queryByText } = renderComponent({
+      isOpen: true
+    })
+
+    expect(queryByText('Edit contact details')).toBeNull()
   })
 
   it('opens the end chat modal when end chat option is clicked', done => {
