@@ -11,16 +11,26 @@ import useFormBackup from 'embeds/support/hooks/useFormBackup'
 import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { FieldWrapper, FormContainer, Main } from './styles'
+import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 
-const Form = ({ isSubmitting, onSubmit, formName, showErrors, fields, readOnlyState }) => {
+const Form = ({
+  isSubmitting,
+  onSubmit,
+  formName,
+  showErrors,
+  fields,
+  readOnlyState,
+  conditions
+}) => {
   const translate = useTranslate()
   useFormBackup(formName)
   useUpdateOnPrefill()
+  const filteredFields = useConditionalFields(fields, conditions)
 
   return (
     <FormContainer onSubmit={onSubmit} noValidate={true} data-testid={TEST_IDS.SUPPORT_TICKET_FORM}>
       <Main>
-        {fields.map(field => (
+        {filteredFields.map(field => (
           <FieldWrapper key={field.id}>
             <Field
               name={field.keyID}
@@ -63,7 +73,8 @@ Form.propTypes = {
   formName: PropTypes.string,
   showErrors: PropTypes.bool,
   fields: PropTypes.arrayOf(SupportPropTypes.ticketField),
-  readOnlyState: SupportPropTypes.readOnlyState
+  readOnlyState: SupportPropTypes.readOnlyState,
+  conditions: SupportPropTypes.conditions
 }
 
 export default Form

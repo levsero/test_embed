@@ -5,7 +5,6 @@ import {
   getFormTicketFields,
   getFormState,
   getReadOnlyState,
-  getTicketFormTitle,
   getForm
 } from 'embeds/support/selectors'
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
@@ -14,7 +13,6 @@ import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { mapKeyFields } from 'embeds/support/utils/fieldConversion'
 
 const TicketFormPage = ({
   formTitle,
@@ -38,7 +36,7 @@ const TicketFormPage = ({
         readOnlyState={readOnlyState}
         ticketFormTitle={ticketFormTitle}
         submitForm={formState => submitTicket(formState, match.params.id)}
-        ticketFields={mapKeyFields(ticketFields)}
+        ticketFields={ticketFields}
         conditions={conditions}
       />
     </Widget>
@@ -70,7 +68,7 @@ const mapStateToProps = (state, ownProps) => {
     formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
-    ticketFormTitle: getTicketFormTitle(state, id),
+    ticketFormTitle: form ? form.display_name : '',
     ticketForms: getTicketForms(state),
     conditions: form ? form.end_user_conditions : []
   }

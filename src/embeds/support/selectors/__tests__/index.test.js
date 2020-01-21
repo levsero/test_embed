@@ -5,8 +5,7 @@ import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
 import { i18n } from 'service/i18n'
-import { getField, getForm } from 'embeds/support/selectors'
-import { getContactFormFields } from '..'
+import { getContactFormFields, getField, getForm } from 'embeds/support/selectors'
 
 const nameField = {
   id: 'name',
@@ -14,7 +13,7 @@ const nameField = {
   required_in_portal: false,
   visible_in_portal: true,
   type: 'text',
-  keyID: 'key:name'
+  keyID: createKeyID('name')
 }
 
 const emailField = {
@@ -624,34 +623,6 @@ describe('getReadOnlyState', () => {
       email: true,
       name: false
     })
-  })
-})
-
-describe('getTicketFormTitle', () => {
-  it('returns the ticket form title for the id passed in', () => {
-    const result = selectors.getTicketFormTitle(
-      {
-        support: {
-          forms: {
-            123: {
-              id: 123,
-              display_name: 'Geralt'
-            },
-            234: {
-              id: 234,
-              display_name: 'Yennifer'
-            },
-            345: {
-              id: 345,
-              display_name: 'Jaskier'
-            }
-          }
-        }
-      },
-      234
-    )
-
-    expect(result).toEqual('Yennifer')
   })
 })
 

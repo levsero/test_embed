@@ -4,7 +4,6 @@ import {
   convertFieldValue,
   getSortedFields,
   mapKeyFields,
-  getParsedValues,
   getFieldIdFromKeyID
 } from '../fieldConversion'
 import createKeyID from 'embeds/support/utils/createKeyID'
@@ -72,29 +71,6 @@ describe('mapKeyFields', () => {
       { id: 1, title_in_portal: 'email', keyID: createKeyID('1') },
       { id: 100000, title_in_portal: 'Custom field', keyID: createKeyID('100000') }
     ])
-  })
-})
-
-describe('getParsedValues', () => {
-  it('returns an object with field values: {id: value} from {keyID: value}', () => {
-    const ticketFields = [
-      { id: 0, title_in_portal: 'name', keyID: createKeyID(0) },
-      { id: 1, title_in_portal: 'email', keyID: createKeyID(1) },
-      { id: 100000, title_in_portal: 'Custom field', keyID: createKeyID(100000) }
-    ]
-    const values = {
-      [createKeyID(0)]: 'hey a test',
-      [createKeyID(1)]: 'bob@saget.com',
-      [createKeyID(100000)]: 'custom text'
-    }
-
-    const parsedValues = getParsedValues(values, ticketFields)
-
-    expect(parsedValues).toEqual({
-      '0': 'hey a test',
-      '1': 'bob@saget.com',
-      '100000': 'custom text'
-    })
   })
 })
 

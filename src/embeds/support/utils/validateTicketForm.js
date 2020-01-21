@@ -1,4 +1,5 @@
 import { EMAIL_PATTERN } from 'constants/shared'
+import getFields from 'embeds/support/utils/getFields'
 
 const fieldRuleTypes = {
   email: (value, translate) => {
@@ -8,10 +9,10 @@ const fieldRuleTypes = {
   }
 }
 
-const validateTicketForm = (ticketFields, translate, values) => {
+const validateTicketForm = (ticketFields, translate, values, conditions) => {
   const errors = {}
 
-  ticketFields.forEach(field => {
+  getFields(values, conditions, ticketFields).forEach(field => {
     if (field.required_in_portal && !values[field.keyID]) {
       errors[field.keyID] = translate('embeddable_framework.validation.error.input')
       return
