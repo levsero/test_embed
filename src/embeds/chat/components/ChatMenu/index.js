@@ -7,6 +7,7 @@ import { Tooltip } from '@zendeskgarden/react-tooltips'
 import MenuIcon from '@zendeskgarden/svg-icons/src/16/menu-fill.svg'
 import {
   getMenuVisible,
+  getLoginSettings,
   getUserSoundSettings,
   getIsChatting
 } from 'src/redux/modules/chat/chat-selectors'
@@ -36,6 +37,7 @@ const ChatMenu = ({
   isOpen,
   onToggle,
   soundEnabled,
+  editContactDetailsEnabled,
   endChatDisabled,
   emailTranscriptEnabled,
   goBackIsVisible,
@@ -153,9 +155,11 @@ const ChatMenu = ({
                   {emailTranscriptLabel}
                 </Item>
               )}
-              <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
-                {contactDetailsLabel}
-              </Item>
+              {editContactDetailsEnabled && (
+                <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
+                  {contactDetailsLabel}
+                </Item>
+              )}
               <Item
                 value="endChat"
                 disabled={endChatDisabled}
@@ -178,6 +182,7 @@ ChatMenu.propTypes = {
   onToggle: PropTypes.func,
   soundEnabled: PropTypes.bool,
   endChatDisabled: PropTypes.bool,
+  editContactDetailsEnabled: PropTypes.bool,
   emailTranscriptEnabled: PropTypes.bool,
   goBackIsVisible: PropTypes.bool,
   soundIsVisible: PropTypes.bool,
@@ -192,6 +197,7 @@ const mapStateToProps = (state, props) => ({
   isOpen: getMenuVisible(state),
   soundEnabled: getUserSoundSettings(state),
   endChatDisabled: !getIsChatting(state),
+  editContactDetailsEnabled: getLoginSettings(state).enabled,
   emailTranscriptEnabled: getChatEmailTranscriptEnabled(state),
   goBackIsVisible:
     isMobileBrowser() &&

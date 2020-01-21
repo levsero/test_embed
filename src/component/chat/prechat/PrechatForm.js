@@ -465,6 +465,9 @@ export class PrechatForm extends Component {
   }
 
   renderUserProfile() {
+    const { loginEnabled } = this.props
+
+    if (!loginEnabled) return
     return (
       <UserProfile
         authUrls={this.props.authUrls}
