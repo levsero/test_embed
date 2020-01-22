@@ -137,7 +137,7 @@ class ChannelChoiceMenu extends Component {
           iconClasses={iconStyle}
           label={this.renderTalkLabel()}
           flipX={this.getIconFlipX()}
-          icon={talkCapability ? ICONS.CC_CLICK_TO_CALL : ICONS.CC_TALK}
+          icon={talkCapability === CLICK_TO_CALL ? ICONS.CC_CLICK_TO_CALL : ICONS.CC_TALK}
         />
       </li>
     )
