@@ -37,11 +37,12 @@ const Container = styled.div`
 
 const Item = styled.div`
   cursor: pointer;
-  border-bottom: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
-
   &:hover {
     background-color: ${zdColorWhiteSmoke};
   }
+  border-bottom: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
+  ${props => props.top && topBorder}
+  ${props => props.bottom && bottomBorder}
 `
 
 const bottomBorder = `
@@ -49,22 +50,18 @@ const bottomBorder = `
   border-bottom-right-radius: ${16 / FONT_SIZE}rem;
 `
 
-const FirstItem = styled(Item)`
-  border-top: ${1 / FONT_SIZE}rem $zd-color-platinum solid;
+const topBorder = `
+  border-top: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
   border-top-left-radius: ${16 / FONT_SIZE}rem;
   border-top-right-radius: ${16 / FONT_SIZE}rem;
-  ${props => (props.onlyItem ? bottomBorder : '')}
 `
 
-const LastItem = styled(Item)`
-  ${bottomBorder}
-`
-
-const Header = styled(FirstItem)`
+const Header = styled.div`
+  ${topBorder}
   background: ${zdColorAntiFlashWhite};
   color: ${zdColorOil};
   padding: ${9 / FONT_SIZE}rem ${10 / FONT_SIZE}rem ${8 / FONT_SIZE}rem;
   line-height: ${15 / FONT_SIZE}rem;
 `
 
-export { Header, Container, Item, FirstItem, LastItem }
+export { Header, Container, Item }

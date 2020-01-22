@@ -39,6 +39,9 @@ exports[`renders expected classes and components with default props for non-visi
 .c1 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
   border-bottom-left-radius: 1.1428571428571428rem;
   border-bottom-right-radius: 1.1428571428571428rem;
 }

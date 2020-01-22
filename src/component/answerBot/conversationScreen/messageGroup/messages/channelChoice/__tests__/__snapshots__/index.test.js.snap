@@ -15,6 +15,8 @@ exports[`channels does not render chat if chat is available 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -22,19 +24,13 @@ exports[`channels does not render chat if chat is available 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -92,6 +88,8 @@ exports[`channels renders expected components if chat and chat offline are avail
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -99,19 +97,13 @@ exports[`channels renders expected components if chat and chat offline are avail
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -169,6 +161,8 @@ exports[`channels renders expected components if only call us is available 1`] =
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -176,19 +170,13 @@ exports[`channels renders expected components if only call us is available 1`] =
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -246,6 +234,8 @@ exports[`channels renders expected components if only chat is available 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -253,19 +243,13 @@ exports[`channels renders expected components if only chat is available 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -323,6 +307,8 @@ exports[`channels renders expected components if only submit ticket is available
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -330,19 +316,13 @@ exports[`channels renders expected components if only submit ticket is available
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -400,6 +380,8 @@ exports[`channels renders expected components if talk and click to call are avai
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -407,19 +389,13 @@ exports[`channels renders expected components if talk and click to call are avai
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -477,6 +453,8 @@ exports[`channels renders expected components if talk and request callback are a
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -484,19 +462,13 @@ exports[`channels renders expected components if talk and request callback are a
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -560,20 +532,25 @@ exports[`channels renders generic leading message if more than 1 channel is avai
   background-color: #f8f8f8;
 }
 
-.c1 {
+.c3 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -613,7 +590,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
       </div>
     </div>
     <div
-      class="c2"
+      class="c3"
     >
       <div
         class="channel "
@@ -663,20 +640,25 @@ exports[`channels renders leading message if more than 1 channel is available an
   background-color: #f8f8f8;
 }
 
-.c1 {
+.c3 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -716,7 +698,7 @@ exports[`channels renders leading message if more than 1 channel is available an
       </div>
     </div>
     <div
-      class="c2"
+      class="c3"
     >
       <div
         class="channel "
@@ -760,6 +742,8 @@ exports[`channels renders the passed in leading message regardless of other prop
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -767,19 +751,13 @@ exports[`channels renders the passed in leading message regardless of other prop
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -855,19 +833,13 @@ exports[`renders the expected classes 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -995,19 +967,13 @@ exports[`renders the leading message 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>

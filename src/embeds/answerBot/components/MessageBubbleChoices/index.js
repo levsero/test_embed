@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 
-import { Header, Container, FirstItem, LastItem, Item } from './styles'
+import { Header, Container, Item } from './styles'
 
 const renderLeadingMessage = leadingMessage => {
   if (!leadingMessage) return
@@ -12,23 +12,11 @@ const renderLeadingMessage = leadingMessage => {
 const renderChildren = (leadingMessage, children) => {
   const items = React.Children.toArray(children)
 
-  return items.map((child, index) => {
-    let Component = Item
-
-    if (!leadingMessage && index === 0) {
-      Component = FirstItem
-    }
-
-    if (index === children.length - 1) {
-      Component = LastItem
-    }
-
-    return (
-      <Component key={index} onlyItem={children.length === 1}>
-        {child}
-      </Component>
-    )
-  })
+  return items.map((child, index) => (
+    <Item key={index} top={!leadingMessage && index === 0} bottom={index === items.length - 1}>
+      {child}
+    </Item>
+  ))
 }
 
 const MessageBubbleChoices = ({ leadingMessage, children }) => {

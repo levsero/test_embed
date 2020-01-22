@@ -33,19 +33,13 @@ exports[`renders the expected classes 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
@@ -95,18 +89,6 @@ exports[`renders the expected classes when there is no leading message 1`] = `
   max-width: 18.428571428571427rem;
 }
 
-.c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
-  border-top-left-radius: 1.1428571428571428rem;
-  border-top-right-radius: 1.1428571428571428rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
-}
-
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
@@ -115,6 +97,18 @@ exports[`renders the expected classes when there is no leading message 1`] = `
 }
 
 .c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+}
+
+.c1:hover {
   background-color: #f8f8f8;
 }
 
@@ -156,6 +150,8 @@ exports[`renders the expected classes when there is only one child 1`] = `
 .c2 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
 }
 
 .c2:hover {
@@ -163,19 +159,13 @@ exports[`renders the expected classes when there is only one child 1`] = `
 }
 
 .c1 {
-  cursor: pointer;
-  border-bottom: 0.07142857142857142rem #eee solid;
-  border-top: 0.07142857142857142rem $zd-color-platinum solid;
+  border-top: 0.07142857142857142rem #eee solid;
   border-top-left-radius: 1.1428571428571428rem;
   border-top-right-radius: 1.1428571428571428rem;
   background: #f3f3f3;
   color: #333;
   padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
   line-height: 1.0714285714285714rem;
-}
-
-.c1:hover {
-  background-color: #f8f8f8;
 }
 
 <div>
