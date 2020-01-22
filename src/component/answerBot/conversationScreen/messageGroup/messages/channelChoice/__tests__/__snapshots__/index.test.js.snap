@@ -238,7 +238,7 @@ exports[`channels renders expected components if talk and click to call are avai
         >
           <svg
             aria-hidden="true"
-            realfilename="click_to_call.svg"
+            realfilename="channel_choice_click_to_call.svg"
           />
         </span>
         <div
