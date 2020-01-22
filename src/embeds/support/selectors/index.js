@@ -1,9 +1,13 @@
 import { createSelector } from 'reselect'
-import { getSettingsContactFormSubject } from 'src/redux/modules/settings/settings-selectors'
+import {
+  getSettingsContactFormSubject,
+  getSettingsContactFormAttachments
+} from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldEnabled,
   getConfigNameFieldRequired,
-  getLocale
+  getLocale,
+  getConfigAttachmentsEnabled
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
@@ -17,13 +21,34 @@ export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
 export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
 export const getActiveFormName = state => state.support.activeFormName
 export const getAllAttachments = state => state.support.attachments
+export const getDisplayDropzone = state => state.support.displayDropzone
 export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
+export const getAttachmentTitle = (state, attachmentIds) => {
+  const validAttachments = getAttachmentsForForm(state, attachmentIds)
+  const numAttachments = validAttachments.length
+  const title =
+    numAttachments > 0
+      ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount', {
+          count: numAttachments
+        })
+      : i18n.t('embeddable_framework.submitTicket.attachments.title')
+  return title
+}
+
+export const getAttachmentsEnabled = state =>
+  Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
 
 export const getPrefillId = state => state.support.prefillId
 export const getLastFormPrefillId = (state, formId) => state.support.lastFormPrefillId[formId]
 
 const getSpecificFormPrefills = state => state.support.prefillSpecificFormValues
 const getGenericFormPrefillValues = state => state.support.prefillValues
+
+export const getAttachmentsForForm = (state, attachmentIds) => {
+  const attachments = getAllAttachments(state)
+  if (!attachmentIds) return attachments
+  return attachments.filter(attachment => attachmentIds.includes(attachment.id))
+}
 
 export const getPrefillValues = formId =>
   createSelector(
@@ -61,11 +86,6 @@ export const getReadOnlyState = state => state.support.readOnly
 export const getFormState = (state, name) =>
   state.support.formStates[name] || getPrefillValues(name)(state)
 
-export const getValidAttachments = createSelector(
-  getAllAttachments,
-  attachments => attachments.filter(attachment => attachment.uploading || attachment.uploadToken)
-)
-
 export const getSuccessfulAttachments = createSelector(
   getAllAttachments,
   attachments => attachments.filter(attachment => attachment.uploadToken)
@@ -82,7 +102,7 @@ export const getAttachmentsReady = createSelector(
 )
 
 export const getAttachmentTypes = createSelector(
-  getValidAttachments,
+  getAllAttachments,
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
@@ -96,11 +116,12 @@ export const getTicketFormFields = createSelector(
     getSettingsContactFormSubject,
     getConfigNameFieldEnabled,
     getConfigNameFieldRequired,
+    getAttachmentsEnabled,
 
     // getLocale is just here so the translations get updated when locale changes
     getLocale
   ],
-  (ticketFields, subjectEnabled, nameEnabled, nameRequired) => {
+  (ticketFields, subjectEnabled, nameEnabled, nameRequired, attachmentsEnabled) => {
     const fields = ticketFields.map(field => ({ ...field, visible_in_portal: true }))
 
     const checkBoxFields = getCheckboxFields(fields)
@@ -141,8 +162,14 @@ export const getTicketFormFields = createSelector(
         type: 'textarea',
         keyID: 'key:description'
       },
-      ...checkBoxFields
-      // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
+      ...checkBoxFields,
+      attachmentsEnabled && {
+        id: 'attachments',
+        visible_in_portal: true,
+        type: 'attachments',
+        keyID: 'key:attachments',
+        validation: 'attachments'
+      }
     ]
       .filter(Boolean)
       .map(field => ({
@@ -156,6 +183,8 @@ export const getCustomTicketFields = (state, formId) => {
   const fallbackForm = {
     ticket_field_ids: []
   }
+
+  const attachmentsEnabled = getAttachmentsEnabled(state)
   const ticketForm = getForm(state, formId) || fallbackForm
   const nameEnabled = getConfigNameFieldEnabled(state)
   const nameRequired = getConfigNameFieldRequired(state)
@@ -179,8 +208,14 @@ export const getCustomTicketFields = (state, formId) => {
       validation: 'email',
       keyID: 'key:email'
     },
-    ...fields
-    // Attachments will be implemented in this card https://zendesk.atlassian.net/browse/EWW-992
+    ...fields,
+    attachmentsEnabled && {
+      id: 'attachments',
+      visible_in_portal: true,
+      type: 'attachments',
+      keyID: 'key:attachments',
+      validation: 'attachments'
+    }
   ]
     .filter(Boolean)
     .map(field => {

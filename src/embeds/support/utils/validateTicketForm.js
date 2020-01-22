@@ -6,10 +6,16 @@ const fieldRuleTypes = {
     return !EMAIL_PATTERN.test(value)
       ? translate('embeddable_framework.validation.error.email')
       : undefined
+  },
+  attachments: (value, translate, attachments) => {
+    const attachmentsForForm = attachments.filter(attachment => value.ids.includes(attachment.id))
+    const hasNoErrors =
+      attachmentsForForm.filter(attachment => !attachment.uploadToken).length === 0
+    return hasNoErrors ? undefined : 'error'
   }
 }
 
-const validateTicketForm = (ticketFields, translate, values, conditions) => {
+const validateTicketForm = (ticketFields, translate, values, attachments, conditions) => {
   const errors = {}
 
   getFields(values, conditions, ticketFields).forEach(field => {
@@ -17,10 +23,9 @@ const validateTicketForm = (ticketFields, translate, values, conditions) => {
       errors[field.keyID] = translate('embeddable_framework.validation.error.input')
       return
     }
-
     const validator = fieldRuleTypes[field.validation]
     if (validator) {
-      const errorMessage = validator(values[field.keyID], translate)
+      const errorMessage = validator(values[field.keyID], translate, attachments)
       if (errorMessage) {
         errors[field.keyID] = errorMessage
       }

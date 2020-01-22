@@ -2,8 +2,8 @@ import validateTicketForm from '../validateTicketForm'
 
 const mockTranslate = value => value
 
-const runValidate = (ticketFields, values, conditions = []) => {
-  return validateTicketForm(ticketFields, mockTranslate, values, conditions)
+const runValidate = (ticketFields, values, attachments, conditions = []) => {
+  return validateTicketForm(ticketFields, mockTranslate, values, attachments, conditions)
 }
 
 const nameField = { required_in_portal: true, visible_in_portal: true, keyID: 'name' }
@@ -17,6 +17,13 @@ const emailField = {
   required_in_portal: true,
   keyID: 'email',
   validation: 'email'
+}
+const attachmentField = {
+  visible_in_portal: true,
+  required_in_portal: true,
+  keyID: 'attachments',
+  validation: 'attachments',
+  id: 1
 }
 
 describe('validateTicketForm', () => {
@@ -44,15 +51,44 @@ describe('validateTicketForm', () => {
         expect(result).toEqual({ email: 'embeddable_framework.validation.error.input' })
       })
     })
+
+    describe('attachments', () => {
+      it('returns an attachments validation error when there is a non valid attachment', () => {
+        const result = runValidate([attachmentField], { attachments: { ids: [1] } }, [
+          { id: 1, name: 'test' },
+          { id: 2, name: 'real', uploadToken: '1234' }
+        ])
+
+        expect(result).toEqual({ attachments: 'error' })
+      })
+
+      it('returns an empty error object when attachments are valid', () => {
+        const result = runValidate([attachmentField], { attachments: { ids: [2] } }, [
+          { id: 1, name: 'test' },
+          { id: 2, name: 'real', uploadToken: '1234' }
+        ])
+
+        expect(result).toEqual({})
+      })
+    })
   })
 
-  describe('required fields and custom validation', () => {
-    it('returns an object with an email validation error and a required field error', () => {
-      const result = runValidate([emailField, nameField], { email: 'Bob Saget', name: '' })
+  describe('required fields and custom validations', () => {
+    it('returns an object with a custom validations and required field error', () => {
+      const result = runValidate(
+        [emailField, nameField, attachmentField],
+        {
+          email: 'Bob Saget',
+          name: '',
+          attachments: { ids: [1] }
+        },
+        [{ id: 1, name: 'test' }]
+      )
 
       expect(result).toEqual({
         name: 'embeddable_framework.validation.error.input',
-        email: 'embeddable_framework.validation.error.email'
+        email: 'embeddable_framework.validation.error.email',
+        attachments: 'error'
       })
     })
   })

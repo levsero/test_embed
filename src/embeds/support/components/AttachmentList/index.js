@@ -6,12 +6,15 @@ import Attachment from 'src/embeds/support/components/Attachment'
 import AttachmentError from 'src/embeds/support/components/AttachmentError'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { deleteAttachment } from 'src/embeds/support/actions/index'
-import { getAllAttachments } from 'src/embeds/support/selectors'
+import { getAttachmentsForForm } from 'src/embeds/support/selectors'
 
-const AttachmentList = ({ allAttachments, deleteAttachment }) => {
+const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment }) => {
   return allAttachments.map(attachment => {
     const { id, fileName } = attachment
-
+    const removeAttachment = id => {
+      deleteAttachment(id)
+      onRemoveAttachment()
+    }
     if (!fileName) return null
 
     if (attachment.errorMessage) {
@@ -19,7 +22,7 @@ const AttachmentList = ({ allAttachments, deleteAttachment }) => {
         <AttachmentError
           key={id}
           attachment={attachment}
-          handleRemoveAttachment={deleteAttachment}
+          handleRemoveAttachment={removeAttachment}
         />
       )
     }
@@ -33,7 +36,7 @@ const AttachmentList = ({ allAttachments, deleteAttachment }) => {
       <Attachment
         key={id}
         attachment={attachment}
-        handleRemoveAttachment={deleteAttachment}
+        handleRemoveAttachment={removeAttachment}
         icon={icon}
       />
     )
@@ -49,8 +52,8 @@ const actionCreators = {
   deleteAttachment
 }
 
-const mapStateToProps = state => ({
-  allAttachments: getAllAttachments(state)
+const mapStateToProps = (state, props) => ({
+  allAttachments: getAttachmentsForForm(state, props.value.ids)
 })
 
 const connectedComponent = connect(

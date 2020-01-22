@@ -6,6 +6,7 @@ import Checkbox from 'embeds/support/components/FormField/Checkbox'
 import Dropdown from 'embeds/support/components/FormField/Dropdown'
 import LegacyDropdown from 'embeds/support/components/FormField/Dropdown/LegacyDropdown'
 import FallbackField from 'embeds/support/components/FormField/FallbackField'
+import AttachmentField from 'embeds/support/components/AttachmentField'
 
 // Each field will be provided these props
 // value - The value of your field, this can be any type you want
@@ -22,6 +23,7 @@ export const supportedFields = {
   checkbox: Checkbox,
   dropdown: Dropdown,
   tagger: Dropdown,
+  attachments: AttachmentField,
   legacyDropdown: LegacyDropdown
 }
 

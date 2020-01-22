@@ -33,13 +33,12 @@ const Form = ({
       <Main>
         {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
         {filteredFields.map(field => (
-          <FieldWrapper key={field.id}>
+          <FieldWrapper key={field.keyID}>
             <Field
               name={field.keyID}
-              key={field.id}
+              key={field.keyID}
               render={({ input, meta }) => (
                 <FormField
-                  key={input}
                   field={field}
                   errorMessage={showErrors ? meta.error : ''}
                   value={convertFieldValue(field.type, input.value)}

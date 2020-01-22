@@ -24,35 +24,40 @@ const mockFileBlob2 = {
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '1'
 }
 const mockFileBlob3 = {
   name: 'blah3.txt',
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '2'
 }
 const mockFileBlob4 = {
   name: 'blah4.txt',
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '3'
 }
 const mockFileBlob5 = {
   name: 'blah5.txt',
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '4'
 }
 const mockFileBlob6 = {
   name: 'blah6.txt',
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '5'
 }
 const fiveFiles = [mockFileBlob2, mockFileBlob3, mockFileBlob4, mockFileBlob5, mockFileBlob6]
 
@@ -64,7 +69,8 @@ const mockFileBlob = {
   size: 1024,
   type: 'text/plain',
   uploading: false,
-  uploadToken: '123'
+  uploadToken: '123',
+  id: '42'
 }
 
 const mockStore = configureMockStore([thunk])
@@ -136,7 +142,7 @@ describe('deleteAttachment', () => {
     attachmentSender.mockReturnValue({ abort: abortSpy })
 
     store = mockStore()
-    store.dispatch(actions.uploadAttachment(mockFileBlob))
+    store.dispatch(actions.uploadAttachment(mockFileBlob, mockId))
   })
 
   describe('when called with a valid id', () => {
@@ -176,7 +182,7 @@ describe('deleteAttachment', () => {
 describe('uploadAttachment', () => {
   describe('on initial execution', () => {
     it('dispatches an ATTACHMENT_UPLOAD_REQUESTED action', () => {
-      const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+      const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.ATTACHMENT_UPLOAD_REQUESTED,
@@ -229,7 +235,7 @@ describe('uploadAttachment', () => {
       })
 
       it('sets uploading to "false" and errorMessage to "file too big"', () => {
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[0]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_REQUESTED,
@@ -255,7 +261,7 @@ describe('uploadAttachment', () => {
         onUpdate({ percent: 50 })
       })
 
-      const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+      const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
       expect(dispatchedActions[1]).toEqual({
         type: actionTypes.ATTACHMENT_UPLOAD_UPDATED,
@@ -275,7 +281,7 @@ describe('uploadAttachment', () => {
           })
         })
 
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_SUCCEEDED,
@@ -294,7 +300,7 @@ describe('uploadAttachment', () => {
           })
         })
 
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_SUCCEEDED,
@@ -313,7 +319,7 @@ describe('uploadAttachment', () => {
           onComplete({ text: 'this is not valid JSON' })
         })
 
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_SUCCEEDED,
@@ -334,7 +340,7 @@ describe('uploadAttachment', () => {
           onFailure({ message: 'oops!' })
         })
 
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
@@ -349,7 +355,7 @@ describe('uploadAttachment', () => {
           onFailure({ foo: 'bar' })
         })
 
-        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob))
+        const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
@@ -385,27 +391,28 @@ describe('clearAttachments', () => {
 })
 
 describe('uploadAttachedFiles', () => {
-  it('dispatches attachmentLimitExceeded when already max attachments', () => {
-    const store = mockStore({
-      support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+  describe('when using old forms', () => {
+    it('dispatches attachmentLimitExceeded when already max attachments', () => {
+      const store = mockStore({
+        support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+      })
+      store.dispatch(actions.uploadAttachedFiles([mockFileBlob], undefined, {}))
+
+      const dispatchedActions = store.getActions()
+
+      expect(dispatchedActions[0]).toEqual({
+        type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+      })
     })
-    store.dispatch(actions.uploadAttachedFiles([mockFileBlob]))
 
-    const dispatchedActions = store.getActions()
+    it('dispatches uploadAttachment for files', () => {
+      const store = mockStore({
+        support: { config: { maxFileCount: 5 }, attachments: [] }
+      })
+      store.dispatch(actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3], undefined, {}))
+      const dispatchedActions = store.getActions()
 
-    expect(dispatchedActions[0]).toEqual({
-      type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
-    })
-  })
-
-  it('dispatches uploadAttachment for files', () => {
-    const store = mockStore({
-      support: { config: { maxFileCount: 5 }, attachments: [] }
-    })
-    store.dispatch(actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3]))
-    const dispatchedActions = store.getActions()
-
-    expect(dispatchedActions).toMatchInlineSnapshot(`
+      expect(dispatchedActions).toMatchInlineSnapshot(`
         Array [
           Object {
             "payload": Object {
@@ -437,22 +444,125 @@ describe('uploadAttachedFiles', () => {
           },
         ]
       `)
+    })
+
+    it('with existing attachments handles additional attachments', () => {
+      const store = mockStore({
+        support: {
+          config: { maxFileCount: 5 },
+          attachments: [mockFileBlob2, mockFileBlob3]
+        }
+      })
+      store.dispatch(actions.uploadAttachedFiles(fiveFiles, undefined, {}))
+      const dispatchedActions = store.getActions()
+
+      expect(dispatchedActions[0].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions[1].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions[2].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions[3].type).toEqual(actionTypes.ATTACHMENT_LIMIT_EXCEEDED)
+    })
   })
 
-  it('with existing attachments handles additional attachments', () => {
-    const store = mockStore({
-      support: {
-        config: { maxFileCount: 5 },
-        attachments: [mockFileBlob2, mockFileBlob3]
-      }
+  describe('when using new forms', () => {
+    let updateFinalForm
+    beforeEach(() => {
+      updateFinalForm = jest.fn()
     })
-    store.dispatch(actions.uploadAttachedFiles(fiveFiles))
-    const dispatchedActions = store.getActions()
+    it('updates final form when already max attachments', () => {
+      const store = mockStore({
+        support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+      })
+      store.dispatch(
+        actions.uploadAttachedFiles([mockFileBlob], updateFinalForm, {
+          ids: ['1', '2', '3', '4', '5']
+        })
+      )
 
-    expect(dispatchedActions[0].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
-    expect(dispatchedActions[1].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
-    expect(dispatchedActions[2].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
-    expect(dispatchedActions[3].type).toEqual(actionTypes.ATTACHMENT_LIMIT_EXCEEDED)
+      const dispatchedActions = store.getActions()
+
+      expect(updateFinalForm).toHaveBeenCalledWith({
+        ids: ['1', '2', '3', '4', '5'],
+        limitExceeded: true
+      })
+      expect(dispatchedActions).toEqual([])
+    })
+
+    it('dispatches uploadAttachment for files', () => {
+      const store = mockStore({
+        support: { config: { maxFileCount: 5 }, attachments: [] }
+      })
+      store.dispatch(
+        actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3], updateFinalForm, { ids: [] })
+      )
+      const dispatchedActions = store.getActions()
+
+      expect(dispatchedActions).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "errorMessage": null,
+              "fileName": "blah2.txt",
+              "fileSize": 1024,
+              "fileType": "text/plain",
+              "fileUrl": null,
+              "id": 42,
+              "uploadProgress": 0,
+              "uploadToken": null,
+              "uploading": true,
+            },
+            "type": "widget/support/ATTACHMENT_UPLOAD_REQUESTED",
+          },
+          Object {
+            "payload": Object {
+              "errorMessage": null,
+              "fileName": "blah3.txt",
+              "fileSize": 1024,
+              "fileType": "text/plain",
+              "fileUrl": null,
+              "id": 42,
+              "uploadProgress": 0,
+              "uploadToken": null,
+              "uploading": true,
+            },
+            "type": "widget/support/ATTACHMENT_UPLOAD_REQUESTED",
+          },
+        ]
+      `)
+    })
+
+    it('with existing attachments handles additional attachments', () => {
+      jest
+        .spyOn(_, 'uniqueId')
+        .mockReturnValueOnce('10')
+        .mockReturnValueOnce('11')
+        .mockReturnValueOnce('12')
+        .mockReturnValueOnce('13')
+        .mockReturnValueOnce('14')
+      const store = mockStore({
+        support: {
+          config: { maxFileCount: 5 },
+          attachments: [mockFileBlob2, mockFileBlob3]
+        }
+      })
+      store.dispatch(
+        actions.uploadAttachedFiles(fiveFiles, updateFinalForm, {
+          ids: ['1', '2'],
+          limitExceeded: false
+        })
+      )
+      const dispatchedActions = store.getActions()
+
+      expect(dispatchedActions[0].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions[1].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions[2].type).toEqual(actionTypes.ATTACHMENT_UPLOAD_REQUESTED)
+      expect(dispatchedActions.length).toEqual(3)
+
+      expect(updateFinalForm).toHaveBeenCalledWith({
+        ids: ['10', '11', '12', '1', '2'],
+        limitExceeded: true
+      })
+      expect(updateFinalForm).toHaveBeenCalledTimes(1)
+    })
   })
 })
 
@@ -463,15 +573,21 @@ describe('submitTicket', () => {
   })
 
   it('sends the expected request and action', () => {
-    const store = mockStore()
+    const state = {
+      support: { attachments: [{ id: '123', uploadToken: 'uploadToken-123' }] }
+    }
+    const formState = { attachments: { ids: ['123'] } }
+    const formTitle = 'contact-form'
+    const store = mockStore(state)
 
-    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+    store.dispatch(actions.submitTicket(formState, formTitle))
     expect(http.send).toHaveBeenCalledWith({
       callbacks: { done: expect.any(Function), fail: expect.any(Function) },
       method: 'post',
       params: 'params',
       path: '/api/v2/requests'
     })
+    expect(formatRequestData).toHaveBeenCalledWith(state, formState, ['uploadToken-123'], formTitle)
     expect(store.getActions()[0]).toEqual({ type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT })
   })
 

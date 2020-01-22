@@ -3,14 +3,18 @@ import _ from 'lodash'
 import * as actionTypes from './action-types'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import { i18n } from 'service/i18n'
-import { getMaxFileSize, getMaxFileCount, getValidAttachments } from 'src/embeds/support/selectors'
+import {
+  getMaxFileSize,
+  getMaxFileCount,
+  getAttachmentsForForm,
+  getNewSupportEmbedEnabled
+} from 'src/embeds/support/selectors'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
 import withRateLimiting from 'utility/rateLimiting'
 import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
-import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 
 let attachmentUploaders = {}
 
@@ -115,14 +119,13 @@ export const deleteAttachment = id => (dispatch, _getState) => {
   dispatch(removeAttachment(id))
 }
 
-export const uploadAttachment = file => (dispatch, getState) => {
+export const uploadAttachment = (file, id) => (dispatch, getState) => {
   const maxFileSize = getMaxFileSize(getState())
   const maxSize = Math.round(maxFileSize / 1024 / 1024)
   const fileOversize = file.size >= maxFileSize
   const errorMessage = fileOversize
     ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
     : null
-  const id = _.uniqueId()
   const fileType = file.type || 'application/octet-stream'
   const onUploadComplete = response => dispatch(uploadAttachmentSuccess(id, response))
   const onUploadFailure = error => dispatch(uploadAttachmentFailure(id, error))
@@ -151,12 +154,20 @@ export const uploadAttachment = file => (dispatch, getState) => {
   }
 }
 
+const uploadTokensForForm = (formAttachments = {}, state) => {
+  const { ids } = formAttachments
+  if (!ids) return []
+
+  const attachments = getAttachmentsForForm(state, ids)
+  return attachments.map(attachment => attachment.uploadToken)
+}
+
 export function submitTicket(formState, formTitle) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       const state = getState()
-      const attachments = [] // Will update once https://zendesk.atlassian.net/browse/EWW-992 is done
-      const params = formatRequestData(state, formState, attachments, formTitle)
+      const attachmentUploadTokens = uploadTokensForForm(formState.attachments, state)
+      const params = formatRequestData(state, formState, attachmentUploadTokens, formTitle)
 
       const payload = {
         method: 'post',
@@ -199,20 +210,34 @@ export function submitTicket(formState, formTitle) {
   }
 }
 
-export const uploadAttachedFiles = files => (dispatch, getState) => {
-  const state = getState()
-  const maxFileCount = getMaxFileCount(state)
-  const validAttachments = getValidAttachments(state)
-
-  const numAttachments = validAttachments.length
-  const numFilesToAdd = maxFileCount - numAttachments
-
-  _.slice(files, 0, numFilesToAdd).forEach(file => {
-    dispatch(uploadAttachment(file))
+export const uploadAttachedFiles = (files, updateFinalForm, value) => (dispatch, getState) => {
+  const filesArray = Array.from(files).map(file => {
+    const id = _.uniqueId()
+    return { file, id }
   })
 
-  if (numAttachments + files.length > maxFileCount) {
-    dispatch(attachmentLimitExceeded())
+  const state = getState()
+  const maxFileCount = getMaxFileCount(state)
+  const attachments = getAttachmentsForForm(state, value.ids)
+
+  const numAttachments = attachments.length
+  const numFilesToAdd = maxFileCount - numAttachments
+  let uploadedFileIds = []
+  _.slice(filesArray, 0, numFilesToAdd).forEach(file => {
+    dispatch(uploadAttachment(file.file, file.id))
+    uploadedFileIds.push(file.id)
+  })
+
+  let limitExceeded = false
+  if (numAttachments + filesArray.length > maxFileCount) {
+    if (updateFinalForm) {
+      limitExceeded = true
+    } else {
+      dispatch(attachmentLimitExceeded())
+    }
+  }
+  if (updateFinalForm) {
+    updateFinalForm({ ids: [...uploadedFileIds, ...value.ids], limitExceeded })
   }
 }
 
