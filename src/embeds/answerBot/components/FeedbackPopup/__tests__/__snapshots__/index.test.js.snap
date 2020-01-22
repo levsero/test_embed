@@ -1,17 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`on no click displays the reasons 1`] = `
-.c4 {
-  background-color: transparent;
-  font-size: 1.0714285714285714rem;
-  padding-right: 1.7142857142857142rem;
-  padding-left: 1.7142857142857142rem;
-  min-width: 0;
-  padding: 0.5714285714285714rem 1rem;
-  border-radius: 1.1428571428571428rem;
-  border-width: 0.07142857142857142rem;
-  white-space: normal;
-  line-height: 1.3;
+.c4.c4.c4 {
+  background-color: transparent !important;
+  color: !important;
+  border-color: !important;
+  font-size: 1.0714285714285714rem !important;
+  padding-right: 1.7142857142857142rem !important;
+  padding-left: 1.7142857142857142rem !important;
+  min-width: 0 !important;
+  padding: 0.5714285714285714rem 1rem !important;
+  border-radius: 1.1428571428571428rem !important;
+  border-width: 0.07142857142857142rem !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  height: auto !important;
+}
+
+.c4.c4.c4:not([disabled]):hover,
+.c4.c4.c4:not([disabled]):active,
+.c4.c4.c4:not([disabled]):focus {
+  color: !important;
+  background-color: !important;
+  border-color: !important;
 }
 
 .c2 {
@@ -20,7 +31,7 @@ exports[`on no click displays the reasons 1`] = `
 }
 
 .c3 {
-  margin-bottom: 0.7142857142857143rem;
+  margin-bottom: 0.7142857142857143rem !important;
   width: 100%;
 }
 
@@ -55,14 +66,26 @@ exports[`on no click displays the reasons 1`] = `
       class="c2"
     >
       <button
-        class="c3 c4"
+        class="c3 c4 index__c-btn___3y2Qe "
+        data-garden-container-id="keyboardfocus"
+        data-garden-container-version="0.2.6"
+        data-garden-id="buttons.button"
+        data-garden-version="7.0.2"
         data-testid="pill-button"
+        tabindex="0"
+        type="button"
       >
         It's related, but it didn't answer my question
       </button>
       <button
-        class="c5 c4"
+        class="c5 c4 index__c-btn___3y2Qe "
+        data-garden-container-id="keyboardfocus"
+        data-garden-container-version="0.2.6"
+        data-garden-id="buttons.button"
+        data-garden-version="7.0.2"
         data-testid="pill-button"
+        tabindex="0"
+        type="button"
       >
         It's not related to my question
       </button>
@@ -72,17 +95,28 @@ exports[`on no click displays the reasons 1`] = `
 `;
 
 exports[`renders the expected classes 1`] = `
-.c2 {
-  background-color: transparent;
-  font-size: 1.0714285714285714rem;
-  padding-right: 1.7142857142857142rem;
-  padding-left: 1.7142857142857142rem;
-  min-width: 0;
-  padding: 0.5714285714285714rem 1rem;
-  border-radius: 1.1428571428571428rem;
-  border-width: 0.07142857142857142rem;
-  white-space: normal;
-  line-height: 1.3;
+.c2.c2.c2 {
+  background-color: transparent !important;
+  color: !important;
+  border-color: !important;
+  font-size: 1.0714285714285714rem !important;
+  padding-right: 1.7142857142857142rem !important;
+  padding-left: 1.7142857142857142rem !important;
+  min-width: 0 !important;
+  padding: 0.5714285714285714rem 1rem !important;
+  border-radius: 1.1428571428571428rem !important;
+  border-width: 0.07142857142857142rem !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  height: auto !important;
+}
+
+.c2.c2.c2:not([disabled]):hover,
+.c2.c2.c2:not([disabled]):active,
+.c2.c2.c2:not([disabled]):focus {
+  color: !important;
+  background-color: !important;
+  border-color: !important;
 }
 
 .c0 {
@@ -112,14 +146,26 @@ exports[`renders the expected classes 1`] = `
       class="container buttonCenter "
     >
       <button
-        class="c2"
+        class="c2 index__c-btn___3y2Qe "
+        data-garden-container-id="keyboardfocus"
+        data-garden-container-version="0.2.6"
+        data-garden-id="buttons.button"
+        data-garden-version="7.0.2"
         data-testid="pill-button"
+        tabindex="0"
+        type="button"
       >
         Yes
       </button>
       <button
-        class="c2"
+        class="c2 index__c-btn___3y2Qe "
+        data-garden-container-id="keyboardfocus"
+        data-garden-container-version="0.2.6"
+        data-garden-id="buttons.button"
+        data-garden-version="7.0.2"
         data-testid="pill-button"
+        tabindex="0"
+        type="button"
       >
         No, I need help
       </button>

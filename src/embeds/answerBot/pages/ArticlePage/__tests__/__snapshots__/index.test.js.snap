@@ -275,27 +275,28 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
 `;
 
 exports[`feedback actions on no click asks for the reason 1`] = `
-.c15 {
-  background-color: transparent;
-  color: #1F73B7;
-  border-color: #1F73B7;
-  font-size: 1.0714285714285714rem;
-  padding-right: 1.7142857142857142rem;
-  padding-left: 1.7142857142857142rem;
-  min-width: 0;
-  padding: 0.5714285714285714rem 1rem;
-  border-radius: 1.1428571428571428rem;
-  border-width: 0.07142857142857142rem;
-  white-space: normal;
-  line-height: 1.3;
+.c15.c15.c15 {
+  background-color: transparent !important;
+  color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
+  font-size: 1.0714285714285714rem !important;
+  padding-right: 1.7142857142857142rem !important;
+  padding-left: 1.7142857142857142rem !important;
+  min-width: 0 !important;
+  padding: 0.5714285714285714rem 1rem !important;
+  border-radius: 1.1428571428571428rem !important;
+  border-width: 0.07142857142857142rem !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  height: auto !important;
 }
 
-.c15:not([disabled]):hover,
-.c15:not([disabled]):active,
-.c15:not([disabled]):focus {
-  color: #FFFFFF;
-  background-color: #1F73B7;
-  border-color: #1F73B7;
+.c15.c15.c15:not([disabled]):hover,
+.c15.c15.c15:not([disabled]):active,
+.c15.c15.c15:not([disabled]):focus {
+  color: #FFFFFF !important;
+  background-color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
 }
 
 .c13 {
@@ -304,7 +305,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
 }
 
 .c14 {
-  margin-bottom: 0.7142857142857143rem;
+  margin-bottom: 0.7142857142857143rem !important;
   width: 100%;
 }
 
@@ -620,14 +621,26 @@ exports[`feedback actions on no click asks for the reason 1`] = `
           class="c13"
         >
           <button
-            class="c14 c15"
+            class="c14 c15 index__c-btn___3y2Qe "
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
+            data-garden-id="buttons.button"
+            data-garden-version="7.0.2"
             data-testid="pill-button"
+            tabindex="0"
+            type="button"
           >
             It's related, but it didn't answer my question
           </button>
           <button
-            class="c16 c15"
+            class="c16 c15 index__c-btn___3y2Qe "
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
+            data-garden-id="buttons.button"
+            data-garden-version="7.0.2"
             data-testid="pill-button"
+            tabindex="0"
+            type="button"
           >
             It's not related to my question
           </button>
@@ -2009,27 +2022,28 @@ exports[`renders the expected title 1`] = `
 `;
 
 exports[`renders the feedback popup after a certain time has passed 1`] = `
-.c13 {
-  background-color: transparent;
-  color: #1F73B7;
-  border-color: #1F73B7;
-  font-size: 1.0714285714285714rem;
-  padding-right: 1.7142857142857142rem;
-  padding-left: 1.7142857142857142rem;
-  min-width: 0;
-  padding: 0.5714285714285714rem 1rem;
-  border-radius: 1.1428571428571428rem;
-  border-width: 0.07142857142857142rem;
-  white-space: normal;
-  line-height: 1.3;
+.c13.c13.c13 {
+  background-color: transparent !important;
+  color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
+  font-size: 1.0714285714285714rem !important;
+  padding-right: 1.7142857142857142rem !important;
+  padding-left: 1.7142857142857142rem !important;
+  min-width: 0 !important;
+  padding: 0.5714285714285714rem 1rem !important;
+  border-radius: 1.1428571428571428rem !important;
+  border-width: 0.07142857142857142rem !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  height: auto !important;
 }
 
-.c13:not([disabled]):hover,
-.c13:not([disabled]):active,
-.c13:not([disabled]):focus {
-  color: #FFFFFF;
-  background-color: #1F73B7;
-  border-color: #1F73B7;
+.c13.c13.c13:not([disabled]):hover,
+.c13.c13.c13:not([disabled]):active,
+.c13.c13.c13:not([disabled]):focus {
+  color: #FFFFFF !important;
+  background-color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
 }
 
 .c11 {
@@ -2340,14 +2354,26 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
           class="container buttonCenter "
         >
           <button
-            class="c13"
+            class="c13 index__c-btn___3y2Qe "
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
+            data-garden-id="buttons.button"
+            data-garden-version="7.0.2"
             data-testid="pill-button"
+            tabindex="0"
+            type="button"
           >
             Yes
           </button>
           <button
-            class="c13"
+            class="c13 index__c-btn___3y2Qe "
+            data-garden-container-id="keyboardfocus"
+            data-garden-container-version="0.2.6"
+            data-garden-id="buttons.button"
+            data-garden-version="7.0.2"
             data-testid="pill-button"
+            tabindex="0"
+            type="button"
           >
             No, I need help
           </button>

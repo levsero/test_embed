@@ -8,7 +8,7 @@ const ReasonButtons = styled.div`
 `
 
 const RelatedButton = styled(PillButton)`
-  margin-bottom: ${10 / FONT_SIZE}rem;
+  margin-bottom: ${10 / FONT_SIZE}rem !important;
   width: 100%;
 `
 

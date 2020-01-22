@@ -12,7 +12,7 @@ import {
   getInTouchClicked
 } from 'src/redux/modules/answerBot/conversation/actions'
 import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
-import PillButton from 'src/embeds/answerBot/components/PillButton'
+import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
 import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
 import { SlideAppear } from 'component/transition/SlideAppear'
 import { botUserMessage, botChannelChoice } from 'src/redux/modules/answerBot/root/actions/bot'
@@ -136,13 +136,7 @@ class Footer extends Component {
         endPosHeight={'0px'}
         className={containerClasses}
       >
-        <div className={styles.quickReplyContainer}>
-          <PillButton
-            className={styles.getInTouch}
-            label={i18n.t('embeddable_framework.answerBot.button.get_in_touch')}
-            onClick={this.handleGetInTouchClicked}
-          />
-        </div>
+        <GetInTouch onClick={this.handleGetInTouchClicked} />
       </SlideAppear>
     )
   }
