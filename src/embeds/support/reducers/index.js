@@ -9,6 +9,7 @@ import readOnly from './readOnly'
 import prefillId from './prefillId'
 import prefillSpecificFormValues from 'embeds/support/reducers/prefillSpecificFormValues'
 import lastFormPrefillId from 'embeds/support/reducers/lastFormPrefillId'
+import displayDropzone from 'embeds/support/reducers/displayDropzone'
 import forms from './forms'
 import fields from './fields'
 import contactFormFields from 'embeds/support/reducers/contactFormFields'
@@ -19,6 +20,7 @@ export default combineReducers({
   attachments,
   attachmentLimitExceeded,
   prefillValues,
+  displayDropzone,
   readOnly,
   prefillId,
   prefillSpecificFormValues,

@@ -12,7 +12,9 @@ const defaultProps = {
   uploadAttachedFiles: jest.fn(),
   title: 'attachment field title',
   onChange: jest.fn(),
-  value: {}
+  value: {},
+  displayDropzone: false,
+  dragEnded: jest.fn()
 }
 
 const renderComponent = (props = {}, renderFn) => {
@@ -50,6 +52,19 @@ describe('AttachmentField', () => {
     })
     expect(queryByTestId('error-message')).toBeInTheDocument()
     expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
+  })
+
+  it('does not render the dropzone when displayDropzone is false', () => {
+    const { queryByText } = renderComponent()
+    expect(queryByText('Drop to attach')).not.toBeInTheDocument()
+  })
+
+  it('renders the dropzone when displayDropzone is true', () => {
+    const { queryByText } = renderComponent({
+      displayDropzone: true
+    })
+
+    expect(queryByText('Drop to attach')).toBeInTheDocument()
   })
 
   it('calls handleAttachmentsError when displayAttachmentLimitError switches to true', () => {

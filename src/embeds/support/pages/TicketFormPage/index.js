@@ -14,6 +14,8 @@ import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
+import { mapKeyFields } from 'embeds/support/utils/fieldConversion'
+import { dragStarted } from 'src/embeds/support/actions/index'
 
 const TicketFormPage = ({
   formTitle,
@@ -26,23 +28,26 @@ const TicketFormPage = ({
   ticketFormTitle,
   ticketForms,
   conditions,
+  dragStarted,
   attachments
 }) => {
   return (
-    <Widget>
-      <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
+    <div onDragEnter={dragStarted}>
+      <Widget>
+        <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
 
-      <TicketForm
-        formName={formName}
-        formState={formState}
-        readOnlyState={readOnlyState}
-        ticketFormTitle={ticketFormTitle}
-        submitForm={formState => submitTicket(formState, match.params.id)}
-        ticketFields={ticketFields}
-        conditions={conditions}
-        attachments={attachments}
-      />
-    </Widget>
+        <TicketForm
+          formName={formName}
+          formState={formState}
+          readOnlyState={readOnlyState}
+          ticketFormTitle={ticketFormTitle}
+          submitForm={formState => submitTicket(formState, match.params.id)}
+          ticketFields={mapKeyFields(ticketFields)}
+          conditions={conditions}
+          attachments={attachments}
+        />
+      </Widget>
+    </div>
   )
 }
 
@@ -53,6 +58,7 @@ TicketFormPage.propTypes = {
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
+  dragStarted: PropTypes.func.isRequired,
   match: PropTypes.object,
   ticketFormTitle: PropTypes.string,
   ticketForms: PropTypes.array.isRequired,
@@ -80,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const actionCreators = {
+  dragStarted,
   submitTicket
 }
 

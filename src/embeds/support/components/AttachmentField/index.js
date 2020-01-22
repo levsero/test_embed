@@ -7,15 +7,21 @@ import AttachmentLimitError from 'src/embeds/support/components/AttachmentLimitE
 import AttachmentList from 'src/embeds/support/components/AttachmentList'
 import { TEST_IDS } from 'src/constants/shared'
 import { onNextTick } from 'src/util/utils'
-import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
+import {
+  uploadAttachedFiles,
+  dragEnded,
+  clearLimitExceededError
+} from 'src/embeds/support/actions/index'
 import {
   getMaxFileCount,
   getMaxFileSize,
+  getDisplayDropzone,
   getAttachmentTitle,
   getAttachmentLimitExceeded
 } from 'src/embeds/support/selectors'
 const INPUT_ID = 'dropzone-input'
 import { Container, StyledLabel } from './styles'
+import { AttachmentBox } from 'src/component/attachment/AttachmentBox'
 
 const AttachmentField = ({
   displayAttachmentLimitError,
@@ -24,6 +30,8 @@ const AttachmentField = ({
   uploadAttachedFiles,
   title,
   onChange,
+  displayDropzone,
+  dragEnded,
   value = {}
 }) => {
   const alert = useRef()
@@ -61,6 +69,16 @@ const AttachmentField = ({
         />
       )}
       <AttachmentInput onFileSelect={handleFileUpload} attachmentInputId={INPUT_ID} />
+
+      {displayDropzone && (
+        <AttachmentBox
+          onDragLeave={dragEnded}
+          onDrop={files => {
+            dragEnded()
+            handleFileUpload(files)
+          }}
+        />
+      )}
     </Container>
   )
 }
@@ -69,6 +87,8 @@ AttachmentField.propTypes = {
   maxFileCount: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   uploadAttachedFiles: PropTypes.func.isRequired,
+  dragEnded: PropTypes.func.isRequired,
+  displayDropzone: PropTypes.bool.isRequired,
   value: PropTypes.object,
   onChange: PropTypes.func,
   displayAttachmentLimitError: PropTypes.bool,
@@ -77,12 +97,14 @@ AttachmentField.propTypes = {
 
 const actionCreators = {
   clearLimitExceededError,
-  uploadAttachedFiles
+  uploadAttachedFiles,
+  dragEnded
 }
 
 const mapStateToProps = (state, props) => ({
   maxFileCount: getMaxFileCount(state),
   maxFileSize: getMaxFileSize(state),
+  displayDropzone: getDisplayDropzone(state),
   title: getAttachmentTitle(state, props.value && props.value.ids),
   displayAttachmentLimitError: getAttachmentLimitExceeded(state)
 })
