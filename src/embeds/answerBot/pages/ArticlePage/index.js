@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
 
 import HelpCenterArticle from 'components/HelpCenterArticle'
-import { SlideAppear } from 'component/transition/SlideAppear'
+import { FeedbackContainer } from './styles'
 
 import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
 import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/'
@@ -26,12 +26,11 @@ import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/se
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
 import { i18n } from 'service/i18n'
-import { locals as styles } from './ArticleScreen.scss'
 import { appendParams } from 'utility/utils'
 import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 
-class ArticleScreen extends Component {
+class ArticlePage extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
     isMobile: PropTypes.bool,
@@ -132,8 +131,7 @@ class ArticleScreen extends Component {
 
   feedbackPopup = () => {
     return (
-      <SlideAppear
-        className={styles.popupWrapper}
+      <FeedbackContainer
         trigger={this.state.showPopup}
         startPosHeight={'-100px'}
         endPosHeight={'0px'}
@@ -145,7 +143,7 @@ class ArticleScreen extends Component {
           onNoClick={this.handleNoClick}
           onReasonClick={this.onNoFeedback}
         />
-      </SlideAppear>
+      </FeedbackContainer>
     )
   }
 
@@ -217,6 +215,6 @@ const connectedComponent = connect(
   mapDispatchToProps,
   null,
   { forwardRef: true }
-)(ArticleScreen)
+)(ArticlePage)
 
-export { connectedComponent as default, ArticleScreen as Component }
+export { connectedComponent as default, ArticlePage as Component }

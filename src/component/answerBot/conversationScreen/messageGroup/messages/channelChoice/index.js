@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { MessageBubbleChoices } from 'component/shared/MessageBubbleChoices'
+import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleChoices'
 import { Icon } from 'component/Icon'
 import {
   getSubmitTicketAvailable,
@@ -174,11 +174,7 @@ class ChannelChoice extends Component {
 
   render = () => {
     return this.state.availableChannels.length > 0 ? (
-      <MessageBubbleChoices
-        leadingMessage={this.leadingMessage()}
-        containerStyle={styles.container}
-        leadingMessageStyle={styles.title}
-      >
+      <MessageBubbleChoices leadingMessage={this.leadingMessage()}>
         {this.renderChatChoice()}
         {this.renderTalkChoice()}
         {this.renderSubmitTicketChoice()}

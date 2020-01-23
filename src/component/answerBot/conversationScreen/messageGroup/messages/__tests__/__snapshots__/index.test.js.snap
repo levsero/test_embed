@@ -1,11 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders expected classes and components with default props for non-visitor messages 1`] = `
+.c3.c3.c3 {
+  background-color: transparent !important;
+  color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
+  font-size: 1.0714285714285714rem !important;
+  padding-right: 1.7142857142857142rem !important;
+  padding-left: 1.7142857142857142rem !important;
+  min-width: 0 !important;
+  padding: 0.5714285714285714rem 1rem !important;
+  border-radius: 1.1428571428571428rem !important;
+  border-width: 0.07142857142857142rem !important;
+  white-space: normal !important;
+  line-height: 1.3 !important;
+  height: auto !important;
+}
+
+.c3.c3.c3:not([disabled]):hover,
+.c3.c3.c3:not([disabled]):active,
+.c3.c3.c3:not([disabled]):focus {
+  color: #FFFFFF !important;
+  background-color: #1F73B7 !important;
+  border-color: #1F73B7 !important;
+}
+
 .c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
   margin-bottom: 0.5rem;
+  max-width: 18.428571428571427rem;
 }
 
 .c1 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c1:hover {
+  background-color: #f8f8f8;
+}
+
+.c2 {
+  margin-bottom: 0.5rem;
+}
+
+.c4 {
   float: right !important;
   display: block;
   margin-bottom: 0.5rem !important;
@@ -26,12 +75,11 @@ exports[`renders expected classes and components with default props for non-visi
       >
         <div>
           <div
-            class="messageBubble
-        container"
+            class="c0"
             data-testid="answer-bot-selection-message"
           >
             <div
-              class="firstItem lastItem optionItem"
+              class="c1"
             >
               <div
                 class="result"
@@ -99,12 +147,11 @@ exports[`renders expected classes and components with default props for non-visi
             </div>
           </div>
           <div
-            class="messageBubble
-        container"
+            class="c0"
             data-testid="answer-bot-selection-message"
           >
             <div
-              class="firstItem lastItem optionItem"
+              class="c1"
             >
               <div
                 class="result"
@@ -192,26 +239,32 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="c0"
+          class="c2"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="
-      button
-      
-    "
+              class="c3 index__c-btn___3y2Qe "
+              data-garden-container-id="keyboardfocus"
+              data-garden-container-version="0.2.6"
+              data-garden-id="buttons.button"
+              data-garden-version="7.0.2"
               data-testid="pill-button"
+              tabindex="0"
+              type="button"
             >
               Yes
             </button>
             <button
-              class="
-      button
-      
-    "
+              class="c3 index__c-btn___3y2Qe "
+              data-garden-container-id="keyboardfocus"
+              data-garden-container-version="0.2.6"
+              data-garden-id="buttons.button"
+              data-garden-version="7.0.2"
               data-testid="pill-button"
+              tabindex="0"
+              type="button"
             >
               No, I need help
             </button>
@@ -229,26 +282,32 @@ exports[`renders expected classes and components with default props for non-visi
         class="wrapper"
       >
         <div
-          class="c0"
+          class="c2"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="
-      button
-      c1
-    "
+              class="c4 c3 index__c-btn___3y2Qe "
+              data-garden-container-id="keyboardfocus"
+              data-garden-container-version="0.2.6"
+              data-garden-id="buttons.button"
+              data-garden-version="7.0.2"
               data-testid="pill-button"
+              tabindex="0"
+              type="button"
             >
               It's related, but it didn't answer my question
             </button>
             <button
-              class="
-      button
-      c1
-    "
+              class="c4 c3 index__c-btn___3y2Qe "
+              data-garden-container-id="keyboardfocus"
+              data-garden-container-version="0.2.6"
+              data-garden-id="buttons.button"
+              data-garden-version="7.0.2"
               data-testid="pill-button"
+              tabindex="0"
+              type="button"
             >
               It's not related to my question
             </button>

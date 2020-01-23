@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import Text from './text'
-import SearchResults from 'src/embeds/answerBot/pages/components/SearchResults'
+import SearchResults from 'src/embeds/answerBot/components/SearchResults'
 import ContextualSearchResults from './results/ContextualSearchResults'
 import ChannelChoice from './channelChoice'
 import PrimaryFeedback from './feedback/PrimaryFeedback'

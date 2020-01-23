@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { FONT_SIZE } from 'src/constants/shared'
-import { PillButton } from 'src/component/shared/PillButton'
+import PillButton from 'src/embeds/answerBot/components/PillButton'
 
 const Container = styled.div`
   margin-bottom: ${7 / FONT_SIZE}rem;

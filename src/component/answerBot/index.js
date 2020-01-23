@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import AnswerBotContainer from './AnswerBotContainer'
-import ArticleScreen from './articleScreen/'
+import ArticlePage from 'src/embeds/answerBot/pages/ArticlePage'
 import ConversationFooter from './conversationScreen/footer/'
 import ConversationScreen from './conversationScreen/'
 
@@ -72,7 +72,7 @@ class AnswerBot extends Component {
 
   articleScreen = () => {
     return (
-      <ArticleScreen
+      <ArticlePage
         isMobile={this.props.isMobile}
         scrollContainerClasses={this.containerStyle()}
         saveConversationScroll={this.saveConversationScroll}

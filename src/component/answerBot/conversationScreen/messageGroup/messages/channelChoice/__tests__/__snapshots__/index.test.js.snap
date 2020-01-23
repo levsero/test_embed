@@ -1,19 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`channels does not render chat if chat is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       Would you like to leave a message so the team can follow up on your question?
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -43,19 +74,50 @@ exports[`channels does not render chat if chat is available 1`] = `
 `;
 
 exports[`channels renders expected components if chat and chat offline are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -85,19 +147,50 @@ exports[`channels renders expected components if chat and chat offline are avail
 `;
 
 exports[`channels renders expected components if only call us is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -127,19 +220,50 @@ exports[`channels renders expected components if only call us is available 1`] =
 `;
 
 exports[`channels renders expected components if only chat is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -169,19 +293,50 @@ exports[`channels renders expected components if only chat is available 1`] = `
 `;
 
 exports[`channels renders expected components if only submit ticket is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -211,19 +366,50 @@ exports[`channels renders expected components if only submit ticket is available
 `;
 
 exports[`channels renders expected components if talk and click to call are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -253,19 +439,50 @@ exports[`channels renders expected components if talk and click to call are avai
 `;
 
 exports[`channels renders expected components if talk and request callback are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -295,19 +512,59 @@ exports[`channels renders expected components if talk and request callback are a
 `;
 
 exports[`channels renders generic leading message if more than 1 channel is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c3 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       Choose a way to get in touch:
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -333,7 +590,7 @@ exports[`channels renders generic leading message if more than 1 channel is avai
       </div>
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c3"
     >
       <div
         class="channel "
@@ -363,19 +620,59 @@ exports[`channels renders generic leading message if more than 1 channel is avai
 `;
 
 exports[`channels renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c3 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       hi
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -401,7 +698,7 @@ exports[`channels renders leading message if more than 1 channel is available an
       </div>
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c3"
     >
       <div
         class="channel "
@@ -431,19 +728,50 @@ exports[`channels renders leading message if more than 1 channel is available an
 `;
 
 exports[`channels renders the passed in leading message regardless of other properties 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       blah blah
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c2"
     >
       <div
         class="channel singleChannel"
@@ -473,19 +801,59 @@ exports[`channels renders the passed in leading message regardless of other prop
 `;
 
 exports[`renders the expected classes 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c3 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       Choose a way to get in touch:
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -511,7 +879,7 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -537,7 +905,7 @@ exports[`renders the expected classes 1`] = `
       </div>
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c3"
     >
       <div
         class="channel "
@@ -567,19 +935,59 @@ exports[`renders the expected classes 1`] = `
 `;
 
 exports[`renders the leading message 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  margin-left: 2.857142857142857rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c3 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c3:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
 <div>
   <div
-    class="messageBubble
-        container"
+    class="c0"
     data-testid="answer-bot-selection-message"
   >
     <div
-      class="header firstItem title"
+      class="c1"
     >
       hello world
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -605,7 +1013,7 @@ exports[`renders the leading message 1`] = `
       </div>
     </div>
     <div
-      class=" optionItem"
+      class="c2"
     >
       <div
         class="channel "
@@ -631,7 +1039,7 @@ exports[`renders the leading message 1`] = `
       </div>
     </div>
     <div
-      class=" lastItem optionItem"
+      class="c3"
     >
       <div
         class="channel "

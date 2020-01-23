@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import { http } from 'service/transport'
-import { Component as ArticleScreen } from '../index'
+import { Component as ArticlePage } from '../index'
 import { render } from 'src/util/testHelpers'
 
 http.init({
@@ -38,7 +38,7 @@ const renderComponent = (props = {}) => {
     originalArticleButton: true
   }
   const componentProps = _.merge({}, defaultProps, props)
-  return render(<ArticleScreen {...componentProps} />)
+  return render(<ArticlePage {...componentProps} />)
 }
 
 test('renders the expected classes', () => {
