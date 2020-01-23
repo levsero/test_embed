@@ -322,6 +322,26 @@ describe('Departments', () => {
   })
 })
 
+it('does not render the phone number field for authenticated users', () => {
+  const { queryByLabelText } = renderPrechatForm({
+    loginEnabled: true,
+    phoneEnabled: true,
+    isAuthenticated: true
+  })
+
+  expect(queryByLabelText('Phone Number (optional)')).not.toBeInTheDocument()
+})
+
+it('renders the phone number field for unauthenticated users', () => {
+  const { queryByLabelText } = renderPrechatForm({
+    loginEnabled: true,
+    phoneEnabled: true,
+    isAuthenticated: false
+  })
+
+  expect(queryByLabelText('Phone Number (optional)')).toBeInTheDocument()
+})
+
 test('renders fields as optional if required is false', () => {
   const formProp = {
     name: { name: 'name' },

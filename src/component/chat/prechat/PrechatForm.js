@@ -330,7 +330,8 @@ export class PrechatForm extends Component {
   }
 
   renderPhoneField = () => {
-    if (!this.props.loginEnabled || !this.props.phoneEnabled) return null
+    if (!this.props.loginEnabled || !this.props.phoneEnabled || this.props.isAuthenticated)
+      return null
 
     const phoneData = this.props.form.phone
     const value = this.props.formState.phone
