@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Transition from 'react-transition-group/Transition'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Container, Text } from './styles'
 
 const LoadingMessagesIndicator = ({ loading }) => {

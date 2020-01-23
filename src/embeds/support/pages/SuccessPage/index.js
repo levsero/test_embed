@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Footer, Header, Main, Widget } from 'components/Widget'
 import SuccessNotification from 'components/SuccessNotification'
 import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { onCancelClick } from 'src/redux/modules/base'
 import { connect } from 'react-redux'
 

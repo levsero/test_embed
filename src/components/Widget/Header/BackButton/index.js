@@ -7,13 +7,13 @@ import { HeaderItem } from 'components/Widget/Header'
 import { BackIcon } from './styles'
 import { getShowBackButton } from 'src/redux/modules/selectors'
 import { useOnBack } from 'component/webWidget/OnBackProvider'
-import useTranslation from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
 
 const BackButton = ({ useReactRouter, history }) => {
+  const translate = useTranslate()
   const isVisible = useSelector(getShowBackButton)
   const onBack = useOnBack()
-  const label = useTranslation('embeddable_framework.navigation.back')
 
   if (!useReactRouter && !isVisible) {
     return null
@@ -26,7 +26,11 @@ const BackButton = ({ useReactRouter, history }) => {
   const onClickHandler = useReactRouter ? history.goBack : onBack
 
   return (
-    <HeaderItem onClick={onClickHandler} aria-label={label} data-testid={TEST_IDS.ICON_BACK}>
+    <HeaderItem
+      onClick={onClickHandler}
+      aria-label={translate('embeddable_framework.navigation.back')}
+      data-testid={TEST_IDS.ICON_BACK}
+    >
       <BackIcon />
     </HeaderItem>
   )

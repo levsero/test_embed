@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 import { screenChanged, articleShown } from 'src/redux/modules/answerBot/root/actions/'
 import { articleViewed } from 'src/redux/modules/answerBot/article/actions/'

@@ -8,7 +8,7 @@ import {
   formatNameString,
   formatAttachmentSize
 } from 'src/embeds/support/utils/attachmentStringFormatter'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const AttachmentError = ({
   handleRemoveAttachment,

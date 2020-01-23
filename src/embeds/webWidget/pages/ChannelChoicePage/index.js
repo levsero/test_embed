@@ -15,7 +15,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { onChannelChoiceNextClick } from 'src/redux/modules/base'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const ChannelChoicePage = ({
   isMobile,

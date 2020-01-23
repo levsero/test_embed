@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { snapcallAPI } from 'snapcall'
 
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'

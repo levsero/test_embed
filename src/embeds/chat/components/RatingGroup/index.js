@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader/root'
 import { TEST_IDS } from 'src/constants/shared'
 import ThumbsDownIcon from '@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'
 import ThumbsUpIcon from '@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Container, RatingButton } from './styles'
 
 const ratings = {
