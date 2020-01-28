@@ -201,26 +201,36 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
     const state = getState()
     const isAuthenticated = getIsAuthenticated(state)
 
-    if (!isAuthenticated) {
-      dispatch({
-        type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
-        payload: { ...visitor, timestamp }
-      })
+    let infoToUpdate = { ...visitor }
 
-      onChatSDKInitialized(() => {
-        zChatWithTimeout(getState, 'setVisitorInfo')(visitor, err => {
-          if (canBeIgnored(err)) {
-            dispatch({
-              type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-              payload: { ...visitor, timestamp }
-            })
-            if (_.isObjectLike(successAction)) dispatch(successAction)
-          } else {
-            dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
-          }
-        })
-      })
+    // If the user is authenticated, we still allow the phone number to be updated.
+    // This is due to the JWT token not supporting providing a phone number in there at the moment.
+    if (isAuthenticated) {
+      if (!visitor.phone) {
+        return
+      }
+
+      infoToUpdate = { phone: visitor.phone }
     }
+
+    dispatch({
+      type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
+      payload: { ...infoToUpdate, timestamp }
+    })
+
+    onChatSDKInitialized(() => {
+      zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, err => {
+        if (canBeIgnored(err)) {
+          dispatch({
+            type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
+            payload: { ...infoToUpdate, timestamp }
+          })
+          if (_.isObjectLike(successAction)) dispatch(successAction)
+        } else {
+          dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
+        }
+      })
+    })
   }
 }
 

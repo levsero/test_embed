@@ -231,18 +231,38 @@ describe('setVisitorInfo', () => {
       jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(true)
     })
 
-    it('does not dispatch any actions', () => {
-      const store = mockStore(getState())
+    describe('if not updating the phone number', () => {
+      it('does not dispatch any actions', () => {
+        const store = mockStore(getState())
 
-      store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }, mockTimestamp))
+        store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }, mockTimestamp))
 
-      expect(store.getActions()).toEqual([])
+        expect(store.getActions()).toEqual([])
+      })
     })
   })
 
-  describe('if not authenticated', () => {
+  describe('if not authenticated or if phone number is provided', () => {
     beforeEach(() => {
       jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(false)
+    })
+
+    it('updates the phone number when the user is authenticated', () => {
+      jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(true)
+      const store = mockStore(getState())
+
+      const vistor = {
+        name: 'Someone',
+        phone: '123'
+      }
+
+      store.dispatch(actions.setVisitorInfo(vistor, {}, 1234))
+      expect(store.getActions()).toEqual([
+        {
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
+          payload: { phone: '123', timestamp: mockTimestamp }
+        }
+      ])
     })
 
     it('dispatches SET_VISITOR_INFO_REQUEST_PENDING', () => {
