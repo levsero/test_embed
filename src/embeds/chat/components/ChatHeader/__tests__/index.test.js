@@ -1,23 +1,14 @@
 import React from 'react'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { render } from 'src/util/testHelpers'
-import { ChatHeader } from '../ChatHeader'
-import { TEST_IDS } from 'constants/shared'
+import ChatHeader from '..'
+import { TEST_IDS, ICONS } from 'constants/shared'
 
-const renderComponent = inProps => {
-  const props = {
-    ...inProps
-  }
-
-  return render(
-    <ThemeProvider>
-      <ChatHeader {...props} />
-    </ThemeProvider>
-  )
+const renderComponent = props => {
+  return render(<ChatHeader {...props} />)
 }
 
 it('renders the avatar', () => {
-  const { container } = renderComponent({
+  const { queryByTestId } = renderComponent({
     concierges: [
       {
         avatar: 'https://example.com/snake',
@@ -27,7 +18,7 @@ it('renders the avatar', () => {
     ]
   })
 
-  expect(container.querySelector('.Icon--avatar')).toBeInTheDocument()
+  expect(queryByTestId(ICONS.AVATAR)).toBeInTheDocument()
 })
 
 it('renders the agent name and title', () => {

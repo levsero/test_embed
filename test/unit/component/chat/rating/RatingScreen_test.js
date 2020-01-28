@@ -23,9 +23,7 @@ describe('RatingScreen component', () => {
       'component/chat/rating/FeedbackForm': {
         FeedbackForm
       },
-      'component/chat/ChatHeader': {
-        ChatHeader: noopReactComponent()
-      },
+      'embeds/chat/components/ChatHeader': noopReactComponent(),
       'components/Widget': {
         Widget: noopReactComponent(),
         Main: noopReactComponent(),

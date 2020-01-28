@@ -74,9 +74,7 @@ describe('ChattingScreen component', () => {
       'component/chat/chatting/ChatBox': {
         ChatBox: noopReactComponent()
       },
-      'component/chat/ChatHeader': {
-        ChatHeader: noopReactComponent()
-      },
+      'embeds/chat/components/ChatHeader': noopReactComponent(),
       'embeds/chat/components/LoadingMessagesIndicator': LoadingMessagesIndicator,
       'src/embeds/chat/online/components/AgentTyping': {
         AgentTyping: noopReactComponent()
