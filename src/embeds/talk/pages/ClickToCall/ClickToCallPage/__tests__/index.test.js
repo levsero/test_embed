@@ -14,7 +14,6 @@ describe('when the user starts a call', () => {
     jest.spyOn(snapcallAPI, 'startCall')
 
     const { getByText } = renderComponent({
-      title: 'Call Us',
       buttonId: '1234'
     })
 
@@ -27,8 +26,7 @@ describe('when the user starts a call', () => {
 describe('when there is an average wait time', () => {
   it('displays the average wait time', () => {
     const { getByText } = renderComponent({
-      averageWaitTime: 'Average wait time: 10 minutes',
-      title: 'Call Us'
+      averageWaitTime: 'Average wait time: 10 minutes'
     })
 
     expect(getByText('Average wait time: 10 minutes')).toBeInTheDocument()
@@ -38,8 +36,7 @@ describe('when there is an average wait time', () => {
 describe('when there is no average wait time', () => {
   it('does not display the average wait time', () => {
     const { queryByText } = renderComponent({
-      averageWaitTime: null,
-      title: 'Call Us'
+      averageWaitTime: null
     })
 
     expect(queryByText('Average wait time: 10 minutes')).toBeNull()

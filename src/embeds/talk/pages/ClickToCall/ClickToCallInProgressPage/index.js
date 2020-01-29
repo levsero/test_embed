@@ -1,24 +1,24 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 
 import useSnapcallUpdateTime from 'src/embeds/talk/hooks/useSnapcallUpdateTime'
 import useInitSnapcall from 'src/embeds/talk/hooks/useInitSnapcall'
+import { snapcallAPI } from 'snapcall'
 import { useTranslate } from 'src/hooks/useTranslation'
+import useSnapcallCallEndedEvent from 'src/embeds/talk/hooks/useSnapcallCallEndedEvent'
 
 import { Header, Footer, Main, Widget } from 'src/components/Widget'
-import { endSnapCall } from 'embeds/talk/actions'
 import { TEST_IDS } from 'src/embeds/talk/constants'
 
 import { Avatar, ComponentContainer, FlexContainer, HangUpButton, Timer } from './styles'
 
 const ClickToCallInProgressPage = () => {
   const translate = useTranslate()
-  const dispatch = useDispatch()
   const callTime = useSnapcallUpdateTime()
   useInitSnapcall()
+  useSnapcallCallEndedEvent()
 
   const onClick = () => {
-    dispatch(endSnapCall())
+    snapcallAPI.endCall()
   }
 
   return (
