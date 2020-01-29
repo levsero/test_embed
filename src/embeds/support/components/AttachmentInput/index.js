@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 import { Container, Description, Label, Icon } from './styles'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { isMobileBrowser } from 'utility/devices'
 
 const AttachmentInput = ({ onFileSelect, dropzoneId }) => {

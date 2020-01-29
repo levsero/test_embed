@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { ReasonButtons, RelatedButton, UnrelatedButton } from './styles'
 
 const ReasonOptions = ({ onReasonClick }) => {

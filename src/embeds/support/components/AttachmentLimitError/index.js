@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import { ErrorTitle, StyledAlert } from './styles'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const AttachmentLimitError = ({ handleClearError, maxFileCount }) => {
   const translate = useTranslate()

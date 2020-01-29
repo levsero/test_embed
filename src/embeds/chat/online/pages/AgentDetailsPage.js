@@ -7,21 +7,20 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { Widget, Header, Main, Footer } from 'components/Widget'
-import useTranslation from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const AgentDetailsPage = ({ updateChatScreen }) => {
-  const title = useTranslation('embeddable_framework.helpCenter.label.link.chat')
-  const backButtonLabel = useTranslation('embeddable_framework.chat.agentList.button.backToChat')
+  const translate = useTranslate()
 
   return (
     <Widget>
-      <Header title={title} />
+      <Header title={translate('embeddable_framework.helpCenter.label.link.chat')} />
       <Main>
         <AgentList />
       </Main>
       <Footer>
         <Button primary={true} onClick={() => updateChatScreen(CHATTING_SCREEN)}>
-          {backButtonLabel}
+          {translate('embeddable_framework.chat.agentList.button.backToChat')}
         </Button>
       </Footer>
     </Widget>

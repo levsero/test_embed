@@ -121,7 +121,7 @@ describe('ChatOfflineForm component', () => {
         Main: noopReactComponent()
       },
       'src/components/SuccessNotification': {},
-      'src/hooks/useTranslation': {},
+      'src/hooks/useTranslate': {},
       'icons/widget-icon_success_contactForm.svg': {}
     })
 

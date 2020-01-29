@@ -3,7 +3,7 @@ import React from 'react'
 import useSnapcallUpdateTime from 'src/embeds/talk/hooks/useSnapcallUpdateTime'
 import useInitSnapcall from 'src/embeds/talk/hooks/useInitSnapcall'
 import { snapcallAPI } from 'snapcall'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import useSnapcallCallEndedEvent from 'src/embeds/talk/hooks/useSnapcallCallEndedEvent'
 
 import { Header, Footer, Main, Widget } from 'src/components/Widget'

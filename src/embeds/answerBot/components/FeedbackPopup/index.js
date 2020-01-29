@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import InitialOptions from './InitialOptions'
 import ReasonOptions from './ReasonOptions'
 import { Container, Title } from './styles'

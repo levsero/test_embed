@@ -1,20 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useTranslation from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Container, SuccessIcon, Heading, Message, LinkText } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
 
 const SuccessNotification = ({ onClick, doneText, icon }) => {
-  const headingLabel = useTranslation(
-    'embeddable_framework.common.notify.message.thanks_for_reaching_out_v2'
-  )
-  const messageLabel = useTranslation('embeddable_framework.common.notify.message.get_back_v2')
+  const translate = useTranslate()
+
   return (
     <Container>
       <SuccessIcon data-testid={TEST_IDS.SUCCESS_NOTIFICATION_ICON}>{icon}</SuccessIcon>
       <div>
-        <Heading>{headingLabel}</Heading>
-        <Message>{messageLabel}</Message>
+        <Heading>
+          {translate('embeddable_framework.common.notify.message.thanks_for_reaching_out_v2')}
+        </Heading>
+        <Message>{translate('embeddable_framework.common.notify.message.get_back_v2')}</Message>
       </div>
       <div>
         <LinkText link={true} onClick={onClick}>

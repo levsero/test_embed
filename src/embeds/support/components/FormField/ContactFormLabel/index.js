@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html'
-import useTranslation from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Label } from '@zendeskgarden/react-forms'
 
 const ContactFormLabel = ({ value, required, as }) => {
+  const translate = useTranslate()
   const sanitizedLabel = sanitizeHtml(value, { allowedTags: [] })
-  const optionalValue = useTranslation('embeddable_framework.validation.label.new_optional', {
-    label: sanitizedLabel
-  })
 
   const requiredLabel = `<strong>${sanitizedLabel}</strong>`
 
@@ -16,7 +14,13 @@ const ContactFormLabel = ({ value, required, as }) => {
 
   return (
     <LabelComponent
-      dangerouslySetInnerHTML={{ __html: required ? requiredLabel : optionalValue }}
+      dangerouslySetInnerHTML={{
+        __html: required
+          ? requiredLabel
+          : translate('embeddable_framework.validation.label.new_optional', {
+              label: sanitizedLabel
+            })
+      }}
     />
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { LoadingDots, Container } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const oneAgentTyping = (translate, agentsTyping) => {
   const agent = agentsTyping[0].display_name

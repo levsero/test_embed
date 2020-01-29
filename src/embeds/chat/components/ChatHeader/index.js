@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader/root'
 
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { TEST_IDS, ICONS } from 'src/constants/shared'

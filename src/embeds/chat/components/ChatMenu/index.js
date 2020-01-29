@@ -20,7 +20,7 @@ import {
 } from 'src/redux/modules/chat'
 
 import { isMobileBrowser } from 'utility/devices'
-import useTranslation from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import {
   getChannelAvailable,
   getChatEmailTranscriptEnabled,
@@ -49,12 +49,7 @@ const ChatMenu = ({
   onBackClick
 }) => {
   const [highlightedIndex, setHighlightedIndex] = useState(null)
-  const emailTranscriptLabel = useTranslation('embeddable_framework.chat.options.emailTranscript')
-  const endChatLabel = useTranslation('embeddable_framework.chat.options.endChat')
-  const contactDetailsLabel = useTranslation('embeddable_framework.chat.options.editContactDetails')
-  const soundLabel = useTranslation('embeddable_framework.chat.options.sound')
-  const tooltipLabel = useTranslation('embeddable_framework.chat.icon.menu.hover.label')
-  const goBackLabel = useTranslation('embeddable_framework.common.button.goBack')
+  const translate = useTranslate()
   const frame = useCurrentFrame()
 
   const actions = {
@@ -140,24 +135,25 @@ const ChatMenu = ({
             >
               {goBackIsVisible && (
                 <Item value="back" data-testid={TEST_IDS.CHAT_MENU_ITEM_BACK}>
-                  {goBackLabel}
+                  {translate('embeddable_framework.common.button.goBack')}
                 </Item>
               )}
 
               {soundIsVisible && (
                 <Item value="sound" data-testid={TEST_IDS.CHAT_MENU_ITEM_TOGGLE_SOUND}>
-                  {soundLabel} {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
+                  {translate('embeddable_framework.chat.options.sound')}
+                  {soundEnabled ? <SoundOnIcon /> : <SoundOffIcon />}
                 </Item>
               )}
 
               {emailTranscriptEnabled && (
                 <Item value="email" data-testid={TEST_IDS.CHAT_MENU_ITEM_EMAIL_TRANSCRIPT}>
-                  {emailTranscriptLabel}
+                  {translate('embeddable_framework.chat.options.emailTranscript')}
                 </Item>
               )}
               {editContactDetailsEnabled && (
                 <Item value="contact" data-testid={TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS}>
-                  {contactDetailsLabel}
+                  {translate('embeddable_framework.chat.options.editContactDetails')}
                 </Item>
               )}
               <Item
@@ -165,14 +161,14 @@ const ChatMenu = ({
                 disabled={endChatDisabled}
                 data-testid={TEST_IDS.CHAT_MENU_ITEM_END_CHAT}
               >
-                {endChatLabel}
+                {translate('embeddable_framework.chat.options.endChat')}
               </Item>
             </Menu>
           </Dropdown>
         </Container>
       }
     >
-      {tooltipLabel}
+      {translate('embeddable_framework.chat.icon.menu.hover.label')}
     </Tooltip>
   )
 }

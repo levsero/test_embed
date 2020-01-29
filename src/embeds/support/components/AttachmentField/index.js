@@ -15,7 +15,7 @@ import {
 } from 'src/embeds/support/selectors'
 const DROPZONE_ID = 'dropzone-input'
 import { Container, StyledLabel } from './styles'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 
 const AttachmentField = ({
   displayAttachmentLimitError,

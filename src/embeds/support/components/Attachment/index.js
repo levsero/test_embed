@@ -12,7 +12,7 @@ import {
   Container,
   StyledIcon
 } from './styles'
-import { useTranslate } from 'src/hooks/useTranslation'
+import useTranslate from 'src/hooks/useTranslate'
 import { formatNameString, secondaryText } from 'src/embeds/support/utils/attachmentStringFormatter'
 
 const Attachment = ({ icon, handleRemoveAttachment, attachment }) => {
