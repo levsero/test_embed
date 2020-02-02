@@ -13,15 +13,15 @@ import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 
-const ClickToCall = lazy(() =>
-  import(/* webpackChunkName: 'lazy/talk_click_to_call' */ './pages/ClickToCall')
+const ClickToCallPage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk_click_to_call' */ './pages/ClickToCallPage')
 )
 
 const ROUTES = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: CallbackPage,
   [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: CallbackPage,
   [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage,
-  [CONTACT_OPTIONS.CLICK_TO_CALL]: ClickToCall
+  [CONTACT_OPTIONS.CLICK_TO_CALL]: ClickToCallPage
 }
 
 // This component needs to be a class component since the parent WebWidget component expects to be able
