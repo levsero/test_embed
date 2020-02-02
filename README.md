@@ -104,7 +104,7 @@ We use jest for unit tests (`npm run test`) and pupeteer for e2e tests (`npm run
 
 ### Building Docker image
 
-- Run `npm run build` to build static assets inside `./dist`.
+- Run `npm run build` to build static assets inside `./dist/public`.
 - Run `zdi embeddable_framework build`.
 - Verify the built image with `zdi embeddable_framework restart -l`.
 - To push, run `zdi embeddable_framework release --official`.

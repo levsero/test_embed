@@ -15,11 +15,9 @@ set :deploy_stage, ENV['STAGE']
 set :reference, ENV['REFERENCE']
 set :previewer_directory, 'web_widget/previews'
 set :previewer_directory_versioned, "web_widget/previews/#{fetch(:version)}"
-set :popout_file_location, 'dist/'
-set :lazy_loaded_chunks_location, 'dist/lazy'
-set :locales_file_location, 'dist/locales'
 set :popout_file_name, 'liveChat.html'
 set :preview_files, %i(webWidgetPreview.js chatPreview.js)
+set :assets_dir, 'dist/public'
 set :static_files,
   'src/asset/images/flags.png' => 'web_widget/static/flags.png',
   'src/asset/media/chat-incoming-message-notification.mp3' => 'web_widget/static/chat-incoming-message-notification.mp3'
@@ -27,14 +25,12 @@ set :static_files,
 PREVIEW_EXPIRY = 600
 
 namespace :ac_embeddable_framework do
-  desc 'Build framework ac assets'
-  task :build_assets do
+  desc 'Install needed dependencies'
+  task :prepare_assets do
     logger.info 'Building ac assets'
 
-    sh 'npm set progress=false && npm install'
+    sh 'npm set progress=false && npm ci'
     sh 'npm dedupe'
-    sh 'npm run build'
-    sh 'npm run build:previewer'
   end
 
   desc 'Reports package sizes to Datadog'
@@ -54,8 +50,9 @@ namespace :ac_embeddable_framework do
 
   desc 'Upload previewer assets to Amazon S3'
   task :upload_preview_assets_to_s3 do
+    sh 'npm run build-previewer'
     s3_deployer.upload_files(
-      'dist', # local folder to look for files
+      'dist/public', # local folder to look for files
       fetch(:previewer_directory_versioned), # path on S3 where the files will be stored
       fetch(:preview_files), # preview files to upload
       {
@@ -65,14 +62,26 @@ namespace :ac_embeddable_framework do
     )
   end
 
-  desc 'Release vendored assets to Amazon S3 for asset composer'
+  desc 'Upload assets to Amazon S3'
   task :release_to_s3 do
-    release_directory_versioned = fetch(:ekr_s3_release_directory_versioned)
+    sh 'npm run build'
 
-    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets'].map { |asset| asset['path'] }
-    vendored_assets = ['asset_manifest.json'] + vendored_assets
-    s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
-    s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
+    default_options = {
+      ignore_extensions: ['.map'],
+      key_transform: -> (key) { key.gsub('public/', '') }
+    }
+
+    s3_deployer.upload_directory(
+      fetch(:assets_dir),
+      fetch(:ekr_s3_release_directory_versioned),
+      default_options
+    )
+
+    s3_deployer.upload_directory(
+      fetch(:assets_dir),
+      fetch(:ekr_s3_release_directory_latest),
+      default_options
+    )
   end
 
   desc 'Upload popout assets to S3'
@@ -82,29 +91,6 @@ namespace :ac_embeddable_framework do
       fetch(:popout_file_location),
       fetch(:ekr_s3_release_directory_latest),
       [fetch(:popout_file_name)]
-    )
-  end
-
-  desc 'Upload static assets to S3'
-  task :upload_static_assets do
-    fetch(:static_files).each do |file, key|
-      s3_deployer.upload_file(key, file)
-    end
-  end
-
-  desc 'Upload translation assets to S3'
-  task :upload_translations_to_s3 do
-    s3_deployer.upload_js_assets_directory(
-      fetch(:locales_file_location),
-      fetch(:ekr_s3_release_directory_latest)
-    )
-  end
-
-  desc 'Upload lazy loaded chunked assets to S3'
-  task :upload_lazy_loaded_chunks_to_s3 do
-    s3_deployer.upload_js_assets_directory(
-      fetch(:lazy_loaded_chunks_location),
-      fetch(:ekr_s3_release_directory_latest)
     )
   end
 
@@ -174,9 +160,7 @@ def s3_deployer
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
-before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
-after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_translations_to_s3'
-after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_lazy_loaded_chunks_to_s3'
-after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
+before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:prepare_assets'
 after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:report_package_size'
+after 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:upload_preview_assets_to_s3'
 after 'ac_embeddable_framework:release_to_ekr', 'ac_embeddable_framework:update_preview_assets_to_latest'

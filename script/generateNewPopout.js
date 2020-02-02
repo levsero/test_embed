@@ -1,4 +1,4 @@
-const builddir = 'dist'
+const builddir = 'dist/public'
 
 function writePopoutFile() {
   const fs = require('fs')
