@@ -1,18 +1,13 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Component as CallbackForm } from '../'
-import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
-import * as libphonenumber from 'libphonenumber-js'
-import * as talkSelectors from 'src/embeds/talk/selectors/reselectors'
 import { TEST_IDS } from 'src/constants/shared'
-import createStore from 'src/redux/createStore'
+import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
+
+jest.mock('src/embeds/talk/utils/getFormattedPhoneNumber')
 
 beforeEach(() => {
-  jest.spyOn(talkSelectors, 'getFormattedPhoneNumber').mockImplementation(() => '1800-7383773')
-})
-
-afterEach(() => {
-  talkSelectors.getFormattedPhoneNumber.mockRestore()
+  getFormattedPhoneNumber.mockReturnValue('1800-7383773')
 })
 
 describe('CallbackForm', () => {
@@ -42,13 +37,7 @@ describe('CallbackForm', () => {
     hideZendeskLogo: true
   }
 
-  const renderComponent = (props = {}) => {
-    const store = createStore()
-
-    store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
-
-    return render(<CallbackForm {...defaultProps} {...props} />, { store })
-  }
+  const renderComponent = (props = {}) => render(<CallbackForm {...defaultProps} {...props} />)
 
   it('renders the header message', () => {
     const { queryByText } = renderComponent()

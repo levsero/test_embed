@@ -248,10 +248,7 @@ export default function WebWidgetFactory() {
   function setupTalk(config, store) {
     store.dispatch(
       loadTalkVendors(
-        [
-          import(/* webpackChunkName: 'talk-sdk' */ 'socket.io-client'),
-          import(/* webpackChunkName: 'talk-sdk' */ 'libphonenumber-js')
-        ],
+        [import(/* webpackChunkName: 'talk-sdk' */ 'socket.io-client')],
         config.serviceUrl,
         getTalkNickname(store.getState())
       )

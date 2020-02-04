@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
 import { i18n } from 'src/service/i18n'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
-import { getPhoneNumber, getFormattedPhoneNumber } from 'src/embeds/talk/selectors'
+import { getPhoneNumber } from 'src/embeds/talk/selectors'
 import { getCapability } from 'src/redux/modules/talk/talk-selectors'
 import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types'
 
 import { DisplayLabel } from './styles'
+import getFormattedPhoneNumber from 'embeds/talk/utils/getFormattedPhoneNumber'
 
 const CallbackPhone = ({ capability, phoneNumber, formattedPhoneNumber, phoneLabel }) => {
   if (!(capability === CALLBACK_AND_PHONE && phoneNumber && formattedPhoneNumber)) {
@@ -32,7 +32,7 @@ CallbackPhone.propTypes = {
 
 const mapStateToProps = state => ({
   phoneNumber: getPhoneNumber(state),
-  formattedPhoneNumber: getFormattedPhoneNumber(state),
+  formattedPhoneNumber: getFormattedPhoneNumber(getPhoneNumber(state)),
   phoneLabel: i18n.t('embeddable_framework.talk.form.phoneDisplay'),
   capability: getCapability(state)
 })

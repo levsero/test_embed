@@ -2,20 +2,18 @@ import { fireEvent, queryByAltText } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import createStore from 'src/redux/createStore'
-import libphonenumber from 'libphonenumber-js'
-
-import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import Talk from '../../'
 import { http } from 'service/transport'
 import { TEST_IDS } from 'src/constants/shared/'
+import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 
 jest.mock('service/transport')
 
 const setUpComponent = (config = {}) => {
   const store = createStore()
 
-  store.dispatch(handleTalkVendorLoaded({ libphonenumber: libphonenumber }))
+  store.dispatch(handleTalkVendorLoaded({}))
 
   dispatchUpdateEmbeddableConfig(store, {
     averageWaitTimeSetting: null,

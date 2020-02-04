@@ -13,7 +13,6 @@ export const getCallback = state => state.talk.callback
 export const getAverageWaitTime = state => state.talk.averageWaitTime.waitTime
 export const getAverageWaitTimeEnabled = state => state.talk.averageWaitTime.enabled
 export const getSocketIoVendor = state => state.talk.vendor.io
-export const getLibPhoneNumberVendor = state => state.talk.vendor.libphonenumber
 
 export const isCallbackEnabled = state => {
   const { capability } = state.talk.embeddableConfig

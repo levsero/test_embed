@@ -185,10 +185,7 @@ describe('submitTalkCallbackForm', () => {
 describe('loadTalkVendors', () => {
   describe('with a valid nickname', () => {
     const loadTalkVendors = () => {
-      const mockPromises = [
-          Promise.resolve({ default: 'mockio' }),
-          Promise.resolve('mockLibphonenumber')
-        ],
+      const mockPromises = [Promise.resolve({ default: 'mockio' })],
         mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
         mockNickname = 'koko_the_monkey',
         store = mockStore({})
@@ -210,8 +207,7 @@ describe('loadTalkVendors', () => {
       expect(action.type).toBe(types.TALK_VENDOR_LOADED)
 
       expect(action.payload).toEqual({
-        io: 'mockio',
-        libphonenumber: 'mockLibphonenumber'
+        io: 'mockio'
       })
     })
 
@@ -240,10 +236,7 @@ describe('loadTalkVendors', () => {
 
   describe('with an empty nickname', () => {
     const loadTalkVendors = () => {
-      const mockPromises = [
-          Promise.resolve({ default: 'mockio' }),
-          Promise.resolve('mockLibphonenumber')
-        ],
+      const mockPromises = [Promise.resolve({ default: 'mockio' })],
         mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
         mockNickname = '',
         store = mockStore({})

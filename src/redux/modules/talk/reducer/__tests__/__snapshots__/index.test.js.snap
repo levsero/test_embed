@@ -29,7 +29,6 @@ Object {
   "snapcallCallStatus": null,
   "vendor": Object {
     "io": null,
-    "libphonenumber": null,
   },
 }
 `;

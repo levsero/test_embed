@@ -1,22 +1,21 @@
 import React from 'react'
 import { render, fireEvent, queryByAltText } from '@testing-library/react'
+import * as libphonenumber from 'libphonenumber-js'
 import { Component as PhoneField } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 import countriesByIso from 'translation/ze_countries'
+
+jest.mock('libphonenumber-js')
+
 import { TEST_IDS } from 'src/constants/shared'
 
 describe('PhoneField', () => {
   const mockFormattedValue = '+61412 345 678'
 
-  const asYouTypeInput = jest.fn().mockReturnValue(mockFormattedValue)
-
   const defaultProps = {
     label: 'Phone field label',
     supportedCountries: ['AU', 'US'],
-    libphonenumber: {
-      AsYouType: jest.fn().mockImplementation(() => ({ input: asYouTypeInput }))
-    },
     value: '+61412345678',
     showError: false
   }
@@ -62,6 +61,8 @@ describe('PhoneField', () => {
 
   describe('text field', () => {
     it('initialises to the prop "value" formatted if provided', () => {
+      libphonenumber.AsYouType.mockImplementation(() => ({ input: () => mockFormattedValue }))
+
       const { queryByTestId } = renderComponent()
 
       expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(mockFormattedValue)
