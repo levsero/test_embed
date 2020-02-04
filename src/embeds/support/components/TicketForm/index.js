@@ -5,9 +5,10 @@ import { TicketFormTitle } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import Form from 'embeds/support/components/TicketForm/Form'
-import { getParsedValues } from 'embeds/support/utils/fieldConversion'
 import _ from 'lodash'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
+import getFields from 'embeds/support/utils/getFields'
+import { FORM_ERROR } from 'final-form'
 
 const TicketFormProvider = ({
   formName,
@@ -15,28 +16,34 @@ const TicketFormProvider = ({
   readOnlyState,
   submitForm,
   ticketFields,
-  ticketFormTitle
+  ticketFormTitle,
+  conditions = []
 }) => {
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
 
   const handleSubmit = (values, _form, callback) => {
     setShowFormErrors(true)
+    const fields = getFields(values, conditions, ticketFields)
 
-    const errors = validateTicketForm(ticketFields, translate, values)
-
-    const parsedValues = getParsedValues(values, ticketFields)
+    const errors = validateTicketForm(fields, translate, values)
 
     if (_.isEmpty(errors)) {
-      Promise.resolve(submitForm(parsedValues))
+      const valuesToSubmit = {}
+
+      fields.forEach(field => {
+        valuesToSubmit[field.id] = values[field.keyID]
+      })
+
+      Promise.resolve(submitForm(valuesToSubmit))
         .then(() => {
-          callback(true)
+          callback()
         })
         .catch(() => {
-          callback(false)
+          callback({ [FORM_ERROR]: '' })
         })
     } else {
-      callback(false)
+      callback(errors)
     }
   }
 
@@ -61,6 +68,7 @@ const TicketFormProvider = ({
             showErrors={showErrors}
             fields={ticketFields}
             readOnlyState={readOnlyState}
+            conditions={conditions}
           />
         </>
       )}
@@ -74,7 +82,8 @@ TicketFormProvider.propTypes = {
   readOnlyState: SupportPropTypes.readOnlyState.isRequired,
   submitForm: PropTypes.func.isRequired,
   ticketFields: PropTypes.arrayOf(SupportPropTypes.ticketField).isRequired,
-  ticketFormTitle: PropTypes.string
+  ticketFormTitle: PropTypes.string,
+  conditions: SupportPropTypes.conditions
 }
 
 export default TicketFormProvider

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import createKeyID from 'embeds/support/utils/createKeyID'
 
 const getCheckboxFields = fields => fields.filter(field => field.type === 'checkbox')
@@ -25,12 +24,6 @@ const getFieldIdFromKeyID = (ticketFields, keyID) => {
   return outKey
 }
 
-const getParsedValues = (values, ticketFields) =>
-  _.mapKeys(values, (_value, key) => {
-    const parsedID = getFieldIdFromKeyID(ticketFields, key)
-    return parsedID ? parsedID : key
-  })
-
 const mapKeyFields = ticketFields => {
   return ticketFields.map(field => {
     return {
@@ -46,6 +39,5 @@ export {
   getNonCheckboxFields,
   getFieldIdFromKeyID,
   getSortedFields,
-  getParsedValues,
   mapKeyFields
 }

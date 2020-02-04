@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 
 import config from './config'
-import activeFormName from './activeFormName'
 import formStates from './formStates'
 import attachments from './attachments'
 import attachmentLimitExceeded from './attachmentLimitExceeded'
@@ -15,7 +14,6 @@ import fields from './fields'
 import contactFormFields from 'embeds/support/reducers/contactFormFields'
 
 export default combineReducers({
-  activeFormName,
   config,
   formStates,
   attachments,

@@ -90,15 +90,6 @@ export const getForm = (state, formId) => state.support.forms[formId]
 export const getField = (state, fieldId) => state.support.fields[fieldId]
 export const getContactFormFields = state => state.support.contactFormFields
 
-export const getTicketFormTitle = (state, id) => {
-  const form = getForm(state, id)
-  if (!form) {
-    return ''
-  }
-
-  return form.display_name
-}
-
 export const getTicketFormFields = createSelector(
   [
     getContactFormFields,
