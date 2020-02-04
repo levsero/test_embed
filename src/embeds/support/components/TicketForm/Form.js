@@ -10,7 +10,7 @@ import { convertFieldValue } from 'embeds/support/utils/fieldConversion'
 import useFormBackup from 'embeds/support/hooks/useFormBackup'
 import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { FieldWrapper, FormContainer, Main } from './styles'
+import { FieldWrapper, FormContainer, Main, TicketFormTitle } from './styles'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 
 const Form = ({
@@ -20,7 +20,8 @@ const Form = ({
   showErrors,
   fields,
   readOnlyState,
-  conditions
+  conditions,
+  ticketFormTitle
 }) => {
   const translate = useTranslate()
   useFormBackup(formName)
@@ -30,6 +31,7 @@ const Form = ({
   return (
     <FormContainer onSubmit={onSubmit} noValidate={true} data-testid={TEST_IDS.SUPPORT_TICKET_FORM}>
       <Main>
+        {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
         {filteredFields.map(field => (
           <FieldWrapper key={field.id}>
             <Field
@@ -71,6 +73,7 @@ Form.propTypes = {
   isSubmitting: PropTypes.bool,
   onSubmit: PropTypes.func,
   formName: PropTypes.string,
+  ticketFormTitle: PropTypes.string,
   showErrors: PropTypes.bool,
   fields: PropTypes.arrayOf(SupportPropTypes.ticketField),
   readOnlyState: SupportPropTypes.readOnlyState,
