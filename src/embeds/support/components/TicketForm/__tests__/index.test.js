@@ -42,7 +42,8 @@ describe('TicketForm', () => {
     formName: 'form name',
     ticketFields: [field1, field2, field3],
     readOnlyState: {},
-    conditions: []
+    conditions: [],
+    ticketFormTitle: 'form title'
   }
 
   const renderComponent = (props = {}) => render(<TicketForm {...defaultProps} {...props} />)
@@ -50,6 +51,12 @@ describe('TicketForm', () => {
   it('uses the useFormBackup hook to save the form state to redux when needed', () => {
     renderComponent()
     expect(useFormBackup).toHaveBeenCalledWith('form name')
+  })
+
+  it('renders the title', () => {
+    const { queryByText } = renderComponent()
+
+    expect(queryByText('form title')).toBeInTheDocument()
   })
 
   it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {

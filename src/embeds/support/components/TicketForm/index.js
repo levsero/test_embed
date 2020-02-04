@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form as ReactFinalForm } from 'react-final-form'
-import { TicketFormTitle } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import Form from 'embeds/support/components/TicketForm/Form'
@@ -60,8 +59,8 @@ const TicketFormProvider = ({
       initialValues={formState}
       render={({ handleSubmit, submitting }) => (
         <>
-          {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
           <Form
+            ticketFormTitle={ticketFormTitle}
             isSubmitting={submitting}
             onSubmit={handleSubmit}
             formName={formName}
