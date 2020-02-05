@@ -1454,5 +1454,5 @@ parts:
   - translation:
       key: 'embeddable_framework.talk.clickToCall.callInProgress.button.endCall'
       title: 'Label on a button that ends a call.'
-      value: 'Hang up'
+      value: 'End call'
       wip: true
