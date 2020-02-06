@@ -37,6 +37,12 @@ describe('convertFieldValue', () => {
       expect(convertFieldValue('checkbox', '1')).toEqual(1)
     })
   })
+  describe('attachments', () => {
+    it('converts an empty string to an object', () => {
+      expect(convertFieldValue('attachments', '')).toEqual({ ids: [], limitExceeded: false })
+      expect(convertFieldValue('attachments', { id: '' })).toEqual({ id: '' })
+    })
+  })
 })
 
 describe('getSortedfields', () => {

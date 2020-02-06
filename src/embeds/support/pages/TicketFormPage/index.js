@@ -5,7 +5,8 @@ import {
   getFormTicketFields,
   getFormState,
   getReadOnlyState,
-  getForm
+  getForm,
+  getAllAttachments
 } from 'embeds/support/selectors'
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { getContactFormTitle } from 'src/redux/modules/selectors'
@@ -24,7 +25,8 @@ const TicketFormPage = ({
   match,
   ticketFormTitle,
   ticketForms,
-  conditions
+  conditions,
+  attachments
 }) => {
   return (
     <Widget>
@@ -38,6 +40,7 @@ const TicketFormPage = ({
         submitForm={formState => submitTicket(formState, match.params.id)}
         ticketFields={ticketFields}
         conditions={conditions}
+        attachments={attachments}
       />
     </Widget>
   )
@@ -53,6 +56,7 @@ TicketFormPage.propTypes = {
   match: PropTypes.object,
   ticketFormTitle: PropTypes.string,
   ticketForms: PropTypes.array.isRequired,
+  attachments: PropTypes.array,
   conditions: SupportPropTypes.conditions
 }
 
@@ -70,13 +74,18 @@ const mapStateToProps = (state, ownProps) => {
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: form ? form.display_name : '',
     ticketForms: getTicketForms(state),
-    conditions: form ? form.end_user_conditions : []
+    conditions: form ? form.end_user_conditions : [],
+    attachments: getAllAttachments(state)
   }
+}
+
+const actionCreators = {
+  submitTicket
 }
 
 const connectedComponent = connect(
   mapStateToProps,
-  { submitTicket }
+  actionCreators
 )(TicketFormPage)
 
 export { connectedComponent as default, TicketFormPage as Component }

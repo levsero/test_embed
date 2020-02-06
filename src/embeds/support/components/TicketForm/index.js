@@ -16,7 +16,8 @@ const TicketFormProvider = ({
   submitForm,
   ticketFields,
   ticketFormTitle,
-  conditions = []
+  conditions = [],
+  attachments
 }) => {
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
@@ -25,7 +26,7 @@ const TicketFormProvider = ({
     setShowFormErrors(true)
     const fields = getFields(values, conditions, ticketFields)
 
-    const errors = validateTicketForm(fields, translate, values)
+    const errors = validateTicketForm(fields, translate, values, attachments)
 
     if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
@@ -53,7 +54,7 @@ const TicketFormProvider = ({
           return null
         }
 
-        return validateTicketForm(ticketFields, translate, values)
+        return validateTicketForm(ticketFields, translate, values, attachments)
       }}
       onSubmit={handleSubmit}
       initialValues={formState}
@@ -82,7 +83,8 @@ TicketFormProvider.propTypes = {
   submitForm: PropTypes.func.isRequired,
   ticketFields: PropTypes.arrayOf(SupportPropTypes.ticketField).isRequired,
   ticketFormTitle: PropTypes.string,
-  conditions: SupportPropTypes.conditions
+  conditions: SupportPropTypes.conditions,
+  attachments: PropTypes.array
 }
 
 export default TicketFormProvider

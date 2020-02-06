@@ -23,7 +23,8 @@ const errorAttachment = {
 
 const defaultProps = {
   allAttachments: [validAttachment, errorAttachment],
-  deleteAttachment: jest.fn()
+  deleteAttachment: jest.fn(),
+  onRemoveAttachment: jest.fn()
 }
 
 const renderComponent = (props = {}) => render(<AttachmentList {...defaultProps} {...props} />)
@@ -38,13 +39,16 @@ describe('AttachmentList', () => {
   describe('handleRemoveAttachment', () => {
     it('calls deleteAttachment with the correct id', () => {
       const deleteAttachment = jest.fn()
-      const { queryAllByTestId } = renderComponent({ deleteAttachment })
+      const onRemoveAttachment = jest.fn()
+      const { queryAllByTestId } = renderComponent({ deleteAttachment, onRemoveAttachment })
 
       fireEvent.click(queryAllByTestId('Icon--close')[0])
       expect(deleteAttachment).toHaveBeenCalledWith('123')
+      expect(onRemoveAttachment).toHaveBeenCalledTimes(1)
 
       fireEvent.click(queryAllByTestId('Icon--close')[1])
       expect(deleteAttachment).toHaveBeenCalledWith('1234')
+      expect(onRemoveAttachment).toHaveBeenCalledTimes(2)
     })
   })
 })

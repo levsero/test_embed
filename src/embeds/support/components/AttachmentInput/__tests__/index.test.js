@@ -7,7 +7,7 @@ jest.mock('utility/devices')
 
 const defaultProps = {
   onFileSelect: () => {},
-  dropzoneId: 'attachent-box'
+  attachmentInputId: 'attachment-box'
 }
 
 const renderComponent = (props = {}) => render(<AttachmentInput {...defaultProps} {...props} />)
@@ -33,7 +33,7 @@ describe('AttachmentInput', () => {
 
     const { queryByTestId } = renderComponent({ onFileSelect })
 
-    fireEvent.change(queryByTestId('attachent-box'), { target: { files: [{ name: 'new' }] } })
+    fireEvent.change(queryByTestId('attachment-box'), { target: { files: [{ name: 'new' }] } })
 
     expect(onFileSelect).toHaveBeenCalledWith([{ name: 'new' }])
   })

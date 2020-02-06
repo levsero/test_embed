@@ -5,7 +5,7 @@ import { Container, Description, Label, Icon } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { isMobileBrowser } from 'utility/devices'
 
-const AttachmentInput = ({ onFileSelect, dropzoneId }) => {
+const AttachmentInput = ({ onFileSelect, attachmentInputId }) => {
   const inputRef = useRef(null)
   const translate = useTranslate()
 
@@ -35,8 +35,8 @@ const AttachmentInput = ({ onFileSelect, dropzoneId }) => {
         multiple={true}
         ref={inputRef}
         onChange={onChange}
-        id={dropzoneId}
-        data-testid={dropzoneId}
+        id={attachmentInputId}
+        data-testid={attachmentInputId}
       />
     </Container>
   )
@@ -44,7 +44,7 @@ const AttachmentInput = ({ onFileSelect, dropzoneId }) => {
 
 AttachmentInput.propTypes = {
   onFileSelect: PropTypes.func.isRequired,
-  dropzoneId: PropTypes.string.isRequired
+  attachmentInputId: PropTypes.string.isRequired
 }
 
 export default AttachmentInput

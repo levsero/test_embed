@@ -65,9 +65,60 @@ const subjectField = {
   type: 'text',
   keyID: createKeyID('subject')
 }
+const attachmentField = {
+  id: 'attachments',
+  keyID: 'key:attachments',
+  type: 'attachments',
+  validation: 'attachments',
+  visible_in_portal: true
+}
+
+describe('getAttachmentTitle', () => {
+  it('with attachments', () => {
+    const state = {
+      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+    }
+    const result = selectors.getAttachmentTitle(state, ['1'])
+
+    expect(result).toEqual('Attachments (1)')
+  })
+
+  it('with no attachments', () => {
+    const state = { support: { attachments: [] } }
+    const result = selectors.getAttachmentTitle(state, [])
+
+    expect(result).toEqual('Attachments')
+  })
+})
+
+describe('getAttachmentsForForm', () => {
+  it('with a matching attachments', () => {
+    const state = {
+      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+    }
+    const result = selectors.getAttachmentsForForm(state, ['1'])
+
+    expect(result).toEqual([{ id: '1', uploadToken: '1' }])
+  })
+
+  it('with no matching attachments', () => {
+    const state = {
+      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+    }
+    const result = selectors.getAttachmentsForForm(state, ['3'])
+
+    expect(result).toEqual([])
+  })
+})
 
 describe('getTicketFormFields', () => {
-  const run = ({ nameFieldEnabled, nameFieldRequired, subjectFieldEnabled, fields = [] } = {}) => {
+  const run = ({
+    nameFieldEnabled,
+    nameFieldRequired,
+    subjectFieldEnabled,
+    fields = [],
+    attachmentsEnabled
+  } = {}) => {
     const store = createStore()
 
     store.dispatch({
@@ -80,7 +131,8 @@ describe('getTicketFormFields', () => {
       payload: {
         webWidget: {
           contactForm: {
-            subject: Boolean(subjectFieldEnabled)
+            subject: Boolean(subjectFieldEnabled),
+            settings: { attachments: Boolean(attachmentsEnabled) }
           }
         }
       }
@@ -92,7 +144,8 @@ describe('getTicketFormFields', () => {
           ticketSubmissionForm: {
             props: {
               nameFieldEnabled: Boolean(nameFieldEnabled),
-              nameFieldRequired: Boolean(nameFieldRequired)
+              nameFieldRequired: Boolean(nameFieldRequired),
+              attachmentsEnabled: Boolean(attachmentsEnabled)
             }
           }
         }
@@ -156,6 +209,14 @@ describe('getTicketFormFields', () => {
     })
 
     expect(result).toEqual([emailField, subjectField, descriptionField])
+  })
+
+  it('attachments are visible when enabled', () => {
+    const result = run({
+      attachmentsEnabled: true
+    })
+
+    expect(result).toEqual([emailField, descriptionField, attachmentField])
   })
 
   it('displays all non-checkbox fields above subject/description and all checkbox fields after subject/description', () => {
@@ -299,15 +360,17 @@ describe('getCustomTicketFields', () => {
 })
 
 describe('getFormTicketFields', () => {
-  const setUpState = ({ fields, contactFormFields }) => {
+  const setUpState = ({ fields, contactFormFields, attachmentsEnabled = false }) => {
     return {
       support: {
         forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'] } },
         fields,
         contactFormFields
       },
-      settings: { contactForm: { settings: { subject: false } } },
-      base: { embeddableConfig: { embeds: { ticketSubmissionForm: { props: {} } } } }
+      settings: { contactForm: { settings: { subject: false, attachments: attachmentsEnabled } } },
+      base: {
+        embeddableConfig: { embeds: { ticketSubmissionForm: { props: { attachmentsEnabled } } } }
+      }
     }
   }
 
@@ -316,6 +379,15 @@ describe('getFormTicketFields', () => {
     const result = selectors.getFormTicketFields(setUpState({ contactFormFields }), 'contact-form')
 
     expect(result).toEqual([emailField, textField, textareaField, descriptionField, checkboxField])
+  })
+
+  it('returns the attachmentField when visible', () => {
+    const result = selectors.getFormTicketFields(
+      setUpState({ contactFormFields: [], attachmentsEnabled: true }),
+      'contact-form'
+    )
+
+    expect(result).toEqual([emailField, descriptionField, attachmentField])
   })
 
   it('returns a ticket form when an id route is passed in', () => {
@@ -558,13 +630,6 @@ describe('attachments', () => {
     const result = selectors.getAllAttachments(state)
 
     expect(result).toEqual(attachments)
-  })
-
-  test('getValidAttachments', () => {
-    const selector = selectors.getValidAttachments.resultFunc
-    const result = selector(attachments)
-
-    expect(result).toEqual([attachment1, attachment3])
   })
 
   test('getSuccessfulAttachments', () => {

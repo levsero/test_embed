@@ -6,65 +6,73 @@ import AttachmentInput from 'src/embeds/support/components/AttachmentInput'
 import AttachmentLimitError from 'src/embeds/support/components/AttachmentLimitError'
 import AttachmentList from 'src/embeds/support/components/AttachmentList'
 import { TEST_IDS } from 'src/constants/shared'
-import { clearLimitExceededError, uploadAttachedFiles } from 'src/embeds/support/actions/index'
+import { onNextTick } from 'src/util/utils'
+import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
 import {
-  getValidAttachments,
-  getAttachmentLimitExceeded,
   getMaxFileCount,
-  getMaxFileSize
+  getMaxFileSize,
+  getAttachmentTitle,
+  getAttachmentLimitExceeded
 } from 'src/embeds/support/selectors'
-const DROPZONE_ID = 'dropzone-input'
+const INPUT_ID = 'dropzone-input'
 import { Container, StyledLabel } from './styles'
-import useTranslate from 'src/hooks/useTranslate'
 
 const AttachmentField = ({
   displayAttachmentLimitError,
   clearLimitExceededError,
   maxFileCount,
   uploadAttachedFiles,
-  validAttachments,
-  handleAttachmentsError
+  title,
+  onChange,
+  value = {}
 }) => {
-  const translate = useTranslate()
-  const previousValue = useRef(null)
-
+  const alert = useRef()
   useEffect(() => {
-    if (previousValue.current !== displayAttachmentLimitError) {
-      displayAttachmentLimitError && handleAttachmentsError()
-      previousValue.current = displayAttachmentLimitError
+    if (value.limitExceeded || displayAttachmentLimitError) {
+      onNextTick(() => {
+        alert.current.scrollIntoView()
+      })
     }
-  }, [displayAttachmentLimitError, handleAttachmentsError])
+  }, [value.limitExceeded, displayAttachmentLimitError])
 
-  const numAttachments = validAttachments.length
-  const title =
-    numAttachments > 0
-      ? translate('embeddable_framework.submitTicket.attachments.title_withCount', {
-          count: numAttachments
-        })
-      : translate('embeddable_framework.submitTicket.attachments.title')
+  const handleFileUpload = files => {
+    uploadAttachedFiles(files, onChange, value)
+  }
+
+  const clearLimitError = () => {
+    onChange && onChange({ ...value, limitExceeded: false })
+  }
 
   return (
     <Container data-testid={TEST_IDS.ATTACHMENT_LIST_CONTAINER}>
-      <StyledLabel htmlFor={DROPZONE_ID}>{title}</StyledLabel>
-      <AttachmentList />
-      {displayAttachmentLimitError && (
+      <StyledLabel htmlFor={INPUT_ID}>{title}</StyledLabel>
+      <AttachmentList value={value} onRemoveAttachment={clearLimitError} />
+      {(value.limitExceeded || displayAttachmentLimitError) && (
         <AttachmentLimitError
-          handleClearError={clearLimitExceededError}
+          handleClearError={() => {
+            if (onChange) {
+              clearLimitError()
+            } else {
+              clearLimitExceededError()
+            }
+          }}
           maxFileCount={maxFileCount}
+          ref={alert}
         />
       )}
-      <AttachmentInput onFileSelect={uploadAttachedFiles} dropzoneId={DROPZONE_ID} />
+      <AttachmentInput onFileSelect={handleFileUpload} attachmentInputId={INPUT_ID} />
     </Container>
   )
 }
 
 AttachmentField.propTypes = {
   maxFileCount: PropTypes.number.isRequired,
-  handleAttachmentsError: PropTypes.func.isRequired,
-  validAttachments: PropTypes.array.isRequired,
-  displayAttachmentLimitError: PropTypes.bool.isRequired,
-  clearLimitExceededError: PropTypes.func.isRequired,
-  uploadAttachedFiles: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  uploadAttachedFiles: PropTypes.func.isRequired,
+  value: PropTypes.object,
+  onChange: PropTypes.func,
+  displayAttachmentLimitError: PropTypes.bool,
+  clearLimitExceededError: PropTypes.func
 }
 
 const actionCreators = {
@@ -72,11 +80,11 @@ const actionCreators = {
   uploadAttachedFiles
 }
 
-const mapStateToProps = state => ({
-  validAttachments: getValidAttachments(state),
-  displayAttachmentLimitError: getAttachmentLimitExceeded(state),
+const mapStateToProps = (state, props) => ({
   maxFileCount: getMaxFileCount(state),
-  maxFileSize: getMaxFileSize(state)
+  maxFileSize: getMaxFileSize(state),
+  title: getAttachmentTitle(state, props.value && props.value.ids),
+  displayAttachmentLimitError: getAttachmentLimitExceeded(state)
 })
 
 const connectedComponent = connect(

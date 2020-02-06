@@ -206,7 +206,7 @@ class SubmitTicket extends Component {
 
   handleOnDrop = files => {
     this.setState({ isDragActive: false }, () => {
-      this.props.uploadAttachedFiles(files)
+      this.props.uploadAttachedFiles(files, undefined, {})
     })
   }
 

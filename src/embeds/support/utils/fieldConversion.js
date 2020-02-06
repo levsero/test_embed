@@ -8,6 +8,8 @@ const convertFieldValue = (type, value) => {
   switch (type) {
     case 'checkbox':
       return value ? Number(value) : 0
+    case 'attachments':
+      return value === '' ? { limitExceeded: false, ids: [] } : value
     default:
       return value
   }

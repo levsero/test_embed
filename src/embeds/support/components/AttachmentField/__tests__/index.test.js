@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Component as AttachmentField } from '../'
+import * as utils from 'src/util/utils'
+
 jest.mock('utility/devices')
 
 const defaultProps = {
@@ -8,8 +10,9 @@ const defaultProps = {
   clearLimitExceededError: jest.fn(),
   maxFileCount: 5,
   uploadAttachedFiles: jest.fn(),
-  validAttachments: [{}, {}],
-  handleAttachmentsError: jest.fn()
+  title: 'attachment field title',
+  onChange: jest.fn(),
+  value: {}
 }
 
 const renderComponent = (props = {}, renderFn) => {
@@ -18,9 +21,9 @@ const renderComponent = (props = {}, renderFn) => {
 }
 
 describe('AttachmentField', () => {
-  it('renders label with correct count', () => {
+  it('renders title correctly', () => {
     const { queryByText } = renderComponent()
-    expect(queryByText('Attachments (2)')).toBeInTheDocument()
+    expect(queryByText('attachment field title')).toBeInTheDocument()
   })
 
   it('renders attachment input', () => {
@@ -41,10 +44,18 @@ describe('AttachmentField', () => {
     expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
   })
 
+  it('renders limit error when limitExceeded is true', () => {
+    const { queryByText, queryByTestId } = renderComponent({
+      value: { limitExceeded: true }
+    })
+    expect(queryByTestId('error-message')).toBeInTheDocument()
+    expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
+  })
+
   it('calls handleAttachmentsError when displayAttachmentLimitError switches to true', () => {
-    const handleAttachmentsError = jest.fn()
+    utils.onNextTick = jest.fn()
     const { rerender } = renderComponent()
-    renderComponent({ displayAttachmentLimitError: true, handleAttachmentsError }, rerender)
-    expect(handleAttachmentsError).toHaveBeenCalled()
+    renderComponent({ value: { limitExceeded: true } }, rerender)
+    expect(utils.onNextTick).toHaveBeenCalled()
   })
 })
