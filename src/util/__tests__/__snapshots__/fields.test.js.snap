@@ -66,10 +66,6 @@ exports[`customFields getCustomFields renders the correct components for each ke
   max-height: 17.142857142857142rem;
 }
 
-.c5.c5.c5:hover {
-  background-color: inherit;
-}
-
 .c1 {
   cursor: default;
 }
@@ -95,13 +91,13 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-labelledby="downshift-0-label"
       class="text__c-txt___3byGW "
       data-garden-id="dropdowns.field"
-      data-garden-version="7.0.2"
+      data-garden-version="7.1.7"
       role="combobox"
     >
       <label
         class="text__c-txt__label___2Nog7 "
         data-garden-id="dropdowns.label"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.7"
         for="downshift-0-input"
         id="downshift-0-label"
       >
@@ -114,7 +110,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         aria-invalid="false"
         class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
         data-garden-id="dropdowns.select"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.7"
         data-testid="dropdown-field"
         data-toggle="true"
         role="button"
@@ -144,7 +140,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           aria-labelledby="downshift-0-label"
           class="index__c-menu___3N4tx c3"
           data-garden-id="dropdowns.menu"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.7"
           data-testid="dropdown-options"
           id="downshift-0-menu"
           role="listbox"
@@ -152,30 +148,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         >
           <div
             class="c4"
-          >
-            <li
-              aria-expanded="true"
-              aria-selected="false"
-              class="index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b c5"
-              data-garden-id="dropdowns.next_item"
-              data-garden-version="7.0.2"
-              id="downshift-0-item-0"
-              role="option"
-            >
-              Option1
-            </li>
-            <li
-              aria-expanded="true"
-              aria-selected="false"
-              class="index__c-menu__item___36mO8 index__c-menu__item--next___3xE-b c5"
-              data-garden-id="dropdowns.next_item"
-              data-garden-version="7.0.2"
-              id="downshift-0-item-1"
-              role="option"
-            >
-              Option2
-            </li>
-          </div>
+          />
         </ul>
       </div>
     </div>
@@ -221,10 +194,6 @@ exports[`customFields getCustomFields renders the correct components for each ke
   max-height: 17.142857142857142rem;
 }
 
-.c5.c5.c5:hover {
-  background-color: inherit;
-}
-
 .c1 {
   cursor: default;
 }
@@ -250,13 +219,13 @@ exports[`customFields getCustomFields renders the correct components for each ke
       aria-labelledby="downshift-1-label"
       class="text__c-txt___3byGW "
       data-garden-id="dropdowns.field"
-      data-garden-version="7.0.2"
+      data-garden-version="7.1.7"
       role="combobox"
     >
       <label
         class="text__c-txt__label___2Nog7 "
         data-garden-id="dropdowns.label"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.7"
         for="downshift-1-input"
         id="downshift-1-label"
       >
@@ -269,7 +238,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         aria-invalid="false"
         class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
         data-garden-id="dropdowns.select"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.7"
         data-testid="dropdown-field"
         data-toggle="true"
         role="button"
@@ -299,7 +268,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
           aria-labelledby="downshift-1-label"
           class="index__c-menu___3N4tx c3"
           data-garden-id="dropdowns.menu"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.7"
           data-testid="dropdown-options"
           id="downshift-1-menu"
           role="listbox"
@@ -307,30 +276,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         >
           <div
             class="c4"
-          >
-            <li
-              aria-selected="false"
-              class="index__c-menu__item___36mO8 c5"
-              data-garden-id="dropdowns.item"
-              data-garden-version="7.0.2"
-              data-testid="dropdown-option"
-              id="downshift-1-item-0"
-              role="option"
-            >
-              Sales
-            </li>
-            <li
-              aria-selected="false"
-              class="index__c-menu__item___36mO8 c5"
-              data-garden-id="dropdowns.item"
-              data-garden-version="7.0.2"
-              data-testid="dropdown-option"
-              id="downshift-1-item-1"
-              role="option"
-            >
-              Support
-            </li>
-          </div>
+          />
         </ul>
       </div>
     </div>

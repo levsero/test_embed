@@ -50,7 +50,7 @@ describe('PhoneField', () => {
   it('focuses the input when dropdown is open', () => {
     const withOpenDropdown = renderComponent()
 
-    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_OPTIONS))
+    fireEvent.click(withOpenDropdown.queryByTestId(TEST_IDS.DROPDOWN_FIELD))
 
     const withClosedDropdown = renderComponent()
 
@@ -93,7 +93,7 @@ describe('PhoneField', () => {
     const onCountrySelect = jest.fn()
     const { queryByText, queryByTestId } = renderComponent({ onCountrySelect })
 
-    queryByTestId(TEST_IDS.DROPDOWN_OPTIONS).click()
+    queryByTestId(TEST_IDS.DROPDOWN_FIELD).click()
 
     queryByText('United States (+1)').click()
 

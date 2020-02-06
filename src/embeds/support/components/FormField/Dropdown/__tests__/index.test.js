@@ -94,6 +94,7 @@ describe('Dropdown', () => {
       onChange
     })
 
+    queryByText('-').click()
     queryByText('parent').click()
     queryByText('child1').click()
 
@@ -116,6 +117,7 @@ describe('Dropdown', () => {
       onChange
     })
 
+    queryByText('-').click()
     queryByText('parent').click()
 
     queryByText('child2').click()
@@ -137,6 +139,7 @@ describe('Dropdown', () => {
       onChange
     })
 
+    queryByText('-').click()
     queryByText('parent').click()
 
     // Go down a level
@@ -159,15 +162,16 @@ describe('Dropdown', () => {
       field: {
         ...defaultProps.field,
         required_in_portal: false,
-        custom_field_options: [{ id: 1, name: 'an option', value: 'an_option' }]
+        custom_field_options: [{ id: 1, name: 'an_option', value: 'an_option' }]
       },
       value: 'an_option'
     })
 
+    queryByText('an_option').click()
     expect(queryByText('-')).toBeInTheDocument()
   })
 
-  it('displays an empty option at a nested level', () => {
+  it('does not display an empty option at a nested level', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
@@ -177,23 +181,23 @@ describe('Dropdown', () => {
       value: 'an_option'
     })
 
-    expect(queryByText('-')).toBeInTheDocument()
-    queryByText('parent').click()
-
     expect(queryByText('-')).not.toBeInTheDocument()
+    queryByText('child').click()
+
+    expect(queryByText('-')).toBeInTheDocument()
   })
 
   it('does not display an empty option at the root level when the field is required', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
-        required_in_portal: false,
+        required_in_portal: true,
         custom_field_options: [{ id: 1, name: 'an option', value: 'an_option' }]
       },
       value: 'an_option'
     })
 
-    expect(queryByText('-')).toBeInTheDocument()
+    expect(queryByText('-')).toBeNull()
   })
 
   it('propagates escape events when closed', () => {

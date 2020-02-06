@@ -115,11 +115,11 @@ describe('ChatMenu', () => {
     })
   })
 
-  it('renders as closed when prop isOpen is false', done => {
+  it('does not render when prop isOpen is false', done => {
     const { queryByText } = renderComponent({ isOpen: false })
 
     onNextTick(() => {
-      expect(queryByText('Sound')).not.toBeVisible()
+      expect(queryByText('Sound')).toBeNull()
       done()
     })
   })

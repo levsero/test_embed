@@ -5,25 +5,70 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -298,1 +298,1 @@
+@@ -263,1 +263,1 @@
+-           class="sc-kpOJdX jazGOq StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
++           class="sc-kpOJdX jazGOq StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb kFNGHY"
+@@ -268,1 +268,1 @@
+-             aria-expanded="false"
++             aria-expanded="true"
+@@ -270,1 +270,2 @@
 -             aria-labelledby="downshift-4-label"
 +             aria-labelledby="downshift-3-label"
-@@ -324,1 +324,1 @@
++             aria-owns="downshift-3-menu"
+@@ -279,1 +280,1 @@
+-               class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys joKYCW"
++               class="StyledSelect-xxildx-0 text__c-txt__input___17zQx text__c-txt__input--select___324ys text__is-focused___3C_IP text__is-open___2THYU joKYCW"
+@@ -284,0 +285,1 @@
++               open=""
+@@ -296,1 +298,2 @@
 -                 aria-labelledby="downshift-4-label"
++                 aria-controls="downshift-3-menu"
 +                 aria-labelledby="downshift-3-label"
-@@ -327,1 +327,1 @@
+@@ -299,1 +302,1 @@
 -                 id="downshift-4-input"
 +                 id="downshift-3-input"
-@@ -341,1 +341,1 @@
+@@ -307,1 +310,1 @@
+-             style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: -1; visibility: hidden;"
++             style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: 1000;"
+@@ -313,2 +316,2 @@
 -                 aria-labelledby="downshift-4-label"
+-                 class="sc-bwzfXH dbeQBY StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
 +                 aria-labelledby="downshift-3-label"
-@@ -346,1 +346,1 @@
++                 class="sc-bwzfXH dbeQBY StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx index__is-open___1wxAy kIhRpn"
+@@ -318,1 +321,1 @@
 -                 id="downshift-4-menu"
 +                 id="downshift-3-menu"
-@@ -358,1 +358,1 @@
--                     id="downshift-4-item-0"
+@@ -324,0 +327,28 @@
++                 >
++                   <li
++                     aria-selected="false"
++                     class="sc-htpNat hRlRfi StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
++                     data-garden-id="dropdowns.item"
++                     data-garden-version="7.1.7"
 +                     id="downshift-3-item-0"
-@@ -373,1 +373,1 @@
--                     id="downshift-4-item-1"
++                     role="option"
++                   >
++                     <img
++                       alt="AU"
++                       class="sc-bdVaJa eQufZr"
++                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
++                     />
++                     Australia (+61)
++                   </li>
++                   <li
++                     aria-selected="false"
++                     class="sc-htpNat hRlRfi StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
++                     data-garden-id="dropdowns.item"
++                     data-garden-version="7.1.7"
 +                     id="downshift-3-item-1"
++                     role="option"
++                   >
++                     <img
++                       alt="US"
++                       class="sc-bdVaJa dVBnoU"
++                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
+@@ -325,0 +356,3 @@
++                     United States (+1)
++                   </li>
++                 </div>
 `;

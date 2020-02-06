@@ -98,7 +98,7 @@
     "@zendeskgarden/css-tooltips": "^4.1.6",
     "@zendeskgarden/css-variables": "^5.2.3",
     "@zendeskgarden/react-buttons": "^7.0.2",
-    "@zendeskgarden/react-dropdowns": "^7.0.2",
+    "@zendeskgarden/react-dropdowns": "^7.1.7",
     "@zendeskgarden/react-forms": "^7.0.2",
     "@zendeskgarden/react-loaders": "^7.0.0",
     "@zendeskgarden/react-modals": "^7.0.2",
