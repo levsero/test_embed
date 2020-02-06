@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
-import { ErrorTitle, FileName, StyledAlert, FileSize } from './styles'
+import { FileName, FileSize } from './styles'
+import { Alert, Title } from 'src/embeds/support/components/Alert'
 import {
   formatNameString,
   formatAttachmentSize
@@ -20,12 +21,12 @@ const AttachmentError = ({
   }
 
   return (
-    <StyledAlert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
-      <ErrorTitle>{errorMessage}</ErrorTitle>
+    <Alert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
+      <Title>{errorMessage}</Title>
       <FileName>{formatNameString(fileName)}</FileName>
       <FileSize>{formatAttachmentSize(fileSize, translate)}</FileSize>
       <Close onClick={handleIconClick} data-testid={TEST_IDS.ICON_CLOSE} />
-    </StyledAlert>
+    </Alert>
   )
 }
 

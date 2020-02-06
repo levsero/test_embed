@@ -22,7 +22,7 @@ const TicketFormProvider = ({
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
 
-  const handleSubmit = (values, _form, callback) => {
+  const onSubmit = (values, _form, callback) => {
     setShowFormErrors(true)
     const fields = getFields(values, conditions, ticketFields)
 
@@ -39,8 +39,9 @@ const TicketFormProvider = ({
         .then(() => {
           callback()
         })
-        .catch(() => {
-          callback({ [FORM_ERROR]: '' })
+        .catch(errorMessageKey => {
+          const newErrors = { [FORM_ERROR]: errorMessageKey }
+          callback(newErrors)
         })
     } else {
       callback(errors)
@@ -54,21 +55,27 @@ const TicketFormProvider = ({
           return null
         }
 
-        return validateTicketForm(ticketFields, translate, values, attachments)
+        return validateTicketForm(ticketFields, translate, values, conditions, attachments)
       }}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       initialValues={formState}
-      render={({ handleSubmit, submitting }) => (
+      render={({ handleSubmit, submitting, submitError, values }) => (
         <>
           <Form
             ticketFormTitle={ticketFormTitle}
             isSubmitting={submitting}
-            onSubmit={handleSubmit}
+            onSubmit={e => {
+              e.preventDefault()
+
+              handleSubmit()
+            }}
             formName={formName}
             showErrors={showErrors}
             fields={ticketFields}
             readOnlyState={readOnlyState}
             conditions={conditions}
+            submitErrorMessage={submitError ? translate(submitError) : undefined}
+            values={values}
           />
         </>
       )}
