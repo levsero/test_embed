@@ -36,11 +36,11 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'webWidgetPreview.html',
-        chunks: ['runtime', 'webWidgetPreview']
+        chunks: ['runtime', 'i18n_locale_bundle', 'webWidgetPreview']
       }),
       new HtmlWebpackPlugin({
         filename: 'chatPreview.html',
-        chunks: ['runtime', 'chatPreview']
+        chunks: ['runtime', 'i18n_locale_bundle', 'chatPreview']
       }),
       ...webWidgetTemplates(config, templatesOptions),
       new webpack.DefinePlugin({
