@@ -87,6 +87,7 @@ describe('LegacyDropdown', () => {
       onChange
     })
 
+    queryByText('-').click()
     queryByText('parent').click()
     queryByText('child1').click()
     queryByText('child2').click()
@@ -109,6 +110,7 @@ describe('LegacyDropdown', () => {
       onChange
     })
 
+    queryByText('-').click()
     queryByText('parent').click()
 
     // Go down a level

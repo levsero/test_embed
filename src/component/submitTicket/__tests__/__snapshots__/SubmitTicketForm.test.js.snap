@@ -145,13 +145,13 @@ exports[`form ticket forms validation renders the error messages 1`] = `
   border-radius: 0.21428571428571427rem;
 }
 
-.c14 {
+.c13 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c15 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -195,10 +195,6 @@ exports[`form ticket forms validation renders the error messages 1`] = `
 .c12 {
   overflow-y: auto;
   max-height: 17.142857142857142rem;
-}
-
-.c13.c13.c13:hover {
-  background-color: inherit;
 }
 
 .c9 {
@@ -627,13 +623,13 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               aria-labelledby="downshift-2-label"
               class="text__c-txt___3byGW "
               data-garden-id="dropdowns.field"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.7"
               role="combobox"
             >
               <label
                 class="text__c-txt__label___2Nog7 "
                 data-garden-id="dropdowns.label"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
                 for="downshift-2-input"
                 id="downshift-2-label"
               >
@@ -646,7 +642,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 aria-invalid="false"
                 class="c8 text__c-txt__input___17zQx text__c-txt__input--select___324ys c9"
                 data-garden-id="dropdowns.select"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
                 data-testid="dropdown-field"
                 data-toggle="true"
                 role="button"
@@ -668,7 +664,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
               <div
                 class="text__c-txt__message___L_GjG text__c-txt__message--error___2zV-K "
                 data-garden-id="dropdowns.message"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
                 role="alert"
               >
                 Please enter a value.
@@ -684,7 +680,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                   aria-labelledby="downshift-2-label"
                   class="index__c-menu___3N4tx c11"
                   data-garden-id="dropdowns.menu"
-                  data-garden-version="7.0.2"
+                  data-garden-version="7.1.7"
                   data-testid="dropdown-options"
                   id="downshift-2-menu"
                   role="listbox"
@@ -692,41 +688,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                 >
                   <div
                     class="c12"
-                  >
-                    <li
-                      aria-selected="false"
-                      class="index__c-menu__item___36mO8 c13"
-                      data-garden-id="dropdowns.item"
-                      data-garden-version="7.0.2"
-                      data-testid="dropdown-option"
-                      id="downshift-2-item-0"
-                      role="option"
-                    >
-                      one
-                    </li>
-                    <li
-                      aria-selected="false"
-                      class="index__c-menu__item___36mO8 c13"
-                      data-garden-id="dropdowns.item"
-                      data-garden-version="7.0.2"
-                      data-testid="dropdown-option"
-                      id="downshift-2-item-1"
-                      role="option"
-                    >
-                      two
-                    </li>
-                    <li
-                      aria-selected="false"
-                      class="index__c-menu__item___36mO8 c13"
-                      data-garden-id="dropdowns.item"
-                      data-garden-version="7.0.2"
-                      data-testid="dropdown-option"
-                      id="downshift-2-item-2"
-                      role="option"
-                    >
-                      three
-                    </li>
-                  </div>
+                  />
                 </ul>
               </div>
             </div>
@@ -741,10 +703,10 @@ exports[`form ticket forms validation renders the error messages 1`] = `
         </div>
       </div>
       <footer
-        class="c14"
+        class="c13"
       >
         <div
-          class="c15"
+          class="c14"
         >
           <a
             class="icon"
@@ -1239,13 +1201,13 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
   border-radius: 0.21428571428571427rem;
 }
 
-.c14 {
+.c13 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c15 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1289,10 +1251,6 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
 .c12 {
   overflow-y: auto;
   max-height: 17.142857142857142rem;
-}
-
-.c13.c13.c13:hover {
-  background-color: inherit;
 }
 
 .c9 {
@@ -1731,13 +1689,13 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               aria-labelledby="downshift-0-label"
               class="text__c-txt___3byGW "
               data-garden-id="dropdowns.field"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.7"
               role="combobox"
             >
               <label
                 class="text__c-txt__label___2Nog7 "
                 data-garden-id="dropdowns.label"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
                 for="downshift-0-input"
                 id="downshift-0-label"
               >
@@ -1748,7 +1706,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
               <div
                 class="text__c-txt__hint___3a0Q6 "
                 data-garden-id="dropdowns.hint"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
               >
                 this is the tagger description
               </div>
@@ -1757,7 +1715,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 aria-invalid="false"
                 class="c8 text__c-txt__input___17zQx text__c-txt__input--select___324ys c9"
                 data-garden-id="dropdowns.select"
-                data-garden-version="7.0.2"
+                data-garden-version="7.1.7"
                 data-testid="dropdown-field"
                 data-toggle="true"
                 role="button"
@@ -1787,7 +1745,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                   aria-labelledby="downshift-0-label"
                   class="index__c-menu___3N4tx c11"
                   data-garden-id="dropdowns.menu"
-                  data-garden-version="7.0.2"
+                  data-garden-version="7.1.7"
                   data-testid="dropdown-options"
                   id="downshift-0-menu"
                   role="listbox"
@@ -1795,30 +1753,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
                 >
                   <div
                     class="c12"
-                  >
-                    <li
-                      aria-selected="false"
-                      class="index__c-menu__item___36mO8 c13"
-                      data-garden-id="dropdowns.item"
-                      data-garden-version="7.0.2"
-                      data-testid="dropdown-option"
-                      id="downshift-0-item-0"
-                      role="option"
-                    >
-                      one
-                    </li>
-                    <li
-                      aria-selected="false"
-                      class="index__c-menu__item___36mO8 index__is-checked___34Qxa c13"
-                      data-garden-id="dropdowns.item"
-                      data-garden-version="7.0.2"
-                      data-testid="dropdown-option"
-                      id="downshift-0-item-1"
-                      role="option"
-                    >
-                      two
-                    </li>
-                  </div>
+                  />
                 </ul>
               </div>
             </div>
@@ -1833,10 +1768,10 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
         </div>
       </div>
       <footer
-        class="c14"
+        class="c13"
       >
         <div
-          class="c15"
+          class="c14"
         >
           <a
             class="icon"
