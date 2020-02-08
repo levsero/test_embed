@@ -50,7 +50,7 @@ script:
     then
         echo "Starting end-to-end tests";
         download_translations
-        npm run e2e:ci
+        npm run e2e
     elif [[ "$TASK" == "validate-build" ]]
     then
         echo "Validating prod builds";

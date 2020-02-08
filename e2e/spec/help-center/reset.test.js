@@ -6,6 +6,7 @@ import { queries, wait } from 'pptr-testing-library'
 
 const assertInputEmpty = async () => {
   const doc = await widget.getDocument()
+  await wait(() => queries.getByPlaceholderText(doc, 'How can we help?'))
   const input = await queries.getByPlaceholderText(doc, 'How can we help?')
   const value = await input.getProperty('value')
   expect(await value.jsonValue()).toEqual('')
