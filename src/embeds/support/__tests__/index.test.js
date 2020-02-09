@@ -5,11 +5,17 @@ import { Component as Support } from '../'
 describe('TicketFormPage', () => {
   const renderComponent = (props = {}) => {
     const defaultProps = {
-      ticketForms: []
+      ticketForms: [],
+      isLoading: false
     }
 
     return render(<Support {...defaultProps} {...props} />)
   }
+
+  it('renders the LoadingPage when isLoading is true', () => {
+    const { queryByRole } = renderComponent({ isLoading: true })
+    expect(queryByRole('progressbar')).toBeInTheDocument()
+  })
 
   it('renders the default form when ticketForms length is 0', () => {
     const { queryByText } = renderComponent()
