@@ -1,27 +1,26 @@
 import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader/root'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import routes from './routes'
 import { WidgetThemeProvider } from 'src/components/Widget'
 import { CONTACT_OPTIONS } from './constants'
+import SuccessNotificationPage from './pages/SuccessNotificationPage'
 import CallbackPage from './pages/CallbackPage'
 import OfflinePage from './pages/OfflinePage'
 import PhoneOnlyPage from './pages/PhoneOnlyPage'
-import SuccessNotificationPage from './pages/SuccessNotificationPage'
+const ClickToCallPage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/ClickToCallPage')
+)
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 
-const ClickToCallPage = lazy(() =>
-  import(/* webpackChunkName: 'lazy/talk_click_to_call' */ './pages/ClickToCallPage')
-)
-
-const ROUTES = {
-  [CONTACT_OPTIONS.CALLBACK_ONLY]: CallbackPage,
-  [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: CallbackPage,
-  [CONTACT_OPTIONS.PHONE_ONLY]: PhoneOnlyPage,
-  [CONTACT_OPTIONS.CLICK_TO_CALL]: ClickToCallPage
+const agentOnlineRoutes = {
+  [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),
+  [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: routes.callbackAndPhone(),
+  [CONTACT_OPTIONS.PHONE_ONLY]: routes.phoneOnly(),
+  [CONTACT_OPTIONS.CLICK_TO_CALL]: routes.clickToCall()
 }
 
 // This component needs to be a class component since the parent WebWidget component expects to be able
@@ -29,15 +28,21 @@ const ROUTES = {
 class Talk extends Component {
   render() {
     const { agentAvailability, contactOption } = this.props
-
-    const IndexPage = agentAvailability ? ROUTES[contactOption] : OfflinePage
+    let redirectToPath = agentAvailability ? agentOnlineRoutes[contactOption] : routes.offline()
 
     return (
       <WidgetThemeProvider>
         <SuspensePage>
           <Switch>
-            <Route path={'/talk/success'} component={SuccessNotificationPage} />
-            <Route component={IndexPage} />
+            <Route path={routes.offline()} component={OfflinePage} />
+            <Route path={routes.successNotification()} component={SuccessNotificationPage} />
+
+            <Route path={routes.callbackOnly()} component={CallbackPage} />
+            <Route path={routes.phoneOnly()} component={PhoneOnlyPage} />
+            <Route path={routes.callbackAndPhone()} component={CallbackPage} />
+            <Route path={routes.clickToCall()} component={ClickToCallPage} />
+
+            <Redirect from="/" to={redirectToPath} />
           </Switch>
         </SuspensePage>
       </WidgetThemeProvider>
@@ -58,6 +63,6 @@ const mapStateToProps = state => ({
 const connectedComponent = connect(
   mapStateToProps,
   { forwardRef: true }
-)(hot(Talk))
+)(Talk)
 
 export { connectedComponent as default, Talk as Component }

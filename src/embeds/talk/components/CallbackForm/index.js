@@ -1,10 +1,11 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import { isMobileBrowser } from 'utility/devices'
+import routes from 'src/embeds/talk/routes'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
@@ -110,7 +111,7 @@ class CallbackForm extends Component {
     } = this.props
 
     if (callback.success) {
-      return <Redirect to="/talk/success" />
+      return <Redirect to={routes.successNotification()} />
     }
 
     const errorMessage = this.getErrorMessage()
