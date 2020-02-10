@@ -36,6 +36,7 @@ const ClickToCallPage = ({ callStatus, callDuration, previousCall, averageWaitTi
             previousCall={previousCall}
             callDuration={callDuration}
             averageWaitTime={averageWaitTime}
+            callStatus={callStatus}
           />
         )}
       </Main>

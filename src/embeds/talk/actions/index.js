@@ -4,6 +4,7 @@ import {
   SNAPCALL_CALL_ENDED,
   SNAPCALL_CALL_STARTED,
   SET_SNAPCALL_SUPPORTED,
+  SNAPCALL_CALL_CONNECTED,
   SNAPCALL_TIMER_UPDATED,
   SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
 } from './action-types'
@@ -17,6 +18,12 @@ export const snapcallCallEnded = () => {
 export const snapcallCallStarted = () => {
   return {
     type: SNAPCALL_CALL_STARTED
+  }
+}
+
+export const snapcallCallConnected = () => {
+  return {
+    type: SNAPCALL_CALL_CONNECTED
   }
 }
 
