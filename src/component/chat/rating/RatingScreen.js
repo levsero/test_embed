@@ -56,7 +56,7 @@ class RatingScreen extends Component {
   }
 
   sendClick = (newRating, text) => {
-    if (newRating !== this.props.rating.value) this.props.sendChatRating(newRating)
+    this.props.sendChatRating(newRating)
     if (text) this.props.sendChatComment(text)
     if (this.props.endChatFromFeedbackForm) this.props.endChat()
 

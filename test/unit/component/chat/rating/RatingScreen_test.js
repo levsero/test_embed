@@ -102,11 +102,6 @@ describe('RatingScreen component', () => {
         expect(sendChatRatingSpy).toHaveBeenCalledWith(newRating)
       })
 
-      it('does not send the chat rating if it is the same', () => {
-        component.sendClick(defaultRating.value)
-        expect(sendChatRatingSpy).not.toHaveBeenCalled()
-      })
-
       it('sends the comment if one is submitted', () => {
         const chatReviewComment = 'you are nice'
 
