@@ -18,7 +18,7 @@ describe('render', () => {
 
       const { getByText } = renderComponent()
 
-      fireEvent.click(getByText('Start Call'))
+      fireEvent.click(getByText('Start call'))
 
       expect(snapcallAPI.startCall).toHaveBeenCalled()
     })
