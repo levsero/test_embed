@@ -1,5 +1,5 @@
 import preview, { loadPreview } from 'e2e/helpers/chat-preview'
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import * as constants from '../../../src/redux/modules/chat/chat-screen-types'
 import { CHAT_BADGE } from '../../../src/constants/preview'
 
@@ -102,7 +102,9 @@ test('renders offline screen', async () => {
 test('renders chat badge', async () => {
   await goTo(CHAT_BADGE)
   const doc = await preview.getLauncherDocument()
-  expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
+  })
   expect(await queries.queryByText(doc, 'zendesk chat')).toBeTruthy()
   expect(await queries.queryByPlaceholderText(doc, 'Type your message here')).toBeTruthy()
 })

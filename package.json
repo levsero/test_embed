@@ -29,7 +29,6 @@
     "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
     "e2e:server": "webpack-dev-server --config ./webpack/webpack.e2e.js",
     "e2e": "NODE_ENV=e2e TZ=utc jest -c ./jest-puppeteer.config.js",
-    "e2e:ci": "NODE_ENV=e2e TZ=utc jest --runInBand -c ./jest-puppeteer.config.js",
     "e2e:debug": "NODE_ENV=e2e TZ=utc node --inspect-brk node_modules/.bin/jest -c ./jest-puppeteer.config.js",
     "test:watch": "npm run test -- --watch",
     "test:old": "NODE_ENV=test node test/runner.js",

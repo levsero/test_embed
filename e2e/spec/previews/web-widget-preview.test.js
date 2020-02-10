@@ -1,5 +1,5 @@
 import preview, { loadPreview } from 'e2e/helpers/web-widget-preview'
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 
 test('renders preview', async () => {
   await loadPreview()
@@ -16,7 +16,9 @@ test('setTitle sets the preview title', async () => {
     window.preview.setTitle('contact')
   })
   const doc = await preview.getDocument()
-  expect(await queries.queryByText(doc, 'Leave us a message')).toBeNull()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Leave us a message')).toBeNull()
+  })
   expect(await queries.queryByText(doc, 'Contact us')).toBeTruthy()
   await page.evaluate(() => {
     window.preview.setTitle('message')
