@@ -9,6 +9,7 @@ Object {
     "maxFileSize": 5242880,
   },
   "contactFormFields": Array [],
+  "displayDropzone": false,
   "fields": Object {},
   "formStates": Object {},
   "forms": Object {},

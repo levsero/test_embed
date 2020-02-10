@@ -16,3 +16,5 @@ export const TICKET_SUBMISSION_REQUEST_FAILURE = 'widget/support/TICKET_SUBMISSI
 export const FORM_PREFILLED = 'widget/support/FORM_PREFILLED'
 export const ATTACHMENT_LIMIT_EXCEEDED = 'widget/support/ATTACHMENT_LIMIT_EXCEEDED'
 export const CLEAR_LIMIT_EXCEEDED_ERROR = 'widget/support/CLEAR_LIMIT_EXCEEDED_ERROR'
+export const DRAG_END = 'widget/support/DRAG_END'
+export const DRAG_START = 'widget/support/DRAG_START'
