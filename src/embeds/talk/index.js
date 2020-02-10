@@ -16,10 +16,10 @@ const ClickToCallPage = lazy(() =>
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 
-const agentOnlineRoutes = {
+const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),
-  [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: routes.callbackAndPhone(),
   [CONTACT_OPTIONS.PHONE_ONLY]: routes.phoneOnly(),
+  [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: routes.callbackAndPhone(),
   [CONTACT_OPTIONS.CLICK_TO_CALL]: routes.clickToCall()
 }
 
@@ -27,14 +27,12 @@ const agentOnlineRoutes = {
 // to put a ref on each embed component.
 class Talk extends Component {
   render() {
-    const { agentAvailability, contactOption } = this.props
-    let redirectToPath = agentAvailability ? agentOnlineRoutes[contactOption] : routes.offline()
+    const { agentsAreAvailable, contactOption } = this.props
 
     return (
       <WidgetThemeProvider>
         <SuspensePage>
           <Switch>
-            <Route path={routes.offline()} component={OfflinePage} />
             <Route path={routes.successNotification()} component={SuccessNotificationPage} />
 
             <Route path={routes.callbackOnly()} component={CallbackPage} />
@@ -42,7 +40,11 @@ class Talk extends Component {
             <Route path={routes.callbackAndPhone()} component={CallbackPage} />
             <Route path={routes.clickToCall()} component={ClickToCallPage} />
 
-            <Redirect from="/" to={redirectToPath} />
+            {agentsAreAvailable ? (
+              <Redirect from="/" to={onlineContactOptions[contactOption]} />
+            ) : (
+              <Route component={OfflinePage} />
+            )}
           </Switch>
         </SuspensePage>
       </WidgetThemeProvider>
@@ -51,12 +53,12 @@ class Talk extends Component {
 }
 
 Talk.propTypes = {
-  agentAvailability: PropTypes.bool.isRequired,
+  agentsAreAvailable: PropTypes.bool.isRequired,
   contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired
 }
 
 const mapStateToProps = state => ({
-  agentAvailability: getAgentAvailability(state),
+  agentsAreAvailable: getAgentAvailability(state),
   contactOption: getCapability(state)
 })
 
