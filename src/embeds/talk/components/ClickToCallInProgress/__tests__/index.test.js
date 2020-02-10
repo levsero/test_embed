@@ -1,24 +1,17 @@
+import { snapcallAPI } from 'snapcall'
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
-import { snapcallAPI } from 'snapcall'
-
-import { render } from 'src/util/testHelpers'
 
 import { TEST_IDS } from 'src/embeds/talk/constants'
+import { render } from 'utility/testHelpers'
+import ClickToCallInProgress from '..'
 
-import ClickToCallInProgressPage from '../'
-
+jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('src/embeds/talk/hooks/useSnapcallUpdateTime', () => () => '00:00')
 
-const renderComponent = () => render(<ClickToCallInProgressPage />)
+const renderComponent = () => render(<ClickToCallInProgress />)
 
 describe('render', () => {
-  it('renders the expected title', () => {
-    const { getByText } = renderComponent()
-
-    expect(getByText('Call Us')).toBeInTheDocument()
-  })
-
   it('renders the avatar', () => {
     const { getByTestId } = renderComponent()
 
@@ -31,16 +24,16 @@ describe('render', () => {
     expect(getByText('00:00')).toBeInTheDocument()
   })
 
-  it('renders the hang up button', () => {
+  it('renders the End call button', () => {
     const { getByTestId } = renderComponent()
 
     expect(getByTestId(TEST_IDS.BUTTON_HANG_UP)).toBeInTheDocument()
   })
 
-  it('calls snapcallCallEnded on Hang Up button click', () => {
+  it('calls snapcallCallEnded on End call button click', () => {
     const { getByText } = renderComponent()
 
-    fireEvent.click(getByText('Hang up'))
+    fireEvent.click(getByText('End call'))
 
     expect(snapcallAPI.endCall).toHaveBeenCalled()
   })

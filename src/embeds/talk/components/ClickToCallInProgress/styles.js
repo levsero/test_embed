@@ -13,6 +13,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding-bottom: ${props => 14 / props.theme.fontSize}rem;
 `
 
 const StyledClickToCallIcon = styled(ClickToCallIcon)`
