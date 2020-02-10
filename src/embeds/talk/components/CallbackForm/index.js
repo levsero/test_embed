@@ -33,6 +33,7 @@ const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
 class CallbackForm extends Component {
   static propTypes = {
+    showCallbackNumber: PropTypes.bool.isRequired,
     supportedCountries: PropTypes.arrayOf(PropTypes.string),
     formState: PropTypes.object.isRequired,
     callback: PropTypes.shape({
@@ -54,6 +55,10 @@ class CallbackForm extends Component {
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    showCallbackNumber: false
   }
 
   constructor(props) {
@@ -107,7 +112,8 @@ class CallbackForm extends Component {
       averageWaitTime,
       supportedCountries,
       nameLabelText,
-      descriptionLabelText
+      descriptionLabelText,
+      showCallbackNumber
     } = this.props
 
     if (callback.success) {
@@ -124,7 +130,7 @@ class CallbackForm extends Component {
         onChange={this.handleFormChange}
       >
         <Main>
-          <CallbackPhone />
+          {showCallbackNumber && <CallbackPhone />}
           <div>
             <Header>{headerMessage}</Header>
             {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}

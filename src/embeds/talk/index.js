@@ -1,20 +1,22 @@
 import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
 import routes from './routes'
-import { WidgetThemeProvider } from 'src/components/Widget'
 import { CONTACT_OPTIONS } from './constants'
+import { WidgetThemeProvider } from 'src/components/Widget'
+import SuspensePage from 'src/components/Widget/SuspensePage'
 import SuccessNotificationPage from './pages/SuccessNotificationPage'
-import CallbackPage from './pages/CallbackPage'
-import OfflinePage from './pages/OfflinePage'
-import PhoneOnlyPage from './pages/PhoneOnlyPage'
+import OfflinePage from './pages/offline/OfflinePage'
+import PhoneOnlyPage from './pages/online/PhoneOnlyPage'
+import CallbackOnlyPage from './pages/online/CallbackOnlyPage'
+import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
 const ClickToCallPage = lazy(() =>
-  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/ClickToCallPage')
+  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/ClickToCallPage')
 )
 import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
-import SuspensePage from 'src/components/Widget/SuspensePage'
 
 const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),
@@ -26,6 +28,19 @@ const onlineContactOptions = {
 // This component needs to be a class component since the parent WebWidget component expects to be able
 // to put a ref on each embed component.
 class Talk extends Component {
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.contactOption != this.props.contactOption ||
+      prevProps.agentsAreAvailable != this.props.agentsAreAvailable
+    ) {
+      this.resetRoutes()
+    }
+  }
+
+  resetRoutes() {
+    this.props.history.replace(routes.home())
+  }
+
   render() {
     const { agentsAreAvailable, contactOption } = this.props
 
@@ -35,16 +50,22 @@ class Talk extends Component {
           <Switch>
             <Route path={routes.successNotification()} component={SuccessNotificationPage} />
 
-            <Route path={routes.callbackOnly()} component={CallbackPage} />
-            <Route path={routes.phoneOnly()} component={PhoneOnlyPage} />
-            <Route path={routes.callbackAndPhone()} component={CallbackPage} />
-            <Route path={routes.clickToCall()} component={ClickToCallPage} />
+            <Route path={routes.online()}>
+              <Switch>
+                <Route path={routes.callbackOnly()} component={CallbackOnlyPage} />
+                <Route path={routes.phoneOnly()} component={PhoneOnlyPage} />
+                <Route path={routes.callbackAndPhone()} component={CallbackAndPhonePage} />
+                <Route path={routes.clickToCall()} component={ClickToCallPage} />
 
-            {agentsAreAvailable ? (
-              <Redirect from="/" to={onlineContactOptions[contactOption]} />
-            ) : (
+                <Redirect to={onlineContactOptions[contactOption]} />
+              </Switch>
+            </Route>
+
+            <Route path={routes.offline()}>
               <Route component={OfflinePage} />
-            )}
+            </Route>
+
+            <Redirect to={agentsAreAvailable ? routes.online() : routes.offline()} />
           </Switch>
         </SuspensePage>
       </WidgetThemeProvider>
@@ -54,7 +75,10 @@ class Talk extends Component {
 
 Talk.propTypes = {
   agentsAreAvailable: PropTypes.bool.isRequired,
-  contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired
+  contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired,
+  history: PropTypes.shape({
+    replace: PropTypes.func.isRequired
+  })
 }
 
 const mapStateToProps = state => ({
@@ -65,6 +89,6 @@ const mapStateToProps = state => ({
 const connectedComponent = connect(
   mapStateToProps,
   { forwardRef: true }
-)(Talk)
+)(withRouter(Talk))
 
 export { connectedComponent as default, Talk as Component }

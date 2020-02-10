@@ -1,8 +1,10 @@
 export default {
+  home: () => '/talk',
+  online: () => '/talk/online',
   offline: () => '/talk/offline',
-  successNotification: () => '/talk/success_notification',
-  callbackOnly: () => '/talk/callback_only',
-  phoneOnly: () => '/talk/phone_only',
-  callbackAndPhone: () => '/talk/callback_and_phone',
-  clickToCall: () => '/talk/click_to_call'
+  callbackOnly: () => '/talk/online/callback_only',
+  phoneOnly: () => '/talk/online/phone_only',
+  callbackAndPhone: () => '/talk/online/callback_and_phone',
+  clickToCall: () => '/talk/online/click_to_call',
+  successNotification: () => '/talk/success_notification'
 }
