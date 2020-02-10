@@ -358,4 +358,22 @@ describe('TicketForm', () => {
       })
     })
   })
+
+  it('displays an error message when the form failed to submit', async () => {
+    const submitForm = jest.fn(
+      () =>
+        new Promise((_, rej) => {
+          rej('embeddable_framework.submitTicket.notify.message.error')
+        })
+    )
+    const result = renderComponent({ submitForm })
+
+    fireEvent.click(result.getByText('Send'))
+
+    await wait()
+
+    expect(
+      result.queryByText('There was an error processing your request. Please try again later.')
+    ).toBeInTheDocument()
+  })
 })

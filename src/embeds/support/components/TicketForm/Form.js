@@ -10,8 +10,9 @@ import { convertFieldValue } from 'embeds/support/utils/fieldConversion'
 import useFormBackup from 'embeds/support/hooks/useFormBackup'
 import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { FieldWrapper, FormContainer, Main, TicketFormTitle } from './styles'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
+import { Alert, Title } from 'src/embeds/support/components/Alert'
+import { Fields, FormContainer, Main, TicketFormTitle } from './styles'
 
 const Form = ({
   isSubmitting,
@@ -21,6 +22,7 @@ const Form = ({
   fields,
   readOnlyState,
   conditions,
+  submitErrorMessage,
   ticketFormTitle
 }) => {
   const translate = useTranslate()
@@ -32,23 +34,31 @@ const Form = ({
     <FormContainer onSubmit={onSubmit} noValidate={true} data-testid={TEST_IDS.SUPPORT_TICKET_FORM}>
       <Main>
         {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
-        {filteredFields.map(field => (
-          <FieldWrapper key={field.keyID}>
-            <Field
-              name={field.keyID}
-              key={field.keyID}
-              render={({ input, meta }) => (
-                <FormField
-                  field={field}
-                  errorMessage={showErrors ? meta.error : ''}
-                  value={convertFieldValue(field.type, input.value)}
-                  onChange={value => input.onChange(value)}
-                  isReadOnly={readOnlyState[field.keyID]}
-                />
-              )}
-            />
-          </FieldWrapper>
-        ))}
+        <Fields>
+          {filteredFields.map(field => (
+            <div key={field.keyID}>
+              <Field
+                name={field.keyID}
+                render={({ input, meta }) => (
+                  <FormField
+                    field={field}
+                    errorMessage={showErrors ? meta.error : ''}
+                    value={convertFieldValue(field.type, input.value)}
+                    onChange={value => input.onChange(value)}
+                    isReadOnly={readOnlyState[field.keyID]}
+                  />
+                )}
+              />
+            </div>
+          ))}
+        </Fields>
+        <div>
+          {submitErrorMessage && (
+            <Alert type="error">
+              <Title>{translate('embeddable_framework.submitTicket.notify.message.error')}</Title>
+            </Alert>
+          )}
+        </div>
       </Main>
       <Footer>
         <Button
@@ -76,7 +86,8 @@ Form.propTypes = {
   showErrors: PropTypes.bool,
   fields: PropTypes.arrayOf(SupportPropTypes.ticketField),
   readOnlyState: SupportPropTypes.readOnlyState,
-  conditions: SupportPropTypes.conditions
+  conditions: SupportPropTypes.conditions,
+  submitErrorMessage: PropTypes.string
 }
 
 export default Form

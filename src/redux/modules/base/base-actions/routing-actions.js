@@ -82,6 +82,14 @@ export const onCancelClick = () => {
       dispatch(updateActiveEmbed('channelChoice'))
       dispatch(updateBackButtonVisibility(false))
     } else {
+      if (reactRouterSupport) {
+        if (history.canGo(-1)) {
+          history.goBack()
+        } else {
+          history.replace('/')
+        }
+      }
+
       dispatch(cancelButtonClicked())
     }
   }

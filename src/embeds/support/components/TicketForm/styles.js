@@ -14,14 +14,16 @@ const StyledMain = styled(Main)`
   margin-bottom: ${15 / FONT_SIZE}rem;
 `
 
-const FieldWrapper = styled.div`
-  :not(:first-child) {
+const Fields = styled.div`
+  > *:not(:first-child) {
     margin-top: ${16 / FONT_SIZE}rem;
   }
 `
+
+const FieldWrapper = styled.div``
 
 const TicketFormTitle = styled.div`
   margin-bottom: ${10 / FONT_SIZE}rem !important;
 `
 
-export { FormContainer, StyledMain as Main, FieldWrapper, TicketFormTitle }
+export { FormContainer, StyledMain as Main, Fields, FieldWrapper, TicketFormTitle }
