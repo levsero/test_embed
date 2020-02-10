@@ -112,6 +112,13 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     i18n.setLocale(undefined, renderCallback, config.locale)
   }
 
+  if (global.configRequest) {
+    global.configRequest.then(config => {
+      done({ body: config })
+    })
+    return
+  }
+
   const embeddableConfig = persistenceStore.get('embeddableConfig')
 
   if (embeddableConfig) {
