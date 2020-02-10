@@ -14,12 +14,8 @@ import {
 const capabilityMap = {
   '0': CALLBACK_ONLY,
   '1': PHONE_ONLY,
-  '2': CALLBACK_AND_PHONE
-}
-
-// When Click To Call is ready for use in prod we can fold this into the main capability map
-if (__DEV__) {
-  capabilityMap['3'] = CLICK_TO_CALL
+  '2': CALLBACK_AND_PHONE,
+  '3': CLICK_TO_CALL
 }
 
 const initialState = {
@@ -33,9 +29,9 @@ const initialState = {
 }
 
 const embeddableConfig = (state = initialState, action) => {
+  const { payload } = action
   switch (action.type) {
     case TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT:
-      const { payload } = action
       let supportedCountries = payload.supportedCountries
 
       supportedCountries = supportedCountries ? supportedCountries.split(',') : []
@@ -44,8 +40,6 @@ const embeddableConfig = (state = initialState, action) => {
         ...payload,
         supportedCountries: _.pull(supportedCountries, '', null),
         capability: capabilityMap[payload.capability],
-        // To test click to call you can hard code payload.capability to 3:
-        // capability: capabilityMap[3],
         enabled: payload.enabled === true,
         connected: true
       }

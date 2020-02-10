@@ -14,7 +14,8 @@ import {
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
-import { isCallbackEnabled, getCapability } from 'src/redux/modules/talk/talk-selectors'
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
+import { getCapability } from 'src/embeds/talk/selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'

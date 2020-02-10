@@ -19,14 +19,6 @@ test('getEmbeddableConfig returns the embeddableConfig object', () => {
   expect(selectors.getEmbeddableConfig(embeddableConfig(state))).toEqual(state)
 })
 
-test('getCapability returns the capability', () => {
-  const state = {
-    capability: 'abc'
-  }
-
-  expect(selectors.getCapability(embeddableConfig(state))).toEqual('abc')
-})
-
 test('getEmbeddableConfigEnabled returns if config is enabled', () => {
   const state = {
     enabled: true

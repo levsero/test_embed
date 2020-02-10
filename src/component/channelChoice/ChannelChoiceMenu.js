@@ -12,7 +12,7 @@ import {
   getContactOptionsChatLabelOffline,
   getContactOptionsContactFormLabel
 } from 'src/redux/modules/selectors'
-import { getCapability } from 'src/redux/modules/talk/talk-selectors'
+import { getCapability } from 'src/embeds/talk/selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 
 import { locals as styles } from './ChannelChoiceMenu.scss'
