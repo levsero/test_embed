@@ -49,9 +49,9 @@ const getApiPreRenderQueue = apiAddToPostRenderQueue => {
       [API_GET_IS_CHATTING_NAME]: () =>
         apiAddToPostRenderQueue(['webWidget:get', 'chat:isChatting']),
       [API_GET_DEPARTMENTS_ALL_NAME]: (_, ...args) =>
-        apiAddToPostRenderQueue(['webWidget:get', 'departments:all', ...args]),
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:departments', ...args]),
       [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (_, ...args) =>
-        apiAddToPostRenderQueue(['webWidget:get', 'departments', ...args])
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:department', ...args])
     },
     [API_GET_DISPLAY_NAME]: () => apiAddToPostRenderQueue(['webWidget:get', 'display'])
   }
