@@ -1,13 +1,10 @@
 const fs = require('fs')
-const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const ManifestPlugin = require('webpack-manifest-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { StatsWriterPlugin } = require('webpack-stats-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const common = require('./webpack.ac.common.js')
-const chunks = require('./chunks')
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 
@@ -23,37 +20,6 @@ let config = merge(common, {
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
-    new ManifestPlugin({
-      fileName: 'asset_manifest.json',
-      publicPath: '',
-      filter: file => {
-        if (!file.isChunk) return false
-
-        return Boolean(chunks.http2Chunks(file.chunk.name))
-      },
-      sort: function(a, b) {
-        const priorityA = chunks.priority(a.chunk.name)
-        const priorityB = chunks.priority(b.chunk.name)
-
-        return priorityA - priorityB
-      },
-      generate: function(seed, files) {
-        const assets = files
-          .filter(file => path.extname(file.path) !== '.map')
-          .map(function(file) {
-            const chunk = chunks.http2Chunks(file.chunk.name)
-            const asset = { path: file.path.replace('public/', '') }
-
-            if (chunk && chunk !== 'common') {
-              asset.feature = chunk
-            }
-
-            return asset
-          }, seed)
-
-        return { assets }
-      }
-    }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production')
