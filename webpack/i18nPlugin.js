@@ -6,7 +6,8 @@ module.exports = shouldSplit => {
     locales: path.join(__dirname, '../src/translation/locales.json'),
     localesDir: path.join(__dirname, '../src/translation/locales'),
     source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
-    assetNamePrefix: 'locales/'
+    assetNamePrefix: 'locales/',
+    globalVariable: 'WWI18N'
   }
 
   if (shouldSplit) {

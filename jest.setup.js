@@ -18,7 +18,8 @@ jest.mock('src/embed/sharedStyles')
 jest.mock('globalCSS')
 jest.mock('@zendesk/client-i18n-tools')
 
-window.I18N = { translations: {} }
+global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'
+window[__ZENDESK_CLIENT_I18N_GLOBAL] = { translations: {} }
 global.noop = () => {}
 
 const mockMedia = () => ({

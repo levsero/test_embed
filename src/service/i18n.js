@@ -10,6 +10,10 @@ let currentLocale
 const locales = Object.keys(zELocaleIdMap)
 // reset is only used in tests
 
+// The __ZENDESK_CLIENT_I18N_GLOBAL global is provided by the i18n webpack plugin.
+// It specifies where the translations and locale information is stored on the window object.
+const i18nDataLocation = __ZENDESK_CLIENT_I18N_GLOBAL
+
 function reset() {
   store = undefined
   // currentLocale is used to ensure when booting it respects a previously set locale
@@ -38,7 +42,11 @@ function setLocale(apiLocale, callback, configLocale = 'en-US') {
 }
 
 function translate(key, params = {}) {
-  if (typeof window.I18N === 'undefined' || typeof window.I18N.translations !== 'object') return ''
+  if (
+    typeof window[i18nDataLocation] === 'undefined' ||
+    typeof window[i18nDataLocation].translations !== 'object'
+  )
+    return ''
   const translation = t(key)
 
   const locale = getLocale()
@@ -64,7 +72,10 @@ function getLocaleId() {
 }
 
 function isRTL() {
-  if (typeof window.I18N === 'undefined' || typeof window.I18N.translations !== 'object')
+  if (
+    typeof window[i18nDataLocation] === 'undefined' ||
+    typeof window[i18nDataLocation].translations !== 'object'
+  )
     return false
   return t.dir === 'rtl'
 }
