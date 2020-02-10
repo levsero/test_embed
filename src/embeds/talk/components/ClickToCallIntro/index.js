@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
+import CallEndedNotification from 'src/embeds/talk/components/CallEndedNotification'
 import StartCallButton from 'src/embeds/talk/components/StartCallButton'
-import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
 
 import { Container, ClickToCallIcon, Message, FlexContainer, PageContents } from './styles'
 
-const ClickToCallIntro = ({ averageWaitTime }) => {
+const ClickToCallIntro = ({ averageWaitTime, previousCall, callDuration }) => {
   const translate = useTranslate()
 
   return (
@@ -21,19 +20,16 @@ const ClickToCallIntro = ({ averageWaitTime }) => {
           {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
         </PageContents>
       </FlexContainer>
-      <StartCallButton />
+
+      {previousCall ? <CallEndedNotification callDuration={callDuration} /> : <StartCallButton />}
     </Container>
   )
 }
 
 ClickToCallIntro.propTypes = {
-  averageWaitTime: PropTypes.string
+  averageWaitTime: PropTypes.string,
+  previousCall: PropTypes.bool,
+  callDuration: PropTypes.string
 }
 
-const mapStateToProps = state => ({
-  averageWaitTime: getAverageWaitTimeString(state)
-})
-
-const connectedComponent = connect(mapStateToProps)(ClickToCallIntro)
-
-export { connectedComponent as default, ClickToCallIntro as Component }
+export default ClickToCallIntro

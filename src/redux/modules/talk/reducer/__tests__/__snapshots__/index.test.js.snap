@@ -26,7 +26,11 @@ Object {
     "name": "",
     "phone": "",
   },
-  "snapcallCallStatus": null,
+  "snapcall": Object {
+    "callDuration": "0:00",
+    "callStatus": null,
+    "previousCall": false,
+  },
   "vendor": Object {
     "io": null,
   },

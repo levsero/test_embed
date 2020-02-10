@@ -11,9 +11,11 @@ export const getTitle = (state, fallback) => {
 }
 
 // export const getSnapcallButtonId = state => getEmbeddableConfig(state).snapcallButtonId
-export const getSnapcallButtonId = _state => 'YOUR_SNAPCALL_BUTTON_ID'
+export const getSnapcallButtonId = _state => 'SNAPCALL_BUTTON_ID'
 
-export const getSnapcallCallStatus = state => state.talk.snapcallCallStatus
+export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
+export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration
+export const getSnapcallPreviousCall = state => state.talk.snapcall.previousCall
 
 export const getOfflineTitle = state => {
   const capability = getCapability(state)
