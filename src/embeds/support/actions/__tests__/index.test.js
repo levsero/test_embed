@@ -604,7 +604,7 @@ describe('submitTicket', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-      payload: { a: 123 }
+      payload: { name: 'contact-form' }
     })
   })
 
