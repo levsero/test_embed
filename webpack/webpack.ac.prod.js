@@ -18,6 +18,7 @@ let config = merge(common, {
   devtool: 'hidden-source-map',
   output: {
     filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].chunk.js',
     publicPath: PUBLIC_PATH + '/'
   },
   plugins: [

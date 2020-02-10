@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+const I18nPlugin = require('./i18nPlugin.js')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
@@ -17,6 +18,7 @@ module.exports = merge(common, {
     publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
+    I18nPlugin(false),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production')

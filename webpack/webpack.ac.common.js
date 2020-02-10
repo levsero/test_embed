@@ -7,7 +7,7 @@ const CWD = process.cwd()
 
 module.exports = merge(common, {
   entry: {
-    web_widget: path.join(CWD, '/src/main.js')
+    preload: path.join(CWD, '/src/preload.js')
   },
   optimization: {
     runtimeChunk: 'single',
