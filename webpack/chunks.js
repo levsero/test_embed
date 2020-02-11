@@ -2,7 +2,6 @@ const http2Chunks = {
   runtime: 'common',
   web_widget: 'common',
   preload: 'common',
-  i18n_locale_bundle: 'common',
   'chat-sdk': 'chat',
   'talk-sdk': 'talk'
 }
@@ -17,7 +16,6 @@ const excludeFromVendoring = {
 const priority = {
   runtime: 1,
   preload: 2,
-  i18n_locale_bundle: 3,
   web_widget: 4
 }
 
