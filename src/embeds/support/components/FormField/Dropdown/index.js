@@ -80,7 +80,7 @@ const useDropdownTree = (items = []) => {
   }
 }
 
-const Dropdown = ({ field, value, errorMessage, onChange }) => {
+const Dropdown = ({ field, value, errorMessage, errorMessageKey, onChange }) => {
   const { view, open, getItem, isRoot } = useDropdownTree(field.custom_field_options)
   const [isOpen, setIsOpen] = useState(false)
   const frame = useCurrentFrame()
@@ -137,6 +137,7 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
         <Field>
           {field.title_in_portal && (
             <ContactFormLabel
+              keyID={field.keyID}
               value={field.title_in_portal}
               as={Label}
               required={field.required_in_portal}
@@ -145,9 +146,19 @@ const Dropdown = ({ field, value, errorMessage, onChange }) => {
 
           {field.description && <Hint>{field.description}</Hint>}
 
-          <SupportSelect data-testid={TEST_IDS.DROPDOWN_FIELD}>{current}</SupportSelect>
+          <SupportSelect
+            data-testid={TEST_IDS.DROPDOWN_FIELD}
+            name={field.keyID}
+            validation={errorMessage ? 'error' : undefined}
+          >
+            {current}
+          </SupportSelect>
 
-          {errorMessage && <Message validation="error">{errorMessage}</Message>}
+          {errorMessage && (
+            <Message validation="error" key={errorMessageKey}>
+              {errorMessage}
+            </Message>
+          )}
         </Field>
         <Menu data-testid={TEST_IDS.DROPDOWN_OPTIONS} maxHeight={`${240 / FONT_SIZE}rem`}>
           {view.parent && <PreviousItem value={view.parent}>{view.name}</PreviousItem>}
@@ -196,7 +207,8 @@ Dropdown.propTypes = {
   }),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  errorMessageKey: PropTypes.number
 }
 
 export default Dropdown

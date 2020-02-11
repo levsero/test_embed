@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getField from './fields'
 
-const FormField = ({ field, value, onChange, errorMessage, isReadOnly }) => {
+const FormField = ({ field, value, onChange, errorMessage, isReadOnly, errorMessageKey }) => {
   const Field = getField(field.type)
 
   return (
@@ -13,6 +13,7 @@ const FormField = ({ field, value, onChange, errorMessage, isReadOnly }) => {
       onChange={onChange}
       errorMessage={errorMessage}
       isReadOnly={isReadOnly}
+      errorMessageKey={errorMessageKey}
     />
   )
 }
@@ -22,7 +23,8 @@ FormField.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
-  isReadOnly: PropTypes.bool
+  isReadOnly: PropTypes.bool,
+  errorMessageKey: PropTypes.number
 }
 
 FormField.defaultProps = {

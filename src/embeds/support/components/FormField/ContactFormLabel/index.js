@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import useTranslate from 'src/hooks/useTranslate'
 import { Label } from '@zendeskgarden/react-forms'
 
-const ContactFormLabel = ({ value, required, as }) => {
+const ContactFormLabel = ({ keyID, value, required, as }) => {
   const translate = useTranslate()
   const sanitizedLabel = sanitizeHtml(value, { allowedTags: [] })
 
@@ -14,6 +14,7 @@ const ContactFormLabel = ({ value, required, as }) => {
 
   return (
     <LabelComponent
+      data-keyid={keyID}
       dangerouslySetInnerHTML={{
         __html: required
           ? requiredLabel
@@ -28,7 +29,8 @@ const ContactFormLabel = ({ value, required, as }) => {
 ContactFormLabel.propTypes = {
   value: PropTypes.string,
   required: PropTypes.bool,
-  as: PropTypes.elementType
+  as: PropTypes.elementType,
+  keyID: PropTypes.string
 }
 
 export default ContactFormLabel

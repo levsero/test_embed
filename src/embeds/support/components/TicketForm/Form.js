@@ -11,6 +11,7 @@ import useFormBackup from 'embeds/support/hooks/useFormBackup'
 import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
+import { FORM_ERROR } from 'final-form'
 import { Alert, Title } from 'src/embeds/support/components/Alert'
 import { Fields, FormContainer, Main, TicketFormTitle } from './styles'
 
@@ -22,8 +23,9 @@ const Form = ({
   fields,
   readOnlyState,
   conditions,
+  ticketFormTitle,
   submitErrorMessage,
-  ticketFormTitle
+  errorMessageKey
 }) => {
   const translate = useTranslate()
   useFormBackup(formName)
@@ -46,16 +48,17 @@ const Form = ({
                     value={convertFieldValue(field.type, input.value)}
                     onChange={value => input.onChange(value)}
                     isReadOnly={readOnlyState[field.keyID]}
+                    errorMessageKey={errorMessageKey}
                   />
                 )}
               />
             </div>
           ))}
         </Fields>
-        <div>
+        <div data-keyid={FORM_ERROR}>
           {submitErrorMessage && (
-            <Alert type="error">
-              <Title>{translate('embeddable_framework.submitTicket.notify.message.error')}</Title>
+            <Alert type="error" role="alert" key={errorMessageKey}>
+              <Title>{translate(submitErrorMessage)}</Title>
             </Alert>
           )}
         </div>
@@ -87,7 +90,8 @@ Form.propTypes = {
   fields: PropTypes.arrayOf(SupportPropTypes.ticketField),
   readOnlyState: SupportPropTypes.readOnlyState,
   conditions: SupportPropTypes.conditions,
-  submitErrorMessage: PropTypes.string
+  submitErrorMessage: PropTypes.string,
+  errorMessageKey: PropTypes.number
 }
 
 export default Form

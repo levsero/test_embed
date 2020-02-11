@@ -22,6 +22,7 @@ import {
 const INPUT_ID = 'dropzone-input'
 import { Container, StyledLabel } from './styles'
 import { AttachmentBox } from 'src/component/attachment/AttachmentBox'
+import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 
 const AttachmentField = ({
   displayAttachmentLimitError,
@@ -32,7 +33,8 @@ const AttachmentField = ({
   onChange,
   displayDropzone,
   dragEnded,
-  value = {}
+  value = {},
+  field = {}
 }) => {
   const alert = useRef()
   useEffect(() => {
@@ -53,7 +55,9 @@ const AttachmentField = ({
 
   return (
     <Container data-testid={TEST_IDS.ATTACHMENT_LIST_CONTAINER}>
-      <StyledLabel htmlFor={INPUT_ID}>{title}</StyledLabel>
+      <StyledLabel htmlFor={INPUT_ID} data-keyid={field.keyID}>
+        {title}
+      </StyledLabel>
       <AttachmentList value={value} onRemoveAttachment={clearLimitError} />
       {(value.limitExceeded || displayAttachmentLimitError) && (
         <AttachmentLimitError
@@ -68,7 +72,11 @@ const AttachmentField = ({
           ref={alert}
         />
       )}
-      <AttachmentInput onFileSelect={handleFileUpload} attachmentInputId={INPUT_ID} />
+      <AttachmentInput
+        onFileSelect={handleFileUpload}
+        attachmentInputId={INPUT_ID}
+        name={field.keyID}
+      />
 
       {displayDropzone && (
         <AttachmentBox
@@ -92,7 +100,8 @@ AttachmentField.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func,
   displayAttachmentLimitError: PropTypes.bool,
-  clearLimitExceededError: PropTypes.func
+  clearLimitExceededError: PropTypes.func,
+  field: SupportPropTypes.ticketField
 }
 
 const actionCreators = {
