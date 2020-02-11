@@ -1456,3 +1456,23 @@ parts:
       title: 'Label on a button that ends a call.'
       value: 'End call'
       wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.callDuration'
+      title: 'Message used for displaying call duration in the call ended notification'
+      value: "Call duration: %(duration)"
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.title'
+      title: 'Title for the call ended notification'
+      value: 'Call ended'
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.callDuration'
+      title: 'Message used for displaying call duration in the call disconnected notification.'
+      value: "Call duration: %(duration)"
+      wip: true
+  - translation:
+      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.title'
+      title: 'Title for the call disconnected notification'
+      value: 'Call disconnected'
+      wip: true
