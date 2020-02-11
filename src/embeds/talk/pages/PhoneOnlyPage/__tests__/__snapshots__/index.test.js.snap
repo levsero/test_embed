@@ -10,12 +10,38 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -54,5 +54,0 @@
--         <p
--           class="sc-gqPbQI hctWDL"
--         >
--           10
--         </p>
+@@ -145,1 +145,1 @@
+- .c13 {
++ .c14 {
+@@ -151,1 +151,1 @@
+- .c14 {
++ .c15 {
+@@ -174,1 +174,6 @@
+- .c12 {
++ .c11 {
++   margin-bottom: 1.0714285714285714rem;
++   data-testid: talk--averageWaitTime;
++ }
++ 
++ .c13 {
+@@ -180,3 +185,3 @@
+- .c12:hover,
+- .c12:focus,
+- .c12:active {
++ .c13:hover,
++ .c13:focus,
++ .c13:active {
+@@ -230,1 +235,1 @@
+- .c11 {
++ .c12 {
+@@ -235,2 +240,2 @@
+- .c11 a,
+- .c11 a span {
++ .c12 a,
++ .c12 a span {
+@@ -240,1 +245,1 @@
+- .c11 a:hover {
++ .c12 a:hover {
 `;
 
 exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] = `
@@ -368,10 +394,36 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -54,5 +54,0 @@
--         <p
--           class="sc-gqPbQI hctWDL"
--         >
--           10
--         </p>
+@@ -145,1 +145,1 @@
+- .c14 {
++ .c13 {
+@@ -151,1 +151,1 @@
+- .c15 {
++ .c14 {
+@@ -174,6 +174,1 @@
+- .c11 {
+-   margin-bottom: 1.0714285714285714rem;
+-   data-testid: talk--averageWaitTime;
+- }
+- 
+- .c13 {
++ .c12 {
+@@ -185,3 +180,3 @@
+- .c13:hover,
+- .c13:focus,
+- .c13:active {
++ .c12:hover,
++ .c12:focus,
++ .c12:active {
+@@ -235,1 +230,1 @@
+- .c12 {
++ .c11 {
+@@ -240,2 +235,2 @@
+- .c12 a,
+- .c12 a span {
++ .c11 a,
++ .c11 a span {
+@@ -245,1 +240,1 @@
+- .c12 a:hover {
++ .c11 a:hover {
 `;

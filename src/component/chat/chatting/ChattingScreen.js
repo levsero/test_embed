@@ -11,7 +11,7 @@ import ChatHeader from 'embeds/chat/components/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
-import AgentTyping from 'src/embeds/chat/online/components/AgentTyping'
+import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
 import { isAgent } from 'utility/chat'
 import {
   sendMsg,
@@ -422,7 +422,12 @@ class ChattingScreen extends Component {
               socialLogin={this.props.socialLogin}
             />
             {this.renderQueuePosition()}
-            <AgentTyping agentsTyping={agentsTyping} ref={this.agentTypingRef} />
+            <ChatLogFooter
+              agentsTyping={agentsTyping}
+              ref={this.agentTypingRef}
+              isMobile={this.props.isMobile}
+              hideZendeskLogo={this.props.hideZendeskLogo}
+            />
             <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
             {this.renderScrollPill()}
           </div>

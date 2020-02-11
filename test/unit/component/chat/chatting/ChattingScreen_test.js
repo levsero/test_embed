@@ -144,7 +144,8 @@ describe('ChattingScreen component', () => {
       },
       'src/embeds/chat/components/QueuePosition': {},
       'src/embeds/chat/components/ScrollPill': {},
-      'src/embeds/chat/components/ButtonPill': {}
+      'src/embeds/chat/components/ButtonPill': {},
+      'src/embeds/chat/components/ChatLogFooter': {}
     })
 
     mockery.registerAllowable(chatPath)
