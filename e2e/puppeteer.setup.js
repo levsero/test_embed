@@ -8,6 +8,7 @@ module.exports = async function globalSetup(globalConfig) {
     usedPortAction: 'error',
     launchTimeout: 15000,
     host: '0.0.0.0',
-    port: 5123
+    port: 5123,
+    debug: true
   })
 }
