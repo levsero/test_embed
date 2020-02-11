@@ -34,7 +34,7 @@ module.exports = merge(common, {
   },
   plugins: [
     ...previewTemplates(),
-    I18nPlugin(false),
+    I18nPlugin,
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true)
     }),

@@ -130,6 +130,6 @@ module.exports = {
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
     }),
-    I18nPlugin(true)
+    I18nPlugin
   ]
 }

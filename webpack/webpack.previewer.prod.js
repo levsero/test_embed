@@ -18,7 +18,7 @@ module.exports = merge(common, {
     publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
-    I18nPlugin(false),
+    I18nPlugin,
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production')
