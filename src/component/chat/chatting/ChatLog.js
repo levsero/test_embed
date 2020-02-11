@@ -134,12 +134,24 @@ export class ChatLog extends PureComponent {
       isLatestRatingWithNoComment
     )
 
-    if (isLatestEventNotRatingOrAgentLeave) return
-    if (!isLatestRatingWithNoComment && chatRating.value) return
+    if (isLatestEventNotRatingOrAgentLeave) {
+      return
+    }
 
-    return isLatestRatingWithNoComment
-      ? 'embeddable_framework.chat.chatLog.button.leaveComment'
-      : 'embeddable_framework.chat.chatLog.button.rateChat'
+    if (eventKey < Math.max(latestRating, latestRatingRequest, latestAgentLeaveEvent)) {
+      return null
+    }
+
+    if (latestRating === -1 || !chatRating.value) {
+      return 'embeddable_framework.chat.chatLog.button.rateChat'
+    }
+
+    // If the user hasn't left a comment, always display the leave comment button
+    if (isLatestRatingWithNoComment) {
+      return 'embeddable_framework.chat.chatLog.button.leaveComment'
+    }
+
+    return 'embeddable_framework.chat.chatLog.button.rateChat'
   }
 
   renderRequestRatingButton(eventKey) {

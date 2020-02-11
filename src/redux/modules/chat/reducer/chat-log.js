@@ -17,6 +17,7 @@ import {
 } from '../chat-action-types'
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
+import { CHAT_RATING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 
 const UNSET_TIMESTAMP = -1
 const initialState = {
@@ -64,6 +65,7 @@ const latestRatingRequest = (state = initialState.latestRatingRequest, action) =
     case API_RESET_WIDGET:
     case CHAT_BANNED:
     case CHAT_DROPPED:
+    case CHAT_RATING_REQUEST_SUCCESS:
       return initialState.latestRatingRequest
     default:
       return state

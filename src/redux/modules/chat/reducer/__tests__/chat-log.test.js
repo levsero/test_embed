@@ -166,6 +166,18 @@ describe('chatLog', () => {
       })
     })
 
+    it('resets the state when the user successfully rates the chat', () => {
+      const action = {
+        type: actions.CHAT_RATING_REQUEST_SUCCESS,
+        payload: {}
+      }
+
+      expect(reduce(action)).toHaveProperty(
+        'latestRatingRequest',
+        initialState().latestRatingRequest
+      )
+    })
+
     describe('when any other action is received', () => {
       it('does not update the state', () => {
         expect(reduce({ type: 'RANDOM_ACT_OF_ACTION' })).toHaveProperty(
