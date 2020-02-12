@@ -1459,7 +1459,7 @@ parts:
   - translation:
       key: 'embeddable_framework.talk.clickToCall.callEndedNotification.callDuration'
       title: 'Message used for displaying call duration in the call ended notification'
-      value: "Call duration: %(duration)"
+      value: "Call duration: %(duration)s"
       wip: true
   - translation:
       key: 'embeddable_framework.talk.clickToCall.callEndedNotification.title'
@@ -1469,7 +1469,7 @@ parts:
   - translation:
       key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.callDuration'
       title: 'Message used for displaying call duration in the call disconnected notification.'
-      value: "Call duration: %(duration)"
+      value: "Call duration: %(duration)s"
       wip: true
   - translation:
       key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.title'
