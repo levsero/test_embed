@@ -4,7 +4,9 @@ import { queries, wait } from 'pptr-testing-library'
 test('renders preview', async () => {
   await loadPreview()
   const doc = await preview.getDocument()
-  expect(await queries.queryByText(doc, 'Leave us a message')).toBeTruthy()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Leave us a message')).toBeTruthy()
+  })
   expect(await queries.queryByLabelText(doc, 'Your name (optional)')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'Email address')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'How can we help you?')).toBeTruthy()
