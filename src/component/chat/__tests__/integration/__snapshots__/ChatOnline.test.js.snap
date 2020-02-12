@@ -55,9 +55,6 @@ exports[`chat log agent attachment 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -97,9 +94,6 @@ exports[`chat log agent join 1`] = `
       Agent McAgent joined the chat
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -147,9 +141,6 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -195,9 +186,6 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
       Mugen left the chat
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -267,9 +255,6 @@ exports[`chat log agent message 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -298,9 +283,6 @@ exports[`chat log agent stopped typing 1`] = `
 <div
   class="chatLogContainer"
 >
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -458,9 +440,6 @@ exports[`chat log comment 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -500,9 +479,6 @@ exports[`chat log member join 1`] = `
       Chat started
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -550,9 +526,6 @@ exports[`chat log member leave 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -596,9 +569,6 @@ exports[`chat log queue position 1`] = `
     Queue position: 3
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c1"
   />
 </div>
@@ -638,9 +608,6 @@ exports[`chat log rating 1`] = `
       Chat rated Good
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -790,9 +757,6 @@ exports[`chat log series of actions 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -860,9 +824,6 @@ exports[`chat log visitor message account settings login enabled displays update
       </button>
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -932,9 +893,6 @@ exports[`chat log visitor message account settings login enabled displays update
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -998,9 +956,6 @@ exports[`chat log visitor message account settings login enabled does not displa
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -1063,9 +1018,6 @@ exports[`chat log visitor message account settings login enabled does not displa
       </div>
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />
@@ -1145,9 +1097,6 @@ exports[`chat log visitor message failure 1`] = `
     </div>
   </div>
   <div
-    aria-live="polite"
-  />
-  <div
     class="c0"
   />
 </div>
@@ -1220,9 +1169,6 @@ exports[`chat log visitor message success 1`] = `
       </div>
     </div>
   </div>
-  <div
-    aria-live="polite"
-  />
   <div
     class="c0"
   />

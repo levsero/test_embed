@@ -3,6 +3,10 @@ jest.mock('utility/devices')
 
 import React from 'react'
 import snapshotDiff from 'snapshot-diff'
+import { styleSheetSerializer } from 'jest-styled-components/serializer'
+
+snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
+expect.addSnapshotSerializer(styleSheetSerializer)
 
 import { render } from 'src/util/testHelpers'
 import { Component as PhoneOnlyPage } from './../'
@@ -70,7 +74,7 @@ describe('PhoneOnlyPage', () => {
         averageWaitTime: null
       })
 
-      expect(snapshotDiff(withWaitTime, withoutWaitTime, { contextLines: 0 })).toMatchSnapshot()
+      expect(snapshotDiff(withoutWaitTime, withWaitTime, { contextLines: 0 })).toMatchSnapshot()
     })
   })
 })
