@@ -20,8 +20,7 @@ const Support = ({ ticketForms, isLoading }) => {
       <Route path={routes.form()} component={TicketFormPage} />
       <Route path={routes.list()} component={TicketFormsListPage} />
       <Route path={routes.success()} component={SuccessPage} />
-      <Redirect exact={true} from={'/'} to={indexRoute} />
-      <Redirect exact={true} from={routes.home()} to={indexRoute} />
+      <Redirect to={indexRoute} />
     </Switch>
   )
 }
