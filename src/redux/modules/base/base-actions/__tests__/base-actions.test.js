@@ -113,11 +113,23 @@ describe('handleEscapeKeyPressed', () => {
 })
 
 describe('apiClearForm', () => {
+  const mockTimestamp = 123123
+
+  let dateSpy
+
+  beforeEach(() => {
+    dateSpy = jest.spyOn(Date.now).mockReturnValue(mockTimestamp)
+  })
+
+  afterEach(() => {
+    dateSpy.mockRestore()
+  })
+
   it('dispatches API_CLEAR_FORM and ATTACHMENTS_CLEARED actions', () => {
     const dispatchedActions = dispatchAction(actions.apiClearForm())
 
     expect(dispatchedActions).toEqual([
-      { type: actionTypes.API_CLEAR_FORM },
+      { type: actionTypes.API_CLEAR_FORM, payload: { dateSpy } },
       { type: ATTACHMENTS_CLEARED }
     ])
   })

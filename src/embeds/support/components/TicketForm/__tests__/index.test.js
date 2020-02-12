@@ -2,14 +2,14 @@ import React from 'react'
 import { render } from 'utility/testHelpers'
 import TicketForm from '../'
 import useFormBackup from 'embeds/support/hooks/useFormBackup'
-import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
+import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'constants/shared'
 import wait from 'utility/wait'
 import createKeyID from 'embeds/support/utils/createKeyID'
 
 jest.mock('embeds/support/hooks/useFormBackup')
-jest.mock('embeds/support/hooks/useUpdateOnPrefill')
+jest.mock('embeds/support/hooks/useWidgetFormApis')
 
 describe('TicketForm', () => {
   const field1 = {
@@ -61,7 +61,7 @@ describe('TicketForm', () => {
 
   it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {
     renderComponent()
-    expect(useUpdateOnPrefill).toHaveBeenCalledWith()
+    expect(useWidgetFormApis).toHaveBeenCalledWith()
   })
 
   describe('conditional field logic', () => {

@@ -4,13 +4,18 @@ import { getLastFormPrefillId, getPrefillId, getPrefillValues } from 'embeds/sup
 import { useForm } from 'react-final-form'
 import { formPrefilled } from 'embeds/support/actions'
 import { onNextTick } from 'utility/utils'
+import useOnClear from 'embeds/webWidget/hooks/useOnClear'
 
-const useUpdateOnPrefill = formId => {
+const useWidgetFormApis = formId => {
   const form = useForm()
   const prefillId = useSelector(getPrefillId)
   const lastPrefill = useSelector(state => getLastFormPrefillId(state, formId))
   const prefillValues = useSelector(getPrefillValues(formId))
   const dispatch = useDispatch()
+
+  useOnClear(() => {
+    form.reset({})
+  })
 
   useEffect(() => {
     if (lastPrefill === prefillId) {
@@ -32,4 +37,4 @@ const useUpdateOnPrefill = formId => {
   }, [form, prefillId, prefillValues, lastPrefill, dispatch, formId])
 }
 
-export default useUpdateOnPrefill
+export default useWidgetFormApis

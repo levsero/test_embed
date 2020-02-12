@@ -435,12 +435,18 @@ describe('showApi', () => {
 test('clearFormState dispatches apiClearform and attachmentsCleared actions', () => {
   const store = mockStore()
 
+  const mockTimestamp = 123123
+
+  const dateSpy = jest.spyOn(Date.now).mockReturnValue(mockTimestamp)
+
   apis.clearFormState(store)
 
   expect(store.getActions()).toEqual([
-    { type: baseActionTypes.API_CLEAR_FORM },
+    { type: baseActionTypes.API_CLEAR_FORM, payload: { timestamp: mockTimestamp } },
     { type: ATTACHMENTS_CLEARED }
   ])
+
+  dateSpy.mockRestore()
 })
 
 describe('updatePathApi', () => {

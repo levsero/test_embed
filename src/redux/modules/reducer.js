@@ -10,6 +10,7 @@ import submitTicket from './submitTicket/reducer'
 import answerBot from './answerBot/reducer'
 import preview from './preview/reducer'
 import support from 'embeds/support/reducers'
+import webWidget from 'embeds/webWidget/reducers'
 
 const combinedReducers = combineReducers({
   base,
@@ -20,7 +21,8 @@ const combinedReducers = combineReducers({
   submitTicket,
   answerBot,
   preview,
-  support
+  support,
+  webWidget
 })
 
 export default function reducer(state, action) {

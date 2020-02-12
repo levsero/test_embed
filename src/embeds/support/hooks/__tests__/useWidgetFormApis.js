@@ -2,29 +2,33 @@ import React from 'react'
 import { useForm } from 'react-final-form'
 import { wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import { handlePrefillReceived } from 'src/redux/modules/base'
-import useUpdateOnPrefill from '../useUpdateOnPrefill'
+import { apiClearForm, handlePrefillReceived } from 'src/redux/modules/base'
+import useWidgetFormApis from '../useWidgetFormApis'
 import createKeyID from 'embeds/support/utils/createKeyID'
 
 jest.mock('react-final-form')
 
-describe('useUpdateOnPrefill', () => {
+describe('useWidgetFormApis', () => {
   const ExampleComponent = () => {
-    useUpdateOnPrefill()
+    useWidgetFormApis()
     return null
   }
 
   const renderComponent = (props = {}, options) => render(<ExampleComponent {...props} />, options)
 
   let mockChange
+  let mockReset
 
   beforeEach(() => {
     mockChange = jest.fn()
+    mockReset = jest.fn()
+
     useForm.mockReturnValue({
       batch: cb => {
         cb()
       },
-      change: mockChange
+      change: mockChange,
+      reset: mockReset
     })
   })
 
@@ -50,5 +54,13 @@ describe('useUpdateOnPrefill', () => {
     )
 
     await wait(() => expect(mockChange).toHaveBeenCalledWith(createKeyID('name'), 'Another name'))
+  })
+
+  it('resets the form when the clear api is called', async () => {
+    const { store } = renderComponent()
+
+    store.dispatch(apiClearForm())
+
+    await wait(() => expect(mockReset).toHaveBeenCalledWith({}))
   })
 })
