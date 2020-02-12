@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AgentTyping from 'src/embeds/chat/online/components/AgentTyping'
+import AgentTyping from 'src/embeds/chat/components/AgentTyping'
 import ZendeskLogo from 'src/components/ZendeskLogo'
 import { LogoContainer } from './styles'
 

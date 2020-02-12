@@ -1,12 +1,12 @@
 import { BEGIN_CHAT_SETUP, RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import createStore from 'src/redux/createStore'
-import { fetchDeferredChatStatus } from 'embeds/chat/api/deferred-chat-api'
+import { fetchDeferredChatStatus } from 'embeds/chat/apis/deferred-chat-api'
 import { MAX_CHAT_POLL_INTERVAL, BASE_CHAT_POLL_INTERVAL } from 'constants/chat'
 import errorTracker from 'service/errorTracker/errorTracker'
 import { beginChatSetup, deferChatSetup } from '../setup-chat'
 
 jest.useFakeTimers()
-jest.mock('embeds/chat/api/deferred-chat-api')
+jest.mock('embeds/chat/apis/deferred-chat-api')
 jest.mock('service/errorTracker/errorTracker')
 
 describe('chat embed actions', () => {

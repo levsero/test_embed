@@ -35,7 +35,7 @@ describe('ChatOnline component', () => {
         LoadingSpinner
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
-      'src/embeds/chat/online/pages/AgentDetailsPage': AgentDetailsPage,
+      'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
       'component/chat/rating/RatingScreen': noopReactComponent(),
       'component/chat/prechat/PrechatScreen': noopReactComponent(),
       'component/button/ButtonPill': {

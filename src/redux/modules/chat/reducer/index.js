@@ -39,8 +39,8 @@ import chatBanned from './chat-banned'
 import chatLogBackfillCompleted from './chat-log-backfill-completed'
 import endChatModalVisible from './chat-end-chat-modal-visible'
 import config from './chat-config'
-import deferredChatIsPolling from 'embeds/chat/reducer/deferred-chat-is-polling'
-import deferredChatHasResponse from 'embeds/chat/reducer/deferred-chat-has-response'
+import deferredChatIsPolling from 'embeds/chat/reducers/deferred-chat-is-polling'
+import deferredChatHasResponse from 'embeds/chat/reducers/deferred-chat-has-response'
 
 const combinedReducers = combineReducers({
   accountSettings,

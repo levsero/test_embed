@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
-import AgentDetailsPage from 'src/embeds/chat/online/pages/AgentDetailsPage'
+import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import RatingScreen from 'component/chat/rating/RatingScreen'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
