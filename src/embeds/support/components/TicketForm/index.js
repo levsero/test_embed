@@ -55,7 +55,7 @@ const TicketFormProvider = ({
           return null
         }
 
-        return validateTicketForm(ticketFields, translate, values, conditions, attachments)
+        return validateTicketForm(ticketFields, translate, values, attachments, conditions)
       }}
       onSubmit={onSubmit}
       initialValues={formState}
