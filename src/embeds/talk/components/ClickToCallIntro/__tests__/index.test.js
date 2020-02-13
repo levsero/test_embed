@@ -3,13 +3,13 @@ import React from 'react'
 import { fireEvent } from '@testing-library/react'
 
 import { render } from 'utility/testHelpers'
-import { Component as ClickToCallInProgress } from '..'
+import ClickToCallIntro from '..'
 
 jest.mock('src/redux/modules/talk/talk-selectors')
 
-const defaultProps = { averageWaitTime: null }
+const defaultProps = { averageWaitTime: null, previousCall: false, callDuration: '0:00' }
 
-const renderComponent = props => render(<ClickToCallInProgress {...defaultProps} {...props} />)
+const renderComponent = props => render(<ClickToCallIntro {...defaultProps} {...props} />)
 
 describe('render', () => {
   describe('when the user starts a call', () => {

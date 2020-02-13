@@ -1,13 +1,14 @@
 import React from 'react'
-
-import useSnapcallUpdateTime from 'src/embeds/talk/hooks/useSnapcallUpdateTime'
+import PropTypes from 'prop-types'
 
 import { Timer } from './styles'
 
-const ClickToCallTimer = () => {
-  const callTime = useSnapcallUpdateTime()
+const ClickToCallTimer = ({ callDuration }) => {
+  return <Timer>{callDuration}</Timer>
+}
 
-  return <Timer>{callTime}</Timer>
+ClickToCallTimer.propTypes = {
+  callDuration: PropTypes.string
 }
 
 export default ClickToCallTimer

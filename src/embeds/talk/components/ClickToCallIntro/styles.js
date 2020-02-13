@@ -1,13 +1,6 @@
 import styled from 'styled-components'
-import ClickToCallIcon from 'src/embeds/talk/icons/click_to_call.svg'
-import { Button } from '@zendeskgarden/react-buttons'
 
-const CallButton = styled(Button)`
-  width: 100%;
-  margin-top: auto;
-  margin-bottom: ${props => 20 / props.theme.fontSize}rem !important;
-  flex-shrink: 0;
-`
+import ClickToCallIcon from 'src/embeds/talk/icons/click_to_call.svg'
 
 const Container = styled.div`
   display: flex;
@@ -48,11 +41,4 @@ const FlexContainer = styled.div`
   flex: 1;
 `
 
-export {
-  Container,
-  StyledClickToCallIcon as ClickToCallIcon,
-  Message,
-  CallButton,
-  FlexContainer,
-  PageContents
-}
+export { Container, StyledClickToCallIcon as ClickToCallIcon, Message, FlexContainer, PageContents }
