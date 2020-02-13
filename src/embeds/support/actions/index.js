@@ -182,14 +182,14 @@ export function submitTicket(formState, formTitle) {
         path: '/api/v2/requests',
         params: params,
         callbacks: {
-          done(res) {
-            dispatch({
-              type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-              payload: JSON.parse(res.text)
-            })
+          done() {
             if (getNewSupportEmbedEnabled(state)) {
               history.replace(routes.success())
             }
+            dispatch({
+              type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
+              payload: { name: formTitle }
+            })
             resolve()
           },
           fail(err) {

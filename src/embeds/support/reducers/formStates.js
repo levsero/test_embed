@@ -1,5 +1,9 @@
-import { CLEARED_FORM_STATES, SET_FORM_STATE } from 'src/embeds/support/actions/action-types'
-import { CLEARED_FORM_STATE } from '../actions/action-types'
+import {
+  CLEARED_FORM_STATES,
+  SET_FORM_STATE,
+  TICKET_SUBMISSION_REQUEST_SUCCESS,
+  CLEARED_FORM_STATE
+} from 'src/embeds/support/actions/action-types'
 
 const initialState = {}
 
@@ -14,7 +18,8 @@ const formStates = (state = initialState, action = {}) => {
       }
     case CLEARED_FORM_STATES:
       return initialState
-    case CLEARED_FORM_STATE: {
+    case CLEARED_FORM_STATE:
+    case TICKET_SUBMISSION_REQUEST_SUCCESS: {
       const newState = { ...state }
       delete newState[payload.name]
       return newState
