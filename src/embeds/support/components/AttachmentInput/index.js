@@ -5,7 +5,7 @@ import { Container, Description, Label, Icon } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { isMobileBrowser } from 'utility/devices'
 
-const AttachmentInput = ({ onFileSelect, attachmentInputId }) => {
+const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {
   const inputRef = useRef(null)
   const translate = useTranslate()
 
@@ -32,6 +32,7 @@ const AttachmentInput = ({ onFileSelect, attachmentInputId }) => {
       </Description>
       <input
         type="file"
+        name={name}
         multiple={true}
         ref={inputRef}
         onChange={onChange}
@@ -44,7 +45,8 @@ const AttachmentInput = ({ onFileSelect, attachmentInputId }) => {
 
 AttachmentInput.propTypes = {
   onFileSelect: PropTypes.func.isRequired,
-  attachmentInputId: PropTypes.string.isRequired
+  attachmentInputId: PropTypes.string.isRequired,
+  name: PropTypes.string
 }
 
 export default AttachmentInput

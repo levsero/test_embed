@@ -3,15 +3,19 @@ import { Field, Hint, Message, Textarea as GardenTextarea } from '@zendeskgarden
 import ContactFormLabel from 'src/embeds/support/components/FormField/ContactFormLabel'
 import PropTypes from 'prop-types'
 
-const Textarea = ({ field, value, errorMessage, onChange, isReadOnly }) => {
+const Textarea = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnly }) => {
   return (
     <Field>
       {field.title_in_portal && (
-        <ContactFormLabel value={field.title_in_portal} required={field.required_in_portal} />
+        <ContactFormLabel
+          value={field.title_in_portal}
+          required={field.required_in_portal}
+          keyID={field.keyID}
+        />
       )}
       {field.description && <Hint>{field.description}</Hint>}
       <GardenTextarea
-        name={field.id}
+        name={field.keyID}
         value={value || ''}
         readOnly={isReadOnly}
         onChange={e => {
@@ -21,7 +25,11 @@ const Textarea = ({ field, value, errorMessage, onChange, isReadOnly }) => {
         required={field.required_in_portal}
         validation={errorMessage ? 'error' : undefined}
       />
-      {errorMessage && <Message validation="error">{errorMessage}</Message>}
+      {errorMessage && (
+        <Message validation="error" key={errorMessageKey}>
+          {errorMessage}
+        </Message>
+      )}
     </Field>
   )
 }
@@ -36,7 +44,8 @@ Textarea.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
-  isReadOnly: PropTypes.bool
+  isReadOnly: PropTypes.bool,
+  errorMessageKey: PropTypes.number
 }
 
 export default Textarea

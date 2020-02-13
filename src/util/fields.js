@@ -127,6 +127,7 @@ const getFields = (customFields, formState, options) => {
     )
 
     const { field: updatedField, errorMessage } = getFieldValues(field)
+    updatedField.keyID = `${updatedField.id}`
 
     if (!updatedField) {
       return null

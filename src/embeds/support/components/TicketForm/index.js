@@ -8,6 +8,7 @@ import _ from 'lodash'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getFields from 'embeds/support/utils/getFields'
 import { FORM_ERROR } from 'final-form'
+import useScrollToFirstError from 'embeds/support/hooks/useScrollToFirstError'
 
 const TicketFormProvider = ({
   formName,
@@ -21,12 +22,20 @@ const TicketFormProvider = ({
 }) => {
   const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
+  const scrollToFirstError = useScrollToFirstError()
+
+  // We want screen readers to read out the error message every time the user tries to submit the form.
+  // Since in some cases, the error element might already be there, we need a way to get the element to be recreated
+  // so that the role="alert" can re-fire and the screen reader reads out the error again,
+  // To solve this, we can use React's "key" property to tell React a new element needs to be created
+  // whenever the key changes.
+  const [errorMessageKey, setErrorMessageKey] = useState(Date.now())
 
   const onSubmit = (values, _form, callback) => {
     setShowFormErrors(true)
     const fields = getFields(values, conditions, ticketFields)
 
-    const errors = validateTicketForm(fields, translate, values, attachments)
+    const errors = validateTicketForm(fields, translate, values, attachments, conditions)
 
     if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
@@ -39,12 +48,18 @@ const TicketFormProvider = ({
         .then(() => {
           callback()
         })
-        .catch(errorMessageKey => {
-          const newErrors = { [FORM_ERROR]: errorMessageKey }
+        .catch(() => {
+          const newErrors = {
+            [FORM_ERROR]: 'embeddable_framework.submitTicket.notify.message.error'
+          }
           callback(newErrors)
+          scrollToFirstError(getFields(values, conditions, ticketFields), newErrors)
         })
     } else {
       callback(errors)
+
+      scrollToFirstError(getFields(values, conditions, ticketFields), errors)
+      setErrorMessageKey(Date.now())
     }
   }
 
@@ -55,17 +70,25 @@ const TicketFormProvider = ({
           return null
         }
 
-        return validateTicketForm(ticketFields, translate, values, conditions, attachments)
+        return validateTicketForm(ticketFields, translate, values, attachments, conditions)
       }}
       onSubmit={onSubmit}
       initialValues={formState}
-      render={({ handleSubmit, submitting, submitError, values }) => (
+      render={({ handleSubmit, submitting, submitError, errors, values }) => (
         <>
           <Form
             ticketFormTitle={ticketFormTitle}
             isSubmitting={submitting}
             onSubmit={e => {
               e.preventDefault()
+
+              // Since final form won't re-submit when errors exist, we will handle scrolling to the errors here
+              // so that the form will re-scroll to the first error every time the user tries to submit
+              // the form.
+              if (errors) {
+                setErrorMessageKey(Date.now())
+                scrollToFirstError(getFields(values, conditions, ticketFields), errors)
+              }
 
               handleSubmit()
             }}
@@ -74,8 +97,8 @@ const TicketFormProvider = ({
             fields={ticketFields}
             readOnlyState={readOnlyState}
             conditions={conditions}
-            submitErrorMessage={submitError ? translate(submitError) : undefined}
-            values={values}
+            submitErrorMessage={submitError}
+            errorMessageKey={errorMessageKey}
           />
         </>
       )}
