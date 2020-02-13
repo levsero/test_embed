@@ -275,7 +275,7 @@ Use the `routes/index.js` file to define all of your embeds routes.
 ### Each embed will only control its own routing
 
 - Each embed is in charge of its routing and will only know about itself.
-- Any switching between components will be handled by the router inside webWidget. (doesn't exist yet)
+- Embeds shouldn't know about each other so any routing between components will be handled by routing logic inside the core of the WebWidget. (As of Feb 2020 this doesn't exist yet - we'll add it once it becomes a requirement for embed switching)
 - An embed will simply indicate to the top level router that it's time to move to the next state.
 
 ## Redux
