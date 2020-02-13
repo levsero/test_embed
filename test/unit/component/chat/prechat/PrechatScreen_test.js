@@ -37,7 +37,7 @@ describe('PrechatScreen component', () => {
           zendeskLogo: 'zendeskLogoClasses'
         }
       },
-      'src/embeds/chat/online/components/SocialLogin': noopReactComponent(),
+      'src/embeds/chat/components/SocialLogin': noopReactComponent(),
       'component/loading/LoadingSpinner': {
         LoadingSpinner
       },

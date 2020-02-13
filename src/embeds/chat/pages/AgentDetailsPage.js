@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import AgentList from 'src/embeds/chat/online/components/AgentList'
+import AgentList from 'src/embeds/chat/components/AgentList'
 import { Button } from '@zendeskgarden/react-buttons'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'

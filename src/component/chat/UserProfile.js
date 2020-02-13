@@ -9,7 +9,7 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './UserProfile.scss'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 
-import SocialLogin from 'src/embeds/chat/online/components/SocialLogin'
+import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 
 export class UserProfile extends Component {
   static propTypes = {

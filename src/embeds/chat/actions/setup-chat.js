@@ -11,7 +11,7 @@ import {
 } from 'constants/chat'
 import wait from 'utility/wait'
 import { getIsPollingChat } from 'embeds/chat/selectors'
-import { fetchDeferredChatStatus } from 'embeds/chat/api/deferred-chat-api'
+import { fetchDeferredChatStatus } from 'embeds/chat/apis/deferred-chat-api'
 import errorTracker from 'service/errorTracker/errorTracker'
 import { document } from 'utility/globals'
 export const beginChatSetup = () => ({
