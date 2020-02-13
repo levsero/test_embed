@@ -4,7 +4,7 @@ import {
   TICKET_SUBMISSION_REQUEST_SUCCESS,
   CLEARED_FORM_STATE
 } from 'src/embeds/support/actions/action-types'
-import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
+import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {}
 
@@ -26,6 +26,7 @@ const formStates = (state = initialState, action = {}) => {
       return newState
     }
 
+    case API_RESET_WIDGET:
     case API_CLEAR_FORM:
       return initialState
     default:

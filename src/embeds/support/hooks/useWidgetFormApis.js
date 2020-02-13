@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLastFormPrefillId, getPrefillId, getPrefillValues } from 'embeds/support/selectors'
 import { useForm } from 'react-final-form'
@@ -13,9 +13,10 @@ const useWidgetFormApis = formId => {
   const prefillValues = useSelector(getPrefillValues(formId))
   const dispatch = useDispatch()
 
-  useOnClear(() => {
+  const onClear = useCallback(() => {
     form.reset({})
-  })
+  }, [form])
+  useOnClear(onClear)
 
   useEffect(() => {
     if (lastPrefill === prefillId) {

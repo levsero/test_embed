@@ -1,21 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
-const useOnClear = cb => {
-  const lastClearForm = useSelector(state => state.webWidget.clearFormTimestamp)
-  const currentClearForm = useRef(lastClearForm)
-
-  // We keep a ref to the callback so changing the callback doesn't cause the useEffect to trigger
-  const callback = useRef(cb)
-
-  callback.current = cb
+const useOnClear = callback => {
+  const lastClearFormTimestamp = useSelector(state => state.webWidget.clearFormTimestamp)
+  const currentClearFormTimestamp = useRef(lastClearFormTimestamp)
 
   useEffect(() => {
-    if (lastClearForm > currentClearForm.current) {
-      callback.current()
-      currentClearForm.current = lastClearForm
+    if (lastClearFormTimestamp > currentClearFormTimestamp.current) {
+      callback()
     }
-  }, [lastClearForm, currentClearForm])
+  }, [callback, lastClearFormTimestamp, currentClearFormTimestamp])
 }
 
 export default useOnClear

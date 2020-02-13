@@ -1,8 +1,11 @@
 import _ from 'lodash'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPrefillValues'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
-const prefillSpecificFormValues = (state = {}, action) => {
+const initialState = {}
+
+const prefillSpecificFormValues = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_SETTINGS:
       const forms = _.get(action.payload, 'webWidget.contactForm.ticketForms', [])
@@ -14,6 +17,8 @@ const prefillSpecificFormValues = (state = {}, action) => {
       })
 
       return _.merge({}, state, updatedValues)
+    case API_RESET_WIDGET:
+      return initialState
     default:
       return state
   }

@@ -1,6 +1,7 @@
 import { testReducer } from 'src/util/testHelpers'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import prefillSpecificFormValues from 'embeds/support/reducers/prefillSpecificFormValues'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {}
 
@@ -84,5 +85,10 @@ testReducer(prefillSpecificFormValues, [
         }
       }
     }
+  },
+  {
+    action: { type: API_RESET_WIDGET },
+    expected: {},
+    initialState
   }
 ])

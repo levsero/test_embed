@@ -1,9 +1,11 @@
 import _ from 'lodash'
-import { PREFILL_RECEIVED } from 'src/redux/modules/base/base-action-types'
+import { API_RESET_WIDGET, PREFILL_RECEIVED } from 'src/redux/modules/base/base-action-types'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPrefillValues'
 
-const prefillValues = (state = {}, action) => {
+const initialState = {}
+
+const prefillValues = (state = initialState, action) => {
   switch (action.type) {
     case PREFILL_RECEIVED:
       return {
@@ -21,6 +23,8 @@ const prefillValues = (state = {}, action) => {
       }
 
       return _.merge({}, state, normaliseFieldPrefillValues(fields))
+    case API_RESET_WIDGET:
+      return initialState
     default:
       return state
   }
