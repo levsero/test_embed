@@ -58,7 +58,7 @@ describe('ChatContactDetailsPopup component', () => {
         EDIT_CONTACT_DETAILS_ERROR_SCREEN
       },
       'embeds/chat/components/ChatModal': ChatModal,
-      'component/chat/UserProfile': { UserProfile },
+      'embeds/chat/components/UserProfile': { UserProfile },
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'component/Icon': noopReactComponent(),
       '@zendeskgarden/react-forms': {

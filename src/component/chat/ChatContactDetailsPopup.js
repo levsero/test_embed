@@ -9,7 +9,7 @@ import { nameValid, emailValid } from 'src/util/utils'
 import { isDefaultNickname } from 'src/util/chat'
 import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
-import { UserProfile } from 'component/chat/UserProfile'
+import UserProfile from 'embeds/chat/components/UserProfile'
 import { ICONS, NAME_PATTERN, EMAIL_PATTERN, TEST_IDS } from 'constants/shared'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import {
