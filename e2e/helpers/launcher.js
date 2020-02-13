@@ -14,8 +14,11 @@ const evaluate = async (script, ...arg) => {
 }
 
 const click = async () => {
-  const button = await getButton()
-  await button.click()
+  const launcherFrame = await getFrame()
+  await launcherFrame.waitForSelector('[data-testid="launcher"]', { visible: true })
+  await evaluate(() => {
+    document.querySelector('[data-testid="launcher"]').click()
+  })
 }
 
 export default {
