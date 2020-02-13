@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import * as selectors from '../settings-selectors'
 
 const settings = newSettings => {
@@ -291,15 +293,27 @@ test('getSettingsChatPopout', () => {
       },
       concierge: {
         avatarPath: 'http://example.com'
-      }
+      },
+      emailTranscriptEnabled: true
     },
     color: {
       theme: '#555555'
     }
   }
   const result = selectors.getSettingsChatPopout(settings(mockSettings))
+  const expected = {
+    webWidget: {
+      ...mockSettings,
+      chat: {
+        ..._.omit(mockSettings.chat, 'emailTranscriptEnabled'),
+        menuOptions: {
+          emailTranscript: true
+        }
+      }
+    }
+  }
 
-  expect(result).toEqual({ webWidget: mockSettings })
+  expect(result).toEqual(expected)
 })
 
 describe('getSettingsChatDepartmentsEmpty', () => {

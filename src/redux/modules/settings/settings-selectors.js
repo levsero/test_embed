@@ -148,16 +148,28 @@ const validateDepartment = department =>
 export const getSettingsChatPopout = createSelector(
   [
     getSettingsChatTitle,
+    getSettingsChatEmailTranscriptEnabled,
     getSettingsChatDepartmentsEnabled,
     getSettingsChatPrechatForm,
     getSettingsChatOfflineForm,
     getSettingsChatConcierge,
     getSettingsColor
   ],
-  (title, departmentsEnabled, prechatForm, offlineForm, concierge, color) => ({
+  (
+    title,
+    emailTransciptEnabled,
+    departmentsEnabled,
+    prechatForm,
+    offlineForm,
+    concierge,
+    color
+  ) => ({
     webWidget: {
       chat: {
         title,
+        menuOptions: {
+          emailTranscript: emailTransciptEnabled
+        },
         departments: {
           enabled: departmentsEnabled
         },
