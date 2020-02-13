@@ -6,7 +6,9 @@ import {
   SET_SNAPCALL_SUPPORTED,
   SNAPCALL_CALL_CONNECTED,
   SNAPCALL_TIMER_UPDATED,
-  SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
+  SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED,
+  SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED,
+  SNAPCALL_CALL_FAILED
 } from './action-types'
 
 export const snapcallCallEnded = () => {
@@ -65,5 +67,17 @@ export const loadSnapcall = () => {
     return import(/* webpackChunkName: 'snapcall' */ 'snapcall')
       .then(onSuccess)
       .catch(onFailure)
+  }
+}
+
+export const snapcallCallFailed = () => {
+  return {
+    type: SNAPCALL_CALL_FAILED
+  }
+}
+
+export const snapcallCallFailedNotificationClosed = () => {
+  return {
+    type: SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED
   }
 }
