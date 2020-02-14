@@ -8,7 +8,7 @@ import { Field } from 'react-final-form'
 import FormField from 'embeds/support/components/FormField'
 import { convertFieldValue } from 'embeds/support/utils/fieldConversion'
 import useFormBackup from 'embeds/support/hooks/useFormBackup'
-import useUpdateOnPrefill from 'embeds/support/hooks/useUpdateOnPrefill'
+import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 import { FORM_ERROR } from 'final-form'
@@ -29,7 +29,7 @@ const Form = ({
 }) => {
   const translate = useTranslate()
   useFormBackup(formName)
-  useUpdateOnPrefill()
+  useWidgetFormApis()
   const filteredFields = useConditionalFields(fields, conditions)
 
   return (

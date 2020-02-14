@@ -283,7 +283,7 @@ export const handlePopoutButtonClicked = () => {
 }
 
 export const apiClearForm = () => (dispatch, _getState) => {
-  dispatch({ type: actions.API_CLEAR_FORM })
+  dispatch({ type: actions.API_CLEAR_FORM, payload: { timestamp: Date.now() } })
   dispatch(clearAttachments())
 }
 

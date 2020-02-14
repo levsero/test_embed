@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`webWidget reducers includes all expected substates 1`] = `
+Object {
+  "clearFormTimestamp": 0,
+}
+`;

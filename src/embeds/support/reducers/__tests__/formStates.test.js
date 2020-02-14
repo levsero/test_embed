@@ -6,6 +6,7 @@ import {
   TICKET_SUBMISSION_REQUEST_SUCCESS
 } from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
+import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = { bob: { fieldOne: 'saget' } }
 const formStatePayload = {
@@ -47,6 +48,16 @@ testReducer(formStates, [
   },
   {
     action: { type: CLEARED_FORM_STATES },
+    expected: {},
+    initialState
+  },
+  {
+    action: { type: API_CLEAR_FORM },
+    expected: {},
+    initialState
+  },
+  {
+    action: { type: API_RESET_WIDGET },
     expected: {},
     initialState
   }

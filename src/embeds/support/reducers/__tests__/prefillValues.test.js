@@ -2,6 +2,7 @@ import { testReducer } from 'src/util/testHelpers'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import prefillValues from '../prefillValues'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
+import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {}
 
@@ -68,5 +69,10 @@ testReducer(prefillValues, [
         name: 'French name'
       }
     }
+  },
+  {
+    action: { type: API_RESET_WIDGET },
+    expected: {},
+    initialState
   }
 ])

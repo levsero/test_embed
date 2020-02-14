@@ -114,10 +114,12 @@ describe('handleEscapeKeyPressed', () => {
 
 describe('apiClearForm', () => {
   it('dispatches API_CLEAR_FORM and ATTACHMENTS_CLEARED actions', () => {
+    const mockTimestamp = 123123
+    Date.now = jest.fn().mockReturnValue(mockTimestamp)
     const dispatchedActions = dispatchAction(actions.apiClearForm())
 
     expect(dispatchedActions).toEqual([
-      { type: actionTypes.API_CLEAR_FORM },
+      { type: actionTypes.API_CLEAR_FORM, payload: { timestamp: mockTimestamp } },
       { type: ATTACHMENTS_CLEARED }
     ])
   })
