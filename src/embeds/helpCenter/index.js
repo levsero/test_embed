@@ -14,7 +14,7 @@ const HelpCenter = () => (
       <Route path={routes.articles()} component={ArticlePage} />
       <Route path={routes.searchPrompt()} component={SearchPromptPage} />
       <Route path={routes.search()} component={SearchPage} />
-      <Redirect exact={true} from={routes.home()} to={routes.searchPrompt()} />
+      <Redirect to={routes.searchPrompt()} />
     </Switch>
   </WidgetThemeProvider>
 )
