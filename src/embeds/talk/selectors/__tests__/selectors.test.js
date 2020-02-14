@@ -110,9 +110,11 @@ describe('talk selectors', () => {
     )
   })
 
-  test('getSnapcallSupported', () => {
-    expect(
-      getSnapcallSupported({ talk: { snapcall: { snapcallSupported: 'heebie jeebies' } } })
-    ).toEqual('heebie jeebies')
+  describe('getSnapcallSupported', () => {
+    it('returns the value within the snapcall object', () => {
+      expect(
+        getSnapcallSupported({ talk: { snapcall: { snapcallSupported: 'heebie jeebies' } } })
+      ).toEqual('heebie jeebies')
+    })
   })
 })

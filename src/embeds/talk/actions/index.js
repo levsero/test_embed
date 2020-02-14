@@ -8,7 +8,9 @@ import {
   SNAPCALL_TIMER_UPDATED,
   SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED,
   SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED,
-  SNAPCALL_CALL_FAILED
+  SNAPCALL_CALL_FAILED,
+  SNAPCALL_CALL_DISCONNECTED,
+  SNAPCALL_CALL_DISCONNECTED_NOTIFICATION_CLOSED
 } from './action-types'
 
 export const snapcallCallEnded = () => {
@@ -36,11 +38,17 @@ export const snapcallTimerUpdated = callDuration => {
   }
 }
 
-export const snapcallCallEndedNotificationClosed = () => {
-  return {
-    type: SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
-  }
-}
+export const snapcallCallEndedNotificationClosed = () => ({
+  type: SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
+})
+
+export const snapcallCallDisconnected = () => ({
+  type: SNAPCALL_CALL_DISCONNECTED
+})
+
+export const snapcallCallDisconnectedNotificationClosed = () => ({
+  type: SNAPCALL_CALL_DISCONNECTED_NOTIFICATION_CLOSED
+})
 
 export const setSnapcallSupported = value => ({
   type: SET_SNAPCALL_SUPPORTED,

@@ -7,21 +7,19 @@ import { Widget, Header, Main, Footer } from 'src/components/Widget'
 
 import ClickToCallIntro from 'src/embeds/talk/components/ClickToCallIntro'
 import ClickToCallInProgress from 'src/embeds/talk/components/ClickToCallInProgress'
-import {
-  getSnapcallCallStatus,
-  getSnapcallCallDuration,
-  getSnapcallPreviousCall
-} from 'src/embeds/talk/selectors'
+import { getSnapcallCallStatus, getSnapcallCallDuration } from 'src/embeds/talk/selectors'
 import useSnapcallCallStartingEvent from 'src/embeds/talk/hooks/useSnapcallCallStartingEvent'
 import useSnapcallCallEndedEvent from 'src/embeds/talk/hooks/useSnapcallCallEndedEvent'
+import useSnapcallCallDisconnectedEvent from 'src/embeds/talk/hooks/useSnapcallCallDisconnectedEvent'
 import useSnapcallUpdateTime from 'src/embeds/talk/hooks/useSnapcallUpdateTime'
 import useInitSnapcall from 'src/embeds/talk/hooks/useInitSnapcall'
 import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
 
-const ClickToCallPage = ({ callStatus, callDuration, previousCall, averageWaitTime }) => {
+const ClickToCallPage = ({ callStatus, callDuration, averageWaitTime }) => {
   useInitSnapcall()
   useSnapcallCallStartingEvent()
   useSnapcallCallEndedEvent()
+  useSnapcallCallDisconnectedEvent()
   useSnapcallUpdateTime()
   const translate = useTranslate()
 
@@ -33,7 +31,6 @@ const ClickToCallPage = ({ callStatus, callDuration, previousCall, averageWaitTi
           <ClickToCallInProgress callDuration={callDuration} />
         ) : (
           <ClickToCallIntro
-            previousCall={previousCall}
             callDuration={callDuration}
             averageWaitTime={averageWaitTime}
             callStatus={callStatus}
@@ -48,14 +45,12 @@ const ClickToCallPage = ({ callStatus, callDuration, previousCall, averageWaitTi
 ClickToCallPage.propTypes = {
   callStatus: PropTypes.string,
   callDuration: PropTypes.string,
-  previousCall: PropTypes.bool,
   averageWaitTime: PropTypes.string
 }
 
 const mapStateToProps = state => ({
   callStatus: getSnapcallCallStatus(state),
   callDuration: getSnapcallCallDuration(state),
-  previousCall: getSnapcallPreviousCall(state),
   averageWaitTime: getAverageWaitTimeString(state)
 })
 
