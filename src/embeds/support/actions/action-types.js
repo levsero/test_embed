@@ -18,3 +18,11 @@ export const ATTACHMENT_LIMIT_EXCEEDED = 'widget/support/ATTACHMENT_LIMIT_EXCEED
 export const CLEAR_LIMIT_EXCEEDED_ERROR = 'widget/support/CLEAR_LIMIT_EXCEEDED_ERROR'
 export const DRAG_END = 'widget/support/DRAG_END'
 export const DRAG_START = 'widget/support/DRAG_START'
+
+export const TICKET_FORM_UPDATE = 'widget/submitTicket/TICKET_FORM_UPDATE'
+export const TICKET_FORMS_REQUEST_SENT = 'widget/submitTicket/TICKET_FORMS_REQUEST_SENT'
+export const TICKET_FORMS_REQUEST_SUCCESS = 'widget/submitTicket/TICKET_FORMS_REQUEST_SUCCESS'
+export const TICKET_FORMS_REQUEST_FAILURE = 'widget/submitTicket/TICKET_FORMS_REQUEST_FAILURE'
+export const TICKET_FIELDS_REQUEST_SENT = 'widget/submitTicket/TICKET_FIELDS_REQUEST_SENT'
+export const TICKET_FIELDS_REQUEST_SUCCESS = 'widget/submitTicket/TICKET_FIELDS_REQUEST_SUCCESS'
+export const TICKET_FIELDS_REQUEST_FAILURE = 'widget/submitTicket/TICKET_FIELDS_REQUEST_FAILURE'

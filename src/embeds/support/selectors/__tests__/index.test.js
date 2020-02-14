@@ -1,11 +1,13 @@
 import createStore from 'src/redux/createStore'
-import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
 import { i18n } from 'service/i18n'
 import { getContactFormFields, getField, getForm } from 'embeds/support/selectors'
+import { getAllForms } from '..'
+import { getIsLoading } from '..'
 
 const nameField = {
   id: 'name',
@@ -734,5 +736,37 @@ describe('getContactFormFields', () => {
     const result = getContactFormFields({ support: { contactFormFields: fields } })
 
     expect(result).toBe(fields)
+  })
+})
+
+describe('getAllForms', () => {
+  it('returns all forms sorted by their position', () => {
+    const form1 = { id: 1, position: 3 }
+    const form2 = { id: 2, position: 1 }
+    const form3 = { id: 3, position: 2 }
+
+    const forms = {
+      [form1.id]: form1,
+      [form2.id]: form2,
+      [form3.id]: form3
+    }
+
+    const result = getAllForms({ support: { forms } })
+
+    expect(result).toEqual([form2, form3, form1])
+  })
+})
+
+describe('getIsLoading', () => {
+  it('returns true if the form or field api is currently loading', () => {
+    const result = getIsLoading({ support: { isLoading: true } })
+
+    expect(result).toBe(true)
+  })
+
+  it('returns false if the form or field api is not currently loading', () => {
+    const result = getIsLoading({ support: { isLoading: false } })
+
+    expect(result).toBe(false)
   })
 })

@@ -1,4 +1,4 @@
-import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
+import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 
 const initialState = {}
 
