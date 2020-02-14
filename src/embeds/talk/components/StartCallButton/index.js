@@ -1,26 +1,16 @@
 import React from 'react'
-import { snapcallAPI } from 'snapcall'
-
-import useTranslate from 'src/hooks/useTranslate'
+import PropTypes from 'prop-types'
 
 import { Button } from './styles'
 
-const handleOnClick = () => {
-  const callStarted = snapcallAPI.startCall()
-
-  if (!callStarted) {
-    alert('call failed to start')
-  }
-}
-
-const StartCallButton = () => {
-  const translate = useTranslate()
-
+const StartCallButton = ({ clickHandler, contents }) => {
   return (
-    <Button onClick={handleOnClick} primary={true}>
-      {translate('embeddable_framework.talk.clickToCall.button.startCall')}
+    <Button onClick={clickHandler} primary={true}>
+      {contents}
     </Button>
   )
 }
+
+StartCallButton.propTypes = { clickHandler: PropTypes.func, contents: PropTypes.element }
 
 export default StartCallButton

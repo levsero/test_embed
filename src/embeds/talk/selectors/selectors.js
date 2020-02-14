@@ -11,7 +11,7 @@ export const getTitle = (state, fallback) => {
 }
 
 // export const getSnapcallButtonId = state => getEmbeddableConfig(state).snapcallButtonId
-export const getSnapcallButtonId = _state => 'SNAPCALL_BUTTON_ID'
+export const getSnapcallButtonId = _state => '9449ccb0486611ea9fbb175f24bc3d91'
 
 export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
 export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration

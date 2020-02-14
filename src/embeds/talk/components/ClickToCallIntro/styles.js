@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Dots } from '@zendeskgarden/react-loaders'
 
 import ClickToCallIcon from 'src/embeds/talk/icons/click_to_call.svg'
 
@@ -41,4 +42,15 @@ const FlexContainer = styled.div`
   flex: 1;
 `
 
-export { Container, StyledClickToCallIcon as ClickToCallIcon, Message, FlexContainer, PageContents }
+const StyledDots = styled(Dots)`
+  font-size: 2rem !important;
+`
+
+export {
+  Container,
+  StyledClickToCallIcon as ClickToCallIcon,
+  Message,
+  FlexContainer,
+  PageContents,
+  StyledDots as Dots
+}

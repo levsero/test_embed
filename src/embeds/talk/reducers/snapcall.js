@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import {
   SNAPCALL_CALL_STARTED,
+  SNAPCALL_CALL_CONNECTED,
   SNAPCALL_CALL_ENDED,
   SNAPCALL_TIMER_UPDATED,
   SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
@@ -12,7 +13,15 @@ const callStatus = (state = null, action) => {
 
   switch (type) {
     case SNAPCALL_CALL_STARTED:
-      return 'active'
+      return {
+        ...state,
+        callStatus: 'connecting'
+      }
+    case SNAPCALL_CALL_CONNECTED:
+      return {
+        ...state,
+        callStatus: 'active'
+      }
     case SNAPCALL_CALL_ENDED:
       return null
     default:
