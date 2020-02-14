@@ -4,7 +4,9 @@ import {
   SNAPCALL_CALL_CONNECTED,
   SNAPCALL_CALL_ENDED,
   SNAPCALL_TIMER_UPDATED,
-  SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED
+  SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED,
+  SNAPCALL_CALL_FAILED,
+  SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED
 } from 'src/embeds/talk/actions/action-types'
 import snapcallSupported from './snapcall-supported'
 
@@ -13,16 +15,14 @@ const callStatus = (state = null, action) => {
 
   switch (type) {
     case SNAPCALL_CALL_STARTED:
-      return {
-        ...state,
-        callStatus: 'connecting'
-      }
+      return 'connecting'
     case SNAPCALL_CALL_CONNECTED:
-      return {
-        ...state,
-        callStatus: 'active'
-      }
+      return 'active'
     case SNAPCALL_CALL_ENDED:
+      return null
+    case SNAPCALL_CALL_FAILED:
+      return 'failed'
+    case SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED:
       return null
     default:
       return state
@@ -49,6 +49,8 @@ const callDuration = (state = '0:00', action) => {
     case SNAPCALL_TIMER_UPDATED:
       return payload.callDuration
     case SNAPCALL_CALL_STARTED:
+      return '0:00'
+    case SNAPCALL_CALL_ENDED_NOTIFICATION_CLOSED:
       return '0:00'
     default:
       return state

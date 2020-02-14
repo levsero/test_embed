@@ -7,19 +7,20 @@ import { snapcallAPI } from 'snapcall'
 
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import CallEndedNotification from 'src/embeds/talk/components/CallEndedNotification'
+import CallFailedNotification from 'src/embeds/talk/components/CallFailedNotification'
 import StartCallButton from 'src/embeds/talk/components/StartCallButton'
-import { snapcallCallStarted } from 'src/embeds/talk/actions'
+import { snapcallCallStarted, snapcallCallFailed } from 'src/embeds/talk/actions'
 
 import { Container, ClickToCallIcon, Message, FlexContainer, PageContents, Dots } from './styles'
 
-const startCallClickHandler = (snapcallCallStarted, callStatus) => () => {
+const startCallClickHandler = (snapcallCallStarted, snapcallCallFailed, callStatus) => () => {
   if (callStatus === 'connecting') return
 
   snapcallCallStarted()
   const callStarted = snapcallAPI.startCall()
 
   if (!callStarted) {
-    alert('call failed to start')
+    snapcallCallFailed()
   }
 }
 
@@ -31,12 +32,33 @@ const buttonContents = (translate, callStatus) => {
   )
 }
 
+const IntroFooter = ({
+  translate,
+  previousCall,
+  callStatus,
+  callDuration,
+  snapcallCallStarted,
+  snapcallCallFailed
+}) => {
+  if (callStatus === 'failed') return <CallFailedNotification />
+
+  return previousCall ? (
+    <CallEndedNotification callDuration={callDuration} />
+  ) : (
+    <StartCallButton
+      clickHandler={startCallClickHandler(snapcallCallStarted, snapcallCallFailed, callStatus)}
+      contents={buttonContents(translate, callStatus)}
+    />
+  )
+}
+
 const ClickToCallIntro = ({
   averageWaitTime,
   previousCall,
   callDuration,
   callStatus,
-  snapcallCallStarted
+  snapcallCallStarted,
+  snapcallCallFailed
 }) => {
   const translate = useTranslate()
 
@@ -49,15 +71,14 @@ const ClickToCallIntro = ({
           {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
         </PageContents>
       </FlexContainer>
-
-      {previousCall ? (
-        <CallEndedNotification callDuration={callDuration} />
-      ) : (
-        <StartCallButton
-          clickHandler={startCallClickHandler(snapcallCallStarted, callStatus)}
-          contents={buttonContents(translate, callStatus)}
-        />
-      )}
+      <IntroFooter
+        translate={translate}
+        previousCall={previousCall}
+        callStatus={callStatus}
+        callDuration={callDuration}
+        snapcallCallStarted={snapcallCallStarted}
+        snapcallCallFailed={snapcallCallFailed}
+      />
     </Container>
   )
 }
@@ -67,11 +88,22 @@ ClickToCallIntro.propTypes = {
   previousCall: PropTypes.bool,
   callDuration: PropTypes.string,
   callStatus: PropTypes.string,
-  snapcallCallStarted: PropTypes.func
+  snapcallCallStarted: PropTypes.func,
+  snapcallCallFailed: PropTypes.func
+}
+
+IntroFooter.propTypes = {
+  previousCall: PropTypes.bool,
+  callDuration: PropTypes.string,
+  callStatus: PropTypes.string,
+  snapcallCallStarted: PropTypes.func,
+  snapcallCallFailed: PropTypes.func,
+  translate: PropTypes.func
 }
 
 const mapDispatchToProps = {
-  snapcallCallStarted
+  snapcallCallStarted,
+  snapcallCallFailed
 }
 
 const connectedComponent = connect(
