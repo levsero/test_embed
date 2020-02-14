@@ -1,10 +1,11 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import { isMobileBrowser } from 'utility/devices'
+import routes from 'src/embeds/talk/routes'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneField from 'src/embeds/talk/components/PhoneField'
@@ -32,6 +33,7 @@ const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
 class CallbackForm extends Component {
   static propTypes = {
+    showCallbackNumber: PropTypes.bool.isRequired,
     supportedCountries: PropTypes.arrayOf(PropTypes.string),
     formState: PropTypes.object.isRequired,
     callback: PropTypes.shape({
@@ -53,6 +55,10 @@ class CallbackForm extends Component {
     // used to force the component to re-render when locale changes
     // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    showCallbackNumber: false
   }
 
   constructor(props) {
@@ -106,11 +112,12 @@ class CallbackForm extends Component {
       averageWaitTime,
       supportedCountries,
       nameLabelText,
-      descriptionLabelText
+      descriptionLabelText,
+      showCallbackNumber
     } = this.props
 
     if (callback.success) {
-      return <Redirect to="/talk/success" />
+      return <Redirect to={routes.successNotification()} />
     }
 
     const errorMessage = this.getErrorMessage()
@@ -123,7 +130,7 @@ class CallbackForm extends Component {
         onChange={this.handleFormChange}
       >
         <Main>
-          <CallbackPhone />
+          {showCallbackNumber && <CallbackPhone />}
           <div>
             <Header>{headerMessage}</Header>
             {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}

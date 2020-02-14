@@ -6,16 +6,16 @@ import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 import { Widget, Header } from 'src/components/Widget'
 import { getTitle } from 'src/embeds/talk/selectors'
 
-const CallbackPage = ({ title }) => {
+const CallbackAndPhonePage = ({ title }) => {
   return (
     <Widget>
       <Header title={title} />
-      <CallbackForm />
+      <CallbackForm showCallbackNumber={true} />
     </Widget>
   )
 }
 
-CallbackPage.propTypes = {
+CallbackAndPhonePage.propTypes = {
   title: PropTypes.string.isRequired
 }
 
@@ -23,4 +23,4 @@ const mapStateToProps = state => ({
   title: getTitle(state, 'embeddable_framework.talk.form.title')
 })
 
-export default connect(mapStateToProps)(CallbackPage)
+export default connect(mapStateToProps)(CallbackAndPhonePage)

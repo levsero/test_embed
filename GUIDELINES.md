@@ -177,7 +177,7 @@ ComponentName
 
 ### Avoid using PropTypes.object
 
-- Prefer to use PropTypes.shape and define the properites passed in the object
+- Prefer to use PropTypes.shape and define the properties passed in the object
 - If the shape is shared across multiple components it can be extracted into it's own file for reuse
 
 ### Limit the use of globals inside components
@@ -225,38 +225,37 @@ export default FunkyButton
 This an example of what `talk` routes will be used:
 
 ```
-/embed/talk/online/callback
-/embed/talk/online/phone
-/embed/talk/online/callbackPhone
+/embed/talk/online/callback_only
+/embed/talk/online/phone_only
+/embed/talk/online/callback_and_phone
 /embed/talk/offline
 ```
 
 The talk routes directory will look like:
 
 ```
+|-- routes
+  |-- index.js
 |-- pages
   |-- online
-    |-- callback
+    |-- CallbackOnlyPage
       |-- index.js
-    |-- phone
+    |-- PhoneOnlyPage
       |-- index.js
-    |-- callbackPhone
+    |-- CallbackAndPhonePage
       |-- index.js
-    |-- routes.js
   |-- offline
-    |-- index.js
-  |-- routes.js
+    |-- OfflinePage
+      |-- index.js
 ```
+
+Use the `routes/index.js` file to define all of your embeds routes.
 
 ### Our routes will always point to a Page component
 
 - Pages are stored separately to other components
 - The file path of a page component should match logically with the route that points to it
-  - Ie /embeds/talk/online/callback => /embeds/talk/pages/online/CallbackPage
-
-### Routing components should only contain routing logic
-
-- No view logic, no containers, footers or styles
+  - Ie /embeds/talk/online/callback_only => /embeds/talk/pages/online/CallbackOnlyPage
 
 ### Embed routes will be prefixed with their embed name
 
@@ -270,22 +269,14 @@ The talk routes directory will look like:
 
 ### Navigation based on state (as opposed to links) should happen in the parent route file.
 
-- The route file should have a redirect from `/` to the correct subpath
-  - `<Redirect exact={true} from='/' to={page} />`
-- Route files should not need to know any paths outside of their immediate children
-  - eg. the `/talk` router knows about `talk/online` and `talk/offline`, but does not know `talk/online/callback`. Similarly `/talk/online` does not know about `/talk/offline`.
-- Handle any static routing logic inside componentWillMount and dynamic logic inside render.
-  - eg. In the talk online router determining if the talk phone screen or callback screen should display based on talk settings is static since it won't change. Online and offline state is dynamic can should be done inside render.
+- Use a `<Switch>` component to define all of the main routes for each embed. A `<Switch>` statement will **only render the first** `<Redirect />` or `<Route />` child that has a matching path to the current route.
+- If there a no matching routes, then you can use a `<Redirect to={dynamicPath} />` near the bottom of the `<Switch>` statement to dynamically redirect to one of the routes that you've defined above it. You can use this to choose which page to dynamically route to based on state.
 
 ### Each embed will only control its own routing
 
 - Each embed is in charge of its routing and will only know about itself.
-- Any switching between components will be handled by the router inside webWidget.
+- Embeds shouldn't know about each other so any routing between components will be handled by routing logic inside the core of the WebWidget. (As of Feb 2020 this doesn't exist yet - we'll add it once it becomes a requirement for embed switching)
 - An embed will simply indicate to the top level router that it's time to move to the next state.
-
-### Use `component` prop instead of `render` inside routes.
-
-- All page component should be connected to the Redux store so shouldn’t need any props passed down.
 
 ## Redux
 
