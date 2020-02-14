@@ -16,7 +16,8 @@ import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
 const ClickToCallPage = lazy(() =>
   import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/ClickToCallPage')
 )
-import { getAgentAvailability, getCapability } from 'src/redux/modules/talk/talk-selectors'
+import { getAgentAvailability } from 'src/redux/modules/talk/talk-selectors'
+import { getCapability } from 'src/embeds/talk/selectors'
 
 const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),

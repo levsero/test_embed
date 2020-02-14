@@ -30,6 +30,7 @@ Object {
     "callDuration": "0:00",
     "callStatus": null,
     "previousCall": false,
+    "snapcallSupported": null,
   },
   "vendor": Object {
     "io": null,

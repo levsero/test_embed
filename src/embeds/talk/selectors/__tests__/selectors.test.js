@@ -1,9 +1,40 @@
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
-import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import {
+  CLICK_TO_CALL,
+  PHONE_ONLY,
+  CALLBACK_ONLY,
+  CALLBACK_AND_PHONE
+} from 'src/redux/modules/talk/talk-capability-types'
 
-import { getTitle, getOfflineTitle, getTalkTitleKey } from '../selectors'
+import {
+  getTitle,
+  getOfflineTitle,
+  getTalkTitleKey,
+  getSnapcallSupported,
+  getCapability
+} from '../selectors'
 
 describe('talk selectors', () => {
+  describe('getCapability returns the capability', () => {
+    test.each([
+      [CLICK_TO_CALL, true, CLICK_TO_CALL],
+      [CLICK_TO_CALL, false, PHONE_ONLY],
+      [CLICK_TO_CALL, null, PHONE_ONLY],
+      [CALLBACK_ONLY, true, CLICK_TO_CALL],
+      [CALLBACK_ONLY, null, CALLBACK_ONLY],
+      [PHONE_ONLY, null, PHONE_ONLY],
+      [CALLBACK_AND_PHONE, null, CALLBACK_AND_PHONE],
+      [CALLBACK_AND_PHONE, false, PHONE_ONLY]
+    ])(
+      'When config state is %p, snapcallEnabled is %p, expect to return %p',
+      (state, snapcallSupported, expectedValue) => {
+        const config = { capability: state }
+        const result = getCapability.resultFunc(config, snapcallSupported)
+        expect(result).toEqual(expectedValue)
+      }
+    )
+  })
+
   describe('getTitle', () => {
     const createState = title => ({ settings: { talk: { title } } })
 
@@ -25,7 +56,7 @@ describe('talk selectors', () => {
   describe('getOfflineTitle', () => {
     const createState = (title, capability) => ({
       settings: { talk: { title } },
-      talk: { embeddableConfig: { capability } }
+      talk: { snapcall: {}, embeddableConfig: { capability } }
     })
 
     it('returns the settings talk title if it exists', () => {
@@ -77,5 +108,11 @@ describe('talk selectors', () => {
         expect(result).toEqual(expectedValue)
       }
     )
+  })
+
+  test('getSnapcallSupported', () => {
+    expect(
+      getSnapcallSupported({ talk: { snapcall: { snapcallSupported: 'heebie jeebies' } } })
+    ).toEqual('heebie jeebies')
   })
 })

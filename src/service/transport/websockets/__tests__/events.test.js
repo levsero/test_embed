@@ -4,6 +4,7 @@ import {
   talkAverageWaitTimeEventToAction
 } from '../events'
 import * as actions from 'src/redux/modules/talk'
+import * as embedActions from 'src/embeds/talk/actions'
 
 jest.mock('src/redux/modules/talk')
 
@@ -16,8 +17,6 @@ const mockReduxStore = {
 }
 
 describe('talkEmbeddableConfigEventToAction', () => {
-  let callback, mockConfig
-
   beforeEach(() => {
     talkEmbeddableConfigEventToAction(mockSocket, mockReduxStore)
   })
@@ -26,9 +25,26 @@ describe('talkEmbeddableConfigEventToAction', () => {
     expect(mockSocket.on).toHaveBeenCalledWith('socket.embeddableConfig', expect.any(Function))
   })
 
+  const getConfig = configOverrides => ({
+    agentAvailability: false,
+    averageWaitTime: '1',
+    averageWaitTimeSetting: 'exact',
+    averageWaitTimeEnabled: true,
+    capability: '0',
+    enabled: false,
+    nickname: '',
+    phoneNumber: '',
+    ...configOverrides
+  })
+
+  const getConnectionCallback = () => mockSocket.on.mock.calls[0][1]
+  const getDisconnectionCallback = () => mockSocket.on.mock.calls[1][1]
+
   describe('when the event is fired', () => {
-    beforeEach(() => {
-      mockConfig = {
+    it('dispatches the updateTalkEmbeddableConfig action', () => {
+      const callback = getConnectionCallback()
+      callback(getConfig())
+      expect(actions.updateTalkEmbeddableConfig).toHaveBeenCalledWith({
         agentAvailability: false,
         averageWaitTime: '1',
         averageWaitTimeSetting: 'exact',
@@ -37,26 +53,42 @@ describe('talkEmbeddableConfigEventToAction', () => {
         enabled: false,
         nickname: '',
         phoneNumber: ''
-      }
-
-      callback = mockSocket.on.mock.calls[0][1]
-      callback(mockConfig)
+      })
     })
 
-    it('dispatches the updateTalkEmbeddableConfig action', () => {
-      expect(actions.updateTalkEmbeddableConfig).toHaveBeenCalledWith(mockConfig)
+    describe('when __DEV__ is true', () => {
+      describe('and capability is 3', () => {
+        it('dispatches loadSnapcall', () => {
+          global.__DEV__ = true
+          jest.spyOn(embedActions, 'loadSnapcall')
+          const callback = getConnectionCallback()
+          callback(getConfig({ capability: 3 }))
+
+          expect(embedActions.loadSnapcall).toHaveBeenCalled()
+          global.__DEV__ = false
+        })
+      })
+
+      describe('and capability is not 3', () => {
+        it('does not dispatch loadSnapcall', () => {
+          global.__DEV__ = true
+          jest.spyOn(embedActions, 'loadSnapcall')
+          const callback = getConnectionCallback()
+          callback(getConfig())
+
+          expect(embedActions.loadSnapcall).not.toHaveBeenCalled()
+          global.__DEV__ = false
+        })
+      })
     })
   })
 
   describe('when the disconnect socket event is fired', () => {
-    beforeEach(() => {
-      mockConfig = { enabled: false }
+    it('dispatches the talkDisconnect action', () => {
+      const disconnectionCallback = getDisconnectionCallback()
 
-      callback = mockSocket.on.mock.calls[1][1]
-      callback()
-    })
+      disconnectionCallback()
 
-    it('dispatches the updateTalkEmbeddableConfig action with enabled as false', () => {
       expect(actions.talkDisconnect).toHaveBeenCalled()
     })
   })
