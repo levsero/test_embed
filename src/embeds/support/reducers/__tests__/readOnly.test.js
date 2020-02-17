@@ -1,6 +1,7 @@
 import { testReducer } from 'src/util/testHelpers'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import readOnly from '../readOnly'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 const initialState = {}
 
@@ -8,10 +9,7 @@ testReducer(readOnly, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: {
-      name: false,
-      email: false
-    }
+    expected: {}
   },
   {
     initialState,
@@ -25,12 +23,12 @@ testReducer(readOnly, [
       }
     }),
     expected: {
-      name: true
+      [createKeyID('name')]: true
     }
   },
   {
     initialState: {
-      name: true
+      [createKeyID('name')]: true
     },
     action: handlePrefillReceived({
       email: {
@@ -43,8 +41,8 @@ testReducer(readOnly, [
       }
     }),
     expected: {
-      email: true,
-      name: false
+      [createKeyID('email')]: true,
+      [createKeyID('name')]: false
     }
   }
 ])

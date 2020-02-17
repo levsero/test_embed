@@ -17,9 +17,6 @@ Object {
   "prefillId": 0,
   "prefillSpecificFormValues": Object {},
   "prefillValues": Object {},
-  "readOnly": Object {
-    "email": false,
-    "name": false,
-  },
+  "readOnly": Object {},
 }
 `;
