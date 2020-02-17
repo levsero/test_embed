@@ -5,13 +5,11 @@ import {
   talkDisconnect
 } from 'src/redux/modules/talk'
 import { loadSnapcall } from 'src/embeds/talk/actions'
+import { CAPABILITY_TYPE_CODES } from 'src/redux/modules/talk/talk-capability-types'
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', config => {
-    // config.capability = 3 // Uncomment this line to test snapcall functionality
-    if (__DEV__ && config.capability === 3) {
-      // Replace DEV when we get an arturo or otherwise
-      // We want this check to roughly be here since it should be the first action to occur when we know whether snapcall is supported by Talk
+    if (config.capability === CAPABILITY_TYPE_CODES.CLICK_TO_CALL) {
       reduxStore.dispatch(loadSnapcall())
     }
     reduxStore.dispatch(updateTalkEmbeddableConfig(config))

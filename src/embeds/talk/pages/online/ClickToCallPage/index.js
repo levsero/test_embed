@@ -12,6 +12,7 @@ import useSnapcallCallStartingEvent from 'src/embeds/talk/hooks/useSnapcallCallS
 import useSnapcallCallEndedEvent from 'src/embeds/talk/hooks/useSnapcallCallEndedEvent'
 import useSnapcallCallDisconnectedEvent from 'src/embeds/talk/hooks/useSnapcallCallDisconnectedEvent'
 import useSnapcallUpdateTime from 'src/embeds/talk/hooks/useSnapcallUpdateTime'
+import useSnapcallMediaRequestEvent from 'src/embeds/talk/hooks/useSnapcallMediaRequestEvent'
 import useInitSnapcall from 'src/embeds/talk/hooks/useInitSnapcall'
 import { getAverageWaitTimeString } from 'src/redux/modules/talk/talk-selectors'
 
@@ -21,6 +22,7 @@ const ClickToCallPage = ({ callStatus, callDuration, averageWaitTime }) => {
   useSnapcallCallEndedEvent()
   useSnapcallCallDisconnectedEvent()
   useSnapcallUpdateTime()
+  useSnapcallMediaRequestEvent()
   const translate = useTranslate()
 
   return (
