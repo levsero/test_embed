@@ -3,7 +3,7 @@ import { createField, createForm, testForm } from 'e2e/helpers/support-embed'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import widget from 'e2e/helpers/widget'
 
-const testCustomForm = async ({ field, ...other }) => {
+const testCustomForm = async ({ field, queryElement = true, ...other }) => {
   // Add a description field to each custom form we are testing, this is because our code will fail if
   // a description field is not included.
   const descriptionField = createField({ type: 'description' })
@@ -32,7 +32,9 @@ const testCustomForm = async ({ field, ...other }) => {
 
   await allowsInputTextEditing(descriptionElement, 'Some message')
 
-  const element = await queries.queryByLabelText(await widget.getDocument(), field.title_in_portal)
+  const element = queryElement
+    ? await queries.queryByLabelText(await widget.getDocument(), field.title_in_portal)
+    : undefined
 
   return {
     ...result,
@@ -420,4 +422,15 @@ describe('support custom fields', () => {
       })
     })
   })
+})
+
+test('does not break when an unsupported field is in the form', async () => {
+  const unsupportedField = createField({ type: 'some unsupported field' })
+
+  const { expectSuccess } = await testCustomForm({
+    field: unsupportedField,
+    queryElement: false
+  })
+
+  await expectSuccess()
 })
