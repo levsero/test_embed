@@ -193,6 +193,16 @@ parts:
       screenshot: "https://drive.google.com/open?id=19KZ0HHETZ495uIADSltkY4arXFgUufhh"
       value: "Please check this box to proceed."
   - translation:
+      key: "embeddable_framework.validation.error.attachments.singular"
+      title: "Error message shown below attachment label when there is an invalid file. This is for a singular error"
+      screenshot: "https://drive.google.com/file/d/1loDOJ-NN6CfE72w6F-Rt9LvPiRs-GVD_/view?usp=sharing"
+      value: "Remove invalid file"
+  - translation:
+      key: "embeddable_framework.validation.error.attachments.plural"
+      title: "Error message shown below attachment label when there is an invalid file. This is for multiple errors."
+      screenshot: "https://drive.google.com/file/d/1loDOJ-NN6CfE72w6F-Rt9LvPiRs-GVD_/view?usp=sharing"
+      value: "Remove invalid files"
+  - translation:
       key: "embeddable_framework.validation.label.new_optional"
       title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
       screenshot: "https://drive.google.com/file/d/1rxKRpuKK--cO1UQlI3nBlxwqzjSKBI2a/view?usp=sharing"
