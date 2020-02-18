@@ -28,8 +28,7 @@ Object {
   },
   "snapcall": Object {
     "callDuration": "0:00",
-    "callStatus": null,
-    "previousCall": false,
+    "callStatus": "inactive",
     "snapcallSupported": null,
   },
   "vendor": Object {

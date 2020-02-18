@@ -6,7 +6,11 @@ import { Component as ClickToCallPage } from '..'
 jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('src/embeds/talk/hooks/useSnapcallUpdateTime', () => () => '00:00')
 
-const renderComponent = props => render(<ClickToCallPage {...props} />)
+const defaultProps = {
+  callDuration: '0:00'
+}
+
+const renderComponent = props => render(<ClickToCallPage {...defaultProps} {...props} />)
 
 describe('render', () => {
   it('renders the expected title', () => {
@@ -16,7 +20,7 @@ describe('render', () => {
   })
 
   it('renders the start call button if the call is not active', () => {
-    const { getByText } = renderComponent({ callStatus: null })
+    const { getByText } = renderComponent({ callStatus: 'inactive' })
 
     expect(getByText('Start call')).toBeInTheDocument()
   })
@@ -34,7 +38,7 @@ describe('render', () => {
   })
 
   it('does not render the end call button if the call is not active', () => {
-    const { queryByText } = renderComponent({ callStatus: null })
+    const { queryByText } = renderComponent({ callStatus: 'inactive' })
 
     expect(queryByText('End call')).not.toBeInTheDocument()
   })

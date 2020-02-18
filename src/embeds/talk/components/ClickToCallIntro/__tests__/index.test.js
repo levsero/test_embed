@@ -7,7 +7,7 @@ import ClickToCallIntro from '..'
 
 jest.mock('src/redux/modules/talk/talk-selectors')
 
-const defaultProps = { averageWaitTime: null, previousCall: false, callDuration: '0:00' }
+const defaultProps = { averageWaitTime: null, callDuration: '0:00', callStatus: 'inactive' }
 
 const renderComponent = props => render(<ClickToCallIntro {...defaultProps} {...props} />)
 

@@ -8,6 +8,7 @@ import { snapcallAPI } from 'snapcall'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import CallEndedNotification from 'src/embeds/talk/components/CallEndedNotification'
 import CallFailedNotification from 'src/embeds/talk/components/CallFailedNotification'
+import CallDisconnectedNotification from 'src/embeds/talk/components/CallDisconnectedNotification'
 import StartCallButton from 'src/embeds/talk/components/StartCallButton'
 import { snapcallCallStarted, snapcallCallFailed } from 'src/embeds/talk/actions'
 
@@ -34,27 +35,33 @@ const buttonContents = (translate, callStatus) => {
 
 const IntroFooter = ({
   translate,
-  previousCall,
   callStatus,
   callDuration,
   snapcallCallStarted,
   snapcallCallFailed
 }) => {
-  if (callStatus === 'failed') return <CallFailedNotification />
-
-  return previousCall ? (
-    <CallEndedNotification callDuration={callDuration} />
-  ) : (
-    <StartCallButton
-      clickHandler={startCallClickHandler(snapcallCallStarted, snapcallCallFailed, callStatus)}
-      contents={buttonContents(translate, callStatus)}
-    />
-  )
+  switch (callStatus) {
+    case 'ended':
+      return <CallEndedNotification callDuration={callDuration} />
+    case 'disconnected':
+      return <CallDisconnectedNotification callDuration={callDuration} />
+    case 'failed':
+      return <CallFailedNotification />
+    case 'connecting':
+    case 'inactive':
+      return (
+        <StartCallButton
+          clickHandler={startCallClickHandler(snapcallCallStarted, snapcallCallFailed, callStatus)}
+          contents={buttonContents(translate, callStatus)}
+        />
+      )
+    default:
+      return null
+  }
 }
 
 const ClickToCallIntro = ({
   averageWaitTime,
-  previousCall,
   callDuration,
   callStatus,
   snapcallCallStarted,
@@ -73,7 +80,6 @@ const ClickToCallIntro = ({
       </FlexContainer>
       <IntroFooter
         translate={translate}
-        previousCall={previousCall}
         callStatus={callStatus}
         callDuration={callDuration}
         snapcallCallStarted={snapcallCallStarted}
@@ -85,7 +91,6 @@ const ClickToCallIntro = ({
 
 ClickToCallIntro.propTypes = {
   averageWaitTime: PropTypes.string,
-  previousCall: PropTypes.bool,
   callDuration: PropTypes.string,
   callStatus: PropTypes.string,
   snapcallCallStarted: PropTypes.func,
@@ -93,7 +98,6 @@ ClickToCallIntro.propTypes = {
 }
 
 IntroFooter.propTypes = {
-  previousCall: PropTypes.bool,
   callDuration: PropTypes.string,
   callStatus: PropTypes.string,
   snapcallCallStarted: PropTypes.func,
