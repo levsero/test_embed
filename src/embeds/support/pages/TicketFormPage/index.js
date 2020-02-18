@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { dragStarted } from 'src/embeds/support/actions/index'
+import getFields from 'embeds/support/utils/getFields'
 
 const TicketFormPage = ({
   formTitle,
@@ -40,7 +41,9 @@ const TicketFormPage = ({
           formState={formState}
           readOnlyState={readOnlyState}
           ticketFormTitle={ticketFormTitle}
-          submitForm={formState => submitTicket(formState, match.params.id)}
+          submitForm={formState =>
+            submitTicket(formState, match.params.id, getFields(formState, conditions, ticketFields))
+          }
           ticketFields={ticketFields}
           conditions={conditions}
           attachments={attachments}

@@ -83,8 +83,35 @@ export const getPrefillValues = formId =>
 
 export const getReadOnlyState = state => state.support.readOnly
 
+const getInitialValues = (state, formId) => {
+  const prefillValues = getPrefillValues(formId)(state)
+  const fields = getFormTicketFields(state, formId)
+
+  const defaultValues = {}
+
+  fields.forEach(field => {
+    switch (field.type) {
+      case 'tagger':
+        if (!field.custom_field_options) {
+          return
+        }
+
+        field.custom_field_options.forEach(item => {
+          if (item.default) {
+            defaultValues[field.keyID] = item.value
+          }
+        })
+    }
+  })
+
+  return {
+    ...defaultValues,
+    ...prefillValues
+  }
+}
+
 export const getFormState = (state, name) =>
-  state.support.formStates[name] || getPrefillValues(name)(state)
+  state.support.formStates[name] || getInitialValues(state, name)
 
 export const getSuccessfulAttachments = createSelector(
   getAllAttachments,

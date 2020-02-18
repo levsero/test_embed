@@ -170,12 +170,12 @@ const uploadTokensForForm = (formAttachments = {}, state) => {
   return attachments.map(attachment => attachment.uploadToken)
 }
 
-export function submitTicket(formState, formTitle) {
+export function submitTicket(formState, formId, fields) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       const state = getState()
       const attachmentUploadTokens = uploadTokensForForm(formState.attachments, state)
-      const params = formatRequestData(state, formState, attachmentUploadTokens, formTitle)
+      const params = formatRequestData(state, formState, attachmentUploadTokens, formId, fields)
 
       const payload = {
         method: 'post',
@@ -188,7 +188,7 @@ export function submitTicket(formState, formTitle) {
             }
             dispatch({
               type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-              payload: { name: formTitle }
+              payload: { name: formId }
             })
             resolve()
           },
