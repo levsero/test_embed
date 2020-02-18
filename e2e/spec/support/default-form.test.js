@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import { createField, mockTicketFieldsEndpoint, testForm } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
@@ -79,8 +79,9 @@ describe('support default form', () => {
 
       await submit()
 
-      const widgetDocument = await widget.getDocument()
-      await expect(await widgetDocument.$('body')).toMatch('Please enter a valid name.')
+      await wait(async () =>
+        queries.getByText(await widget.getDocument(), 'Please enter a valid name.')
+      )
 
       await allowsInputTextEditing(nameElement, 'Some person')
 
@@ -128,9 +129,8 @@ describe('support default form', () => {
     it('displays the fields in the correct order', async () => {
       const checkbox1 = createField({ type: 'checkbox' })
       const checkbox2 = createField({ type: 'checkbox' })
-      const description = createField({ type: 'description' })
 
-      const ticketFields = [checkbox1, description, checkbox2]
+      const ticketFields = [checkbox1, checkbox2]
       await loadWidget()
         .intercept(mockTicketFieldsEndpoint(ticketFields))
         .withPresets('contactForm', {
@@ -150,7 +150,6 @@ describe('support default form', () => {
         await queryAllByText([
           'Your name',
           'Email address',
-          description.title_in_portal,
           'How can we help you?',
           checkbox1.title_in_portal,
           checkbox2.title_in_portal,

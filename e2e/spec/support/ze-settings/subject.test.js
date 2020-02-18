@@ -7,6 +7,7 @@ import {
   waitForContactForm,
   waitForSubmissionSuccess
 } from 'e2e/helpers/support-embed'
+import { fillForm } from 'e2e/helpers/utils'
 
 test('includes the subject field in ticket form when enabled', async () => {
   const mockSubmissionEndpoint = jest.fn()
@@ -26,12 +27,14 @@ test('includes the subject field in ticket form when enabled', async () => {
   await launcher.click()
   await waitForContactForm()
   const frame = await widget.getFrame()
-  await expect(frame).toFillForm('form', {
-    name: 'test name',
-    email: 'test@email.com',
-    subject: 'test subject',
-    description: 'test description'
+
+  await fillForm({
+    'Your name (optional)': 'test name',
+    'Email address': 'test@email.com',
+    'Subject (optional)': 'test subject',
+    'How can we help you?': 'test description'
   })
+
   await expect(frame).toClick('button', { text: 'Send' })
   await waitForSubmissionSuccess()
   expect(mockSubmissionEndpoint).toHaveBeenCalledWith(

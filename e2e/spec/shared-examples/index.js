@@ -6,6 +6,12 @@ import { wait } from 'pptr-testing-library'
   up in this ticket: https://support.zendesk.com/agent/tickets/4863667
 */
 export const allowsInputTextEditing = async (inputField, value) => {
+  if (!inputField) {
+    throw new Error(
+      `Invalid inputField given to allowsInputTextEditing.\n\nInput field:: ${inputField}\n\nValue: ${value}`
+    )
+  }
+
   await inputField.focus()
   await page.keyboard.type('Hello!!')
   await page.keyboard.press('ArrowLeft')

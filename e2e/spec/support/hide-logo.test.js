@@ -6,6 +6,7 @@ import {
   waitForContactForm,
   waitForSubmissionSuccess
 } from 'e2e/helpers/support-embed'
+import { fillForm } from 'e2e/helpers/utils'
 
 test('hides the zendesk logo in the ticket form when requested in config', async () => {
   await loadWidget()
@@ -18,11 +19,13 @@ test('hides the zendesk logo in the ticket form when requested in config', async
   await waitForContactForm()
   expect(await widget.zendeskLogoVisible()).toEqual(false)
   const frame = await widget.getFrame()
-  await expect(frame).toFillForm('form', {
-    name: 'test name',
-    email: 'test@email.com',
-    description: 'test description'
+
+  await fillForm({
+    'Your name (optional)': 'test name',
+    'Email address': 'test@email.com',
+    'How can we help you?': 'test description'
   })
+
   await expect(frame).toClick('button', { text: 'Send' })
   await waitForSubmissionSuccess()
   expect(await widget.zendeskLogoVisible()).toEqual(false)
