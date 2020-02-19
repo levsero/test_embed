@@ -10,6 +10,7 @@ const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnl
         <ContactFormLabel
           value={field.title_in_portal}
           required={field.required_in_portal}
+          isReadOnly={isReadOnly}
           keyID={field.keyID}
         />
       )}

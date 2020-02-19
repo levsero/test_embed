@@ -24,6 +24,13 @@ describe('ContactFormLabel', () => {
     expect(container).not.toHaveTextContent('(optional)')
   })
 
+  it('displays the label by itself when field is read only', () => {
+    const { container } = renderComponent({ value: 'A title', required: false, isReadOnly: true })
+
+    expect(container).toHaveTextContent('A title')
+    expect(container).not.toHaveTextContent('(optional)')
+  })
+
   it('displays the label with "(optional)" when field is not required', () => {
     const { container } = renderComponent({ value: 'A title', required: false })
 
