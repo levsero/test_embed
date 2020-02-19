@@ -1,3 +1,5 @@
+import { supportedFields } from 'src/embeds/support/components/FormField/fields'
+
 // Some fields use different values for different apis
 const isEqual = (field, value1, value2) => {
   // Checkbox fields use 0 and 1 to represent true and false when submitting the form, however use true and false
@@ -70,6 +72,7 @@ const getFields = (currentValues, conditions = [], fields = []) => {
       }
     })
     .filter(field => field.visible_in_portal)
+    .filter(field => supportedFields[field.type])
 }
 
 export default getFields

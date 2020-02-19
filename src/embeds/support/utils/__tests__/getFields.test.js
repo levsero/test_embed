@@ -12,6 +12,7 @@ describe('getFields', () => {
       keyID,
       visible_in_portal: true,
       required_in_portal: true,
+      type: 'text',
       ...options
     }
   }
@@ -42,6 +43,18 @@ describe('getFields', () => {
     const result = getFields({}, [], [field1, field2])
 
     expect(result).toEqual([field1])
+  })
+
+  it('does not include fields which are unsupported', () => {
+    const field1 = field({ id: 1, type: 'partialcreditcard' })
+    const field2 = field({ id: 2, type: 'date' })
+    const field3 = field({ id: 3, type: 'regex' })
+    const field4 = field({ id: 4, type: 'multiselect' })
+    const field5 = field({ id: 5, type: 'text' })
+
+    const result = getFields({}, [], [field1, field2, field3, field4, field5])
+
+    expect(result).toEqual([field5])
   })
 
   describe('when a field has a condition on it', () => {
