@@ -4,6 +4,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import zChat from 'e2e/helpers/zChat'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
 
 const buildWidget = settings =>
   loadWidget()
@@ -52,6 +53,7 @@ test('clicking channel buttons will navigate to their respective embeds', async 
   await widget.clickBack()
   const contact = await queries.getByText(doc, 'Leave a message')
   await contact.click()
+  await waitForContactForm()
   const email = await queries.queryByLabelText(doc, 'Email address')
   expect(email).toBeTruthy()
 })
@@ -89,6 +91,7 @@ test('contact form button text can be customized', async () => {
   })
   const button = await queries.getByText(doc, 'French drop a line')
   await button.click()
+  await wait(() => queries.getByText(doc, 'Laissez-nous un message'))
   expect(await queries.queryByLabelText(doc, 'Adresse e-mail')).toBeTruthy()
 })
 

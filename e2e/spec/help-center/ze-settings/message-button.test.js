@@ -3,9 +3,11 @@ import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
 
 describe('message button', () => {
   const assertContactForm = async doc => {
+    await waitForContactForm()
     expect(await queries.queryByLabelText(doc, 'Your name (optional)')).toBeTruthy()
     expect(await queries.queryByLabelText(doc, 'How can we help you?')).toBeTruthy()
     expect(await queries.queryByText(doc, 'Send')).toBeTruthy()

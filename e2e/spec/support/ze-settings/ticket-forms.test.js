@@ -101,8 +101,10 @@ test('prefills by locale', async () => {
   })
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Laissez-nous un message'))
   const form2Link = await queries.getByText(doc, 'Example form 2')
   await form2Link.click()
+
   await assertInputValue('Description', 'My french field text')
   await assertInputValue('Text field', 'fischer random')
 })

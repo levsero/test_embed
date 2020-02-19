@@ -1,6 +1,7 @@
 import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import fs from 'fs'
+import { allowsInputTextEditing } from '../spec/shared-examples'
 
 export const goToTestPage = () => page.goto('http://localhost:5123/e2e.html')
 
@@ -90,5 +91,21 @@ export const mockStaticAssets = request => {
     })
   } else {
     request.abort()
+  }
+}
+
+// fillForm will input all given values into the form
+// Expected shape is
+// { [label text]: [value to put into field] }
+export const fillForm = async (options = {}) => {
+  const fields = Object.entries(options)
+
+  for (let i = 0; i < fields.length; i++) {
+    const [label, value] = fields[i]
+
+    await allowsInputTextEditing(
+      await queries.queryByLabelText(await widget.getDocument(), label),
+      value
+    )
   }
 }
