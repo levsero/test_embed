@@ -15,7 +15,7 @@ import {
   getAttachmentLimitExceeded
 } from 'src/embeds/support/selectors'
 const INPUT_ID = 'dropzone-input'
-import { Container, StyledLabel } from './styles'
+import { Container, StyledLabel, StyledMessage } from './styles'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { useOnDrop } from 'components/FileDropProvider'
 
@@ -26,8 +26,10 @@ const AttachmentField = ({
   uploadAttachedFiles,
   title,
   onChange,
+  errorMessage,
   value = {},
-  field = {}
+  field = {},
+  errorMessageKey
 }) => {
   const alert = useRef()
 
@@ -59,6 +61,11 @@ const AttachmentField = ({
       <StyledLabel htmlFor={INPUT_ID} data-keyid={field.keyID}>
         {title}
       </StyledLabel>
+      {errorMessage && (
+        <StyledMessage key={errorMessageKey} role="alert" validation="error">
+          {errorMessage}
+        </StyledMessage>
+      )}
       <AttachmentList value={value} onRemoveAttachment={clearLimitError} />
       {(value.limitExceeded || displayAttachmentLimitError) && (
         <AttachmentLimitError
@@ -73,11 +80,7 @@ const AttachmentField = ({
           ref={alert}
         />
       )}
-      <AttachmentInput
-        onFileSelect={handleFileUpload}
-        attachmentInputId={INPUT_ID}
-        name={field.keyID}
-      />
+      <AttachmentInput onFileSelect={handleFileUpload} attachmentInputId={INPUT_ID} />
     </Container>
   )
 }
@@ -90,7 +93,9 @@ AttachmentField.propTypes = {
   onChange: PropTypes.func,
   displayAttachmentLimitError: PropTypes.bool,
   clearLimitExceededError: PropTypes.func,
-  field: SupportPropTypes.ticketField
+  field: SupportPropTypes.ticketField,
+  errorMessage: PropTypes.string,
+  errorMessageKey: PropTypes.number
 }
 
 const actionCreators = {

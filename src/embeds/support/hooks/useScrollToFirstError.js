@@ -17,8 +17,10 @@ const useScrollToFirstError = () => {
       return
     }
 
-    const input = frame.document.querySelector(`[name="${firstFieldToError.keyID}"]`)
-
+    let input = frame.document.querySelector(`[name="${firstFieldToError.keyID}"]`)
+    if (firstFieldToError.type == 'attachments') {
+      input = frame.document.querySelectorAll(`[name="attachmentError"]`)[0]
+    }
     if (input) {
       input.focus()
     }

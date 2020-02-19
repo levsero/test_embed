@@ -24,14 +24,14 @@ const AttachmentError = ({
   const errorTitle =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_header')
-      : translate('embeddable_framework.chat.attachments.error.unknown_error')
+      : translate('submitTicket.attachments.error.v2.uploading_title')
 
   const errorBody =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_body', {
           maxSize: Math.round(maxFileSize / 1024 / 1024)
         })
-      : undefined
+      : translate('submitTicket.attachments.error.v2.uploading_body')
 
   return (
     <Alert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
@@ -39,7 +39,12 @@ const AttachmentError = ({
       {errorBody && errorBody}
       <FileName>{formatNameString(fileName)}</FileName>
       <FileSize>{formatAttachmentSize(fileSize, translate)}</FileSize>
-      <Close onClick={handleIconClick} data-testid={TEST_IDS.ICON_CLOSE} />
+      <Close
+        onClick={handleIconClick}
+        data-testid={TEST_IDS.ICON_CLOSE}
+        aria-label={translate('embeddable_framework.submitTicket.attachments.close')}
+        name="attachmentError"
+      />
     </Alert>
   )
 }

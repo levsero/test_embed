@@ -75,6 +75,14 @@ describe('AttachmentField', () => {
     )
   })
 
+  it('renders the error message when given', () => {
+    const { queryByText } = renderComponent({
+      errorMessage: 'invalid files'
+    })
+
+    expect(queryByText('invalid files')).toBeInTheDocument()
+  })
+
   it('calls handleAttachmentsError when displayAttachmentLimitError switches to true', () => {
     utils.onNextTick = jest.fn()
     const { rerender } = renderComponent()

@@ -22,6 +22,12 @@ const getFieldValidationError = type => {
     case 'description':
     case 'textarea':
       return 'embeddable_framework.validation.error.input'
+    case 'attachment':
+      return 'embeddable_framework.validation.error.attachments.singular'
+    case 'attachments':
+      return 'embeddable_framework.validation.error.attachments.plural'
+    case 'attachment_uploading':
+      return 'embeddable_framework.validation.error.attachments.upload_in_progress'
     default:
       return 'embeddable_framework.validation.error.input'
   }
@@ -33,9 +39,15 @@ const fieldRuleTypes = {
   },
   attachments: (value, attachments) => {
     const attachmentsForForm = attachments.filter(attachment => value.ids.includes(attachment.id))
-    const hasNoErrors =
-      attachmentsForForm.filter(attachment => !attachment.uploadToken).length === 0
-    return hasNoErrors ? undefined : 'error'
+    const errorCount = attachmentsForForm.filter(attachment => attachment.errorMessage).length
+    const stillUploading = attachmentsForForm.filter(attachment => attachment.uploading).length
+    if (errorCount === 0 && stillUploading === 0) return undefined
+    if (errorCount) {
+      return errorCount === 1
+        ? getFieldValidationError('attachment')
+        : getFieldValidationError('attachments')
+    }
+    return getFieldValidationError('attachment_uploading')
   }
 }
 
