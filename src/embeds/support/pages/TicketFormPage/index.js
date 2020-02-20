@@ -14,7 +14,6 @@ import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { mapKeyFields } from 'embeds/support/utils/fieldConversion'
 import { dragStarted } from 'src/embeds/support/actions/index'
 
 const TicketFormPage = ({
@@ -42,7 +41,7 @@ const TicketFormPage = ({
           readOnlyState={readOnlyState}
           ticketFormTitle={ticketFormTitle}
           submitForm={formState => submitTicket(formState, match.params.id)}
-          ticketFields={mapKeyFields(ticketFields)}
+          ticketFields={ticketFields}
           conditions={conditions}
           attachments={attachments}
         />

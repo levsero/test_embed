@@ -1,5 +1,3 @@
-import createKeyID from 'embeds/support/utils/createKeyID'
-
 const getCheckboxFields = fields => fields.filter(field => field.type === 'checkbox')
 
 const getNonCheckboxFields = fields => fields.filter(field => field.type !== 'checkbox')
@@ -26,20 +24,10 @@ const getFieldIdFromKeyID = (ticketFields, keyID) => {
   return outKey
 }
 
-const mapKeyFields = ticketFields => {
-  return ticketFields.map(field => {
-    return {
-      ...field,
-      keyID: createKeyID(field.id)
-    }
-  })
-}
-
 export {
   convertFieldValue,
   getCheckboxFields,
   getNonCheckboxFields,
   getFieldIdFromKeyID,
-  getSortedFields,
-  mapKeyFields
+  getSortedFields
 }

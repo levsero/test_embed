@@ -3,10 +3,8 @@ import {
   getNonCheckboxFields,
   convertFieldValue,
   getSortedFields,
-  mapKeyFields,
   getFieldIdFromKeyID
 } from '../fieldConversion'
-import createKeyID from 'embeds/support/utils/createKeyID'
 
 describe('getCheckboxFields', () => {
   it('returns a new list with only checkboxes', () => {
@@ -59,23 +57,6 @@ describe('getSortedfields', () => {
       { name: 'Not2', type: 'text' },
       { name: 'checkboxOne', type: 'checkbox' },
       { name: 'checkboxTwo', type: 'checkbox' }
-    ])
-  })
-})
-
-describe('mapKeyFields', () => {
-  it(`maps the keyIDs to be 'key:{id}'`, () => {
-    const ticketFields = [
-      { id: 0, title_in_portal: 'name' },
-      { id: 1, title_in_portal: 'email' },
-      { id: 100000, title_in_portal: 'Custom field' }
-    ]
-    const mappedFields = mapKeyFields(ticketFields)
-
-    expect(mappedFields).toEqual([
-      { id: 0, title_in_portal: 'name', keyID: createKeyID(0) },
-      { id: 1, title_in_portal: 'email', keyID: createKeyID('1') },
-      { id: 100000, title_in_portal: 'Custom field', keyID: createKeyID('100000') }
     ])
   })
 })
