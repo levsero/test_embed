@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -7,22 +7,17 @@ import AttachmentLimitError from 'src/embeds/support/components/AttachmentLimitE
 import AttachmentList from 'src/embeds/support/components/AttachmentList'
 import { TEST_IDS } from 'src/constants/shared'
 import { onNextTick } from 'src/util/utils'
-import {
-  uploadAttachedFiles,
-  dragEnded,
-  clearLimitExceededError
-} from 'src/embeds/support/actions/index'
+import { uploadAttachedFiles, clearLimitExceededError } from 'src/embeds/support/actions/index'
 import {
   getMaxFileCount,
   getMaxFileSize,
-  getDisplayDropzone,
   getAttachmentTitle,
   getAttachmentLimitExceeded
 } from 'src/embeds/support/selectors'
 const INPUT_ID = 'dropzone-input'
 import { Container, StyledLabel } from './styles'
-import { AttachmentBox } from 'src/component/attachment/AttachmentBox'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
+import { useOnDrop } from 'components/FileDropProvider'
 
 const AttachmentField = ({
   displayAttachmentLimitError,
@@ -31,23 +26,29 @@ const AttachmentField = ({
   uploadAttachedFiles,
   title,
   onChange,
-  displayDropzone,
-  dragEnded,
   value = {},
   field = {}
 }) => {
   const alert = useRef()
+
   useEffect(() => {
     if (value.limitExceeded || displayAttachmentLimitError) {
       onNextTick(() => {
-        alert.current.scrollIntoView()
+        if (alert.current) {
+          alert.current.scrollIntoView()
+        }
       })
     }
   }, [value.limitExceeded, displayAttachmentLimitError])
 
-  const handleFileUpload = files => {
-    uploadAttachedFiles(files, onChange, value)
-  }
+  const handleFileUpload = useCallback(
+    files => {
+      uploadAttachedFiles(files, onChange, value)
+    },
+    [onChange, value, uploadAttachedFiles]
+  )
+
+  useOnDrop(handleFileUpload)
 
   const clearLimitError = () => {
     onChange && onChange({ ...value, limitExceeded: false })
@@ -77,16 +78,6 @@ const AttachmentField = ({
         attachmentInputId={INPUT_ID}
         name={field.keyID}
       />
-
-      {displayDropzone && (
-        <AttachmentBox
-          onDragLeave={dragEnded}
-          onDrop={files => {
-            dragEnded()
-            handleFileUpload(files)
-          }}
-        />
-      )}
     </Container>
   )
 }
@@ -95,8 +86,6 @@ AttachmentField.propTypes = {
   maxFileCount: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   uploadAttachedFiles: PropTypes.func.isRequired,
-  dragEnded: PropTypes.func.isRequired,
-  displayDropzone: PropTypes.bool.isRequired,
   value: PropTypes.object,
   onChange: PropTypes.func,
   displayAttachmentLimitError: PropTypes.bool,
@@ -106,14 +95,12 @@ AttachmentField.propTypes = {
 
 const actionCreators = {
   clearLimitExceededError,
-  uploadAttachedFiles,
-  dragEnded
+  uploadAttachedFiles
 }
 
 const mapStateToProps = (state, props) => ({
   maxFileCount: getMaxFileCount(state),
   maxFileSize: getMaxFileSize(state),
-  displayDropzone: getDisplayDropzone(state),
   title: getAttachmentTitle(state, props.value && props.value.ids),
   displayAttachmentLimitError: getAttachmentLimitExceeded(state)
 })

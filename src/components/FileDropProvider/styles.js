@@ -43,7 +43,6 @@ const Message = styled.div`
 const AttachmentIcon = styled(GardenAttachmentIcon)`
   height: ${props => 36 / props.theme.fontSize}rem;
   width: ${props => 36 / props.theme.fontSize}rem;
-  transform: rotate(45deg) scaleX(-1);
   color: ${props => props.theme.iconColor};
 `
 

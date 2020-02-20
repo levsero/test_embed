@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'src/util/testHelpers'
-import { fireEvent } from '@testing-library/react'
 import { Component as TicketFormPage } from '../'
 import { TEST_IDS } from 'constants/shared'
 
@@ -29,12 +28,9 @@ describe('TicketFormPage', () => {
     expect(queryByTestId(TEST_IDS.SUPPORT_TICKET_FORM)).toBeInTheDocument()
   })
 
-  it('fires dragStarted ondrag', () => {
-    const dragStarted = jest.fn()
-    const { container } = renderComponent({ dragStarted })
-    const div = container.querySelector('div')
+  it('renders the FileDropProvider so that the attachments drop area can take up the whole widget view', () => {
+    const { queryByTestId } = renderComponent()
 
-    fireEvent.dragEnter(div)
-    expect(dragStarted).toHaveBeenCalled()
+    expect(queryByTestId(TEST_IDS.DROP_CONTAINER)).toBeInTheDocument()
   })
 })

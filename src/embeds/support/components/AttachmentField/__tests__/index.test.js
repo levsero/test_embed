@@ -1,7 +1,9 @@
 import React from 'react'
+import { fireEvent, wait } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { Component as AttachmentField } from '../'
 import * as utils from 'src/util/utils'
+import { FileDropProvider } from 'components/FileDropProvider'
 
 jest.mock('utility/devices')
 
@@ -18,7 +20,11 @@ const defaultProps = {
 }
 
 const renderComponent = (props = {}, renderFn) => {
-  const component = <AttachmentField {...defaultProps} {...props} />
+  const component = (
+    <FileDropProvider>
+      <AttachmentField {...defaultProps} {...props} />
+    </FileDropProvider>
+  )
   return render(component, { render: renderFn })
 }
 
@@ -26,11 +32,6 @@ describe('AttachmentField', () => {
   it('renders title correctly', () => {
     const { queryByText } = renderComponent()
     expect(queryByText('attachment field title')).toBeInTheDocument()
-  })
-
-  it('renders attachment input', () => {
-    const { queryByTestId } = renderComponent()
-    expect(queryByTestId('dropzone-input')).toBeInTheDocument()
   })
 
   it('does not render limit error when displayAttachmentLimitError is false', () => {
@@ -54,17 +55,24 @@ describe('AttachmentField', () => {
     expect(queryByText('Attachment limit reached')).toBeInTheDocument()
   })
 
-  it('does not render the dropzone when displayDropzone is false', () => {
-    const { queryByText } = renderComponent()
-    expect(queryByText('Drop to attach')).not.toBeInTheDocument()
-  })
+  it('uploads attachments that were dropped into the widget', async () => {
+    const uploadAttachedFiles = jest.fn()
+    const files = [{ id: 'file1' }, { id: 'file2' }]
+    const { queryByText } = renderComponent({ uploadAttachedFiles })
 
-  it('renders the dropzone when displayDropzone is true', () => {
-    const { queryByText } = renderComponent({
-      displayDropzone: true
+    fireEvent.dragEnter(queryByText(defaultProps.title))
+    await wait(() => expect(queryByText('Drop to attach')).toBeInTheDocument())
+    fireEvent.drop(queryByText('Drop to attach'), {
+      target: {
+        files
+      }
     })
 
-    expect(queryByText('Drop to attach')).toBeInTheDocument()
+    expect(uploadAttachedFiles).toHaveBeenCalledWith(
+      files,
+      defaultProps.onChange,
+      defaultProps.value
+    )
   })
 
   it('calls handleAttachmentsError when displayAttachmentLimitError switches to true', () => {
