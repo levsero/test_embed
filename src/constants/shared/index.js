@@ -178,7 +178,8 @@ export const TEST_IDS = {
   SUPPORT_TICKET_FORM: 'support-ticket-form',
   CHAT_BADGE: 'chat-badge',
   SUPPORT_SUBMIT_BUTTON: 'support-submit-button',
-  DROP_CONTAINER: 'drop-container'
+  DROP_CONTAINER: 'drop-container',
+  FILE_INPUT: 'file-input'
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'
