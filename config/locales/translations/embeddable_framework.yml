@@ -1345,6 +1345,16 @@ parts:
       screenshot: "https://drive.google.com/file/d/1SGtqkWFIooadbJQnhlv4sGhk2amK1tg6/view?usp=sharing"
       value: "Must be less than %(maxSize)s MB."
   - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.uploading_title"
+      title: "Header text in the error notification that appears when an attachment fails to upload."
+      screenshot: "https://drive.google.com/file/d/1S2Aa6f3XtE0pCs_JW9NXoOSxtVmIDlrF/view?usp=sharing"
+      value: "There was an error uploading your file"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.uploading_body"
+      title: "Body text in the error notification that appears when an attachment fails to upload."
+      screenshot: "https://drive.google.com/file/d/1G3wkgb-YtZCa8DAVCSwj6WdXC6cxneMF/view?usp=sharing"
+      value: "Try again."
+  - translation:
       key: "embeddable_framework.submitTicket.attachments.error.limit_reached_header"
       title: "Header text in the error notification that appears when trying to attach too many files."
       screenshot: "https://drive.google.com/file/d/1HnK143OwbSJjrZ_oGUjvKAQxXWehNywH/view?usp=sharing"
@@ -1354,6 +1364,11 @@ parts:
       title: "Body text in the error notification that appears when trying to attach too many files. %(maxFiles)s will always be greater than 1."
       screenshot: "https://drive.google.com/file/d/1ak63oEiFC4V7W2c5C6Mn4AGZxwjCWmQ1/view?usp=sharing"
       value: "You can upload a maximum of %(maxFiles)s attachments."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.close"
+      title: "[A11Y] The aria label for removing an attachment file."
+      screenshot: "https://drive.google.com/file/d/1IVsDFxFqIy-AuNSrCRkFEihXyEj_kiZU/view?usp=sharing"
+      value: "Remove file"
 
   # ZendeskLogo component
   - translation:
