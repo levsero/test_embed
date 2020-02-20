@@ -7,12 +7,13 @@ import attachmentLimitExceeded from './attachmentLimitExceeded'
 import prefillValues from './prefillValues'
 import readOnly from './readOnly'
 import prefillId from './prefillId'
-import prefillSpecificFormValues from 'embeds/support/reducers/prefillSpecificFormValues'
-import lastFormPrefillId from 'embeds/support/reducers/lastFormPrefillId'
-import displayDropzone from 'embeds/support/reducers/displayDropzone'
+import prefillSpecificFormValues from './prefillSpecificFormValues'
+import lastFormPrefillId from './lastFormPrefillId'
+import displayDropzone from './displayDropzone'
 import forms from './forms'
 import fields from './fields'
-import contactFormFields from 'embeds/support/reducers/contactFormFields'
+import contactFormFields from './contactFormFields'
+import isLoading from './isLoading'
 
 export default combineReducers({
   config,
@@ -27,5 +28,6 @@ export default combineReducers({
   lastFormPrefillId,
   forms,
   fields,
-  contactFormFields
+  contactFormFields,
+  isLoading
 })

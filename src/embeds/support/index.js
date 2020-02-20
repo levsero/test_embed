@@ -7,9 +7,8 @@ import routes from './routes'
 import SuccessPage from 'embeds/support/pages/SuccessPage'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import TicketFormsListPage from 'embeds/support/pages/TicketFormsListPage'
-import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import { getAllForms, getIsLoading } from 'src/embeds/support/selectors'
 import LoadingPage from 'src/components/LoadingPage'
-import { getLoading } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 
 const Support = ({ ticketForms, isLoading }) => {
   const formId = ticketForms.length ? ticketForms[0].id : routes.defaultFormId
@@ -31,8 +30,8 @@ Support.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  ticketForms: getTicketForms(state),
-  isLoading: getLoading(state)
+  ticketForms: getAllForms(state),
+  isLoading: getIsLoading(state)
 })
 
 const connectedComponent = connect(mapStateToProps)(Support)

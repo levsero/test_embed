@@ -6,10 +6,10 @@ import {
   getFormState,
   getReadOnlyState,
   getForm,
-  getAllAttachments
+  getAllAttachments,
+  getContactFormTitle,
+  getAllForms
 } from 'embeds/support/selectors'
-import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
-import { getContactFormTitle } from 'src/redux/modules/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
@@ -78,7 +78,7 @@ const mapStateToProps = (state, ownProps) => {
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: form ? form.display_name : '',
-    ticketForms: getTicketForms(state),
+    ticketForms: getAllForms(state),
     conditions: form ? form.end_user_conditions : [],
     attachments: getAllAttachments(state)
   }

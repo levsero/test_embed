@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect'
 import {
   getSettingsContactFormSubject,
-  getSettingsContactFormAttachments
+  getSettingsContactFormAttachments,
+  getSettingsContactFormTitle
 } from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldEnabled,
   getConfigNameFieldRequired,
   getLocale,
-  getConfigAttachmentsEnabled
+  getConfigAttachmentsEnabled,
+  getFormTitleKey
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
@@ -34,6 +36,15 @@ export const getAttachmentTitle = (state, attachmentIds) => {
       : i18n.t('embeddable_framework.submitTicket.attachments.title')
   return title
 }
+
+export const getIsLoading = state => state.support.isLoading
+
+export const getContactFormTitle = createSelector(
+  [getSettingsContactFormTitle, getFormTitleKey, getLocale],
+  (contactFormTitle, formTitleKey, _locale) =>
+    i18n.getSettingTranslation(contactFormTitle) ||
+    i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
+)
 
 export const getAttachmentsEnabled = state =>
   Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
@@ -104,6 +115,11 @@ export const getAttachmentsReady = createSelector(
 export const getAttachmentTypes = createSelector(
   getAllAttachments,
   attachments => attachments.map(attachment => attachment.fileType)
+)
+
+export const getAllForms = createSelector(
+  state => Object.values(state.support.forms),
+  forms => forms.sort((a, b) => a.position - b.position)
 )
 
 export const getForm = (state, formId) => state.support.forms[formId]
