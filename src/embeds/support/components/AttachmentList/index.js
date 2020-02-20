@@ -6,9 +6,9 @@ import Attachment from 'src/embeds/support/components/Attachment'
 import AttachmentError from 'src/embeds/support/components/AttachmentError'
 import { ICONS, FILETYPE_ICONS } from 'constants/shared'
 import { deleteAttachment } from 'src/embeds/support/actions/index'
-import { getAttachmentsForForm } from 'src/embeds/support/selectors'
+import { getAttachmentsForForm, getMaxFileSize } from 'src/embeds/support/selectors'
 
-const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment }) => {
+const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment, maxFileSize }) => {
   return allAttachments.map(attachment => {
     const { id, fileName } = attachment
     const removeAttachment = id => {
@@ -23,6 +23,7 @@ const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment }
           key={id}
           attachment={attachment}
           handleRemoveAttachment={removeAttachment}
+          maxFileSize={maxFileSize}
         />
       )
     }
@@ -53,7 +54,8 @@ const actionCreators = {
 }
 
 const mapStateToProps = (state, props) => ({
-  allAttachments: getAttachmentsForForm(state, props.value.ids)
+  allAttachments: getAttachmentsForForm(state, props.value.ids),
+  maxFileSize: getMaxFileSize(state)
 })
 
 const connectedComponent = connect(

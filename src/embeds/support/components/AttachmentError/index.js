@@ -10,19 +10,33 @@ import {
   formatAttachmentSize
 } from 'src/embeds/support/utils/attachmentStringFormatter'
 import useTranslate from 'src/hooks/useTranslate'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 
 const AttachmentError = ({
   handleRemoveAttachment,
-  attachment: { errorMessage, fileName, fileSize, id }
+  attachment: { errorMessage, fileName, fileSize, id },
+  maxFileSize
 }) => {
   const translate = useTranslate()
   const handleIconClick = () => {
     handleRemoveAttachment(id)
   }
+  const errorTitle =
+    errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
+      ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_header')
+      : translate('embeddable_framework.chat.attachments.error.unknown_error')
+
+  const errorBody =
+    errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
+      ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_body', {
+          maxSize: maxFileSize
+        })
+      : undefined
 
   return (
     <Alert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
-      <Title>{errorMessage}</Title>
+      <Title>{errorTitle}</Title>
+      {errorBody && errorBody}
       <FileName>{formatNameString(fileName)}</FileName>
       <FileSize>{formatAttachmentSize(fileSize, translate)}</FileSize>
       <Close onClick={handleIconClick} data-testid={TEST_IDS.ICON_CLOSE} />
@@ -37,6 +51,7 @@ AttachmentError.propTypes = {
     fileSize: PropTypes.number.isRequired,
     errorMessage: PropTypes.string
   }),
-  handleRemoveAttachment: PropTypes.func
+  handleRemoveAttachment: PropTypes.func,
+  maxFileSize: PropTypes.number.isRequired
 }
 export default AttachmentError
