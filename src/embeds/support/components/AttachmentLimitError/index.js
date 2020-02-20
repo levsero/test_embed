@@ -8,8 +8,11 @@ import useTranslate from 'src/hooks/useTranslate'
 
 const AttachmentLimitError = React.forwardRef(({ handleClearError, maxFileCount }, ref) => {
   const translate = useTranslate()
-  const errorMessage = translate(
-    'embeddable_framework.submitTicket.attachments.error.limit_reached',
+  const errorMessageTitle = translate(
+    'embeddable_framework.submitTicket.attachments.error.limit_reached_header'
+  )
+  const errorMessageBody = translate(
+    'embeddable_framework.submitTicket.attachments.error.limit_reached_body',
     {
       maxFiles: maxFileCount
     }
@@ -17,7 +20,8 @@ const AttachmentLimitError = React.forwardRef(({ handleClearError, maxFileCount 
 
   return (
     <StyledAlert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG} ref={ref}>
-      <ErrorTitle>{errorMessage}</ErrorTitle>
+      <ErrorTitle>{errorMessageTitle}</ErrorTitle>
+      {errorMessageBody}
       <Close onClick={handleClearError} />
     </StyledAlert>
   )
