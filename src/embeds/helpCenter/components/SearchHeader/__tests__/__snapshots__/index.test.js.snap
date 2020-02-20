@@ -138,7 +138,7 @@ exports[`renders correctly on desktop 1`] = `
         Search
       </h1>
       <button
-        aria-label="Minimize"
+        aria-label="Minimize widget"
         class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
         data-garden-container-id="keyboardfocus"
         data-garden-container-version="0.2.6"

@@ -29,7 +29,7 @@ const AttachmentError = ({
   const errorBody =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_body', {
-          maxSize: maxFileSize
+          maxSize: Math.round(maxFileSize / 1024 / 1024)
         })
       : undefined
 

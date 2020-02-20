@@ -13,6 +13,7 @@ import { formPrefilled } from '..'
 import { FORM_PREFILLED } from '../action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
@@ -247,7 +248,7 @@ describe('uploadAttachment', () => {
             fileUrl: null,
             uploading: false,
             uploadProgress: 0,
-            errorMessage: 'The file is too big. Please attach files that are less than 0 MB.',
+            errorMessage: ATTACHMENT_ERRORS.TOO_LARGE,
             uploadToken: null
           }
         })
@@ -307,7 +308,7 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: 'Upload failed. Something went wrong. Please try again.'
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
           }
         })
       })
@@ -326,7 +327,7 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: 'Upload failed. Something went wrong. Please try again.'
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
           }
         })
       })
@@ -337,14 +338,14 @@ describe('uploadAttachment', () => {
     describe('when an error message is provided in the response', () => {
       it('dispatches ATTACHMENT_UPLOAD_FAILED and provides an error message explaining why', () => {
         attachmentSender.mockImplementation((_file, _onComplete, onFailure, _onUpdate) => {
-          onFailure({ message: 'oops!' })
+          onFailure({ message: ATTACHMENT_ERRORS.UPLOAD_ERROR })
         })
 
         const dispatchedActions = dispatchAction(actions.uploadAttachment(mockFileBlob, mockId))
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
-          payload: { id: 42, uploading: false, errorMessage: 'oops!' }
+          payload: { id: 42, uploading: false, errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR }
         })
       })
     })
@@ -362,7 +363,7 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: 'Upload failed. Something went wrong. Please try again.'
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
           }
         })
       })

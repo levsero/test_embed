@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'utility/testHelpers'
 import AttachmentError from '../'
 import { fireEvent } from '@testing-library/react'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 
 describe('AttachmentError', () => {
   const renderComponent = (props = {}) => {
@@ -9,11 +10,12 @@ describe('AttachmentError', () => {
       id: '123',
       fileName: 'text.txt',
       fileSize: 2000000,
-      errorMessage: 'file too large',
+      errorMessage: ATTACHMENT_ERRORS.TOO_LARGE,
       ...props.attachment
     }
     const defaultProps = {
       handleRemoveAttachment: jest.fn(),
+      maxFileSize: 5 * 1024 * 1024, // 5 MB,
       ...props
     }
 
@@ -30,9 +32,10 @@ describe('AttachmentError', () => {
     expect(queryByText('2 MB')).toBeInTheDocument()
   })
 
-  it('renders the error message', () => {
+  it('renders the error message for too large', () => {
     const { queryByText } = renderComponent()
-    expect(queryByText('file too large')).toBeInTheDocument()
+    expect(queryByText('File too large')).toBeInTheDocument()
+    expect(queryByText('Must be less than 5 MB.')).toBeInTheDocument()
   })
 
   it('renders the close button', () => {

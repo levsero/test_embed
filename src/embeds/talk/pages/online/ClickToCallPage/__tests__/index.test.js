@@ -34,12 +34,12 @@ describe('render', () => {
   it('renders the end call button if the call is active', () => {
     const { getByText } = renderComponent({ callStatus: 'active' })
 
-    expect(getByText('End call')).toBeInTheDocument()
+    expect(getByText('Hang up')).toBeInTheDocument()
   })
 
   it('does not render the end call button if the call is not active', () => {
     const { queryByText } = renderComponent({ callStatus: 'inactive' })
 
-    expect(queryByText('End call')).not.toBeInTheDocument()
+    expect(queryByText('Hang up')).not.toBeInTheDocument()
   })
 })
