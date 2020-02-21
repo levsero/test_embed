@@ -8,12 +8,7 @@
     "plugin:jsx-a11y/recommended",
     "eslint:recommended"
   ],
-  "plugins": [
-    "jest",
-    "lodash",
-    "react-hooks",
-    "jsx-a11y"
-  ],
+  "plugins": ["jest", "lodash", "react-hooks", "jsx-a11y", "babel"],
   "root": true,
   "env": {
     "browser": true,
@@ -44,7 +39,7 @@
     "lodash/chaining": [2, "never"],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
-    "camelcase": [2, {"properties": "never"}],
+    "babel/camelcase": [1, { "properties": "never" }],
     "no-empty": 0,
     "newline-after-var": 0,
     "react-hooks/rules-of-hooks": "error",
@@ -53,9 +48,9 @@
     "jsx-quotes": ["error", "prefer-double"],
     "no-nested-ternary": "error",
     "space-infix-ops": "error",
-    "space-unary-ops": ["error", {"words": true, "nonwords": false}],
+    "space-unary-ops": ["error", { "words": true, "nonwords": false }],
     "no-case-declarations": "off",
-    "no-extra-semi":"off"
+    "no-extra-semi": "off"
   },
   "overrides": [
     {

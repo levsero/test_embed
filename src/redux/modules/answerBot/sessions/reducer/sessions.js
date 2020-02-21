@@ -48,13 +48,13 @@ const sessions = (state = initialState, action) => {
         requestStatus: 'PENDING'
       })
     case QUESTION_SUBMITTED_FULFILLED:
-      const { message, deflection, interaction_access_token } = action.payload // eslint-disable-line camelcase
+      const { message, deflection, interaction_access_token } = action.payload
 
       return setSession(state, action.payload, {
         requestStatus: 'COMPLETED',
         articles: normalize(message),
         deflection,
-        interactionToken: interaction_access_token // eslint-disable-line camelcase
+        interactionToken: interaction_access_token
       })
     case QUESTION_SUBMITTED_REJECTED:
       return setSession(state, action.payload, { requestStatus: 'REJECTED' })

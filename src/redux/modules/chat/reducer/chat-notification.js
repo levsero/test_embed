@@ -22,7 +22,7 @@ const notification = (state = initialState, action) => {
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:
       return { ...state, show: false }
     case NEW_AGENT_MESSAGE_RECEIVED:
-      const { proactive, nick, display_name, msg } = action.payload // eslint-disable-line camelcase
+      const { proactive, nick, display_name, msg } = action.payload
 
       return {
         ...state,

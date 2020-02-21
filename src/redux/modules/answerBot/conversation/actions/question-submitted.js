@@ -52,14 +52,14 @@ function questionValueSubmitted(message) {
 }
 
 function questionSubmittedFulfilled(data, sessionID) {
-  const { deflection_articles, deflection, interaction_access_token } = data // eslint-disable-line camelcase
+  const { deflection_articles, deflection, interaction_access_token } = data
 
   return {
     type: QUESTION_SUBMITTED_FULFILLED,
     payload: {
       ...messagePayload(deflection_articles, sessionID),
       deflection,
-      interaction_access_token // eslint-disable-line camelcase
+      interaction_access_token
     }
   }
 }
