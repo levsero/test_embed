@@ -27,6 +27,7 @@ Object {
     "phone": "",
   },
   "snapcall": Object {
+    "buttonId": "",
     "callDuration": "0:00",
     "callStatus": "inactive",
     "snapcallSupported": null,

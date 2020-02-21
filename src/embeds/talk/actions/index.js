@@ -10,7 +10,8 @@ import {
   SNAPCALL_CALL_FAILED_NOTIFICATION_CLOSED,
   SNAPCALL_CALL_FAILED,
   SNAPCALL_CALL_DISCONNECTED,
-  SNAPCALL_CALL_DISCONNECTED_NOTIFICATION_CLOSED
+  SNAPCALL_CALL_DISCONNECTED_NOTIFICATION_CLOSED,
+  SNAPCALL_MEDIA_REQUEST_FAILED
 } from './action-types'
 
 export const snapcallCallEnded = () => {
@@ -44,6 +45,10 @@ export const snapcallCallEndedNotificationClosed = () => ({
 
 export const snapcallCallDisconnected = () => ({
   type: SNAPCALL_CALL_DISCONNECTED
+})
+
+export const snapcallMediaRequestFailed = () => ({
+  type: SNAPCALL_MEDIA_REQUEST_FAILED
 })
 
 export const snapcallCallDisconnectedNotificationClosed = () => ({
