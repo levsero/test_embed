@@ -292,7 +292,7 @@ export const getChatNotification = createSelector(
   [getNotification, getActiveAgents, getConciergeSettings],
   (notification, agents, conciergeSettings) => {
     const currentAgent = agents[notification.nick]
-    const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path // eslint-disable-line camelcase
+    const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path
 
     return {
       ...notification,
