@@ -27,7 +27,7 @@ module.exports = () => {
       publicPath: 'http://localhost:1337/'
     },
     devServer: {
-      host: '0.0.0.0',
+      host: '127.0.0.1',
       port: 1337,
       disableHostCheck: true,
       headers: {
