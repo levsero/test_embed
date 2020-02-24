@@ -36,6 +36,8 @@ const getFields = (currentValues, conditions = [], fields = []) => {
   conditions.forEach(condition => {
     condition.child_fields.forEach(field => {
       const fieldDefinition = fieldsById[condition.parent_field_id]
+      if (!fieldDefinition) return
+
       const parentKeyID = fieldDefinition.keyID
 
       if (!result[field.id]) {

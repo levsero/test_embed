@@ -58,9 +58,25 @@ describe('getFields', () => {
         }
       ]
     }
+    const condition2 = {
+      parent_field_id: 2,
+      value: 'one',
+      child_fields: [
+        {
+          id: 3,
+          is_required: true
+        }
+      ]
+    }
 
     it('does not include the field if it fails meeting a condition', () => {
       const result = getFields({ 'key:1': 'not one' }, [condition], [field1, field2])
+
+      expect(result).toEqual([field1])
+    })
+
+    it('correctly handles if the conditional field is not passed in', () => {
+      const result = getFields({ 'key:1': 'not one' }, [condition, condition2], [field1])
 
       expect(result).toEqual([field1])
     })
