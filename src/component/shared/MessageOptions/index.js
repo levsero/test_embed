@@ -37,7 +37,7 @@ export class MessageOptions extends Component {
           className={childClasses}
           onClick={() => this.props.onOptionClick(child)}
         >
-          <button data-testid={TEST_IDS.MESSAGE_OPTION}>{child}</button>
+          <div data-testid={TEST_IDS.MESSAGE_OPTION}>{child}</div>
         </KeyboardFocusButton>
       )
     })

@@ -1,6 +1,7 @@
 @import '../../../styles/_vars.scss';
 
 .optionItem {
+  composes: u-userTextColor from global;
   line-height: #{16 / $font-size}rem;
   padding: #{8 / $font-size}rem #{12 / $font-size}rem;
   transition: background-color 250ms ease-out;
