@@ -203,12 +203,8 @@ test('attachments too large are rejected', async () => {
   await uploadFiles('e2e/fixtures/files/large-attachment.jpg')
   const doc = await widget.getDocument()
   await wait(async () => {
-    expect(
-      await queries.queryByText(
-        doc,
-        'The file is too big. Please attach files that are less than 1 MB.'
-      )
-    ).toBeTruthy()
+    expect(await queries.queryByText(doc, 'File too large')).toBeTruthy()
+    expect(await queries.queryByText(doc, 'Must be less than 1 MB.')).toBeTruthy()
   })
 })
 
@@ -229,8 +225,9 @@ test('can only upload 5 attachments', async () => {
   await wait(() => queries.getByText(doc, 'Attachments (5)'))
   await uploadFiles('e2e/fixtures/files/excel-attachment.xlsx')
   await wait(async () => {
+    expect(await queries.queryByText(doc, 'Attachment limit reached')).toBeTruthy()
     expect(
-      await queries.queryByText(doc, 'You have already reached the limit of (5) attachments')
+      await queries.queryByText(doc, 'You can upload a maximum of 5 attachments.')
     ).toBeTruthy()
   })
 })

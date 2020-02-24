@@ -13,6 +13,7 @@ import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
 import withRateLimiting from 'utility/rateLimiting'
 import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
+import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 
@@ -79,7 +80,7 @@ const uploadAttachmentSuccess = (id, response) => {
   } catch {
     payload = {
       ...payload,
-      errorMessage: i18n.t('embeddable_framework.chat.attachments.error.unknown_error')
+      errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
     }
   }
 
@@ -89,13 +90,12 @@ const uploadAttachmentSuccess = (id, response) => {
   }
 }
 
-const uploadAttachmentFailure = (id, error) => ({
+const uploadAttachmentFailure = id => ({
   type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
   payload: {
     id,
     uploading: false,
-    errorMessage:
-      error.message || i18n.t('embeddable_framework.chat.attachments.error.unknown_error')
+    errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
   }
 })
 
@@ -129,11 +129,8 @@ export const deleteAttachment = id => (dispatch, _getState) => {
 
 export const uploadAttachment = (file, id) => (dispatch, getState) => {
   const maxFileSize = getMaxFileSize(getState())
-  const maxSize = Math.round(maxFileSize / 1024 / 1024)
   const fileOversize = file.size >= maxFileSize
-  const errorMessage = fileOversize
-    ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
-    : null
+  const errorMessage = fileOversize ? ATTACHMENT_ERRORS.TOO_LARGE : null
   const fileType = file.type || 'application/octet-stream'
   const onUploadComplete = response => dispatch(uploadAttachmentSuccess(id, response))
   const onUploadFailure = error => dispatch(uploadAttachmentFailure(id, error))

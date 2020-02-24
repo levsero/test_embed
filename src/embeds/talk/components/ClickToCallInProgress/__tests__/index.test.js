@@ -23,16 +23,16 @@ describe('render', () => {
     expect(getByText('0:00')).toBeInTheDocument()
   })
 
-  it('renders the End call button', () => {
+  it('renders the hang up button', () => {
     const { getByTestId } = renderComponent({ callDuration: '0:00' })
 
     expect(getByTestId(TEST_IDS.BUTTON_HANG_UP)).toBeInTheDocument()
   })
 
-  it('calls snapcallCallEnded on End call button click', () => {
+  it('calls snapcallCallEnded on hang up button click', () => {
     const { getByText } = renderComponent({ callDuration: '0:00' })
 
-    fireEvent.click(getByText('End call'))
+    fireEvent.click(getByText('Hang up'))
 
     expect(snapcallAPI.endCall).toHaveBeenCalled()
   })

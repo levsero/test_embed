@@ -43,7 +43,7 @@ describe('AttachmentField', () => {
       displayAttachmentLimitError: true
     })
     expect(queryByTestId('error-message')).toBeInTheDocument()
-    expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
+    expect(queryByText('Attachment limit reached')).toBeInTheDocument()
   })
 
   it('renders limit error when limitExceeded is true', () => {
@@ -51,7 +51,7 @@ describe('AttachmentField', () => {
       value: { limitExceeded: true }
     })
     expect(queryByTestId('error-message')).toBeInTheDocument()
-    expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
+    expect(queryByText('Attachment limit reached')).toBeInTheDocument()
   })
 
   it('does not render the dropzone when displayDropzone is false', () => {

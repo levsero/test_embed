@@ -16,7 +16,8 @@ describe('AttachmentLimitError', () => {
 
   it('renders the error message', () => {
     const { queryByText } = renderComponent()
-    expect(queryByText('You have already reached the limit of (5) attachments')).toBeInTheDocument()
+    expect(queryByText('Attachment limit reached')).toBeInTheDocument()
+    expect(queryByText('You can upload a maximum of 5 attachments.')).toBeInTheDocument()
   })
 
   it('renders the close button', () => {

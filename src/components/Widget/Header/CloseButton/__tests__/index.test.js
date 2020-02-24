@@ -39,7 +39,7 @@ describe('CloseButton', () => {
 
     const { getByLabelText } = renderComponent({ onClick })
 
-    fireEvent.click(getByLabelText('Minimize'))
+    fireEvent.click(getByLabelText('Minimize widget'))
 
     expect(onClick).toHaveBeenCalled()
   })
@@ -47,7 +47,7 @@ describe('CloseButton', () => {
   it('dispatches a "handleCloseButtonClicked" action when onClick is not provided', () => {
     const { getByLabelText, store } = renderComponent()
 
-    fireEvent.click(getByLabelText('Minimize'))
+    fireEvent.click(getByLabelText('Minimize widget'))
 
     expect(store.dispatch).toHaveBeenCalledWith(actions.handleCloseButtonClicked())
   })

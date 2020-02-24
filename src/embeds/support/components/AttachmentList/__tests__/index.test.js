@@ -24,7 +24,8 @@ const errorAttachment = {
 const defaultProps = {
   allAttachments: [validAttachment, errorAttachment],
   deleteAttachment: jest.fn(),
-  onRemoveAttachment: jest.fn()
+  onRemoveAttachment: jest.fn(),
+  maxFileSize: 5
 }
 
 const renderComponent = (props = {}) => render(<AttachmentList {...defaultProps} {...props} />)

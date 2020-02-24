@@ -191,7 +191,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -524,7 +524,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -842,7 +842,7 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -1116,7 +1116,7 @@ exports[`passing of scroll container classes 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -1390,7 +1390,7 @@ exports[`renders the expected classes 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -1664,7 +1664,7 @@ exports[`renders the expected mobile classes 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -1938,7 +1938,7 @@ exports[`renders the expected title 1`] = `
           Support
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -2257,7 +2257,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"
@@ -2575,7 +2575,7 @@ exports[`renders the help center article 1`] = `
           Help
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"

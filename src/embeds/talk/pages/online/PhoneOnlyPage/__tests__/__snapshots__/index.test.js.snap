@@ -310,7 +310,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
           Phone only page
         </h1>
         <button
-          aria-label="Minimize"
+          aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
           data-garden-container-id="keyboardfocus"
           data-garden-container-version="0.2.6"

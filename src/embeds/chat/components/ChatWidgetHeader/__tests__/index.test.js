@@ -86,7 +86,7 @@ describe('ChatWidgetHeader', () => {
   it('renders the button to close the widget', () => {
     const { queryByLabelText } = renderComponent()
 
-    expect(queryByLabelText('Minimize')).toBeInTheDocument()
+    expect(queryByLabelText('Minimize widget')).toBeInTheDocument()
   })
 
   describe('when on mobile', () => {

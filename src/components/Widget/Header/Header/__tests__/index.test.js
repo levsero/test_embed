@@ -41,7 +41,7 @@ describe('Header', () => {
     it('renders a close button', () => {
       const { queryByLabelText } = result
 
-      expect(queryByLabelText('Minimize')).toBeInTheDocument()
+      expect(queryByLabelText('Minimize widget')).toBeInTheDocument()
     })
   })
 
@@ -62,7 +62,7 @@ describe('Header', () => {
     it('can hide the close button', () => {
       const { queryByLabelText } = renderComponent({ showCloseButton: false })
 
-      expect(queryByLabelText('Minimize')).not.toBeInTheDocument()
+      expect(queryByLabelText('Minimize widget')).not.toBeInTheDocument()
     })
 
     it('renders children after the title row', () => {
