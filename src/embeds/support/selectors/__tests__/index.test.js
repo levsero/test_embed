@@ -461,13 +461,36 @@ describe('getFormState', () => {
   const createState = formExists => {
     const state = {
       base: {
-        locale: 'en-US'
+        locale: 'en-US',
+        embeddableConfig: {
+          embeds: { ticketSubmissionForm: { props: { attachmentsEnabled: false } } }
+        }
       },
       support: {
         formStates: {},
         prefillValues: {
           '*': {
             name: 'Prefill name'
+          }
+        },
+        forms: {
+          contactForm: {
+            ticket_field_ids: [123]
+          }
+        },
+        fields: {
+          123: {
+            id: 123,
+            type: 'tagger',
+            custom_field_options: [
+              {
+                value: 'option 1'
+              },
+              {
+                value: 'option 2',
+                default: true
+              }
+            ]
           }
         },
         prefillSpecificFormValues: {}
@@ -483,16 +506,26 @@ describe('getFormState', () => {
     return state
   }
 
-  it('returns the form state if it exists', () => {
-    const result = selectors.getFormState(createState(true), 'contactForm')
+  describe('when form state exists', () => {
+    it('returns the form state if it exists', () => {
+      const result = selectors.getFormState(createState(true), 'contactForm')
 
-    expect(result).toEqual({ [createKeyID('name')]: 'Bobby' })
+      expect(result).toEqual({ [createKeyID('name')]: 'Bobby' })
+    })
   })
 
-  it('returns the prefill values if the form state does not exist', () => {
-    const result = selectors.getFormState(createState(false), 'contactForm')
+  describe('when form state does not exist', () => {
+    it('returns the prefill values if the form state does not exist', () => {
+      const result = selectors.getFormState(createState(false), 'contactForm')
 
-    expect(result).toEqual({ [createKeyID('name')]: 'Prefill name' })
+      expect(result).toEqual(expect.objectContaining({ [createKeyID('name')]: 'Prefill name' }))
+    })
+
+    it('includes the default value for dropdown fields', () => {
+      const result = selectors.getFormState(createState(false), 'contactForm')
+
+      expect(result).toEqual(expect.objectContaining({ [createKeyID(123)]: 'option 2' }))
+    })
   })
 })
 

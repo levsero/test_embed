@@ -579,16 +579,23 @@ describe('submitTicket', () => {
     }
     const formState = { attachments: { ids: ['123'] } }
     const formTitle = 'contact-form'
+    const fields = []
     const store = mockStore(state)
 
-    store.dispatch(actions.submitTicket(formState, formTitle))
+    store.dispatch(actions.submitTicket(formState, formTitle, fields))
     expect(http.send).toHaveBeenCalledWith({
       callbacks: { done: expect.any(Function), fail: expect.any(Function) },
       method: 'post',
       params: 'params',
       path: '/api/v2/requests'
     })
-    expect(formatRequestData).toHaveBeenCalledWith(state, formState, ['uploadToken-123'], formTitle)
+    expect(formatRequestData).toHaveBeenCalledWith(
+      state,
+      formState,
+      ['uploadToken-123'],
+      formTitle,
+      fields
+    )
     expect(store.getActions()[0]).toEqual({ type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT })
   })
 

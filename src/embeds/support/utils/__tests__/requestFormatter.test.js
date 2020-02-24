@@ -17,7 +17,8 @@ describe('formatRequestData', () => {
     formStateOverrides = {},
     settingOverrides = {},
     submitTicketOverrides = {},
-    ticketFormName = routes.defaultFormId
+    ticketFormName = routes.defaultFormId,
+    fields = []
   ) => {
     jest.spyOn(i18n, 'getLocaleId').mockReturnValue('fr')
     jest.spyOn(i18n, 't').mockImplementation(st => st)
@@ -50,7 +51,7 @@ describe('formatRequestData', () => {
       }
     }
 
-    return formatRequestData(state, formState, [], ticketFormName)
+    return formatRequestData(state, formState, [], ticketFormName, fields)
   }
 
   it('formats the requester correctly', () => {
@@ -225,6 +226,31 @@ describe('formatRequestData', () => {
       const result = format(mockValues, {}, { ticketFields, ticketForms }, '50')
 
       expect(result.request.ticket_form_id).toBe(50)
+    })
+  })
+
+  describe('empty values', () => {
+    const tests = [
+      { type: 'checkbox', expected: 0 },
+      { type: 'integer', expected: '' },
+      { type: 'decimal', expected: '' },
+      { type: 'text', expected: '' },
+      { type: 'tagger', expected: '' },
+      { type: 'textarea', expected: '' }
+    ]
+
+    tests.forEach(testCase => {
+      it(`defaults to ${JSON.stringify(testCase.expected)} when field type ${
+        testCase.type
+      } has no value`, () => {
+        const fieldId = '123'
+
+        const result = format({ [fieldId]: undefined }, {}, {}, undefined, [
+          { type: testCase.type, id: fieldId }
+        ])
+
+        expect(result.request.fields[fieldId]).toBe(testCase.expected)
+      })
     })
   })
 })

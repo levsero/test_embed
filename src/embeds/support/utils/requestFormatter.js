@@ -35,10 +35,30 @@ const formatDescriptionField = description => {
 const formatSubjetFromDescription = descriptionData =>
   descriptionData.length <= 50 ? descriptionData : `${descriptionData.slice(0, 50)}...`
 
-const formatTicketFieldData = (formState, subjectFieldId, descriptionFieldId) => {
+const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFieldId) => {
+  const values = { ...formState }
   let params = { fields: {} }
 
-  _.forEach(formState, function(value, name) {
+  if (fields) {
+    fields.forEach(field => {
+      if (!field.required_in_portal && values[field.id] === undefined) {
+        switch (field.type) {
+          case 'checkbox':
+            values[field.id] = 0
+            break
+          case 'integer':
+          case 'decimal':
+          case 'text':
+          case 'tagger':
+          case 'textarea':
+            values[field.id] = ''
+            break
+        }
+      }
+    })
+  }
+
+  _.forEach(values, function(value, name) {
     // Custom field names are numbers so we check if name is NaN
     const nameInt = parseInt(name, 10)
 
@@ -80,7 +100,7 @@ const getContactFormValues = (formState, state) => {
   }
 }
 
-export default (state, formState, attachments, formTitle) => {
+export default (state, formState, attachments, formTitle, fields) => {
   const isTicketForm = formTitle !== routes.defaultFormId
   const params = !isTicketForm
     ? getContactFormValues(formState, state)
@@ -101,7 +121,7 @@ export default (state, formState, attachments, formTitle) => {
         locale_id: i18n.getLocaleId()
       },
       ticket_form_id: isTicketForm ? parseInt(formTitle) : null,
-      ...formatTicketFieldData(formState, params.subjectField, params.descriptionField)
+      ...formatTicketFieldData(formState, fields, params.subjectField, params.descriptionField)
     }
   }
 }
