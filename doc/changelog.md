@@ -52,7 +52,7 @@ Formatting guide:
 
 - Fixed an issue where Answer Bot articles were displaying the Original Article button when it should have been disabled by the settings API.
 - Fixed an issue where the Help Center search form was not utilizing the `clear` API to clear forms.
-- Added an automatic scroll to the Agent Typing indicator when it changes.
+- Added an automatic scroll to the agent typing indicator when it changes.
 - Fixed an issue where the Original Article button in Articles was incorrectly positioned.
 - Added hover effects for navigation buttons.
 - Security: Updated various packages to address potential security vulnerabilities.
