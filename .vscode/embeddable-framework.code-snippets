@@ -171,6 +171,6 @@
   "ImportUseTranslate": {
     "prefix": "useTranslate",
     "scope": "javascript,typescript",
-    "body": ["import { useTranslate } from 'src/hooks/useTranslation'"]
+    "body": ["import useTranslate from 'src/hooks/useTranslate'"]
   }
 }
