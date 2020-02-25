@@ -11,6 +11,52 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 30 January 2020
+
+- Security - Added `SameSite: lax` to chat cookies to comply with Chrome 80s cookies security update: https://www.chromestatus.com/feature/5088147346030592
+- Fixed visual bug that chat rating feedback buttons being pushed off the side of the agent panel if the agent had a very long Agent Name.
+- Fixed a bug that prevented phone number from being set when using authenticated chat.
+
+### 21 January 2020
+
+- Security - Fixed Edit Contact Details appearing in the Chat Menu even when `User Profile` is disabled in Chat settings.
+- Fixed a bug in the Chat Log scroll bar which caused it to have inconsistent sizing across browsers.
+- Fixed social login buttons being visible in the pre-chat form despite `User Profile` being disabled in Chat settings.
+- Fixed Chat menu visibility when viewing the widget in a pop-out window.
+
+### 16 January 2020
+
+- Fixed a bug where social network login buttons were opening tabs that wouldn't automatically close when authenticated.
+- Fixed a bug where RTL styling was incorrect in form attachments.
+
+### 14 January 2020
+
+- Changed styling for attachments used in forms.
+
+### 13 January 2020
+
+- Changed - The priority order for values used in a form:
+  - Fallback values for all forms, including values set from the prefill API
+  - Specific locale values for all forms
+  - Fallback values for a specific form
+  - Specific locale values for a specific form
+- Fixed tickets submitting despite `required` drop-down options having no value set.
+
+### 08 January 2020
+
+- Fixed an issue where the `on:open` and `on:closed` API callbacks were not being fired when `zE('webWidget', 'toggle')` was called.
+- Fixed the chat box in Answer Bot in mobile to have a more accessible styling. with the Zendesk logo now appearing above the chat box.
+- Fixed an issue where the `reset` and `logout` APIs were not working in cases where a search was performed before the API was executed.
+
+### 06 January 2020
+
+- Fixed an issue where Answer Bot articles were displaying the Original Article button when it should have been disabled by the settings API.
+- Fixed an issue where the Help Center search form was not utilizing the `clear` API to clear forms.
+- Added an automatic scroll to the agent typing indicator when it changes.
+- Fixed an issue where the Original Article button in Articles was incorrectly positioned.
+- Added hover effects for navigation buttons.
+- Security: Updated various packages to address potential security vulnerabilities.
+
 ### 20 December 2019
 
 - Fixed an issue where the Chat message notification did not respect end user dismissal in Help Center.
