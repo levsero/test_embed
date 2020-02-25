@@ -19,9 +19,11 @@ export const supportedFields = {
   textarea: Textarea,
   description: Textarea,
   integer: Integer,
+  number: Integer,
   decimal: Decimal,
   checkbox: Checkbox,
   dropdown: Dropdown,
+  select: Dropdown,
   tagger: Dropdown,
   attachments: AttachmentField,
   legacyDropdown: LegacyDropdown

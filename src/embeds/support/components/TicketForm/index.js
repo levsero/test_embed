@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form as ReactFinalForm } from 'react-final-form'
-import useTranslate from 'src/hooks/useTranslate'
 import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import Form from 'embeds/support/components/TicketForm/Form'
-import _ from 'lodash'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getFields from 'embeds/support/utils/getFields'
 import { FORM_ERROR } from 'final-form'
@@ -20,7 +18,6 @@ const TicketFormProvider = ({
   conditions = [],
   attachments
 }) => {
-  const translate = useTranslate()
   const [showErrors, setShowFormErrors] = useState(false)
   const scrollToFirstError = useScrollToFirstError()
 
@@ -35,9 +32,9 @@ const TicketFormProvider = ({
     setShowFormErrors(true)
     const fields = getFields(values, conditions, ticketFields)
 
-    const errors = validateTicketForm(fields, translate, values, attachments, conditions)
+    const errors = validateTicketForm(fields, values, attachments, conditions)
 
-    if (_.isEmpty(errors)) {
+    if (Object.keys(errors).length === 0) {
       const valuesToSubmit = {}
 
       fields.forEach(field => {
@@ -70,7 +67,7 @@ const TicketFormProvider = ({
           return null
         }
 
-        return validateTicketForm(ticketFields, translate, values, attachments, conditions)
+        return validateTicketForm(ticketFields, values, attachments, conditions)
       }}
       onSubmit={onSubmit}
       initialValues={formState}

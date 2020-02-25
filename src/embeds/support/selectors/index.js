@@ -177,6 +177,7 @@ export const getTicketFormFields = createSelector(
         required_in_portal: nameRequired,
         visible_in_portal: true,
         type: 'text',
+        validation: 'name',
         keyID: 'key:name'
       },
       {
@@ -240,6 +241,7 @@ export const getCustomTicketFields = (state, formId) => {
       required_in_portal: nameRequired,
       visible_in_portal: true,
       type: 'text',
+      validation: 'name',
       keyID: 'key:name'
     },
     {

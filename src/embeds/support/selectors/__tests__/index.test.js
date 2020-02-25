@@ -14,6 +14,7 @@ const nameField = {
   title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
   required_in_portal: false,
   visible_in_portal: true,
+  validation: 'name',
   type: 'text',
   keyID: createKeyID('name')
 }
@@ -176,6 +177,7 @@ describe('getTicketFormFields', () => {
           title_in_portal: 'Your name',
           required_in_portal: true,
           visible_in_portal: true,
+          validation: 'name',
           type: 'text',
           keyID: createKeyID('name')
         },
@@ -196,6 +198,7 @@ describe('getTicketFormFields', () => {
           title_in_portal: 'Your name',
           required_in_portal: false,
           visible_in_portal: true,
+          validation: 'name',
           type: 'text',
           keyID: createKeyID('name')
         },
@@ -234,6 +237,7 @@ describe('getTicketFormFields', () => {
         title_in_portal: 'Your name',
         required_in_portal: false,
         visible_in_portal: true,
+        validation: 'name',
         type: 'text',
         keyID: createKeyID('name')
       },

@@ -45,7 +45,7 @@ const Form = ({
                 render={({ input, meta }) => (
                   <FormField
                     field={field}
-                    errorMessage={showErrors ? meta.error : ''}
+                    errorMessage={showErrors && meta.error ? translate(meta.error) : ''}
                     value={convertFieldValue(field.type, input.value)}
                     onChange={value => input.onChange(value)}
                     isReadOnly={readOnlyState[field.keyID]}
