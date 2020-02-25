@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
-import { Component as AgentDetailsPage } from '../AgentDetailsPage'
+import { Component as AgentDetailsPage } from '../'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 const renderComponent = (props = {}) => {
