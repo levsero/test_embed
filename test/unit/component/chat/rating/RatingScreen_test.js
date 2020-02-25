@@ -90,32 +90,32 @@ describe('RatingScreen component', () => {
       endChatSpy.calls.reset()
     })
 
-    describe('the sendClickFn passed as a prop to the FeedbackForm', () => {
+    describe('the handleSubmitFn passed as a prop to the FeedbackForm', () => {
       beforeEach(() => {
-        component.skipClick()
+        component.handleSecondaryButtonClick()
       })
 
       it('sends the chat rating if it has changed', () => {
         const newRating = { value: 'updated_rating' }
 
-        component.sendClick(newRating)
+        component.handleSubmit(newRating)
         expect(sendChatRatingSpy).toHaveBeenCalledWith(newRating)
       })
 
       it('sends the comment if one is submitted', () => {
         const chatReviewComment = 'you are nice'
 
-        component.sendClick(defaultRating.value, chatReviewComment)
+        component.handleSubmit(defaultRating.value, chatReviewComment)
         expect(sendChatCommentSpy).toHaveBeenCalledWith(chatReviewComment)
       })
 
       it('does not send the comment if it is not specified', () => {
-        component.sendClick(defaultRating.value, null)
+        component.handleSubmit(defaultRating.value, null)
         expect(sendChatCommentSpy).not.toHaveBeenCalled()
       })
 
       it('redirects to the chatting screen', () => {
-        component.sendClick(defaultRating.value)
+        component.handleSubmit(defaultRating.value)
         expect(updateChatScreenSpy).toHaveBeenCalledWith('CHATTING_SCREEN')
       })
 
@@ -125,7 +125,7 @@ describe('RatingScreen component', () => {
         })
 
         it('does not end the chat', () => {
-          component.sendClick(defaultRating.value)
+          component.handleSubmit(defaultRating.value)
           expect(endChatSpy).not.toHaveBeenCalled()
         })
       })
@@ -136,15 +136,15 @@ describe('RatingScreen component', () => {
         })
 
         it('ends the chat', () => {
-          component.sendClick(defaultRating.value)
+          component.handleSubmit(defaultRating.value)
           expect(endChatSpy).toHaveBeenCalled()
         })
       })
     })
 
-    describe('the skipClickFn passed as a prop to the FeedbackForm', () => {
+    describe('the handleSecondaryButtonClick function passed as a prop to the FeedbackForm', () => {
       beforeEach(() => {
-        component.skipClick()
+        component.handleSecondaryButtonClick()
       })
 
       it('redirects to the chatting screen', () => {
@@ -157,7 +157,7 @@ describe('RatingScreen component', () => {
         })
 
         beforeEach(() => {
-          component.skipClick()
+          component.handleSecondaryButtonClick()
         })
 
         it('does not end the chat', () => {
@@ -171,7 +171,7 @@ describe('RatingScreen component', () => {
         })
 
         beforeEach(() => {
-          component.skipClick()
+          component.handleSecondaryButtonClick()
         })
 
         it('ends the chat', () => {
