@@ -11,7 +11,6 @@ module.exports = merge(common, {
     preload: path.join(CWD, '/src/preload.js')
   },
   optimization: {
-    runtimeChunk: 'single',
     namedChunks: true,
     splitChunks: {
       chunks(chunk) {

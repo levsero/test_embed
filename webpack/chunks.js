@@ -10,7 +10,8 @@ const excludeFromVendoring = {
   'chat-sdk': true,
   'talk-sdk': true,
   webWidgetPreview: true,
-  chatPreview: true
+  chatPreview: true,
+  preload: true
 }
 
 const priority = {

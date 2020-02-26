@@ -14,6 +14,9 @@ module.exports = () => {
   const config = JSON.parse(fs.readFileSync('./e2e/fixtures/account-config/z3nwebwidget2019.json'))
 
   return merge(common, {
+    optimization: {
+      runtimeChunk: 'single'
+    },
     mode: 'development',
     output: {
       filename: '[name].js',
