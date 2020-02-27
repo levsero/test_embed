@@ -275,7 +275,7 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
 `;
 
 exports[`feedback actions on no click asks for the reason 1`] = `
-.c15.c15.c15 {
+.c13.c13.c13 {
   background-color: transparent !important;
   color: #1F73B7 !important;
   border-color: #1F73B7 !important;
@@ -291,35 +291,34 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   height: auto !important;
 }
 
-.c15.c15.c15:not([disabled]):hover,
-.c15.c15.c15:not([disabled]):active,
-.c15.c15.c15:not([disabled]):focus {
+.c13.c13.c13:not([disabled]):hover,
+.c13.c13.c13:not([disabled]):active,
+.c13.c13.c13:not([disabled]):focus {
   color: #FFFFFF !important;
   background-color: #1F73B7 !important;
   border-color: #1F73B7 !important;
 }
 
-.c13 {
+.c11 {
   margin: 0 auto;
   width: 85%;
 }
 
-.c14 {
+.c12 {
   margin-bottom: 0.7142857142857143rem !important;
   width: 100%;
 }
 
-.c16 {
+.c14 {
   width: 100%;
 }
 
-.c11 {
+.c9 {
   background-color: #fff;
-  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
   padding: 1.1428571428571428rem 0;
 }
 
-.c12 {
+.c10 {
   text-align: center;
   margin-bottom: 0.7142857142857143rem;
   font-size: 0.9285714285714286rem;
@@ -327,11 +326,24 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   color: #333;
 }
 
-.c10 {
+.c8 {
   width: 100%;
-  position: absolute;
-  overflow: hidden;
-  border-radius: 0 0 0.5714285714285714rem 0.5714285714285714rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c0 {
@@ -478,35 +490,6 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   border-radius: 0.21428571428571427rem;
 }
 
-.c8 {
-  padding: 0.7142857142857143rem 1.4285714285714286rem;
-  border-top: 0.07857142857142858rem solid #e9ebed;
-  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
-}
-
-.c9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
 <div>
   <div
     class="c0"
@@ -583,45 +566,25 @@ exports[`feedback actions on no click asks for the reason 1`] = `
         />
       </div>
     </div>
-    <footer
-      class="c8"
-    >
-      <div
-        class="c9"
-      >
-        <a
-          class="icon"
-          data-testid="Icon--zendesk"
-          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-          tabindex="-1"
-          target="_blank"
-        >
-          <svg
-            realfilename="widget-icon_zendesk.svg"
-            title="zendesk"
-          />
-        </a>
-      </div>
-    </footer>
     <div
-      class="c10"
+      class="c8"
       data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
       <div
-        class="c11"
+        class="c9"
       >
         <h3
-          class="c12"
+          class="c10"
         >
           Please tell us why.
         </h3>
         <div
-          class="c13"
+          class="c11"
         >
           <button
-            class="c14 c15 index__c-btn___3y2Qe "
+            class="c12 c13 index__c-btn___3y2Qe "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
@@ -633,7 +596,7 @@ exports[`feedback actions on no click asks for the reason 1`] = `
             It's related, but it didn't answer my question
           </button>
           <button
-            class="c16 c15 index__c-btn___3y2Qe "
+            class="c14 c13 index__c-btn___3y2Qe "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
@@ -2022,7 +1985,7 @@ exports[`renders the expected title 1`] = `
 `;
 
 exports[`renders the feedback popup after a certain time has passed 1`] = `
-.c13.c13.c13 {
+.c11.c11.c11 {
   background-color: transparent !important;
   color: #1F73B7 !important;
   border-color: #1F73B7 !important;
@@ -2038,21 +2001,20 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   height: auto !important;
 }
 
-.c13.c13.c13:not([disabled]):hover,
-.c13.c13.c13:not([disabled]):active,
-.c13.c13.c13:not([disabled]):focus {
+.c11.c11.c11:not([disabled]):hover,
+.c11.c11.c11:not([disabled]):active,
+.c11.c11.c11:not([disabled]):focus {
   color: #FFFFFF !important;
   background-color: #1F73B7 !important;
   border-color: #1F73B7 !important;
 }
 
-.c11 {
+.c9 {
   background-color: #fff;
-  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
   padding: 1.1428571428571428rem 0;
 }
 
-.c12 {
+.c10 {
   text-align: center;
   margin-bottom: 0.7142857142857143rem;
   font-size: 0.9285714285714286rem;
@@ -2060,11 +2022,24 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   color: #333;
 }
 
-.c10 {
+.c8 {
   width: 100%;
-  position: absolute;
-  overflow: hidden;
-  border-radius: 0 0 0.5714285714285714rem 0.5714285714285714rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c0 {
@@ -2211,35 +2186,6 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   border-radius: 0.21428571428571427rem;
 }
 
-.c8 {
-  padding: 0.7142857142857143rem 1.4285714285714286rem;
-  border-top: 0.07857142857142858rem solid #e9ebed;
-  box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
-}
-
-.c9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
 <div>
   <div
     class="c0"
@@ -2316,37 +2262,17 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
         />
       </div>
     </div>
-    <footer
-      class="c8"
-    >
-      <div
-        class="c9"
-      >
-        <a
-          class="icon"
-          data-testid="Icon--zendesk"
-          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-          tabindex="-1"
-          target="_blank"
-        >
-          <svg
-            realfilename="widget-icon_zendesk.svg"
-            title="zendesk"
-          />
-        </a>
-      </div>
-    </footer>
     <div
-      class="c10"
+      class="c8"
       data-testid="slide-appear-container"
       role="presentation"
       style="opacity: 1; bottom: 0px;"
     >
       <div
-        class="c11"
+        class="c9"
       >
         <h3
-          class="c12"
+          class="c10"
         >
           Does this article answer your question?
         </h3>
@@ -2354,7 +2280,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
           class="container buttonCenter "
         >
           <button
-            class="c13 index__c-btn___3y2Qe "
+            class="c11 index__c-btn___3y2Qe "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"
@@ -2366,7 +2292,7 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
             Yes
           </button>
           <button
-            class="c13 index__c-btn___3y2Qe "
+            class="c11 index__c-btn___3y2Qe "
             data-garden-container-id="keyboardfocus"
             data-garden-container-version="0.2.6"
             data-garden-id="buttons.button"

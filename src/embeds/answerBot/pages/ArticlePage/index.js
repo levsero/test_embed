@@ -70,7 +70,8 @@ class ArticlePage extends Component {
     this.state = {
       showPopup: false,
       popupDisplayed: false,
-      initialOptions: true
+      initialOptions: true,
+      showFooter: true
     }
     this.showPopupTimer = null
   }
@@ -78,7 +79,7 @@ class ArticlePage extends Component {
   componentDidMount = () => {
     this.showPopupTimer = setTimeout(() => {
       if (this.props.isFeedbackRequired && !this.state.showPopup) {
-        this.setState({ showPopup: true })
+        this.setState({ showPopup: true, showFooter: false })
       }
     }, 1000)
   }
@@ -137,6 +138,7 @@ class ArticlePage extends Component {
         endPosHeight={'0px'}
         duration={400}
         onEntered={this.handlePopupAppeared}
+        onExited={() => this.setState({ showFooter: true })}
       >
         <FeedbackPopup
           onYesClick={this.onYesFeedback}
@@ -174,7 +176,7 @@ class ArticlePage extends Component {
             }}
           />
         </Main>
-        <Footer />
+        {this.state.showFooter && <Footer />}
         {this.feedbackPopup()}
       </Widget>
     )

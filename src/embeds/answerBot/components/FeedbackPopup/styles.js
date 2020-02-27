@@ -1,10 +1,9 @@
 import styled from 'styled-components'
-import { zdColorBlack, zdColorWhite, zdColorOil } from '@zendeskgarden/css-variables'
+import { zdColorWhite, zdColorOil } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
   background-color: ${zdColorWhite};
-  box-shadow: 0 ${2 / FONT_SIZE}rem ${16 / FONT_SIZE}rem 0 rgba(${zdColorBlack}, 0.26);
   padding: ${16 / FONT_SIZE}rem 0;
 `
 

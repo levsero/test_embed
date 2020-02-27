@@ -41,7 +41,6 @@ exports[`on no click displays the reasons 1`] = `
 
 .c0 {
   background-color: #fff;
-  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
   padding: 1.1428571428571428rem 0;
 }
 
@@ -121,7 +120,6 @@ exports[`renders the expected classes 1`] = `
 
 .c0 {
   background-color: #fff;
-  box-shadow: 0 0.14285714285714285rem 1.1428571428571428rem 0 rgba(#000,0.26);
   padding: 1.1428571428571428rem 0;
 }
 
