@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+// import FeedbackForm from 'src/embeds/chat/components/FeedbackForm'
 import { FeedbackForm } from 'component/chat/rating/FeedbackForm'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
 import { i18n } from 'service/i18n'
@@ -48,14 +49,14 @@ class RatingScreen extends Component {
     onRatingButtonClick: () => {}
   }
 
-  skipClick = () => {
+  handleSecondaryButtonClick = () => {
     if (this.props.endChatFromFeedbackForm) this.props.endChat()
 
     this.props.updateChatScreen(CHATTING_SCREEN)
     this.props.onRatingButtonClick()
   }
 
-  sendClick = (newRating, text) => {
+  handleSubmit = (newRating, text) => {
     this.props.sendChatRating(newRating)
     if (text) this.props.sendChatComment(text)
     if (this.props.endChatFromFeedbackForm) this.props.endChat()
@@ -77,7 +78,7 @@ class RatingScreen extends Component {
 
   render = () => {
     const { message } = this.props.postChatFormSettings
-    const cancelButtonTextKey = this.props.isChatting
+    const secondaryButtonTextKey = this.props.isChatting
       ? 'embeddable_framework.common.button.cancel'
       : 'embeddable_framework.chat.postChat.rating.button.skip'
 
@@ -86,12 +87,21 @@ class RatingScreen extends Component {
         <ChatWidgetHeader />
         {this.renderChatHeader()}
         <Main>
+          {/* Uncomment to test new feedback form */}
+          {/* <FeedbackForm
+            feedbackMessage={message}
+            rating={this.props.rating}
+            handleSecondaryButtonClick={this.handleSecondaryButtonClick}
+            submitForm={this.handleSubmit}
+            secondaryButtonText={i18n.t(secondaryButtonTextKey)}
+          /> */}
+
           <FeedbackForm
             feedbackMessage={message}
             rating={this.props.rating}
-            skipClickFn={this.skipClick}
-            sendClickFn={this.sendClick}
-            cancelButtonText={i18n.t(cancelButtonTextKey)}
+            skipClickFn={this.handleSecondaryButtonClick}
+            sendClickFn={this.handleSubmit}
+            cancelButtonText={i18n.t(secondaryButtonTextKey)}
           />
         </Main>
         <Footer />
