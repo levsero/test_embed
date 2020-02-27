@@ -609,14 +609,13 @@ exports[`form ticket forms validation renders the error messages 1`] = `
                     Favorite Checkbox
                   </strong>
                 </label>
-              </div>
-              <div
-                class="text__c-txt__message___ayY8L text__c-txt__message--error___mRTmE "
-                data-garden-id="forms.text_message"
-                data-garden-version="7.0.2"
-                role="alert"
-              >
-                Please check this box to proceed.
+                <div
+                  class="checkbox__c-chk__message___3asiy checkbox__c-chk__message--error___WDZJE "
+                  data-garden-id="forms.checkbox_message"
+                  data-garden-version="7.0.2"
+                >
+                  Please check this box to proceed.
+                </div>
               </div>
             </div>
           </div>

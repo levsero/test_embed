@@ -66,11 +66,11 @@ describe('Checkbox', () => {
   })
 
   it('displays the error message when provided', () => {
-    const { queryByRole } = renderComponent({
+    const { queryByText } = renderComponent({
       errorMessage: 'Something is wrong with the input'
     })
 
-    expect(queryByRole('alert')).toHaveTextContent('Something is wrong with the input')
+    expect(queryByText('Something is wrong with the input')).toBeInTheDocument()
   })
 
   describe('when value is 1', () => {

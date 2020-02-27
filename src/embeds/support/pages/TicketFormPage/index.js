@@ -16,6 +16,7 @@ import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { dragStarted } from 'src/embeds/support/actions/index'
 import getFields from 'embeds/support/utils/getFields'
+import { FileDropProvider } from 'components/FileDropProvider'
 
 const TicketFormPage = ({
   formTitle,
@@ -28,11 +29,10 @@ const TicketFormPage = ({
   ticketFormTitle,
   ticketForms,
   conditions,
-  dragStarted,
   attachments
 }) => {
   return (
-    <div onDragEnter={dragStarted}>
+    <FileDropProvider>
       <Widget>
         <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
 
@@ -49,7 +49,7 @@ const TicketFormPage = ({
           attachments={attachments}
         />
       </Widget>
-    </div>
+    </FileDropProvider>
   )
 }
 
@@ -60,7 +60,6 @@ TicketFormPage.propTypes = {
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
-  dragStarted: PropTypes.func.isRequired,
   match: PropTypes.object,
   ticketFormTitle: PropTypes.string,
   ticketForms: PropTypes.array.isRequired,

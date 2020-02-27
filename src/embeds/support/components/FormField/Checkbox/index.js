@@ -25,12 +25,13 @@ const Checkbox = ({ field, value, onChange, errorMessage, errorMessageKey }) => 
             />
           )}
           {field.description && <Hint>{field.description}</Hint>}
+
+          {errorMessage && (
+            <Message validation="error" key={errorMessageKey}>
+              {errorMessage}
+            </Message>
+          )}
         </GardenCheckbox>
-        {errorMessage && (
-          <Message validation="error" key={errorMessageKey}>
-            {errorMessage}
-          </Message>
-        )}
       </Field>
     </div>
   )

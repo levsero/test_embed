@@ -11,7 +11,9 @@ import {
 } from '@zendeskgarden/css-variables'
 import Paperclip from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
 
-export const Container = styled.div`
+export const AttachmentButton = styled.button.attrs(() => ({
+  type: 'button'
+}))`
   cursor: pointer !important;
   border-width: ${2 / FONT_SIZE}rem;
   border-color: ${zdColorGrey300};
@@ -19,6 +21,8 @@ export const Container = styled.div`
   border-radius: ${5 / FONT_SIZE}rem;
   background-color: ${zdColorWhite};
   opacity: 0.9;
+  display: block;
+  width: 100%;
 
   &:hover {
     background-color: ${zdColorGrey400};
