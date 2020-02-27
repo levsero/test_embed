@@ -86,5 +86,6 @@ export const store = {
   remove: remove,
   clear: clear,
   enable: enable,
-  disable: disable
+  disable: disable,
+  prefix
 }

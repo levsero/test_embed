@@ -293,3 +293,68 @@ Use the `routes/index.js` file to define all of your embeds routes.
 
 - Any tests currently in Jasmine must be ported to Jest
 - Follow the [style guide](https://github.com/zendesk/embeddable_framework/blob/master/TEST_STYLE.md)
+
+## Feature flags
+
+You can add feature flags to the Web Widget in this file [src/embeds/webWidget/selectors/feature-flags/features.js](src/embeds/webWidget/selectors/feature-flags/features.js)
+
+The only thing required for this is the feature flag name and its default value.
+
+```js
+export default {
+  /* ... */
+  fancyNewFeature: {
+    defaultValue: false
+  }
+}
+```
+
+All major features should be behind an arturo flag.
+To update your feature to use an arturo flag, you can provide a function on the property `getArturoValue` that takes the current redux state and returns the arturo flags value.
+
+```js
+export default {
+  /* ... */
+  fancyNewFeature: {
+    defaultValue: false,
+    getArturoValue: state => state.fancyNewFeature
+  }
+}
+```
+
+In dev and debug mode, these feature flags can be updated or overridden by setting their value in local storage in the format `ZD-feature-YOUR-FEATURE-NAME`
+
+Example:
+
+```js
+localStorage.setItem(`ZD-feature-fancyNewFeature`, true)
+```
+
+Then to check if this feature is enabled in your code, you can use the provided redux selector function `isFeatureEnabled`.
+
+Note:
+
+- Depending on the feature you are adding, it may be worth lazy loading in your change. Large features that aren't visible to our customers shouldn't impact the bundle size.
+- Since these values are stored purely in local storage, if you want to update a feature flag while the web widget is running, you will need to trigger a re-render of the widget to get the new value to apply. A simple example of this is closing and re-opening the Web Widget.
+
+```jsx
+import React from 'react
+import { useSelector } from 'react-redux'
+import { isFeatureEnabled } from 'src/embeds/webWidget/selectors/feature-flags'
+
+const FancyNewFeature = React.lazy(() => import('./FancyNewFeature))
+
+const SomeComponent = () => {
+  const useFancyNewFeature = useSelector(state => isFeatureEnabled(state, 'fancyNewFeature'))
+
+  if(useFancyNewFeature) {
+    return (
+      <Suspense>
+        <FancyNewFeature />
+      </Suspense>
+    )
+  }
+
+  return <LegacyFeature />
+}
+```

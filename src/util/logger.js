@@ -1,4 +1,6 @@
 /* eslint no-console:0 */
+import { inDebugMode } from 'utility/runtime'
+
 const consoleAvailable = Boolean(window.console)
 
 function log(...args) {
@@ -13,9 +15,13 @@ function warn(...args) {
 function error(...args) {
   if (consoleAvailable) console.error(...args)
 }
+function devLog(...args) {
+  if (consoleAvailable && inDebugMode()) console.log(...args)
+}
 
 export default {
   log,
+  devLog,
   info,
   warn,
   error

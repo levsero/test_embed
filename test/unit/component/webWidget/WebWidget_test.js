@@ -84,6 +84,7 @@ describe('WebWidget component', () => {
       'embeds/support/selectors': {
         getNewSupportEmbedEnabled: () => false
       },
+      'embeds/webWidget/selectors/feature-flags': () => undefined,
       'embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
       'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
       'src/redux/modules/base': {
