@@ -164,7 +164,11 @@ export class ChatLog extends PureComponent {
     if (!labelKey) return
 
     return (
-      <Button className={styles.requestRatingButton} onClick={goToFeedbackScreen}>
+      <Button
+        className={styles.requestRatingButton}
+        aria-label={i18n.t(labelKey)}
+        onClick={goToFeedbackScreen}
+      >
         {i18n.t(labelKey)}
       </Button>
     )

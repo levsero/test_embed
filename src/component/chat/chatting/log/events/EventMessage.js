@@ -47,8 +47,12 @@ export default class EventMessage extends Component {
 
       case 'chat.rating':
         const ratingValue = event.new_rating
+        const oldRating = event.rating
 
-        if (!ratingValue) return i18n.t('embeddable_framework.chat.chatLog.rating.removed')
+        if (!ratingValue) {
+          if (oldRating) return i18n.t('embeddable_framework.chat.chatLog.rating.removed')
+          return
+        }
 
         const value = i18n.t(`embeddable_framework.chat.chatLog.rating.${ratingValue}`)
         return i18n.t('embeddable_framework.chat.chatLog.rating.description', { value })

@@ -65,7 +65,7 @@ export class ChattingFooter extends Component {
         colorType="fill"
         size="small"
         onClick={this.handleEndChatClick}
-        ariaLabel={altText}
+        aria-label={altText}
         disabled={disabled}
       >
         <Icon type={ICONS.END_CHAT} />
@@ -92,7 +92,7 @@ export class ChattingFooter extends Component {
       <FooterIconButton
         ignoreThemeOverride={true}
         size="small"
-        ariaLabel={altText}
+        aria-label={altText}
         data-testid={TEST_IDS.CHAT_ATTACHMENT_BUTTON}
       >
         <Icon type={ICONS.PAPERCLIP_SMALL} />

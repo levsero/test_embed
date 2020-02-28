@@ -27,9 +27,6 @@ export default {
       operatingHours: {
         display_notice: 'foo'
       },
-      postchatForm: {
-        hello: 'world'
-      },
       prechatForm: {
         Ive: 'been waiting for this'
       },

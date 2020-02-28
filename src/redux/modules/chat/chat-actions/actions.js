@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import * as actions from '../chat-action-types'
-import { CHATTING_SCREEN, PRECHAT_SCREEN, FEEDBACK_SCREEN } from '../chat-screen-types'
+import { CHATTING_SCREEN, PRECHAT_SCREEN, POST_CHAT_SCREEN } from '../chat-screen-types'
 import {
   getChatVisitor,
   getShowRatingScreen,
@@ -135,7 +135,7 @@ export const endChat = (callback = noop) => {
 export const endChatViaPostChatScreen = () => {
   return (dispatch, getState) => {
     if (getShowRatingScreen(getState())) {
-      dispatch(updateChatScreen(FEEDBACK_SCREEN))
+      dispatch(updateChatScreen(POST_CHAT_SCREEN))
     } else {
       dispatch(endChat())
     }

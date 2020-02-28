@@ -107,8 +107,8 @@ describe('EventMessage component', () => {
         expectedArgs: { agent: 'Agent 123' }
       },
       {
-        description: 'rating event with no rating value',
-        event: { nick: 'visitor', type: 'chat.rating' },
+        description: 'rating event with no new rating value and old rating',
+        event: { nick: 'visitor', type: 'chat.rating', new_rating: undefined, rating: 'good' },
         expectedString: 'embeddable_framework.chat.chatLog.rating.removed'
       },
       {

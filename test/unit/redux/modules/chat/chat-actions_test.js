@@ -358,10 +358,10 @@ describe('chat redux actions', () => {
         mockStore.dispatch(actions.endChatViaPostChatScreen())
       })
 
-      it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+      it('dispatches an UPDATE_CHAT_SCREEN action with the POST_CHAT_SCREEN', () => {
         expect(mockStore.getActions()).toContain({
           type: actionTypes.UPDATE_CHAT_SCREEN,
-          payload: { screen: screenTypes.FEEDBACK_SCREEN }
+          payload: { screen: screenTypes.POST_CHAT_SCREEN }
         })
       })
     })
@@ -372,10 +372,10 @@ describe('chat redux actions', () => {
         mockStore.dispatch(actions.endChatViaPostChatScreen())
       })
 
-      it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+      it('does not dispatch an UPDATE_CHAT_SCREEN action with the POST_CHAT_SCREEN', () => {
         expect(mockStore.getActions()).not.toContain({
           type: actionTypes.UPDATE_CHAT_SCREEN,
-          payload: { screen: screenTypes.FEEDBACK_SCREEN }
+          payload: { screen: screenTypes.POST_CHAT_SCREEN }
         })
       })
     })

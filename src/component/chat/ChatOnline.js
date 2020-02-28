@@ -6,7 +6,8 @@ import _ from 'lodash'
 import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
 import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
-import RatingScreen from 'component/chat/rating/RatingScreen'
+import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
+import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup'
@@ -223,9 +224,6 @@ class Chat extends Component {
     }
     const endChatFn = () => {
       this.props.updateEndChatModalVisibility(false)
-      this.setState({
-        endChatFromFeedbackForm: true
-      })
       this.props.endChatViaPostChatScreen()
     }
 
@@ -239,10 +237,19 @@ class Chat extends Component {
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
         </div>
         <ModalActions>
-          <Button onClick={hideChatEndFn} data-testid={TEST_IDS.BUTTON_CANCEL}>
+          <Button
+            onClick={hideChatEndFn}
+            data-testid={TEST_IDS.BUTTON_CANCEL}
+            aria-label={i18n.t('embeddable_framework.common.button.cancel')}
+          >
             {i18n.t('embeddable_framework.common.button.cancel')}
           </Button>
-          <Button onClick={endChatFn} primary={true} data-testid={TEST_IDS.BUTTON_OK}>
+          <Button
+            onClick={endChatFn}
+            primary={true}
+            aria-label={i18n.t('embeddable_framework.common.button.end')}
+            data-testid={TEST_IDS.BUTTON_OK}
+          >
             {i18n.t('embeddable_framework.common.button.end')}
           </Button>
         </ModalActions>
@@ -250,21 +257,16 @@ class Chat extends Component {
     )
   }
 
-  renderPostchatScreen = () => {
+  renderChatRatingPage = () => {
     if (this.props.screen !== screens.FEEDBACK_SCREEN) return null
 
-    const onRatingButtonClick = () => {
-      this.setState({ endChatFromFeedbackForm: false })
-    }
+    return <ChatRatingPage />
+  }
 
-    return (
-      <RatingScreen
-        isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
-        onRatingButtonClick={onRatingButtonClick}
-        endChatFromFeedbackForm={this.state.endChatFromFeedbackForm}
-      />
-    )
+  renderPostChatPage = () => {
+    if (this.props.screen !== screens.POST_CHAT_SCREEN) return null
+
+    return <PostChatPage />
   }
 
   renderChatContactDetailsPopup = () => {
@@ -376,7 +378,8 @@ class Chat extends Component {
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderAgentListScreen()}
-        {this.renderPostchatScreen()}
+        {this.renderChatRatingPage()}
+        {this.renderPostChatPage()}
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
         {this.renderAttachmentsBox()}

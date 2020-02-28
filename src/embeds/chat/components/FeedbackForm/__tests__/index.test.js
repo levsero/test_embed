@@ -11,7 +11,6 @@ describe('FeedbackForm', () => {
   const defaultRating = { value: null, disableEndScreen: false, comment: null }
 
   const defaultProps = {
-    feedbackMessage: 'Leave a comment',
     rating: defaultRating,
     secondaryButtonText: 'Cancel',
     submitForm: () => {}
@@ -36,6 +35,18 @@ describe('FeedbackForm', () => {
     const { queryByText } = renderComponent()
 
     expect(queryByText('Cancel')).toBeInTheDocument()
+  })
+
+  it('renders the Comment prompt', () => {
+    const { queryByText } = renderComponent()
+
+    expect(queryByText('Leave a comment (optional)')).toBeInTheDocument()
+  })
+
+  it('renders the Rating prompt', () => {
+    const { queryByText } = renderComponent()
+
+    expect(queryByText('Please rate this chat')).toBeInTheDocument()
   })
 
   it('calls submitForm when Send is clicked', async () => {

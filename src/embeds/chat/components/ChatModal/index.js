@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader/root'
 import { useModal } from '@zendeskgarden/container-modal'
 import { Backdrop, Header, ModalActions, SlideAppear } from './styles'
 import { isMobileBrowser } from 'utility/devices'
@@ -49,6 +48,6 @@ ChatModal.propTypes = {
   'data-testid': PropTypes.string
 }
 
-export default hot(ChatModal)
+export default ChatModal
 
 export { ModalActions }

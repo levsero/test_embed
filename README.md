@@ -95,7 +95,7 @@ To use the widget developer dashboard, follow the steps in the dashboard repo to
 
 We use jest for unit tests (`npm run test __test_file__`).
 
-We use pupeteer for e2e tests (`npm run e2e __test_file__`). If you want to see your browser tests run in the browser you can use `HEADLESS=false`. When you're running tests this way you can add a breakpoint with `await jestPuppeteer.debug()`
+We use puppeteer for e2e tests (`npm run e2e __test_file__`). If you want to see your browser tests run in the browser you can use `HEADLESS=false`. When you're running tests this way you can add a breakpoint with `await jestPuppeteer.debug()`
 
 ## Running in Docker
 
