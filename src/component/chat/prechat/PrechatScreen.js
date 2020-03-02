@@ -38,8 +38,7 @@ import {
   getPrechatFormSettings,
   getPrechatFormFields,
   getChatHistoryLabel,
-  getDefaultSelectedDepartment,
-  getOfflineFormEnabled
+  getDefaultSelectedDepartment
 } from 'src/redux/modules/selectors'
 import {
   getSettingsChatDepartmentsEmpty,
@@ -64,7 +63,6 @@ const mapStateToProps = state => {
     screen: getChatScreen(state),
     loginSettings: getLoginSettings(state),
     offlineMessage: getOfflineMessage(state),
-    offlineFormEnabled: getOfflineFormEnabled(state),
     authUrls: getAuthUrls(state),
     visitor: getChatVisitor(state),
     socialLogin: getSocialLogin(state),
@@ -116,8 +114,7 @@ class PrechatScreen extends Component {
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
       status: PropTypes.string
-    }),
-    offlineFormEnabled: PropTypes.bool
+    })
   }
 
   static defaultProps = {
@@ -210,7 +207,6 @@ class PrechatScreen extends Component {
         readOnlyState={this.props.readOnlyState}
         formState={this.props.preChatFormState}
         selectedDepartment={this.props.selectedDepartment}
-        offlineFormEnabled={this.props.offlineFormEnabled}
         onPrechatFormChange={this.props.handlePreChatFormChange}
         loginEnabled={this.props.loginSettings.enabled}
         phoneEnabled={this.props.loginSettings.phoneEnabled}
