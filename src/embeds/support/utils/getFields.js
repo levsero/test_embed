@@ -1,4 +1,5 @@
 import { supportedFields } from 'src/embeds/support/components/FormField/fields'
+import errorTracker from 'service/errorTracker/errorTracker'
 
 // Some fields use different values for different apis
 const isEqual = (field, value1, value2) => {
@@ -13,17 +14,7 @@ const isEqual = (field, value1, value2) => {
 
 // getFields will return all of the fields that should be displayed to the user at the moment.
 const getFields = (currentValues, conditions = [], fields = []) => {
-  const result = {}
-
-  // react final form does not allow keys to only be numbers due to a library they are relying on
-  // for looking up nested fields.
-  // For this reason, we need to create a custom id that contains the a string as well as numbers
-  const fieldsWithkeyID = fields.map(field => ({
-    ...field,
-    keyID: field.keyID || `key:${field.id}`
-  }))
-
-  const fieldsById = fieldsWithkeyID.reduce(
+  const fieldsById = fields.reduce(
     (prev, field) => ({
       ...prev,
       [field.id]: field
@@ -32,43 +23,82 @@ const getFields = (currentValues, conditions = [], fields = []) => {
   )
 
   if (!conditions) {
-    return fieldsWithkeyID
+    return fields
   }
+
+  const conditionalValues = {}
+  const conditionalDependencies = {}
 
   conditions.forEach(condition => {
     condition.child_fields.forEach(field => {
-      const fieldDefinition = fieldsById[condition.parent_field_id]
-      if (!fieldDefinition) return
+      const parentField = fieldsById[condition.parent_field_id]
+      if (!parentField) return
 
-      const parentKeyID = fieldDefinition.keyID
-
-      if (!result[field.id]) {
-        result[field.id] = {
+      if (!conditionalValues[field.id]) {
+        conditionalValues[field.id] = {
           visible: false,
-          required: false
+          required: false,
+          validParents: {}
         }
       }
 
+      if (!conditionalDependencies[field.id]) {
+        conditionalDependencies[field.id] = {}
+      }
+
+      conditionalDependencies[field.id][parentField.id] = true
+
       // if the parent condition is matched, update the fields visible and required values
-      if (isEqual(fieldDefinition, currentValues[parentKeyID], condition.value)) {
-        result[field.id] = {
-          visible: true,
-          required: result[field.id].required || field.is_required
-        }
+      if (isEqual(parentField, currentValues[parentField.keyID], condition.value)) {
+        conditionalValues[field.id].visible = true
+        conditionalValues[field.id].required =
+          conditionalValues[field.id].required || field.is_required
+        conditionalValues[field.id].validParents[parentField.id] = true
       }
     })
   })
 
-  return fieldsWithkeyID
+  const isFieldVisible = (fieldId, seenFields = {}) => {
+    if (seenFields[fieldId]) {
+      const error = new Error('Failed to display form due to conditions having inter-dependencies')
+      errorTracker.error(error)
+      throw error
+    }
+    seenFields[fieldId] = true
+
+    const field = fieldsById[fieldId]
+
+    if (!conditionalValues[fieldId]) {
+      return field.visible_in_portal
+    }
+
+    // If the field has been marked as not visible, no other logic can make it visible again
+    if (!conditionalValues[fieldId].visible) {
+      return false
+    }
+
+    // If the field is visible, verify it has at least one visible parent
+    const parentIds = Object.keys(conditionalDependencies[fieldId])
+    if (parentIds.length === 0) {
+      return true
+    }
+    const visibleAndValidParents = parentIds
+      .filter(parentId => isFieldVisible(parentId, { ...seenFields }))
+      .filter(parentId => conditionalValues[fieldId].validParents[parentId])
+
+    return visibleAndValidParents.length > 0
+  }
+
+  return fields
     .map(field => {
-      if (!result[field.id]) {
+      if (!conditionalValues[field.id]) {
         return field
       }
 
       return {
         ...field,
-        visible_in_portal: field.visible_in_portal && result[field.id].visible,
-        required_in_portal: field.required_in_portal || result[field.id].required
+        visible_in_portal: field.visible_in_portal && isFieldVisible(field.id),
+        required_in_portal: field.required_in_portal || conditionalValues[field.id].required
       }
     })
     .filter(field => field.visible_in_portal)

@@ -1,11 +1,12 @@
 import getFields from '../getFields'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 describe('getFields', () => {
   let currentId = 0
 
   const field = (options = {}) => {
     const id = options.id || ++currentId
-    const keyID = `key:${id}`
+    const keyID = createKeyID(id)
 
     return {
       id,
@@ -16,25 +17,6 @@ describe('getFields', () => {
       ...options
     }
   }
-
-  it('adds a keyID to each field since react final form does not support keys with only numbers', () => {
-    const field1 = field({ id: 1, keyID: null })
-    const field2 = field({ id: 2, keyID: null })
-
-    const expectedField1 = {
-      ...field1,
-      keyID: 'key:1'
-    }
-
-    const expectedField2 = {
-      ...field2,
-      keyID: 'key:2'
-    }
-
-    const result = getFields({}, [], [field1, field2])
-
-    expect(result).toEqual([expectedField1, expectedField2])
-  })
 
   it('does not include a field if it is not visible', () => {
     const field1 = field({ id: 1 })
@@ -55,6 +37,91 @@ describe('getFields', () => {
     const result = getFields({}, [], [field1, field2, field3, field4, field5])
 
     expect(result).toEqual([field5])
+  })
+
+  it('throws an error if conditions conflict with each other', () => {
+    const field1 = field({ id: 1 })
+    const field2 = field({ id: 2 })
+
+    const condition = {
+      parent_field_id: field1.id,
+      value: 'match',
+      child_fields: [
+        {
+          id: field2.id,
+          is_required: true
+        }
+      ]
+    }
+    const condition2 = {
+      parent_field_id: field2.id,
+      value: 'match',
+      child_fields: [
+        {
+          id: field1.id,
+          is_required: true
+        }
+      ]
+    }
+
+    expect(() =>
+      getFields(
+        { [field1.keyID]: 'match', [field2.keyID]: 'match' },
+        [condition, condition2],
+        [field1, field2]
+      )
+    ).toThrow('Failed to display form due to conditions having inter-dependencies')
+  })
+
+  describe('when conditions are nested', () => {
+    const condition = (parent, child) => ({
+      parent_field_id: parent.id,
+      value: 'match',
+      child_fields: [
+        {
+          id: child.id,
+          is_required: true
+        }
+      ]
+    })
+
+    const field1a = field({ id: '1a' })
+    const field1b = field({ id: '1b' })
+    const field2a = field({ id: '2a' })
+    const field2b = field({ id: '2b' })
+    const field3 = field({ id: '3' })
+
+    const conditions = [
+      condition(field1a, field1b),
+      condition(field1b, field3),
+      condition(field2a, field2b),
+      condition(field2b, field3)
+    ]
+
+    it('does not show the child field if at least one of its parents are not visible', () => {
+      const result = getFields(
+        {
+          [field1a.keyID]: 'not match',
+          [field1b.keyID]: 'match',
+          [field2a.keyID]: 'match',
+          [field2b.keyID]: 'not match'
+        },
+        conditions,
+        [field1a, field1b, field2a, field2b, field3]
+      )
+
+      expect(result).toEqual([field1a, field2a, field2b])
+    })
+
+    it('shows the conditional field when at least one of its parents are visible', () => {
+      const result = getFields({ [field1a.keyID]: 'match', [field2a.keyID]: 'match' }, conditions, [
+        field1a,
+        field2a,
+        field3
+      ])
+
+      expect(result).toEqual([field1a, field2a, field3])
+    })
   })
 
   describe('when a field has a condition on it', () => {
