@@ -31,3 +31,5 @@ example/*
 .DS_Store
 .bundle
 webdrivercss/
+**/*.csv
+**/*.png
