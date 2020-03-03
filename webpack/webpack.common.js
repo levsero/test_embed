@@ -3,6 +3,10 @@ const path = require('path')
 const webpack = require('webpack')
 const I18nPlugin = require('./i18nPlugin.js')
 
+const legalNotices =
+  'Our embeddable contains third-party, open source software and/or libraries. ' +
+  'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices'
+
 const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
 const DEV = 'development'
 const PROD = 'production'
@@ -129,6 +133,9 @@ module.exports = {
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
       __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
+    }),
+    new webpack.BannerPlugin({
+      banner: legalNotices
     }),
     I18nPlugin
   ]

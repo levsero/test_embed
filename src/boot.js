@@ -51,14 +51,6 @@ const setupServices = reduxStore => {
   GA.init()
 }
 
-const displayOssAttribution = () => {
-  const message =
-    'Our embeddable contains third-party, open source software and/or libraries. ' +
-    'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices'
-
-  console.info(message) // eslint-disable-line no-console
-}
-
 const filterEmbeds = config => {
   const features = _.get(document.zendesk, 'web_widget.features')
 
@@ -161,8 +153,6 @@ const start = (win, doc) => {
   webWidgetApi.legacyApiSetup(win, reduxStore)
 
   boot.getConfig(win, postRenderQueue, reduxStore)
-
-  displayOssAttribution()
 
   if (shouldSendZeDiffBlip(win)) {
     beacon.trackUserAction('zEmbedFallback', 'warning')
