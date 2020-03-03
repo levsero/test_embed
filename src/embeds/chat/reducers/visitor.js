@@ -2,7 +2,7 @@ import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_VISITOR_UPDATE,
   SET_VISITOR_INFO_REQUEST_SUCCESS
-} from '../chat-action-types'
+} from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = {}
 
