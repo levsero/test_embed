@@ -3,23 +3,27 @@ import { zChatWithTimeout } from 'src/redux/modules/chat/helpers/zChatWithTimeou
 
 export function sendEmailTranscript(email) {
   return (dispatch, getState) => {
-    dispatch({
-      type: actions.EMAIL_TRANSCRIPT_REQUEST_SENT,
-      payload: email
-    })
+    return new Promise((res, rej) => {
+      dispatch({
+        type: actions.EMAIL_TRANSCRIPT_REQUEST_SENT,
+        payload: email
+      })
 
-    zChatWithTimeout(getState, 'sendEmailTranscript')(email, err => {
-      if (!err) {
-        dispatch({
-          type: actions.EMAIL_TRANSCRIPT_SUCCESS,
-          payload: email
-        })
-      } else {
-        dispatch({
-          type: actions.EMAIL_TRANSCRIPT_FAILURE,
-          payload: email
-        })
-      }
+      zChatWithTimeout(getState, 'sendEmailTranscript')(email, err => {
+        if (!err) {
+          dispatch({
+            type: actions.EMAIL_TRANSCRIPT_SUCCESS,
+            payload: email
+          })
+          res()
+        } else {
+          dispatch({
+            type: actions.EMAIL_TRANSCRIPT_FAILURE,
+            payload: email
+          })
+          rej()
+        }
+      })
     })
   }
 }

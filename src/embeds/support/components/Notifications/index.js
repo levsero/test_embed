@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Alert, Title } from '@zendeskgarden/react-notifications'
+import { Alert, Notification, Title } from '@zendeskgarden/react-notifications'
 import { zdColorRed300, zdColorRed500 } from '@zendeskgarden/css-variables'
 
 const StyledAlert = styled(Alert)`
@@ -16,8 +16,20 @@ const StyledAlert = styled(Alert)`
   background-position-x: ${props => 12 / props.theme.fontSize}rem !important;
 `
 
+const StyledNotification = styled(Notification)`
+  &&& {
+    padding: ${props =>
+      `${14 / props.theme.fontSize}rem ${36 / props.theme.fontSize}rem !important`};
+    padding-left: ${props => `${36 / props.theme.fontSize}rem !important`};
+
+    background-size: 1rem;
+    background-position-y: ${props => 15 / props.theme.fontSize}rem !important;
+    background-position-x: ${props => 12 / props.theme.fontSize}rem !important;
+  }
+`
+
 const StyledTitle = styled(Title)`
   font-size: ${props => 14 / props.theme.fontSize}rem;
 `
 
-export { StyledAlert as Alert, StyledTitle as Title }
+export { StyledAlert as Alert, StyledTitle as Title, StyledNotification as Notification }

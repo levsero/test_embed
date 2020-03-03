@@ -58,4 +58,28 @@ describe('sendEmailTranscript', () => {
       payload: mockEmail
     })
   })
+
+  it('resolves the promise when the request was not successful', () => {
+    zChatWithTimeout.mockReturnValue((email, callback) => {
+      callback()
+    })
+
+    const store = createMockStore()
+
+    const result = store.dispatch(actions.sendEmailTranscript(mockEmail))
+
+    expect(result).resolves.toEqual(undefined)
+  })
+
+  it('rejects the promise when the request was not successful', () => {
+    zChatWithTimeout.mockReturnValue((email, callback) => {
+      callback(new Error('some error'))
+    })
+
+    const store = createMockStore()
+
+    const result = store.dispatch(actions.sendEmailTranscript(mockEmail))
+
+    expect(result).rejects.toEqual(undefined)
+  })
 })

@@ -29,6 +29,7 @@ const renderComponent = (inProps, rerender) => {
     title: '',
     markAsRead: markAsReadSpy,
     unreadMessages: false,
+    emailTranscript: {},
     concierges: [
       {
         avatar: 'https://example.com/snake',
@@ -36,7 +37,7 @@ const renderComponent = (inProps, rerender) => {
         title: 'Jedi Knight'
       }
     ],
-
+    updateEmailTranscriptVisibility: jest.fn(),
     ...inProps
   }
   const component = <ChattingScreen {...props} />

@@ -50,6 +50,8 @@ const StyledSlideAppear = styled(SlideAppear)`
   border-radius: ${3 / FONT_SIZE}rem;
   box-shadow: 0rem 0rem ${8 / FONT_SIZE}rem 0rem rgba(0, 0, 0, 0.3);
   margin-bottom: ${15 / FONT_SIZE}rem;
+
+  ${props => props.noPadding && `padding: 0;`}
 `
 
 export { Backdrop, Header, ModalActions, StyledSlideAppear as SlideAppear }

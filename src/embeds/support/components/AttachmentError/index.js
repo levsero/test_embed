@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import { FileName, FileSize } from './styles'
-import { Alert, Title } from 'src/embeds/support/components/Alert'
+import { Alert, Title } from 'src/embeds/support/components/Notifications'
 import {
   formatNameString,
   formatAttachmentSize

@@ -6,8 +6,8 @@ Snapshot Diff:
 + Second value
 
 @@ -263,1 +263,1 @@
--           class="sc-kkGfuU cGJLYk StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
-+           class="sc-kkGfuU cGJLYk StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb kFNGHY"
+-           class="sc-iAyFgw cLvXTG StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 kFNGHY"
++           class="sc-iAyFgw cLvXTG StyledTextInput-sc-1ezxcjx-0-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb kFNGHY"
 @@ -268,1 +268,1 @@
 -             aria-expanded="false"
 +             aria-expanded="true"

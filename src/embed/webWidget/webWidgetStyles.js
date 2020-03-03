@@ -4,7 +4,6 @@ import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
 import ChatAttachmentStyles from 'component/chat/attachment/Attachment.scss'
 import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopup.scss'
-import ChatEmailTranscriptPopupStyles from 'component/chat/ChatEmailTranscriptPopup.scss'
 import ChatHistoryLink from 'component/chat/ChatHistoryLink.scss'
 import ChatProgressBarStyles from 'component/chat/attachment/ProgressBar.scss'
 import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss'
@@ -52,7 +51,6 @@ export const webWidgetStyles = `
   ${ChatProgressBarStyles}
   ${ChattHistoryScreenStyles}
   ${ChatContactDetailsPopupStyles}
-  ${ChatEmailTranscriptPopupStyles}
   ${ChatHistoryLink}
   ${PrechatFormStyles}
   ${ChatGroupStyles}
