@@ -333,56 +333,6 @@ describe('setVisitorInfo', () => {
   })
 })
 
-describe('sendEmailTranscript', () => {
-  const mockEmail = 'It was the best of times, it was the worst of times.'
-  const mockFailureAction = {
-    type: actionTypes.EMAIL_TRANSCRIPT_FAILURE,
-    payload: mockEmail
-  }
-  const mockSuccessAction = {
-    type: actionTypes.EMAIL_TRANSCRIPT_SUCCESS,
-    payload: mockEmail
-  }
-
-  it('dispatches a EMAIL_TRANSCRIPT_REQUEST_SENT action', () => {
-    const { store } = dispatchZChatWithTimeoutAction(actions.sendEmailTranscript(mockEmail))
-
-    expect(store.getActions()).toContainEqual({
-      type: actionTypes.EMAIL_TRANSCRIPT_REQUEST_SENT,
-      payload: mockEmail
-    })
-  })
-
-  describe('when there are no errors', () => {
-    it('passes the email as an argument to the callback', () => {
-      const { timeoutArgs } = dispatchZChatWithTimeoutAction(actions.sendEmailTranscript(mockEmail))
-
-      expect(timeoutArgs[0]).toEqual(mockEmail)
-    })
-
-    it('dispatches EMAIL_TRANSCRIPT_SUCCESS', () => {
-      const { store } = dispatchZChatWithTimeoutAction(actions.sendEmailTranscript(mockEmail))
-      const dispatchedActions = store.getActions()
-
-      expect(dispatchedActions).toContainEqual(mockSuccessAction)
-      expect(dispatchedActions).not.toContainEqual(mockFailureAction)
-    })
-  })
-
-  describe('when there is an error', () => {
-    it('dispatches an EMAIL_TRANSCRIPT_FAILURE action', () => {
-      const { store } = dispatchZChatWithTimeoutAction(
-        actions.sendEmailTranscript(mockEmail),
-        timeoutError
-      )
-      const dispatchedActions = store.getActions()
-
-      expect(dispatchedActions).toContainEqual(mockFailureAction)
-      expect(dispatchedActions).not.toContainEqual(mockSuccessAction)
-    })
-  })
-})
-
 describe('sendChatRating', () => {
   const mockRating = 4
   const mockSuccessAction = {

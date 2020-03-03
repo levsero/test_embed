@@ -84,6 +84,9 @@ describe('ChatOnline component', () => {
         OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
         AGENT_LIST_SCREEN
       },
+      'src/embeds/chat/actions/email-transcript': {
+        sendEmailTranscript: noop
+      },
       'service/i18n': {
         i18n: {
           t: _.identity,

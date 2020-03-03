@@ -18,7 +18,6 @@ import {
   endChatViaPostChatScreen,
   sendAttachments,
   editContactDetailsSubmitted,
-  sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
   updateContactDetailsVisibility,
@@ -39,6 +38,7 @@ import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 
 const mapStateToProps = state => {
   return {
