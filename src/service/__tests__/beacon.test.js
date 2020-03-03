@@ -31,6 +31,48 @@ afterEach(() => {
   dateNowMock.mockRestore()
 })
 
+describe('trackLocaleDiff', () => {
+  describe('when there is a locale mismatch', () => {
+    it('sends the correct blip', () => {
+      const mockSendWithMeta = jest.spyOn(http, 'sendWithMeta')
+
+      i18n.getClientLocale = jest.fn(() => 'ar')
+      beacon.trackLocaleDiff('en-GB')
+
+      expect(mockSendWithMeta).toHaveBeenCalledWith({
+        method: 'GET',
+        params: {
+          analytics: {
+            action: 'localeMismatch',
+            category: 'locale',
+            value: {
+              isMobile: false,
+              rawClientLocale: 'ar',
+              clientLocale: 'ar',
+              rawServerLocale: 'en-GB',
+              serverLocale: 'en-gb',
+              userAgent: 'myuseragent'
+            }
+          }
+        },
+        path: '/embeddable_blip',
+        type: 'analytics'
+      })
+    })
+
+    describe('when there is not a locale mismatch', () => {
+      it('does not send blip', () => {
+        const mockSendWithMeta = jest.spyOn(http, 'sendWithMeta')
+
+        i18n.getClientLocale = jest.fn(() => 'ar')
+        beacon.trackLocaleDiff('ar')
+
+        expect(mockSendWithMeta).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
 test('identify', () => {
   i18n.getLocaleId = jest.fn(() => 12345)
   beacon.identify({

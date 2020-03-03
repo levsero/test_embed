@@ -12,7 +12,8 @@ describe('boot', () => {
       'setConfig',
       'sendPageView',
       'trackSettings',
-      'setConfigLoadTime'
+      'setConfigLoadTime',
+      'trackLocaleDiff'
     ),
     identitySpy = registerImportSpy('identity', 'init'),
     errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),

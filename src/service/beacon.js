@@ -18,6 +18,42 @@ let config = {
   throttleIdentify: false
 }
 
+const trackLocaleDiff = rawServerLocale => {
+  const rawClientLocale = i18n.getClientLocale()
+  const clientLocale = i18n.parseLocale(rawClientLocale)
+  const serverLocale = i18n.parseLocale(rawServerLocale)
+
+  if (clientLocale !== serverLocale) {
+    const analytics = {
+      value: {
+        rawClientLocale,
+        rawServerLocale,
+        clientLocale,
+        serverLocale,
+        userAgent: navigator.userAgent,
+        isMobile: isMobileBrowser()
+      },
+      action: 'localeMismatch',
+      category: 'locale'
+    }
+
+    sendAnalyticsBlip(analytics)
+  }
+}
+
+const sendAnalyticsBlip = data => {
+  const payload = {
+    type: 'analytics',
+    method: config.method,
+    path: config.endpoint,
+    params: {
+      analytics: data
+    }
+  }
+
+  http.sendWithMeta(payload)
+}
+
 const sendPageViewWhenReady = () => {
   // We need to invoke `sendPageView` on `DOMContentLoaded` because
   // for help center host pages, the script that defines the `HelpCenter`
@@ -238,5 +274,6 @@ export const beacon = {
   getFrameworkLoadTime,
   sendPageView: sendPageViewWhenReady,
   setConfig,
-  sendWidgetInitInterval
+  sendWidgetInitInterval,
+  trackLocaleDiff
 }

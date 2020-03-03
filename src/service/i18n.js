@@ -4,10 +4,12 @@ import t from '@zendesk/client-i18n-tools'
 import zELocaleIdMap from 'translation/ze_localeIdMap'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors'
+import { navigator } from 'utility/globals'
 
 let store
 let currentLocale
 const locales = Object.keys(zELocaleIdMap)
+
 // reset is only used in tests
 
 // The __ZENDESK_CLIENT_I18N_GLOBAL global is provided by the i18n webpack plugin.
@@ -107,6 +109,12 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
 }
 
+function getClientLocale() {
+  const nav = navigator
+
+  return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
+}
+
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(regulateDash(str))
   const lowercaseLocale = locale.toLowerCase()
@@ -180,5 +188,7 @@ export const i18n = {
   setCustomTranslations: () => {},
   getSettingTranslation: getSettingTranslation,
   init: init,
-  reset
+  reset,
+  parseLocale,
+  getClientLocale
 }
