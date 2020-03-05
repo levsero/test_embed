@@ -80,6 +80,12 @@ describe('WebWidget component', () => {
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
+      'utility/devices': {
+        isMobileBrowser: () => undefined
+      },
+      'utility/globals': {
+        isPopout: () => undefined
+      },
       'components/NotificationPopup': noopReactComponent(),
       'embeds/webWidget/selectors/feature-flags': () => undefined,
       'embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
@@ -258,28 +264,6 @@ describe('WebWidget component', () => {
         it('does not show the standaloneChatPopup', () => {
           expect(webWidget.renderStandaloneChatPopup).not.toHaveBeenCalled()
         })
-      })
-    })
-  })
-
-  describe('render', () => {
-    let webWidget,
-      container,
-      result,
-      expectedStyle = {
-        left: '50%',
-        transform: 'translate(-50%)'
-      }
-
-    describe('when isPopout (fullscreen is true)', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(<WebWidget isMobile={false} fullscreen={true} />)
-        result = webWidget.render()
-        container = result.props.children
-      })
-
-      it('style is the expected popout style', () => {
-        expect(container.props.style).toEqual(expectedStyle)
       })
     })
   })

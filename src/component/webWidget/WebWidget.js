@@ -49,6 +49,9 @@ import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 import history from 'service/history'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import { isMobileBrowser } from 'utility/devices'
+import { isPopout } from 'utility/globals'
+import { WidgetContainer } from './styles'
 
 const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
 const HelpCenter = lazy(() =>
@@ -344,9 +347,7 @@ class WebWidget extends Component {
 
   render = () => {
     const {
-      fullscreen,
       isMobile,
-      style,
       activeEmbed,
       mobileNotificationsDisabled,
       webWidgetVisible,
@@ -359,29 +360,18 @@ class WebWidget extends Component {
 
     if (!webWidgetVisible) return null
 
-    let containerStyle =
-      fullscreen && !isMobile
-        ? {
-            ...style,
-            left: '50%',
-            transform: 'translate(-50%)' // Position the widget in the center
-          }
-        : style
-
     return (
       // data-embed is needed for our integration tests
-      <div data-embed={activeEmbed} style={{ height: '100%' }}>
-        <Container style={containerStyle} fullscreen={fullscreen} isMobile={isMobile}>
-          <OnBackProvider value={this.onBackClick}>
-            {this.renderSubmitTicket()}
-            {this.renderChat()}
-            {this.renderHelpCenter()}
-            {this.renderChannelChoice()}
-            {this.renderTalk()}
-            {this.renderAnswerBot()}
-          </OnBackProvider>
-        </Container>
-      </div>
+      <WidgetContainer data-embed={activeEmbed} isFullHeight={isMobileBrowser() || isPopout()}>
+        <OnBackProvider value={this.onBackClick}>
+          {this.renderSubmitTicket()}
+          {this.renderChat()}
+          {this.renderHelpCenter()}
+          {this.renderChannelChoice()}
+          {this.renderTalk()}
+          {this.renderAnswerBot()}
+        </OnBackProvider>
+      </WidgetContainer>
     )
   }
 }
