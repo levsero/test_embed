@@ -19,7 +19,8 @@ module.exports = function(config, options = {}) {
         chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
         snippet: snippet(config.zendeskHost),
         nonce: NONCE,
-        links: generateTemplateLinks(templates, template)
+        links: generateTemplateLinks(templates, template),
+        inject: false
       }),
       new ScriptExtHtmlWebpackPlugin({
         custom: {
@@ -42,17 +43,51 @@ function snippet(zendeskHost) {
   return `
     <script nonce="${NONCE}">
       window.zEmbed || (function(host) {
-        var queue = [];
-
+        var queue = []
         window.zEmbed = function() {
-          queue.push(arguments);
-        };
-
-        window.zE = window.zE || window.zEmbed;
-        window.zEmbed.t = +new Date();
-        document.zendeskHost = host;
-        document.zEQueue = queue;
-      }('${zendeskHost}'));
+          queue.push(arguments)
+        }
+        window.zE = window.zE || window.zEmbed
+        window.zEmbed.t = +new Date()
+        
+        function iframeReady () {
+          return new Promise((resolve, reject) => {
+            const iframe = document.createElement('iframe')
+            iframe.dataset.product = this.name
+            iframe.title = 'No content'
+            iframe.role = 'presentation'
+            iframe.tabIndex = -1
+            iframe.setAttribute('aria-hidden', true)
+            iframe.style.cssText = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px'
+            // The dynamically created iframe must be loaded before we can get a reference to its document
+            iframe.addEventListener('load', () => {
+              const { contentWindow } = iframe
+              if (contentWindow && contentWindow.document) {
+                resolve(contentWindow.document)
+              } else {
+                reject("nah didn't work")
+              }
+            })
+            iframe.src = 'about:blank'
+            document.body.appendChild(iframe)
+          })
+        }
+        
+        iframeReady().then((theIframe) => { 
+          theIframe.zendeskHost = host
+          theIframe.zEQueue = queue
+          const paths = [
+            "http://localhost:1337/preload.js",
+          ]
+          const iframeHead = theIframe.getElementsByTagName('head')[0]
+          paths.forEach(jsPath => {
+            const script = theIframe.createElement('script')
+            script.type = 'text/javascript'
+            script.src = jsPath
+            iframeHead.appendChild(script)
+          })
+        })
+      }('${zendeskHost}'))
     </script>
   `
 }
