@@ -73,6 +73,8 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   const done = res => {
     const config = filterEmbeds(res.body)
 
+    beacon.trackLocaleDiff(config.locale)
+
     if (config.hostMapping) {
       http.updateConfig({ hostMapping: config.hostMapping })
     }

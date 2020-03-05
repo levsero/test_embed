@@ -3,6 +3,7 @@ import { createStore } from 'redux'
 import reducer from 'src/redux/modules/reducer'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import t from '@zendesk/client-i18n-tools'
+import * as globals from 'utility/globals'
 
 jest.mock('../../../config/locales/translations/embeddable_framework.yml', () => {
   return {
@@ -18,6 +19,7 @@ jest.mock('../../../config/locales/translations/embeddable_framework.yml', () =>
 })
 
 jest.mock('@zendesk/client-i18n-tools')
+
 let store
 
 describe('i18n', () => {
@@ -25,6 +27,56 @@ describe('i18n', () => {
     i18n.reset()
     store = createStore(reducer)
     i18n.init(store)
+  })
+
+  describe('getClientLocale', () => {
+    describe('languages array', () => {
+      it('returns the first language element', () => {
+        globals.navigator = {
+          languages: ['ar', 'fr'],
+          browserLanguage: 'en-GB',
+          language: 'yolodunno'
+        }
+
+        expect(i18n.getClientLocale()).toEqual('ar')
+      })
+    })
+
+    describe('browserLanguage', () => {
+      it('returns the browser language', () => {
+        globals.navigator = {
+          languages: [],
+          browserLanguage: 'en-GB',
+          language: 'yolodunno'
+        }
+
+        expect(i18n.getClientLocale()).toEqual('en-GB')
+      })
+    })
+
+    describe('language', () => {
+      it('returns the navigator language', () => {
+        globals.navigator = {
+          languages: [],
+          browserLanguage: undefined,
+          language: 'en-GB'
+        }
+
+        expect(i18n.getClientLocale()).toEqual('en-GB')
+      })
+    })
+
+    describe('no language', () => {
+      it('returns en-US default', () => {
+        globals.navigator = {
+          languages: [],
+          browserLanguage: undefined,
+          language: undefined
+        }
+
+        expect(i18n.getClientLocale()).toEqual('en-US')
+      })
+    })
   })
 
   describe('isRTL', () => {
