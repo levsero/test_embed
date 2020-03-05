@@ -33,6 +33,7 @@
     "test:watch": "npm run test -- --watch",
     "test:old": "NODE_ENV=test node test/runner.js",
     "test:ci": "npm run test -- --runInBand --ci && NODE_ENV=test node test/runner.js",
+    "test:performance": "node e2e/performance/performance.js",
     "test:debug:old": "node debug test/runner.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --watch",
     "lint:js": "eslint *.js config dev e2e script src test webpack",
