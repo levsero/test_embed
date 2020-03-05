@@ -207,6 +207,11 @@ parts:
       title: "A label that is applied to field labels that are optional. %(label)s is a string for the label of the field and does not need to be translated"
       screenshot: "https://drive.google.com/file/d/1rxKRpuKK--cO1UQlI3nBlxwqzjSKBI2a/view?usp=sharing"
       value: "<strong>%(label)s</strong> (optional)"
+  - translation:
+      key: "embeddable_framework.validation.error.attachments.upload_in_progress"
+      title: "Error message shown below attachment label when attempting to submit the form while a file is uploading."
+      screenshot: "https://drive.google.com/file/d/1M92qMzrSXoW3Iy-C48_WJluPgjNlUfGb/view?usp=sharing"
+      value: "Wait until file upload is complete before submitting form"
 
   # Launcher embed
   - translation:
@@ -1369,6 +1374,16 @@ parts:
       title: "[A11Y] The aria label for removing an attachment file."
       screenshot: "https://drive.google.com/file/d/1IVsDFxFqIy-AuNSrCRkFEihXyEj_kiZU/view?usp=sharing"
       value: "Remove file"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.v2.uploading_title"
+      title: "Header text in the error notification that appears when an attachment fails to upload."
+      screenshot: "https://drive.google.com/file/d/1yW1JT5xYRqbeJboL3K4qe3JODi26Hv08/view?usp=sharing"
+      value: "File upload failed"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.v2.uploading_body"
+      title: "Body text in the error notification that appears when an attachment fails to upload."
+      screenshot: "https://drive.google.com/file/d/1OHAo9wB0dUMw9ZR6S0Iyh8pU5whtuZd-/view?usp=sharing"
+      value: "Check your network connection and try again."
 
   # ZendeskLogo component
   - translation:
