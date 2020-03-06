@@ -12,7 +12,7 @@
   <div id="content">
     <h1>Web Widget Local - Cookie Consent</h1>
   </div>
-<%= htmlWebpackPlugin.options.snippet %>
+<%= htmlWebpackPlugin.options.snippet(htmlWebpackPlugin.files.js) %>
 <script nonce="<%= htmlWebpackPlugin.options.nonce %>">
 
   window.cookieconsent.initialise({

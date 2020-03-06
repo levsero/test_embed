@@ -17,7 +17,7 @@ module.exports = function(config, options = {}) {
         ...config,
         hcJwt: generateHcJwt(config.sharedSecret, config.user),
         chatJwt: generateChatJwt(config.chatSharedSecret, config.user),
-        snippet: snippet(config.zendeskHost),
+        snippet: jsAssets => snippet(config.zendeskHost, jsAssets),
         nonce: NONCE,
         links: generateTemplateLinks(templates, template),
         inject: false
@@ -39,10 +39,10 @@ function filterHtmlOnly(file) {
   return file.endsWith('.html')
 }
 
-function snippet(zendeskHost) {
+function snippet(zendeskHost, webpackJsAssets) {
   return `
     <script nonce="${NONCE}">
-      window.zEmbed || (function(host) {
+      window.zEmbed || (function(host, iframeAssets) {
         var queue = []
         window.zEmbed = function() {
           queue.push(arguments)
@@ -73,21 +73,18 @@ function snippet(zendeskHost) {
           })
         }
         
-        iframeReady().then((theIframe) => { 
-          theIframe.zendeskHost = host
-          theIframe.zEQueue = queue
-          const paths = [
-            "http://localhost:1337/preload.js",
-          ]
-          const iframeHead = theIframe.getElementsByTagName('head')[0]
-          paths.forEach(jsPath => {
-            const script = theIframe.createElement('script')
+        iframeReady().then((iframeDocument) => { 
+          iframeDocument.zendeskHost = host
+          iframeDocument.zEQueue = queue
+          const iframeHead = iframeDocument.getElementsByTagName('head')[0]
+          iframeAssets.forEach(jsPath => {
+            const script = iframeDocument.createElement('script')
             script.type = 'text/javascript'
             script.src = jsPath
             iframeHead.appendChild(script)
           })
         })
-      }('${zendeskHost}'))
+      }('${zendeskHost}', ${JSON.stringify(webpackJsAssets)}))
     </script>
   `
 }
