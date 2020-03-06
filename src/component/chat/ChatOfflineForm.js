@@ -10,15 +10,15 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
-import { ChatMessagingChannels } from 'component/chat/ChatMessagingChannels'
+import ChatMessagingChannels from 'component/chat/ChatMessagingChannels'
 import SuccessNotification from 'src/components/SuccessNotification'
 import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
-import { locals as styles } from './ChatOfflineForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatHistoryLink from './ChatHistoryLink'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
 import { Widget, Header, Main } from 'src/components/Widget'
 import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import { locals as styles } from './ChatOfflineForm.scss'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -325,6 +325,10 @@ export class ChatOfflineForm extends Component {
   }
 
   renderMessagingChannels() {
+    if (_.isEmpty(this.props.channels)) {
+      return null
+    }
+
     return <ChatMessagingChannels isMobile={this.props.isMobile} channels={this.props.channels} />
   }
 

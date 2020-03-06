@@ -60,9 +60,7 @@ describe('ChatOnline component', () => {
       'component/chat/ChatReconnectionBubble': {
         ChatReconnectionBubble: ChatReconnectionBubble
       },
-      'component/attachment/AttachmentBox': {
-        AttachmentBox: AttachmentBox
-      },
+      'src/component/attachment/AttachmentBox': AttachmentBox,
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,

@@ -11,7 +11,7 @@ import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
-import { AttachmentBox } from 'component/attachment/AttachmentBox'
+import AttachmentBox from 'src/component/attachment/AttachmentBox'
 import { i18n } from 'service/i18n'
 import {
   endChatViaPostChatScreen,
@@ -27,7 +27,6 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
-import { locals as styles } from './ChatOnline.scss'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { getDefaultFormFields } from 'src/redux/modules/selectors'
 import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
@@ -38,6 +37,7 @@ import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
+import { locals as styles } from './ChatOnline.scss'
 
 const mapStateToProps = state => {
   return {

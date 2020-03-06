@@ -31,7 +31,6 @@ const icons = {
   'Icon--image-stroke': require('@zendeskgarden/svg-icons/src/16/image-stroke.svg'),
   [ICONS.LINK_EXTERNAL]: require('@zendeskgarden/svg-icons/src/14/link-external.svg'),
   'Icon--mini-tick': require('@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg'),
-  [ICONS.PAPERCLIP_LARGE]: require('@zendeskgarden/svg-icons/src/14/attachment.svg'),
   'Icon--preview-default': require('@zendeskgarden/svg-icons/src/26/file.svg'),
   'Icon--preview-document': require('@zendeskgarden/svg-icons/src/26/file-document.svg'),
   'Icon--preview-error': require('@zendeskgarden/svg-icons/src/26/file-error.svg'),
@@ -46,8 +45,6 @@ const icons = {
   'Icon--thumbDown': require('@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'),
   'Icon--thumbUp': require('@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
-  'Icon--messenger': require('icons/widget-icon_messenger.svg'),
-  'Icon--twitter': require('icons/widget-icon_twitter.svg'),
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
   [ICONS.CC_CHAT]: require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg')

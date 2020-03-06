@@ -1,67 +1,71 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 
-import { i18n } from 'service/i18n'
-import { Icon } from 'component/Icon'
-
+import useTranslate from 'src/hooks/useTranslate'
 import { renderLabel } from 'src/util/fields'
-import { locals as styles } from './ChatMessagingChannels.scss'
+import { TEST_IDS } from 'src/constants/shared'
+import {
+  ChannelIcon,
+  ButtonsContainer,
+  Container,
+  MessengerIcon,
+  TwitterIcon
+} from './ChatMessagingChannelsStyles'
 
-const URL_PREFIXES = {
-  messenger: 'https://m.me/',
-  twitter: 'https://twitter.com/messages/compose?recipient_id='
+const ChatMessagingChannels = ({ channels: { facebook, twitter }, isMobile = false }) => {
+  const translate = useTranslate()
+
+  const { allowed: messengerAllowed, page_id: messengerPageId } = facebook
+  const { allowed: twitterAllowed, page_id: twitterPageId } = twitter
+
+  if (!messengerAllowed && !twitterAllowed) {
+    return null
+  }
+
+  return (
+    <Container>
+      {renderLabel('label', translate('embeddable_framework.chat.messagingChannels.title'), true)}
+      <ButtonsContainer>
+        {messengerAllowed && (
+          <ChannelIcon
+            href={`https://m.me/${messengerPageId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            isMobile={isMobile ? 'true' : null}
+          >
+            <MessengerIcon
+              mobile={isMobile ? 'true' : null}
+              data-testid={TEST_IDS.ICON_MESSENGER}
+            />
+          </ChannelIcon>
+        )}
+        {twitterAllowed && (
+          <ChannelIcon
+            href={`https://twitter.com/messages/compose?recipient_id=${twitterPageId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            isMobile={isMobile ? 'true' : null}
+          >
+            <TwitterIcon mobile={isMobile ? 'true' : null} data-testid={TEST_IDS.ICON_TWITTER} />
+          </ChannelIcon>
+        )}
+      </ButtonsContainer>
+    </Container>
+  )
 }
 
-export class ChatMessagingChannels extends Component {
-  static propTypes = {
-    channels: PropTypes.object,
-    isMobile: PropTypes.bool
-  }
-
-  static defaultProps = {
-    channels: {},
-    isMobile: false
-  }
-
-  renderChannelIcon = (type, pageId) => {
-    const { isMobile } = this.props
-
-    return (
-      <a
-        className={isMobile ? styles.channelIconMobile : styles.channelIcon}
-        href={`${URL_PREFIXES[type]}${pageId}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Icon isMobile={isMobile} type={`Icon--${type}`} />
-      </a>
-    )
-  }
-
-  render = () => {
-    const { channels } = this.props
-    const { facebook, twitter } = channels
-
-    if (_.isEmpty(channels)) {
-      return null
-    }
-
-    const { allowed: messengerAllowed, page_id: messengerPageId } = facebook
-    const { allowed: twitterAllowed, page_id: twitterPageId } = twitter
-
-    if (!messengerAllowed && !twitterAllowed) {
-      return null
-    }
-
-    return (
-      <div className={styles.container}>
-        {renderLabel('label', i18n.t('embeddable_framework.chat.messagingChannels.title'), true)}
-        <div>
-          {messengerAllowed && this.renderChannelIcon('messenger', messengerPageId)}
-          {twitterAllowed && this.renderChannelIcon('twitter', twitterPageId)}
-        </div>
-      </div>
-    )
-  }
+ChatMessagingChannels.propTypes = {
+  channels: PropTypes.shape({
+    facebook: PropTypes.shape({
+      allowed: PropTypes.bool,
+      page_id: PropTypes.string
+    }),
+    twitter: PropTypes.shape({
+      allowed: PropTypes.bool,
+      page_id: PropTypes.string
+    })
+  }),
+  isMobile: PropTypes.bool
 }
+
+export default ChatMessagingChannels

@@ -1,10 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import useTranslate from 'src/hooks/useTranslate'
 import { ButtonGroup } from 'component/button/ButtonGroup'
 import PillButton from 'src/embeds/answerBot/components/PillButton'
-import { i18n } from 'service/i18n'
-
 import { sessionResolved } from 'src/redux/modules/answerBot/sessions/actions'
 import {
   botFeedback,
@@ -15,6 +14,7 @@ import {
 import { Container } from './styles'
 
 const PrimaryFeedback = () => {
+  const translate = useTranslate()
   const dispatch = useDispatch()
   const handleYes = () => {
     dispatch(sessionResolved())
@@ -33,11 +33,11 @@ const PrimaryFeedback = () => {
     <Container>
       <ButtonGroup>
         <PillButton
-          label={i18n.t('embeddable_framework.answerBot.article.feedback.yes')}
+          label={translate('embeddable_framework.answerBot.article.feedback.yes')}
           onClick={handleYes}
         />
         <PillButton
-          label={i18n.t('embeddable_framework.answerBot.article.feedback.no.need_help')}
+          label={translate('embeddable_framework.answerBot.article.feedback.no.need_help')}
           onClick={handleNo}
         />
       </ButtonGroup>
