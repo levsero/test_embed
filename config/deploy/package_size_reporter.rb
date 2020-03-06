@@ -11,10 +11,9 @@ module PackageSize
 
     attr_reader :report_sent
 
-    def initialize(api_key, logger, options)
+    def initialize(api_key, options)
       @stats_file = File.open(STATS_FILE_LOCATION)
       @options = options
-      @logger = logger
       @stats = JSON.load(@stats_file)
       @datadog = Dogapi::Client.new(api_key)
       @report_sent = false
@@ -38,11 +37,11 @@ module PackageSize
 
     def report_to_datadog
       if report_sent
-        logger.warn('A report has already taken place for this instance. No need to report again')
+        puts 'A report has already taken place for this instance. No need to report again'
         return
       end
 
-      logger.info("Reporting package sizes to Datadog for reference: #{options[:reference]}")
+      puts "Reporting package sizes to Datadog for reference: #{options[:reference]}"
 
       packages.each do |package|
         report_metric('web_widget.package_size.parsed', package.name, package.size)
@@ -53,7 +52,7 @@ module PackageSize
 
     private
 
-    attr_reader :stats, :logger, :options, :datadog
+    attr_reader :stats, :options, :datadog
 
     def report_metric(metric_name, package_name, value)
       datadog.emit_point(

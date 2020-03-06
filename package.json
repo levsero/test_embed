@@ -64,6 +64,10 @@
   },
   "bundlesize": [
     {
+      "path": "dist/public/preload.*.js",
+      "maxSize": "20 KB"
+    },
+    {
       "path": "dist/public/*web_widget*.js",
       "maxSize": "300 KB"
     },
