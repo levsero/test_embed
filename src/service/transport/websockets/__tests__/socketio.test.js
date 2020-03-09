@@ -30,6 +30,9 @@ describe('connect', () => {
       query: 'subdomain=customer&keyword=Service%20%26%20Support',
       path: '/talk_embeddables_service/socket.io',
       reconnectionAttempts: 6,
+      reconnectionDelay: 5000,
+      reconnectionDelayMax: 30000,
+      timeout: 30000,
       transports: ['websocket']
     })
   })
