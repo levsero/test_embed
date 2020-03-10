@@ -32,7 +32,7 @@ describe('connect', () => {
       reconnectionAttempts: 6,
       reconnectionDelay: 5000,
       reconnectionDelayMax: 30000,
-      timeout: 30000,
+      timeout: 45000,
       transports: ['websocket']
     })
   })
