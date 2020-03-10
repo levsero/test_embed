@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import frame from './frame'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -38,6 +38,11 @@ const waitForTestId = async (testId, options = { visible: true }) => {
   await frame.waitForSelector(`[data-testid="${testId}"]`, options)
 }
 
+const waitForText = async text => {
+  const widget = await getDocument()
+  await wait(() => queries.getByText(widget, text))
+}
+
 export default {
   getDocument,
   getFrame,
@@ -46,6 +51,7 @@ export default {
   openByKeyboard,
   selector: `iframe#${webWidgetId}`,
   waitForTestId,
+  waitForText,
   evaluate,
   zendeskLogoVisible
 }

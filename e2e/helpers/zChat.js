@@ -140,11 +140,33 @@ const fireData = async (type, detail) => {
 const connectionUpdate = async val => await fireData('connection_update', val)
 const accountStatus = async val => await fireData('account_status', val)
 const visitorUpdate = async val => await fireData('visitor_update', val)
+
 const chat = async detail => {
   await fireData('chat', {
     timestamp: Date.now(),
+    type: 'chat.msg',
     ...detail
   })
+}
+
+const agentJoined = async detail => {
+  await fireData('chat', {
+    timestamp: Date.now(),
+    type: 'chat.memberjoin',
+    ...detail
+  })
+}
+
+const agentRequestRating = async detail => {
+  await fireData('chat', {
+    timestamp: Date.now(),
+    type: 'chat.request.rating',
+    ...detail
+  })
+}
+
+const rating = async rating => {
+  await fireData('chat', { type: 'chat.rating', new_rating: rating })
 }
 
 const online = async () => {
@@ -165,5 +187,8 @@ export default {
   accountStatus,
   visitorUpdate,
   chat,
-  online
+  online,
+  agentJoined,
+  rating,
+  agentRequestRating
 }

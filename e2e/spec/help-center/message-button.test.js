@@ -1,4 +1,4 @@
-import { queries } from 'pptr-testing-library'
+import { queries, wait } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
@@ -20,9 +20,12 @@ test('use the label from config', async () => {
     .load()
   await launcher.click()
   await waitForHelpCenter()
+
   const doc = await widget.getDocument()
   const button = await queries.queryByText(doc, 'Contact us')
   expect(button).toBeTruthy()
+
+  await wait(() => expect(button).toBeTruthy())
 })
 
 test('use chat as contact option when chat is online', async () => {
@@ -35,8 +38,11 @@ test('use chat as contact option when chat is online', async () => {
   await waitForHelpCenter()
   const doc = await widget.getDocument()
   const button = await queries.queryByText(doc, 'Live chat')
-  expect(button).toBeTruthy()
+
+  await wait(() => expect(button).toBeTruthy())
+
   await button.click()
   const chat = await queries.queryByText(doc, 'Chat with us')
-  expect(chat).toBeTruthy()
+
+  await wait(() => expect(chat).toBeTruthy())
 })
