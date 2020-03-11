@@ -21,6 +21,9 @@ function connect(io, serviceUrl, nickname) {
     query: buildQuery(subdomain, nickname),
     path: TALK_SERVICE_PATH,
     reconnectionAttempts: 6,
+    reconnectionDelay: 5000,
+    reconnectionDelayMax: 30000,
+    timeout: 45000,
     transports: ['websocket']
   })
 }
