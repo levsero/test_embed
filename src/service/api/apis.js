@@ -63,6 +63,43 @@ import { apiResetWidget } from 'src/redux/modules/base/base-actions'
 import { updateFormsForLocaleChange } from 'src/redux/modules/submitTicket/submitTicket-actions'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
+import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
+
+const getTagsInString = tags => {
+  return tags.reduce((newTags, tag) => {
+    if (_.isEmpty(tag)) return newTags
+
+    tag.split(',').forEach(subTag => {
+      const newTag = subTag.trim()
+
+      if (!_.isEmpty(newTag)) {
+        newTags.push(newTag)
+      }
+    })
+
+    return newTags
+  }, [])
+}
+
+const updateTags = (store, args, type) => {
+  onChatConnected(() => {
+    const state = store.getState()
+    const zChat = getZChatVendor(state)
+    const tags = getTagsInString(_.flattenDeep(args))
+
+    if (tags.length == 0) return
+
+    if (type === 'remove') {
+      zChat.removeTags(tags)
+    } else {
+      zChat.addTags(tags)
+    }
+  })
+}
+
+export const removeTagsApi = store => (...args) => updateTags(store, args, 'remove')
+
+export const addTagsApi = store => (...args) => updateTags(store, args, 'add')
 
 export const endChatApi = reduxStore => {
   reduxStore.dispatch(endChat())

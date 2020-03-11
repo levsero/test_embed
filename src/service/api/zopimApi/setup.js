@@ -25,7 +25,9 @@ import {
   getDepartmentApi,
   getAllDepartmentsApi,
   popoutApi,
-  setLocaleApi
+  setLocaleApi,
+  addTagsApi,
+  removeTagsApi
 } from 'src/service/api/apis'
 import {
   setPositionApi,
@@ -34,8 +36,6 @@ import {
   setOffsetMobileApi,
   setProfileCardConfigApi,
   setApi,
-  addTagsApi,
-  removeTagsApi,
   setGreetingsApi,
   setOnStatusApi,
   showBadgeApi,

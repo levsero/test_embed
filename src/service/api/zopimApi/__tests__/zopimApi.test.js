@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import zopimApi from '..'
 import * as chatActions from 'src/redux/modules/chat'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
@@ -1028,59 +1029,12 @@ describe('setUpZopimApiMethods', () => {
     expect(apis.endChatApi).toHaveBeenCalled()
   })
 
-  describe('tags', () => {
-    const mockWin = {},
-      store = {
-        getState: () => ({
-          settings: {
-            chat: {
-              tags: ['old', 'state', 'zopim']
-            }
-          }
-        })
-      }
+  test('addTags', () => {
+    expect(_.has(mockWin, '$zopim.livechat.addTags')).toEqual(true)
+  })
 
-    beforeEach(() => {
-      zopimApi.setUpZopimApiMethods(mockWin, store)
-    })
-
-    describe('addTagsApi', () => {
-      ;[
-        ['zopim2', 'zopim3', 'another'],
-        ['zopim2', 'zopim3', '', 'another'],
-        ['zopim2, zopim3', 'another'],
-        ['zopim2, zopim3, another'],
-        ['zopim2, ', 'zopim3', 'another'],
-        [['zopim2', 'zopim3', 'another']],
-        [[['zopim2'], 'zopim3', 'another']],
-        [[['zopim2', 'zopim3'], 'another']],
-        [[['zopim2, zopim3'], 'another']]
-      ].forEach(args => {
-        it(`adds the [${args}] tags via updateSettings`, () => {
-          mockWin.$zopim.livechat.addTags(...args)
-
-          expect(apis.updateSettingsApi).toHaveBeenCalledWith(store, {
-            webWidget: {
-              chat: {
-                tags: ['old', 'state', 'zopim', 'zopim2', 'zopim3', 'another']
-              }
-            }
-          })
-        })
-      })
-    })
-
-    test('removeTags removes tags sent as parameter', () => {
-      mockWin.$zopim.livechat.removeTags('zopim', 'another')
-
-      expect(apis.updateSettingsApi).toHaveBeenCalledWith(store, {
-        webWidget: {
-          chat: {
-            tags: ['old', 'state']
-          }
-        }
-      })
-    })
+  test('removeTags', () => {
+    expect(_.has(mockWin, '$zopim.livechat.removeTags')).toEqual(true)
   })
 
   describe('setName', () => {
