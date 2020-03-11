@@ -21,7 +21,6 @@ The `chat` object has the following settings:
 - [profileCard](./settings#profilecard)
 - [offlineForm](./settings#offlineform)
 - [notifications](./settings#notifications)
-- [tags](./settings#tags)
 - [authenticate](./settings#authenticate)
 
 The integrated Chat experience is enabled in Zendesk Support under **Admin** > **Channels** > **Widget** and turning the Chat toggle on. If you're not a Support admin, ask one to enable it for you.
@@ -36,7 +35,6 @@ The integrated Chat experience is enabled in Zendesk Support under **Admin** > *
     webWidget: {
       chat: {
         suppress: false,
-        tags: ['vip'],
         notifications: {
           mobile: {
             disable: true
@@ -66,6 +64,8 @@ The chat component has the following commands:
 - [on chat:unreadMessages](#on-chatunreadmessages)
 - [popout](#popout)
 - [on chat:popout](#on-chatpopout)
+- [chat:addTags](#chataddtags)
+- [chat:removeTags](#chatremovetags)
 
 #### chat:send
 
@@ -363,5 +363,47 @@ Registers a callback to be performed when a chat pop-out window is opened.
   zE('webWidget:on', 'chat:popout', function() {
     console.log('Live chat widget has been opened in another window.');
   });
+</script>
+```
+
+#### chat:addTags
+
+`zE('webWidget', 'chat:addTags', tags<array<string>>);`
+
+Add tags to a given chat session to provide extra context.
+
+##### Parameters
+
+- `tags`: Array<String>. Tags to add to a given chat session. Note that the API also supports providing tags as separate string arguments (see example below).
+
+Passing non-string types results in an error. No message is sent.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'chat:addTags', ['help center', 'change password']);
+  zE('webWidget', 'chat:addTags', 'help center', 'change password'); // separate string arguments
+</script>
+```
+
+#### chat:removeTags
+
+`zE('webWidget', 'chat:removeTags', tags<array<string>>);`
+
+Remove tags from a given chat session.
+
+##### Parameters
+
+- `tags`: Array<String>. Tags to remove from a given chat session. Note that the API also supports providing tags as separate string arguments (see example below).
+
+Passing non-string types results in an error. No message is sent.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'chat:removeTags', ['help center', 'change password']);
+  zE('webWidget', 'chat:removeTags', 'help center', 'change password'); // separate string arguments
 </script>
 ```

@@ -71,7 +71,6 @@ Available settings:
 - [selectTicketForm](#selectticketform)
 - [subject](#subject)
 - [suppress](#suppress)
-- [tags](#tags)
 - [ticketForms](#ticketforms)
 - [title](#title)
 - [zIndex](#zindex)
@@ -126,7 +125,6 @@ Disables attaching files to tickets submitted through the Web Widget.
 - [selectTicketForm](#selectticketform)
 - [subject](#subject)
 - [suppress](#suppress)
-- [tags](#tags)
 - [ticketForms](#ticketforms)
 - [title](#title)
 
@@ -863,7 +861,6 @@ You can use different strings for different locales or use one string for all lo
 - [selectTicketForm](#selectticketform)
 - [subject](#subject)
 - [suppress](#suppress)
-- [tags](#tags)
 - [ticketForms](#ticketforms)
 - [title](#title)
 
@@ -1433,7 +1430,6 @@ You can use different strings for different locales or use one string for all lo
 - [fields](#fields)
 - [subject](#subject)
 - [suppress](#suppress)
-- [tags](#tags)
 - [ticketForms](#ticketforms)
 - [title](#title)
 
@@ -1467,7 +1463,6 @@ Inserts a Subject field in the contact form. The form doesn't have one by defaul
 - [fields](#fields)
 - [selectTicketForm](#selectticketform)
 - [suppress](#suppress)
-- [tags](#tags)
 - [ticketForms](#ticketforms)
 - [title](#title)
 
@@ -1510,36 +1505,6 @@ Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web W
   };
 </script>
 ```
-
-### tags
-
-Adds one or more tags to the visitor's chat session.
-
-Note: The tags are visible in the JavaScript console in the user's browser.
-
-#### Availability
-
-- [chat](./chat) with the [integrated Chat experience](./chat#settings) enabled
-
-<a name="example-tags"></a>
-
-#### Example
-
-```html
-<script type="text/javascript">
-  window.zESettings = {
-    webWidget: {
-      chat: {
-        tags: ['loggedin']
-      }
-    }
-  };
-</script>
-```
-
-#### Related settings
-
-- [title](#title)
 
 ### ticketForms
 
@@ -1603,7 +1568,6 @@ ticketForms: [
 - [selectTicketForm](#selectticketform)
 - [subject](#subject)
 - [suppress](#suppress)
-- [tags](#tags)
 - [title](#title)
 
 ### title

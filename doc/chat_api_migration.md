@@ -23,8 +23,8 @@ To read detailed descriptions for each API, refer to the [Web Widget developer d
 | endChat                   | `zE('webWidget', 'chat:end')`                                                               |
 | hideAll                   | `zE('webWidget', 'hide')`                                                                   |
 | isChatting                | `zE('webWidget:get', 'chat:isChatting')`                                                    |
-| addTags                   | `zESettings.webWidget.chat.tags`                                                            |
-| removeTags                | `zESettings.webWidget.chat.tags`                                                            |
+| addTags                   | `zE('webWidget', 'chat:addTags', array<string>)`                                            |
+| removeTags                | `zE('webWidget', 'chat:removeTags', array<string>)`                                         |
 | say                       | `zE('webWidget', 'chat:send', msg)`                                                         |
 | set\*                     | `zE('webWidget', 'prefill', data<object>)` and `zE('webWidget', 'setLocale', data<string>)` |
 | setDefaultImplicitConsent | `zESettings.cookies`                                                                        |
