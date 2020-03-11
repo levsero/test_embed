@@ -17,6 +17,7 @@ import { identity } from 'service/identity'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import createStore from 'src/redux/createStore'
 import * as callbacks from 'service/api/callbacks'
+import * as chatCallbacks from 'service/api/zopimApi/callbacks'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 
@@ -28,6 +29,96 @@ jest.mock('src/redux/modules/submitTicket/submitTicket-actions')
 const mockStore = configureMockStore([thunk])
 const mockActionValue = Date.now()
 const mockAction = jest.fn(() => mockActionValue)
+
+describe('tags', () => {
+  beforeEach(() => {
+    jest.spyOn(chatCallbacks, 'onChatConnected').mockImplementation(cb => {
+      cb()
+    })
+  })
+
+  describe('addTagsApi', () => {
+    let addTagsSpy, mockStore
+
+    beforeEach(() => {
+      addTagsSpy = jest.fn()
+
+      mockStore = {
+        getState: () => {
+          return {
+            chat: {
+              vendor: {
+                zChat: {
+                  addTags: addTagsSpy
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+    ;[
+      ['zopim2', 'zopim3', 'another'],
+      ['zopim2', 'zopim3', '', 'another'],
+      ['zopim2, zopim3', 'another'],
+      ['zopim2, zopim3, another'],
+      ['zopim2, ', 'zopim3', 'another'],
+      [['zopim2', 'zopim3', 'another']],
+      [[['zopim2'], 'zopim3', 'another']],
+      [[['zopim2', 'zopim3'], 'another']],
+      [[['zopim2, zopim3'], 'another']]
+    ].forEach(args => {
+      it(`adds the [${args}] tags`, () => {
+        apis.addTagsApi(mockStore)(...args)
+
+        const expectedTags = ['zopim2', 'zopim3', 'another']
+
+        expect(addTagsSpy).toHaveBeenCalledWith(expectedTags)
+      })
+    })
+  })
+
+  describe('removeTagsApi', () => {
+    let removeTagsSpy, mockStore
+
+    beforeEach(() => {
+      removeTagsSpy = jest.fn()
+
+      mockStore = {
+        getState: () => {
+          return {
+            chat: {
+              vendor: {
+                zChat: {
+                  removeTags: removeTagsSpy
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+    ;[
+      ['zopim2', 'zopim3', 'another'],
+      ['zopim2', 'zopim3', '', 'another'],
+      ['zopim2, zopim3', 'another'],
+      ['zopim2, zopim3, another'],
+      ['zopim2, ', 'zopim3', 'another'],
+      [['zopim2', 'zopim3', 'another']],
+      [[['zopim2'], 'zopim3', 'another']],
+      [[['zopim2', 'zopim3'], 'another']],
+      [[['zopim2, zopim3'], 'another']]
+    ].forEach(args => {
+      it(`adds the [${args}] tags`, () => {
+        apis.removeTagsApi(mockStore)(...args)
+
+        const expectedTags = ['zopim2', 'zopim3', 'another']
+
+        expect(removeTagsSpy).toHaveBeenCalledWith(expectedTags)
+      })
+    })
+  })
+})
 
 describe('endChatApi', () => {
   let spy, store

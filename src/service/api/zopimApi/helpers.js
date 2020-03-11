@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors'
 import { updateSettingsApi } from 'src/service/api/apis'
 import { getChatStatus } from 'src/redux/modules/chat/chat-selectors'
 import { badgeHideReceived, badgeShowReceived } from 'src/redux/modules/base'
@@ -77,36 +76,6 @@ export const setProfileCardConfigApi = store => settings => {
   }
 
   updateSettingsApi(store, newSettings)
-}
-
-export const removeTagsApi = store => (...tagsToRemove) => {
-  const oldTags = getSettingsChatTags(store.getState())
-  const newTags = oldTags.filter(oldTag => {
-    return !_.includes(tagsToRemove, oldTag)
-  })
-
-  updateSettings(store, 'webWidget.chat.tags', newTags)
-}
-
-export const addTagsApi = store => (...args) => {
-  const oldTags = getSettingsChatTags(store.getState())
-  const tags = _.flattenDeep(args)
-
-  const tagsToAdd = tags.reduce((newTags, tag) => {
-    if (_.isEmpty(tag)) return newTags
-
-    tag.split(',').forEach(subTag => {
-      const newTag = subTag.trim()
-
-      if (!_.isEmpty(newTag)) {
-        newTags.push(newTag)
-      }
-    })
-
-    return newTags
-  }, [])
-
-  updateSettings(store, 'webWidget.chat.tags', [...oldTags, ...tagsToAdd])
 }
 
 const upperCaseFirstChar = str => {

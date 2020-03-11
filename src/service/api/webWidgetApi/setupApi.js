@@ -19,7 +19,9 @@ import {
   setHelpCenterSuggestionsApi,
   identifyApi,
   logoutApi,
-  popoutApi
+  popoutApi,
+  addTagsApi,
+  removeTagsApi
 } from 'src/service/api/apis'
 import {
   API_GET_IS_CHATTING_NAME,
@@ -59,6 +61,8 @@ const getApiPreRenderQueue = apiAddToPostRenderQueue => {
 
 export const chatApiObj = () => {
   return {
+    addTags: (store, ...args) => addTagsApi(store)(...args),
+    removeTags: (store, ...args) => removeTagsApi(store)(...args),
     end: endChatApi,
     send: sendChatMsgApi
   }
