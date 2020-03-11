@@ -10,7 +10,7 @@ import * as rootActions from 'src/redux/modules/answerBot/root/actions'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
 import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
-import { getBrand } from 'src/redux/modules/base/base-selectors'
+import { getBrand, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getResultsCount } from 'embeds/helpCenter/selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
@@ -40,6 +40,7 @@ class AnswerBotContainer extends Component {
     contextualSearchFinished: PropTypes.bool, // eslint-disable-line
     contextualSearchStatus: PropTypes.string, // eslint-disable-line
     contextualSearchResultsCount: PropTypes.number, // eslint-disable-line
+    widgetShown: PropTypes.bool, // eslint-disable-line
     actions: PropTypes.shape({
       sessionStarted: PropTypes.func.isRequired,
       sessionFallback: PropTypes.func.isRequired,
@@ -96,6 +97,10 @@ class AnswerBotContainer extends Component {
   }
 
   refreshFlow(props) {
+    if (!props.widgetShown) {
+      return
+    }
+
     let args = {
       props,
       shouldStopTimer: {}
@@ -245,6 +250,7 @@ class AnswerBotContainer extends Component {
       if (props.contextualSearchStatus !== null) {
         return true
       }
+
       props.actions.botMessage('embeddable_framework.answerBot.msg.prompt')
 
       return false
@@ -371,7 +377,8 @@ const mapStateToProps = state => ({
   delayInitialFallback: getAnswerBotDelayChannelChoice(state),
   contextualSearchFinished: rootSelectors.getContextualSearchFinished(state),
   contextualSearchStatus: rootSelectors.getContextualSearchStatus(state),
-  contextualSearchResultsCount: getResultsCount(state)
+  contextualSearchResultsCount: getResultsCount(state),
+  widgetShown: getWidgetShown(state)
 })
 
 const actionCreators = dispatch => ({
