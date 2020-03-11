@@ -39,18 +39,19 @@ describe('TicketForm', () => {
 
   const defaultProps = {
     submitForm: jest.fn(),
-    formName: 'form name',
+    formId: 'formId',
     ticketFields: [field1, field2, field3],
     readOnlyState: {},
     conditions: [],
-    ticketFormTitle: 'form title'
+    ticketFormTitle: 'form title',
+    isPreview: false
   }
 
   const renderComponent = (props = {}) => render(<TicketForm {...defaultProps} {...props} />)
 
   it('uses the useFormBackup hook to save the form state to redux when needed', () => {
     renderComponent()
-    expect(useFormBackup).toHaveBeenCalledWith('form name')
+    expect(useFormBackup).toHaveBeenCalledWith('formId')
   })
 
   it('renders the title', () => {
@@ -61,7 +62,7 @@ describe('TicketForm', () => {
 
   it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {
     renderComponent()
-    expect(useWidgetFormApis).toHaveBeenCalledWith(defaultProps.formName)
+    expect(useWidgetFormApis).toHaveBeenCalledWith(defaultProps.formId)
   })
 
   describe('conditional field logic', () => {
@@ -375,5 +376,40 @@ describe('TicketForm', () => {
     expect(
       result.queryByText('There was an error processing your request. Please try again later.')
     ).toBeInTheDocument()
+  })
+
+  describe('in preview mode', () => {
+    it('does not submit', () => {
+      const submitForm = jest.fn(
+        () =>
+          new Promise(res => {
+            res('embeddable_framework.submitTicket.notify.message.error')
+          })
+      )
+      const { getByText, queryByText } = renderComponent({ submitForm, isPreview: true })
+
+      fireEvent.click(getByText('Send'))
+
+      expect(queryByText('Submitting...')).not.toBeInTheDocument()
+    })
+
+    it('renders all inputs as read only', () => {
+      const submitForm = jest.fn(
+        () =>
+          new Promise(res => {
+            res('embeddable_framework.submitTicket.notify.message.error')
+          })
+      )
+      const { queryByLabelText } = renderComponent({
+        submitForm,
+        isPreview: true,
+        fields: [field1, field2, field3],
+        readOnlyState: {}
+      })
+
+      expect(queryByLabelText(field1.title_in_portal)).toHaveAttribute('readonly')
+      expect(queryByLabelText(field2.title_in_portal)).toHaveAttribute('readonly')
+      expect(queryByLabelText(field3.title_in_portal)).toHaveAttribute('readonly')
+    })
   })
 })

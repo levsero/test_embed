@@ -20,16 +20,16 @@ import { FileDropProvider } from 'components/FileDropProvider'
 
 const TicketFormPage = ({
   formTitle,
-  formName,
-  formState,
-  readOnlyState,
-  ticketFields,
+  formId,
+  formState = {},
+  readOnlyState = {},
+  ticketFields = [],
   submitTicket,
-  match,
   ticketFormTitle,
-  ticketForms,
-  conditions,
-  attachments
+  ticketForms = [],
+  conditions = [],
+  attachments = [],
+  isPreview
 }) => {
   return (
     <FileDropProvider>
@@ -37,13 +37,14 @@ const TicketFormPage = ({
         <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
 
         <TicketForm
-          formName={formName}
+          formId={formId}
           formState={formState}
           readOnlyState={readOnlyState}
           ticketFormTitle={ticketFormTitle}
           submitForm={formState =>
-            submitTicket(formState, match.params.id, getFields(formState, conditions, ticketFields))
+            submitTicket(formState, formId, getFields(formState, conditions, ticketFields))
           }
+          isPreview={isPreview}
           ticketFields={ticketFields}
           conditions={conditions}
           attachments={attachments}
@@ -55,16 +56,16 @@ const TicketFormPage = ({
 
 TicketFormPage.propTypes = {
   formTitle: PropTypes.string,
-  formName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  formId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formState: PropTypes.shape({}),
   readOnlyState: PropTypes.objectOf(PropTypes.bool),
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
-  match: PropTypes.object,
   ticketFormTitle: PropTypes.string,
-  ticketForms: PropTypes.array.isRequired,
+  ticketForms: PropTypes.array,
   attachments: PropTypes.array,
-  conditions: SupportPropTypes.conditions
+  conditions: SupportPropTypes.conditions,
+  isPreview: PropTypes.bool
 }
 
 const mapStateToProps = (state, ownProps) => {
