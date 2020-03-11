@@ -1065,20 +1065,20 @@ exports[`conversation screen renders expected components and styles in mobile 1`
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"
                 data-garden-version="7.0.2"
-                for="garden-field-container-4--input"
-                id="garden-field-container-4--label"
+                for="garden-field-container-3--input"
+                id="garden-field-container-3--label"
               >
                 Type your question here...
               </label>
               <textarea
-                aria-describedby="garden-field-container-4--hint"
+                aria-describedby="garden-field-container-3--hint"
                 aria-invalid="false"
-                aria-labelledby="garden-field-container-4--label"
+                aria-labelledby="garden-field-container-3--label"
                 class="-textarea text__c-txt__input___38pRd text__c-txt__input--area___9Qxj1 "
                 data-garden-id="forms.textarea"
                 data-garden-version="7.0.2"
                 data-testid="message-field"
-                id="garden-field-container-4--input"
+                id="garden-field-container-3--input"
                 name="answerBotInputValue"
                 placeholder="Type your question here..."
                 rows="1"

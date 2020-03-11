@@ -37,7 +37,8 @@ const renderComponent = (props = {}, renderFn) => {
     initialFallbackSuggested: false,
     isFeedbackRequired: false,
     actions,
-    delayInitialFallback: false
+    delayInitialFallback: false,
+    widgetShown: true
   }
   const componentProps = {
     ...defaultProps,

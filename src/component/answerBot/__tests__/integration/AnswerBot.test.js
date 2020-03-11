@@ -8,6 +8,8 @@ import { screenChanged } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
 import AnswerBot from '../../index'
+import { wait } from '@testing-library/dom'
+import { updateWidgetShown } from 'src/redux/modules/base'
 
 jest.mock('service/transport')
 
@@ -104,9 +106,11 @@ const setupAnswerBotServerMocks = () => {
   }
 }
 
-test('integration', () => {
+test('integration', async () => {
   const utils = render(<AnswerBot />)
   const textArea = utils.getByPlaceholderText('Type your question here...')
+
+  utils.store.dispatch(updateWidgetShown(true))
 
   setupAnswerBotServerMocks()
 
@@ -117,7 +121,7 @@ test('integration', () => {
   jest.runAllTimers()
 
   // Greeting is now available
-  expect(utils.queryByText('Hello.')).toBeInTheDocument()
+  await wait(() => expect(utils.queryByText('Hello.')).toBeInTheDocument())
 
   // Type in a question
   fireEvent.change(textArea, { target: { value: 'Help me' } })

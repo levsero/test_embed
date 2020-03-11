@@ -169,11 +169,11 @@ export const updateWidgetShown = show => {
   return (dispatch, getState) => {
     const state = getState()
 
-    dispatch(updateWidgetShownAction)
-
     if (!getHasContextuallySearched(state) && show) {
       dispatch(contextualSearch())
     }
+
+    dispatch(updateWidgetShownAction)
   }
 }
 
