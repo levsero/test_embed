@@ -9,8 +9,16 @@ const setup = async () => {
   const text = createField({ id: 3, title_in_portal: 'Text field', type: 'text' })
   const textarea = createField({ id: 4, type: 'textarea' })
   const integer = createField({ id: 5, type: 'integer' })
-  const form1 = createForm('Example form 1', 123, createField({ type: 'checkbox' }, description))
-  const form2 = createForm('Example form 2', 456, description, text, textarea, integer)
+  const form1 = createForm({
+    name: 'Example form 1',
+    id: 123,
+    fields: [createField({ type: 'checkbox' }, description)]
+  })
+  const form2 = createForm({
+    name: 'Example form 2',
+    id: 456,
+    fields: [description, text, textarea, integer]
+  })
   const mockConfigWithForms = {
     embeds: {
       ticketSubmissionForm: {
@@ -111,8 +119,8 @@ test('prefills by locale', async () => {
 
 test('filters the ticket forms', async () => {
   const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })
-  const form1 = createForm('Example form 1', 123, description)
-  const form2 = createForm('Example form 2', 456, description)
+  const form1 = createForm({ name: 'Example form 1', id: 123, fields: [description] })
+  const form2 = createForm({ name: 'Example form 2', id: 456, fields: [description] })
   const mockConfigWithForms = {
     embeds: {
       ticketSubmissionForm: {

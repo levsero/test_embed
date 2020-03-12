@@ -6,8 +6,16 @@ import { queryAllByText } from 'e2e/helpers/queries'
 describe('support list page', () => {
   describe('when config returns multiple ticket forms', () => {
     it('displays a list of ticket forms', async () => {
-      const form1 = createForm('Example form 1', 123, createField({ type: 'checkbox' }))
-      const form2 = createForm('Example form 2', 456, createField({ type: 'text' }))
+      const form1 = createForm({
+        name: 'Example form 1',
+        id: 123,
+        fields: [createField({ type: 'checkbox' })]
+      })
+      const form2 = createForm({
+        name: 'Example form 2',
+        id: 456,
+        fields: createField({ type: 'text' })
+      })
 
       const mockConfigWithForms = {
         embeds: {

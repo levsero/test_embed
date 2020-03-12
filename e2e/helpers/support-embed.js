@@ -80,7 +80,7 @@ const createField = (values = {}) => {
   }
 }
 
-const createForm = (name, id, ...fields) => {
+const createForm = ({ name, id, fields }) => {
   const form = {
     id,
     display_name: name,
