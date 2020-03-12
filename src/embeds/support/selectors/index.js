@@ -146,7 +146,7 @@ export const getAttachmentTypes = createSelector(
 
 export const getAllForms = createSelector(
   state => Object.values(state.support.forms),
-  forms => forms.sort((a, b) => a.position - b.position)
+  forms => forms.filter(form => form.active).sort((a, b) => a.position - b.position)
 )
 
 export const getForm = (state, formId) => state.support.forms[formId]
