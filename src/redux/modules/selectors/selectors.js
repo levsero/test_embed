@@ -107,7 +107,8 @@ import {
   LAUNCHER,
   MAX_WIDGET_HEIGHT_NO_SEARCH,
   WIDGET_MARGIN,
-  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
+  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
+  MAX_WIDGET_HEIGHT
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
@@ -242,7 +243,7 @@ const getWidgetFixedFrameStyles = createSelector(
 
     if (standaloneMobileNotificationVisible) {
       return {
-        height: `${515 / FONT_SIZE}rem`,
+        height: `${MAX_WIDGET_HEIGHT + WIDGET_MARGIN / FONT_SIZE}rem`,
         bottom: 0,
         top: 'initial',
         background: 'transparent'
