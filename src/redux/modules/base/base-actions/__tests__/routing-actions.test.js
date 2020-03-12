@@ -49,7 +49,7 @@ describe('onCancelClick', () => {
   }
 
   describe('when answerbot is available', () => {
-    it('updates active embed to Answerbot and hides back button', () => {
+    it('updates active embed to Answerbot, hides back button, and resets history', () => {
       setEmbedAvailability({ answerBotAvailable: true })
       const dispatchedActions = dispatchAction(actions.onCancelClick())
 
@@ -63,6 +63,8 @@ describe('onCancelClick', () => {
           payload: 'answerBot'
         }
       ])
+
+      expect(history.replace).toHaveBeenCalledWith('/')
     })
   })
 
@@ -102,7 +104,7 @@ describe('onCancelClick', () => {
       expect(history.goBack).toHaveBeenCalled()
     })
 
-    it('call goBack on history twice when there are multiple ticket forms', () => {
+    it('calls goBack on history twice when there are multiple ticket forms', () => {
       jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
       jest.spyOn(submitTicketSelectors, 'getTicketForms').mockReturnValue([{ id: 1 }, { id: 2 }])
 

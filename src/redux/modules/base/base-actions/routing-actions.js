@@ -67,6 +67,7 @@ export const onCancelClick = () => {
     if (answerBotAvailable) {
       dispatch(updateBackButtonVisibility(false))
       dispatch(updateActiveEmbed('answerBot'))
+      history.replace('/')
     } else if (helpCenterAvailable) {
       const articleViewActive = getArticleViewActive(state)
 
