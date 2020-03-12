@@ -11,6 +11,40 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 27 February 2020
+
+- Fixed the attachments dropzone now covers the whole Web Widget.
+- Fixed a bug in the Answer Bot article UI which hides the end of the article.
+
+### 26 February 2020
+
+- Fixed the chat options which are no longer cut off and updated the UI.
+
+### 18 February 2020
+
+- Fixed a bug that was causing support forms to crash when it included a field the widget does not support.
+
+### 14 February 2020
+
+- Fixed the "email transcript" option in Chat popout that now respects `emailTranscript: false` in zESettings.
+
+### 13 February 2020
+
+- Added the Zendesk logo in the Chat log when Chat is enabled and an agent is not typing.
+
+### 11 February 2020
+
+- Changed - Now when a chat agent re-requests a review, the review request will appear for the user, even if they had already reviewed the chat.
+
+### 10 February 2020
+
+- Fixed an issue where old API method names were being invoked under a specific set of circumstances.
+- Fixed a bug where the Web Widget previewer wasn't being translated in Support.
+
+### 7 February 2020
+
+- Fixed a bug where interacting with the drop down field resulted in the Web Widget crashing on certain mobile devices.
+
 ### 30 January 2020
 
 - Security - Added `SameSite: lax` to chat cookies to comply with Chrome 80s cookies security update: https://www.chromestatus.com/feature/5088147346030592
