@@ -1,3 +1,4 @@
+import { queries } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
@@ -5,35 +6,47 @@ import { queryAllByText } from 'e2e/helpers/queries'
 
 describe('support list page', () => {
   describe('when config returns multiple ticket forms', () => {
-    it('displays a list of ticket forms', async () => {
+    it('displays a list of active ticket forms', async () => {
       const form1 = createForm({
         name: 'Example form 1',
         id: 123,
-        fields: [createField({ type: 'checkbox' })]
+        fields: [createField({ type: 'checkbox' })],
+        active: true
       })
       const form2 = createForm({
         name: 'Example form 2',
         id: 456,
-        fields: createField({ type: 'text' })
+        fields: [createField({ type: 'text' })],
+        active: false
+      })
+      const form3 = createForm({
+        name: 'Example form 3',
+        id: 789,
+        fields: [createField({ type: 'text' })],
+        active: true
       })
 
       const mockConfigWithForms = {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketForms: [form1.form.id, form2.form.id]
+              ticketForms: [form1.form.id, form2.form.id, form2.form.id]
             }
           }
         }
       }
 
       const mockFormsResponse = {
-        ticket_forms: form1.mockFormsResponse.ticket_forms.concat(
-          form2.mockFormsResponse.ticket_forms
-        ),
-        ticket_fields: form1.mockFormsResponse.ticket_fields.concat(
-          form2.mockFormsResponse.ticket_fields
-        )
+        ticket_forms: [
+          ...form1.mockFormsResponse.ticket_forms,
+          ...form2.mockFormsResponse.ticket_forms,
+          ...form3.mockFormsResponse.ticket_forms
+        ],
+        ticket_fields: [
+          ...form1.mockFormsResponse.ticket_fields,
+          ...form2.mockFormsResponse.ticket_fields,
+          ...form3.mockFormsResponse.ticket_fields
+        ]
       }
 
       await loadWidget()
@@ -44,8 +57,12 @@ describe('support list page', () => {
       await widget.openByKeyboard()
 
       await expect(
-        await queryAllByText([form1.form.display_name, form2.form.display_name])
+        await queryAllByText([form1.form.display_name, form3.form.display_name])
       ).toAppearInOrder()
+
+      const doc = await widget.getDocument()
+
+      await expect(await queries.queryByText(doc, form2.form.display_name)).toBeNull()
     })
   })
 })
