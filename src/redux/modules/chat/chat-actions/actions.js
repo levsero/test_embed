@@ -605,13 +605,6 @@ export function sendOfflineMessage(formState, successCallback = noop, failureCal
   }
 }
 
-export function updateMenuVisibility(visible) {
-  return {
-    type: actions.UPDATE_CHAT_MENU_VISIBILITY,
-    payload: visible
-  }
-}
-
 export function handleReconnect() {
   return (dispatch, getState) => {
     const zChat = getZChatVendor(getState())

@@ -21,7 +21,6 @@ import {
   sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
-  updateMenuVisibility,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
@@ -39,6 +38,7 @@ import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
+import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const mapStateToProps = state => {
   return {

@@ -14,8 +14,7 @@ import {
   handleSoundIconClick,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility,
-  updateMenuVisibility
+  updateEndChatModalVisibility
 } from 'src/redux/modules/chat'
 
 import { isMobileBrowser } from 'utility/devices'
@@ -32,6 +31,7 @@ import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
 import { useCurrentFrame } from 'components/Frame'
 import { getMenuVisible } from 'embeds/chat/selectors'
+import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const ChatMenu = ({
   isOpen,

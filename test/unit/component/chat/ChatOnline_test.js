@@ -41,6 +41,7 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
       'component/chat/prechat/PrechatScreen': noopReactComponent(),
       'embeds/chat/selectors': {},
+      'embeds/chat/actions/actions': {},
       'component/button/ButtonPill': {
         ButtonPill
       },
