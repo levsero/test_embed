@@ -54,10 +54,6 @@ Object {
     "operatingHours": Object {
       "display_notice": false,
     },
-    "postchatForm": Object {
-      "header": "",
-      "message": "",
-    },
     "prechatForm": Object {
       "form": Object {
         "department": Object {

@@ -281,32 +281,6 @@ describe('chat selectors', () => {
     })
   })
 
-  describe('getPostchatFormSettings', () => {
-    let result
-    const mockHeader = 'Nice chatting with you!'
-    const mockMessage = 'How would you rate the chat experience you just had?'
-    const mockAccountSettings = {
-      postchatForm: {
-        header: mockHeader,
-        message: mockMessage
-      }
-    }
-
-    beforeEach(() => {
-      result = selectors.getPostchatFormSettings({
-        chat: { accountSettings: mockAccountSettings }
-      })
-    })
-
-    it('returns the current state of header', () => {
-      expect(result.header).toEqual(mockHeader)
-    })
-
-    it('returns the current state of message', () => {
-      expect(result.message).toEqual(mockMessage)
-    })
-  })
-
   describe('getConnection', () => {
     let result
     const mockChatSettings = {

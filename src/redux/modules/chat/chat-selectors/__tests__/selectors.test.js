@@ -110,12 +110,6 @@ test('getNotificationCount', () => {
   expect(result).toEqual(321)
 })
 
-test('getPostchatFormSettings', () => {
-  const result = selectors.getPostchatFormSettings(testState)
-
-  expect(result).toEqual({ hello: 'world' })
-})
-
 test('getEmailTranscript', () => {
   const result = selectors.getEmailTranscript(testState)
 

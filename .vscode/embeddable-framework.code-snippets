@@ -29,6 +29,11 @@
     ],
     "description": "Test (it) function within Describe"
   },
+  "Puppeteer debugger": {
+    "prefix": "debug",
+    "scope": "javascript,typescript",
+    "body": "await jestPuppeteer.debug()"
+  },
   "Test function": {
     "prefix": "test",
     "scope": "javascript,typescript",

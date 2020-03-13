@@ -121,7 +121,6 @@ describe('PrechatScreen component', () => {
       clearDepartmentSpy = jasmine.createSpy('clearDepartment')
       component = instanceRender(
         <PrechatScreen
-          postChatFormSettings={{ header: 'foo' }}
           prechatFormSettings={prechatFormSettingsProp}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}

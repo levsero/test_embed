@@ -85,7 +85,7 @@ If you encounter a `Cannot GET /live.html` error after loading, you may need to 
 script/setup_html_templates.rb
 ```
 
-**Widget Developer Dashboard**
+## Widget Developer Dashboard
 
 Instead of loading the dev task via the user config above, the [widget developer dashboard](https://github.com/zendesk/widget-developer-dashboard) provides UI controls to toggle widget settings and test it under different conditions for a better developer experience.
 
@@ -93,7 +93,9 @@ To use the widget developer dashboard, follow the steps in the dashboard repo to
 
 ## Testing
 
-We use jest for unit tests (`npm run test`) and pupeteer for e2e tests (`npm run e2e`).
+We use jest for unit tests (`npm run test __test_file__`).
+
+We use puppeteer for e2e tests (`npm run e2e __test_file__`). If you want to see your browser tests run in the browser you can use `HEADLESS=false`. When you're running tests this way you can add a breakpoint with `await jestPuppeteer.debug()`
 
 ## Running in Docker
 

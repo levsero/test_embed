@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader/root'
 import { TEST_IDS } from 'src/constants/shared'
 import ThumbsDownIcon from '@zendeskgarden/svg-icons/src/16/thumbs-down-stroke.svg'
 import ThumbsUpIcon from '@zendeskgarden/svg-icons/src/16/thumbs-up-stroke.svg'
@@ -52,6 +51,6 @@ RatingGroup.propTypes = {
   rating: PropTypes.string
 }
 
-export default hot(RatingGroup)
+export default RatingGroup
 
 export { ratings }

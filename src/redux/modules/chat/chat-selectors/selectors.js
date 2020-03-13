@@ -22,7 +22,6 @@ export const getChatStatus = state => chatState(state).account_status
 export const getChatVisitor = state => chatState(state).visitor
 export const getIsChatting = state => chatState(state).is_chatting
 export const getNotificationCount = state => getNotification(state).count
-export const getPostchatFormSettings = state => chatState(state).accountSettings.postchatForm
 export const getEmailTranscript = state => chatState(state).emailTranscript
 export const getAttachmentsEnabled = state => chatState(state).accountSettings.attachments.enabled
 export const getRatingSettings = state => chatState(state).accountSettings.rating

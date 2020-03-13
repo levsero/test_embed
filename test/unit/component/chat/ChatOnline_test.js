@@ -2,6 +2,7 @@ const prechatScreen = 'widget/chat/PRECHAT_SCREEN'
 const chattingScreen = 'widget/chat/CHATTING_SCREEN'
 const loadingScreen = 'widget/chat/LOADING_SCREEN'
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN'
+const postChatScreen = 'widget/chat/POST_CHAT_SCREEN'
 const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN'
 
 describe('ChatOnline component', () => {
@@ -36,7 +37,8 @@ describe('ChatOnline component', () => {
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
-      'component/chat/rating/RatingScreen': noopReactComponent(),
+      'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
+      'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
       'component/chat/prechat/PrechatScreen': noopReactComponent(),
       'component/button/ButtonPill': {
         ButtonPill
@@ -75,6 +77,7 @@ describe('ChatOnline component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
         FEEDBACK_SCREEN: feedbackScreen,
+        POST_CHAT_SCREEN: postChatScreen,
         LOADING_SCREEN: loadingScreen,
         OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
         AGENT_LIST_SCREEN
@@ -187,13 +190,13 @@ describe('ChatOnline component', () => {
     })
   })
 
-  describe('renderPostchatScreen', () => {
+  describe('renderChatRatingPage', () => {
     let component, result
 
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
         component = instanceRender(<ChatOnline screen={chattingScreen} />)
-        result = component.renderPostchatScreen()
+        result = component.renderChatRatingPage()
       })
 
       it('does not return anything', () => {
@@ -206,19 +209,11 @@ describe('ChatOnline component', () => {
         component = instanceRender(
           <ChatOnline screen={feedbackScreen} isMobile={true} fullscreen={true} />
         )
-        result = component.renderPostchatScreen()
+        result = component.renderChatRatingPage()
       })
 
       it('returns a component', () => {
         expect(result).toBeTruthy()
-      })
-
-      it('component returns valid isMobile value', () => {
-        expect(result.props.isMobile).toEqual(true)
-      })
-
-      it('component returns valid fullscreen value', () => {
-        expect(result.props.fullscreen).toEqual(true)
       })
     })
   })

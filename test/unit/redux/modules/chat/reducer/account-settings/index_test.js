@@ -20,7 +20,6 @@ describe('chat accountSettings reducer', () => {
       'attachments',
       'concierge',
       'prechatForm',
-      'postchatForm',
       'rating',
       'theme',
       'chatWindow',

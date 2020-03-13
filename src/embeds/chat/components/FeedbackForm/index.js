@@ -10,7 +10,6 @@ import { ratings } from 'embeds/chat/components/RatingGroup'
 import { SecondaryButton, SubmitButton, ButtonGroup, Label, Textarea, RatingGroup } from './styles'
 
 const FeedbackForm = ({
-  feedbackMessage = '',
   rating = {
     value: ratings.NOT_SET,
     comment: ''
@@ -36,8 +35,7 @@ const FeedbackForm = ({
             render={({ input }) => (
               <Field>
                 <Label data-testid={TEST_IDS.FORM_GREETING_MSG}>
-                  {feedbackMessage ||
-                    translate('embeddable_framework.chat.postChat.rating.new_title')}
+                  {translate('embeddable_framework.chat.postChat.rating.new_title')}
                 </Label>
 
                 <RatingGroup
@@ -74,6 +72,7 @@ const FeedbackForm = ({
             <SecondaryButton
               onClick={handleSecondaryButtonClick}
               data-testid={TEST_IDS.BUTTON_CANCEL}
+              aria-label={secondaryButtonText}
             >
               {secondaryButtonText}
             </SecondaryButton>
@@ -83,6 +82,7 @@ const FeedbackForm = ({
               type="submit"
               disabled={!values.comment && values.rating === ratings.NOT_SET}
               data-testid={TEST_IDS.BUTTON_OK}
+              aria-label={translate('embeddable_framework.common.button.send')}
             >
               {translate('embeddable_framework.common.button.send')}
             </SubmitButton>
@@ -94,8 +94,11 @@ const FeedbackForm = ({
 }
 
 FeedbackForm.propTypes = {
-  feedbackMessage: PropTypes.string,
-  rating: PropTypes.object.isRequired,
+  rating: PropTypes.shape({
+    value: PropTypes.oneOf(Object.values(ratings)),
+    disableEndScreen: PropTypes.bool,
+    comment: PropTypes.string
+  }).isRequired,
   secondaryButtonText: PropTypes.string.isRequired,
   handleSecondaryButtonClick: PropTypes.func,
   submitForm: PropTypes.func
