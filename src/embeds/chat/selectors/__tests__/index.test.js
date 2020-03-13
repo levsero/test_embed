@@ -1,4 +1,4 @@
-import { getIsPollingChat, getDeferredChatHasResponse } from '../index'
+import { getIsPollingChat, getDeferredChatHasResponse, getMenuVisible } from '../index'
 
 describe('chat selectors', () => {
   describe('getIsPollingChat', () => {
@@ -55,6 +55,16 @@ describe('chat selectors', () => {
           chat: { deferredChatHasResponse: 'boopidy' }
         })
       ).toEqual('boopidy')
+    })
+  })
+
+  describe('getMenuVisible', () => {
+    it('returns true when the menu is visible', () => {
+      expect(getMenuVisible({ chat: { menuVisible: true } })).toBe(true)
+    })
+
+    it('returns true when the menu is not visible', () => {
+      expect(getMenuVisible({ chat: { menuVisible: false } })).toBe(false)
     })
   })
 })
