@@ -12,7 +12,10 @@ const SuccessPage = ({ onCancelClick }) => {
 
   return (
     <Widget>
-      <Header title={t('embeddable_framework.submitTicket.notify.message.success')} />
+      <Header
+        title={t('embeddable_framework.submitTicket.notify.message.success')}
+        showBackButton={false}
+      />
       <Main>
         <SuccessNotification
           icon={<SuccessIcon />}

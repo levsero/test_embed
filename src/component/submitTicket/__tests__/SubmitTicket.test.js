@@ -35,7 +35,6 @@ const submitTicket = props => {
     fullscreen: false,
     showNotification: false,
     selectTicketFormLabel: 'submit ticket form',
-    onCancelClick: jest.fn(),
     clearAttachments: jest.fn(),
     uploadAttachedFiles: jest.fn()
   }

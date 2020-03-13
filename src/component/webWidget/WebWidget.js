@@ -287,7 +287,6 @@ class WebWidget extends Component {
         <SubmitTicket
           ref={submitTicket}
           hideZendeskLogo={this.props.hideZendeskLogo}
-          onCancel={this.onCancelClick}
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           ticketFieldSettings={this.props.ticketFieldSettings}

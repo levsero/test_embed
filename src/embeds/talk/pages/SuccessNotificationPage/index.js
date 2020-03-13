@@ -13,7 +13,7 @@ import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'
 const SuccessNotificationPage = ({ title, doneText, onClick, history }) => {
   return (
     <Widget>
-      <Header title={title} />
+      <Header title={title} showBackButton={false} />
       <Main>
         <SuccessNotification
           doneText={doneText}
