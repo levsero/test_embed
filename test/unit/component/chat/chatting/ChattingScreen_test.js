@@ -71,9 +71,6 @@ describe('ChattingScreen component', () => {
         ButtonPill
       },
       'components/ZendeskLogo': ZendeskLogo,
-      'component/chat/chatting/ChatBox': {
-        ChatBox: noopReactComponent()
-      },
       'embeds/chat/components/ChatHeader': noopReactComponent(),
       'embeds/chat/components/LoadingMessagesIndicator': LoadingMessagesIndicator,
       'src/embeds/chat/components/AgentTyping': {
@@ -92,6 +89,7 @@ describe('ChattingScreen component', () => {
         LoadingEllipses: noopReactComponent()
       },
       'embeds/chat/components/ChatWidgetHeader': noopReactComponent(),
+      'src/embeds/chat/components/InputBox': noopReactComponent(),
       'components/Widget': {
         Widget: noopReactComponent(),
         Main: noopReactComponent(),
