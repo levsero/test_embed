@@ -437,12 +437,6 @@ test('getSupportConfig', () => {
   })
 })
 
-test('getNewSupportEmbedEnabled', () => {
-  const result = selectors.getNewSupportEmbedEnabled(state)
-
-  expect(result).toEqual(true)
-})
-
 test('getMaxFileSize', () => {
   const result = selectors.getMaxFileSize(state)
 

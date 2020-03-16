@@ -81,7 +81,7 @@ const mapStateToProps = state => {
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state),
-    webWidgetReactRouterSupport: isFeatureEnabled(state, 'supportEmbedEnabled')
+    webWidgetReactRouterSupport: isFeatureEnabled(state, 'web_widget_react_router_support')
   }
 }
 

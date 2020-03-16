@@ -81,9 +81,6 @@ describe('WebWidget component', () => {
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
       'components/NotificationPopup': noopReactComponent(),
-      'embeds/support/selectors': {
-        getNewSupportEmbedEnabled: () => false
-      },
       'embeds/webWidget/selectors/feature-flags': () => undefined,
       'embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
       'component/chat/ChatNotificationPopup': { ChatNotificationPopup },

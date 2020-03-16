@@ -52,11 +52,14 @@ describe('resetActiveEmbed middleware', () => {
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable
       },
-      'embeds/support/selectors': {
-        getNewSupportEmbedEnabled: () => mockNewSupportEmbedEnabled
-      },
       'embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive
+      },
+      'embeds/webWidget/selectors/feature-flags': (_, name) => {
+        if (name === 'web_widget_react_router_support') {
+          return mockNewSupportEmbedEnabled
+        }
+        return false
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => mockIsChatting,

@@ -17,8 +17,6 @@ import createKeyID from 'embeds/support/utils/createKeyID'
 import routes from 'embeds/support/routes'
 
 export const getSupportConfig = state => state.support.config
-export const getNewSupportEmbedEnabled = state =>
-  getSupportConfig(state).webWidgetReactRouterSupport
 export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
 export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
 export const getActiveFormName = state => state.support.activeFormName

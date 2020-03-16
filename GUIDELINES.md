@@ -312,6 +312,8 @@ export default {
 All major features should be behind an arturo flag.
 To update your feature to use an arturo flag, you can provide a function on the property `getArturoValue` that takes the current redux state and returns the arturo flags value.
 
+When your feature flag matches up with an arturo, it is considered best practice to use the same name as the arturo for the local feature name.
+
 ```js
 export default {
   /* ... */

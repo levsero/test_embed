@@ -14,11 +14,13 @@ import { FORM_PREFILLED } from '../action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('service/history')
+jest.mock('embeds/webWidget/selectors/feature-flags')
 
 const mockFileBlob2 = {
   name: 'blah2.txt',
@@ -600,7 +602,7 @@ describe('submitTicket', () => {
   })
 
   it('dispatches expected actions on successful request', () => {
-    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+    isFeatureEnabled.mockReturnValue(false)
 
     const store = mockStore()
 
@@ -616,8 +618,8 @@ describe('submitTicket', () => {
     })
   })
 
-  it('does not replace history when getNewSupportEmbedEnabled is false', () => {
-    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(false)
+  it('does not replace history when new support embed is not enabled', () => {
+    isFeatureEnabled.mockReturnValue(false)
 
     const store = mockStore()
 
@@ -630,8 +632,8 @@ describe('submitTicket', () => {
     expect(history.replace).not.toHaveBeenCalled()
   })
 
-  it('replaces history with the success page onto history when getNewSupportEmbedEnabled is true', () => {
-    jest.spyOn(supportSelectors, 'getNewSupportEmbedEnabled').mockReturnValue(true)
+  it('replaces history with the success page onto history when new support embed is enabled', () => {
+    isFeatureEnabled.mockReturnValue(true)
 
     const store = mockStore()
 

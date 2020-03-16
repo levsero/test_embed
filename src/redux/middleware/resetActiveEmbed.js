@@ -35,13 +35,13 @@ import {
 } from 'src/redux/modules/selectors'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
-import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import { isPopout } from 'utility/globals'
 import { EMBED_MAP, NIL_EMBED } from 'constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import history from 'service/history'
 import helpCenterRoutes from 'embeds/helpCenter/routes'
 import supportRoutes from 'embeds/support/routes'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)
@@ -114,7 +114,7 @@ const setNewActiveEmbed = (state, dispatch) => {
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm'
     backButton = getShowTicketFormsBackButton(state)
-    if (getNewSupportEmbedEnabled(state)) {
+    if (isFeatureEnabled(state, 'web_widget_react_router_support')) {
       newRoute = supportRoutes.home()
     }
   } else if (getChatBanned(state)) {
