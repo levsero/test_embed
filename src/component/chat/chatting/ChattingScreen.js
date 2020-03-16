@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -80,219 +80,147 @@ const mapStateToProps = state => {
   }
 }
 
-class ChattingScreen extends Component {
-  static propTypes = {
-    attachmentsEnabled: PropTypes.bool.isRequired,
-    concierges: PropTypes.array.isRequired,
-    chatsLength: PropTypes.number,
-    historyLength: PropTypes.number,
-    hasMoreHistory: PropTypes.bool,
-    historyRequestStatus: PropTypes.string,
-    lastMessageAuthor: PropTypes.string.isRequired,
-    latestQuickReply: PropTypes.object,
-    currentMessage: PropTypes.string.isRequired,
-    sendAttachments: PropTypes.func.isRequired,
-    showChatEndFn: PropTypes.func.isRequired,
-    isMobile: PropTypes.bool,
-    sendMsg: PropTypes.func.isRequired,
-    handleChatBoxChange: PropTypes.func.isRequired,
-    sendChatRating: PropTypes.func.isRequired,
-    updateChatScreen: PropTypes.func.isRequired,
-    isChatting: PropTypes.bool.isRequired,
-    allAgents: PropTypes.object.isRequired,
-    activeAgents: PropTypes.object.isRequired,
-    agentsTyping: PropTypes.array.isRequired,
-    rating: PropTypes.object.isRequired,
-    toggleMenu: PropTypes.func.isRequired,
-    showAvatar: PropTypes.bool.isRequired,
-    queuePosition: PropTypes.number,
-    menuVisible: PropTypes.bool,
-    showRating: PropTypes.bool,
-    resetCurrentMessage: PropTypes.func,
-    fetchConversationHistory: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool,
-    firstMessageTimestamp: PropTypes.number,
-    socialLogin: PropTypes.object,
-    conciergeSettings: PropTypes.object.isRequired,
-    showContactDetails: PropTypes.func.isRequired,
-    profileConfig: PropTypes.object.isRequired,
-    notificationCount: PropTypes.number,
-    markAsRead: PropTypes.func,
-    visible: PropTypes.bool,
-    unreadMessages: PropTypes.bool,
-    isPreview: PropTypes.bool,
-    emailTranscript: PropTypes.object.isRequired,
-    updateEmailTranscriptVisibility: PropTypes.func.isRequired
+const ChattingScreen = ({
+  lastMessageAuthor,
+  latestQuickReply,
+  currentMessage,
+  sendAttachments,
+  showChatEndFn,
+  sendMsg,
+  handleChatBoxChange,
+  sendChatRating,
+  updateChatScreen,
+  isChatting,
+  toggleMenu,
+  showAvatar,
+  queuePosition,
+  showRating,
+  unreadMessages,
+  attachmentsEnabled = false,
+  isMobile = false,
+  concierges = [],
+  chatsLength = 0,
+  historyLength = 0,
+  rating = {},
+  agentsTyping = [],
+  hasMoreHistory = false,
+  historyRequestStatus = '',
+  allAgents = {},
+  activeAgents = {},
+  menuVisible = false,
+  resetCurrentMessage = () => {},
+  fetchConversationHistory = () => {},
+  hideZendeskLogo = false,
+  firstMessageTimestamp = null,
+  socialLogin = {},
+  conciergeSettings = {},
+  showContactDetails = () => {},
+  profileConfig = {},
+  notificationCount = 0,
+  markAsRead = () => {},
+  visible = false,
+  isPreview = false,
+  emailTranscript,
+  updateEmailTranscriptVisibility
+}) => {
+  const scrollContainer = useRef(null)
+  const [scrollHeight, setScrollHeight] = useState(false)
+  let scrollToBottomTimer = null
+  let agentTypingRef = useRef(null)
+
+  const isScrollCloseToBottom = () => {
+    return scrollContainer.current
+      ? getScrollBottom(scrollContainer.current) < SCROLL_BOTTOM_THRESHOLD
+      : false
   }
+  const scrollToBottom = useCallback(() => {
+    scrollToBottomTimer = onNextTick(() => {
+      if (scrollContainer.current) {
+        scrollContainer.current.scrollTop = scrollContainer.current.scrollHeight
+      }
+    })
+  })
+  // const clearScrollTimer = () => {
+  //   clearTimeout(scrollToBottomTimer)
+  // }
 
-  static defaultProps = {
-    attachmentsEnabled: false,
-    isMobile: false,
-    concierges: [],
-    chatsLength: 0,
-    historyLength: 0,
-    rating: {},
-    agentsTyping: [],
-    chatLog: {},
-    hasMoreHistory: false,
-    historyRequestStatus: '',
-    allAgents: {},
-    activeAgents: {},
-    menuVisible: false,
-    resetCurrentMessage: () => {},
-    fetchConversationHistory: () => {},
-    hideZendeskLogo: false,
-    firstMessageTimestamp: null,
-    socialLogin: {},
-    conciergeSettings: {},
-    showContactDetails: () => {},
-    profileConfig: {},
-    notificationCount: 0,
-    markAsRead: () => {},
-    visible: false,
-    isPreview: false
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.scrollContainer = null
-    this.scrollHeightBeforeUpdate = null
-    this.scrollToBottomTimer = null
-    this.agentTypingRef = React.createRef()
-  }
-
-  componentDidMount() {
-    const { chatsLength, historyLength } = this.props
+  useEffect(() => {
     const hasMessages = chatsLength + historyLength > 0
 
     if (hasMessages) {
-      this.scrollToBottom()
+      scrollToBottom()
     }
 
-    if (this.props.unreadMessages && this.props.visible && this.isScrollCloseToBottom()) {
-      this.props.markAsRead()
+    if (unreadMessages && isScrollCloseToBottom()) {
+      markAsRead()
     }
-  }
+  }, [chatsLength, historyLength, unreadMessages])
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
-      this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE
-    ) {
-      this.scrollHeightBeforeUpdate = this.scrollContainer.scrollHeight
+  useEffect(() => {
+    if (historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
+      setScrollHeight(scrollContainer.scrollHeight)
     }
+  }, [historyRequestStatus])
 
-    if (this.scrollContainer) {
-      this.didUpdateFetchHistory()
-      this.didUpdateNewEntry(prevProps)
-      this.didUpdateAgentTypingIndicator(prevProps)
-    }
-  }
+  useEffect(() => {
+    if (!scrollHeight) return
 
-  componentWillUnmount() {
-    clearTimeout(this.scrollToBottomTimer)
-  }
+    const scrollTop = scrollContainer.current.scrollTop
+    const scrollPosition = scrollContainer.current.scrollHeight
+    const lengthDifference = scrollPosition - scrollHeight
 
-  didUpdateFetchHistory = () => {
-    if (!this.scrollHeightBeforeUpdate) return
-
-    const scrollTop = this.scrollContainer.scrollTop
-    const scrollHeight = this.scrollContainer.scrollHeight
-    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate
-
-    // When chat history is fetched, we record the scroll just before
-    // the component updates in order to adjust the  scrollTop
-    // by the difference in container height of pre and post update.
+    // Maintain the current scroll position after adding the new chat history
     if (lengthDifference !== 0) {
-      this.scrollContainer.scrollTop = scrollTop + lengthDifference
-      this.scrollHeightBeforeUpdate = null
+      scrollContainer.current.scrollTop = scrollTop + lengthDifference
     }
-  }
+  }, [scrollHeight])
 
-  didUpdateAgentTypingIndicator = prevProps => {
-    if (!this.agentTypingRef.current) {
-      return
+  useEffect(() => {
+    if (!agentTypingRef.current) return
+
+    const isTyping = agentsTyping.length !== 0
+    if (!isTyping) return
+
+    if (getScrollBottom(scrollContainer) <= agentTypingRef.current.offsetHeight) {
+      scrollToBottom()
+    }
+  }, [agentsTyping, scrollToBottom])
+
+  useEffect(() => {
+    const scrollCloseToBottom = isScrollCloseToBottom()
+
+    if (scrollCloseToBottom && isAgent(lastMessageAuthor)) {
+      markAsRead()
     }
 
-    const isTyping = this.props.agentsTyping.length !== 0
-    const wasTyping = prevProps.agentsTyping ? prevProps.agentsTyping.length !== 0 : false
-
-    if (!isTyping || wasTyping === isTyping) {
-      return
+    if (scrollCloseToBottom || lastMessageAuthor === 'visitor') {
+      scrollToBottom()
     }
+  }, [chatsLength, lastMessageAuthor])
 
-    if (getScrollBottom(this.scrollContainer) <= this.agentTypingRef.current.offsetHeight) {
-      this.scrollToBottom()
-    }
-  }
-
-  didUpdateNewEntry = prevProps => {
-    const newMessage = this.props.chatsLength - prevProps.chatsLength > 0
-    const lastUserMessage = this.props.lastMessageAuthor
-    const scrollCloseToBottom = this.isScrollCloseToBottom()
+  const handleChatScreenScrolled = () => {
+    if (!scrollContainer.current) return
 
     if (
-      this.props.visible &&
-      scrollCloseToBottom &&
-      ((newMessage && isAgent(lastUserMessage)) || !prevProps.visible)
+      scrollContainer.scrollTop === 0 &&
+      hasMoreHistory &&
+      historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
-      this.props.markAsRead()
+      fetchConversationHistory()
     }
 
-    if (newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) {
-      this.scrollToBottom()
-    }
-  }
-
-  isScrollCloseToBottom = () => {
-    return this.scrollContainer
-      ? getScrollBottom(this.scrollContainer) < SCROLL_BOTTOM_THRESHOLD
-      : false
-  }
-
-  scrollToBottom = () => {
-    this.scrollToBottomTimer = onNextTick(() => {
-      if (this.scrollContainer) {
-        this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight
-      }
-    })
-  }
-
-  handleChatScreenScrolled = () => {
-    if (!this.scrollContainer) return
-
-    if (
-      this.scrollContainer.scrollTop === 0 &&
-      this.props.hasMoreHistory &&
-      this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
-    ) {
-      this.props.fetchConversationHistory()
-    }
-
-    if (this.props.visible && this.isScrollCloseToBottom()) {
-      this.props.markAsRead()
+    if (visible && isScrollCloseToBottom()) {
+      markAsRead()
     }
   }
 
-  renderQueuePosition = () => {
-    const { queuePosition, activeAgents } = this.props
-
+  const renderQueuePosition = () => {
     if (!queuePosition || _.size(activeAgents) > 0) return null
 
     return <QueuePosition queuePosition={queuePosition} />
   }
 
-  renderChatFooter = () => {
-    const {
-      currentMessage,
-      sendMsg,
-      resetCurrentMessage,
-      handleChatBoxChange,
-      isMobile,
-      menuVisible
-    } = this.props
-
+  const renderChatFooter = () => {
     const sendChatFn = () => {
       if (!_.isEmpty(currentMessage.trim())) {
         sendMsg(currentMessage)
@@ -303,16 +231,16 @@ class ChattingScreen extends Component {
 
     return (
       <ChattingFooter
-        attachmentsEnabled={this.props.attachmentsEnabled}
+        attachmentsEnabled={attachmentsEnabled}
         isMobile={isMobile}
-        endChat={this.props.showChatEndFn}
+        endChat={showChatEndFn}
         sendChat={sendChatFn}
-        isChatting={this.props.isChatting}
-        handleAttachmentDrop={this.props.sendAttachments}
+        isChatting={isChatting}
+        handleAttachmentDrop={sendAttachments}
         menuVisible={menuVisible}
-        toggleMenu={this.props.toggleMenu}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        isPreview={this.props.isPreview}
+        toggleMenu={toggleMenu}
+        hideZendeskLogo={hideZendeskLogo}
+        isPreview={isPreview}
       >
         <ChatBox
           isMobile={isMobile}
@@ -324,16 +252,7 @@ class ChattingScreen extends Component {
     )
   }
 
-  renderChatHeader = () => {
-    const {
-      rating,
-      sendChatRating,
-      concierges,
-      updateChatScreen,
-      activeAgents,
-      profileConfig,
-      showRating
-    } = this.props
+  const renderChatHeader = () => {
     const onAgentDetailsClick =
       _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
 
@@ -351,16 +270,15 @@ class ChattingScreen extends Component {
     )
   }
 
-  renderScrollPill = () => {
-    const { notificationCount, markAsRead } = this.props
-    if (notificationCount === 0 || this.isScrollCloseToBottom()) return null
+  const renderScrollPill = () => {
+    if (notificationCount === 0 || isScrollCloseToBottom()) return null
 
     return (
       <ScrollPill
         notificationCount={notificationCount}
         onClick={() => {
           markAsRead()
-          this.scrollToBottom()
+          scrollToBottom()
         }}
       />
     )
@@ -369,18 +287,16 @@ class ChattingScreen extends Component {
   /**
    * Render QuickReplies component if one should be shown
    */
-  renderQuickReply = () => {
-    const quickReply = this.props.latestQuickReply
-
-    if (!quickReply) return null
-
-    const { timestamp, items } = quickReply
+  const renderQuickReply = () => {
+    if (!latestQuickReply) return null
+    const { timestamp, items } = latestQuickReply
+    if (!items) return null
 
     return (
-      <QuickReplies key={timestamp} isMobile={this.props.isMobile}>
+      <QuickReplies key={timestamp} isMobile={isMobile}>
         {items.map((item, idx) => {
           const { action, text } = item
-          const actionFn = () => this.props.sendMsg(action.value)
+          const actionFn = () => sendMsg(action.value)
 
           return <QuickReply key={idx} label={text} onClick={actionFn} />
         })}
@@ -388,69 +304,104 @@ class ChattingScreen extends Component {
     )
   }
 
-  goToFeedbackScreen = () => {
-    this.props.updateChatScreen(screens.FEEDBACK_SCREEN)
+  const goToFeedbackScreen = () => {
+    updateChatScreen(screens.FEEDBACK_SCREEN)
   }
 
-  render = () => {
-    const { isMobile, sendMsg, agentsTyping } = this.props
-    const chatLogContainerClasses = classNames(styles.chatLogContainer, {
-      [styles.chatLogContainerMobile]: isMobile
-    })
+  const chatLogContainerClasses = classNames(styles.chatLogContainer, {
+    [styles.chatLogContainerMobile]: isMobile
+  })
 
-    return (
-      <Widget>
-        <ChatWidgetHeader />
-        {this.renderChatHeader()}
-        <Main
-          ref={el => {
-            this.scrollContainer = el
-          }}
-          onScroll={this.handleChatScreenScrolled}
-        >
-          <div className={chatLogContainerClasses}>
-            <HistoryLog
-              isMobile={this.props.isMobile}
-              showAvatar={this.props.showAvatar}
-              agents={this.props.allAgents}
-              firstMessageTimestamp={this.props.firstMessageTimestamp}
-            />
-            <ChatLog
-              isMobile={this.props.isMobile}
-              showAvatar={this.props.showAvatar}
-              agents={this.props.allAgents}
-              chatRating={this.props.rating}
-              goToFeedbackScreen={this.goToFeedbackScreen}
-              handleSendMsg={sendMsg}
-              onImageLoad={this.scrollToBottom}
-              conciergeAvatar={this.props.conciergeSettings.avatar_path}
-              updateInfoOnClick={this.props.showContactDetails}
-              socialLogin={this.props.socialLogin}
-            />
-            {this.renderQueuePosition()}
-            <ChatLogFooter
-              agentsTyping={agentsTyping}
-              ref={this.agentTypingRef}
-              isMobile={this.props.isMobile}
-              hideZendeskLogo={this.props.hideZendeskLogo}
-            />
-            <LoadingMessagesIndicator loading={this.props.historyRequestStatus === 'pending'} />
-            {this.renderScrollPill()}
-          </div>
-          {this.renderQuickReply()}
-        </Main>
-        {this.renderChatFooter()}
-
-        {this.props.emailTranscript?.show && (
-          <EmailTranscriptPopup
-            onClose={() => {
-              this.props.updateEmailTranscriptVisibility(false)
-            }}
+  return (
+    <Widget>
+      <ChatWidgetHeader />
+      {renderChatHeader()}
+      <Main ref={scrollContainer} onScroll={handleChatScreenScrolled}>
+        <div className={chatLogContainerClasses}>
+          <HistoryLog
+            isMobile={isMobile}
+            showAvatar={showAvatar}
+            agents={allAgents}
+            firstMessageTimestamp={firstMessageTimestamp}
           />
-        )}
-      </Widget>
-    )
-  }
+          <ChatLog
+            isMobile={isMobile}
+            showAvatar={showAvatar}
+            agents={allAgents}
+            chatRating={rating}
+            goToFeedbackScreen={goToFeedbackScreen}
+            handleSendMsg={sendMsg}
+            onImageLoad={scrollToBottom}
+            conciergeAvatar={conciergeSettings.avatar_path}
+            updateInfoOnClick={showContactDetails}
+            socialLogin={socialLogin}
+          />
+          {renderQueuePosition()}
+          <ChatLogFooter
+            agentsTyping={agentsTyping}
+            ref={agentTypingRef}
+            isMobile={isMobile}
+            hideZendeskLogo={hideZendeskLogo}
+          />
+          <LoadingMessagesIndicator loading={historyRequestStatus === 'pending'} />
+          {renderScrollPill()}
+        </div>
+        {renderQuickReply()}
+      </Main>
+      {renderChatFooter()}
+      {emailTranscript?.show && (
+        <EmailTranscriptPopup
+          onClose={() => {
+            updateEmailTranscriptVisibility(false)
+          }}
+        />
+      )}
+    </Widget>
+  )
+}
+
+ChattingScreen.propTypes = {
+  attachmentsEnabled: PropTypes.bool.isRequired,
+  concierges: PropTypes.array.isRequired,
+  chatsLength: PropTypes.number,
+  historyLength: PropTypes.number,
+  hasMoreHistory: PropTypes.bool,
+  historyRequestStatus: PropTypes.string,
+  lastMessageAuthor: PropTypes.string.isRequired,
+  latestQuickReply: PropTypes.object,
+  currentMessage: PropTypes.string.isRequired,
+  sendAttachments: PropTypes.func.isRequired,
+  showChatEndFn: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
+  sendMsg: PropTypes.func.isRequired,
+  handleChatBoxChange: PropTypes.func.isRequired,
+  sendChatRating: PropTypes.func.isRequired,
+  updateChatScreen: PropTypes.func.isRequired,
+  isChatting: PropTypes.bool.isRequired,
+  allAgents: PropTypes.object.isRequired,
+  activeAgents: PropTypes.object.isRequired,
+  agentsTyping: PropTypes.array.isRequired,
+  rating: PropTypes.object.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+  showAvatar: PropTypes.bool.isRequired,
+  queuePosition: PropTypes.number,
+  menuVisible: PropTypes.bool,
+  showRating: PropTypes.bool,
+  resetCurrentMessage: PropTypes.func,
+  fetchConversationHistory: PropTypes.func,
+  hideZendeskLogo: PropTypes.bool,
+  firstMessageTimestamp: PropTypes.number,
+  socialLogin: PropTypes.object,
+  conciergeSettings: PropTypes.object.isRequired,
+  showContactDetails: PropTypes.func.isRequired,
+  profileConfig: PropTypes.object.isRequired,
+  notificationCount: PropTypes.number,
+  markAsRead: PropTypes.func,
+  visible: PropTypes.bool,
+  unreadMessages: PropTypes.bool,
+  isPreview: PropTypes.bool,
+  emailTranscript: PropTypes.object.isRequired,
+  updateEmailTranscriptVisibility: PropTypes.func.isRequired
 }
 
 const actionCreators = {
