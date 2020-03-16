@@ -778,9 +778,9 @@ describe('getContactFormFields', () => {
 
 describe('getAllForms', () => {
   it('returns all forms sorted by their position', () => {
-    const form1 = { id: 1, position: 3 }
-    const form2 = { id: 2, position: 1 }
-    const form3 = { id: 3, position: 2 }
+    const form1 = { id: 1, position: 3, active: true }
+    const form2 = { id: 2, position: 1, active: true }
+    const form3 = { id: 3, position: 2, active: true }
 
     const forms = {
       [form1.id]: form1,
@@ -791,6 +791,22 @@ describe('getAllForms', () => {
     const result = getAllForms({ support: { forms } })
 
     expect(result).toEqual([form2, form3, form1])
+  })
+
+  it('only includes active forms', () => {
+    const form1 = { id: 1, position: 1, active: false }
+    const form2 = { id: 2, position: 2, active: true }
+    const form3 = { id: 3, position: 3, active: false }
+
+    const forms = {
+      [form1.id]: form1,
+      [form2.id]: form2,
+      [form3.id]: form3
+    }
+
+    const result = getAllForms({ support: { forms } })
+
+    expect(result).toEqual([form2])
   })
 })
 

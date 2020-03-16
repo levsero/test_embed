@@ -8,12 +8,11 @@ const testCustomForm = async ({ field, queryElement = true, ...other }) => {
   // a description field is not included.
   const descriptionField = createField({ type: 'description' })
 
-  const { mockFormsResponse, embedConfig, form } = createForm(
-    'Example form',
-    123,
-    field,
-    descriptionField
-  )
+  const { mockFormsResponse, embedConfig, form } = createForm({
+    name: 'Example form',
+    id: 123,
+    fields: [field, descriptionField]
+  })
 
   const result = await testForm({
     mockFormsResponse,

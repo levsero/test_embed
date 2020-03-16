@@ -80,9 +80,10 @@ const createField = (values = {}) => {
   }
 }
 
-const createForm = (name, id, ...fields) => {
+const createForm = ({ name, id, active = true, fields = [] }) => {
   const form = {
     id,
+    active,
     display_name: name,
     ticket_field_ids: fields.map(field => field.id)
   }

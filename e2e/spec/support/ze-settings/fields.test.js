@@ -13,16 +13,11 @@ describe('zESettings.webWidget.contactForm.fields', () => {
     const textarea = createField({ id: 4, type: 'textarea' })
     const integer = createField({ id: 5, type: 'integer' })
     const decimal = createField({ id: 6, type: 'decimal' })
-    const { mockFormsResponse, embedConfig } = createForm(
-      'Test form',
-      123,
-      description,
-      subject,
-      text,
-      textarea,
-      integer,
-      decimal
-    )
+    const { mockFormsResponse, embedConfig } = createForm({
+      name: 'Test form',
+      id: 123,
+      fields: [description, subject, text, textarea, integer, decimal]
+    })
     await loadWidget()
       .withPresets('contactForm', {
         embeds: {
@@ -70,7 +65,11 @@ describe('zESettings.webWidget.contactForm.fields', () => {
   test('prefill respects locale', async () => {
     const subject = createField({ id: 1, title_in_portal: 'Subject', type: 'subject' })
     const text = createField({ id: 2, title_in_portal: 'Text', type: 'text' })
-    const { mockFormsResponse, embedConfig } = createForm('Test form', 123, subject, text)
+    const { mockFormsResponse, embedConfig } = createForm({
+      name: 'Test form',
+      id: 123,
+      fields: [subject, text]
+    })
     await loadWidget()
       .withPresets('contactForm', {
         embeds: {
