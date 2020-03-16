@@ -1,6 +1,7 @@
 import '../webWidgetPreview'
 
 import { i18n } from 'service/i18n'
+import { wait } from '@testing-library/dom'
 
 beforeEach(() => {
   const div = document.createElement('div')
@@ -48,23 +49,23 @@ describe('default parameters', () => {
     `)
   })
 
-  it('renders the message title', () => {
+  it('renders the message title', async () => {
     preview.setTitle('message')
 
-    expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+    await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
   })
 
   describe('the contact title', () => {
-    it('renders it', () => {
+    it('renders it', async () => {
       preview.setTitle('contact')
 
-      expect(webWidgetPreviewBodyEl()).toHaveTextContent('Contact us')
+      await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Contact us'))
     })
 
-    it('updates it', () => {
+    it('updates it', async () => {
       preview.setTitle('message')
 
-      expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+      await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
     })
 
     it("preserves the widget's colour after changing it", () => {
@@ -78,10 +79,10 @@ describe('default parameters', () => {
     })
   })
 
-  it('sets it with default title if no title is passed', () => {
+  it('sets it with default title if no title is passed', async () => {
     preview.setTitle()
 
-    expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message')
+    await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
   })
 
   it('allows setting of color', () => {

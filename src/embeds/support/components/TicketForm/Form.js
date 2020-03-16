@@ -18,18 +18,19 @@ import { Fields, FormContainer, Main, TicketFormTitle } from './styles'
 const Form = ({
   isSubmitting,
   onSubmit,
-  formName,
+  formId,
   showErrors,
   fields,
   readOnlyState,
   conditions,
   ticketFormTitle,
   submitErrorMessage,
-  errorMessageKey
+  errorMessageKey,
+  isPreview
 }) => {
   const translate = useTranslate()
-  useFormBackup(formName)
-  useWidgetFormApis(formName)
+  useFormBackup(formId)
+  useWidgetFormApis(formId)
 
   const filteredFields = useConditionalFields(fields, conditions)
 
@@ -48,7 +49,7 @@ const Form = ({
                     errorMessage={showErrors && meta.error ? translate(meta.error) : ''}
                     value={convertFieldValue(field.type, input.value)}
                     onChange={value => input.onChange(value)}
-                    isReadOnly={readOnlyState[field.keyID]}
+                    isReadOnly={isPreview || readOnlyState[field.keyID]}
                     errorMessageKey={errorMessageKey}
                   />
                 )}
@@ -85,14 +86,15 @@ const Form = ({
 Form.propTypes = {
   isSubmitting: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formName: PropTypes.string,
+  formId: PropTypes.string,
   ticketFormTitle: PropTypes.string,
   showErrors: PropTypes.bool,
   fields: PropTypes.arrayOf(SupportPropTypes.ticketField),
   readOnlyState: SupportPropTypes.readOnlyState,
   conditions: SupportPropTypes.conditions,
   submitErrorMessage: PropTypes.string,
-  errorMessageKey: PropTypes.number
+  errorMessageKey: PropTypes.number,
+  isPreview: PropTypes.bool
 }
 
 export default Form

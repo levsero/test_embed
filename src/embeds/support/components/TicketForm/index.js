@@ -9,14 +9,15 @@ import { FORM_ERROR } from 'final-form'
 import useScrollToFirstError from 'embeds/support/hooks/useScrollToFirstError'
 
 const TicketFormProvider = ({
-  formName,
+  formId,
   formState,
   readOnlyState,
   submitForm,
   ticketFields,
   ticketFormTitle,
   conditions = [],
-  attachments
+  attachments,
+  isPreview
 }) => {
   const [showErrors, setShowFormErrors] = useState(false)
   const scrollToFirstError = useScrollToFirstError()
@@ -76,8 +77,12 @@ const TicketFormProvider = ({
           <Form
             ticketFormTitle={ticketFormTitle}
             isSubmitting={submitting}
+            isPreview={isPreview}
             onSubmit={e => {
               e.preventDefault()
+              if (isPreview) {
+                return
+              }
 
               // Since final form won't re-submit when errors exist, we will handle scrolling to the errors here
               // so that the form will re-scroll to the first error every time the user tries to submit
@@ -89,7 +94,7 @@ const TicketFormProvider = ({
 
               handleSubmit()
             }}
-            formName={formName}
+            formId={formId}
             showErrors={showErrors}
             fields={ticketFields}
             readOnlyState={readOnlyState}
@@ -104,14 +109,15 @@ const TicketFormProvider = ({
 }
 
 TicketFormProvider.propTypes = {
-  formName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  formId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formState: PropTypes.object,
   readOnlyState: SupportPropTypes.readOnlyState.isRequired,
   submitForm: PropTypes.func.isRequired,
   ticketFields: PropTypes.arrayOf(SupportPropTypes.ticketField).isRequired,
   ticketFormTitle: PropTypes.string,
   conditions: SupportPropTypes.conditions,
-  attachments: PropTypes.array
+  attachments: PropTypes.array,
+  isPreview: PropTypes.bool
 }
 
 export default TicketFormProvider

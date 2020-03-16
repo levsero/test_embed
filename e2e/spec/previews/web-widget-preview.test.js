@@ -7,7 +7,7 @@ test('renders preview', async () => {
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Leave us a message')).toBeTruthy()
   })
-  expect(await queries.queryByLabelText(doc, 'Your name (optional)')).toBeTruthy()
+  expect(await queries.queryByLabelText(doc, 'Your name')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'Email address')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'How can we help you?')).toBeTruthy()
 })
