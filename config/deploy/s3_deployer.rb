@@ -13,9 +13,8 @@ class S3Deployer
     '.mp3' => 'audio/mpeg'
   }.freeze
 
-  def initialize(bucket_name, logger)
+  def initialize(bucket_name)
     @bucket_name = bucket_name
-    @logger = logger
   end
 
   def object_exists?(key)
@@ -23,7 +22,7 @@ class S3Deployer
   end
 
   def copy(src, target)
-    logger.info "copy #{src} to #{target} on #{bucket_name}"
+    puts "copy #{src} to #{target} on #{bucket_name}"
 
     bucket.client.copy_object(
       bucket: bucket_name,
@@ -66,7 +65,7 @@ class S3Deployer
   end
 
   def upload_file(object_key, file, opts = {})
-    logger.info "upload_file #{file} to #{object_key} on #{bucket_name}"
+    puts "upload_file #{file} to #{object_key} on #{bucket_name}"
     bucket.object(object_key)
           .upload_file(
             file,
@@ -81,11 +80,11 @@ class S3Deployer
 
   private
 
-  attr_reader :bucket_name, :logger
+  attr_reader :bucket_name
 
   def put_object(key)
     return if object_exists?(key)
-    logger.info "put_object #{key} on #{bucket_name}"
+    puts "put_object #{key} on #{bucket_name}"
     bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
   end
 

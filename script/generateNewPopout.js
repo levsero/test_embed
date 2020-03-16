@@ -6,6 +6,7 @@ function writePopoutFile() {
   const code = fs.readFileSync('src/asset/templates/liveChat.html').toString()
   const url = process.env.POPOUT_URL
 
+  fs.mkdirSync(builddir, { recursive: true })
   fs.writeFileSync(`${builddir}/liveChat.html`, interpolatedPopoutCode(url, code))
 }
 
