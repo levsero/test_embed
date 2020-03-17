@@ -6,8 +6,7 @@ import { i18n } from 'service/i18n'
 import {
   getMaxFileSize,
   getMaxFileCount,
-  getAttachmentsForForm,
-  getNewSupportEmbedEnabled
+  getAttachmentsForForm
 } from 'src/embeds/support/selectors'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
@@ -16,6 +15,7 @@ import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 let attachmentUploaders = {}
 
@@ -180,7 +180,7 @@ export function submitTicket(formState, formId, fields) {
         params: params,
         callbacks: {
           done() {
-            if (getNewSupportEmbedEnabled(state)) {
+            if (isFeatureEnabled(state, 'web_widget_react_router_support')) {
               history.replace(routes.success())
             }
             dispatch({

@@ -45,10 +45,10 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { screenChanged as updateAnswerBotScreen } from 'src/redux/modules/answerBot/root/actions'
 import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
-import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 import history from 'service/history'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
 const HelpCenter = lazy(() =>
@@ -81,7 +81,7 @@ const mapStateToProps = state => {
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state),
-    webWidgetReactRouterSupport: getNewSupportEmbedEnabled(state)
+    webWidgetReactRouterSupport: isFeatureEnabled(state, 'web_widget_react_router_support')
   }
 }
 

@@ -10,10 +10,10 @@ import {
   getChatAvailable,
   getTalkOnline
 } from 'src/redux/modules/selectors'
-import { getNewSupportEmbedEnabled } from 'embeds/support/selectors'
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import history from 'service/history'
 import supportRoutes from 'embeds/support/routes'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 export const updateActiveEmbed = embedName => {
   return {
@@ -42,7 +42,7 @@ export const onChannelChoiceNextClick = newEmbed => {
   return (dispatch, getState) => {
     dispatch(updateBackButtonVisibility(true))
 
-    const reactRouterSupport = getNewSupportEmbedEnabled(getState())
+    const reactRouterSupport = isFeatureEnabled(getState(), 'web_widget_react_router_support')
 
     if (newEmbed === 'chat') {
       dispatch(showChat())
@@ -61,7 +61,7 @@ export const onCancelClick = () => {
     const helpCenterAvailable = getHelpCenterAvailable(state)
     const answerBotAvailable = getAnswerBotAvailable(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
-    const reactRouterSupport = getNewSupportEmbedEnabled(state)
+    const reactRouterSupport = isFeatureEnabled(state, 'web_widget_react_router_support')
     const ticketForms = getTicketForms(state)
 
     if (answerBotAvailable) {
@@ -103,7 +103,7 @@ export const onHelpCenterNextClick = () => {
     const talkOnline = getTalkOnline(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
     const helpCenterAvailable = getHelpCenterAvailable(state)
-    const reactRouterSupport = getNewSupportEmbedEnabled(state)
+    const reactRouterSupport = isFeatureEnabled(state, 'web_widget_react_router_support')
 
     if (channelChoiceAvailable) {
       dispatch(updateActiveEmbed('channelChoice'))
