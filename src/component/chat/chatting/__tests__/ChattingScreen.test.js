@@ -4,6 +4,8 @@ import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 import { Component as ChattingScreen } from '../ChattingScreen'
 import { TEST_IDS } from 'src/constants/shared'
+jest.mock('src/redux/modules/chat')
+jest.mock('src/embeds/chat/hooks/chattingScreenHooks')
 
 const sendAttachmentsSpy = jest.fn(),
   showChatEndSpy = jest.fn(),
@@ -27,9 +29,17 @@ const renderComponent = (inProps, rerender) => {
     toggleMenu: toggleMenuSpy,
     showAvatar: false,
     title: '',
+    rating: {},
+    agentsTyping: [],
+    activeAgents: {},
+    conciergeSettings: {},
+    showContactDetails: jest.fn(),
     markAsRead: markAsReadSpy,
     unreadMessages: false,
     emailTranscript: {},
+    profileConfig: {},
+    attachmentsEnabled: true,
+    allAgents: {},
     concierges: [
       {
         avatar: 'https://example.com/snake',
@@ -43,23 +53,6 @@ const renderComponent = (inProps, rerender) => {
   const component = <ChattingScreen {...props} />
   return render(component, { render: rerender })
 }
-
-describe('markAsRead', () => {
-  it('when unreadMessages exist, component is visible, call markAsRead', () => {
-    const { rerender } = renderComponent()
-
-    renderComponent({ visible: true, unreadMessages: true }, rerender)
-    expect(markAsReadSpy).toHaveBeenCalled()
-    markAsReadSpy.mockRestore()
-  })
-
-  it('when unreadMessages do exist but it is not visible, do not call markAsRead', () => {
-    const { rerender } = renderComponent()
-
-    renderComponent({ visible: false, unreadMessages: true }, rerender)
-    expect(markAsReadSpy).not.toHaveBeenCalled()
-  })
-})
 
 describe('Queue Position', () => {
   describe('when there is no agent in chat', () => {
@@ -136,7 +129,6 @@ describe('Scroll Pill', () => {
           const { getByText } = renderComponent({
             notificationCount: 1
           })
-
           fireEvent.click(getByText('1 new message'))
 
           expect(markAsReadSpy).toHaveBeenCalled()

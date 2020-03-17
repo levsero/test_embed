@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -12,7 +12,6 @@ import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
-import { isAgent } from 'utility/chat'
 import {
   sendMsg,
   sendAttachments,
@@ -26,7 +25,6 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
-  getHistoryLength,
   getHasMoreHistory,
   getHistoryRequestStatus
 } from 'src/redux/modules/chat/chat-history-selectors'
@@ -47,15 +45,18 @@ import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndi
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import EmailTranscriptPopup from 'embeds/chat/components/EmailTranscriptPopup'
+import {
+  useMessagesOnMount,
+  useHistoryUpdate,
+  useAgentTyping,
+  useNewMessages
+} from 'src/embeds/chat/hooks/chattingScreenHooks'
 
 const mapStateToProps = state => {
   return {
     attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
-    chatsLength: chatSelectors.getChatsLength(state),
-    historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    lastMessageAuthor: chatSelectors.getLastMessageAuthor(state),
     latestQuickReply: chatSelectors.getLatestQuickReply(state),
     currentMessage: chatSelectors.getCurrentMessage(state),
     concierges: getCurrentConcierges(state),
@@ -75,13 +76,11 @@ const mapStateToProps = state => {
     profileConfig: getProfileConfig(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     visible: isInChattingScreen(state),
-    unreadMessages: chatSelectors.hasUnseenAgentMessage(state),
     emailTranscript: chatSelectors.getEmailTranscript(state)
   }
 }
 
 const ChattingScreen = ({
-  lastMessageAuthor,
   latestQuickReply,
   currentMessage,
   sendAttachments,
@@ -95,12 +94,9 @@ const ChattingScreen = ({
   showAvatar,
   queuePosition,
   showRating,
-  unreadMessages,
   attachmentsEnabled = false,
   isMobile = false,
   concierges = [],
-  chatsLength = 0,
-  historyLength = 0,
   rating = {},
   agentsTyping = [],
   hasMoreHistory = false,
@@ -124,8 +120,6 @@ const ChattingScreen = ({
   updateEmailTranscriptVisibility
 }) => {
   const scrollContainer = useRef(null)
-  const [scrollHeight, setScrollHeight] = useState(false)
-  let scrollToBottomTimer = null
   let agentTypingRef = useRef(null)
 
   const isScrollCloseToBottom = () => {
@@ -134,75 +128,23 @@ const ChattingScreen = ({
       : false
   }
   const scrollToBottom = useCallback(() => {
-    scrollToBottomTimer = onNextTick(() => {
+    onNextTick(() => {
       if (scrollContainer.current) {
         scrollContainer.current.scrollTop = scrollContainer.current.scrollHeight
       }
     })
   })
-  // const clearScrollTimer = () => {
-  //   clearTimeout(scrollToBottomTimer)
-  // }
 
-  useEffect(() => {
-    const hasMessages = chatsLength + historyLength > 0
-
-    if (hasMessages) {
-      scrollToBottom()
-    }
-
-    if (unreadMessages && isScrollCloseToBottom()) {
-      markAsRead()
-    }
-  }, [chatsLength, historyLength, unreadMessages])
-
-  useEffect(() => {
-    if (historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
-      setScrollHeight(scrollContainer.scrollHeight)
-    }
-  }, [historyRequestStatus])
-
-  useEffect(() => {
-    if (!scrollHeight) return
-
-    const scrollTop = scrollContainer.current.scrollTop
-    const scrollPosition = scrollContainer.current.scrollHeight
-    const lengthDifference = scrollPosition - scrollHeight
-
-    // Maintain the current scroll position after adding the new chat history
-    if (lengthDifference !== 0) {
-      scrollContainer.current.scrollTop = scrollTop + lengthDifference
-    }
-  }, [scrollHeight])
-
-  useEffect(() => {
-    if (!agentTypingRef.current) return
-
-    const isTyping = agentsTyping.length !== 0
-    if (!isTyping) return
-
-    if (getScrollBottom(scrollContainer) <= agentTypingRef.current.offsetHeight) {
-      scrollToBottom()
-    }
-  }, [agentsTyping, scrollToBottom])
-
-  useEffect(() => {
-    const scrollCloseToBottom = isScrollCloseToBottom()
-
-    if (scrollCloseToBottom && isAgent(lastMessageAuthor)) {
-      markAsRead()
-    }
-
-    if (scrollCloseToBottom || lastMessageAuthor === 'visitor') {
-      scrollToBottom()
-    }
-  }, [chatsLength, lastMessageAuthor])
+  useMessagesOnMount(scrollToBottom, isScrollCloseToBottom())
+  useHistoryUpdate(scrollContainer.current)
+  useAgentTyping(agentTypingRef.current, scrollContainer.current, scrollToBottom)
+  useNewMessages(scrollToBottom, isScrollCloseToBottom())
 
   const handleChatScreenScrolled = () => {
     if (!scrollContainer.current) return
 
     if (
-      scrollContainer.scrollTop === 0 &&
+      scrollContainer.current.scrollTop === 0 &&
       hasMoreHistory &&
       historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
@@ -363,11 +305,8 @@ const ChattingScreen = ({
 ChattingScreen.propTypes = {
   attachmentsEnabled: PropTypes.bool.isRequired,
   concierges: PropTypes.array.isRequired,
-  chatsLength: PropTypes.number,
-  historyLength: PropTypes.number,
   hasMoreHistory: PropTypes.bool,
   historyRequestStatus: PropTypes.string,
-  lastMessageAuthor: PropTypes.string.isRequired,
   latestQuickReply: PropTypes.object,
   currentMessage: PropTypes.string.isRequired,
   sendAttachments: PropTypes.func.isRequired,
@@ -398,7 +337,6 @@ ChattingScreen.propTypes = {
   notificationCount: PropTypes.number,
   markAsRead: PropTypes.func,
   visible: PropTypes.bool,
-  unreadMessages: PropTypes.bool,
   isPreview: PropTypes.bool,
   emailTranscript: PropTypes.object.isRequired,
   updateEmailTranscriptVisibility: PropTypes.func.isRequired
