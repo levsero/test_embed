@@ -75,7 +75,7 @@ const mapStateToProps = (state, ownProps) => {
   const form = getForm(state, id)
 
   return {
-    formName: id,
+    formId: id,
     formState: getFormState(state, id),
     formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
