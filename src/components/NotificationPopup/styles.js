@@ -61,13 +61,13 @@ export const AgentMessage = styled.div`
   position: relative !important;
   overflow: hidden !important;
   line-height: ${18 / FONT_SIZE}rem;
-  max-height: ${36 / FONT_SIZE}rem;
+  max-height: ${44 / FONT_SIZE}rem;
 
   ${({ hasOverflow }) =>
     hasOverflow &&
     `
-    margin-bottom: ${20 / FONT_SIZE}rem !important;
-    padding: ${8 / FONT_SIZE}rem 0 0 ${24 / FONT_SIZE}rem;
+    margin-bottom: 1rem !important;
+    padding: ${8 / FONT_SIZE}rem 0 0 0;
 
   &:before {
     position: absolute;
