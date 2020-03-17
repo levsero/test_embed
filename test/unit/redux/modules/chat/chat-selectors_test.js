@@ -859,23 +859,6 @@ describe('chat selectors', () => {
     })
   })
 
-  describe('getMenuVisible', () => {
-    let result
-    const mockState = {
-      chat: {
-        menuVisible: true
-      }
-    }
-
-    beforeEach(() => {
-      result = selectors.getMenuVisible(mockState)
-    })
-
-    it('returns the current state of menuVisible', () => {
-      expect(result).toEqual(true)
-    })
-  })
-
   describe('getLastReadTimestamp', () => {
     let result
     const mockState = {

@@ -6,7 +6,6 @@ import { Icon } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import MenuIcon from '@zendeskgarden/svg-icons/src/16/menu-fill.svg'
 import {
-  getMenuVisible,
   getLoginSettings,
   getUserSoundSettings,
   getIsChatting
@@ -15,8 +14,7 @@ import {
   handleSoundIconClick,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility,
-  updateMenuVisibility
+  updateEndChatModalVisibility
 } from 'src/redux/modules/chat'
 
 import { isMobileBrowser } from 'utility/devices'
@@ -32,6 +30,8 @@ import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
 import { useCurrentFrame } from 'components/Frame'
+import { getMenuVisible } from 'embeds/chat/selectors'
+import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const ChatMenu = ({
   isOpen,

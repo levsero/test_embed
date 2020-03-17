@@ -44,6 +44,7 @@ import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
+import { getMenuVisible } from 'embeds/chat/selectors'
 
 const mapStateToProps = state => {
   return {
@@ -64,7 +65,7 @@ const mapStateToProps = state => {
     visitor: chatSelectors.getChatVisitor(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     queuePosition: chatSelectors.getQueuePosition(state),
-    menuVisible: chatSelectors.getMenuVisible(state),
+    menuVisible: getMenuVisible(state),
     showRating: getShowRatingButtons(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     socialLogin: chatSelectors.getSocialLogin(state),

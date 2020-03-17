@@ -110,6 +110,7 @@ describe('ChattingScreen component', () => {
       'src/redux/modules/selectors': {
         getPrechatFormFields: noop
       },
+      'embeds/chat/selectors': {},
       'src/redux/modules/chat/chat-history-selectors': {
         getHasMoreHistory: noop
       },

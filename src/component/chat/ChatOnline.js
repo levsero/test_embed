@@ -21,7 +21,6 @@ import {
   sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
-  updateMenuVisibility,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateContactDetailsFields,
@@ -38,6 +37,8 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
+import { getMenuVisible } from 'embeds/chat/selectors'
+import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const mapStateToProps = state => {
   return {
@@ -46,7 +47,7 @@ const mapStateToProps = state => {
     visitor: selectors.getChatVisitor(state),
     emailTranscript: selectors.getEmailTranscript(state),
     editContactDetails: selectors.getEditContactDetails(state),
-    menuVisible: selectors.getMenuVisible(state),
+    menuVisible: getMenuVisible(state),
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
     offlineMessage: selectors.getOfflineMessage(state),

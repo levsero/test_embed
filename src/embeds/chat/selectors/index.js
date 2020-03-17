@@ -6,3 +6,5 @@ export const getIsPollingChat = state =>
   !getEmbeddableConfig(state).disableStatusPolling && getState(state).deferredChatIsPolling
 
 export const getDeferredChatHasResponse = state => getState(state).deferredChatHasResponse
+
+export const getMenuVisible = state => getState(state).menuVisible

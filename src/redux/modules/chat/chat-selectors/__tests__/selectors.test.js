@@ -170,12 +170,6 @@ test('getEditContactDetails', () => {
   expect(result).toEqual('bad edit')
 })
 
-test('getMenuVisible', () => {
-  const result = selectors.getMenuVisible(testState)
-
-  expect(result).toEqual('sure thang buddy')
-})
-
 test('getAgentJoined', () => {
   const result = selectors.getAgentJoined(testState)
 

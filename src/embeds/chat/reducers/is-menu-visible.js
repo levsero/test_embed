@@ -1,9 +1,9 @@
 import {
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-  UPDATE_CHAT_MENU_VISIBILITY,
   CHAT_FILE_REQUEST_SUCCESS
-} from '../chat-action-types'
+} from 'src/redux/modules/chat/chat-action-types'
+import { UPDATE_CHAT_MENU_VISIBILITY } from 'embeds/chat/actions/action-types'
 
 const initialState = false
 
