@@ -14,44 +14,87 @@ import {
   getCustomFieldsAvailable,
   getTicketFormIds
 } from 'src/redux/modules/base/base-selectors'
+import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
-export function getTicketForms(ticketForms, locale) {
-  return dispatch => {
-    const ticketFormIds = _.toString(ticketForms)
-    const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields&locale=${locale}`
-    const httpData = {
-      method: 'get',
-      path,
-      timeout: 20000,
-      locale,
-      callbacks: {
-        done(res) {
-          const forms = JSON.parse(res.text)
+export function fetchTicketForms(ticketFormIds = [], locale) {
+  return (dispatch, getState) => {
+    const ticketFormIdsToLoad = ticketFormIds.filter(id => {
+      const form = getForm(getState(), id)
 
-          dispatch({
-            type: TICKET_FORMS_REQUEST_SUCCESS,
-            payload: forms
-          })
-
-          if (forms.ticket_forms.length === 1) {
-            dispatch({
-              type: TICKET_FORM_UPDATE,
-              payload: forms.ticket_forms[0]
-            })
-          }
-        },
-        fail() {
-          dispatch({
-            type: TICKET_FORMS_REQUEST_FAILURE
-          })
-        }
+      if (!form) {
+        return true
       }
+
+      return form.locale !== locale
+    })
+
+    if (ticketFormIdsToLoad.length === 0) {
+      return
     }
 
-    http.get(httpData, false)
+    // This key is used to identify each API call, if the same forms are requested for the same locale, this key
+    // will be the same for those two requests
+    const fetchKey = `${locale}/${ticketFormIdsToLoad.sort().join()}`
+
+    if (getHasFetchedTicketForms(getState(), fetchKey)) {
+      return
+    }
+
     dispatch({
-      type: TICKET_FORMS_REQUEST_SENT
+      type: TICKET_FORMS_REQUEST_SENT,
+      payload: {
+        fetchKey
+      }
     })
+
+    const path = `/api/v2/ticket_forms/show_many.json?ids=${_.toString(
+      ticketFormIdsToLoad
+    )}&include=ticket_fields&locale=${locale}`
+
+    http.get(
+      {
+        method: 'get',
+        path,
+        locale,
+        timeout: 20000,
+        callbacks: {
+          done(res) {
+            const forms = JSON.parse(res.text)
+
+            if (Array.isArray(forms.ticket_forms)) {
+              forms.ticket_forms = forms.ticket_forms.map(form => ({
+                ...form,
+                locale
+              }))
+            }
+
+            dispatch({
+              type: TICKET_FORMS_REQUEST_SUCCESS,
+              payload: {
+                ...forms,
+                fetchKey
+              }
+            })
+
+            if (forms.ticket_forms.length === 1) {
+              dispatch({
+                type: TICKET_FORM_UPDATE,
+                payload: forms.ticket_forms[0]
+              })
+            }
+          },
+          fail() {
+            dispatch({
+              type: TICKET_FORMS_REQUEST_FAILURE,
+              payload: {
+                fetchKey
+              }
+            })
+          }
+        }
+      },
+      false
+    )
   }
 }
 
@@ -92,7 +135,7 @@ export function updateFormsForLocaleChange(locale) {
 
     const ticketFormIds = getTicketFormIds(state)
     if (ticketFormIds.length > 0) {
-      dispatch(getTicketForms(ticketFormIds, locale))
+      dispatch(fetchTicketForms(ticketFormIds, locale))
     } else if (getCustomFieldsAvailable(state)) {
       const customFields = getCustomFieldIds(state)
       dispatch(getTicketFields(customFields, locale))

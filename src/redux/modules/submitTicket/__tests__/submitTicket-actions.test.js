@@ -4,7 +4,6 @@ import * as actions from '../submitTicket-actions'
 import * as types from '../submitTicket-action-types'
 import { http } from 'service/transport'
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as formatters from '../helpers/formatter'
 import { queuesReset } from 'utility/rateLimiting/helpers'
 
@@ -31,102 +30,6 @@ test('handleTicketFormClick dispatches expected action', () => {
   }
 
   expect(actions.handleTicketFormClick({ a: true })).toEqual(expected)
-})
-
-describe('getTicketForms', () => {
-  const dispatchAction = (customFields, locale) => {
-    const store = mockStore({})
-
-    store.dispatch(actions.getTicketForms(customFields, locale))
-    return store
-  }
-
-  it('dispatches the expected action', () => {
-    const store = dispatchAction()
-
-    expect(store.getActions()).toEqual([
-      {
-        type: types.TICKET_FORMS_REQUEST_SENT
-      }
-    ])
-  })
-
-  it('sends the expected request payload', () => {
-    dispatchAction('123', 'ru')
-
-    expect(http.get).toHaveBeenCalledWith(
-      {
-        callbacks: { done: expect.any(Function), fail: expect.any(Function) },
-        locale: 'ru',
-        method: 'get',
-        path: '/api/v2/ticket_forms/show_many.json?ids=123&include=ticket_fields&locale=ru',
-        timeout: 20000
-      },
-      false
-    )
-  })
-
-  const doCallback = (callbackType, args) => {
-    const store = dispatchAction()
-    const callback = http.get.mock.calls[0][0].callbacks[callbackType]
-
-    callback(args)
-    const actions = store.getActions()
-
-    actions.shift()
-    return actions
-  }
-
-  it('dispatches expected actions on failed request', () => {
-    expect(doCallback('fail')).toEqual([
-      {
-        type: types.TICKET_FORMS_REQUEST_FAILURE
-      }
-    ])
-  })
-
-  it('dispatches expected actions on successful request with a single form payload', () => {
-    const payload = {
-      ticket_forms: ['a'] // eslint-disable-line camelcase
-    }
-
-    expect(doCallback('done', { text: JSON.stringify(payload) })).toEqual([
-      {
-        type: types.TICKET_FORMS_REQUEST_SUCCESS,
-        payload
-      },
-      {
-        type: types.TICKET_FORM_UPDATE,
-        payload: 'a'
-      }
-    ])
-  })
-
-  it('dispatches expected actions on successful request with a no forms payload', () => {
-    const payload = {
-      ticket_forms: [] // eslint-disable-line camelcase
-    }
-
-    expect(doCallback('done', { text: JSON.stringify(payload) })).toEqual([
-      {
-        type: types.TICKET_FORMS_REQUEST_SUCCESS,
-        payload
-      }
-    ])
-  })
-
-  it('dispatches expected actions on successful request with multiple forms payload', () => {
-    const payload = {
-      ticket_forms: ['a', 'b'] // eslint-disable-line camelcase
-    }
-
-    expect(doCallback('done', { text: JSON.stringify(payload) })).toEqual([
-      {
-        type: types.TICKET_FORMS_REQUEST_SUCCESS,
-        payload
-      }
-    ])
-  })
 })
 
 describe('getTicketFields', () => {
@@ -303,42 +206,5 @@ describe('handleTicketSubmission', () => {
       }
     ])
     expect(fail).toHaveBeenCalledWith({ something: 'else' })
-  })
-})
-
-describe('updateFormsForLocaleChange', () => {
-  const dispatchAction = locale => {
-    const store = mockStore({})
-
-    store.dispatch(actions.updateFormsForLocaleChange(locale))
-    return store
-  }
-
-  describe('when ticket forms are enabled', () => {
-    beforeEach(() => {
-      jest.spyOn(baseSelectors, 'getTicketFormIds').mockReturnValue([10, 20])
-    })
-
-    it('calls getTicketForms with ticket form ids and locale', () => {
-      const store = dispatchAction('en')
-
-      expect(store.getActions()).toEqual([{ type: types.TICKET_FORMS_REQUEST_SENT }])
-    })
-  })
-
-  describe('when custom ticket fields are enabled', () => {
-    beforeEach(() => {
-      jest.spyOn(baseSelectors, 'getTicketFormIds').mockReturnValue(false)
-      jest.spyOn(baseSelectors, 'getCustomFieldsAvailable').mockReturnValue(true)
-      jest.spyOn(baseSelectors, 'getCustomFieldIds').mockReturnValue({
-        ids: [10, 20]
-      })
-    })
-
-    it('calls getTicketFields with custom fields and locale', () => {
-      const store = dispatchAction('en')
-
-      expect(store.getActions()).toEqual([{ type: types.TICKET_FIELDS_REQUEST_SENT }])
-    })
   })
 })

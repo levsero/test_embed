@@ -150,6 +150,9 @@ describe('embed.webWidget', () => {
       'redux/modules/base/base-actions/index': {
         updateActiveEmbed: () => mockActiveEmbed
       },
+      'embeds/support/actions/fetchForms': {
+        fetchTicketForms: () => undefined
+      },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,
         getSettingsContactFormSuppress: () => mockContactFormSuppressedValue,

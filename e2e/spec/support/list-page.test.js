@@ -30,7 +30,7 @@ describe('support list page', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketForms: [form1.form.id, form2.form.id, form2.form.id]
+              ticketForms: [form1.form.id, form2.form.id, form3.form.id]
             }
           }
         }
@@ -55,6 +55,8 @@ describe('support list page', () => {
         .load()
 
       await widget.openByKeyboard()
+
+      // await jestPuppeteer.debug()
 
       await expect(
         await queryAllByText([form1.form.display_name, form3.form.display_name])

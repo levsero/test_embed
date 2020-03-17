@@ -9,7 +9,8 @@ import {
   getConfigNameFieldRequired,
   getLocale,
   getConfigAttachmentsEnabled,
-  getFormTitleKey
+  getFormTitleKey,
+  getTicketFormIds
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
@@ -37,7 +38,8 @@ export const getAttachmentTitle = (state, attachmentIds) => {
   return title
 }
 
-export const getIsLoading = state => state.support.isLoading
+export const getIsLoading = state =>
+  Boolean(state.support.isLoading || state.support.ticketFormsLoading.isLoading)
 
 export const getContactFormTitle = createSelector(
   [getSettingsContactFormTitle, getFormTitleKey, getLocale],
@@ -144,9 +146,24 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
-export const getAllForms = createSelector(
-  state => Object.values(state.support.forms),
-  forms => forms.filter(form => form.active).sort((a, b) => a.position - b.position)
+export const getFormIdsToDisplay = state => {
+  const filteredFormIds = state.support.filteredFormsToDisplay
+  const allFormIds = getTicketFormIds(state)
+
+  const idsToDisplay = filteredFormIds.length > 0 ? filteredFormIds : allFormIds
+
+  return Array.from(new Set(idsToDisplay))
+}
+
+export const getFormsToDisplay = createSelector(
+  getFormIdsToDisplay,
+  state => state.support.forms,
+  (formIds, forms) => {
+    return formIds
+      ?.map(id => forms[id])
+      .filter(form => form?.active)
+      .sort((a, b) => a.position - b.position)
+  }
 )
 
 export const getForm = (state, formId) => state.support.forms[formId]
@@ -291,4 +308,8 @@ export const getFormTicketFields = (state, formId) => {
   }
 
   return getCustomTicketFields(state, formId)
+}
+
+export const getHasFetchedTicketForms = (state, fetchKey) => {
+  return state.support.ticketFormsLoading.fetchKey === fetchKey
 }

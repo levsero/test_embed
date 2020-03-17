@@ -6,7 +6,7 @@ import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
 import { i18n } from 'service/i18n'
 import { getContactFormFields, getField, getForm } from 'embeds/support/selectors'
-import { getAllForms } from '..'
+import { getFormsToDisplay } from '..'
 import { getIsLoading } from '..'
 
 const nameField = {
@@ -776,7 +776,65 @@ describe('getContactFormFields', () => {
   })
 })
 
-describe('getAllForms', () => {
+describe('getFormsToDisplay', () => {
+  const createState = ({ forms, formIds, filteredFormIds = [] }) => ({
+    base: {
+      embeddableConfig: {
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              ticketForms: formIds
+            }
+          }
+        }
+      }
+    },
+    support: {
+      forms,
+      filteredFormsToDisplay: filteredFormIds
+    }
+  })
+
+  describe('when the customer has filtered forms using the ticketForms setting', () => {
+    it('only returns the filtered forms', () => {
+      const form1 = { id: 1, position: 1, active: true }
+      const form2 = { id: 2, position: 2, active: true }
+      const form3 = { id: 3, position: 3, active: true }
+
+      const forms = {
+        [form1.id]: form1,
+        [form2.id]: form2,
+        [form3.id]: form3
+      }
+
+      const formIds = Object.keys(forms)
+      const filteredFormIds = [form1.id, form3.id]
+
+      const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+
+      expect(result).toEqual([form1, form3])
+    })
+
+    it("ignores filtered ids that don't match any of the forms from the embeddable config", () => {
+      const form1 = { id: 1, position: 1, active: true }
+      const form2 = { id: 2, position: 2, active: true }
+      const form3 = { id: 3, position: 3, active: true }
+
+      const forms = {
+        [form1.id]: form1,
+        [form2.id]: form2,
+        [form3.id]: form3
+      }
+
+      const formIds = Object.keys(forms)
+      const filteredFormIds = [form1.id, form3.id, "some id that doesn't match"]
+
+      const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+
+      expect(result).toEqual([form1, form3])
+    })
+  })
+
   it('returns all forms sorted by their position', () => {
     const form1 = { id: 1, position: 3, active: true }
     const form2 = { id: 2, position: 1, active: true }
@@ -788,7 +846,7 @@ describe('getAllForms', () => {
       [form3.id]: form3
     }
 
-    const result = getAllForms({ support: { forms } })
+    const result = getFormsToDisplay(createState({ forms, formIds: Object.keys(forms) }))
 
     expect(result).toEqual([form2, form3, form1])
   })
@@ -804,21 +862,50 @@ describe('getAllForms', () => {
       [form3.id]: form3
     }
 
-    const result = getAllForms({ support: { forms } })
+    const result = getFormsToDisplay(createState({ forms, formIds: Object.keys(forms) }))
 
     expect(result).toEqual([form2])
+  })
+
+  it('deduplicates ids', () => {
+    const form1 = { id: 1, position: 1, active: true }
+    const form2 = { id: 2, position: 2, active: true }
+
+    const forms = {
+      [form1.id]: form1,
+      [form2.id]: form2
+    }
+
+    const formIds = Object.keys(forms)
+    const filteredFormIds = [form1.id, form2.id, form1.id, form2.id, form1.id, form2.id]
+
+    const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+
+    expect(result).toEqual([form1, form2])
   })
 })
 
 describe('getIsLoading', () => {
-  it('returns true if the form or field api is currently loading', () => {
-    const result = getIsLoading({ support: { isLoading: true } })
+  it('returns true if the field api is currently loading', () => {
+    const result = getIsLoading({
+      support: { isLoading: true, ticketFormsLoading: { isLoading: false } }
+    })
+
+    expect(result).toBe(true)
+  })
+
+  it('returns true if the forms api is currently loading', () => {
+    const result = getIsLoading({
+      support: { isLoading: false, ticketFormsLoading: { isLoading: true } }
+    })
 
     expect(result).toBe(true)
   })
 
   it('returns false if the form or field api is not currently loading', () => {
-    const result = getIsLoading({ support: { isLoading: false } })
+    const result = getIsLoading({
+      support: { isLoading: false, ticketFormsLoading: { isLoading: false } }
+    })
 
     expect(result).toBe(false)
   })
