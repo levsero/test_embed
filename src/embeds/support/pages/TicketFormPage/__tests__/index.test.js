@@ -6,7 +6,7 @@ import { TEST_IDS } from 'constants/shared'
 describe('TicketFormPage', () => {
   const defaultProps = {
     formTitle: 'Form title',
-    formName: 'Form name',
+    formId: 'formId',
     formState: {},
     readOnlyState: {},
     ticketFields: [],
