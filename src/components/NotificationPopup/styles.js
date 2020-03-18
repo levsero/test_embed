@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 import { Avatar } from 'component/Avatar'
-
-import { FONT_SIZE } from 'constants/shared'
 import { zdColorGrey800, zdColorWhite } from '@zendeskgarden/css-variables'
 
 export const ProactiveContainer = styled.div`
@@ -14,8 +12,8 @@ export const AgentContainerStyle = styled.div`
   display: inline-block !important;
   max-width: 100%;
   width: auto;
-  margin: ${20 / FONT_SIZE}rem;
-  margin-bottom: ${15 / FONT_SIZE}rem;
+  margin: ${props => 20 / props.theme.fontSize}rem;
+  margin-bottom: ${props => 15 / props.theme.fontSize}rem;
 
   ${({ proactive }) =>
     !proactive &&
@@ -27,47 +25,52 @@ export const AgentContainerStyle = styled.div`
     }
   }`}
 
-  ${({ noAvatar }) => !noAvatar && `margin-top: ${15 / FONT_SIZE}`}
+  ${({ noAvatar }) => !noAvatar && `margin-top: ${props => 15 / props.theme.fontSize}`}
 `
 
 export const AgentName = styled.div`
   font-weight: 700;
-  padding-bottom: ${4 / FONT_SIZE}rem;
+  padding-bottom: ${props => 4 / props.theme.fontSize}rem;
 `
 
 export const StyledAvatar = styled(Avatar)`
   padding-left: 0 !important;
   display: inline-block !important;
   max-width: 100%;
-  margin-top: ${({ proactive }) => (proactive ? `${20 / FONT_SIZE}rem;` : `${11 / FONT_SIZE}rem;`)}
+  margin-top: ${({ proactive }) =>
+    proactive
+      ? `${props => 20 / props.theme.fontSize}rem;`
+      : `${props => 11 / props.theme.fontSize}rem;`}
   margin-bottom: ${({ proactive }) =>
-    proactive ? `${20 / FONT_SIZE}rem;` : `${11 / FONT_SIZE}rem;`}
-  margin-right: ${12 / FONT_SIZE}rem;
-  margin-left: ${15 / FONT_SIZE}rem;
-  height: ${36 / FONT_SIZE}rem;
-  width: ${36 / FONT_SIZE}rem;
+    proactive
+      ? `${props => 20 / props.theme.fontSize}rem;`
+      : `${props => 11 / props.theme.fontSize}rem;`}
+  margin-right: ${props => 12 / props.theme.fontSize}rem;
+  margin-left: ${props => 15 / props.theme.fontSize}rem;
+  height: ${props => 36 / props.theme.fontSize}rem;
+  width: ${props => 36 / props.theme.fontSize}rem;
 
   svg {
-    min-height: ${15 / FONT_SIZE}rem;
-    min-width: ${15 / FONT_SIZE}rem;
-    height: ${15 / FONT_SIZE}rem;
-    width: ${15 / FONT_SIZE}rem;
-    padding-top: ${8 / FONT_SIZE}rem;
-    padding-left: ${0.5 / FONT_SIZE}rem;
+    min-height: ${props => 15 / props.theme.fontSize}rem;
+    min-width: ${props => 15 / props.theme.fontSize}rem;
+    height: ${props => 15 / props.theme.fontSize}rem;
+    width: ${props => 15 / props.theme.fontSize}rem;
+    padding-top: ${props => 8 / props.theme.fontSize}rem;
+    padding-left: ${props => 0.5 / props.theme.fontSize}rem;
   }
 `
 
 export const AgentMessage = styled.div`
   position: relative !important;
   overflow: hidden !important;
-  line-height: ${18 / FONT_SIZE}rem;
-  max-height: ${36 / FONT_SIZE}rem;
+  line-height: ${props => 18 / props.theme.fontSize}rem;
+  max-height: ${props => 38 / props.theme.fontSize}rem;
 
   ${({ hasOverflow }) =>
     hasOverflow &&
     `
-    margin-bottom: ${20 / FONT_SIZE}rem !important;
-    padding: ${8 / FONT_SIZE}rem 0 0 ${24 / FONT_SIZE}rem;
+    margin-bottom: ${props => 24 / props.theme.fontSize}rem !important;
+    padding: ${props => 8 / props.theme.fontSize}rem 0 0 0;
 
   &:before {
     position: absolute;
@@ -75,10 +78,10 @@ export const AgentMessage = styled.div`
     background-color: ${zdColorWhite};
     bottom: 0;
     right: 0;
-    height: ${18 / FONT_SIZE}rem;
-    width: ${15 / FONT_SIZE}rem;
-    line-height: ${18 / FONT_SIZE}rem;
-    padding-right: ${2 / FONT_SIZE}rem;
+    height: ${props => 18 / props.theme.fontSize}rem;
+    width: ${props => 15 / props.theme.fontSize}rem;
+    line-height: ${props => 18 / props.theme.fontSize}rem;
+    padding-right: ${props => 2 / props.theme.fontSize}rem;
     text-align: center;
   }
 
@@ -86,7 +89,7 @@ export const AgentMessage = styled.div`
     position: absolute;
     content: '';
     background: linear-gradient(to right, rgba(${zdColorWhite}, 0), rgba(${zdColorWhite}, 0.8));
-    height: ${18 / FONT_SIZE}rem;
+    height: ${props => 18 / props.theme.fontSize}rem;
     width: 45%;
     bottom: 0;
     right: 0;
