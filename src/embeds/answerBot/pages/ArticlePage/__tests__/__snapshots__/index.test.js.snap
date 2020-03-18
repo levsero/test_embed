@@ -12,11 +12,16 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -357,11 +362,16 @@ exports[`feedback actions on no click asks for the reason 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -626,11 +636,16 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -900,11 +915,16 @@ exports[`passing of scroll container classes 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -1174,11 +1194,16 @@ exports[`renders the expected classes 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -1448,11 +1473,16 @@ exports[`renders the expected mobile classes 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -1722,11 +1752,16 @@ exports[`renders the expected title 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -2053,11 +2088,16 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -2322,11 +2362,16 @@ exports[`renders the help center article 1`] = `
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;

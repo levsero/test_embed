@@ -1,6 +1,6 @@
 import React from 'react'
 import { Widget } from 'components/Widget'
-import { render } from '@testing-library/react'
+import { render } from 'utility/testHelpers'
 
 const renderWidgetContainer = inProps => {
   const defaultProps = {}

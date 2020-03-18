@@ -2,6 +2,7 @@
 
 .desktop {
   composes: u-borderTransparent u-posRelative u-noPrint from global;
+  width: 100%;
 }
 
 .left {

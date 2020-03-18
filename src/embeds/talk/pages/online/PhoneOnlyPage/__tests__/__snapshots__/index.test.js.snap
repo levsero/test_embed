@@ -10,13 +10,13 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -145,1 +145,1 @@
+@@ -150,1 +150,1 @@
 - .c13 {
 + .c14 {
-@@ -151,1 +151,1 @@
+@@ -156,1 +156,1 @@
 - .c14 {
 + .c15 {
-@@ -174,1 +174,6 @@
+@@ -179,1 +179,6 @@
 - .c12 {
 + .c11 {
 +   margin-bottom: 1.0714285714285714rem;
@@ -24,22 +24,22 @@ Snapshot Diff:
 + }
 + 
 + .c13 {
-@@ -180,3 +185,3 @@
+@@ -185,3 +190,3 @@
 - .c12:hover,
 - .c12:focus,
 - .c12:active {
 + .c13:hover,
 + .c13:focus,
 + .c13:active {
-@@ -230,1 +235,1 @@
+@@ -235,1 +240,1 @@
 - .c11 {
 + .c12 {
-@@ -235,2 +240,2 @@
+@@ -240,2 +245,2 @@
 - .c11 a,
 - .c11 a span {
 + .c12 a,
 + .c12 a span {
-@@ -240,1 +245,1 @@
+@@ -245,1 +250,1 @@
 - .c11 a:hover {
 + .c12 a:hover {
 `;
@@ -56,11 +56,16 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   box-sizing: border-box;
   color: #2f3941;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
   overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 0.42857142857142855rem 0 rgba(0,0,0,0.2);
+  border-radius: 0.5714285714285714rem;
 }
 
 .c1 {
-  border-radius: 0.5714285714285714rem 0.5714285714285714rem 0 0;
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
   color: #FFFFFF !important;
@@ -394,13 +399,13 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -145,1 +145,1 @@
+@@ -150,1 +150,1 @@
 - .c14 {
 + .c13 {
-@@ -151,1 +151,1 @@
+@@ -156,1 +156,1 @@
 - .c15 {
 + .c14 {
-@@ -174,6 +174,1 @@
+@@ -179,6 +179,1 @@
 - .c11 {
 -   margin-bottom: 1.0714285714285714rem;
 -   data-testid: talk--averageWaitTime;
@@ -408,22 +413,22 @@ Snapshot Diff:
 - 
 - .c13 {
 + .c12 {
-@@ -185,3 +180,3 @@
+@@ -190,3 +185,3 @@
 - .c13:hover,
 - .c13:focus,
 - .c13:active {
 + .c12:hover,
 + .c12:focus,
 + .c12:active {
-@@ -235,1 +230,1 @@
+@@ -240,1 +235,1 @@
 - .c12 {
 + .c11 {
-@@ -240,2 +235,2 @@
+@@ -245,2 +240,2 @@
 - .c12 a,
 - .c12 a span {
 + .c11 a,
 + .c11 a span {
-@@ -245,1 +240,1 @@
+@@ -250,1 +245,1 @@
 - .c12 a:hover {
 + .c11 a:hover {
 `;

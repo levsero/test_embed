@@ -373,8 +373,8 @@ class Chat extends Component {
       <div
         onKeyDown={this.onKeyDown}
         role="presentation"
-        className={styles.chat}
         onDragEnter={this.handleDragEnter}
+        className={styles.chat}
       >
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
