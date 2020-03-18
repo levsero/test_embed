@@ -5,6 +5,13 @@ export const CONTACT_OPTIONS = {
   CLICK_TO_CALL: 'widget/talk/CLICK_TO_CALL'
 }
 
+export const CAPABILTY_NAMES = {
+  'widget/talk/CALLBACK_ONLY': 'Request a callback',
+  'widget/talk/PHONE_ONLY': 'Call us',
+  'widget/talk/CALLBACK_AND_PHONE': 'Request a callback and call us',
+  'widget/talk/CLICK_TO_CALL': 'click to call'
+}
+
 export const TEST_IDS = {
   BUTTON_HANG_UP: 'button-hang-up',
   ICON_AVATAR: 'Icon--avatar'

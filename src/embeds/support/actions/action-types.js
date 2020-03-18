@@ -1,4 +1,5 @@
 export const SUBMITTED_FORM = 'widget/support/SUBMITTED_FORM'
+export const FORM_OPENED = 'widget/support/FORM_OPENED'
 export const SET_ACTIVE_FORM_NAME = 'widget/support/SET_ACTIVE_FORM_NAME'
 export const CLEARED_ACTIVE_FORM_NAME = 'widget/support/CLEAR_FORM_NAME'
 export const SET_FORM_STATE = 'widget/support/SET_FORM_STATE'

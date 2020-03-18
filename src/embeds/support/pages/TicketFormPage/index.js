@@ -13,11 +13,10 @@ import {
   getIsFormLoading,
   getIsAnyTicketFormLoading
 } from 'embeds/support/selectors'
-import { submitTicket } from 'embeds/support/actions'
+import { submitTicket, formOpened, dragStarted } from 'src/embeds/support/actions'
 import { connect } from 'react-redux'
 import TicketForm from 'embeds/support/components/TicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import { dragStarted } from 'src/embeds/support/actions/index'
 import getFields from 'embeds/support/utils/getFields'
 import { FileDropProvider } from 'components/FileDropProvider'
 import routes from 'embeds/support/routes'
@@ -36,12 +35,16 @@ const TicketFormPage = ({
   conditions = [],
   attachments = [],
   isPreview,
+  formOpened,
   formExists,
   isLoading,
   isAnyTicketFormLoading
 }) => {
   const history = useHistory()
   const canRedirect = useRef(true)
+  useEffect(() => {
+    formOpened(formId)
+  }, [formId, formOpened])
 
   useEffect(() => {
     if (!canRedirect.current) {
@@ -110,7 +113,8 @@ TicketFormPage.propTypes = {
   amountOfCustomForms: PropTypes.number,
   formExists: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
-  isAnyTicketFormLoading: PropTypes.bool.isRequired
+  isAnyTicketFormLoading: PropTypes.bool.isRequired,
+  formOpened: PropTypes.func
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -137,7 +141,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const actionCreators = {
   dragStarted,
-  submitTicket
+  submitTicket,
+  formOpened
 }
 
 const connectedComponent = connect(

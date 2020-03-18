@@ -36,6 +36,11 @@ export const dragStarted = () => ({
   type: actionTypes.DRAG_START
 })
 
+export const formOpened = id => ({
+  type: actionTypes.FORM_OPENED,
+  payload: { id }
+})
+
 export const dragEnded = () => ({
   type: actionTypes.DRAG_END
 })
