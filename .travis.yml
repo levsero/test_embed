@@ -14,7 +14,10 @@ env:
   - TASK=lint
   - TASK=test:ci
   - TASK=fossa
-  - TASK=e2e
+  - TASK=e2e CI_NODE_TOTAL=4 CI_NODE_INDEX=0
+  - TASK=e2e CI_NODE_TOTAL=4 CI_NODE_INDEX=1
+  - TASK=e2e CI_NODE_TOTAL=4 CI_NODE_INDEX=2
+  - TASK=e2e CI_NODE_TOTAL=4 CI_NODE_INDEX=3
   - TASK=audit
 
 before_install:
@@ -45,7 +48,8 @@ script:
     then
         echo "Starting end-to-end tests";
         download_translations
-        npm run e2e
+        export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
+        npm run e2e:ci
     elif [[ "$TASK" == "validate-build" ]]
     then
         echo "Validating prod builds";
