@@ -3,7 +3,7 @@ import { win, document as doc } from 'utility/globals'
 let oldHostBodyPosition
 let oldWindowScrollY = null
 let scrollKillerActive = false
-let oldPositionTop, oldPositionBottom, oldPositionLeft, oldPositionRight
+let oldPositionTop, oldPositionBottom, oldPositionLeft, oldPositionRight, oldMargin
 
 function setWindowScroll(y) {
   if (oldWindowScrollY === null) {
@@ -29,6 +29,7 @@ function setScrollKiller(active) {
       oldPositionBottom = doc.body.style.bottom
       oldPositionLeft = doc.body.style.left
       oldPositionRight = doc.body.style.right
+      oldMargin = doc.body.style.margin
 
       // position is set to fixed to prevent host page from scolling when user scrolls within the widget
       doc.body.style.position = 'fixed'
@@ -40,6 +41,7 @@ function setScrollKiller(active) {
       doc.body.style.bottom = 0
       doc.body.style.left = 0
       doc.body.style.right = 0
+      doc.body.style.margin = 0
       scrollKillerActive = true
     }
   } else {
@@ -49,6 +51,7 @@ function setScrollKiller(active) {
       doc.body.style.bottom = oldPositionBottom
       doc.body.style.left = oldPositionLeft
       doc.body.style.right = oldPositionRight
+      doc.body.style.margin = oldMargin
       scrollKillerActive = false
     }
   }
