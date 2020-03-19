@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import SoundOffIcon from '@zendeskgarden/svg-icons/src/16/volume-muted-stroke.svg'
 import SoundOnIcon from '@zendeskgarden/svg-icons/src/16/volume-unmuted-stroke.svg'
+import MenuIcon from '@zendeskgarden/svg-icons/src/16/menu-fill.svg'
 import { FONT_SIZE } from 'constants/shared'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { Menu } from '@zendeskgarden/react-dropdowns'
@@ -53,9 +54,14 @@ const StyledEllipsisIcon = styled(EllipsisIcon)`
   }
 `
 
+const StyledMenuIcon = styled(MenuIcon)`
+  pointer-events: none;
+`
+
 export {
   StyledSoundOffIcon as SoundOffIcon,
   StyledSoundOnIcon as SoundOnIcon,
+  StyledMenuIcon as MenuIcon,
   StyledIconButton as IconButton,
   StyledMenu as Menu,
   StyledEllipsisIcon as EllipsisIcon,
