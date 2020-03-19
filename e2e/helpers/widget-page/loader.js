@@ -52,21 +52,6 @@ const load = async (options = {}) => {
   if (options.mobile) {
     await page.emulate(devices['iPhone 6'])
   }
-  await page.evaluateOnNewDocument(() => {
-    window.zEmbed ||
-      (function(host) {
-        var queue = []
-
-        window.zEmbed = function() {
-          queue.push(arguments)
-        }
-
-        window.zE = window.zE || window.zEmbed
-        window.zEmbed.t = +new Date()
-        document.zendeskHost = host
-        document.zEQueue = queue
-      })('z3nwebwidget2019.zendesk.com')
-  })
   if (options.beforeScriptLoads) {
     options.beforeScriptLoads(page)
   }
