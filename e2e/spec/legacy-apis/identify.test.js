@@ -30,7 +30,7 @@ test('calls identify endpoint', async () => {
 test('calls identify endpoint even on prerender', async () => {
   const [identify, builder] = buildWidget('helpCenter')
   await builder
-    .evaluateOnNewDocument(user => {
+    .evaluateAfterSnippetLoads(user => {
       zE(() => {
         zE.identify(user)
       })
@@ -42,7 +42,7 @@ test('calls identify endpoint even on prerender', async () => {
 test('prefills contact form', async () => {
   const builder = buildWidget('contactForm')[1]
   await builder
-    .evaluateOnNewDocument(user => {
+    .evaluateAfterSnippetLoads(user => {
       zE(() => {
         zE.identify(user)
       })

@@ -31,7 +31,7 @@ test('calling api multiple times is a no-op', async () => {
 
 test('works on prerender as well', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(fn)
+    .evaluateAfterSnippetLoads(fn)
     .hiddenInitially()
     .load()
   // wait for a second to make sure the widget doesn't appear

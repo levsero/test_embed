@@ -27,7 +27,7 @@ test('calls identify endpoint', async () => {
 test('calls identify endpoint even on prerender', async () => {
   const [builder, identify] = buildWidget()
   await builder
-    .evaluateOnNewDocument(user => {
+    .evaluateAfterSnippetLoads(user => {
       zE('webWidget', 'identify', user)
     }, user)
     .load()

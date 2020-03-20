@@ -6,7 +6,7 @@ const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 beforeEach(async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE(() => {
         zE.setLocale('fr')
       })

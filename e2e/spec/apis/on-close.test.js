@@ -7,7 +7,7 @@ const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 test('callback is called when widget is closed', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'close', () => {
         window.onCloseCalled = true
       })
@@ -23,7 +23,7 @@ test('callback is called when widget is closed', async () => {
 
 test('callback is called when widget is closed via api', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'close', () => {
         window.onCloseCalledWithApi = true
       })
@@ -37,7 +37,7 @@ test('callback is called when widget is closed via api', async () => {
 
 test('callback is called when widget is closed via toggle API', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'close', () => {
         window.onClosedCalledWithApi = true
       })

@@ -6,7 +6,7 @@ const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 test('api shows the widget and hides the launcher', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE(() => {
         zE.show()
       })

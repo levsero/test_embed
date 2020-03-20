@@ -6,20 +6,22 @@ describe("zE('webWidget', 'setLocale', locale)", () => {
   const buildWidget = () => loadWidget().withPresets('helpCenter')
 
   it('updates the locale when called with a supported locale', async () => {
-    await buildWidget().load()
-    await page.evaluate(() => {
-      zE('webWidget', 'setLocale', 'fr')
-    })
+    await buildWidget()
+      .evaluateAfterSnippetLoads(() => {
+        zE('webWidget', 'setLocale', 'fr')
+      })
+      .load()
     await wait(async () => {
       expect(await launcher.getLabelText()).toEqual('Aide')
     })
   })
 
   it('falls back to en-US when called with an unsupported locale', async () => {
-    await buildWidget().load()
-    await page.evaluate(() => {
-      zE('webWidget', 'setLocale', 'fr')
-    })
+    await buildWidget()
+      .evaluateAfterSnippetLoads(() => {
+        zE('webWidget', 'setLocale', 'fr')
+      })
+      .load()
     await wait(async () => {
       expect(await launcher.getLabelText()).toEqual('Aide')
     })
@@ -33,10 +35,11 @@ describe("zE('webWidget', 'setLocale', locale)", () => {
   })
 
   it('does nothing when no locale is provided', async () => {
-    await buildWidget().load()
-    await page.evaluate(() => {
-      zE('webWidget', 'setLocale', 'fr')
-    })
+    await buildWidget()
+      .evaluateAfterSnippetLoads(() => {
+        zE('webWidget', 'setLocale', 'fr')
+      })
+      .load()
     await wait(async () => {
       expect(await launcher.getLabelText()).toEqual('Aide')
     })
@@ -47,12 +50,5 @@ describe("zE('webWidget', 'setLocale', locale)", () => {
     await wait(async () => {
       expect(await launcher.getLabelText()).toEqual('Aide')
     })
-  })
-
-  it('works on prerender as well', async () => {
-    await buildWidget()
-      .evaluateOnNewDocument(() => zE('webWidget', 'setLocale', 'fr'))
-      .load()
-    expect(await launcher.getLabelText()).toEqual('Aide')
   })
 })

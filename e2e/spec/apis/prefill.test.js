@@ -10,7 +10,7 @@ const buildWidget = () => {
 
 test('prefills the contact form', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu' },
         email: { value: 'isamu@voltron.com' },
@@ -33,7 +33,7 @@ const assertReadOnly = async (doc, label) => {
 
 test('prefills the contact form and sets it as read only', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu', readOnly: true },
         email: { value: 'isamu@voltron.com', readOnly: true }
