@@ -24,9 +24,8 @@ test('includes labels in query', async () => {
     .load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-  const doc = await widget.getDocument()
   await search('help')
-  await page.waitFor(100)
+  const doc = await widget.getDocument()
   await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
   expect(getJsonPayload(endpoint)).toEqual(
     expect.objectContaining({

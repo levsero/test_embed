@@ -1,7 +1,8 @@
 import preview, { loadPreview } from 'e2e/helpers/chat-preview'
 import { queries, wait } from 'pptr-testing-library'
-import * as constants from '../../../src/redux/modules/chat/chat-screen-types'
-import { CHAT_BADGE } from '../../../src/constants/preview'
+import * as constants from 'src/redux/modules/chat/chat-screen-types'
+import { CHAT_BADGE } from 'src/constants/preview'
+import { TEST_IDS } from 'src/constants/shared'
 
 const events = [
   { type: 'account_status', detail: 'online' },
@@ -131,9 +132,13 @@ test('setColor updates the color of the preview widget and badge', async () => {
   expect(headerColor).toEqual('rgb(0, 255, 255)')
   await goTo(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
-  const badgeColor = await preview.getLauncherFrame().evaluate(() => {
-    return getComputedStyle(document.querySelector('div[data-testid="chat-badge"]')).backgroundColor
-  })
+  const badgeColor = await preview
+    .getLauncherFrame()
+    .evaluate(
+      testId =>
+        getComputedStyle(document.querySelector(`div[data-testid="${testId}"]`)).backgroundColor,
+      TEST_IDS.CHAT_BADGE
+    )
   expect(badgeColor).toEqual('rgb(0, 255, 255)')
 })
 

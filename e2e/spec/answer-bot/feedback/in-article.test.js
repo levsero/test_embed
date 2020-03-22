@@ -10,6 +10,7 @@ import {
 } from 'e2e/helpers/answer-bot-embed'
 import { getJsonPayload } from 'e2e/helpers/utils'
 import { queries, wait } from 'pptr-testing-library'
+import { TEST_IDS } from 'src/constants/shared'
 
 const buildWidget = () =>
   loadWidget()
@@ -23,7 +24,7 @@ const goToArticle = async title => {
 
   const doc = await widget.getDocument()
   await search('Help')
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
+  await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
   const link = await queries.getByText(doc, title)
   await link.click()
   await wait(() => queries.getByText(doc, 'Does this article answer your question?'))

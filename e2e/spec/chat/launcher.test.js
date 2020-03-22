@@ -7,8 +7,6 @@ test('shows the launcher when agents are online', async () => {
     .hiddenInitially()
     .withPresets('chat')
     .load()
-  // wait for a few seconds to make sure the launcher isn't visible
-  await page.waitFor(2000)
   await expect(launcher).toBeHidden()
   await zChat.online()
   await expect(launcher).toBeVisible()

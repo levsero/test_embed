@@ -2,6 +2,7 @@ import { queries, wait } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/answer-bot-interaction.json'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
+import { TEST_IDS } from 'src/constants/shared'
 
 export const mockInteractionEndpoint = (results = searchResults, callback) => {
   return mockCorsRequest('/api/v2/answer_bot/interaction', request => {
@@ -61,12 +62,16 @@ export const waitForAnswerBot = async () => {
   await wait(() => queries.getByText(doc, "Ask me a question and I'll find the answer for you."))
 }
 
+export const waitForGetInTouchButton = async () => {
+  await widget.waitForTestId(TEST_IDS.PILL_BUTTON, { visible: true })
+}
+
 export const search = async query => {
   const doc = await widget.getDocument()
   const input = await queries.getByPlaceholderText(doc, 'Type your question here...')
   await input.focus()
   await page.keyboard.type(query)
   await page.keyboard.press('Enter')
-  // delay for bot typing animation
-  await page.waitFor(1000)
+  await widget.waitForTestId(TEST_IDS.AB_TYPING_INDICATOR, { visible: true })
+  await widget.waitForTestId(TEST_IDS.AB_TYPING_INDICATOR, { visible: false })
 }

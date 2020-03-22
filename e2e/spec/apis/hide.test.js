@@ -34,8 +34,6 @@ test('works on prerender as well', async () => {
     .evaluateAfterSnippetLoads(fn)
     .hiddenInitially()
     .load()
-  // wait for a second to make sure the widget doesn't appear
-  await page.waitFor(1000)
   await expect(launcher).toBeHidden()
   await expect(widget).toBeHidden()
 })

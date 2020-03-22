@@ -1,6 +1,6 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
-import { waitForAnswerBot } from 'e2e/helpers/answer-bot-embed'
+import { waitForAnswerBot, waitForGetInTouchButton } from 'e2e/helpers/answer-bot-embed'
 import { queries, wait } from 'pptr-testing-library'
 import zChat from 'e2e/helpers/zChat'
 
@@ -24,7 +24,7 @@ test('override contact form label', async () => {
     .load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-  await page.waitFor(3000)
+  await waitForGetInTouchButton()
   const doc = await widget.getDocument()
   const button = await queries.getByText(doc, 'Get in touch')
   await button.click()
@@ -56,7 +56,7 @@ test('override chat online label', async () => {
   await zChat.online()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-  await page.waitFor(3000)
+  await waitForGetInTouchButton()
   const doc = await widget.getDocument()
   const button = await queries.getByText(doc, 'Get in touch')
   await button.click()

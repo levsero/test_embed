@@ -31,12 +31,12 @@ test('calling api multiple times is a no-op', async () => {
 test('works on prerender as well', async () => {
   await buildWidget()
     .evaluateAfterSnippetLoads(() => {
-      zE(() => zE.hide())
+      zE(() => {
+        zE.hide()
+      })
     })
     .hiddenInitially()
     .load()
-  // wait for a second to make sure the widget doesn't appear
-  await page.waitFor(1000)
   await expect(launcher).toBeHidden()
   await expect(widget).toBeHidden()
 })
