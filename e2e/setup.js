@@ -2,7 +2,7 @@ import toAppearInOrder from './extensions/to-appear-in-order'
 import toHaveFocus from './extensions/to-have-focus'
 import { toBeVisible, toBeHidden } from './extensions/visibility'
 
-const TIMEOUT = process.env.HEADLESS == 'false' ? 60000 * 10 : 30000
+const TIMEOUT = process.env.HEADLESS === 'false' ? 60000 * 10 : 30000
 
 jest.setTimeout(TIMEOUT)
 page.setDefaultTimeout(20000)
