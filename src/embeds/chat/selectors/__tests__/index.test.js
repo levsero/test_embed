@@ -1,4 +1,9 @@
-import { getIsPollingChat, getDeferredChatHasResponse, getMenuVisible } from '../index'
+import {
+  getIsPollingChat,
+  getDeferredChatHasResponse,
+  getMenuVisible,
+  getUserSoundSettings
+} from '../index'
 
 describe('chat selectors', () => {
   describe('getIsPollingChat', () => {
@@ -66,5 +71,11 @@ describe('chat selectors', () => {
     it('returns true when the menu is not visible', () => {
       expect(getMenuVisible({ chat: { menuVisible: false } })).toBe(false)
     })
+  })
+
+  test('getUserSoundSettings', () => {
+    const result = getUserSoundSettings({ chat: { soundEnabled: true } })
+
+    expect(result).toEqual(true)
   })
 })

@@ -315,23 +315,6 @@ describe('chat selectors', () => {
     })
   })
 
-  describe('getUserSoundSettings', () => {
-    let result
-    const mockChatSettings = {
-      chat: {
-        userSettings: { sound: true }
-      }
-    }
-
-    beforeEach(() => {
-      result = selectors.getUserSoundSettings(mockChatSettings)
-    })
-
-    it('returns the current state of is_chatting', () => {
-      expect(result).toEqual(true)
-    })
-  })
-
   describe('getChatMessagesFromAgents', () => {
     let result
     const mockChats = [{ nick: 'agent:123', type: 'chat.msg' }, { nick: 'user', type: 'chat.msg' }]

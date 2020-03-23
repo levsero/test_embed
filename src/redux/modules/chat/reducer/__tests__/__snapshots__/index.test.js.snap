@@ -203,10 +203,8 @@ Object {
     "avatarPath": "",
     "screen": "",
   },
+  "soundEnabled": true,
   "standaloneMobileNotificationVisible": false,
-  "userSettings": Object {
-    "sound": true,
-  },
   "vendor": Object {
     "slider": null,
     "zChat": Object {},

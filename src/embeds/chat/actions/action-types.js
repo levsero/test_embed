@@ -3,3 +3,4 @@ export const DEFER_CHAT_SETUP = 'widget/chat/DEFER_CHAT_SETUP'
 export const BEGIN_CHAT_SETUP = 'widget/chat/BEGIN_CHAT_SETUP'
 
 export const UPDATE_CHAT_MENU_VISIBILITY = 'widget/chat/UPDATE_CHAT_MENU_VISIBILITY'
+export const SOUND_ICON_CLICKED = 'widget/chat/SOUND_ICON_CLICKED'

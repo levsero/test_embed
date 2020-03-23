@@ -107,7 +107,6 @@ describe('onStateChange middleware', () => {
       },
       'service/history': historySpy,
       'src/redux/modules/chat/chat-selectors': {
-        getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
         getChatMessagesFromAgents: val => {
           if (val) {
@@ -167,6 +166,9 @@ describe('onStateChange middleware', () => {
       },
       'embeds/helpCenter/routes': {
         articles: id => `/articles/${id}`
+      },
+      'embeds/chat/selectors': {
+        getUserSoundSettings: () => mockUserSoundSetting
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: arg => {

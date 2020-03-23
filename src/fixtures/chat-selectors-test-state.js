@@ -105,9 +105,7 @@ export default {
     showChatHistory: 'Im not sure',
     socialLogin: 54321,
     standaloneMobileNotificationVisible: 'this is a really long var name',
-    userSettings: {
-      sound: 'boop'
-    },
+    soundEnabled: true,
     vendor: {
       zChat: 'mmm... legacy',
       slider: 'wheeeeeee'

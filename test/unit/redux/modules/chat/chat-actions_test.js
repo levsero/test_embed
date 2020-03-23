@@ -505,24 +505,6 @@ describe('chat redux actions', () => {
     })
   })
 
-  describe('handleSoundIconClick', () => {
-    let action, setting
-
-    beforeEach(() => {
-      setting = { sound: true }
-      mockStore.dispatch(actions.handleSoundIconClick(setting))
-      action = mockStore.getActions()[0]
-    })
-
-    it('dispatches an action of type SOUND_ICON_CLICKED ', () => {
-      expect(action.type).toEqual(actionTypes.SOUND_ICON_CLICKED)
-    })
-
-    it('has the settings in the payload', () => {
-      expect(action.payload).toBe(setting)
-    })
-  })
-
   describe('chatNotificationDismissed', () => {
     let action
 
