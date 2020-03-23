@@ -33,6 +33,7 @@ const Attachment = ({ icon, handleRemoveAttachment, attachment }) => {
           onClick={() => {
             handleRemoveAttachment(attachment.id)
           }}
+          aria-label={translate('embeddable_framework.submitTicket.attachments.close')}
         />
       </Preview>
       {uploading && <ProgressBar percentLoaded={uploadProgress} />}

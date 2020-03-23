@@ -116,17 +116,43 @@ describe('validateTicketForm', () => {
     describe('attachments', () => {
       it('returns an attachments validation error when there is a non valid attachment', () => {
         const result = runValidate([attachmentField], { attachments: { ids: [1] } }, [
-          { id: 1, name: 'test' },
-          { id: 2, name: 'real', uploadToken: '1234' }
+          { id: 1, uploading: false, name: 'test' },
+          { id: 1, uploading: false, name: 'real', errorMessage: '1234' }
         ])
 
-        expect(result).toEqual({ attachments: 'error' })
+        expect(result).toEqual({
+          attachments: 'embeddable_framework.validation.error.attachments.singular'
+        })
       })
 
-      it('returns an empty error object when attachments are valid', () => {
+      it('returns an attachments validation error when there are multiple non valid attachments', () => {
+        const result = runValidate([attachmentField], { attachments: { ids: [1] } }, [
+          { id: 1, uploading: true, name: 'test' },
+          { id: 1, name: 'test2', errorMessage: '1234' },
+          { id: 1, name: 'real', errorMessage: '1234' }
+        ])
+
+        expect(result).toEqual({
+          attachments: 'embeddable_framework.validation.error.attachments.plural'
+        })
+      })
+
+      it('returns an attachment uploading error when there are attachments uploading', () => {
+        const result = runValidate([attachmentField], { attachments: { ids: [1] } }, [
+          { id: 1, uploading: true, name: 'test' },
+          { id: 1, name: 'test2' },
+          { id: 1, name: 'real' }
+        ])
+
+        expect(result).toEqual({
+          attachments: 'embeddable_framework.validation.error.attachments.upload_in_progress'
+        })
+      })
+
+      it('returns an empty error object when attachments for form are valid', () => {
         const result = runValidate([attachmentField], { attachments: { ids: [2] } }, [
-          { id: 1, name: 'test' },
-          { id: 2, name: 'real', uploadToken: '1234' }
+          { id: 1, uploading: false, name: 'test' },
+          { id: 2, uploading: false, name: 'real' }
         ])
 
         expect(result).toEqual({})
@@ -143,13 +169,13 @@ describe('validateTicketForm', () => {
           name: '',
           attachments: { ids: [1] }
         },
-        [{ id: 1, name: 'test' }]
+        [{ id: 1, uploading: false, name: 'test', errorMessage: '1234' }]
       )
 
       expect(result).toEqual({
         name: 'embeddable_framework.validation.error.name',
         email: 'embeddable_framework.validation.error.email',
-        attachments: 'error'
+        attachments: 'embeddable_framework.validation.error.attachments.singular'
       })
     })
   })
