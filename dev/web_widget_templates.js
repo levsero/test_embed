@@ -63,7 +63,7 @@ function snippet(zendeskHost, webpackJsAssets) {
             iframe.addEventListener('load', () => {
               const { contentWindow } = iframe
               if (contentWindow && contentWindow.document) {
-                resolve(contentWindow.document)
+                resolve(iframe)
               } else {
                 reject("nah didn't work")
               }
@@ -73,10 +73,16 @@ function snippet(zendeskHost, webpackJsAssets) {
           })
         }
         
-        iframeReady().then((iframeDocument) => { 
+        iframeReady().then(({ contentWindow }) => { 
+          const iframeDocument = contentWindow.document
+          const iframeHead = iframeDocument.getElementsByTagName('head')[0]
+          
           iframeDocument.zendeskHost = host
           iframeDocument.zEQueue = queue
-          const iframeHead = iframeDocument.getElementsByTagName('head')[0]
+          
+          contentWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+          contentWindow.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.__REACT_DEVTOOLS_GLOBAL_HOOK__
+          
           iframeAssets.forEach(jsPath => {
             const script = iframeDocument.createElement('script')
             script.type = 'text/javascript'
