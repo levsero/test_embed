@@ -572,7 +572,7 @@ parts:
       screenshot: "https://zendesk.box.com/s/9sae07rivufhpmr8kf3rv5tmhjalohio"
       value: "Edit contact details"
   - translation:
-      key: "embeddable_framework.chat.options.editContactDetails.success"
+      key: "embeddable_framework.chat.options.editContactDetailsSubmission.success"
       title: "Label that informs the user that the form to update their contact information has been submitted successfully"
       screenshot: "https://drive.google.com/open?id=1aOgF3n31lMauQ1Yj88mMGZgdG01R3oSY"
       value: "Success"
