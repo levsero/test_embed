@@ -65,7 +65,7 @@ function snippet(zendeskHost, webpackJsAssets) {
               if (contentWindow && contentWindow.document) {
                 resolve(iframe)
               } else {
-                reject("nah didn't work")
+                reject("Our Web Widget dev iframe failed to initiate properly")
               }
             })
             iframe.src = 'about:blank'
