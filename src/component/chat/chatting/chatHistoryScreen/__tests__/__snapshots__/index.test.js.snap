@@ -10,7 +10,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -40,5 +40,5 @@
+@@ -41,5 +41,5 @@
       >
         <div
 -         class="chatLogContainer"
@@ -223,6 +223,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

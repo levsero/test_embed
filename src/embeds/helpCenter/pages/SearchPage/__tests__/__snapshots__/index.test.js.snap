@@ -241,6 +241,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"
@@ -631,6 +632,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

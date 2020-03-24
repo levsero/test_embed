@@ -201,6 +201,7 @@ exports[`OfflineMessage renders a label explaining that talk is offline 1`] = `
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

@@ -304,6 +304,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

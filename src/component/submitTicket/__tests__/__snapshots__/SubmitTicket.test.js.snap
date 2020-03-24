@@ -185,6 +185,7 @@ exports[`active ticket form renders the expected components 1`] = `
         >
           <div
             class="c1"
+            data-testid="widget-header-view"
           >
             <div
               class="c2"
@@ -425,14 +426,14 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -51,5 +51,5 @@
+@@ -52,5 +52,5 @@
               >
                 <h2
 -                 class="ticketFormTitle "
 +                 class="ticketFormTitle ticketFormTitleMobile"
                 >
                   Ticket Forms
-@@ -64,6 +64,6 @@
+@@ -65,6 +65,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
 -                   for="garden-field-container-19--input"
@@ -441,7 +442,7 @@ Snapshot Diff:
 +                   id="garden-field-container-14--label"
                   >
                     <strong>
-@@ -73,12 +73,12 @@
+@@ -74,12 +74,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-19--hint"
@@ -457,7 +458,7 @@ Snapshot Diff:
 +                   id="garden-field-container-14--input"
                     name="name"
                     value=""
-@@ -94,6 +94,6 @@
+@@ -95,6 +95,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
 -                   for="garden-field-container-20--input"
@@ -466,7 +467,7 @@ Snapshot Diff:
 +                   id="garden-field-container-15--label"
                   >
                     <strong>
-@@ -102,12 +102,12 @@
+@@ -103,12 +103,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-20--hint"
@@ -482,7 +483,7 @@ Snapshot Diff:
 +                   id="garden-field-container-15--input"
                     name="email"
                     pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -126,6 +126,6 @@
+@@ -127,6 +127,6 @@
                     data-garden-version="7.0.2"
                     data-keyid="1"
 -                   for="garden-field-container-21--input"
@@ -491,7 +492,7 @@ Snapshot Diff:
 +                   id="garden-field-container-16--label"
                   >
                     <strong>
-@@ -135,11 +135,11 @@
+@@ -136,11 +136,11 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-21--hint"
@@ -506,7 +507,7 @@ Snapshot Diff:
 +                   id="garden-field-container-16--input"
                     name="1"
                     value=""
-@@ -156,6 +156,6 @@
+@@ -157,6 +157,6 @@
                     data-garden-version="7.0.2"
                     data-keyid="2"
 -                   for="garden-field-container-22--input"
@@ -515,7 +516,7 @@ Snapshot Diff:
 +                   id="garden-field-container-17--label"
                   >
                     <strong>
-@@ -165,11 +165,11 @@
+@@ -166,11 +166,11 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-22--hint"
@@ -530,7 +531,7 @@ Snapshot Diff:
 +                   id="garden-field-container-17--input"
                     name="2"
                     value=""
-@@ -186,6 +186,6 @@
+@@ -187,6 +187,6 @@
                     data-garden-version="7.0.2"
                     data-keyid="5"
 -                   for="garden-field-container-23--input"
@@ -539,7 +540,7 @@ Snapshot Diff:
 +                   id="garden-field-container-18--label"
                   >
                     <strong>
-@@ -194,11 +194,11 @@
+@@ -195,11 +195,11 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-23--hint"
@@ -741,6 +742,7 @@ exports[`renders the expected components 1`] = `
         >
           <div
             class="c1"
+            data-testid="widget-header-view"
           >
             <div
               class="c2"
@@ -916,7 +918,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -59,6 +59,6 @@
+@@ -60,6 +60,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
 -                   for="garden-field-container-6--input"
@@ -925,7 +927,7 @@ Snapshot Diff:
 +                   id="garden-field-container-3--label"
                   >
                     <strong>
-@@ -68,12 +68,12 @@
+@@ -69,12 +69,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-6--hint"
@@ -941,7 +943,7 @@ Snapshot Diff:
 +                   id="garden-field-container-3--input"
                     name="name"
                     value=""
-@@ -89,6 +89,6 @@
+@@ -90,6 +90,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
 -                   for="garden-field-container-7--input"
@@ -950,7 +952,7 @@ Snapshot Diff:
 +                   id="garden-field-container-4--label"
                   >
                     <strong>
-@@ -97,12 +97,12 @@
+@@ -98,12 +98,12 @@
                   </label>
                   <input
 -                   aria-describedby="garden-field-container-7--hint"
@@ -966,7 +968,7 @@ Snapshot Diff:
 +                   id="garden-field-container-4--input"
                     name="email"
                     pattern="[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_\`{|}~\\\\-\`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
-@@ -120,6 +120,6 @@
+@@ -121,6 +121,6 @@
                     data-garden-id="forms.text_label"
                     data-garden-version="7.0.2"
 -                   for="garden-field-container-8--input"
@@ -975,7 +977,7 @@ Snapshot Diff:
 +                   id="garden-field-container-5--label"
                   >
                     <strong>
-@@ -128,12 +128,12 @@
+@@ -129,12 +129,12 @@
                   </label>
                   <textarea
 -                   aria-describedby="garden-field-container-8--hint"
@@ -1177,6 +1179,7 @@ exports[`renders the loading bar content 1`] = `
       >
         <div
           class="c1"
+          data-testid="widget-header-view"
         >
           <div
             class="c2"

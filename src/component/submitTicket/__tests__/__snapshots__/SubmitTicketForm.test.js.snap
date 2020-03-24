@@ -226,6 +226,7 @@ exports[`form ticket forms validation renders the error messages 1`] = `
     >
       <div
         class="c1"
+        data-testid="widget-header-view"
       >
         <div
           class="c2"
@@ -933,6 +934,7 @@ exports[`renders the expected components 1`] = `
     >
       <div
         class="c1"
+        data-testid="widget-header-view"
       >
         <div
           class="c2"
@@ -1300,6 +1302,7 @@ exports[`ticket forms renders the extra fields defined in the ticket form 1`] = 
     >
       <div
         class="c1"
+        data-testid="widget-header-view"
       >
         <div
           class="c2"
