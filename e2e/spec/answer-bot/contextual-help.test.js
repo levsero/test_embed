@@ -76,10 +76,10 @@ describe('contextual search', () => {
       await loadWidget()
         .withPresets('answerBot')
         .intercept(mockSearchEndpoint(searchResults, endpoint))
+        .evaluateAfterSnippetLoads(() => {
+          zE('webWidget', 'helpCenter:setSuggestions', { search: 'help' })
+        })
         .load()
-      await page.evaluate(() => {
-        zE('webWidget', 'helpCenter:setSuggestions', { search: 'help' })
-      })
       await launcher.click()
       await assertSuggestionsShown()
       assertUrlIncludes(endpoint, /query=help/)
@@ -90,10 +90,10 @@ describe('contextual search', () => {
       await loadWidget()
         .withPresets('answerBot')
         .intercept(mockSearchEndpoint(searchResults, endpoint))
+        .evaluateAfterSnippetLoads(() => {
+          zE('webWidget', 'helpCenter:setSuggestions', { url: true })
+        })
         .load()
-      await page.evaluate(() => {
-        zE('webWidget', 'helpCenter:setSuggestions', { url: true })
-      })
       await launcher.click()
       await assertSuggestionsShown()
       assertUrlIncludes(endpoint, /query=e2e/)

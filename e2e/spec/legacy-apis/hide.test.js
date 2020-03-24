@@ -30,7 +30,7 @@ test('calling api multiple times is a no-op', async () => {
 
 test('works on prerender as well', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE(() => zE.hide())
     })
     .hiddenInitially()

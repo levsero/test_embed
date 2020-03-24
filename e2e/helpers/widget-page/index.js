@@ -5,7 +5,8 @@ class WidgetBuilder {
   constructor() {
     this.intercepts = []
     this.configs = []
-    this.preloads = []
+    this.beforeSnippetScripts = []
+    this.afterSnippetScripts = []
     this.mobile = false
     this.hidden = false
   }
@@ -30,21 +31,38 @@ class WidgetBuilder {
   }
 
   evaluateOnNewDocument(...args) {
-    this.preloads.push(args)
+    return this.evaluateBeforeSnippetLoads(...args)
+  }
+
+  // use this helper for setting window.zESettings
+  evaluateBeforeSnippetLoads(...args) {
+    this.beforeSnippetScripts.push(args)
+    return this
+  }
+
+  // use this helper for queueing prerender zE() API function calls
+  evaluateAfterSnippetLoads(...args) {
+    this.afterSnippetScripts.push(args)
     return this
   }
 
   load() {
     const configs = this.configs.length > 0 ? [mockEmbeddableConfigEndpoint(...this.configs)] : []
     const mockRequests = configs.concat(this.intercepts)
-    const beforeScriptLoads = page => {
-      this.preloads.forEach(async arg => {
+    const beforeSnippetLoads = page => {
+      this.beforeSnippetScripts.forEach(async arg => {
         await page.evaluateOnNewDocument(...arg)
+      })
+    }
+    const afterSnippetLoads = page => {
+      this.afterSnippetScripts.forEach(async arg => {
+        await page.evaluate(...arg)
       })
     }
     return loadWidgetPage({
       mockRequests,
-      beforeScriptLoads,
+      beforeSnippetLoads,
+      afterSnippetLoads,
       hidden: this.hidden,
       mobile: this.mobile
     })

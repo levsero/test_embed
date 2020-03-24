@@ -14,7 +14,7 @@ test('api opens the widget and hides the launcher', async () => {
 
 test('works on prerender as well', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(fn)
+    .evaluateAfterSnippetLoads(fn)
     .load()
   await expect(widget).toBeVisible()
   await expect(launcher).toBeHidden()

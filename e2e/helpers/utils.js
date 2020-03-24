@@ -3,7 +3,8 @@ import widget from 'e2e/helpers/widget'
 import fs from 'fs'
 import { allowsInputTextEditing } from '../spec/shared-examples'
 
-export const goToTestPage = () => page.goto('http://localhost:5123/e2e.html')
+export const goToTestPage = async () =>
+  await page.goto('http://localhost:5123/e2e.html', { waitUntil: 'domcontentloaded' })
 
 export const failOnConsoleError = () =>
   page.on('console', msg => {

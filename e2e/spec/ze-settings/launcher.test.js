@@ -25,7 +25,7 @@ describe('zESettings.webWidget.launcher.label', () => {
 
   it('sets the label according to locale', async () => {
     await buildWidget()
-      .evaluateOnNewDocument(() => {
+      .evaluateAfterSnippetLoads(() => {
         zE('webWidget', 'setLocale', 'fr')
       })
       .load()

@@ -7,7 +7,7 @@ describe('zESettings.webWidget.contactForm.attachments', () => {
   const queryAttachments = async attachments => {
     await loadWidget()
       .withPresets('contactForm')
-      .evaluateOnNewDocument(attachments => {
+      .evaluateAfterSnippetLoads(attachments => {
         zE('webWidget', 'updateSettings', {
           webWidget: {
             contactForm: {

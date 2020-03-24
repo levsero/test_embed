@@ -60,7 +60,7 @@ test('api is no-op if widget is already opened', async () => {
 test('works on prerender as well', async () => {
   await loadWidget()
     .withPresets('helpCenter')
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE(() => {
         zE.activate()
       })

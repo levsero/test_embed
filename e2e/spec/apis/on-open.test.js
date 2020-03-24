@@ -5,7 +5,7 @@ const buildWidget = () => loadWidget().withPresets('helpCenter')
 
 test('callback is called when launcher is clicked', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'open', () => {
         window.onOpenCalled = true
       })
@@ -19,7 +19,7 @@ test('callback is called when launcher is clicked', async () => {
 
 test('callback is called when widget is opened via api', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'open', () => {
         window.onOpenCalledWithApi = true
       })
@@ -32,7 +32,7 @@ test('callback is called when widget is opened via api', async () => {
 
 test('callback is called when widget is opened via toggle API', async () => {
   await buildWidget()
-    .evaluateOnNewDocument(() => {
+    .evaluateAfterSnippetLoads(() => {
       zE('webWidget:on', 'open', () => {
         window.onOpenCalledWithApi = true
       })

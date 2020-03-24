@@ -44,7 +44,8 @@ const mockRequests = async mockFns => {
 // options
 // - mockRequests [[fn]] An array of functions that will be provided to the mockRequests function
 // - mobile [bool] If true, emulate mobile mode
-// - beforeScriptLoads [fn] A callback that gets called before the widget loads
+// - beforeSnippetLoads [fn] A callback that gets called before the widget snippet loads
+// - afterSnippetLoads [fn] A callback that gets called after the widget snippet loads
 // - hidden [bool] If true, the widget is hidden initially so we don't wait for the widget to become visible
 const load = async (options = {}) => {
   await jestPuppeteer.resetPage()
@@ -52,26 +53,14 @@ const load = async (options = {}) => {
   if (options.mobile) {
     await page.emulate(devices['iPhone 6'])
   }
-  await page.evaluateOnNewDocument(() => {
-    window.zEmbed ||
-      (function(host) {
-        var queue = []
-
-        window.zEmbed = function() {
-          queue.push(arguments)
-        }
-
-        window.zE = window.zE || window.zEmbed
-        window.zEmbed.t = +new Date()
-        document.zendeskHost = host
-        document.zEQueue = queue
-      })('z3nwebwidget2019.zendesk.com')
-  })
-  if (options.beforeScriptLoads) {
-    options.beforeScriptLoads(page)
+  if (options.beforeSnippetLoads) {
+    options.beforeSnippetLoads(page)
   }
   await failOnConsoleError(page)
   await goToTestPage()
+  if (options.afterSnippetLoads) {
+    options.afterSnippetLoads(page)
+  }
   const selectorOptions = {
     visible: true
   }
