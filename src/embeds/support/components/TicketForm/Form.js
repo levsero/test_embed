@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'constants/shared'
-import { Footer } from 'components/Widget'
+import { Main, Footer } from 'components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'
 import useTranslate from 'src/hooks/useTranslate'
 import { Field } from 'react-final-form'
@@ -13,7 +13,7 @@ import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 import { FORM_ERROR } from 'final-form'
 import { Alert, Title } from 'src/embeds/support/components/Alert'
-import { Fields, FormContainer, Main, TicketFormTitle } from './styles'
+import { Fields, FormContainer, TicketFormTitle } from './styles'
 
 const Form = ({
   isSubmitting,
