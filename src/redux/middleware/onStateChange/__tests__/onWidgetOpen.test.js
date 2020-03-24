@@ -5,6 +5,7 @@ let scrollHacks = require('utility/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
 let devices = require('utility/devices')
 let renderer = require('service/renderer').renderer
+let chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
 const dispatch = jest.fn()
 
@@ -19,12 +20,14 @@ beforeEach(() => {
   baseActions = require('src/redux/modules/base/base-actions')
   scrollHacks = require('utility/scrollHacks')
   renderer = require('service/renderer').renderer
+  chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
   jest.mock('service/renderer')
   jest.mock('utility/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
   jest.mock('utility/scrollHacks')
+  jest.mock('src/redux/modules/chat/chat-selectors/selectors')
 
   jest.spyOn(selectors, 'getWebWidgetVisible').mockImplementation(state => state)
   jest.spyOn(baseSelectors, 'getActiveEmbed').mockImplementation(() => 'helpCenter')
@@ -39,6 +42,7 @@ describe('when widget visibility transitions from false to true', () => {
 
   it('calls mobile functions when on mobile', () => {
     devices.isMobileBrowser.mockReturnValue(true)
+    chatSelectors.getStandaloneMobileNotificationVisible.mockReturnValue(false)
 
     onWidgetOpen(false, true, dispatch, () => true)
 
@@ -46,6 +50,21 @@ describe('when widget visibility transitions from false to true', () => {
 
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledWith(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(true)
+    expect(devices.setScaleLock).toHaveBeenCalledWith(true)
+    expect(devices.getZoomSizingRatio).toHaveBeenCalled()
+    expect(renderer.propagateFontRatio).toHaveBeenCalled()
+  })
+
+  it('disables auto-scroll-to-the-top when proactivechat popup is displayed', () => {
+    devices.isMobileBrowser.mockReturnValue(true)
+    chatSelectors.getStandaloneMobileNotificationVisible.mockReturnValue(true)
+
+    onWidgetOpen(false, true, dispatch, () => true)
+
+    jest.runAllTimers()
+
+    expect(scrollHacks.setWindowScroll).toHaveBeenCalledTimes(0)
+    expect(scrollHacks.setScrollKiller).toHaveBeenCalledTimes(0)
     expect(devices.setScaleLock).toHaveBeenCalledWith(true)
     expect(devices.getZoomSizingRatio).toHaveBeenCalled()
     expect(renderer.propagateFontRatio).toHaveBeenCalled()

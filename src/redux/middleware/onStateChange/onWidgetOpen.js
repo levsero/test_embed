@@ -5,6 +5,7 @@ import { renderer } from 'service/renderer'
 import { setScaleLock, getZoomSizingRatio } from 'utility/devices'
 import { setScrollKiller, setWindowScroll, revertWindowScroll } from 'utility/scrollHacks'
 import { FRAME_ANIMATION_DELAY } from 'src/constants/shared'
+import { getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors'
 
 export default function onWidgetOpen(prevState, nextState, dispatch, getState) {
   if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
@@ -14,8 +15,10 @@ export default function onWidgetOpen(prevState, nextState, dispatch, getState) {
       setTimeout(() => {
         if (getWebWidgetVisible(getState())) {
           setScaleLock(true)
-          setWindowScroll(0)
-          setScrollKiller(true)
+          if (!getStandaloneMobileNotificationVisible(getState())) {
+            setWindowScroll(0)
+            setScrollKiller(true)
+          }
           renderer.propagateFontRatio(getZoomSizingRatio())
         }
       }, FRAME_ANIMATION_DELAY)
