@@ -25,7 +25,7 @@ export const CHAT_RATING_COMMENT_REQUEST_FAILURE = 'widget/chat/CHAT_RATING_COMM
 export const CHAT_FILE_REQUEST_SUCCESS = 'widget/chat/CHAT_FILE_REQUEST_SUCCESS'
 export const CHAT_FILE_REQUEST_FAILURE = 'widget/chat/CHAT_FILE_REQUEST_FAILURE'
 export const CHAT_FILE_REQUEST_SENT = 'widget/chat/CHAT_FILE_REQUEST_SENT'
-export const SOUND_ICON_CLICKED = 'widget/chat/SOUND_ICON_CLICKED'
+
 export const UPDATE_CHAT_SCREEN = 'widget/chat/UPDATE_CHAT_SCREEN'
 export const NEW_AGENT_MESSAGE_RECEIVED = 'widget/chat/NEW_AGENT_MESSAGE_RECEIVED'
 export const CHAT_OPENED = 'widget/chat/CHAT_OPENED'

@@ -18,7 +18,6 @@ import rating from './chat-rating'
 import notification from './chat-notification'
 import standaloneMobileNotificationVisible from './chat-standalone-mobile-notification-visible'
 import screen from './chat-screen'
-import userSettings from './user-settings/'
 import emailTranscript from './chat-email-transcript'
 import editContactDetails from './chat-edit-contact-details'
 import formState from './form-state'
@@ -41,6 +40,7 @@ import endChatModalVisible from './chat-end-chat-modal-visible'
 import config from './chat-config'
 import deferredChatIsPolling from 'embeds/chat/reducers/deferred-chat-is-polling'
 import deferredChatHasResponse from 'embeds/chat/reducers/deferred-chat-has-response'
+import soundEnabled from 'embeds/chat/reducers/sound-enabled'
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -75,14 +75,14 @@ const combinedReducers = combineReducers({
   sdkConnected,
   socialLogin,
   standaloneMobileNotificationVisible,
-  userSettings,
   vendor,
   visitor,
   showChatHistory,
   chatLogBackfillCompleted,
   endChatModalVisible,
   deferredChatIsPolling,
-  deferredChatHasResponse
+  deferredChatHasResponse,
+  soundEnabled
 })
 
 export default function reducer(state, action) {

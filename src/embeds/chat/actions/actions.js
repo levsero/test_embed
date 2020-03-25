@@ -6,3 +6,10 @@ export function updateMenuVisibility(visible) {
     payload: visible
   }
 }
+
+export const handleSoundIconClick = settings => {
+  return {
+    type: actionTypes.SOUND_ICON_CLICKED,
+    payload: settings
+  }
+}

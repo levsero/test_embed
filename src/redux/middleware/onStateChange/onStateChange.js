@@ -31,7 +31,6 @@ import {
   getChatOnline,
   getChatStatus,
   getIsProactiveSession,
-  getUserSoundSettings,
   getIsChatting as getIsChattingState,
   getLastReadTimestamp,
   hasUnseenAgentMessage
@@ -62,6 +61,7 @@ import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'
 import { isPopout } from 'utility/globals'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import routes from 'embeds/helpCenter/routes'
+import { getUserSoundSettings } from 'embeds/chat/selectors'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false

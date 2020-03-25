@@ -4,14 +4,9 @@ import { connect } from 'react-redux'
 import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
 import { Icon } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
+import { getLoginSettings, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 
 import {
-  getLoginSettings,
-  getUserSoundSettings,
-  getIsChatting
-} from 'src/redux/modules/chat/chat-selectors'
-import {
-  handleSoundIconClick,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
   updateEndChatModalVisibility
@@ -38,8 +33,8 @@ import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
 import { useCurrentFrame } from 'components/Frame'
-import { getMenuVisible } from 'embeds/chat/selectors'
-import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import { getMenuVisible, getUserSoundSettings } from 'embeds/chat/selectors'
+import { handleSoundIconClick, updateMenuVisibility } from 'embeds/chat/actions/actions'
 
 const ChatMenu = ({
   isOpen,

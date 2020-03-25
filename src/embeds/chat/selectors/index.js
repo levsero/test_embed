@@ -8,3 +8,5 @@ export const getIsPollingChat = state =>
 export const getDeferredChatHasResponse = state => getState(state).deferredChatHasResponse
 
 export const getMenuVisible = state => getState(state).menuVisible
+
+export const getUserSoundSettings = state => getState(state).soundEnabled

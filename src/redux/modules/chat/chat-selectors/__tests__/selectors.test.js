@@ -134,12 +134,6 @@ test('getQueuePosition', () => {
   expect(result).toEqual(1000)
 })
 
-test('getUserSoundSettings', () => {
-  const result = selectors.getUserSoundSettings(testState)
-
-  expect(result).toEqual('boop')
-})
-
 test('getReadOnlyState', () => {
   const result = selectors.getReadOnlyState(testState)
 

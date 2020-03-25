@@ -26,7 +26,6 @@ export const getEmailTranscript = state => chatState(state).emailTranscript
 export const getAttachmentsEnabled = state => chatState(state).accountSettings.attachments.enabled
 export const getRatingSettings = state => chatState(state).accountSettings.rating
 export const getQueuePosition = state => chatState(state).queuePosition
-export const getUserSoundSettings = state => chatState(state).userSettings.sound
 export const getReadOnlyState = state => chatState(state).formState.readOnlyState
 export const getChatOfflineForm = state => chatState(state).formState.offlineForm
 export const getOfflineMessage = state => chatState(state).offlineMessage

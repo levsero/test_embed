@@ -149,13 +149,6 @@ export const updateChatScreen = screen => {
   }
 }
 
-export const handleSoundIconClick = settings => {
-  return {
-    type: actions.SOUND_ICON_CLICKED,
-    payload: settings
-  }
-}
-
 export function resetCurrentMessage() {
   return {
     type: actions.RESET_CURRENT_MESSAGE
