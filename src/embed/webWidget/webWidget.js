@@ -22,11 +22,12 @@ import {
   getSettingsContactFormSuppress,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
-import { getTicketForms, getTicketFields } from 'src/redux/modules/submitTicket'
+import { getTicketFields } from 'src/redux/modules/submitTicket'
 import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
 import { onNextTick } from 'src/util/utils'
+import { fetchTicketForms } from 'embeds/support/actions/fetchForms'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
@@ -232,7 +233,7 @@ export default function WebWidgetFactory() {
 
     if (!_.isEmpty(ticketForms)) {
       // TODO: Alter this code to return objects with id's once pre-fill is GA'd
-      store.dispatch(getTicketForms(ticketForms, i18n.getLocale()))
+      store.dispatch(fetchTicketForms(ticketForms, i18n.getLocale()))
     } else if (customFields.ids || customFields.all === true) {
       store.dispatch(getTicketFields(customFields, i18n.getLocale()))
       config.customFields = {}

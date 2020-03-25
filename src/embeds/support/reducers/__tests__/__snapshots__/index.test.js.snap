@@ -11,6 +11,7 @@ Object {
   "contactFormFields": Array [],
   "displayDropzone": false,
   "fields": Object {},
+  "filteredFormsToDisplay": Array [],
   "formStates": Object {},
   "forms": Object {},
   "isLoading": false,
@@ -19,5 +20,9 @@ Object {
   "prefillSpecificFormValues": Object {},
   "prefillValues": Object {},
   "readOnly": Object {},
+  "ticketFormsLoading": Object {
+    "fetchKey": null,
+    "isLoading": false,
+  },
 }
 `;

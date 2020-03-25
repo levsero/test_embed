@@ -14,6 +14,8 @@ import forms from './forms'
 import fields from './fields'
 import contactFormFields from './contactFormFields'
 import isLoading from './isLoading'
+import filteredFormsToDisplay from 'embeds/support/reducers/filteredFormsToDisplay'
+import ticketFormsLoading from 'embeds/support/reducers/ticketFormsLoading'
 
 export default combineReducers({
   config,
@@ -29,5 +31,7 @@ export default combineReducers({
   forms,
   fields,
   contactFormFields,
-  isLoading
+  isLoading,
+  filteredFormsToDisplay,
+  ticketFormsLoading
 })

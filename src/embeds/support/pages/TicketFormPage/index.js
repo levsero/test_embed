@@ -8,7 +8,7 @@ import {
   getForm,
   getAllAttachments,
   getContactFormTitle,
-  getAllForms
+  getFormsToDisplay
 } from 'embeds/support/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
@@ -81,7 +81,7 @@ const mapStateToProps = (state, ownProps) => {
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: form ? form.display_name : '',
-    ticketForms: getAllForms(state),
+    ticketForms: getFormsToDisplay(state),
     conditions: form ? form.end_user_conditions : [],
     attachments: getAllAttachments(state)
   }
