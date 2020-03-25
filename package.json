@@ -106,7 +106,7 @@
     "@zendeskgarden/react-dropdowns": "^7.1.7",
     "@zendeskgarden/react-forms": "^7.0.2",
     "@zendeskgarden/react-loaders": "^7.0.0",
-    "@zendeskgarden/react-modals": "^7.0.2",
+    "@zendeskgarden/react-modals": "^7.1.11",
     "@zendeskgarden/react-notifications": "^7.0.2",
     "@zendeskgarden/react-selection": "^7.0.0",
     "@zendeskgarden/react-theming": "^7.0.0",

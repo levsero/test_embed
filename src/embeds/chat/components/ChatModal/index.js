@@ -5,7 +5,15 @@ import { Backdrop, Header, ModalActions, SlideAppear } from './styles'
 import { isMobileBrowser } from 'utility/devices'
 import { useCurrentFrame } from 'components/Frame'
 
-const ChatModal = ({ title, children, onClose, focusOnMount, 'data-testid': testId }) => {
+const ChatModal = ({
+  title,
+  children,
+  onClose,
+  focusOnMount,
+  'data-testid': testId,
+  noPadding,
+  animate = true
+}) => {
   const modalRef = useRef(null)
   const frame = useCurrentFrame()
   const { getBackdropProps, getModalProps, getTitleProps, getContentProps } = useModal({
@@ -22,10 +30,11 @@ const ChatModal = ({ title, children, onClose, focusOnMount, 'data-testid': test
     <Backdrop {...getBackdropProps()} data-testid={testId}>
       <SlideAppear
         direction="up"
-        duration={200}
+        duration={animate ? 200 : 0}
         startPosHeight="-10px"
         endPosHeight="-5px'"
         transitionOnMount={!isMobileBrowser()}
+        noPadding={noPadding}
       >
         <div
           {...getModalProps({
@@ -45,7 +54,9 @@ ChatModal.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func,
   focusOnMount: PropTypes.bool,
-  'data-testid': PropTypes.string
+  'data-testid': PropTypes.string,
+  noPadding: PropTypes.bool,
+  animate: PropTypes.bool
 }
 
 export default ChatModal

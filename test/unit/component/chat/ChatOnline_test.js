@@ -53,9 +53,7 @@ describe('ChatOnline component', () => {
       'component/chat/ChatContactDetailsPopup': {
         ChatContactDetailsPopup: noopReactComponent()
       },
-      'component/chat/ChatEmailTranscriptPopup': {
-        ChatEmailTranscriptPopup: noopReactComponent()
-      },
+      'embeds/chat/components/EmailTranscriptPopup': noopReactComponent(),
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
@@ -83,6 +81,9 @@ describe('ChatOnline component', () => {
         LOADING_SCREEN: loadingScreen,
         OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
         AGENT_LIST_SCREEN
+      },
+      'src/embeds/chat/actions/email-transcript': {
+        sendEmailTranscript: noop
       },
       'service/i18n': {
         i18n: {
@@ -408,87 +409,6 @@ describe('ChatOnline component', () => {
         expect(editContactDetailsSubmittedSpy).toHaveBeenCalledWith(
           jasmine.objectContaining(expected)
         )
-      })
-    })
-  })
-
-  describe('renderChatEmailTranscriptPopup', () => {
-    let updateEmailTranscriptVisibilitySpy, sendEmailTranscriptSpy
-
-    it('does not render when pop should not be shown', () => {
-      const component = instanceRender(<ChatOnline emailTranscript={{ show: false }} />)
-
-      expect(component.renderChatEmailTranscriptPopup()).toBeUndefined()
-    })
-
-    it('renders the component when it should be shown', () => {
-      const component = instanceRender(<ChatOnline emailTranscript={{ show: true }} />)
-
-      expect(component.renderChatEmailTranscriptPopup()).not.toBeUndefined()
-    })
-
-    describe('when props.tryEmailTranscriptAgain is called', () => {
-      beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
-
-        const component = instanceRender(
-          <ChatOnline
-            updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
-            emailTranscript={{ show: true }}
-          />
-        )
-        const popup = component.renderChatEmailTranscriptPopup()
-
-        popup.props.tryEmailTranscriptAgain()
-      })
-
-      it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-    })
-
-    describe('when props.leftCtaFn is called', () => {
-      beforeEach(() => {
-        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
-
-        const component = instanceRender(
-          <ChatOnline
-            updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
-            emailTranscript={{ show: true }}
-          />
-        )
-        const popup = component.renderChatEmailTranscriptPopup()
-
-        popup.props.leftCtaFn()
-      })
-
-      it('calls updateEmailTranscriptVisibility with false', () => {
-        expect(updateEmailTranscriptVisibilitySpy).toHaveBeenCalledWith(false)
-      })
-    })
-
-    describe('when props.rightCtaFn is called', () => {
-      let mockEmailTranscript
-
-      beforeEach(() => {
-        sendEmailTranscriptSpy = jasmine.createSpy('sendEmailTranscript')
-        mockEmailTranscript = { show: true, email: 'foo@bar.com' }
-
-        const component = instanceRender(
-          <ChatOnline
-            sendEmailTranscript={sendEmailTranscriptSpy}
-            emailTranscript={mockEmailTranscript}
-          />
-        )
-        const popup = component.renderChatEmailTranscriptPopup()
-
-        popup.props.rightCtaFn(mockEmailTranscript.email)
-      })
-
-      it('calls sendEmailTranscript with an expected argument', () => {
-        const expected = mockEmailTranscript.email
-
-        expect(sendEmailTranscriptSpy).toHaveBeenCalledWith(expected)
       })
     })
   })

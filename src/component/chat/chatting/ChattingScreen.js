@@ -21,7 +21,8 @@ import {
   updateChatScreen,
   resetCurrentMessage,
   markAsRead,
-  fetchConversationHistory
+  fetchConversationHistory,
+  updateEmailTranscriptVisibility
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
@@ -45,6 +46,7 @@ import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
 import { getMenuVisible } from 'embeds/chat/selectors'
+import EmailTranscriptPopup from 'embeds/chat/components/EmailTranscriptPopup'
 
 const mapStateToProps = state => {
   return {
@@ -73,7 +75,8 @@ const mapStateToProps = state => {
     profileConfig: getProfileConfig(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     visible: isInChattingScreen(state),
-    unreadMessages: chatSelectors.hasUnseenAgentMessage(state)
+    unreadMessages: chatSelectors.hasUnseenAgentMessage(state),
+    emailTranscript: chatSelectors.getEmailTranscript(state)
   }
 }
 
@@ -117,7 +120,9 @@ class ChattingScreen extends Component {
     markAsRead: PropTypes.func,
     visible: PropTypes.bool,
     unreadMessages: PropTypes.bool,
-    isPreview: PropTypes.bool
+    isPreview: PropTypes.bool,
+    emailTranscript: PropTypes.object.isRequired,
+    updateEmailTranscriptVisibility: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -435,6 +440,14 @@ class ChattingScreen extends Component {
           {this.renderQuickReply()}
         </Main>
         {this.renderChatFooter()}
+
+        {this.props.emailTranscript?.show && (
+          <EmailTranscriptPopup
+            onClose={() => {
+              this.props.updateEmailTranscriptVisibility(false)
+            }}
+          />
+        )}
       </Widget>
     )
   }
@@ -448,7 +461,8 @@ const actionCreators = {
   handleChatBoxChange,
   sendAttachments,
   sendChatRating,
-  markAsRead
+  markAsRead,
+  updateEmailTranscriptVisibility
 }
 
 const connectedComponent = connect(

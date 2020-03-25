@@ -90,6 +90,7 @@ describe('ChattingScreen component', () => {
       },
       'embeds/chat/components/ChatWidgetHeader': noopReactComponent(),
       'src/embeds/chat/components/InputBox': noopReactComponent(),
+      'embeds/chat/components/EmailTranscriptPopup': noopReactComponent(),
       'components/Widget': {
         Widget: noopReactComponent(),
         Main: noopReactComponent(),

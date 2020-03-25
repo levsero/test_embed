@@ -12,7 +12,7 @@ import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 import { FORM_ERROR } from 'final-form'
-import { Alert, Title } from 'src/embeds/support/components/Alert'
+import { Alert, Title } from 'src/embeds/support/components/Notifications'
 import { Fields, FormContainer, TicketFormTitle } from './styles'
 
 const Form = ({

@@ -10,7 +10,6 @@ import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
-import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup'
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
 import { AttachmentBox } from 'component/attachment/AttachmentBox'
 import { i18n } from 'service/i18n'
@@ -18,7 +17,6 @@ import {
   endChatViaPostChatScreen,
   sendAttachments,
   editContactDetailsSubmitted,
-  sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
   updateContactDetailsVisibility,
@@ -39,6 +37,7 @@ import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 
 const mapStateToProps = state => {
   return {
@@ -69,9 +68,7 @@ class Chat extends Component {
     isMobile: PropTypes.bool,
     editContactDetailsSubmitted: PropTypes.func.isRequired,
     handleReconnect: PropTypes.func.isRequired,
-    sendEmailTranscript: PropTypes.func.isRequired,
-    emailTranscript: PropTypes.object.isRequired,
-    resetEmailTranscript: PropTypes.func,
+
     visitor: PropTypes.object.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
@@ -316,30 +313,6 @@ class Chat extends Component {
     )
   }
 
-  renderChatEmailTranscriptPopup = () => {
-    const { emailTranscript, sendEmailTranscript, updateEmailTranscriptVisibility } = this.props
-
-    const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false)
-    const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true)
-    const sendEmailTranscriptFn = email => sendEmailTranscript(email)
-
-    if (!emailTranscript.show) {
-      return
-    }
-
-    return (
-      <ChatEmailTranscriptPopup
-        isMobile={this.props.isMobile}
-        leftCtaFn={hideEmailTranscriptFn}
-        rightCtaFn={sendEmailTranscriptFn}
-        visitor={this.props.visitor}
-        emailTranscript={emailTranscript}
-        tryEmailTranscriptAgain={tryEmailTranscriptAgain}
-        resetEmailTranscript={this.props.resetEmailTranscript}
-      />
-    )
-  }
-
   renderChatReconnectionBubble = () => {
     const { connection, isLoggingOut } = this.props
 
@@ -384,7 +357,6 @@ class Chat extends Component {
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
         {this.renderAttachmentsBox()}
-        {this.renderChatEmailTranscriptPopup()}
         {this.renderChatReconnectionBubble()}
         {this.renderChatReconnectButton()}
       </div>
