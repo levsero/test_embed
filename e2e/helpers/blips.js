@@ -52,11 +52,35 @@ export const assertIdentifyPayload = (identify, user) => {
   expect(payload).toMatchObject({ user })
 }
 
-export const assertChatOpenedPayload = chatOpenedUrl => {
-  const payload = getBlipPayload(chatOpenedUrl)
+export const assertChatOpenedPayload = url => {
+  const payload = getBlipPayload(url)
   expect(payload).toMatchObject({
     channel: 'web_widget',
     userAction: { category: 'chat', action: 'opened', label: 'newChat', value: null },
+    buid: expect.any(String),
+    suid: expect.any(String),
+    version: expect.any(String),
+    timestamp: expect.any(String),
+    url: 'http://localhost:5123/e2e.html'
+  })
+}
+
+export const assertPageViewPayload = url => {
+  const payload = getBlipPayload(url)
+  expect(payload).toMatchObject({
+    pageView: {
+      referrer: 'http://localhost:5123/e2e.html',
+      time: expect.any(Number),
+      loadTime: expect.any(Number),
+      navigatorLanguage: 'en-GB',
+      pageTitle: 'End-to-end tests',
+      userAgent:
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.0 Safari/537.36',
+      isMobile: false,
+      isResponsive: true,
+      viewportMeta: 'width=device-width initial-scale=1',
+      helpCenterDedup: false
+    },
     buid: expect.any(String),
     suid: expect.any(String),
     version: expect.any(String),
