@@ -791,7 +791,9 @@ describe('getShowChatBadgeLauncher', () => {
     })
 
     it('has shown widget', () => {
-      result = selectors.getShowChatBadgeLauncher(getModifiedState({ base: { widgetShown: true } }))
+      result = selectors.getShowChatBadgeLauncher(
+        getModifiedState({ base: { hasWidgetShown: true } })
+      )
 
       expect(result).toEqual(false)
     })
