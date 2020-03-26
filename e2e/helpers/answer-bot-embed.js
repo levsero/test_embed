@@ -63,7 +63,8 @@ export const waitForAnswerBot = async () => {
 }
 
 export const waitForGetInTouchButton = async () => {
-  await widget.waitForTestId(TEST_IDS.PILL_BUTTON, { visible: true })
+  const doc = await widget.getDocument()
+  await wait(() => queries.getByText(doc, 'Get in touch'))
 }
 
 export const search = async query => {
