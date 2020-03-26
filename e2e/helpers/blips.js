@@ -88,3 +88,21 @@ export const assertPageViewPayload = url => {
     url: 'http://localhost:5123/e2e.html'
   })
 }
+
+export const assertHCSearchPayload = url => {
+  const payload = getBlipPayload(url)
+  expect(payload).toEqual({
+    channel: 'web_widget',
+    userAction: {
+      category: 'helpCenter',
+      action: 'search',
+      label: 'helpCenterForm',
+      value: 'Help'
+    },
+    buid: expect.any(String),
+    suid: expect.any(String),
+    version: expect.any(String),
+    timestamp: expect.any(String),
+    url: 'http://localhost:5123/e2e.html'
+  })
+}
