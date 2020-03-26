@@ -38,6 +38,7 @@ const fieldRuleTypes = {
     return !EMAIL_PATTERN.test(value) ? getFieldValidationError('email') : undefined
   },
   attachments: (value, attachments) => {
+    if (!value) return
     const attachmentsForForm = attachments.filter(attachment => value.ids.includes(attachment.id))
     const errorCount = attachmentsForForm.filter(attachment => attachment.errorMessage).length
     const stillUploading = attachmentsForForm.filter(attachment => attachment.uploading).length
