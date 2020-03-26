@@ -35,11 +35,6 @@ test('page view blip is still fired when there are no embeds', async () => {
     }
   })
   await goToTestPage()
-  await page.waitForFunction(`window.zE`)
-  await page.evaluate(() => {
-    localStorage['ZD-debug'] = true
-  })
-  page.waitFor(2000)
   await wait(() => {
     expect(blipReceived).toHaveBeenCalled()
   })

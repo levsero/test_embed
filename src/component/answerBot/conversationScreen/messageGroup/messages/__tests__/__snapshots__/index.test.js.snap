@@ -326,6 +326,7 @@ exports[`renders expected classes and components with default props for non-visi
       >
         <div
           class="bubble"
+          data-testid="answer-bot-typing-indicator"
         >
           <div
             aria-busy="true"

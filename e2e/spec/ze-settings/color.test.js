@@ -3,19 +3,22 @@ import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 import { queries } from 'pptr-testing-library'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import { TEST_IDS } from 'src/constants/shared'
 
 const applySettings = settings =>
   page.evaluate(settings => zE('webWidget', 'updateSettings', settings), settings)
+
 const openWidget = async () => {
   await launcher.click()
   await waitForHelpCenter()
 }
-
 const defaultThemeColor = 'rgb(183, 74, 30)'
-const getHeaderColor = () =>
-  widget.evaluate(
-    () => getComputedStyle(document.querySelector('h1').parentElement.parentElement).backgroundColor
+const getHeaderColor = () => {
+  return widget.evaluate(
+    testid => getComputedStyle(document.querySelector(`[data-testid="${testid}"]`)).backgroundColor,
+    TEST_IDS.WIDGET_HEADER_VIEW
   )
+}
 
 const getBackgroundColor = selector =>
   getComputedStyle(document.querySelector(selector)).backgroundColor

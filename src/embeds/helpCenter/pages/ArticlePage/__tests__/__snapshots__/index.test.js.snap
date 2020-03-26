@@ -187,6 +187,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

@@ -1,7 +1,8 @@
 import { setupContainer } from './previews'
 import frame from './frame'
 
-const goToTestPage = () => page.goto('http://localhost:5123/webWidgetPreview.html')
+const goToTestPage = async () =>
+  await page.goto('http://localhost:5123/webWidgetPreview.html', { waitUntil: 'domcontentloaded' })
 
 const renderPreview = () =>
   page.evaluate(() => {

@@ -28,9 +28,7 @@ describe('without contextual help', () => {
     await widget.clickClose()
     await wait(() => expect(launcher).toBeVisible())
     await page.evaluate(() => zE('webWidget', 'reset'))
-    await launcher.evaluate(() => {
-      document.querySelector('[data-testid="launcher"]').click()
-    })
+    await launcher.click()
     await assertInputEmpty()
     expect(await queries.queryByText(doc, 'Try searching for something else.')).toBeNull()
   })
@@ -49,9 +47,7 @@ describe('with contextual help', () => {
     await widget.clickClose()
     await wait(() => expect(launcher).toBeVisible())
     await page.evaluate(() => zE('webWidget', 'reset'))
-    await launcher.evaluate(() => {
-      document.querySelector('[data-testid="launcher"]').click()
-    })
+    await launcher.click()
     await assertInputEmpty()
     expect(await queries.queryByText(doc, 'Top suggestions')).toBeTruthy()
   })

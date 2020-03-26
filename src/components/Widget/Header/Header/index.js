@@ -5,9 +5,10 @@ import BackButton from 'components/Widget/Header/BackButton'
 import Title from 'components/Widget/Header/Title'
 import CloseButton from 'components/Widget/Header/CloseButton'
 import TitleRow from 'components/Widget/Header/TitleRow'
+import { TEST_IDS } from 'src/constants/shared'
 
 const Header = ({ children, title, useReactRouter, showBackButton, showCloseButton }) => (
-  <HeaderView>
+  <HeaderView data-testid={TEST_IDS.WIDGET_HEADER_VIEW}>
     <TitleRow>
       {showBackButton && <BackButton useReactRouter={useReactRouter} />}
       <Title>{title}</Title>

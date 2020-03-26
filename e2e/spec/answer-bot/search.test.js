@@ -6,6 +6,7 @@ import { queries, wait } from 'pptr-testing-library'
 import searchResults from 'e2e/fixtures/responses/answer-bot-interaction.json'
 import { queryAllByText } from 'e2e/helpers/queries'
 import { getJsonPayload } from 'e2e/helpers/utils'
+import { TEST_IDS } from 'src/constants/shared'
 
 const search = async (doc, query = 'Help') => {
   const input = await queries.getByPlaceholderText(doc, 'Type your question here...')
@@ -29,8 +30,7 @@ test('searches interaction endpoint with expected parameters', async () => {
   await waitForAnswerBot()
   const doc = await widget.getDocument()
   await search(doc)
-  await page.waitFor(100)
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
+  await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
   expect(getJsonPayload(endpoint)).toEqual(
     expect.objectContaining({
       via_id: 67,
@@ -52,8 +52,7 @@ test('displays expected components in the conversation', async () => {
   await waitForAnswerBot()
   const doc = await widget.getDocument()
   await search(doc)
-  await page.waitFor(100)
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
+  await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
   await expect(
     await queryAllByText(['The first article', 'The second article', 'The third article'])
   ).toAppearInOrder()
@@ -69,12 +68,9 @@ test('sending messages in quick succession will batch it into a single query', a
   await waitForAnswerBot()
   const doc = await widget.getDocument()
   await search(doc, 'First message')
-  await page.waitFor(500)
   await search(doc, 'Second message')
-  await page.waitFor(500)
   await search(doc, 'Third message')
-  await page.waitFor(1000)
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
+  await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
   expect(getJsonPayload(endpoint)).toEqual(
     expect.objectContaining({
       enquiry: 'First message Second message Third message'
@@ -95,7 +91,6 @@ test('empty result will display expected message', async () => {
   await waitForAnswerBot()
   const doc = await widget.getDocument()
   await search(doc)
-  await page.waitFor(500)
   await wait(async () => {
     expect(await queries.queryByText(doc, "I couldn't find any relevant articles.")).toBeTruthy()
   })

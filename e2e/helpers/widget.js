@@ -1,10 +1,10 @@
 import { queries } from 'pptr-testing-library'
 import frame from './frame'
-import { TEST_IDS } from '../../src/constants/shared'
+import { TEST_IDS } from 'src/constants/shared'
 
-const getDocument = () => frame.getDocument('webWidget')
-
-const getFrame = () => frame.getByName('webWidget')
+const webWidgetId = 'webWidget'
+const getDocument = () => frame.getDocument(webWidgetId)
+const getFrame = () => frame.getByName(webWidgetId)
 
 const clickClose = async () => {
   const widget = await getDocument()
@@ -33,13 +33,19 @@ const evaluate = async (script, ...arg) => {
   return frame.evaluate(script, ...arg)
 }
 
+const waitForTestId = async (testId, options = { visible: true }) => {
+  const frame = await getFrame()
+  await frame.waitForSelector(`[data-testid="${testId}"]`, options)
+}
+
 export default {
   getDocument,
   getFrame,
   clickClose,
   clickBack,
   openByKeyboard,
-  selector: 'iframe#webWidget',
+  selector: `iframe#${webWidgetId}`,
+  waitForTestId,
   evaluate,
   zendeskLogoVisible
 }

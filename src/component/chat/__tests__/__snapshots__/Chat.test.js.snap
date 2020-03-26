@@ -208,6 +208,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"

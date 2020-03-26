@@ -126,6 +126,7 @@ exports[`renders correctly on desktop 1`] = `
 <div>
   <div
     class="c0"
+    data-testid="widget-header-view"
   >
     <div
       class="c1"
@@ -218,7 +219,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -65,9 +65,9 @@
+@@ -66,9 +66,9 @@
                   <input
                     aria-invalid="false"
 -                   aria-labelledby="garden-field-container-1--label"

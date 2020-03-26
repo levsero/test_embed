@@ -18,9 +18,6 @@ test('displays an error message when the endpoint returns an error', async () =>
       })
     )
     .load()
-  await page.evaluate(() => {
-    localStorage['ZD-debug'] = true
-  })
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
   const emailElement = await queries.queryByLabelText(doc, 'Email address')

@@ -1,6 +1,6 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
-import { waitForAnswerBot } from 'e2e/helpers/answer-bot-embed'
+import { waitForAnswerBot, waitForGetInTouchButton } from 'e2e/helpers/answer-bot-embed'
 import { queries, wait } from 'pptr-testing-library'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
@@ -8,7 +8,7 @@ beforeEach(async () => {
   await loadWidget('answerBot', 'contactForm')
   await widget.openByKeyboard()
   await waitForAnswerBot()
-  await page.waitFor(3000)
+  await waitForGetInTouchButton()
 })
 
 test('clicking contact us channel goes to contact form embed', async () => {

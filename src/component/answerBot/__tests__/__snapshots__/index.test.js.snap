@@ -185,6 +185,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"
@@ -467,6 +468,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"
@@ -740,6 +742,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"
@@ -1010,6 +1013,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
   >
     <div
       class="c1"
+      data-testid="widget-header-view"
     >
       <div
         class="c2"
