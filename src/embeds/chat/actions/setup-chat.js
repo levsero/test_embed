@@ -55,8 +55,9 @@ export const deferChatSetup = () => async (dispatch, getState) => {
           }
         })
       } catch (err) {
-        errorTracker.error(new Error('Failed getting deferred chat data'), {
-          apiError: err
+        errorTracker.warn(err, {
+          rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
+          rollbarTitle: 'Failed to connect to chat ODVR endpoint'
         })
       }
     }
