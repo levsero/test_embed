@@ -133,9 +133,10 @@ describe('chat embed actions', () => {
     })
 
     it('continues polling even after getting an error', async () => {
+      const error = new Error('some error')
       fetchDeferredChatStatus.mockImplementationOnce(() => response)
       fetchDeferredChatStatus.mockImplementationOnce(async () => {
-        throw new Error('some error')
+        throw error
       })
       fetchDeferredChatStatus.mockImplementationOnce(() => response)
 
@@ -153,10 +154,10 @@ describe('chat embed actions', () => {
       await waitForApi()
 
       expect(mockDispatch).not.toHaveBeenCalled()
-      expect(errorTracker.error).toHaveBeenCalledWith(
-        new Error('Failed getting deferred chat data'),
-        { apiError: new Error('some error') }
-      )
+      expect(errorTracker.warn).toHaveBeenCalledWith(error, {
+        rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
+        rollbarTitle: 'Failed to connect to chat ODVR endpoint'
+      })
 
       await waitForTimer()
       await waitForApi()
