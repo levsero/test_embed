@@ -44,6 +44,7 @@ const userClicksCommentButton = async () => {
 const setup = async () => {
   await loadWidgetWithChatOnline()
   await clickStartChat()
+
   await sendMessageFromUser('this is a message from the end user')
   await agentJoinsChat('Very good agent')
   await sendMessageFromAgent('Very good Agent', 'this is a message from the agent')
