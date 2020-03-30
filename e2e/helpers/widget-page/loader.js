@@ -48,7 +48,7 @@ const mockRequests = async mockFns => {
 // - afterSnippetLoads [fn] A callback that gets called after the widget snippet loads
 // - hidden [bool] If true, the widget is hidden initially so we don't wait for the widget to become visible
 const load = async (options = {}) => {
-  await jestPuppeteer.resetBrowser()
+  await jestPuppeteer.resetPage()
   await mockRequests(options.mockRequests)
   if (options.mobile) {
     await page.emulate(devices['iPhone 6'])
