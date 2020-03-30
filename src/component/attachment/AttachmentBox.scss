@@ -1,15 +1,5 @@
 @import '../../styles/_vars.scss';
 
-.container {
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 100;
-}
-
 .dropzone {
   composes: Container--dashed from '../../styles/components/Container.scss';
 
@@ -20,18 +10,4 @@
 .dropzoneActive {
   composes: u-textBold u-userTextColor from global;
   composes: Anim-color from '../../styles/components/Animation.scss';
-}
-
-.dropzoneChild {
-  composes: u-textCenter u-posRelative from global;
-
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: $font-size-lrg;
-}
-
-.dropzoneChildLabel {
-  composes: u-marginTS from global;
-  font-weight: 700;
-  color: $zd-color-grey-800;
 }

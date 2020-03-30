@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { locals as styles } from './SubmitTicket.scss'
 
-import { AttachmentBox } from 'component/attachment/AttachmentBox'
+import AttachmentBox from 'src/component/attachment/AttachmentBox'
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm'
 import {
   handleFormChange,

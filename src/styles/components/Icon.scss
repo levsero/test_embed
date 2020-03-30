@@ -105,18 +105,6 @@
   }
 }
 
-.Icon--paperclip-large {
-  padding-right: 0;
-
-  svg {
-    min-width: #{36 / $font-size}rem; /* 1 */
-    min-height: #{36 / $font-size}rem; /* 1 */
-    height: #{36 / $font-size}rem;
-    width: #{36 / $font-size}rem;
-    transform: rotate(45deg) scaleX(-1);
-  }
-}
-
 .Icon--check {
   svg {
     fill: $zd-color-grey-500;
@@ -256,54 +244,6 @@
 .Icon--remove {
   path {
     fill: $zd-color-grey-500;
-  }
-}
-
-.Icon--messenger {
-  svg {
-    min-width: #{24 / $font-size}rem;
-    min-height: #{24 / $font-size}rem;
-    max-width: #{24 / $font-size}rem;
-    max-height: #{24 / $font-size}rem;
-    height: #{24 / $font-size}rem;
-    width: #{24 / $font-size}rem;
-
-    path {
-      fill: $messenger-blue;
-    }
-  }
-
-  &.is-mobile svg {
-    min-width: #{40 / $font-size}rem;
-    min-height: #{40 / $font-size}rem;
-    max-width: #{40 / $font-size}rem;
-    max-height: #{40 / $font-size}rem;
-    height: #{40 / $font-size}rem;
-    width: #{40 / $font-size}rem;
-  }
-}
-
-.Icon--twitter {
-  svg {
-    min-width: #{24 / $font-size}rem;
-    min-height: #{24 / $font-size}rem;
-    max-width: #{24 / $font-size}rem;
-    max-height: #{24 / $font-size}rem;
-    height: #{24 / $font-size}rem;
-    width: #{24 / $font-size}rem;
-
-    path {
-      fill: $twitter-blue;
-    }
-  }
-
-  &.is-mobile svg {
-    min-width: #{40 / $font-size}rem;
-    min-height: #{40 / $font-size}rem;
-    max-width: #{40 / $font-size}rem;
-    max-height: #{40 / $font-size}rem;
-    height: #{40 / $font-size}rem;
-    width: #{40 / $font-size}rem;
   }
 }
 

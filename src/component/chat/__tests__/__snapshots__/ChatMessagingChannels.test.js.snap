@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatMessagingChannels when both channels are available when isMobile is true renders icons at different sizes 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -7,1 +7,1 @@
+-   padding-right: 0.5714285714285714rem;
++   padding-right: 0.8571428571428571rem;
+@@ -11,6 +11,6 @@
+-   min-width: 1.7142857142857142rem;
+-   min-height: 1.7142857142857142rem;
+-   max-width: 1.7142857142857142rem;
+-   max-height: 1.7142857142857142rem;
+-   height: 1.7142857142857142rem;
+-   width: 1.7142857142857142rem;
++   min-width: 2.857142857142857rem;
++   min-height: 2.857142857142857rem;
++   max-width: 2.857142857142857rem;
++   max-height: 2.857142857142857rem;
++   height: 2.857142857142857rem;
++   width: 2.857142857142857rem;
+@@ -28,6 +28,6 @@
+-   min-width: 1.7142857142857142rem;
+-   min-height: 1.7142857142857142rem;
+-   max-width: 1.7142857142857142rem;
+-   max-height: 1.7142857142857142rem;
+-   height: 1.7142857142857142rem;
+-   width: 1.7142857142857142rem;
++   min-width: 2.857142857142857rem;
++   min-height: 2.857142857142857rem;
++   max-width: 2.857142857142857rem;
++   max-height: 2.857142857142857rem;
++   height: 2.857142857142857rem;
++   width: 2.857142857142857rem;
+`;
+
+exports[`ChatMessagingChannels when both channels are available when isMobile is true when isRTL is true applies rtl paddings 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -7,1 +7,1 @@
+-   padding-right: 0.5714285714285714rem;
++   padding-right: 0.8571428571428571rem;
+@@ -9,1 +9,1 @@
+-   padding-left: 0.5714285714285714rem;
++   padding-left: 0.8571428571428571rem;
+@@ -13,6 +13,6 @@
+-   min-width: 1.7142857142857142rem;
+-   min-height: 1.7142857142857142rem;
+-   max-width: 1.7142857142857142rem;
+-   max-height: 1.7142857142857142rem;
+-   height: 1.7142857142857142rem;
+-   width: 1.7142857142857142rem;
++   min-width: 2.857142857142857rem;
++   min-height: 2.857142857142857rem;
++   max-width: 2.857142857142857rem;
++   max-height: 2.857142857142857rem;
++   height: 2.857142857142857rem;
++   width: 2.857142857142857rem;
+@@ -30,6 +30,6 @@
+-   min-width: 1.7142857142857142rem;
+-   min-height: 1.7142857142857142rem;
+-   max-width: 1.7142857142857142rem;
+-   max-height: 1.7142857142857142rem;
+-   height: 1.7142857142857142rem;
+-   width: 1.7142857142857142rem;
++   min-width: 2.857142857142857rem;
++   min-height: 2.857142857142857rem;
++   max-width: 2.857142857142857rem;
++   max-height: 2.857142857142857rem;
++   height: 2.857142857142857rem;
++   width: 2.857142857142857rem;
+`;
