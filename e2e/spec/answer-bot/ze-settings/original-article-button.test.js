@@ -6,7 +6,7 @@ import {
   mockInteractionEndpoint,
   mockViewedEndpoint
 } from 'e2e/helpers/answer-bot-embed'
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 
 test('hides the original article link', async () => {
   await loadWidget()
@@ -25,13 +25,13 @@ test('hides the original article link', async () => {
     .load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-
-  const doc = await widget.getDocument()
   await search('Help')
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
-  const link = await queries.getByText(doc, 'The second article')
-  await link.click()
-  await queries.getByText(doc, 'body of second article')
-  const originalArticleLink = await queries.queryByTitle(doc, 'View original article')
+  await widget.waitForText('Here are some articles that may help:')
+  await widget.clickText('The second article')
+  await widget.waitForText('body of second article')
+  const originalArticleLink = await queries.queryByTitle(
+    await widget.getDocument(),
+    'View original article'
+  )
   expect(originalArticleLink).toBeNull()
 })

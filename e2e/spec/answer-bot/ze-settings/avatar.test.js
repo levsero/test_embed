@@ -1,7 +1,7 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { waitForAnswerBot } from 'e2e/helpers/answer-bot-embed'
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 
 test('uses the supplied avatar values', async () => {
   await loadWidget()
@@ -30,10 +30,7 @@ test('uses the supplied avatar values', async () => {
   expect(await src.jsonValue()).toEqual(
     'http://localhost:5123/e2e/fixtures/files/large-attachment.jpg'
   )
-  const name = await queries.queryByText(doc, 'Wildcard name')
-  expect(name).toBeTruthy()
+  await widget.expectToSeeText('Wildcard name')
   await page.evaluate(() => zE('webWidget', 'setLocale', 'fr'))
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'French name')).toBeTruthy()
-  })
+  await widget.waitForText('French name')
 })

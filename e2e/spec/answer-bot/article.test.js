@@ -8,7 +8,8 @@ import {
 } from 'e2e/helpers/answer-bot-embed'
 import { queries, wait } from 'pptr-testing-library'
 
-const assertOriginalArticleLink = async doc => {
+const assertOriginalArticleLink = async () => {
+  const doc = await widget.getDocument()
   const originalArticleLink = await queries.queryByTitle(doc, 'View original article')
   expect(originalArticleLink).toBeTruthy()
   const href = await originalArticleLink.getProperty('href')
@@ -28,15 +29,11 @@ test('article displayed with expected properties', async () => {
     .load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-
-  const doc = await widget.getDocument()
   await search('Help')
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
-  const link = await queries.getByText(doc, 'The second article')
-  await link.click()
-  const body = await queries.queryByText(doc, 'body of second article')
-  expect(body).toBeTruthy()
-  await assertOriginalArticleLink(doc)
+  await widget.waitForText('Here are some articles that may help:')
+  await widget.clickText('The second article')
+  await widget.expectToSeeText('body of second article')
+  await assertOriginalArticleLink()
   expect(await widget.zendeskLogoVisible()).toBeTruthy()
 })
 
@@ -47,13 +44,10 @@ test('sends article viewed request when article is viewed', async () => {
     .load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
-
-  const doc = await widget.getDocument()
   await search('Help')
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
-  const link = await queries.getByText(doc, 'The second article')
-  await link.click()
-  await queries.getByText(doc, 'body of second article')
+  await widget.waitForText('Here are some articles that may help:')
+  await widget.clickText('The second article')
+  await widget.expectToSeeText('body of second article')
   await wait(() => {
     expect(endpoint).toHaveBeenCalled()
   })

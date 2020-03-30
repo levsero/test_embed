@@ -21,19 +21,15 @@ const buildWidget = () =>
 const goToArticle = async title => {
   await widget.openByKeyboard()
   await waitForAnswerBot()
-
-  const doc = await widget.getDocument()
   await search('Help')
   await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
-  const link = await queries.getByText(doc, title)
-  await link.click()
-  await wait(() => queries.getByText(doc, 'Does this article answer your question?'))
+  await widget.clickText(title)
+  await widget.waitForText('Does this article answer your question?')
 }
 
 const answerFeedback = async answer => {
-  const doc = await widget.getDocument(),
-    frame = await widget.getFrame()
-  await expect(frame).toClick('button', { text: answer })
+  await widget.clickButton(answer)
+  const doc = await widget.getDocument()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Does this article answer your question?')).toBeNull()
   })
@@ -66,19 +62,14 @@ describe('clicking yes', () => {
 
     it('shows expected message in coversation', async () => {
       await widget.clickBack()
-      const doc = await widget.getDocument()
-      await wait(async () => {
-        expect(await queries.queryByText(doc, 'Nice. Knowledge is power.')).toBeTruthy()
-      })
+      await widget.waitForText('Nice. Knowledge is power.')
     })
 
     it('will not ask for feedback again', async () => {
       await widget.clickBack()
-      const doc = await widget.getDocument()
-      const link = await queries.getByText(doc, 'The third article')
-      await link.click()
+      await widget.clickText('The third article')
       await page.waitFor(3000)
-      expect(await queries.queryByText(doc, 'Does this article answer your question?')).toBeNull()
+      await widget.expectNotToSeeText('Does this article answer your question?')
     })
   })
 })
@@ -91,10 +82,8 @@ describe('clicking no', () => {
       .load()
     await goToArticle('The second article')
     await answerFeedback('No')
-    const doc = await widget.getDocument()
-    await queries.getByText(doc, 'Please tell us why.')
-    const button = await queries.getByText(doc, "It's not related to my question")
-    await button.click()
+    await widget.waitForText('Please tell us why.')
+    await widget.clickText("It's not related to my question")
     await wait(() => {
       expect(getJsonPayload(endpoint)).toEqual({
         article_id: 360002874213,
@@ -113,39 +102,23 @@ describe('clicking no', () => {
         .load()
       await goToArticle('The second article')
       await answerFeedback('No')
-      const doc = await widget.getDocument()
-      await queries.getByText(doc, 'Please tell us why.')
-      const button = await queries.getByText(doc, "It's related, but it didn't answer my question")
-      await button.click()
+      await widget.waitForText('Please tell us why.')
+      await widget.clickText("It's related, but it didn't answer my question")
     })
 
     it('shows expected message in coversation', async () => {
-      const doc = await widget.getDocument()
-      await wait(async () => {
-        expect(
-          await queries.queryByText(doc, 'I see. Your question is still unresolved.')
-        ).toBeTruthy()
-      })
+      await widget.waitForText('I see. Your question is still unresolved.')
     })
 
     it('will not ask for feedback again from the same article', async () => {
-      const doc = await widget.getDocument()
-      const link = await queries.getByText(doc, 'The second article')
-      await link.click()
+      await widget.clickText('The second article')
       await page.waitFor(3000)
-      expect(await queries.queryByText(doc, 'Does this article answer your question?')).toBeNull()
+      await widget.expectNotToSeeText('Does this article answer your question?')
     })
 
     it('will ask for feedback from a different article', async () => {
-      const doc = await widget.getDocument()
-      const link = await queries.getByText(doc, 'The first article')
-      await link.click()
-      await queries.getByText(doc, 'first article')
-      await wait(async () => {
-        expect(
-          await queries.queryByText(doc, 'Does this article answer your question?')
-        ).toBeTruthy()
-      })
+      await widget.clickText('The first article')
+      await widget.waitForText('Does this article answer your question?')
     })
   })
 })

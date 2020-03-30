@@ -19,11 +19,8 @@ const clickBack = async () => {
 }
 
 const clickButton = async buttonText => {
-  const widgetFrame = await getFrame()
-  const xpathSelector = `//button[contains(., '${buttonText}')]`
-  await widgetFrame.waitForXPath(xpathSelector, { visible: true })
-  const elements = await widgetFrame.$x(xpathSelector)
-  await elements[0].click()
+  const frame = await getFrame()
+  await expect(frame).toClick('button', { text: buttonText })
 }
 
 const clickText = async text => {
@@ -64,8 +61,11 @@ const waitForPlaceholderText = async placeholderText => {
 }
 
 const expectToSeeText = async text => {
-  const widget = await getDocument()
-  expect(await queries.queryByText(widget, text)).toBeTruthy()
+  expect(await queries.queryByText(await getDocument(), text)).toBeTruthy()
+}
+
+const expectNotToSeeText = async text => {
+  expect(await queries.queryByText(await getDocument(), text)).toBeNull()
 }
 
 export default {
@@ -81,6 +81,7 @@ export default {
   waitForPlaceholderText,
   waitForText,
   expectToSeeText,
+  expectNotToSeeText,
   evaluate,
   zendeskLogoVisible
 }

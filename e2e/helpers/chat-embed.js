@@ -14,20 +14,17 @@ const loadWidgetWithChatOnline = async () => {
   await launcher.click()
   await waitForPrechatForm()
 }
+
 const waitForPrechatForm = async () => {
   await widget.waitForText('Start chat')
 }
 
 const clickStartChat = async () => {
-  const startChatButton = await queries.getByText(await widget.getDocument(), 'Start chat')
-  await startChatButton.click()
+  await widget.clickButton('Start chat')
 }
 
 const waitForChatToBeReady = async () => {
-  const doc = await widget.getDocument()
-  await wait(() => queries.getByPlaceholderText(doc, 'Type a message here...'))
-
-  await widget.waitForText('Type a message here...')
+  await widget.waitForPlaceholderText('Type a message here...')
 }
 
 const clickEndChat = async () => {
@@ -36,10 +33,8 @@ const clickEndChat = async () => {
 }
 
 const clickToConfirmEndChat = async () => {
-  const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, 'End chat'))
-  const endChatConfirmationButton = await queries.getByText(await widget.getDocument(), 'End chat')
-  await endChatConfirmationButton.click()
+  await widget.waitForText('Are you sure you want to end this chat?')
+  await widget.clickButton('End')
 }
 
 const sendMessageFromUser = async message => {

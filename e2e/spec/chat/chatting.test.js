@@ -1,5 +1,3 @@
-import { queries } from 'pptr-testing-library'
-
 import widget from 'e2e/helpers/widget'
 
 import {
@@ -16,17 +14,15 @@ test('basic message sending', async () => {
   await clickStartChat()
   await waitForChatToBeReady()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeTruthy()
-  expect(await queries.queryByText(await widget.getDocument(), 'Live Support')).toBeTruthy()
+  await widget.expectToSeeText('Chat with us')
+  await widget.expectToSeeText('Live Support')
 
   await agentJoinsChat('An agent')
-  expect(
-    await queries.queryByText(await widget.getDocument(), 'An agent joined the chat')
-  ).toBeTruthy()
+  await widget.expectToSeeText('An agent joined the chat')
 
   await sendMessageFromAgent('An agent', 'message from agent')
-  expect(await queries.queryByText(await widget.getDocument(), 'message from agent')).toBeTruthy()
+  await widget.expectToSeeText('message from agent')
 
   await sendMessageFromUser('message from user')
-  expect(await queries.queryByText(await widget.getDocument(), 'message from user')).toBeTruthy()
+  await widget.expectToSeeText('message from user')
 })

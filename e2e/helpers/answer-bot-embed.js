@@ -1,4 +1,4 @@
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/answer-bot-interaction.json'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
@@ -58,13 +58,11 @@ export const mockRejectionEndpoint = callback => {
 }
 
 export const waitForAnswerBot = async () => {
-  const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, "Ask me a question and I'll find the answer for you."))
+  await widget.waitForText("Ask me a question and I'll find the answer for you.")
 }
 
 export const waitForGetInTouchButton = async () => {
-  const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, 'Get in touch'))
+  await widget.waitForText('Get in touch')
 }
 
 export const search = async query => {
