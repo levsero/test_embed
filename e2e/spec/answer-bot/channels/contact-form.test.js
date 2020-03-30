@@ -1,7 +1,6 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import { waitForAnswerBot, waitForGetInTouchButton } from 'e2e/helpers/answer-bot-embed'
-import { queries, wait } from 'pptr-testing-library'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
 beforeEach(async () => {
@@ -12,24 +11,17 @@ beforeEach(async () => {
 })
 
 test('clicking contact us channel goes to contact form embed', async () => {
-  const doc = await widget.getDocument()
-  const button = await queries.getByText(doc, 'Get in touch')
-  await button.click()
-  await wait(() => queries.getByText(doc, 'How do you want to get in touch?'))
-  const contactButton = await queries.queryByText(doc, 'Leave a message')
-  expect(contactButton).toBeTruthy()
-  await contactButton.click()
+  await widget.clickButton('Get in touch')
+  await widget.waitForText('How do you want to get in touch?')
+  await widget.clickText('Leave a message')
   await waitForContactForm()
 })
 
 test('can go back to answer bot', async () => {
-  const doc = await widget.getDocument()
-  const button = await queries.getByText(doc, 'Get in touch')
-  await button.click()
-  await wait(() => queries.getByText(doc, 'How do you want to get in touch?'))
-  const contactButton = await queries.getByText(doc, 'Leave a message')
-  await contactButton.click()
+  await widget.clickButton('Get in touch')
+  await widget.waitForText('How do you want to get in touch?')
+  await widget.clickText('Leave a message')
   await waitForContactForm()
   await widget.clickBack()
-  expect(await queries.queryByText(doc, 'How do you want to get in touch?')).toBeTruthy()
+  await widget.expectToSeeText('How do you want to get in touch?')
 })
