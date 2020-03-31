@@ -58,7 +58,6 @@ const load = async (options = {}) => {
   }
   await failOnConsoleError(page)
   await goToTestPage()
-  await page.evaluate(() => localStorage.clear())
   if (options.afterSnippetLoads) {
     options.afterSnippetLoads(page)
   }

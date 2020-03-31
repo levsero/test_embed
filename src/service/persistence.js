@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import { win } from 'utility/globals'
 
-const prefix = 'ZD-'
+const prefix = __EMBEDDABLE_FRAMEWORK_ENV__ === 'e2e' ? `ZD-${Date.now()}-` : 'ZD-'
 
 // TODO: find a better way to differentiate between localStorage
 // and sessionStorage, and refactor everywhere it is used
