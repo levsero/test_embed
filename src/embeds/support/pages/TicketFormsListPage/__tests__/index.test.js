@@ -9,10 +9,7 @@ const renderComponent = (
     handleFormOptionClick = () => {},
     selectTicketFormLabel = '',
     formTitle = '',
-    ticketForms = [],
-    formIds = [],
-    fetchTicketForms = jest.fn(),
-    locale = 'en-US'
+    ticketForms = []
   },
   options
 ) => {
@@ -22,9 +19,6 @@ const renderComponent = (
       formTitle={formTitle}
       selectTicketFormLabel={selectTicketFormLabel}
       ticketForms={ticketForms}
-      formIds={formIds}
-      fetchTicketForms={fetchTicketForms}
-      locale={locale}
     />,
     options
   )
@@ -62,26 +56,5 @@ describe('TicketFormsListPage', () => {
 
       expect(handleFormOptionClick).toHaveBeenCalledWith(3)
     })
-  })
-
-  it('fetches ticket forms when list of filtered forms changes', () => {
-    const fetchTicketForms = jest.fn()
-
-    const { rerender } = renderComponent({
-      fetchTicketForms,
-      formIds: [123, 456],
-      locale: 'en-US'
-    })
-
-    expect(fetchTicketForms).toHaveBeenCalledWith([123, 456], 'en-US')
-
-    fetchTicketForms.mockClear()
-
-    renderComponent(
-      { formIds: [456, 789], fetchTicketForms, locale: 'en-US' },
-      { render: rerender }
-    )
-
-    expect(fetchTicketForms).toHaveBeenCalledWith([456, 789], 'en-US')
   })
 })

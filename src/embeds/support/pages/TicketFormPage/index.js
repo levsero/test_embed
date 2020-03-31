@@ -17,6 +17,8 @@ import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { dragStarted } from 'src/embeds/support/actions/index'
 import getFields from 'embeds/support/utils/getFields'
 import { FileDropProvider } from 'components/FileDropProvider'
+import routes from 'embeds/support/routes'
+import { Redirect } from 'react-router-dom'
 
 const TicketFormPage = ({
   formTitle,
@@ -26,15 +28,28 @@ const TicketFormPage = ({
   ticketFields = [],
   submitTicket,
   ticketFormTitle,
-  ticketForms = [],
+  amountOfCustomForms = 0,
   conditions = [],
   attachments = [],
-  isPreview
+  isPreview,
+  formExists
 }) => {
+  if (formId === routes.defaultFormId && amountOfCustomForms > 0) {
+    return <Redirect to={routes.home()} />
+  }
+
+  if (formId !== routes.defaultFormId && amountOfCustomForms === 0) {
+    return <Redirect to={routes.home()} />
+  }
+
+  if (formId !== routes.defaultFormId && !formExists) {
+    return <Redirect to={routes.home()} />
+  }
+
   return (
     <FileDropProvider>
       <Widget>
-        <Header title={formTitle} useReactRouter={ticketForms.length > 1} />
+        <Header title={formTitle} useReactRouter={amountOfCustomForms > 1} />
 
         <TicketForm
           formId={formId}
@@ -62,10 +77,11 @@ TicketFormPage.propTypes = {
   ticketFields: PropTypes.array,
   submitTicket: PropTypes.func,
   ticketFormTitle: PropTypes.string,
-  ticketForms: PropTypes.array,
   attachments: PropTypes.array,
   conditions: SupportPropTypes.conditions,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
+  amountOfCustomForms: PropTypes.number,
+  formExists: PropTypes.bool
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -81,9 +97,10 @@ const mapStateToProps = (state, ownProps) => {
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: form ? form.display_name : '',
-    ticketForms: getFormsToDisplay(state),
+    amountOfCustomForms: getFormsToDisplay(state).length,
     conditions: form ? form.end_user_conditions : [],
-    attachments: getAllAttachments(state)
+    attachments: getAllAttachments(state),
+    formExists: Boolean(id === routes.defaultFormId || form)
   }
 }
 

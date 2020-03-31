@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -29,20 +29,13 @@ const TicketFormsListPage = ({
   selectTicketFormLabel,
   ticketForms,
   handleFormOptionClick,
-  history,
-  formIds,
-  fetchTicketForms,
-  locale
+  history
 }) => {
   const onFormOptionClick = handleFormOptionClick
     ? handleFormOptionClick
     : formId => {
         history.push(routes.form(formId))
       }
-
-  useEffect(() => {
-    fetchTicketForms(formIds, locale)
-  }, [fetchTicketForms, formIds, locale])
 
   return (
     <Widget>
@@ -63,15 +56,12 @@ TicketFormsListPage.propTypes = {
   formTitle: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
-  }),
-  formIds: PropTypes.arrayOf(PropTypes.number),
-  fetchTicketForms: PropTypes.func,
-  locale: PropTypes.string
+  })
 }
 
 const ConnectedComponent = connect(
   mapStateToProps,
-  { fetchTicketForms: fetchTicketForms }
+  { fetchTicketForms }
 )(TicketFormsListPage)
 
 export { ConnectedComponent as default, TicketFormsListPage as Component }

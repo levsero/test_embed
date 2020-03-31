@@ -29,6 +29,7 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
+        filteredFormsToDisplay: [],
         ticketFormsLoading: {
           isLoading: true,
           fetchKey: `en-US/123,456`
@@ -60,6 +61,7 @@ describe('fetchTicketForms', () => {
             locale: 'en-US'
           }
         },
+        filteredFormsToDisplay: [],
         ticketFormsLoading: {
           isLoading: false,
           fetchKey: null
@@ -88,13 +90,16 @@ describe('fetchTicketForms', () => {
         forms: {
           123: {
             id: 123,
-            locale: 'en-US'
+            locale: 'en-US',
+            active: true
           },
           456: {
             id: 456,
-            locale: 'fr'
+            locale: 'fr',
+            active: true
           }
         },
+        filteredFormsToDisplay: [123, 456],
         ticketFormsLoading: {
           isLoading: false,
           fetchKey: null
@@ -127,6 +132,7 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
+        filteredFormsToDisplay: [],
         ticketFormsLoading: {
           isLoading: false,
           fetchKey: null
@@ -167,6 +173,7 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
+        filteredFormsToDisplay: [],
         ticketFormsLoading: {
           isLoading: false,
           fetchKey: null
@@ -202,6 +209,7 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
+        filteredFormsToDisplay: [],
         ticketFormsLoading: {
           isLoading: false,
           fetchKey: null
@@ -312,7 +320,9 @@ describe('updateFormsForLocaleChange', () => {
   const mockStore = configureMockStore([thunk])
 
   const dispatchAction = locale => {
-    const store = mockStore({ support: { forms: {}, ticketFormsLoading: {} } })
+    const store = mockStore({
+      support: { forms: {}, filteredFormsToDisplay: [], ticketFormsLoading: {} }
+    })
 
     store.dispatch(actions.updateFormsForLocaleChange(locale))
     return store

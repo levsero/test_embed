@@ -1,7 +1,9 @@
 import React from 'react'
+import { createMemoryHistory } from 'history'
 import { render } from 'src/util/testHelpers'
 import { Component as TicketFormPage } from '../'
 import { TEST_IDS } from 'constants/shared'
+import routes from 'src/embeds/support/routes'
 
 describe('TicketFormPage', () => {
   const defaultProps = {
@@ -11,10 +13,13 @@ describe('TicketFormPage', () => {
     readOnlyState: {},
     ticketFields: [],
     ticketForms: [],
-    dragStarted: jest.fn()
+    dragStarted: jest.fn(),
+    amountOfCustomForms: 1,
+    formExists: true
   }
 
-  const renderComponent = (props = {}) => render(<TicketFormPage {...defaultProps} {...props} />)
+  const renderComponent = (props = {}, options) =>
+    render(<TicketFormPage {...defaultProps} {...props} />, options)
 
   it('renders the form title in the widget header', () => {
     const { queryByText } = renderComponent({ formTitle: 'Some title' })
@@ -32,5 +37,19 @@ describe('TicketFormPage', () => {
     const { queryByTestId } = renderComponent()
 
     expect(queryByTestId(TEST_IDS.DROP_CONTAINER)).toBeInTheDocument()
+  })
+
+  it('redirects to the support home when form does not exist', async () => {
+    const history = createMemoryHistory({ initialEntries: [routes.form(defaultProps.formId)] })
+    renderComponent({ formExists: false }, { history })
+
+    expect(history.location.pathname).toEqual(routes.home())
+  })
+
+  it('redirects to the support home when not on the ', async () => {
+    const history = createMemoryHistory({ initialEntries: [routes.form(routes.defaultFormId)] })
+    renderComponent({ formId: routes.defaultFormId, amountOfCustomForms: 1 }, { history })
+
+    expect(history.location.pathname).toEqual(routes.home())
   })
 })

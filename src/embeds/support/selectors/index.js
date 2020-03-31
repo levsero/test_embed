@@ -164,7 +164,15 @@ export const getFormsToDisplay = createSelector(
   }
 )
 
-export const getForm = (state, formId) => state.support.forms[formId]
+export const getForm = (state, formId) => {
+  const availableForms = getFormsToDisplay(state)
+
+  if (!availableForms.find(form => `${form.id}` === `${formId}`)) {
+    return undefined
+  }
+
+  return state.support.forms[formId]
+}
 export const getField = (state, fieldId) => state.support.fields[fieldId]
 export const getContactFormFields = state => state.support.contactFormFields
 
