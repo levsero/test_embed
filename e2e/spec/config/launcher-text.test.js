@@ -14,12 +14,19 @@ const buildWidget = labelKey =>
     })
     .load()
 
-test('sets the launcher text based on config', async () => {
+test('when there is no labelKey set, default label says Help', async () => {
+  await loadWidget()
+    .withPresets('helpCenter')
+    .load()
+  expect(await launcher.getLabelText()).toEqual('Help')
+})
+
+test('when labelKey is feedback, launcher says Feedback', async () => {
   await buildWidget('feedback')
   expect(await launcher.getLabelText()).toEqual('Feedback')
 })
 
-test('also supports label key feedback', async () => {
+test('when labelKey is support, launcher says Support', async () => {
   await buildWidget('support')
   expect(await launcher.getLabelText()).toEqual('Support')
 })

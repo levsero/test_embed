@@ -1,3 +1,16 @@
+const chatEmbed = (props = {}) => ({
+  embeds: {
+    chat: {
+      embed: 'chat',
+      props: {
+        color: '#1F73B7',
+        zopimId: 'P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA',
+        ...props
+      }
+    }
+  }
+})
+
 const helpCenterEmbed = (props = {}) => ({
   embeds: {
     helpCenterForm: {
@@ -27,17 +40,26 @@ const presets = {
       }
     }
   },
-  chat: {
-    embeds: {
-      chat: {
-        embed: 'chat',
-        props: {
-          color: '#1F73B7',
-          zopimId: 'P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA'
-        }
-      }
+  chat: chatEmbed(),
+  chatStandalone: chatEmbed({
+    standalone: true,
+    badge: {
+      color: '#e9ebed',
+      enabled: true,
+      imagePath: '',
+      layout: 'image_right',
+      text: 'Chat with us'
     }
-  },
+  }),
+  chatWithChatBadge: chatEmbed({
+    badge: {
+      color: '#e9ebed',
+      enabled: true,
+      imagePath: '',
+      layout: 'image_right',
+      text: 'Chat with us'
+    }
+  }),
   helpCenterWithContextualHelp: helpCenterEmbed({ contextualHelpEnabled: true }),
   answerBot: helpCenterEmbed({ answerBotEnabled: true }),
   answerBotWithContextualHelp: helpCenterEmbed({
