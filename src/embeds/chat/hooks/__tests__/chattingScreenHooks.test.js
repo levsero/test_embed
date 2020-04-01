@@ -45,59 +45,19 @@ const renderHookComponent = (Component, props, options) => {
 }
 
 describe('useMessagesOnMount', () => {
-  let testContext
-  beforeEach(() => {
-    testContext = {}
-    testContext.store = createStore()
-    testContext.dispatchSpy = jest.spyOn(testContext.store, 'dispatch')
-    jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(10)
-    jest.spyOn(chatReselectors, 'hasUnseenAgentMessage').mockReturnValue(true)
-  })
-
-  it('calls scrollToBottom when there are chat messages', () => {
+  it('calls scrollToBottom', () => {
     const scrollToBottom = jest.fn()
-    renderHookComponent(UseMessagesOnMount, { scrollToBottom }, { store: testContext.store })
+    renderHookComponent(UseMessagesOnMount, { scrollToBottom })
 
     expect(scrollToBottom).toHaveBeenCalled()
   })
 
-  it('calls scrollToBottom when there are chat history messages', () => {
-    jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(0)
-    jest.spyOn(chatHistorySelectors, 'getHistoryLength').mockReturnValue(10)
+  it('calls markAsRead', () => {
+    const store = createStore()
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    renderHookComponent(UseMessagesOnMount, {}, { store: store })
 
-    const scrollToBottom = jest.fn()
-    renderHookComponent(UseMessagesOnMount, { scrollToBottom }, { store: testContext.store })
-
-    expect(scrollToBottom).toHaveBeenCalled()
-  })
-
-  it('with no messages does not calls scrollToBottom', () => {
-    jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(0)
-    const scrollToBottom = jest.fn()
-    renderHookComponent(UseMessagesOnMount, { scrollToBottom }, { store: testContext.store })
-
-    expect(scrollToBottom).not.toHaveBeenCalled()
-  })
-
-  it('calls markAsRead when has unread messagess and close to bottom', () => {
-    const scrollToBottom = jest.fn()
-    renderHookComponent(UseMessagesOnMount, { scrollToBottom }, { store: testContext.store })
-
-    expect(testContext.dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead)
-  })
-
-  it('does not call markAsRead when no unread meassages', () => {
-    jest.spyOn(chatReselectors, 'hasUnseenAgentMessage').mockReturnValue(false)
-    renderHookComponent(UseMessagesOnMount, {}, { store: testContext.store })
-
-    expect(testContext.dispatchSpy).not.toHaveBeenCalled()
-  })
-
-  it('does not call markAsRead when not close to bottom', () => {
-    const isScrollCloseToBottom = false
-    renderHookComponent(UseMessagesOnMount, { isScrollCloseToBottom }, { store: testContext.store })
-
-    expect(testContext.dispatchSpy).not.toHaveBeenCalled()
+    expect(dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead)
   })
 })
 
@@ -132,6 +92,31 @@ describe('useAgentTyping', () => {
     expect(scrollToBottom).toHaveBeenCalled()
   })
 
+  it('only calls again if number of agents changes', () => {
+    jest.spyOn(chatReselectors, 'getAgentsTyping').mockReturnValue([1, 2])
+    const scrollToBottom = jest.fn()
+    const agentTypingRef = { offsetHeight: 50 }
+    const scrollContainer = { scrollTop: 10, offsetHeight: 0, scrollHeight: 50 }
+    const { rerender } = renderHookComponent(UseAgentTyping, {
+      agentTypingRef,
+      scrollContainer,
+      scrollToBottom
+    })
+    renderHookComponent(
+      UseAgentTyping,
+      { agentTypingRef, scrollContainer, scrollToBottom },
+      { render: rerender }
+    )
+    jest.spyOn(chatReselectors, 'getAgentsTyping').mockReturnValue([1])
+    renderHookComponent(
+      UseAgentTyping,
+      { agentTypingRef, scrollContainer, scrollToBottom },
+      { render: rerender }
+    )
+
+    expect(scrollToBottom).toHaveBeenCalledTimes(2)
+  })
+
   it('does not call scroll when agent is not typing', () => {
     jest.spyOn(chatReselectors, 'getAgentsTyping').mockReturnValue([])
     const scrollToBottom = jest.fn()
@@ -142,7 +127,7 @@ describe('useAgentTyping', () => {
     expect(scrollToBottom).not.toHaveBeenCalled()
   })
 
-  it('does not call scroo when scroll is not at bottom', () => {
+  it('does not call scroll when scroll is not at bottom', () => {
     jest.spyOn(chatReselectors, 'getAgentsTyping').mockReturnValue([])
     const scrollToBottom = jest.fn()
     const agentTypingRef = { offsetHeight: 20 }
@@ -159,7 +144,23 @@ describe('useNewMessages', () => {
     testContext = {}
     testContext.store = createStore()
     testContext.dispatchSpy = jest.spyOn(testContext.store, 'dispatch')
-    jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(2)
+  })
+
+  it('only calls again if chatsLength or author has changed', () => {
+    jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('agent:name')
+    const scrollToBottom = jest.fn()
+    const { rerender } = renderHookComponent(
+      UseNewMessages,
+      { scrollToBottom },
+      { store: testContext.store }
+    )
+    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+
+    jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(3)
+    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+    jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('visitor')
+    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+    expect(scrollToBottom).toHaveBeenCalledTimes(3)
   })
 
   describe('agent message', () => {
@@ -203,13 +204,6 @@ describe('useNewMessages', () => {
       renderHookComponent(UseNewMessages, {}, { store: testContext.store })
 
       expect(testContext.dispatchSpy).not.toHaveBeenCalled()
-    })
-
-    it('calls scrollToBottom if scroll is close to bottom', () => {
-      const scrollToBottom = jest.fn()
-      renderHookComponent(UseNewMessages, { scrollToBottom })
-
-      expect(scrollToBottom).toHaveBeenCalled()
     })
 
     it('calls scrollToBottom even if scroll is not close to bottom', () => {

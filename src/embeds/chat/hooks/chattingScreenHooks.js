@@ -4,32 +4,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isAgent } from 'utility/chat'
 import {
   getChatsLength,
-  hasUnseenAgentMessage,
   getLastMessageAuthor,
   getAgentsTyping
 } from 'src/redux/modules/chat/chat-selectors'
-import {
-  getHistoryLength,
-  getHistoryRequestStatus
-} from 'src/redux/modules/chat/chat-history-selectors'
+import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
 import { markAsRead } from 'src/redux/modules/chat'
 import getScrollBottom from 'utility/get-scroll-bottom'
 
-export const useMessagesOnMount = (scrollToBottom, isScrollCloseToBottom) => {
+export const useMessagesOnMount = scrollToBottom => {
   const dispatch = useDispatch()
-  const chatsLength = useSelector(getChatsLength)
-  const historyLength = useSelector(getHistoryLength)
-  const unreadMessages = useSelector(hasUnseenAgentMessage)
 
   useEffect(() => {
-    const hasMessages = chatsLength + historyLength > 0
-    if (hasMessages) {
-      scrollToBottom()
-    }
-
-    if (unreadMessages && isScrollCloseToBottom) {
-      dispatch(markAsRead)
-    }
+    scrollToBottom()
+    dispatch(markAsRead)
   }, [])
 }
 

@@ -135,7 +135,7 @@ const ChattingScreen = ({
     })
   })
 
-  useMessagesOnMount(scrollToBottom, isScrollCloseToBottom())
+  useMessagesOnMount(scrollToBottom)
   useHistoryUpdate(scrollContainer.current)
   useAgentTyping(agentTypingRef.current, scrollContainer.current, scrollToBottom)
   useNewMessages(scrollToBottom, isScrollCloseToBottom())
