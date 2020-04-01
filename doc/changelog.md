@@ -1,6 +1,15 @@
 ## Changelog
 
 <!---
+Where to get the changes?
+
+https://samson.zende.sk/projects/embeddable_framework/stages/production-release
+
+. In the Samson deployment page scroll to the bottom to get a list of the deployments.
+. Hover over the elapsed time (the 'STARTED' column) to get deployment date.
+. Click on the deploy link.
+. Select the **Pull Requests** tab, and go through each PR in the description page to create a change log.
+
 Formatting guide:
 
 • Added - for new features.
@@ -10,6 +19,44 @@ Formatting guide:
 • Fixed - for any bug fixes.
 • Security - in case of vulnerabilities
 -->
+
+### 27 March 2020
+
+- Fixed a bug where the Chat badge did not display the widget launcher after the user had interacted with it.
+
+### 26 March 2020
+
+- Added ARIA labels on the "remove attachment" icons in Support for accessibility purposes.
+- Fixed a bug for mobile devices where Chat trigger messages are scrolled to the top of the page after the user scrolls to the bottom of a long page.
+- Fixed minor visual bug by removing spacing near the widget footer section.
+- Fixed the menu icon not being able to close the chat menu on iOS.
+- Fixed the `updateSettings` API command so it respects changes in ticket forms.
+
+### 19 March 2020
+
+- Fixed a rendering bug for mobile proactive Chat pop-up where the second line of the message was cut off.
+
+### 18 March 2020
+
+- Fixed a bug where de-activated ticket forms took a very long time to stop showing up in the widget.
+- Fixed a bug in the ticket submission form where user entries were lost between opening and closing the form.
+
+### 16 March 2020
+
+- Fixed the Answer Bot greeting being duplicated when the widget is opened by the `zE('webWidget', 'open')` API.
+- Fixed a bug where users could not submit multiple support forms for customers with Answer Bot enabled.
+- Fixed a bug where chats were being ended from the Chat rating page.
+- Changed the Chat rating page where comments can now be submitted without a rating.
+
+### 12 March 2020
+
+- Added new `addTags` and `removeTags` APIs.
+- Changed the socket connection to Talk, so that the Web Widget doesn't try to reconnect too quickly on a slow WebSocket service.
+
+### 4 March 2020
+
+- Fixed a bug which was stripping the "department" field and incorrectly routing chats when Chat department agents go offline.
+- Fixed the nested check box rendering in conditional fields.
 
 ### 27 February 2020
 
