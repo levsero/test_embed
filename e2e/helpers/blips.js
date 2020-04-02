@@ -133,3 +133,29 @@ export const assertHCArticleViewedPayload = url => {
     url: 'http://localhost:5123/e2e.html'
   })
 }
+
+export const assertContactFormSubmittedPayload = url => {
+  const payload = getBlipPayload(url)
+
+  expect(payload).toEqual({
+    channel: 'web_widget',
+    userAction: {
+      category: 'submitTicket',
+      action: 'send',
+      label: 'ticketSubmissionForm',
+      value: {
+        query: 'Help',
+        locale: 'en-gb',
+        ticketId: expect.any(Number),
+        attachmentsCount: 0,
+        attachmentTypes: [],
+        contextualSearch: false
+      }
+    },
+    buid: expect.any(String),
+    suid: expect.any(String),
+    version: expect.any(String),
+    timestamp: expect.any(String),
+    url: 'http://localhost:5123/e2e.html'
+  })
+}
