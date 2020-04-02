@@ -106,3 +106,30 @@ export const assertHCSearchPayload = url => {
     url: 'http://localhost:5123/e2e.html'
   })
 }
+
+export const assertHCArticleViewedPayload = url => {
+  const payload = getBlipPayload(url)
+
+  expect(payload).toEqual({
+    channel: 'web_widget',
+    userAction: {
+      category: 'helpCenter',
+      action: 'click',
+      label: 'helpCenterForm',
+      value: {
+        query: 'Help',
+        resultsCount: 3,
+        uniqueSearchResultClick: true,
+        articleId: expect.any(Number),
+        locale: 'en-gb',
+        contextualSearch: false,
+        answerBot: false
+      }
+    },
+    buid: expect.any(String),
+    suid: expect.any(String),
+    version: expect.any(String),
+    timestamp: expect.any(String),
+    url: 'http://localhost:5123/e2e.html'
+  })
+}
