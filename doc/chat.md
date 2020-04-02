@@ -109,7 +109,7 @@ Returns an object containing information about the specified department, includi
 
 ##### Parameters
 
-- `department`: Integer or string. ID or name of the department
+- `department`: Integer or string. Id or name of the department
 
 Any other input types will return `undefined`.
 

@@ -723,7 +723,7 @@ Displays only the specified departments in the pre-chat form. All other departme
 
 Department names are matched in a case-insensitive manner.
 
-If the department names or IDs passed in are invalid, the department dropdown menu will not show those options. If an empty array is passed, the dropdown won't appear.
+If the department names or ids passed in are invalid, the department dropdown menu will not show those options. If an empty array is passed, the dropdown won't appear.
 
 #### Example
 
@@ -751,7 +751,7 @@ Chat requests and offline messages will be routed to this department unless the 
 
 Department names are matched in a case-insensitive manner.
 
-If the department names or ID is invalid or null the department will be cleared.
+If the department names or id is invalid or null the department will be cleared.
 
 **Note**: If the visitor has already started chatting, changes to the default department will not affect the department of the started chat. The changes to the default department will also not take effect until a page change or refresh. The department of the started chat will persist and be taken as the default department until a page change or refresh, even when the visitor has explicitly ended the chat.
 
@@ -828,7 +828,7 @@ For a default system field, specify the field name as the field `id`. Example:
 fields: [{ id: 'description', prefill: { '*': 'My text' } }];
 ```
 
-For a custom field, specify the custom field's id as the `id`. To get the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
+For a custom field, specify the custom field's id as the `id`. For instructions on getting the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
 
 ```js
 fields: [{ id: 2142225, prefill: { '*': 'My text' } }];
@@ -1516,33 +1516,83 @@ Specifies one or more [ticket forms](https://support.zendesk.com/hc/en-us/articl
 
 #### Usage
 
-If you list more than one ticket form, a dropdown menu appears in the contact form prompting the end user to select a form. You can change the text that prompts the end user with the [selectTicketForm](#selectticketform) object.
+Ticket forms are listed by id. For instructions on getting a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/rest_api/docs/support/ticket_forms#list-ticket-forms).
 
-Ticket forms are listed by id. Example:
+To display a specific ticket form, use the form id.
 
-```js
-ticketForms: [{ id: 426353 }, { id: 429981 }];
+Example
+
+```
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [{ id: 426353 }]
+      }
+    }
+  };
+</script>
 ```
 
-To get a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/rest_api/docs/core/ticket_forms#list-ticket-forms) in the Zendesk API docs.
+To display multiple ticket forms, enter form ids as a comma-separated list.
 
-You can include the [fields](#fields) object to pre-populate one or more fields in one or more ticket forms. Example:
+Example
 
-```js
-ticketForms: [
-  {
-    id: 426353,
-    fields: [
-      {
-        id: 'description',
-        prefill: {
-          '*': 'My field text'
-        }
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [{ id: 426353 }, { id: 234422 }, { id: 339494 }]
       }
-    ]
-  },
-  ...
-]
+    }
+  };
+</script>
+```
+
+To clear any filtering you have applied, use the [updateSettings API](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings) command and add an empty array “[]” to the `ticketForms` property.
+
+Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'updateSettings', {
+    webWidget: {
+      contactForm: {
+        ticketForms: []
+      }
+    }
+  });
+</script>
+```
+
+You can change the text that prompts the end user with the [selectTicketForm](#selectticketform) object.
+You can include the fields object to pre-populate one or more fields in one or more ticket forms.
+
+Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [
+          {
+            id: 426353,
+            fields: [
+              {
+                id: 'description',
+                prefill: {
+                  '*': 'My field text'
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
+</script>
 ```
 
 <a name="example-ticketforms"></a>
