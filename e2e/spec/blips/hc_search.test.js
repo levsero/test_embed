@@ -23,11 +23,12 @@ test('should send Help Center search blips in the correct format', async () => {
 
   expect(await widget.zendeskLogoVisible()).toEqual(true)
 
+  blipEndpoint.mockClear()
   await page.keyboard.type('Help')
   await page.keyboard.press('Enter')
   await wait(() => queries.getByText(widgetDoc, 'Top results'))
 
-  const blipUrl = blipEndpoint.mock.calls[2][0]
+  const blipUrl = blipEndpoint.mock.calls[0][0]
 
   assertHCSearchPayload(blipUrl)
 })

@@ -40,12 +40,14 @@ test('should send submit ticket blips in the correct format', async () => {
   await descriptionField.focus()
   await page.keyboard.type('need help pls')
 
+  blipEndpoint.mockClear()
+
   const submitButton = await queries.getByText(widgetDoc, 'Send')
   await submitButton.click()
 
   await wait(() => queries.getByText(widgetDoc, 'Thanks for reaching out'))
 
-  const blipUrl = blipEndpoint.mock.calls[3][0]
+  const blipUrl = blipEndpoint.mock.calls[0][0]
 
   assertContactFormSubmittedPayload(blipUrl)
 })

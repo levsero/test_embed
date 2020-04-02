@@ -72,10 +72,9 @@ export const assertPageViewPayload = url => {
       referrer: 'http://localhost:5123/e2e.html',
       time: expect.any(Number),
       loadTime: expect.any(Number),
-      navigatorLanguage: 'en-GB',
+      navigatorLanguage: expect.any(String),
       pageTitle: 'End-to-end tests',
-      userAgent:
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.0 Safari/537.36',
+      userAgent: expect.any(String),
       isMobile: false,
       isResponsive: true,
       viewportMeta: 'width=device-width initial-scale=1',

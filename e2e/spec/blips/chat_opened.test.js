@@ -17,11 +17,14 @@ test('should send chat opened blips in the correct format', async () => {
   await zChat.online()
   await launcher.click()
   const widgetDoc = await widget.getDocument()
+
+  blipEndpoint.mockClear()
+
   const channelButton = await queries.getByText(widgetDoc, 'Live chat')
   await channelButton.click()
   await queries.getByText(widgetDoc, 'Chat with us')
 
-  const chatOpenedRequestUrl = blipEndpoint.mock.calls[2][0]
+  const chatOpenedRequestUrl = blipEndpoint.mock.calls[0][0]
 
   assertChatOpenedPayload(chatOpenedRequestUrl)
 })

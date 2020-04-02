@@ -25,13 +25,15 @@ test('should send Help Center article view blips in the correct format', async (
   await page.keyboard.press('Enter')
   await wait(() => queries.getByText(widgetDoc, 'Top results'))
 
+  blipEndpoint.mockClear()
+
   const result = await queries.getByText(widgetDoc, 'Welcome to your Help Center!')
   await result.click()
   await wait(async () => {
     await queries.queryByText(widgetDoc, 'This is the body.')
   })
 
-  const blipUrl = blipEndpoint.mock.calls[4][0]
+  const blipUrl = blipEndpoint.mock.calls[0][0]
 
   assertHCArticleViewedPayload(blipUrl)
 })
