@@ -179,6 +179,14 @@ const online = async () => {
   await connectionUpdate('connected')
 }
 
+const setVisitorInfo = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('setVisitorInfo', (_info, callback) => {
+      callback()
+    })
+  })
+}
+
 export default {
   getAccountSettings,
   getOperatingHours,
@@ -190,5 +198,6 @@ export default {
   online,
   agentJoined,
   rating,
-  agentRequestRating
+  agentRequestRating,
+  setVisitorInfo
 }
