@@ -11,7 +11,7 @@ import {
   botUserMessage,
   botFallbackMessage
 } from 'src/embeds/answerBot/actions/root/bot'
-import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/'
+import { sessionFallback } from 'src/embeds/answerBot/actions/sessions'
 import { Container, Option } from './styles'
 
 const SecondaryFeedback = () => {

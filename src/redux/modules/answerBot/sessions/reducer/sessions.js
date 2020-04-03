@@ -11,7 +11,7 @@ import {
   SESSION_RESOLVED_PENDING,
   SESSION_FALLBACK,
   SESSION_AUTO_SCROLL
-} from '../action-types'
+} from 'src/embeds/answerBot/actions/sessions/action-types'
 
 import { ARTICLE_DISMISSED_PENDING } from 'src/embeds/answerBot/actions/article/action-types'
 

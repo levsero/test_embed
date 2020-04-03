@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
 import * as sessionSelectors from 'src/redux/modules/answerBot/sessions/selectors'
 import * as rootActions from 'src/embeds/answerBot/actions/root'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'

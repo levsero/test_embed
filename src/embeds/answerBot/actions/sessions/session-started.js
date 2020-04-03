@@ -1,4 +1,4 @@
-import { SESSION_STARTED } from '../action-types'
+import { SESSION_STARTED } from './action-types'
 
 const generateSessionID = () => Date.now()
 

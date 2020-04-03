@@ -4,7 +4,7 @@ import { render } from 'src/util/testHelpers'
 import React from 'react'
 
 import * as botActions from 'src/embeds/answerBot/actions/root/bot'
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/session-fallback-suggested'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions/session-fallback-suggested'
 import * as articleActions from 'src/embeds/answerBot/actions/article/article-dismissed'
 
 import SecondaryFeedback from '../SecondaryFeedback'

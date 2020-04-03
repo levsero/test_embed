@@ -1,4 +1,4 @@
-import { SESSION_STARTED } from 'src/redux/modules/answerBot/sessions/action-types'
+import { SESSION_STARTED } from 'src/embeds/answerBot/actions/sessions/action-types'
 
 const initialState = null
 

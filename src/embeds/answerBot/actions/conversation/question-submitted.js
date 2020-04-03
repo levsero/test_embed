@@ -24,7 +24,7 @@ import {
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
 
-import { sessionStarted } from 'src/redux/modules/answerBot/sessions/actions'
+import { sessionStarted } from 'src/embeds/answerBot/actions/sessions'
 import { botTyping } from 'src/embeds/answerBot/actions/root/bot'
 
 const BOT_THINKING_DELAY = 3000

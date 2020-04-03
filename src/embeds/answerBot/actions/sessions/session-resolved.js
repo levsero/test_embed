@@ -4,7 +4,7 @@ import {
   SESSION_RESOLVED_PENDING,
   SESSION_RESOLVED_FULFILLED,
   SESSION_RESOLVED_REJECTED
-} from '../action-types'
+} from './action-types'
 
 import {
   getCurrentArticleID,

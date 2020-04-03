@@ -1,4 +1,4 @@
-import { SESSION_FALLBACK } from '../action-types'
+import { SESSION_FALLBACK } from './action-types'
 
 import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 

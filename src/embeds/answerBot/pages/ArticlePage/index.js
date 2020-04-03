@@ -9,7 +9,7 @@ import HelpCenterArticle from 'components/HelpCenterArticle'
 import { FeedbackContainer } from './styles'
 
 import { articleDismissed } from 'src/embeds/answerBot/actions/article'
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
 import {
   botMessage,
   botFeedbackMessage,
