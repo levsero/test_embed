@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
 
-import { getSessions } from 'src/redux/modules/answerBot/sessions/selectors'
+import { getSessions } from 'src/embeds/answerBot/selectors/sessions'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { i18n } from 'service/i18n'
 

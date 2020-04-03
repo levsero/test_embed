@@ -11,9 +11,8 @@ import {
   questionValueChanged,
   getInTouchClicked
 } from 'src/embeds/answerBot/actions/conversation'
-import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
 import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
-import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
+import { getContactButtonVisible, getCurrentMessage } from 'src/embeds/answerBot/selectors/root'
 import { SlideAppear } from 'component/transition/SlideAppear'
 import { botUserMessage, botChannelChoice } from 'src/embeds/answerBot/actions/root/bot'
 import { ThemeProvider } from '@zendeskgarden/react-theming'

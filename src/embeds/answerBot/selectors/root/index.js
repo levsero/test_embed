@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import { createSelector } from 'reselect'
-import { getSessionByID, getSessions } from '../sessions/selectors'
+import { getSessionByID, getSessions } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getHasContextuallySearched,
   getSearchLoading,
@@ -11,7 +11,7 @@ import {
 import {
   getLastMessageType,
   getGetInTouchVisible
-} from 'src/redux/modules/answerBot/conversation/selectors'
+} from 'src/embeds/answerBot/selectors/conversation'
 import { getChannelAvailable } from 'src/redux/modules/selectors'
 
 const getState = state => state.answerBot

@@ -1,6 +1,6 @@
 import { SESSION_FALLBACK } from './action-types'
 
-import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
+import { getCurrentSessionID } from 'src/embeds/answerBot/selectors/root'
 
 export const sessionFallback = () => {
   return (dispatch, getState) => {

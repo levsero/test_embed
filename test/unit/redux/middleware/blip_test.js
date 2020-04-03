@@ -66,10 +66,10 @@ describe('blip middleware', () => {
         UPDATE_WIDGET_SHOWN,
         LAUNCHER_CLICKED
       },
-      'src/redux/modules/answerBot/sessions/selectors': {
+      'src/embeds/answerBot/selectors/sessions': {
         getSessionByID: (prevState, id) => prevState.sessions.get(id)
       },
-      'src/redux/modules/answerBot/root/selectors': {
+      'src/embeds/answerBot/selectors/root': {
         getCurrentQuery: prevState => prevState.query,
         getCurrentDeflection: prevState => prevState.deflection,
         getCurrentArticleID: prevState => prevState.articleID,

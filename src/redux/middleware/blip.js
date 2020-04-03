@@ -31,13 +31,13 @@ import {
 } from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
+import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getCurrentArticleID,
   getCurrentQuery,
   getCurrentDeflection,
   getCurrentScreen
-} from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/selectors/root'
 import { i18n } from 'service/i18n'
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'

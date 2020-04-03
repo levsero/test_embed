@@ -10,7 +10,7 @@ import {
 } from './action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
 import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
-import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
+import { getCurrentSessionID } from 'src/embeds/answerBot/selectors/root'
 
 const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {}) => {
   const sessionID = getCurrentSessionID(state)

@@ -11,7 +11,7 @@ import {
   getCurrentArticleID,
   getCurrentDeflection,
   getCurrentInteractionToken
-} from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/selectors/root'
 
 import { http } from 'service/transport'
 

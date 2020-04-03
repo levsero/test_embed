@@ -15,12 +15,12 @@ import {
   QUESTION_SUBMITTED_REJECTED
 } from './action-types'
 
-import { isInitialSession } from 'src/redux/modules/answerBot/sessions/selectors'
+import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getCurrentSessionID,
   getCurrentRequestStatus,
   getQuestionValueChangedTime
-} from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/selectors/root'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
 

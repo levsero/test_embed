@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { render } from 'src/util/testHelpers'
-import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
+import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
 import { http } from 'service/transport'
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'

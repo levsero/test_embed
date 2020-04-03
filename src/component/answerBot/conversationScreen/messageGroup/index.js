@@ -9,7 +9,7 @@ import Messages from './messages'
 import {
   makeGetGroupMessages,
   getLastScreenClosed
-} from 'src/redux/modules/answerBot/conversation/selectors'
+} from 'src/embeds/answerBot/selectors/conversation'
 import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
 
 import { Avatar } from 'src/component/Avatar'

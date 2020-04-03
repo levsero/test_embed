@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import MessageGroup from './messageGroup'
 import { conversationScreenClosed } from 'src/embeds/answerBot/actions/conversation'
-import { getMessageGroupKeys } from 'src/redux/modules/answerBot/conversation/selectors'
+import { getMessageGroupKeys } from 'src/embeds/answerBot/selectors/conversation'
 import { updateBackButtonVisibility } from 'src/redux/modules/base/base-actions'
 import { getSettingsAnswerBotAvatarUrl } from 'src/redux/modules/settings/settings-selectors'
 import { getSettingsAnswerBotAvatarName } from 'src/redux/modules/selectors'

@@ -6,7 +6,7 @@ import {
   ARTICLE_VIEWED_REJECTED
 } from './action-types'
 
-import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
+import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
 
 import { http } from 'service/transport'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
