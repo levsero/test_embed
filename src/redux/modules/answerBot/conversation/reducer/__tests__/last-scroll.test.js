@@ -1,5 +1,5 @@
 import reducer from '../last-scroll'
-import * as actionTypes from '../../action-types'
+import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
 
 test('initial state is null', () => {
   expect(reducer(undefined, { type: '' })).toEqual(0)

@@ -4,7 +4,7 @@ import {
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_REJECTED
-} from '../../conversation/action-types'
+} from 'src/embeds/answerBot/actions/conversation/action-types'
 
 import {
   SESSION_STARTED,

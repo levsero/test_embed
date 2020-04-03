@@ -9,7 +9,7 @@ import * as sessionSelectors from 'src/redux/modules/answerBot/sessions/selector
 import * as rootActions from 'src/redux/modules/answerBot/root/actions'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
+import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation'
 import { getBrand, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getResultsCount } from 'embeds/helpCenter/selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'

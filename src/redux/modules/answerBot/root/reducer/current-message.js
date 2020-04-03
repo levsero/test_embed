@@ -1,4 +1,4 @@
-import { QUESTION_VALUE_CHANGED } from '../../conversation/action-types'
+import { QUESTION_VALUE_CHANGED } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 const initialState = ''
 

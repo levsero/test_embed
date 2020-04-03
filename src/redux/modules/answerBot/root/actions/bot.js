@@ -9,7 +9,7 @@ import {
   BOT_CONTEXTUAL_SEARCH_RESULTS
 } from '../action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions/get-in-touch-shown'
+import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
 import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'
 
 const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {}) => {

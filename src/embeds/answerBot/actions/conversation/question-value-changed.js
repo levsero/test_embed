@@ -1,4 +1,4 @@
-import { QUESTION_VALUE_CHANGED } from '../action-types'
+import { QUESTION_VALUE_CHANGED } from './action-types'
 
 export const questionValueChanged = message => {
   return {

@@ -3,7 +3,7 @@ import getInTouchVisible from '../get-in-touch-visible'
 import {
   GET_IN_TOUCH_SHOWN,
   GET_IN_TOUCH_CLICKED
-} from 'src/redux/modules/answerBot/conversation/action-types'
+} from 'src/embeds/answerBot/actions/conversation/action-types'
 
 testReducer(getInTouchVisible, [
   {

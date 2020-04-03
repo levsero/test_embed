@@ -1,4 +1,4 @@
-import { CONVERSATION_SCROLL_CHANGED } from '../action-types'
+import { CONVERSATION_SCROLL_CHANGED } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 const initialState = 0
 

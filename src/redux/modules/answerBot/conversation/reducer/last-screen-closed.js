@@ -1,4 +1,4 @@
-import { CONVERSATION_SCREEN_CLOSED } from '../action-types'
+import { CONVERSATION_SCREEN_CLOSED } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 const initialState = 0
 

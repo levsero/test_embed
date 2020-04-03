@@ -1,5 +1,5 @@
 import reducer from '../messages'
-import * as actionTypes from '../../action-types'
+import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
 import * as rootActionTypes from 'src/redux/modules/answerBot/root/action-types'
 
 const matchesSnapshot = state => {

@@ -10,7 +10,7 @@ import {
   questionSubmitted,
   questionValueChanged,
   getInTouchClicked
-} from 'src/redux/modules/answerBot/conversation/actions'
+} from 'src/embeds/answerBot/actions/conversation'
 import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
 import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
 import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
