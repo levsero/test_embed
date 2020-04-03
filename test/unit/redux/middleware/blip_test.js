@@ -58,7 +58,7 @@ describe('blip middleware', () => {
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,
         SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE
       },
-      'src/redux/modules/answerBot/article/action-types': {
+      'src/embeds/answerBot/actions/article/action-types': {
         ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED: 'ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED'
       },
       'src/redux/modules/base/base-action-types': {
@@ -75,7 +75,7 @@ describe('blip middleware', () => {
         getCurrentArticleID: prevState => prevState.articleID,
         getCurrentScreen: prevState => prevState.currentScreen
       },
-      'src/redux/modules/answerBot/root/action-types': {
+      'src/embeds/answerBot/actions/root/action-types': {
         ARTICLE_SHOWN: ARTICLE_SHOWN,
         SCREEN_CHANGED: SCREEN_CHANGED,
         CONTEXTUAL_ARTICLE_SHOWN
