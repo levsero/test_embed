@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 
-import { screenChanged, articleShown } from 'src/redux/modules/answerBot/root/actions/'
+import { screenChanged, articleShown } from 'src/embeds/answerBot/actions/root'
 import { articleViewed } from 'src/embeds/answerBot/actions/article'
 import { ARTICLE_SCREEN } from 'src/constants/answerBot'
 

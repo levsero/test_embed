@@ -1,6 +1,6 @@
 import reducer from '../messages'
 import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
-import * as rootActionTypes from 'src/redux/modules/answerBot/root/action-types'
+import * as rootActionTypes from 'src/embeds/answerBot/actions/root/action-types'
 
 const matchesSnapshot = state => {
   expect(Array.from(state.values())).toMatchSnapshot()

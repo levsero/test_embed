@@ -9,7 +9,7 @@ import {
   botFeedback,
   botFeedbackMessage,
   botUserMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
+} from 'src/embeds/answerBot/actions/root/bot'
 
 import { Container } from './styles'
 

@@ -1,5 +1,5 @@
 import reducer from '../current-session-id'
-import * as actionTypes from '../../../sessions/action-types'
+import * as actionTypes from 'src/redux/modules/answerBot/sessions/action-types'
 
 test('initial state is null', () => {
   expect(reducer(undefined, { type: '' })).toBeNull()

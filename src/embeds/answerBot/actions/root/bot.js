@@ -7,7 +7,7 @@ import {
   BOT_FEEDBACK_REQUESTED,
   BOT_TYPING,
   BOT_CONTEXTUAL_SEARCH_RESULTS
-} from '../action-types'
+} from './action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
 import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
 import { getCurrentSessionID } from 'src/redux/modules/answerBot/root/selectors'

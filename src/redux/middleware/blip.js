@@ -14,7 +14,7 @@ import {
   CONTEXTUAL_ARTICLE_SHOWN,
   ARTICLE_SHOWN,
   SCREEN_CHANGED
-} from 'src/redux/modules/answerBot/root/action-types'
+} from 'src/embeds/answerBot/actions/root/action-types'
 import { beacon } from 'service/beacon'
 import {
   getEmbeddableConfig,

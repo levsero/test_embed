@@ -10,7 +10,7 @@ import {
   botFeedbackMessage,
   botUserMessage,
   botFallbackMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
+} from 'src/embeds/answerBot/actions/root/bot'
 import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/'
 import { Container, Option } from './styles'
 

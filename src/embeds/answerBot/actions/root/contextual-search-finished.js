@@ -1,4 +1,4 @@
-import { CONTEXTUAL_SEARCH_FINISHED } from '../action-types'
+import { CONTEXTUAL_SEARCH_FINISHED } from './action-types'
 
 export const contextualSearchFinished = () => {
   return {

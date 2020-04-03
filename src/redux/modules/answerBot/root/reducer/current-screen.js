@@ -1,4 +1,4 @@
-import { SCREEN_CHANGED } from '../action-types'
+import { SCREEN_CHANGED } from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = 'conversation'
 

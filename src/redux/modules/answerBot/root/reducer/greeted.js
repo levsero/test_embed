@@ -1,4 +1,4 @@
-import { BOT_GREETED } from '../action-types'
+import { BOT_GREETED } from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = false
 

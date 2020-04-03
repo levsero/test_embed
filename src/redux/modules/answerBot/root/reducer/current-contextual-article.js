@@ -1,4 +1,7 @@
-import { ARTICLE_SHOWN, CONTEXTUAL_ARTICLE_SHOWN } from '../action-types'
+import {
+  ARTICLE_SHOWN,
+  CONTEXTUAL_ARTICLE_SHOWN
+} from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = null
 

@@ -1,4 +1,4 @@
-import { CONTEXTUAL_ARTICLE_SHOWN } from '../../action-types'
+import { CONTEXTUAL_ARTICLE_SHOWN } from '../action-types'
 import * as actions from '../contextual-article-shown'
 
 test('contextualArticleShown dispatches expected payload', () => {

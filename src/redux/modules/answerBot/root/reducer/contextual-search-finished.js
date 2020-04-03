@@ -1,4 +1,4 @@
-import { CONTEXTUAL_SEARCH_FINISHED } from '../action-types'
+import { CONTEXTUAL_SEARCH_FINISHED } from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = false
 

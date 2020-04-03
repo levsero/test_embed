@@ -126,7 +126,7 @@ describe('WebWidget component', () => {
         getSettingsMobileNotificationsDisabled: noop
       },
       'src/redux/modules/chat/chat-selectors': {},
-      'src/redux/modules/answerBot/root/actions': {
+      'src/embeds/answerBot/actions/root': {
         screenChanged: noop
       },
       'src/constants/answerBot': {

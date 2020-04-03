@@ -15,8 +15,8 @@ import {
   botFeedbackMessage,
   botFeedbackRequested,
   botFallbackMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
-import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
+} from 'src/embeds/answerBot/actions/root/bot'
+import * as rootActions from 'src/embeds/answerBot/actions/root'
 import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'

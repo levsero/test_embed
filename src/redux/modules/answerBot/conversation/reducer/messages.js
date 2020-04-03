@@ -10,7 +10,7 @@ import {
   BOT_FEEDBACK_REQUESTED,
   BOT_TYPING,
   BOT_CONTEXTUAL_SEARCH_RESULTS
-} from '../../root/action-types'
+} from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = new Map()
 

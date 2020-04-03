@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
 import React from 'react'
 import { render } from 'src/util/testHelpers'
-import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
+import * as botActions from 'src/embeds/answerBot/actions/root/bot'
 import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/session-resolved'
 
 import PrimaryFeedback from '../PrimaryFeedback'
