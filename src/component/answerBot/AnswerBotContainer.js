@@ -13,7 +13,7 @@ import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation'
 import { getBrand, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getResultsCount } from 'embeds/helpCenter/selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 const INITIAL_FALLBACK_DELAY = 5000
 const FALLBACK_DELAY = 5000

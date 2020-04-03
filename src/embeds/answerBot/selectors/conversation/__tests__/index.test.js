@@ -1,4 +1,4 @@
-import * as selectors from '../selectors'
+import * as selectors from '../'
 
 describe('getMessages', () => {
   it('returns the messages', () => {

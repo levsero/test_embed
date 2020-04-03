@@ -1,4 +1,4 @@
-import * as selectors from '../selectors'
+import * as selectors from '../'
 
 const getMockState = state => {
   return { answerBot: state }

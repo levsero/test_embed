@@ -129,7 +129,7 @@ describe('WebWidget component', () => {
       'src/embeds/answerBot/actions/root': {
         screenChanged: noop
       },
-      'src/constants/answerBot': {
+      'src/embeds/answerBot/constants': {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation'
       },

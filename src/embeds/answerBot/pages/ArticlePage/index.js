@@ -23,7 +23,7 @@ import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selector
 import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 import { i18n } from 'service/i18n'
 import { appendParams } from 'utility/utils'

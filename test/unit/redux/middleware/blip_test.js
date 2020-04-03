@@ -80,7 +80,7 @@ describe('blip middleware', () => {
         SCREEN_CHANGED: SCREEN_CHANGED,
         CONTEXTUAL_ARTICLE_SHOWN
       },
-      'src/constants/answerBot': {
+      'src/embeds/answerBot/constants': {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation'
       },

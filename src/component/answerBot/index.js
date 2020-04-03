@@ -15,7 +15,7 @@ import { getLastScroll } from 'src/embeds/answerBot/selectors/conversation'
 import { getCurrentScreen } from 'src/embeds/answerBot/selectors/root'
 import { conversationScrollChanged } from 'src/embeds/answerBot/actions/conversation'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import { Widget, Header, Main } from 'components/Widget'
 
 import { locals as styles } from './AnswerBot.scss'

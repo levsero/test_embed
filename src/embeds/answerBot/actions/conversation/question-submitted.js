@@ -6,7 +6,7 @@ import { http } from 'service/transport'
 
 import { isOnHostMappedDomain } from 'utility/pages'
 
-import { WEB_WIDGET_SUID } from 'src/constants/answerBot'
+import { WEB_WIDGET_SUID } from 'src/embeds/answerBot/constants'
 
 import {
   QUESTION_VALUE_SUBMITTED,

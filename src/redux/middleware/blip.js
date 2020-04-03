@@ -40,7 +40,7 @@ import {
 } from 'src/embeds/answerBot/selectors/root'
 import { i18n } from 'service/i18n'
 
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
