@@ -1,4 +1,4 @@
-import reducer from 'src/redux/modules/answerBot/reducer'
+import reducer from 'src/embeds/answerBot/reducers'
 
 describe('answerBot root reducer', () => {
   it('has the expected sub states', () => {
