@@ -13,7 +13,7 @@ import {
   SESSION_AUTO_SCROLL
 } from '../action-types'
 
-import { ARTICLE_DISMISSED_PENDING } from '../../article/action-types'
+import { ARTICLE_DISMISSED_PENDING } from 'src/embeds/answerBot/actions/article/action-types'
 
 const initialState = new Map()
 

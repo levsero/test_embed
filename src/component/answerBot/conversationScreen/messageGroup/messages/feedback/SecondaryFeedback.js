@@ -5,7 +5,7 @@ import useTranslate from 'src/hooks/useTranslate'
 
 import { ButtonGroup } from 'component/button/ButtonGroup'
 
-import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
+import { articleDismissed } from 'src/embeds/answerBot/actions/article'
 import {
   botFeedbackMessage,
   botUserMessage,

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import * as actions from '../article-viewed'
 import { http } from 'service/transport'
 import { settings } from 'service/settings'
-import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 
 jest.mock('service/transport')
 

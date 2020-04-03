@@ -4,7 +4,7 @@ import {
   ARTICLE_DISMISSED_PENDING,
   ARTICLE_DISMISSED_FULFILLED,
   ARTICLE_DISMISSED_REJECTED
-} from '../action-types'
+} from './action-types'
 
 import {
   getCurrentSessionID,

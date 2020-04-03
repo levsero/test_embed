@@ -4,12 +4,12 @@ import {
   ARTICLE_VIEWED_PENDING,
   ARTICLE_VIEWED_FULFILLED,
   ARTICLE_VIEWED_REJECTED
-} from '../action-types'
+} from './action-types'
 
 import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
 
 import { http } from 'service/transport'
-import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 
 function articleViewedPending(sessionID, articleID) {
   return {

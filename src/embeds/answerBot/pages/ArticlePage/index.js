@@ -8,7 +8,7 @@ import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
 import HelpCenterArticle from 'components/HelpCenterArticle'
 import { FeedbackContainer } from './styles'
 
-import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
+import { articleDismissed } from 'src/embeds/answerBot/actions/article'
 import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/'
 import {
   botMessage,
@@ -27,7 +27,7 @@ import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
 
 import { i18n } from 'service/i18n'
 import { appendParams } from 'utility/utils'
-import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
+import { originalArticleClicked } from 'src/embeds/answerBot/actions/article/article-viewed'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 
 class ArticlePage extends Component {
