@@ -4,7 +4,7 @@ exports[`renders logo 1`] = `
 <a
   class="icon"
   data-testid="Icon--zendesk"
-  href="yolo.com"
+  href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
   tabindex="-1"
   target="_blank"
 >
