@@ -51,6 +51,29 @@ const setup = async () => {
 }
 
 describe('chat ratings', () => {
+  test('rating buttons only show when an agent has joined the chat', async () => {
+    await loadWidgetWithChatOnline()
+    await clickStartChat()
+
+    await sendMessageFromUser('this is a message from the end user')
+
+    expect(
+      await queries.queryByLabelText(await widget.getDocument(), 'Rate this chat as good')
+    ).toBeFalsy()
+    expect(
+      await queries.queryByLabelText(await widget.getDocument(), 'Rate this chat as bad')
+    ).toBeFalsy()
+
+    await agentJoinsChat('Very good agent')
+
+    expect(
+      await queries.queryByLabelText(await widget.getDocument(), 'Rate this chat as good')
+    ).toBeTruthy()
+    expect(
+      await queries.queryByLabelText(await widget.getDocument(), 'Rate this chat as bad')
+    ).toBeTruthy()
+  })
+
   test('end user can rate a chat with chat rating buttons', async () => {
     await setup()
 
@@ -66,6 +89,22 @@ describe('chat ratings', () => {
 
     expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Bad')).toBeTruthy()
     expect(await queries.queryByText(await widget.getDocument(), 'Leave a comment')).toBeTruthy()
+  })
+
+  test('end user can remove rating', async () => {
+    await setup()
+
+    await userClicksRatingButton('bad')
+    await zChat.rating('bad')
+
+    expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Bad')).toBeTruthy()
+
+    await userClicksRatingButton('bad')
+    await zChat.rating(undefined, 'bad')
+
+    expect(
+      await queries.queryByText(await widget.getDocument(), 'Chat rating removed')
+    ).toBeTruthy()
   })
 
   test('end user can rate a chat via the rating page', async () => {
