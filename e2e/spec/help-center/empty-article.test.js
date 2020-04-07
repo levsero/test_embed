@@ -6,8 +6,8 @@ import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/search-results-with-empty-article.json'
 import { TEST_IDS } from 'src/constants/shared'
 
-const notInSearchResultsScreen = doc => {
-  wait(async () => {
+const notInSearchResultsScreen = async doc => {
+  await wait(async () => {
     expect(await queries.queryByText(doc, 'Top results')).not.toBeTruthy()
   })
 }
