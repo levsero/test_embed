@@ -24,14 +24,14 @@ const AttachmentError = ({
   const errorTitle =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_header')
-      : translate('submitTicket.attachments.error.v2.uploading_title')
+      : translate('embeddable_framework.submitTicket.attachments.error.v2.uploading_title')
 
   const errorBody =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_body', {
           maxSize: Math.round(maxFileSize / 1024 / 1024)
         })
-      : translate('submitTicket.attachments.error.v2.uploading_body')
+      : translate('embeddable_framework.submitTicket.attachments.error.v2.uploading_body')
 
   return (
     <Alert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
