@@ -9,7 +9,8 @@ const renderComponent = (
     handleFormOptionClick = () => {},
     selectTicketFormLabel = '',
     formTitle = '',
-    ticketForms = []
+    ticketForms = [],
+    isLoading = false
   },
   options
 ) => {
@@ -19,6 +20,7 @@ const renderComponent = (
       formTitle={formTitle}
       selectTicketFormLabel={selectTicketFormLabel}
       ticketForms={ticketForms}
+      isLoading={isLoading}
     />,
     options
   )
@@ -56,5 +58,10 @@ describe('TicketFormsListPage', () => {
 
       expect(handleFormOptionClick).toHaveBeenCalledWith(3)
     })
+  })
+
+  it('displays a loading page if a request is pending', () => {
+    const { queryByRole } = renderComponent({ isLoading: true })
+    expect(queryByRole('progressbar')).toBeInTheDocument()
   })
 })

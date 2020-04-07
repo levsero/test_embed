@@ -43,7 +43,8 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
     dispatch({
       type: TICKET_FORMS_REQUEST_SENT,
       payload: {
-        fetchKey
+        fetchKey,
+        formIds: ticketFormIdsToLoad
       }
     })
 
@@ -72,7 +73,8 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
               type: TICKET_FORMS_REQUEST_SUCCESS,
               payload: {
                 ...forms,
-                fetchKey
+                fetchKey,
+                formIds: ticketFormIdsToLoad
               }
             })
 
@@ -87,7 +89,8 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
             dispatch({
               type: TICKET_FORMS_REQUEST_FAILURE,
               payload: {
-                fetchKey
+                fetchKey,
+                formIds: ticketFormIdsToLoad
               }
             })
           }

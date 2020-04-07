@@ -9,7 +9,7 @@ const initialState = {
   fetchKey: null
 }
 
-const ticketFormsLoading = (state = initialState, action) => {
+const ticketFormsRequest = (state = initialState, action) => {
   switch (action.type) {
     case TICKET_FORMS_REQUEST_SENT:
       return {
@@ -30,4 +30,4 @@ const ticketFormsLoading = (state = initialState, action) => {
   }
 }
 
-export default ticketFormsLoading
+export default ticketFormsRequest

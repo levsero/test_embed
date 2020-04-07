@@ -36,8 +36,19 @@ export const getAttachmentTitle = (state, attachmentIds) => {
   return title
 }
 
-export const getIsLoading = state =>
-  Boolean(state.support.isLoading || state.support.ticketFormsLoading.isLoading)
+export const getIsFormLoading = (state, formId) => {
+  if (formId === routes.defaultFormId) {
+    return state.support.isTicketFieldsLoading
+  }
+
+  return Boolean(state.support.isFormLoading[formId])
+}
+
+export const getIsAnyTicketFormLoading = state => state.support.ticketFormsRequest.isLoading
+
+export const getHasFetchedTicketForms = (state, fetchKey) => {
+  return state.support.ticketFormsRequest.fetchKey === fetchKey
+}
 
 export const getContactFormTitle = createSelector(
   [getSettingsContactFormTitle, getFormTitleKey, getLocale],
@@ -165,14 +176,13 @@ export const getFormsToDisplay = createSelector(
 )
 
 export const getForm = (state, formId) => {
-  const availableForms = getFormsToDisplay(state)
-
-  if (!availableForms.find(form => `${form.id}` === `${formId}`)) {
-    return undefined
-  }
-
   return state.support.forms[formId]
 }
+
+export const getCanDisplayForm = (state, formId) => {
+  return Boolean(getFormsToDisplay(state).find(form => `${form.id}` === `${formId}`))
+}
+
 export const getField = (state, fieldId) => state.support.fields[fieldId]
 export const getContactFormFields = state => state.support.contactFormFields
 
@@ -314,8 +324,4 @@ export const getFormTicketFields = (state, formId) => {
   }
 
   return getCustomTicketFields(state, formId)
-}
-
-export const getHasFetchedTicketForms = (state, fetchKey) => {
-  return state.support.ticketFormsLoading.fetchKey === fetchKey
 }

@@ -15,13 +15,16 @@ import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles
 import routes from 'embeds/support/routes'
 import { fetchTicketForms } from 'embeds/support/actions/fetchForms'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
+import LoadingPage from 'components/LoadingPage'
+import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
 
 const mapStateToProps = state => ({
   ticketForms: getFormsToDisplay(state),
   selectTicketFormLabel: getSelectTicketFormLabel(state),
   formTitle: getContactFormTitle(state),
   formIds: getFormIdsToDisplay(state),
-  locale: getLocale(state)
+  locale: getLocale(state),
+  isLoading: getIsAnyTicketFormLoading(state)
 })
 
 const TicketFormsListPage = ({
@@ -29,13 +32,18 @@ const TicketFormsListPage = ({
   selectTicketFormLabel,
   ticketForms,
   handleFormOptionClick,
-  history
+  history,
+  isLoading
 }) => {
   const onFormOptionClick = handleFormOptionClick
     ? handleFormOptionClick
     : formId => {
         history.push(routes.form(formId))
       }
+
+  if (isLoading) {
+    return <LoadingPage />
+  }
 
   return (
     <Widget>
@@ -56,7 +64,8 @@ TicketFormsListPage.propTypes = {
   formTitle: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }),
+  isLoading: PropTypes.bool.isRequired
 }
 
 const ConnectedComponent = connect(

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
 import {
@@ -8,7 +8,9 @@ import {
   getForm,
   getAllAttachments,
   getContactFormTitle,
-  getFormsToDisplay
+  getFormsToDisplay,
+  getCanDisplayForm,
+  getIsFormLoading
 } from 'embeds/support/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
@@ -18,7 +20,8 @@ import { dragStarted } from 'src/embeds/support/actions/index'
 import getFields from 'embeds/support/utils/getFields'
 import { FileDropProvider } from 'components/FileDropProvider'
 import routes from 'embeds/support/routes'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import LoadingPage from 'components/LoadingPage'
 
 const TicketFormPage = ({
   formTitle,
@@ -32,18 +35,28 @@ const TicketFormPage = ({
   conditions = [],
   attachments = [],
   isPreview,
-  formExists
+  formExists,
+  isLoading
 }) => {
-  if (formId === routes.defaultFormId && amountOfCustomForms > 0) {
-    return <Redirect to={routes.home()} />
-  }
+  const history = useHistory()
 
-  if (formId !== routes.defaultFormId && amountOfCustomForms === 0) {
-    return <Redirect to={routes.home()} />
-  }
+  useEffect(() => {
+    if (formId === routes.defaultFormId && amountOfCustomForms > 0) {
+      return history.replace(routes.home())
+    }
 
-  if (formId !== routes.defaultFormId && !formExists) {
-    return <Redirect to={routes.home()} />
+    if (formId !== routes.defaultFormId && amountOfCustomForms === 0) {
+      return history.replace(routes.home())
+    }
+
+    if (formId !== routes.defaultFormId && !formExists) {
+      return history.replace(routes.home())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (isLoading) {
+    return <LoadingPage />
   }
 
   return (
@@ -81,7 +94,8 @@ TicketFormPage.propTypes = {
   conditions: SupportPropTypes.conditions,
   isPreview: PropTypes.bool,
   amountOfCustomForms: PropTypes.number,
-  formExists: PropTypes.bool
+  formExists: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -100,7 +114,8 @@ const mapStateToProps = (state, ownProps) => {
     amountOfCustomForms: getFormsToDisplay(state).length,
     conditions: form ? form.end_user_conditions : [],
     attachments: getAllAttachments(state),
-    formExists: Boolean(id === routes.defaultFormId || form)
+    formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
+    isLoading: getIsFormLoading(state, id)
   }
 }
 

@@ -9,7 +9,6 @@ describe('TicketFormPage', () => {
   const renderComponent = (props = {}, options) => {
     const defaultProps = {
       ticketForms: [],
-      isLoading: false,
       formIds: [],
       fetchTicketForms: jest.fn(),
       locale: 'en-US'
@@ -17,11 +16,6 @@ describe('TicketFormPage', () => {
 
     return render(<Support {...defaultProps} {...props} />, options)
   }
-
-  it('renders the LoadingPage when isLoading is true', () => {
-    const { queryByRole } = renderComponent({ isLoading: true })
-    expect(queryByRole('progressbar')).toBeInTheDocument()
-  })
 
   it('renders the default form when ticketForms length is 0', () => {
     const { queryByText } = renderComponent()
@@ -54,7 +48,8 @@ describe('TicketFormPage', () => {
             ticket_field_ids: []
           }
         ],
-        ticket_fields: []
+        ticket_fields: [],
+        formIds: []
       }
     })
     const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }] }, { store })

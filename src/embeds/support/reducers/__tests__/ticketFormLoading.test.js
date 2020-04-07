@@ -1,5 +1,5 @@
 import { testReducer } from 'utility/testHelpers'
-import reducer from '../ticketFormsLoading'
+import reducer from '../ticketFormsRequest'
 import {
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORMS_REQUEST_SENT,

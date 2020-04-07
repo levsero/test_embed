@@ -15,7 +15,8 @@ describe('TicketFormPage', () => {
     ticketForms: [],
     dragStarted: jest.fn(),
     amountOfCustomForms: 1,
-    formExists: true
+    formExists: true,
+    isLoading: false
   }
 
   const renderComponent = (props = {}, options) =>
@@ -46,10 +47,15 @@ describe('TicketFormPage', () => {
     expect(history.location.pathname).toEqual(routes.home())
   })
 
-  it('redirects to the support home when not on the ', async () => {
+  it('redirects to the support home when viewing default form, but there are now custom forms to view', async () => {
     const history = createMemoryHistory({ initialEntries: [routes.form(routes.defaultFormId)] })
     renderComponent({ formId: routes.defaultFormId, amountOfCustomForms: 1 }, { history })
 
     expect(history.location.pathname).toEqual(routes.home())
+  })
+
+  it('displays a loading page if a request is pending', () => {
+    const { queryByRole } = renderComponent({ isLoading: true })
+    expect(queryByRole('progressbar')).toBeInTheDocument()
   })
 })
