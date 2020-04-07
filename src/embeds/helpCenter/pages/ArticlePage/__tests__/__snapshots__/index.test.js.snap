@@ -156,6 +156,27 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c10 {
+  position: relative;
+  display: inline-block;
+}
+
+.c10 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c10 svg:hover path,
+.c10 svg:active path,
+.c10 svg:focus path {
+  fill: #68737d;
+}
+
+.c10 svg path {
+  fill: #87929d;
+}
+
 .c9 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -171,11 +192,11 @@ exports[`ArticlePage default render matches snapshot 1`] = `
   align-items: flex-end;
 }
 
-.c10 {
+.c11 {
   position: relative !important;
 }
 
-.c11 {
+.c12 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
@@ -269,7 +290,7 @@ exports[`ArticlePage default render matches snapshot 1`] = `
         class="c9"
       >
         <a
-          class="icon"
+          class="c10"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -281,13 +302,13 @@ exports[`ArticlePage default render matches snapshot 1`] = `
           />
         </a>
         <div
-          class="c10"
+          class="c11"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c11 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c12 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.button"

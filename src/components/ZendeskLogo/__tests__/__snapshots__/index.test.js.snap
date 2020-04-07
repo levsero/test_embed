@@ -1,8 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders logo 1`] = `
+.c0 {
+  position: relative;
+  display: inline-block;
+}
+
+.c0 svg {
+  min-width: NaNrem;
+  width: NaNrem;
+  height: NaNrem;
+}
+
+.c0 svg:hover path,
+.c0 svg:active path,
+.c0 svg:focus path {
+  fill: #68737d;
+}
+
+.c0 svg path {
+  fill: #87929d;
+}
+
 <a
-  class="icon"
+  class="c0"
   data-testid="Icon--zendesk"
   href="yolo.com"
   tabindex="-1"

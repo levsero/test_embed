@@ -156,6 +156,27 @@ exports[`SuccessNotificationPage renders 1`] = `
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c15 {
+  position: relative;
+  display: inline-block;
+}
+
+.c15 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c15 svg:hover path,
+.c15 svg:active path,
+.c15 svg:focus path {
+  fill: #68737d;
+}
+
+.c15 svg path {
+  fill: #87929d;
+}
+
 .c14 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -322,7 +343,7 @@ exports[`SuccessNotificationPage renders 1`] = `
         class="c14"
       >
         <a
-          class="icon"
+          class="c15"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"

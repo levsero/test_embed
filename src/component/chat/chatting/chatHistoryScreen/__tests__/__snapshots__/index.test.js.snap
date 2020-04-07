@@ -175,6 +175,27 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c11 {
+  position: relative;
+  display: inline-block;
+}
+
+.c11 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c11 svg:hover path,
+.c11 svg:active path,
+.c11 svg:focus path {
+  fill: #68737d;
+}
+
+.c11 svg path {
+  fill: #87929d;
+}
+
 .c10 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -273,7 +294,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
         class="c10"
       >
         <a
-          class="icon"
+          class="c11"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"

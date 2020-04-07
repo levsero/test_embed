@@ -14,9 +14,25 @@ Snapshot Diff:
 - .c13 {
 + .c14 {
 @@ -156,1 +156,1 @@
+- .c15 {
++ .c16 {
+@@ -161,1 +161,1 @@
+- .c15 svg {
++ .c16 svg {
+@@ -167,3 +167,3 @@
+- .c15 svg:hover path,
+- .c15 svg:active path,
+- .c15 svg:focus path {
++ .c16 svg:hover path,
++ .c16 svg:active path,
++ .c16 svg:focus path {
+@@ -173,1 +173,1 @@
+- .c15 svg path {
++ .c16 svg path {
+@@ -177,1 +177,1 @@
 - .c14 {
 + .c15 {
-@@ -179,1 +179,6 @@
+@@ -200,1 +200,6 @@
 - .c12 {
 + .c11 {
 +   margin-bottom: 1.0714285714285714rem;
@@ -24,22 +40,22 @@ Snapshot Diff:
 + }
 + 
 + .c13 {
-@@ -185,3 +190,3 @@
+@@ -206,3 +211,3 @@
 - .c12:hover,
 - .c12:focus,
 - .c12:active {
 + .c13:hover,
 + .c13:focus,
 + .c13:active {
-@@ -235,1 +240,1 @@
+@@ -256,1 +261,1 @@
 - .c11 {
 + .c12 {
-@@ -240,2 +245,2 @@
+@@ -261,2 +266,2 @@
 - .c11 a,
 - .c11 a span {
 + .c12 a,
 + .c12 a span {
-@@ -245,1 +250,1 @@
+@@ -266,1 +271,1 @@
 - .c11 a:hover {
 + .c12 a:hover {
 `;
@@ -198,6 +214,27 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   padding: 0.7142857142857143rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
+}
+
+.c16 {
+  position: relative;
+  display: inline-block;
+}
+
+.c16 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c16 svg:hover path,
+.c16 svg:active path,
+.c16 svg:focus path {
+  fill: #68737d;
+}
+
+.c16 svg path {
+  fill: #87929d;
 }
 
 .c15 {
@@ -378,7 +415,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
         class="c15"
       >
         <a
-          class="icon"
+          class="c16"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -404,9 +441,25 @@ Snapshot Diff:
 - .c14 {
 + .c13 {
 @@ -156,1 +156,1 @@
+- .c16 {
++ .c15 {
+@@ -161,1 +161,1 @@
+- .c16 svg {
++ .c15 svg {
+@@ -167,3 +167,3 @@
+- .c16 svg:hover path,
+- .c16 svg:active path,
+- .c16 svg:focus path {
++ .c15 svg:hover path,
++ .c15 svg:active path,
++ .c15 svg:focus path {
+@@ -173,1 +173,1 @@
+- .c16 svg path {
++ .c15 svg path {
+@@ -177,1 +177,1 @@
 - .c15 {
 + .c14 {
-@@ -179,6 +179,1 @@
+@@ -200,6 +200,1 @@
 - .c11 {
 -   margin-bottom: 1.0714285714285714rem;
 -   data-testid: talk--averageWaitTime;
@@ -414,22 +467,22 @@ Snapshot Diff:
 - 
 - .c13 {
 + .c12 {
-@@ -190,3 +185,3 @@
+@@ -211,3 +206,3 @@
 - .c13:hover,
 - .c13:focus,
 - .c13:active {
 + .c12:hover,
 + .c12:focus,
 + .c12:active {
-@@ -240,1 +235,1 @@
+@@ -261,1 +256,1 @@
 - .c12 {
 + .c11 {
-@@ -245,2 +240,2 @@
+@@ -266,2 +261,2 @@
 - .c12 a,
 - .c12 a span {
 + .c11 a,
 + .c11 a span {
-@@ -250,1 +245,1 @@
+@@ -271,1 +266,1 @@
 - .c12 a:hover {
 + .c11 a:hover {
 `;
