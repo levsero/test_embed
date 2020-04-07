@@ -7,7 +7,7 @@ import { dateTime } from 'utility/formatters'
 import { locals as styles } from './HistoryLog.scss'
 
 import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHistoryGroup'
-import HistoryEventMessage from 'component/chat/chatting/log/events/ConnectedHistoryEvent'
+import HistoryEventMessage from 'src/embeds/chat/components/EventMessage'
 import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors'
 
 const mapStateToProps = state => {
@@ -76,6 +76,7 @@ export class HistoryLog extends Component {
             key={event}
             chatLogCreatedAt={this.createdTimestamp}
             divider={first ? this.renderDivider(event) : null}
+            isHistory={true}
           />
         )
       }

@@ -19,9 +19,3 @@ export const getGroupMessages = createCachedSelector(
   (state, messageKeys) => messageKeys,
   (history, messageKeys) => _.map(messageKeys, key => history.get(key))
 )((state, messageKeys) => messageKeys[messageKeys.length - 1])
-
-export const getEventMessage = createCachedSelector(
-  getHistory,
-  (state, messageKey) => messageKey,
-  (history, messageKey) => history.get(messageKey)
-)((state, messageKey) => messageKey)

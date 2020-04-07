@@ -6,7 +6,7 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './ChatLog.scss'
 
 import ChatGroup from 'component/chat/chatting/log/messages/ConnectedChatGroup'
-import EventMessage from 'component/chat/chatting/log/events/ConnectedChatEvent'
+import EventMessage from 'src/embeds/chat/components/EventMessage'
 import { Button } from '@zendeskgarden/react-buttons'
 import {
   getChatLog,
@@ -108,7 +108,12 @@ export class ChatLog extends PureComponent {
       const eventKey = group.messages[0]
 
       return (
-        <EventMessage key={eventKey} eventKey={eventKey} chatLogCreatedAt={this.createdTimestamp}>
+        <EventMessage
+          isHistory={false}
+          key={eventKey}
+          eventKey={eventKey}
+          chatLogCreatedAt={this.createdTimestamp}
+        >
           {this.renderRequestRatingButton(eventKey)}
         </EventMessage>
       )
