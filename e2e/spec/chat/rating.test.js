@@ -1,7 +1,6 @@
 import { queries } from 'pptr-testing-library'
 
 import widget from 'e2e/helpers/widget'
-
 import zChat from 'e2e/helpers/zChat'
 import {
   sendMessageFromUser,
@@ -53,24 +52,22 @@ const setup = async () => {
 describe('chat ratings', () => {
   test('end user can rate a chat with chat rating buttons', async () => {
     await setup()
-
     await userClicksRatingButton('bad')
     await zChat.rating('bad')
 
-    expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Bad')).toBeTruthy()
-    expect(await queries.queryByText(await widget.getDocument(), 'Leave a comment')).toBeTruthy()
+    await widget.expectToSeeText('Chat rated Bad')
+    await widget.expectToSeeText('Leave a comment')
 
     await userClicksCommentButton()
     const cancelButton = await queries.queryByLabelText(await widget.getDocument(), 'Cancel')
     await cancelButton.click()
 
-    expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Bad')).toBeTruthy()
-    expect(await queries.queryByText(await widget.getDocument(), 'Leave a comment')).toBeTruthy()
+    await widget.expectToSeeText('Chat rated Bad')
+    await widget.expectToSeeText('Leave a comment')
   })
 
   test('end user can rate a chat via the rating page', async () => {
     await setup()
-
     await agentRequestsRating()
     const rateChatButton = await queries.queryByLabelText(
       await widget.getDocument(),
@@ -81,8 +78,7 @@ describe('chat ratings', () => {
     await zChat.rating('bad')
     const sendButton = await queries.queryByLabelText(await widget.getDocument(), 'Send')
     await sendButton.click()
-
-    expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Bad')).toBeTruthy()
+    await widget.expectToSeeText('Chat rated Bad')
   })
 
   test('end user can rate a chat via the post chat page', async () => {
@@ -94,7 +90,6 @@ describe('chat ratings', () => {
     const sendButton = await queries.queryByLabelText(await widget.getDocument(), 'Send')
     await sendButton.click()
     await zChat.rating('good')
-
-    expect(await queries.queryByText(await widget.getDocument(), 'Chat rated Good')).toBeTruthy()
+    await widget.expectToSeeText('Chat rated Good')
   })
 })

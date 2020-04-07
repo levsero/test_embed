@@ -6,15 +6,13 @@ import {
   mockInteractionEndpoint,
   waitForGetInTouchButton
 } from 'e2e/helpers/answer-bot-embed'
-import { queries, wait } from 'pptr-testing-library'
 
 test('does not display get in touch button when there are no channels available', async () => {
   await loadWidget('answerBot')
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await page.waitFor(3000)
-  const doc = await widget.getDocument()
-  expect(await queries.queryByText(doc, 'Get in touch')).toBeNull()
+  await widget.expectNotToSeeText('Get in touch')
 })
 
 describe('channels available', () => {
@@ -23,8 +21,7 @@ describe('channels available', () => {
     await widget.openByKeyboard()
     await waitForAnswerBot()
     await waitForGetInTouchButton()
-    const doc = await widget.getDocument()
-    expect(await queries.queryByText(doc, 'Get in touch')).toBeTruthy()
+    await widget.expectToSeeText('Get in touch')
   })
 
   test('displays button after asking a question', async () => {
@@ -34,17 +31,12 @@ describe('channels available', () => {
       .load()
     await widget.openByKeyboard()
     await waitForAnswerBot()
-
-    const doc = await widget.getDocument()
-
-    // button not yet available
-    expect(await queries.queryByText(doc, 'Get in touch')).toBeNull()
+    await widget.expectNotToSeeText('Get in touch')
     await search('Help')
-    await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
+    await widget.expectNotToSeeText('Get in touch')
+    await widget.waitForText('Here are some articles that may help:')
     await waitForGetInTouchButton()
-    await wait(async () => {
-      expect(await queries.queryByText(doc, 'Or you can get in touch.')).toBeTruthy()
-    })
-    expect(await queries.queryByText(doc, 'Get in touch')).toBeTruthy()
+    await widget.waitForText('Or you can get in touch.')
+    await widget.expectToSeeText('Get in touch')
   })
 })

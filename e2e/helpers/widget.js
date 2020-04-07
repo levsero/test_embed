@@ -18,6 +18,18 @@ const clickBack = async () => {
   await backButton.click()
 }
 
+const clickButton = async buttonText => {
+  const frame = await getFrame()
+  await expect(frame).toClick('button', { text: buttonText })
+}
+
+const clickText = async text => {
+  const widget = await getDocument()
+  await wait(async () => await queries.getByText(widget, text))
+  const element = await queries.getByText(widget, text)
+  await element.click()
+}
+
 const zendeskLogoVisible = async () => {
   const widget = await getDocument()
   return !!(await queries.queryByTestId(widget, TEST_IDS.ICON_ZENDESK))
@@ -40,7 +52,20 @@ const waitForTestId = async (testId, options = { visible: true }) => {
 
 const waitForText = async text => {
   const widget = await getDocument()
-  await wait(() => queries.getByText(widget, text))
+  await wait(async () => await queries.getByText(widget, text))
+}
+
+const waitForPlaceholderText = async placeholderText => {
+  const widget = await getDocument()
+  await wait(async () => await queries.getByPlaceholderText(widget, placeholderText))
+}
+
+const expectToSeeText = async text => {
+  expect(await queries.queryByText(await getDocument(), text)).toBeTruthy()
+}
+
+const expectNotToSeeText = async text => {
+  expect(await queries.queryByText(await getDocument(), text)).toBeNull()
 }
 
 export default {
@@ -48,10 +73,15 @@ export default {
   getFrame,
   clickClose,
   clickBack,
+  clickButton,
+  clickText,
   openByKeyboard,
   selector: `iframe#${webWidgetId}`,
   waitForTestId,
+  waitForPlaceholderText,
   waitForText,
+  expectToSeeText,
+  expectNotToSeeText,
   evaluate,
   zendeskLogoVisible
 }

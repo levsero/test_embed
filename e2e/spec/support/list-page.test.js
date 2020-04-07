@@ -56,8 +56,6 @@ describe('support list page', () => {
 
       await widget.openByKeyboard()
 
-      // await jestPuppeteer.debug()
-
       await expect(
         await queryAllByText([form1.form.display_name, form3.form.display_name])
       ).toAppearInOrder()

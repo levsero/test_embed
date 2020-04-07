@@ -1,4 +1,4 @@
-import { queries, wait } from 'pptr-testing-library'
+import { wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
@@ -24,8 +24,7 @@ const mockAuthSuccessEndpoint = callback => {
 
 const searchAndWaitForResults = async () => {
   await search('Help')
-  const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, 'Top results'))
+  await widget.waitForText('Top results')
 }
 
 const searchEndpoint = jest.fn(),
@@ -70,8 +69,7 @@ test('help center images include token as well', async () => {
   await launcher.click()
   await waitForHelpCenter()
   await searchAndWaitForResults()
-  const frame = await widget.getDocument()
-  await expect(frame).toClick('a', { text: 'What are these sections and articles doing here?' })
+  await widget.clickText('What are these sections and articles doing here?')
   await wait(() => expect(image).toHaveBeenCalled())
   const headers = image.mock.calls[0][0]
   expect(headers.authorization).toEqual('Bearer faketoken')
@@ -86,9 +84,7 @@ test('logout clears the token', async () => {
   expect(searchEndpoint).toHaveBeenCalled()
   searchEndpoint.mockClear()
   await page.evaluate(() => zE('webWidget', 'logout'))
-  await wait(async () => {
-    await expect(launcher).toBeVisible()
-  })
+  await launcher.waitForLauncherPill()
   await widget.openByKeyboard()
   await searchAndWaitForResults()
   const headers = searchEndpoint.mock.calls[0][1]

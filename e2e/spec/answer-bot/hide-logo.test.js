@@ -6,7 +6,6 @@ import {
   mockInteractionEndpoint,
   mockViewedEndpoint
 } from 'e2e/helpers/answer-bot-embed'
-import { queries, wait } from 'pptr-testing-library'
 
 test('hides the logo in answer bot when requested', async () => {
   await loadWidget()
@@ -19,12 +18,9 @@ test('hides the logo in answer bot when requested', async () => {
   await widget.openByKeyboard()
   await waitForAnswerBot()
   expect(await widget.zendeskLogoVisible()).toEqual(false)
-
-  const doc = await widget.getDocument()
   await search('Help')
-  await wait(() => queries.getByText(doc, 'Here are some articles that may help:'))
-  const link = await queries.getByText(doc, 'The first article')
-  await link.click()
-  await wait(() => queries.queryByText(doc, 'first article'))
+  await widget.waitForText('Here are some articles that may help:')
+  await widget.clickText('The first article')
+  await widget.waitForText('first article')
   expect(await widget.zendeskLogoVisible()).toEqual(false)
 })

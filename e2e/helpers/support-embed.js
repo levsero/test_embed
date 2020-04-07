@@ -154,12 +154,12 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
 
 const waitForContactForm = async () => {
   const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, 'Leave us a message'))
+  await wait(async () => await queries.getByText(doc, 'Leave us a message'))
 }
 
 const waitForSubmissionSuccess = async () => {
   const doc = await widget.getDocument()
-  await wait(() => queries.getByText(doc, 'Message sent'))
+  await wait(async () => await queries.getByText(doc, 'Message sent'))
 }
 
 const uploadFiles = async (...filePaths) => {

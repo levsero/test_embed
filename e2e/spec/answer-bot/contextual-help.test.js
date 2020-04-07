@@ -1,8 +1,9 @@
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
 import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
+import { waitForAnswerBot, waitForGetInTouchButton } from 'e2e/helpers/answer-bot-embed'
 import searchResults from 'e2e/fixtures/responses/search-results'
 
 const assertUrlIncludes = (endpoint, matches) => {
@@ -11,12 +12,9 @@ const assertUrlIncludes = (endpoint, matches) => {
   expect(url).toMatch(matches)
 }
 
-const assertSuggestionsShown = async () => {
-  const doc = await widget.getDocument()
-  await wait(async () => queries.getByText(doc, 'Here are some top suggestions for you:'))
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'Welcome to your Help Center!')).toBeTruthy()
-  })
+const waitForArticleSuggestions = async () => {
+  await widget.waitForText('Here are some top suggestions for you:')
+  await widget.waitForText('How do I publish my content in other languages?')
 }
 
 describe('contextual search', () => {
@@ -28,16 +26,9 @@ describe('contextual search', () => {
         .load()
 
       await widget.openByKeyboard()
-      const doc = await widget.getDocument()
-      await wait(async () => {
-        expect(
-          await queries.queryByText(doc, "Ask me a question and I'll find the answer for you.")
-        ).toBeTruthy()
-      })
-      await wait(async () => {
-        expect(await queries.queryByText(doc, 'Get in touch')).toBeTruthy()
-      })
-      expect(await queries.queryByText(doc, 'Here are some top suggestions for you:')).toBeFalsy()
+      await waitForAnswerBot()
+      await waitForGetInTouchButton()
+      await widget.expectNotToSeeText('Here are some top suggestions for you:')
     })
   })
 
@@ -47,15 +38,13 @@ describe('contextual search', () => {
       .intercept(mockSearchEndpoint())
       .load()
     await widget.openByKeyboard()
-    await assertSuggestionsShown()
-    const doc = await widget.getDocument()
-    const link = await queries.getByText(doc, 'Welcome to your Help Center!')
-    await link.click()
-    await queries.getByText(doc, 'This is the body.')
-    expect(await queries.queryByTitle(doc, 'View original article')).toBeTruthy()
+    await waitForArticleSuggestions()
+    await widget.clickText('Welcome to your Help Center!')
+    await widget.waitForText('This is the body.')
+    const link = await queries.queryByTitle(await widget.getDocument(), 'View original article')
+    expect(link).toBeTruthy()
     await page.waitFor(3000)
-    const feedback = await queries.queryByText(doc, 'Does this article answer your question?')
-    expect(feedback).toBeNull()
+    await widget.expectNotToSeeText('Does this article answer your question?')
   })
 
   describe('via config', () => {
@@ -65,7 +54,7 @@ describe('contextual search', () => {
         .intercept(mockSearchEndpoint())
         .load()
       await widget.openByKeyboard()
-      await assertSuggestionsShown()
+      await waitForArticleSuggestions()
     })
   })
 
@@ -80,7 +69,7 @@ describe('contextual search', () => {
         })
         .load()
       await launcher.click()
-      await assertSuggestionsShown()
+      await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=help/)
     })
 
@@ -94,7 +83,7 @@ describe('contextual search', () => {
         })
         .load()
       await launcher.click()
-      await assertSuggestionsShown()
+      await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /query=e2e/)
     })
   })
@@ -110,7 +99,7 @@ describe('contextual search', () => {
         zE.setHelpCenterSuggestions({ labels: ['credit card', 'help'] })
       })
       await launcher.click()
-      await assertSuggestionsShown()
+      await waitForArticleSuggestions()
       assertUrlIncludes(endpoint, /label_names=credit%20card%2Chelp/)
     })
   })

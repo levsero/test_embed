@@ -1,4 +1,3 @@
-import { queries, wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 
@@ -19,14 +18,9 @@ test('updates the title', async () => {
     })
     .load()
   await widget.openByKeyboard()
-  const doc = await widget.getDocument()
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'answer bot title fallback')).toBeTruthy()
-  })
+  await widget.waitForText('answer bot title fallback')
   await page.evaluate(() => {
     zE('webWidget', 'setLocale', 'fr')
   })
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'french ab title')).toBeTruthy()
-  })
+  await widget.waitForText('french ab title')
 })

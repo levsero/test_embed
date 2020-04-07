@@ -4,9 +4,9 @@ import frame from './frame'
 
 const launcherId = 'launcher'
 const getDocument = () => frame.getDocument(launcherId)
-const getLabel = async () => queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
-const getLabelText = async () => queries.getNodeText(await getLabel())
-const getButton = async () => queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER)
+const getLabel = async () => await queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
+const getLabelText = async () => await queries.getNodeText(await getLabel())
+const getButton = async () => await queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER)
 const getFrame = () => frame.getByName(launcherId)
 
 const evaluate = async (script, ...arg) => {
