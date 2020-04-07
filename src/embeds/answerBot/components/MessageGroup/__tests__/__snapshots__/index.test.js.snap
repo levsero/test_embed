@@ -1,0 +1,608 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bot avatar renders agent avatar 1`] = `
+.c5 {
+  margin-bottom: 0.5rem;
+  float: left;
+  color: #333;
+}
+
+.c6 {
+  margin-left: 2.857142857142857rem;
+  background: #f3f3f3;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c2 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c4 {
+  display: block !important;
+}
+
+.c4:before,
+.c4:after {
+  content: ' ';
+  display: table;
+}
+
+.c4:after {
+  clear: both;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c0 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c1 {
+  margin-top: 0.35714285714285715rem !important;
+  margin-bottom: 0.35714285714285715rem !important;
+  color: #999 !important;
+  margin-left: 3.5714285714285716rem;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 {
+  position: absolute !important;
+  -webkit-transition: top 300ms ease-in-out;
+  transition: top 300ms ease-in-out;
+  padding-bottom: 0.5rem;
+  height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  background-color: transparent !important;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 svg {
+  border-radius: 50%;
+  min-width: 2.2857142857142856rem;
+  min-height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  height: 2.2857142857142856rem;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+      >
+        <span>
+          Answer Bot
+        </span>
+          ·  
+        <span>
+          Bot
+        </span>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="slide-appear-container"
+          role="presentation"
+          style="opacity: 1; bottom: 0px;"
+        >
+          <div
+            class="c4"
+          >
+            <div
+              class="c5"
+            >
+              <div
+                data-testid="chat-msg-answer-bot"
+              >
+                <div
+                  class="messageBubble c6"
+                >
+                  <span
+                    class="Linkify"
+                  >
+                    hello
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img
+        alt="avatar"
+        aria-hidden="true"
+        class="avatar c7"
+        src="http://url"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`bot avatar renders brand logo 1`] = `
+.c5 {
+  margin-bottom: 0.5rem;
+  float: left;
+  color: #333;
+}
+
+.c6 {
+  margin-left: 2.857142857142857rem;
+  background: #f3f3f3;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c2 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c4 {
+  display: block !important;
+}
+
+.c4:before,
+.c4:after {
+  content: ' ';
+  display: table;
+}
+
+.c4:after {
+  clear: both;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c0 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c1 {
+  margin-top: 0.35714285714285715rem !important;
+  margin-bottom: 0.35714285714285715rem !important;
+  color: #999 !important;
+  margin-left: 3.5714285714285716rem;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 {
+  position: absolute !important;
+  -webkit-transition: top 300ms ease-in-out;
+  transition: top 300ms ease-in-out;
+  padding-bottom: 0.5rem;
+  height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  background-color: transparent !important;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 svg {
+  border-radius: 50%;
+  min-width: 2.2857142857142856rem;
+  min-height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  height: 2.2857142857142856rem;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+      >
+        <span>
+          Answer Bot
+        </span>
+          ·  
+        <span>
+          Bot
+        </span>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="slide-appear-container"
+          role="presentation"
+          style="opacity: 1; bottom: 0px;"
+        >
+          <div
+            class="c4"
+          >
+            <div
+              class="c5"
+            >
+              <div
+                data-testid="chat-msg-answer-bot"
+              >
+                <div
+                  class="messageBubble c6"
+                >
+                  <span
+                    class="Linkify"
+                  >
+                    hello
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img
+        alt="avatar"
+        aria-hidden="true"
+        class="avatar c7"
+        src="http://url"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`bot name renders agent name 1`] = `
+.c5 {
+  margin-bottom: 0.5rem;
+  float: left;
+  color: #333;
+}
+
+.c6 {
+  margin-left: 2.857142857142857rem;
+  background: #f3f3f3;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c2 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c4 {
+  display: block !important;
+}
+
+.c4:before,
+.c4:after {
+  content: ' ';
+  display: table;
+}
+
+.c4:after {
+  clear: both;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c0 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c1 {
+  margin-top: 0.35714285714285715rem !important;
+  margin-bottom: 0.35714285714285715rem !important;
+  color: #999 !important;
+  margin-left: 3.5714285714285716rem;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 {
+  position: absolute !important;
+  -webkit-transition: top 300ms ease-in-out;
+  transition: top 300ms ease-in-out;
+  padding-bottom: 0.5rem;
+  height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  background-color: transparent !important;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 svg {
+  border-radius: 50%;
+  min-width: 2.2857142857142856rem;
+  min-height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  height: 2.2857142857142856rem;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+      >
+        <span>
+          Bond
+        </span>
+          ·  
+        <span>
+          Bot
+        </span>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="slide-appear-container"
+          role="presentation"
+          style="opacity: 1; bottom: 0px;"
+        >
+          <div
+            class="c4"
+          >
+            <div
+              class="c5"
+            >
+              <div
+                data-testid="chat-msg-answer-bot"
+              >
+                <div
+                  class="messageBubble c6"
+                >
+                  <span
+                    class="Linkify"
+                  >
+                    hello
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c7"
+      >
+        <svg
+          realfilename="answerBot.svg"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders expected classes and components with default props 1`] = `
+.c5 {
+  margin-bottom: 0.5rem;
+  float: left;
+  color: #333;
+}
+
+.c6 {
+  margin-left: 2.857142857142857rem;
+  background: #f3f3f3;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c2 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c4 {
+  display: block !important;
+}
+
+.c4:before,
+.c4:after {
+  content: ' ';
+  display: table;
+}
+
+.c4:after {
+  clear: both;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c0 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c1 {
+  margin-top: 0.35714285714285715rem !important;
+  margin-bottom: 0.35714285714285715rem !important;
+  color: #999 !important;
+  margin-left: 3.5714285714285716rem;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 {
+  position: absolute !important;
+  -webkit-transition: top 300ms ease-in-out;
+  transition: top 300ms ease-in-out;
+  padding-bottom: 0.5rem;
+  height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  background-color: transparent !important;
+  -webkit-animation: fadeIn 200ms 1 ease-in-out;
+  animation: fadeIn 200ms 1 ease-in-out;
+}
+
+.c7 svg {
+  border-radius: 50%;
+  min-width: 2.2857142857142856rem;
+  min-height: 2.2857142857142856rem;
+  width: 2.2857142857142856rem;
+  height: 2.2857142857142856rem;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+      >
+        <span>
+          Answer Bot
+        </span>
+          ·  
+        <span>
+          Bot
+        </span>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="slide-appear-container"
+          role="presentation"
+          style="opacity: 1; bottom: 0px;"
+        >
+          <div
+            class="c4"
+          >
+            <div
+              class="c5"
+            >
+              <div
+                data-testid="chat-msg-answer-bot"
+              >
+                <div
+                  class="messageBubble c6"
+                >
+                  <span
+                    class="Linkify"
+                  >
+                    hello
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="c7"
+      >
+        <svg
+          realfilename="answerBot.svg"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`visitor name and avatar renders nothing 1`] = `
+.c4 {
+  margin-bottom: 0.5rem;
+  float: right;
+  color: #fff;
+}
+
+.c5 {
+  margin-left: 2.857142857142857rem;
+  background-color: #1F73B7 !important;
+  color: #FFFFFF !important;
+}
+
+.c5:hover,
+.c5:active,
+.c5:focus {
+  background-color: #227EC9 !important;
+}
+
+.c1 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+.c3 {
+  display: block !important;
+}
+
+.c3:before,
+.c3:after {
+  content: ' ';
+  display: table;
+}
+
+.c3:after {
+  clear: both;
+}
+
+.c2 {
+  position: relative;
+}
+
+.c0 {
+  position: relative !important;
+  margin-bottom: 0.35714285714285715rem !important;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+      >
+        <div
+          class="c2"
+          data-testid="slide-appear-container"
+          role="presentation"
+          style="opacity: 1; bottom: 0px;"
+        >
+          <div
+            class="c3"
+          >
+            <div
+              class="c4"
+            >
+              <div
+                data-testid="chat-msg-user"
+              >
+                <div
+                  class="messageBubble c5"
+                >
+                  <span
+                    class="Linkify"
+                  >
+                    hello
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

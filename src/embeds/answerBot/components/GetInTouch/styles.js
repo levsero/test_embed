@@ -17,12 +17,7 @@ const Button = styled(PillButton)`
         height: ${32 / props.theme.fontSize}rem !important;
         line-height: 1 !important;
         font-size: ${14 / props.theme.fontSize}rem !important;
-        [dir='ltr'] & {
-          right: 0;
-        }
-        [dir='rtl'] & {
-          left: 0;
-        }
+        ${props.theme.rtl ? 'left' : 'right'}: 0;
         position: absolute;
       }
     `

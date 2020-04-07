@@ -2,18 +2,6 @@
 
 exports[`renders the expected classes 1`] = `
 .c0 {
-  margin-bottom: 0.5rem;
-  float: left;
-  color: #333;
-}
-
-.c1 {
-  margin-left: 2.857142857142857rem;
-  background: #f3f3f3;
-  max-width: 15.642857142857142rem !important;
-}
-
-.c2 {
   display: inline-block;
   white-space: pre-wrap;
   border-radius: 1.1428571428571428rem;
@@ -24,7 +12,7 @@ exports[`renders the expected classes 1`] = `
   margin-left: 2.857142857142857rem;
 }
 
-.c3 {
+.c1 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
   border-top: 0.07142857142857142rem #eee solid;
@@ -32,22 +20,22 @@ exports[`renders the expected classes 1`] = `
   border-top-right-radius: 1.1428571428571428rem;
 }
 
-.c3:hover {
+.c1:hover {
   background-color: #f8f8f8;
 }
 
-.c9 {
+.c7 {
   cursor: pointer;
   border-bottom: 0.07142857142857142rem #eee solid;
   border-bottom-left-radius: 1.1428571428571428rem;
   border-bottom-right-radius: 1.1428571428571428rem;
 }
 
-.c9:hover {
+.c7:hover {
   background-color: #f8f8f8;
 }
 
-.c5 {
+.c3 {
   display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
@@ -60,7 +48,7 @@ exports[`renders the expected classes 1`] = `
   overflow: hidden;
 }
 
-.c8 {
+.c6 {
   display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
@@ -70,16 +58,16 @@ exports[`renders the expected classes 1`] = `
   max-height: 2.5rem;
 }
 
-.c7 {
+.c5 {
   color: #007fab;
 }
 
-.c7:hover {
+.c5:hover {
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
-.c4 {
+.c2 {
   display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
@@ -90,18 +78,18 @@ exports[`renders the expected classes 1`] = `
   flex-direction: column;
 }
 
-.c4:hover .icon svg path {
+.c2:hover .icon svg path {
   stroke: #555 !important;
 }
 
-.c6 {
+.c4 {
   margin-right: 0.7142857142857143rem;
   min-width: 1rem !important;
   width: 1rem !important;
   height: 1rem !important;
 }
 
-.c6 path {
+.c4 path {
   stroke: #999 !important;
 }
 
@@ -110,49 +98,32 @@ exports[`renders the expected classes 1`] = `
     <div>
       <div
         class="c0"
-      >
-        <div
-          data-testid="chat-msg-answer-bot"
-        >
-          <div
-            class="messageBubble c1"
-          >
-            <span
-              class="Linkify"
-            >
-              Here are some articles that may help:
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="c2"
         data-testid="answer-bot-selection-message"
       >
         <div
-          class="c3"
+          class="c1"
         >
           <div
-            class="c4"
+            class="c2"
             role="button"
             tabindex="0"
           >
             <div
-              class="c5"
+              class="c3"
             >
               <svg
-                class="c6"
+                class="c4"
                 realfilename="article.svg"
               />
               <div
-                class="c7"
+                class="c5"
                 data-testid="hc-article-title"
               >
                 title 123
               </div>
             </div>
             <div
-              class="c8"
+              class="c6"
             >
               <div>
                 to be filled later 123
@@ -161,29 +132,29 @@ exports[`renders the expected classes 1`] = `
           </div>
         </div>
         <div
-          class="c9"
+          class="c7"
         >
           <div
-            class="c4"
+            class="c2"
             role="button"
             tabindex="0"
           >
             <div
-              class="c5"
+              class="c3"
             >
               <svg
-                class="c6"
+                class="c4"
                 realfilename="article.svg"
               />
               <div
-                class="c7"
+                class="c5"
                 data-testid="hc-article-title"
               >
                 title 456
               </div>
             </div>
             <div
-              class="c8"
+              class="c6"
             >
               <div>
                 to be filled later 456

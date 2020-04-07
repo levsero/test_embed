@@ -60,7 +60,6 @@ class ArticlePage extends Component {
     articleTitleKey: 'help',
     authToken: '',
     isMobile: false,
-    scrollContainerClasses: '',
     saveConversationScroll: () => {}
   }
 

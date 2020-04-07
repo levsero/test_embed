@@ -70,7 +70,7 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/answerBot': connectedComponent(<MockAnswerBot />),
+      'embeds/answerBot': connectedComponent(<MockAnswerBot />),
       'component/chat/Chat': connectedComponent(<MockChat />),
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'embeds/support': connectedComponent(<MockSupport />),

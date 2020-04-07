@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected classes 1`] = `
+.c0 {
+  display: inline-block;
+  max-width: 100%;
+  float: left;
+  background: #f3f3f3;
+  border-radius: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c1 {
+  margin: 0.2857142857142857rem;
+}
+
+.c1 div {
+  width: 0.39285714285714285rem;
+  height: 0.39285714285714285rem;
+  background-color: #68737d;
+  margin-right: 0.2857142857142857rem;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-typing-indicator"
+    >
+      <div
+        aria-busy="true"
+        aria-live="polite"
+        class="container c1"
+        data-testid="Icon--ellipsis"
+      >
+        <div
+          class="
+      circle 
+      bounce
+      
+    "
+        />
+        <div
+          class="
+      circle 
+      bounce
+      
+    "
+        />
+        <div
+          class="
+      circle 
+      bounce
+      
+    "
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
