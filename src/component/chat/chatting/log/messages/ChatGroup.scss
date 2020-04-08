@@ -124,10 +124,22 @@
 
 .agentAvatar {
   left: 0;
+  right: auto;
+
+  [dir='rtl'] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .endUserAvatar {
+  left: auto;
   right: 0;
+
+  [dir='rtl'] & {
+    left: 0;
+    right: auto;
+  }
 }
 
 .fadeIn {

@@ -5,11 +5,10 @@ import classNames from 'classnames'
 import _ from 'lodash'
 
 import { Avatar } from 'component/Avatar'
-import { MessageBubble } from 'component/shared/MessageBubble'
 import { Attachment } from 'component/chat/attachment/Attachment'
 import { MessageError } from 'component/chat/chatting/MessageError'
 import { ImageMessage } from 'component/chat/chatting/ImageMessage'
-import { ICONS, FILETYPE_ICONS, TEST_IDS } from 'src/constants/shared'
+import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import {
   ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES,
@@ -20,6 +19,7 @@ import { locals as styles } from './ChatGroup.scss'
 import { Icon } from 'component/Icon'
 import StructuredMessage from 'component/chat/chatting/StructuredMessage'
 import Carousel from 'component/chat/chatting/Carousel'
+import MessageBubble from 'src/embeds/chat/components/MessageBubble'
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE)
 
@@ -140,27 +140,21 @@ export default class ChatGroup extends Component {
     })
   }
 
-  renderMessageBubble = (chat, isAgent, showAvatar) => {
+  renderMessageBubble = (chat, isAgent) => {
     const { msg, options, translation } = chat
-    const messageBubbleClasses = classNames({
-      [styles.messageBubble]: showAvatar,
-      [styles.userBackground]: !isAgent,
-      [styles.agentBackground]: isAgent
-    })
 
     return (
       <MessageBubble
-        className={messageBubbleClasses}
+        isAgent={isAgent}
         message={msg}
         options={options}
-        translatedMessage={translation ? translation.msg : ''}
-        handleSendMsg={this.props.handleSendMsg}
-        data-testid={isAgent ? TEST_IDS.CHAT_MSG_AGENT : TEST_IDS.CHAT_MSG_USER}
+        translatedMessage={translation?.msg}
+        onOptionSelect={this.props.handleSendMsg}
       />
     )
   }
 
-  renderErrorMessage = (chat, isAgent, showAvatar) => {
+  renderErrorMessage = (chat, isAgent) => {
     const { numFailedTries, msg, timestamp } = chat
     const messageError =
       numFailedTries === 1 ? (
@@ -176,13 +170,13 @@ export default class ChatGroup extends Component {
 
     return (
       <div>
-        {this.renderMessageBubble(chat, isAgent, showAvatar)}
+        {this.renderMessageBubble(chat, isAgent)}
         <div className={styles.messageErrorContainer}>{messageError}</div>
       </div>
     )
   }
 
-  renderDefaultMessage = (chat, isAgent, showAvatar) => {
+  renderDefaultMessage = (chat, isAgent) => {
     const sentIndicator =
       chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS ? (
         <Icon className={styles.sentIndicator} type="Icon--mini-tick" />
@@ -191,7 +185,7 @@ export default class ChatGroup extends Component {
     return (
       <div className={styles.defaultMessageContainer}>
         {sentIndicator}
-        {this.renderMessageBubble(chat, isAgent, showAvatar)}
+        {this.renderMessageBubble(chat, isAgent)}
       </div>
     )
   }
