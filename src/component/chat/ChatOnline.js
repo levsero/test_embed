@@ -11,7 +11,6 @@ import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
-import AttachmentBox from 'src/component/attachment/AttachmentBox'
 import { i18n } from 'service/i18n'
 import {
   endChatViaPostChatScreen,
@@ -37,6 +36,7 @@ import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
+import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
 
 const mapStateToProps = state => {
@@ -189,31 +189,16 @@ class Chat extends Component {
     )
   }
 
-  handleDragEnter = () => {
-    this.setState({ isDragActive: true })
-  }
-
-  handleDragLeave = () => {
-    this.setState({ isDragActive: false })
-  }
-
   handleDragDrop = attachments => {
-    this.setState({ isDragActive: false })
     return this.props.sendAttachments(attachments)
   }
 
   renderAttachmentsBox = () => {
     const { screen, attachmentsEnabled, isPreview } = this.props
 
-    if (
-      screen !== screens.CHATTING_SCREEN ||
-      !this.state.isDragActive ||
-      !attachmentsEnabled ||
-      isPreview
-    )
-      return
+    if (screen !== screens.CHATTING_SCREEN || !attachmentsEnabled || isPreview) return
 
-    return <AttachmentBox onDragLeave={this.handleDragLeave} onDrop={this.handleDragDrop} />
+    return <FileDropTarget onDrop={this.handleDragDrop} />
   }
 
   renderChatEndPopup = () => {
@@ -343,22 +328,19 @@ class Chat extends Component {
 
   render = () => {
     return (
-      <div
-        onKeyDown={this.onKeyDown}
-        role="presentation"
-        onDragEnter={this.handleDragEnter}
-        className={styles.chat}
-      >
-        {this.renderPrechatScreen()}
-        {this.renderChatScreen()}
-        {this.renderAgentListScreen()}
-        {this.renderChatRatingPage()}
-        {this.renderPostChatPage()}
-        {this.renderChatEndPopup()}
-        {this.renderChatContactDetailsPopup()}
-        {this.renderAttachmentsBox()}
-        {this.renderChatReconnectionBubble()}
-        {this.renderChatReconnectButton()}
+      <div onKeyDown={this.onKeyDown} role="presentation" className={styles.chat}>
+        <FileDropProvider>
+          {this.renderPrechatScreen()}
+          {this.renderChatScreen()}
+          {this.renderAgentListScreen()}
+          {this.renderChatRatingPage()}
+          {this.renderPostChatPage()}
+          {this.renderChatEndPopup()}
+          {this.renderChatContactDetailsPopup()}
+          {this.renderAttachmentsBox()}
+          {this.renderChatReconnectionBubble()}
+          {this.renderChatReconnectButton()}
+        </FileDropProvider>
       </div>
     )
   }
