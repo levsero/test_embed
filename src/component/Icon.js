@@ -10,9 +10,7 @@ import classNames from 'classnames'
 const icons = {
   Icon: require('icons/widget-icon_help.svg'),
   [ICONS.DASH]: require('icons/widget-icon_dash.svg'),
-  [ICONS.END_CHAT]: require('icons/widget-icon_endChat.svg'),
   [ICONS.ERROR_FILL]: require('@zendeskgarden/svg-icons/src/14/error-fill.svg'),
-  [ICONS.PAPERCLIP_SMALL]: require('@zendeskgarden/svg-icons/src/14/attachment.svg'),
   [ICONS.SEND_CHAT]: require('icons/widget-icon_sendChat.svg'),
   [ICONS.AGENT_AVATAR]: require('icons/widget-icon_avatar.svg'),
   'Icon--clock-stroke': require('@zendeskgarden/svg-icons/src/16/clock-stroke.svg'),
