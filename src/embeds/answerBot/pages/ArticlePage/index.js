@@ -8,26 +8,26 @@ import FeedbackPopup from 'src/embeds/answerBot/components/FeedbackPopup'
 import HelpCenterArticle from 'components/HelpCenterArticle'
 import { FeedbackContainer } from './styles'
 
-import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/'
+import { articleDismissed } from 'src/embeds/answerBot/actions/article'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
 import {
   botMessage,
   botFeedbackMessage,
   botFeedbackRequested,
   botFallbackMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
-import * as rootActions from 'src/redux/modules/answerBot/root/actions/'
-import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/actions/root/bot'
+import * as rootActions from 'src/embeds/answerBot/actions/root'
+import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { getFormTitleKey, getRestrictedImages } from 'embeds/helpCenter/selectors'
 import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/actions'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
 
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 import { i18n } from 'service/i18n'
 import { appendParams } from 'utility/utils'
-import { originalArticleClicked } from 'src/redux/modules/answerBot/article/actions/article-viewed'
+import { originalArticleClicked } from 'src/embeds/answerBot/actions/article/article-viewed'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 
 class ArticlePage extends Component {

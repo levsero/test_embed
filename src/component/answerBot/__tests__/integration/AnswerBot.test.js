@@ -3,9 +3,9 @@ import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { http } from 'service/transport'
-import { screenChanged } from 'src/redux/modules/answerBot/root/actions'
+import { screenChanged } from 'src/embeds/answerBot/actions/root'
 
-import { CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 import AnswerBot from '../../index'
 import { wait } from '@testing-library/dom'

@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux'
 import useTranslate from 'src/hooks/useTranslate'
 import { ButtonGroup } from 'component/button/ButtonGroup'
 import PillButton from 'src/embeds/answerBot/components/PillButton'
-import { sessionResolved } from 'src/redux/modules/answerBot/sessions/actions'
+import { sessionResolved } from 'src/embeds/answerBot/actions/sessions'
 import {
   botFeedback,
   botFeedbackMessage,
   botUserMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
+} from 'src/embeds/answerBot/actions/root/bot'
 
 import { Container } from './styles'
 

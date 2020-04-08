@@ -5,10 +5,10 @@ import { connect } from 'react-redux'
 
 import Results from './index'
 
-import { screenChanged, contextualArticleShown } from 'src/redux/modules/answerBot/root/actions/'
+import { screenChanged, contextualArticleShown } from 'src/embeds/answerBot/actions/root'
 import { getSearchedArticles } from 'embeds/helpCenter/selectors'
 
-import { ARTICLE_SCREEN } from 'src/constants/answerBot'
+import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
 
 class ContextualSearchResults extends Component {
   static propTypes = {

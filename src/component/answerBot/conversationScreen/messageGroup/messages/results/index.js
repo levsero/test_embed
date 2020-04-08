@@ -9,7 +9,7 @@ import MessageBubbleChoices from 'src/embeds/answerBot/components/MessageBubbleC
 import { Icon } from 'component/Icon'
 import Text from '../text'
 import { ICONS, TEST_IDS } from 'src/constants/shared'
-import { MAX_TITLE_LENGTH } from 'src/constants/answerBot'
+import { MAX_TITLE_LENGTH } from 'src/embeds/answerBot/constants'
 
 import { locals as styles } from './style.scss'
 

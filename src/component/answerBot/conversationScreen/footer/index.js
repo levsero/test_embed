@@ -10,12 +10,11 @@ import {
   questionSubmitted,
   questionValueChanged,
   getInTouchClicked
-} from 'src/redux/modules/answerBot/conversation/actions'
-import { getCurrentMessage } from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/actions/conversation'
 import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
-import { getContactButtonVisible } from 'src/redux/modules/answerBot/root/selectors'
+import { getContactButtonVisible, getCurrentMessage } from 'src/embeds/answerBot/selectors/root'
 import { SlideAppear } from 'component/transition/SlideAppear'
-import { botUserMessage, botChannelChoice } from 'src/redux/modules/answerBot/root/actions/bot'
+import { botUserMessage, botChannelChoice } from 'src/embeds/answerBot/actions/root/bot'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import { Icon } from 'component/Icon'
 import { IconButton } from '@zendeskgarden/react-buttons'

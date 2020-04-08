@@ -4,16 +4,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions'
-import * as sessionSelectors from 'src/redux/modules/answerBot/sessions/selectors'
-import * as rootActions from 'src/redux/modules/answerBot/root/actions'
-import * as rootSelectors from 'src/redux/modules/answerBot/root/selectors'
-import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
-import { getInTouchShown } from 'src/redux/modules/answerBot/conversation/actions'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions'
+import * as sessionSelectors from 'src/embeds/answerBot/selectors/sessions'
+import * as rootActions from 'src/embeds/answerBot/actions/root'
+import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
+import * as botActions from 'src/embeds/answerBot/actions/root/bot'
+import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation'
 import { getBrand, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getResultsCount } from 'embeds/helpCenter/selectors'
 import { getAnswerBotDelayChannelChoice } from 'src/redux/modules/settings/settings-selectors'
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 const INITIAL_FALLBACK_DELAY = 5000
 const FALLBACK_DELAY = 5000

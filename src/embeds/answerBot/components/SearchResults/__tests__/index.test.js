@@ -3,9 +3,9 @@ import React from 'react'
 import { render } from 'src/util/testHelpers'
 
 import SearchResults from '../'
-import * as articleActions from 'src/redux/modules/answerBot/article/actions/article-viewed'
-import * as articleshownAction from 'src/redux/modules/answerBot/root/actions/article-shown'
-import * as screenChangedAction from 'src/redux/modules/answerBot/root/actions/screen-changed'
+import * as articleshownAction from 'src/embeds/answerBot/actions/root/article-shown'
+import * as screenChangedAction from 'src/embeds/answerBot/actions/root/screen-changed'
+import * as articleActions from 'src/embeds/answerBot/actions/article/article-viewed'
 
 const sessionID = 1234
 

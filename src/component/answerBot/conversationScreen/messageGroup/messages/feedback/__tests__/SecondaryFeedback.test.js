@@ -3,9 +3,9 @@ import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 import React from 'react'
 
-import * as botActions from 'src/redux/modules/answerBot/root/actions/bot'
-import * as sessionActions from 'src/redux/modules/answerBot/sessions/actions/session-fallback-suggested'
-import * as articleActions from 'src/redux/modules/answerBot/article/actions/article-dismissed'
+import * as botActions from 'src/embeds/answerBot/actions/root/bot'
+import * as sessionActions from 'src/embeds/answerBot/actions/sessions/session-fallback-suggested'
+import * as articleActions from 'src/embeds/answerBot/actions/article/article-dismissed'
 
 import SecondaryFeedback from '../SecondaryFeedback'
 

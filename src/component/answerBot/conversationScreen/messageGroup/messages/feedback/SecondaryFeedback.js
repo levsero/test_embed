@@ -5,13 +5,13 @@ import useTranslate from 'src/hooks/useTranslate'
 
 import { ButtonGroup } from 'component/button/ButtonGroup'
 
-import { articleDismissed } from 'src/redux/modules/answerBot/article/actions/'
+import { articleDismissed } from 'src/embeds/answerBot/actions/article'
 import {
   botFeedbackMessage,
   botUserMessage,
   botFallbackMessage
-} from 'src/redux/modules/answerBot/root/actions/bot'
-import { sessionFallback } from 'src/redux/modules/answerBot/sessions/actions/'
+} from 'src/embeds/answerBot/actions/root/bot'
+import { sessionFallback } from 'src/embeds/answerBot/actions/sessions'
 import { Container, Option } from './styles'
 
 const SecondaryFeedback = () => {

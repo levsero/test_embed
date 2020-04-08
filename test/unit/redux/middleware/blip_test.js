@@ -58,7 +58,7 @@ describe('blip middleware', () => {
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,
         SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE
       },
-      'src/redux/modules/answerBot/article/action-types': {
+      'src/embeds/answerBot/actions/article/action-types': {
         ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED: 'ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED'
       },
       'src/redux/modules/base/base-action-types': {
@@ -66,21 +66,21 @@ describe('blip middleware', () => {
         UPDATE_WIDGET_SHOWN,
         LAUNCHER_CLICKED
       },
-      'src/redux/modules/answerBot/sessions/selectors': {
+      'src/embeds/answerBot/selectors/sessions': {
         getSessionByID: (prevState, id) => prevState.sessions.get(id)
       },
-      'src/redux/modules/answerBot/root/selectors': {
+      'src/embeds/answerBot/selectors/root': {
         getCurrentQuery: prevState => prevState.query,
         getCurrentDeflection: prevState => prevState.deflection,
         getCurrentArticleID: prevState => prevState.articleID,
         getCurrentScreen: prevState => prevState.currentScreen
       },
-      'src/redux/modules/answerBot/root/action-types': {
+      'src/embeds/answerBot/actions/root/action-types': {
         ARTICLE_SHOWN: ARTICLE_SHOWN,
         SCREEN_CHANGED: SCREEN_CHANGED,
         CONTEXTUAL_ARTICLE_SHOWN
       },
-      'src/constants/answerBot': {
+      'src/embeds/answerBot/constants': {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation'
       },

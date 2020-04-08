@@ -14,7 +14,7 @@ import {
   CONTEXTUAL_ARTICLE_SHOWN,
   ARTICLE_SHOWN,
   SCREEN_CHANGED
-} from 'src/redux/modules/answerBot/root/action-types'
+} from 'src/embeds/answerBot/actions/root/action-types'
 import { beacon } from 'service/beacon'
 import {
   getEmbeddableConfig,
@@ -31,17 +31,17 @@ import {
 } from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetVisible, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { getSessionByID } from 'src/redux/modules/answerBot/sessions/selectors'
+import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getCurrentArticleID,
   getCurrentQuery,
   getCurrentDeflection,
   getCurrentScreen
-} from 'src/redux/modules/answerBot/root/selectors'
+} from 'src/embeds/answerBot/selectors/root'
 import { i18n } from 'service/i18n'
 
-import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/constants/answerBot'
-import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/redux/modules/answerBot/article/action-types'
+import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import { CHAT_STARTED } from 'src/redux/modules/chat/chat-action-types'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 

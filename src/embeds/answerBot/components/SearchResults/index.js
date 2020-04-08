@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 
-import { screenChanged, articleShown } from 'src/redux/modules/answerBot/root/actions/'
-import { articleViewed } from 'src/redux/modules/answerBot/article/actions/'
-import { ARTICLE_SCREEN } from 'src/constants/answerBot'
+import { screenChanged, articleShown } from 'src/embeds/answerBot/actions/root'
+import { articleViewed } from 'src/embeds/answerBot/actions/article'
+import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
 
 import Results from 'src/component/answerBot/conversationScreen/messageGroup/messages/results'
 
