@@ -165,8 +165,8 @@ const agentRequestRating = async detail => {
   })
 }
 
-const rating = async rating => {
-  await fireData('chat', { type: 'chat.rating', new_rating: rating })
+const rating = async (rating, oldRating) => {
+  await fireData('chat', { type: 'chat.rating', new_rating: rating, rating: oldRating })
 }
 
 const online = async () => {
