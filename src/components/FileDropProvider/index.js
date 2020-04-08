@@ -66,4 +66,10 @@ const useOnDrop = onDrop => {
   }, [setCallback, onDrop])
 }
 
-export { FileDropProvider, useOnDrop }
+const FileDropTarget = ({ onDrop }) => {
+  useOnDrop(onDrop)
+
+  return null
+}
+
+export { FileDropProvider, useOnDrop, FileDropTarget }
