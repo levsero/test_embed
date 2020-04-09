@@ -141,8 +141,10 @@ Embeddable framework makes use of [snapshot testing](https://jestjs.io/docs/en/s
 but is generally limited to:
 
 - component tests where you want to assert the structure of DOM elements and attributes.
-- large JSON objects where you want to .
-  These are some guidelines to follow when using snapshots:
+- large JSON objects where you want to assert the shape and structure of the object.
+
+These are some guidelines to follow when using snapshots:
+
 - The initial generated snapshot should be visually inspected, in order
   to make sure that no incorrect test cases are committed into the repository.
 - Make sure that snapshots are not too large, and are limited to what is being tested. Use [snapshot-diff](https://github.com/jest-community/snapshot-diff) when applicable.

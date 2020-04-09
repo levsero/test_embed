@@ -294,6 +294,10 @@ Use the `routes/index.js` file to define all of your embeds routes.
 - Any tests currently in Jasmine must be ported to Jest
 - Follow the [style guide](https://github.com/zendesk/embeddable_framework/blob/master/TEST_STYLE.md)
 
+### Use Jest Puppeteer as the browser testing framework
+
+- Follow the [style guide](BROWSER_TEST_STYLE.md)
+
 ## Feature flags
 
 You can add feature flags to the Web Widget in this file [src/embeds/webWidget/selectors/feature-flags/features.js](src/embeds/webWidget/selectors/feature-flags/features.js)
