@@ -9,6 +9,13 @@ test('renders the expected classes', () => {
   expect(container).toMatchSnapshot()
 })
 
+test('it links to Zendesk Embeddables', () => {
+  const { container } = render(<ZendeskLogo />)
+  const link = container.querySelector('a')
+
+  expect(link.getAttribute('href')).toContain('https://www.zendesk.com/embeddables')
+})
+
 test('does not have the positional classnames when mobile browser is true', () => {
   const { container } = render(<ZendeskLogo fullscreen={true} />)
 
