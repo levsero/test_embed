@@ -1,7 +1,7 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import { mockBlipEndpoint, assertPageViewPayload } from 'e2e/helpers/blips'
 
-test('should send page view blips in the correct format', async () => {
+test('sends page view blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()

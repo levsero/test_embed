@@ -5,7 +5,7 @@ import widget from 'e2e/helpers/widget'
 import { mockBlipEndpoint, assertHCSearchPayload } from 'e2e/helpers/blips'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-test('should send Help Center search blips in the correct format', async () => {
+test('sends Help Center search blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()

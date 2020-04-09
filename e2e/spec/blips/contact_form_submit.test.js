@@ -6,7 +6,7 @@ import { mockBlipEndpoint, assertContactFormSubmittedPayload } from 'e2e/helpers
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { mockTicketFieldsEndpoint } from 'e2e/helpers/support-embed'
 
-test('should send submit ticket blips in the correct format', async () => {
+test('sends submit ticket blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()

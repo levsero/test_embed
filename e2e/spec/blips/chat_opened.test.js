@@ -5,7 +5,7 @@ import widget from 'e2e/helpers/widget'
 import zChat from 'e2e/helpers/zChat'
 import { mockBlipEndpoint, assertChatOpenedPayload } from 'e2e/helpers/blips'
 
-test('should send chat opened blips in the correct format', async () => {
+test('sends chat opened blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()
