@@ -2,9 +2,31 @@ import { queries, wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import { mockBlipEndpoint, assertContactFormSubmittedPayload } from 'e2e/helpers/blips'
+import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { mockTicketFieldsEndpoint } from 'e2e/helpers/support-embed'
+
+export const assertContactFormSubmittedPayload = url => {
+  const payload = getBlipPayload(url)
+
+  expect(payload).toEqual({
+    channel: 'web_widget',
+    userAction: {
+      category: 'submitTicket',
+      action: 'send',
+      label: 'ticketSubmissionForm',
+      value: {
+        query: 'Help',
+        locale: 'en-gb',
+        ticketId: expect.any(Number),
+        attachmentsCount: 0,
+        attachmentTypes: [],
+        contextualSearch: false
+      }
+    },
+    ...blipMetadata
+  })
+}
 
 test('sends submit ticket blips in the correct format', async () => {
   const blipEndpoint = jest.fn()

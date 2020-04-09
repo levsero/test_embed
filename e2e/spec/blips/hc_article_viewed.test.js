@@ -2,8 +2,31 @@ import { queries, wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import { mockBlipEndpoint, assertHCArticleViewedPayload } from 'e2e/helpers/blips'
+import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+
+export const assertHCArticleViewedPayload = url => {
+  const payload = getBlipPayload(url)
+
+  expect(payload).toEqual({
+    channel: 'web_widget',
+    userAction: {
+      category: 'helpCenter',
+      action: 'click',
+      label: 'helpCenterForm',
+      value: {
+        query: 'Help',
+        resultsCount: 3,
+        uniqueSearchResultClick: true,
+        articleId: expect.any(Number),
+        locale: 'en-gb',
+        contextualSearch: false,
+        answerBot: false
+      }
+    },
+    ...blipMetadata
+  })
+}
 
 test('sends Help Center article view blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
