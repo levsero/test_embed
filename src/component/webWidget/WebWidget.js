@@ -2,7 +2,6 @@ import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import AnswerBot from 'embeds/answerBot'
 import Chat from 'component/chat/Chat'
 
 import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
@@ -55,6 +54,7 @@ const HelpCenter = lazy(() =>
   import(/* webpackChunkName: 'lazy/help_center' */ 'embeds/helpCenter')
 )
 const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'embeds/support'))
+const AnswerBot = lazy(() => import(/* webpackChunkName: 'lazy/answerBot' */ 'embeds/answerBot'))
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'
@@ -229,11 +229,9 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== answerBot) return
 
     return (
-      <AnswerBot
-        ref={answerBot}
-        isMobile={this.props.isMobile}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
+      <SuspensePage>
+        <AnswerBot />
+      </SuspensePage>
     )
   }
 

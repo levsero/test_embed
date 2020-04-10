@@ -1,18 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
-.c0 {
-  margin-bottom: 0.5rem;
-  float: left;
-  color: #333;
-}
-
-.c1 {
-  margin-left: 2.857142857142857rem;
-  background: #f3f3f3;
-  max-width: 15.642857142857142rem !important;
-}
-
 .c2 {
   display: inline-block;
   white-space: pre-wrap;
@@ -45,6 +33,18 @@ exports[`renders the expected classes 1`] = `
 
 .c9:hover {
   background-color: #f8f8f8;
+}
+
+.c0 {
+  margin-bottom: 0.5rem;
+  float: left;
+  color: #333;
+}
+
+.c1 {
+  margin-left: 2.857142857142857rem;
+  background: #f3f3f3;
+  max-width: 15.642857142857142rem !important;
 }
 
 .c5 {
