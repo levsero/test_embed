@@ -3,7 +3,6 @@ import {
   getSettingsContactFormTags,
   getSettingsContactFormSubject
 } from 'src/redux/modules/settings/settings-selectors'
-import { getTicketFields } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import { i18n } from 'service/i18n'
 import { location, getReferrerPolicy } from 'utility/globals'
 import routes from 'embeds/support/routes'
@@ -32,7 +31,7 @@ const formatDescriptionField = description => {
   return getReferrerPolicy() ? description : `${description}${descriptionUrlStr}`
 }
 
-const formatSubjetFromDescription = descriptionData =>
+const formatSubjectFromDescription = (descriptionData = '') =>
   descriptionData.length <= 50 ? descriptionData : `${descriptionData.slice(0, 50)}...`
 
 const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFieldId) => {
@@ -70,13 +69,12 @@ const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFie
   return params
 }
 
-const getTicketFormValues = (formState, state) => {
-  const ticketFields = getTicketFields(state)
+const getTicketFormValues = (formState, ticketFields) => {
   const descriptionField = findFieldId('description', ticketFields)
   const description = formState[descriptionField]
   const subjectField = findFieldId('subject', ticketFields)
   const subjectData = formState[subjectField]
-  const subject = !_.isEmpty(subjectData) ? subjectData : formatSubjetFromDescription(description)
+  const subject = !_.isEmpty(subjectData) ? subjectData : formatSubjectFromDescription(description)
 
   return {
     description,
@@ -92,7 +90,7 @@ const getContactFormValues = (formState, state) => {
   const subject =
     getSettingsContactFormSubject(state) && !_.isEmpty(subjectData)
       ? subjectData
-      : formatSubjetFromDescription(description)
+      : formatSubjectFromDescription(description)
 
   return {
     description,
@@ -104,7 +102,7 @@ export default (state, formState, attachments, formTitle, fields) => {
   const isTicketForm = formTitle !== routes.defaultFormId
   const params = !isTicketForm
     ? getContactFormValues(formState, state)
-    : getTicketFormValues(formState, state)
+    : getTicketFormValues(formState, fields)
 
   return {
     request: {
