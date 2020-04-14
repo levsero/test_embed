@@ -8,7 +8,6 @@ import Chat from 'component/chat/Chat'
 import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
 import ChatNotificationPopup from 'components/NotificationPopup'
 import { Container } from 'component/container/Container'
-import SubmitTicket from 'component/submitTicket/SubmitTicket'
 import {
   updateActiveEmbed,
   updateEmbedAccessible,
@@ -107,8 +106,6 @@ class WebWidget extends Component {
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     }),
-    ticketFieldSettings: PropTypes.array,
-    ticketFormSettings: PropTypes.array,
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
@@ -273,31 +270,10 @@ class WebWidget extends Component {
     if (!this.props.submitTicketAvailable) return null
     if (this.props.activeEmbed !== submitTicket) return null
 
-    const { webWidgetReactRouterSupport } = this.props
-
-    if (webWidgetReactRouterSupport) {
-      return (
-        <SuspensePage>
-          <Support />
-        </SuspensePage>
-      )
-    }
-
-    const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : ''
-
     return (
-      <div className={classes}>
-        <SubmitTicket
-          ref={submitTicket}
-          hideZendeskLogo={this.props.hideZendeskLogo}
-          showBackButton={this.props.updateBackButtonVisibility}
-          style={this.props.style}
-          ticketFieldSettings={this.props.ticketFieldSettings}
-          ticketFormSettings={this.props.ticketFormSettings}
-          fullscreen={this.props.fullscreen}
-          isMobile={this.props.isMobile}
-        />
-      </div>
+      <SuspensePage>
+        <Support />
+      </SuspensePage>
     )
   }
 
