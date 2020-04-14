@@ -5,7 +5,7 @@ import devices from 'puppeteer/DeviceDescriptors'
 const defaultMocks = [
   mockRollbarEndpoint,
   mockStaticAssets,
-  mockBlipEndpoint,
+  mockBlipEndpoint(),
   mockIdentifyEndpoint()
 ]
 
