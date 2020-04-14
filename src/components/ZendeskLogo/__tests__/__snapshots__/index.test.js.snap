@@ -7,9 +7,9 @@ exports[`renders logo 1`] = `
 }
 
 .c0 svg {
-  min-width: NaNrem;
-  width: NaNrem;
-  height: NaNrem;
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
 }
 
 .c0 svg:hover path,
