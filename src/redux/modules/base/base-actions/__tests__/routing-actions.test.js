@@ -6,6 +6,7 @@ import * as actionTypes from 'src/redux/modules/base/base-action-types'
 import * as selectors from 'src/redux/modules/selectors'
 import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
 import * as submitTicketSelectors from 'src/redux/modules/submitTicket/submitTicket-selectors'
+import * as supportSelectors from 'embeds/support/selectors'
 import history from 'service/history'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
@@ -70,6 +71,8 @@ describe('onCancelClick', () => {
   })
 
   describe('when help center is available', () => {
+    jest.spyOn(supportSelectors, 'getFormsToDisplay').mockReturnValue([])
+
     it('updates active embed to HelpCenter and shows back button', () => {
       setEmbedAvailability({ answerBotAvailable: false, helpCenterAvailable: true })
       jest.spyOn(helpCenterSelectors, 'getArticleViewActive').mockReturnValue(true)
@@ -88,14 +91,6 @@ describe('onCancelClick', () => {
       ])
     })
 
-    it('does not call goBack on history when support embed is not enabled', () => {
-      isFeatureEnabled.mockReturnValue(false)
-
-      dispatchAction(actions.onCancelClick())
-
-      expect(history.goBack).not.toHaveBeenCalled()
-    })
-
     it('does call goBack on history when support embed is enabled', () => {
       isFeatureEnabled.mockReturnValue(true)
       jest.spyOn(submitTicketSelectors, 'getTicketForms').mockReturnValue([])
@@ -107,7 +102,7 @@ describe('onCancelClick', () => {
 
     it('calls goBack on history twice when there are multiple ticket forms', () => {
       isFeatureEnabled.mockReturnValue(true)
-      jest.spyOn(submitTicketSelectors, 'getTicketForms').mockReturnValue([{ id: 1 }, { id: 2 }])
+      jest.spyOn(supportSelectors, 'getFormsToDisplay').mockReturnValue([{ id: 1 }, { id: 2 }])
 
       dispatchAction(actions.onCancelClick())
 
