@@ -110,3 +110,8 @@ export const fillForm = async (options = {}) => {
     )
   }
 }
+
+export const clearInputField = async field => {
+  await field.click({ clickCount: 3 })
+  await field.press('Backspace')
+}

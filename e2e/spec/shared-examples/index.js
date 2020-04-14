@@ -1,5 +1,7 @@
 import { wait } from 'pptr-testing-library'
 
+import { clearInputField } from 'e2e/helpers/utils'
+
 /*
   For testing that user-input text is maliable in HTML input elements.
   This seems stupid, but it catches the elusive React bug that popped
@@ -24,9 +26,7 @@ export const allowsInputTextEditing = async (inputField, value) => {
     expect(await searchFieldValue.jsonValue()).toBe('Hello world!!')
   })
 
-  // clear input field
-  await inputField.click({ clickCount: 3 })
-  await inputField.press('Backspace')
+  await clearInputField(inputField)
 
   if (value) {
     await page.keyboard.type(value)

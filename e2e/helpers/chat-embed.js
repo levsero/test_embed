@@ -4,6 +4,7 @@ import launcher from 'e2e/helpers/launcher'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import zChat from 'e2e/helpers/zChat'
 import widget from './widget'
+import { TEST_IDS } from 'src/constants/shared'
 
 const loadWidgetWithChatOnline = async () => {
   await loadWidget()
@@ -70,6 +71,15 @@ const sendMessageFromAgent = async (agentName, message) => {
   expect(await queries.queryByText(await widget.getDocument(), message)).toBeTruthy()
 }
 
+const clickChatOptions = async () => {
+  const optionsButton = await queries.getByTestId(
+    await widget.getDocument(),
+    TEST_IDS.ICON_ELLIPSIS
+  )
+
+  await optionsButton.click()
+}
+
 export {
   waitForPrechatForm,
   clickStartChat,
@@ -79,5 +89,6 @@ export {
   sendMessageFromAgent,
   loadWidgetWithChatOnline,
   clickToConfirmEndChat,
-  waitForChatToBeReady
+  waitForChatToBeReady,
+  clickChatOptions
 }
