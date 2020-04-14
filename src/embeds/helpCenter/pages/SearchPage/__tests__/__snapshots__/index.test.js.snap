@@ -160,6 +160,27 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c17 {
+  position: relative;
+  display: inline-block;
+}
+
+.c17 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c17 svg:hover path,
+.c17 svg:active path,
+.c17 svg:focus path {
+  fill: #68737d;
+}
+
+.c17 svg path {
+  fill: #87929d;
+}
+
 .c16 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -193,11 +214,11 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-bottom: 0;
 }
 
-.c17 {
+.c18 {
   position: relative !important;
 }
 
-.c18 {
+.c19 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
@@ -352,7 +373,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         class="c16"
       >
         <a
-          class="icon"
+          class="c17"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -364,13 +385,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c17"
+          class="c18"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c18 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c19 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.button"
@@ -551,6 +572,27 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c17 {
+  position: relative;
+  display: inline-block;
+}
+
+.c17 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c17 svg:hover path,
+.c17 svg:active path,
+.c17 svg:focus path {
+  fill: #68737d;
+}
+
+.c17 svg path {
+  fill: #87929d;
+}
+
 .c16 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -584,11 +626,11 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin-bottom: 0;
 }
 
-.c17 {
+.c18 {
   position: relative !important;
 }
 
-.c18 {
+.c19 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
@@ -743,7 +785,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         class="c16"
       >
         <a
-          class="icon"
+          class="c17"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -755,13 +797,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c17"
+          class="c18"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c18 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c19 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.button"

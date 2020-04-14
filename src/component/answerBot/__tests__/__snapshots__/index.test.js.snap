@@ -156,6 +156,27 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c10 {
+  position: relative;
+  display: inline-block;
+}
+
+.c10 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c10 svg:hover path,
+.c10 svg:active path,
+.c10 svg:focus path {
+  fill: #68737d;
+}
+
+.c10 svg path {
+  fill: #87929d;
+}
+
 .c9 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -266,7 +287,7 @@ exports[`article screen renders expected components and styles in desktop 1`] = 
         class="c9"
       >
         <a
-          class="icon"
+          class="c10"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -439,6 +460,27 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c10 {
+  position: relative;
+  display: inline-block;
+}
+
+.c10 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c10 svg:hover path,
+.c10 svg:active path,
+.c10 svg:focus path {
+  fill: #68737d;
+}
+
+.c10 svg path {
+  fill: #87929d;
+}
+
 .c9 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -549,7 +591,7 @@ exports[`article screen renders expected components and styles in mobile 1`] = `
         class="c9"
       >
         <a
-          class="icon"
+          class="c10"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -720,6 +762,27 @@ exports[`conversation screen renders expected components and styles in desktop 1
   padding: 1.0714285714285714rem 1.4285714285714286rem;
 }
 
+.c11 {
+  position: relative;
+  display: inline-block;
+}
+
+.c11 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c11 svg:hover path,
+.c11 svg:active path,
+.c11 svg:focus path {
+  fill: #68737d;
+}
+
+.c11 svg path {
+  fill: #87929d;
+}
+
 .c9 {
   vertical-align: bottom !important;
   margin: 0 0.07142857142857142rem;
@@ -820,7 +883,7 @@ exports[`conversation screen renders expected components and styles in desktop 1
         class="logoDesktop"
       >
         <a
-          class="icon"
+          class="c11"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -992,11 +1055,32 @@ exports[`conversation screen renders expected components and styles in mobile 1`
 }
 
 .c9 {
+  position: relative;
+  display: inline-block;
+}
+
+.c9 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c9 svg:hover path,
+.c9 svg:active path,
+.c9 svg:focus path {
+  fill: #68737d;
+}
+
+.c9 svg path {
+  fill: #87929d;
+}
+
+.c10 {
   vertical-align: bottom !important;
   margin: 0 0.07142857142857142rem;
 }
 
-.c10 {
+.c11 {
   position: absolute;
   overflow: hidden;
   width: 1px;
@@ -1059,7 +1143,7 @@ exports[`conversation screen renders expected components and styles in mobile 1`
         class="logoMobile"
       >
         <a
-          class="icon"
+          class="c9"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -1078,13 +1162,13 @@ exports[`conversation screen renders expected components and styles in mobile 1`
           class="inputContainerMobile"
         >
           <div
-            class="c9"
+            class="c10"
           >
             <div
               class="text__c-txt___Uzv-G range__c-range___1aYaS "
             >
               <label
-                class="c10 text__c-txt__label___3wMPZ "
+                class="c11 text__c-txt__label___3wMPZ "
                 data-garden-container-id="field"
                 data-garden-container-version="1.1.3"
                 data-garden-id="forms.text_label"

@@ -156,6 +156,27 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
+.c12 {
+  position: relative;
+  display: inline-block;
+}
+
+.c12 svg {
+  min-width: 3.5714285714285716rem;
+  width: 3.5714285714285716rem;
+  height: 0.7142857142857143rem;
+}
+
+.c12 svg:hover path,
+.c12 svg:active path,
+.c12 svg:focus path {
+  fill: #68737d;
+}
+
+.c12 svg path {
+  fill: #87929d;
+}
+
 .c11 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -260,7 +281,7 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
         class="c11"
       >
         <a
-          class="icon"
+          class="c12"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
