@@ -14,7 +14,6 @@ import { FORM_PREFILLED } from '../action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
@@ -602,8 +601,6 @@ describe('submitTicket', () => {
   })
 
   it('dispatches expected actions on successful request', () => {
-    isFeatureEnabled.mockReturnValue(false)
-
     const store = mockStore()
 
     store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
@@ -618,23 +615,7 @@ describe('submitTicket', () => {
     })
   })
 
-  it('does not replace history when new support embed is not enabled', () => {
-    isFeatureEnabled.mockReturnValue(false)
-
-    const store = mockStore()
-
-    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
-
-    const cb = http.send.mock.calls[0][0].callbacks.done
-
-    cb({ text: JSON.stringify({ a: 123 }) })
-
-    expect(history.replace).not.toHaveBeenCalled()
-  })
-
-  it('replaces history with the success page onto history when new support embed is enabled', () => {
-    isFeatureEnabled.mockReturnValue(true)
-
+  it('replaces history with the success page onto history', () => {
     const store = mockStore()
 
     store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
