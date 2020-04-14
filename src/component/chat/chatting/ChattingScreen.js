@@ -120,7 +120,7 @@ const ChattingScreen = ({
   updateEmailTranscriptVisibility
 }) => {
   const scrollContainer = useRef(null)
-  let agentTypingRef = useRef(null)
+  const agentTypingRef = useRef(null)
 
   const isScrollCloseToBottom = () => {
     return scrollContainer.current
@@ -136,7 +136,7 @@ const ChattingScreen = ({
   })
 
   useMessagesOnMount(scrollToBottom)
-  useHistoryUpdate(scrollContainer.current)
+  useHistoryUpdate(scrollContainer.current, scrollToBottom)
   useAgentTyping(agentTypingRef.current, scrollContainer.current, scrollToBottom)
   useNewMessages(scrollToBottom, isScrollCloseToBottom())
 

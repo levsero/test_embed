@@ -20,7 +20,7 @@ export const useMessagesOnMount = scrollToBottom => {
   }, [])
 }
 
-export const useHistoryUpdate = scrollContainer => {
+export const useHistoryUpdate = (scrollContainer, scrollToBottom) => {
   const historyRequestStatus = useSelector(getHistoryRequestStatus)
   const [scrollHeight, setScrollHeight] = useState(false)
 
@@ -33,8 +33,8 @@ export const useHistoryUpdate = scrollContainer => {
 
   useEffect(() => {
     if (historyRequestStatus !== HISTORY_REQUEST_STATUS.DONE) return
-    if (!scrollHeight || !scrollContainer) return
-
+    if (!scrollContainer) return
+    if (!scrollHeight) return scrollToBottom()
     const scrollTop = scrollContainer.scrollTop
     const scrollPosition = scrollContainer.scrollHeight
     const lengthDifference = scrollPosition - scrollHeight

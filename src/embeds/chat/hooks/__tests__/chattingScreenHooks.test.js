@@ -19,8 +19,8 @@ const UseMessagesOnMount = ({ scrollToBottom, isScrollCloseToBottom }) => {
   return null
 }
 
-const UseHistoryUpdate = ({ scrollContainer }) => {
-  useHistoryUpdate(scrollContainer)
+const UseHistoryUpdate = ({ scrollContainer, scrollToBottom }) => {
+  useHistoryUpdate(scrollContainer, scrollToBottom)
   return null
 }
 
@@ -62,22 +62,36 @@ describe('useMessagesOnMount', () => {
 })
 
 describe('useHistoryUpdate', () => {
-  it('adjusts the scroll height when historyRequestStatus changes it ', () => {
+  const setHistoryRequestStatus = status => {
+    jest.spyOn(chatHistorySelectors, 'getHistoryRequestStatus').mockReturnValue(status)
+  }
+  it('adjusts the scroll height when historyRequestStatus changes it', () => {
     const scrollContainer = {
       scrollTop: 10,
       scrollHeight: 50
     }
-    jest
-      .spyOn(chatHistorySelectors, 'getHistoryRequestStatus')
-      .mockReturnValue(HISTORY_REQUEST_STATUS.PENDING)
-    const { rerender } = renderHookComponent(UseHistoryUpdate, { scrollContainer })
+    const scrollToBottom = jest.fn()
+    setHistoryRequestStatus(HISTORY_REQUEST_STATUS.PENDING)
+    const { rerender } = renderHookComponent(UseHistoryUpdate, { scrollContainer, scrollToBottom })
     scrollContainer.scrollHeight = 100
-    jest
-      .spyOn(chatHistorySelectors, 'getHistoryRequestStatus')
-      .mockReturnValue(HISTORY_REQUEST_STATUS.DONE)
-    renderHookComponent(UseHistoryUpdate, { scrollContainer }, { render: rerender })
+    setHistoryRequestStatus(HISTORY_REQUEST_STATUS.DONE)
+    renderHookComponent(UseHistoryUpdate, { scrollContainer, scrollToBottom }, { render: rerender })
 
     expect(scrollContainer.scrollTop).toEqual(60)
+    expect(scrollToBottom).not.toHaveBeenCalled()
+  })
+
+  it('calls scrollToBottom when request completes without first having pending', () => {
+    const scrollContainer = {
+      scrollTop: 10,
+      scrollHeight: 50
+    }
+    const scrollToBottom = jest.fn()
+    setHistoryRequestStatus(HISTORY_REQUEST_STATUS.DONE)
+    renderHookComponent(UseHistoryUpdate, { scrollContainer, scrollToBottom })
+
+    expect(scrollContainer.scrollTop).toEqual(10)
+    expect(scrollToBottom).toHaveBeenCalledTimes(1)
   })
 })
 
