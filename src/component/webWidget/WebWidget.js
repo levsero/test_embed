@@ -184,7 +184,6 @@ class WebWidget extends Component {
       closedChatHistory,
       webWidgetReactRouterSupport
     } = this.props
-    const activeComponent = this.getActiveComponent()
     const isShowingChatHistory = activeEmbed === chat && showChatHistory
 
     if (activeEmbed === answerBot) {
@@ -193,7 +192,6 @@ class WebWidget extends Component {
     } else if (isShowingChatHistory) {
       closedChatHistory()
     } else if (showTicketFormsBackButton) {
-      activeComponent.clearForm()
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable)
     } else if (answerBotAvailable) {
       updateBackButtonVisibility(false)

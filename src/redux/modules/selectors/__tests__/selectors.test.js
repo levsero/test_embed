@@ -13,6 +13,8 @@ import { i18n } from 'src/service/i18n'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import { LAUNCHER } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
+import supportRoutes from 'src/embeds/support/routes'
+import history from 'service/history'
 
 const stateLauncherSettings = (settings = {}) => {
   return {
@@ -924,10 +926,11 @@ describe('getChatAvailable', () => {
 
 describe('getShowTicketFormsBackButton', () => {
   test.each([
-    ['Values are correct', [1, 2], 'ticketSubmissionForm', true],
-    ['Less than 2 ticket forms', [1], 'ticketSubmissionForm', false],
-    ['Incorrect embed', [1, 2], 'notTheRightForm', false]
-  ])('%p', (_title, ticketForms, activeEmbed, expectedValue) => {
+    ['Values are correct', supportRoutes.form(1), [1, 2], 'ticketSubmissionForm', true],
+    ['Less than 2 ticket forms', supportRoutes.form(1), [1], 'ticketSubmissionForm', false],
+    ['Incorrect embed', [1, 2], supportRoutes.form(1), 'notTheRightForm', false]
+  ])('%p', (_title, path, ticketForms, activeEmbed, expectedValue) => {
+    history.location = path
     const result = selectors.getShowTicketFormsBackButton.resultFunc(ticketForms, activeEmbed)
 
     expect(result).toEqual(expectedValue)
