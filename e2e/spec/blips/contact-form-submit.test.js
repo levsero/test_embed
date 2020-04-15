@@ -52,6 +52,8 @@ test('sends submit ticket blips in the correct format', async () => {
 
   await contactButton.click()
 
+  await widget.waitForText('Email address')
+
   const emailField = await queries.getByLabelText(widgetDoc, 'Email address')
   const descriptionField = await queries.getByLabelText(widgetDoc, 'How can we help you?')
 

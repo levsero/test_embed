@@ -20,6 +20,7 @@ jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('service/history')
 jest.mock('embeds/webWidget/selectors/feature-flags')
+jest.mock('src/embeds/support/utils/track-ticket-submitted')
 
 const mockFileBlob2 = {
   name: 'blah2.txt',

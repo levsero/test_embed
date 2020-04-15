@@ -1,5 +1,14 @@
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import { beacon } from 'service/beacon'
+import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/selectors'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { getAttachmentsEnabled } from 'src/redux/modules/selectors'
+import { getAttachmentsForForm } from 'embeds/support/selectors'
+
+jest.mock('embeds/helpCenter/selectors')
+jest.mock('src/redux/modules/base/base-selectors')
+jest.mock('src/redux/modules/selectors')
+jest.mock('embeds/support/selectors')
 
 jest.mock('service/beacon', () => ({
   beacon: {
@@ -8,35 +17,50 @@ jest.mock('service/beacon', () => ({
 }))
 
 describe('trackTicketSubmitted', () => {
-  const getParams = (responseParam = 'request') => ({
-    searchTerm: 'search term',
-    searchLocale: 'en-US',
-    res: {
-      body: {
-        [responseParam]: {
-          id: 'response id',
-          attachmentsCount: 5,
-          attachmentTypes: 'attachment types',
-          contextualSearch: true
-        }
+  const getResponse = (responseParam = 'request') => ({
+    // searchTerm: 'search term',
+    // searchLocale: 'en-US',
+    body: {
+      [responseParam]: {
+        id: 'response id',
+        attachmentsCount: 5,
+        attachmentTypes: 'attachment types',
+        contextualSearch: true
       }
     }
   })
 
   describe('when "request" exists in response body', () => {
     it('tracks a "submitTicket" user action', () => {
-      const params = getParams('request')
-      trackTicketSubmitted(params)
+      const response = getResponse('request')
+      const formValues = {
+        attachments: {
+          ids: [1, 2, 3]
+        }
+      }
+      const attachments = [
+        { id: 1, fileType: 'png' },
+        { id: 2, fileType: 'jpg' },
+        { id: 3, fileType: 'pdf' }
+      ]
+
+      getSearchTerm.mockReturnValueOnce('search term')
+      getLocale.mockReturnValueOnce('locale')
+      getAttachmentsForForm.mockReturnValueOnce(attachments)
+      getHasContextuallySearched.mockReturnValueOnce(true)
+      getAttachmentsEnabled.mockReturnValueOnce(true)
+
+      trackTicketSubmitted(response, formValues, {})
 
       expect(beacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
         label: 'ticketSubmissionForm',
         value: {
-          query: params.searchTerm,
-          locale: params.searchLocale,
-          ticketId: params.res.body.request.id,
-          attachmentsCount: params.attachmentsCount,
-          attachmentTypes: params.attachmentTypes,
-          contextualSearch: params.contextualSearch
+          query: 'search term',
+          locale: 'locale',
+          ticketId: response.body.request.id,
+          attachmentsCount: 3,
+          attachmentTypes: ['png', 'jpg', 'pdf'],
+          contextualSearch: true
         }
       })
     })
@@ -44,18 +68,35 @@ describe('trackTicketSubmitted', () => {
 
   describe('when "suspended_ticket" exists in response body', () => {
     it('tracks a "submitTicket" user action', () => {
-      const params = getParams('suspended_ticket')
-      trackTicketSubmitted(params)
+      const response = getResponse('suspended_ticket')
+      const formValues = {
+        attachments: {
+          ids: [1, 2, 3]
+        }
+      }
+      const attachments = [
+        { id: 1, fileType: 'png' },
+        { id: 2, fileType: 'jpg' },
+        { id: 3, fileType: 'pdf' }
+      ]
+
+      getSearchTerm.mockReturnValueOnce('search term')
+      getLocale.mockReturnValueOnce('locale')
+      getAttachmentsForForm.mockReturnValueOnce(attachments)
+      getHasContextuallySearched.mockReturnValueOnce(true)
+      getAttachmentsEnabled.mockReturnValueOnce(true)
+
+      trackTicketSubmitted(response, formValues, {})
 
       expect(beacon.trackUserAction).toHaveBeenCalledWith('submitTicket', 'send', {
         label: 'ticketSubmissionForm',
         value: {
-          query: params.searchTerm,
-          locale: params.searchLocale,
-          ticketId: params.res.body.suspended_ticket.id,
-          attachmentsCount: params.attachmentsCount,
-          attachmentTypes: params.attachmentTypes,
-          contextualSearch: params.contextualSearch
+          query: 'search term',
+          locale: 'locale',
+          ticketId: response.body.suspended_ticket.id,
+          attachmentsCount: 3,
+          attachmentTypes: ['png', 'jpg', 'pdf'],
+          contextualSearch: true
         }
       })
     })
