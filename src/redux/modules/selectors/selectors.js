@@ -61,7 +61,6 @@ import {
   isCallbackEnabled,
   getPhoneNumber
 } from '../talk/talk-selectors'
-import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,
@@ -117,6 +116,7 @@ import {
   getSettingsLauncherLabel
 } from '../settings/settings-selectors'
 import { i18n } from 'service/i18n'
+import { getFormsToDisplay } from 'embeds/support/selectors'
 
 /*
  * Terms:
@@ -337,9 +337,9 @@ export const getTalkOnline = createSelector(
 )
 
 export const getShowTicketFormsBackButton = createSelector(
-  [getActiveTicketForm, getTicketForms, getActiveEmbed],
-  (activeForm, ticketForms, activeEmbed) => {
-    return activeForm && ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm'
+  [getFormsToDisplay, getActiveEmbed],
+  (ticketForms, activeEmbed) => {
+    return ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm'
   }
 )
 

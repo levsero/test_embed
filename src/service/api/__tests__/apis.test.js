@@ -24,7 +24,6 @@ import { ATTACHMENTS_CLEARED } from 'src/embeds/support/actions/action-types'
 jest.mock('service/settings')
 jest.mock('service/beacon')
 jest.mock('service/identity')
-jest.mock('src/redux/modules/submitTicket/submitTicket-actions')
 
 const mockStore = configureMockStore([thunk])
 const mockActionValue = Date.now()
