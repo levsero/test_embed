@@ -1,5 +1,8 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
+import { waitForPrechatForm } from 'e2e/helpers/chat-embed'
+import { waitForContactForm } from 'e2e/helpers/support-embed'
+import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import zChat from 'e2e/helpers/zChat'
 
 const buildWidget = async (...embeds) => {
@@ -24,6 +27,9 @@ describe('Regular Chat without chat badge settings', () => {
     await launcher.waitForLauncherPill()
     await launcher.expectLabelToEqual('Chat')
     await launcher.expectIconToBeVisible('chat')
+
+    await launcher.click()
+    await waitForPrechatForm()
   })
 
   test('does not show a launcher when agents are offline', async () => {
@@ -58,6 +64,9 @@ describe('When Chat and Help Center are enabled', () => {
     await launcher.waitForLauncherPill()
     await launcher.expectLabelToEqual('Help')
     await launcher.expectIconToBeVisible('chat')
+
+    await launcher.click()
+    await waitForHelpCenter()
   })
 
   test('shows the default launcher when agents are offline', async () => {
@@ -76,11 +85,17 @@ describe('When Chat and Support are enabled', () => {
     await launcher.waitForLauncherPill()
     await launcher.expectLabelToEqual('Chat')
     await launcher.expectIconToBeVisible('chat')
+
+    await launcher.click()
+    await waitForPrechatForm()
   })
 
   test('shows the default launcher when agents are offline', async () => {
     await launcher.waitForLauncherPill()
     await itBehavesLikeADefaultLauncher()
+
+    await launcher.click()
+    await waitForContactForm()
   })
 })
 
@@ -94,11 +109,17 @@ describe('When Chat with chat badge settings and Support are enabled', () => {
     await launcher.waitForLauncherPill()
     await launcher.expectLabelToEqual('Chat')
     await launcher.expectIconToBeVisible('chat')
+
+    await launcher.click()
+    await waitForPrechatForm()
   })
 
   test('shows the support launcher when agents are offline', async () => {
     await launcher.waitForLauncherPill()
     await itBehavesLikeADefaultLauncher()
+
+    await launcher.click()
+    await waitForContactForm()
   })
 })
 
@@ -110,5 +131,8 @@ describe('When Support and Help Center are enabled', () => {
   test('it behaves like a default launcher', async () => {
     await launcher.waitForLauncherPill()
     await itBehavesLikeADefaultLauncher()
+
+    await launcher.click()
+    await waitForHelpCenter()
   })
 })
