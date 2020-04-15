@@ -14,7 +14,6 @@ import {
 
 jest.mock('service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
-jest.mock('src/redux/modules/submitTicket/helpers/formatter.js')
 jest.mock('service/i18n')
 
 describe('fetchTicketForms', () => {
