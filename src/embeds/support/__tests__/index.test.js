@@ -4,28 +4,31 @@ import { Component as Support } from '../'
 import createStore from 'src/redux/createStore'
 import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
+import { wait } from '@testing-library/dom'
 
 describe('TicketFormPage', () => {
   const renderComponent = (props = {}, options) => {
     const defaultProps = {
       ticketForms: [],
       formIds: [],
-      fetchTicketForms: jest.fn(),
+      fetchTicketForms: jest.fn(async () => undefined),
       locale: 'en-US'
     }
 
     return render(<Support {...defaultProps} {...props} />, options)
   }
 
-  it('renders the default form when ticketForms length is 0', () => {
+  it('renders the default form when ticketForms length is 0', async () => {
     const { queryByText } = renderComponent()
+
+    await wait(() => queryByText('Email address'))
 
     expect(queryByText('Email address')).toBeInTheDocument()
     expect(queryByText('How can we help you?')).toBeInTheDocument()
     expect(queryByText('Please select your issue')).not.toBeInTheDocument()
   })
 
-  it('renders the ticket form form when ticketForms length is 1', () => {
+  it('renders the ticket form form when ticketForms length is 1', async () => {
     const store = createStore()
     store.dispatch(
       updateEmbeddableConfig({
@@ -54,13 +57,17 @@ describe('TicketFormPage', () => {
     })
     const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }] }, { store })
 
+    await wait(() => queryByText('Email address'))
+
     expect(queryByText('Email address')).toBeInTheDocument()
     expect(queryByText('How can we help you?')).not.toBeInTheDocument()
     expect(queryByText('Please select your issue')).not.toBeInTheDocument()
   })
 
-  it('renders the list when ticketForms length is greater than 1', () => {
+  it('renders the list when ticketForms length is greater than 1', async () => {
     const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }, { id: 2 }] })
+
+    await wait(() => queryByText('Email address'))
 
     expect(queryByText('Email address')).not.toBeInTheDocument()
     expect(queryByText('How can we help you?')).not.toBeInTheDocument()
@@ -68,7 +75,7 @@ describe('TicketFormPage', () => {
   })
 
   it('fetches ticket forms when list of filtered forms changes', () => {
-    const fetchTicketForms = jest.fn()
+    const fetchTicketForms = jest.fn(async () => undefined)
 
     const { rerender } = renderComponent({
       fetchTicketForms,
@@ -86,5 +93,18 @@ describe('TicketFormPage', () => {
     )
 
     expect(fetchTicketForms).toHaveBeenCalledWith([456, 789], 'en-US')
+  })
+
+  it('renders the loading page when fetching custom forms on first render', async () => {
+    const { queryByRole } = renderComponent({
+      formIds: [123],
+      locale: 'en-US'
+    })
+
+    expect(queryByRole('progressbar')).toBeInTheDocument()
+
+    await wait()
+
+    expect(queryByRole('progressbar')).not.toBeInTheDocument()
   })
 })

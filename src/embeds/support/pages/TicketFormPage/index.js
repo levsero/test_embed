@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
 import {
@@ -10,7 +10,8 @@ import {
   getContactFormTitle,
   getFormsToDisplay,
   getCanDisplayForm,
-  getIsFormLoading
+  getIsFormLoading,
+  getIsAnyTicketFormLoading
 } from 'embeds/support/selectors'
 import { submitTicket } from 'embeds/support/actions'
 import { connect } from 'react-redux'
@@ -36,11 +37,17 @@ const TicketFormPage = ({
   attachments = [],
   isPreview,
   formExists,
-  isLoading
+  isLoading,
+  isAnyTicketFormLoading
 }) => {
   const history = useHistory()
+  const canRedirect = useRef(true)
 
   useEffect(() => {
+    if (!canRedirect.current) {
+      return
+    }
+
     if (formId === routes.defaultFormId && amountOfCustomForms > 0) {
       return history.replace(routes.home())
     }
@@ -52,10 +59,17 @@ const TicketFormPage = ({
     if (formId !== routes.defaultFormId && !formExists) {
       return history.replace(routes.home())
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
-  if (isLoading) {
+    // Redirects from this component should only happen on first render, to not navigate away from form
+    // while widget is open.
+    // However, forms are fetched on mount of the Support embed. So if currently fetching forms, allow redirect to
+    // happen once forms have stopped loading.
+    if (!isAnyTicketFormLoading) {
+      canRedirect.current = false
+    }
+  }, [amountOfCustomForms, formExists, formId, history, isAnyTicketFormLoading])
+
+  if (isLoading || (canRedirect.current && isAnyTicketFormLoading)) {
     return <LoadingPage />
   }
 
@@ -95,7 +109,8 @@ TicketFormPage.propTypes = {
   isPreview: PropTypes.bool,
   amountOfCustomForms: PropTypes.number,
   formExists: PropTypes.bool,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  isAnyTicketFormLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -115,7 +130,8 @@ const mapStateToProps = (state, ownProps) => {
     conditions: form ? form.end_user_conditions : [],
     attachments: getAllAttachments(state),
     formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
-    isLoading: getIsFormLoading(state, id)
+    isLoading: getIsFormLoading(state, id),
+    isAnyTicketFormLoading: getIsAnyTicketFormLoading(state)
   }
 }
 

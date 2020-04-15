@@ -17,7 +17,7 @@ import {
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const ticketFormIdsToLoad = ticketFormIds.filter(id => {
       const form = getForm(getState(), id)
 
@@ -52,52 +52,58 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
       ticketFormIdsToLoad
     )}&include=ticket_fields&locale=${locale}`
 
-    http.get(
-      {
-        method: 'get',
-        path,
-        locale,
-        timeout: 20000,
-        callbacks: {
-          done(res) {
-            const forms = JSON.parse(res.text)
+    return new Promise((resolve, reject) => {
+      http.get(
+        {
+          method: 'get',
+          path,
+          locale,
+          timeout: 20000,
+          callbacks: {
+            done(res) {
+              const forms = JSON.parse(res.text)
 
-            if (Array.isArray(forms.ticket_forms)) {
-              forms.ticket_forms = forms.ticket_forms.map(form => ({
-                ...form,
-                locale
-              }))
-            }
-
-            dispatch({
-              type: TICKET_FORMS_REQUEST_SUCCESS,
-              payload: {
-                ...forms,
-                fetchKey,
-                formIds: ticketFormIdsToLoad
+              if (Array.isArray(forms.ticket_forms)) {
+                forms.ticket_forms = forms.ticket_forms.map(form => ({
+                  ...form,
+                  locale
+                }))
               }
-            })
 
-            if (forms.ticket_forms.length === 1) {
               dispatch({
-                type: TICKET_FORM_UPDATE,
-                payload: forms.ticket_forms[0]
+                type: TICKET_FORMS_REQUEST_SUCCESS,
+                payload: {
+                  ...forms,
+                  fetchKey,
+                  formIds: ticketFormIdsToLoad
+                }
               })
-            }
-          },
-          fail() {
-            dispatch({
-              type: TICKET_FORMS_REQUEST_FAILURE,
-              payload: {
-                fetchKey,
-                formIds: ticketFormIdsToLoad
+
+              if (forms.ticket_forms.length === 1) {
+                dispatch({
+                  type: TICKET_FORM_UPDATE,
+                  payload: forms.ticket_forms[0]
+                })
               }
-            })
+
+              resolve()
+            },
+            fail() {
+              dispatch({
+                type: TICKET_FORMS_REQUEST_FAILURE,
+                payload: {
+                  fetchKey,
+                  formIds: ticketFormIdsToLoad
+                }
+              })
+
+              reject()
+            }
           }
-        }
-      },
-      false
-    )
+        },
+        false
+      )
+    })
   }
 }
 
