@@ -48,6 +48,7 @@ describe('ChatOnline component', () => {
       'embeds/chat/selectors': {},
       'embeds/chat/actions/actions': {},
       'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
+      'embeds/chat/components/ReconnectButton': noopReactComponent(),
       'component/button/ButtonPill': {
         ButtonPill
       },

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import ButtonPill from 'src/embeds/chat/components/ButtonPill'
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
 import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
@@ -38,6 +37,7 @@ import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
 import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
+import ReconnectButton from 'embeds/chat/components/ReconnectButton'
 
 const mapStateToProps = state => {
   return {
@@ -317,13 +317,7 @@ class Chat extends Component {
 
     if (connection !== CONNECTION_STATUSES.CLOSED || isLoggingOut) return
 
-    return (
-      <div className={styles.reconnectContainer}>
-        <ButtonPill onClick={this.props.handleReconnect}>
-          {i18n.t('embeddable_framework.chat.chatLog.reconnect.label')}
-        </ButtonPill>
-      </div>
-    )
+    return <ReconnectButton onClick={this.props.handleReconnect} />
   }
 
   render = () => {
