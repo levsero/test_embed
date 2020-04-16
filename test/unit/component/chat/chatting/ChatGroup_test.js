@@ -37,7 +37,7 @@ describe('ChatGroup component', () => {
       },
       'component/Icon': { Icon },
       'component/Avatar': { Avatar },
-      'component/shared/MessageBubble': { MessageBubble },
+      'src/embeds/chat/components/MessageBubble': MessageBubble,
       'component/chat/attachment/Attachment': { Attachment },
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
@@ -248,39 +248,6 @@ describe('ChatGroup component', () => {
         expect(result.handleSendMsg).toEqual(handleSendMsgSpy)
       })
     })
-
-    describe('when showAvatar is true', () => {
-      beforeAll(() => {
-        chat = {}
-        showAvatar = true
-      })
-
-      it('renders messageBubble class', () => {
-        expect(result.props.className).toContain('messageBubbleClass')
-      })
-    })
-
-    describe('when isAgent is true', () => {
-      beforeAll(() => {
-        chat = {}
-        isAgent = true
-      })
-
-      it('renders agentBackgroundClass class', () => {
-        expect(result.props.className).toContain('agentBackgroundClass')
-      })
-    })
-
-    describe('when isAgent is false', () => {
-      beforeAll(() => {
-        chat = {}
-        isAgent = false
-      })
-
-      it('renders userBackgroundClass class', () => {
-        expect(result.props.className).toContain('userBackgroundClass')
-      })
-    })
   })
 
   describe('#renderErrorMessage', () => {
@@ -302,10 +269,6 @@ describe('ChatGroup component', () => {
         }
         isAgent = true
         showAvatar = true
-      })
-
-      it('calls renderMessageBubble with expected args', () => {
-        expect(component.renderMessageBubble).toHaveBeenCalledWith(chat, isAgent, showAvatar)
       })
     })
 
@@ -385,21 +348,6 @@ describe('ChatGroup component', () => {
       spyOn(component, 'renderMessageBubble')
 
       result = component.renderDefaultMessage(chat, isAgent, showAvatar)
-    })
-
-    describe('when called', () => {
-      beforeAll(() => {
-        chat = {
-          msg: 'An unexpected problem has occurred with your request.',
-          options: ['foo']
-        }
-        isAgent = true
-        showAvatar = true
-      })
-
-      it('calls renderMessageBubble with expected args', () => {
-        expect(component.renderMessageBubble).toHaveBeenCalledWith(chat, isAgent, showAvatar)
-      })
     })
 
     describe('when the chat status is successful', () => {

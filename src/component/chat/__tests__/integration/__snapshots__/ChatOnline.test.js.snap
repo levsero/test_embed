@@ -193,7 +193,29 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
 `;
 
 exports[`chat log agent message 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #e9ebed;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -237,15 +259,20 @@ exports[`chat log agent message 1`] = `
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-agent"
             >
               <div
-                class="messageBubble agentBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  blah blah
+                  <span
+                    class="Linkify"
+                  >
+                    blah blah
+                  </span>
                 </span>
               </div>
             </div>
@@ -255,7 +282,7 @@ exports[`chat log agent message 1`] = `
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
@@ -615,7 +642,45 @@ exports[`chat log rating 1`] = `
 `;
 
 exports[`chat log series of actions 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #e9ebed;
+  max-width: 15.642857142857142rem !important;
+}
+
+.c3 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -670,15 +735,20 @@ exports[`chat log series of actions 1`] = `
               />
             </span>
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -727,15 +797,20 @@ exports[`chat log series of actions 1`] = `
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-agent"
             >
               <div
-                class="messageBubble agentBackground"
+                class="c2"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  blah blah
+                  <span
+                    class="Linkify"
+                  >
+                    blah blah
+                  </span>
                 </span>
               </div>
             </div>
@@ -757,13 +832,39 @@ exports[`chat log series of actions 1`] = `
     </div>
   </div>
   <div
-    class="c0"
+    class="c3"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor info is not available 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -802,15 +903,20 @@ exports[`chat log visitor message account settings login enabled displays update
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -825,13 +931,39 @@ exports[`chat log visitor message account settings login enabled displays update
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor name is default 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -870,15 +1002,20 @@ exports[`chat log visitor message account settings login enabled displays update
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -893,13 +1030,39 @@ exports[`chat log visitor message account settings login enabled displays update
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor email is already set 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -938,15 +1101,20 @@ exports[`chat log visitor message account settings login enabled does not displa
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -956,13 +1124,39 @@ exports[`chat log visitor message account settings login enabled does not displa
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor name is already set 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1001,15 +1195,20 @@ exports[`chat log visitor message account settings login enabled does not displa
             class="defaultMessageContainer"
           >
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -1019,13 +1218,39 @@ exports[`chat log visitor message account settings login enabled does not displa
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
 
 exports[`chat log visitor message failure 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1062,15 +1287,20 @@ exports[`chat log visitor message failure 1`] = `
         >
           <div>
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -1097,13 +1327,39 @@ exports[`chat log visitor message failure 1`] = `
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
 
 exports[`chat log visitor message success 1`] = `
-.c0 {
+.c0.c0.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word !important;
+  border-radius: 1.1428571428571428rem;
+  line-height: 1.1428571428571428rem;
+  padding: 0.5714285714285714rem 0.8571428571428571rem;
+  max-width: 17.5rem;
+  background-color: #1F73B7 !important;
+}
+
+.c1,
+.c1 a {
+  color: #FFFFFF !important;
+}
+
+.c2 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1152,15 +1408,20 @@ exports[`chat log visitor message success 1`] = `
               />
             </span>
             <div
+              class="c0"
               data-testid="chat-msg-user"
             >
               <div
-                class="messageBubble userBackground"
+                class="c1"
               >
                 <span
-                  class="Linkify"
+                  class=""
                 >
-                  Hi
+                  <span
+                    class="Linkify"
+                  >
+                    Hi
+                  </span>
                 </span>
               </div>
             </div>
@@ -1170,7 +1431,7 @@ exports[`chat log visitor message success 1`] = `
     </div>
   </div>
   <div
-    class="c0"
+    class="c2"
   />
 </div>
 `;
