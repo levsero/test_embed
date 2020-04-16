@@ -47,7 +47,7 @@ Useful links:
 
 - All new features should have appropriate test coverage.
 - All new tests should be written using the [Jest](https://jestjs.io/) JS test framework.
-- Please see our [test style guidelines](TEST_STYLE.md) on how we like to see our tests written.
+- Please see our [integration](TEST_STYLE.md) and [browser](BROWSER_TEST_STYLE.md) style guides on how we like to see our tests written.
 
 #### Documentation changes
 
