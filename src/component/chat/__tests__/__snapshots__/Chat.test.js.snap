@@ -241,17 +241,17 @@ exports[`chat sdk has not connected renders the loading page 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />

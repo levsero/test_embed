@@ -413,7 +413,7 @@ exports[`renders with error message 1`] = `
     <div
       class="containerError index__c-callout___K1eQ- index__c-callout--error___NED0s "
       data-garden-id="notifications.alert"
-      data-garden-version="7.0.2"
+      data-garden-version="7.1.10"
       data-testid="error-message"
       role="alert"
       type="error"
@@ -421,7 +421,7 @@ exports[`renders with error message 1`] = `
       <div
         class="previewError index__c-callout__title___e5tnb "
         data-garden-id="notifications.title"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.10"
       >
         attachment.jpg
       </div>
@@ -433,7 +433,7 @@ exports[`renders with error message 1`] = `
       <button
         class="index__c-callout__close___OudEV "
         data-garden-id="notifications.close"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.10"
         type="button"
       />
     </div>
