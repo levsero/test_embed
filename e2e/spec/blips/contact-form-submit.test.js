@@ -32,7 +32,6 @@ test('sends submit ticket blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()
-    .hiddenInitially()
     .withPresets('helpCenter', 'contactForm')
     .intercept(mockSearchEndpoint())
     .intercept(mockTicketFieldsEndpoint())

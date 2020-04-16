@@ -24,7 +24,6 @@ test('sends page view blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()
-    .hiddenInitially()
     .withPresets('helpCenter')
     .intercept(mockBlipEndpoint(blipEndpoint))
     .load()
