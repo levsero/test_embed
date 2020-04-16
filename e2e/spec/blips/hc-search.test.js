@@ -23,7 +23,6 @@ test('sends Help Center search blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()
-    .hiddenInitially()
     .withPresets('helpCenter')
     .intercept(mockSearchEndpoint())
     .intercept(mockBlipEndpoint(blipEndpoint))

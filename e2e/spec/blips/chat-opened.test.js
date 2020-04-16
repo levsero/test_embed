@@ -19,7 +19,6 @@ test('sends chat opened blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
   await loadWidget()
-    .hiddenInitially()
     .withPresets('chat', 'helpCenterWithContextualHelp')
     .intercept(mockBlipEndpoint(blipEndpoint))
     .load()
