@@ -356,43 +356,6 @@ describe('submit button', () => {
   })
 })
 
-describe('ChatHistoryLink', () => {
-  describe('when Authenticated and Chat History exists', () => {
-    it('contains link', () => {
-      const { queryByText } = renderPrechatForm({
-        isAuthenticated: true,
-        hasChatHistory: true
-      })
-
-      expect(queryByText('Chat History here!')).toBeInTheDocument()
-    })
-  })
-
-  describe('when values are false', () => {
-    describe('when isAuthenticated is false', () => {
-      it('does not contain link', () => {
-        const { queryByText } = renderPrechatForm({
-          isAuthenticated: false,
-          hasChatHistory: true
-        })
-
-        expect(queryByText('Chat History here!')).not.toBeInTheDocument()
-      })
-    })
-
-    describe('when hasChatHistory is false', () => {
-      it('does not contain link', () => {
-        const { queryByText } = renderPrechatForm({
-          isAuthenticated: true,
-          hasChatHistory: false
-        })
-
-        expect(queryByText('Chat History here!')).not.toBeInTheDocument()
-      })
-    })
-  })
-})
-
 describe('validation', () => {
   it('validates required fields', () => {
     const formProp = {
