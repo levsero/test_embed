@@ -10,7 +10,6 @@ import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
-import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble'
 import { i18n } from 'service/i18n'
 import {
   endChatViaPostChatScreen,
@@ -38,6 +37,7 @@ import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
+import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
 
 const mapStateToProps = state => {
   return {
@@ -303,7 +303,7 @@ class Chat extends Component {
 
     if (connection !== CONNECTION_STATUSES.CONNECTING || isLoggingOut) return
 
-    return <ChatReconnectionBubble />
+    return <ReconnectionBubble />
   }
 
   renderAgentListScreen = () => {

@@ -17,7 +17,7 @@ describe('ChatOnline component', () => {
 
   const AttachmentBox = noopReactComponent('AttachmentBox')
   const ChatMenu = noopReactComponent('ChatMenu')
-  const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble')
+  const ReconnectionBubble = noopReactComponent('ReconnectionBubble')
   const ButtonPill = noopReactComponent('ButtonPill')
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
   const AgentDetailsPage = noopReactComponent('AgentDetailsPage')
@@ -47,6 +47,7 @@ describe('ChatOnline component', () => {
       'component/chat/prechat/PrechatScreen': noopReactComponent(),
       'embeds/chat/selectors': {},
       'embeds/chat/actions/actions': {},
+      'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
       'component/button/ButtonPill': {
         ButtonPill
       },
@@ -61,9 +62,6 @@ describe('ChatOnline component', () => {
       'embeds/chat/components/EmailTranscriptPopup': noopReactComponent(),
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
-      },
-      'component/chat/ChatReconnectionBubble': {
-        ChatReconnectionBubble: ChatReconnectionBubble
       },
       'src/component/attachment/AttachmentBox': AttachmentBox,
       'src/redux/modules/chat': {
@@ -468,7 +466,7 @@ describe('ChatOnline component', () => {
       })
 
       it('returns the ChatReconnectingBubble component', () => {
-        expect(TestUtils.isElementOfType(result, ChatReconnectionBubble)).toEqual(true)
+        expect(TestUtils.isElementOfType(result, ReconnectionBubble)).toEqual(true)
       })
     })
 
