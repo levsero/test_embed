@@ -10,10 +10,10 @@ import {
   getChatAvailable,
   getTalkOnline
 } from 'src/redux/modules/selectors'
-import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors'
 import history from 'service/history'
 import supportRoutes from 'embeds/support/routes'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import { getFormsToDisplay } from 'embeds/support/selectors'
 
 export const updateActiveEmbed = embedName => {
   return {
@@ -61,8 +61,7 @@ export const onCancelClick = () => {
     const helpCenterAvailable = getHelpCenterAvailable(state)
     const answerBotAvailable = getAnswerBotAvailable(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
-    const reactRouterSupport = isFeatureEnabled(state, 'web_widget_react_router_support')
-    const ticketForms = getTicketForms(state)
+    const ticketForms = getFormsToDisplay(state)
 
     if (answerBotAvailable) {
       dispatch(updateBackButtonVisibility(false))
@@ -73,22 +72,18 @@ export const onCancelClick = () => {
 
       dispatch(updateActiveEmbed('helpCenterForm'))
       dispatch(updateBackButtonVisibility(articleViewActive))
-      if (reactRouterSupport) {
+      history.goBack()
+      if (ticketForms.length > 1) {
         history.goBack()
-        if (ticketForms.length > 1) {
-          history.goBack()
-        }
       }
     } else if (channelChoiceAvailable) {
       dispatch(updateActiveEmbed('channelChoice'))
       dispatch(updateBackButtonVisibility(false))
     } else {
-      if (reactRouterSupport) {
-        if (history.canGo(-1)) {
-          history.goBack()
-        } else {
-          history.replace('/')
-        }
+      if (history.canGo(-1)) {
+        history.goBack()
+      } else {
+        history.replace('/')
       }
 
       dispatch(cancelButtonClicked())

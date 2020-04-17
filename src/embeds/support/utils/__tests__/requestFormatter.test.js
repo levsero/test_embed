@@ -155,7 +155,9 @@ describe('formatRequestData', () => {
       const result = format(
         { '22660514': 'mockCustomField' },
         {},
-        { ticketFields: [mockTicketField] }
+        { ticketFields: [mockTicketField] },
+        null,
+        [mockTicketField]
       )
 
       expect(result.request.fields['22660514']).toBe('mockCustomField')
@@ -193,20 +195,28 @@ describe('formatRequestData', () => {
     })
 
     it('uses the description as the subject when subject is not available', () => {
-      const result = format({ ...mockValues, subject: '' }, {}, { ticketFields, ticketForms }, '50')
+      const result = format(
+        { ...mockValues, subject: '' },
+        {},
+        { ticketFields, ticketForms },
+        '50',
+        ticketFields
+      )
 
       expect(result.request.subject).toBe('Just saying Hi')
     })
 
     it('correctly formats the subject field when available', () => {
+      const fields = [...ticketFields, { id: 234, type: 'subject', removable: false }]
       const result = format(
         { ...mockValues, subject: '' },
         {},
         {
-          ticketFields: [...ticketFields, { id: 234, type: 'subject', removable: false }],
+          ticketFields: fields,
           ticketForms
         },
-        50
+        50,
+        fields
       )
 
       expect(result.request.fields[234]).not.toBe('Hello')
@@ -215,7 +225,7 @@ describe('formatRequestData', () => {
     })
 
     it('correctly formats the description field based on the ticket field id', () => {
-      const result = format(mockValues, {}, { ticketFields, ticketForms }, '50')
+      const result = format(mockValues, {}, { ticketFields, ticketForms }, '50', ticketFields)
 
       expect(result.request.fields[123]).not.toBe('Just saying Hi')
 

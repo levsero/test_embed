@@ -22,12 +22,11 @@ import {
   getSettingsContactFormSuppress,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
-import { getTicketFields } from 'src/redux/modules/submitTicket'
 import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
 import { onNextTick } from 'src/util/utils'
-import { fetchTicketForms } from 'embeds/support/actions/fetchForms'
+import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 

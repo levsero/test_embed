@@ -358,8 +358,7 @@ describe('support custom fields', () => {
         const { expectSuccess, submit } = await testCustomForm({ field })
         await submit()
 
-        const doc = await widget.getDocument()
-        await expect(await doc.$('body')).toMatch('Please enter a value.')
+        await widget.waitForText('Please select a value.')
 
         await openDropdown()
         await select('Sales')

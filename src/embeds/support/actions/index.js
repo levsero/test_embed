@@ -15,7 +15,7 @@ import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 
 let attachmentUploaders = {}
 
@@ -179,15 +179,15 @@ export function submitTicket(formState, formId, fields) {
         path: '/api/v2/requests',
         params: params,
         callbacks: {
-          done() {
-            if (isFeatureEnabled(state, 'web_widget_react_router_support')) {
-              history.replace(routes.success())
-            }
+          done(response) {
+            history.replace(routes.success())
             dispatch({
               type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
               payload: { name: formId }
             })
             resolve()
+
+            trackTicketSubmitted(response, formState, getState())
           },
           fail(err) {
             dispatch({

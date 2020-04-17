@@ -140,10 +140,6 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk': {
         loadTalkVendors: noop
       },
-      'src/redux/modules/submitTicket': {
-        getTicketForms: getTicketFormsSpy,
-        getTicketFields: getTicketFieldsSpy
-      },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
       },
@@ -151,7 +147,8 @@ describe('embed.webWidget', () => {
         updateActiveEmbed: () => mockActiveEmbed
       },
       'embeds/support/actions/fetchForms': {
-        fetchTicketForms: () => undefined
+        fetchTicketForms: () => undefined,
+        getTicketFields: getTicketFieldsSpy
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsHelpCenterSuppress: () => mockHelpCenterSuppressedValue,

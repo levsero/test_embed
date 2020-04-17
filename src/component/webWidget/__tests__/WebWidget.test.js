@@ -30,16 +30,9 @@ afterEach(() => {
   console.error = originalError // eslint-disable-line no-console
 })
 
-it('show new support embed', () => {
+it('shows the support embed', () => {
   const { queryByRole } = renderComponent()
 
-  // The new Support is wrapped in a Suspense page
+  // The Support embed is wrapped in a Suspense page
   expect(queryByRole('progressbar')).toBeTruthy()
-})
-
-it('show old support embed', () => {
-  const { container, queryByRole } = renderComponent({ webWidgetReactRouterSupport: false })
-
-  expect(container.querySelector('form').className).toEqual('form ')
-  expect(queryByRole('progressbar')).toBeFalsy()
 })
