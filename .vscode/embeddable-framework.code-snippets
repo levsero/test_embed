@@ -177,5 +177,33 @@
     "prefix": "useTranslate",
     "scope": "javascript,typescript",
     "body": ["import useTranslate from 'src/hooks/useTranslate'"]
+  },
+  "ImportTestRegime": {
+    "prefix": "testRegime",
+    "scope": "javascript,typescript",
+    "body": [
+      "import React from 'react'",
+      "import { fireEvent } from '@testing-library/react'",
+      "import { render } from 'src/util/testHelpers'",
+      "import { TEST_IDS } from 'src/constants/shared'",
+      "",
+      "import ${1:ComponentName} from '${2:../}'",
+      "",
+      "const renderComponent = (props = {}) => {",
+      "\tconst defaultProps = {",
+      "\t\t${3:defaultPropValues}",
+      "\t}",
+      "",
+      "\treturn render(<${1} {...defaultProps} {...props} />)",
+      "}",
+      "",
+      "describe('${1}', () => {",
+      "\tit('matches snapshot', () => {",
+      "\t\tconst { container } = renderComponent()",
+      "",
+      "\t\texpect(container).toMatchSnapshot()",
+      "\t})",
+      "})"
+    ]
   }
 }
