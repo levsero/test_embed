@@ -16,26 +16,26 @@
   // 	"description": "Log output to console"
   // }
   "Describe Test": {
-    "prefix": "describe",
+    "prefix": "Describe",
     "scope": "javascript,typescript",
     "body": [
       "describe('${1:testName}', () => {",
       "\tit('${2:testCriteriaName}', () => {",
-      "\t\tconst result = ${3:testCriteria}",
+      "\t\tconst ${3:result} = ${4:testCriteria}",
       "",
-      "\t\texpect(result).toEqual(${4:expectedValue})",
+      "\t\texpect(${5:result}).toEqual(${6:expectedValue})",
       "\t})",
       "})"
     ],
     "description": "Test (it) function within Describe"
   },
   "Puppeteer debugger": {
-    "prefix": "debug",
+    "prefix": "Debug",
     "scope": "javascript,typescript",
     "body": "await jestPuppeteer.debug()"
   },
   "Test function": {
-    "prefix": "test",
+    "prefix": "Test",
     "scope": "javascript,typescript",
     "body": [
       "test('${1:testName}', () => {",
@@ -47,13 +47,13 @@
     "description": "Test function with an expectation and result"
   },
   "Basic Selector": {
-    "prefix": "selector",
+    "prefix": "Selector",
     "scope": "javascript,typescript",
     "body": ["export const ${1:name} = (${2:state}) => ${3:data}"],
     "description": "Basic selector with a name, state, and return value"
   },
   "Reducer": {
-    "prefix": "reducer",
+    "prefix": "Reducer",
     "scope": "javascript,typescript",
     "body": [
       "const initialState = {",
@@ -76,7 +76,7 @@
     "description": "empty reducer class"
   },
   "DescribeTestEach": {
-    "prefix": "describeEach",
+    "prefix": "DescribeEach",
     "scope": "javascript,typescript",
     "body": [
       "describe('${1:funcName}', () => {",
@@ -90,37 +90,39 @@
       "})"
     ]
   },
-  "FunctionalComponent": {
-    "prefix": "functionalComponent",
+  "FunctionComponent": {
+    "prefix": "FunctionComponent",
     "scope": "javascript,typescript",
     "body": [
       "import React from 'react'",
       "import PropTypes from 'prop-types'",
       "",
-      "const ${1:className} = ({${2:props}}) => {",
+      "const ${1:ClassName} = ({${2:props}}) => {",
       "\treturn <div></div>",
       "}",
       "",
-      "${1}.propTypes = {",
+      "$1.propTypes = {",
       "\t${3:propTypes}",
       "}",
       "",
-      "export default ${1}"
+      "export default $1"
     ]
   },
-  "ConnectedFunctionalComponent": {
-    "prefix": "connectedFunctional",
+  "ConnectedStyledFunctionalComponent": {
+    "prefix": "ConnectedStyledFunction",
     "scope": "javascript,typescript",
     "body": [
       "import React from 'react'",
       "import PropTypes from 'prop-types'",
       "import { connect } from 'react-redux'",
       "",
-      "const ${1:className} = ({ ${2:props} }) => {",
+      "import { } from './styles'",
+      "",
+      "const ${1:ClassName} = ({ ${2:props} }) => {",
       "\treturn <div></div>",
       "}",
       "",
-      "${1}.propTypes = {",
+      "$1.propTypes = {",
       "\t${3:propTypes}",
       "}",
       "",
@@ -135,13 +137,13 @@
       "const connectedComponent = connect(",
       "\tmapStateToProps,",
       "\tactionCreators",
-      ")(${1})",
+      ")($1)",
       "",
-      "export { connectedComponent as default, ${1} as Component } "
+      "export { connectedComponent as default, $1 as Component } "
     ]
   },
   "StyledFunctionComponent": {
-    "prefix": "styledFunctionComponent",
+    "prefix": "StyledFunctionComponent",
     "scope": "javascript,typescript",
     "body": [
       "import React from 'react'",
@@ -149,32 +151,46 @@
       "",
       "import { } from './styles'",
       "",
-      "const ${1:className} = ({${2:props}}) => {",
+      "const ${1:ClassName} = ({${2:props}}) => {",
       "\treturn <div></div>",
       "}",
       "",
-      "${1}.propTypes = {",
+      "$1.propTypes = {",
       "\t${3:propTypes}",
       "}",
       "",
-      "export default ${1}"
+      "export default $1"
     ]
   },
   "StyledComponentStyles": {
-    "prefix": "style",
+    "prefix": "Style",
     "scope": "javascript,typescript",
     "body": [
       "import styled from 'styled-components'",
-      "import { } from '@zendeskgarden/css-variables'",
-      "import { FONT_SIZE } from 'src/constants/shared'",
+      "import { $4 } from '@zendeskgarden/css-variables'",
       "",
       "const ${1:ComponentName} = styled${2}`${3}`",
       "",
       "export { ${1} } "
     ]
   },
+  "CreateStyledComponent": {
+    "prefix": "StyledConst",
+    "scope": "javascript,typescript",
+    "body": ["const ${1:ComponentName} = styled${2:.div}`${3:styles}`"]
+  },
+  "StylePropsUsage": {
+    "prefix": "StyleProps",
+    "scope": "css",
+    "body": "${props => ${1:calculation}}"
+  },
+  "CreateStateHook": {
+    "prefix": "SseStateHook",
+    "scope": "javascript,typescript",
+    "body": "const [${1:getter}, ${2:setter}] = useState(${3:defaultValue})"
+  },
   "ImportUseTranslate": {
-    "prefix": "useTranslate",
+    "prefix": "UseTranslate",
     "scope": "javascript,typescript",
     "body": ["import useTranslate from 'src/hooks/useTranslate'"]
   },
