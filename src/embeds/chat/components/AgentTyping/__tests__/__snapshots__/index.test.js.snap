@@ -2,9 +2,11 @@
 
 exports[`AgentTyping returns an empty div if there are no agents typing 1`] = `
 <div>
-  <div
-    aria-live="polite"
-  />
+  <div>
+    <div
+      aria-live="polite"
+    />
+  </div>
 </div>
 `;
 
@@ -55,46 +57,48 @@ exports[`AgentTyping when one agent is typing renders the expected container 1`]
 }
 
 <div>
-  <div
-    aria-live="polite"
-  >
+  <div>
     <div
-      class="c0"
+      aria-live="polite"
     >
-      <svg
-        class="c1 c2"
-        color="inherit"
-        data-garden-id="loaders.inline"
-        data-garden-version="7.1.10"
-        data-testid="Icon--ellipsis"
-        height="4"
-        size="16"
-        viewBox="0 0 16 4"
-        width="16"
+      <div
+        class="c0"
       >
-        <circle
-          class="c3 "
-          cx="14"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-        <circle
-          class="c3 "
-          cx="8"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-        <circle
-          class="c3 "
-          cx="2"
-          cy="2"
-          fill="currentColor"
-          r="2"
-        />
-      </svg>
-      Cordelia is typing
+        <svg
+          class="c1 c2"
+          color="inherit"
+          data-garden-id="loaders.inline"
+          data-garden-version="7.1.10"
+          data-testid="Icon--ellipsis"
+          height="4"
+          size="16"
+          viewBox="0 0 16 4"
+          width="16"
+        >
+          <circle
+            class="c3 "
+            cx="14"
+            cy="2"
+            fill="currentColor"
+            r="2"
+          />
+          <circle
+            class="c3 "
+            cx="8"
+            cy="2"
+            fill="currentColor"
+            r="2"
+          />
+          <circle
+            class="c3 "
+            cx="2"
+            cy="2"
+            fill="currentColor"
+            r="2"
+          />
+        </svg>
+        Cordelia is typing
+      </div>
     </div>
   </div>
 </div>

@@ -128,90 +128,92 @@ exports[`renders correctly on desktop 1`] = `
 }
 
 <div>
-  <div
-    class="c0"
-    data-testid="widget-header-view"
-  >
+  <div>
     <div
-      class="c1"
-    >
-      <h1
-        class="c2 c3"
-        data-testid="widget-title"
-      >
-        Search
-      </h1>
-      <button
-        aria-label="Minimize widget"
-        class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-        data-garden-container-id="containers.keyboardfocus"
-        data-garden-container-version="0.4.4"
-        data-garden-id="buttons.icon_button"
-        data-garden-version="7.1.10"
-        tabindex="0"
-        type="button"
-      >
-        <svg
-          class="index__c-btn__icon___3V0Rl"
-          data-garden-id="buttons.icon"
-          data-garden-version="7.1.10"
-          data-testid="Icon--dash"
-          realfilename="dash-fill.svg"
-        />
-      </button>
-    </div>
-    <div
-      class="c6"
+      class="c0"
+      data-testid="widget-header-view"
     >
       <div
-        class="c7"
-        data-testid="page-header-container"
+        class="c1"
       >
-        <form
-          class="c8"
-          novalidate=""
+        <h1
+          class="c2 c3"
+          data-testid="widget-title"
         >
-          <div
-            class="c9"
+          Search
+        </h1>
+        <button
+          aria-label="Minimize widget"
+          class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
+          data-garden-id="buttons.icon_button"
+          data-garden-version="7.1.10"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            class="index__c-btn__icon___3V0Rl"
+            data-garden-id="buttons.icon"
+            data-garden-version="7.1.10"
+            data-testid="Icon--dash"
+            realfilename="dash-fill.svg"
+          />
+        </button>
+      </div>
+      <div
+        class="c6"
+      >
+        <div
+          class="c7"
+          data-testid="page-header-container"
+        >
+          <form
+            class="c8"
+            novalidate=""
           >
             <div
-              class="text__c-txt___Uzv-G range__c-range___1aYaS "
+              class="c9"
             >
               <div
-                aria-invalid="false"
-                class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 "
-                data-garden-id="forms.media_input"
-                data-garden-version="7.1.10"
+                class="text__c-txt___Uzv-G range__c-range___1aYaS "
               >
                 <div
-                  class="text__c-txt__input--media__figure___gBDfx "
-                >
-                  <svg
-                    class="c10"
-                    data-testid="Icon--search"
-                    realfilename="search-stroke.svg"
-                  />
-                </div>
-                <input
                   aria-invalid="false"
-                  aria-labelledby="1val-field_1.3.3--label"
-                  autocapitalize="off"
-                  class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
-                  data-testid="search-field"
-                  id="1val-field_1.3.3--input"
-                  placeholder="How can we help?"
-                  type="search"
-                  value=""
-                />
-                <div
-                  class="text__c-txt__input--media__figure___gBDfx "
+                  class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 "
+                  data-garden-id="forms.media_input"
+                  data-garden-version="7.1.10"
                 >
-                  <div />
+                  <div
+                    class="text__c-txt__input--media__figure___gBDfx "
+                  >
+                    <svg
+                      class="c10"
+                      data-testid="Icon--search"
+                      realfilename="search-stroke.svg"
+                    />
+                  </div>
+                  <input
+                    aria-invalid="false"
+                    aria-labelledby="1val-field_1.3.3--label"
+                    autocapitalize="off"
+                    class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+                    data-testid="search-field"
+                    id="1val-field_1.3.3--input"
+                    placeholder="How can we help?"
+                    type="search"
+                    value=""
+                  />
+                  <div
+                    class="text__c-txt__input--media__figure___gBDfx "
+                  >
+                    <div />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -223,16 +225,16 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -66,9 +66,9 @@
-                  <input
-                    aria-invalid="false"
--                   aria-labelledby="2val-field_1.3.3--label"
-+                   aria-labelledby="3val-field_1.3.3--label"
-                    autocapitalize="off"
-                    class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
-                    data-testid="search-field"
--                   id="2val-field_1.3.3--input"
-+                   id="3val-field_1.3.3--input"
-                    placeholder="How can we help?"
-                    type="search"
+@@ -67,9 +67,9 @@
+                    <input
+                      aria-invalid="false"
+-                     aria-labelledby="2val-field_1.3.3--label"
++                     aria-labelledby="3val-field_1.3.3--label"
+                      autocapitalize="off"
+                      class="StyledTextInput-sc-1ezxcjx-0 StyledTextMediaInput-sc-1xikqf0-0 text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ cxwctH"
+                      data-testid="search-field"
+-                     id="2val-field_1.3.3--input"
++                     id="3val-field_1.3.3--input"
+                      placeholder="How can we help?"
+                      type="search"
 `;

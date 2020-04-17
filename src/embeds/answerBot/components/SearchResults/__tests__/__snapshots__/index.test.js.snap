@@ -37,97 +37,99 @@ exports[`renders the expected classes 1`] = `
 
 <div>
   <div>
-    <div
-      class="message botMessage"
-    >
+    <div>
       <div
-        data-testid="chat-msg-answer-bot"
+        class="message botMessage"
       >
         <div
-          class="messageBubble messageBubble botBackground"
-        >
-          <span
-            class="Linkify"
-          >
-            Here are some articles that may help:
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="c0"
-      data-testid="answer-bot-selection-message"
-    >
-      <div
-        class="c1"
-      >
-        <div
-          class="result"
-          role="button"
-          tabindex="0"
+          data-testid="chat-msg-answer-bot"
         >
           <div
-            class="heading"
+            class="messageBubble messageBubble botBackground"
           >
             <span
-              class="container icon Icon--article"
-              data-testid="Icon--article"
-              type="Icon--article"
+              class="Linkify"
             >
-              <svg
-                aria-hidden="true"
-                realfilename="widget-icon_article.svg"
-              />
+              Here are some articles that may help:
             </span>
-            <div
-              class="optionText"
-              data-testid="hc-article-title"
-            >
-              title 123
-            </div>
-          </div>
-          <div
-            class="snippet"
-          >
-            <div>
-              to be filled later 123
-            </div>
           </div>
         </div>
       </div>
       <div
-        class="c2"
+        class="c0"
+        data-testid="answer-bot-selection-message"
       >
         <div
-          class="result"
-          role="button"
-          tabindex="0"
+          class="c1"
         >
           <div
-            class="heading"
+            class="result"
+            role="button"
+            tabindex="0"
           >
-            <span
-              class="container icon Icon--article"
-              data-testid="Icon--article"
-              type="Icon--article"
-            >
-              <svg
-                aria-hidden="true"
-                realfilename="widget-icon_article.svg"
-              />
-            </span>
             <div
-              class="optionText"
-              data-testid="hc-article-title"
+              class="heading"
             >
-              title 456
+              <span
+                class="container icon Icon--article"
+                data-testid="Icon--article"
+                type="Icon--article"
+              >
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_article.svg"
+                />
+              </span>
+              <div
+                class="optionText"
+                data-testid="hc-article-title"
+              >
+                title 123
+              </div>
+            </div>
+            <div
+              class="snippet"
+            >
+              <div>
+                to be filled later 123
+              </div>
             </div>
           </div>
+        </div>
+        <div
+          class="c2"
+        >
           <div
-            class="snippet"
+            class="result"
+            role="button"
+            tabindex="0"
           >
-            <div>
-              to be filled later 456
+            <div
+              class="heading"
+            >
+              <span
+                class="container icon Icon--article"
+                data-testid="Icon--article"
+                type="Icon--article"
+              >
+                <svg
+                  aria-hidden="true"
+                  realfilename="widget-icon_article.svg"
+                />
+              </span>
+              <div
+                class="optionText"
+                data-testid="hc-article-title"
+              >
+                title 456
+              </div>
+            </div>
+            <div
+              class="snippet"
+            >
+              <div>
+                to be filled later 456
+              </div>
             </div>
           </div>
         </div>

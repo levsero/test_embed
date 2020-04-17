@@ -1,8 +1,10 @@
 import React from 'react'
+import { find } from 'styled-components/test-utils'
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'constants/shared'
 import SocialLogin from '../'
+import { SocialLoginContainer } from 'embeds/chat/components/SocialLogin/styles'
 
 describe('SocialLogin', () => {
   const defaultProps = {
@@ -14,7 +16,7 @@ describe('SocialLogin', () => {
   it('renders nothing when no social services are available', () => {
     const { container } = renderComponent({ authUrls: {} })
 
-    expect(container.firstChild).toBeNull()
+    expect(find(container, SocialLoginContainer)).toBeNull()
   })
 
   beforeEach(() => {

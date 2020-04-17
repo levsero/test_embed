@@ -8,6 +8,6 @@ describe('FallbackField', () => {
   it('does not render anything', () => {
     const { container } = renderComponent()
 
-    expect(container.firstChild).toBeNull()
+    expect(container.firstChild.firstChild).toBeNull()
   })
 })

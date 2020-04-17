@@ -22,16 +22,18 @@ exports[`renders logo 1`] = `
   fill: #87929d;
 }
 
-<a
-  class="c0"
-  data-testid="Icon--zendesk"
-  href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-  tabindex="-1"
-  target="_blank"
->
-  <svg
-    realfilename="widget-icon_zendesk.svg"
-    title="zendesk"
-  />
-</a>
+<div>
+  <a
+    class="c0"
+    data-testid="Icon--zendesk"
+    href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+    tabindex="-1"
+    target="_blank"
+  >
+    <svg
+      realfilename="widget-icon_zendesk.svg"
+      title="zendesk"
+    />
+  </a>
+</div>
 `;
