@@ -34,7 +34,7 @@ exports[`renders full skeleton loaders 1`] = `
 <div
   class="c0 c1"
   data-garden-id="loaders.skeleton"
-  data-garden-version="7.0.0"
+  data-garden-version="7.1.10"
 >
    
 </div>

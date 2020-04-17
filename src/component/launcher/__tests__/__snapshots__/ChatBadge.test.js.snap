@@ -49,14 +49,14 @@ exports[`renders the component 1`] = `
         class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
-          aria-describedby="garden-field-container-0--hint"
+          aria-describedby="1val-field_1.3.3--hint"
           aria-invalid="false"
-          aria-labelledby="garden-field-container-0--label"
+          aria-labelledby="1val-field_1.3.3--label"
           class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           data-testid="message-field"
-          id="garden-field-container-0--input"
+          id="1val-field_1.3.3--input"
           placeholder="Type your message here"
           value=""
         />
@@ -139,14 +139,14 @@ exports[`with chatBadgeColor passed in 1`] = `
         class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
-          aria-describedby="garden-field-container-1--hint"
+          aria-describedby="2val-field_1.3.3--hint"
           aria-invalid="false"
-          aria-labelledby="garden-field-container-1--label"
+          aria-labelledby="2val-field_1.3.3--label"
           class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           data-testid="message-field"
-          id="garden-field-container-1--input"
+          id="2val-field_1.3.3--input"
           placeholder="Type your message here"
           value=""
         />
@@ -231,14 +231,14 @@ exports[`with label passed in 1`] = `
         class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <input
-          aria-describedby="garden-field-container-2--hint"
+          aria-describedby="3val-field_1.3.3--hint"
           aria-invalid="false"
-          aria-labelledby="garden-field-container-2--label"
+          aria-labelledby="3val-field_1.3.3--label"
           class="input text__c-txt__input___38pRd "
           data-garden-id="forms.input"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           data-testid="message-field"
-          id="garden-field-container-2--input"
+          id="3val-field_1.3.3--input"
           placeholder="Type your message here"
           value=""
         />

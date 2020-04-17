@@ -220,17 +220,17 @@ exports[`does not render the feedback popup if feedback is not required 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -542,17 +542,17 @@ exports[`feedback actions on no click asks for the reason 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -618,10 +618,10 @@ exports[`feedback actions on no click asks for the reason 1`] = `
         >
           <button
             class="c12 c13 index__c-btn___3y2Qe "
-            data-garden-container-id="keyboardfocus"
-            data-garden-container-version="0.2.6"
+            data-garden-container-id="containers.keyboardfocus"
+            data-garden-container-version="0.4.4"
             data-garden-id="buttons.button"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="pill-button"
             tabindex="0"
             type="button"
@@ -630,10 +630,10 @@ exports[`feedback actions on no click asks for the reason 1`] = `
           </button>
           <button
             class="c14 c13 index__c-btn___3y2Qe "
-            data-garden-container-id="keyboardfocus"
-            data-garden-container-version="0.2.6"
+            data-garden-container-id="containers.keyboardfocus"
+            data-garden-container-version="0.4.4"
             data-garden-id="buttons.button"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="pill-button"
             tabindex="0"
             type="button"
@@ -867,17 +867,17 @@ exports[`feedback actions on yes click hides the feedback popup 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -1168,17 +1168,17 @@ exports[`passing of scroll container classes 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -1469,17 +1469,17 @@ exports[`renders the expected classes 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -1770,17 +1770,17 @@ exports[`renders the expected mobile classes 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -2071,17 +2071,17 @@ exports[`renders the expected title 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -2379,17 +2379,17 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />
@@ -2455,10 +2455,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
         >
           <button
             class="c11 index__c-btn___3y2Qe "
-            data-garden-container-id="keyboardfocus"
-            data-garden-container-version="0.2.6"
+            data-garden-container-id="containers.keyboardfocus"
+            data-garden-container-version="0.4.4"
             data-garden-id="buttons.button"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="pill-button"
             tabindex="0"
             type="button"
@@ -2467,10 +2467,10 @@ exports[`renders the feedback popup after a certain time has passed 1`] = `
           </button>
           <button
             class="c11 index__c-btn___3y2Qe "
-            data-garden-container-id="keyboardfocus"
-            data-garden-container-version="0.2.6"
+            data-garden-container-id="containers.keyboardfocus"
+            data-garden-container-version="0.4.4"
             data-garden-id="buttons.button"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="pill-button"
             tabindex="0"
             type="button"
@@ -2704,17 +2704,17 @@ exports[`renders the help center article 1`] = `
         <button
           aria-label="Minimize widget"
           class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="keyboardfocus"
-          data-garden-container-version="0.2.6"
+          data-garden-container-id="containers.keyboardfocus"
+          data-garden-container-version="0.4.4"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.0.2"
+          data-garden-version="7.1.10"
           tabindex="0"
           type="button"
         >
           <svg
             class="index__c-btn__icon___3V0Rl"
             data-garden-id="buttons.icon"
-            data-garden-version="7.0.2"
+            data-garden-version="7.1.10"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
           />

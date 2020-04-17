@@ -26,7 +26,7 @@ exports[`renders 1`] = `
         aria-invalid="false"
         class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 "
         data-garden-id="forms.media_input"
-        data-garden-version="7.0.2"
+        data-garden-version="7.1.10"
       >
         <div
           class="text__c-txt__input--media__figure___gBDfx "
@@ -39,11 +39,11 @@ exports[`renders 1`] = `
         </div>
         <input
           aria-invalid="false"
-          aria-labelledby="garden-field-container-0--label"
+          aria-labelledby="1val-field_1.3.3--label"
           autocapitalize="off"
           class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
           data-testid="search-field"
-          id="garden-field-container-0--input"
+          id="1val-field_1.3.3--input"
           placeholder="hello there"
           type="search"
           value=""

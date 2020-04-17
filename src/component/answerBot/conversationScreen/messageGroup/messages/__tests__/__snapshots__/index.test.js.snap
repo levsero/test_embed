@@ -246,10 +246,10 @@ exports[`renders expected classes and components with default props for non-visi
           >
             <button
               class="c3 index__c-btn___3y2Qe "
-              data-garden-container-id="keyboardfocus"
-              data-garden-container-version="0.2.6"
+              data-garden-container-id="containers.keyboardfocus"
+              data-garden-container-version="0.4.4"
               data-garden-id="buttons.button"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.10"
               data-testid="pill-button"
               tabindex="0"
               type="button"
@@ -258,10 +258,10 @@ exports[`renders expected classes and components with default props for non-visi
             </button>
             <button
               class="c3 index__c-btn___3y2Qe "
-              data-garden-container-id="keyboardfocus"
-              data-garden-container-version="0.2.6"
+              data-garden-container-id="containers.keyboardfocus"
+              data-garden-container-version="0.4.4"
               data-garden-id="buttons.button"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.10"
               data-testid="pill-button"
               tabindex="0"
               type="button"
@@ -289,10 +289,10 @@ exports[`renders expected classes and components with default props for non-visi
           >
             <button
               class="c4 c3 index__c-btn___3y2Qe "
-              data-garden-container-id="keyboardfocus"
-              data-garden-container-version="0.2.6"
+              data-garden-container-id="containers.keyboardfocus"
+              data-garden-container-version="0.4.4"
               data-garden-id="buttons.button"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.10"
               data-testid="pill-button"
               tabindex="0"
               type="button"
@@ -301,10 +301,10 @@ exports[`renders expected classes and components with default props for non-visi
             </button>
             <button
               class="c4 c3 index__c-btn___3y2Qe "
-              data-garden-container-id="keyboardfocus"
-              data-garden-container-version="0.2.6"
+              data-garden-container-id="containers.keyboardfocus"
+              data-garden-container-version="0.4.4"
               data-garden-id="buttons.button"
-              data-garden-version="7.0.2"
+              data-garden-version="7.1.10"
               data-testid="pill-button"
               tabindex="0"
               type="button"
