@@ -17,6 +17,8 @@ dev/configs/*.json
 dev/configs/*.js
 !dev/configs/*-template.json
 dev/templates/web_widget/*.html
+dev/templates/dashboard/*.html
+!dev/templates/dashboard/example.html
 
 # Editor specific things
 .vscode/*.*
