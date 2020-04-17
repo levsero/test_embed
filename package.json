@@ -69,16 +69,20 @@
       "maxSize": "20 KB"
     },
     {
-      "path": "dist/public/*web_widget*.js",
+      "path": "dist/public/vendors~web_widget*.js",
       "maxSize": "315 KB"
     },
     {
+      "path": "dist/public/web_widget*.js",
+      "maxSize": "200 KB"
+    },
+    {
       "path": "dist/public/lazy/*.js",
-      "maxSize": "50 KB"
+      "maxSize": "30 KB"
     },
     {
       "path": "dist/public/talk-sdk.*.js",
-      "maxSize": "66 KB"
+      "maxSize": "20 KB"
     },
     {
       "path": "dist/public/chat-sdk.*.js",
