@@ -215,7 +215,7 @@ class AnswerBotContainer extends Component {
 
     shouldStopTimer.fallback = false
 
-    if (!this.fallbackTimer) {
+    if (!this.fallbackTimer && !props.isFeedbackRequired) {
       this.startSessionFallbackTimer()
     }
 
