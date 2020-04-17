@@ -125,7 +125,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   background: #227EC9 !important;
 }
 
-.c11 {
+.c12 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -140,48 +140,48 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 100%;
 }
 
-.c11::-webkit-scrollbar-track {
+.c12::-webkit-scrollbar-track {
   margin: 1.0714285714285714 0;
 }
 
-.c11::-webkit-scrollbar {
+.c12::-webkit-scrollbar {
   box-shadow: none;
   width: 0.42857142857142855rem;
 }
 
-.c11::-webkit-scrollbar-thumb {
+.c12::-webkit-scrollbar-thumb {
   background: #d8dcde;
   border-radius: 0.21428571428571427rem;
 }
 
-.c15 {
+.c16 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c17 {
+.c18 {
   position: relative;
   display: inline-block;
 }
 
-.c17 svg {
+.c18 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
   height: 0.7142857142857143rem;
 }
 
-.c17 svg:hover path,
-.c17 svg:active path,
-.c17 svg:focus path {
+.c18 svg:hover path,
+.c18 svg:active path,
+.c18 svg:focus path {
   fill: #68737d;
 }
 
-.c17 svg path {
+.c18 svg path {
   fill: #87929d;
 }
 
-.c16 {
+.c17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -196,35 +196,39 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   align-items: flex-end;
 }
 
-.c10 {
+.c8 {
+  padding: 0 0.7142857142857143rem 0.35714285714285715rem;
+}
+
+.c11 {
   color: #c2c8cc !important;
   height: 1.2rem !important;
   width: 1.2rem !important;
 }
 
-.c9 {
+.c10 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c9 > div > div {
+.c10 > div > div {
   max-height: unset;
 }
 
-.c8 {
+.c9 {
   margin-bottom: 0;
 }
 
-.c18 {
+.c19 {
   position: relative !important;
 }
 
-.c19 {
+.c20 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
 }
 
-.c12 {
+.c13 {
   text-align: center !important;
   color: #2f3941;
   font-size: 1.0714285714285714rem;
@@ -246,12 +250,12 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   flex-direction: column;
 }
 
-.c13 {
+.c14 {
   margin-bottom: 0 !important;
   margin-top: 1.4285714285714286 !important;
 }
 
-.c14 {
+.c15 {
   color: #68737d;
   margin-bottom: 1.4285714285714286 !important;
 }
@@ -296,15 +300,15 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         class="c7"
       >
         <div
-          class="form"
+          class="c8"
           data-testid="page-header-container"
         >
           <form
-            class="c8"
+            class="c9"
             novalidate=""
           >
             <div
-              class="c9"
+              class="c10"
             >
               <div
                 class="text__c-txt___Uzv-G range__c-range___1aYaS "
@@ -319,7 +323,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                     class="text__c-txt__input--media__figure___gBDfx "
                   >
                     <svg
-                      class="c10"
+                      class="c11"
                       data-testid="Icon--search"
                       realfilename="search-stroke.svg"
                     />
@@ -348,32 +352,32 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
       </div>
     </div>
     <div
-      class="c11"
+      class="c12"
       data-testid="scroll-container-content"
     >
       <div
-        class="c12"
+        class="c13"
       >
         <p
-          class="c13"
+          class="c14"
         >
           There are no results for ""
         </p>
         <p
-          class="c14"
+          class="c15"
         >
           Try searching for something else.
         </p>
       </div>
     </div>
     <footer
-      class="c15"
+      class="c16"
     >
       <div
-        class="c16"
+        class="c17"
       >
         <a
-          class="c17"
+          class="c18"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -385,13 +389,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
           />
         </a>
         <div
-          class="c18"
+          class="c19"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c19 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c20 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.button"
@@ -537,7 +541,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   background: #227EC9 !important;
 }
 
-.c11 {
+.c12 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -552,48 +556,48 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 100%;
 }
 
-.c11::-webkit-scrollbar-track {
+.c12::-webkit-scrollbar-track {
   margin: 1.0714285714285714 0;
 }
 
-.c11::-webkit-scrollbar {
+.c12::-webkit-scrollbar {
   box-shadow: none;
   width: 0.42857142857142855rem;
 }
 
-.c11::-webkit-scrollbar-thumb {
+.c12::-webkit-scrollbar-thumb {
   background: #d8dcde;
   border-radius: 0.21428571428571427rem;
 }
 
-.c15 {
+.c16 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c17 {
+.c18 {
   position: relative;
   display: inline-block;
 }
 
-.c17 svg {
+.c18 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
   height: 0.7142857142857143rem;
 }
 
-.c17 svg:hover path,
-.c17 svg:active path,
-.c17 svg:focus path {
+.c18 svg:hover path,
+.c18 svg:active path,
+.c18 svg:focus path {
   fill: #68737d;
 }
 
-.c17 svg path {
+.c18 svg path {
   fill: #87929d;
 }
 
-.c16 {
+.c17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -608,35 +612,39 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   align-items: flex-end;
 }
 
-.c10 {
+.c8 {
+  padding: 0 0.7142857142857143rem 0.35714285714285715rem;
+}
+
+.c11 {
   color: #c2c8cc !important;
   height: 1.2rem !important;
   width: 1.2rem !important;
 }
 
-.c9 {
+.c10 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c9 > div > div {
+.c10 > div > div {
   max-height: unset;
 }
 
-.c8 {
+.c9 {
   margin-bottom: 0;
 }
 
-.c18 {
+.c19 {
   position: relative !important;
 }
 
-.c19 {
+.c20 {
   padding-right: 0.7142857142857143rem !important;
   padding-left: 0.7142857142857143rem !important;
   max-width: 14.285714285714286rem;
 }
 
-.c12 {
+.c13 {
   text-align: center !important;
   color: #2f3941;
   font-size: 1.0714285714285714rem;
@@ -658,12 +666,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   flex-direction: column;
 }
 
-.c13 {
+.c14 {
   margin-bottom: 0 !important;
   margin-top: 1.4285714285714286 !important;
 }
 
-.c14 {
+.c15 {
   color: #68737d;
   margin-bottom: 1.4285714285714286 !important;
 }
@@ -708,15 +716,15 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         class="c7"
       >
         <div
-          class="form"
+          class="c8"
           data-testid="page-header-container"
         >
           <form
-            class="c8"
+            class="c9"
             novalidate=""
           >
             <div
-              class="c9"
+              class="c10"
             >
               <div
                 class="text__c-txt___Uzv-G range__c-range___1aYaS "
@@ -731,7 +739,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
                     class="text__c-txt__input--media__figure___gBDfx "
                   >
                     <svg
-                      class="c10"
+                      class="c11"
                       data-testid="Icon--search"
                       realfilename="search-stroke.svg"
                     />
@@ -760,32 +768,32 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
       </div>
     </div>
     <div
-      class="c11"
+      class="c12"
       data-testid="scroll-container-content"
     >
       <div
-        class="c12"
+        class="c13"
       >
         <p
-          class="c13"
+          class="c14"
         >
           There are no results for ""
         </p>
         <p
-          class="c14"
+          class="c15"
         >
           Try searching for something else.
         </p>
       </div>
     </div>
     <footer
-      class="c15"
+      class="c16"
     >
       <div
-        class="c16"
+        class="c17"
       >
         <a
-          class="c17"
+          class="c18"
           data-testid="Icon--zendesk"
           href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
           tabindex="-1"
@@ -797,13 +805,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
           />
         </a>
         <div
-          class="c18"
+          class="c19"
         >
           <div
             class="container buttonRight "
           >
             <button
-              class="c19 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
+              class="c20 index__c-btn___3y2Qe index__c-btn--primary___1YOfW "
               data-garden-container-id="keyboardfocus"
               data-garden-container-version="0.2.6"
               data-garden-id="buttons.button"
