@@ -406,6 +406,12 @@ describe('session fallback', () => {
       expect(actions.botFallbackMessage).toHaveBeenCalledWith(false)
     })
 
+    it('does not fires fallback suggestion if feedback is required', () => {
+      renderInitial({ channelAvailable: false, isFeedbackRequired: true })
+      jest.runAllTimers()
+      expect(actions.sessionFallback).not.toHaveBeenCalled()
+    })
+
     it('does not run fallback if unmounted', () => {
       const { unmount } = renderInitial()
 
