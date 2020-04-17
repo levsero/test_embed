@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Content } from './styles'
-
-import { i18n } from 'service/i18n'
+import useTranslate from 'src/hooks/useTranslate'
 
 const Legend = ({ hasContextuallySearched }) => {
+  const translate = useTranslate()
   const message = hasContextuallySearched
-    ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
-    : i18n.t('embeddable_framework.helpCenter.label.results')
+    ? translate('embeddable_framework.helpCenter.label.topSuggestions')
+    : translate('embeddable_framework.helpCenter.label.results')
   return (
     <Container>
       <Content>{message}</Content>

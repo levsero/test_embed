@@ -86,9 +86,7 @@ describe('ChatOfflineForm component', () => {
       'component/chat/ChatOperatingHours': {
         ChatOperatingHours
       },
-      'component/chat/ChatOfflineMessageForm': {
-        ChatOfflineMessageForm
-      },
+      'component/chat/ChatOfflineDepartmentMessageSuccess': ChatOfflineMessageForm,
       'component/chat/ChatMessagingChannels': {
         ChatMessagingChannels
       },

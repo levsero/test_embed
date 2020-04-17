@@ -1,11 +1,13 @@
 import React from 'react'
 import { Container, Content } from './styles'
-import { i18n } from 'service/i18n'
+import useTranslate from 'src/hooks/useTranslate'
 
 const ContextualNoResultsMessage = () => {
+  const translate = useTranslate()
+
   return (
     <Container>
-      <Content>{i18n.t('embeddable_framework.helpCenter.content.useSearchBar')}</Content>
+      <Content>{translate('embeddable_framework.helpCenter.content.useSearchBar')}</Content>
     </Container>
   )
 }

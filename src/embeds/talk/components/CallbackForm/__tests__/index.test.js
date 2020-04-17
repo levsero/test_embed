@@ -12,29 +12,24 @@ beforeEach(() => {
 
 describe('CallbackForm', () => {
   const defaultProps = {
-    supportedCountries: ['AU', 'US'],
-    formState: {
-      name: 'Someone',
-      description: 'A thing went wrong with the thing'
-    },
+    averageWaitTime: 'Average wait time: 25m',
     callback: {
       error: {
         message: ''
       }
     },
-    averageWaitTime: 'Average wait time: 25m',
-    updateTalkCallbackForm: jest.fn(),
-    submitTalkCallbackForm: jest.fn(),
-    isMobile: false,
+    descriptionLabelText: 'Description',
+    formState: {
+      description: 'A thing went wrong with the thing',
+      name: 'Someone'
+    },
+    nameLabelText: 'Name',
     nickname: 'Nick name',
     serviceUrl: 'https://example.com',
-    nameLabelText: 'Name',
-    descriptionLabelText: 'Description',
-    isRTL: false,
-    submitButtonLabel: 'Submit',
-    headerMessage: 'Register a callback',
-    locale: 'en',
-    hideZendeskLogo: true
+    showCallbackNumber: false,
+    submitTalkCallbackForm: jest.fn(),
+    supportedCountries: ['AU', 'US'],
+    updateTalkCallbackForm: jest.fn()
   }
 
   const renderComponent = (props = {}) => render(<CallbackForm {...defaultProps} {...props} />)
@@ -42,13 +37,13 @@ describe('CallbackForm', () => {
   it('renders the header message', () => {
     const { queryByText } = renderComponent()
 
-    expect(queryByText(defaultProps.headerMessage)).toBeInTheDocument()
+    expect(queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
   })
 
   it('displays the average wait time if it is available', () => {
     const { queryByText } = renderComponent()
 
-    expect(queryByText(defaultProps.averageWaitTime)).toBeInTheDocument()
+    expect(queryByText('Average wait time: 25m')).toBeInTheDocument()
   })
 
   it('does not display the average wait time if it is not available', () => {
@@ -60,16 +55,16 @@ describe('CallbackForm', () => {
   it('renders a field for the users name', () => {
     const { queryByText } = renderComponent()
 
-    expect(queryByText(defaultProps.nameLabelText)).toBeInTheDocument()
-    expect(document.querySelector(`input[name="name"]`)).toHaveValue(defaultProps.formState.name)
+    expect(queryByText('Name')).toBeInTheDocument()
+    expect(document.querySelector(`input[name="name"]`)).toHaveValue('Someone')
   })
 
   it('renders a field for the user to enter a description', () => {
     const { queryByText } = renderComponent()
 
-    expect(queryByText(defaultProps.descriptionLabelText)).toBeInTheDocument()
+    expect(queryByText('Description')).toBeInTheDocument()
     expect(document.querySelector(`textarea[name="description"]`)).toHaveValue(
-      defaultProps.formState.description
+      'A thing went wrong with the thing'
     )
   })
 

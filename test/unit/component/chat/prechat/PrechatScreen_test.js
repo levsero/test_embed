@@ -77,9 +77,7 @@ describe('PrechatScreen component', () => {
         AGENT_BOT: 'agent:trigger',
         DEPARTMENT_STATUSES
       },
-      'component/chat/ChatOfflineMessageForm': {
-        ChatOfflineMessageForm
-      },
+      'src/embeds/chat/components/ChatOfflineDepartmentMessageSuccess': ChatOfflineMessageForm,
       'src/redux/modules/chat/chat-selectors': {},
       'src/redux/modules/chat/chat-history-selectors': {},
       'src/components/Widget': {
