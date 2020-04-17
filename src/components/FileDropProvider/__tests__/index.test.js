@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import { FileDropProvider, useOnDrop } from '../'
+import { FileDropProvider, FileDropTarget, useOnDrop } from '../'
 
 describe('FileDropProvider', () => {
   const defaultProps = {
@@ -61,6 +61,33 @@ describe('FileDropProvider', () => {
   })
 
   describe('useOnDrop', () => {
+    it('calls the callback function when a file has been dropped into the drop target', async () => {
+      const onDrop = jest.fn()
+      const files = [{ id: 'file1' }, { id: 'file2' }]
+      const { queryByText } = renderComponent({ onDrop })
+
+      fireEvent.dragEnter(queryByText('Some text'))
+      await wait(() => expect(queryByText('Drop to attach')).toBeInTheDocument())
+
+      fireEvent.drop(queryByText('Drop to attach'), {
+        target: {
+          files
+        }
+      })
+
+      expect(onDrop).toHaveBeenCalledWith(files)
+    })
+  })
+
+  describe('FileDropTarget', () => {
+    const renderComponent = props =>
+      render(
+        <FileDropProvider>
+          <p>Some text</p>
+          <FileDropTarget {...props} />
+        </FileDropProvider>
+      )
+
     it('calls the callback function when a file has been dropped into the drop target', async () => {
       const onDrop = jest.fn()
       const files = [{ id: 'file1' }, { id: 'file2' }]

@@ -21,6 +21,7 @@ describe('ChatOnline component', () => {
   const ButtonPill = noopReactComponent('ButtonPill')
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
   const AgentDetailsPage = noopReactComponent('AgentDetailsPage')
+  const FileDropTarget = noopReactComponent('FileDropTarget')
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
@@ -34,6 +35,10 @@ describe('ChatOnline component', () => {
       },
       'component/loading/LoadingSpinner': {
         LoadingSpinner
+      },
+      'components/FileDropProvider': {
+        FileDropProvider: noopReactComponent(),
+        FileDropTarget
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
@@ -419,18 +424,12 @@ describe('ChatOnline component', () => {
     describe('when screen is not `chatting`', () => {
       beforeEach(() => {
         component = renderChatComponent(prechatScreen, true)
-        component.handleDragEnter()
-      })
-
-      it('does not return anything', () => {
-        expect(component.renderAttachmentsBox()).toBeFalsy()
       })
     })
 
     describe('when attachmentsEnabled is false', () => {
       beforeEach(() => {
         component = renderChatComponent(chattingScreen, false)
-        component.handleDragEnter()
       })
 
       it('does not return anything', () => {
@@ -438,24 +437,13 @@ describe('ChatOnline component', () => {
       })
     })
 
-    describe('when the component has not had handleDragEnter called on it', () => {
+    describe('when the screen is `chatting`, the attachments are enabled', () => {
       beforeEach(() => {
         component = renderChatComponent(chattingScreen, true)
-      })
-
-      it('does not return anything', () => {
-        expect(component.renderAttachmentsBox()).toBeFalsy()
-      })
-    })
-
-    describe('when the screen is `chatting`, the attachments are enabled and handleDragEnter has been called', () => {
-      beforeEach(() => {
-        component = renderChatComponent(chattingScreen, true)
-        component.handleDragEnter()
       })
 
       it('returns the AttachmentsBox component', () => {
-        expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), AttachmentBox)).toEqual(
+        expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), FileDropTarget)).toEqual(
           true
         )
       })
