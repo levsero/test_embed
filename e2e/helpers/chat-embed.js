@@ -57,6 +57,20 @@ const agentJoinsChat = async agentName => {
   })
 }
 
+const agentLeavesChat = async agentName => {
+  await zChat.chatMemberLeft({
+    display_name: agentName,
+    nick: 'agent:12345'
+  })
+}
+
+const visitorLeavesChat = async visitorName => {
+  await zChat.chatMemberLeft({
+    display_name: visitorName,
+    nick: visitorName
+  })
+}
+
 const sendMessageFromAgent = async (agentName, message) => {
   const detail = {
     nick: 'agent:12345',
@@ -86,6 +100,8 @@ export {
   clickEndChat,
   sendMessageFromUser,
   agentJoinsChat,
+  agentLeavesChat,
+  visitorLeavesChat,
   sendMessageFromAgent,
   loadWidgetWithChatOnline,
   clickToConfirmEndChat,
