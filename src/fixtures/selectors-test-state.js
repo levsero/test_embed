@@ -56,7 +56,7 @@ const defaultState = {
     config: {
       defaultToChatWidgetLite: false
     },
-    agents: new Map([]),
+    activeAgents: new Map([]),
     chatting: false,
     enabled: true,
     status: 'offline',

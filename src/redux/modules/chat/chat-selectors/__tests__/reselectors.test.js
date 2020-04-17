@@ -246,7 +246,7 @@ describe('getShowRatingScreen', () => {
     const result = selectors.getShowRatingScreen(
       getModifiedState({
         chat: {
-          agents: new Map()
+          activeAgents: new Map()
         }
       })
     )

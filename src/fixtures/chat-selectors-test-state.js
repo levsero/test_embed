@@ -40,7 +40,7 @@ export default {
       }
     },
     agentJoined: 'Sam I am',
-    agents: ['Bob', 'Charlie', 'Groundskeeper Willie'],
+    activeAgents: ['Bob', 'Charlie', 'Groundskeeper Willie'],
     chats: new Map([
       [
         1,

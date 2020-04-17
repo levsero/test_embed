@@ -298,6 +298,17 @@ describe('chat log', () => {
   test('agent typing', () => {
     assertChatLog(
       {
+        type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        payload: {
+          detail: {
+            display_name: 'Mr F',
+            nick: 'agent:456',
+            timestamp: timestamp(),
+            type: 'chat.memberjoin'
+          }
+        }
+      },
+      {
         type: chatActionTypes.SDK_AGENT_UPDATE,
         payload: {
           detail: {
@@ -326,6 +337,17 @@ describe('chat log', () => {
 
   test('agent stopped typing', () => {
     assertChatLog(
+      {
+        type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        payload: {
+          detail: {
+            display_name: 'Mr F',
+            nick: 'agent:456',
+            timestamp: timestamp(),
+            type: 'chat.memberjoin'
+          }
+        }
+      },
       {
         type: chatActionTypes.SDK_AGENT_UPDATE,
         payload: {
@@ -675,6 +697,17 @@ describe('chat log', () => {
 test('update chat header', () => {
   const { getByTestId } = renderComponent()
 
+  store.dispatch({
+    type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+    payload: {
+      detail: {
+        display_name: 'Mr F',
+        nick: 'agent:456',
+        timestamp: timestamp(),
+        type: 'chat.memberjoin'
+      }
+    }
+  })
   store.dispatch({
     type: chatActionTypes.SDK_AGENT_UPDATE,
     payload: {
