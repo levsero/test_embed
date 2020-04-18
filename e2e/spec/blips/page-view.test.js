@@ -28,7 +28,7 @@ test('sends page view blips in the correct format', async () => {
     .intercept(mockBlipEndpoint(blipEndpoint))
     .load()
 
-  const blipUrl = blipEndpoint.mock.calls[1][0]
+  const blipUrl = blipEndpoint.mock.calls.find(call => call[0].indexOf('type=pageView') !== -1)[0]
 
   assertPageViewPayload(blipUrl)
 })
