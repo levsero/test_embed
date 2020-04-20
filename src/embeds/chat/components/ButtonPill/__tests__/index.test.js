@@ -8,7 +8,7 @@ import ButtonPill from '../'
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
 expect.addSnapshotSerializer(styleSheetSerializer)
 
-const renderComponent = (props, themeProps = { rtl: false }) => {
+const renderComponent = (props, themeProps = { theme: { rtl: false } }) => {
   return render(<ButtonPill {...props}>mylabel</ButtonPill>, { themeProps })
 }
 
@@ -20,7 +20,7 @@ test('renders the expected classes', () => {
 
 test('renders the expected rtl classes when rtl is on', () => {
   const { container: ltrContainer } = renderComponent()
-  const { container: rtlContainer } = renderComponent({}, { rtl: true })
+  const { container: rtlContainer } = renderComponent({}, { theme: { rtl: true } })
 
   expect(snapshotDiff(ltrContainer, rtlContainer, { contextLines: 0 })).toMatchSnapshot()
 })

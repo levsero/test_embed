@@ -9,12 +9,14 @@ exports[`render matches structure 1`] = `
 }
 
 <div>
-  <div
-    aria-live="polite"
-    class="c0"
-    role="status"
-  >
-    Queue position: 1
+  <div>
+    <div
+      aria-live="polite"
+      class="c0"
+      role="status"
+    >
+      Queue position: 1
+    </div>
   </div>
 </div>
 `;

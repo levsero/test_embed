@@ -70,7 +70,7 @@
     },
     {
       "path": "dist/public/*web_widget*.js",
-      "maxSize": "310 KB"
+      "maxSize": "315 KB"
     },
     {
       "path": "dist/public/lazy/*.js",
@@ -109,7 +109,7 @@
     "@zendeskgarden/react-modals": "^7.1.11",
     "@zendeskgarden/react-notifications": "^7.1.10",
     "@zendeskgarden/react-selection": "^7.1.4",
-    "@zendeskgarden/react-theming": "^7.1.4",
+    "@zendeskgarden/react-theming": "^8.5.0",
     "@zendeskgarden/react-tooltips": "^7.1.10",
     "@zendeskgarden/react-utilities": "^7.1.4",
     "@zendeskgarden/svg-icons": "~5.0.0",

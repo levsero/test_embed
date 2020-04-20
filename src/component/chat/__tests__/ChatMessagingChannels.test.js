@@ -1,9 +1,11 @@
 import React from 'react'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
+import { find } from 'styled-components/test-utils'
 import snapshotDiff from 'snapshot-diff'
 
 import { render } from 'src/util/testHelpers'
 import ChatMessagingChannels from '../ChatMessagingChannels'
+import { Container } from '../ChatMessagingChannelsStyles'
 import { TEST_IDS } from 'src/constants/shared'
 
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
@@ -24,7 +26,8 @@ describe('ChatMessagingChannels', () => {
           twitter: { allowed: false, page_id: '1' }
         }
       })
-      expect(container.firstChild).toBeNull()
+
+      expect(find(container, Container)).toBeNull()
     })
   })
   describe('when at least one channel is available', () => {
@@ -120,7 +123,7 @@ describe('ChatMessagingChannels', () => {
               },
               isMobile: false
             },
-            { rtl: true }
+            { theme: { rtl: true } }
           )
           const { container: mobileContainer } = renderComponent(
             {
@@ -130,7 +133,7 @@ describe('ChatMessagingChannels', () => {
               },
               isMobile: true
             },
-            { rtl: true }
+            { theme: { rtl: true } }
           )
 
           expect(

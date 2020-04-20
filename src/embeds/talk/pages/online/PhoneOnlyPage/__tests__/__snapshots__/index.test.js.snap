@@ -336,98 +336,100 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 }
 
 <div>
-  <div
-    class="c0"
-  >
+  <div>
     <div
-      class="c1"
-      data-testid="widget-header-view"
+      class="c0"
     >
       <div
-        class="c2"
+        class="c1"
+        data-testid="widget-header-view"
       >
-        <h1
-          class="c3 c4"
-          data-testid="widget-title"
-        >
-          Phone only page
-        </h1>
-        <button
-          aria-label="Minimize widget"
-          class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="containers.keyboardfocus"
-          data-garden-container-version="0.4.4"
-          data-garden-id="buttons.icon_button"
-          data-garden-version="7.1.10"
-          tabindex="0"
-          type="button"
-        >
-          <svg
-            class="index__c-btn__icon___3V0Rl"
-            data-garden-id="buttons.icon"
-            data-garden-version="7.1.10"
-            data-testid="Icon--dash"
-            realfilename="dash-fill.svg"
-          />
-        </button>
-      </div>
-    </div>
-    <div
-      class="c7"
-      data-testid="scroll-container-content"
-    >
-      <div
-        class="c8"
-        data-testid="talk--phoneOnlyPage"
-      >
-        <svg
-          class="c9"
-          realfilename="talk.svg"
-        />
-        <p
-          class="c10"
-        >
-          Call us
-        </p>
-        <p
-          class="c11"
-        >
-          10
-        </p>
         <div
-          class="c12"
+          class="c2"
         >
-          <a
-            class="c13"
-            data-testid="talk-phone-number"
-            href="tel:+61412345678"
-            target="_blank"
+          <h1
+            class="c3 c4"
+            data-testid="widget-title"
           >
-            +61412 345 678
-          </a>
+            Phone only page
+          </h1>
+          <button
+            aria-label="Minimize widget"
+            class="c5 index__c-btn--icon___1Yl4x c6 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
+            data-garden-container-id="containers.keyboardfocus"
+            data-garden-container-version="0.4.4"
+            data-garden-id="buttons.icon_button"
+            data-garden-version="7.1.10"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="index__c-btn__icon___3V0Rl"
+              data-garden-id="buttons.icon"
+              data-garden-version="7.1.10"
+              data-testid="Icon--dash"
+              realfilename="dash-fill.svg"
+            />
+          </button>
         </div>
       </div>
-    </div>
-    <footer
-      class="c14"
-    >
       <div
-        class="c15"
+        class="c7"
+        data-testid="scroll-container-content"
       >
-        <a
-          class="c16"
-          data-testid="Icon--zendesk"
-          href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
-          tabindex="-1"
-          target="_blank"
+        <div
+          class="c8"
+          data-testid="talk--phoneOnlyPage"
         >
           <svg
-            realfilename="widget-icon_zendesk.svg"
-            title="zendesk"
+            class="c9"
+            realfilename="talk.svg"
           />
-        </a>
+          <p
+            class="c10"
+          >
+            Call us
+          </p>
+          <p
+            class="c11"
+          >
+            10
+          </p>
+          <div
+            class="c12"
+          >
+            <a
+              class="c13"
+              data-testid="talk-phone-number"
+              href="tel:+61412345678"
+              target="_blank"
+            >
+              +61412 345 678
+            </a>
+          </div>
+        </div>
       </div>
-    </footer>
+      <footer
+        class="c14"
+      >
+        <div
+          class="c15"
+        >
+          <a
+            class="c16"
+            data-testid="Icon--zendesk"
+            href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
+            tabindex="-1"
+            target="_blank"
+          >
+            <svg
+              realfilename="widget-icon_zendesk.svg"
+              title="zendesk"
+            />
+          </a>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>
 `;

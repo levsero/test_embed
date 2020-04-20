@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 
 import { WidgetThemeProvider } from 'src/components/Widget'
 import { i18n } from 'service/i18n'
@@ -50,9 +50,12 @@ class EmbedWrapper extends Component {
     return (
       <Router history={history}>
         <ThemeProvider
-          theme={getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))}
-          rtl={i18n.isRTL()}
-          document={this.props.document}
+          theme={{
+            ...DEFAULT_THEME,
+            document: this.props.document,
+            rtl: i18n.isRTL(),
+            components: getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))
+          }}
         >
           <WidgetThemeProvider>
             <FocusJail name={this.props.name}>

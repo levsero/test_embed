@@ -19,18 +19,20 @@ exports[`Alert renders a styled garden alert 1`] = `
 }
 
 <div>
-  <div
-    class="index__c-callout___K1eQ- index__c-callout--error___NED0s c0"
-    data-garden-id="notifications.alert"
-    data-garden-version="7.1.10"
-    type="error"
-  >
+  <div>
     <div
-      class="index__c-callout__title___e5tnb c1"
-      data-garden-id="notifications.title"
+      class="index__c-callout___K1eQ- index__c-callout--error___NED0s c0"
+      data-garden-id="notifications.alert"
       data-garden-version="7.1.10"
+      type="error"
     >
-      Some title
+      <div
+        class="index__c-callout__title___e5tnb c1"
+        data-garden-id="notifications.title"
+        data-garden-version="7.1.10"
+      >
+        Some title
+      </div>
     </div>
   </div>
 </div>

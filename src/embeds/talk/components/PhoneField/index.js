@@ -8,7 +8,7 @@ import {
   composeEventHandlers,
   ControlledComponent
 } from '@zendeskgarden/react-selection'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
 import { TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
@@ -163,7 +163,14 @@ class PhoneField extends ControlledComponent {
       <Container>
         <CurrentFrameConsumer>
           {frame => (
-            <ThemeProvider rtl={this.props.rtl} document={frame.document} theme={styleOverrides}>
+            <ThemeProvider
+              theme={{
+                ...DEFAULT_THEME,
+                document: frame.document,
+                rtl: this.props.rtl,
+                components: styleOverrides
+              }}
+            >
               <FieldContainer>
                 {({ getLabelProps: getFieldLabelProps, getInputProps: getFieldInputProps }) => {
                   return (
