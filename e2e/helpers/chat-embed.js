@@ -16,6 +16,24 @@ const loadWidgetWithChatOnline = async () => {
   await waitForPrechatForm()
 }
 
+const getChatReady = async () => {
+  await loadWidgetWithChatOnline()
+  await clickStartChat()
+  await waitForChatToBeReady()
+}
+
+const getChatReadyAndEvaluate = async cb => {
+  await loadWidget()
+    .withPresets('chat')
+    .hiddenInitially()
+    .evaluateAfterSnippetLoads(cb)
+    .load()
+
+  await zChat.online()
+  await launcher.click()
+  await waitForPrechatForm()
+}
+
 const waitForPrechatForm = async () => {
   await widget.waitForText('Start chat')
 }
@@ -104,6 +122,8 @@ export {
   visitorLeavesChat,
   sendMessageFromAgent,
   loadWidgetWithChatOnline,
+  getChatReady,
+  getChatReadyAndEvaluate,
   clickToConfirmEndChat,
   waitForChatToBeReady,
   clickChatOptions
