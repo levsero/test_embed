@@ -3,6 +3,15 @@ import { render } from 'src/util/testHelpers'
 import { Component as PrechatForm } from '../'
 import { TEST_IDS } from 'constants/shared'
 
+jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div data-testid="history button" />
+    }
+  }
+})
+
 describe('PrechatForm', () => {
   const defaultProps = {
     title: 'Chat',
@@ -19,6 +28,12 @@ describe('PrechatForm', () => {
     })
 
     expect(queryByText('Some title')).toBeInTheDocument()
+  })
+
+  it('renders the view history button', () => {
+    const { queryByTestId } = renderComponent()
+
+    expect(queryByTestId('history button')).toBeInTheDocument()
   })
 
   it('renders the greeting message if one exists', () => {
