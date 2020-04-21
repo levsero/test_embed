@@ -34,7 +34,7 @@ const isToday = inStamp => {
     today = new Date()
 
   return (
-    inDate.getDay() === today.getDay() &&
+    inDate.getDate() === today.getDate() &&
     inDate.getMonth() === today.getMonth() &&
     inDate.getFullYear() === today.getFullYear()
   )

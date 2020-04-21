@@ -19,7 +19,7 @@ describe('dateTime', () => {
       global.Date = jest.fn(() => {
         return {
           getMonth: () => 1,
-          getDay: () => 2,
+          getDate: () => 2,
           getFullYear: () => 3,
           getHours: () => 4,
           getMinutes: () => 5
