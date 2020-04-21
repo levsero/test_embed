@@ -204,7 +204,6 @@ const setVisitorInfo = async () => {
 const offline = async () => {
   await isChatting(false)
   await accountStatus('offline')
-  await connectionUpdate('closed')
 }
 
 export default {

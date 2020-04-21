@@ -1,7 +1,7 @@
-import { agentJoinsChat, getChatReady } from 'e2e/helpers/chat-embed'
+import { agentJoinsChat, openChattingScreen } from 'e2e/helpers/chat-embed'
 
 test('chat:isChatting shows a chat has not started', async () => {
-  await getChatReady()
+  await openChattingScreen()
 
   const isChatting = await page.evaluate(() => $zopim.livechat.isChatting())
 
@@ -9,7 +9,7 @@ test('chat:isChatting shows a chat has not started', async () => {
 })
 
 test('chat:isChatting shows a chat is in progress', async () => {
-  await getChatReady()
+  await openChattingScreen()
   await agentJoinsChat('Cody Allen')
 
   const isChatting = await page.evaluate(() => $zopim.livechat.isChatting())

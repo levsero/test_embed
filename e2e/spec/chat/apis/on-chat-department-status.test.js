@@ -1,10 +1,10 @@
 import zChat from 'e2e/helpers/zChat'
-import { getChatReadyAndEvaluate } from 'e2e/helpers/chat-embed'
+import { openChattingScreenAndEvaluate } from 'e2e/helpers/chat-embed'
 
 test('on chat:departmentStatus calls a function when department status changes', async () => {
   let result
 
-  await getChatReadyAndEvaluate(() => {
+  await openChattingScreenAndEvaluate(() => {
     zE('webWidget:on', 'chat:departmentStatus', dept => {
       window.departmentStatus = dept.status
     })

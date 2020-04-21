@@ -16,13 +16,13 @@ const loadWidgetWithChatOnline = async () => {
   await waitForPrechatForm()
 }
 
-const getChatReady = async () => {
+const openChattingScreen = async () => {
   await loadWidgetWithChatOnline()
   await clickStartChat()
   await waitForChatToBeReady()
 }
 
-const getChatReadyAndEvaluate = async cb => {
+const openChattingScreenAndEvaluate = async cb => {
   await loadWidget()
     .withPresets('chat')
     .hiddenInitially()
@@ -122,8 +122,8 @@ export {
   visitorLeavesChat,
   sendMessageFromAgent,
   loadWidgetWithChatOnline,
-  getChatReady,
-  getChatReadyAndEvaluate,
+  openChattingScreen,
+  openChattingScreenAndEvaluate,
   clickToConfirmEndChat,
   waitForChatToBeReady,
   clickChatOptions

@@ -1,7 +1,7 @@
-import { agentJoinsChat, getChatReadyAndEvaluate } from 'e2e/helpers/chat-embed'
+import { agentJoinsChat, openChattingScreenAndEvaluate } from 'e2e/helpers/chat-embed'
 
-test('on chat:connected shows a chat connection has been successful', async () => {
-  await getChatReadyAndEvaluate(() => {
+test('on chat:connected executes a callback on a successful connection', async () => {
+  await openChattingScreenAndEvaluate(() => {
     zE('webWidget:on', 'chat:connected', () => {
       window.onChatConnectedCalled = true
     })

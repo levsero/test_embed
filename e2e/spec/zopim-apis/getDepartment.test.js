@@ -1,8 +1,8 @@
 import zChat from 'e2e/helpers/zChat'
-import { getChatReady } from 'e2e/helpers/chat-embed'
+import { openChattingScreen } from 'e2e/helpers/chat-embed'
 
 test('chat:department returns details about a department by passing an ID', async () => {
-  await getChatReady()
+  await openChattingScreen()
 
   await zChat.updateDepartment({ status: 'online', id: 1984, name: 'Ebb Tide' })
 
@@ -12,7 +12,7 @@ test('chat:department returns details about a department by passing an ID', asyn
 })
 
 test('chat:department returns details about a department by passing a name', async () => {
-  await getChatReady()
+  await openChattingScreen()
 
   await zChat.updateDepartment({ status: 'online', id: 1984, name: 'Ebb Tide' })
 
