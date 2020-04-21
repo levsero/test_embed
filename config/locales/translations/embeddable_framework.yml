@@ -577,6 +577,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=1aOgF3n31lMauQ1Yj88mMGZgdG01R3oSY"
       value: "Success"
   - translation:
+      key: "embeddable_framework.chat.options.editContactDetailsSubmission.error"
+      title: "Error message that displays after a user tries to submit their contact details and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button"
+      screenshot: "https://drive.google.com/file/d/1WPraF17Ec2uNE-sWgehlLJQ4BGgl2UK1/view?usp=sharing"
+      value: "There was an error processing your request. Please try again later."
+  - translation:
       key: "embeddable_framework.chat.options.emailTranscript"
       title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
       screenshot: "https://zendesk.box.com/s/dctjnojgjq4n9y0gwg72fy9lygmzttul"
