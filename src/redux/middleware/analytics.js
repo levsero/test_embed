@@ -27,6 +27,7 @@ import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getCapability } from 'src/embeds/talk/selectors/selectors'
 import { getForm } from 'src/embeds/support/selectors'
+import supportRoutes from 'src/embeds/support/routes'
 const loadtime = Date.now()
 const getDepartmentName = (payload, prevState) => {
   const deptId = parseInt(payload.department)
@@ -124,6 +125,9 @@ const trackTicketShown = (payload, prevState) => {
 }
 
 const trackTicketSubmitted = (payload, state) => {
+  if (payload.name === supportRoutes.defaultFormId) {
+    return GA.track('Contact Form Submitted', supportRoutes.defaultFormId)
+  }
   const formId = parseInt(payload.name)
   const { id, name } = getForm(state, formId)
   GA.track('Contact Form Submitted', { id, name })
