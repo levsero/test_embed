@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useTranslate from 'src/hooks/useTranslate'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 import UserProfileDetails from 'src/embeds/chat/components/UserProfileDetails'
-import { ICONS } from 'src/constants/shared'
+import { ICONS, TEST_IDS } from 'src/constants/shared'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 import {
   LoadingSpinnerIcon,
@@ -20,7 +20,8 @@ const UserProfile = ({
   nameField,
   authUrls,
   emailField,
-  initiateSocialLogout
+  initiateSocialLogout,
+  shouldSpaceSocialLogin
 }) => {
   const translate = useTranslate()
   const { authenticated: isSociallyAuthenticated, screen, avatarPath } = socialLogin
@@ -29,7 +30,7 @@ const UserProfile = ({
 
   const logoutButton =
     screen !== CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING ? (
-      <LogoutIcon type="Icon--trash-fill" onClick={initiateSocialLogout} />
+      <LogoutIcon onClick={initiateSocialLogout} data-testid={TEST_IDS.ICON_LOGOUT} />
     ) : (
       <LoadingSpinnerIcon />
     )
@@ -56,7 +57,7 @@ const UserProfile = ({
       {!authenticatedProfile && (
         <DefaultProfileContainer>
           {nameField}
-          {<SocialLogin authUrls={authUrls} />}
+          {<SocialLogin authUrls={authUrls} shouldSpace={shouldSpaceSocialLogin} />}
           {emailField}
         </DefaultProfileContainer>
       )}
@@ -66,16 +67,20 @@ const UserProfile = ({
 
 UserProfile.propTypes = {
   authUrls: PropTypes.objectOf(PropTypes.string),
+  emailField: PropTypes.node,
+  initiateSocialLogout: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  nameField: PropTypes.node,
+  shouldSpaceSocialLogin: PropTypes.bool,
   socialLogin: PropTypes.shape({
     authenticated: PropTypes.bool,
     screen: PropTypes.string,
     avatarPath: PropTypes.string
   }),
-  visitor: PropTypes.object.isRequired,
-  initiateSocialLogout: PropTypes.func.isRequired,
-  nameField: PropTypes.node,
-  emailField: PropTypes.node,
-  isAuthenticated: PropTypes.bool.isRequired
+  visitor: PropTypes.shape({
+    display_name: PropTypes.string,
+    email: PropTypes.string
+  }).isRequired
 }
 
 export default UserProfile

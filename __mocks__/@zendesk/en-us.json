@@ -302,7 +302,8 @@
       "embeddable_framework.talk.offline.label_v2": "All agents are currently offline. Try again later.",
       "embeddable_framework.common.notify.message.thanks_for_reaching_out_v2": "Thanks for reaching out",
       "embeddable_framework.common.notify.message.get_back_v2": "Someone will get back to you soon",
-      "embeddable_framework.talk.clickToCall.message": "Call Customer Support directly from your browser. You'll need to allow microphone access on your device when prompted."
+      "embeddable_framework.talk.clickToCall.message": "Call Customer Support directly from your browser. You'll need to allow microphone access on your device when prompted.",
+      "embeddable_framework.chat.options.editContactDetailsSubmission.success": "Success"
     }
   }
 }

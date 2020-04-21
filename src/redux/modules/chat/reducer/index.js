@@ -41,6 +41,8 @@ import config from './chat-config'
 import deferredChatIsPolling from 'embeds/chat/reducers/deferred-chat-is-polling'
 import deferredChatHasResponse from 'embeds/chat/reducers/deferred-chat-has-response'
 import soundEnabled from 'embeds/chat/reducers/sound-enabled'
+import contactDetailsSubmissionPending from 'embeds/chat/reducers/contact-details-submission-pending'
+import contactDetailsSubmissionError from 'src/embeds/chat/reducers/contact-details-submission-error'
 
 const combinedReducers = combineReducers({
   accountSettings,
@@ -82,7 +84,9 @@ const combinedReducers = combineReducers({
   endChatModalVisible,
   deferredChatIsPolling,
   deferredChatHasResponse,
-  soundEnabled
+  soundEnabled,
+  contactDetailsSubmissionPending,
+  contactDetailsSubmissionError
 })
 
 export default function reducer(state, action) {

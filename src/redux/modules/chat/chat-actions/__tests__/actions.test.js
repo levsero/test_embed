@@ -285,28 +285,15 @@ describe('setVisitorInfo', () => {
       expect(timeoutArgs[0]).toEqual(mockVisitor)
     })
 
-    describe('when there are errors', () => {
-      describe("when it's a timeout error", () => {
-        it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
-          const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo(mockVisitor, null, mockTimestamp),
-            timeoutError
-          )
+    describe("when there's any error", () => {
+      it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
+        const { store } = dispatchZChatWithTimeoutAction(
+          actions.setVisitorInfo(mockVisitor, null, mockTimestamp),
+          otherError
+        )
 
-          expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
-        })
-      })
-
-      describe("when it's any other error", () => {
-        it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
-          const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo(mockVisitor, null, mockTimestamp),
-            otherError
-          )
-
-          expect(store.getActions()).toContainEqual({
-            type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
-          })
+        expect(store.getActions()).toContainEqual({
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
         })
       })
     })

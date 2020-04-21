@@ -4,7 +4,7 @@ import { SocialLoginContainer, LoginIconButton, FacebookLoginIcon, GoogleLoginIc
 import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'src/constants/shared'
 
-const SocialLogin = ({ authUrls = {} }) => {
+const SocialLogin = ({ authUrls = {}, shouldSpace = false }) => {
   const translate = useTranslate()
 
   if (Object.values(authUrls).length === 0) {
@@ -12,9 +12,8 @@ const SocialLogin = ({ authUrls = {} }) => {
   }
 
   return (
-    <SocialLoginContainer>
-      {translate('embeddable_framework.chat.form.common.field.social_login.label')}
-
+    <SocialLoginContainer shouldSpace={shouldSpace}>
+      <p>{translate('embeddable_framework.chat.form.common.field.social_login.label')}</p>
       {authUrls.facebook && (
         <LoginIconButton
           title="facebook"
@@ -39,7 +38,8 @@ const SocialLogin = ({ authUrls = {} }) => {
 }
 
 SocialLogin.propTypes = {
-  authUrls: PropTypes.object
+  authUrls: PropTypes.object,
+  shouldSpace: PropTypes.bool
 }
 
 export default SocialLogin

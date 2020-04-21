@@ -714,26 +714,6 @@ describe('chat selectors', () => {
     })
   })
 
-  describe('getEditContactDetails', () => {
-    let result, mockChatSettings
-
-    beforeEach(() => {
-      mockChatSettings = {
-        chat: {
-          editContactDetails: {
-            status: EDIT_CONTACT_DETAILS_SCREEN,
-            show: true
-          }
-        }
-      }
-      result = selectors.getEditContactDetails(mockChatSettings)
-    })
-
-    it('returns the current state of the edit contact details', () => {
-      expect(result).toEqual(jasmine.objectContaining(mockChatSettings.chat.editContactDetails))
-    })
-  })
-
   describe('getOperatingHours', () => {
     let result
     const operatingHoursPayload = { account_schedule: [[456]] }

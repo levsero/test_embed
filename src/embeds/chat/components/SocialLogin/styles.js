@@ -6,11 +6,15 @@ import FacebookIcon from 'src/embeds/chat/icons/widget-icon_facebook.svg'
 import GoogleIcon from 'src/embeds/chat/icons/widget-icon_google.svg'
 
 const SocialLoginContainer = styled.div`
-   {
+  &&& {
     margin-bottom: ${14 / FONT_SIZE}rem;
     display: flex;
     align-items: center;
   }
+  ${props =>
+    props.shouldSpace &&
+    `
+  margin-top: ${15 / props.theme.fontSize}rem`}
 `
 
 const LoginIconButton = styled(IconButton)`

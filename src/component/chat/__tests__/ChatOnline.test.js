@@ -22,6 +22,7 @@ const renderComponent = props => {
     authUrls: {},
     socialLogin: {},
     isLoggingOut: false,
+    showNewChatEmbed: false,
     initiateSocialLogout: jest.fn(),
 
     ...props

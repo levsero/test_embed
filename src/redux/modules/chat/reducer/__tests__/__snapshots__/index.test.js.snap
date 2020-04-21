@@ -121,6 +121,8 @@ Object {
     "defaultToChatWidgetLite": false,
   },
   "connection": "",
+  "contactDetailsSubmissionError": false,
+  "contactDetailsSubmissionPending": false,
   "currentMessage": "",
   "defaultDepartment": Object {
     "id": null,

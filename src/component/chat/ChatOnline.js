@@ -31,13 +31,14 @@ import { Button } from '@zendeskgarden/react-buttons'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
-import { getMenuVisible } from 'embeds/chat/selectors'
+import { getMenuVisible, getEditContactDetails } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
 import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
 import ReconnectButton from 'embeds/chat/components/ReconnectButton'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 
 const mapStateToProps = state => {
   return {
@@ -45,7 +46,7 @@ const mapStateToProps = state => {
     screen: selectors.getChatScreen(state),
     visitor: selectors.getChatVisitor(state),
     emailTranscript: selectors.getEmailTranscript(state),
-    editContactDetails: selectors.getEditContactDetails(state),
+    editContactDetails: getEditContactDetails(state),
     menuVisible: getMenuVisible(state),
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
@@ -55,7 +56,8 @@ const mapStateToProps = state => {
     isAuthenticated: selectors.getIsAuthenticated(state),
     isLoggingOut: selectors.getIsLoggingOut(state),
     contactDetailsRequiredFormData: getDefaultFormFields(state),
-    endChatModalVisible: getIsEndChatModalVisible(state)
+    endChatModalVisible: getIsEndChatModalVisible(state),
+    showNewChatEmbed: isFeatureEnabled(state, 'chat_new_modal_support')
   }
 }
 
@@ -68,7 +70,7 @@ class Chat extends Component {
     isMobile: PropTypes.bool,
     editContactDetailsSubmitted: PropTypes.func.isRequired,
     handleReconnect: PropTypes.func.isRequired,
-
+    showNewChatEmbed: PropTypes.bool.isRequired,
     visitor: PropTypes.object.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
@@ -264,8 +266,13 @@ class Chat extends Component {
       isAuthenticated,
       socialLogin,
       initiateSocialLogout,
-      contactDetailsRequiredFormData
+      contactDetailsRequiredFormData,
+      showNewChatEmbed
     } = this.props
+
+    if (showNewChatEmbed) {
+      return null
+    }
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false)
     const tryAgainFn = () => updateContactDetailsVisibility(true)
