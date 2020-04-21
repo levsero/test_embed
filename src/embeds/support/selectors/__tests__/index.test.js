@@ -5,9 +5,16 @@ import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
 import { i18n } from 'service/i18n'
-import { getContactFormFields, getField, getForm } from 'embeds/support/selectors'
+import {
+  getCanDisplayForm,
+  getContactFormFields,
+  getField,
+  getForm
+} from 'embeds/support/selectors'
 import { getFormsToDisplay } from '..'
-import { getIsLoading } from '..'
+import { getIsFormLoading } from '..'
+import { getIsAnyTicketFormLoading } from '..'
+import { getHasFetchedTicketForms } from '..'
 
 const nameField = {
   id: 'name',
@@ -277,8 +284,9 @@ describe('getCustomTicketFields', () => {
     },
     support: {
       forms: {
-        123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields) }
+        123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true }
       },
+      filteredFormsToDisplay: [123456],
       fields: ticketFields
     }
   })
@@ -369,7 +377,8 @@ describe('getFormTicketFields', () => {
   const setUpState = ({ fields, contactFormFields, attachmentsEnabled = false }) => {
     return {
       support: {
-        forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'] } },
+        forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'], active: true } },
+        filteredFormsToDisplay: [123456],
         fields,
         contactFormFields
       },
@@ -396,7 +405,7 @@ describe('getFormTicketFields', () => {
     expect(result).toEqual([emailField, descriptionField, attachmentField])
   })
 
-  it('returns a ticket form when an id route is passed in', () => {
+  it('returns a ticket form when an id is passed in', () => {
     const fields = {
       123: checkboxField,
       456: textField,
@@ -473,9 +482,12 @@ describe('getFormState', () => {
         },
         forms: {
           contactForm: {
-            ticket_field_ids: [123]
+            id: 'contactForm',
+            ticket_field_ids: [123],
+            active: true
           }
         },
+        filteredFormsToDisplay: ['contactForm'],
         fields: {
           123: {
             id: 123,
@@ -725,20 +737,66 @@ describe('getReadOnlyState', () => {
 })
 
 describe('getForm', () => {
-  it('returns the form when it exists', () => {
-    const form = { id: 123 }
+  const form = { id: 123, active: true }
 
-    const result = getForm({ support: { forms: { 123: form } } }, 123)
+  it('returns the form when it exists', () => {
+    const result = getForm(
+      {
+        base: {
+          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [123] } } } }
+        },
+        support: { forms: { 123: form }, filteredFormsToDisplay: [] }
+      },
+      123
+    )
 
     expect(result).toBe(form)
   })
 
   it('returns undefined when the form does not exist', () => {
-    const form = { id: 123 }
-
-    const result = getForm({ support: { forms: { 456: form } } }, 123)
+    const result = getForm(
+      {
+        base: {
+          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
+        },
+        support: { forms: { 456: form }, filteredFormsToDisplay: [] }
+      },
+      123
+    )
 
     expect(result).toEqual(undefined)
+  })
+})
+
+describe('getCanDisplayForm', () => {
+  const form = { id: 123, active: true }
+
+  it('returns false if the form is not available to be displayed', () => {
+    const result = getCanDisplayForm(
+      {
+        base: {
+          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
+        },
+        support: { forms: { 123: form }, filteredFormsToDisplay: [456] }
+      },
+      123
+    )
+
+    expect(result).toBe(false)
+  })
+
+  it('returns true if the form is available to be displayed and exists', () => {
+    const result = getCanDisplayForm(
+      {
+        base: {
+          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
+        },
+        support: { forms: { 123: form }, filteredFormsToDisplay: [123] }
+      },
+      123
+    )
+
+    expect(result).toBe(true)
   })
 })
 
@@ -879,28 +937,92 @@ describe('getFormsToDisplay', () => {
   })
 })
 
-describe('getIsLoading', () => {
-  it('returns true if the field api is currently loading', () => {
-    const result = getIsLoading({
-      support: { isLoading: true, ticketFormsLoading: { isLoading: false } }
-    })
+describe('getIsFormLoading', () => {
+  it('returns true if the form is currently loading', () => {
+    const state = {
+      support: {
+        isFormLoading: {
+          123: 'fetchKey'
+        }
+      }
+    }
 
-    expect(result).toBe(true)
+    expect(getIsFormLoading(state, 123)).toBe(true)
   })
 
-  it('returns true if the forms api is currently loading', () => {
-    const result = getIsLoading({
-      support: { isLoading: false, ticketFormsLoading: { isLoading: true } }
-    })
+  it('returns false if the form is not loading', () => {
+    const state = {
+      support: {
+        isFormLoading: {
+          123: false
+        }
+      }
+    }
 
-    expect(result).toBe(true)
+    expect(getIsFormLoading(state, 123)).toBe(false)
   })
 
-  it('returns false if the form or field api is not currently loading', () => {
-    const result = getIsLoading({
-      support: { isLoading: false, ticketFormsLoading: { isLoading: false } }
-    })
+  it('returns false if there is no loading data for the form', () => {
+    const state = {
+      support: {
+        isFormLoading: {
+          456: 'fetchKey'
+        }
+      }
+    }
 
-    expect(result).toBe(false)
+    expect(getIsFormLoading(state, 123)).toBe(false)
+  })
+})
+
+describe('getIsAnyTicketFormLoading', () => {
+  it('returns true if any ticket form is loading', () => {
+    expect(
+      getIsAnyTicketFormLoading({
+        support: {
+          ticketFormsRequest: {
+            isLoading: true
+          }
+        }
+      })
+    ).toBe(true)
+  })
+
+  it('returns false if no ticket forms are loading', () => {
+    expect(
+      getIsAnyTicketFormLoading({
+        support: {
+          ticketFormsRequest: {
+            isLoading: false
+          }
+        }
+      })
+    ).toBe(false)
+  })
+})
+
+describe('getHasFetchedTicketForms', () => {
+  it('returns true if the fetchKey matches the latest fetch and it currently loading', () => {
+    const state = {
+      support: {
+        ticketFormsRequest: {
+          fetchKey: 'fetchKey'
+        }
+      }
+    }
+
+    expect(getHasFetchedTicketForms(state, 'fetchKey')).toBe(true)
+  })
+
+  it('returns false if the fetchKey does not match the latest fetch', () => {
+    const state = {
+      support: {
+        ticketFormsRequest: {
+          fetchKey: 'aNewerFetchKey'
+        }
+      }
+    }
+
+    expect(getHasFetchedTicketForms(state, 'anOlderFetchKey')).toBe(false)
   })
 })

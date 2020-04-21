@@ -29,7 +29,8 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
           isLoading: true,
           fetchKey: `en-US/123,456`
         }
@@ -60,7 +61,8 @@ describe('fetchTicketForms', () => {
             locale: 'en-US'
           }
         },
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
           isLoading: false,
           fetchKey: null
         }
@@ -88,14 +90,17 @@ describe('fetchTicketForms', () => {
         forms: {
           123: {
             id: 123,
-            locale: 'en-US'
+            locale: 'en-US',
+            active: true
           },
           456: {
             id: 456,
-            locale: 'fr'
+            locale: 'fr',
+            active: true
           }
         },
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [123, 456],
+        ticketFormsRequest: {
           isLoading: false,
           fetchKey: null
         }
@@ -110,7 +115,8 @@ describe('fetchTicketForms', () => {
         {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
-            fetchKey: 'en-US/456'
+            fetchKey: 'en-US/456',
+            formIds: [456]
           }
         }
       ])
@@ -127,7 +133,8 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
           isLoading: false,
           fetchKey: null
         }
@@ -156,7 +163,8 @@ describe('fetchTicketForms', () => {
                 locale: 'en-US'
               }
             ],
-            fetchKey: 'en-US/123'
+            fetchKey: 'en-US/123',
+            formIds: [123]
           }
         }
       ])
@@ -167,7 +175,8 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
           isLoading: false,
           fetchKey: null
         }
@@ -202,7 +211,8 @@ describe('fetchTicketForms', () => {
     const store = createStore({
       support: {
         forms: {},
-        ticketFormsLoading: {
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
           isLoading: false,
           fetchKey: null
         }
@@ -221,7 +231,8 @@ describe('fetchTicketForms', () => {
         {
           type: TICKET_FORMS_REQUEST_FAILURE,
           payload: {
-            fetchKey: 'en-US/123'
+            fetchKey: 'en-US/123',
+            formIds: [123]
           }
         }
       ])
@@ -312,7 +323,9 @@ describe('updateFormsForLocaleChange', () => {
   const mockStore = configureMockStore([thunk])
 
   const dispatchAction = locale => {
-    const store = mockStore({ support: { forms: {}, ticketFormsLoading: {} } })
+    const store = mockStore({
+      support: { forms: {}, filteredFormsToDisplay: [], ticketFormsRequest: { fetchKey: '' } }
+    })
 
     store.dispatch(actions.updateFormsForLocaleChange(locale))
     return store
@@ -327,7 +340,10 @@ describe('updateFormsForLocaleChange', () => {
       const store = dispatchAction('en')
 
       expect(store.getActions()).toEqual([
-        { type: types.TICKET_FORMS_REQUEST_SENT, payload: { fetchKey: 'en/10,20' } }
+        {
+          type: types.TICKET_FORMS_REQUEST_SENT,
+          payload: { fetchKey: 'en/10,20', formIds: [10, 20] }
+        }
       ])
     })
   })

@@ -10,9 +10,7 @@ const renderComponent = (
     selectTicketFormLabel = '',
     formTitle = '',
     ticketForms = [],
-    formIds = [],
-    fetchTicketForms = jest.fn(),
-    locale = 'en-US'
+    isLoading = false
   },
   options
 ) => {
@@ -22,9 +20,7 @@ const renderComponent = (
       formTitle={formTitle}
       selectTicketFormLabel={selectTicketFormLabel}
       ticketForms={ticketForms}
-      formIds={formIds}
-      fetchTicketForms={fetchTicketForms}
-      locale={locale}
+      isLoading={isLoading}
     />,
     options
   )
@@ -64,24 +60,8 @@ describe('TicketFormsListPage', () => {
     })
   })
 
-  it('fetches ticket forms when list of filtered forms changes', () => {
-    const fetchTicketForms = jest.fn()
-
-    const { rerender } = renderComponent({
-      fetchTicketForms,
-      formIds: [123, 456],
-      locale: 'en-US'
-    })
-
-    expect(fetchTicketForms).toHaveBeenCalledWith([123, 456], 'en-US')
-
-    fetchTicketForms.mockClear()
-
-    renderComponent(
-      { formIds: [456, 789], fetchTicketForms, locale: 'en-US' },
-      { render: rerender }
-    )
-
-    expect(fetchTicketForms).toHaveBeenCalledWith([456, 789], 'en-US')
+  it('displays a loading page if a request is pending', () => {
+    const { queryByRole } = renderComponent({ isLoading: true })
+    expect(queryByRole('progressbar')).toBeInTheDocument()
   })
 })

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -15,13 +15,16 @@ import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles
 import routes from 'embeds/support/routes'
 import { fetchTicketForms } from 'embeds/support/actions/fetchForms'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
+import LoadingPage from 'components/LoadingPage'
+import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
 
 const mapStateToProps = state => ({
   ticketForms: getFormsToDisplay(state),
   selectTicketFormLabel: getSelectTicketFormLabel(state),
   formTitle: getContactFormTitle(state),
   formIds: getFormIdsToDisplay(state),
-  locale: getLocale(state)
+  locale: getLocale(state),
+  isLoading: getIsAnyTicketFormLoading(state)
 })
 
 const TicketFormsListPage = ({
@@ -30,9 +33,7 @@ const TicketFormsListPage = ({
   ticketForms,
   handleFormOptionClick,
   history,
-  formIds,
-  fetchTicketForms,
-  locale
+  isLoading
 }) => {
   const onFormOptionClick = handleFormOptionClick
     ? handleFormOptionClick
@@ -40,9 +41,9 @@ const TicketFormsListPage = ({
         history.push(routes.form(formId))
       }
 
-  useEffect(() => {
-    fetchTicketForms(formIds, locale)
-  }, [fetchTicketForms, formIds, locale])
+  if (isLoading) {
+    return <LoadingPage />
+  }
 
   return (
     <Widget>
@@ -64,14 +65,12 @@ TicketFormsListPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }),
-  formIds: PropTypes.arrayOf(PropTypes.number),
-  fetchTicketForms: PropTypes.func,
-  locale: PropTypes.string
+  isLoading: PropTypes.bool.isRequired
 }
 
 const ConnectedComponent = connect(
   mapStateToProps,
-  { fetchTicketForms: fetchTicketForms }
+  { fetchTicketForms }
 )(TicketFormsListPage)
 
 export { ConnectedComponent as default, TicketFormsListPage as Component }

@@ -13,9 +13,10 @@ import displayDropzone from './displayDropzone'
 import forms from './forms'
 import fields from './fields'
 import contactFormFields from './contactFormFields'
-import isLoading from './isLoading'
 import filteredFormsToDisplay from 'embeds/support/reducers/filteredFormsToDisplay'
-import ticketFormsLoading from 'embeds/support/reducers/ticketFormsLoading'
+import ticketFormsRequest from 'embeds/support/reducers/ticketFormsRequest'
+import isTicketFieldsLoading from 'embeds/support/reducers/isTicketFieldsLoading'
+import isFormLoading from 'embeds/support/reducers/isFormLoading'
 
 export default combineReducers({
   config,
@@ -31,7 +32,8 @@ export default combineReducers({
   forms,
   fields,
   contactFormFields,
-  isLoading,
   filteredFormsToDisplay,
-  ticketFormsLoading
+  ticketFormsRequest,
+  isTicketFieldsLoading,
+  isFormLoading
 })

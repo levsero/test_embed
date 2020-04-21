@@ -14,13 +14,14 @@ Object {
   "filteredFormsToDisplay": Array [],
   "formStates": Object {},
   "forms": Object {},
-  "isLoading": false,
+  "isFormLoading": Object {},
+  "isTicketFieldsLoading": false,
   "lastFormPrefillId": Object {},
   "prefillId": 0,
   "prefillSpecificFormValues": Object {},
   "prefillValues": Object {},
   "readOnly": Object {},
-  "ticketFormsLoading": Object {
+  "ticketFormsRequest": Object {
     "fetchKey": null,
     "isLoading": false,
   },
