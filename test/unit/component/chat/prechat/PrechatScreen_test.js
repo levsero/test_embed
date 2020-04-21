@@ -47,6 +47,10 @@ describe('PrechatScreen component', () => {
       'component/container/Container': {
         Container: noopReactComponent()
       },
+      'embeds/webWidget/selectors/feature-flags': {
+        isFeatureEnabled: () => false
+      },
+      'components/Widget/SuspensePage': noopReactComponent(),
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,
