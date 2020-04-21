@@ -52,9 +52,7 @@ describe('ChatOffline component', () => {
         }
       },
       'src/redux/modules/chat/chat-history-selectors': {},
-      './ChatHistoryLink.scss': {
-        locals: {}
-      },
+      'embeds/chat/components/ViewHistoryButton': noopReactComponent(),
       'component/Icon': {
         Icon: noop
       },

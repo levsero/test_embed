@@ -89,9 +89,7 @@ describe('PrechatForm component', () => {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
         renderLabel: renderLabelSpy
       },
-      './ChatHistoryLink.scss': {
-        locals: {}
-      },
+      'embeds/chat/components/ViewHistoryButton': noopReactComponent(),
       'component/Icon': {
         Icon: noop
       },

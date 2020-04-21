@@ -32,11 +32,11 @@ import {
 } from 'src/redux/modules/selectors'
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
-import ChatHistoryLink from './ChatHistoryLink'
 import { TEST_IDS } from 'src/constants/shared'
 import { Widget, Header, Main } from 'src/components/Widget'
 
 import { locals as styles } from './ChatOffline.scss'
+import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 
 const mapStateToProps = state => {
   return {
@@ -139,12 +139,7 @@ class ChatOffline extends Component {
         <Header title={this.props.title} />
         <Main>
           <div className={styles.innerContent}>
-            <ChatHistoryLink
-              isAuthenticated={this.props.isAuthenticated}
-              hasChatHistory={this.props.hasChatHistory}
-              openedChatHistory={this.props.openedChatHistory}
-              label={this.props.chatHistoryLabel}
-            />
+            <ViewHistoryButton />
             <p className={styles.greeting} data-testid={TEST_IDS.FORM_GREETING_MSG}>
               {i18n.t('embeddable_framework.chat.offline.label.noForm')}
             </p>

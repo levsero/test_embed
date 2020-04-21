@@ -23,10 +23,10 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './PrechatForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
-import ChatHistoryLink from '../ChatHistoryLink'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
 import { CurrentFrameConsumer } from 'components/Frame'
+import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 
 export class PrechatForm extends Component {
   static propTypes = {
@@ -41,14 +41,11 @@ export class PrechatForm extends Component {
     onFormCompleted: PropTypes.func,
     loginEnabled: PropTypes.bool,
     phoneEnabled: PropTypes.bool,
-    hasChatHistory: PropTypes.bool.isRequired,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired,
     defaultDepartment: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
@@ -487,12 +484,7 @@ export class PrechatForm extends Component {
             className={`${styles.form}`}
             data-testid={TEST_IDS.CHAT_PRECHAT_FORM}
           >
-            <ChatHistoryLink
-              isAuthenticated={this.props.isAuthenticated}
-              hasChatHistory={this.props.hasChatHistory}
-              openedChatHistory={this.props.openedChatHistory}
-              label={this.props.chatHistoryLabel}
-            />
+            <ViewHistoryButton />
             {this.renderGreetingMessage()}
             {this.renderUserProfile()}
             {this.renderDepartmentsField()}

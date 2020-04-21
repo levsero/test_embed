@@ -5,6 +5,15 @@ import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import { fireEvent } from '@testing-library/dom'
 
+jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div data-testid="history button" />
+    }
+  }
+})
+
 import { render } from 'src/util/testHelpers'
 
 const handleOperatingHoursClickSpy = jest.fn(),
@@ -38,7 +47,7 @@ const renderForm = (props = {}) => {
 describe('render', () => {
   describe('renderForm', () => {
     describe('when isAuthenticated and has history', () => {
-      it('renders the ChatHistoryLink', () => {
+      it('renders the ViewHistoryButton', () => {
         const result = renderForm({
           isAuthenticated: true,
           hasChatHistory: true,
@@ -48,7 +57,7 @@ describe('render', () => {
           title: 'Hello fren'
         })
 
-        expect(result.getByText('Chat History Here')).toBeInTheDocument()
+        expect(result.getByTestId('history button')).toBeInTheDocument()
       })
     })
 

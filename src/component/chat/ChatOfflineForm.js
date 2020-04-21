@@ -14,11 +14,11 @@ import ChatMessagingChannels from 'component/chat/ChatMessagingChannels'
 import SuccessNotification from 'src/components/SuccessNotification'
 import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
-import ChatHistoryLink from './ChatHistoryLink'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
 import { Widget, Header, Main } from 'src/components/Widget'
 import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
 import { locals as styles } from './ChatOfflineForm.scss'
+import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -42,10 +42,7 @@ export class ChatOfflineForm extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     widgetShown: PropTypes.bool.isRequired,
-    channels: PropTypes.object,
-    hasChatHistory: PropTypes.bool.isRequired,
-    openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired
+    channels: PropTypes.object
   }
 
   static defaultProps = {
@@ -387,12 +384,7 @@ export class ChatOfflineForm extends Component {
             onChange={this.handleFormChanged}
             data-testid={TEST_IDS.CHAT_OFFLINE_FORM}
           >
-            <ChatHistoryLink
-              isAuthenticated={this.props.isAuthenticated}
-              hasChatHistory={this.props.hasChatHistory}
-              openedChatHistory={this.props.openedChatHistory}
-              label={this.props.chatHistoryLabel}
-            />
+            <ViewHistoryButton />
             {this.renderOfflineGreeting()}
             {this.renderOperatingHoursLink()}
             {this.renderMessagingChannels()}
