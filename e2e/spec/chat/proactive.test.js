@@ -1,5 +1,3 @@
-import { queries } from 'pptr-testing-library'
-
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
@@ -15,78 +13,75 @@ const sendMessageFromAgent = async proactive => {
   }
   await zChat.chat(detail)
 }
-
-test('first proactive chat message opens the widget', async () => {
-  await loadWidget()
+const buildWidget = () =>
+  loadWidget()
     .withPresets('chat')
     .hiddenInitially()
-    .load()
+const expectWidgetToBeOpen = () => widget.expectToSeeText('Chat with us')
+const expectWidgetNotToBeOpen = () => widget.expectNotToSeeText('Chat with us')
+
+test('first proactive chat message opens the widget', async () => {
+  await buildWidget().load()
   await zChat.online()
   await launcher.waitForLauncherPill()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
+  await expectWidgetNotToBeOpen()
 
   await agentJoinsChat('An agent')
   await sendMessageFromAgent(true)
   await waitForChatToBeReady()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeTruthy()
-  expect(await queries.queryByText(await widget.getDocument(), 'message from agent')).toBeTruthy()
+  await expectWidgetToBeOpen()
+  await widget.expectToSeeText('message from agent')
 
   await widget.clickClose()
   await launcher.waitForLauncherPill()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
+  await expectWidgetNotToBeOpen()
 
   await sendMessageFromAgent(false)
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
-  expect(await queries.queryByText(await launcher.getDocument(), '1 new')).toBeTruthy()
+  await expectWidgetNotToBeOpen()
+  await launcher.expectLabelToEqual('1 new')
 })
 
 test('proactive chats show a notification on mobile', async () => {
-  await loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+  await buildWidget()
     .useMobile()
     .load()
   await zChat.online()
   await launcher.waitForLauncherPill()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
+  await expectWidgetNotToBeOpen()
 
   await agentJoinsChat('An agent')
   await sendMessageFromAgent(true)
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
-  expect(await queries.queryByText(await widget.getDocument(), 'message from agent')).toBeTruthy()
+  await expectWidgetNotToBeOpen()
+  await widget.expectToSeeText('message from agent')
 
-  const nextButton = await queries.queryByText(await widget.getDocument(), 'Reply')
-  await nextButton.click()
+  await widget.clickButton('Reply')
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeTruthy()
+  await expectWidgetToBeOpen()
 })
 
 test('proactive chat notifications can be closed on mobile', async () => {
-  await loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+  await buildWidget()
     .useMobile()
     .load()
   await zChat.online()
   await launcher.waitForLauncherPill()
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
+  await expectWidgetNotToBeOpen()
 
   await agentJoinsChat('An agent')
   await sendMessageFromAgent(true)
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
-  expect(await queries.queryByText(await widget.getDocument(), 'message from agent')).toBeTruthy()
+  await expectWidgetNotToBeOpen()
+  await widget.expectToSeeText('message from agent')
 
-  const closeButton = await queries.queryByText(await widget.getDocument(), 'Dismiss')
-  await closeButton.click()
+  await widget.clickButton('Dismiss')
 
-  expect(await queries.queryByText(await widget.getDocument(), 'Chat with us')).toBeFalsy()
-  expect(await queries.queryByText(await widget.getDocument(), 'message from agent')).toBeFalsy()
+  await expectWidgetNotToBeOpen()
+  await widget.expectNotToSeeText('message from agent')
 })
