@@ -922,23 +922,6 @@ describe('getChatAvailable', () => {
   })
 })
 
-describe('getShowTicketFormsBackButton', () => {
-  test.each([
-    ['Values are correct', true, [1, 2], 'ticketSubmissionForm', true],
-    ['ActiveForm is invalid', false, [1, 2], 'ticketSubmissionForm', false],
-    ['Less than 2 ticket forms', true, [1], 'ticketSubmissionForm', false],
-    ['Incorrect embed', true, [1, 2], 'notTheRightForm', false]
-  ])('%p', (_title, activeForm, ticketForms, activeEmbed, expectedValue) => {
-    const result = selectors.getShowTicketFormsBackButton.resultFunc(
-      activeForm,
-      ticketForms,
-      activeEmbed
-    )
-
-    expect(result).toEqual(expectedValue)
-  })
-})
-
 describe('getChatReady', () => {
   test.each([
     [

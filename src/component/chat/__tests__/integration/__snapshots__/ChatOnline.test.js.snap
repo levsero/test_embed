@@ -1509,7 +1509,7 @@ exports[`update chat header 1`] = `
       class="c3"
     >
       <div
-        aria-describedby="1074val-tooltip_0.5.4"
+        aria-describedby="1066val-tooltip_0.5.4"
         class="c4"
         data-garden-container-id="containers.tooltip"
         data-garden-container-version="0.5.4"
@@ -1529,7 +1529,7 @@ exports[`update chat header 1`] = `
         class="index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT c6"
         data-garden-id="tooltip.tooltip"
         data-garden-version="7.1.10"
-        id="1074val-tooltip_0.5.4"
+        id="1066val-tooltip_0.5.4"
         role="tooltip"
         style="display: block;"
       >

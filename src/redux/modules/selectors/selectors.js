@@ -61,7 +61,6 @@ import {
   isCallbackEnabled,
   getPhoneNumber
 } from '../talk/talk-selectors'
-import { getActiveTicketForm, getTicketForms } from '../submitTicket/submitTicket-selectors'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,
@@ -334,13 +333,6 @@ export const getTalkAvailable = createSelector(
 export const getTalkOnline = createSelector(
   [getTalkAvailable, getAgentAvailability],
   (talkAvailable, agentsAvailable) => talkAvailable && agentsAvailable
-)
-
-export const getShowTicketFormsBackButton = createSelector(
-  [getActiveTicketForm, getTicketForms, getActiveEmbed],
-  (activeForm, ticketForms, activeEmbed) => {
-    return activeForm && ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm'
-  }
 )
 
 export const getFixedStyles = (state, frame = 'webWidget') => {

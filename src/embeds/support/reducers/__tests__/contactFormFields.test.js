@@ -1,6 +1,6 @@
 import { testReducer } from 'src/util/testHelpers'
-import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
 import contactFormFields from '../contactFormFields'
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
 
 const initialState = []
 

@@ -6,7 +6,6 @@ describe('resetActiveEmbed middleware', () => {
     mockTalkOnline = false,
     mockChannelChoiceAvailable = false,
     mockHelpCenterAvailable = false,
-    mockShowTicketFormsBackButton = false,
     mockIpmHelpCenterAllowed = false,
     mockArticleViewActive = false,
     mockSubmitTicketAvailable = true,
@@ -14,8 +13,7 @@ describe('resetActiveEmbed middleware', () => {
     mockWidgetVisible = true,
     mockAnswerBotAvailable = false,
     mockIsPopout = true,
-    mockChatBanned = false,
-    mockNewSupportEmbedEnabled = false
+    mockChatBanned = false
 
   const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS'
   const WIDGET_INITIALISED = 'WIDGET_INITIALISED'
@@ -46,7 +44,6 @@ describe('resetActiveEmbed middleware', () => {
         getTalkOnline: () => mockTalkOnline,
         getChannelChoiceAvailable: () => mockChannelChoiceAvailable,
         getHelpCenterAvailable: () => mockHelpCenterAvailable,
-        getShowTicketFormsBackButton: () => mockShowTicketFormsBackButton,
         getIpmHelpCenterAllowed: () => mockIpmHelpCenterAllowed,
         getWebWidgetVisible: () => mockWidgetVisible,
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
@@ -54,12 +51,6 @@ describe('resetActiveEmbed middleware', () => {
       },
       'embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive
-      },
-      'embeds/webWidget/selectors/feature-flags': (_, name) => {
-        if (name === 'web_widget_react_router_support') {
-          return mockNewSupportEmbedEnabled
-        }
-        return false
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => mockIsChatting,
@@ -495,24 +486,8 @@ describe('resetActiveEmbed middleware', () => {
           expect(updateActiveEmbedSpy).toHaveBeenCalledWith('ticketSubmissionForm')
         })
 
-        describe('when new support embed is not enabled', () => {
-          it('does not update history', () => {
-            expect(history.replace).not.toHaveBeenCalled()
-          })
-        })
-
-        describe('when new support embed is enabled', () => {
-          beforeAll(() => {
-            mockNewSupportEmbedEnabled = true
-          })
-
-          afterAll(() => {
-            mockNewSupportEmbedEnabled = false
-          })
-
-          it('updates history', () => {
-            expect(history.replace).toHaveBeenCalledWith('support/home')
-          })
+        it('updates history', () => {
+          expect(history.replace).toHaveBeenCalledWith('support/home')
         })
       })
     })

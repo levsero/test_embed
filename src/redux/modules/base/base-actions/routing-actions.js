@@ -12,7 +12,6 @@ import {
 } from 'src/redux/modules/selectors'
 import history from 'service/history'
 import supportRoutes from 'embeds/support/routes'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import { getFormsToDisplay } from 'embeds/support/selectors'
 
 export const updateActiveEmbed = embedName => {
@@ -39,16 +38,14 @@ export const showChat = (options = { proactive: false }) => {
 }
 
 export const onChannelChoiceNextClick = newEmbed => {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch(updateBackButtonVisibility(true))
-
-    const reactRouterSupport = isFeatureEnabled(getState(), 'web_widget_react_router_support')
 
     if (newEmbed === 'chat') {
       dispatch(showChat())
     } else {
       dispatch(updateActiveEmbed(newEmbed))
-      if (newEmbed === 'ticketSubmissionForm' && reactRouterSupport) {
+      if (newEmbed === 'ticketSubmissionForm') {
         history.push(supportRoutes.home())
       }
     }
@@ -98,7 +95,6 @@ export const onHelpCenterNextClick = () => {
     const talkOnline = getTalkOnline(state)
     const channelChoiceAvailable = getChannelChoiceAvailable(state)
     const helpCenterAvailable = getHelpCenterAvailable(state)
-    const reactRouterSupport = isFeatureEnabled(state, 'web_widget_react_router_support')
 
     if (channelChoiceAvailable) {
       dispatch(updateActiveEmbed('channelChoice'))
@@ -113,9 +109,7 @@ export const onHelpCenterNextClick = () => {
       dispatch(updateBackButtonVisibility(true))
     } else {
       dispatch(updateActiveEmbed('ticketSubmissionForm'))
-      if (reactRouterSupport) {
-        history.push(supportRoutes.home())
-      }
+      history.push(supportRoutes.home())
       if (helpCenterAvailable) {
         dispatch(updateBackButtonVisibility(true))
       }

@@ -24,7 +24,6 @@ import { closeCurrentArticle } from 'embeds/helpCenter/actions'
 import {
   getChatEnabled,
   getHideZendeskLogo,
-  getShowTicketFormsBackButton,
   getHelpCenterAvailable,
   getChannelChoiceAvailable,
   getSubmitTicketAvailable,
@@ -47,7 +46,6 @@ import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import OnBackProvider from 'component/webWidget/OnBackProvider'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 import history from 'service/history'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'
 import { WidgetContainer } from './styles'
@@ -73,7 +71,6 @@ const mapStateToProps = state => {
     activeEmbed: getActiveEmbed(state),
     callbackEnabled: isCallbackEnabled(state),
     chatEnabled: getChatEnabled(state),
-    showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
     mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state),
     helpCenterAvailable: getHelpCenterAvailable(state),
@@ -82,8 +79,7 @@ const mapStateToProps = state => {
     hideZendeskLogo: getHideZendeskLogo(state),
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
-    showChatHistory: getShowChatHistory(state),
-    webWidgetReactRouterSupport: isFeatureEnabled(state, 'web_widget_react_router_support')
+    showChatHistory: getShowChatHistory(state)
   }
 }
 
@@ -101,7 +97,6 @@ class WebWidget extends Component {
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
@@ -125,8 +120,7 @@ class WebWidget extends Component {
     answerBotAvailable: PropTypes.bool.isRequired,
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
-    showChatHistory: PropTypes.bool.isRequired,
-    webWidgetReactRouterSupport: PropTypes.bool
+    showChatHistory: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -135,7 +129,6 @@ class WebWidget extends Component {
     helpCenterAvailable: false,
     hideZendeskLogo: false,
     style: null,
-    showTicketFormsBackButton: false,
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
@@ -148,8 +141,7 @@ class WebWidget extends Component {
     proactiveChatNotificationDismissed: () => {},
     webWidgetVisible: true,
     answerBotAvailable: false,
-    updateAnswerBotScreen: () => {},
-    webWidgetReactRouterSupport: false
+    updateAnswerBotScreen: () => {}
   }
 
   getActiveComponent = () => {
@@ -178,13 +170,10 @@ class WebWidget extends Component {
       helpCenterAvailable,
       answerBotAvailable,
       updateAnswerBotScreen,
-      showTicketFormsBackButton,
       channelChoiceAvailable,
       showChatHistory,
-      closedChatHistory,
-      webWidgetReactRouterSupport
+      closedChatHistory
     } = this.props
-    const activeComponent = this.getActiveComponent()
     const isShowingChatHistory = activeEmbed === chat && showChatHistory
 
     if (activeEmbed === answerBot) {
@@ -192,23 +181,16 @@ class WebWidget extends Component {
       updateAnswerBotScreen(CONVERSATION_SCREEN)
     } else if (isShowingChatHistory) {
       closedChatHistory()
-    } else if (showTicketFormsBackButton) {
-      activeComponent.clearForm()
-      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable)
     } else if (answerBotAvailable) {
       updateBackButtonVisibility(false)
       updateActiveEmbed(answerBot)
     } else if (channelChoiceAvailable && activeEmbed !== channelChoice) {
       updateActiveEmbed(channelChoice)
       updateBackButtonVisibility(helpCenterAvailable)
-      if (webWidgetReactRouterSupport) {
-        history.goBack()
-      }
+      history.goBack()
     } else if (helpCenterAvailable) {
       this.showHelpCenter()
-      if (webWidgetReactRouterSupport) {
-        history.goBack()
-      }
+      history.goBack()
     } else {
       if (ipmHelpCenterAvailable) {
         closeCurrentArticle()

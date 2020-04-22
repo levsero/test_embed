@@ -1,6 +1,6 @@
 import { testReducer } from 'src/util/testHelpers'
 import forms from '../forms'
-import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/redux/modules/submitTicket/submitTicket-action-types'
+import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
 
 const initialState = {}
 
