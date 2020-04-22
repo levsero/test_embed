@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { matchPath } from 'react-router-dom'
 
 import {
   getShowOfflineChat,
@@ -97,7 +96,6 @@ import {
   getButtonLabelKey,
   getFormTitleKey as getHelpCenterFormTitleKey
 } from 'src/embeds/helpCenter/selectors'
-import supportRoutes from 'src/embeds/support/routes'
 
 import { settings } from 'service/settings'
 
@@ -118,8 +116,6 @@ import {
   getSettingsLauncherLabel
 } from '../settings/settings-selectors'
 import { i18n } from 'service/i18n'
-import { getFormsToDisplay } from 'embeds/support/selectors'
-import history from 'service/history'
 
 /*
  * Terms:
@@ -337,17 +333,6 @@ export const getTalkAvailable = createSelector(
 export const getTalkOnline = createSelector(
   [getTalkAvailable, getAgentAvailability],
   (talkAvailable, agentsAvailable) => talkAvailable && agentsAvailable
-)
-
-export const getShowTicketFormsBackButton = createSelector(
-  [getFormsToDisplay, getActiveEmbed],
-  (ticketForms, activeEmbed) => {
-    return Boolean(
-      matchPath(history.location, { path: supportRoutes.form() }) &&
-        ticketForms.length > 1 &&
-        activeEmbed === 'ticketSubmissionForm'
-    )
-  }
 )
 
 export const getFixedStyles = (state, frame = 'webWidget') => {

@@ -27,7 +27,6 @@ import {
   getTalkOnline,
   getChannelChoiceAvailable,
   getHelpCenterAvailable,
-  getShowTicketFormsBackButton,
   getIpmHelpCenterAllowed,
   getSubmitTicketAvailable,
   getAnswerBotAvailable,
@@ -41,7 +40,6 @@ import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
 import history from 'service/history'
 import helpCenterRoutes from 'embeds/helpCenter/routes'
 import supportRoutes from 'embeds/support/routes'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)
@@ -113,10 +111,7 @@ const setNewActiveEmbed = (state, dispatch) => {
     activeEmbed = 'chat'
   } else if (getSubmitTicketAvailable(state)) {
     activeEmbed = 'ticketSubmissionForm'
-    backButton = getShowTicketFormsBackButton(state)
-    if (isFeatureEnabled(state, 'web_widget_react_router_support')) {
-      newRoute = supportRoutes.home()
-    }
+    newRoute = supportRoutes.home()
   } else if (getChatBanned(state)) {
     activeEmbed = NIL_EMBED
   }

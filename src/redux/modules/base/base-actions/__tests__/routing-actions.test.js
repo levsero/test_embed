@@ -9,7 +9,6 @@ import * as supportSelectors from 'embeds/support/selectors'
 import history from 'service/history'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
@@ -89,8 +88,7 @@ describe('onCancelClick', () => {
       ])
     })
 
-    it('does call goBack on history when support embed is enabled', () => {
-      isFeatureEnabled.mockReturnValue(true)
+    it('calls goBack on history', () => {
       jest.spyOn(supportSelectors, 'getFormsToDisplay').mockReturnValue([])
 
       dispatchAction(actions.onCancelClick())
@@ -99,7 +97,6 @@ describe('onCancelClick', () => {
     })
 
     it('calls goBack on history twice when there are multiple ticket forms', () => {
-      isFeatureEnabled.mockReturnValue(true)
       jest.spyOn(supportSelectors, 'getFormsToDisplay').mockReturnValue([{ id: 1 }, { id: 2 }])
 
       dispatchAction(actions.onCancelClick())
@@ -279,17 +276,7 @@ describe('onHelpCenterNextClick', () => {
       expect(dispatchedActions[1].type).not.toEqual(actionTypes.UPDATE_BACK_BUTTON_VISIBILITY)
     })
 
-    it('does not push anything to history when support embed is not enabled', () => {
-      isFeatureEnabled.mockReturnValue(false)
-
-      dispatchAction(actions.onHelpCenterNextClick())
-
-      expect(history.push).not.toHaveBeenCalled()
-    })
-
-    it('pushes /support to history when support embed is not enabled', () => {
-      isFeatureEnabled.mockReturnValue(true)
-
+    it('pushes /support to history', () => {
       dispatchAction(actions.onHelpCenterNextClick())
 
       expect(history.push).toHaveBeenCalledWith('/support')
@@ -359,17 +346,7 @@ describe('onChannelChoiceNextClick', () => {
     })
   })
 
-  it('does not push anything to history when new support embed is not enabled', () => {
-    isFeatureEnabled.mockReturnValue(false)
-
-    dispatchAction(actions.onChannelChoiceNextClick('ticketSubmissionForm'))
-
-    expect(history.push).not.toHaveBeenCalled()
-  })
-
-  it('pushes /support to history when new support embed is enabled', () => {
-    isFeatureEnabled.mockReturnValue(true)
-
+  it('pushes /support to history', () => {
     dispatchAction(actions.onChannelChoiceNextClick('ticketSubmissionForm'))
 
     expect(history.push).toHaveBeenCalledWith('/support')
