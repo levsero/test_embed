@@ -62,7 +62,7 @@ const embedAction = {
   talk: 'Talk Shown'
 }
 
-const trackEmbedShownOnUpdateEmbed = (payload, prevState) => {
+const trackEmbedShownOnUpdateEmbed = ({ payload, prevState }) => {
   const prevEmbed = getActiveEmbed(prevState)
   const visible = getWebWidgetVisible(prevState)
 
@@ -78,13 +78,13 @@ const trackEmbedOnOpen = state => {
   if (tracker) tracker(embed, state)
 }
 
-const trackChatServedByOperator = (payload, isAfterLoadTime) => {
+const trackChatServedByOperator = ({ payload, isAfterLoadTime }) => {
   if (isAgent(payload.detail.nick) && isAfterLoadTime) {
     GA.track('Chat Served by Operator', payload.detail.display_name)
   }
 }
 
-const trackChatRating = (payload, isAfterLoadTime) => {
+const trackChatRating = ({ payload, isAfterLoadTime }) => {
   const rating = payload.detail.new_rating
 
   if (isAfterLoadTime) {
@@ -96,21 +96,21 @@ const trackChatRating = (payload, isAfterLoadTime) => {
   }
 }
 
-const trackChatComment = isAfterLoadTime => {
+const trackChatComment = ({ isAfterLoadTime }) => {
   if (isAfterLoadTime) {
     GA.track('Chat Comment Submitted')
   }
 }
 
-const trackChatRequestFormSubmitted = (payload, prevState) => {
+const trackChatRequestFormSubmitted = ({ payload, prevState }) => {
   GA.track('Chat Request Form Submitted', getDepartmentName(payload, prevState))
 }
 
-const trackOfflineMessageSent = (payload, prevState) => {
+const trackOfflineMessageSent = ({ payload, prevState }) => {
   GA.track('Chat Offline Message Sent', getDepartmentName(payload, prevState))
 }
 
-const trackWidgetShown = payload => {
+const trackWidgetShown = ({ payload }) => {
   if (payload === true) {
     return GA.track('Web Widget Opened')
   } else {
@@ -118,38 +118,54 @@ const trackWidgetShown = payload => {
   }
 }
 
-const trackTicketShown = (payload, prevState) => {
+const trackTicketShown = ({ payload, prevState }) => {
   const form = getForm(prevState, payload.id)
   if (!form) return GA.track('Contact Form Shown', { id: payload.id })
   GA.track('Contact Form Shown', { id: payload.id, name: form.name })
 }
 
-const trackTicketSubmitted = (payload, state) => {
+const trackTicketSubmitted = ({ payload, prevState }) => {
   if (payload.name === supportRoutes.defaultFormId) {
     return GA.track('Contact Form Submitted', supportRoutes.defaultFormId)
   }
   const formId = parseInt(payload.name)
-  const { id, name } = getForm(state, formId)
+  const { id, name } = getForm(prevState, formId)
   GA.track('Contact Form Submitted', { id, name })
 }
 
-const trackSearchRequest = (payload, state) => {
-  const searchTerm = getSearchTerm(state)
+const trackSearchRequest = ({ prevState }) => {
+  const searchTerm = getSearchTerm(prevState)
   GA.track('Help Center Search', searchTerm)
 }
 
-const trackArticleViewed = payload => {
+const trackArticleViewed = ({ payload }) => {
   GA.track('Help Center Article Viewed', { id: payload.id, name: payload.name })
 }
 
-const trackViewOriginalArticleClicked = (payload, state) => {
-  const activeArticle = getCurrentActiveArticle(state)
-  const { id, name } = getArticles(state)[activeArticle]
+const trackViewOriginalArticleClicked = ({ prevState }) => {
+  const activeArticle = getCurrentActiveArticle(prevState)
+  const { id, name } = getArticles(prevState)[activeArticle]
   GA.track('Help Center View Original Article Clicked', { id, name })
 }
 
 const trackTalkCallbackRequest = () => {
   GA.track('Talk Callback Request Submitted')
+}
+
+const events = {
+  [UPDATE_ACTIVE_EMBED]: trackEmbedShownOnUpdateEmbed,
+  [SDK_CHAT_MEMBER_JOIN]: trackChatServedByOperator,
+  [OFFLINE_FORM_REQUEST_SUCCESS]: trackOfflineMessageSent,
+  [SDK_CHAT_RATING]: trackChatRating,
+  [SDK_CHAT_COMMENT]: trackChatComment,
+  [PRE_CHAT_FORM_SUBMIT]: trackChatRequestFormSubmitted,
+  [UPDATE_WIDGET_SHOWN]: trackWidgetShown,
+  [FORM_OPENED]: trackTicketShown,
+  [SEARCH_REQUEST_SUCCESS]: trackSearchRequest,
+  [ARTICLE_VIEWED]: trackArticleViewed,
+  [ORIGINAL_ARTICLE_CLICKED]: trackViewOriginalArticleClicked,
+  [TICKET_SUBMISSION_REQUEST_SUCCESS]: trackTicketSubmitted,
+  [TALK_CALLBACK_SUCCESS]: trackTalkCallbackRequest
 }
 
 export function trackAnalytics({ getState }) {
@@ -163,48 +179,8 @@ export function trackAnalytics({ getState }) {
 
     // To avoid resending events during the replay when the page is refreshed.
     const isAfterLoadTime = _.get(payload, 'detail.timestamp') > loadtime
+    events[type]?.({ payload, prevState, isAfterLoadTime })
 
-    switch (type) {
-      case UPDATE_ACTIVE_EMBED:
-        trackEmbedShownOnUpdateEmbed(payload, prevState)
-        break
-      case SDK_CHAT_MEMBER_JOIN:
-        trackChatServedByOperator(payload, isAfterLoadTime)
-        break
-      case OFFLINE_FORM_REQUEST_SUCCESS:
-        trackOfflineMessageSent(payload, prevState)
-        break
-      case SDK_CHAT_RATING:
-        trackChatRating(payload, isAfterLoadTime)
-        break
-      case SDK_CHAT_COMMENT:
-        trackChatComment(isAfterLoadTime)
-        break
-      case PRE_CHAT_FORM_SUBMIT:
-        trackChatRequestFormSubmitted(payload, prevState)
-        break
-      case UPDATE_WIDGET_SHOWN:
-        trackWidgetShown(payload, prevState)
-        break
-      case FORM_OPENED:
-        trackTicketShown(payload, prevState)
-        break
-      case SEARCH_REQUEST_SUCCESS:
-        trackSearchRequest(payload, prevState)
-        break
-      case ARTICLE_VIEWED:
-        trackArticleViewed(payload)
-        break
-      case ORIGINAL_ARTICLE_CLICKED:
-        trackViewOriginalArticleClicked(payload, prevState)
-        break
-      case TICKET_SUBMISSION_REQUEST_SUCCESS:
-        trackTicketSubmitted(payload, prevState)
-        break
-      case TALK_CALLBACK_SUCCESS:
-        trackTalkCallbackRequest()
-        break
-    }
     const result = next(action)
     const nextState = getState()
 
