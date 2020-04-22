@@ -30,7 +30,6 @@ export const getReadOnlyState = state => chatState(state).formState.readOnlyStat
 export const getChatOfflineForm = state => chatState(state).formState.offlineForm
 export const getOfflineMessage = state => chatState(state).offlineMessage
 export const getPreChatFormState = state => chatState(state).formState.preChatForm
-export const getEditContactDetails = state => chatState(state).editContactDetails
 export const getAgentJoined = state => chatState(state).agentJoined
 export const getLastReadTimestamp = state => chatState(state).lastReadTimestamp
 export const getOperatingHours = state => chatState(state).operatingHours

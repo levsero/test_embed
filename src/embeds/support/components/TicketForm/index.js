@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form as ReactFinalForm } from 'react-final-form'
+import _ from 'lodash'
 import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import Form from 'embeds/support/components/TicketForm/Form'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
@@ -35,7 +36,7 @@ const TicketFormProvider = ({
 
     const errors = validateTicketForm(fields, values, attachments, conditions)
 
-    if (Object.keys(errors).length === 0) {
+    if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
 
       fields.forEach(field => {

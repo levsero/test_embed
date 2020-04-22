@@ -2,7 +2,8 @@ import {
   getIsPollingChat,
   getDeferredChatHasResponse,
   getMenuVisible,
-  getUserSoundSettings
+  getUserSoundSettings,
+  getEditContactDetails
 } from '../index'
 
 describe('chat selectors', () => {
@@ -77,5 +78,11 @@ describe('chat selectors', () => {
     const result = getUserSoundSettings({ chat: { soundEnabled: true } })
 
     expect(result).toEqual(true)
+  })
+
+  test('getEditContactDetails', () => {
+    const result = getEditContactDetails({ chat: { editContactDetails: 'bad edit' } })
+
+    expect(result).toEqual('bad edit')
   })
 })

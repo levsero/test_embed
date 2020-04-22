@@ -213,7 +213,7 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
 
     onChatSDKInitialized(() => {
       zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, err => {
-        if (canBeIgnored(err)) {
+        if (!err) {
           dispatch({
             type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
             payload: { ...infoToUpdate, timestamp }

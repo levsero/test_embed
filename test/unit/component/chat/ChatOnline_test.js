@@ -61,6 +61,9 @@ describe('ChatOnline component', () => {
         ChatContactDetailsPopup: noopReactComponent()
       },
       'embeds/chat/components/EmailTranscriptPopup': noopReactComponent(),
+      'component/chat/ChatEmailTranscriptPopup': {
+        ChatEmailTranscriptPopup: noopReactComponent()
+      },
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
@@ -68,7 +71,6 @@ describe('ChatOnline component', () => {
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,
-        editContactDetailsSubmitted: noop,
         resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/selectors': {
@@ -108,7 +110,9 @@ describe('ChatOnline component', () => {
       'src/util/utils': {
         onNextTick: cb => setTimeout(cb, 0)
       },
-      'src/embeds/chat/components/ButtonPill': {}
+      'src/embeds/chat/components/ButtonPill': {},
+      'src/embeds/chat/selectors': {},
+      'src/embeds/webWidget/selectors/feature-flags': {}
     })
 
     mockery.registerAllowable(chatPath)
@@ -273,148 +277,6 @@ describe('ChatOnline component', () => {
     })
   })
 
-  describe('renderChatContactDetailsPopup', () => {
-    let chatContactDetailsPopup,
-      mockVisitor,
-      mockEditContactDetails,
-      mockName,
-      mockEmail,
-      mockAuthUrls,
-      mockIsAuthenticated,
-      mockInitiateSocialLogout,
-      updateContactDetailsVisibilitySpy,
-      editContactDetailsSubmittedSpy
-
-    beforeEach(() => {
-      mockEditContactDetails = { show: true, status: 'error' }
-      mockVisitor = { name: 'Terence', email: 'foo@bar.com' }
-      mockAuthUrls = {
-        google: 'https://g.co/auth',
-        facebook: 'https://fb.co/auth'
-      }
-      mockIsAuthenticated = true
-      mockInitiateSocialLogout = () => {}
-
-      const component = instanceRender(
-        <ChatOnline
-          editContactDetails={mockEditContactDetails}
-          visitor={mockVisitor}
-          authUrls={mockAuthUrls}
-          isAuthenticated={mockIsAuthenticated}
-          initiateSocialLogout={mockInitiateSocialLogout}
-        />
-      )
-
-      chatContactDetailsPopup = component.renderChatContactDetailsPopup()
-    })
-
-    it("passes a status string to the popup component's screen prop", () => {
-      expect(chatContactDetailsPopup.props.screen).toBe(mockEditContactDetails.status)
-    })
-
-    it('does not render the popup when show is false', () => {
-      const component = instanceRender(
-        <ChatOnline
-          editContactDetails={{ show: false }}
-          visitor={mockVisitor}
-          authUrls={mockAuthUrls}
-          isAuthenticated={mockIsAuthenticated}
-          initiateSocialLogout={mockInitiateSocialLogout}
-        />
-      )
-
-      chatContactDetailsPopup = component.renderChatContactDetailsPopup()
-
-      expect(chatContactDetailsPopup).toBe(null)
-    })
-
-    it('renders the popup when show is true', () => {
-      expect(chatContactDetailsPopup).not.toBe(null)
-    })
-
-    it("passes an expected object to the popup component's visitor prop", () => {
-      expect(chatContactDetailsPopup.props.visitor).toEqual(jasmine.objectContaining(mockVisitor))
-    })
-
-    it("passes the correct value to the popup component's authUrls prop", () => {
-      expect(chatContactDetailsPopup.props.authUrls).toEqual(jasmine.objectContaining(mockAuthUrls))
-    })
-
-    it("passes the correct value to the popup component's isAuthenticated prop", () => {
-      expect(chatContactDetailsPopup.props.isAuthenticated).toEqual(mockIsAuthenticated)
-    })
-
-    it("passes the correct value to the popup component's initiateSocialLogout prop", () => {
-      expect(chatContactDetailsPopup.props.initiateSocialLogout).toEqual(mockInitiateSocialLogout)
-    })
-
-    describe('when props.tryAgainFn is called', () => {
-      beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility')
-
-        const component = instanceRender(
-          <ChatOnline
-            updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-            editContactDetails={{ show: true }}
-          />
-        )
-        const popup = component.renderChatContactDetailsPopup()
-
-        popup.props.tryAgainFn()
-      })
-
-      it('calls updateEmailTranscriptVisibility with true', () => {
-        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
-      })
-    })
-
-    describe('when props.leftCtaFn is called', () => {
-      beforeEach(() => {
-        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
-
-        const component = instanceRender(
-          <ChatOnline
-            updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
-            editContactDetails={mockEditContactDetails}
-          />
-        )
-        const chatContactDetailsPopup = component.renderChatContactDetailsPopup()
-
-        chatContactDetailsPopup.props.leftCtaFn()
-      })
-
-      it('calls updateContactDetailsVisibility with false', () => {
-        expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(false)
-      })
-    })
-
-    describe('when props.rightCtaFn is called', () => {
-      beforeEach(() => {
-        editContactDetailsSubmittedSpy = jasmine.createSpy('editContactDetailsSubmitted')
-        mockName = 'Terence'
-        mockEmail = 'foo@bar.com'
-
-        const component = instanceRender(
-          <ChatOnline
-            editContactDetailsSubmitted={editContactDetailsSubmittedSpy}
-            editContactDetails={mockEditContactDetails}
-          />
-        )
-        const chatContactDetailsPopup = component.renderChatContactDetailsPopup()
-
-        chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail)
-      })
-
-      it('calls editContactDetailsSubmitted with an expected argument', () => {
-        const expected = { display_name: mockName, email: mockEmail }
-
-        expect(editContactDetailsSubmittedSpy).toHaveBeenCalledWith(
-          jasmine.objectContaining(expected)
-        )
-      })
-    })
-  })
-
   describe('renderAttachmentsBox', () => {
     let component
     const renderChatComponent = (screen, attachmentsEnabled) =>
@@ -521,29 +383,6 @@ describe('ChatOnline component', () => {
       it('returns a AgentDetailsPage component', () => {
         expect(TestUtils.isElementOfType(component, AgentDetailsPage)).toEqual(true)
       })
-    })
-  })
-
-  describe('showContactDetailsFn', () => {
-    let updateContactDetailsVisibilitySpy, stopPropagationSpy
-
-    beforeEach(() => {
-      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility')
-      stopPropagationSpy = jasmine.createSpy('stopPropagation')
-
-      const component = instanceRender(
-        <ChatOnline updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
-      )
-
-      component.showContactDetailsFn({ stopPropagation: stopPropagationSpy })
-    })
-
-    it('stops the event propagating', () => {
-      expect(stopPropagationSpy).toHaveBeenCalled()
-    })
-
-    it('calls updateContactDetailsVisibility with true', () => {
-      expect(updateContactDetailsVisibilitySpy).toHaveBeenCalledWith(true)
     })
   })
 

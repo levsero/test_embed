@@ -14,7 +14,9 @@ const sendAttachmentsSpy = jest.fn(),
   sendChatRatingSpy = jest.fn(),
   updateChatScreenSpy = jest.fn(),
   toggleMenuSpy = jest.fn(),
-  markAsReadSpy = jest.fn()
+  markAsReadSpy = jest.fn(),
+  updateContactDetailsVisibilitySpy = jest.fn()
+
 const renderComponent = (inProps, rerender) => {
   const props = {
     lastMessageAuthor: 'bob',
@@ -26,8 +28,10 @@ const renderComponent = (inProps, rerender) => {
     sendChatRating: sendChatRatingSpy,
     updateChatScreen: updateChatScreenSpy,
     isChatting: false,
+    showEditContactDetails: false,
     toggleMenu: toggleMenuSpy,
     showAvatar: false,
+    showNewChatEmbed: true,
     title: '',
     rating: {},
     agentsTyping: [],
@@ -35,10 +39,12 @@ const renderComponent = (inProps, rerender) => {
     conciergeSettings: {},
     showContactDetails: jest.fn(),
     markAsRead: markAsReadSpy,
+    updateContactDetailsVisibility: updateContactDetailsVisibilitySpy,
     unreadMessages: false,
     emailTranscript: {},
     profileConfig: {},
     attachmentsEnabled: true,
+    shouldShowEditContactDetails: false,
     allAgents: {},
     concierges: [
       {
@@ -84,6 +90,35 @@ describe('Queue Position', () => {
       })
 
       expect(queryByText('Queue position: 1')).toBeNull()
+    })
+  })
+})
+
+describe('editContactDetails', () => {
+  describe('when should show edit contact details modal', () => {
+    it('renders the Edit Contact Details modal', () => {
+      const { getByTestId } = renderComponent({ shouldShowEditContactDetails: true })
+
+      expect(getByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeInTheDocument()
+    })
+  })
+
+  describe('when should not show edit contact details modal', () => {
+    it('does not render the Edit Contact Details modal', () => {
+      const { queryByTestId } = renderComponent({ shouldShowEditContactDetails: false })
+
+      expect(queryByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeNull()
+    })
+  })
+
+  describe('when showNewChatEmbed is false', () => {
+    it('does not render the embed even if showEditContactDetails is true', () => {
+      const { queryByTestId } = renderComponent({
+        showNewChatEmbed: false,
+        shouldShowEditContactDetails: true
+      })
+
+      expect(queryByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeNull()
     })
   })
 })

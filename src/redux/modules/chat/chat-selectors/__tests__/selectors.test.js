@@ -158,12 +158,6 @@ test('getPreChatFormState', () => {
   expect(result).toEqual({ charlie: 'say hello back!' })
 })
 
-test('getEditContactDetails', () => {
-  const result = selectors.getEditContactDetails(testState)
-
-  expect(result).toEqual('bad edit')
-})
-
 test('getAgentJoined', () => {
   const result = selectors.getAgentJoined(testState)
 
