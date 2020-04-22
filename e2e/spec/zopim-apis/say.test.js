@@ -1,12 +1,10 @@
 import widget from 'e2e/helpers/widget'
 import { openChattingScreen } from 'e2e/helpers/chat-embed'
 
-test('chat:send sends a chat message', async () => {
+test('livechat.say() sends a chat message', async () => {
   await openChattingScreen()
 
-  await page.evaluate(() => {
-    zE('webWidget', 'chat:send', 'The Screaming Mimi')
-  })
+  await page.evaluate(() => $zopim.livechat.say('The Screaming Mimi'))
 
   await widget.expectToSeeText('The Screaming Mimi')
 })
