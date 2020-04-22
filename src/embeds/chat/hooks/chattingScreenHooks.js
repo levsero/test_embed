@@ -16,7 +16,7 @@ export const useMessagesOnMount = scrollToBottom => {
 
   useEffect(() => {
     scrollToBottom()
-    dispatch(markAsRead)
+    dispatch(markAsRead())
   }, [])
 }
 
@@ -67,7 +67,7 @@ export const useNewMessages = (scrollToBottom, isScrollCloseToBottom) => {
 
   useEffect(() => {
     if (isScrollCloseToBottom && isAgent(lastMessageAuthor)) {
-      dispatch(markAsRead)
+      dispatch(markAsRead())
     }
 
     if (isScrollCloseToBottom || lastMessageAuthor === 'visitor') {

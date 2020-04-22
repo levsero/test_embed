@@ -45,6 +45,16 @@ const renderHookComponent = (Component, props, options) => {
 }
 
 describe('useMessagesOnMount', () => {
+  let markAsReadSpy
+
+  beforeEach(() => {
+    markAsReadSpy = jest.spyOn(chatActions, 'markAsRead').mockReturnValue({ type: 'mark as read' })
+  })
+
+  afterEach(() => {
+    markAsReadSpy.mockClear()
+  })
+
   it('calls scrollToBottom', () => {
     const scrollToBottom = jest.fn()
     renderHookComponent(UseMessagesOnMount, { scrollToBottom })
@@ -57,7 +67,7 @@ describe('useMessagesOnMount', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch')
     renderHookComponent(UseMessagesOnMount, {}, { store: store })
 
-    expect(dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead)
+    expect(dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead())
   })
 })
 
@@ -154,10 +164,17 @@ describe('useAgentTyping', () => {
 
 describe('useNewMessages', () => {
   let testContext
+  let markAsReadSpy
+
   beforeEach(() => {
     testContext = {}
     testContext.store = createStore()
     testContext.dispatchSpy = jest.spyOn(testContext.store, 'dispatch')
+    markAsReadSpy = jest.spyOn(chatActions, 'markAsRead').mockReturnValue({ type: 'mark as read' })
+  })
+
+  afterEach(() => {
+    markAsReadSpy.mockClear()
   })
 
   it('only calls again if chatsLength or author has changed', () => {
@@ -186,7 +203,7 @@ describe('useNewMessages', () => {
       const scrollToBottom = jest.fn()
       renderHookComponent(UseNewMessages, { scrollToBottom }, { store: testContext.store })
 
-      expect(testContext.dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead)
+      expect(testContext.dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead())
     })
 
     it('calls scrollToBottom if scroll is close to bottom', () => {
