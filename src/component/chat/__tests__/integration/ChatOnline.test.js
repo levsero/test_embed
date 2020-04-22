@@ -824,7 +824,8 @@ describe('prechat form', () => {
     sendOfflineMsg: jest.fn(),
     sendTyping: jest.fn(),
     sendChatMsg: jest.fn(),
-    clearVisitorDefaultDepartment: jest.fn()
+    clearVisitorDefaultDepartment: jest.fn(),
+    markAsRead: jest.fn()
   }
 
   beforeEach(() => {
