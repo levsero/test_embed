@@ -55,13 +55,17 @@ function init() {
   }
 }
 
+function transformObjectToLabel(label) {
+  return Object.values(label).join(' - ')
+}
+
 function track(action, label, category = GA_CATEGORY, value) {
   if (!ga) return null
-
+  const parsedLabel = _.isObject(label) ? transformObjectToLabel(label) : label
   if (_.isFunction(ga)) {
-    trackNewGAEvent(action, label, category, value)
+    trackNewGAEvent(action, parsedLabel, category, value)
   } else {
-    trackOldGAEvent(action, label, category, value)
+    trackOldGAEvent(action, parsedLabel, category, value)
   }
 }
 

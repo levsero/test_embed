@@ -17,18 +17,29 @@ describe('when there is no GA snippet on the page', () => {
 })
 
 describe('when there is a new GA snippet on the page', () => {
+  let tracker
   beforeEach(() => {
+    tracker = { send: jest.fn() }
+    const ga = fun => {
+      fun()
+    }
+    ga.getAll = () => [tracker]
     globals.win = {
       GoogleAnalyticsObject: 'ga',
-      ga: () => 'newGA'
+      ga
     }
     GA.init()
   })
 
-  it('returns the ga object of the window', () => {
-    const gaFn = GA.get()
-
-    expect(gaFn()).toEqual('newGA')
+  it('tracks actions correctly', () => {
+    GA.track('widget opened', { id: 1, name: 'hello' })
+    expect(tracker.send).toHaveBeenCalledWith('event', {
+      eventAction: 'widget opened',
+      eventCategory: 'Zendesk Web Widget',
+      eventLabel: '1 - hello',
+      eventValue: undefined,
+      hitType: 'event'
+    })
   })
 })
 

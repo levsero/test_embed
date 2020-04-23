@@ -17,7 +17,8 @@ describe('TicketFormPage', () => {
     amountOfCustomForms: 1,
     formExists: true,
     isLoading: false,
-    isAnyTicketFormLoading: false
+    isAnyTicketFormLoading: false,
+    formOpened: jest.fn()
   }
 
   const renderComponent = (props = {}, options) =>
