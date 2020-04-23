@@ -8,7 +8,7 @@ import { screenChanged, articleShown } from 'src/embeds/answerBot/actions/root'
 import { articleViewed } from 'src/embeds/answerBot/actions/article'
 import { ARTICLE_SCREEN } from 'src/embeds/answerBot/constants'
 
-import Results from 'src/component/answerBot/conversationScreen/messageGroup/messages/results'
+import Results from 'src/embeds/answerBot/components/Results'
 
 const SearchResults = ({ articles, sessionID }) => {
   const translate = useTranslate()

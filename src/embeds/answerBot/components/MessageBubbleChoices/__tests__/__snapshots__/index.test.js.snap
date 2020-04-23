@@ -5,11 +5,11 @@ exports[`renders the expected classes 1`] = `
   display: inline-block;
   white-space: pre-wrap;
   border-radius: 1.1428571428571428rem;
-  margin-left: 2.857142857142857rem;
   border-left: 0.07142857142857142rem #eee solid;
   border-right: 0.07142857142857142rem #eee solid;
   margin-bottom: 0.5rem;
   max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
 }
 
 .c2 {
@@ -82,11 +82,11 @@ exports[`renders the expected classes when there is no leading message 1`] = `
   display: inline-block;
   white-space: pre-wrap;
   border-radius: 1.1428571428571428rem;
-  margin-left: 2.857142857142857rem;
   border-left: 0.07142857142857142rem #eee solid;
   border-right: 0.07142857142857142rem #eee solid;
   margin-bottom: 0.5rem;
   max-width: 18.428571428571427rem;
+  margin-left: 2.857142857142857rem;
 }
 
 .c2 {
@@ -140,11 +140,11 @@ exports[`renders the expected classes when there is only one child 1`] = `
   display: inline-block;
   white-space: pre-wrap;
   border-radius: 1.1428571428571428rem;
-  margin-left: 2.857142857142857rem;
   border-left: 0.07142857142857142rem #eee solid;
   border-right: 0.07142857142857142rem #eee solid;
   margin-bottom: 0.5rem;
   max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
 }
 
 .c2 {

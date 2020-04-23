@@ -2,7 +2,7 @@ import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import AnswerBot from 'component/answerBot'
+import AnswerBot from 'embeds/answerBot'
 import Chat from 'component/chat/Chat'
 
 import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'

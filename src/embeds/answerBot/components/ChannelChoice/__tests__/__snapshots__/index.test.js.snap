@@ -1,0 +1,1637 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`channels does not render chat if chat is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        Would you like to leave a message so the team can follow up on your question?
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-contactForm"
+            data-testid="Icon--channelChoice-contactForm"
+            type="Icon--channelChoice-contactForm"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-contactForm.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Leave a message
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if chat and chat offline are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat is offline
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if only call us is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Call us
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if only chat is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if only submit ticket is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-contactForm"
+            data-testid="Icon--channelChoice-contactForm"
+            type="Icon--channelChoice-contactForm"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-contactForm.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Leave a message
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if talk and click to call are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-clickToCall"
+            data-testid="Icon--channelChoice-clickToCall"
+            type="Icon--channelChoice-clickToCall"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="channel_choice_click_to_call.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Click to call
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders expected components if talk and request callback are available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Request a callback
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders generic leading message if more than 1 channel is available 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c6 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c6:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        Choose a way to get in touch:
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat
+          </div>
+        </div>
+      </div>
+      <div
+        class="c6"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Call us
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c6 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c6:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        hi
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat
+          </div>
+        </div>
+      </div>
+      <div
+        class="c6"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Call us
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`channels renders the passed in leading message regardless of other properties 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c3 svg {
+  display: none;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        blah blah
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-contactForm"
+            data-testid="Icon--channelChoice-contactForm"
+            type="Icon--channelChoice-contactForm"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-contactForm.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Leave a message
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the expected classes 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c6 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c6:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        Choose a way to get in touch:
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat
+          </div>
+        </div>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Request a callback
+          </div>
+        </div>
+      </div>
+      <div
+        class="c6"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-contactForm"
+            data-testid="Icon--channelChoice-contactForm"
+            type="Icon--channelChoice-contactForm"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-contactForm.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Leave a message
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the leading message 1`] = `
+.c0 {
+  display: inline-block;
+  white-space: pre-wrap;
+  border-radius: 1.1428571428571428rem;
+  border-left: 0.07142857142857142rem #eee solid;
+  border-right: 0.07142857142857142rem #eee solid;
+  margin-bottom: 0.5rem;
+  max-width: 15.642857142857142rem;
+  margin-left: 2.857142857142857rem;
+}
+
+.c2 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+}
+
+.c2:hover {
+  background-color: #f8f8f8;
+}
+
+.c6 {
+  cursor: pointer;
+  border-bottom: 0.07142857142857142rem #eee solid;
+  border-bottom-left-radius: 1.1428571428571428rem;
+  border-bottom-right-radius: 1.1428571428571428rem;
+}
+
+.c6:hover {
+  background-color: #f8f8f8;
+}
+
+.c1 {
+  border-top: 0.07142857142857142rem #eee solid;
+  border-top-left-radius: 1.1428571428571428rem;
+  border-top-right-radius: 1.1428571428571428rem;
+  background: #f3f3f3;
+  color: #333;
+  padding: 0.6428571428571429rem 0.7142857142857143rem 0.5714285714285714rem;
+  line-height: 1.0714285714285714rem;
+}
+
+.c3 {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  padding: 0.8571428571428571rem 1.1428571428571428rem;
+}
+
+.c3:hover svg path {
+  stroke: #555;
+}
+
+.c5 {
+  color: #007fab;
+}
+
+.c5:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c4 {
+  margin-right: 0.7142857142857143rem;
+}
+
+.c4 svg {
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.c4 svg path {
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+      data-testid="answer-bot-selection-message"
+    >
+      <div
+        class="c1"
+      >
+        hello world
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-chat"
+            data-testid="Icon--channelChoice-chat"
+            type="Icon--channelChoice-chat"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-chat.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Live chat
+          </div>
+        </div>
+      </div>
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-talk"
+            data-testid="Icon--channelChoice-talk"
+            type="Icon--channelChoice-talk"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-talk.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Request a callback
+          </div>
+        </div>
+      </div>
+      <div
+        class="c6"
+      >
+        <div
+          class="c3"
+          data-testid="list-item"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="container c4 Icon--channelChoice-contactForm"
+            data-testid="Icon--channelChoice-contactForm"
+            type="Icon--channelChoice-contactForm"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="widget-icon_channelChoice-contactForm.svg"
+            />
+          </span>
+          <div
+            class="c5"
+          >
+            Leave a message
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

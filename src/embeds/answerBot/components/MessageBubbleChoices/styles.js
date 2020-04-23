@@ -23,16 +23,12 @@ const Container = styled.div`
   display: inline-block;
   white-space: pre-wrap;
   border-radius: ${16 / FONT_SIZE}rem;
-  margin-left: ${40 / FONT_SIZE}rem;
   border-left: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
   border-right: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
   margin-bottom: ${7 / FONT_SIZE}rem;
   max-width: ${maxWidth};
 
-  ${props =>
-    props.theme.rtl &&
-    `margin-left: 0;
-    margin-right: ${40 / FONT_SIZE}rem;`}
+  ${props => (props.theme.rtl ? 'margin-right' : 'margin-left') + `: ${40 / FONT_SIZE}rem;`}
 `
 
 const Item = styled.div`
