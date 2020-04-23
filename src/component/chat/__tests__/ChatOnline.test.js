@@ -7,24 +7,21 @@ import { CONNECTION_STATUSES } from 'constants/chat'
 const renderComponent = props => {
   const mergedProps = {
     attachmentsEnabled: false,
+    authUrls: {},
+    connection: '',
+    editContactDetailsSubmitted: jest.fn(),
     endChatViaPostChatScreen: jest.fn(),
+    handleReconnect: jest.fn(),
+    initiateSocialLogout: jest.fn(),
+    isLoggingOut: false,
     screen: '',
     sendAttachments: jest.fn(),
-    editContactDetailsSubmitted: jest.fn(),
-    handleReconnect: jest.fn(),
-    sendEmailTranscript: jest.fn(),
-    emailTranscript: {},
-    visitor: {},
-    editContactDetails: {},
+    showNewChatEmbed: false,
+    socialLogin: {},
+    updateChatBackButtonVisibility: jest.fn(),
     updateContactDetailsVisibility: jest.fn(),
     updateEmailTranscriptVisibility: jest.fn(),
-    connection: '',
-    authUrls: {},
-    socialLogin: {},
-    isLoggingOut: false,
-    showNewChatEmbed: false,
-    initiateSocialLogout: jest.fn(),
-
+    updateEndChatModalVisibility: jest.fn(),
     ...props
   }
 

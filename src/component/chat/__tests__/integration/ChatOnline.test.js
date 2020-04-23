@@ -783,9 +783,7 @@ it('opens edit contact details popout', () => {
   fireEvent.click(getByText('Edit contact details'))
   jest.runAllTimers()
 
-  const editContactDetailsPopoutNode = getByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)
-
-  expect(editContactDetailsPopoutNode).toBeInTheDocument()
+  expect(getByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_MODAL)).toBeInTheDocument()
 })
 
 describe('connection', () => {

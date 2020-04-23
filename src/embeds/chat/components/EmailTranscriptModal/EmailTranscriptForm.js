@@ -4,7 +4,7 @@ import { Body, Footer, FooterItem, Header } from 'embeds/webWidget/components/Mo
 import { Alert, Title } from 'embeds/support/components/Notifications'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'
-import { Form } from 'embeds/chat/components/EmailTranscriptPopup/styles'
+import { Form } from 'embeds/chat/components/EmailTranscriptModal/styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { Form as ReactFinalForm } from 'react-final-form'
 import { sendEmailTranscript } from 'embeds/chat/actions/email-transcript'
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getVisitorEmail } from 'embeds/chat/selectors'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { withTheme } from 'styled-components'
-import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptPopup/EmailTranscriptFormValues'
+import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptFormValues'
 
 const validate = values => {
   if (!EMAIL_PATTERN.test(values.email)) {

@@ -3,20 +3,20 @@ import { wait } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/react'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { render } from 'src/util/testHelpers'
-import EmailTranscriptPopup from 'embeds/chat/components/EmailTranscriptPopup'
+import EmailTranscriptModal from 'embeds/chat/components/EmailTranscriptModal'
 import * as actions from 'src/redux/modules/chat/chat-action-types'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import { API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 jest.mock('src/embeds/chat/actions/email-transcript')
 
-describe('EmailTranscriptPopup', () => {
+describe('EmailTranscriptModal', () => {
   const defaultProps = {
     onClose: jest.fn()
   }
 
   const renderComponent = async (props = {}) => {
-    const result = render(<EmailTranscriptPopup {...defaultProps} {...props} />)
+    const result = render(<EmailTranscriptModal {...defaultProps} {...props} />)
 
     await wait(() => expect(result.queryByText('Email')).toBeInTheDocument())
 

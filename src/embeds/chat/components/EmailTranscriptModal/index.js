@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptPopup/EmailTranscriptForm'
+import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
 import { Modal } from 'src/embeds/webWidget/components/Modal'
 import { withTheme } from 'styled-components'
-import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptPopup/EmailTranscriptSuccess'
+import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
+import { TEST_IDS } from 'constants/shared'
 
-const EmailTranscriptPopup = ({ onClose }) => {
+const EmailTranscriptModal = ({ onClose }) => {
   const [container, setContainer] = useState(null)
   const [updatedEmail, setUpdatedEmail] = useState(null)
 
   return (
     <>
-      <div ref={ref => setContainer(ref)} />
+      <div ref={ref => setContainer(ref)} data-testid={TEST_IDS.CHAT_EMAIL_TRANSCRIPT_MODAL} />
       {container && (
         <Modal
           backdropProps={{
@@ -36,8 +37,8 @@ const EmailTranscriptPopup = ({ onClose }) => {
   )
 }
 
-EmailTranscriptPopup.propTypes = {
+EmailTranscriptModal.propTypes = {
   onClose: PropTypes.func
 }
 
-export default withTheme(EmailTranscriptPopup)
+export default withTheme(EmailTranscriptModal)

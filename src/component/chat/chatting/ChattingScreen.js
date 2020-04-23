@@ -12,17 +12,15 @@ import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
-import ChatContactDetailsModal from 'src/embeds/chat/components/ContactDetails'
 import {
-  sendMsg,
-  sendAttachments,
-  handleChatBoxChange,
-  sendChatRating,
-  updateChatScreen,
-  resetCurrentMessage,
-  markAsRead,
   fetchConversationHistory,
-  updateContactDetailsVisibility,
+  handleChatBoxChange,
+  markAsRead,
+  resetCurrentMessage,
+  sendAttachments,
+  sendChatRating,
+  sendMsg,
+  updateChatScreen,
   updateEmailTranscriptVisibility
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
@@ -32,11 +30,11 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import {
-  getProfileConfig,
   getConciergeSettings,
   getCurrentConcierges,
-  isInChattingScreen,
-  getShowRatingButtons
+  getProfileConfig,
+  getShowRatingButtons,
+  isInChattingScreen
 } from 'src/redux/modules/selectors'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
@@ -45,8 +43,7 @@ import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
-import { getMenuVisible, getShowEditContactDetails } from 'embeds/chat/selectors'
-import EmailTranscriptPopup from 'embeds/chat/components/EmailTranscriptPopup'
+import { getMenuVisible } from 'embeds/chat/selectors'
 import {
   useMessagesOnMount,
   useHistoryUpdate,
@@ -54,6 +51,8 @@ import {
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import EmailTranscriptModal from 'embeds/chat/components/EmailTranscriptModal'
+import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
 
 const mapStateToProps = state => {
   return {
@@ -75,13 +74,11 @@ const mapStateToProps = state => {
     profileConfig: getProfileConfig(state),
     queuePosition: chatSelectors.getQueuePosition(state),
     rating: chatSelectors.getChatRating(state),
-    shouldShowEditContactDetails: getShowEditContactDetails(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     showNewChatEmbed: isFeatureEnabled(state, 'chat_new_modal_support'),
     showRating: getShowRatingButtons(state),
     socialLogin: chatSelectors.getSocialLogin(state),
-    visible: isInChattingScreen(state),
-    visitor: chatSelectors.getChatVisitor(state)
+    visible: isInChattingScreen(state)
   }
 }
 
@@ -123,8 +120,6 @@ const ChattingScreen = ({
   isPreview = false,
   emailTranscript,
   updateEmailTranscriptVisibility,
-  updateContactDetailsVisibility,
-  shouldShowEditContactDetails,
   showNewChatEmbed
 }) => {
   const scrollContainer = useRef(null)
@@ -299,16 +294,14 @@ const ChattingScreen = ({
         {renderQuickReply()}
       </Main>
       {renderChatFooter()}
-      {emailTranscript?.show && (
-        <EmailTranscriptPopup
+      {!showNewChatEmbed && emailTranscript?.show && (
+        <EmailTranscriptModal
           onClose={() => {
             updateEmailTranscriptVisibility(false)
           }}
         />
       )}
-      {shouldShowEditContactDetails && showNewChatEmbed && (
-        <ChatContactDetailsModal onClose={() => updateContactDetailsVisibility(false)} />
-      )}
+      {showNewChatEmbed && <ChatModalController />}
     </Widget>
   )
 }
@@ -342,7 +335,6 @@ ChattingScreen.propTypes = {
   sendAttachments: PropTypes.func.isRequired,
   sendChatRating: PropTypes.func.isRequired,
   sendMsg: PropTypes.func.isRequired,
-  shouldShowEditContactDetails: PropTypes.bool.isRequired,
   showAvatar: PropTypes.bool.isRequired,
   showChatEndFn: PropTypes.func.isRequired,
   showContactDetails: PropTypes.func.isRequired,
@@ -351,22 +343,20 @@ ChattingScreen.propTypes = {
   socialLogin: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
-  updateContactDetailsVisibility: PropTypes.func.isRequired,
   updateEmailTranscriptVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool
 }
 
 const actionCreators = {
-  updateChatScreen,
   fetchConversationHistory,
-  sendMsg,
-  resetCurrentMessage,
   handleChatBoxChange,
+  markAsRead,
+  resetCurrentMessage,
   sendAttachments,
   sendChatRating,
-  markAsRead,
-  updateEmailTranscriptVisibility,
-  updateContactDetailsVisibility
+  sendMsg,
+  updateChatScreen,
+  updateEmailTranscriptVisibility
 }
 
 const connectedComponent = connect(
