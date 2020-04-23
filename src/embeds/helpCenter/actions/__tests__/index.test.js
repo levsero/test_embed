@@ -368,10 +368,62 @@ describe('performSearch', () => {
           payload: {
             articles: [{ locale: 'fr', text: 'blah' }],
             locale: 'fr',
-            resultsCount: 1
+            resultsCount: 1,
+            isFallback: false
           },
           type: types.SEARCH_REQUEST_SUCCESS
         })
+      })
+    })
+
+    describe('done with no results', () => {
+      let callback
+      const response = {
+        body: {
+          results: [],
+          count: 0
+        }
+      }
+
+      beforeEach(() => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+
+        callback = http.send.mock.calls[0][0].callbacks.done
+        callback(response)
+        const secondCallback = http.send.mock.calls[1][0].callbacks.done
+        secondCallback(response)
+      })
+
+      it('retries if no results', () => {
+        expect(store.getActions()).toEqual([
+          {
+            payload: {
+              searchTerm: 'help',
+              timestamp: 1234
+            },
+            type: 'widget/helpCenter/SEARCH_REQUEST_SENT'
+          },
+          {
+            payload: {
+              articles: [],
+              isFallback: false,
+              locale: '',
+              resultsCount: 0
+            },
+            type: 'widget/helpCenter/SEARCH_REQUEST_SUCCESS'
+          },
+          {
+            payload: {
+              searchTerm: 'help',
+              timestamp: 1234
+            },
+            type: 'widget/helpCenter/SEARCH_REQUEST_SENT'
+          },
+          {
+            payload: { articles: [], isFallback: true, locale: '', resultsCount: 0 },
+            type: 'widget/helpCenter/SEARCH_REQUEST_SUCCESS'
+          }
+        ])
       })
     })
 

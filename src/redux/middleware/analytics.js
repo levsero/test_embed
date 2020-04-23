@@ -133,7 +133,8 @@ const trackTicketSubmitted = ({ payload, prevState }) => {
   GA.track('Contact Form Submitted', { id, name })
 }
 
-const trackSearchRequest = ({ prevState }) => {
+const trackSearchRequest = ({ prevState, payload }) => {
+  if (payload.isFallback) return
   const searchTerm = getSearchTerm(prevState)
   GA.track('Help Center Search', searchTerm)
 }

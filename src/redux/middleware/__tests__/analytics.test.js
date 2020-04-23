@@ -328,10 +328,21 @@ describe('analytics', () => {
     it('tracks search with search term', () => {
       const state = { helpCenter: { searchTerm: { current: 'hide body' } } }
       const action = {
-        type: SEARCH_REQUEST_SUCCESS
+        type: SEARCH_REQUEST_SUCCESS,
+        payload: { isFallback: false }
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith('Help Center Search', 'hide body')
+    })
+
+    it('does not track search if is a fallback search', () => {
+      const state = { helpCenter: { searchTerm: { current: 'hide body' } } }
+      const action = {
+        type: SEARCH_REQUEST_SUCCESS,
+        payload: { isFallback: true }
+      }
+      callMiddleware(action, state)
+      expect(track).not.toHaveBeenCalled()
     })
   })
 

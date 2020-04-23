@@ -112,7 +112,10 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
 
       dispatch({
         type: SEARCH_REQUEST_SUCCESS,
-        payload: formatResults(response)
+        payload: {
+          ...formatResults(response),
+          isFallback: localeIndex > 0
+        }
       })
 
       if (response.body.count > 0 || _.isEmpty(locales)) {
