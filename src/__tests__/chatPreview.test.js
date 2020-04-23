@@ -3,8 +3,11 @@ import { wait } from '@testing-library/dom'
 import '../chatPreview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
+import t from '@zendesk/client-i18n-tools'
 
 import { i18n } from 'service/i18n'
+
+t.set = jest.fn()
 
 beforeEach(() => {
   const div = document.createElement('div')
@@ -102,13 +105,10 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('allows updating of locale', done => {
+  it('allows updating of locale', async () => {
     preview.updateLocale('zh')
 
-    preview.waitForComponent(() => {
-      expect(i18n.getLocale()).toEqual('zh-cn')
-      done()
-    })
+    await wait(() => expect(i18n.getLocale()).toEqual('zh-cn'))
   })
 
   it('allows setting of chat state', done => {
@@ -142,16 +142,16 @@ describe('when calling with no element property in options', () => {
   })
 })
 
-test('locale can be set', () => {
+test('locale can be set', async () => {
   window.zEPreview.renderPreview({
     element: document.getElementById('preview'),
     locale: 'fr'
   })
 
-  expect(i18n.getLocale()).toEqual('fr')
+  await wait(() => expect(i18n.getLocale()).toEqual('fr'))
 })
 
-test('styles can be customized', () => {
+test('styles can be customized', async () => {
   const styles = {
     float: 'left',
     marginTop: '32px',
@@ -164,10 +164,12 @@ test('styles can be customized', () => {
     styles
   })
 
-  expect(chatPreview()).toHaveStyle(`
-      float: left;
-      margin-top: 32px;
-      margin-left: 32px;
-      width: 112px;
-    `)
+  await wait(() =>
+    expect(chatPreview()).toHaveStyle(`
+        float: left;
+        margin-top: 32px;
+        margin-left: 32px;
+        width: 112px;
+      `)
+  )
 })

@@ -2,6 +2,9 @@ import '../webWidgetPreview'
 
 import { i18n } from 'service/i18n'
 import { wait } from '@testing-library/dom'
+import t from '@zendesk/client-i18n-tools'
+
+t.set = jest.fn()
 
 beforeEach(() => {
   const div = document.createElement('div')
@@ -106,16 +109,16 @@ describe('when calling with no element property in options', () => {
   })
 })
 
-test('locale can be set', () => {
+test('locale can be set', async () => {
   window.zE.renderWebWidgetPreview({
     element: document.getElementById('preview'),
     locale: 'fr'
   })
 
-  expect(i18n.getLocale()).toEqual('fr')
+  await wait(() => expect(i18n.getLocale()).toEqual('fr'))
 })
 
-test('styles can be customized', () => {
+test('styles can be customized', async () => {
   const styles = {
     float: 'left',
     marginTop: '32px',
@@ -128,10 +131,12 @@ test('styles can be customized', () => {
     styles
   })
 
-  expect(webWidgetPreview()).toHaveStyle(`
-      float: left;
-      margin-top: 32px;
-      margin-left: 32px;
-      width: 112px;
-    `)
+  await wait(() =>
+    expect(webWidgetPreview()).toHaveStyle(`
+        float: left;
+        margin-top: 32px;
+        margin-left: 32px;
+        width: 112px;
+      `)
+  )
 })

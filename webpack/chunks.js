@@ -22,6 +22,7 @@ const priority = {
 
 const get = (chunkName, thing) => {
   return Object.keys(thing)
+    .filter(chunk => !!chunk)
     .filter(chunk => chunkName.includes(chunk))
     .map(chunk => thing[chunk])[0]
 }

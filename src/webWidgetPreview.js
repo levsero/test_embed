@@ -33,6 +33,9 @@ const defaultOptions = {
     height: `${FRAME_HEIGHT}px`
   }
 }
+
+i18n.initFetchLocale()
+
 let frame
 
 const renderWebWidgetPreview = options => {
@@ -47,7 +50,6 @@ const renderWebWidgetPreview = options => {
   const store = createStore()
 
   i18n.init(store)
-  i18n.setLocale(options.locale)
 
   const { width } = options.styles
   const frameStyle = _.extend({}, options.styles, {
@@ -66,35 +68,39 @@ const renderWebWidgetPreview = options => {
 
   store.dispatch(updateSettings({ color: { theme: color, button: color } }))
 
-  const frameParams = {
-    css: `${require('globalCSS')} ${webWidgetStyles}`,
-    name: 'webWidgetPreview',
-    customFrameStyle: frameStyle,
-    alwaysShow: true,
-    disableOffsetHorizontal: true,
-    preventClose: true,
-    generateUserCSS: generateUserWidgetCSS,
-    ref: el => {
-      frame = el
-    },
-    fullscreen: false,
-    isMobile: false
+  const renderComponent = () => {
+    const frameParams = {
+      css: `${require('globalCSS')} ${webWidgetStyles}`,
+      name: 'webWidgetPreview',
+      customFrameStyle: frameStyle,
+      alwaysShow: true,
+      disableOffsetHorizontal: true,
+      preventClose: true,
+      generateUserCSS: generateUserWidgetCSS,
+      ref: el => {
+        frame = el
+      },
+      fullscreen: false,
+      isMobile: false
+    }
+
+    const component = (
+      <Provider store={store}>
+        <Frame {...frameParams} store={store}>
+          <Container style={containerStyle}>
+            <TicketFormPage match={{ params: { id: 'contact-form' } }} isPreview={true} />
+          </Container>
+        </Frame>
+      </Provider>
+    )
+
+    const container = document.createElement('div')
+
+    options.element.appendChild(container)
+    ReactDOM.render(component, container)
   }
 
-  const component = (
-    <Provider store={store}>
-      <Frame {...frameParams} store={store}>
-        <Container style={containerStyle}>
-          <TicketFormPage match={{ params: { id: 'contact-form' } }} isPreview={true} />
-        </Container>
-      </Frame>
-    </Provider>
-  )
-
-  const container = document.createElement('div')
-
-  options.element.appendChild(container)
-  ReactDOM.render(component, container)
+  i18n.setLocale(options.locale, renderComponent)
 
   const setColor = newColor => {
     store.dispatch(updateSettings({ color: { theme: newColor, button: newColor } }))
