@@ -30,7 +30,8 @@ import {
   CHAT_STATUS_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
-  CHAT_POPOUT_EVENT
+  CHAT_POPOUT_EVENT,
+  USER_EVENT
 } from 'constants/event'
 import {
   chatLogout,
@@ -212,6 +213,9 @@ export const getAllDepartmentsApi = (reduxStore, ...args) =>
 
 export const onApiObj = () => {
   return {
+    userEvent: (_reduxStore, cb) => {
+      callbacks.registerCallback(cb, USER_EVENT)
+    },
     chat: {
       [API_ON_CHAT_CONNECTED_NAME]: (_reduxStore, cb) =>
         callbacks.registerCallback(cb, CHAT_CONNECTED_EVENT),
