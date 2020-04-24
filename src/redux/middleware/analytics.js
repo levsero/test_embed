@@ -39,9 +39,11 @@ const getDepartmentName = (payload, prevState) => {
   return _.get(getDepartments(prevState)[deptId], 'name')
 }
 
+let analyticsDisabled = false
+
 const track = (action, label, category = GA_CATEGORY) => {
   callbacks.fireFor(USER_EVENT, [{ action, label, category }])
-
+  if (analyticsDisabled) return
   GA.track(action, label, category)
 }
 
@@ -183,10 +185,7 @@ export function trackAnalytics({ getState }) {
   return next => action => {
     const { type, payload } = action
     const prevState = getState()
-
-    if (getAnalyticsDisabled(prevState)) {
-      return next(action)
-    }
+    analyticsDisabled = getAnalyticsDisabled(prevState)
 
     // To avoid resending events during the replay when the page is refreshed.
     const isAfterLoadTime = _.get(payload, 'detail.timestamp') > loadtime

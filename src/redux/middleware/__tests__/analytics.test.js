@@ -65,6 +65,7 @@ describe('analytics', () => {
     }
     callMiddleware(action, state)
     expect(track).not.toHaveBeenCalled()
+    expect(callbacks.fireFor).toHaveBeenCalled()
   })
 
   describe('trackEmbedOnOpen', () => {
