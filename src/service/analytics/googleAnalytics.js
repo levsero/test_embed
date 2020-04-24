@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import { win } from 'utility/globals'
 import { GA_CATEGORY } from 'constants/shared'
-import { USER_EVENT } from 'constants/event'
-import * as callbacks from 'src/service/api/callbacks'
+
 let ga = null
 
 const trackNewGAEvent = (action, label, category, value) => {
@@ -61,7 +60,6 @@ function transformObjectToLabel(label) {
 }
 
 function track(action, label, category = GA_CATEGORY, value) {
-  callbacks.fireFor(USER_EVENT, [{ action, label, category }])
   if (!ga) return null
   const parsedLabel = _.isObject(label) ? transformObjectToLabel(label) : label
   if (_.isFunction(ga)) {

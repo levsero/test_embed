@@ -1,7 +1,7 @@
 import { GA } from '../googleAnalytics'
-import * as callbacks from 'src/service/api/callbacks'
-jest.mock('src/service/api/callbacks')
+
 jest.mock('utility/globals')
+
 const globals = require('utility/globals')
 
 describe('when there is no GA snippet on the page', () => {
@@ -19,7 +19,6 @@ describe('when there is no GA snippet on the page', () => {
 describe('when there is a new GA snippet on the page', () => {
   let tracker
   beforeEach(() => {
-    callbacks.fireFor = jest.fn()
     tracker = { send: jest.fn() }
     const ga = fun => {
       fun()
@@ -41,13 +40,6 @@ describe('when there is a new GA snippet on the page', () => {
       eventValue: undefined,
       hitType: 'event'
     })
-  })
-
-  it('fires the USER_EVENT api', () => {
-    GA.track('widget opened', 'hello')
-    expect(callbacks.fireFor).toHaveBeenCalledWith('USER_EVENT', [
-      { action: 'widget opened', category: 'Zendesk Web Widget', label: 'hello' }
-    ])
   })
 })
 
