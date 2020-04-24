@@ -14,7 +14,6 @@ import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss'
 import UserProfileStyles from 'component/chat/UserProfile.scss'
 import ChatOfflineStyles from 'component/chat/ChatOffline.scss'
 import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss'
-import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss'
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss'
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss'
 import ChattHistoryScreenStyles from 'component/chat/chatting/chatHistoryScreen/styles/index.scss'
@@ -50,7 +49,6 @@ export const webWidgetStyles = `
   ${ChatLogStyles}
   ${HistoryLogStyles}
   ${ChatOfflineFormStyles}
-  ${ChatOfflineMessageFormStyles}
   ${ChatOfflineStyles}
   ${UserProfileStyles}
   ${ChatOperatingHoursStyles}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm'
+import ChatOfflineDepartmentMessageSuccess from 'src/embeds/chat/components/ChatOfflineDepartmentMessageSuccess'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
@@ -189,7 +189,7 @@ class PrechatScreen extends Component {
       <Widget>
         <Header title={this.props.title} />
         <Main>
-          <ChatOfflineMessageForm
+          <ChatOfflineDepartmentMessageSuccess
             offlineMessage={this.props.offlineMessage}
             onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
           />

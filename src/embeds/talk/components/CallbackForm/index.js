@@ -1,10 +1,8 @@
-import _ from 'lodash'
-import React, { Component } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { i18n } from 'service/i18n'
-import { isMobileBrowser } from 'utility/devices'
+import useTranslate from 'src/hooks/useTranslate'
 import routes from 'src/embeds/talk/routes'
 import ErrorNotification from 'src/embeds/talk/components/ErrorNotification'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
@@ -13,7 +11,6 @@ import NameField from 'src/embeds/talk/components/NameField'
 import DescriptionField from 'src/embeds/talk/components/DescriptionField'
 import { Main, Footer } from 'src/components/Widget'
 import CallbackPhone from 'src/embeds/talk/components/CallbackPhone'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getAverageWaitTimeString,
   getCallback,
@@ -31,148 +28,113 @@ import { SubmitButton, Form, Header, FormDivider } from './styles'
 
 const errorCodes = ['invalid_phone_number', 'phone_number_already_in_queue']
 
-class CallbackForm extends Component {
-  static propTypes = {
-    showCallbackNumber: PropTypes.bool.isRequired,
-    supportedCountries: PropTypes.arrayOf(PropTypes.string),
-    formState: PropTypes.object.isRequired,
-    callback: PropTypes.shape({
-      error: PropTypes.shape({
-        message: PropTypes.striing
-      }),
-      success: PropTypes.bool
-    }),
-    averageWaitTime: PropTypes.string,
-    updateTalkCallbackForm: PropTypes.func.isRequired,
-    submitTalkCallbackForm: PropTypes.func.isRequired,
-    nickname: PropTypes.string.isRequired,
-    serviceUrl: PropTypes.string.isRequired,
-    nameLabelText: PropTypes.string.isRequired,
-    descriptionLabelText: PropTypes.string.isRequired,
-    submitButtonLabel: PropTypes.string.isRequired,
-    headerMessage: PropTypes.string.isRequired,
+const CallbackForm = ({
+  averageWaitTime,
+  callback,
+  descriptionLabelText,
+  formState,
+  nameLabelText,
+  nickname,
+  serviceUrl,
+  showCallbackNumber = false,
+  submitTalkCallbackForm,
+  supportedCountries,
+  updateTalkCallbackForm
+}) => {
+  const translate = useTranslate()
+  const [showErrors, setShowErrors] = useState(false)
+  const formRef = useRef(null)
 
-    // used to force the component to re-render when locale changes
-    // eslint-disable-next-line react/no-unused-prop-types
-    locale: PropTypes.string.isRequired
-  }
-
-  static defaultProps = {
-    showCallbackNumber: false
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      showErrors: false
-    }
-  }
-
-  handleFormCompleted = () => {
-    if (!this.form.state.valid) {
-      this.setState({ showErrors: true })
+  const handleFormCompleted = () => {
+    if (!formRef.current.state.valid) {
+      setShowErrors(true)
       return
     }
 
-    const { serviceUrl, nickname, submitTalkCallbackForm } = this.props
-
-    this.setState({ showErrors: false })
+    setShowErrors(false)
     submitTalkCallbackForm(serviceUrl, nickname)
   }
 
-  handleFormChange = formState => {
-    this.props.updateTalkCallbackForm(formState)
-  }
-
-  handleCountrySelect = country => {
-    this.props.updateTalkCallbackForm({ country })
-    if (this.form) {
-      this.form.validate()
-    }
-  }
-
-  getErrorMessage() {
-    const { callback } = this.props
-
+  const getErrorMessage = () => {
     if (!callback.error.message) {
       return null
     }
 
-    return _.includes(errorCodes, callback.error.message)
-      ? i18n.t(`embeddable_framework.talk.notify.error.${callback.error.message}`)
-      : i18n.t('embeddable_framework.common.notify.error.generic')
+    return errorCodes.includes(callback.error.message)
+      ? translate(`embeddable_framework.talk.notify.error.${callback.error.message}`)
+      : translate('embeddable_framework.common.notify.error.generic')
   }
 
-  render() {
-    const {
-      callback,
-      formState,
-      submitButtonLabel,
-      headerMessage,
-      averageWaitTime,
-      supportedCountries,
-      nameLabelText,
-      descriptionLabelText,
-      showCallbackNumber
-    } = this.props
-
-    if (callback.success) {
-      return <Redirect to={routes.successNotification()} />
-    }
-
-    const errorMessage = this.getErrorMessage()
-
-    return (
-      <Form
-        ref={el => (this.form = el)}
-        formState={formState}
-        onCompleted={this.handleFormCompleted}
-        onChange={this.handleFormChange}
-      >
-        <Main>
-          {showCallbackNumber && <CallbackPhone />}
-          <div>
-            <Header>{headerMessage}</Header>
-            {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
-          </div>
-          <FormDivider />
-          <PhoneField
-            validate={val => this.form && this.form.validate(val)}
-            required={true}
-            onCountrySelect={this.handleCountrySelect}
-            supportedCountries={supportedCountries}
-            country={formState.country}
-            value={formState.phone}
-            showError={this.state.showErrors}
-          />
-          <NameField label={nameLabelText} defaultValue={formState.name} />
-          <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
-          {errorMessage && <ErrorNotification message={errorMessage} />}
-        </Main>
-        <Footer>
-          <SubmitButton>{submitButtonLabel}</SubmitButton>
-        </Footer>
-      </Form>
-    )
+  if (callback.success) {
+    return <Redirect to={routes.successNotification()} />
   }
+
+  return (
+    <Form
+      ref={formRef}
+      formState={formState}
+      onCompleted={handleFormCompleted}
+      onChange={updateTalkCallbackForm}
+    >
+      <Main>
+        {showCallbackNumber && <CallbackPhone />}
+        <div>
+          <Header>{translate('embeddable_framework.talk.form.headerMessage_new')}</Header>
+          {averageWaitTime && <AverageWaitTime>{averageWaitTime}</AverageWaitTime>}
+        </div>
+        <FormDivider />
+        <PhoneField
+          validate={val => formRef.current?.validate(val)}
+          required={true}
+          onCountrySelect={country => {
+            updateTalkCallbackForm({ country })
+            formRef.current?.validate()
+          }}
+          supportedCountries={supportedCountries}
+          country={formState.country}
+          value={formState.phone}
+          showError={showErrors}
+        />
+        <NameField label={nameLabelText} defaultValue={formState.name} />
+        <DescriptionField label={descriptionLabelText} defaultValue={formState.description} />
+        {getErrorMessage() && <ErrorNotification message={getErrorMessage()} />}
+      </Main>
+      <Footer>
+        <SubmitButton>{translate('embeddable_framework.common.button.send')}</SubmitButton>
+      </Footer>
+    </Form>
+  )
+}
+
+CallbackForm.propTypes = {
+  showCallbackNumber: PropTypes.bool.isRequired,
+  supportedCountries: PropTypes.arrayOf(PropTypes.string),
+  formState: PropTypes.object.isRequired,
+  callback: PropTypes.shape({
+    error: PropTypes.shape({
+      message: PropTypes.striing
+    }),
+    success: PropTypes.bool
+  }),
+  averageWaitTime: PropTypes.string,
+  updateTalkCallbackForm: PropTypes.func.isRequired,
+  submitTalkCallbackForm: PropTypes.func.isRequired,
+  nickname: PropTypes.string.isRequired,
+  serviceUrl: PropTypes.string.isRequired,
+  nameLabelText: PropTypes.string.isRequired,
+  descriptionLabelText: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => {
   return {
-    supportedCountries: getEmbeddableConfig(state).supportedCountries,
-    headerMessage: i18n.t('embeddable_framework.talk.form.headerMessage_new'),
-    phoneLabel: i18n.t('embeddable_framework.common.textLabel.phone_number'),
-    submitButtonLabel: i18n.t('embeddable_framework.common.button.send'),
+    averageWaitTime: getAverageWaitTimeString(state),
+    callback: getCallback(state),
+    descriptionLabelText: getTalkDescriptionLabel(state),
+    formState: getFormState(state),
+    nameLabelText: getTalkNameLabel(state),
     nickname: getTalkNickname(state),
     serviceUrl: getTalkServiceUrl(state),
-    nameLabelText: getTalkNameLabel(state),
-    descriptionLabelText: getTalkDescriptionLabel(state),
-    averageWaitTime: getAverageWaitTimeString(state),
-    formState: getFormState(state),
-    callback: getCallback(state),
-    isRTL: i18n.isRTL(),
-    isMobile: isMobileBrowser(),
-    locale: getLocale(state)
+    supportedCountries: getEmbeddableConfig(state).supportedCountries
   }
 }
 

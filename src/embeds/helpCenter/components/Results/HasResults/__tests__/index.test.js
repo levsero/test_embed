@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render } from 'src/util/testHelpers'
 import { MemoryRouter } from 'react-router-dom'
 
 import { Component as HasResults } from '../'
