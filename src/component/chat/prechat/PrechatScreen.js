@@ -46,6 +46,12 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import { locals as styles } from './PrechatScreen.scss'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import SuspensePage from 'components/Widget/SuspensePage'
+
+const NewPrechatForm = React.lazy(() =>
+  import(/* webpackChunkName: 'lazy/prechat-form' */ 'embeds/chat/components/PrechatForm')
+)
 
 const mapStateToProps = state => {
   const prechatForm = getPrechatFormSettings(state)
@@ -74,7 +80,8 @@ const mapStateToProps = state => {
     departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
     hasChatHistory: getHasChatHistory(state),
     chatHistoryLabel: getChatHistoryLabel(state),
-    defaultDepartment: getDefaultSelectedDepartment(state)
+    defaultDepartment: getDefaultSelectedDepartment(state),
+    isNewPrechatFormEnabled: isFeatureEnabled(state, 'chat_embed_prechat_form_enabled')
   }
 }
 
@@ -114,7 +121,8 @@ class PrechatScreen extends Component {
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
       status: PropTypes.string
-    })
+    }),
+    isNewPrechatFormEnabled: PropTypes.bool
   }
 
   static defaultProps = {
@@ -239,6 +247,13 @@ class PrechatScreen extends Component {
   render = () => {
     switch (this.props.screen) {
       case screens.PRECHAT_SCREEN:
+        if (this.props.isNewPrechatFormEnabled) {
+          return (
+            <SuspensePage>
+              <NewPrechatForm />
+            </SuspensePage>
+          )
+        }
         return this.renderPreChatForm()
       case screens.LOADING_SCREEN:
         return this.renderLoadingSpinner()
