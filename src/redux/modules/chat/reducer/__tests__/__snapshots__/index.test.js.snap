@@ -94,8 +94,8 @@ Object {
     },
   },
   "account_status": "",
+  "activeAgents": Map {},
   "agentJoined": false,
-  "agents": Map {},
   "chatBanned": false,
   "chatHistory": Object {
     "chats": Map {},

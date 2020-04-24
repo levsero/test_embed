@@ -1146,7 +1146,7 @@ const stateLauncherColorSettings = (color, cp4Enabled = false) => {
       }
     },
     chat: {
-      agents: {},
+      activeAgents: {},
       rating: {},
       is_chatting: false,
       accountSettings: {

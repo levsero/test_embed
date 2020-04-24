@@ -59,7 +59,7 @@ const getModifiedState = inputState => {
           message_type: 'basic_avatar'
         }
       },
-      agents: new Map([['agent:mcbob', { avatar_path: 'bobPath' }], ['agent:trigger', {}]]),
+      activeAgents: new Map([['agent:mcbob', { avatar_path: 'bobPath' }], ['agent:trigger', {}]]),
       config: {},
       departments: [
         { id: 111, name: 'burgers' },

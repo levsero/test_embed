@@ -438,7 +438,7 @@ describe('getCurrentConcierges', () => {
   test('when values are correct', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
-        chat: { agents: new Map([]) }
+        chat: { activeAgents: new Map([]) }
       })
     )
 
@@ -455,7 +455,7 @@ describe('getCurrentConcierges', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
-          agents: new Map([])
+          activeAgents: new Map([])
         }
       })
     )
@@ -473,7 +473,7 @@ describe('getCurrentConcierges', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
-          agents: new Map([])
+          activeAgents: new Map([])
         },
         settings: {
           chat: {

@@ -1,10 +1,10 @@
-describe('chat reducer agents', () => {
+describe('chat reducer active agents', () => {
   let reducer, actionTypes, initialState
 
   beforeAll(() => {
     mockery.enable()
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-agents')
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-active-agents')
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types')
 
     initMockRegistry({
@@ -45,15 +45,26 @@ describe('chat reducer agents', () => {
             title: 'Bobliest Bob'
           }
         }
+      })
 
+      it('updates the agent with properties from the payload', () => {
+        const currentState = new Map([['agent:mcbob', {}]])
+
+        state = reducer(currentState, {
+          type: actionTypes.SDK_AGENT_UPDATE,
+          payload: payload
+        })
+
+        expect(state.get('agent:mcbob')).toEqual(jasmine.objectContaining(payload.detail))
+      })
+
+      it('does not update the agent if they are not in the chat', () => {
         state = reducer(initialState, {
           type: actionTypes.SDK_AGENT_UPDATE,
           payload: payload
         })
-      })
 
-      it('updates the agent with properties from the payload', () => {
-        expect(state.get('agent:mcbob')).toEqual(jasmine.objectContaining(payload.detail))
+        expect(state.get('agent:mcbob')).toBeFalsy()
       })
     })
 
@@ -61,6 +72,8 @@ describe('chat reducer agents', () => {
       let payload
 
       beforeEach(() => {
+        const currentState = new Map([['agent:mcbob', {}]])
+
         payload = {
           detail: {
             type: 'typing',
@@ -69,7 +82,7 @@ describe('chat reducer agents', () => {
           }
         }
 
-        state = reducer(initialState, {
+        state = reducer(currentState, {
           type: actionTypes.SDK_CHAT_TYPING,
           payload: payload
         })

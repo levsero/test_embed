@@ -423,7 +423,7 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        agents: new Map([
+        activeAgents: new Map([
           ['agent:123', { nick: 'agent:123' }],
           ['agent:trigger', { nick: 'agent:trigger' }]
         ])
@@ -531,7 +531,7 @@ describe('chat selectors', () => {
               enabled: true
             }
           },
-          agents: ['agent_1']
+          activeAgents: ['agent_1']
         }
       }
     })
@@ -560,7 +560,7 @@ describe('chat selectors', () => {
 
     describe('when there are no agents in the chat', () => {
       beforeEach(() => {
-        mockState.chat.agents = []
+        mockState.chat.activeAgents = []
         result = selectors.getShowRatingScreen(mockState)
       })
 
@@ -633,7 +633,7 @@ describe('chat selectors', () => {
           is_chatting: false,
           account_status: 'offline',
           chats: { values: () => [{}, {}] },
-          agents: ['agent_1'],
+          activeAgents: ['agent_1'],
           isLoggingOut: false
         }
       }
@@ -1065,7 +1065,7 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: new Map()
+            activeAgents: new Map()
           }
         }
       })
@@ -1079,7 +1079,7 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: new Map([
+            activeAgents: new Map([
               ['agent:123', { nick: 'agent:123', typing: true }],
               ['agent:456', { nick: 'agent:456', typing: true }],
               ['agent:789', { nick: 'agent:789', typing: false }]
@@ -1099,7 +1099,7 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: new Map([
+            activeAgents: new Map([
               ['agent:456', { nick: 'agent:456', typing: true }],
               ['agent:trigger', { nick: 'agent:trigger', typing: true }]
             ])
@@ -1117,7 +1117,7 @@ describe('chat selectors', () => {
 
   describe('getAllAgents', () => {
     let result, inactiveAgents
-    const agents = new Map([
+    const activeAgents = new Map([
       ['agent:terence', { display_name: 'Terence Liew' }],
       ['agent:apoorv', { display_name: 'Apoorv' }]
     ])
@@ -1128,7 +1128,7 @@ describe('chat selectors', () => {
     }
 
     const mockChatSettings = {
-      chat: { agents, inactiveAgents }
+      chat: { activeAgents, inactiveAgents }
     }
 
     beforeEach(() => {

@@ -311,6 +311,17 @@ exports[`chat log agent stopped typing 1`] = `
   class="chatLogContainer"
 >
   <div
+    aria-live="polite"
+    role="log"
+  >
+    <div
+      class="eventMessage"
+      data-testid="chat-msg-event"
+    >
+      Mr F joined the chat
+    </div>
+  </div>
+  <div
     class="c0"
   />
 </div>
@@ -384,6 +395,17 @@ exports[`chat log agent typing 1`] = `
 <div
   class="chatLogContainer"
 >
+  <div
+    aria-live="polite"
+    role="log"
+  >
+    <div
+      class="eventMessage"
+      data-testid="chat-msg-event"
+    >
+      Mr F joined the chat
+    </div>
+  </div>
   <div
     aria-live="polite"
   >
@@ -1509,7 +1531,7 @@ exports[`update chat header 1`] = `
       class="c3"
     >
       <div
-        aria-describedby="1066val-tooltip_0.5.4"
+        aria-describedby="1114val-tooltip_0.5.4"
         class="c4"
         data-garden-container-id="containers.tooltip"
         data-garden-container-version="0.5.4"
@@ -1529,7 +1551,7 @@ exports[`update chat header 1`] = `
         class="index__c-tooltip___3EGHJ index__c-tooltip--medium___K7htT c6"
         data-garden-id="tooltip.tooltip"
         data-garden-version="7.1.10"
-        id="1066val-tooltip_0.5.4"
+        id="1114val-tooltip_0.5.4"
         role="tooltip"
         style="display: block;"
       >

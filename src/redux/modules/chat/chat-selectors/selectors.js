@@ -7,7 +7,7 @@ export const getNotification = state => chatState(state).notification
 export const getChats = state => chatState(state).chats
 export const isAgent = nick => (nick ? nick.indexOf('agent:') > -1 : false)
 export const getThemeMessageType = state => chatState(state).accountSettings.theme.message_type
-export const getOrderedAgents = state => chatState(state).agents
+export const getOrderedAgents = state => chatState(state).activeAgents
 export const getShowOperatingHours = state =>
   chatState(state).accountSettings.operatingHours.display_notice
 export const getForcedStatus = state => chatState(state).forcedStatus

@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import { CHAT_USER_LOGGING_OUT } from '../chat-action-types'
 import accountSettings from './account-settings/'
 import accountStatus from './chat-account-status'
-import agents from './chat-agents'
+import activeAgents from './chat-active-agents'
 import inactiveAgents from './chat-inactive-agents'
 import chats from './chat-chats'
 import chatHistory from './chat-history'
@@ -48,7 +48,7 @@ const combinedReducers = combineReducers({
   accountSettings,
   account_status: accountStatus,
   agentJoined,
-  agents,
+  activeAgents,
   chatBanned,
   chatHistory,
   chatLog,
