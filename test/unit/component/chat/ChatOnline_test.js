@@ -60,10 +60,7 @@ describe('ChatOnline component', () => {
       'component/chat/ChatContactDetailsPopup': {
         ChatContactDetailsPopup: noopReactComponent()
       },
-      'embeds/chat/components/EmailTranscriptPopup': noopReactComponent(),
-      'component/chat/ChatEmailTranscriptPopup': {
-        ChatEmailTranscriptPopup: noopReactComponent()
-      },
+      'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
@@ -247,32 +244,6 @@ describe('ChatOnline component', () => {
 
       it('returns a component', () => {
         expect(component.renderChatScreen()).toBeTruthy()
-      })
-    })
-  })
-
-  describe('renderChatEndPopup', () => {
-    let component
-
-    describe('when the notification should be shown', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline chat={{ rating: null }} endChatModalVisible={true} />
-        )
-      })
-
-      it('renders the component', () => {
-        expect(component.renderChatEndPopup()).not.toBe(null)
-      })
-    })
-
-    describe('when the notification should not be shown', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline chat={{ rating: null }} />)
-      })
-
-      it('renders nothing', () => {
-        expect(component.renderChatEndPopup()).toBe(null)
       })
     })
   })

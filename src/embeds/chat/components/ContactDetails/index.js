@@ -24,7 +24,7 @@ const ContactDetailsModal = ({ onClose }) => {
             onClose()
           }}
           appendToNode={container}
-          data-testid={TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP}
+          data-testid={TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_MODAL}
         >
           {updatedValues ? (
             <ContactDetailsSuccess />

@@ -19,33 +19,10 @@ const sendAttachmentsSpy = jest.fn(),
 
 const renderComponent = (inProps, rerender) => {
   const props = {
-    lastMessageAuthor: 'bob',
-    currentMessage: 'hello',
-    sendAttachments: sendAttachmentsSpy,
-    showChatEndFn: showChatEndSpy,
-    sendMsg: sendMsgSpy,
-    handleChatBoxChange: handleChatBoxChangeSpy,
-    sendChatRating: sendChatRatingSpy,
-    updateChatScreen: updateChatScreenSpy,
-    isChatting: false,
-    showEditContactDetails: false,
-    toggleMenu: toggleMenuSpy,
-    showAvatar: false,
-    showNewChatEmbed: true,
-    title: '',
-    rating: {},
-    agentsTyping: [],
     activeAgents: {},
-    conciergeSettings: {},
-    showContactDetails: jest.fn(),
-    markAsRead: markAsReadSpy,
-    updateContactDetailsVisibility: updateContactDetailsVisibilitySpy,
-    unreadMessages: false,
-    emailTranscript: {},
-    profileConfig: {},
-    attachmentsEnabled: true,
-    shouldShowEditContactDetails: false,
+    agentsTyping: [],
     allAgents: {},
+    attachmentsEnabled: false,
     concierges: [
       {
         avatar: 'https://example.com/snake',
@@ -53,9 +30,32 @@ const renderComponent = (inProps, rerender) => {
         title: 'Jedi Knight'
       }
     ],
+    conciergeSettings: {},
+    currentMessage: 'hello',
+    emailTranscript: {},
+    handleChatBoxChange: handleChatBoxChangeSpy,
+    isChatting: false,
+    lastMessageAuthor: 'bob',
+    markAsRead: markAsReadSpy,
+    profileConfig: {},
+    rating: {},
+    sendAttachments: sendAttachmentsSpy,
+    sendChatRating: sendChatRatingSpy,
+    sendMsg: sendMsgSpy,
+    showAvatar: false,
+    showChatEndFn: showChatEndSpy,
+    showContactDetails: jest.fn(),
+    showEditContactDetails: false,
+    showNewChatEmbed: true,
+    title: '',
+    toggleMenu: toggleMenuSpy,
+    unreadMessages: false,
+    updateChatScreen: updateChatScreenSpy,
+    updateContactDetailsVisibility: updateContactDetailsVisibilitySpy,
     updateEmailTranscriptVisibility: jest.fn(),
     ...inProps
   }
+
   const component = <ChattingScreen {...props} />
   return render(component, { render: rerender })
 }
@@ -94,32 +94,11 @@ describe('Queue Position', () => {
   })
 })
 
-describe('editContactDetails', () => {
-  describe('when should show edit contact details modal', () => {
-    it('renders the Edit Contact Details modal', () => {
-      const { getByTestId } = renderComponent({ shouldShowEditContactDetails: true })
+describe('Modals', () => {
+  it('renders the Modal Controller', () => {
+    const { getByTestId } = renderComponent()
 
-      expect(getByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeInTheDocument()
-    })
-  })
-
-  describe('when should not show edit contact details modal', () => {
-    it('does not render the Edit Contact Details modal', () => {
-      const { queryByTestId } = renderComponent({ shouldShowEditContactDetails: false })
-
-      expect(queryByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeNull()
-    })
-  })
-
-  describe('when showNewChatEmbed is false', () => {
-    it('does not render the embed even if showEditContactDetails is true', () => {
-      const { queryByTestId } = renderComponent({
-        showNewChatEmbed: false,
-        shouldShowEditContactDetails: true
-      })
-
-      expect(queryByTestId(TEST_IDS.CHAT_EDIT_CONTACT_DETAILS_POPUP)).toBeNull()
-    })
+    expect(getByTestId(TEST_IDS.CHAT_MODAL_CONTAINER)).toBeInTheDocument()
   })
 })
 
