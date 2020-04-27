@@ -2,6 +2,7 @@ import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/search-results.json'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
+import { TEST_IDS } from 'src/constants/shared'
 
 export const mockSearchEndpoint = (results = searchResults, callback) => {
   return mockCorsRequest('embeddable_search.json', request => {
@@ -27,4 +28,10 @@ export const search = async keyword => {
   await input.focus()
   await page.keyboard.type(keyword)
   await page.keyboard.press('Enter')
+}
+
+export const clickClearInputIcon = async () => {
+  const doc = await widget.getDocument()
+  const clearButton = await queries.getByTestId(doc, TEST_IDS.ICON_CLEAR_INPUT)
+  await clearButton.click()
 }

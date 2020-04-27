@@ -2,25 +2,37 @@ import { queries, wait } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
-import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import {
+  mockSearchEndpoint,
+  waitForHelpCenter,
+  clickClearInputIcon
+} from 'e2e/helpers/help-center-embed'
 
-test('searching the help center', async () => {
+beforeEach(async () => {
   await loadWidget()
     .withPresets('helpCenter')
     .intercept(mockSearchEndpoint())
     .useMobile()
     .load()
+
   await launcher.click()
   await waitForHelpCenter()
+})
 
+const getInputValue = async () => {
+  const doc = await widget.getDocument()
+  const helpCenterSearchInput = await queries.getByPlaceholderText(doc, 'How can we help?')
+  const searchFieldValue = await helpCenterSearchInput.getProperty('value')
+  return searchFieldValue.jsonValue()
+}
+
+test('searching the help center', async () => {
   const doc = await widget.getDocument()
   expect(await widget.zendeskLogoVisible()).toEqual(true)
-  const helpCenterSearchInput = await queries.getByPlaceholderText(doc, 'How can we help?')
 
   await page.keyboard.type('welcome')
   await wait(async () => {
-    const searchFieldValue = await helpCenterSearchInput.getProperty('value')
-    expect(await searchFieldValue.jsonValue()).toEqual('welcome')
+    expect(await getInputValue()).toEqual('welcome')
   })
 
   await page.keyboard.press('Enter')
@@ -40,5 +52,17 @@ test('searching the help center', async () => {
   await widget.clickBack()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Top results')).toBeTruthy()
+  })
+})
+
+test('clicking clear icon clears input', async () => {
+  await page.keyboard.type('welcome')
+  await wait(async () => {
+    expect(await getInputValue()).toEqual('welcome')
+  })
+
+  await clickClearInputIcon()
+  await wait(async () => {
+    expect(await getInputValue()).toEqual('')
   })
 })
