@@ -51,7 +51,11 @@ describe('analytics', () => {
     }
     callMiddleware(action, state)
     expect(callbacks.fireFor).toHaveBeenCalledWith('USER_EVENT', [
-      { action: 'Talk Shown', category: 'Zendesk Web Widget', label: 'Call us' }
+      {
+        action: 'Talk Shown',
+        category: 'Zendesk Web Widget',
+        properties: { contactOption: 'Call us' }
+      }
     ])
   })
 
@@ -111,7 +115,11 @@ describe('analytics', () => {
         .mockReturnValueOnce(state2)
 
       callMiddleware(action, state, getState)
-      expect(track).toHaveBeenCalledWith('Talk Shown', 'Call us', 'Zendesk Web Widget')
+      expect(track).toHaveBeenCalledWith(
+        'Talk Shown',
+        { contactOption: 'Call us' },
+        'Zendesk Web Widget'
+      )
     })
 
     it('tracks talk with capabitlity on open', () => {
@@ -170,7 +178,7 @@ describe('analytics', () => {
       expect(track).toHaveBeenCalledWith('Chat Shown', undefined, 'Zendesk Web Widget')
     })
 
-    it('tracks talk with capabitlity', () => {
+    it('tracks talk with capability', () => {
       const state = {
         talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
       }
@@ -180,7 +188,11 @@ describe('analytics', () => {
       }
       callMiddleware(action, state)
 
-      expect(track).toHaveBeenCalledWith('Talk Shown', 'Call us', 'Zendesk Web Widget')
+      expect(track).toHaveBeenCalledWith(
+        'Talk Shown',
+        { contactOption: 'Call us' },
+        'Zendesk Web Widget'
+      )
     })
 
     it('tracks helpCenter', () => {
@@ -236,7 +248,7 @@ describe('analytics', () => {
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
         'Chat Offline Message Sent',
-        'snakes',
+        { department: 'snakes' },
         'Zendesk Web Widget'
       )
     })
@@ -257,14 +269,18 @@ describe('analytics', () => {
       )
     })
 
-    it('tracks contact form with id', () => {
+    it('tracks contact form with name', () => {
       const state = { support: { forms: {} } }
       const action = {
         type: FORM_OPENED,
-        payload: { id: 1 }
+        payload: { id: 'contact-form' }
       }
       callMiddleware(action, state)
-      expect(track).toHaveBeenCalledWith('Contact Form Shown', { id: 1 }, 'Zendesk Web Widget')
+      expect(track).toHaveBeenCalledWith(
+        'Contact Form Shown',
+        { name: 'contact-form' },
+        'Zendesk Web Widget'
+      )
     })
   })
 
@@ -327,7 +343,7 @@ describe('analytics', () => {
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
         'Chat Request Form Submitted',
-        'snakes',
+        { department: 'snakes' },
         'Zendesk Web Widget'
       )
     })
@@ -361,7 +377,11 @@ describe('analytics', () => {
         payload: { isFallback: false }
       }
       callMiddleware(action, state)
-      expect(track).toHaveBeenCalledWith('Help Center Search', 'hide body', 'Zendesk Web Widget')
+      expect(track).toHaveBeenCalledWith(
+        'Help Center Search',
+        { term: 'hide body' },
+        'Zendesk Web Widget'
+      )
     })
 
     it('does not track search if is a fallback search', () => {
@@ -448,7 +468,7 @@ describe('analytics', () => {
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
         'Contact Form Submitted',
-        'contact-form',
+        { name: 'contact-form' },
         'Zendesk Web Widget'
       )
     })

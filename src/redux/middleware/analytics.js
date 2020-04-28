@@ -42,7 +42,7 @@ const getDepartmentName = (payload, prevState) => {
 let analyticsDisabled = false
 
 const track = (action, label, category = GA_CATEGORY) => {
-  callbacks.fireFor(USER_EVENT, [{ action, label, category }])
+  callbacks.fireFor(USER_EVENT, [{ action, properties: label, category }])
   if (analyticsDisabled) return
   GA.track(action, label, category)
 }
@@ -55,7 +55,7 @@ const trackChatShown = embed => {
 const trackTalkShown = (embed, state) => {
   const capability = CAPABILTY_NAMES[getCapability(state)]
 
-  track(embedAction[embed], capability)
+  track(embedAction[embed], { contactOption: capability })
 }
 
 const defaultTracker = embed => {
@@ -92,7 +92,7 @@ const trackEmbedOnOpen = state => {
 
 const trackChatServedByOperator = ({ payload, isAfterLoadTime }) => {
   if (isAgent(payload.detail.nick) && isAfterLoadTime) {
-    track('Chat Served by Operator', payload.detail.display_name)
+    track('Chat Served by Operator', { agent: payload.detail.display_name })
   }
 }
 
@@ -115,11 +115,11 @@ const trackChatComment = ({ isAfterLoadTime }) => {
 }
 
 const trackChatRequestFormSubmitted = ({ payload, prevState }) => {
-  track('Chat Request Form Submitted', getDepartmentName(payload, prevState))
+  track('Chat Request Form Submitted', { department: getDepartmentName(payload, prevState) })
 }
 
 const trackOfflineMessageSent = ({ payload, prevState }) => {
-  track('Chat Offline Message Sent', getDepartmentName(payload, prevState))
+  track('Chat Offline Message Sent', { department: getDepartmentName(payload, prevState) })
 }
 
 const trackWidgetShown = ({ payload }) => {
@@ -132,13 +132,13 @@ const trackWidgetShown = ({ payload }) => {
 
 const trackTicketShown = ({ payload, prevState }) => {
   const form = getForm(prevState, payload.id)
-  if (!form) return track('Contact Form Shown', { id: payload.id })
+  if (!form) return track('Contact Form Shown', { name: payload.id })
   track('Contact Form Shown', { id: payload.id, name: form.name })
 }
 
 const trackTicketSubmitted = ({ payload, prevState }) => {
   if (payload.name === supportRoutes.defaultFormId) {
-    return track('Contact Form Submitted', supportRoutes.defaultFormId)
+    return track('Contact Form Submitted', { name: supportRoutes.defaultFormId })
   }
   const formId = parseInt(payload.name)
   const { id, name } = getForm(prevState, formId)
@@ -148,7 +148,7 @@ const trackTicketSubmitted = ({ payload, prevState }) => {
 const trackSearchRequest = ({ prevState, payload }) => {
   if (payload.isFallback) return
   const searchTerm = getSearchTerm(prevState)
-  track('Help Center Search', searchTerm)
+  track('Help Center Search', { term: searchTerm })
 }
 
 const trackArticleViewed = ({ payload }) => {
