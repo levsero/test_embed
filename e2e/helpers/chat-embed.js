@@ -30,8 +30,6 @@ const openChattingScreenAndEvaluate = async cb => {
     .load()
 
   await zChat.online()
-  await launcher.click()
-  await waitForPrechatForm()
 }
 
 const waitForPrechatForm = async () => {
