@@ -2,7 +2,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 import zChat from 'e2e/helpers/zChat'
 import widget from 'e2e/helpers/widget'
 import launcher from 'e2e/helpers/launcher'
-import { search } from 'e2e/helpers/help-center-embed'
+import { search, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
 
 const setup = async (extraProducts = []) => {
@@ -60,6 +60,7 @@ const testChatAndSubmitTicketInChannelChoicePage = () => {
 describe('when help center, online chat and submit ticket are enabled', () => {
   beforeEach(async () => {
     await setup(['helpCenter'])
+    await waitForHelpCenter()
     await search('Help')
     await widget.waitForText('Contact us')
     await widget.clickButton('Contact us')
