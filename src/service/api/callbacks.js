@@ -11,7 +11,8 @@ const callbacksRegistry = {
   [events.CHAT_DEPARTMENT_STATUS_EVENT]: [],
   [events.CHAT_UNREAD_MESSAGES_EVENT]: [],
   [events.CHAT_STATUS_EVENT]: [],
-  [events.CHAT_POPOUT_EVENT]: []
+  [events.CHAT_POPOUT_EVENT]: [],
+  [events.USER_EVENT]: []
 }
 
 const eventExists = eventName => _.has(callbacksRegistry, eventName)

@@ -24,10 +24,14 @@ import {
   FORM_OPENED
 } from 'src/embeds/support/actions/action-types'
 import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
+import { USER_EVENT } from 'constants/event'
+import { GA_CATEGORY } from 'constants/shared'
 import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getCapability } from 'src/embeds/talk/selectors/selectors'
 import { getForm } from 'src/embeds/support/selectors'
 import supportRoutes from 'src/embeds/support/routes'
+import * as callbacks from 'src/service/api/callbacks'
+
 const loadtime = Date.now()
 const getDepartmentName = (payload, prevState) => {
   const deptId = parseInt(payload.department)
@@ -35,19 +39,27 @@ const getDepartmentName = (payload, prevState) => {
   return _.get(getDepartments(prevState)[deptId], 'name')
 }
 
+let analyticsDisabled = false
+
+const track = (action, label, category = GA_CATEGORY) => {
+  callbacks.fireFor(USER_EVENT, [{ action, properties: label, category }])
+  if (analyticsDisabled) return
+  GA.track(action, label, category)
+}
+
 const trackChatShown = embed => {
-  GA.track('Chat Opened')
-  GA.track(embedAction[embed])
+  track('Chat Opened')
+  track(embedAction[embed])
 }
 
 const trackTalkShown = (embed, state) => {
   const capability = CAPABILTY_NAMES[getCapability(state)]
 
-  GA.track(embedAction[embed], capability)
+  track(embedAction[embed], { contactOption: capability })
 }
 
 const defaultTracker = embed => {
-  GA.track(embedAction[embed])
+  track(embedAction[embed])
 }
 
 const embedTracker = {
@@ -80,7 +92,7 @@ const trackEmbedOnOpen = state => {
 
 const trackChatServedByOperator = ({ payload, isAfterLoadTime }) => {
   if (isAgent(payload.detail.nick) && isAfterLoadTime) {
-    GA.track('Chat Served by Operator', payload.detail.display_name)
+    track('Chat Served by Operator', { agent: payload.detail.display_name })
   }
 }
 
@@ -89,68 +101,68 @@ const trackChatRating = ({ payload, isAfterLoadTime }) => {
 
   if (isAfterLoadTime) {
     if (rating) {
-      GA.track(`Chat Rating ${_.startCase(payload.detail.new_rating)}`)
+      track(`Chat Rating ${_.startCase(payload.detail.new_rating)}`)
     } else {
-      GA.track('Chat Rating Removed')
+      track('Chat Rating Removed')
     }
   }
 }
 
 const trackChatComment = ({ isAfterLoadTime }) => {
   if (isAfterLoadTime) {
-    GA.track('Chat Comment Submitted')
+    track('Chat Comment Submitted')
   }
 }
 
 const trackChatRequestFormSubmitted = ({ payload, prevState }) => {
-  GA.track('Chat Request Form Submitted', getDepartmentName(payload, prevState))
+  track('Chat Request Form Submitted', { department: getDepartmentName(payload, prevState) })
 }
 
 const trackOfflineMessageSent = ({ payload, prevState }) => {
-  GA.track('Chat Offline Message Sent', getDepartmentName(payload, prevState))
+  track('Chat Offline Message Sent', { department: getDepartmentName(payload, prevState) })
 }
 
 const trackWidgetShown = ({ payload }) => {
   if (payload === true) {
-    return GA.track('Web Widget Opened')
+    return track('Web Widget Opened')
   } else {
-    GA.track('Web Widget Minimised')
+    track('Web Widget Minimised')
   }
 }
 
 const trackTicketShown = ({ payload, prevState }) => {
   const form = getForm(prevState, payload.id)
-  if (!form) return GA.track('Contact Form Shown', { id: payload.id })
-  GA.track('Contact Form Shown', { id: payload.id, name: form.name })
+  if (!form) return track('Contact Form Shown', { name: payload.id })
+  track('Contact Form Shown', { id: payload.id, name: form.name })
 }
 
 const trackTicketSubmitted = ({ payload, prevState }) => {
   if (payload.name === supportRoutes.defaultFormId) {
-    return GA.track('Contact Form Submitted', supportRoutes.defaultFormId)
+    return track('Contact Form Submitted', { name: supportRoutes.defaultFormId })
   }
   const formId = parseInt(payload.name)
   const { id, name } = getForm(prevState, formId)
-  GA.track('Contact Form Submitted', { id, name })
+  track('Contact Form Submitted', { id, name })
 }
 
 const trackSearchRequest = ({ prevState, payload }) => {
   if (payload.isFallback) return
   const searchTerm = getSearchTerm(prevState)
-  GA.track('Help Center Search', searchTerm)
+  track('Help Center Search', { term: searchTerm })
 }
 
 const trackArticleViewed = ({ payload }) => {
-  GA.track('Help Center Article Viewed', { id: payload.id, name: payload.name })
+  track('Help Center Article Viewed', { id: payload.id, name: payload.name })
 }
 
 const trackViewOriginalArticleClicked = ({ prevState }) => {
   const activeArticle = getCurrentActiveArticle(prevState)
   const { id, name } = getArticles(prevState)[activeArticle]
-  GA.track('Help Center View Original Article Clicked', { id, name })
+  track('Help Center View Original Article Clicked', { id, name })
 }
 
 const trackTalkCallbackRequest = () => {
-  GA.track('Talk Callback Request Submitted')
+  track('Talk Callback Request Submitted')
 }
 
 const events = {
@@ -173,10 +185,7 @@ export function trackAnalytics({ getState }) {
   return next => action => {
     const { type, payload } = action
     const prevState = getState()
-
-    if (getAnalyticsDisabled(prevState)) {
-      return next(action)
-    }
+    analyticsDisabled = getAnalyticsDisabled(prevState)
 
     // To avoid resending events during the replay when the page is refreshed.
     const isAfterLoadTime = _.get(payload, 'detail.timestamp') > loadtime

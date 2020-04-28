@@ -660,6 +660,19 @@ describe('onApi', () => {
     })
   })
 
+  describe('callback for USER_EVENT', () => {
+    test('callback fired when open event is fired', async () => {
+      on.userEvent(store, callback)
+
+      expect(callback).not.toHaveBeenCalled()
+      callbacks.fireFor(eventConstants.USER_EVENT)
+
+      await wait(() => {
+        expect(callback).toHaveBeenCalled()
+      })
+    })
+  })
+
   describe('callback for API_ON_CLOSE_NAME', () => {
     test('callback fired when close event is fired', async () => {
       on[constants.API_ON_CLOSE_NAME](store, callback)
