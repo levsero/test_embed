@@ -580,7 +580,7 @@ parts:
       key: "embeddable_framework.chat.options.editContactDetailsSubmission.error"
       title: "Error message that displays after a user tries to submit their contact details and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button"
       screenshot: "https://drive.google.com/file/d/1WPraF17Ec2uNE-sWgehlLJQ4BGgl2UK1/view?usp=sharing"
-      value: "There was an error processing your request. Please try again later."
+      value: "There was an error processing your request. Try again later."
   - translation:
       key: "embeddable_framework.chat.options.emailTranscript"
       title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
