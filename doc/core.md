@@ -253,31 +253,31 @@ Executes a callback when a user event is fired. This can be used as a flexible w
 
 `properties` is either an object with the data for the given event or `undefined` as shown below.
 
-| Category           | Action                                    | Properties                                    |
-| ------------------ | ----------------------------------------- | --------------------------------------------- |
-| **Widget**         |                                           |                                               |
-| Zendesk Web Widget | Web Widget Opened                         | undefined                                     |
-| Zendesk Web Widget | Web Widget Minimised                      | undefined                                     |
-| **Chat**           |                                           |                                               |
-| Zendesk Web Widget | Chat Opened                               | undefined                                     |
-| Zendesk Web Widget | Chat Shown                                | undefined                                     |
-| Zendesk Web Widget | Chat Served by Operator                   | { agent: '<agent display name>' }             |
-| Zendesk Web Widget | Chat Rating Good                          | undefined                                     |
-| Zendesk Web Widget | Chat Rating Bad                           | undefined                                     |
-| Zendesk Web Widget | Chat Rating Removed                       | undefined                                     |
-| Zendesk Web Widget | Chat Comment Submitted                    | undefined                                     |
-| Zendesk Web Widget | Chat Request Form Submitted               | { department: '<department name>' }\*         |
-| **Contact Form**   |                                           |                                               |
-| Zendesk Web Widget | Contact Form Shown                        | { id: '<form id>', name: '<form name>'}\*\*   |
-| Zendesk Web Widget | Contact Form Submitted                    | { id: '<form id>', name: '<form name>'}\*\*   |
-| **Help Center**    |                                           |                                               |
-| Zendesk Web Widget | Help Center Shown                         | undefined                                     |
-| Zendesk Web Widget | Help Center Search                        | { term: 'search term'}                        |
-| Zendesk Web Widget | Help Center Article Clicked               | { id: '<article id>', name: '<article name>'} |
-| Zendesk Web Widget | Help Center View Original Article Clicked | { id: '<article id>', name: '<article name>'} |
-| **Talk**           |                                           |                                               |
-| Zendesk Web Widget | Talk Shown                                | { contactOption: '<talk contact option>' }    |
-| Zendesk Web Widget | Talk Callback Request Submitted           | undefined                                     |
+| Category           | Action                                    | Properties                                  |
+| ------------------ | ----------------------------------------- | ------------------------------------------- |
+| **Widget**         |                                           |                                             |
+| Zendesk Web Widget | Web Widget Opened                         | undefined                                   |
+| Zendesk Web Widget | Web Widget Minimised                      | undefined                                   |
+| **Chat**           |                                           |                                             |
+| Zendesk Web Widget | Chat Opened                               | undefined                                   |
+| Zendesk Web Widget | Chat Shown                                | undefined                                   |
+| Zendesk Web Widget | Chat Served by Operator                   | { agent: \<agent display name> }            |
+| Zendesk Web Widget | Chat Rating Good                          | undefined                                   |
+| Zendesk Web Widget | Chat Rating Bad                           | undefined                                   |
+| Zendesk Web Widget | Chat Rating Removed                       | undefined                                   |
+| Zendesk Web Widget | Chat Comment Submitted                    | undefined                                   |
+| Zendesk Web Widget | Chat Request Form Submitted               | { department: \<department name> }\*        |
+| **Contact Form**   |                                           |                                             |
+| Zendesk Web Widget | Contact Form Shown                        | { id: \<form id>, name: \<form name>}\*\*   |
+| Zendesk Web Widget | Contact Form Submitted                    | { id: \<form id>, name: \<form name>}\*\*   |
+| **Help Center**    |                                           |                                             |
+| Zendesk Web Widget | Help Center Shown                         | undefined                                   |
+| Zendesk Web Widget | Help Center Search                        | { term: \<search term>}                     |
+| Zendesk Web Widget | Help Center Article Clicked               | { id: \<article id>, name: \<article name>} |
+| Zendesk Web Widget | Help Center View Original Article Clicked | { id: \<article id>, name: \<article name>} |
+| **Talk**           |                                           |                                             |
+| Zendesk Web Widget | Talk Shown                                | { contactOption: \<talk contact option> }   |
+| Zendesk Web Widget | Talk Callback Request Submitted           | undefined                                   |
 
 \* Department may be undefined.  
 \*\* if ticket forms are not enabled than the value will be `{ name: 'contact-form'}`
