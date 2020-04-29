@@ -101,9 +101,9 @@ The Web Widget has the following core commands:
 - [hide](#hide)
 - [identify](#identify)
 - [logout](#logout)
-- [on userEvent](#on-userEvent)
 - [on open](#on-open)
 - [on close](#on-close)
+- [on userEvent](#on-userevent)
 - [open](#open)
 - [prefill](#prefill)
 - [reset](#reset)
@@ -241,6 +241,26 @@ Executes a callback when the widget is opened.
 </script>
 ```
 
+#### on close
+
+`zE('webWidget:on', 'close', callback<function>);`
+
+Executes a callback when the widget is closed.
+
+##### Parameters
+
+- `callback`: Function. Contains the code to be executed.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget:on', 'close', function() {
+    console.log('The widget has been closed!');
+  });
+</script>
+```
+
 #### on userEvent
 
 `zE('webWidget:on', 'userEvent', function(userEvent<object>));`
@@ -279,7 +299,8 @@ Executes a callback when a user event is fired. This can be used as a flexible w
 | Zendesk Web Widget | Talk Shown                                | { contactOption: \<talk contact option> }   |
 | Zendesk Web Widget | Talk Callback Request Submitted           | undefined                                   |
 
-\* Department may be undefined.  
+\* Department may be undefined.
+
 \*\* if ticket forms are not enabled than the value will be `{ name: 'contact-form'}`
 
 ##### Example
@@ -288,26 +309,6 @@ Executes a callback when a user event is fired. This can be used as a flexible w
 <script type="text/javascript">
   zE('webWidget:on', 'userEvent', function(event) {
     console.log(event.category, event.action, event.properties);
-  });
-</script>
-```
-
-#### on close
-
-`zE('webWidget:on', 'close', callback<function>);`
-
-Executes a callback when the widget is closed.
-
-##### Parameters
-
-- `callback`: Function. Contains the code to be executed.
-
-##### Example
-
-```html
-<script type="text/javascript">
-  zE('webWidget:on', 'close', function() {
-    console.log('The widget has been closed!');
   });
 </script>
 ```
