@@ -4,6 +4,14 @@ import React from 'react'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import { fireEvent } from '@testing-library/dom'
+jest.mock('src/embeds/chat/pages/OperatingHoursPage', () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div data-testid="operating hours page" />
+    }
+  }
+})
 
 jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
   return {
@@ -167,30 +175,13 @@ describe('success screen', () => {
 })
 
 describe('operating hours page', () => {
-  const testComponent = () =>
-    renderForm({
+  it('renders operating hours', () => {
+    const result = renderForm({
       offlineMessage: { screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS },
       operatingHours: { enabled: true },
       title: 'test operating hours page'
     })
 
-  it('renders operating hours', () => {
-    expect(testComponent().getByText('Operating Hours')).toBeInTheDocument()
-  })
-
-  it('renders with the correct title', () => {
-    expect(testComponent().getByText('test operating hours page')).toBeInTheDocument()
-  })
-
-  it('renders Go Back button', () => {
-    expect(testComponent().getByText('Go Back')).toBeInTheDocument()
-  })
-
-  it('when Go Back is clicked, calls handleOfflineFormBack', () => {
-    expect(handleOfflineFormBackSpy).not.toHaveBeenCalled()
-
-    fireEvent.click(testComponent().getByText('Go Back'))
-
-    expect(handleOfflineFormBackSpy).toHaveBeenCalled()
+    expect(result.getByTestId('operating hours page')).toBeInTheDocument()
   })
 })
