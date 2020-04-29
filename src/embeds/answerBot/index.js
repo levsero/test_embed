@@ -16,6 +16,8 @@ import { getCurrentScreen } from 'src/embeds/answerBot/selectors/root'
 import { conversationScrollChanged } from 'src/embeds/answerBot/actions/conversation'
 import { getSettingsAnswerBotTitle } from 'src/redux/modules/selectors'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import { getHideZendeskLogo } from 'src/redux/modules/selectors'
+import { isMobileBrowser } from 'utility/devices'
 import { Widget, Header, Main } from 'components/Widget'
 
 const SCROLL_TO_BOTTOM_INDICATOR = -1
@@ -141,7 +143,9 @@ const mapStateToProps = state => {
   return {
     currentScreen: getCurrentScreen(state),
     lastConversationScroll: getLastScroll(state),
-    title: getSettingsAnswerBotTitle(state)
+    title: getSettingsAnswerBotTitle(state),
+    isMobile: isMobileBrowser(),
+    hideZendeskLogo: getHideZendeskLogo(state)
   }
 }
 
