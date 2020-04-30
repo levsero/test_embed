@@ -157,6 +157,14 @@ const agentJoined = async detail => {
   })
 }
 
+const chatMemberLeft = async detail => {
+  await fireData('chat', {
+    timestamp: Date.now(),
+    type: 'chat.memberleave',
+    ...detail
+  })
+}
+
 const agentRequestRating = async detail => {
   await fireData('chat', {
     timestamp: Date.now(),
@@ -167,6 +175,12 @@ const agentRequestRating = async detail => {
 
 const rating = async (rating, oldRating) => {
   await fireData('chat', { type: 'chat.rating', new_rating: rating, rating: oldRating })
+}
+
+const updateDepartment = async detail => {
+  await fireData('department_update', {
+    ...detail
+  })
 }
 
 const online = async () => {
@@ -187,6 +201,11 @@ const setVisitorInfo = async () => {
   })
 }
 
+const offline = async () => {
+  await isChatting(false)
+  await accountStatus('offline')
+}
+
 export default {
   getAccountSettings,
   getOperatingHours,
@@ -196,8 +215,11 @@ export default {
   visitorUpdate,
   chat,
   online,
+  offline,
   agentJoined,
+  chatMemberLeft,
   rating,
   agentRequestRating,
-  setVisitorInfo
+  setVisitorInfo,
+  updateDepartment
 }

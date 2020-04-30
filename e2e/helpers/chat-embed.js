@@ -16,6 +16,22 @@ const loadWidgetWithChatOnline = async () => {
   await waitForPrechatForm()
 }
 
+const openChattingScreen = async () => {
+  await loadWidgetWithChatOnline()
+  await clickStartChat()
+  await waitForChatToBeReady()
+}
+
+const openChattingScreenAndEvaluate = async cb => {
+  await loadWidget()
+    .withPresets('chat')
+    .hiddenInitially()
+    .evaluateAfterSnippetLoads(cb)
+    .load()
+
+  await zChat.online()
+}
+
 const waitForPrechatForm = async () => {
   await widget.waitForText('Start chat')
 }
@@ -57,6 +73,20 @@ const agentJoinsChat = async agentName => {
   })
 }
 
+const agentLeavesChat = async agentName => {
+  await zChat.chatMemberLeft({
+    display_name: agentName,
+    nick: 'agent:12345'
+  })
+}
+
+const visitorLeavesChat = async visitorName => {
+  await zChat.chatMemberLeft({
+    display_name: visitorName,
+    nick: visitorName
+  })
+}
+
 const sendMessageFromAgent = async (agentName, message) => {
   const detail = {
     nick: 'agent:12345',
@@ -86,8 +116,12 @@ export {
   clickEndChat,
   sendMessageFromUser,
   agentJoinsChat,
+  agentLeavesChat,
+  visitorLeavesChat,
   sendMessageFromAgent,
   loadWidgetWithChatOnline,
+  openChattingScreen,
+  openChattingScreenAndEvaluate,
   clickToConfirmEndChat,
   waitForChatToBeReady,
   clickChatOptions
