@@ -175,7 +175,7 @@ function parseZhLocale(str) {
 const getSettingTranslation = translations => {
   if (_.isEmpty(translations)) return
 
-  return translations[getLocale()] || translations['*'] || null
+  return translations[i18n.getLocale()] || translations['*'] || null
 }
 
 export const i18n = {
