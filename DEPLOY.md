@@ -4,7 +4,7 @@
 | :-------- | :-------------------------------------------------------- |
 | Samson    | https://samson.zende.sk/projects/embeddable_framework     |
 | Travis CI | https://travis-ci.com/zendesk/embeddable_framework/builds |
-| Jenkins   | https://jenkins.zende.sk/view/Embeddables/                |
+| Jenkins   | https://jenkins.zende.sk/view/Web-Widget-Staging-Health/  |
 | Datadog   | https://app.datadoghq.com/screen/22529/embeddable-v2      |
 
 ## Rules
@@ -55,7 +55,7 @@ As mentioned earlier, once a release is deployed to `Build Staging`, you can the
 https://static-staging.zdassets.com/web_widget/latest/web_widget.js
 ```
 
-Once the deploy is finished it will trigger our [automatic tests](https://jenkins.zende.sk/view/Embeddables%20-%20Staging%20Status/job/embeddables_smoke_test_pipeline/) to run in staging.
+Once the deploy is finished it will trigger our [automatic tests](https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/) to run in staging.
 
 #### LiveChat popout
 
@@ -115,5 +115,5 @@ We have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Run
 - Make sure our [Production Smoke tests](https://jenkins.zende.sk/view/Embeddables/job/widget_production_smoke_test/) pass.
 
 [#team-taipan]: https://zendesk.slack.com/messages/C0R1EJ3UP/
-[staging status]: https://jenkins.zende.sk/view/Embeddables%20-%20Staging%20Status/
+[staging status]: https://jenkins.zende.sk/job/Web%20Widget/job/Widget%20Staging%20Status/
 [production freeze]: https://zendesk.atlassian.net/wiki/display/ops/Production+Freeze
