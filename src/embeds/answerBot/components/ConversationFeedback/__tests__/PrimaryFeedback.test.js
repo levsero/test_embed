@@ -19,9 +19,10 @@ const renderComponent = (props = {}) => {
 }
 
 test('renders the expected classes', () => {
-  const { container } = renderComponent()
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Yes')).toBeInTheDocument()
+  expect(queryByText('No, I need help')).toBeInTheDocument()
 })
 
 describe('on yes click', () => {

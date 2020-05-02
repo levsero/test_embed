@@ -3,14 +3,14 @@ import React from 'react'
 
 import PillButton from '../index'
 
-test('renders the expected classes', () => {
-  const { container } = render(<PillButton label="hello world" />)
+test('renders the element', () => {
+  const { queryByText } = render(<PillButton label="hello world" />)
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('hello world').type).toEqual('button')
 })
 
 test('allows custom classes', () => {
-  const { container } = render(<PillButton label="custom class" className="blah" />)
+  const { queryByText } = render(<PillButton label="custom class" className="blah" />)
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('custom class').className).toContain('blah')
 })

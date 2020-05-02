@@ -25,10 +25,11 @@ const renderComponent = (props = {}) => {
   )
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
+test('renders the choices', () => {
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Yes')).toBeInTheDocument()
+  expect(queryByText('No, I need help')).toBeInTheDocument()
 })
 
 test('fires the expected handler on yes click', () => {
@@ -53,10 +54,11 @@ describe('on no click', () => {
   })
 
   it('displays the reasons', () => {
-    const { container, getByText } = renderComponent()
+    const { queryByText, getByText } = renderComponent()
 
     fireEvent.click(getByText('No, I need help'))
-    expect(container).toMatchSnapshot()
+    expect(queryByText("It's related, but it didn't answer my question")).toBeInTheDocument()
+    expect(queryByText("It's not related to my question")).toBeInTheDocument()
   })
 
   describe('on reason click', () => {

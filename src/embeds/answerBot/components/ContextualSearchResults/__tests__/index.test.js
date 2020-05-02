@@ -40,10 +40,14 @@ const renderComponent = (props = {}) => {
   return render(<Results {...componentProps} />)
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
+test('renders the articles', () => {
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('title 123')).toBeInTheDocument()
+  expect(queryByText('to be filled later 123')).toBeInTheDocument()
+
+  expect(queryByText('title 456')).toBeInTheDocument()
+  expect(queryByText('to be filled later 456')).toBeInTheDocument()
 })
 
 test('triggers expected actions on article click', () => {
