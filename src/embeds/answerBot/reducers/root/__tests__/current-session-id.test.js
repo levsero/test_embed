@@ -11,5 +11,5 @@ test('updates to expected state', () => {
     payload: { sessionID: 'blah' }
   })
 
-  expect(state).toMatchSnapshot()
+  expect(state).toMatchInlineSnapshot(`"blah"`)
 })

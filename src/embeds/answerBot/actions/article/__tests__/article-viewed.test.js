@@ -37,11 +37,45 @@ describe('articleViewed', () => {
   })
 
   it('dispatches the expected pending actions', () => {
-    expect(dispatchedActions).toMatchSnapshot()
+    expect(dispatchedActions).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "articleID": 99,
+            "sessionID": 1234,
+          },
+          "type": "widget/answerBot/ARTICLE_VIEWED_PENDING",
+        },
+      ]
+    `)
   })
 
   it('sends the expected http params', () => {
-    expect(http.send).toMatchSnapshot()
+    expect(http.send).toMatchInlineSnapshot(`
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "callbacks": Object {
+                "done": [Function],
+                "fail": [Function],
+              },
+              "method": "post",
+              "params": Object {
+                "article_id": 99,
+                "deflection_id": 888,
+                "interaction_access_token": Object {
+                  "y": 2,
+                },
+                "resolution_channel_id": 67,
+              },
+              "path": "/api/v2/answer_bot/viewed",
+            },
+          ],
+        ],
+        "results": undefined,
+      }
+    `)
   })
 
   describe('callbacks', () => {
@@ -49,14 +83,49 @@ describe('articleViewed', () => {
       const callback = http.send.mock.calls[0][0].callbacks.done
 
       callback()
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "articleID": 99,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/ARTICLE_VIEWED_PENDING",
+          },
+          Object {
+            "payload": Object {
+              "articleID": 99,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/ARTICLE_VIEWED_FULFILLED",
+          },
+        ]
+      `)
     })
 
     it('dispatches expected actions on failed request', () => {
       const callback = http.send.mock.calls[0][0].callbacks.fail
 
       callback()
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "articleID": 99,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/ARTICLE_VIEWED_PENDING",
+          },
+          Object {
+            "payload": Object {
+              "articleID": 99,
+              "error": undefined,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/ARTICLE_VIEWED_REJECTED",
+          },
+        ]
+      `)
     })
   })
 })

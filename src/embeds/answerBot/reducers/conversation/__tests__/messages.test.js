@@ -2,10 +2,6 @@ import reducer from '../messages'
 import * as actionTypes from 'src/embeds/answerBot/actions/conversation/action-types'
 import * as rootActionTypes from 'src/embeds/answerBot/actions/root/action-types'
 
-const matchesSnapshot = state => {
-  expect(Array.from(state.values())).toMatchSnapshot()
-}
-
 test('initial state is empty map', () => {
   expect(reducer(undefined, { type: '' }).size).toEqual(0)
 })
@@ -21,7 +17,15 @@ test('QUESTION_VALUE_SUBMITTED updates to expected state', () => {
     payload
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "isVisitor": true,
+        "message": "Surely not EVERYONE was kung fu fighting.",
+        "timestamp": 123456,
+      },
+    ]
+  `)
 })
 
 test('QUESTION_SUBMITTED_FULFILLED updates to expected state', () => {
@@ -39,7 +43,14 @@ test('QUESTION_SUBMITTED_FULFILLED updates to expected state', () => {
     payload
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "timestamp": 123456,
+        "type": "results",
+      },
+    ]
+  `)
 })
 
 test('BOT_FEEDBACK_REQUESTED updates to expected state', () => {
@@ -47,7 +58,13 @@ test('BOT_FEEDBACK_REQUESTED updates to expected state', () => {
     type: rootActionTypes.BOT_FEEDBACK_REQUESTED
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "type": "feedbackRequested",
+      },
+    ]
+  `)
 })
 
 test('BOT_FEEDBACK updates to expected state', () => {
@@ -60,7 +77,15 @@ test('BOT_FEEDBACK updates to expected state', () => {
     payload
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "isVisitor": true,
+        "timestamp": 123456,
+        "type": "feedback",
+      },
+    ]
+  `)
 })
 
 test('BOT_CHANNEL_CHOICE updates to expected state', () => {
@@ -68,7 +93,13 @@ test('BOT_CHANNEL_CHOICE updates to expected state', () => {
     type: rootActionTypes.BOT_CHANNEL_CHOICE
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "type": "channelChoice",
+      },
+    ]
+  `)
 })
 
 test('BOT_TYPING updates to expected state', () => {
@@ -79,5 +110,12 @@ test('BOT_TYPING updates to expected state', () => {
     }
   })
 
-  matchesSnapshot(state)
+  expect(Array.from(state.values())).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "timestamp": 123456,
+        "type": "botTyping",
+      },
+    ]
+  `)
 })

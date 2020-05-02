@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`screenChanged dispatches expected payload 1`] = `
-Object {
-  "payload": "article",
-  "type": "widget/answerBot/SCREEN_CHANGED",
-}
-`;

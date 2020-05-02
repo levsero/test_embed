@@ -67,7 +67,44 @@ describe('questionSubmitted', () => {
 
     jest.runAllTimers()
 
-    expect(store.getActions()).toMatchSnapshot()
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "message": "hello world",
+            "sessionID": undefined,
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+        },
+        Object {
+          "payload": Object {
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/BOT_TYPING",
+        },
+        Object {
+          "payload": Object {
+            "sessionData": Object {
+              "articles": Array [],
+              "fallbackSuggested": false,
+              "requestStatus": null,
+              "resolved": false,
+            },
+            "sessionID": 123456789,
+          },
+          "type": "widget/answerBot/SESSION_STARTED",
+        },
+        Object {
+          "payload": Object {
+            "message": "hello world",
+            "sessionID": 1234,
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
+        },
+      ]
+    `)
   })
 
   it('dispatches the expected action without session starting', () => {
@@ -79,13 +116,71 @@ describe('questionSubmitted', () => {
 
     jest.runAllTimers()
 
-    expect(store.getActions()).toMatchSnapshot()
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "message": "hello world",
+            "sessionID": undefined,
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+        },
+        Object {
+          "payload": Object {
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/BOT_TYPING",
+        },
+        Object {
+          "payload": Object {
+            "message": "hello world",
+            "sessionID": 4567,
+            "timestamp": 123456789,
+          },
+          "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
+        },
+      ]
+    `)
   })
 
   it('sends the expected http params', () => {
     dispatchAction()
     jest.runAllTimers()
-    expect(http.send).toMatchSnapshot()
+    expect(http.send).toMatchInlineSnapshot(`
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "authorization": "Bearer abc123",
+              "callbacks": Object {
+                "done": [Function],
+                "fail": [Function],
+              },
+              "method": "post",
+              "params": Object {
+                "deflection_channel_id": 67,
+                "enquiry": "hello world",
+                "interaction_reference": 8888,
+                "interaction_reference_type": 1,
+                "labels": Array [
+                  "this",
+                  "is",
+                  "a",
+                  "label",
+                ],
+                "locale": "tl",
+                "via_id": 67,
+              },
+              "path": "/api/v2/answer_bot/interaction?include=html_body",
+              "timeout": 10000,
+              "useHostMappingIfAvailable": false,
+            },
+          ],
+        ],
+        "results": undefined,
+      }
+    `)
   })
 
   describe('callbacks', () => {
@@ -103,7 +198,62 @@ describe('questionSubmitted', () => {
           interaction_access_token: { y: 456 } // eslint-disable-line camelcase
         }
       })
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "message": "hello world",
+              "sessionID": undefined,
+              "timestamp": 123456789,
+            },
+            "type": "widget/answerBot/QUESTION_VALUE_SUBMITTED",
+          },
+          Object {
+            "payload": Object {
+              "timestamp": 123456789,
+            },
+            "type": "widget/answerBot/BOT_TYPING",
+          },
+          Object {
+            "payload": Object {
+              "sessionData": Object {
+                "articles": Array [],
+                "fallbackSuggested": false,
+                "requestStatus": null,
+                "resolved": false,
+              },
+              "sessionID": 123456789,
+            },
+            "type": "widget/answerBot/SESSION_STARTED",
+          },
+          Object {
+            "payload": Object {
+              "message": "hello world",
+              "sessionID": 1234,
+              "timestamp": 123456789,
+            },
+            "type": "widget/answerBot/QUESTION_SUBMITTED_PENDING",
+          },
+          Object {
+            "payload": Object {
+              "deflection": Object {
+                "x": 123,
+              },
+              "interaction_access_token": Object {
+                "y": 456,
+              },
+              "message": Array [
+                1,
+                2,
+                3,
+              ],
+              "sessionID": 1234,
+              "timestamp": 123456789,
+            },
+            "type": "widget/answerBot/QUESTION_SUBMITTED_FULFILLED",
+          },
+        ]
+      `)
     })
 
     it('dispatches another request when there are no results and there is a locale in the request', () => {
@@ -122,7 +272,33 @@ describe('questionSubmitted', () => {
         }
       })
       expect(http.send).toHaveBeenCalledTimes(2)
-      expect(http.send.mock.calls[1][0]).toMatchSnapshot()
+      expect(http.send.mock.calls[1][0]).toMatchInlineSnapshot(`
+        Object {
+          "authorization": "Bearer abc123",
+          "callbacks": Object {
+            "done": [Function],
+            "fail": [Function],
+          },
+          "method": "post",
+          "params": Object {
+            "deflection_channel_id": 67,
+            "enquiry": "hello world",
+            "interaction_reference": 8888,
+            "interaction_reference_type": 1,
+            "labels": Array [
+              "this",
+              "is",
+              "a",
+              "label",
+            ],
+            "locale": null,
+            "via_id": 67,
+          },
+          "path": "/api/v2/answer_bot/interaction?include=html_body",
+          "timeout": 10000,
+          "useHostMappingIfAvailable": false,
+        }
+      `)
     })
 
     it('dispatches only 1 request when there are no results and there is no locale in the request', () => {
@@ -149,7 +325,17 @@ describe('questionSubmitted', () => {
       const callback = http.send.mock.calls[0][0].callbacks.fail
 
       callback('error')
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "error": "error",
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/QUESTION_SUBMITTED_REJECTED",
+          },
+        ]
+      `)
     })
   })
 })

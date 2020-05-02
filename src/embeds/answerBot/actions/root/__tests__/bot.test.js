@@ -25,69 +25,220 @@ describe('botMessage', () => {
 
     store.dispatch(actions.botMessage('hello world'))
 
-    expect(store.getActions()).toMatchSnapshot()
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "message": Object {
+              "interpolation": Object {},
+              "key": "hello world",
+            },
+            "sessionID": 1234,
+            "timestamp": 1531267200000,
+          },
+          "type": "widget/answerBot/BOT_MESSAGE",
+        },
+      ]
+    `)
   })
 })
 
 describe('botChannelChoice', () => {
   it('dispatches expected payload', () => {
-    expect(actions.botChannelChoice('hello', true)).toMatchSnapshot()
+    expect(actions.botChannelChoice('hello', true)).toMatchInlineSnapshot(`
+      Object {
+        "payload": Object {
+          "fallback": false,
+          "message": Object {
+            "interpolation": true,
+            "key": "hello",
+          },
+          "timestamp": 1531267200000,
+        },
+        "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
+      }
+    `)
   })
 
   it('defaults to false fallback', () => {
-    expect(actions.botChannelChoice('world')).toMatchSnapshot()
+    expect(actions.botChannelChoice('world')).toMatchInlineSnapshot(`
+      Object {
+        "payload": Object {
+          "fallback": false,
+          "message": Object {
+            "interpolation": Object {},
+            "key": "world",
+          },
+          "timestamp": 1531267200000,
+        },
+        "type": "widget/answerBot/BOT_CHANNEL_CHOICE",
+      }
+    `)
   })
 })
 
 describe('botFeedback', () => {
   it('dispatches expected payload', () => {
-    expect(actions.botFeedback('secondary')).toMatchSnapshot()
+    expect(actions.botFeedback('secondary')).toMatchInlineSnapshot(`
+      Object {
+        "payload": Object {
+          "feedbackType": "secondary",
+          "timestamp": 1531267200000,
+        },
+        "type": "widget/answerBot/BOT_FEEDBACK",
+      }
+    `)
   })
 
   it('defaults to primary', () => {
-    expect(actions.botFeedback()).toMatchSnapshot()
+    expect(actions.botFeedback()).toMatchInlineSnapshot(`
+      Object {
+        "payload": Object {
+          "feedbackType": "primary",
+          "timestamp": 1531267200000,
+        },
+        "type": "widget/answerBot/BOT_FEEDBACK",
+      }
+    `)
   })
 })
 
 describe('botFeedbackRequested', () => {
   it('dispatches expected payload', () => {
-    expect(actions.botFeedbackRequested()).toMatchSnapshot()
+    expect(actions.botFeedbackRequested()).toMatchInlineSnapshot(`
+      Object {
+        "type": "widget/answerBot/BOT_FEEDBACK_REQUESTED",
+      }
+    `)
   })
 })
 
 test('botGreeted dispatches expected payload', () => {
-  expect(actions.botGreeted()).toMatchSnapshot()
+  expect(actions.botGreeted()).toMatchInlineSnapshot(`
+    Object {
+      "payload": true,
+      "type": "widget/answerBot/BOT_GREETED",
+    }
+  `)
 })
 
 test('botInitialFallback dispatches expected payload', () => {
-  expect(actions.botInitialFallback()).toMatchSnapshot()
+  expect(actions.botInitialFallback()).toMatchInlineSnapshot(`
+    Object {
+      "payload": true,
+      "type": "widget/answerBot/BOT_INITIAL_FALLBACK",
+    }
+  `)
 })
 
 test('botUserMessage dispatches expected payload', () => {
-  expect(actions.botUserMessage('hello')).toMatchSnapshot()
+  expect(actions.botUserMessage('hello')).toMatchInlineSnapshot(`
+    Object {
+      "payload": Object {
+        "feedbackRelated": true,
+        "isVisitor": true,
+        "message": Object {
+          "interpolation": Object {},
+          "key": "hello",
+        },
+        "timestamp": 1531267200000,
+      },
+      "type": "widget/answerBot/BOT_MESSAGE",
+    }
+  `)
 })
 
 test('botTyping dispatches expected payload', () => {
-  expect(actions.botTyping()).toMatchSnapshot()
+  expect(actions.botTyping()).toMatchInlineSnapshot(`
+    Object {
+      "payload": Object {
+        "timestamp": 1531267200000,
+      },
+      "type": "widget/answerBot/BOT_TYPING",
+    }
+  `)
 })
 
 describe('botFeedbackMessage', () => {
   it('dispatches expected payload', () => {
-    expect(actions.botFeedbackMessage('hello')).toMatchSnapshot()
+    expect(actions.botFeedbackMessage('hello')).toMatchInlineSnapshot(`
+      Object {
+        "payload": Object {
+          "feedbackRelated": true,
+          "message": Object {
+            "interpolation": Object {},
+            "key": "hello",
+          },
+          "timestamp": 1531267200000,
+        },
+        "type": "widget/answerBot/BOT_MESSAGE",
+      }
+    `)
   })
 })
 
 describe('botFallbackMessage', () => {
-  ;[true, false].forEach(channelAvailable => {
-    describe(`when channelAvailable is ${channelAvailable}`, () => {
-      it('dispatches the appropriate actions', () => {
-        const store = createStore()
+  describe('when feedbackRelated is not passed in', () => {
+    const doAction = channelAvailable => {
+      const store = createStore()
+      jest.spyOn(selectors, 'getChannelAvailable').mockReturnValue(channelAvailable)
+      store.dispatch(actions.botFallbackMessage())
+      return store
+    }
 
-        jest.spyOn(selectors, 'getChannelAvailable').mockReturnValue(channelAvailable)
-        store.dispatch(actions.botFallbackMessage())
+    it('dispatches the appropriate actions when channelAvailable is true', () => {
+      const store = doAction(true)
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "message": Object {
+                "interpolation": Object {},
+                "key": "embeddable_framework.answerBot.msg.prompt_again_no_channels_available",
+              },
+              "sessionID": 1234,
+              "timestamp": 1531267200000,
+            },
+            "type": "widget/answerBot/BOT_MESSAGE",
+          },
+          Object {
+            "payload": Object {
+              "message": Object {
+                "interpolation": Object {},
+                "key": "embeddable_framework.answerBot.msg.initial_fallback",
+              },
+              "sessionID": 1234,
+              "timestamp": 1531267200000,
+            },
+            "type": "widget/answerBot/BOT_MESSAGE",
+          },
+          Object {
+            "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
+          },
+        ]
+      `)
+    })
 
-        expect(store.getActions()).toMatchSnapshot()
-      })
+    it('dispatches the appropriate actions when channelAvailable is false', () => {
+      const store = doAction(false)
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "message": Object {
+                "interpolation": Object {},
+                "key": "embeddable_framework.answerBot.msg.prompt_again_after_yes",
+              },
+              "sessionID": 1234,
+              "timestamp": 1531267200000,
+            },
+            "type": "widget/answerBot/BOT_MESSAGE",
+          },
+          Object {
+            "type": "widget/answerBot/GET_IN_TOUCH_SHOWN",
+          },
+        ]
+      `)
     })
   })
 

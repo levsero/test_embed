@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`conversationScreenClosed dispatches expected payload 1`] = `
-Object {
-  "payload": 32,
-  "type": "widget/answerBot/CONVERSATION_SCREEN_CLOSED",
-}
-`;
