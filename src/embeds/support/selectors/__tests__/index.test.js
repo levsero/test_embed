@@ -9,12 +9,12 @@ import {
   getCanDisplayForm,
   getContactFormFields,
   getField,
-  getForm
+  getForm,
+  getFormsToDisplay,
+  getIsFormLoading,
+  getIsAnyTicketFormLoading,
+  getHasFetchedTicketForms
 } from 'embeds/support/selectors'
-import { getFormsToDisplay } from '..'
-import { getIsFormLoading } from '..'
-import { getIsAnyTicketFormLoading } from '..'
-import { getHasFetchedTicketForms } from '..'
 
 const nameField = {
   id: 'name',
@@ -525,115 +525,11 @@ describe('getFormState', () => {
   })
 
   describe('when form state does not exist', () => {
-    it('returns the prefill values if the form state does not exist', () => {
-      const result = selectors.getFormState(createState(false), 'contactForm')
-
-      expect(result).toEqual(expect.objectContaining({ [createKeyID('name')]: 'Prefill name' }))
-    })
-
     it('includes the default value for dropdown fields', () => {
       const result = selectors.getFormState(createState(false), 'contactForm')
 
       expect(result).toEqual(expect.objectContaining({ [createKeyID(123)]: 'option 2' }))
     })
-  })
-})
-
-describe('getPrefillValues', () => {
-  const run = ({ formId = 123, genericValues = {}, specificValues = {}, locale = 'en-US' }) => {
-    const state = {
-      base: {
-        locale
-      },
-      support: {
-        prefillValues: genericValues,
-        prefillSpecificFormValues: specificValues
-      }
-    }
-
-    return selectors.getPrefillValues(formId)(state)
-  }
-
-  it('returns the prefill values prioritising specific values over generic ones', () => {
-    const result = run({
-      formId: 123,
-      genericValues: {
-        '*': {
-          ['name']: 'Some name'
-        }
-      },
-      specificValues: {
-        123: {
-          '*': {
-            ['name']: 'Specific name'
-          }
-        }
-      }
-    })
-
-    expect(result).toEqual({ [createKeyID('name')]: 'Specific name' })
-  })
-
-  it('returns the prefill values prioritising specific form locale values over specific fallback ones', () => {
-    const result = run({
-      locale: 'fr',
-      formId: 123,
-      specificValues: {
-        123: {
-          '*': {
-            ['name']: 'Specific name'
-          },
-          fr: {
-            ['name']: 'French name'
-          }
-        }
-      }
-    })
-
-    expect(result).toEqual({ [createKeyID('name')]: 'French name' })
-  })
-
-  it('returns the prefill values prioritising specific locale values over fallback ones', () => {
-    const result = run({
-      locale: 'fr',
-      formId: 123,
-      genericValues: {
-        '*': {
-          ['name']: 'Specific name'
-        },
-        fr: {
-          ['name']: 'French name'
-        }
-      }
-    })
-
-    expect(result).toEqual({ [createKeyID('name')]: 'French name' })
-  })
-})
-
-describe('getPrefillCount', () => {
-  it('returns the value used to determine if prefills have updated', () => {
-    const state = {
-      support: {
-        prefillId: 2
-      }
-    }
-
-    expect(selectors.getPrefillId(state)).toBe(2)
-  })
-})
-
-describe('getLastFormPrefillId', () => {
-  it('returns the id of the last prefill the form has received', () => {
-    const state = {
-      support: {
-        lastFormPrefillId: {
-          123: 2
-        }
-      }
-    }
-
-    expect(selectors.getLastFormPrefillId(state, 123)).toBe(2)
   })
 })
 

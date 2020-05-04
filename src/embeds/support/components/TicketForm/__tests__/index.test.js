@@ -62,7 +62,7 @@ describe('TicketForm', () => {
 
   it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {
     renderComponent()
-    expect(useWidgetFormApis).toHaveBeenCalledWith(defaultProps.formId)
+    expect(useWidgetFormApis).toHaveBeenCalledWith(defaultProps.formId, defaultProps.ticketFields)
   })
 
   describe('conditional field logic', () => {

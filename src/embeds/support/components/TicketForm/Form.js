@@ -30,9 +30,9 @@ const Form = ({
 }) => {
   const translate = useTranslate()
   useFormBackup(formId)
-  useWidgetFormApis(formId)
-
   const filteredFields = useConditionalFields(fields, conditions)
+
+  useWidgetFormApis(formId, fields)
 
   return (
     <FormContainer onSubmit={onSubmit} noValidate={true} data-testid={TEST_IDS.SUPPORT_TICKET_FORM}>
