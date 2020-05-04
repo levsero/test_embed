@@ -11,5 +11,6 @@ Array [
   "preview",
   "support",
   "webWidget",
+  "customerProvidedPrefill",
 ]
 `;

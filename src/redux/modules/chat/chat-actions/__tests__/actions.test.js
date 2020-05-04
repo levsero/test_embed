@@ -485,6 +485,7 @@ describe('setDepartment', () => {
       {
         type: actionTypes.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
         payload: {
+          timestamp: 123456,
           department: mockDeptId
         }
       }
