@@ -37,7 +37,6 @@ const timestamp = () => {
 const renderComponent = props => {
   const mergedProps = {
     updateChatBackButtonVisibility,
-    showNewChatEmbed: false,
     ...props
   }
 

@@ -16,7 +16,6 @@ const renderComponent = props => {
     isLoggingOut: false,
     screen: '',
     sendAttachments: jest.fn(),
-    showNewChatEmbed: false,
     socialLogin: {},
     updateChatBackButtonVisibility: jest.fn(),
     updateContactDetailsVisibility: jest.fn(),

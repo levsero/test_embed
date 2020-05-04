@@ -1,63 +1,49 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 
 import ChattingScreen from 'component/chat/chatting/ChattingScreen'
 import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
-import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { i18n } from 'service/i18n'
 import {
   endChatViaPostChatScreen,
   sendAttachments,
-  editContactDetailsSubmitted,
   resetEmailTranscript,
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateContactDetailsFields,
-  initiateSocialLogout,
   updateEndChatModalVisibility
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 import { CONNECTION_STATUSES } from 'constants/chat'
-import { getDefaultFormFields } from 'src/redux/modules/selectors'
 import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
 import { Button } from '@zendeskgarden/react-buttons'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'constants/shared'
 import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
-import { getMenuVisible, getEditContactDetails } from 'embeds/chat/selectors'
+import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
 import { FileDropProvider, FileDropTarget } from 'components/FileDropProvider'
 import { locals as styles } from './ChatOnline.scss'
 import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
 import ReconnectButton from 'embeds/chat/components/ReconnectButton'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 
 const mapStateToProps = state => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
     screen: selectors.getChatScreen(state),
-    visitor: selectors.getChatVisitor(state),
     emailTranscript: selectors.getEmailTranscript(state),
-    editContactDetails: getEditContactDetails(state),
     menuVisible: getMenuVisible(state),
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
     offlineMessage: selectors.getOfflineMessage(state),
-    authUrls: selectors.getAuthUrls(state),
-    socialLogin: selectors.getSocialLogin(state),
-    isAuthenticated: selectors.getIsAuthenticated(state),
     isLoggingOut: selectors.getIsLoggingOut(state),
-    contactDetailsRequiredFormData: getDefaultFormFields(state),
-    endChatModalVisible: getIsEndChatModalVisible(state),
-    showNewChatEmbed: isFeatureEnabled(state, 'chat_new_modal_support')
+    endChatModalVisible: getIsEndChatModalVisible(state)
   }
 }
 
@@ -68,27 +54,17 @@ class Chat extends Component {
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
-    editContactDetailsSubmitted: PropTypes.func.isRequired,
     handleReconnect: PropTypes.func.isRequired,
-    showNewChatEmbed: PropTypes.bool.isRequired,
-    visitor: PropTypes.object.isRequired,
-    editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
     updateEmailTranscriptVisibility: PropTypes.func.isRequired,
-    updateContactDetailsFields: PropTypes.func,
     updateChatBackButtonVisibility: PropTypes.func,
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
     connection: PropTypes.string.isRequired,
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
-    authUrls: PropTypes.object.isRequired,
-    socialLogin: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    initiateSocialLogout: PropTypes.func.isRequired,
-    contactDetailsRequiredFormData: PropTypes.object,
     endChatModalVisible: PropTypes.bool,
     updateEndChatModalVisibility: PropTypes.func,
     isPreview: PropTypes.bool
@@ -101,19 +77,16 @@ class Chat extends Component {
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
-    editContactDetails: {},
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
     menuVisible: false,
     connection: '',
-    visitor: {},
     departments: {},
     offlineMessage: {},
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
     chatId: '',
-    isAuthenticated: false,
     isLoggingOut: false,
     isPreview: false
   }
@@ -254,57 +227,6 @@ class Chat extends Component {
     return <PostChatPage />
   }
 
-  renderChatContactDetailsPopup = () => {
-    const {
-      editContactDetails,
-      editContactDetailsSubmitted,
-      visitor,
-      isMobile,
-      updateContactDetailsVisibility,
-      updateContactDetailsFields,
-      authUrls,
-      isAuthenticated,
-      socialLogin,
-      initiateSocialLogout,
-      contactDetailsRequiredFormData,
-      showNewChatEmbed
-    } = this.props
-
-    if (showNewChatEmbed) {
-      return null
-    }
-
-    const hideContactDetailsFn = () => updateContactDetailsVisibility(false)
-    const tryAgainFn = () => updateContactDetailsVisibility(true)
-    const saveContactDetailsFn = (name, email) =>
-      editContactDetailsSubmitted({ display_name: name, email })
-    const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false)
-    const updateDetailsFn = (name, email) =>
-      updateContactDetailsFields({ display_name: name, email })
-
-    if (!editContactDetails.show) {
-      return null
-    }
-
-    return (
-      <ChatContactDetailsPopup
-        contactDetails={editContactDetails}
-        screen={editContactDetails.status}
-        requiredFormData={contactDetailsRequiredFormData}
-        isMobile={isMobile}
-        leftCtaFn={hideContactDetailsFn}
-        rightCtaFn={saveContactDetailsFn}
-        tryAgainFn={tryAgainFn}
-        updateFn={updateDetailsFn}
-        visitor={visitor}
-        authUrls={authUrls}
-        socialLogin={socialLogin}
-        initiateSocialLogout={initiateSocialLogout}
-        isAuthenticated={isAuthenticatedAtAll}
-      />
-    )
-  }
-
   renderChatReconnectionBubble = () => {
     const { connection, isLoggingOut } = this.props
 
@@ -337,7 +259,6 @@ class Chat extends Component {
           {this.renderChatRatingPage()}
           {this.renderPostChatPage()}
           {this.renderChatEndPopup()}
-          {this.renderChatContactDetailsPopup()}
           {this.renderAttachmentsBox()}
           {this.renderChatReconnectionBubble()}
           {this.renderChatReconnectButton()}
@@ -349,7 +270,6 @@ class Chat extends Component {
 
 const actionCreators = {
   endChatViaPostChatScreen,
-  editContactDetailsSubmitted,
   sendAttachments,
   sendEmailTranscript,
   resetEmailTranscript,
@@ -357,9 +277,7 @@ const actionCreators = {
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility,
-  updateContactDetailsFields,
-  initiateSocialLogout
+  updateEndChatModalVisibility
 }
 
 const connected = connect(
