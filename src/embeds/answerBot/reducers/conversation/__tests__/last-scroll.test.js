@@ -11,5 +11,5 @@ test('updates to expected state', () => {
     payload: 88
   })
 
-  expect(state).toMatchSnapshot()
+  expect(state).toMatchInlineSnapshot(`88`)
 })

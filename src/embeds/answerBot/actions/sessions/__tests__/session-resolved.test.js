@@ -40,11 +40,45 @@ describe('sessionResolved', () => {
   })
 
   it('dispatches the expected pending actions', () => {
-    expect(dispatchedActions).toMatchSnapshot()
+    expect(dispatchedActions).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "articleID": 4567,
+            "sessionID": 1234,
+          },
+          "type": "widget/answerBot/SESSION_RESOLVED_PENDING",
+        },
+      ]
+    `)
   })
 
   it('sends the expected http params', () => {
-    expect(http.send).toMatchSnapshot()
+    expect(http.send).toMatchInlineSnapshot(`
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "callbacks": Object {
+                "done": [Function],
+                "fail": [Function],
+              },
+              "method": "post",
+              "params": Object {
+                "article_id": 4567,
+                "deflection_id": 888,
+                "interaction_access_token": Object {
+                  "y": 2,
+                },
+                "resolution_channel_id": 67,
+              },
+              "path": "/api/v2/answer_bot/resolution",
+            },
+          ],
+        ],
+        "results": undefined,
+      }
+    `)
   })
 
   describe('callbacks', () => {
@@ -52,14 +86,51 @@ describe('sessionResolved', () => {
       const callback = http.send.mock.calls[0][0].callbacks.done
 
       callback()
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "articleID": 4567,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/SESSION_RESOLVED_PENDING",
+          },
+          Object {
+            "payload": Object {
+              "articleID": 4567,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/SESSION_RESOLVED_FULFILLED",
+          },
+        ]
+      `)
     })
 
     it('dispatches expected actions on failed request', () => {
       const callback = http.send.mock.calls[0][0].callbacks.fail
 
       callback({ error: 'blah' })
-      expect(store.getActions()).toMatchSnapshot()
+      expect(store.getActions()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "payload": Object {
+              "articleID": 4567,
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/SESSION_RESOLVED_PENDING",
+          },
+          Object {
+            "payload": Object {
+              "articleID": 4567,
+              "error": Object {
+                "error": "blah",
+              },
+              "sessionID": 1234,
+            },
+            "type": "widget/answerBot/SESSION_RESOLVED_REJECTED",
+          },
+        ]
+      `)
     })
   })
 })

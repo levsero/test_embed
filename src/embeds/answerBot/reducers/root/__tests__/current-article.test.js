@@ -14,5 +14,10 @@ test('updates to expected state', () => {
     }
   })
 
-  expect(state).toMatchSnapshot()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "articleID": "two",
+      "sessionID": "one",
+    }
+  `)
 })

@@ -16,5 +16,14 @@ it('sessionFallbackSuggested dispatches the expected actions', () => {
 
   store.dispatch(actions.sessionFallback())
 
-  expect(store.getActions()).toMatchSnapshot()
+  expect(store.getActions()).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "payload": Object {
+          "sessionID": 1234,
+        },
+        "type": "widget/answerBot/SESSION_FALLBACK",
+      },
+    ]
+  `)
 })

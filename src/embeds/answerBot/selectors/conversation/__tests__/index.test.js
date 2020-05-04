@@ -26,7 +26,19 @@ describe('getMessages', () => {
     }
     const result = selectors.getMessages(mockState)
 
-    expect(result).toMatchSnapshot()
+    expect(result).toMatchInlineSnapshot(`
+      Map {
+        "1" => Object {
+          "message": "Thing 1",
+        },
+        "2" => Object {
+          "message": "Thing 2",
+        },
+        "3" => Object {
+          "message": "Loading image (someAttachmentSize)...",
+        },
+      }
+    `)
   })
 })
 
@@ -80,7 +92,12 @@ describe('getGroupMessages', () => {
     }
     const results = selectors.makeGetGroupMessages(mockState, mockProps)
 
-    expect(results(mockState, mockProps)).toMatchSnapshot()
+    expect(results(mockState, mockProps)).toMatchInlineSnapshot(`
+      Array [
+        "one",
+        "two",
+      ]
+    `)
   })
 })
 
@@ -88,7 +105,7 @@ describe('getLastScroll', () => {
   it('returns conversation lastScroll', () => {
     const results = selectors.getLastScroll.resultFunc({ lastScroll: 123 })
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`123`)
   })
 })
 
@@ -96,7 +113,7 @@ describe('getLastScreenClosed', () => {
   it('returns conversation lastScreenClosed', () => {
     const results = selectors.getLastScreenClosed.resultFunc({ lastScreenClosed: 123 })
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`123`)
   })
 })
 
@@ -116,7 +133,22 @@ describe('makeGetGroupMessages', () => {
     }
     const results = selectors.makeGetGroupMessages(mockState, mockProps)
 
-    expect(results(mockState, mockProps)).toMatchSnapshot()
+    expect(results(mockState, mockProps)).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "articles": Array [
+            Object {
+              "id": 1,
+            },
+            Object {
+              "id": 2,
+            },
+          ],
+          "sessionID": "123",
+          "type": "results",
+        },
+      ]
+    `)
   })
 })
 
@@ -132,7 +164,29 @@ describe('getGroupMessageKeys', () => {
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`
+      Object {
+        "0": Object {
+          "isVisitor": undefined,
+          "messageKeys": Array [
+            0,
+            1,
+          ],
+        },
+        "1": Object {
+          "isVisitor": true,
+          "messageKeys": Array [
+            2,
+          ],
+        },
+        "2": Object {
+          "isVisitor": undefined,
+          "messageKeys": Array [
+            3,
+          ],
+        },
+      }
+    `)
   })
 
   it('only keeps the last bot typing message', () => {
@@ -150,7 +204,17 @@ describe('getGroupMessageKeys', () => {
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`
+      Object {
+        "0": Object {
+          "isVisitor": false,
+          "messageKeys": Array [
+            "1",
+            "3",
+          ],
+        },
+      }
+    `)
   })
 
   it('discards bot typing if it is not the last message', () => {
@@ -169,7 +233,22 @@ describe('getGroupMessageKeys', () => {
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`
+      Object {
+        "0": Object {
+          "isVisitor": false,
+          "messageKeys": Array [
+            "1",
+          ],
+        },
+        "1": Object {
+          "isVisitor": true,
+          "messageKeys": Array [
+            "4",
+          ],
+        },
+      }
+    `)
   })
 
   it('discards previous feedback', () => {
@@ -188,7 +267,16 @@ describe('getGroupMessageKeys', () => {
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`
+      Object {
+        "0": Object {
+          "isVisitor": undefined,
+          "messageKeys": Array [
+            3,
+          ],
+        },
+      }
+    `)
   })
 
   it('handles feedback appropriately', () => {
@@ -213,7 +301,35 @@ describe('getGroupMessageKeys', () => {
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
-    expect(results).toMatchSnapshot()
+    expect(results).toMatchInlineSnapshot(`
+      Object {
+        "0": Object {
+          "isVisitor": undefined,
+          "messageKeys": Array [
+            0,
+          ],
+        },
+        "1": Object {
+          "isVisitor": true,
+          "messageKeys": Array [
+            1,
+          ],
+        },
+        "2": Object {
+          "isVisitor": undefined,
+          "messageKeys": Array [
+            2,
+            8,
+          ],
+        },
+        "3": Object {
+          "isVisitor": true,
+          "messageKeys": Array [
+            9,
+          ],
+        },
+      }
+    `)
   })
 })
 
