@@ -1,24 +1,22 @@
 import React from 'react'
 import { render } from 'src/util/testHelpers'
-import { ChattingFooter } from '../ChattingFooter'
+import ChattingFooter from '../'
 import { TEST_IDS } from 'src/constants/shared'
 
 const renderComponent = inProps => {
   const props = {
-    endChat: jest.fn(),
-    sendChat: jest.fn(),
-    children: [],
-    handleAttachmentDrop: jest.fn(),
-    isChatting: false,
-    toggleMenu: jest.fn(),
     attachmentsEnabled: true,
-    isMobile: false,
+    children: [],
+    endChat: jest.fn(),
+    handleAttachmentDrop: jest.fn(),
     hideZendeskLogo: false,
+    isChatting: false,
+    isMobile: false,
     isPreview: false,
-    ...inProps
+    sendChat: jest.fn()
   }
 
-  return render(<ChattingFooter {...props} />)
+  return render(<ChattingFooter {...props} {...inProps} />)
 }
 
 describe('render', () => {
@@ -40,5 +38,23 @@ describe('render', () => {
   it('renders chat menu icon', () => {
     const { getByTestId } = renderComponent()
     expect(getByTestId(TEST_IDS.CHAT_MENU)).toBeInTheDocument()
+  })
+
+  describe('when is mobile', () => {
+    it('renders mobile footer', () => {
+      const { getByTestId, queryByTestId } = renderComponent({ isMobile: true })
+
+      expect(getByTestId(TEST_IDS.CHAT_FOOTER_MOBILE)).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.CHAT_FOOTER_DESKTOP)).toBeNull()
+    })
+  })
+
+  describe('when is not mobile', () => {
+    it('renders desktop footer', () => {
+      const { getByTestId, queryByTestId } = renderComponent({ isMobile: false })
+
+      expect(getByTestId(TEST_IDS.CHAT_FOOTER_DESKTOP)).toBeInTheDocument()
+      expect(queryByTestId(TEST_IDS.CHAT_FOOTER_MOBILE)).toBeNull()
+    })
   })
 })

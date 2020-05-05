@@ -94,17 +94,6 @@
   }
 }
 
-.Icon--paperclip-small {
-  svg {
-    min-width: #{16 / $font-size}rem; /* 1 */
-    min-height: #{16 / $font-size}rem; /* 1 */
-    height: #{16 / $font-size}rem;
-    width: #{16 / $font-size}rem;
-    transform-origin: center;
-    transform: rotate(45deg);
-  }
-}
-
 .Icon--check {
   svg {
     fill: $zd-color-grey-500;

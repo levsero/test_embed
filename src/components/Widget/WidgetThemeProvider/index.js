@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
+import { isMobileBrowser } from 'utility/devices'
 
 import { getThemeColor } from 'utility/color/validate'
 import { getWidgetColorVariables } from 'utility/color/styles'
@@ -33,7 +34,8 @@ WidgetThemeProvider.propTypes = {
     headerTextColorStr: PropTypes.string,
     headerFocusRingColorStr: PropTypes.string,
     headerBackgroundColorStr: PropTypes.string,
-    iconColor: PropTypes.string
+    iconColor: PropTypes.string,
+    isMobile: PropTypes.bool
   }).isRequired
 }
 
@@ -42,7 +44,11 @@ WidgetThemeProvider.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  theme: { ...themeColors(getColor(state, 'webWidget')), fontSize: FONT_SIZE }
+  theme: {
+    ...themeColors(getColor(state, 'webWidget')),
+    fontSize: FONT_SIZE,
+    isMobile: isMobileBrowser()
+  }
 })
 
 const connectedComponent = connect(mapStateToProps)(WidgetThemeProvider)
