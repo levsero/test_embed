@@ -1,4 +1,4 @@
-@import '../../../styles/_vars.scss';
+@import 'src/styles/_vars.scss';
 
 // Slider's height: button's line-height + button's padding + button's border-width + $focusRingWidth
 $focusRingWidth: 3px;
@@ -17,7 +17,7 @@ $sliderHeight: calc(#{$mobileSliderHeight}rem + #{$focusRingWidth * 2});
   text-align: right;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 
   &.mobile {
     height: #{$mobileSliderHeight}rem;

@@ -1,6 +1,6 @@
 @import '../../../styles/_vars.scss';
 @import '../../../styles/mixins.scss';
-@import '../../shared/QuickReplies/QuickReplies.scss';
+@import 'src/embeds/chat/components/QuickReplies/QuickReplies.scss';
 
 .chatLogContainer {
   min-height: calc(100% - #{$sliderHeight});

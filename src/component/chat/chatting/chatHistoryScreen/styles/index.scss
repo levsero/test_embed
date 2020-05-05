@@ -1,6 +1,6 @@
 @import '../../../../../styles/_vars.scss';
 @import '../../../../../styles/mixins.scss';
-@import '../../../../shared/QuickReplies/QuickReplies.scss';
+@import 'src/embeds/chat/components/QuickReplies/QuickReplies.scss';
 
 .historyFetchingContainer {
   composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;

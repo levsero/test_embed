@@ -42,7 +42,7 @@ describe('ChatGroup component', () => {
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
       'component/chat/chatting/StructuredMessage': StructuredMessage,
-      'component/chat/chatting/Carousel': Carousel,
+      'src/embeds/chat/components/Carousel': Carousel,
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
