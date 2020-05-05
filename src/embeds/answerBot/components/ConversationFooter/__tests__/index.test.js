@@ -26,12 +26,13 @@ const renderComponent = (props = {}) => {
 
 describe('desktop', () => {
   describe('when showGetInTouch is false', () => {
-    it('renders the expected classes', () => {
-      const { container } = renderComponent({
+    it('renders the expected elements', () => {
+      const { queryByPlaceholderText, queryByText } = renderComponent({
         currentMessage: 'desktop message'
       })
 
-      expect(container).toMatchSnapshot()
+      expect(queryByPlaceholderText('Type your question here...').value).toEqual('desktop message')
+      expect(queryByText('Get in touch')).not.toBeInTheDocument()
     })
 
     it('does the expected thing on chat submit', () => {
@@ -55,26 +56,30 @@ describe('desktop', () => {
   })
 
   describe('when showGetInTouch is true', () => {
-    it('renders the expected classes', () => {
-      const { container } = renderComponent({
+    it('renders the expected elements', () => {
+      const { queryByPlaceholderText, queryByText } = renderComponent({
         currentMessage: 'desktop message',
         showGetInTouch: true
       })
 
-      expect(container).toMatchSnapshot()
+      expect(queryByPlaceholderText('Type your question here...').value).toEqual('desktop message')
+      expect(queryByText('Get in touch')).toBeInTheDocument()
     })
   })
 })
 
 describe('mobile', () => {
   describe('when showGetInTouch is false', () => {
-    it('renders the expected classes', () => {
-      const { container } = renderComponent({
+    it('renders the expected elements', () => {
+      const { queryByPlaceholderText, queryByText } = renderComponent({
         isMobile: true,
         currentMessage: 'mobile message'
       })
 
-      expect(container).toMatchSnapshot()
+      const input = queryByPlaceholderText('Type your question here...')
+      expect(input.value).toEqual('mobile message')
+      expect(input.rows).toEqual(1)
+      expect(queryByText('Get in touch')).not.toBeInTheDocument()
     })
 
     it('does the expected thing on chat submit', () => {
@@ -99,14 +104,17 @@ describe('mobile', () => {
   })
 
   describe('when showGetInTouch is true', () => {
-    it('renders the expected classes', () => {
-      const { container } = renderComponent({
+    it('renders the expected components', () => {
+      const { queryByPlaceholderText, queryByText } = renderComponent({
         isMobile: true,
         currentMessage: 'mobile message',
         showGetInTouch: true
       })
 
-      expect(container).toMatchSnapshot()
+      const input = queryByPlaceholderText('Type your question here...')
+      expect(input.value).toEqual('mobile message')
+      expect(input.rows).toEqual(1)
+      expect(queryByText('Get in touch')).toBeInTheDocument()
     })
   })
 })

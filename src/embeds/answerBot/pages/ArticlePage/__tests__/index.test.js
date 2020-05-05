@@ -40,79 +40,57 @@ const renderComponent = (props = {}) => {
   const componentProps = _.merge({}, defaultProps, props)
   return render(<ArticlePage {...componentProps} />)
 }
-
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
-
-  expect(container).toMatchSnapshot()
-})
-
-test('renders the expected mobile classes', () => {
-  const { container } = renderComponent({
-    isMobile: true
-  })
-
-  expect(container).toMatchSnapshot()
-})
-
 test('renders the expected title', () => {
-  const { container } = renderComponent({
+  const { queryByText } = renderComponent({
     articleTitleKey: 'support'
   })
 
-  expect(container).toMatchSnapshot()
-})
-
-test('passing of scroll container classes', () => {
-  const { container } = renderComponent({
-    scrollContainerClasses: 'this is a class'
-  })
-
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Support')).toBeInTheDocument()
 })
 
 test('renders the help center article', () => {
-  const { container } = renderComponent({
+  const { queryByText } = renderComponent({
     article: {
       id: 123,
       markedAsIrrelevant: false,
-      title: 'title',
-      body: '<p>body</p>'
+      title: 'article title is this',
+      body: '<p>this is the body</p>'
     }
   })
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('article title is this')).toBeInTheDocument()
+  expect(queryByText('this is the body')).toBeInTheDocument()
 })
 
 test('renders the feedback popup after a certain time has passed', () => {
-  const { container } = renderComponent({
+  const { queryByText } = renderComponent({
     isFeedbackRequired: true
   })
 
   jest.runAllTimers()
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Does this article answer your question?')).toBeInTheDocument()
 })
 
 test('does not render the feedback popup if feedback is not required', () => {
-  const { container } = renderComponent({
+  const { queryByText } = renderComponent({
     isFeedbackRequired: false
   })
 
   jest.runAllTimers()
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Does this article answer your question?')).not.toBeInTheDocument()
 })
 
 describe('feedback actions', () => {
   describe('on yes click', () => {
     it('hides the feedback popup', () => {
-      const { container, getByText } = renderComponent({
+      const { queryByText, getByText } = renderComponent({
         isFeedbackRequired: true
       })
 
       jest.runAllTimers()
       fireEvent.click(getByText('Yes'))
       jest.runAllTimers()
-      expect(container).toMatchSnapshot()
+      expect(queryByText('Yes')).not.toBeInTheDocument()
     })
 
     it('fires the expected actions', () => {
@@ -140,13 +118,14 @@ describe('feedback actions', () => {
 
   describe('on no click', () => {
     it('asks for the reason', () => {
-      const { container, getByText } = renderComponent({
+      const { queryByText, getByText } = renderComponent({
         isFeedbackRequired: true
       })
 
       jest.runAllTimers()
       fireEvent.click(getByText('No, I need help'))
-      expect(container).toMatchSnapshot()
+      expect(queryByText("It's related, but it didn't answer my question")).toBeInTheDocument()
+      expect(queryByText("It's not related to my question")).toBeInTheDocument()
     })
 
     describe('on reason click', () => {

@@ -42,10 +42,14 @@ const renderComponent = (props = {}) => {
   return render(<SearchResults {...componentProps} />)
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
+test('renders the expected elements', () => {
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Here are some articles that may help:')).toBeInTheDocument()
+  expect(queryByText('title 123')).toBeInTheDocument()
+  expect(queryByText('to be filled later 123')).toBeInTheDocument()
+  expect(queryByText('title 456')).toBeInTheDocument()
+  expect(queryByText('to be filled later 456')).toBeInTheDocument()
 })
 
 test('renders expected message when there are no articles', () => {

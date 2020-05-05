@@ -37,39 +37,42 @@ const renderComponent = (props = {}) => {
 }
 
 test('renders expected classes and components with default props', () => {
-  const { container } = renderComponent()
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText('Answer Bot')).toBeInTheDocument()
+  expect(queryByText('Bot')).toBeInTheDocument()
 })
 
 describe('bot', () => {
   describe('name', () => {
     it('renders agent name', () => {
-      const { container } = renderComponent({
+      const { queryByText } = renderComponent({
         agentAvatarName: 'Bond'
       })
 
-      expect(container).toMatchSnapshot()
+      expect(queryByText('Bond')).toBeInTheDocument()
+      expect(queryByText('Bot')).toBeInTheDocument()
     })
   })
 
   describe('avatar', () => {
     it('renders brand logo', () => {
-      const { container } = renderComponent({
+      const { getByAltText } = renderComponent({
         brandLogoUrl: 'http://url'
       })
 
-      expect(container).toMatchSnapshot()
+      expect(getByAltText('avatar').src).toEqual('http://url/')
     })
 
     it('renders agent avatar', () => {
-      const { container } = renderComponent({
+      const { getByAltText } = renderComponent({
         agentAvatarUrl: 'http://url'
       })
 
-      expect(container).toMatchSnapshot()
+      expect(getByAltText('avatar').src).toEqual('http://url/')
     })
   })
+
   describe('messages', () => {
     it('animates messages', () => {
       const messages = [
@@ -100,10 +103,10 @@ describe('bot', () => {
 
 describe('visitor', () => {
   describe('name and avatar', () => {
-    it('renders nothing', () => {
-      const { container } = renderComponent({ isVisitor: true })
+    it('does not render avatar', () => {
+      const { queryByAltText } = renderComponent({ isVisitor: true })
 
-      expect(container).toMatchSnapshot()
+      expect(queryByAltText('avatar')).not.toBeInTheDocument()
     })
   })
 

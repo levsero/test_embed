@@ -18,34 +18,31 @@ const renderComponent = (props = {}) => {
   return render(<InputBox {...componentProps} />)
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
+test('renders the expected elements', () => {
+  const { queryByPlaceholderText, queryByLabelText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByLabelText('placeholder')).toBeInTheDocument()
+  expect(queryByPlaceholderText('placeholder')).toBeInTheDocument()
 })
 
-test('renders as disabled', () => {
-  const { container } = renderComponent({
-    disabled: true
-  })
+test('text area has 3 rows when in desktop', () => {
+  const { getByPlaceholderText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(getByPlaceholderText('placeholder').rows).toEqual(3)
 })
 
-test('renders as mobile', () => {
-  const { container } = renderComponent({
-    isMobile: true
-  })
+test('text area has 1 row when in mobile', () => {
+  const { getByPlaceholderText } = renderComponent({ isMobile: true })
 
-  expect(container).toMatchSnapshot()
+  expect(getByPlaceholderText('placeholder').rows).toEqual(1)
 })
 
 test('renders with value', () => {
-  const { container } = renderComponent({
+  const { getByPlaceholderText } = renderComponent({
     inputValue: 'doremi'
   })
 
-  expect(container).toMatchSnapshot()
+  expect(getByPlaceholderText('placeholder').value).toEqual('doremi')
 })
 
 describe('events', () => {

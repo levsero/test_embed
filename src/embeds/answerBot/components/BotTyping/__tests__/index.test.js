@@ -3,8 +3,8 @@ import React from 'react'
 
 import BotTyping from '../index'
 
-test('renders the expected classes', () => {
-  const { container } = render(<BotTyping />)
+test('renders the expected elements', () => {
+  const { queryByTestId } = render(<BotTyping />)
 
-  expect(container).toMatchSnapshot()
+  expect(queryByTestId('Icon--ellipsis')).toBeInTheDocument()
 })

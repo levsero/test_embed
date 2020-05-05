@@ -21,10 +21,11 @@ const renderComponent = (props = {}) => {
   return render(<SecondaryFeedback {...componentProps} />)
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent()
+test('renders the expected elements', () => {
+  const { queryByText } = renderComponent()
 
-  expect(container).toMatchSnapshot()
+  expect(queryByText("It's related, but it didn't answer my question")).toBeInTheDocument()
+  expect(queryByText("It's not related to my question")).toBeInTheDocument()
 })
 
 describe('actions', () => {

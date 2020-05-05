@@ -31,94 +31,168 @@ const renderComponent = (props = {}) => {
   return render(<ChannelChoice {...componentProps} />)
 }
 
-test('renders the expected classes', () => {
-  const { container } = renderComponent({
-    callbackAvailable: true,
-    talkAvailable: true,
-    submitTicketAvailable: true,
-    chatAvailable: true
+describe('leading message', () => {
+  test('renders the default leading message', () => {
+    const { queryByText } = renderComponent({
+      callbackAvailable: true,
+      talkAvailable: true,
+      submitTicketAvailable: true,
+      chatAvailable: true
+    })
+
+    expect(queryByText('Choose a way to get in touch:')).toBeInTheDocument()
   })
 
-  expect(container).toMatchSnapshot()
-})
+  test('renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true', () => {
+    const { queryByText } = renderComponent({
+      callbackAvailable: true,
+      talkAvailable: true,
+      submitTicketAvailable: true,
+      chatAvailable: true,
+      leadingMessage: 'here here',
+      useLeadingMessageAsFallback: true
+    })
 
-test('renders the leading message', () => {
-  const { container } = renderComponent({
-    leadingMessage: 'hello world',
-    callbackAvailable: true,
-    talkAvailable: true,
-    submitTicketAvailable: true,
-    chatAvailable: true
+    expect(queryByText('here here')).toBeInTheDocument()
   })
 
-  expect(container).toMatchSnapshot()
+  test('renders the leading message when specified', () => {
+    const { queryByText } = renderComponent({
+      leadingMessage: 'hello world',
+      submitTicketAvailable: true
+    })
+
+    expect(queryByText('hello world')).toBeInTheDocument()
+  })
+
+  test('renders generic chat leading message when only chat is available', () => {
+    const { queryByText } = renderComponent({
+      chatAvailable: true
+    })
+
+    expect(queryByText('Would you like to chat with someone who can help?')).toBeInTheDocument()
+  })
+
+  test('renders generic request callback leading message when only request callback is available', () => {
+    const { queryByText } = renderComponent({
+      talkAvailable: true,
+      callbackAvailable: true
+    })
+
+    expect(
+      queryByText('Would you like the team to contact you regarding your question?')
+    ).toBeInTheDocument()
+  })
+
+  test('renders generic call us leading message when only talk is available', () => {
+    const { queryByText } = renderComponent({
+      talkAvailable: true
+    })
+
+    expect(queryByText('Would you like to contact us regarding your question?')).toBeInTheDocument()
+  })
+
+  test('renders generic call us leading message when only click to call is available', () => {
+    const { queryByText } = renderComponent({
+      talkAvailable: true,
+      talkCapability: CLICK_TO_CALL
+    })
+
+    expect(queryByText('Would you like to contact us regarding your question?')).toBeInTheDocument()
+  })
+
+  test('renders generic submit ticket leading message when only submit ticket is available', () => {
+    const { queryByText } = renderComponent({
+      submitTicketAvailable: true
+    })
+
+    expect(
+      queryByText('Would you like to leave a message so the team can follow up on your question?')
+    ).toBeInTheDocument()
+  })
 })
 
 describe('channels', () => {
-  const assertExpected = props => {
-    const { container } = renderComponent(props)
+  const assertNotRendered = (options, ...labels) => {
+    const { queryByText } = renderComponent(options)
 
-    expect(container).toMatchSnapshot()
+    labels.forEach(text => {
+      expect(queryByText(text)).not.toBeInTheDocument()
+    })
   }
 
-  it('renders the passed in leading message regardless of other properties', () => {
-    assertExpected({
-      submitTicketAvailable: true,
-      leadingMessage: 'blah blah'
+  const assertRendered = (options, label, icon) => {
+    const { queryByText, queryByTestId } = renderComponent(options)
+
+    expect(queryByText(label)).toBeInTheDocument()
+    expect(queryByTestId(icon)).toBeInTheDocument()
+  }
+
+  describe('chat', () => {
+    test('renders the chat channel when chat is available', () => {
+      assertRendered({ chatAvailable: true }, 'Live chat', 'Icon--channelChoice-chat')
+    })
+
+    test('does not render other channels', () => {
+      assertNotRendered({ chatAvailable: true }, 'Leave a message', 'Request a callback', 'Call us')
+    })
+
+    test('renders chat offline channel when chat offline is available', () => {
+      assertRendered(
+        { chatOfflineAvailable: true, chatAvailable: true },
+        'Live chat is offline',
+        'Icon--channelChoice-chat'
+      )
     })
   })
 
-  it('renders expected components if only submit ticket is available', () => {
-    assertExpected({ submitTicketAvailable: true, leadingMessage: 'blah' })
-  })
+  describe('submit ticket', () => {
+    test('renders the submit ticket channel when submit ticket is available', () => {
+      assertRendered(
+        { submitTicketAvailable: true },
+        'Leave a message',
+        'Icon--channelChoice-contactForm'
+      )
+    })
 
-  it('renders expected components if only chat is available', () => {
-    assertExpected({ chatAvailable: true, leadingMessage: 'blah' })
-  })
-
-  it('renders expected components if chat and chat offline are available', () => {
-    assertExpected({
-      chatOfflineAvailable: true,
-      chatAvailable: true,
-      leadingMessage: 'blah'
+    test('does not render other channels', () => {
+      assertNotRendered(
+        { submitTicketAvailable: true },
+        'Live chat',
+        'Request a callback',
+        'Call us'
+      )
     })
   })
 
-  it('renders expected components if only call us is available', () => {
-    assertExpected({ talkAvailable: true, leadingMessage: 'blah' })
-  })
-
-  it('renders expected components if talk and request callback are available', () => {
-    assertExpected({
-      callbackAvailable: true,
-      talkAvailable: true,
-      leadingMessage: 'blah'
+  describe('talk', () => {
+    test('renders the request a callback channel when talk and request a callback is available', () => {
+      assertRendered(
+        { talkAvailable: true, callbackAvailable: true },
+        'Request a callback',
+        'Icon--channelChoice-talk'
+      )
     })
-  })
 
-  it('renders expected components if talk and click to call are available', () => {
-    assertExpected({
-      callbackAvailable: true,
-      talkAvailable: true,
-      talkCapability: CLICK_TO_CALL,
-      leadingMessage: 'blah'
+    test('does not render other channels', () => {
+      assertNotRendered(
+        { talkAvailable: true, callbackAvailable: true },
+        'Leave a message',
+        'Live chat',
+        'Call us'
+      )
     })
-  })
 
-  it('renders generic leading message if more than 1 channel is available', () => {
-    assertExpected({ chatAvailable: true, talkAvailable: true })
-  })
+    test('renders call us channel when talk is available', () => {
+      assertRendered({ talkAvailable: true }, 'Call us', 'Icon--channelChoice-talk')
+    })
 
-  it('does not render chat if chat is available', () => {
-    assertExpected({ submitTicketAvailable: true, oldChat: true })
-  })
-
-  it('renders leading message if more than 1 channel is available and useLeadingMessageAsFallback is true', () => {
-    assertExpected({
-      chatAvailable: true,
-      talkAvailable: true,
-      leadingMessage: 'hi',
-      useLeadingMessageAsFallback: true
+    test('renders click to call channel when talk and click to call capability is available', () => {
+      assertRendered(
+        { talkAvailable: true, talkCapability: CLICK_TO_CALL },
+        'Click to call',
+        'Icon--channelChoice-clickToCall'
+      )
     })
   })
 })

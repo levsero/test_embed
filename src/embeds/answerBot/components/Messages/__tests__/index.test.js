@@ -1,9 +1,11 @@
 import { render } from 'utility/testHelpers'
 import React from 'react'
 
-import Messages from '../index'
-
 import * as selectors from 'embeds/helpCenter/selectors'
+import { TEST_IDS } from 'src/constants/shared'
+import snapshotDiff from 'snapshot-diff'
+
+import Messages from '../index'
 
 const resultsMessage = {
   type: 'results',
@@ -71,12 +73,14 @@ test('renders expected classes and components with default props for non-visitor
       body: 'body of contextual search results'
     }
   ])
+  const utils = render(<Messages messages={[]} isVisitor={false} />)
   const { container } = render(<Messages messages={messages} isVisitor={false} />)
-  expect(container).toMatchSnapshot()
+  expect(snapshotDiff(utils.container, container)).toMatchSnapshot()
 })
 
 test('renders expected classes and components with default props for visitor messages', () => {
   const messages = [textMessage]
-  const { container } = render(<Messages messages={messages} isVisitor={true} />)
-  expect(container).toMatchSnapshot()
+  const { getByTestId } = render(<Messages messages={messages} isVisitor={true} />)
+
+  expect(getByTestId(TEST_IDS.CHAT_MSG_USER).textContent).toEqual('hello')
 })
