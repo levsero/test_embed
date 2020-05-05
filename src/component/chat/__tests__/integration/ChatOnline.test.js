@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, wait } from '@testing-library/react'
 import React from 'react'
 import createStore from 'src/redux/createStore'
 import { render, dispatchChatAccountSettings } from 'utility/testHelpers'
@@ -851,13 +851,14 @@ describe('connection', () => {
 
 describe('prechat form', () => {
   const zChat = {
-    setVisitorDefaultDepartment: jest.fn(),
+    setVisitorDefaultDepartment: jest.fn((departmentId, callback) => callback()),
     setVisitorInfo: jest.fn(),
     sendOfflineMsg: jest.fn(),
     sendTyping: jest.fn(),
     sendChatMsg: jest.fn(),
-    clearVisitorDefaultDepartment: jest.fn(),
-    markAsRead: jest.fn()
+    clearVisitorDefaultDepartment: jest.fn(callback => callback()),
+    markAsRead: jest.fn(),
+    setDepartment: jest.fn()
   }
 
   beforeEach(() => {
@@ -905,7 +906,7 @@ describe('prechat form', () => {
     })
   })
 
-  it('submits the prechat form', () => {
+  it('submits the prechat form', async () => {
     store.dispatch({
       type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
       payload: {
@@ -936,6 +937,7 @@ describe('prechat form', () => {
       },
       expect.any(Function)
     )
+
     store.dispatch({
       type: chatActionTypes.SDK_VISITOR_UPDATE,
       payload: {
@@ -947,7 +949,7 @@ describe('prechat form', () => {
     })
     expect(zChat.setVisitorDefaultDepartment).toHaveBeenCalledWith(1, expect.any(Function))
     // The new screen is now chatting screen
-    expect(queryByText('Live Support')).toBeInTheDocument()
+    await wait(() => expect(queryByText('Live Support')).toBeInTheDocument())
     jest.runAllTimers()
     expect(zChat.sendTyping).toHaveBeenCalledWith(false)
     expect(zChat.sendChatMsg).toHaveBeenCalledWith('burger', expect.any(Function))
@@ -966,7 +968,7 @@ describe('prechat form', () => {
     expect(queryByTestId('chat-msg-user').textContent).toEqual('burger')
   })
 
-  it('clears the department if no department is selected', () => {
+  it('clears the department if no department is selected', async () => {
     store.dispatch({
       type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
       payload: {
@@ -988,7 +990,7 @@ describe('prechat form', () => {
     expect(zChat.setVisitorInfo).not.toHaveBeenCalled()
     expect(zChat.clearVisitorDefaultDepartment).toHaveBeenCalled()
     expect(zChat.sendChatMsg).not.toHaveBeenCalled()
-    expect(queryByText('Live Support')).toBeInTheDocument()
+    await wait(() => expect(queryByText('Live Support')).toBeInTheDocument())
   })
 
   it('sends online message even if department field is hidden', () => {

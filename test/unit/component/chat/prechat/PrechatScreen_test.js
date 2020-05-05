@@ -44,6 +44,7 @@ describe('PrechatScreen component', () => {
       'component/chat/prechat/PrechatForm': {
         PrechatForm
       },
+      'embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
       'component/container/Container': {
         Container: noopReactComponent()
       },
@@ -113,6 +114,7 @@ describe('PrechatScreen component', () => {
       sendOfflineMessageSpy,
       clearDepartmentSpy,
       mockDepartments,
+      submitPrechatFormSpy,
       deptHidden = false
 
     beforeEach(() => {
@@ -121,6 +123,7 @@ describe('PrechatScreen component', () => {
       setDepartmentSpy = jasmine.createSpy('setDepartment')
       sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage')
       clearDepartmentSpy = jasmine.createSpy('clearDepartment')
+      submitPrechatFormSpy = jasmine.createSpy('submitPrechatForm')
       component = instanceRender(
         <PrechatScreen
           prechatFormSettings={prechatFormSettingsProp}
@@ -134,6 +137,7 @@ describe('PrechatScreen component', () => {
           departmentFieldHidden={deptHidden}
           sendOfflineMessage={sendOfflineMessageSpy}
           clearDepartment={clearDepartmentSpy}
+          submitPrechatForm={submitPrechatFormSpy}
         />
       )
 
@@ -150,319 +154,10 @@ describe('PrechatScreen component', () => {
       sendOfflineMessageSpy.calls.reset()
     })
 
-    describe('when display_name is not specified in the form data', () => {
-      const nameValue = 'test name'
-
-      beforeAll(() => {
-        formInfo = {
-          name: nameValue,
-          email: 'mother@of.dragons',
-          phone: '87654321',
-          message: 'bend the knee',
-          department: 12345
-        }
-
-        mockDepartments = {
-          12345: {
-            status: 'online'
-          }
-        }
-      })
-
-      it('uses the value of the name as the display_name', () => {
-        expect(setVisitorInfoSpy.calls.mostRecent().args[0].display_name).toEqual(nameValue)
-      })
-    })
-
-    describe('when the form data has null or undefined values', () => {
-      beforeAll(() => {
-        formInfo = {
-          display_name: 'name',
-          email: undefined,
-          phone: null
-        }
-      })
-
-      it('omits those values from the setVisitorInfo call', () => {
-        const visitorInfo = _.omit(formInfo, ['email', 'phone'])
-
-        expect(setVisitorInfoSpy).toHaveBeenCalledWith(visitorInfo)
-      })
-    })
-
-    describe('when the form data has no information about the visitor', () => {
-      beforeAll(() => {
-        formInfo = {
-          display_name: undefined,
-          name: undefined,
-          email: undefined,
-          phone: undefined
-        }
-      })
-
-      it('does not call setVisitorInfo', () => {
-        expect(setVisitorInfoSpy).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when department is specified', () => {
-      describe('when department is online', () => {
-        beforeAll(() => {
-          formInfo = {
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321',
-            message: 'bend the knee',
-            department: 12345
-          }
-
-          mockDepartments = {
-            12345: {
-              status: 'online'
-            }
-          }
-        })
-
-        it('calls setDepartment with correct arguments', () => {
-          expect(setDepartmentSpy).toHaveBeenCalledWith(
-            formInfo.department,
-            jasmine.any(Function),
-            jasmine.any(Function)
-          )
-        })
-
-        it('calls setVisitorInfo with the correct arguments', () => {
-          expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321'
-          })
-        })
-
-        it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
-        })
-
-        describe('when there is a message to send', () => {
-          beforeAll(() => {
-            formInfo.message = 'Bend the knee m8.'
-          })
-
-          it('sends an online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]()
-            expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
-          })
-        })
-
-        describe('when there is no message to send', () => {
-          beforeAll(() => {
-            formInfo.message = null
-          })
-
-          it('does not send online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]()
-            expect(sendMsgSpy).not.toHaveBeenCalled()
-          })
-        })
-      })
-
-      describe('when department is away', () => {
-        beforeAll(() => {
-          formInfo = {
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321',
-            message: 'bend the knee',
-            department: 12345
-          }
-
-          mockDepartments = {
-            12345: {
-              status: 'away'
-            }
-          }
-        })
-
-        it('calls setDepartment with correct arguments', () => {
-          expect(setDepartmentSpy).toHaveBeenCalledWith(
-            formInfo.department,
-            jasmine.any(Function),
-            jasmine.any(Function)
-          )
-        })
-
-        it('calls setVisitorInfo with the correct arguments', () => {
-          expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321'
-          })
-        })
-
-        it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
-        })
-
-        describe('when there is a message to send', () => {
-          beforeAll(() => {
-            formInfo.message = 'Bend the knee m8.'
-          })
-
-          it('sends an online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]()
-            expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
-          })
-        })
-
-        describe('when there is no message to send', () => {
-          beforeAll(() => {
-            formInfo.message = null
-          })
-
-          it('does not send online message', () => {
-            setDepartmentSpy.calls.mostRecent().args[1]()
-            expect(sendMsgSpy).not.toHaveBeenCalled()
-          })
-        })
-      })
-
-      describe('when department is offline', () => {
-        beforeAll(() => {
-          formInfo = {
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321',
-            message: 'bend the knee',
-            department: 12345
-          }
-
-          mockDepartments = {
-            12345: {
-              status: 'offline'
-            }
-          }
-        })
-
-        it('calls updateChatScreen with LOADING_SCREEN', () => {
-          expect(updateChatScreenSpy).toHaveBeenCalledWith(loadingScreen)
-        })
-
-        it('calls sendOfflineMessage with formInfo', () => {
-          expect(sendOfflineMessageSpy).toHaveBeenCalledWith(
-            formInfo,
-            jasmine.any(Function),
-            jasmine.any(Function)
-          )
-        })
-
-        it('calls updateChatScreen with offline screen when the callbackSuccess is invoked', () => {
-          const callbackSuccess = sendOfflineMessageSpy.calls.mostRecent().args[1]
-
-          callbackSuccess()
-
-          expect(updateChatScreenSpy).toHaveBeenCalledWith(offlineMessageScreen)
-        })
-
-        it('calls updateChatScreen with preChat screen when the callbackFailure is invoked', () => {
-          const callbackFailure = sendOfflineMessageSpy.calls.mostRecent().args[2]
-
-          callbackFailure()
-
-          expect(updateChatScreenSpy).toHaveBeenCalledWith(prechatScreen)
-        })
-      })
-
-      describe('when department is not enabled', () => {
-        beforeAll(() => {
-          formInfo = {
-            display_name: 'Daenerys Targaryen',
-            email: 'mother@of.dragons',
-            phone: '87654321',
-            message: 'bend the knee',
-            department: 12345
-          }
-
-          mockDepartments = {}
-        })
-
-        it('calls clearDepartment', () => {
-          expect(clearDepartmentSpy).toHaveBeenCalled()
-        })
-
-        it('calls handlePrechatFormSubmit with the form info', () => {
-          expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
-        })
-      })
-    })
-
-    describe('when department field is hidden', () => {
-      beforeAll(() => {
-        formInfo = {
-          display_name: 'Daenerys Targaryen',
-          email: 'mother@of.dragons',
-          phone: '87654321'
-        }
-
-        deptHidden = true
-        mockDepartments = null
-      })
-
-      it('does not call clearDepartment', () => {
-        expect(clearDepartmentSpy).not.toHaveBeenCalled()
-      })
-
-      it('does not call setDepartment', () => {
-        expect(setDepartmentSpy).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when department is not specified', () => {
-      beforeAll(() => {
-        formInfo = {
-          display_name: 'Daenerys Targaryen',
-          email: 'mother@of.dragons',
-          phone: '87654321'
-        }
-
-        mockDepartments = null
-      })
-
-      it('calls clearDepartment with the correct arguments', () => {
-        expect(clearDepartmentSpy).toHaveBeenCalledWith(jasmine.any(Function))
-      })
-
-      it('should call setVisitorInfo with the correct arguments', () => {
-        expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-          display_name: 'Daenerys Targaryen',
-          email: 'mother@of.dragons',
-          phone: '87654321'
-        })
-      })
-
-      it('calls handlePrechatFormSubmit with the form info', () => {
-        expect(handlePrechatFormSubmitSpy).toHaveBeenCalledWith(formInfo)
-      })
-
-      describe('when there is a message to send', () => {
-        beforeAll(() => {
-          formInfo.message = 'Bend the knee m8.'
-        })
-
-        it('sends an online message', () => {
-          clearDepartmentSpy.calls.mostRecent().args[0]()
-          expect(sendMsgSpy).toHaveBeenCalledWith('Bend the knee m8.')
-        })
-      })
-
-      describe('when there is no message to send', () => {
-        beforeAll(() => {
-          formInfo.message = null
-        })
-
-        it('does not send online message', () => {
-          clearDepartmentSpy.calls.mostRecent().args[0]()
-          expect(sendMsgSpy).not.toHaveBeenCalled()
-        })
+    it('calls submitPrechatForm', () => {
+      expect(submitPrechatFormSpy).toHaveBeenCalledWith({
+        values: formInfo,
+        isDepartmentFieldVisible: !deptHidden
       })
     })
 
