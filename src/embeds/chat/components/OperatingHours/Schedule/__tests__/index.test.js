@@ -22,6 +22,11 @@ const fullDaySchedule = {
   periods: [{ start: 0, end: 1440 }]
 }
 
+const closedSchedule = {
+  days: [5],
+  periods: []
+}
+
 const multiDaysAndMultiSchedulesPerDay = [
   singleScheduleMultipleDays,
   singleScheduleSingleDay,
@@ -45,6 +50,15 @@ it('renders single schedule on single day', () => {
 
   expect(queryByText('Tuesday')).toBeInTheDocument()
   expect(queryByText('1:20 PM to 3:00 PM')).toBeInTheDocument()
+})
+
+it('renders when closed', () => {
+  const { queryByText } = renderComponent({
+    schedule: [closedSchedule]
+  })
+
+  expect(queryByText('Friday')).toBeInTheDocument()
+  expect(queryByText('Closed')).toBeInTheDocument()
 })
 
 it('renders single schedule on multiple days', () => {

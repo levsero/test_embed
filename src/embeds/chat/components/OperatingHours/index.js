@@ -21,8 +21,8 @@ const OperatingHours = ({ operatingHours, handleOfflineFormBack, locale }) => {
 
   const getSelectedDepartmentSchedule = () => {
     const { department_schedule: schedule } = operatingHours
-    return _.find(schedule, d => {
-      return d.id.toString() === selectedDepartment
+    return _.find(schedule, department => {
+      return department.id.toString() === selectedDepartment
     }).schedule
   }
 
