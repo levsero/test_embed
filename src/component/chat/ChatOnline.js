@@ -7,9 +7,7 @@ import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'
 import PrechatScreen from 'component/chat/prechat/PrechatScreen'
-import { i18n } from 'service/i18n'
 import {
-  endChatViaPostChatScreen,
   sendAttachments,
   resetEmailTranscript,
   handleReconnect,
@@ -20,11 +18,7 @@ import {
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 import { CONNECTION_STATUSES } from 'constants/chat'
-import ChatModal, { ModalActions } from 'embeds/chat/components/ChatModal'
-import { Button } from '@zendeskgarden/react-buttons'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { TEST_IDS } from 'constants/shared'
-import { getIsEndChatModalVisible } from 'src/redux/modules/chat/chat-selectors'
 import { getMenuVisible } from 'embeds/chat/selectors'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
 import { sendEmailTranscript } from 'src/embeds/chat/actions/email-transcript'
@@ -42,15 +36,13 @@ const mapStateToProps = state => {
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
     offlineMessage: selectors.getOfflineMessage(state),
-    isLoggingOut: selectors.getIsLoggingOut(state),
-    endChatModalVisible: getIsEndChatModalVisible(state)
+    isLoggingOut: selectors.getIsLoggingOut(state)
   }
 }
 
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
@@ -65,7 +57,6 @@ class Chat extends Component {
     chatId: PropTypes.string,
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
-    endChatModalVisible: PropTypes.bool,
     updateEndChatModalVisibility: PropTypes.func,
     isPreview: PropTypes.bool
   }
@@ -176,45 +167,6 @@ class Chat extends Component {
     return <FileDropTarget onDrop={this.handleDragDrop} />
   }
 
-  renderChatEndPopup = () => {
-    const hideChatEndFn = () => {
-      this.props.updateEndChatModalVisibility(false)
-    }
-    const endChatFn = () => {
-      this.props.updateEndChatModalVisibility(false)
-      this.props.endChatViaPostChatScreen()
-    }
-
-    if (!this.props.endChatModalVisible) {
-      return null
-    }
-
-    return (
-      <ChatModal onClose={hideChatEndFn} focusOnMount={true}>
-        <div className={styles.chatEndPopupDescription}>
-          {i18n.t('embeddable_framework.chat.form.endChat.description')}
-        </div>
-        <ModalActions>
-          <Button
-            onClick={hideChatEndFn}
-            data-testid={TEST_IDS.BUTTON_CANCEL}
-            aria-label={i18n.t('embeddable_framework.common.button.cancel')}
-          >
-            {i18n.t('embeddable_framework.common.button.cancel')}
-          </Button>
-          <Button
-            onClick={endChatFn}
-            primary={true}
-            aria-label={i18n.t('embeddable_framework.common.button.end')}
-            data-testid={TEST_IDS.BUTTON_OK}
-          >
-            {i18n.t('embeddable_framework.common.button.end')}
-          </Button>
-        </ModalActions>
-      </ChatModal>
-    )
-  }
-
   renderChatRatingPage = () => {
     if (this.props.screen !== screens.FEEDBACK_SCREEN) return null
 
@@ -258,7 +210,6 @@ class Chat extends Component {
           {this.renderAgentListScreen()}
           {this.renderChatRatingPage()}
           {this.renderPostChatPage()}
-          {this.renderChatEndPopup()}
           {this.renderAttachmentsBox()}
           {this.renderChatReconnectionBubble()}
           {this.renderChatReconnectButton()}
@@ -269,7 +220,6 @@ class Chat extends Component {
 }
 
 const actionCreators = {
-  endChatViaPostChatScreen,
   sendAttachments,
   sendEmailTranscript,
   resetEmailTranscript,

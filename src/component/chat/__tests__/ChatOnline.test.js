@@ -10,7 +10,6 @@ const renderComponent = props => {
     authUrls: {},
     connection: '',
     editContactDetailsSubmitted: jest.fn(),
-    endChatViaPostChatScreen: jest.fn(),
     handleReconnect: jest.fn(),
     initiateSocialLogout: jest.fn(),
     isLoggingOut: false,
