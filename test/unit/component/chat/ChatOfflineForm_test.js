@@ -83,9 +83,7 @@ describe('ChatOfflineForm component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner: LoadingSpinner
       },
-      'component/chat/ChatOperatingHours': {
-        ChatOperatingHours
-      },
+      'src/embeds/chat/pages/OperatingHoursPage': ChatOperatingHours,
       'component/chat/ChatOfflineDepartmentMessageSuccess': ChatOfflineMessageForm,
       'component/chat/ChatMessagingChannels': {
         ChatMessagingChannels

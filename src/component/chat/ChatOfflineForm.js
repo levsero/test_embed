@@ -6,8 +6,8 @@ import classNames from 'classnames'
 import Linkify from 'react-linkify'
 import { Message, Field, Label, Input, Textarea } from '@zendeskgarden/react-forms'
 
+import ChatOperatingHoursPage from 'src/embeds/chat/pages/OperatingHoursPage'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
-import { ChatOperatingHours } from 'component/chat/ChatOperatingHours'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
 import ChatMessagingChannels from 'component/chat/ChatMessagingChannels'
@@ -407,21 +407,11 @@ export class ChatOfflineForm extends Component {
   renderOperatingHours() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return null
 
-    const { operatingHours, handleOfflineFormBack } = this.props
+    const { operatingHours } = this.props
 
     if (!operatingHours.enabled) return null
 
-    return (
-      <Widget>
-        <Header title={this.props.title} />
-        <Main>
-          <ChatOperatingHours
-            handleOfflineFormBack={handleOfflineFormBack}
-            operatingHours={operatingHours}
-          />
-        </Main>
-      </Widget>
-    )
+    return <ChatOperatingHoursPage />
   }
 
   render() {
