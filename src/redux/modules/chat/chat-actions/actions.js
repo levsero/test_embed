@@ -210,18 +210,21 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
       type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
       payload: { ...infoToUpdate, timestamp }
     })
-
-    onChatSDKInitialized(() => {
-      zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, err => {
-        if (!err) {
-          dispatch({
-            type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-            payload: { ...infoToUpdate, timestamp }
-          })
-          if (_.isObjectLike(successAction)) dispatch(successAction)
-        } else {
-          dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
-        }
+    return new Promise((res, rej) => {
+      onChatSDKInitialized(() => {
+        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, err => {
+          if (!err) {
+            dispatch({
+              type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
+              payload: { ...infoToUpdate, timestamp }
+            })
+            if (_.isObjectLike(successAction)) dispatch(successAction)
+            res()
+          } else {
+            dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
+            rej()
+          }
+        })
       })
     })
   }
