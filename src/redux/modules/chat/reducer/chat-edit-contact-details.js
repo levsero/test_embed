@@ -33,7 +33,6 @@ const editContactDetails = (state = initialState, action) => {
         status: EDIT_CONTACT_DETAILS_SCREEN,
         display_name: payload.display_name,
         email: payload.email,
-        show: false,
         error: false
       }
     case SET_VISITOR_INFO_REQUEST_PENDING:
