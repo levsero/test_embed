@@ -1520,9 +1520,9 @@ Ticket forms are listed by id. For instructions on getting a ticket form id, see
 
 To display a specific ticket form, use the form id.
 
-Example
+#### Example
 
-```
+```html
 <script type="text/javascript">
   window.zESettings = {
     webWidget: {
@@ -1589,22 +1589,6 @@ Example
             ]
           }
         ]
-      }
-    }
-  };
-</script>
-```
-
-<a name="example-ticketforms"></a>
-
-#### Example
-
-```html
-<script type="text/javascript">
-  window.zESettings = {
-    webWidget: {
-      contactForm: {
-        ticketForms: [{ id: 426353 }]
       }
     }
   };
