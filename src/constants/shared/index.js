@@ -147,7 +147,7 @@ export const TEST_IDS = {
   ICON_CLOSE: 'Icon--close',
   ICON_ARROW_DOWN: 'Icon--arrow-down',
   ICON_ZENDESK: ICONS.ZENDESK,
-  ICON_END_CHAT: 'Icon--end-chat',
+  ICON_END_CHAT: 'Icon--endChat',
   ICON_SEND_CHAT: 'Icon--send-chat',
   ICON_CHAT_ATTACHMENT: 'Icon--chat-attachment',
   ICON_ELLIPSIS: ICONS.ELLIPSIS,
