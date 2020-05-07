@@ -1,7 +1,7 @@
 describe('Carousel Component', () => {
   let Carousel
 
-  const carouselPath = buildSrcPath('component/shared/Carousel')
+  const carouselPath = buildSrcPath('embeds/chat/components/Carousel')
   const Slider = noopReactComponent()
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Carousel Component', () => {
           carouselSlider: 'carouselSlider'
         }
       },
-      '../SliderContainer': Slider
+      'embeds/chat/SliderContainer': Slider
     })
 
     mockery.registerAllowable(carouselPath)

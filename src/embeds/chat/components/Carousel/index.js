@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { locals as styles } from './Carousel.scss'
 
-import Slider from '../SliderContainer'
+import Slider from 'embeds/chat/SliderContainer'
 
 export default class Carousel extends Component {
   static propTypes = {

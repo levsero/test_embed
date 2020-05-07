@@ -18,7 +18,7 @@ import { i18n } from 'service/i18n'
 import { locals as styles } from './ChatGroup.scss'
 import { Icon } from 'component/Icon'
 import StructuredMessage from 'component/chat/chatting/StructuredMessage'
-import Carousel from 'component/chat/chatting/Carousel'
+import Carousel from 'src/embeds/chat/components/Carousel'
 import MessageBubble from 'src/embeds/chat/components/MessageBubble'
 
 const structuredMessageTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE)

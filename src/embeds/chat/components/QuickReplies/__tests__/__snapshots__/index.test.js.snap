@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuickReplies matches snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="container structuredMessageSlider"
+    >
+      <div
+        class="scroll"
+      >
+        <h1
+          class="separator"
+        >
+          derp
+        </h1>
+        <h2
+          class="lastSeparator"
+        >
+          Derpette
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`QuickReplies when is Mobile applies isMobile to class 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+@@ -3,3 +3,3 @@
+      <div
+-       class="container structuredMessageSlider"
++       class="container structuredMessageSlider mobile"
+      >
+`;

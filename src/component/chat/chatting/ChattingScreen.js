@@ -10,7 +10,7 @@ import HistoryLog from 'component/chat/chatting/HistoryLog'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
-import { QuickReply, QuickReplies } from 'component/shared/QuickReplies'
+import { QuickReply, QuickReplies } from 'src/embeds/chat/components/QuickReplies'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
 import {
   fetchConversationHistory,
