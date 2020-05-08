@@ -20,6 +20,35 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 29 April 2020
+
+- Added support for enhanced event tracking. For more information, refer to the [announcement](https://support.zendesk.com/hc/en-us/articles/360047581933-Announcing-enhanced-event-tracking-for-the-Web-Widget-in-Google-Analytics-and-other-analytics-tools) and the [API documentation](https://developer.zendesk.com/embeddables/docs/widget/core#on-userevent).
+- Changed Answer Bot to now only download on-demand instead of when the widget starts on page load.
+
+### 27 April 2020
+
+- Fixed an issue where the agent's availability weren't updated after a department transfer triggered via the Chat Conversations API.
+
+### 23 April 2020
+
+- Fixed a bug that caused the chat log to lose scroll position when scrolling up to load more messages.
+
+### 21 April 2020
+
+- Fixed a bug where custom forms are not being displayed when the contact form is suppressed during load time and then unsuppressed.
+- Fixed the chat history log displaying an incorrect date for some chats.
+- Fixed the question prompt being incorrectly shown in Answer Bot when requesting feedback.
+
+### 9 April 2020
+
+- Fixed an error message when there are connection issues uploading an attachment in the contact form.
+
+### 3 April 2020
+
+- Fixed a bug where proactive chats were not displaying on Firefox mobile.
+- Updated docs to include information about using empty arrays to reset custom filtering in ticket forms.
+- Fixed a bug where submitting a ticket form a second time with attachments resulted in an indefinite loading spinner.
+
 ### 27 March 2020
 
 - Fixed a bug where the Chat badge did not display the widget launcher after the user had interacted with it.
