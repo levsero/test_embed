@@ -20,8 +20,7 @@ import {
   sendAttachments,
   sendChatRating,
   sendMsg,
-  updateChatScreen,
-  updateEmailTranscriptVisibility
+  updateChatScreen
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
@@ -50,8 +49,6 @@ import {
   useAgentTyping,
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
-import EmailTranscriptModal from 'embeds/chat/components/EmailTranscriptModal'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
 
 const mapStateToProps = state => {
@@ -63,7 +60,6 @@ const mapStateToProps = state => {
     concierges: getCurrentConcierges(state),
     conciergeSettings: getConciergeSettings(state),
     currentMessage: chatSelectors.getCurrentMessage(state),
-    emailTranscript: chatSelectors.getEmailTranscript(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
@@ -75,7 +71,6 @@ const mapStateToProps = state => {
     queuePosition: chatSelectors.getQueuePosition(state),
     rating: chatSelectors.getChatRating(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
-    showNewChatEmbed: isFeatureEnabled(state, 'chat_new_modal_support'),
     showRating: getShowRatingButtons(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state)
@@ -117,10 +112,7 @@ const ChattingScreen = ({
   notificationCount = 0,
   markAsRead = () => {},
   visible = false,
-  isPreview = false,
-  emailTranscript,
-  updateEmailTranscriptVisibility,
-  showNewChatEmbed
+  isPreview = false
 }) => {
   const scrollContainer = useRef(null)
   const agentTypingRef = useRef(null)
@@ -294,14 +286,7 @@ const ChattingScreen = ({
         {renderQuickReply()}
       </Main>
       {renderChatFooter()}
-      {!showNewChatEmbed && emailTranscript?.show && (
-        <EmailTranscriptModal
-          onClose={() => {
-            updateEmailTranscriptVisibility(false)
-          }}
-        />
-      )}
-      {showNewChatEmbed && <ChatModalController />}
+      <ChatModalController />
     </Widget>
   )
 }
@@ -314,7 +299,6 @@ ChattingScreen.propTypes = {
   concierges: PropTypes.array.isRequired,
   conciergeSettings: PropTypes.object.isRequired,
   currentMessage: PropTypes.string.isRequired,
-  emailTranscript: PropTypes.object.isRequired,
   fetchConversationHistory: PropTypes.func,
   firstMessageTimestamp: PropTypes.number,
   handleChatBoxChange: PropTypes.func.isRequired,
@@ -338,12 +322,10 @@ ChattingScreen.propTypes = {
   showAvatar: PropTypes.bool.isRequired,
   showChatEndFn: PropTypes.func.isRequired,
   showContactDetails: PropTypes.func.isRequired,
-  showNewChatEmbed: PropTypes.bool,
   showRating: PropTypes.bool,
   socialLogin: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
-  updateEmailTranscriptVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool
 }
 
@@ -355,8 +337,7 @@ const actionCreators = {
   sendAttachments,
   sendChatRating,
   sendMsg,
-  updateChatScreen,
-  updateEmailTranscriptVisibility
+  updateChatScreen
 }
 
 const connectedComponent = connect(

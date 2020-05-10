@@ -46,7 +46,6 @@ const renderComponent = (inProps, rerender) => {
     showChatEndFn: showChatEndSpy,
     showContactDetails: jest.fn(),
     showEditContactDetails: false,
-    showNewChatEmbed: true,
     title: '',
     toggleMenu: toggleMenuSpy,
     unreadMessages: false,

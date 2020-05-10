@@ -4,8 +4,5 @@
 export default {
   chat_embed_prechat_form_enabled: {
     defaultValue: false
-  },
-  chat_new_modal_support: {
-    defaultValue: false
   }
 }
