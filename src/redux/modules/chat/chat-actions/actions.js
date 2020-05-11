@@ -487,7 +487,7 @@ export function chatOfflineFormChanged(formState) {
 export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
   return (dispatch, getState) => {
     zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, err => {
-      dispatch(setDefaultDepartment(departmentId))
+      dispatch(setDefaultDepartment(departmentId, Date.now()))
 
       if (!err) {
         successCallback()
@@ -745,10 +745,11 @@ export function markAsRead() {
   }
 }
 
-export function setDefaultDepartment(id) {
+export function setDefaultDepartment(id, timestamp) {
   return {
     type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
     payload: {
+      timestamp,
       department: id
     }
   }

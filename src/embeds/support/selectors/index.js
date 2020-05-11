@@ -60,53 +60,15 @@ export const getContactFormTitle = createSelector(
 export const getAttachmentsEnabled = state =>
   Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
 
-export const getPrefillId = state => state.support.prefillId
-export const getLastFormPrefillId = (state, formId) => state.support.lastFormPrefillId[formId]
-
-const getSpecificFormPrefills = state => state.support.prefillSpecificFormValues
-const getGenericFormPrefillValues = state => state.support.prefillValues
-
 export const getAttachmentsForForm = (state, attachmentIds) => {
   const attachments = getAllAttachments(state)
   if (!attachmentIds) return attachments
   return attachments.filter(attachment => attachmentIds.includes(attachment.id))
 }
 
-export const getPrefillValues = formId =>
-  createSelector(
-    getSpecificFormPrefills,
-    getGenericFormPrefillValues,
-    getLocale,
-    (specific, generic, locale) => {
-      const getSpecificValues = locale => {
-        if (!specific[formId] || !specific[formId][locale]) {
-          return {}
-        }
-
-        return specific[formId][locale]
-      }
-
-      const values = {
-        ...(generic['*'] || {}),
-        ...(generic[locale] || {}),
-        ...getSpecificValues('*'),
-        ...getSpecificValues(locale)
-      }
-
-      return Object.keys(values).reduce(
-        (prev, key) => ({
-          ...prev,
-          [createKeyID(key)]: values[key]
-        }),
-        {}
-      )
-    }
-  )
-
 export const getReadOnlyState = state => state.support.readOnly
 
 const getInitialValues = (state, formId) => {
-  const prefillValues = getPrefillValues(formId)(state)
   const fields = getFormTicketFields(state, formId)
 
   const defaultValues = {}
@@ -126,10 +88,7 @@ const getInitialValues = (state, formId) => {
     }
   })
 
-  return {
-    ...defaultValues,
-    ...prefillValues
-  }
+  return defaultValues
 }
 
 export const getFormState = (state, name) =>

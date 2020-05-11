@@ -1,41 +1,56 @@
 import { useEffect, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getLastFormPrefillId, getPrefillId, getPrefillValues } from 'embeds/support/selectors'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-final-form'
-import { formPrefilled } from 'embeds/support/actions'
-import { onNextTick } from 'utility/utils'
 import useOnClear from 'embeds/webWidget/hooks/useOnClear'
+import { getLocale } from 'src/redux/modules/base/base-selectors'
+import useOnChange from 'src/hooks/useOnChange'
+import createKeyID from 'embeds/support/utils/createKeyID'
+import { getValues } from 'src/redux/modules/customerProvidedPrefill/selectors'
 
-const useWidgetFormApis = formId => {
+const useWidgetFormApis = (formId, fields = []) => {
   const form = useForm()
-  const prefillId = useSelector(getPrefillId)
-  const lastPrefill = useSelector(state => getLastFormPrefillId(state, formId))
-  const prefillValues = useSelector(getPrefillValues(formId))
-  const dispatch = useDispatch()
+  const locale = useSelector(getLocale)
+  const formFields = useSelector(state => getValues(state, 'supportFields'))
+  const specificFormFields = useSelector(state => getValues(state, 'supportCustomFormFields'))
+  const prefill = useSelector(state => getValues(state, 'prefill'))
 
   const onClear = useCallback(() => {
     form.reset({})
   }, [form])
   useOnClear(onClear)
 
-  useEffect(() => {
-    if (lastPrefill === prefillId) {
-      return
-    }
+  const overwriteFormWithProvidedValues = useCallback(() => {
+    form.batch(() => {
+      const fieldsById = fields.reduce(
+        (prev, next) => ({
+          ...prev,
+          [next.id]: next
+        }),
+        {}
+      )
 
-    // React final form seems to have a bug where it doesn't update field elements if you update it too early
-    // on first render.
-    // To get around this, we just update it on next tick
-    onNextTick(() => {
-      form.batch(() => {
-        Object.keys(prefillValues).forEach(key => {
-          form.change(key, prefillValues[key])
-        })
+      const fieldsToUpdate = {
+        ...(prefill || {}),
+        ...(formFields['*'] || {}),
+        ...(formFields[locale] || {}),
+        ...specificFormFields[formId]?.['*'],
+        ...specificFormFields[formId]?.[locale]
+      }
+
+      Object.keys(fieldsToUpdate).forEach(key => {
+        if (fieldsById[key]) {
+          form.change(fieldsById[key].keyID, fieldsToUpdate[key])
+        } else {
+          form.change(createKeyID(key), fieldsToUpdate[key])
+        }
       })
-
-      dispatch(formPrefilled(formId, prefillId))
     })
-  }, [form, prefillId, prefillValues, lastPrefill, dispatch, formId])
+  }, [form, formId, locale, formFields, specificFormFields, prefill])
+
+  useOnChange('supportFields', `support-${formId}`, overwriteFormWithProvidedValues)
+  useOnChange('supportCustomFormFields', `support-${formId}`, overwriteFormWithProvidedValues)
+  useOnChange('prefill', `support-${formId}`, overwriteFormWithProvidedValues)
+  useEffect(overwriteFormWithProvidedValues, [locale])
 }
 
 export default useWidgetFormApis

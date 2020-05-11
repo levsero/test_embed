@@ -16,10 +16,6 @@ Object {
   "forms": Object {},
   "isFormLoading": Object {},
   "isTicketFieldsLoading": false,
-  "lastFormPrefillId": Object {},
-  "prefillId": 0,
-  "prefillSpecificFormValues": Object {},
-  "prefillValues": Object {},
   "readOnly": Object {},
   "ticketFormsRequest": Object {
     "fetchKey": null,
