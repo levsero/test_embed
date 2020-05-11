@@ -186,6 +186,7 @@ const updateDepartment = async detail => {
 const online = async () => {
   await getAccountSettings()
   await getOperatingHours()
+  await clearVisitorDefaultDepartment()
   await isChatting()
   await connectionUpdate('connecting')
   await accountStatus('online')
@@ -206,6 +207,14 @@ const offline = async () => {
   await accountStatus('offline')
 }
 
+const clearVisitorDefaultDepartment = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('clearVisitorDefaultDepartment', callback => {
+      callback()
+    })
+  })
+}
+
 export default {
   getAccountSettings,
   getOperatingHours,
@@ -221,5 +230,6 @@ export default {
   rating,
   agentRequestRating,
   setVisitorInfo,
-  updateDepartment
+  updateDepartment,
+  clearVisitorDefaultDepartment
 }

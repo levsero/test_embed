@@ -1,23 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import ChatOfflineDepartmentMessageSuccess from 'src/embeds/chat/components/ChatOfflineDepartmentMessageSuccess'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
-import { DEPARTMENT_STATUSES } from 'constants/chat'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
-  sendMsg,
-  setDepartment,
   updateChatScreen,
   handlePreChatFormChange,
   resetCurrentMessage,
-  sendOfflineMessage,
-  setVisitorInfo,
-  clearDepartment,
-  handlePrechatFormSubmit,
   initiateSocialLogout,
   openedChatHistory
 } from 'src/redux/modules/chat'
@@ -48,6 +40,7 @@ import { locals as styles } from './PrechatScreen.scss'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import SuspensePage from 'components/Widget/SuspensePage'
+import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 
 const NewPrechatForm = React.lazy(() =>
   import(/* webpackChunkName: 'lazy/prechat-form' */ 'embeds/chat/components/PrechatForm')
@@ -62,7 +55,6 @@ const mapStateToProps = state => {
     : undefined
 
   return {
-    departments: getDepartments(state),
     selectedDepartment,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     settingsDepartmentsEnabled: getSettingsChatDepartmentsEnabled(state),
@@ -90,22 +82,15 @@ class PrechatScreen extends Component {
     hideZendeskLogo: PropTypes.bool,
     chatId: PropTypes.string,
     updateChatScreen: PropTypes.func.isRequired,
-    setDepartment: PropTypes.func.isRequired,
-    departments: PropTypes.object,
     hasChatHistory: PropTypes.bool.isRequired,
-    sendOfflineMessage: PropTypes.func,
-    sendMsg: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     visitor: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
     preChatFormState: PropTypes.object,
     handlePreChatFormChange: PropTypes.func,
-    clearDepartment: PropTypes.func,
-    setVisitorInfo: PropTypes.func.isRequired,
     resetCurrentMessage: PropTypes.func,
     prechatFormSettings: PropTypes.object.isRequired,
     settingsDepartmentsEnabled: PropTypes.array,
-    handlePrechatFormSubmit: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
@@ -122,16 +107,15 @@ class PrechatScreen extends Component {
       id: PropTypes.number,
       status: PropTypes.string
     }),
-    isNewPrechatFormEnabled: PropTypes.bool
+    isNewPrechatFormEnabled: PropTypes.bool,
+    submitPrechatForm: PropTypes.func
   }
 
   static defaultProps = {
     fullscreen: false,
     hideZendeskLogo: false,
     chatId: '',
-    departments: {},
     sendOfflineMessage: () => {},
-    clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
     loginSettings: {},
@@ -139,47 +123,11 @@ class PrechatScreen extends Component {
     settingsDepartmentsEnabled: []
   }
 
-  onPrechatFormComplete = info => {
-    const currentDepartment = parseInt(info.department)
-    const isSelectedDepartmentUnavailable =
-      !!currentDepartment && !this.props.departments[currentDepartment]
-    const selectedDepartment = isSelectedDepartmentUnavailable ? undefined : currentDepartment
-
-    const isSelectedDepartmentOffline =
-      !!selectedDepartment &&
-      !isSelectedDepartmentUnavailable &&
-      this.props.departments[selectedDepartment].status === DEPARTMENT_STATUSES.OFFLINE
-
-    if (isSelectedDepartmentOffline) {
-      const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN)
-      const failureCallback = () => this.props.updateChatScreen(screens.PRECHAT_SCREEN)
-
-      this.props.updateChatScreen(screens.LOADING_SCREEN)
-      this.props.sendOfflineMessage(info, successCallback, failureCallback)
-    } else {
-      const sendOnlineMessage = () => (info.message ? this.props.sendMsg(info.message) : null)
-
-      if (this.props.departmentFieldHidden) {
-        if (sendOnlineMessage) sendOnlineMessage()
-      } else if (selectedDepartment) {
-        this.props.setDepartment(selectedDepartment, sendOnlineMessage, sendOnlineMessage)
-      } else {
-        this.props.clearDepartment(sendOnlineMessage)
-      }
-      if (info.display_name || info.name || info.email || info.phone) {
-        this.props.setVisitorInfo(
-          _.omitBy(
-            {
-              display_name: info.display_name || info.name,
-              email: info.email,
-              phone: info.phone
-            },
-            _.isNil
-          )
-        )
-      }
-      this.props.handlePrechatFormSubmit(info)
-    }
+  onPrechatFormComplete = values => {
+    this.props.submitPrechatForm({
+      values,
+      isDepartmentFieldVisible: !this.props.departmentFieldHidden
+    })
 
     this.props.resetCurrentMessage()
   }
@@ -267,16 +215,11 @@ class PrechatScreen extends Component {
 
 const actionCreators = {
   updateChatScreen,
-  setDepartment,
-  setVisitorInfo,
-  sendOfflineMessage,
-  sendMsg,
-  clearDepartment,
   resetCurrentMessage,
   handlePreChatFormChange,
-  handlePrechatFormSubmit,
   initiateSocialLogout,
-  openedChatHistory
+  openedChatHistory,
+  submitPrechatForm
 }
 
 const connectedComponent = connect(
