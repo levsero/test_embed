@@ -3,8 +3,12 @@ import { fireEvent, wait } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchForm from '../index'
-
-jest.mock('service/transport')
+import { http } from 'service/transport'
+http.getWithCache = jest.fn(() => {
+  return new Promise(resolve => {
+    resolve()
+  })
+})
 
 const renderInitialSearchForm = () => {
   const utils = render(<SearchForm />)
@@ -23,9 +27,7 @@ describe('when a search term is provided', () => {
     fireEvent.change(inputNode, { target: { value: 'help me!' } })
     fireEvent.submit(formNode)
 
-    await wait(() => {
-      expect(getSearchLoading(store.getState())).toEqual(true)
-    })
+    expect(getSearchLoading(store.getState())).toEqual(true)
   })
 
   it('renders the search value', async () => {

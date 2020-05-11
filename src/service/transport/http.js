@@ -207,32 +207,6 @@ function sendFile(payload) {
     })
 }
 
-function getImage(payload) {
-  const defaultPayload = {
-    path: '',
-    callbacks: {
-      done: () => {},
-      fail: () => {},
-      always: () => {}
-    }
-  }
-  payload = _.defaultsDeep({}, payload, defaultPayload)
-
-  const { done, fail } = payload.callbacks
-  const onEnd = (err, res) => {
-    if (err) {
-      fail(err, res)
-    } else {
-      done(res)
-    }
-  }
-
-  return superagent(payload.method, payload.path)
-    .responseType('blob')
-    .set('Authorization', payload.authorization)
-    .end(onEnd)
-}
-
 function buildFullUrl(payload) {
   const scheme = payload.forceHttp ? config.insecureScheme : config.scheme
   const host = payload.forceHttp
@@ -287,7 +261,6 @@ function shouldExclude(error, payload = {}) {
 }
 
 export const http = {
-  getImage,
   send,
   sendWithMeta,
   sendFile,

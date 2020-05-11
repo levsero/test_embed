@@ -3,10 +3,15 @@ import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import { TEST_IDS } from 'src/constants/shared'
+import { http } from 'service/transport'
+http.getWithCache = jest.fn(
+  () =>
+    new Promise(resolve => {
+      resolve()
+    })
+)
 
 import SearchPromptPage, { Component } from '../index'
-
-jest.mock('service/transport')
 
 const placeHolder = 'How can we help?'
 
