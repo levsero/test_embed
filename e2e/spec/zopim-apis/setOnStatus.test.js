@@ -5,7 +5,7 @@ beforeEach(async () => {
   await loadWidget('helpCenter', 'chat')
 })
 
-test('setOnStatus executes a callback when the status changes to online', async () => {
+test.skip('setOnStatus executes a callback when the status changes to online', async () => {
   await page.evaluate(() => {
     $zopim.livechat.setOnStatus(status => (window.zopimStatus = status))
   })
@@ -16,7 +16,7 @@ test('setOnStatus executes a callback when the status changes to online', async 
   expect(await result).toEqual('online')
 })
 
-test('setOnStatus executes a callback when the status changes to offline', async () => {
+test.skip('setOnStatus executes a callback when the status changes to offline', async () => {
   await page.evaluate(() => {
     $zopim.livechat.setOnStatus(status => (window.zopimStatus = status))
   })
