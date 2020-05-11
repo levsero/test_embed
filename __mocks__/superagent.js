@@ -34,13 +34,12 @@ function Request() {
   self.set = createRequestStub(self)
   self.accept = createRequestStub(self)
   self.timeout = createRequestStub(self)
+  self.retry = createRequestStub(self)
   self.then = cb => {
-    return new Promise((resolve, reject) => {
-      if (self.mockError) {
-        return reject(self.mockError)
-      }
-      return resolve(cb(self.mockResponse))
-    })
+    if (self.mockError) {
+      return self.mockError
+    }
+    return cb(self.mockResponse)
   }
   self.end = jest.fn().mockImplementation(function(callback) {
     if (self.mockDelay) {
@@ -83,6 +82,7 @@ superagent.__instances = instances
 superagent.__clearInstances = () => {
   instances = []
 }
+superagent.__getInstances = () => instances
 superagent.__mostRecent = () => instances[instances.length - 1]
 
 module.exports = superagent

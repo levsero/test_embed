@@ -2,13 +2,8 @@ import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
-import { http } from 'service/transport'
 import { Component as ArticlePage } from '../index'
 import { render } from 'src/util/testHelpers'
-
-http.init({
-  zendeskHost: 'a.zendesk.com'
-})
 
 jest.useFakeTimers()
 

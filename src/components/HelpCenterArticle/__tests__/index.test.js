@@ -45,13 +45,8 @@ const activeArticle = {
   `
 }
 
-beforeEach(() => {
-  http.init({
-    zendeskHost: 'dev.zd-dev.com'
-  })
-})
-
 test('renders the expected classes', () => {
+  http.getDynamicHostname = () => 'testingHost'
   const { container } = renderComponent({ activeArticle })
 
   expect(container).toMatchSnapshot()
@@ -208,6 +203,7 @@ describe('article images', () => {
 
   describe('baseIsAuthenticated', () => {
     it('queues up new images with locale in the image url', () => {
+      http.getDynamicHostname = () => 'dev.zd-dev.com'
       jest.spyOn(baseSelectors, 'getBaseIsAuthenticated').mockReturnValue(true)
       const article = {
         id: 1,

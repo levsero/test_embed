@@ -52,7 +52,7 @@ test('searches help center with the expected authentication token', async () => 
   expect(headers.authorization).toEqual('Bearer faketoken')
 })
 
-test('help center images include token as well', async () => {
+test.skip('help center images include token as well', async () => {
   const image = jest.fn()
   await buildWidget()
     .intercept(
