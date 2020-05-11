@@ -26,7 +26,6 @@ import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
 import { loadTalkVendors } from 'src/redux/modules/talk'
 import { onNextTick } from 'src/util/utils'
-import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
@@ -191,7 +190,7 @@ export default function WebWidgetFactory() {
     if (settingJwt) embed.store.dispatch(authenticate(settingJwt))
   }
 
-  function setUpSubmitTicket(config, store) {
+  function setUpSubmitTicket(config) {
     const submitTicketConfigDefaults = {
       position: 'right',
       customFields: {},
@@ -205,43 +204,8 @@ export default function WebWidgetFactory() {
 
     config = _.extend({}, submitTicketConfigDefaults, config)
 
-    const getTicketFormsFromConfig = _.memoize(config => {
-      const settingTicketForms = settings.get('contactForm.ticketForms')
-
-      if (_.isEmpty(settingTicketForms)) {
-        return config.ticketForms
-      }
-
-      return _.reduce(
-        settingTicketForms,
-        (result, ticketForm) => {
-          const id = _.get(ticketForm, 'id')
-
-          if (id) {
-            result.push(id)
-          }
-
-          return result
-        },
-        []
-      )
-    })
-
-    const { customFields } = config
-    const ticketForms = getTicketFormsFromConfig(config)
-
-    if (!_.isEmpty(ticketForms)) {
-      // TODO: Alter this code to return objects with id's once pre-fill is GA'd
-      store.dispatch(fetchTicketForms(ticketForms, i18n.getLocale()))
-    } else if (customFields.ids || customFields.all === true) {
-      store.dispatch(getTicketFields(customFields, i18n.getLocale()))
-      config.customFields = {}
-    }
-
     return {
-      config,
-      ticketForms,
-      customFields
+      config
     }
   }
 

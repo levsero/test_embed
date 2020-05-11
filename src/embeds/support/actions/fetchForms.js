@@ -18,6 +18,7 @@ import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
   return async (dispatch, getState) => {
+    const state = getState()
     const ticketFormIdsToLoad = ticketFormIds.filter(id => {
       const form = getForm(getState(), id)
 
@@ -29,6 +30,10 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
     })
 
     if (ticketFormIdsToLoad.length === 0) {
+      if (getCustomFieldsAvailable(state)) {
+        const customFields = getCustomFieldIds(state)
+        dispatch(getTicketFields(customFields, locale))
+      }
       return
     }
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import routes from './routes'
 import SuccessPage from 'embeds/support/pages/SuccessPage'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
@@ -17,7 +17,7 @@ const Support = ({ ticketForms, formIds, fetchTicketForms, locale }) => {
   const formId = ticketForms.length ? ticketForms[0].id : routes.defaultFormId
   const indexRoute = ticketForms.length > 1 ? routes.list() : routes.form(formId)
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     fetchTicketForms(formIds, locale).finally(() => {
       setIsFetchingInitialForms(false)
     })

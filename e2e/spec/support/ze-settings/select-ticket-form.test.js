@@ -50,7 +50,9 @@ beforeEach(async () => {
 test('customize the forms prompt', async () => {
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
-  expect(await queries.queryByText(doc, 'Please choose:')).not.toBeNull()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Please choose:')).not.toBeNull()
+  })
 })
 
 test('selects the proper locale', async () => {
