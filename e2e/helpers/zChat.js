@@ -210,9 +210,44 @@ const offline = async () => {
 const clearVisitorDefaultDepartment = async () => {
   await page.evaluate(() => {
     window.zChat.__mock__('clearVisitorDefaultDepartment', callback => {
+      document.departmentId = null
       callback()
     })
   })
+}
+
+const setVisitorDefaultDepartment = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('setVisitorDefaultDepartment', (departmentId, callback) => {
+      document.departmentId = departmentId
+      callback()
+    })
+  })
+}
+
+const expectCurrentDepartmentToBe = async expectedDepartmentId => {
+  const currentDepartmentId = await page.evaluate(() => {
+    return document.departmentId
+  })
+
+  await expect(currentDepartmentId).toBe(expectedDepartmentId)
+}
+
+const sendOfflineMsg = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('sendOfflineMsg', (formState, callback) => {
+      document.chatOfflineSubmission = formState
+      callback()
+    })
+  })
+}
+
+const expectOfflineFormSubmissionToBe = async expectedFormSubmission => {
+  const currentFormSubmission = await page.evaluate(() => {
+    return document.chatOfflineSubmission
+  })
+
+  await expect(currentFormSubmission).toEqual(expectedFormSubmission)
 }
 
 export default {
@@ -231,5 +266,9 @@ export default {
   agentRequestRating,
   setVisitorInfo,
   updateDepartment,
-  clearVisitorDefaultDepartment
+  clearVisitorDefaultDepartment,
+  setVisitorDefaultDepartment,
+  expectCurrentDepartmentToBe,
+  sendOfflineMsg,
+  expectOfflineFormSubmissionToBe
 }
