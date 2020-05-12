@@ -9,11 +9,7 @@ import {
   TICKET_FORMS_REQUEST_SUCCESS
 } from './action-types'
 import { http } from 'service/transport'
-import {
-  getCustomFieldIds,
-  getCustomFieldsAvailable,
-  getTicketFormIds
-} from 'src/redux/modules/base/base-selectors'
+import { getCustomFieldIds, getCustomFieldsAvailable } from 'src/redux/modules/base/base-selectors'
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
@@ -140,19 +136,5 @@ export function getTicketFields(customFields, locale) {
     dispatch({
       type: TICKET_FIELDS_REQUEST_SENT
     })
-  }
-}
-
-export function updateFormsForLocaleChange(locale) {
-  return (dispatch, getState) => {
-    const state = getState()
-
-    const ticketFormIds = getTicketFormIds(state)
-    if (ticketFormIds.length > 0) {
-      dispatch(fetchTicketForms(ticketFormIds, locale))
-    } else if (getCustomFieldsAvailable(state)) {
-      const customFields = getCustomFieldIds(state)
-      dispatch(getTicketFields(customFields, locale))
-    }
   }
 }

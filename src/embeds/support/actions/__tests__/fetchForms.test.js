@@ -3,7 +3,6 @@ import thunk from 'redux-thunk'
 import * as actions from '../fetchForms'
 import * as types from '../action-types'
 import { http } from 'service/transport'
-import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { fetchTicketForms } from '../fetchForms'
 import {
   TICKET_FORMS_REQUEST_SENT,
@@ -314,51 +313,5 @@ describe('getTicketFields', () => {
         payload: { abc: true }
       }
     ])
-  })
-})
-
-describe('updateFormsForLocaleChange', () => {
-  const mockStore = configureMockStore([thunk])
-
-  const dispatchAction = locale => {
-    const store = mockStore({
-      support: { forms: {}, filteredFormsToDisplay: [], ticketFormsRequest: { fetchKey: '' } }
-    })
-
-    store.dispatch(actions.updateFormsForLocaleChange(locale))
-    return store
-  }
-
-  describe('when ticket forms are enabled', () => {
-    beforeEach(() => {
-      jest.spyOn(baseSelectors, 'getTicketFormIds').mockReturnValue([10, 20])
-    })
-
-    it('calls getTicketForms with ticket form ids and locale', () => {
-      const store = dispatchAction('en')
-
-      expect(store.getActions()).toEqual([
-        {
-          type: types.TICKET_FORMS_REQUEST_SENT,
-          payload: { fetchKey: 'en/10,20', formIds: [10, 20] }
-        }
-      ])
-    })
-  })
-
-  describe('when custom ticket fields are enabled', () => {
-    beforeEach(() => {
-      jest.spyOn(baseSelectors, 'getTicketFormIds').mockReturnValue(false)
-      jest.spyOn(baseSelectors, 'getCustomFieldsAvailable').mockReturnValue(true)
-      jest.spyOn(baseSelectors, 'getCustomFieldIds').mockReturnValue({
-        ids: [10, 20]
-      })
-    })
-
-    it('calls getTicketFields with custom fields and locale', () => {
-      const store = dispatchAction('en')
-
-      expect(store.getActions()).toEqual([{ type: types.TICKET_FIELDS_REQUEST_SENT }])
-    })
   })
 })

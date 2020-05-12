@@ -97,6 +97,8 @@ describe('zESettings.webWidget.contactForm.fields', () => {
     })
 
     await launcher.click()
+    const doc = await widget.getDocument()
+    await wait(async () => await queries.getByText(doc, 'Laissez-nous un message'))
     await assertInputValue('Subject', 'french prefill')
     await assertInputValue('Text', 'french random')
   })

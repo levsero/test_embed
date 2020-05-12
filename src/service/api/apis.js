@@ -61,7 +61,6 @@ import { beacon } from 'service/beacon'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { nameValid, emailValid } from 'utility/utils'
 import { apiResetWidget } from 'src/redux/modules/base/base-actions'
-import { updateFormsForLocaleChange } from 'src/embeds/support/actions/fetchForms'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
@@ -144,7 +143,7 @@ export const toggleApi = reduxStore => {
 }
 
 export const setLocaleApi = (reduxStore, locale) => {
-  i18n.setLocale(locale, reduxStore.dispatch(updateFormsForLocaleChange(locale)))
+  i18n.setLocale(locale)
 }
 
 export const updateSettingsApi = (reduxStore, newSettings) => {
