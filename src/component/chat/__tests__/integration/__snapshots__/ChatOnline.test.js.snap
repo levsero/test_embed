@@ -62,6 +62,13 @@ exports[`chat log agent attachment 1`] = `
 
 exports[`chat log agent join 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -88,20 +95,27 @@ exports[`chat log agent join 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Agent McAgent joined the chat
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log agent member leave with disconnection reason 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -128,26 +142,33 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen was disconnected and has left the chat
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log agent member leave with non-disconnection reason 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -174,20 +195,20 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen left the chat
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
@@ -289,6 +310,13 @@ exports[`chat log agent message 1`] = `
 
 exports[`chat log agent stopped typing 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -315,49 +343,56 @@ exports[`chat log agent stopped typing 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mr F joined the chat
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log agent typing 1`] = `
-.c2 {
+.c3 {
   color: inherit;
 }
 
-.c2 .c3 {
+.c3 .c4 {
   opacity: 0.2;
 }
 
-.c2 .c3:nth-child(1) {
+.c3 .c4:nth-child(1) {
   -webkit-animation: dQzvEH 1s infinite;
   animation: dQzvEH 1s infinite;
   -webkit-animation-delay: 0.4s;
   animation-delay: 0.4s;
 }
 
-.c2 .c3:nth-child(2) {
+.c3 .c4:nth-child(2) {
   -webkit-animation: dQzvEH 1s infinite;
   animation: dQzvEH 1s infinite;
   -webkit-animation-delay: 0.2s;
   animation-delay: 0.2s;
 }
 
-.c2 .c3:nth-child(3) {
+.c3 .c4:nth-child(3) {
   -webkit-animation: dQzvEH 1s infinite;
   animation: dQzvEH 1s infinite;
   -webkit-animation-delay: unset;
   animation-delay: unset;
 }
 
-.c1 {
+.c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c2 {
   color: #87929d !important;
   vertical-align: middle;
   height: 1.4rem !important;
@@ -366,14 +401,14 @@ exports[`chat log agent typing 1`] = `
   margin-right: 0.35714285714285715rem;
 }
 
-.c0 {
+.c1 {
   width: 100%;
   padding-top: 0.8571428571428571rem;
   padding-bottom: 0.42857142857142855rem;
   color: #68737d;
 }
 
-.c4 {
+.c5 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -400,7 +435,7 @@ exports[`chat log agent typing 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mr F joined the chat
@@ -410,10 +445,10 @@ exports[`chat log agent typing 1`] = `
     aria-live="polite"
   >
     <div
-      class="c0"
+      class="c1"
     >
       <svg
-        class="c1 c2"
+        class="c2 c3"
         color="inherit"
         data-garden-id="loaders.inline"
         data-garden-version="7.1.10"
@@ -424,21 +459,21 @@ exports[`chat log agent typing 1`] = `
         width="16"
       >
         <circle
-          class="c3 "
+          class="c4 "
           cx="14"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="c3 "
+          class="c4 "
           cx="8"
           cy="2"
           fill="currentColor"
           r="2"
         />
         <circle
-          class="c3 "
+          class="c4 "
           cx="2"
           cy="2"
           fill="currentColor"
@@ -449,13 +484,20 @@ exports[`chat log agent typing 1`] = `
     </div>
   </div>
   <div
-    class="c4"
+    class="c5"
   />
 </div>
 `;
 
 exports[`chat log comment 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -482,20 +524,27 @@ exports[`chat log comment 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Comment submitted
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log member join 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -522,20 +571,27 @@ exports[`chat log member join 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Chat started
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log member leave 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -562,20 +618,20 @@ exports[`chat log member leave 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen joined the chat
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Mugen left the chat
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
@@ -625,6 +681,13 @@ exports[`chat log queue position 1`] = `
 
 exports[`chat log rating 1`] = `
 .c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c1 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -651,20 +714,20 @@ exports[`chat log rating 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Chat rated Good
     </div>
   </div>
   <div
-    class="c0"
+    class="c1"
   />
 </div>
 `;
 
 exports[`chat log series of actions 1`] = `
-.c0.c0.c0 {
+.c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -674,7 +737,7 @@ exports[`chat log series of actions 1`] = `
   flex-direction: column;
 }
 
-.c1 {
+.c2 {
   display: inline-block;
   white-space: pre-wrap;
   word-wrap: break-word !important;
@@ -685,12 +748,12 @@ exports[`chat log series of actions 1`] = `
   background-color: #1F73B7 !important;
 }
 
-.c1,
-.c1 a {
+.c2,
+.c2 a {
   color: #FFFFFF !important;
 }
 
-.c2 {
+.c3 {
   display: inline-block;
   white-space: pre-wrap;
   word-wrap: break-word !important;
@@ -702,7 +765,14 @@ exports[`chat log series of actions 1`] = `
   max-width: 15.642857142857142rem !important;
 }
 
-.c3 {
+.c0 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
+.c4 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -729,7 +799,7 @@ exports[`chat log series of actions 1`] = `
     role="log"
   >
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Chat started
@@ -757,11 +827,11 @@ exports[`chat log series of actions 1`] = `
               />
             </span>
             <div
-              class="c0"
+              class="c1"
               data-testid="chat-msg-user"
             >
               <div
-                class="c1"
+                class="c2"
               >
                 <span
                   class=""
@@ -779,7 +849,7 @@ exports[`chat log series of actions 1`] = `
       </div>
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Jet joined the chat
@@ -819,11 +889,11 @@ exports[`chat log series of actions 1`] = `
             class="defaultMessageContainer"
           >
             <div
-              class="c0"
+              class="c1"
               data-testid="chat-msg-agent"
             >
               <div
-                class="c2"
+                class="c3"
               >
                 <span
                   class=""
@@ -841,20 +911,20 @@ exports[`chat log series of actions 1`] = `
       </div>
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Chat rated Good
     </div>
     <div
-      class="eventMessage"
+      class="c0"
       data-testid="chat-msg-event"
     >
       Jet left the chat
     </div>
   </div>
   <div
-    class="c3"
+    class="c4"
   />
 </div>
 `;

@@ -7,7 +7,6 @@ import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopu
 import ChatProgressBarStyles from 'component/chat/attachment/ProgressBar.scss'
 import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss'
 import ChatGroupStyles from 'component/chat/chatting/log/messages/ChatGroup.scss'
-import EventMessageStyles from 'component/chat/chatting/log/events/EventMessage.scss'
 import ChatLogStyles from 'component/chat/chatting/ChatLog.scss'
 import HistoryLogStyles from 'component/chat/chatting/HistoryLog.scss'
 import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss'
@@ -44,7 +43,6 @@ export const webWidgetStyles = `
   ${ChatContactDetailsPopupStyles}
   ${PrechatFormStyles}
   ${ChatGroupStyles}
-  ${EventMessageStyles}
   ${ChatLogStyles}
   ${HistoryLogStyles}
   ${ChatOfflineFormStyles}

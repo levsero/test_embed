@@ -1592,33 +1592,6 @@ describe('chat selectors', () => {
     })
   })
 
-  describe('getEventMessage', () => {
-    let result
-
-    beforeEach(() => {
-      const mockState = {
-        chat: {
-          chats: new Map([
-            [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
-            [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
-            [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-          ])
-        }
-      }
-
-      result = selectors.getEventMessage(mockState, 3)
-    })
-
-    it('returns the correct event message', () => {
-      expect(result).toEqual({
-        nick: 'visitor:2',
-        type: 'member.join',
-        timestamp: 3
-      })
-    })
-  })
-
   describe('getLatestQuickReply', () => {
     let result, quickReplyKey
 
