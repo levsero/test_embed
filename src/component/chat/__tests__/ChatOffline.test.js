@@ -1,4 +1,3 @@
-import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import React from 'react'
 
@@ -49,7 +48,7 @@ describe('render', () => {
   describe('when formSettings are not enabled', () => {
     describe('renders chatOfflineScreen', () => {
       it('renders title', () => {
-        expect(renderComponent().getByText('testTitle')).toBeInTheDocument()
+        expect(renderComponent().getByText('Chat with us')).toBeInTheDocument()
       })
 
       it('renders apology', () => {
@@ -61,14 +60,6 @@ describe('render', () => {
       it('renders close button', () => {
         expect(renderComponent().getByText('Close')).toBeInTheDocument()
       })
-
-      it('when close button is clicked, calls handleCloseClick', () => {
-        expect(handleCloseClickSpy).not.toHaveBeenCalled()
-
-        fireEvent.click(renderComponent().getByText('Close'))
-
-        expect(handleCloseClickSpy).toHaveBeenCalled()
-      })
     })
   })
 
@@ -77,6 +68,14 @@ describe('render', () => {
       const { getByText } = renderComponent({ formSettings: { enabled: true } })
 
       expect(getByText('ChatOfflineForm')).toBeInTheDocument()
+    })
+  })
+
+  describe('when form settings are disabled', () => {
+    it('renders NoAgentsPage', () => {
+      const { getByText } = renderComponent({ formSettings: { enabled: false } })
+
+      expect(getByText('Sorry, we are not online at the moment')).toBeInTheDocument()
     })
   })
 })

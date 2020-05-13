@@ -8,46 +8,46 @@ Snapshot Diff:
   <div>
     <div>
       <div
-        class="sc-fcdeBU fuFNCe"
+        class="sc-RcBXQ BQGiO"
 +     >
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div>
 +             <div
-+               class="sc-qrIAp AOiFC"
++               class="sc-iGrrsa kzEXse"
 +               data-testid="answer-bot-selection-message"
 +             >
 +               <div
-+                 class="sc-iqzUVk eMYuei"
++                 class="sc-bmyXtO hKWKkM"
 +               >
 +                 <div
-+                   class="sc-jtggT derGQG"
++                   class="sc-kaNhvL kzJABO"
 +                   role="button"
 +                   tabindex="0"
 +                 >
 +                   <div
-+                     class="sc-iGrrsa gplWHC"
++                     class="sc-jtggT gLHvrB"
 +                   >
 +                     <svg
-+                       class="sc-ebFjAB iCzFix"
++                       class="sc-LKuAh DBBZG"
 +                       realfilename="article.svg"
 +                     />
 +                     <div
-+                       class="sc-dEoRIm jOcreQ"
++                       class="sc-jKVCRD fdbuFX"
 +                       data-testid="hc-article-title"
 +                     >
 +                       contextual search results
 +                     </div>
 +                   </div>
 +                   <div
-+                     class="sc-bmyXtO jfuIuJ"
++                     class="sc-ebFjAB jojWaX"
 +                   >
 +                     <div>
 +                       body of contextual search results
@@ -60,23 +60,23 @@ Snapshot Diff:
 +         </div>
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div>
 +             <div
-+               class="sc-dliRfk brFmDI"
++               class="sc-iqzUVk khkORr"
 +             >
 +               <div
 +                 data-testid="chat-msg-answer-bot"
 +               >
 +                 <div
-+                   class="messageBubble sc-kLIISr esXBLo"
++                   class="messageBubble sc-ipZHIp dFkmVt"
 +                 >
 +                   <span
 +                     class="Linkify"
@@ -87,33 +87,33 @@ Snapshot Diff:
 +               </div>
 +             </div>
 +             <div
-+               class="sc-qrIAp AOiFC"
++               class="sc-iGrrsa kzEXse"
 +               data-testid="answer-bot-selection-message"
 +             >
 +               <div
-+                 class="sc-iqzUVk eMYuei"
++                 class="sc-bmyXtO hKWKkM"
 +               >
 +                 <div
-+                   class="sc-jtggT derGQG"
++                   class="sc-kaNhvL kzJABO"
 +                   role="button"
 +                   tabindex="0"
 +                 >
 +                   <div
-+                     class="sc-iGrrsa gplWHC"
++                     class="sc-jtggT gLHvrB"
 +                   >
 +                     <svg
-+                       class="sc-ebFjAB iCzFix"
++                       class="sc-LKuAh DBBZG"
 +                       realfilename="article.svg"
 +                     />
 +                     <div
-+                       class="sc-dEoRIm jOcreQ"
++                       class="sc-jKVCRD fdbuFX"
 +                       data-testid="hc-article-title"
 +                     >
 +                       title 123
 +                     </div>
 +                   </div>
 +                   <div
-+                     class="sc-bmyXtO jfuIuJ"
++                     class="sc-ebFjAB jojWaX"
 +                   >
 +                     <div>
 +                       to be filled later 123
@@ -126,22 +126,22 @@ Snapshot Diff:
 +         </div>
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div
-+             class="sc-dliRfk brFmDI"
++             class="sc-iqzUVk khkORr"
 +           >
 +             <div
 +               data-testid="chat-msg-answer-bot"
 +             >
 +               <div
-+                 class="messageBubble sc-kLIISr esXBLo"
++                 class="messageBubble sc-ipZHIp dFkmVt"
 +               >
 +                 <span
 +                   class="Linkify"
@@ -154,32 +154,32 @@ Snapshot Diff:
 +         </div>
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
           />
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div
-+             class="sc-hzNEM eBTuak"
++             class="sc-cooIXK ctUgBz"
 +           >
 +             <div
 +               class="container buttonRight "
 +             >
 +               <button
-+                 class="sc-iBEsjs eVSDme Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
++                 class="sc-kxynE fqeZXx Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +                 data-garden-container-id="containers.keyboardfocus"
 +                 data-garden-container-version="0.4.4"
 +                 data-garden-id="buttons.button"
@@ -191,7 +191,7 @@ Snapshot Diff:
 +                 Yes
 +               </button>
 +               <button
-+                 class="sc-iBEsjs eVSDme Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
++                 class="sc-kxynE fqeZXx Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +                 data-garden-container-id="containers.keyboardfocus"
 +                 data-garden-container-version="0.4.4"
 +                 data-garden-id="buttons.button"
@@ -207,22 +207,22 @@ Snapshot Diff:
 +         </div>
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div
-+             class="sc-hzNEM eBTuak"
++             class="sc-cooIXK ctUgBz"
 +           >
 +             <div
 +               class="container buttonRight "
 +             >
 +               <button
-+                 class="sc-chbbiW Wlorv sc-iBEsjs eVSDme Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
++                 class="sc-fcdeBU naFXi sc-kxynE fqeZXx Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +                 data-garden-container-id="containers.keyboardfocus"
 +                 data-garden-container-version="0.4.4"
 +                 data-garden-id="buttons.button"
@@ -234,7 +234,7 @@ Snapshot Diff:
 +                 It's related, but it didn't answer my question
 +               </button>
 +               <button
-+                 class="sc-chbbiW Wlorv sc-iBEsjs eVSDme Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
++                 class="sc-fcdeBU naFXi sc-kxynE fqeZXx Button__StyledButton-sc-12lsl5w-0 index__c-btn___3y2Qe lcPfmb"
 +                 data-garden-container-id="containers.keyboardfocus"
 +                 data-garden-container-version="0.4.4"
 +                 data-garden-id="buttons.button"
@@ -250,22 +250,22 @@ Snapshot Diff:
 +         </div>
 +       </div>
 +       <div
-+         class="sc-kZmsYB celony"
++         class="sc-fZwumE huWQTB"
 +         data-testid="slide-appear-container"
 +         role="presentation"
 +         style="opacity: 1; bottom: 0px;"
 +       >
 +         <div
-+           class="sc-gmeYpB HIqXE"
++           class="sc-iSDuPN cQNXQQ"
 +         >
 +           <div
-+             class="sc-kxynE fiJdYF"
++             class="sc-gmeYpB frhDVg"
 +             data-testid="answer-bot-typing-indicator"
 +           >
 +             <div
 +               aria-busy="true"
 +               aria-live="polite"
-+               class="container sc-cooIXK gtnPWT"
++               class="container sc-kZmsYB gTqPmC"
 +               data-testid="Icon--ellipsis"
 +             >
 +               <div

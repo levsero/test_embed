@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { i18n } from 'service/i18n'
 
-import { Button } from '@zendeskgarden/react-buttons'
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm'
 import {
   chatOfflineFormChanged,
@@ -32,11 +30,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
-import { TEST_IDS } from 'src/constants/shared'
-import { Widget, Header, Main } from 'src/components/Widget'
-
-import { locals as styles } from './ChatOffline.scss'
-import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
+import NoAgentsPage from 'src/embeds/chat/pages/NoAgentsPage'
 
 const mapStateToProps = state => {
   return {
@@ -74,7 +68,6 @@ class ChatOffline extends Component {
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
-    handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -89,7 +82,6 @@ class ChatOffline extends Component {
   }
 
   static defaultProps = {
-    handleCloseClick: () => {},
     sendOfflineMessage: () => {},
     operatingHours: {},
     isMobile: false,
@@ -133,29 +125,8 @@ class ChatOffline extends Component {
     )
   }
 
-  renderChatOfflineScreen = () => {
-    return (
-      <Widget>
-        <Header title={this.props.title} />
-        <Main>
-          <div className={styles.innerContent}>
-            <ViewHistoryButton />
-            <p className={styles.greeting} data-testid={TEST_IDS.FORM_GREETING_MSG}>
-              {i18n.t('embeddable_framework.chat.offline.label.noForm')}
-            </p>
-            <Button primary={true} onClick={this.props.handleCloseClick} className={styles.button}>
-              {i18n.t('embeddable_framework.chat.offline.button.close')}
-            </Button>
-          </div>
-        </Main>
-      </Widget>
-    )
-  }
-
   render() {
-    return this.props.formSettings.enabled
-      ? this.renderOfflineForm()
-      : this.renderChatOfflineScreen()
+    return this.props.formSettings.enabled ? this.renderOfflineForm() : <NoAgentsPage />
   }
 }
 

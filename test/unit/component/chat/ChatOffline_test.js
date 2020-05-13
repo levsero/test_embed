@@ -14,17 +14,6 @@ describe('ChatOffline component', () => {
     TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
-      './ChatOffline.scss': {
-        locals: {
-          container: 'containerClass',
-          offlineGreeting: 'offlineGreetingClass',
-          submitButton: 'submitButtonClass',
-          scrollContainerContent: 'scrollContainerContentClass',
-          logoFooter: 'logoFooterClass',
-          noZendeskLogoButton: 'noZendeskLogoButton',
-          zendeskLogoButton: 'zendeskLogoButton'
-        }
-      },
       'service/i18n': {
         i18n: {
           t: _.identity,
@@ -63,7 +52,8 @@ describe('ChatOffline component', () => {
         Widget: noopReactComponent(),
         Header: noopReactComponent(),
         Main: noopReactComponent()
-      }
+      },
+      'src/embeds/chat/pages/NoAgentsPage': noop
     })
 
     mockery.registerAllowable(ChatOfflinePath)
@@ -82,7 +72,6 @@ describe('ChatOffline component', () => {
       component = instanceRender(<ChatOffline formSettings={mockFormSettings} />)
 
       spyOn(component, 'renderOfflineForm')
-      spyOn(component, 'renderChatOfflineScreen')
 
       component.render()
     })
@@ -94,16 +83,6 @@ describe('ChatOffline component', () => {
 
       it('calls renderOfflineForm', () => {
         expect(component.renderOfflineForm).toHaveBeenCalled()
-      })
-    })
-
-    describe('when formSettings is not enabled', () => {
-      beforeAll(() => {
-        mockFormSettings = { enabled: false }
-      })
-
-      it('calls renderChatOfflineScreen', () => {
-        expect(component.renderChatOfflineScreen).toHaveBeenCalled()
       })
     })
   })
