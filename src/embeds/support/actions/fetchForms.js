@@ -9,11 +9,7 @@ import {
   TICKET_FORMS_REQUEST_SUCCESS
 } from './action-types'
 import { http } from 'service/transport'
-import {
-  getCustomFieldIds,
-  getCustomFieldsAvailable,
-  getTicketFormIds
-} from 'src/redux/modules/base/base-selectors'
+import { getCustomFieldIds, getCustomFieldsAvailable } from 'src/redux/modules/base/base-selectors'
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
@@ -107,47 +103,49 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
   }
 }
 
-export function getTicketFields(customFields, locale) {
-  return dispatch => {
+let mostRecentCall = null
+export const resetCacheForTests = () => {
+  mostRecentCall = null
+}
+export function getTicketFields(locale) {
+  return async (dispatch, getState) => {
+    const state = getState()
+    if (!getCustomFieldsAvailable(state)) return
+    const customFields = getCustomFieldIds(state)
+
     const pathIds = customFields.all ? '' : `field_ids=${_.toString(customFields.ids)}&`
     const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`
-    const httpData = {
-      method: 'get',
-      path,
-      timeout: 20000,
-      locale,
-      callbacks: {
-        done(res) {
-          dispatch({
-            type: TICKET_FIELDS_REQUEST_SUCCESS,
-            payload: JSON.parse(res.text)
-          })
+
+    if (mostRecentCall === path) return
+    mostRecentCall = path
+    return new Promise((resolve, reject) => {
+      http.get(
+        {
+          method: 'get',
+          path,
+          timeout: 20000,
+          locale,
+          callbacks: {
+            done(res) {
+              dispatch({
+                type: TICKET_FIELDS_REQUEST_SUCCESS,
+                payload: JSON.parse(res.text)
+              })
+              resolve()
+            },
+            fail() {
+              dispatch({
+                type: TICKET_FIELDS_REQUEST_FAILURE
+              })
+              reject()
+            }
+          }
         },
-        fail() {
-          dispatch({
-            type: TICKET_FIELDS_REQUEST_FAILURE
-          })
-        }
-      }
-    }
-
-    http.get(httpData, false)
-    dispatch({
-      type: TICKET_FIELDS_REQUEST_SENT
+        false
+      )
+      dispatch({
+        type: TICKET_FIELDS_REQUEST_SENT
+      })
     })
-  }
-}
-
-export function updateFormsForLocaleChange(locale) {
-  return (dispatch, getState) => {
-    const state = getState()
-
-    const ticketFormIds = getTicketFormIds(state)
-    if (ticketFormIds.length > 0) {
-      dispatch(fetchTicketForms(ticketFormIds, locale))
-    } else if (getCustomFieldsAvailable(state)) {
-      const customFields = getCustomFieldIds(state)
-      dispatch(getTicketFields(customFields, locale))
-    }
   }
 }

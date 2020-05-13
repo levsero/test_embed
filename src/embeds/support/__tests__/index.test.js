@@ -12,6 +12,7 @@ describe('TicketFormPage', () => {
       ticketForms: [],
       formIds: [],
       fetchTicketForms: jest.fn(async () => undefined),
+      getTicketFields: jest.fn(async () => undefined),
       locale: 'en-US'
     }
 
@@ -72,6 +73,24 @@ describe('TicketFormPage', () => {
     expect(queryByText('Email address')).not.toBeInTheDocument()
     expect(queryByText('How can we help you?')).not.toBeInTheDocument()
     expect(queryByText('Please select your issue')).toBeInTheDocument()
+  })
+
+  it('fetches ticket fields when no ticket forms', () => {
+    const getTicketFields = jest.fn(async () => undefined)
+
+    const { rerender } = renderComponent({
+      getTicketFields,
+      formIds: [],
+      locale: 'en-US'
+    })
+
+    expect(getTicketFields).toHaveBeenCalledWith('en-US')
+
+    getTicketFields.mockClear()
+
+    renderComponent({ formIds: [], getTicketFields, locale: 'ru' }, { render: rerender })
+
+    expect(getTicketFields).toHaveBeenCalledWith('ru')
   })
 
   it('fetches ticket forms when list of filtered forms changes', () => {

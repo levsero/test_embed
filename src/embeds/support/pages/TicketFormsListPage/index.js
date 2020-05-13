@@ -13,7 +13,6 @@ import {
 } from 'src/embeds/support/selectors'
 import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
 import routes from 'embeds/support/routes'
-import { fetchTicketForms } from 'embeds/support/actions/fetchForms'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import LoadingPage from 'components/LoadingPage'
 import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
@@ -68,9 +67,6 @@ TicketFormsListPage.propTypes = {
   isLoading: PropTypes.bool.isRequired
 }
 
-const ConnectedComponent = connect(
-  mapStateToProps,
-  { fetchTicketForms }
-)(TicketFormsListPage)
+const ConnectedComponent = connect(mapStateToProps)(TicketFormsListPage)
 
 export { ConnectedComponent as default, TicketFormsListPage as Component }

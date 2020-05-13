@@ -123,11 +123,13 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
     .load()
 
   await widget.openByKeyboard()
+  await waitForContactForm()
 
-  const emailElement = await queries.queryByLabelText(await widget.getDocument(), 'Email address')
+  const doc = await widget.getDocument()
+  const emailElement = await queries.queryByLabelText(doc, 'Email address')
   await allowsInputTextEditing(emailElement, 'fake@example.com')
 
-  const submitButton = await queries.getByText(await widget.getDocument(), 'Send')
+  const submitButton = await queries.getByText(doc, 'Send')
 
   const submit = async () => {
     await submitButton.click()

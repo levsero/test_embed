@@ -1,7 +1,12 @@
 import { queries } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import widget from 'e2e/helpers/widget'
-import { mockTicketFormsEndpoint, createField, createForm } from 'e2e/helpers/support-embed'
+import {
+  mockTicketFormsEndpoint,
+  createField,
+  createForm,
+  waitForContactForm
+} from 'e2e/helpers/support-embed'
 import { queryAllByText } from 'e2e/helpers/queries'
 
 describe('support list page', () => {
@@ -55,13 +60,13 @@ describe('support list page', () => {
         .load()
 
       await widget.openByKeyboard()
+      await waitForContactForm()
 
       await expect(
         await queryAllByText([form1.form.display_name, form3.form.display_name])
       ).toAppearInOrder()
 
       const doc = await widget.getDocument()
-
       await expect(await queries.queryByText(doc, form2.form.display_name)).toBeNull()
     })
   })

@@ -24,6 +24,7 @@ export const getActiveFormName = state => state.support.activeFormName
 export const getAllAttachments = state => state.support.attachments
 export const getDisplayDropzone = state => state.support.displayDropzone
 export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
+export const getFilteredFormIds = state => state.support.filteredFormsToDisplay
 export const getAttachmentTitle = (state, attachmentIds) => {
   const validAttachments = getAttachmentsForForm(state, attachmentIds)
   const numAttachments = validAttachments.length
@@ -114,14 +115,14 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
-export const getFormIdsToDisplay = state => {
-  const filteredFormIds = state.support.filteredFormsToDisplay
-  const allFormIds = getTicketFormIds(state)
+export const getFormIdsToDisplay = createSelector(
+  [getTicketFormIds, getFilteredFormIds],
+  (allFormIds, filteredFormIds) => {
+    const idsToDisplay = filteredFormIds.length > 0 ? filteredFormIds : allFormIds || []
 
-  const idsToDisplay = filteredFormIds.length > 0 ? filteredFormIds : allFormIds
-
-  return Array.from(new Set(idsToDisplay))
-}
+    return Array.from(new Set(idsToDisplay))
+  }
+)
 
 export const getFormsToDisplay = createSelector(
   getFormIdsToDisplay,
