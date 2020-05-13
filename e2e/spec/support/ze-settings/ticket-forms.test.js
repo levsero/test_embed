@@ -99,6 +99,7 @@ test('prefills the expected form fields', async () => {
   await waitForContactForm()
   const form1Link = await queries.getByText(doc, 'Example form 1')
   await form1Link.click()
+
   await assertInputValue('Description', 'hello world')
   await widget.clickBack()
 

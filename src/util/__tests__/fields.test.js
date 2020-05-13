@@ -1,18 +1,12 @@
-import React from 'react'
-import { render } from '@testing-library/react'
 import {
   getStyledLabelText,
   shouldRenderErrorMessage,
   renderLabel,
-  getCustomFields,
   updateConditionalVisibility
 } from '../fields'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { noopReactComponent } from 'utility/testHelpers'
 import snapshotDiff from 'snapshot-diff'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
-import createStore from 'src/redux/createStore'
-import { Provider } from 'react-redux'
 
 describe('getStyledLabelText', () => {
   const label = 'What Biltong flavour would you like to order?'
@@ -249,53 +243,6 @@ describe('customFields', () => {
       { ...descriptionFieldPayload },
       { ...subjectFieldPayload }
     ]
-  })
-
-  describe('getCustomFields', () => {
-    const setupTest = () => {
-      customFields = getCustomFields(
-        payload,
-        {},
-        {
-          onChange: noop,
-          showErrors: false
-        }
-      )
-    }
-
-    beforeEach(() => {
-      setupTest()
-    })
-
-    it('converts custom field payload into array of React components', () => {
-      customFields.allFields.forEach(customField => {
-        expect(React.isValidElement(customField)).toBeTruthy()
-      })
-    })
-
-    it('returns an object with allFields, checkboxes and fields', () => {
-      expect(Object.keys(customFields)).toEqual(['fields', 'checkboxes', 'allFields'])
-    })
-
-    it('returns the correct number of components in each key', () => {
-      expect(customFields.checkboxes.length).toEqual(1)
-
-      expect(customFields.fields.length).toEqual(8)
-
-      expect(customFields.allFields.length).toEqual(9)
-    })
-
-    it('renders the correct components for each key', () => {
-      customFields.allFields.forEach(customField => {
-        const { container } = render(
-          <ThemeProvider>
-            <Provider store={createStore()}>{customField}</Provider>
-          </ThemeProvider>
-        )
-
-        expect(container).toMatchSnapshot()
-      })
-    })
   })
 
   describe('updateConditionalVisibility', () => {

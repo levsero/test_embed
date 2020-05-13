@@ -12,6 +12,7 @@ const readOnly = (state = initialState, action) => {
 
       Object.keys(payload.isReadOnly).forEach(id => {
         newState[createKeyID(id)] = payload.isReadOnly[id]
+        newState[id] = payload.isReadOnly[id]
       })
 
       return newState

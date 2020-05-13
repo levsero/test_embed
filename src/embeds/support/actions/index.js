@@ -16,6 +16,7 @@ import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
+import { clearFormState } from 'src/redux/modules/form/actions'
 
 let attachmentUploaders = {}
 
@@ -52,18 +53,6 @@ export const setActiveFormName = name => ({
 
 export const clearActiveFormName = () => ({
   type: actionTypes.CLEARED_ACTIVE_FORM_NAME
-})
-
-export const setFormState = (name, newFormState) => ({
-  type: actionTypes.SET_FORM_STATE,
-  payload: { name, newFormState }
-})
-
-export const clearFormStates = () => ({ type: actionTypes.CLEARED_FORM_STATES })
-
-export const clearFormState = name => ({
-  type: actionTypes.CLEARED_FORM_STATE,
-  payload: { name }
 })
 
 const uploadAttachmentRequest = attachment => ({
@@ -190,6 +179,7 @@ export function submitTicket(formState, formId, fields) {
               type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
               payload: { name: formId }
             })
+            dispatch(clearFormState(`support-${formId}`))
             resolve()
 
             trackTicketSubmitted(response, formState, getState())

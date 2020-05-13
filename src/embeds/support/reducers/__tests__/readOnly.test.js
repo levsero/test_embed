@@ -23,7 +23,8 @@ testReducer(readOnly, [
       }
     }),
     expected: {
-      [createKeyID('name')]: true
+      [createKeyID('name')]: true,
+      name: true
     }
   },
   {
@@ -42,7 +43,9 @@ testReducer(readOnly, [
     }),
     expected: {
       [createKeyID('email')]: true,
-      [createKeyID('name')]: false
+      email: true,
+      [createKeyID('name')]: false,
+      name: false
     }
   }
 ])

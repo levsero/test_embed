@@ -4,8 +4,6 @@ import sanitizeHtml from 'sanitize-html'
 
 import { i18n } from 'service/i18n'
 
-import FormField from 'src/embeds/support/components/FormField'
-
 const setupConditionCheck = (customFields, formState) => {
   return (fieldId, value) => {
     const field = _.find(customFields, field => field.id === fieldId)
@@ -18,50 +16,6 @@ const setupConditionCheck = (customFields, formState) => {
     }
 
     return value === formState[fieldId]
-  }
-}
-
-const getFieldValues = field => {
-  switch (field.type) {
-    case 'text':
-    case 'subject':
-      return {
-        field: {
-          ...field,
-          type: 'text'
-        },
-        errorMessage: i18n.t('embeddable_framework.validation.error.input')
-      }
-    case 'tagger':
-      return {
-        field: {
-          ...field,
-          type: 'legacyDropdown'
-        },
-        errorMessage: i18n.t('embeddable_framework.validation.error.input')
-      }
-    case 'integer':
-    case 'decimal':
-      return {
-        field,
-        errorMessage: i18n.t('embeddable_framework.validation.error.number')
-      }
-    case 'textarea':
-    case 'description':
-      return {
-        field: {
-          ...field,
-          type: 'textarea'
-        },
-        errorMessage: i18n.t('embeddable_framework.validation.error.input')
-      }
-    case 'checkbox':
-      return {
-        field,
-        errorMessage: i18n.t('embeddable_framework.validation.error.checkbox')
-      }
-    default:
-      return {}
   }
 }
 
@@ -101,67 +55,6 @@ export const updateConditionalVisibility = (customFields, formState, conditions)
   return fields
 }
 
-const getCustomFields = (customFields, formState, options, conditions = {}) => {
-  const updatedFields = updateConditionalVisibility(customFields, formState, conditions)
-
-  return getFields(updatedFields, formState, options)
-}
-
-const getFields = (customFields, formState, options) => {
-  const mapFields = field => {
-    // embeddable/ticket_fields.json will omit the visible_in_portal and editable_in_portal props for valid fields.
-    // While the ticket_forms/show_many.json endpoint will always have them present even for invalid ones. This means
-    // we must check if either are undefined or if both are true.
-    const shouldShow =
-      _.isUndefined(field.editable_in_portal) ||
-      _.isUndefined(field.visible_in_portal) ||
-      (field.editable_in_portal && field.visible_in_portal)
-    if (!shouldShow) {
-      return null
-    }
-
-    const showError = shouldRenderErrorMessage(
-      formState[field.id],
-      field.required_in_portal,
-      options.showErrors
-    )
-
-    const { field: updatedField, errorMessage } = getFieldValues(field)
-
-    if (!updatedField) {
-      return null
-    }
-
-    updatedField.keyID = `${updatedField.id}`
-
-    return (
-      <FormField
-        key={field.id}
-        field={updatedField}
-        errorMessage={showError ? errorMessage : null}
-        value={formState[field.id]}
-        onChange={() => {
-          options.onChange()
-        }}
-      />
-    )
-  }
-
-  const allFields = _.compact(_.map(customFields, mapFields))
-  const withoutCheckboxes = _.compact(
-    customFields.filter(field => field.type !== 'checkbox').map(mapFields)
-  )
-  const checkboxes = _.compact(
-    customFields.filter(field => field.type === 'checkbox').map(mapFields)
-  )
-
-  return {
-    fields: withoutCheckboxes,
-    checkboxes: checkboxes,
-    allFields
-  }
-}
-
 const shouldRenderErrorMessage = (value, required, showErrors, pattern) => {
   const isRequiredCheckValid = !required || value
   const isPatternCheckValid = !value || (pattern ? pattern.test(value) : true)
@@ -189,4 +82,4 @@ const renderLabel = (Component, label, required) => {
   return <Component dangerouslySetInnerHTML={{ __html: labelText }} />
 }
 
-export { getCustomFields, shouldRenderErrorMessage, renderLabel, getStyledLabelText }
+export { shouldRenderErrorMessage, renderLabel, getStyledLabelText }
