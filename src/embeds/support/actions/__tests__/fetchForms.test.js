@@ -12,7 +12,6 @@ import {
 } from '../action-types'
 
 jest.mock('service/transport')
-jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('service/i18n')
 
 describe('fetchTicketForms', () => {
@@ -238,17 +237,26 @@ describe('fetchTicketForms', () => {
 })
 
 describe('getTicketFields', () => {
+  beforeEach(() => {
+    actions.resetCacheForTests()
+  })
   const mockStore = configureMockStore([thunk])
 
-  const dispatchAction = (customFields, locale) => {
-    const store = mockStore({})
+  const dispatchAction = (customFields = {}, locale) => {
+    const store = mockStore({
+      base: {
+        embeddableConfig: {
+          embeds: { ticketSubmissionForm: { props: { customFields: customFields } } }
+        }
+      }
+    })
 
-    store.dispatch(actions.getTicketFields(customFields, locale))
+    store.dispatch(actions.getTicketFields(locale))
     return store
   }
 
   it('dispatches the expected action', () => {
-    const store = dispatchAction({ ids: '123' }, 'ru')
+    const store = dispatchAction({ ids: ['123'] }, 'ru')
 
     expect(store.getActions()).toEqual([
       {
@@ -257,8 +265,28 @@ describe('getTicketFields', () => {
     ])
   })
 
+  it('does not dispatch if no values', () => {
+    const store = dispatchAction({}, 'ru')
+
+    expect(store.getActions()).toEqual([])
+  })
+
+  it('if has the same params does not dispatch a second request', () => {
+    dispatchAction({ ids: ['123'] }, 'ru')
+    dispatchAction({ ids: ['123'] }, 'ru')
+
+    expect(http.get).toHaveBeenCalledTimes(1)
+  })
+
+  it('if has different params dispatches a second request', () => {
+    dispatchAction({ ids: ['123'] }, 'ru')
+    dispatchAction({ ids: ['123'] }, 'en')
+
+    expect(http.get).toHaveBeenCalledTimes(2)
+  })
+
   it('sends the expected request payload for ids', () => {
-    dispatchAction({ ids: '123' }, 'ru')
+    dispatchAction({ ids: ['123'] }, 'ru')
 
     expect(http.get).toHaveBeenCalledWith(
       {
@@ -273,7 +301,7 @@ describe('getTicketFields', () => {
   })
 
   it('sends the expected request payload for all', () => {
-    dispatchAction({ all: true, ids: '123' }, 'th')
+    dispatchAction({ all: true }, 'th')
 
     expect(http.get).toHaveBeenCalledWith(
       {
@@ -288,7 +316,7 @@ describe('getTicketFields', () => {
   })
 
   const doCallback = (callbackType, args) => {
-    const store = dispatchAction({})
+    const store = dispatchAction({ all: true })
     const callback = http.get.mock.calls[0][0].callbacks[callbackType]
 
     callback(args)

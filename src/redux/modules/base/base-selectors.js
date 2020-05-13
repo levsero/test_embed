@@ -54,7 +54,7 @@ export const getConfigNameFieldRequired = state => {
   return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.nameFieldRequired
 }
 export const getTicketFormIds = state => {
-  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.ticketForms || []
+  return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.ticketForms
 }
 export const getCustomFieldIds = state => {
   return getEmbeddableConfig(state).embeds.ticketSubmissionForm.props.customFields || {}

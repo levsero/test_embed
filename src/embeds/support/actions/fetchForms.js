@@ -14,7 +14,6 @@ import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
   return async (dispatch, getState) => {
-    const state = getState()
     const ticketFormIdsToLoad = ticketFormIds.filter(id => {
       const form = getForm(getState(), id)
 
@@ -26,10 +25,6 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
     })
 
     if (ticketFormIdsToLoad.length === 0) {
-      if (getCustomFieldsAvailable(state)) {
-        const customFields = getCustomFieldIds(state)
-        dispatch(getTicketFields(customFields, locale))
-      }
       return
     }
 
@@ -108,33 +103,49 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
   }
 }
 
-export function getTicketFields(customFields, locale) {
-  return dispatch => {
+let mostRecentCall = null
+export const resetCacheForTests = () => {
+  mostRecentCall = null
+}
+export function getTicketFields(locale) {
+  return async (dispatch, getState) => {
+    const state = getState()
+    if (!getCustomFieldsAvailable(state)) return
+    const customFields = getCustomFieldIds(state)
+
     const pathIds = customFields.all ? '' : `field_ids=${_.toString(customFields.ids)}&`
     const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`
-    const httpData = {
-      method: 'get',
-      path,
-      timeout: 20000,
-      locale,
-      callbacks: {
-        done(res) {
-          dispatch({
-            type: TICKET_FIELDS_REQUEST_SUCCESS,
-            payload: JSON.parse(res.text)
-          })
-        },
-        fail() {
-          dispatch({
-            type: TICKET_FIELDS_REQUEST_FAILURE
-          })
-        }
-      }
-    }
 
-    http.get(httpData, false)
-    dispatch({
-      type: TICKET_FIELDS_REQUEST_SENT
+    if (mostRecentCall === path) return
+    mostRecentCall = path
+    return new Promise((resolve, reject) => {
+      http.get(
+        {
+          method: 'get',
+          path,
+          timeout: 20000,
+          locale,
+          callbacks: {
+            done(res) {
+              dispatch({
+                type: TICKET_FIELDS_REQUEST_SUCCESS,
+                payload: JSON.parse(res.text)
+              })
+              resolve()
+            },
+            fail() {
+              dispatch({
+                type: TICKET_FIELDS_REQUEST_FAILURE
+              })
+              reject()
+            }
+          }
+        },
+        false
+      )
+      dispatch({
+        type: TICKET_FIELDS_REQUEST_SENT
+      })
     })
   }
 }

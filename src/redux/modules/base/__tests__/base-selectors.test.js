@@ -141,10 +141,10 @@ describe('getTicketFormIds', () => {
       }
     }
 
-    it('returns the setting', () => {
+    it('returns undefined', () => {
       const state = mockConfig(config)
 
-      expect(selectors.getTicketFormIds(state)).toEqual([])
+      expect(selectors.getTicketFormIds(state)).toBeUndefined()
     })
   })
 })
