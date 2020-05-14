@@ -57,9 +57,6 @@ describe('ChatOnline component', () => {
         Container: noopReactComponent()
       },
       'embeds/chat/components/ChatModal': noopReactComponent(),
-      'component/chat/ChatContactDetailsPopup': {
-        ChatContactDetailsPopup: noopReactComponent()
-      },
       'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
