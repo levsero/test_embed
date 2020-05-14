@@ -26,6 +26,7 @@ and all new tests should be written using the new framework.
     - [Test file location](#test-file-location)
     - [Writing test descriptions](#writing-test-descriptions)
     - [Exporting unconnected components](#exporting-unconnected-components)
+  - [e2e Test Guidelines](./BROWSER_TEST_STYLE.md)
 
 ## Best Practices
 

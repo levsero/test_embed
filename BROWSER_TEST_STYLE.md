@@ -74,6 +74,18 @@ Similar to [integration and unit tests](TEST_STYLE.md#explicit-setup-function-in
 Run `npm run e2e <test file>` to run a specific file. If you want to see the browser while
 the test runs, set `HEADLESS=false`, e.g. `HEADLESS=false npm run e2e <test file>`.
 
+#### Faster e2e development
+
+Restarting the whole e2e dev server each time you run a single test in development takes too long.
+
+Instead of doing that, you can just run the `e2e:server` in a concurrent process and then run individual e2e tests against the running process.
+
+```bash
+npm run e2e:server
+#wait for the server to start
+HEADLESS=false npm run e2e ./e2e/spec/chat/launcher.test.js
+```
+
 #### Debugging tests
 
 To debug tests, run the test in headless mode, and add in `await jestPuppeteer.debug()`
