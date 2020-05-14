@@ -19,7 +19,6 @@ import {
 import { setUpChat } from 'src/redux/modules/chat'
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
 import { authenticate, expireToken } from 'src/redux/modules/base'
@@ -46,30 +45,21 @@ export default function WebWidgetFactory() {
 
     const helpCenterAvailable = !!embeds.helpCenterForm && !getSettingsHelpCenterSuppress(state)
     const talkEnabled = getTalkEnabled(state)
-    const submitTicketAvailable =
-      !!embeds.ticketSubmissionForm && !getSettingsContactFormSuppress(state)
     const chatAvailable =
       !!embeds.chat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
 
     const talkConfig = talkEnabled ? embeds.talk.props : {}
-    const submitTicketConfig = submitTicketAvailable ? embeds.ticketSubmissionForm.props : {}
     const chatConfig = chatAvailable ? embeds.chat.props : {}
     const helpCenterConfig = helpCenterAvailable ? embeds.helpCenterForm.props : {}
 
-    const submitTicketSettings = submitTicketAvailable
-      ? setUpSubmitTicket(submitTicketConfig, reduxStore)
-      : {}
     // if HC is unavailable, then IPM help center is available
     const ipmHelpCenterAvailable = !helpCenterAvailable
 
     embed = {
-      submitTicketSettings,
       config: {
         helpCenterForm: helpCenterConfig,
-        ticketSubmissionForm: submitTicketSettings.config,
         chat: chatConfig
       },
-      embedsAvailable: { chat: chatAvailable },
       store: reduxStore
     }
 
@@ -188,25 +178,6 @@ export default function WebWidgetFactory() {
     const settingJwt = settings.getAuthSettingsJwt()
 
     if (settingJwt) embed.store.dispatch(authenticate(settingJwt))
-  }
-
-  function setUpSubmitTicket(config) {
-    const submitTicketConfigDefaults = {
-      position: 'right',
-      customFields: {},
-      formTitleKey: 'message',
-      attachmentsEnabled: false,
-      maxFileCount: 5,
-      maxFileSize: 5 * 1024 * 1024, // 5 MB
-      ticketForms: [],
-      color: '#1F73B7'
-    }
-
-    config = _.extend({}, submitTicketConfigDefaults, config)
-
-    return {
-      config
-    }
   }
 
   function setupTalk(config, store) {
