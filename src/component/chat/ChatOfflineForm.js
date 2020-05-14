@@ -48,14 +48,12 @@ export class ChatOfflineForm extends Component {
   static defaultProps = {
     operatingHours: { enabled: false },
     isMobile: false,
-    fullscreen: false,
     phoneEnabled: true,
     offlineMessage: {},
     initiateSocialLogout: () => {},
     socialLogin: {},
     authUrls: {},
     hideZendeskLogo: false,
-    chatId: '',
     formState: {},
     readOnlyState: {},
     channels: {}

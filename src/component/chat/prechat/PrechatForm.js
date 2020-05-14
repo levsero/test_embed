@@ -74,7 +74,6 @@ export class PrechatForm extends Component {
     authUrls: {},
     socialLogin: {},
     hideZendeskLogo: false,
-    chatId: '',
     fullscreen: false
   }
 

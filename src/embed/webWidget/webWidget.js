@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import _ from 'lodash'
 import { Provider } from 'react-redux'
 
 import { webWidgetStyles } from './webWidgetStyles'
@@ -10,11 +9,7 @@ import { settings } from 'service/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
-import { getChatConnectionSuppressed } from 'src/redux/modules/selectors'
-import {
-  getSettingsHelpCenterSuppress,
-  getCookiesDisabled
-} from 'src/redux/modules/settings/settings-selectors'
+import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors'
 import WebWidget from 'component/webWidget/WebWidget'
 import { onNextTick } from 'src/util/utils'
 
@@ -36,10 +31,6 @@ export default function WebWidgetFactory() {
     const { embeds } = config
 
     const helpCenterAvailable = !!embeds.helpCenterForm && !getSettingsHelpCenterSuppress(state)
-    const chatAvailable =
-      !!embeds.chat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
-
-    const chatConfig = chatAvailable ? embeds.chat.props : {}
 
     // if HC is unavailable, then IPM help center is available
     const ipmHelpCenterAvailable = !helpCenterAvailable
@@ -81,7 +72,6 @@ export default function WebWidgetFactory() {
             style={containerStyle}
             ticketFormSettings={settings.get('contactForm.ticketForms')}
             ticketFieldSettings={settings.get('contactForm.fields')}
-            chatId={_.get(chatConfig, 'zopimId')}
           />
         </Frame>
       </Provider>

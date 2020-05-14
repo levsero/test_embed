@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import ChatOffline from 'component/chat/ChatOffline'
+import ChatOffline from 'embeds/chat/components/ChatOffline'
 import LoadingPage from 'components/LoadingPage'
 import ChatOnline from 'component/chat/ChatOnline'
 import {
@@ -29,7 +29,6 @@ class Chat extends Component {
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
-    chatId: PropTypes.string,
     showChatHistory: PropTypes.bool.isRequired,
     isPreview: PropTypes.bool
   }
@@ -38,23 +37,8 @@ class Chat extends Component {
     isMobile: false,
     fullscreen: false,
     hideZendeskLogo: false,
-    chatId: '',
+
     isPreview: false
-  }
-
-  constructor() {
-    super()
-
-    this.online = null
-    this.offline = null
-  }
-
-  forceUpdate() {
-    this.getActiveComponent().forceUpdate()
-  }
-
-  getActiveComponent = () => {
-    return this.online ? this.online : this.offline
   }
 
   handleDragEnter = () => {
@@ -69,9 +53,7 @@ class Chat extends Component {
     return (
       <ChatHistoryScreen
         fullscreen={this.props.fullscreen}
-        isMobile={this.props.isMobile}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        chatId={this.props.chatId}
       />
     )
   }
@@ -88,7 +70,6 @@ class Chat extends Component {
         fullscreen={this.props.fullscreen}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
-        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isPreview={this.props.isPreview}
       />
@@ -98,17 +79,7 @@ class Chat extends Component {
   renderChatOffline = () => {
     if (!this.props.showOfflineChat || this.props.showChatHistory) return
 
-    return (
-      <ChatOffline
-        ref={el => {
-          this.offline = el
-        }}
-        isMobile={this.props.isMobile}
-        chatId={this.props.chatId}
-        fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
-    )
+    return <ChatOffline />
   }
 
   render() {
