@@ -6,6 +6,9 @@ import { i18n } from 'service/i18n'
 import { settings } from 'service/settings'
 import { win } from 'utility/globals'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
+import { setUpChat } from 'src/redux/modules/chat'
+import { loadTalkVendors } from 'src/redux/modules/talk'
+import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
 
@@ -23,6 +26,20 @@ function hide() {
 
 const dummyStore = {
   dispatch: () => {}
+}
+
+function setUpEmbeds(embeds, reduxStore) {
+  if (embeds.chat) {
+    reduxStore.dispatch(setUpChat(true))
+  }
+
+  if (embeds.talk) {
+    reduxStore.dispatch(loadTalkVendors())
+  }
+
+  if (embeds.helpCenterForm) {
+    reduxStore.dispatch(setUpHelpCenterAuth())
+  }
 }
 
 function renderWebWidget(config, reduxStore) {
@@ -63,6 +80,7 @@ function init(config, reduxStore = dummyStore) {
 
     if (!_.isEmpty(config.embeds)) {
       registerEmbedsInRedux(config, reduxStore)
+      setUpEmbeds(config.embeds, reduxStore)
       renderLauncher(config, reduxStore)
       renderWebWidget(config, reduxStore)
     }
@@ -103,12 +121,6 @@ function renderedEmbedsApply(fn) {
   })
 }
 
-function postRenderCallbacks() {
-  const webWidget = embedsMap['webWidget']
-
-  webWidget.postRender('webWidget')
-}
-
 function propagateFontRatio(ratio) {
   const fontSize = FONT_SIZE * ratio.toFixed(2) + 'px'
 
@@ -126,7 +138,6 @@ function hideByZoom(hide) {
 export const renderer = {
   init: init,
   initIPM: initIPM,
-  postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
   hide: hide

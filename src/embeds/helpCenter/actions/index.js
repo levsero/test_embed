@@ -11,7 +11,8 @@ import {
 import {
   getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
-  getSearchQuery
+  getSearchQuery,
+  getTokensRevokedAt
 } from 'embeds/helpCenter/selectors'
 import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { i18n } from 'service/i18n'
@@ -33,12 +34,13 @@ import {
   SEARCH_FIELD_CHANGED,
   CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
 } from './action-types'
-import { updateQueue } from 'src/redux/modules/base'
+import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
 import { isOnHostMappedDomain } from 'utility/pages'
 import {
   getSettingsHelpCenterFilter,
   getSettingsHelpCenterLocaleFallbacks
 } from 'src/redux/modules/settings/settings-selectors'
+import { settings } from 'service/settings'
 const constructHelpCenterPayload = (path, query, doneFn, failFn, filter) => {
   const token = getAuthToken()
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
@@ -275,5 +277,29 @@ export function setContextualSuggestionsManually(options, onDone) {
     if (getHasWidgetShown(getState())) {
       dispatch(contextualSearch(onDone))
     }
+  }
+}
+
+export function setUpHelpCenterAuth() {
+  return (dispatch, getState) => {
+    const tokensRevokedAt = getTokensRevokedAt(getState())
+
+    if (tokensRevokedAt) {
+      dispatch(expireToken(tokensRevokedAt))
+    }
+
+    const settingJwtFn = settings.getAuthSettingsJwtFn()
+
+    if (settingJwtFn) {
+      const callback = retrievedJwt => {
+        dispatch(authenticate(retrievedJwt))
+      }
+
+      return settingJwtFn(callback)
+    }
+
+    const settingJwt = settings.getAuthSettingsJwt()
+
+    if (settingJwt) dispatch(authenticate(settingJwt))
   }
 }

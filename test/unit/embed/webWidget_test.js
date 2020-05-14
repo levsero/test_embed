@@ -1,6 +1,5 @@
 describe('embed.webWidget', () => {
   let webWidget,
-    mockRegistry,
     mockIsOnHelpCenterPageValue,
     mockIsMobileBrowser,
     mockHelpCenterSuppressedValue,
@@ -75,7 +74,7 @@ describe('embed.webWidget', () => {
 
     jasmine.clock().install()
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       React: React,
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['trackUserAction', 'sendWidgetInitInterval'])
@@ -466,60 +465,6 @@ describe('embed.webWidget', () => {
         expect(zChatInitSpy).not.toHaveBeenCalled()
       })
     })
-
-    describe('setupTalk', () => {
-      let mockTalkConfig, loadTalkVendorsSpy
-
-      beforeAll(() => {
-        mockNicknameValue = 'Support'
-      })
-
-      beforeEach(() => {
-        mockTalkConfig = {
-          talk: {
-            props: {
-              serviceUrl: 'https://customer.zendesk.com',
-              nickname: mockNicknameValue
-            }
-          }
-        }
-        loadTalkVendorsSpy = jasmine
-          .createSpy('loadTalkVendors')
-          .and.returnValue({ type: 'loadTalkVendors' })
-
-        mockRegistry['src/redux/modules/talk'].loadTalkVendors = loadTalkVendorsSpy
-
-        webWidget.create('', createMockConfig(mockTalkConfig), mockStore)
-      })
-
-      it('dispatches the loadTalkVendors action creator', () => {
-        expect(mockStore.dispatch).toHaveBeenCalledWith({
-          type: 'loadTalkVendors'
-        })
-      })
-
-      describe('dispatches the loadTalkVendors action creator', () => {
-        let args
-
-        beforeEach(() => {
-          args = loadTalkVendorsSpy.calls.mostRecent().args
-        })
-
-        it('with an array of dynamic import promises', () => {
-          expect(args[0]).toEqual(
-            jasmine.arrayContaining([jasmine.any(Promise), jasmine.any(Promise)])
-          )
-        })
-
-        it('with the talk service url', () => {
-          expect(args[1]).toEqual('https://customer.zendesk.com')
-        })
-
-        it('with the talk nickname', () => {
-          expect(args[2]).toEqual('Support')
-        })
-      })
-    })
   })
 
   describe('#render', () => {
@@ -538,122 +483,6 @@ describe('embed.webWidget', () => {
       expect(() => webWidget.render()).not.toThrow()
 
       expect(() => webWidget.render()).toThrow()
-    })
-  })
-
-  describe('postRender', () => {
-    let mockBeacon
-
-    beforeEach(() => {
-      mockBeacon = mockRegistry['service/beacon'].beacon
-    })
-
-    describe('initInterval blip', () => {
-      const renderWidget = () => {
-        const config = createMockConfig({
-          helpCenterForm: { props: {} }
-        })
-
-        webWidget.create('', config, mockStore)
-        mockSupportJwtValue = 'token'
-        webWidget.postRender()
-      }
-
-      describe('9/10 times', () => {
-        it('does not fire blip', () => {
-          Math.random = jasmine.createSpy('random').and.returnValue(1)
-          renderWidget()
-          expect(mockBeacon.sendWidgetInitInterval).not.toHaveBeenCalled()
-        })
-      })
-
-      describe('1/10 times', () => {
-        it('does fire blip', () => {
-          Math.random = jasmine.createSpy('random').and.returnValue(0.1)
-          renderWidget()
-          expect(mockBeacon.sendWidgetInitInterval).toHaveBeenCalled()
-        })
-      })
-    })
-
-    describe('authentication', () => {
-      describe('when there is a jwt', () => {
-        beforeEach(() => {
-          const config = createMockConfig({
-            helpCenterForm: { props: {} }
-          })
-
-          webWidget.create('', config, mockStore)
-          mockSupportJwtValue = 'token'
-          webWidget.postRender()
-        })
-
-        it('calls authenticate with the jwt token', () => {
-          expect(authenticateSpy).toHaveBeenCalledWith('token')
-        })
-
-        describe('when there is a jwtFn', () => {
-          beforeEach(() => {
-            const config = createMockConfig({
-              helpCenterForm: { props: {} }
-            })
-
-            webWidget.create('', config, mockStore)
-            mockSupportJwtFnValue = callback => {
-              callback('fetchJwt')
-            }
-            webWidget.postRender()
-          })
-
-          it('calls authenticate with the jwt token', () => {
-            expect(authenticateSpy).toHaveBeenCalledWith('fetchJwt')
-          })
-        })
-
-        describe('when there is a tokensRevokedAt property in the config', () => {
-          const config = createMockConfig({
-            helpCenterForm: {
-              props: {
-                tokensRevokedAt: Math.floor(Date.now() / 1000)
-              }
-            }
-          })
-
-          beforeEach(() => {
-            webWidget.create('', config, mockStore)
-            webWidget.postRender()
-          })
-
-          it('calls authentication.revoke with tokensRevokedAt value', () => {
-            expect(expireTokenSpy).toHaveBeenCalledWith(
-              webWidget.get().config.helpCenterForm.tokensRevokedAt
-            )
-          })
-        })
-      })
-
-      describe('when cookies are disabled', () => {
-        beforeAll(() => {
-          mockCookiesDisabled = true
-        })
-
-        afterAll(() => {
-          mockCookiesDisabled = false
-        })
-
-        beforeEach(() => {
-          const config = createMockConfig({
-            helpCenterForm: { props: {} }
-          })
-
-          webWidget.create('', config, mockStore)
-          webWidget.postRender()
-        })
-
-        it('does not call authentication.authenticate with the jwt token', () => {
-          expect(authenticateSpy).not.toHaveBeenCalled()
-        })
-      })
     })
   })
 })

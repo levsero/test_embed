@@ -8,12 +8,14 @@ import * as helpCenterSelectors from 'embeds/helpCenter/selectors'
 import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
 import * as pages from 'utility/pages'
+import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { i18n } from 'service/i18n'
 
 jest.mock('service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('utility/pages')
+jest.mock('service/settings')
 
 const mockStore = configureMockStore([thunk])
 
@@ -644,5 +646,51 @@ describe('contextualSearch', () => {
         ])
       })
     })
+  })
+})
+
+describe('setUpHelpCenterAuth', () => {
+  const dispatchAction = () => {
+    const store = mockStore()
+
+    store.dispatch(actions.setUpHelpCenterAuth())
+    return store
+  }
+
+  it('dispatches an expireToken event if tokens have been revoked', () => {
+    jest
+      .spyOn(helpCenterSelectors, 'getTokensRevokedAt')
+      .mockReturnValue(Math.floor(Date.now() / 1000))
+
+    const store = dispatchAction()
+
+    expect(store.getActions()[0]).toEqual({
+      type: baseActionTypes.AUTHENTICATION_TOKEN_NOT_REVOKED
+    })
+  })
+
+  it('does not dispatch an expire token event if tokens have not been revoked', () => {
+    jest.spyOn(helpCenterSelectors, 'getTokensRevokedAt').mockReturnValue(null)
+    const store = dispatchAction()
+
+    expect(store.getActions()[0]).toBeFalsy()
+  })
+
+  it('dispatches an authentication event if a jwtFn exists in settings', () => {
+    jest.spyOn(settings, 'getAuthSettingsJwt').mockReturnValue(null)
+    jest.spyOn(settings, 'getAuthSettingsJwtFn').mockReturnValue(cb => cb('123'))
+    jest.spyOn(helpCenterSelectors, 'getTokensRevokedAt').mockReturnValue(null)
+    const store = dispatchAction()
+
+    expect(store.getActions()[0]).toEqual({ type: baseActionTypes.AUTHENTICATION_PENDING })
+  })
+
+  it('dispatches an authentication event if a jwt exists in settings', () => {
+    jest.spyOn(settings, 'getAuthSettingsJwt').mockReturnValue('123')
+    jest.spyOn(settings, 'getAuthSettingsJwtFn').mockReturnValue(null)
+    jest.spyOn(helpCenterSelectors, 'getTokensRevokedAt').mockReturnValue(null)
+    const store = dispatchAction()
+
+    expect(store.getActions()[0]).toEqual({ type: baseActionTypes.AUTHENTICATION_PENDING })
   })
 })

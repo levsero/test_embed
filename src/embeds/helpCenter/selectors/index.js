@@ -37,6 +37,7 @@ export const getHelpCenterSignInRequired = state => state.helpCenter.config.sign
 export const getAnswerBotEnabled = state => state.helpCenter.config.answerBotEnabled
 export const getButtonLabelKey = state => state.helpCenter.config.buttonLabelKey
 export const getFormTitleKey = state => state.helpCenter.config.formTitleKey
+export const getTokensRevokedAt = state => state.helpCenter.config.tokensRevokedAt
 
 export const getIsContextualSearchPending = state => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT
