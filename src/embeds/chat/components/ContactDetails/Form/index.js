@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FORM_ERROR } from 'final-form'
 import PropTypes from 'prop-types'
+import { Header } from '@zendeskgarden/react-modals'
+
 import { Form as ReactFinalForm } from 'react-final-form'
-
 import useTranslate from 'src/hooks/useTranslate'
-import UserProfile from 'src/embeds/chat/components/ContactDetails/Profile'
 
+import UserProfile from 'src/embeds/chat/components/ContactDetails/Profile'
 import {
   getIsAuthenticated,
   getAuthUrls,
@@ -16,12 +17,11 @@ import {
 import { getEditContactDetails } from 'embeds/chat/selectors'
 import { updateContactDetailsVisibility, editContactDetailsSubmitted } from 'src/redux/modules/chat'
 import { Alert, Title } from 'src/components/Alert'
-import { Header } from 'embeds/webWidget/components/Modal'
 import validate from 'src/embeds/chat/utils/validateContactDetails'
 import { getDefaultFormFields } from 'src/redux/modules/selectors'
 import { initiateSocialLogout } from 'src/redux/modules/chat'
-import FormFooter from 'src/embeds/chat/components/ContactDetails/Footer'
 
+import FormFooter from 'src/embeds/chat/components/ContactDetails/Footer'
 import { Form, Body } from './styles'
 
 const ChatContactDetailsModalForm = ({

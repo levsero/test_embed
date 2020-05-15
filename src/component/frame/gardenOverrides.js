@@ -234,6 +234,49 @@ const checkboxInputOverrides = themeColor => {
   `
 }
 
+// By default Garden positions the modal in the middle of the screen with padding that is too large for the Web Widget
+// These overrides position the modal at the bottom of the widget on desktop and top of the widget on mobile,
+const modalOverrides = {
+  'modals.modal': css`
+    &&& {
+      width: auto;
+
+      margin-bottom: 0;
+      max-height: calc(100% - 48px);
+      overflow-y: auto;
+
+      top: auto !important;
+      right: 24px;
+      left: 24px;
+      bottom: 24px;
+
+      ${isMobileBrowser() &&
+        `
+    top: 4rem !important;
+    bottom: auto !important;
+    `}
+    }
+  `,
+  'modals.header': css`
+    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
+    font-size: ${props => 14 / props.theme.fontSize}rem;
+  `,
+  'modals.footer': css`
+    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
+    justify-content: space-between;
+  `,
+  'modals.body': css`
+    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
+  `,
+  'modals.footerItem': css`
+    flex: 1;
+
+    > * {
+      width: 100%;
+    }
+  `
+}
+
 function getGardenOverrides(colors) {
   const themeColor = getThemeColor()
   const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors })
@@ -269,7 +312,8 @@ function getGardenOverrides(colors) {
       isMobileBrowser() &&
       css`
         display: none !important;
-      `
+      `,
+    ...modalOverrides
   }
 }
 

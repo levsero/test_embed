@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
-import { Modal } from 'src/embeds/webWidget/components/Modal'
 import { withTheme } from 'styled-components'
+import { Modal } from '@zendeskgarden/react-modals'
+
+import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
 import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
 import { TEST_IDS } from 'constants/shared'
 
