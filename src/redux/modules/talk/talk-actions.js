@@ -16,6 +16,7 @@ import {
 } from './talk-action-types'
 import { getFormState } from './talk-selectors'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
+import { getTalkEnabled, getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 
 export function updateTalkEmbeddableConfig(config) {
@@ -103,13 +104,17 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
   }
 }
 
-export function loadTalkVendors(vendors, serviceUrl, nickname) {
-  return dispatch => {
-    const onSuccess = ([{ default: io }]) => {
+export function loadTalkVendors() {
+  return (dispatch, getState) => {
+    if (!getTalkEnabled(getState())) return
+
+    const nickname = getTalkNickname(getState())
+
+    const onSuccess = ({ default: io }) => {
       dispatch(handleTalkVendorLoaded({ io }))
       if (_.isEmpty(nickname)) return
 
-      const socket = socketio.connect(io, serviceUrl, nickname)
+      const socket = socketio.connect(io, getTalkServiceUrl(getState()), nickname)
 
       socketio.mapEventsToActions(socket, { dispatch })
     }
@@ -117,7 +122,7 @@ export function loadTalkVendors(vendors, serviceUrl, nickname) {
       errorTracker.error(err)
     }
 
-    return Promise.all(vendors)
+    return import(/* webpackChunkName: 'talk-sdk' */ 'socket.io-client')
       .then(onSuccess)
       .catch(onFailure)
   }

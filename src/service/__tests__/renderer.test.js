@@ -8,12 +8,25 @@ jest.mock('src/redux/modules/base')
 jest.mock('embed/webWidget/webWidget')
 jest.mock('service/i18n')
 jest.mock('src/service/api/apis')
+jest.mock('src/redux/modules/chat')
+jest.mock('src/redux/modules/talk')
+jest.mock('src/embeds/helpCenter/actions')
 
 const store = createStore(reducer)
 
 store.dispatch = jest.fn()
 
-let mockSettings, mockWebWidget, mockLauncher, renderer, baseActions, setLocaleApi, i18n, settings
+let mockSettings,
+  mockWebWidget,
+  mockLauncher,
+  renderer,
+  baseActions,
+  chatActions,
+  talkActions,
+  helpCenterActions,
+  setLocaleApi,
+  i18n,
+  settings
 
 beforeEach(() => {
   jest.resetModules()
@@ -34,6 +47,10 @@ beforeEach(() => {
   baseActions = require('src/redux/modules/base')
   setLocaleApi = require('src/service/api/apis').setLocaleApi
   i18n = require('service/i18n').i18n
+
+  chatActions = require('src/redux/modules/chat')
+  talkActions = require('src/redux/modules/talk')
+  helpCenterActions = require('src/embeds/helpCenter/actions')
 
   embedLauncher.launcher = mockLauncher
   WebWidgetFactory.mockImplementation(mockWebWidgetFactory)
@@ -80,6 +97,12 @@ const testConfig = () => ({
       props: {
         zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
         position: 'br'
+      }
+    },
+    talk: {
+      embed: 'talk',
+      props: {
+        nickname: 'yoyo'
       }
     }
   }
@@ -162,7 +185,8 @@ describe('init', () => {
           embeds: {
             ticketSubmissionForm: expect.any(Object),
             helpCenterForm: expect.any(Object),
-            chat: expect.any(Object)
+            chat: expect.any(Object),
+            talk: expect.any(Object)
           }
         }),
         expect.anything()
@@ -196,6 +220,22 @@ describe('init', () => {
         expect.anything()
       )
     })
+  })
+
+  it('it calls set up on the embeds if they exist in config', () => {
+    renderer.init(testConfig())
+
+    expect(chatActions.setUpChat).toHaveBeenCalled()
+    expect(talkActions.loadTalkVendors).toHaveBeenCalled()
+    expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
+  })
+
+  it('it does not call set up on the embeds if they are not in config', () => {
+    renderer.init({})
+
+    expect(chatActions.setUpChat).not.toHaveBeenCalled()
+    expect(talkActions.loadTalkVendors).not.toHaveBeenCalled()
+    expect(helpCenterActions.setUpHelpCenterAuth).not.toHaveBeenCalled()
   })
 
   describe('initialising services', () => {

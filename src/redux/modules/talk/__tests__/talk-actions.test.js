@@ -185,16 +185,23 @@ describe('submitTalkCallbackForm', () => {
 describe('loadTalkVendors', () => {
   describe('with a valid nickname', () => {
     const loadTalkVendors = () => {
-      const mockPromises = [Promise.resolve({ default: 'mockio' })],
-        mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
+      const mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
         mockNickname = 'koko_the_monkey',
-        store = mockStore({})
+        store = mockStore({
+          base: {
+            embeds: { talk: true },
+            embeddableConfig: {
+              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: mockNickname } } }
+            }
+          },
+          settings: {
+            talk: { suppress: false }
+          }
+        })
 
       return {
         store,
-        response: store.dispatch(
-          actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname)
-        )
+        response: store.dispatch(actions.loadTalkVendors())
       }
     }
 
@@ -207,7 +214,7 @@ describe('loadTalkVendors', () => {
       expect(action.type).toBe(types.TALK_VENDOR_LOADED)
 
       expect(action.payload).toEqual({
-        io: 'mockio'
+        io: expect.any(Function)
       })
     })
 
@@ -217,7 +224,7 @@ describe('loadTalkVendors', () => {
       await response
 
       expect(socketio.connect).toHaveBeenCalledWith(
-        'mockio',
+        expect.any(Function),
         'https://kruger-industrial-smoothing.zendesk.com',
         'koko_the_monkey'
       )
@@ -236,16 +243,22 @@ describe('loadTalkVendors', () => {
 
   describe('with an empty nickname', () => {
     const loadTalkVendors = () => {
-      const mockPromises = [Promise.resolve({ default: 'mockio' })],
-        mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
-        mockNickname = '',
-        store = mockStore({})
+      const mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com',
+        store = mockStore({
+          base: {
+            embeds: { talk: true },
+            embeddableConfig: {
+              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: '' } } }
+            }
+          },
+          settings: {
+            talk: { suppress: false }
+          }
+        })
 
       return {
         store,
-        response: store.dispatch(
-          actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname)
-        )
+        response: store.dispatch(actions.loadTalkVendors())
       }
     }
 

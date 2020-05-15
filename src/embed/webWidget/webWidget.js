@@ -5,26 +5,17 @@ import { Provider } from 'react-redux'
 
 import { webWidgetStyles } from './webWidgetStyles'
 import Frame from 'component/frame/Frame'
-import { beacon } from 'service/beacon'
 import { i18n } from 'service/i18n'
 import { settings } from 'service/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { isMobileBrowser } from 'utility/devices'
 import { document, getDocumentHost, isPopout } from 'utility/globals'
-import {
-  getChatConnectionSuppressed,
-  getTalkNickname,
-  getTalkEnabled
-} from 'src/redux/modules/selectors'
-import { setUpChat } from 'src/redux/modules/chat'
+import { getChatConnectionSuppressed } from 'src/redux/modules/selectors'
 import {
   getSettingsHelpCenterSuppress,
-  getSettingsContactFormSuppress,
   getCookiesDisabled
 } from 'src/redux/modules/settings/settings-selectors'
-import { authenticate, expireToken } from 'src/redux/modules/base'
 import WebWidget from 'component/webWidget/WebWidget'
-import { loadTalkVendors } from 'src/redux/modules/talk'
 import { onNextTick } from 'src/util/utils'
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
@@ -45,41 +36,13 @@ export default function WebWidgetFactory() {
     const { embeds } = config
 
     const helpCenterAvailable = !!embeds.helpCenterForm && !getSettingsHelpCenterSuppress(state)
-    const talkEnabled = getTalkEnabled(state)
-    const submitTicketAvailable =
-      !!embeds.ticketSubmissionForm && !getSettingsContactFormSuppress(state)
     const chatAvailable =
       !!embeds.chat && !getChatConnectionSuppressed(state) && !getCookiesDisabled(state)
 
-    const talkConfig = talkEnabled ? embeds.talk.props : {}
-    const submitTicketConfig = submitTicketAvailable ? embeds.ticketSubmissionForm.props : {}
     const chatConfig = chatAvailable ? embeds.chat.props : {}
-    const helpCenterConfig = helpCenterAvailable ? embeds.helpCenterForm.props : {}
 
-    const submitTicketSettings = submitTicketAvailable
-      ? setUpSubmitTicket(submitTicketConfig, reduxStore)
-      : {}
     // if HC is unavailable, then IPM help center is available
     const ipmHelpCenterAvailable = !helpCenterAvailable
-
-    embed = {
-      submitTicketSettings,
-      config: {
-        helpCenterForm: helpCenterConfig,
-        ticketSubmissionForm: submitTicketSettings.config,
-        chat: chatConfig
-      },
-      embedsAvailable: { chat: chatAvailable },
-      store: reduxStore
-    }
-
-    if (embeds.chat) {
-      reduxStore.dispatch(setUpChat(true))
-    }
-
-    if (talkEnabled) {
-      setupTalk(talkConfig, reduxStore)
-    }
 
     if (isMobile || popout) {
       containerStyle = { width: '100%', minHeight: '100%', maxHeight: '100%' }
@@ -126,7 +89,7 @@ export default function WebWidgetFactory() {
 
     embed = {
       component,
-      ...embed
+      store: reduxStore
     }
 
     return this
@@ -160,70 +123,10 @@ export default function WebWidgetFactory() {
     }
   }
 
-  function postRender() {
-    if (!embed) return
-    // Only send 1/10 times
-    if (Math.random() <= 0.1) {
-      beacon.sendWidgetInitInterval()
-    }
-
-    if (!embed.config.helpCenterForm) return
-
-    const config = embed.config.helpCenterForm
-
-    if (config.tokensRevokedAt) {
-      embed.store.dispatch(expireToken(config.tokensRevokedAt))
-    }
-
-    const settingJwtFn = settings.getAuthSettingsJwtFn()
-
-    if (settingJwtFn) {
-      const callback = retrievedJwt => {
-        embed.store.dispatch(authenticate(retrievedJwt))
-      }
-
-      return settingJwtFn(callback)
-    }
-
-    const settingJwt = settings.getAuthSettingsJwt()
-
-    if (settingJwt) embed.store.dispatch(authenticate(settingJwt))
-  }
-
-  function setUpSubmitTicket(config) {
-    const submitTicketConfigDefaults = {
-      position: 'right',
-      customFields: {},
-      formTitleKey: 'message',
-      attachmentsEnabled: false,
-      maxFileCount: 5,
-      maxFileSize: 5 * 1024 * 1024, // 5 MB
-      ticketForms: [],
-      color: '#1F73B7'
-    }
-
-    config = _.extend({}, submitTicketConfigDefaults, config)
-
-    return {
-      config
-    }
-  }
-
-  function setupTalk(config, store) {
-    store.dispatch(
-      loadTalkVendors(
-        [import(/* webpackChunkName: 'talk-sdk' */ 'socket.io-client')],
-        config.serviceUrl,
-        getTalkNickname(store.getState())
-      )
-    )
-  }
-
   const webWidget = {
     create,
     render,
     get,
-    postRender,
     waitForRootComponent
   }
 
