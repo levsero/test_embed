@@ -1,6 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Alert renders a styled garden alert 1`] = `
+.c5 {
+  margin: 0;
+  color: #2f3941;
+  font-weight: 600;
+}
+
+.c1 {
+  position: relative;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 20px 40px 20px 50px;
+  line-height: 1.4285714285714286;
+  font-size: 14px;
+  border-color: #f5b5ba;
+  background-color: #fff0f1;
+  color: #8c232c;
+}
+
+.c1 .c4 {
+  color: #681219;
+}
+
+.c2 {
+  position: absolute;
+  left: 24px;
+  margin-top: 2px;
+  color: #cc3340;
+}
+
 .c0 {
   padding: 1rem 2.5714285714285716rem !important;
   border-radius: 0.2857142857142857rem;
@@ -14,22 +43,58 @@ exports[`Alert renders a styled garden alert 1`] = `
   background-position-x: 0.8571428571428571rem !important;
 }
 
-.c1 {
+.c3 {
   font-size: 1rem;
+}
+
+.c3.c3.c3 {
+  margin-left: 1rem;
 }
 
 <div>
   <div>
     <div
-      class="index__c-callout___K1eQ- index__c-callout--error___NED0s c0"
+      class="c0 c1"
       data-garden-id="notifications.alert"
-      data-garden-version="7.1.10"
+      data-garden-version="8.9.0"
+      role="alert"
       type="error"
     >
+      <svg
+        class="c2"
+        focusable="false"
+        height="16"
+        hue="dangerHue"
+        role="presentation"
+        theme="[object Object]"
+        viewBox="0 0 16 16"
+        width="16"
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle
+            cx="7.5"
+            cy="8.5"
+            r="7"
+          />
+          <path
+            d="M7.5 4.5V9"
+            stroke-linecap="round"
+          />
+        </g>
+        <circle
+          cx="7.5"
+          cy="12"
+          fill="currentColor"
+          r="1"
+        />
+      </svg>
       <div
-        class="index__c-callout__title___e5tnb c1"
+        class="c3 c4 c5"
         data-garden-id="notifications.title"
-        data-garden-version="7.1.10"
+        data-garden-version="8.9.0"
       >
         Some title
       </div>
