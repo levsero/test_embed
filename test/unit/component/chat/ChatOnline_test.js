@@ -153,10 +153,6 @@ describe('ChatOnline component', () => {
       it('component returns valid isMobile value', () => {
         expect(result.props.isMobile).toEqual(true)
       })
-
-      it('component returns valid fullscreen value', () => {
-        expect(result.props.fullscreen).toEqual(true)
-      })
     })
 
     describe('when state.screen is `offlinemessage`', () => {

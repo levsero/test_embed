@@ -11,7 +11,6 @@ import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { GA } from 'service/analytics/googleAnalytics'
 import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
-import { initMobileScaling } from 'utility/mobileScaling'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
@@ -168,8 +167,6 @@ const start = (win, doc) => {
   }
 
   if (isMobileBrowser()) {
-    initMobileScaling()
-
     win.addEventListener('click', clickBusterHandler, true)
   }
 }

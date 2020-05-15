@@ -15,6 +15,18 @@ import { ICONS, TEST_IDS } from 'constants/shared'
 import { i18n } from 'service/i18n'
 
 import { locals as styles } from './ChatBadge.scss'
+import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
+
+const frameStyle = {
+  height: 210,
+  minHeight: 210,
+  width: 254,
+  minWidth: 254,
+  marginTop: 7,
+  marginBottom: 7,
+  marginLeft: 7,
+  marginRight: 7
+}
 
 const mapStateToProps = state => {
   return {
@@ -184,12 +196,15 @@ class ChatBadge extends Component {
 
   render = () => {
     return (
-      <div data-testid={TEST_IDS.CHAT_BADGE} className={styles.container}>
-        {this.renderTitle()}
-        {this.renderSplashDisplay()}
-        {this.renderInputContainer()}
-        {this.renderMinimizeButton()}
-      </div>
+      <>
+        <FrameStyle style={frameStyle} />
+        <div data-testid={TEST_IDS.CHAT_BADGE} className={styles.container}>
+          {this.renderTitle()}
+          {this.renderSplashDisplay()}
+          {this.renderInputContainer()}
+          {this.renderMinimizeButton()}
+        </div>
+      </>
     )
   }
 }

@@ -30,29 +30,7 @@ Snapshot Diff:
 @@ -141,1 +141,1 @@
 - .c18 .c6:not(:first-of-type):not(:last-of-type) {
 + .c19 .c6:not(:first-of-type):not(:last-of-type) {
-@@ -309,1 +309,1 @@
-- .c15 {
-+ .c16 {
-@@ -315,1 +315,1 @@
-- .c17 {
-+ .c18 {
-@@ -320,1 +320,1 @@
-- .c17 svg {
-+ .c18 svg {
-@@ -326,3 +326,3 @@
-- .c17 svg:hover path,
-- .c17 svg:active path,
-- .c17 svg:focus path {
-+ .c18 svg:hover path,
-+ .c18 svg:active path,
-+ .c18 svg:focus path {
-@@ -332,1 +332,1 @@
-- .c17 svg path {
-+ .c18 svg path {
-@@ -336,1 +336,1 @@
-- .c16 {
-+ .c17 {
-@@ -359,1 +359,6 @@
+@@ -160,1 +160,6 @@
 - .c14 {
 + .c13 {
 +   margin-bottom: 1.0714285714285714rem;
@@ -60,13 +38,35 @@ Snapshot Diff:
 + }
 + 
 + .c15 {
-@@ -365,3 +370,3 @@
+@@ -166,3 +171,3 @@
 - .c14:hover,
 - .c14:focus,
 - .c14:active {
 + .c15:hover,
 + .c15:focus,
 + .c15:active {
+@@ -321,1 +326,1 @@
+- .c15 {
++ .c16 {
+@@ -327,1 +332,1 @@
+- .c17 {
++ .c18 {
+@@ -332,1 +337,1 @@
+- .c17 svg {
++ .c18 svg {
+@@ -338,3 +343,3 @@
+- .c17 svg:hover path,
+- .c17 svg:active path,
+- .c17 svg:focus path {
++ .c18 svg:hover path,
++ .c18 svg:active path,
++ .c18 svg:focus path {
+@@ -344,1 +349,1 @@
+- .c17 svg path {
++ .c18 svg path {
+@@ -348,1 +353,1 @@
+- .c16 {
++ .c17 {
 @@ -415,1 +420,1 @@
 - .c13 {
 + .c14 {
@@ -238,6 +238,23 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 .c6 .c7 {
   width: 16px;
   height: 16px;
+}
+
+.c13 {
+  margin-bottom: 1.0714285714285714rem;
+  data-testid: talk--averageWaitTime;
+}
+
+.c15 {
+  color: #1f73b7;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c15:hover,
+.c15:focus,
+.c15:active {
+  color: #1f73b7;
 }
 
 .c0 {
@@ -439,23 +456,6 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   align-items: center;
 }
 
-.c13 {
-  margin-bottom: 1.0714285714285714rem;
-  data-testid: talk--averageWaitTime;
-}
-
-.c15 {
-  color: #1f73b7;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-}
-
-.c15:hover,
-.c15:focus,
-.c15:active {
-  color: #1f73b7;
-}
-
 .c10 {
   text-align: center;
   font-size: 1rem !important;
@@ -636,29 +636,7 @@ Snapshot Diff:
 @@ -141,1 +141,1 @@
 - .c19 .c6:not(:first-of-type):not(:last-of-type) {
 + .c18 .c6:not(:first-of-type):not(:last-of-type) {
-@@ -309,1 +309,1 @@
-- .c16 {
-+ .c15 {
-@@ -315,1 +315,1 @@
-- .c18 {
-+ .c17 {
-@@ -320,1 +320,1 @@
-- .c18 svg {
-+ .c17 svg {
-@@ -326,3 +326,3 @@
-- .c18 svg:hover path,
-- .c18 svg:active path,
-- .c18 svg:focus path {
-+ .c17 svg:hover path,
-+ .c17 svg:active path,
-+ .c17 svg:focus path {
-@@ -332,1 +332,1 @@
-- .c18 svg path {
-+ .c17 svg path {
-@@ -336,1 +336,1 @@
-- .c17 {
-+ .c16 {
-@@ -359,6 +359,1 @@
+@@ -160,6 +160,1 @@
 - .c13 {
 -   margin-bottom: 1.0714285714285714rem;
 -   data-testid: talk--averageWaitTime;
@@ -666,13 +644,35 @@ Snapshot Diff:
 - 
 - .c15 {
 + .c14 {
-@@ -370,3 +365,3 @@
+@@ -171,3 +166,3 @@
 - .c15:hover,
 - .c15:focus,
 - .c15:active {
 + .c14:hover,
 + .c14:focus,
 + .c14:active {
+@@ -326,1 +321,1 @@
+- .c16 {
++ .c15 {
+@@ -332,1 +327,1 @@
+- .c18 {
++ .c17 {
+@@ -337,1 +332,1 @@
+- .c18 svg {
++ .c17 svg {
+@@ -343,3 +338,3 @@
+- .c18 svg:hover path,
+- .c18 svg:active path,
+- .c18 svg:focus path {
++ .c17 svg:hover path,
++ .c17 svg:active path,
++ .c17 svg:focus path {
+@@ -349,1 +344,1 @@
+- .c18 svg path {
++ .c17 svg path {
+@@ -353,1 +348,1 @@
+- .c17 {
++ .c16 {
 @@ -420,1 +415,1 @@
 - .c14 {
 + .c13 {

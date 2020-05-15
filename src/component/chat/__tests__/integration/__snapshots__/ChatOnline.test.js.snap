@@ -386,6 +386,13 @@ exports[`chat log agent stopped typing 1`] = `
 `;
 
 exports[`chat log agent typing 1`] = `
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
+}
+
 .c4 {
   color: inherit;
 }
@@ -413,13 +420,6 @@ exports[`chat log agent typing 1`] = `
   animation: dQzvEH 1s infinite;
   -webkit-animation-delay: unset;
   animation-delay: unset;
-}
-
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
 }
 
 .c3 {

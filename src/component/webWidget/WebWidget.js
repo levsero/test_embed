@@ -79,7 +79,9 @@ const mapStateToProps = state => {
     hideZendeskLogo: getHideZendeskLogo(state),
     webWidgetVisible: getWebWidgetVisible(state),
     answerBotAvailable: getAnswerBotAvailable(state),
-    showChatHistory: getShowChatHistory(state)
+    showChatHistory: getShowChatHistory(state),
+    ipmHelpCenterAvailable: !getHelpCenterAvailable(state),
+    isMobile: isMobileBrowser()
   }
 }
 
@@ -95,7 +97,6 @@ class WebWidget extends Component {
       show: PropTypes.bool
     }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
-    fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -124,7 +125,6 @@ class WebWidget extends Component {
 
   static defaultProps = {
     chatNotification: { show: false, playSound: false },
-    fullscreen: true,
     helpCenterAvailable: false,
     hideZendeskLogo: false,
     style: null,
@@ -214,7 +214,6 @@ class WebWidget extends Component {
         ref={chat}
         forwardRef={chat}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -234,6 +233,7 @@ class WebWidget extends Component {
 
   renderHelpCenter = () => {
     if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return
+
     if (this.props.activeEmbed !== helpCenter) return null
 
     return (
@@ -289,7 +289,6 @@ class WebWidget extends Component {
           <ChatNotificationPopup
             isMobile={true}
             notification={notification}
-            fullscreen={this.props.fullscreen}
             chatNotificationRespond={onNotificatonResponded}
             chatNotificationDismissed={proactiveChatNotificationDismissed}
           />

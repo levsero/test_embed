@@ -5,17 +5,37 @@ import { Redirect } from 'react-router-dom'
 
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
-import { getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
+import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
 import { performSearch } from 'embeds/helpCenter/actions'
 import { getHasSearched } from '../../selectors'
 import routes from 'src/embeds/helpCenter/routes'
+import { useFrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
+import {
+  MAX_WIDGET_HEIGHT_NO_SEARCH,
+  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
+  WIDGET_MARGIN
+} from 'constants/shared'
+import { isMobileBrowser } from 'utility/devices'
 
-const SearchPromptPage = ({ title, hasSearched }) => {
+const frameStyle = {
+  height: MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN
+}
+
+const frameStyleWithoutLogo = {
+  height: MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + WIDGET_MARGIN
+}
+
+const mobileFrameStyle = {}
+
+const SearchPromptPage = ({ title, hasSearched, isLogoHidden }) => {
   const inputRef = useRef(null)
   useEffect(() => {
     if (!inputRef.current) return
     inputRef.current.focus()
   }, [])
+
+  const desktopFrameStyle = isLogoHidden ? frameStyleWithoutLogo : frameStyle
+  useFrameStyle(isMobileBrowser() ? mobileFrameStyle : desktopFrameStyle)
 
   if (hasSearched) return <Redirect to={routes.search()} />
 
@@ -32,12 +52,14 @@ const SearchPromptPage = ({ title, hasSearched }) => {
 
 SearchPromptPage.propTypes = {
   title: PropTypes.string.isRequired,
-  hasSearched: PropTypes.bool.isRequired
+  hasSearched: PropTypes.bool.isRequired,
+  isLogoHidden: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
   title: getSettingsHelpCenterTitle(state),
-  hasSearched: getHasSearched(state)
+  hasSearched: getHasSearched(state),
+  isLogoHidden: getHideZendeskLogo(state)
 })
 
 const mapDispatchToProps = {

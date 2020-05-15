@@ -55,7 +55,6 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     hideZendeskLogo: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
-    fullscreen: PropTypes.bool,
     updateEndChatModalVisibility: PropTypes.func,
     isPreview: PropTypes.bool
   }
@@ -63,7 +62,6 @@ class Chat extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
-    fullscreen: false,
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
@@ -122,7 +120,6 @@ class Chat extends Component {
       <PrechatScreen
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
         isPreview={this.props.isPreview}
       />
     )
@@ -145,7 +142,6 @@ class Chat extends Component {
         showChatEndFn={showChatEndFn}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
         showContactDetails={this.showContactDetailsFn}
         isPreview={this.props.isPreview}
       />

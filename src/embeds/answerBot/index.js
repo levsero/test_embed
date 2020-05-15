@@ -53,8 +53,8 @@ class AnswerBot extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.props.currentScreen === ARTICLE_SCREEN) {
+  componentDidUpdate(prevProps) {
+    if (this.props.currentScreen === ARTICLE_SCREEN && prevProps.currentScreen !== ARTICLE_SCREEN) {
       this.props.actions.updateBackButtonVisibility(true)
     }
   }

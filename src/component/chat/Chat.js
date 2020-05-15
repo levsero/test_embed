@@ -24,7 +24,6 @@ class Chat extends Component {
   static propTypes = {
     hasSdkConnected: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
-    fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
@@ -35,7 +34,6 @@ class Chat extends Component {
 
   static defaultProps = {
     isMobile: false,
-    fullscreen: false,
     hideZendeskLogo: false,
 
     isPreview: false
@@ -50,12 +48,7 @@ class Chat extends Component {
   renderChatHistory = () => {
     if (!this.props.showChatHistory) return
 
-    return (
-      <ChatHistoryScreen
-        fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-      />
-    )
+    return <ChatHistoryScreen hideZendeskLogo={this.props.hideZendeskLogo} />
   }
 
   renderChatOnline = () => {
@@ -67,7 +60,6 @@ class Chat extends Component {
           this.online = el
         }}
         isMobile={this.props.isMobile}
-        fullscreen={this.props.fullscreen}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
         hideZendeskLogo={this.props.hideZendeskLogo}

@@ -19,6 +19,12 @@ import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/select
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 import { getTalkTitleKey } from 'src/embeds/talk/selectors'
+import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
+import { onNextTick } from 'utility/utils'
+
+const baseLauncherStyle = {
+  width: 240
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -60,6 +66,47 @@ class WidgetLauncher extends Component {
 
   constructor(props, context) {
     super(props, context)
+
+    this.container = React.createRef()
+    this.state = {
+      style: {
+        width: 0
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.container.current) {
+      return
+    }
+
+    onNextTick(() => {
+      const newWidth = Math.max(
+        this.container.current.clientWidth,
+        this.container.current.offsetWidth
+      )
+
+      if (this.state.style.width === newWidth) {
+        return
+      }
+
+      // Check if the component has unmounted since we are updating state onNextTick
+      if (this.hasUnmounted) {
+        return
+      }
+
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        style: {
+          ...baseLauncherStyle,
+          width: newWidth
+        }
+      })
+    })
+  }
+
+  componentWillUnmount() {
+    this.hasUnmounted = true
   }
 
   getLabel = () => {
@@ -187,24 +234,33 @@ class WidgetLauncher extends Component {
     }
 
     return (
-      <button
-        data-testid={TEST_IDS.LAUNCHER}
-        aria-haspopup="true"
-        aria-label={this.getActiveEmbedLabel()}
-        className={`${styles.wrapper} ${baseMobileClasses}`}
-        onClick={e => {
-          this.props.onClick(e)
-          this.props.launcherClicked()
-        }}
-      >
-        <Icon type={type} flipX={shouldFlipX} className={`${styles.icon} ${iconMobileClasses}`} />
-        <span
-          className={`${styles.label} ${labelMobileClasses}`}
-          data-testid={TEST_IDS.LAUNCHER_LABEL}
-        >
-          {this.getActiveEmbedLabel()}
-        </span>
-      </button>
+      <>
+        <FrameStyle style={this.state.style} />
+        <div ref={this.container}>
+          <button
+            data-testid={TEST_IDS.LAUNCHER}
+            aria-haspopup="true"
+            aria-label={this.getActiveEmbedLabel()}
+            className={`${styles.wrapper} ${baseMobileClasses}`}
+            onClick={e => {
+              this.props.onClick(e)
+              this.props.launcherClicked()
+            }}
+          >
+            <Icon
+              type={type}
+              flipX={shouldFlipX}
+              className={`${styles.icon} ${iconMobileClasses}`}
+            />
+            <span
+              className={`${styles.label} ${labelMobileClasses}`}
+              data-testid={TEST_IDS.LAUNCHER_LABEL}
+            >
+              {this.getActiveEmbedLabel()}
+            </span>
+          </button>
+        </div>
+      </>
     )
   }
 }

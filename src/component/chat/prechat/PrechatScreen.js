@@ -110,7 +110,6 @@ class PrechatScreen extends Component {
   }
 
   static defaultProps = {
-    fullscreen: false,
     hideZendeskLogo: false,
     sendOfflineMessage: () => {},
     resetCurrentMessage: () => {},
