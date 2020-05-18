@@ -10,7 +10,6 @@ import {
   getShowChatHistory,
   getHasChatSdkConnected
 } from 'src/redux/modules/chat/chat-selectors'
-import { cancelButtonClicked } from 'src/redux/modules/base'
 import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 
 const mapStateToProps = state => {
@@ -27,7 +26,6 @@ class Chat extends Component {
     isMobile: PropTypes.bool,
     fullscreen: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    cancelButtonClicked: PropTypes.func,
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
@@ -105,7 +103,6 @@ class Chat extends Component {
         ref={el => {
           this.offline = el
         }}
-        handleCloseClick={this.props.cancelButtonClicked}
         isMobile={this.props.isMobile}
         chatId={this.props.chatId}
         fullscreen={this.props.fullscreen}
@@ -128,7 +125,7 @@ class Chat extends Component {
 
 export default connect(
   mapStateToProps,
-  { cancelButtonClicked },
+  null,
   null,
   { forwardRef: true }
 )(Chat)
