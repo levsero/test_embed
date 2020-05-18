@@ -236,9 +236,9 @@ describe('DynamicForm', () => {
         getFields: () => [field1, field2, field3]
       })
 
-      expect(queryByLabelText(field1.title)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field2.title)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field3.title)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field1.title} (optional)`)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field2.title} (optional)`)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field3.title} (optional)`)).toHaveAttribute('readonly')
     })
   })
 
@@ -262,6 +262,28 @@ describe('DynamicForm', () => {
       fireEvent.click(getByText('Send'))
 
       expect(getByText('Sending')).toBeInTheDocument()
+    })
+
+    it('is called with the form values', () => {
+      // eslint-disable-next-line react/prop-types
+      const Footer = ({ formValues }) => (
+        <button data-testid="footer">{JSON.stringify(formValues)}</button>
+      )
+
+      const { getByText, getByLabelText } = renderComponent({
+        footer: Footer,
+        getFields: () => [field1, field2]
+      })
+
+      fireEvent.change(getByLabelText(`${field1.title} (optional)`), { target: { value: 'One' } })
+      fireEvent.change(getByLabelText(`${field2.title} (optional)`), { target: { value: 'Two' } })
+
+      const expectedValues = {
+        [field1.id]: 'One',
+        [field2.id]: 'Two'
+      }
+
+      expect(getByText(JSON.stringify(expectedValues))).toBeInTheDocument()
     })
   })
 })

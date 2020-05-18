@@ -4,7 +4,15 @@ import { Field, Checkbox as GardenCheckbox, Message, Hint } from '@zendeskgarden
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 import { TEST_IDS } from 'constants/shared'
 
-const Checkbox = ({ field, value, onChange, errorMessage, errorMessageKey }) => {
+const Checkbox = ({
+  field,
+  value,
+  onChange,
+  errorMessage,
+  errorMessageKey,
+  isReadOnly,
+  isPreview
+}) => {
   return (
     <div data-testid={TEST_IDS.CHECKBOX_FIELD}>
       <Field>
@@ -18,7 +26,13 @@ const Checkbox = ({ field, value, onChange, errorMessage, errorMessageKey }) => 
           validation={errorMessage ? 'error' : undefined}
         >
           {field.title && (
-            <ContactFormLabel value={field.title} required={field.required} fieldId={field.id} />
+            <ContactFormLabel
+              value={field.title}
+              required={field.required}
+              fieldId={field.id}
+              isReadOnly={isReadOnly}
+              isPreview={isPreview}
+            />
           )}
           {field.description && <Hint>{field.description}</Hint>}
 
@@ -43,7 +57,9 @@ Checkbox.propTypes = {
   value: PropTypes.oneOf([0, 1]),
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
-  errorMessageKey: PropTypes.number
+  errorMessageKey: PropTypes.number,
+  isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool
 }
 
 export default Checkbox

@@ -408,9 +408,9 @@ describe('TicketForm', () => {
         readOnlyState: {}
       })
 
-      expect(queryByLabelText(field1.title)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field2.title)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field3.title)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field1.title} (optional)`)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field2.title} (optional)`)).toHaveAttribute('readonly')
+      expect(queryByLabelText(`${field3.title} (optional)`)).toHaveAttribute('readonly')
     })
   })
 })

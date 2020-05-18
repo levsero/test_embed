@@ -3,11 +3,25 @@ import PropTypes from 'prop-types'
 import { Field, Hint, Input, Message } from '@zendeskgarden/react-forms'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 
-const Decimal = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnly }) => {
+const Decimal = ({
+  field,
+  value,
+  errorMessage,
+  errorMessageKey,
+  onChange,
+  isReadOnly,
+  isPreview
+}) => {
   return (
     <Field>
       {field.title && (
-        <ContactFormLabel value={field.title} required={field.required} fieldId={field.id} />
+        <ContactFormLabel
+          value={field.title}
+          required={field.required}
+          fieldId={field.id}
+          isReadOnly={isReadOnly}
+          isPreview={isPreview}
+        />
       )}
 
       {field.description && <Hint>{field.description}</Hint>}
@@ -45,6 +59,7 @@ Decimal.propTypes = {
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool,
   errorMessageKey: PropTypes.number
 }
 

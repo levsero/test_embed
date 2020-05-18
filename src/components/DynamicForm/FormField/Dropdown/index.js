@@ -82,7 +82,16 @@ const useDropdownTree = (items = []) => {
   }
 }
 
-const Dropdown = ({ field, value, errorMessage, errorMessageKey, onChange, theme }) => {
+const Dropdown = ({
+  field,
+  value,
+  errorMessage,
+  errorMessageKey,
+  onChange,
+  theme,
+  isReadOnly,
+  isPreview
+}) => {
   const { view, open, getItem, isRoot } = useDropdownTree(field.options)
   const [isOpen, setIsOpen] = useState(false)
   const frame = useCurrentFrame()
@@ -143,6 +152,8 @@ const Dropdown = ({ field, value, errorMessage, errorMessageKey, onChange, theme
               value={field.title}
               as={Label}
               required={field.required}
+              isReadOnly={isReadOnly}
+              isPreview={isPreview}
             />
           )}
 
@@ -219,7 +230,9 @@ Dropdown.propTypes = {
   errorMessageKey: PropTypes.number,
   theme: PropTypes.shape({
     fontSize: PropTypes.number
-  })
+  }),
+  isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool
 }
 
 export default withTheme(Dropdown)

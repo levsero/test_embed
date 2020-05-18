@@ -3,11 +3,25 @@ import { Field, Hint, Message, Textarea as GardenTextarea } from '@zendeskgarden
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 import PropTypes from 'prop-types'
 
-const Textarea = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnly }) => {
+const Textarea = ({
+  field,
+  value,
+  errorMessage,
+  errorMessageKey,
+  onChange,
+  isReadOnly,
+  isPreview
+}) => {
   return (
     <Field>
       {field.title && (
-        <ContactFormLabel value={field.title} required={field.required} fieldId={field.id} />
+        <ContactFormLabel
+          value={field.title}
+          required={field.required}
+          fieldId={field.id}
+          isReadOnly={isReadOnly}
+          isPreview={isPreview}
+        />
       )}
       {field.description && <Hint>{field.description}</Hint>}
       <GardenTextarea
@@ -41,6 +55,7 @@ Textarea.propTypes = {
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool,
   errorMessageKey: PropTypes.number
 }
 

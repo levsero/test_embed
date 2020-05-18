@@ -7,7 +7,9 @@ describe('ContactFormLabel', () => {
   const defaultProps = {
     value: 'A title',
     required: false,
-    as: undefined
+    as: undefined,
+    isReadOnly: false,
+    isPreview: false
   }
 
   const renderComponent = (props = {}) =>
@@ -24,15 +26,25 @@ describe('ContactFormLabel', () => {
     expect(container).not.toHaveTextContent('(optional)')
   })
 
-  it('displays the label by itself when field is read only', () => {
+  it('displays the label with "(optional)" when field is not required', () => {
+    const { container } = renderComponent({ value: 'A title', required: false })
+
+    expect(container).toHaveTextContent('A title (optional)')
+  })
+
+  it('does not display "(optional)" if the field is read only', () => {
     const { container } = renderComponent({ value: 'A title', required: false, isReadOnly: true })
 
-    expect(container).toHaveTextContent('A title')
     expect(container).not.toHaveTextContent('(optional)')
   })
 
-  it('displays the label with "(optional)" when field is not required', () => {
-    const { container } = renderComponent({ value: 'A title', required: false })
+  it('displays the label with "(optional)" when field is not required, readonly and in preview mode', () => {
+    const { container } = renderComponent({
+      value: 'A title',
+      required: false,
+      isReadOnly: true,
+      isPreview: true
+    })
 
     expect(container).toHaveTextContent('A title (optional)')
   })

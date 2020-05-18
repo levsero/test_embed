@@ -9,6 +9,7 @@ const FormField = ({
   onChange,
   errorMessage,
   isReadOnly,
+  isPreview,
   errorMessageKey,
   extraFieldOptions
 }) => {
@@ -21,6 +22,7 @@ const FormField = ({
       onChange={onChange}
       errorMessage={errorMessage}
       isReadOnly={isReadOnly}
+      isPreview={isPreview}
       errorMessageKey={errorMessageKey}
     />
   )
@@ -32,6 +34,7 @@ FormField.propTypes = {
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool,
   errorMessageKey: PropTypes.number,
   extraFieldOptions: PropTypes.objectOf(PropTypes.elementType)
 }
