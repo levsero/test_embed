@@ -1,3 +1,5 @@
+import { wait } from '@testing-library/dom'
+
 import '../chatPreview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
 
@@ -67,8 +69,8 @@ describe('rendered with default options', () => {
 
   it('can update to prechat screen', done => {
     preview.updateScreen(constants.PRECHAT_SCREEN)
-    preview.waitForComponent(() => {
-      expect(chatPreviewBodyEl()).toHaveTextContent('Start chat')
+    preview.waitForComponent(async () => {
+      await wait(() => expect(chatPreviewBodyEl()).toHaveTextContent('Start chat'))
       done()
     })
   })

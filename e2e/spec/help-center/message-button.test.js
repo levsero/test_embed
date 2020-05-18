@@ -36,13 +36,8 @@ test('use chat as contact option when chat is online', async () => {
   await zChat.online()
   await launcher.click()
   await waitForHelpCenter()
-  const doc = await widget.getDocument()
-  const button = await queries.queryByText(doc, 'Live chat')
 
-  await wait(() => expect(button).toBeTruthy())
-
-  await button.click()
-  const chat = await queries.queryByText(doc, 'Chat with us')
-
-  await wait(() => expect(chat).toBeTruthy())
+  await widget.waitForText('Live chat')
+  await widget.clickText('Live chat')
+  await widget.waitForText('Chat with us')
 })

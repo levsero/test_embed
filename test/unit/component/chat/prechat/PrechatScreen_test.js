@@ -184,16 +184,6 @@ describe('PrechatScreen component', () => {
       component.render()
     })
 
-    describe('when the screen is prechat screen', () => {
-      beforeAll(() => {
-        mockScreen = prechatScreen
-      })
-
-      it('calls renderPreChatForm', () => {
-        expect(component.renderPreChatForm).toHaveBeenCalled()
-      })
-    })
-
     describe('when the screen is loading screen', () => {
       beforeAll(() => {
         mockScreen = loadingScreen

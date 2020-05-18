@@ -123,6 +123,7 @@ class Chat extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
+        isPreview={this.props.isPreview}
       />
     )
   }

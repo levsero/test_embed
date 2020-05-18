@@ -49,7 +49,7 @@ AuthenticatedProfile.propTypes = {
     display_name: PropTypes.string,
     email: PropTypes.string
   }),
-  initiateSocialLogout: PropTypes.func
+  initiateSocialLogout: PropTypes.func.isRequired
 }
 
 export default AuthenticatedProfile

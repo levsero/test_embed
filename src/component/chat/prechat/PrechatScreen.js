@@ -105,7 +105,8 @@ class PrechatScreen extends Component {
       status: PropTypes.string
     }),
     isNewPrechatFormEnabled: PropTypes.bool,
-    submitPrechatForm: PropTypes.func
+    submitPrechatForm: PropTypes.func,
+    isPreview: PropTypes.bool
   }
 
   static defaultProps = {
@@ -178,7 +179,7 @@ class PrechatScreen extends Component {
         if (this.props.isNewPrechatFormEnabled) {
           return (
             <SuspensePage>
-              <NewPrechatForm />
+              <NewPrechatForm isPreview={this.props.isPreview} />
             </SuspensePage>
           )
         }
