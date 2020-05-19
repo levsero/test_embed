@@ -1,11 +1,15 @@
-import { render } from 'utility/testHelpers'
 import React from 'react'
+import { render } from 'utility/testHelpers'
+import { styleSheetSerializer } from 'jest-styled-components/serializer'
 
 import * as selectors from 'embeds/helpCenter/selectors'
 import { TEST_IDS } from 'src/constants/shared'
 import snapshotDiff from 'snapshot-diff'
 
 import Messages from '../index'
+
+snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
+expect.addSnapshotSerializer(styleSheetSerializer)
 
 const resultsMessage = {
   type: 'results',
