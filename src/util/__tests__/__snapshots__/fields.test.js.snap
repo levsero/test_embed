@@ -1,13 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`customFields getCustomFields renders the correct components for each key 1`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"
@@ -38,7 +45,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 2`] = `
-.c2.c2 {
+.c3.c3 {
   vertical-align: baseline;
   position: absolute;
   left: -100px;
@@ -56,31 +63,38 @@ exports[`customFields getCustomFields renders the correct components for each ke
   font-size: inherit;
 }
 
-.c3.c3 {
+.c4.c4 {
   position: relative;
 }
 
-.c3:focus {
+.c4:focus {
   outline: none;
 }
 
-.c4 {
+.c5 {
   overflow-y: auto;
   max-height: 17.142857142857142rem;
 }
 
-.c1 {
+.c2 {
   cursor: default;
 }
 
-.c1.c1 {
+.c2.c2 {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-.c0.c0.c0 {
+.c1.c1.c1 {
   margin-bottom: 0 !important;
+}
+
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
 }
 
 <div>
@@ -99,7 +113,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         role="combobox"
       >
         <label
-          class="text__c-txt__label___2Nog7 "
+          class="c0 text__c-txt__label___2Nog7 "
           data-garden-id="dropdowns.label"
           data-garden-version="7.1.10"
           data-keyid="10006"
@@ -113,7 +127,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         <div
           aria-haspopup="true"
           aria-invalid="false"
-          class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
+          class="c1 text__c-txt__input___17zQx text__c-txt__input--select___324ys c2"
           data-garden-id="dropdowns.select"
           data-garden-version="7.1.10"
           data-testid="dropdown-field"
@@ -128,7 +142,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             aria-autocomplete="list"
             aria-labelledby="downshift-0-label"
             autocomplete="off"
-            class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c2"
+            class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c3"
             id="downshift-0-input"
             readonly=""
             tabindex="-1"
@@ -144,7 +158,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         >
           <ul
             aria-labelledby="downshift-0-label"
-            class="index__c-menu___3N4tx c3"
+            class="index__c-menu___3N4tx c4"
             data-garden-id="dropdowns.menu"
             data-garden-version="7.1.10"
             data-testid="dropdown-options"
@@ -153,7 +167,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             style="width: 0px;"
           >
             <div
-              class="c4"
+              class="c5"
             />
           </ul>
         </div>
@@ -170,7 +184,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 3`] = `
-.c2.c2 {
+.c3.c3 {
   vertical-align: baseline;
   position: absolute;
   left: -100px;
@@ -188,31 +202,38 @@ exports[`customFields getCustomFields renders the correct components for each ke
   font-size: inherit;
 }
 
-.c3.c3 {
+.c4.c4 {
   position: relative;
 }
 
-.c3:focus {
+.c4:focus {
   outline: none;
 }
 
-.c4 {
+.c5 {
   overflow-y: auto;
   max-height: 17.142857142857142rem;
 }
 
-.c1 {
+.c2 {
   cursor: default;
 }
 
-.c1.c1 {
+.c2.c2 {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-.c0.c0.c0 {
+.c1.c1.c1 {
   margin-bottom: 0 !important;
+}
+
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
 }
 
 <div>
@@ -231,7 +252,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         role="combobox"
       >
         <label
-          class="text__c-txt__label___2Nog7 "
+          class="c0 text__c-txt__label___2Nog7 "
           data-garden-id="dropdowns.label"
           data-garden-version="7.1.10"
           data-keyid="22666574"
@@ -245,7 +266,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         <div
           aria-haspopup="true"
           aria-invalid="false"
-          class="c0 text__c-txt__input___17zQx text__c-txt__input--select___324ys c1"
+          class="c1 text__c-txt__input___17zQx text__c-txt__input--select___324ys c2"
           data-garden-id="dropdowns.select"
           data-garden-version="7.1.10"
           data-testid="dropdown-field"
@@ -260,7 +281,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             aria-autocomplete="list"
             aria-labelledby="downshift-1-label"
             autocomplete="off"
-            class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c2"
+            class="text__c-txt__input___17zQx text__c-txt__input--bare___PN_Zg c3"
             id="downshift-1-input"
             readonly=""
             tabindex="-1"
@@ -276,7 +297,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
         >
           <ul
             aria-labelledby="downshift-1-label"
-            class="index__c-menu___3N4tx c3"
+            class="index__c-menu___3N4tx c4"
             data-garden-id="dropdowns.menu"
             data-garden-version="7.1.10"
             data-testid="dropdown-options"
@@ -285,7 +306,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             style="width: 0px;"
           >
             <div
-              class="c4"
+              class="c5"
             />
           </ul>
         </div>
@@ -302,13 +323,20 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 4`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"
@@ -339,13 +367,20 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 5`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"
@@ -387,13 +422,20 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 6`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"
@@ -434,6 +476,13 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 7`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
@@ -459,7 +508,7 @@ exports[`customFields getCustomFields renders the correct components for each ke
             type="checkbox"
           />
           <label
-            class="checkbox__c-chk__label___12wm4 "
+            class="c0 checkbox__c-chk__label___12wm4 "
             data-garden-container-id="containers.field"
             data-garden-container-version="1.3.3"
             data-garden-id="forms.checkbox_label"
@@ -488,13 +537,20 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 8`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"
@@ -525,13 +581,20 @@ exports[`customFields getCustomFields renders the correct components for each ke
 `;
 
 exports[`customFields getCustomFields renders the correct components for each key 9`] = `
+.c0 {
+  line-height: 1.42857 !important;
+  display: block;
+  margin-bottom: 0.42857142857142855rem;
+  word-break: break-word;
+}
+
 <div>
   <div>
     <div
       class="text__c-txt___Uzv-G range__c-range___1aYaS "
     >
       <label
-        class="text__c-txt__label___3wMPZ "
+        class="c0 text__c-txt__label___3wMPZ "
         data-garden-container-id="containers.field"
         data-garden-container-version="1.3.3"
         data-garden-id="forms.text_label"

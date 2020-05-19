@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import sanitizeHtml from 'sanitize-html'
 import useTranslate from 'src/hooks/useTranslate'
 import { Label } from '@zendeskgarden/react-forms'
+import { StyledLabel } from './styles'
 
 const ContactFormLabel = ({ keyID, value, required, isReadOnly, as }) => {
   const translate = useTranslate()
@@ -10,7 +11,7 @@ const ContactFormLabel = ({ keyID, value, required, isReadOnly, as }) => {
   const sanitizedLabel = sanitizeHtml(value, { allowedTags: [] })
   const requiredLabel = `<strong>${sanitizedLabel}</strong>`
 
-  const LabelComponent = as || Label
+  const LabelComponent = StyledLabel(as || Label)
   const showRequiredLabel = required || isReadOnly
 
   return (
