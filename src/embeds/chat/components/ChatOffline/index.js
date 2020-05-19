@@ -7,7 +7,6 @@ import { ChatOfflineForm } from 'component/chat/ChatOfflineForm'
 import {
   chatOfflineFormChanged,
   sendOfflineMessage,
-  handleOfflineFormBack,
   handleOperatingHoursClick,
   initiateSocialLogout,
   openedChatHistory
@@ -41,7 +40,6 @@ const ChatOffline = ({
   formFields,
   formSettings = { enabled: false },
   formState,
-  handleOfflineFormBack,
   handleOperatingHoursClick,
   hasChatHistory,
   hideZendeskLogo = false,
@@ -75,7 +73,6 @@ const ChatOffline = ({
         phoneEnabled={loginSettings.phoneEnabled}
         greeting={formSettings.message}
         offlineMessage={offlineMessage}
-        handleOfflineFormBack={handleOfflineFormBack}
         handleOperatingHoursClick={handleOperatingHoursClick}
         sendOfflineMessage={sendOfflineMessage}
         chatOfflineFormChanged={chatOfflineFormChanged}
@@ -100,7 +97,6 @@ ChatOffline.propTypes = {
   formFields: PropTypes.object.isRequired,
   formSettings: PropTypes.object.isRequired,
   formState: PropTypes.object.isRequired,
-  handleOfflineFormBack: PropTypes.func.isRequired,
   handleOperatingHoursClick: PropTypes.func.isRequired,
   hasChatHistory: PropTypes.bool.isRequired,
   hideZendeskLogo: PropTypes.bool,
@@ -142,7 +138,6 @@ const actionCreators = {
   cancelButtonClicked,
   chatOfflineFormChanged,
   getGroupedOperatingHours,
-  handleOfflineFormBack,
   handleOperatingHoursClick,
   initiateSocialLogout,
   openedChatHistory,

@@ -155,8 +155,7 @@ describe('loading screen', () => {
 describe('success screen', () => {
   const testComponent = () =>
     renderForm({
-      offlineMessage: { screen: OFFLINE_FORM_SCREENS.SUCCESS },
-      title: 'test title'
+      offlineMessage: { screen: OFFLINE_FORM_SCREENS.SUCCESS }
     })
 
   it('renders Done button', () => {
@@ -164,7 +163,7 @@ describe('success screen', () => {
   })
 
   it('renders with the correct title', () => {
-    expect(testComponent().getByText('test title')).toBeInTheDocument()
+    expect(testComponent().getByText('Chat with us')).toBeInTheDocument()
   })
 
   it('renders success text', () => {

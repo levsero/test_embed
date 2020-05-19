@@ -116,7 +116,8 @@ describe('ChatOfflineForm component', () => {
       },
       'src/components/SuccessNotification': {},
       'src/hooks/useTranslate': {},
-      'icons/widget-icon_success_contactForm.svg': {}
+      'icons/widget-icon_success_contactForm.svg': {},
+      'src/embeds/chat/pages/OfflineFormSuccessPage': {}
     })
 
     mockery.registerAllowable(ChatOfflineFormPath)

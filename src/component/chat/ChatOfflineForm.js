@@ -11,14 +11,14 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import { UserProfile } from 'component/chat/UserProfile'
 import ChatMessagingChannels from 'component/chat/ChatMessagingChannels'
-import SuccessNotification from 'src/components/SuccessNotification'
+import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 import { NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN, TEST_IDS } from 'src/constants/shared'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
 import { Widget, Header, Main } from 'src/components/Widget'
-import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import OfflineFormSuccessPage from 'src/embeds/chat/pages/OfflineFormSuccessPage'
+
 import { locals as styles } from './ChatOfflineForm.scss'
-import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 
 export class ChatOfflineForm extends Component {
   static propTypes = {
@@ -27,7 +27,6 @@ export class ChatOfflineForm extends Component {
     initiateSocialLogout: PropTypes.func.isRequired,
     operatingHours: PropTypes.object,
     sendOfflineMessage: PropTypes.func.isRequired,
-    handleOfflineFormBack: PropTypes.func.isRequired,
     handleOperatingHoursClick: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     readOnlyState: PropTypes.object.isRequired,
@@ -234,25 +233,7 @@ export class ChatOfflineForm extends Component {
   renderSuccess() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return
 
-    return (
-      <Widget>
-        <Header title={this.props.title} />
-        <Main>
-          <SuccessNotification
-            icon={<SuccessIcon />}
-            isMobile={this.props.isMobile}
-            doneText={i18n.t('embeddable_framework.common.button.goBack')}
-            onClick={this.props.handleOfflineFormBack}
-          />
-        </Main>
-        <ChatFooter
-          hideZendeskLogo={this.props.hideZendeskLogo}
-          isMobile={this.props.isMobile}
-          hideButton={true}
-          scrollShadowVisible={false}
-        />
-      </Widget>
-    )
+    return <OfflineFormSuccessPage />
   }
 
   renderLoading() {
