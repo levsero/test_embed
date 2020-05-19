@@ -49,7 +49,10 @@ const ChatContactDetailsModalForm = ({
     }
 
     Promise.resolve(
-      editContactDetailsSubmitted({ display_name: values.display_name, email: values.email })
+      editContactDetailsSubmitted({
+        display_name: values.display_name ?? '',
+        email: values.email ?? ''
+      })
     )
       .then(() => {
         setShowErrors(false)
