@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
-import { FileName, FileSize } from './styles'
+import { FileName, FileSize, ErrorBody } from './styles'
 import { Alert, Title } from 'src/components/Alert'
 import {
   formatNameString,
@@ -36,7 +36,7 @@ const AttachmentError = ({
   return (
     <Alert type="error" role="alert" data-testid={TEST_IDS.ERROR_MSG}>
       <Title>{errorTitle}</Title>
-      {errorBody && errorBody}
+      {errorBody && <ErrorBody>{errorBody}</ErrorBody>}
       <FileName>{formatNameString(fileName)}</FileName>
       <FileSize>{formatAttachmentSize(fileSize, translate)}</FileSize>
       <Close
