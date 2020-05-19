@@ -15,7 +15,6 @@ const renderChatHistoryScreen = (customProps = {}) => {
     showAvatar: false,
     fetchConversationHistory: noop,
     hideZendeskLogo: false,
-    chatId: 'id-1012',
     firstMessageTimestamp: 1555030483758,
     fullscreen: false,
     title: 'this is the title'

@@ -80,7 +80,6 @@ const mapStateToProps = state => {
 class PrechatScreen extends Component {
   static propTypes = {
     hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string,
     updateChatScreen: PropTypes.func.isRequired,
     hasChatHistory: PropTypes.bool.isRequired,
     screen: PropTypes.string.isRequired,
@@ -114,7 +113,6 @@ class PrechatScreen extends Component {
   static defaultProps = {
     fullscreen: false,
     hideZendeskLogo: false,
-    chatId: '',
     sendOfflineMessage: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
@@ -170,7 +168,6 @@ class PrechatScreen extends Component {
         isAuthenticated={this.props.isAuthenticated}
         visitor={this.props.visitor}
         onFormCompleted={this.onPrechatFormComplete}
-        chatId={this.props.chatId}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         openedChatHistory={this.props.openedChatHistory}

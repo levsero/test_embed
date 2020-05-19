@@ -11,7 +11,7 @@ describe('Chat component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/chat/ChatOffline': ChatOffline,
+      'embeds/chat/components/ChatOffline': ChatOffline,
       'component/chat/ChatOnline': ChatOnline,
       'components/LoadingPage': LoadingPage,
       'src/redux/modules/chat/chat-selectors': {
@@ -49,18 +49,6 @@ describe('Chat component', () => {
         expect(component.renderChatOnline()).toBeFalsy()
       })
 
-      describe('getActiveComponent', () => {
-        let active
-
-        beforeEach(() => {
-          active = component.getActiveComponent()
-        })
-
-        it('returns the offline component', () => {
-          expect(TestUtils.isCompositeComponentWithType(active, ChatOffline)).toEqual(true)
-        })
-      })
-
       describe('handleDragEnter', () => {
         beforeEach(() => {
           component.handleDragEnter()
@@ -83,18 +71,6 @@ describe('Chat component', () => {
 
       it('does not render ChatOffline component', () => {
         expect(component.renderChatOffline()).toBeFalsy()
-      })
-
-      describe('getActiveComponent', () => {
-        let active
-
-        beforeEach(() => {
-          active = component.getActiveComponent()
-        })
-
-        it('returns the online component', () => {
-          expect(TestUtils.isCompositeComponentWithType(active, ChatOnline)).toEqual(true)
-        })
       })
 
       describe('handleDragEnter', () => {

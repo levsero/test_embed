@@ -54,7 +54,6 @@ class Chat extends Component {
     menuVisible: PropTypes.bool,
     connection: PropTypes.string.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    chatId: PropTypes.string,
     isLoggingOut: PropTypes.bool.isRequired,
     fullscreen: PropTypes.bool,
     updateEndChatModalVisibility: PropTypes.func,
@@ -77,7 +76,6 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
-    chatId: '',
     isLoggingOut: false,
     isPreview: false
   }
@@ -123,7 +121,6 @@ class Chat extends Component {
     return (
       <PrechatScreen
         hideZendeskLogo={this.props.hideZendeskLogo}
-        chatId={this.props.chatId}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
       />
@@ -145,7 +142,6 @@ class Chat extends Component {
       <ChattingScreen
         toggleMenu={this.toggleMenu}
         showChatEndFn={showChatEndFn}
-        chatId={this.props.chatId}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}

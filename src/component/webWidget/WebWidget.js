@@ -114,7 +114,6 @@ class WebWidget extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     channelChoiceAvailable: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
-    chatId: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
     webWidgetVisible: PropTypes.bool.isRequired,
     answerBotAvailable: PropTypes.bool.isRequired,
@@ -137,7 +136,6 @@ class WebWidget extends Component {
     closeCurrentArticle: () => {},
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
-    chatId: '',
     proactiveChatNotificationDismissed: () => {},
     webWidgetVisible: true,
     answerBotAvailable: false,
@@ -218,7 +216,6 @@ class WebWidget extends Component {
         isMobile={this.props.isMobile}
         fullscreen={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        chatId={this.props.chatId}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
       />

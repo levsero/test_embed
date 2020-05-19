@@ -1,15 +1,13 @@
 import { render } from 'utility/testHelpers'
 import React from 'react'
 
-import { Component as ChatOffline } from '../ChatOffline'
+import { Component as ChatOffline } from '../'
 
 jest.mock('component/chat/ChatOfflineForm', () => {
   return {
     ChatOfflineForm: () => <div>ChatOfflineForm</div>
   }
 })
-
-const handleCloseClickSpy = jest.fn()
 
 const renderComponent = inProps => {
   const props = {
@@ -27,11 +25,8 @@ const renderComponent = inProps => {
     socialLogin: {},
     authUrls: {},
     visitor: {},
-    handleCloseClick: handleCloseClickSpy,
     operatingHours: {},
-    isMobile: false,
     hideZendeskLogo: false,
-    chatId: 'testChatId',
     isAuthenticated: false,
     widgetShown: false,
     title: 'testTitle',
