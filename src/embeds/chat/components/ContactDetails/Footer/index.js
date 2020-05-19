@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'
+import { Footer, FooterItem } from '@zendeskgarden/react-modals'
 
 import { TEST_IDS } from 'constants/shared'
-import { Footer, FooterItem } from 'embeds/webWidget/components/Modal'
 import useTranslate from 'src/hooks/useTranslate'
 
 import { Dots } from './styles'

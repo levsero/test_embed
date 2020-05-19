@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Modal } from '@zendeskgarden/react-modals'
 import { withTheme } from 'styled-components'
-import { Modal } from 'src/embeds/webWidget/components/Modal'
 import ChatContactDetailsForm from 'src/embeds/chat/components/ContactDetails/Form'
 import ContactDetailsSuccess from 'src/embeds/chat/components/ContactDetails/Success'
 import { TEST_IDS } from 'constants/shared'

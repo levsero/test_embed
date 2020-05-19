@@ -451,7 +451,7 @@ exports[`chat log agent typing 1`] = `
         class="c2 c3"
         color="inherit"
         data-garden-id="loaders.inline"
-        data-garden-version="7.1.10"
+        data-garden-version="8.9.0"
         data-testid="Icon--ellipsis"
         height="4"
         size="16"
@@ -1316,6 +1316,29 @@ exports[`chat log visitor message account settings login enabled does not displa
 `;
 
 exports[`chat log visitor message failure 1`] = `
+.c2 {
+  position: relative;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 20px 40px 20px 50px;
+  line-height: 1.4285714285714286;
+  font-size: 14px;
+  border-color: #f5b5ba;
+  background-color: #fff0f1;
+  color: #8c232c;
+}
+
+.c2 .c5 {
+  color: #681219;
+}
+
+.c3 {
+  position: absolute;
+  left: 24px;
+  margin-top: 2px;
+  color: #cc3340;
+}
+
 .c0.c0.c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1342,7 +1365,7 @@ exports[`chat log visitor message failure 1`] = `
   color: #FFFFFF !important;
 }
 
-.c2 {
+.c4 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1400,12 +1423,43 @@ exports[`chat log visitor message failure 1`] = `
               class="messageErrorContainer"
             >
               <div
-                class="container index__c-callout___K1eQ- index__c-callout--error___NED0s "
+                class="container c2"
                 data-garden-id="notifications.alert"
-                data-garden-version="7.1.10"
+                data-garden-version="8.9.0"
                 role="alert"
                 type="error"
               >
+                <svg
+                  class="c3"
+                  focusable="false"
+                  height="16"
+                  hue="dangerHue"
+                  role="presentation"
+                  theme="[object Object]"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <circle
+                      cx="7.5"
+                      cy="8.5"
+                      r="7"
+                    />
+                    <path
+                      d="M7.5 4.5V9"
+                      stroke-linecap="round"
+                    />
+                  </g>
+                  <circle
+                    cx="7.5"
+                    cy="12"
+                    fill="currentColor"
+                    r="1"
+                  />
+                </svg>
                 <button
                   class="messageErrorLink "
                 >
@@ -1419,7 +1473,7 @@ exports[`chat log visitor message failure 1`] = `
     </div>
   </div>
   <div
-    class="c2"
+    class="c4"
   />
 </div>
 `;

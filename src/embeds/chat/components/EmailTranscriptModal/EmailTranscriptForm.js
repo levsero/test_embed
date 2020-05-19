@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Body, Footer, FooterItem, Header } from 'embeds/webWidget/components/Modal'
+import { Body, Footer, FooterItem, Header } from '@zendeskgarden/react-modals'
 import { Alert, Title } from 'embeds/support/components/Notifications'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Dots } from '@zendeskgarden/react-loaders'

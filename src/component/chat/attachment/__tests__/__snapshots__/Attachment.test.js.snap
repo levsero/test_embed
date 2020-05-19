@@ -408,20 +408,120 @@ exports[`renders with custom class name 1`] = `
 `;
 
 exports[`renders with error message 1`] = `
+.c4 {
+  display: block;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  -webkit-transition: background-color 0.1s ease-in-out,color 0.25s ease-in-out;
+  transition: background-color 0.1s ease-in-out,color 0.25s ease-in-out;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  color: #cc3340;
+  font-size: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c4:hover {
+  color: #681219;
+}
+
+.c4:focus {
+  outline: none;
+}
+
+.c4[data-garden-focus-visible] {
+  background-color: rgba(204,51,64,0.15);
+  color: #681219;
+}
+
+.c4[data-garden-focus-visible]::-moz-focus-inner {
+  border: 0;
+}
+
+.c3 {
+  margin: 0;
+  color: #2f3941;
+  font-weight: 600;
+}
+
+.c0 {
+  position: relative;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 20px 40px 20px 50px;
+  line-height: 1.4285714285714286;
+  font-size: 14px;
+  border-color: #f5b5ba;
+  background-color: #fff0f1;
+  color: #8c232c;
+}
+
+.c0 .c2 {
+  color: #681219;
+}
+
+.c1 {
+  position: absolute;
+  left: 24px;
+  margin-top: 2px;
+  color: #cc3340;
+}
+
 <div>
   <div>
     <div
-      class="containerError index__c-callout___K1eQ- index__c-callout--error___NED0s "
+      class="containerError c0"
       data-garden-id="notifications.alert"
-      data-garden-version="7.1.10"
+      data-garden-version="8.9.0"
       data-testid="error-message"
       role="alert"
       type="error"
     >
+      <svg
+        class="c1"
+        focusable="false"
+        height="16"
+        hue="dangerHue"
+        role="presentation"
+        theme="[object Object]"
+        viewBox="0 0 16 16"
+        width="16"
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+        >
+          <circle
+            cx="7.5"
+            cy="8.5"
+            r="7"
+          />
+          <path
+            d="M7.5 4.5V9"
+            stroke-linecap="round"
+          />
+        </g>
+        <circle
+          cx="7.5"
+          cy="12"
+          fill="currentColor"
+          r="1"
+        />
+      </svg>
       <div
-        class="previewError index__c-callout__title___e5tnb "
+        class="previewError c2 c3"
         data-garden-id="notifications.title"
-        data-garden-version="7.1.10"
+        data-garden-version="8.9.0"
       >
         attachment.jpg
       </div>
@@ -431,11 +531,24 @@ exports[`renders with error message 1`] = `
         this is incorrect
       </div>
       <button
-        class="index__c-callout__close___OudEV "
+        class="c4"
         data-garden-id="notifications.close"
-        data-garden-version="7.1.10"
-        type="button"
-      />
+        data-garden-version="8.9.0"
+      >
+        <svg
+          focusable="false"
+          height="12"
+          role="presentation"
+          viewBox="0 0 12 12"
+          width="12"
+        >
+          <path
+            d="M3 9l6-6m0 6L3 3"
+            stroke="currentColor"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
     </div>
   </div>
 </div>

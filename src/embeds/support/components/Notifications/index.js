@@ -30,6 +30,17 @@ const StyledNotification = styled(Notification)`
 
 const StyledTitle = styled(Title)`
   font-size: ${props => 14 / props.theme.fontSize}rem;
+
+  &&& {
+    margin-left: ${props => 14 / props.theme.fontSize}rem;
+
+    ${props =>
+      props.theme.rtl &&
+      `
+        margin-left: 0;
+        margin-right: ${14 / props.theme.fontSize}rem;
+      `}
+  }
 `
 
 export { StyledAlert as Alert, StyledTitle as Title, StyledNotification as Notification }

@@ -3,6 +3,7 @@ import { render } from 'src/util/testHelpers'
 
 import { TEST_IDS } from 'constants/shared'
 import Footer from '../'
+import { Modal } from '@zendeskgarden/react-modals'
 
 const updateContactDetailsVisibility = jest.fn()
 
@@ -12,7 +13,11 @@ const renderComponent = (props = {}) => {
     submitting: false,
     updateContactDetailsVisibility
   }
-  return render(<Footer {...defaultProps} {...props} />)
+  return render(
+    <Modal>
+      <Footer {...defaultProps} {...props} />
+    </Modal>
+  )
 }
 
 describe('Contact Details Footer', () => {

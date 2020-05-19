@@ -4,6 +4,7 @@ import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
 
 import { Component } from '../'
+import { Modal } from '@zendeskgarden/react-modals'
 
 const editContactDetailsSubmitted = jest.fn()
 const onSuccess = jest.fn()
@@ -27,7 +28,12 @@ const renderComponent = (props = {}, inRender) => {
     visitor: { display_name: 'bob saget', email: 'stop@lookingAtMyEmail.com' }
   }
 
-  return render(<Component {...defaultProps} {...props} />, { render: inRender })
+  return render(
+    <Modal>
+      <Component {...defaultProps} {...props} />
+    </Modal>,
+    { render: inRender }
+  )
 }
 
 describe('Contact Details Form', () => {
