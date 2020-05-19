@@ -2,16 +2,12 @@
 
 exports[`Alert renders a styled garden alert 1`] = `
 .c0 {
-  padding: 1rem 2.5714285714285716rem !important;
   border-radius: 0.2857142857142857rem;
   background-color: rgba(#d93f4c,0.1);
-  padding-left: 2.5714285714285716rem !important;
   border: 0.07142857142857142rem solid #f5b5ba;
   color: #d93f4c;
   line-height: 1.4285714285714286rem;
   margin-bottom: 0.7142857142857143rem !important;
-  background-position-y: 1.0714285714285714rem !important;
-  background-position-x: 0.8571428571428571rem !important;
 }
 
 .c1 {
