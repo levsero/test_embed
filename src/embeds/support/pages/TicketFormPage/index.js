@@ -2,49 +2,31 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Widget, Header } from 'components/Widget'
 import {
-  getFormTicketFields,
-  getFormState,
-  getReadOnlyState,
-  getForm,
-  getAllAttachments,
   getContactFormTitle,
   getFormsToDisplay,
   getCanDisplayForm,
   getIsFormLoading,
   getIsAnyTicketFormLoading
 } from 'embeds/support/selectors'
-import { submitTicket, formOpened, dragStarted } from 'src/embeds/support/actions'
+import { dragStarted } from 'src/embeds/support/actions'
 import { connect } from 'react-redux'
-import TicketForm from 'embeds/support/components/TicketForm'
-import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
-import getFields from 'embeds/support/utils/getFields'
 import { FileDropProvider } from 'components/FileDropProvider'
 import routes from 'embeds/support/routes'
 import { useHistory } from 'react-router-dom'
 import LoadingPage from 'components/LoadingPage'
+import TicketForm from 'embeds/support/components/TicketForm'
 
 const TicketFormPage = ({
   formTitle,
   formId,
-  formState = {},
-  readOnlyState = {},
-  ticketFields = [],
-  submitTicket,
-  ticketFormTitle,
   amountOfCustomForms = 0,
-  conditions = [],
-  attachments = [],
-  isPreview,
-  formOpened,
   formExists,
   isLoading,
+  isPreview,
   isAnyTicketFormLoading
 }) => {
   const history = useHistory()
   const canRedirect = useRef(true)
-  useEffect(() => {
-    formOpened(formId)
-  }, [formId, formOpened])
 
   useEffect(() => {
     if (!canRedirect.current) {
@@ -81,19 +63,7 @@ const TicketFormPage = ({
       <Widget>
         <Header title={formTitle} useReactRouter={amountOfCustomForms > 1} />
 
-        <TicketForm
-          formId={formId}
-          formState={formState}
-          readOnlyState={readOnlyState}
-          ticketFormTitle={ticketFormTitle}
-          submitForm={formState =>
-            submitTicket(formState, formId, getFields(formState, conditions, ticketFields))
-          }
-          isPreview={isPreview}
-          ticketFields={ticketFields}
-          conditions={conditions}
-          attachments={attachments}
-        />
+        <TicketForm formId={formId} isPreview={isPreview} />
       </Widget>
     </FileDropProvider>
   )
@@ -103,36 +73,21 @@ TicketFormPage.propTypes = {
   formTitle: PropTypes.string,
   formId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formState: PropTypes.shape({}),
-  readOnlyState: PropTypes.objectOf(PropTypes.bool),
-  ticketFields: PropTypes.array,
-  submitTicket: PropTypes.func,
-  ticketFormTitle: PropTypes.string,
-  attachments: PropTypes.array,
-  conditions: SupportPropTypes.conditions,
-  isPreview: PropTypes.bool,
   amountOfCustomForms: PropTypes.number,
   formExists: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
-  isAnyTicketFormLoading: PropTypes.bool.isRequired,
-  formOpened: PropTypes.func
+  isPreview: PropTypes.bool,
+  isAnyTicketFormLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps.match
   const id = params.id
 
-  const form = getForm(state, id)
-
   return {
     formId: id,
-    formState: getFormState(state, id),
     formTitle: getContactFormTitle(state),
-    ticketFields: getFormTicketFields(state, id),
-    readOnlyState: getReadOnlyState(state),
-    ticketFormTitle: form ? form.display_name : '',
     amountOfCustomForms: getFormsToDisplay(state).length,
-    conditions: form ? form.end_user_conditions : [],
-    attachments: getAllAttachments(state),
     formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
     isLoading: getIsFormLoading(state, id),
     isAnyTicketFormLoading: getIsAnyTicketFormLoading(state)
@@ -140,9 +95,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const actionCreators = {
-  dragStarted,
-  submitTicket,
-  formOpened
+  dragStarted
 }
 
 const connectedComponent = connect(

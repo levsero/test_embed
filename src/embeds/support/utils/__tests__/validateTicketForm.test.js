@@ -5,85 +5,84 @@ const runValidate = (ticketFields, values, attachments, conditions = []) => {
 }
 
 const nameField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'name',
+  required: true,
+  visible: true,
+  id: 'name',
   type: 'text',
   validation: 'name'
 }
 const invisibleField = {
-  required_in_portal: true,
-  visible_in_portal: false,
-  keyID: 'invisibleField',
+  required: true,
+  visible: false,
+  id: 'invisibleField',
   type: 'text'
 }
 const emailField = {
-  visible_in_portal: true,
-  required_in_portal: true,
-  keyID: 'email',
+  visible: true,
+  required: true,
+  id: 'email',
   validation: 'email',
   type: 'text'
 }
 const attachmentField = {
-  visible_in_portal: true,
-  required_in_portal: true,
-  keyID: 'attachments',
+  visible: true,
+  required: true,
+  id: 'attachments',
   validation: 'attachments',
-  id: 1,
   type: 'attachments'
 }
 const taggerField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someTagger',
+  required: true,
+  visible: true,
+  id: 'someTagger',
   type: 'tagger'
 }
 const selectField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someSelect',
+  required: true,
+  visible: true,
+  id: 'someSelect',
   type: 'select'
 }
 const decimalField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someDecimal',
+  required: true,
+  visible: true,
+  id: 'someDecimal',
   type: 'decimal'
 }
 const numberField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someNumber',
+  required: true,
+  visible: true,
+  id: 'someNumber',
   type: 'number'
 }
 const integerField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someInteger',
+  required: true,
+  visible: true,
+  id: 'someInteger',
   type: 'integer'
 }
 const checkboxField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someCheckbox',
+  required: true,
+  visible: true,
+  id: 'someCheckbox',
   type: 'checkbox'
 }
 const subjectField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someSubject',
+  required: true,
+  visible: true,
+  id: 'someSubject',
   type: 'subject'
 }
 const descriptionField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someDescription',
+  required: true,
+  visible: true,
+  id: 'someDescription',
   type: 'description'
 }
 const textAreaField = {
-  required_in_portal: true,
-  visible_in_portal: true,
-  keyID: 'someTextarea',
+  required: true,
+  visible: true,
+  id: 'someTextarea',
   type: 'textarea'
 }
 

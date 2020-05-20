@@ -1,5 +1,6 @@
-import { supportedFields } from 'src/embeds/support/components/FormField/fields'
+import { supportedFields } from 'src/components/DynamicForm/FormField/fields'
 import errorTracker from 'service/errorTracker/errorTracker'
+import createKeyID from 'embeds/support/utils/createKeyID'
 
 // Some fields use different values for different apis
 const isEqual = (field, value1, value2) => {
@@ -13,6 +14,9 @@ const isEqual = (field, value1, value2) => {
 }
 
 // getFields will return all of the fields that should be displayed to the user at the moment.
+
+// fields in the shape of
+// { id: <key-id for custom fields or normal id for hard coded fields>, origianlId: <id-if-overwritten> }
 const getFields = (currentValues, conditions = [], fields = []) => {
   const fieldsById = fields.reduce(
     (prev, field) => ({
@@ -31,29 +35,32 @@ const getFields = (currentValues, conditions = [], fields = []) => {
 
   conditions.forEach(condition => {
     condition.child_fields.forEach(field => {
-      const parentField = fieldsById[condition.parent_field_id]
+      const parentId = createKeyID(condition.parent_field_id)
+      const fieldId = createKeyID(field.id)
+
+      const parentField = fieldsById[parentId]
       if (!parentField) return
 
-      if (!conditionalValues[field.id]) {
-        conditionalValues[field.id] = {
+      if (!conditionalValues[fieldId]) {
+        conditionalValues[fieldId] = {
           visible: false,
           required: false,
           validParents: {}
         }
       }
 
-      if (!conditionalDependencies[field.id]) {
-        conditionalDependencies[field.id] = {}
+      if (!conditionalDependencies[fieldId]) {
+        conditionalDependencies[fieldId] = {}
       }
 
-      conditionalDependencies[field.id][parentField.id] = true
+      conditionalDependencies[fieldId][parentId] = true
 
       // if the parent condition is matched, update the fields visible and required values
-      if (isEqual(parentField, currentValues[parentField.keyID], condition.value)) {
-        conditionalValues[field.id].visible = true
-        conditionalValues[field.id].required =
-          conditionalValues[field.id].required || field.is_required
-        conditionalValues[field.id].validParents[parentField.id] = true
+      if (isEqual(parentField, currentValues[parentId], condition.value)) {
+        conditionalValues[fieldId].visible = true
+        conditionalValues[fieldId].required =
+          conditionalValues[fieldId].required || field.is_required
+        conditionalValues[fieldId].validParents[parentId] = true
       }
     })
   })
@@ -69,7 +76,7 @@ const getFields = (currentValues, conditions = [], fields = []) => {
     const field = fieldsById[fieldId]
 
     if (!conditionalValues[fieldId]) {
-      return field.visible_in_portal
+      return field.visible
     }
 
     // If the field has been marked as not visible, no other logic can make it visible again
@@ -97,11 +104,11 @@ const getFields = (currentValues, conditions = [], fields = []) => {
 
       return {
         ...field,
-        visible_in_portal: field.visible_in_portal && isFieldVisible(field.id),
-        required_in_portal: field.required_in_portal || conditionalValues[field.id].required
+        visible: field.visible && isFieldVisible(field.id),
+        required: field.required || conditionalValues[field.id].required
       }
     })
-    .filter(field => field.visible_in_portal)
+    .filter(field => field.visible)
     .filter(field => supportedFields[field.type])
 }
 

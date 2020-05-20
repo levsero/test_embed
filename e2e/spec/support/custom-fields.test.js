@@ -329,7 +329,9 @@ describe('support custom fields', () => {
           type: 'tagger',
           custom_field_options: customFieldOptions
         })
+
         const { expectSuccess } = await testCustomForm({ field })
+
         await expectSuccess({
           [field.id]: 'two'
         })
@@ -343,7 +345,10 @@ describe('support custom fields', () => {
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
-        await select('-')
+
+        await widget.clickText('-', {
+          selector: 'li'
+        })
         await expectSuccess({
           [field.id]: ''
         })

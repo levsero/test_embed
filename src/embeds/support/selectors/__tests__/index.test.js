@@ -16,71 +16,90 @@ import {
   getHasFetchedTicketForms
 } from 'embeds/support/selectors'
 
-const nameField = {
+const expectedNameField = {
   id: 'name',
-  title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
-  required_in_portal: false,
-  visible_in_portal: true,
+  title: i18n.t('embeddable_framework.submitTicket.field.name.label'),
+  required: false,
+  visible: true,
   validation: 'name',
-  type: 'text',
-  keyID: createKeyID('name')
+  type: 'text'
 }
 
-const emailField = {
+const expectedEmailField = {
   id: 'email',
-  title_in_portal: 'Email address',
-  required_in_portal: true,
-  visible_in_portal: true,
+  title: 'Email address',
+  required: true,
+  visible: true,
   type: 'text',
-  validation: 'email',
-  keyID: createKeyID('email')
+  validation: 'email'
 }
-const descriptionField = {
+const expectedDescriptionField = {
   id: 'description',
-  title_in_portal: 'How can we help you?',
-  required_in_portal: true,
-  visible_in_portal: true,
-  type: 'textarea',
-  keyID: createKeyID('description')
+  title: 'How can we help you?',
+  required: true,
+  visible: true,
+  type: 'textarea'
 }
 const checkboxField = {
-  id: '123',
+  id: 123,
   title_in_portal: 'Checkbox field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'checkbox',
-  keyID: createKeyID('123')
+  type: 'checkbox'
 }
+const expectedCheckboxField = {
+  id: createKeyID('123'),
+  originalId: 123,
+  title: 'Checkbox field',
+  required: false,
+  visible: true,
+  type: 'checkbox'
+}
+
 const textField = {
   id: '456',
   title_in_portal: 'Text field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'text',
-  keyID: createKeyID('456')
+  type: 'text'
+}
+
+const exepctedTextField = {
+  id: createKeyID('456'),
+  originalId: '456',
+  title: 'Text field',
+  required: false,
+  visible: true,
+  type: 'text'
 }
 const textareaField = {
   id: '789',
   title_in_portal: 'Textarea field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'textarea',
-  keyID: createKeyID('789')
+  type: 'textarea'
+}
+
+const expectedTextareaField = {
+  id: createKeyID('789'),
+  originalId: '789',
+  title: 'Textarea field',
+  required: false,
+  visible: true,
+  type: 'textarea'
 }
 const subjectField = {
   id: 'subject',
-  title_in_portal: 'Subject',
-  required_in_portal: false,
-  visible_in_portal: true,
-  type: 'text',
-  keyID: createKeyID('subject')
+  title: 'Subject',
+  required: false,
+  visible: true,
+  type: 'text'
 }
 const attachmentField = {
   id: 'attachments',
-  keyID: 'key:attachments',
   type: 'attachments',
   validation: 'attachments',
-  visible_in_portal: true
+  visible: true
 }
 
 describe('getAttachmentTitle', () => {
@@ -168,7 +187,7 @@ describe('getTicketFormFields', () => {
   it('always includes an email and description field', () => {
     const result = run()
 
-    expect(result).toEqual([emailField, descriptionField])
+    expect(result).toEqual([expectedEmailField, expectedDescriptionField])
   })
 
   describe('when name field is enabled', () => {
@@ -181,15 +200,14 @@ describe('getTicketFormFields', () => {
       expect(result).toEqual([
         {
           id: 'name',
-          title_in_portal: 'Your name',
-          required_in_portal: true,
-          visible_in_portal: true,
+          title: 'Your name',
+          required: true,
+          visible: true,
           validation: 'name',
-          type: 'text',
-          keyID: createKeyID('name')
+          type: 'text'
         },
-        emailField,
-        descriptionField
+        expectedEmailField,
+        expectedDescriptionField
       ])
     })
 
@@ -199,19 +217,7 @@ describe('getTicketFormFields', () => {
         nameFieldRequired: false
       })
 
-      expect(result).toEqual([
-        {
-          id: 'name',
-          title_in_portal: 'Your name',
-          required_in_portal: false,
-          visible_in_portal: true,
-          validation: 'name',
-          type: 'text',
-          keyID: createKeyID('name')
-        },
-        emailField,
-        descriptionField
-      ])
+      expect(result).toEqual([expectedNameField, expectedEmailField, expectedDescriptionField])
     })
   })
 
@@ -220,7 +226,7 @@ describe('getTicketFormFields', () => {
       subjectFieldEnabled: true
     })
 
-    expect(result).toEqual([emailField, subjectField, descriptionField])
+    expect(result).toEqual([expectedEmailField, subjectField, expectedDescriptionField])
   })
 
   it('attachments are visible when enabled', () => {
@@ -228,7 +234,7 @@ describe('getTicketFormFields', () => {
       attachmentsEnabled: true
     })
 
-    expect(result).toEqual([emailField, descriptionField, attachmentField])
+    expect(result).toEqual([expectedEmailField, expectedDescriptionField, attachmentField])
   })
 
   it('displays all non-checkbox fields above subject/description and all checkbox fields after subject/description', () => {
@@ -241,26 +247,24 @@ describe('getTicketFormFields', () => {
     expect(result).toEqual([
       {
         id: 'name',
-        title_in_portal: 'Your name',
-        required_in_portal: false,
-        visible_in_portal: true,
+        title: 'Your name',
+        required: false,
+        visible: true,
         validation: 'name',
-        type: 'text',
-        keyID: createKeyID('name')
+        type: 'text'
       },
-      emailField,
-      textField,
-      textareaField,
+      expectedEmailField,
+      exepctedTextField,
+      expectedTextareaField,
       {
         id: 'subject',
-        title_in_portal: 'Subject',
-        required_in_portal: false,
-        visible_in_portal: true,
-        type: 'text',
-        keyID: createKeyID('subject')
+        title: 'Subject',
+        required: false,
+        visible: true,
+        type: 'text'
       },
-      descriptionField,
-      checkboxField
+      expectedDescriptionField,
+      expectedCheckboxField
     ])
   })
 })
@@ -294,19 +298,30 @@ describe('getCustomTicketFields', () => {
   it('always includes an email field', () => {
     const result = selectors.getCustomTicketFields(getState(), 'unknown form')
 
-    expect(result).toEqual([emailField])
+    expect(result).toEqual([expectedEmailField])
   })
 
   it('displays all other custom fields below the email field when the form is found', () => {
     const result = selectors.getCustomTicketFields(getState(), '123456')
 
-    expect(result).toEqual([emailField, checkboxField, textField, textareaField])
+    expect(result).toEqual([
+      expectedEmailField,
+      expectedCheckboxField,
+      exepctedTextField,
+      expectedTextareaField
+    ])
   })
 
   it('includes a name field if enabled in config', () => {
     const result = selectors.getCustomTicketFields(getState({ nameFieldEnabled: true }), '123456')
 
-    expect(result).toEqual([nameField, emailField, checkboxField, textField, textareaField])
+    expect(result).toEqual([
+      expectedNameField,
+      expectedEmailField,
+      expectedCheckboxField,
+      exepctedTextField,
+      expectedTextareaField
+    ])
   })
 
   it('includes the name field as required if set in config', () => {
@@ -315,19 +330,33 @@ describe('getCustomTicketFields', () => {
       '123456'
     )
     const requiredNameField = {
-      ...nameField,
-      required_in_portal: true
+      ...expectedNameField,
+      required: true
     }
 
-    expect(result).toEqual([requiredNameField, emailField, checkboxField, textField, textareaField])
+    expect(result).toEqual([
+      requiredNameField,
+      expectedEmailField,
+      expectedCheckboxField,
+      exepctedTextField,
+      expectedTextareaField
+    ])
   })
 
-  it('adds a keyID of "description" to the description field so it can be prefilled with the key "description" instead of its id', () => {
+  it('overrides the id of description field types so it can be prefilled with the key "description" instead of its id', () => {
     const descriptionField = {
       id: '123',
       title_in_portal: 'Description',
       required_in_portal: false,
       visible_in_portal: true,
+      type: 'description'
+    }
+    const expectedDescriptionField = {
+      id: 'description',
+      originalId: '123',
+      title: 'Description',
+      required: false,
+      visible: true,
       type: 'description'
     }
 
@@ -337,22 +366,26 @@ describe('getCustomTicketFields', () => {
       }
     })
 
-    const expectedDescriptionField = {
-      ...descriptionField,
-      keyID: createKeyID('description')
-    }
-
     const result = selectors.getCustomTicketFields(state, '123456')
 
-    expect(result).toEqual([emailField, expectedDescriptionField])
+    expect(result).toEqual([expectedEmailField, expectedDescriptionField])
   })
 
-  it('adds a keyID of "subject" to the subject field so it can be prefilled with the key "subject" instead of its id', () => {
+  it('overrides the id of "subject" type fields so the subject field so it can be prefilled with the key "subject" instead of its id', () => {
     const subjectField = {
       id: '123',
       title_in_portal: 'Subject',
       required_in_portal: false,
       visible_in_portal: true,
+      type: 'subject'
+    }
+
+    const expectedSubjectField = {
+      id: 'subject',
+      originalId: '123',
+      title: 'Subject',
+      required: false,
+      visible: true,
       type: 'subject'
     }
 
@@ -362,14 +395,9 @@ describe('getCustomTicketFields', () => {
       }
     })
 
-    const expectedSubjectField = {
-      ...subjectField,
-      keyID: createKeyID('subject')
-    }
-
     const result = selectors.getCustomTicketFields(state, '123456')
 
-    expect(result).toEqual([emailField, expectedSubjectField])
+    expect(result).toEqual([expectedEmailField, expectedSubjectField])
   })
 })
 
@@ -393,7 +421,13 @@ describe('getFormTicketFields', () => {
     const contactFormFields = [checkboxField, textField, textareaField]
     const result = selectors.getFormTicketFields(setUpState({ contactFormFields }), 'contact-form')
 
-    expect(result).toEqual([emailField, textField, textareaField, descriptionField, checkboxField])
+    expect(result).toEqual([
+      expectedEmailField,
+      exepctedTextField,
+      expectedTextareaField,
+      expectedDescriptionField,
+      expectedCheckboxField
+    ])
   })
 
   it('returns the attachmentField when visible', () => {
@@ -402,7 +436,7 @@ describe('getFormTicketFields', () => {
       'contact-form'
     )
 
-    expect(result).toEqual([emailField, descriptionField, attachmentField])
+    expect(result).toEqual([expectedEmailField, expectedDescriptionField, attachmentField])
   })
 
   it('returns a ticket form when an id is passed in', () => {
@@ -413,7 +447,12 @@ describe('getFormTicketFields', () => {
     }
     const result = selectors.getFormTicketFields(setUpState({ fields }), '123456')
 
-    expect(result).toEqual([emailField, checkboxField, textField, textareaField])
+    expect(result).toEqual([
+      expectedEmailField,
+      expectedCheckboxField,
+      exepctedTextField,
+      expectedTextareaField
+    ])
   })
 })
 

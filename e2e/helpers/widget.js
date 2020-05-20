@@ -23,10 +23,10 @@ const clickButton = async buttonText => {
   await expect(frame).toClick('button', { text: buttonText })
 }
 
-const clickText = async text => {
+const clickText = async (text, options) => {
   const widget = await getDocument()
-  await wait(async () => await queries.getByText(widget, text))
-  const element = await queries.getByText(widget, text)
+  await wait(async () => await queries.getByText(widget, text, options))
+  const element = await queries.getByText(widget, text, options)
   await element.click()
 }
 

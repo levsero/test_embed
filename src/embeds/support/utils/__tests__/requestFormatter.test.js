@@ -167,9 +167,10 @@ describe('formatRequestData', () => {
   describe('when the form is a ticket form', () => {
     const ticketFields = [
       {
-        id: 123,
+        id: 'description',
         type: 'description',
-        removable: false
+        removable: false,
+        originalId: 123
       },
       {
         id: 456,
@@ -207,7 +208,10 @@ describe('formatRequestData', () => {
     })
 
     it('correctly formats the subject field when available', () => {
-      const fields = [...ticketFields, { id: 234, type: 'subject', removable: false }]
+      const fields = [
+        ...ticketFields,
+        { id: 'subject', type: 'subject', removable: false, originalId: 234 }
+      ]
       const result = format(
         { ...mockValues, subject: '' },
         {},

@@ -69,7 +69,7 @@ export const getAttachmentsForForm = (state, attachmentIds) => {
 
 export const getReadOnlyState = state => state.support.readOnly
 
-const getInitialValues = (state, formId) => {
+export const getCustomerProvidedDefaultValues = (state, formId) => {
   const fields = getFormTicketFields(state, formId)
 
   const defaultValues = {}
@@ -77,13 +77,13 @@ const getInitialValues = (state, formId) => {
   fields.forEach(field => {
     switch (field.type) {
       case 'tagger':
-        if (!field.custom_field_options) {
+        if (!field.options) {
           return
         }
 
-        field.custom_field_options.forEach(item => {
+        field.options.forEach(item => {
           if (item.default) {
-            defaultValues[field.keyID] = item.value
+            defaultValues[field.id] = item.value
           }
         })
     }
@@ -93,7 +93,7 @@ const getInitialValues = (state, formId) => {
 }
 
 export const getFormState = (state, name) =>
-  state.support.formStates[name] || getInitialValues(state, name)
+  state.support.formStates[name] || getCustomerProvidedDefaultValues(state, name)
 
 export const getSuccessfulAttachments = createSelector(
   getAllAttachments,
@@ -158,7 +158,9 @@ export const getTicketFormFields = createSelector(
     getLocale
   ],
   (ticketFields, subjectEnabled, nameEnabled, nameRequired, attachmentsEnabled) => {
-    const fields = ticketFields.map(field => ({ ...field, visible_in_portal: true }))
+    const fields = ticketFields
+      .map(convertTicketFieldToFormField)
+      .map(field => ({ ...field, visible: true }))
 
     const checkBoxFields = getCheckboxFields(fields)
     const nonCheckBoxFields = getNonCheckboxFields(fields)
@@ -166,55 +168,62 @@ export const getTicketFormFields = createSelector(
     return [
       nameEnabled && {
         id: 'name',
-        title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
-        required_in_portal: nameRequired,
-        visible_in_portal: true,
+        title: i18n.t('embeddable_framework.submitTicket.field.name.label'),
+        required: nameRequired,
+        visible: true,
         type: 'text',
-        validation: 'name',
-        keyID: 'key:name'
+        validation: 'name'
       },
       {
         id: 'email',
-        title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
-        required_in_portal: true,
-        visible_in_portal: true,
+        title: i18n.t('embeddable_framework.form.field.email.label'),
+        required: true,
+        visible: true,
         type: 'text',
-        validation: 'email',
-        keyID: 'key:email'
+        validation: 'email'
       },
       ...nonCheckBoxFields.filter(field => field.type !== 'description'),
       subjectEnabled && {
         id: 'subject',
-        title_in_portal: i18n.t('embeddable_framework.submitTicket.field.subject.label'),
-        required_in_portal: false,
-        visible_in_portal: true,
-        type: 'text',
-        keyID: 'key:subject'
+        title: i18n.t('embeddable_framework.submitTicket.field.subject.label'),
+        required: false,
+        visible: true,
+        type: 'text'
       },
       {
         id: 'description',
-        title_in_portal: i18n.t('embeddable_framework.submitTicket.field.description.label'),
-        required_in_portal: true,
-        visible_in_portal: true,
-        type: 'textarea',
-        keyID: 'key:description'
+        title: i18n.t('embeddable_framework.submitTicket.field.description.label'),
+        required: true,
+        visible: true,
+        type: 'textarea'
       },
       ...checkBoxFields,
       attachmentsEnabled && {
         id: 'attachments',
-        visible_in_portal: true,
+        visible: true,
         type: 'attachments',
-        keyID: 'key:attachments',
         validation: 'attachments'
       }
-    ]
-      .filter(Boolean)
-      .map(field => ({
-        ...field,
-        keyID: field.keyID || createKeyID(field.id)
-      }))
+    ].filter(Boolean)
   }
 )
+
+const convertTicketFieldToFormField = ticketField => {
+  const formField = {
+    originalId: ticketField.id,
+    id: createKeyID(ticketField.id),
+    title: ticketField.title_in_portal,
+    required: ticketField.required_in_portal,
+    visible: ticketField.visible_in_portal,
+    type: ticketField.type
+  }
+
+  if (ticketField.custom_field_options) {
+    formField.options = ticketField.custom_field_options
+  }
+
+  return formField
+}
 
 export const getCustomTicketFields = (state, formId) => {
   const fallbackForm = {
@@ -225,33 +234,33 @@ export const getCustomTicketFields = (state, formId) => {
   const ticketForm = getForm(state, formId) || fallbackForm
   const nameEnabled = getConfigNameFieldEnabled(state)
   const nameRequired = getConfigNameFieldRequired(state)
-  const fields = ticketForm.ticket_field_ids.map(id => getField(state, id))
+  const fields = ticketForm.ticket_field_ids
+    .map(id => getField(state, id))
+    .filter(Boolean)
+    .map(convertTicketFieldToFormField)
 
   return [
     nameEnabled && {
       id: 'name',
-      title_in_portal: i18n.t('embeddable_framework.submitTicket.field.name.label'),
-      required_in_portal: nameRequired,
-      visible_in_portal: true,
+      title: i18n.t('embeddable_framework.submitTicket.field.name.label'),
+      required: nameRequired,
+      visible: true,
       type: 'text',
-      validation: 'name',
-      keyID: 'key:name'
+      validation: 'name'
     },
     {
       id: 'email',
-      title_in_portal: i18n.t('embeddable_framework.form.field.email.label'),
-      required_in_portal: true,
-      visible_in_portal: true,
+      title: i18n.t('embeddable_framework.form.field.email.label'),
+      required: true,
+      visible: true,
       type: 'text',
-      validation: 'email',
-      keyID: 'key:email'
+      validation: 'email'
     },
     ...fields,
     attachmentsEnabled && {
       id: 'attachments',
-      visible_in_portal: true,
+      visible: true,
       type: 'attachments',
-      keyID: 'key:attachments',
       validation: 'attachments'
     }
   ]
@@ -260,21 +269,18 @@ export const getCustomTicketFields = (state, formId) => {
       if (field.type === 'description') {
         return {
           ...field,
-          keyID: createKeyID('description')
+          id: 'description'
         }
       }
 
       if (field.type === 'subject') {
         return {
           ...field,
-          keyID: createKeyID('subject')
+          id: 'subject'
         }
       }
 
-      return {
-        ...field,
-        keyID: createKeyID(field.id)
-      }
+      return field
     })
 }
 

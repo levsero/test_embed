@@ -11,6 +11,7 @@ import support from 'embeds/support/reducers'
 import webWidget from 'embeds/webWidget/reducers'
 import answerBot from 'embeds/answerBot/reducers'
 import customerProvidedPrefill from './customerProvidedPrefill/reducer'
+import form from './form/reducer'
 
 const combinedReducers = combineReducers({
   base,
@@ -22,7 +23,8 @@ const combinedReducers = combineReducers({
   preview,
   support,
   webWidget,
-  customerProvidedPrefill
+  customerProvidedPrefill,
+  form
 })
 
 export default function reducer(state, action) {

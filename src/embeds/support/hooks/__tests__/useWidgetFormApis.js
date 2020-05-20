@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-final-form'
 import { wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import { apiClearForm, handlePrefillReceived } from 'src/redux/modules/base'
+import { handlePrefillReceived } from 'src/redux/modules/base'
 import useWidgetFormApis from '../useWidgetFormApis'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import { updateSettings } from 'src/redux/modules/settings'
@@ -16,7 +16,28 @@ describe('useWidgetFormApis', () => {
     return null
   }
 
-  const renderComponent = (props = {}, options) => render(<ExampleComponent {...props} />, options)
+  const renderComponent = (props = {}, options) => {
+    const result = render(<ExampleComponent {...props} />, options)
+
+    result.updateField = (id, value) => {
+      result.store.dispatch(
+        updateSettings({
+          contactForm: {
+            fields: [
+              {
+                id: id,
+                prefill: {
+                  '*': value
+                }
+              }
+            ]
+          }
+        })
+      )
+    }
+
+    return result
+  }
 
   let mockChange
   let mockReset
@@ -59,22 +80,9 @@ describe('useWidgetFormApis', () => {
   })
 
   it('updates the form when the user has updated the fields setting', async () => {
-    const { store } = renderComponent()
+    const { updateField } = renderComponent()
 
-    store.dispatch(
-      updateSettings({
-        contactForm: {
-          fields: [
-            {
-              id: 'description',
-              prefill: {
-                '*': 'Something'
-              }
-            }
-          ]
-        }
-      })
-    )
+    updateField('description', 'Something')
 
     await wait(() =>
       expect(mockChange).toHaveBeenCalledWith(createKeyID('description'), 'Something')
@@ -177,71 +185,54 @@ describe('useWidgetFormApis', () => {
     await wait(expect(mockChange).toHaveBeenCalledWith(createKeyID('phone'), '123 123 123'))
   })
 
+  it('updates a field when its originalId matches the key to update', async () => {
+    const formId = '123'
+    const fields = [
+      {
+        id: createKeyID('12345'),
+        originalId: '12345'
+      }
+    ]
+    const { updateField } = renderComponent({ formId, fields })
+
+    updateField('12345', 'Description')
+
+    await wait(() => expect(mockChange).toHaveBeenCalledWith(createKeyID('12345'), 'Description'))
+  })
+
   it('updates a field when its id matches the key to update', async () => {
     const formId = '123'
     const fields = [
       {
-        id: 12345,
-        keyID: createKeyID('description')
+        id: 'description',
+        originalId: '12345'
       }
     ]
-    const { store } = renderComponent({ formId, fields })
+    const { updateField } = renderComponent({ formId, fields })
 
-    store.dispatch(
-      updateSettings({
-        contactForm: {
-          fields: [
-            {
-              id: '12345',
-              prefill: {
-                '*': 'Description'
-              }
-            }
-          ]
-        }
-      })
-    )
+    updateField('description', 'Description')
 
-    await wait(() =>
-      expect(mockChange).toHaveBeenCalledWith(createKeyID('description'), 'Description')
-    )
+    await wait(() => expect(mockChange).toHaveBeenCalledWith('description', 'Description'))
   })
 
-  it('updates a field when its keyID matches the key to update', async () => {
+  it('prefers custom field names over custom field ids', async () => {
     const formId = '123'
     const fields = [
       {
-        id: 12345,
-        keyID: createKeyID('description')
+        id: 'description',
+        originalId: '12345'
       }
     ]
-    const { store } = renderComponent({ formId, fields })
 
-    store.dispatch(
-      updateSettings({
-        contactForm: {
-          fields: [
-            {
-              id: 'description',
-              prefill: {
-                '*': 'Description'
-              }
-            }
-          ]
-        }
-      })
-    )
+    const { updateField } = renderComponent({ formId, fields })
 
-    await wait(() =>
-      expect(mockChange).toHaveBeenCalledWith(createKeyID('description'), 'Description')
-    )
-  })
+    updateField('12345', 'One')
+    await wait(() => expect(mockChange).toHaveBeenCalledWith('description', 'One'))
 
-  it('resets the form when the clear api is called', async () => {
-    const { store } = renderComponent()
+    updateField('description', 'Two')
+    await wait(() => expect(mockChange).toHaveBeenCalledWith('description', 'Two'))
 
-    store.dispatch(apiClearForm())
-
-    await wait(() => expect(mockReset).toHaveBeenCalledWith({}))
+    updateField('12345', 'Three')
+    await wait(() => expect(mockChange).toHaveBeenCalledWith('description', 'Two'))
   })
 })

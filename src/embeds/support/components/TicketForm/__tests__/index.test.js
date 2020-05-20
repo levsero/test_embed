@@ -1,44 +1,43 @@
 import React from 'react'
 import { render } from 'utility/testHelpers'
-import TicketForm from '../'
-import useFormBackup from 'embeds/support/hooks/useFormBackup'
+import { Component as TicketForm } from '../'
 import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'constants/shared'
 import wait from 'utility/wait'
 import createKeyID from 'embeds/support/utils/createKeyID'
 
-jest.mock('embeds/support/hooks/useFormBackup')
 jest.mock('embeds/support/hooks/useWidgetFormApis')
 
 describe('TicketForm', () => {
   const field1 = {
-    id: 0,
-    keyID: createKeyID(0),
-    title_in_portal: 'testInputA',
+    id: createKeyID(0),
+    originalId: 0,
+    title: 'testInputA',
     type: 'text',
-    required_in_portal: false,
-    visible_in_portal: true
+    required: false,
+    visible: true
   }
   const field2 = {
-    id: 1,
-    keyID: createKeyID(1),
-    title_in_portal: 'testInputB',
+    id: createKeyID(1),
+    originalId: 1,
+    title: 'testInputB',
     type: 'text',
-    required_in_portal: false,
-    visible_in_portal: true
+    required: false,
+    visible: true
   }
   const field3 = {
-    id: 2,
-    keyID: createKeyID(2),
-    title_in_portal: 'testInputC',
+    id: createKeyID(2),
+    originalId: 2,
+    title: 'testInputC',
     type: 'text',
-    required_in_portal: false,
-    visible_in_portal: true
+    required: false,
+    visible: true
   }
 
   const defaultProps = {
-    submitForm: jest.fn(),
+    submitTicket: jest.fn(),
+    formOpened: jest.fn(),
     formId: 'formId',
     ticketFields: [field1, field2, field3],
     readOnlyState: {},
@@ -49,18 +48,13 @@ describe('TicketForm', () => {
 
   const renderComponent = (props = {}) => render(<TicketForm {...defaultProps} {...props} />)
 
-  it('uses the useFormBackup hook to save the form state to redux when needed', () => {
-    renderComponent()
-    expect(useFormBackup).toHaveBeenCalledWith('formId')
-  })
-
   it('renders the title', () => {
     const { queryByText } = renderComponent()
 
     expect(queryByText('form title')).toBeInTheDocument()
   })
 
-  it('uses the useUpdateOnPrefill hook to update the form when prefill values have changed', () => {
+  it('uses the useWidgetFormApis hook to update the form when prefill values have changed', () => {
     renderComponent()
     expect(useWidgetFormApis).toHaveBeenCalledWith(defaultProps.formId, defaultProps.ticketFields)
   })
@@ -70,20 +64,20 @@ describe('TicketForm', () => {
       const result = renderComponent({
         ticketFields: [
           {
-            id: 0,
-            keyID: createKeyID(0),
-            title_in_portal: 'testInputA',
+            id: createKeyID(0),
+            originalId: 0,
+            title: 'testInputA',
             type: 'text',
-            required_in_portal: ticketFieldsRequired,
-            visible_in_portal: true
+            required: ticketFieldsRequired,
+            visible: true
           },
           {
-            id: 1,
-            keyID: createKeyID(1),
-            title_in_portal: 'testInputB',
+            id: createKeyID(1),
+            originalId: 1,
+            title: 'testInputB',
             type: 'text',
-            required_in_portal: true,
-            visible_in_portal: true
+            required: true,
+            visible: true
           }
         ],
         conditions: [
@@ -181,7 +175,7 @@ describe('TicketForm', () => {
           field1,
           {
             ...field2,
-            required_in_portal: !isValid
+            required: !isValid
           }
         ],
         formState: {
@@ -192,10 +186,10 @@ describe('TicketForm', () => {
       })
     }
 
-    it('calls submitForm when form is valid', async () => {
-      const submitForm = jest.fn()
+    it('calls submitTicket when form is valid', async () => {
+      const submitTicket = jest.fn()
       const { getByText } = run({
-        submitForm,
+        submitTicket,
         isValid: true
       })
 
@@ -203,7 +197,7 @@ describe('TicketForm', () => {
 
       await wait()
 
-      expect(submitForm).toHaveBeenCalled()
+      expect(submitTicket).toHaveBeenCalled()
     })
 
     it('renders error messages if the form is not valid', async () => {
@@ -239,34 +233,33 @@ describe('TicketForm', () => {
       expect(getErrorMessage()).toBeInTheDocument()
     })
 
-    it('does not call submitForm if the form is not valid', () => {
-      const submitForm = jest.fn()
+    it('does not call submitTicket if the form is not valid', () => {
+      const submitTicket = jest.fn()
       const { getByTestId } = run({
-        submitForm,
+        submitTicket,
         isValid: false
       })
 
       fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
 
-      expect(submitForm).not.toHaveBeenCalled()
+      expect(submitTicket).not.toHaveBeenCalled()
     })
 
-    it('does not submit values for fields that have not met their conditions', () => {
-      const submitForm = jest.fn()
+    it('does not submit values for fields that have not met their conditions', async () => {
+      const submitTicket = jest.fn()
       const { getByTestId } = run({
-        submitForm,
-        ticketFields: [field1, field2],
-        formState: {
-          [createKeyID(field1.id)]: 'dog',
-          [createKeyID(field2.id)]: ''
+        submitTicket,
+        initialValues: {
+          [field1.id]: 'dog'
         },
+        ticketFields: [field1, field2],
         conditions: [
           {
-            parent_field_id: field1.id,
+            parent_field_id: field1.originalId,
             value: 'cat',
             child_fields: [
               {
-                id: field2.id,
+                id: field2.originalId,
                 is_required: false
               }
             ]
@@ -274,29 +267,33 @@ describe('TicketForm', () => {
         ]
       })
 
-      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      await fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
 
-      expect(submitForm).toHaveBeenCalledWith({
-        [field1.id]: 'dog'
-      })
+      expect(submitTicket).toHaveBeenCalledWith(
+        {
+          [field1.originalId]: 'dog'
+        },
+        defaultProps.formId,
+        [field1]
+      )
     })
 
     it('includes values for fields that have met their conditions', () => {
-      const submitForm = jest.fn()
+      const submitTicket = jest.fn()
       const { getByTestId } = run({
-        submitForm,
+        submitTicket,
         ticketFields: [field1, field2],
-        formState: {
-          [createKeyID(field1.id)]: 'cat',
-          [createKeyID(field2.id)]: 'fish'
+        initialValues: {
+          [field1.id]: 'cat',
+          [field2.id]: 'fish'
         },
         conditions: [
           {
-            parent_field_id: field1.id,
+            parent_field_id: field1.originalId,
             value: 'cat',
             child_fields: [
               {
-                id: field2.id,
+                id: field2.originalId,
                 is_required: false
               }
             ]
@@ -306,10 +303,14 @@ describe('TicketForm', () => {
 
       fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
 
-      expect(submitForm).toHaveBeenCalledWith({
-        [field1.id]: 'cat',
-        [field2.id]: 'fish'
-      })
+      expect(submitTicket).toHaveBeenCalledWith(
+        {
+          [field1.originalId]: 'cat',
+          [field2.originalId]: 'fish'
+        },
+        defaultProps.formId,
+        [field1, field2]
+      )
     })
   })
 
@@ -322,8 +323,8 @@ describe('TicketForm', () => {
 
     describe('when the form is submitting', () => {
       const run = async () => {
-        const submitForm = jest.fn(() => new Promise(() => {}))
-        const result = renderComponent({ submitForm })
+        const submitTicket = jest.fn(() => new Promise(() => {}))
+        const result = renderComponent({ submitTicket })
 
         fireEvent.click(result.getByText('Send'))
 
@@ -361,13 +362,13 @@ describe('TicketForm', () => {
   })
 
   it('displays an error message when the form failed to submit', async () => {
-    const submitForm = jest.fn(
+    const submitTicket = jest.fn(
       () =>
         new Promise((_, rej) => {
           rej('embeddable_framework.submitTicket.notify.message.error')
         })
     )
-    const result = renderComponent({ submitForm })
+    const result = renderComponent({ submitTicket })
 
     fireEvent.click(result.getByText('Send'))
 
@@ -380,13 +381,13 @@ describe('TicketForm', () => {
 
   describe('in preview mode', () => {
     it('does not submit', () => {
-      const submitForm = jest.fn(
+      const submitTicket = jest.fn(
         () =>
           new Promise(res => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
-      const { getByText, queryByText } = renderComponent({ submitForm, isPreview: true })
+      const { getByText, queryByText } = renderComponent({ submitTicket, isPreview: true })
 
       fireEvent.click(getByText('Send'))
 
@@ -394,22 +395,22 @@ describe('TicketForm', () => {
     })
 
     it('renders all inputs as read only', () => {
-      const submitForm = jest.fn(
+      const submitTicket = jest.fn(
         () =>
           new Promise(res => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
       const { queryByLabelText } = renderComponent({
-        submitForm,
+        submitTicket,
         isPreview: true,
         fields: [field1, field2, field3],
         readOnlyState: {}
       })
 
-      expect(queryByLabelText(field1.title_in_portal)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field2.title_in_portal)).toHaveAttribute('readonly')
-      expect(queryByLabelText(field3.title_in_portal)).toHaveAttribute('readonly')
+      expect(queryByLabelText(field1.title)).toHaveAttribute('readonly')
+      expect(queryByLabelText(field2.title)).toHaveAttribute('readonly')
+      expect(queryByLabelText(field3.title)).toHaveAttribute('readonly')
     })
   })
 })

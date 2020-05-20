@@ -7,12 +7,12 @@ import { i18n } from 'service/i18n'
 import { location, getReferrerPolicy } from 'utility/globals'
 import routes from 'embeds/support/routes'
 
-const findFieldId = (name, ticketFields) => {
+const findOriginalId = (systemFieldName, ticketFields) => {
   const field = _.find(ticketFields, field => {
-    return field.type === name && !field.removable
+    return field.id === systemFieldName
   })
 
-  return _.get(field, 'id', null)
+  return _.get(field, 'originalId', null)
 }
 
 const formatNameFromEmail = email => {
@@ -40,17 +40,17 @@ const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFie
 
   if (fields) {
     fields.forEach(field => {
-      if (!field.required_in_portal && values[field.id] === undefined) {
+      if (!field.required && values[field.originalId || field.id] === undefined) {
         switch (field.type) {
           case 'checkbox':
-            values[field.id] = 0
+            values[field.originalId || field.id] = 0
             break
           case 'integer':
           case 'decimal':
           case 'text':
           case 'tagger':
           case 'textarea':
-            values[field.id] = ''
+            values[field.originalId || field.id] = ''
             break
         }
       }
@@ -70,9 +70,9 @@ const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFie
 }
 
 const getTicketFormValues = (formState, ticketFields) => {
-  const descriptionField = findFieldId('description', ticketFields)
+  const descriptionField = findOriginalId('description', ticketFields)
   const description = formState[descriptionField]
-  const subjectField = findFieldId('subject', ticketFields)
+  const subjectField = findOriginalId('subject', ticketFields)
   const subjectData = formState[subjectField]
   const subject = !_.isEmpty(subjectData) ? subjectData : formatSubjectFromDescription(description)
 

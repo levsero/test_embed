@@ -1,124 +1,147 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Form as ReactFinalForm } from 'react-final-form'
-import _ from 'lodash'
+import { connect } from 'react-redux'
 import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
-import Form from 'embeds/support/components/TicketForm/Form'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getFields from 'embeds/support/utils/getFields'
-import { FORM_ERROR } from 'final-form'
-import useScrollToFirstError from 'embeds/support/hooks/useScrollToFirstError'
+import { Footer } from 'components/Widget'
+import { Button } from '@zendeskgarden/react-buttons'
+import { TEST_IDS } from 'constants/shared'
+import { TicketFormTitle } from 'embeds/support/components/TicketForm/styles'
+import DynamicForm from 'components/DynamicForm'
+import {
+  getAllAttachments,
+  getCanDisplayForm,
+  getContactFormTitle,
+  getForm,
+  getFormState,
+  getFormsToDisplay,
+  getFormTicketFields,
+  getCustomerProvidedDefaultValues,
+  getIsAnyTicketFormLoading,
+  getIsFormLoading,
+  getReadOnlyState
+} from 'embeds/support/selectors'
+import routes from 'embeds/support/routes'
+import useTranslate from 'src/hooks/useTranslate'
+import { formOpened, submitTicket } from 'embeds/support/actions'
+import TicketFormControls from 'embeds/support/components/TicketForm/TicketFormControls'
 
-const TicketFormProvider = ({
+const TicketForm = ({
   formId,
-  formState,
-  readOnlyState,
-  submitForm,
-  ticketFields,
+  readOnlyState = {},
+  ticketFields = [],
+  submitTicket,
   ticketFormTitle,
   conditions = [],
-  attachments,
-  isPreview
+  attachments = [],
+  isPreview,
+  initialValues,
+  formOpened
 }) => {
-  const [showErrors, setShowFormErrors] = useState(false)
-  const scrollToFirstError = useScrollToFirstError()
+  const translate = useTranslate()
 
-  // We want screen readers to read out the error message every time the user tries to submit the form.
-  // Since in some cases, the error element might already be there, we need a way to get the element to be recreated
-  // so that the role="alert" can re-fire and the screen reader reads out the error again,
-  // To solve this, we can use React's "key" property to tell React a new element needs to be created
-  // whenever the key changes.
-  const [errorMessageKey, setErrorMessageKey] = useState(Date.now())
-
-  const onSubmit = (values, _form, callback) => {
-    setShowFormErrors(true)
-    const fields = getFields(values, conditions, ticketFields)
-
-    const errors = validateTicketForm(fields, values, attachments, conditions)
-
-    if (_.isEmpty(errors)) {
-      const valuesToSubmit = {}
-
-      fields.forEach(field => {
-        valuesToSubmit[field.id] = values[field.keyID]
-      })
-
-      Promise.resolve(submitForm(valuesToSubmit))
-        .then(() => {
-          callback()
-        })
-        .catch(() => {
-          const newErrors = {
-            [FORM_ERROR]: 'embeddable_framework.submitTicket.notify.message.error'
-          }
-          callback(newErrors)
-          scrollToFirstError(getFields(values, conditions, ticketFields), newErrors)
-        })
-    } else {
-      callback(errors)
-
-      scrollToFirstError(getFields(values, conditions, ticketFields), errors)
-      setErrorMessageKey(Date.now())
-    }
-  }
+  useEffect(() => {
+    formOpened(formId)
+  }, [formId, formOpened])
 
   return (
-    <ReactFinalForm
-      validate={values => {
-        if (!showErrors) {
-          return null
+    <DynamicForm
+      formId={`support-${formId}`}
+      onSubmit={async values => {
+        try {
+          const fields = getFields(values, conditions, ticketFields)
+          const valuesWithOriginalIds = {}
+
+          fields.forEach(field => {
+            if (values[field.id]) {
+              valuesWithOriginalIds[field.originalId ?? field.id] = values[field.id]
+            }
+          })
+
+          await submitTicket(valuesWithOriginalIds, formId, fields)
+          return {
+            success: true
+          }
+        } catch {
+          return {
+            success: false,
+            errorMessageKey: 'embeddable_framework.submitTicket.notify.message.error'
+          }
         }
-
-        return validateTicketForm(ticketFields, values, attachments, conditions)
       }}
-      onSubmit={onSubmit}
-      initialValues={formState}
-      render={({ handleSubmit, submitting, submitError, errors, values }) => (
-        <>
-          <Form
-            ticketFormTitle={ticketFormTitle}
-            isSubmitting={submitting}
-            isPreview={isPreview}
-            onSubmit={e => {
-              e.preventDefault()
-              if (isPreview) {
-                return
-              }
-
-              // Since final form won't re-submit when errors exist, we will handle scrolling to the errors here
-              // so that the form will re-scroll to the first error every time the user tries to submit
-              // the form.
-              if (errors) {
-                setErrorMessageKey(Date.now())
-                scrollToFirstError(getFields(values, conditions, ticketFields), errors)
-              }
-
-              handleSubmit()
-            }}
-            formId={formId}
-            showErrors={showErrors}
-            fields={ticketFields}
-            readOnlyState={readOnlyState}
-            conditions={conditions}
-            submitErrorMessage={submitError}
-            errorMessageKey={errorMessageKey}
-          />
-        </>
+      getFields={values => getFields(values, conditions, ticketFields)}
+      initialValues={initialValues}
+      isPreview={isPreview}
+      validate={values => validateTicketForm(ticketFields, values, attachments, conditions)}
+      readOnlyValues={readOnlyState}
+      footer={({ isSubmitting }) => (
+        <Footer>
+          <Button
+            primary={true}
+            type="submit"
+            disabled={isSubmitting}
+            data-testid={TEST_IDS.SUPPORT_SUBMIT_BUTTON}
+          >
+            {translate(
+              isSubmitting
+                ? 'embeddable_framework.submitTicket.form.submitButton.label.sending'
+                : 'embeddable_framework.submitTicket.form.submitButton.label.send'
+            )}
+          </Button>
+        </Footer>
       )}
-    />
+      children={null}
+    >
+      <TicketFormControls formId={formId} fields={ticketFields} />
+      {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
+    </DynamicForm>
   )
 }
 
-TicketFormProvider.propTypes = {
+TicketForm.propTypes = {
   formId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  formState: PropTypes.object,
   readOnlyState: SupportPropTypes.readOnlyState.isRequired,
-  submitForm: PropTypes.func.isRequired,
+  submitTicket: PropTypes.func.isRequired,
   ticketFields: PropTypes.arrayOf(SupportPropTypes.ticketField).isRequired,
   ticketFormTitle: PropTypes.string,
   conditions: SupportPropTypes.conditions,
   attachments: PropTypes.array,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
+  initialValues: PropTypes.objectOf(PropTypes.any),
+  formOpened: PropTypes.func
 }
 
-export default TicketFormProvider
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.formId
+
+  const form = getForm(state, id)
+
+  return {
+    formId: id,
+    formState: getFormState(state, id),
+    formTitle: getContactFormTitle(state),
+    ticketFields: getFormTicketFields(state, id),
+    readOnlyState: getReadOnlyState(state),
+    ticketFormTitle: form ? form.display_name : '',
+    amountOfCustomForms: getFormsToDisplay(state).length,
+    conditions: form ? form.end_user_conditions : [],
+    attachments: getAllAttachments(state),
+    formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
+    isLoading: getIsFormLoading(state, id),
+    isAnyTicketFormLoading: getIsAnyTicketFormLoading(state),
+    initialValues: getCustomerProvidedDefaultValues(state, id)
+  }
+}
+
+const mapDispatchToProps = {
+  formOpened,
+  submitTicket
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TicketForm)
+
+export { TicketForm as Component }

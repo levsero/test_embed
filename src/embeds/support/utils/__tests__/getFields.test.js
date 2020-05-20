@@ -5,22 +5,23 @@ describe('getFields', () => {
   let currentId = 0
 
   const field = (options = {}) => {
-    const id = options.id || ++currentId
-    const keyID = createKeyID(id)
+    const { id, ...overrides } = options
+    const idToUse = id ?? ++currentId
+    const keyID = createKeyID(idToUse)
 
     return {
-      id,
-      keyID,
-      visible_in_portal: true,
-      required_in_portal: true,
+      id: keyID,
+      originalId: idToUse,
+      visible: true,
+      required: true,
       type: 'text',
-      ...options
+      ...overrides
     }
   }
 
   it('does not include a field if it is not visible', () => {
     const field1 = field({ id: 1 })
-    const field2 = field({ id: 2, visible_in_portal: false })
+    const field2 = field({ id: 2, visible: false })
 
     const result = getFields({}, [], [field1, field2])
 
@@ -44,21 +45,21 @@ describe('getFields', () => {
     const field2 = field({ id: 2 })
 
     const condition = {
-      parent_field_id: field1.id,
+      parent_field_id: field1.originalId,
       value: 'match',
       child_fields: [
         {
-          id: field2.id,
+          id: field2.originalId,
           is_required: true
         }
       ]
     }
     const condition2 = {
-      parent_field_id: field2.id,
+      parent_field_id: field2.originalId,
       value: 'match',
       child_fields: [
         {
-          id: field1.id,
+          id: field1.originalId,
           is_required: true
         }
       ]
@@ -66,7 +67,7 @@ describe('getFields', () => {
 
     expect(() =>
       getFields(
-        { [field1.keyID]: 'match', [field2.keyID]: 'match' },
+        { [field1.id]: 'match', [field2.id]: 'match' },
         [condition, condition2],
         [field1, field2]
       )
@@ -75,11 +76,11 @@ describe('getFields', () => {
 
   describe('when conditions are nested', () => {
     const condition = (parent, child) => ({
-      parent_field_id: parent.id,
+      parent_field_id: parent.originalId,
       value: 'match',
       child_fields: [
         {
-          id: child.id,
+          id: child.originalId,
           is_required: true
         }
       ]
@@ -101,10 +102,10 @@ describe('getFields', () => {
     it('does not show the child field if at least one of its parents are not visible', () => {
       const result = getFields(
         {
-          [field1a.keyID]: 'not match',
-          [field1b.keyID]: 'match',
-          [field2a.keyID]: 'match',
-          [field2b.keyID]: 'not match'
+          [field1a.id]: 'not match',
+          [field1b.id]: 'match',
+          [field2a.id]: 'match',
+          [field2b.id]: 'not match'
         },
         conditions,
         [field1a, field1b, field2a, field2b, field3]
@@ -162,21 +163,21 @@ describe('getFields', () => {
     })
 
     it('includes the field if it does meet a condition', () => {
-      const result = getFields({ 'key:1': 'one' }, [condition], [field1, field2])
+      const result = getFields({ [field1.id]: 'one' }, [condition], [field1, field2])
 
       expect(result).toEqual([field1, field2])
     })
 
     it('marks a field as required if the condition is marked as required', () => {
-      const field2 = field({ id: 2, required_in_portal: false })
+      const field2 = field({ id: 2, required: false })
 
-      const result = getFields({ 'key:1': 'one' }, [condition], [field1, field2])
+      const result = getFields({ [field1.id]: 'one' }, [condition], [field1, field2])
 
-      expect(result).toEqual([field1, field({ id: 2, required_in_portal: true })])
+      expect(result).toEqual([field1, field({ id: 2, required: true })])
     })
 
     it('keeps the field as required if the condition is marked as not required but the field is', () => {
-      const field2 = field({ id: 2, required_in_portal: true })
+      const field2 = field({ id: 2, required: true })
       const condition = {
         parent_field_id: 1,
         value: 'one',
@@ -188,7 +189,7 @@ describe('getFields', () => {
         ]
       }
 
-      const result = getFields({ 'key:1': 'one' }, [condition], [field1, field2])
+      const result = getFields({ [field1.id]: 'one' }, [condition], [field1, field2])
 
       expect(result).toEqual([field1, field2])
     })
@@ -229,7 +230,7 @@ describe('getFields', () => {
           ]
         }
 
-        const result = getFields({ [field1.keyID]: 1 }, [condition], [field1, field2])
+        const result = getFields({ [field1.id]: 1 }, [condition], [field1, field2])
 
         expect(result).toEqual([field1, field2])
       })

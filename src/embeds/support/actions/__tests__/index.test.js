@@ -14,6 +14,7 @@ import { FORM_PREFILLED } from '../action-types'
 import history from 'service/history'
 import routes from 'embeds/support/routes'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import { clearFormState } from 'src/redux/modules/form/actions'
 
 jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
@@ -108,32 +109,6 @@ describe('setActiveFormName', () => {
     }
 
     expect(actions.setActiveFormName('blap')).toEqual(expected)
-  })
-})
-
-describe('setFormState', () => {
-  it('returns the expected value', () => {
-    const expected = {
-      type: actionTypes.SET_FORM_STATE,
-      payload: { name: 'hello', newFormState: { fieldA: 'friend' } }
-    }
-
-    expect(actions.setFormState('hello', { fieldA: 'friend' })).toEqual(expected)
-  })
-})
-
-describe('clearFormState', () => {
-  it('return the expected type', () => {
-    expect(actions.clearFormState('boop')).toEqual({
-      type: actionTypes.CLEARED_FORM_STATE,
-      payload: { name: 'boop' }
-    })
-  })
-})
-
-describe('clearFormStates', () => {
-  it('return the expected type', () => {
-    expect(actions.clearFormStates()).toEqual({ type: actionTypes.CLEARED_FORM_STATES })
   })
 })
 
@@ -614,6 +589,18 @@ describe('submitTicket', () => {
       type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
       payload: { name: 'contact-form' }
     })
+  })
+
+  it('clears the form when the form submission was successful', () => {
+    const store = mockStore()
+
+    store.dispatch(actions.submitTicket([1, 2, 3], 'contact-form'))
+
+    const cb = http.send.mock.calls[0][0].callbacks.done
+
+    cb({ text: JSON.stringify({ a: 123 }) })
+
+    expect(store.getActions()).toContainEqual(clearFormState('support-contact-form'))
   })
 
   it('replaces history with the success page onto history', () => {

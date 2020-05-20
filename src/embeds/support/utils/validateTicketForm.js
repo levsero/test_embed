@@ -56,15 +56,15 @@ const validateTicketForm = (ticketFields, values, attachments, conditions) => {
   const errors = {}
 
   getFields(values, conditions, ticketFields).forEach(field => {
-    if (field.required_in_portal && !values[field.keyID]) {
-      errors[field.keyID] = getFieldValidationError(field.validation || field.type)
+    if (field.required && !values[field.id]) {
+      errors[field.id] = getFieldValidationError(field.validation || field.type)
       return
     }
     const validator = fieldRuleTypes[field.validation]
     if (validator) {
-      const errorMessage = validator(values[field.keyID], attachments)
+      const errorMessage = validator(values[field.id], attachments)
       if (errorMessage) {
-        errors[field.keyID] = errorMessage
+        errors[field.id] = errorMessage
       }
     }
   })
