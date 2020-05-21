@@ -212,6 +212,11 @@ parts:
       title: "Error message shown below attachment label when attempting to submit the form while a file is uploading."
       screenshot: "https://drive.google.com/file/d/1M92qMzrSXoW3Iy-C48_WJluPgjNlUfGb/view?usp=sharing"
       value: "Wait until file upload is complete before submitting form"
+  - translation:
+      key: "embeddable_framework.validation.error.feedback_form"
+      title: "A message presented to the user when they attempt to submit the feedback form without adding a rating or comment. i.e. the form is empty."
+      screenshot: "https://drive.google.com/file/d/1BEcLNkFOL3ufcoLszXk7AYXJ2UAV7D32/view?usp=sharing"
+      value: Add a rating or comment
 
   # Launcher embed
   - translation:
