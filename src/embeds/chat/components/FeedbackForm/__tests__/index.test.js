@@ -1,7 +1,6 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 
-import wait from 'utility/wait'
 import { render } from 'src/util/testHelpers'
 import FeedbackForm from '../'
 import { TEST_IDS } from 'constants/shared'
@@ -49,7 +48,19 @@ describe('FeedbackForm', () => {
     expect(queryByText('Please rate this chat')).toBeInTheDocument()
   })
 
-  it('calls submitForm when Send is clicked', async () => {
+  it('calls submitForm when Send is clicked and rating is set', async () => {
+    const submitForm = jest.fn()
+    const { getByText } = renderComponent({
+      submitForm: submitForm,
+      rating: { value: ratings.GOOD, comment: null }
+    })
+
+    fireEvent.click(getByText('Send'))
+
+    expect(submitForm).toHaveBeenCalledWith('good', null)
+  })
+
+  it('calls submitForm when Send is clicked and comment is set', async () => {
     const submitForm = jest.fn()
     const { getByText } = renderComponent({
       submitForm: submitForm,
@@ -58,16 +69,58 @@ describe('FeedbackForm', () => {
 
     fireEvent.click(getByText('Send'))
 
-    await wait()
-
     expect(submitForm).toHaveBeenCalledWith(null, 'chat was good')
   })
 
-  it('Send button is disabled when form is empty', async () => {
-    const { queryByTestId } = renderComponent({
+  it('calls submitForm when Send is clicked and both rating and comment is set', async () => {
+    const submitForm = jest.fn()
+    const { getByText } = renderComponent({
+      submitForm: submitForm,
+      rating: { value: ratings.BAD, comment: 'chat was bad' }
+    })
+
+    fireEvent.click(getByText('Send'))
+
+    expect(submitForm).toHaveBeenCalledWith(ratings.BAD, 'chat was bad')
+  })
+
+  it('renders an error when an empty form is submitted', async () => {
+    const submitForm = jest.fn()
+    const { getByText, rerender } = renderComponent({
+      submitForm: submitForm,
       rating: { value: ratings.NOT_SET, comment: null }
     })
 
-    expect(queryByTestId(TEST_IDS.BUTTON_OK)).toBeDisabled()
+    fireEvent.click(getByText('Send'))
+
+    renderComponent(
+      {
+        submitForm: submitForm,
+        rating: { value: ratings.NOT_SET, comment: null }
+      },
+      rerender
+    )
+
+    expect(getByText('Add a rating or comment')).toBeInTheDocument()
+  })
+
+  it('does not call the onsubmit function when an empty form is submitted', async () => {
+    const submitForm = jest.fn()
+    const { getByText, rerender } = renderComponent({
+      submitForm: submitForm,
+      rating: { value: ratings.NOT_SET, comment: null }
+    })
+
+    fireEvent.click(getByText('Send'))
+
+    renderComponent(
+      {
+        submitForm: submitForm,
+        rating: { value: ratings.NOT_SET, comment: null }
+      },
+      rerender
+    )
+
+    expect(submitForm).not.toHaveBeenCalled()
   })
 })

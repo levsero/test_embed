@@ -34,8 +34,9 @@ test('renders the cancel button in the feedback form', () => {
 
 test('navigates to the chatting screen when the Cancel button is clicked', () => {
   const updateChatScreen = jest.fn()
+  const rating = { comment: 'A comment' }
 
-  const { queryByText } = renderComponent({ updateChatScreen })
+  const { queryByText } = renderComponent({ updateChatScreen, rating })
 
   queryByText('Cancel').click()
 

@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TEST_IDS } from 'constants/shared'
-import { Field } from '@zendeskgarden/react-forms'
+import { FORM_ERROR } from 'final-form'
 import { Field as FinalFormField, Form as ReactFinalForm } from 'react-final-form'
+import { Field } from '@zendeskgarden/react-forms'
 
+import { Alert, Title } from 'src/components/Alert'
 import useTranslate from 'src/hooks/useTranslate'
+import { TEST_IDS } from 'constants/shared'
 import { ratings } from 'embeds/chat/components/RatingGroup'
 
 import { SecondaryButton, SubmitButton, ButtonGroup, Label, Textarea, RatingGroup } from './styles'
@@ -20,7 +22,16 @@ const FeedbackForm = ({
 }) => {
   const translate = useTranslate()
 
-  const onFormSubmission = values => {
+  const onFormSubmission = (values, _form, callback) => {
+    const validationError = !values.rating && !values.comment
+
+    if (validationError) {
+      callback({
+        [FORM_ERROR]: 'embeddable_framework.validation.error.feedback_form'
+      })
+      return
+    }
+
     submitForm(values.rating, values.comment)
   }
 
@@ -28,7 +39,7 @@ const FeedbackForm = ({
     <ReactFinalForm
       onSubmit={onFormSubmission}
       initialValues={{ comment: rating.comment, rating: rating.value }}
-      render={({ handleSubmit, values }) => (
+      render={({ handleSubmit, submitError }) => (
         <form onSubmit={handleSubmit} noValidate={true}>
           <FinalFormField
             name={'rating'}
@@ -68,6 +79,12 @@ const FeedbackForm = ({
             )}
           />
 
+          {submitError && (
+            <Alert type="error" role="alert">
+              <Title>{translate(submitError)}</Title>
+            </Alert>
+          )}
+
           <ButtonGroup>
             <SecondaryButton
               onClick={handleSecondaryButtonClick}
@@ -80,7 +97,6 @@ const FeedbackForm = ({
             <SubmitButton
               primary={true}
               type="submit"
-              disabled={!values.comment && values.rating === ratings.NOT_SET}
               data-testid={TEST_IDS.BUTTON_OK}
               aria-label={translate('embeddable_framework.common.button.send')}
             >
@@ -101,7 +117,7 @@ FeedbackForm.propTypes = {
   }).isRequired,
   secondaryButtonText: PropTypes.string.isRequired,
   handleSecondaryButtonClick: PropTypes.func,
-  submitForm: PropTypes.func
+  submitForm: PropTypes.func.isRequired
 }
 
 export default FeedbackForm
