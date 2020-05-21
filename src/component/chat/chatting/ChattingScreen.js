@@ -35,7 +35,11 @@ import {
   getShowRatingButtons,
   isInChattingScreen
 } from 'src/redux/modules/selectors'
-import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
+import {
+  SCROLL_BOTTOM_THRESHOLD,
+  HISTORY_REQUEST_STATUS,
+  CONNECTION_STATUSES
+} from 'constants/chat'
 import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
@@ -50,6 +54,7 @@ import {
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
+import * as selectors from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = state => {
   return {
@@ -73,7 +78,8 @@ const mapStateToProps = state => {
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     showRating: getShowRatingButtons(state),
     socialLogin: chatSelectors.getSocialLogin(state),
-    visible: isInChattingScreen(state)
+    visible: isInChattingScreen(state),
+    connection: selectors.getConnection(state)
   }
 }
 
@@ -112,7 +118,8 @@ const ChattingScreen = ({
   notificationCount = 0,
   markAsRead = () => {},
   visible = false,
-  isPreview = false
+  isPreview = false,
+  connection
 }) => {
   const scrollContainer = useRef(null)
   const agentTypingRef = useRef(null)
@@ -159,6 +166,10 @@ const ChattingScreen = ({
 
   const renderChatFooter = () => {
     const sendChatFn = () => {
+      if (connection !== CONNECTION_STATUSES.CONNECTED) {
+        return
+      }
+
       if (!_.isEmpty(currentMessage.trim())) {
         sendMsg(currentMessage)
       }
@@ -183,7 +194,13 @@ const ChattingScreen = ({
           isMobile={isMobile}
           currentMessage={currentMessage}
           sendChat={sendChatFn}
-          handleChatBoxChange={handleChatBoxChange}
+          handleChatBoxChange={message => {
+            if (connection !== CONNECTION_STATUSES.CONNECTED) {
+              return
+            }
+
+            handleChatBoxChange(message)
+          }}
         />
       </ChattingFooter>
     )
@@ -326,7 +343,8 @@ ChattingScreen.propTypes = {
   socialLogin: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  connection: PropTypes.string
 }
 
 const actionCreators = {
