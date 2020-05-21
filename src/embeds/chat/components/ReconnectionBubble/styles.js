@@ -3,13 +3,14 @@ import { zdColorWhite, zdColorGrey800 } from '@zendeskgarden/css-variables'
 
 const Container = styled.div`
   position: absolute;
-  top: 0;
+  top: 3rem;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `
 
 const Bubble = styled.div`
