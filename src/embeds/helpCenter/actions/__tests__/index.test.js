@@ -11,20 +11,11 @@ import * as pages from 'utility/pages'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { i18n } from 'service/i18n'
-import { wait } from '@testing-library/react'
+
 jest.mock('service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('utility/pages')
 jest.mock('service/settings')
-helpCenterSelectors.getLastSearchTimestamp = jest.fn()
-
-beforeEach(() => {
-  http.getWithCache = jest.fn(() => {
-    return new Promise(resolve => {
-      resolve()
-    })
-  })
-})
 
 const mockStore = configureMockStore([thunk])
 
@@ -83,10 +74,16 @@ describe('performImageSearch', () => {
   describe('http', () => {
     it('sends expected http payload', () => {
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
+          callbacks: {
+            done: doneFn
+          },
+          method: 'get',
           path: '/this/is/path',
-          responseType: 'blob'
+          query: {},
+          authorization: '',
+          useHostMappingIfAvailable: undefined
         })
       )
     })
@@ -94,7 +91,7 @@ describe('performImageSearch', () => {
     it('includes auth token if available', () => {
       baseSelectors.getAuthToken.mockReturnValue('blah')
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
           authorization: 'Bearer blah'
         })
@@ -104,7 +101,7 @@ describe('performImageSearch', () => {
     it('uses host mapping if on host mapped domain', () => {
       pages.isOnHostMappedDomain.mockReturnValue(true)
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
           useHostMappingIfAvailable: true
         })
@@ -134,8 +131,9 @@ describe('displayArticle', () => {
   it('sends the expected request payload', () => {
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
+        callbacks: { done: expect.any(Function), fail: expect.any(Function) },
         method: 'get',
         path: '/api/v2/help_center/articles/123.json'
       }),
@@ -147,7 +145,7 @@ describe('displayArticle', () => {
     pages.isOnHostMappedDomain.mockReturnValue(false)
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: false,
         useHostMappingIfAvailable: false
@@ -160,7 +158,7 @@ describe('displayArticle', () => {
     pages.isOnHostMappedDomain.mockReturnValue(true)
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: true,
         useHostMappingIfAvailable: true
@@ -169,40 +167,33 @@ describe('displayArticle', () => {
     )
   })
 
-  const asyncDispatchAction = async articleId => {
-    const store = mockStore()
+  const doCallback = (callbackType, args) => {
+    const store = dispatchAction(345)
+    const callback = http.get.mock.calls[0][0].callbacks[callbackType]
 
-    await store.dispatch(actions.displayArticle(articleId))
-    return store
+    callback(args)
+    const actions = store.getActions()
+
+    actions.shift()
+    return actions
   }
 
-  it('dispatches expected action on failed request', async () => {
-    http.getWithCache = jest.fn(() => {
-      return new Promise((resolve, reject) => {
-        reject({ response: 'something bad happened' })
-      })
-    })
-
-    const store = await asyncDispatchAction(123)
-
-    expect(store.getActions()[1]).toEqual({
-      type: types.GET_ARTICLE_REQUEST_FAILURE,
-      payload: 'something bad happened'
-    })
+  it('dispatches expected action on failed request', () => {
+    expect(doCallback('fail', { response: { x: 1 } })).toEqual([
+      {
+        type: types.GET_ARTICLE_REQUEST_FAILURE,
+        payload: { x: 1 }
+      }
+    ])
   })
 
-  it('dispatches expected action on successful request', async () => {
-    http.getWithCache = jest.fn(() => {
-      return new Promise(resolve => {
-        resolve({ body: { article: 'blah' } })
-      })
-    })
-    const store = await asyncDispatchAction(123)
-
-    expect(store.getActions()[1]).toEqual({
-      type: types.GET_ARTICLE_REQUEST_SUCCESS,
-      payload: 'blah'
-    })
+  it('dispatches expected action on successful request', () => {
+    expect(doCallback('done', { body: { article: 'blah' } })).toEqual([
+      {
+        type: types.GET_ARTICLE_REQUEST_SUCCESS,
+        payload: 'blah'
+      }
+    ])
   })
 })
 
@@ -224,6 +215,12 @@ describe('setContextualSuggestionsManually', () => {
     let store
     const options = { x: 1 }
     const callback = jest.fn()
+    const response = {
+      body: {
+        results: [],
+        count: 0
+      }
+    }
 
     beforeEach(() => {
       jest.spyOn(baseSelectors, 'getHasWidgetShown').mockReturnValue(true)
@@ -236,10 +233,11 @@ describe('setContextualSuggestionsManually', () => {
       jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1)
       jest.spyOn(Date, 'now').mockReturnValue(1)
       store = mockStore()
+
+      store.dispatch(actions.setContextualSuggestionsManually(options, callback))
     })
 
     it('dispatches expected actions when widget has shown', () => {
-      store.dispatch(actions.setContextualSuggestionsManually(options, callback))
       const dispatchedActions = store.getActions()
 
       expect(dispatchedActions[0]).toEqual({
@@ -254,12 +252,25 @@ describe('setContextualSuggestionsManually', () => {
     })
 
     it('sends http request with expected payload', () => {
-      store.dispatch(actions.setContextualSuggestionsManually(options, callback))
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.send).toHaveBeenCalledWith(
         expect.objectContaining({
           path: '/api/v2/help_center/articles/embeddable_search.json'
         })
       )
+    })
+
+    it('passes the callbacks as done callback to http transport', () => {
+      const { callbacks } = http.send.mock.calls[0][0]
+
+      callbacks.done(response)
+      expect(callback).toHaveBeenCalledWith(response)
+    })
+
+    it('passes the callbacks as fail callback to http transport', () => {
+      const { callbacks } = http.send.mock.calls[0][0]
+
+      callbacks.fail(response)
+      expect(callback).toHaveBeenCalledWith(response)
     })
   })
 })
@@ -298,8 +309,9 @@ describe('performSearch', () => {
 
     store.dispatch(actions.performSearch(query, doneFn, failFn))
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
+        method: 'get',
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
           query: 'help',
@@ -312,8 +324,17 @@ describe('performSearch', () => {
     )
   })
 
-  describe('on success', () => {
-    it('dispatches SEARCH_REQUEST_SUCCESS if timestamp matches', async () => {
+  describe('callbacks', () => {
+    let store
+
+    beforeEach(() => {
+      store = mockStore()
+
+      store.dispatch(actions.performSearch(query, doneFn, failFn))
+    })
+
+    describe('done', () => {
+      let callback
       const response = {
         body: {
           results: [
@@ -325,142 +346,116 @@ describe('performSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
-        return new Promise(resolve => {
-          resolve(response)
+
+      beforeEach(() => {
+        callback = http.send.mock.calls[0][0].callbacks.done
+      })
+
+      it('prevents execution of callback if timestamp do not matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
+        callback(response)
+        expect(store.getActions().length).toEqual(1)
+      })
+
+      it('executes callback if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(doneFn).toHaveBeenCalledWith(response)
+      })
+
+      it('dispatches expected action if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(store.getActions()[1]).toEqual({
+          payload: {
+            articles: [{ locale: 'fr', text: 'blah' }],
+            locale: 'fr',
+            resultsCount: 1,
+            isFallback: false
+          },
+          type: types.SEARCH_REQUEST_SUCCESS
         })
       })
-
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
-      const store = mockStore()
-
-      await store.dispatch(actions.performSearch(query, doneFn, failFn))
-      expect(store.getActions()[1]).toEqual({
-        payload: {
-          articles: [{ locale: 'fr', text: 'blah' }],
-          locale: 'fr',
-          resultsCount: 1,
-          isFallback: false
-        },
-        type: types.SEARCH_REQUEST_SUCCESS
-      })
-
-      expect(doneFn).toHaveBeenCalled()
     })
 
-    it('prevents dispatch of SEARCH_REQUEST_SUCCESS if timestamp does not matches', async () => {
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
-      const response = {
-        body: {
-          results: [
-            {
-              locale: 'fr',
-              text: 'blah'
-            }
-          ],
-          count: 1
-        }
-      }
-      http.getWithCache = jest.fn(() => {
-        return new Promise(resolve => {
-          resolve(response)
-        })
-      })
-
-      const store = mockStore()
-
-      await store.dispatch(actions.performSearch(query, doneFn, failFn))
-      expect(store.getActions().length).toEqual(1)
-      expect(doneFn).not.toHaveBeenCalled()
-    })
-
-    it('tries again if no results', async () => {
+    describe('done with no results', () => {
+      let callback
       const response = {
         body: {
           results: [],
           count: 0
         }
       }
-      http.getWithCache = jest.fn(() => {
-        return new Promise(resolve => {
-          resolve(response)
-        })
+
+      beforeEach(() => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+
+        callback = http.send.mock.calls[0][0].callbacks.done
+        callback(response)
+        const secondCallback = http.send.mock.calls[1][0].callbacks.done
+        secondCallback(response)
       })
 
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
-      const store = mockStore()
-
-      await store.dispatch(actions.performSearch(query, doneFn, failFn))
-      expect(store.getActions()).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "payload": Object {
-              "searchTerm": "help",
-              "timestamp": 1234,
+      it('retries if no results', () => {
+        expect(store.getActions()).toEqual([
+          {
+            payload: {
+              searchTerm: 'help',
+              timestamp: 1234
             },
-            "type": "widget/helpCenter/SEARCH_REQUEST_SENT",
+            type: 'widget/helpCenter/SEARCH_REQUEST_SENT'
           },
-          Object {
-            "payload": Object {
-              "articles": Array [],
-              "isFallback": false,
-              "locale": "",
-              "resultsCount": 0,
+          {
+            payload: {
+              articles: [],
+              isFallback: false,
+              locale: '',
+              resultsCount: 0
             },
-            "type": "widget/helpCenter/SEARCH_REQUEST_SUCCESS",
+            type: 'widget/helpCenter/SEARCH_REQUEST_SUCCESS'
           },
-          Object {
-            "payload": Object {
-              "searchTerm": "help",
-              "timestamp": 1234,
+          {
+            payload: {
+              searchTerm: 'help',
+              timestamp: 1234
             },
-            "type": "widget/helpCenter/SEARCH_REQUEST_SENT",
+            type: 'widget/helpCenter/SEARCH_REQUEST_SENT'
           },
-          Object {
-            "payload": Object {
-              "articles": Array [],
-              "isFallback": true,
-              "locale": "",
-              "resultsCount": 0,
-            },
-            "type": "widget/helpCenter/SEARCH_REQUEST_SUCCESS",
-          },
-        ]
-      `)
-    })
-  })
-
-  describe('on failure', () => {
-    it('dispatches SEARCH_REQUEST_FAILURE if timestamp matches', async () => {
-      http.getWithCache = jest.fn(() => {
-        return new Promise((resolve, reject) => {
-          reject()
-        })
+          {
+            payload: { articles: [], isFallback: true, locale: '', resultsCount: 0 },
+            type: 'widget/helpCenter/SEARCH_REQUEST_SUCCESS'
+          }
+        ])
       })
-
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
-      const store = mockStore()
-
-      await store.dispatch(actions.performSearch(query, doneFn, failFn))
-      expect(store.getActions()[1]).toEqual({ type: 'widget/helpCenter/SEARCH_REQUEST_FAILURE' })
-
-      expect(failFn).toHaveBeenCalled()
     })
 
-    it('prevents dispatch of SEARCH_REQUEST_FAILURE if timestamp does not matches', async () => {
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
+    describe('fail', () => {
+      let callback,
+        response = 'error'
 
-      http.getWithCache = jest.fn(() => {
-        return new Promise((resolve, reject) => {
-          reject()
-        })
+      beforeEach(() => {
+        callback = http.send.mock.calls[0][0].callbacks.fail
       })
 
-      const store = mockStore()
+      it('prevents execution of callback if timestamp do not match', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
+        callback(response)
+        expect(store.getActions().length).toEqual(1)
+      })
 
-      await store.dispatch(actions.performSearch(query, doneFn, failFn))
-      expect(store.getActions().length).toEqual(1)
-      expect(failFn).not.toHaveBeenCalled()
+      it('executes callback if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(failFn).toHaveBeenCalledWith(response)
+      })
+
+      it('dispatches expected action if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(store.getActions()[1]).toEqual({
+          type: types.SEARCH_REQUEST_FAILURE
+        })
+      })
     })
   })
 })
@@ -492,13 +487,14 @@ describe('performContextualSearch', () => {
     ])
   })
 
-  it('sends the expected http payload', async () => {
+  it('sends the expected http payload', () => {
     const store = mockStore()
 
     jest.spyOn(i18n, 'getLocale').mockReturnValue('fil')
     store.dispatch(actions.performContextualSearch(doneFn, failFn))
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
+        method: 'get',
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
           query: 'help',
@@ -510,8 +506,17 @@ describe('performContextualSearch', () => {
     )
   })
 
-  describe('on success', () => {
-    it('dispatches CONTEXTUAL_SEARCH_REQUEST_SUCCESS if timestamp matches', async () => {
+  describe('callbacks', () => {
+    let store
+
+    beforeEach(() => {
+      store = mockStore()
+
+      store.dispatch(actions.performContextualSearch(doneFn, failFn))
+    })
+
+    describe('done', () => {
+      let callback
       const response = {
         body: {
           results: [
@@ -523,89 +528,64 @@ describe('performContextualSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
-        return new Promise(resolve => {
-          resolve(response)
+
+      beforeEach(() => {
+        callback = http.send.mock.calls[0][0].callbacks.done
+      })
+
+      it('prevents execution of callback if timestamp do not matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
+        callback(response)
+        expect(store.getActions().length).toEqual(1)
+      })
+
+      it('executes callback if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(doneFn).toHaveBeenCalledWith(response)
+      })
+
+      it('dispatches expected action if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(store.getActions()[1]).toEqual({
+          payload: {
+            articles: [{ locale: 'fr', text: 'blah' }],
+            locale: 'fr',
+            resultsCount: 1
+          },
+          type: types.CONTEXTUAL_SEARCH_REQUEST_SUCCESS
         })
       })
-
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
-      const store = mockStore()
-
-      await store.dispatch(actions.performContextualSearch(doneFn, failFn))
-      expect(store.getActions().length).toEqual(2)
-      expect(store.getActions()[1]).toEqual({
-        payload: {
-          articles: [{ locale: 'fr', text: 'blah' }],
-          locale: 'fr',
-          resultsCount: 1
-        },
-        type: types.CONTEXTUAL_SEARCH_REQUEST_SUCCESS
-      })
-
-      expect(doneFn).toHaveBeenCalled()
     })
 
-    it('prevents dispatch of CONTEXTUAL_SEARCH_REQUEST_SUCCESS if timestamp does not matches', async () => {
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
-      const response = {
-        body: {
-          results: [
-            {
-              locale: 'fr',
-              text: 'blah'
-            }
-          ],
-          count: 1
-        }
-      }
-      http.getWithCache = jest.fn(() => {
-        return new Promise(resolve => {
-          resolve(response)
+    describe('fail', () => {
+      let callback,
+        response = 'error'
+
+      beforeEach(() => {
+        callback = http.send.mock.calls[0][0].callbacks.fail
+      })
+
+      it('prevents execution of callback if timestamp do not match', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
+        callback(response)
+        expect(store.getActions().length).toEqual(1)
+      })
+
+      it('executes callback if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(failFn).toHaveBeenCalledWith(response)
+      })
+
+      it('dispatches expected action if timestamp matches', () => {
+        jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
+        callback(response)
+        expect(store.getActions()[1]).toEqual({
+          type: types.CONTEXTUAL_SEARCH_REQUEST_FAILURE
         })
       })
-
-      const store = mockStore()
-
-      await store.dispatch(actions.performContextualSearch(doneFn, failFn))
-      expect(store.getActions().length).toEqual(1)
-      expect(doneFn).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('on failure', () => {
-    it('dispatches CONTEXTUAL_SEARCH_REQUEST_FAILURE if timestamp matches', async () => {
-      http.getWithCache = jest.fn(() => {
-        return new Promise((resolve, reject) => {
-          reject()
-        })
-      })
-
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1234)
-      const store = mockStore()
-
-      wait(await store.dispatch(actions.performContextualSearch(doneFn, failFn)))
-      expect(store.getActions()[1]).toEqual({
-        type: 'widget/helpCenter/CONTEXTUAL_SEARCH_REQUEST_FAILURE'
-      })
-
-      expect(failFn).toHaveBeenCalled()
-    })
-
-    it('prevents dispatch of CONTEXTUAL_SEARCH_REQUEST_FAILURE if timestamp does not matches', async () => {
-      jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
-
-      http.getWithCache = jest.fn(() => {
-        return new Promise((resolve, reject) => {
-          reject()
-        })
-      })
-
-      const store = mockStore()
-
-      await store.dispatch(actions.performContextualSearch(query, doneFn, failFn))
-      expect(store.getActions().length).toEqual(1)
-      expect(failFn).not.toHaveBeenCalled()
     })
   })
 })

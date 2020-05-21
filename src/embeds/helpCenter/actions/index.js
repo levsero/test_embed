@@ -41,28 +41,23 @@ import {
   getSettingsHelpCenterLocaleFallbacks
 } from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'service/settings'
-
-const sendQuery = async (path, query, doneFn, failFn, filter, responseType) => {
+const constructHelpCenterPayload = (path, query, doneFn, failFn, filter) => {
   const token = getAuthToken()
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
   const queryParams = _.extend(query, filter)
-  return http
-    .getWithCache({
-      forceHttp: forceHttp,
-      useHostMappingIfAvailable: isOnHostMappedDomain(),
-      path,
-      query: queryParams,
-      authorization: token ? `Bearer ${token}` : '',
-      responseType
-    })
-    .then(res => {
-      doneFn(res)
-    })
-    .catch(err => {
-      if (failFn) {
-        failFn(err)
-      }
-    })
+
+  return {
+    method: 'get',
+    forceHttp: forceHttp,
+    useHostMappingIfAvailable: isOnHostMappedDomain(),
+    path,
+    query: queryParams,
+    authorization: token ? `Bearer ${token}` : '',
+    callbacks: {
+      done: doneFn,
+      fail: failFn
+    }
+  }
 }
 
 const formatResults = response => {
@@ -85,14 +80,14 @@ const preventSearchCompleteDispatch = (getState, timestamp) => {
 }
 
 export function performImageSearch(path, done) {
-  sendQuery(path, null, done, _, _, 'blob')
+  http.getImage(constructHelpCenterPayload(path, null, done))
 
   // Temporary to stop middleware from breaking until we properly implement images
   return { type: '' }
 }
 
 export function performSearch(searchTerm, success = () => {}, fail = () => {}, localeIndex = 0) {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     // When localeFallbacks is defined in the zESettings object then
     // attempt the search with each locale in that array in order. Otherwise
     // try the search with no locale (injects an empty string into localeFallbacks).
@@ -146,7 +141,7 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
 
     const filter = getSettingsHelpCenterFilter(getState())
 
-    return sendQuery(path, query, successFn, failFn, filter)
+    http.send(constructHelpCenterPayload(path, query, successFn, failFn, filter))
   }
 }
 
@@ -167,7 +162,7 @@ export function contextualSearch(onDone) {
 export function performContextualSearch(done = () => {}, fail = () => {}) {
   const timestamp = Date.now()
 
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const searchQuery = getSearchQuery(getState())
 
     if (!searchQuery.query && !searchQuery.label_names) {
@@ -208,7 +203,7 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
 
     const filter = getSettingsHelpCenterFilter(getState())
 
-    return sendQuery(path, query, doneFn, failFn, filter)
+    http.send(constructHelpCenterPayload(path, query, doneFn, failFn, filter))
   }
 }
 
@@ -248,32 +243,31 @@ export function displayArticle(articleId) {
     dispatch({ type: GET_ARTICLE_REQUEST_SENT })
     const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
 
-    return http
-      .getWithCache(
-        {
-          method: 'get',
-          forceHttp: forceHttp,
-          path: `/api/v2/help_center/articles/${articleId}.json`,
-          useHostMappingIfAvailable: isOnHostMappedDomain()
-        },
-        false
-      )
-      .then(res => {
-        dispatch({
-          type: GET_ARTICLE_REQUEST_SUCCESS,
-          payload: res.body.article
-        })
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_ARTICLE_REQUEST_FAILURE,
-          payload: err.response ? err.response : err
-        })
-      })
+    http.get(
+      {
+        method: 'get',
+        forceHttp: forceHttp,
+        path: `/api/v2/help_center/articles/${articleId}.json`,
+        useHostMappingIfAvailable: isOnHostMappedDomain(),
+        callbacks: {
+          done: res =>
+            dispatch({
+              type: GET_ARTICLE_REQUEST_SUCCESS,
+              payload: res.body.article
+            }),
+          fail: err =>
+            dispatch({
+              type: GET_ARTICLE_REQUEST_FAILURE,
+              payload: err.response ? err.response : err
+            })
+        }
+      },
+      false
+    )
   }
 }
 
-export function setContextualSuggestionsManually(options) {
+export function setContextualSuggestionsManually(options, onDone) {
   return (dispatch, getState) => {
     dispatch({
       type: CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
@@ -281,7 +275,7 @@ export function setContextualSuggestionsManually(options) {
     })
 
     if (getHasWidgetShown(getState())) {
-      dispatch(contextualSearch())
+      dispatch(contextualSearch(onDone))
     }
   }
 }
