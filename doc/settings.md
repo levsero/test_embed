@@ -225,7 +225,7 @@ Customizes the avatar bot name and profile picture.
 
 ### badge
 
-The `badge` setting has the following properties:
+The `badge` setting customizes the Chat standalone badge. It has the following properties:
 
 | Property | Type   | Description                  |
 | -------- | ------ | ---------------------------- |
