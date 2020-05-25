@@ -118,7 +118,7 @@ function getWithCache(payload, options) {
     request.query({ _: Date.now() })
   }
 
-  const requestPromise = new Promise((resolve, reject) => {
+  const requestPromise = (cache[cacheKey] = new Promise((resolve, reject) => {
     request
       .then(response => {
         resolve(response)
@@ -127,11 +127,12 @@ function getWithCache(payload, options) {
         reject(err)
         logFailure(err, { ...queryConfig, ...payload })
       })
+  }))
+
+  requestPromise.catch(() => {
+    delete cache[cacheKey]
   })
 
-  requestPromise.then(() => {
-    cache[cacheKey] = requestPromise
-  })
   return requestPromise
 }
 

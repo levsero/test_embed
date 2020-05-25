@@ -268,7 +268,7 @@ describe('#getWithCache', () => {
 
   it('with default config values only path passed in', () => {
     http.getWithCache(payload)
-    // console.log(superagent.__mostRecent())
+
     expect(superagent.__mostRecent().query).not.toHaveBeenCalled()
     expect(superagent.__mostRecent().retry).toHaveBeenCalledWith(1)
     expect(superagent.__mostRecent().set).toHaveBeenCalledWith('Authorization', undefined)
@@ -328,6 +328,21 @@ describe('#getWithCache', () => {
     await http.getWithCache({ path: '/test/path' })
     expect(superagent.__getInstances().length).toEqual(2)
     await http.getWithCache({ path: '/test/path', authorization: 'token1' })
+    expect(superagent.__getInstances().length).toEqual(2)
+  })
+
+  it('does not cache on error', async () => {
+    const error = new Error('there was an error')
+    superagent.__setMockError(error)
+
+    await http.getWithCache({ path: '/test/path' }).catch(err => {
+      expect(err).toEqual(error)
+    })
+
+    expect(superagent.__getInstances().length).toEqual(1)
+    superagent.__setMockError(undefined)
+
+    await http.getWithCache({ path: '/test/path' })
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
