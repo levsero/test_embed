@@ -2,7 +2,6 @@ import React, { useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import classNames from 'classnames'
 import ChatBox from 'src/embeds/chat/components/InputBox'
 import ChattingFooter from 'src/embeds/chat/components/ChattingFooter'
 import ChatLog from 'component/chat/chatting/ChatLog'
@@ -39,7 +38,6 @@ import {
   HISTORY_REQUEST_STATUS,
   CONNECTION_STATUSES
 } from 'constants/chat'
-import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
@@ -52,6 +50,7 @@ import {
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
+import { ChatLogContainer } from './styles'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = state => {
@@ -247,16 +246,12 @@ const ChattingScreen = ({
     updateChatScreen(screens.FEEDBACK_SCREEN)
   }
 
-  const chatLogContainerClasses = classNames(styles.chatLogContainer, {
-    [styles.chatLogContainerMobile]: isMobile
-  })
-
   return (
     <Widget>
       <ChatWidgetHeader />
       {renderChatHeader()}
       <Main ref={scrollContainer} onScroll={handleChatScreenScrolled}>
-        <div className={chatLogContainerClasses}>
+        <ChatLogContainer>
           <HistoryLog
             isMobile={isMobile}
             showAvatar={showAvatar}
@@ -284,7 +279,7 @@ const ChattingScreen = ({
           />
           <LoadingMessagesIndicator loading={historyRequestStatus === 'pending'} />
           {renderScrollPill()}
-        </div>
+        </ChatLogContainer>
         {renderQuickReply()}
       </Main>
       {renderChatFooter()}
