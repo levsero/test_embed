@@ -2,9 +2,6 @@
 // Do not import from any other file
 
 export default {
-  chat_embed_prechat_form_enabled: {
-    defaultValue: false
-  },
   talk_deferred_enabled: {
     defaultValue: false
   }

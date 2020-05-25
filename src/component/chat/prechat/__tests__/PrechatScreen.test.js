@@ -1,4 +1,4 @@
-import { fireEvent, getByTestId } from '@testing-library/react'
+import { getByTestId } from '@testing-library/react'
 import React from 'react'
 
 import { render } from 'src/util/testHelpers'

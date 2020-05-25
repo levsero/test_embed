@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { PrechatForm } from 'component/chat/prechat/PrechatForm'
 import PrechatFormOfflineMessageSuccessPage from 'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
@@ -38,13 +37,8 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import { locals as styles } from './PrechatScreen.scss'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
-import SuspensePage from 'components/Widget/SuspensePage'
 import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
-
-const NewPrechatForm = React.lazy(() =>
-  import(/* webpackChunkName: 'lazy/prechat-form' */ 'embeds/chat/components/PrechatForm')
-)
+import PrechatForm from 'embeds/chat/components/PrechatForm'
 
 const mapStateToProps = state => {
   const prechatForm = getPrechatFormSettings(state)
@@ -72,39 +66,20 @@ const mapStateToProps = state => {
     departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
     hasChatHistory: getHasChatHistory(state),
     chatHistoryLabel: getChatHistoryLabel(state),
-    defaultDepartment: getDefaultSelectedDepartment(state),
-    isNewPrechatFormEnabled: isFeatureEnabled(state, 'chat_embed_prechat_form_enabled')
+    defaultDepartment: getDefaultSelectedDepartment(state)
   }
 }
 
 class PrechatScreen extends Component {
   static propTypes = {
-    hideZendeskLogo: PropTypes.bool,
-    hasChatHistory: PropTypes.bool.isRequired,
     screen: PropTypes.string.isRequired,
-    visitor: PropTypes.object.isRequired,
-    readOnlyState: PropTypes.object.isRequired,
-    preChatFormState: PropTypes.object,
-    handlePreChatFormChange: PropTypes.func,
     resetCurrentMessage: PropTypes.func,
-    prechatFormSettings: PropTypes.object.isRequired,
-    settingsDepartmentsEnabled: PropTypes.array,
-    authUrls: PropTypes.object.isRequired,
-    socialLogin: PropTypes.object.isRequired,
-    loginSettings: PropTypes.object.isRequired,
-    initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool,
     departmentFieldHidden: PropTypes.bool.isRequired,
-    openedChatHistory: PropTypes.func.isRequired,
-    chatHistoryLabel: PropTypes.string.isRequired,
-    defaultDepartment: PropTypes.object,
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
       status: PropTypes.string
     }),
-    isNewPrechatFormEnabled: PropTypes.bool,
     submitPrechatForm: PropTypes.func,
     isPreview: PropTypes.bool
   }
@@ -129,38 +104,6 @@ class PrechatScreen extends Component {
     this.props.resetCurrentMessage()
   }
 
-  renderPreChatForm() {
-    const { form, message, settingsDepartmentsEnabled } = this.props.prechatFormSettings
-
-    return (
-      <PrechatForm
-        title={this.props.title}
-        authUrls={this.props.authUrls}
-        socialLogin={this.props.socialLogin}
-        chatVisitor={this.props.visitor}
-        initiateSocialLogout={this.props.initiateSocialLogout}
-        hasChatHistory={this.props.hasChatHistory}
-        form={form}
-        settingsDepartmentsEnabled={settingsDepartmentsEnabled}
-        readOnlyState={this.props.readOnlyState}
-        formState={this.props.preChatFormState}
-        selectedDepartment={this.props.selectedDepartment}
-        onPrechatFormChange={this.props.handlePreChatFormChange}
-        loginEnabled={this.props.loginSettings.enabled}
-        phoneEnabled={this.props.loginSettings.phoneEnabled}
-        greetingMessage={message}
-        isAuthenticated={this.props.isAuthenticated}
-        visitor={this.props.visitor}
-        onFormCompleted={this.onPrechatFormComplete}
-        fullscreen={this.props.fullscreen}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        openedChatHistory={this.props.openedChatHistory}
-        chatHistoryLabel={this.props.chatHistoryLabel}
-        defaultDepartment={this.props.defaultDepartment}
-      />
-    )
-  }
-
   renderLoadingSpinner() {
     return (
       <Widget>
@@ -176,14 +119,7 @@ class PrechatScreen extends Component {
   render = () => {
     switch (this.props.screen) {
       case screens.PRECHAT_SCREEN:
-        if (this.props.isNewPrechatFormEnabled) {
-          return (
-            <SuspensePage>
-              <NewPrechatForm isPreview={this.props.isPreview} />
-            </SuspensePage>
-          )
-        }
-        return this.renderPreChatForm()
+        return <PrechatForm isPreview={this.props.isPreview} />
       case screens.LOADING_SCREEN:
         return this.renderLoadingSpinner()
       case screens.OFFLINE_MESSAGE_SUCCESS_SCREEN:
