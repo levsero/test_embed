@@ -106,29 +106,41 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
     i18n.setLocale(undefined, renderCallback, config.locale)
   }
 
+  const fetchEmbeddableConfig = () => {
+    const embeddableConfig = persistenceStore.get('embeddableConfig')
+
+    if (embeddableConfig) {
+      done({ body: embeddableConfig })
+      return
+    }
+    http.get(
+      {
+        method: 'get',
+        path: '/embeddable/config',
+        callbacks: {
+          done
+        }
+      },
+      false
+    )
+  }
+
   if (global.configRequest) {
-    global.configRequest.then(config => {
-      done({ body: config })
-    })
+    global.configRequest
+      .then(res => {
+        if (res.success) {
+          done({ body: res.config })
+        } else {
+          fetchEmbeddableConfig()
+        }
+      })
+      .catch(() => {
+        fetchEmbeddableConfig()
+      })
     return
   }
 
-  const embeddableConfig = persistenceStore.get('embeddableConfig')
-
-  if (embeddableConfig) {
-    done({ body: embeddableConfig })
-    return
-  }
-  http.get(
-    {
-      method: 'get',
-      path: '/embeddable/config',
-      callbacks: {
-        done
-      }
-    },
-    false
-  )
+  fetchEmbeddableConfig()
 }
 
 const shouldSendZeDiffBlip = win => {
