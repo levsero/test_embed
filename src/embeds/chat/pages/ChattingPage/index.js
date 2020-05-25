@@ -17,7 +17,6 @@ import {
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendAttachments,
   sendChatRating,
   sendMsg,
   updateChatScreen
@@ -46,7 +45,6 @@ import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
-import { getMenuVisible } from 'embeds/chat/selectors'
 import {
   useMessagesOnMount,
   useHistoryUpdate,
@@ -61,16 +59,13 @@ const mapStateToProps = state => {
     activeAgents: chatSelectors.getActiveAgents(state),
     agentsTyping: chatSelectors.getAgentsTyping(state),
     allAgents: chatSelectors.getAllAgents(state),
-    attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
     concierges: getCurrentConcierges(state),
     conciergeSettings: getConciergeSettings(state),
     currentMessage: chatSelectors.getCurrentMessage(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    isChatting: chatSelectors.getIsChatting(state),
     latestQuickReply: chatSelectors.getLatestQuickReply(state),
-    menuVisible: getMenuVisible(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     profileConfig: getProfileConfig(state),
     queuePosition: chatSelectors.getQueuePosition(state),
@@ -86,18 +81,15 @@ const mapStateToProps = state => {
 const ChattingScreen = ({
   latestQuickReply,
   currentMessage,
-  sendAttachments,
   showChatEndFn,
   sendMsg,
   handleChatBoxChange,
   sendChatRating,
   updateChatScreen,
-  isChatting,
   toggleMenu,
   showAvatar,
   queuePosition,
   showRating,
-  attachmentsEnabled = false,
   isMobile = false,
   concierges = [],
   rating = {},
@@ -106,7 +98,6 @@ const ChattingScreen = ({
   historyRequestStatus = '',
   allAgents = {},
   activeAgents = {},
-  menuVisible = false,
   resetCurrentMessage = () => {},
   fetchConversationHistory = () => {},
   hideZendeskLogo = false,
@@ -179,15 +170,9 @@ const ChattingScreen = ({
 
     return (
       <ChattingFooter
-        attachmentsEnabled={attachmentsEnabled}
-        isMobile={isMobile}
         endChat={showChatEndFn}
         sendChat={sendChatFn}
-        isChatting={isChatting}
-        handleAttachmentDrop={sendAttachments}
-        menuVisible={menuVisible}
         toggleMenu={toggleMenu}
-        hideZendeskLogo={hideZendeskLogo}
         isPreview={isPreview}
       >
         <ChatBox
@@ -312,7 +297,6 @@ ChattingScreen.propTypes = {
   activeAgents: PropTypes.object.isRequired,
   agentsTyping: PropTypes.array.isRequired,
   allAgents: PropTypes.object.isRequired,
-  attachmentsEnabled: PropTypes.bool.isRequired,
   concierges: PropTypes.array.isRequired,
   conciergeSettings: PropTypes.object.isRequired,
   currentMessage: PropTypes.string.isRequired,
@@ -322,18 +306,15 @@ ChattingScreen.propTypes = {
   hasMoreHistory: PropTypes.bool,
   hideZendeskLogo: PropTypes.bool,
   historyRequestStatus: PropTypes.string,
-  isChatting: PropTypes.bool.isRequired,
   isMobile: PropTypes.bool,
   isPreview: PropTypes.bool,
   latestQuickReply: PropTypes.object,
   markAsRead: PropTypes.func,
-  menuVisible: PropTypes.bool,
   notificationCount: PropTypes.number,
   profileConfig: PropTypes.object.isRequired,
   queuePosition: PropTypes.number,
   rating: PropTypes.object.isRequired,
   resetCurrentMessage: PropTypes.func,
-  sendAttachments: PropTypes.func.isRequired,
   sendChatRating: PropTypes.func.isRequired,
   sendMsg: PropTypes.func.isRequired,
   showAvatar: PropTypes.bool.isRequired,
@@ -352,7 +333,6 @@ const actionCreators = {
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendAttachments,
   sendChatRating,
   sendMsg,
   updateChatScreen
