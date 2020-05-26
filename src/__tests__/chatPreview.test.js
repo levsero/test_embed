@@ -1,4 +1,5 @@
 import '../chatPreview'
+import * as constants from 'src/redux/modules/chat/chat-screen-types'
 
 import { i18n } from 'service/i18n'
 
@@ -57,7 +58,7 @@ describe('rendered with default options', () => {
   })
 
   it('can update to chatting screen', done => {
-    preview.updateScreen('widget/chat/CHATTING_SCREEN')
+    preview.updateScreen(constants.CHATTING_SCREEN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Type a message here')
       done()
@@ -65,7 +66,7 @@ describe('rendered with default options', () => {
   })
 
   it('can update to prechat screen', done => {
-    preview.updateScreen('widget/chat/PRECHAT_SCREEN')
+    preview.updateScreen(constants.PRECHAT_SCREEN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Start chat')
       done()
@@ -73,7 +74,7 @@ describe('rendered with default options', () => {
   })
 
   it('can update to offline message screen', done => {
-    preview.updateScreen('widget/chat/OFFLINE_MESSAGE_SCREEN')
+    preview.updateScreen(constants.OFFLINE_MESSAGE_SUCCESS_SCREEN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Sorry, we are not online at the moment')
       done()
@@ -120,7 +121,7 @@ describe('rendered with default options', () => {
   })
 
   it('allows updating of preview settings', done => {
-    preview.updateScreen('widget/chat/CHATTING_SCREEN')
+    preview.updateScreen(constants.CHATTING_SCREEN)
     preview.updateSettings({ concierge: { title: 'updated concierge title' } })
 
     preview.waitForComponent(() => {

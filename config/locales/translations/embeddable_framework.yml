@@ -556,6 +556,7 @@ parts:
       title: "Button to fill out another contact form after one has been filled when all agents are offline"
       screenshot: "https://drive.google.com/open?id=1JwCe7SCpWieHWMyw1pPi6SsHQ3YwWqwG"
       value: "Send Another"
+      obsolete: "2020-10-31"
   - translation:
       key: "embeddable_framework.chat.options.goBack"
       title: "One of the options that is presented in chat when the user clicks on the menu icon"

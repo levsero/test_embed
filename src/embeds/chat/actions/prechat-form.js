@@ -18,7 +18,7 @@ const submitPrechatForm = ({ values, isDepartmentFieldVisible }) => async (dispa
     dispatch(
       sendOfflineMessage(
         values,
-        () => dispatch(updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN)),
+        () => dispatch(updateChatScreen(screens.OFFLINE_MESSAGE_SUCCESS_SCREEN)),
         () => dispatch(updateChatScreen(screens.PRECHAT_SCREEN))
       )
     )

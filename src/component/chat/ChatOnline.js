@@ -113,7 +113,7 @@ class Chat extends Component {
   renderPrechatScreen = () => {
     if (
       this.props.screen !== screens.PRECHAT_SCREEN &&
-      this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN &&
+      this.props.screen !== screens.OFFLINE_MESSAGE_SUCCESS_SCREEN &&
       this.props.screen !== screens.LOADING_SCREEN
     )
       return
