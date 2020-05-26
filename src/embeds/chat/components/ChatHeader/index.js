@@ -1,10 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
+import { sendChatRating } from 'src/redux/modules/chat'
+import {
+  getProfileConfig,
+  getShowRatingButtons,
+  getCurrentConcierges
+} from 'src/redux/modules/selectors'
+import { getChatRating } from 'src/redux/modules/chat/chat-selectors'
 import {
   Container,
   AvatarContainer,
@@ -131,4 +139,21 @@ ChatHeader.defaultProps = {
   agentsActive: false
 }
 
-export default ChatHeader
+const actionCreators = {
+  updateRating: sendChatRating
+}
+
+const mapStateToProps = state => ({
+  showRating: getShowRatingButtons(state),
+  showTitle: getProfileConfig(state).title,
+  showAvatar: getProfileConfig(state).avatar,
+  rating: getChatRating(state),
+  concierges: getCurrentConcierges(state)
+})
+
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators
+)(ChatHeader)
+
+export { connectedComponent as default, ChatHeader as Component }

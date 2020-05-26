@@ -16,7 +16,6 @@ import {
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendChatRating,
   sendMsg,
   updateChatScreen
 } from 'src/redux/modules/chat'
@@ -26,13 +25,7 @@ import {
   getHistoryRequestStatus
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
-import {
-  getConciergeSettings,
-  getCurrentConcierges,
-  getProfileConfig,
-  getShowRatingButtons,
-  isInChattingScreen
-} from 'src/redux/modules/selectors'
+import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
 import {
   SCROLL_BOTTOM_THRESHOLD,
   HISTORY_REQUEST_STATUS,
@@ -58,7 +51,6 @@ const mapStateToProps = state => {
     activeAgents: chatSelectors.getActiveAgents(state),
     agentsTyping: chatSelectors.getAgentsTyping(state),
     allAgents: chatSelectors.getAllAgents(state),
-    concierges: getCurrentConcierges(state),
     conciergeSettings: getConciergeSettings(state),
     currentMessage: chatSelectors.getCurrentMessage(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
@@ -66,11 +58,9 @@ const mapStateToProps = state => {
     historyRequestStatus: getHistoryRequestStatus(state),
     latestQuickReply: chatSelectors.getLatestQuickReply(state),
     notificationCount: chatSelectors.getNotificationCount(state),
-    profileConfig: getProfileConfig(state),
     queuePosition: chatSelectors.getQueuePosition(state),
     rating: chatSelectors.getChatRating(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
-    showRating: getShowRatingButtons(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state),
     connection: selectors.getConnection(state)
@@ -83,14 +73,11 @@ const ChattingScreen = ({
   showChatEndFn,
   sendMsg,
   handleChatBoxChange,
-  sendChatRating,
   updateChatScreen,
   toggleMenu,
   showAvatar,
   queuePosition,
-  showRating,
   isMobile = false,
-  concierges = [],
   rating = {},
   agentsTyping = [],
   hasMoreHistory = false,
@@ -104,7 +91,6 @@ const ChattingScreen = ({
   socialLogin = {},
   conciergeSettings = {},
   showContactDetails = () => {},
-  profileConfig = {},
   notificationCount = 0,
   markAsRead = () => {},
   visible = false,
@@ -148,12 +134,6 @@ const ChattingScreen = ({
     }
   }
 
-  const renderQueuePosition = () => {
-    if (!queuePosition || _.size(activeAgents) > 0) return null
-
-    return <QueuePosition queuePosition={queuePosition} />
-  }
-
   const renderChatFooter = () => {
     const sendChatFn = () => {
       if (connection !== CONNECTION_STATUSES.CONNECTED) {
@@ -187,24 +167,6 @@ const ChattingScreen = ({
           }}
         />
       </ChattingFooter>
-    )
-  }
-
-  const renderChatHeader = () => {
-    const onAgentDetailsClick =
-      _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
-
-    return (
-      <ChatHeader
-        agentsActive={Object.keys(activeAgents).length > 0}
-        showRating={showRating}
-        showTitle={profileConfig.title}
-        showAvatar={profileConfig.avatar}
-        rating={rating.value}
-        updateRating={sendChatRating}
-        concierges={concierges}
-        onAgentDetailsClick={onAgentDetailsClick}
-      />
     )
   }
 
@@ -246,10 +208,17 @@ const ChattingScreen = ({
     updateChatScreen(screens.FEEDBACK_SCREEN)
   }
 
+  const showQueuePosition = queuePosition && _.size(activeAgents) > 0
+  const onAgentDetailsClick =
+    _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
+
   return (
     <Widget>
       <ChatWidgetHeader />
-      {renderChatHeader()}
+      <ChatHeader
+        agentsActive={Object.keys(activeAgents).length > 0}
+        onAgentDetailsClick={onAgentDetailsClick}
+      />
       <Main ref={scrollContainer} onScroll={handleChatScreenScrolled}>
         <ChatLogContainer>
           <HistoryLog
@@ -270,7 +239,7 @@ const ChattingScreen = ({
             updateInfoOnClick={showContactDetails}
             socialLogin={socialLogin}
           />
-          {renderQueuePosition()}
+          {showQueuePosition && <QueuePosition queuePosition={queuePosition} />}
           <ChatLogFooter
             agentsTyping={agentsTyping}
             ref={agentTypingRef}
@@ -292,7 +261,6 @@ ChattingScreen.propTypes = {
   activeAgents: PropTypes.object.isRequired,
   agentsTyping: PropTypes.array.isRequired,
   allAgents: PropTypes.object.isRequired,
-  concierges: PropTypes.array.isRequired,
   conciergeSettings: PropTypes.object.isRequired,
   currentMessage: PropTypes.string.isRequired,
   fetchConversationHistory: PropTypes.func,
@@ -306,16 +274,13 @@ ChattingScreen.propTypes = {
   latestQuickReply: PropTypes.object,
   markAsRead: PropTypes.func,
   notificationCount: PropTypes.number,
-  profileConfig: PropTypes.object.isRequired,
   queuePosition: PropTypes.number,
   rating: PropTypes.object.isRequired,
   resetCurrentMessage: PropTypes.func,
-  sendChatRating: PropTypes.func.isRequired,
   sendMsg: PropTypes.func.isRequired,
   showAvatar: PropTypes.bool.isRequired,
   showChatEndFn: PropTypes.func.isRequired,
   showContactDetails: PropTypes.func.isRequired,
-  showRating: PropTypes.bool,
   socialLogin: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
@@ -328,7 +293,6 @@ const actionCreators = {
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendChatRating,
   sendMsg,
   updateChatScreen
 }
