@@ -13,7 +13,8 @@ describe('TicketFormPage', () => {
       formIds: [],
       fetchTicketForms: jest.fn(async () => undefined),
       getTicketFields: jest.fn(async () => undefined),
-      locale: 'en-US'
+      locale: 'en-US',
+      customFieldsAvailable: false
     }
 
     return render(<Support {...defaultProps} {...props} />, options)
@@ -27,6 +28,21 @@ describe('TicketFormPage', () => {
     expect(queryByText('Email address')).toBeInTheDocument()
     expect(queryByText('How can we help you?')).toBeInTheDocument()
     expect(queryByText('Please select your issue')).not.toBeInTheDocument()
+  })
+
+  it('does not fetch data when forms and custom fields not available', () => {
+    const getTicketFields = jest.fn(async () => undefined)
+    const fetchTicketForms = jest.fn(async () => undefined)
+
+    renderComponent({
+      getTicketFields,
+      fetchTicketForms,
+      formIds: [],
+      locale: 'en-US'
+    })
+
+    expect(getTicketFields).not.toHaveBeenCalled()
+    expect(fetchTicketForms).not.toHaveBeenCalled()
   })
 
   it('renders the ticket form form when ticketForms length is 1', async () => {
@@ -75,20 +91,24 @@ describe('TicketFormPage', () => {
     expect(queryByText('Please select your issue')).toBeInTheDocument()
   })
 
-  it('fetches ticket fields when no ticket forms', () => {
+  it('fetches ticket fields when no ticket forms and customFieldsAvailable', () => {
     const getTicketFields = jest.fn(async () => undefined)
 
     const { rerender } = renderComponent({
       getTicketFields,
       formIds: [],
-      locale: 'en-US'
+      locale: 'en-US',
+      customFieldsAvailable: true
     })
 
     expect(getTicketFields).toHaveBeenCalledWith('en-US')
 
     getTicketFields.mockClear()
 
-    renderComponent({ formIds: [], getTicketFields, locale: 'ru' }, { render: rerender })
+    renderComponent(
+      { formIds: [], getTicketFields, locale: 'ru', customFieldsAvailable: true },
+      { render: rerender }
+    )
 
     expect(getTicketFields).toHaveBeenCalledWith('ru')
   })

@@ -64,7 +64,7 @@ exports[`renders the expected classes 1`] = `
       
     
       <a
-        href="https://dev.zd-dev.com/relative/link"
+        href="https://testingHost/relative/link"
         id="relative"
         name="bar"
       >
@@ -226,7 +226,7 @@ exports[`renders the expected mobile classes 1`] = `
       
     
       <a
-        href="https://dev.zd-dev.com/relative/link"
+        href="https://testingHost/relative/link"
         id="relative"
         name="bar"
       >

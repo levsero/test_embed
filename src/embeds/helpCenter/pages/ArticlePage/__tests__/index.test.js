@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { render } from 'src/util/testHelpers'
-import { http } from 'service/transport/http'
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 
 const performImageSearch = jest.fn(),
@@ -36,12 +35,6 @@ const renderComponent = inProps => {
 }
 
 describe('ArticlePage', () => {
-  beforeEach(() => {
-    http.init({
-      zendeskHost: 'dev.zd-dev.com'
-    })
-  })
-
   describe('default render', () => {
     it('matches snapshot', () => {
       expect(renderComponent().container).toMatchSnapshot()

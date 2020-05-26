@@ -3,32 +3,29 @@ import superagent from 'superagent'
 
 import { identity } from 'service/identity'
 import { settings } from 'service/settings'
-import { location, getReferrerPolicy } from 'utility/globals'
+import { location, getReferrerPolicy, getZendeskHost } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
 import errorTracker from 'service/errorTracker'
 import HttpApiError from 'errors/nonFatal/HttpApiError'
 
-let config
-const defaultPayload = {
-  path: '',
-  callbacks: {
-    done: () => {},
-    fail: () => {},
-    always: () => {}
-  }
-}
-
-function init(_config) {
-  const defaultConfig = {
-    scheme: 'https',
-    insecureScheme: 'http'
-  }
-
-  config = _.extend(defaultConfig, _config)
+let config = {
+  scheme: 'https',
+  insecureScheme: 'http',
+  zendeskHost: getZendeskHost(document),
+  version: __EMBEDDABLE_VERSION__
 }
 
 function updateConfig(updates) {
   config = _.extend(config, updates)
+}
+
+function resetConfig() {
+  config = {
+    scheme: 'https',
+    insecureScheme: 'http',
+    zendeskHost: getZendeskHost(document),
+    version: __EMBEDDABLE_VERSION__
+  }
 }
 
 function getConfig() {
@@ -79,6 +76,63 @@ function send(payload, addType = true) {
       logFailure(err, payload)
     }
   })
+}
+
+let cache = {}
+const defaultConfig = {
+  timeout: {
+    response: 5000, // Wait 5 seconds for the response to start.
+    deadline: 60000 // allow 1 minute for the response to finish.
+  },
+  retries: 1
+}
+const clearCache = () => {
+  cache = {}
+}
+
+function getWithCache(payload, options) {
+  const queryConfig = {
+    ...defaultConfig,
+    method: 'GET',
+    ...options
+  }
+
+  const url = buildFullUrl(payload)
+  const cacheKey = `${queryConfig.method}-${url}${
+    payload.query ? `-${JSON.stringify(payload.query)}` : ''
+  }${payload.authorization ? `-${JSON.stringify(payload.authorization)}` : ''}`
+
+  if (cache[cacheKey]) return cache[cacheKey]
+
+  const request = superagent(queryConfig.method, url)
+    .timeout(queryConfig.timeout)
+    .set('Authorization', payload.authorization)
+    .retry(queryConfig.retries)
+
+  if (payload.responseType) request.responseType(payload.responseType)
+  if (!_.isEmpty(payload.query)) request.query(payload.query)
+  if (payload.locale) request.set('Accept-Language', payload.locale)
+
+  // in dev, skip the CDN cache by always appending a query string to bust the cache
+  if (__DEV__ && queryConfig.method === 'GET') {
+    request.query({ _: Date.now() })
+  }
+
+  const requestPromise = new Promise((resolve, reject) => {
+    request
+      .then(response => {
+        resolve(response)
+      })
+      .catch(err => {
+        reject(err)
+        logFailure(err, { ...queryConfig, ...payload })
+      })
+  })
+
+  requestPromise.then(() => {
+    cache[cacheKey] = requestPromise
+  })
+  return requestPromise
 }
 
 function sendWithMeta(payload) {
@@ -154,6 +208,14 @@ function sendFile(payload) {
 }
 
 function getImage(payload) {
+  const defaultPayload = {
+    path: '',
+    callbacks: {
+      done: () => {},
+      fail: () => {},
+      always: () => {}
+    }
+  }
   payload = _.defaultsDeep({}, payload, defaultPayload)
 
   const { done, fail } = payload.callbacks
@@ -177,6 +239,7 @@ function buildFullUrl(payload) {
     ? location.hostname
     : getDynamicHostname(payload.useHostMappingIfAvailable)
 
+  if (payload.path.includes(scheme + '://' + host)) return payload.path
   return scheme + '://' + host + payload.path
 }
 
@@ -224,15 +287,17 @@ function shouldExclude(error, payload = {}) {
 }
 
 export const http = {
-  init: init,
-  send: send,
-  sendWithMeta: sendWithMeta,
-  sendFile: sendFile,
-  getImage: getImage,
+  getImage,
+  send,
+  sendWithMeta,
+  sendFile,
+  getWithCache,
   get: send,
   callMeRequest,
   updateConfig,
-  getConfig,
   getDynamicHostname,
+  getConfig, //for testing purposes
+  resetConfig, //for testing purposes
+  clearCache, //for testing purposes
   logFailure //for testing purposes
 }

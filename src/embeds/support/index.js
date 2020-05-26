@@ -7,11 +7,18 @@ import SuccessPage from 'embeds/support/pages/SuccessPage'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import TicketFormsListPage from 'embeds/support/pages/TicketFormsListPage'
 import { getFormIdsToDisplay, getFormsToDisplay } from 'src/embeds/support/selectors'
-import { getLocale } from 'src/redux/modules/base/base-selectors'
+import { getLocale, getCustomFieldsAvailable } from 'src/redux/modules/base/base-selectors'
 import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
 import LoadingPage from 'components/LoadingPage'
 
-const Support = ({ ticketForms, formIds, fetchTicketForms, getTicketFields, locale }) => {
+const Support = ({
+  ticketForms,
+  formIds,
+  fetchTicketForms,
+  getTicketFields,
+  locale,
+  customFieldsAvailable
+}) => {
   const [isFetchingInitialForms, setIsFetchingInitialForms] = useState(true)
   const formId = ticketForms.length ? ticketForms[0].id : routes.defaultFormId
   const indexRoute = ticketForms.length > 1 ? routes.list() : routes.form(formId)
@@ -21,10 +28,12 @@ const Support = ({ ticketForms, formIds, fetchTicketForms, getTicketFields, loca
       fetchTicketForms(formIds, locale).finally(() => {
         setIsFetchingInitialForms(false)
       })
-    } else {
+    } else if (customFieldsAvailable) {
       getTicketFields(locale).finally(() => {
         setIsFetchingInitialForms(false)
       })
+    } else {
+      setIsFetchingInitialForms(false)
     }
   }, [fetchTicketForms, formIds, locale])
 
@@ -48,13 +57,15 @@ Support.propTypes = {
   formIds: PropTypes.arrayOf(PropTypes.number),
   fetchTicketForms: PropTypes.func,
   getTicketFields: PropTypes.func,
-  locale: PropTypes.string
+  locale: PropTypes.string,
+  customFieldsAvailable: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
   ticketForms: getFormsToDisplay(state),
   formIds: getFormIdsToDisplay(state),
-  locale: getLocale(state)
+  locale: getLocale(state),
+  customFieldsAvailable: getCustomFieldsAvailable(state)
 })
 
 const connectedComponent = connect(

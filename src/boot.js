@@ -16,7 +16,7 @@ import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
-import { getZendeskHost, setReferrerMetas } from 'utility/globals'
+import { setReferrerMetas } from 'utility/globals'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -41,11 +41,6 @@ const setupIframe = (iframe, doc) => {
 const setupServices = reduxStore => {
   settings.init(reduxStore)
   identity.init()
-
-  http.init({
-    zendeskHost: getZendeskHost(document),
-    version: __EMBEDDABLE_VERSION__
-  })
 
   errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
   GA.init()

@@ -103,65 +103,7 @@ describe('boot', () => {
     it('sets up the services', () => {
       boot.setupServices({})
       expect(identitySpy.identity.init).toHaveBeenCalled()
-      expect(transportSpy.http.init).toHaveBeenCalled()
       expect(gaSpy.GA.init).toHaveBeenCalled()
-    })
-
-    describe('zendeskHost', () => {
-      beforeEach(() => {
-        mockHost = 'test.zendesk.com'
-        boot.setupServices({})
-      })
-
-      afterEach(() => {
-        mockHost = null
-      })
-
-      it('gets the zendeskHost from document', () => {
-        expect(transportSpy.http.init).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            zendeskHost: 'test.zendesk.com'
-          })
-        )
-      })
-    })
-
-    describe('zendesk.web_widget.id', () => {
-      beforeEach(() => {
-        mockHost = 'test3.zendesk.com'
-        boot.setupServices({})
-      })
-
-      afterEach(() => {
-        mockHost = null
-      })
-
-      it('gets the zendeskHost from document', () => {
-        expect(transportSpy.http.init).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            zendeskHost: 'test3.zendesk.com'
-          })
-        )
-      })
-    })
-
-    describe('web_widget.id', () => {
-      beforeEach(() => {
-        mockHost = 'test2.zendesk.com' // eslint-disable-line camelcase
-        boot.setupServices({})
-      })
-
-      afterEach(() => {
-        mockHost = null // eslint-disable-line camelcase
-      })
-
-      it('gets the zendeskHost from document', () => {
-        expect(transportSpy.http.init).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            zendeskHost: 'test2.zendesk.com'
-          })
-        )
-      })
     })
 
     describe('when settings.getErrorReportingDisabled returns true', () => {

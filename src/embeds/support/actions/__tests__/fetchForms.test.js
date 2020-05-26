@@ -10,8 +10,6 @@ import {
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORM_UPDATE
 } from '../action-types'
-
-jest.mock('service/transport')
 jest.mock('service/i18n')
 
 describe('fetchTicketForms', () => {
@@ -19,6 +17,11 @@ describe('fetchTicketForms', () => {
 
   beforeEach(() => {
     createStore().clearActions()
+    http.getWithCache = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve()
+      })
+    })
   })
 
   it('does not make a request if one for the same forms and locale has already been done', async () => {
@@ -118,14 +121,23 @@ describe('fetchTicketForms', () => {
       ])
     )
 
-    expect(http.get.mock.calls[0][0]).toEqual(
-      expect.objectContaining({
+    expect(http.getWithCache).toHaveBeenCalledWith(
+      {
+        locale: 'en-US',
         path: '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US'
-      })
+      },
+      false
     )
   })
 
-  it('dispatches a request success action when successful', () => {
+  it('dispatches a request success action when successful', async () => {
+    const response = { body: { ticket_forms: [{ id: 123 }] } }
+    http.getWithCache = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve(response)
+      })
+    })
+
     const store = createStore({
       support: {
         forms: {},
@@ -138,15 +150,7 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123], 'en-US'))
-
-    const httpCall = http.get.mock.calls[0][0]
-
-    httpCall.callbacks.done({
-      text: JSON.stringify({
-        ticket_forms: [{ id: 123 }]
-      })
-    })
+    await store.dispatch(fetchTicketForms([123], 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -167,7 +171,14 @@ describe('fetchTicketForms', () => {
     )
   })
 
-  it('dispatches a ticket form update action when successful and only one form retrieved from api', () => {
+  it('dispatches a ticket form update action when successful and only one form retrieved from api', async () => {
+    const response = { body: { ticket_forms: [{ id: 123 }] } }
+    http.getWithCache = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve(response)
+      })
+    })
+
     const store = createStore({
       support: {
         forms: {},
@@ -180,15 +191,7 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123], 'en-US'))
-
-    const httpCall = http.get.mock.calls[0][0]
-
-    httpCall.callbacks.done({
-      text: JSON.stringify({
-        ticket_forms: [{ id: 123 }]
-      })
-    })
+    await store.dispatch(fetchTicketForms([123], 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -203,7 +206,13 @@ describe('fetchTicketForms', () => {
     )
   })
 
-  it('dispatches a failure action when request failed', () => {
+  it('dispatches a failure action when request failed', async () => {
+    http.getWithCache = jest.fn(() => {
+      return new Promise((resolve, reject) => {
+        reject()
+      })
+    })
+
     const store = createStore({
       support: {
         forms: {},
@@ -216,11 +225,7 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123], 'en-US'))
-
-    const httpCall = http.get.mock.calls[0][0]
-
-    httpCall.callbacks.fail()
+    await store.dispatch(fetchTicketForms([123], 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -237,9 +242,6 @@ describe('fetchTicketForms', () => {
 })
 
 describe('getTicketFields', () => {
-  beforeEach(() => {
-    actions.resetCacheForTests()
-  })
   const mockStore = configureMockStore([thunk])
 
   const dispatchAction = (customFields = {}, locale) => {
@@ -255,7 +257,7 @@ describe('getTicketFields', () => {
     return store
   }
 
-  it('dispatches the expected action', () => {
+  it('dispatches the request sent action', () => {
     const store = dispatchAction({ ids: ['123'] }, 'ru')
 
     expect(store.getActions()).toEqual([
@@ -265,36 +267,13 @@ describe('getTicketFields', () => {
     ])
   })
 
-  it('does not dispatch if no values', () => {
-    const store = dispatchAction({}, 'ru')
-
-    expect(store.getActions()).toEqual([])
-  })
-
-  it('if has the same params does not dispatch a second request', () => {
-    dispatchAction({ ids: ['123'] }, 'ru')
-    dispatchAction({ ids: ['123'] }, 'ru')
-
-    expect(http.get).toHaveBeenCalledTimes(1)
-  })
-
-  it('if has different params dispatches a second request', () => {
-    dispatchAction({ ids: ['123'] }, 'ru')
-    dispatchAction({ ids: ['123'] }, 'en')
-
-    expect(http.get).toHaveBeenCalledTimes(2)
-  })
-
   it('sends the expected request payload for ids', () => {
     dispatchAction({ ids: ['123'] }, 'ru')
 
-    expect(http.get).toHaveBeenCalledWith(
+    expect(http.getWithCache).toHaveBeenCalledWith(
       {
-        callbacks: { done: expect.any(Function), fail: expect.any(Function) },
         locale: 'ru',
-        method: 'get',
-        path: '/embeddable/ticket_fields?field_ids=123&locale=ru',
-        timeout: 20000
+        path: '/embeddable/ticket_fields?field_ids=123&locale=ru'
       },
       false
     )
@@ -303,43 +282,62 @@ describe('getTicketFields', () => {
   it('sends the expected request payload for all', () => {
     dispatchAction({ all: true }, 'th')
 
-    expect(http.get).toHaveBeenCalledWith(
+    expect(http.getWithCache).toHaveBeenCalledWith(
       {
-        callbacks: { done: expect.any(Function), fail: expect.any(Function) },
         locale: 'th',
-        method: 'get',
-        path: '/embeddable/ticket_fields?locale=th',
-        timeout: 20000
+        path: '/embeddable/ticket_fields?locale=th'
       },
       false
     )
   })
 
-  const doCallback = (callbackType, args) => {
-    const store = dispatchAction({ all: true })
-    const callback = http.get.mock.calls[0][0].callbacks[callbackType]
+  it('dispatches expected actions on failed request', async () => {
+    http.getWithCache = jest.fn(() => {
+      return new Promise((resolve, reject) => {
+        reject()
+      })
+    })
 
-    callback(args)
-    const actions = store.getActions()
-
-    actions.shift()
-    return actions
-  }
-
-  it('dispatches expected actions on failed request', () => {
-    expect(doCallback('fail')).toEqual([
-      {
-        type: types.TICKET_FIELDS_REQUEST_FAILURE
+    const store = mockStore({
+      base: {
+        embeddableConfig: {
+          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } }
+        }
       }
-    ])
+    })
+    await store.dispatch(actions.getTicketFields('th'))
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: types.TICKET_FIELDS_REQUEST_FAILURE
+        }
+      ])
+    )
   })
 
-  it('dispatches expected actions on successful request', () => {
-    expect(doCallback('done', { text: JSON.stringify({ abc: true }) })).toEqual([
-      {
-        type: types.TICKET_FIELDS_REQUEST_SUCCESS,
-        payload: { abc: true }
+  it('dispatches expected actions on successful request', async () => {
+    http.getWithCache = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve({ body: { abc: true } })
+      })
+    })
+    const store = mockStore({
+      base: {
+        embeddableConfig: {
+          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } }
+        }
       }
-    ])
+    })
+    await store.dispatch(actions.getTicketFields('th'))
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: types.TICKET_FIELDS_REQUEST_SUCCESS,
+          payload: { abc: true }
+        }
+      ])
+    )
   })
 })

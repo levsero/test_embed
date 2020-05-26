@@ -13,7 +13,6 @@ import HelpCenter from '../../index'
 
 const renderComponent = () => {
   const store = createStore()
-
   setupMocks()
 
   store.dispatch(updateEmbedAccessible('helpCenterForm', true))
@@ -185,11 +184,6 @@ const search = jest.fn(options => {
 })
 
 const setupMocks = () => {
-  http.init({
-    zendeskHost: 'dev.zd-dev.com',
-    version: 'v1'
-  })
-
   http.send = options => {
     switch (options.path) {
       case '/api/v2/help_center/articles/embeddable_search.json':
