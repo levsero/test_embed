@@ -147,7 +147,7 @@ const mapStateToProps = state => ({
   showRating: getShowRatingButtons(state),
   showTitle: getProfileConfig(state).title,
   showAvatar: getProfileConfig(state).avatar,
-  rating: getChatRating(state),
+  rating: getChatRating(state).value,
   concierges: getCurrentConcierges(state)
 })
 

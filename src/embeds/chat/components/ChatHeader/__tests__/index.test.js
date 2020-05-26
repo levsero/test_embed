@@ -1,7 +1,7 @@
 import React from 'react'
 import { find } from 'styled-components/test-utils'
 import { render } from 'src/util/testHelpers'
-import ChatHeader from '..'
+import { Component as ChatHeader } from '..'
 import { Container } from '../styles'
 import { TEST_IDS, ICONS } from 'constants/shared'
 

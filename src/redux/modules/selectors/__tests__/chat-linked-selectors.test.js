@@ -778,15 +778,17 @@ describe('getDelayChatConnection', () => {
 
 describe('getShowRatingButtons', () => {
   test.each([
-    ['when all values are true', true, true, true, true],
-    ['when profileConfig.rating is false', false, true, true, false],
-    ['when agentCount is > 0', true, false, true, false],
-    ['when isChatting is false', true, true, false, false]
-  ])('%p', (_title, profileConfigRating, agentJoined, isChatting, expectedValue) => {
+    ['when all values are true', true, true, true, CHATTING_SCREEN, true],
+    ['when profileConfig.rating is false', false, true, true, CHATTING_SCREEN, false],
+    ['when agentCount is > 0', true, false, true, CHATTING_SCREEN, false],
+    ['when isChatting is false', true, true, false, CHATTING_SCREEN, false],
+    ['when its not on chatting screen', true, true, true, 'not_CHATTING_SCREEN', false]
+  ])('%p', (_title, profileConfigRating, agentJoined, isChatting, screen, expectedValue) => {
     const result = selectors.getShowRatingButtons.resultFunc(
       { rating: profileConfigRating },
       agentJoined,
-      isChatting
+      isChatting,
+      screen
     )
 
     expect(result).toEqual(expectedValue)

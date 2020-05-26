@@ -10,6 +10,7 @@ import ChatHeader from 'embeds/chat/components/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'src/embeds/chat/components/QuickReplies'
+import { TEST_IDS } from 'src/constants/shared'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
 import {
   fetchConversationHistory,
@@ -170,23 +171,6 @@ const ChattingScreen = ({
     )
   }
 
-  const renderScrollPill = () => {
-    if (notificationCount === 0 || isScrollCloseToBottom()) return null
-
-    return (
-      <ScrollPill
-        notificationCount={notificationCount}
-        onClick={() => {
-          markAsRead()
-          scrollToBottom()
-        }}
-      />
-    )
-  }
-
-  /**
-   * Render QuickReplies component if one should be shown
-   */
   const renderQuickReply = () => {
     if (!latestQuickReply) return null
     const { timestamp, items } = latestQuickReply
@@ -207,8 +191,8 @@ const ChattingScreen = ({
   const goToFeedbackScreen = () => {
     updateChatScreen(screens.FEEDBACK_SCREEN)
   }
-
-  const showQueuePosition = queuePosition && _.size(activeAgents) > 0
+  const showScrollPill = Boolean(notificationCount > 0 && !isScrollCloseToBottom())
+  const showQueuePosition = Boolean(queuePosition && _.size(activeAgents) === 0)
   const onAgentDetailsClick =
     _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
 
@@ -220,7 +204,7 @@ const ChattingScreen = ({
         onAgentDetailsClick={onAgentDetailsClick}
       />
       <Main ref={scrollContainer} onScroll={handleChatScreenScrolled}>
-        <ChatLogContainer>
+        <ChatLogContainer data-testid={TEST_IDS.CHAT_LOG}>
           <HistoryLog
             isMobile={isMobile}
             showAvatar={showAvatar}
@@ -247,7 +231,15 @@ const ChattingScreen = ({
             hideZendeskLogo={hideZendeskLogo}
           />
           <LoadingMessagesIndicator loading={historyRequestStatus === 'pending'} />
-          {renderScrollPill()}
+          {showScrollPill && (
+            <ScrollPill
+              notificationCount={notificationCount}
+              onClick={() => {
+                markAsRead()
+                scrollToBottom()
+              }}
+            />
+          )}
         </ChatLogContainer>
         {renderQuickReply()}
       </Main>

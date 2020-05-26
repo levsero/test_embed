@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import FeedbackForm from 'embeds/chat/components/FeedbackForm'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
 import { getIsChatting, getChatRating } from 'src/redux/modules/chat/chat-selectors'
-import { getCurrentConcierges } from 'src/redux/modules/selectors'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import { sendChatRating, sendChatComment, endChat, updateChatScreen } from 'src/redux/modules/chat'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
@@ -15,18 +14,11 @@ import useTranslate from 'src/hooks/useTranslate'
 const mapStateToProps = state => {
   return {
     isChatting: getIsChatting(state),
-    concierges: getCurrentConcierges(state),
     rating: getChatRating(state)
   }
 }
 
-const ChatRatingPage = ({
-  rating,
-  sendChatRating,
-  sendChatComment,
-  updateChatScreen,
-  concierges
-}) => {
+const ChatRatingPage = ({ rating, sendChatRating, sendChatComment, updateChatScreen }) => {
   const translate = useTranslate()
 
   const handleCancel = () => {
@@ -42,7 +34,7 @@ const ChatRatingPage = ({
   return (
     <Widget>
       <ChatWidgetHeader />
-      <ChatHeader showRating={false} concierges={concierges} />
+      <ChatHeader />
 
       <Main>
         <FeedbackForm
@@ -65,7 +57,6 @@ const actionCreators = {
 }
 
 ChatRatingPage.propTypes = {
-  concierges: PropTypes.array.isRequired,
   rating: PropTypes.object.isRequired,
   sendChatRating: PropTypes.func.isRequired,
   sendChatComment: PropTypes.func.isRequired,
