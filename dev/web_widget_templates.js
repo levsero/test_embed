@@ -49,42 +49,40 @@ function snippet(zendeskHost, webpackJsAssets) {
         }
         window.zE = window.zE || window.zEmbed
         window.zEmbed.t = +new Date()
-        
-        function iframeReady () {
-          return new Promise((resolve, reject) => {
-            const iframe = document.createElement('iframe')
-            iframe.dataset.product = this.name
-            iframe.title = 'No content'
-            iframe.role = 'presentation'
-            iframe.tabIndex = -1
-            iframe.setAttribute('aria-hidden', true)
-            iframe.style.cssText = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px'
-            // The dynamically created iframe must be loaded before we can get a reference to its document
-            iframe.addEventListener('load', () => {
-              const { contentWindow } = iframe
-              if (contentWindow && contentWindow.document) {
-                resolve(iframe)
-              } else {
-                reject("Our Web Widget dev iframe failed to initiate properly")
-              }
-            })
-            iframe.src = 'about:blank'
-            document.body.appendChild(iframe)
+        function iframeReady (cb) {
+          var iframe = document.createElement('iframe')
+          iframe.dataset.product = 'web_widget'
+          iframe.title = 'No content'
+          iframe.role = 'presentation'
+          iframe.tabIndex = -1
+          iframe.setAttribute('aria-hidden', true)
+          iframe.style.cssText = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px'
+          // The dynamically created iframe must be loaded before we can get a reference to its document
+          iframe.addEventListener('load', function () {
+            var contentWindow = iframe.contentWindow
+            if (contentWindow && contentWindow.document) {
+              cb(iframe)
+            } else {
+              throw new Error("Our Web Widget dev iframe failed to initiate properly")
+            }
           })
+          iframe.src = 'about:blank'
+          document.body.appendChild(iframe)
         }
-        
-        iframeReady().then(({ contentWindow }) => { 
-          const iframeDocument = contentWindow.document
-          const iframeHead = iframeDocument.getElementsByTagName('head')[0]
-          
+
+        iframeReady(function(iframe) {
+          var contentWindow = iframe.contentWindow
+          var iframeDocument = contentWindow.document
+          var iframeHead = iframeDocument.getElementsByTagName('head')[0]
+
           iframeDocument.zendeskHost = host
           iframeDocument.zEQueue = queue
-          
+
           contentWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
           contentWindow.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.__REACT_DEVTOOLS_GLOBAL_HOOK__
-          
-          iframeAssets.forEach(jsPath => {
-            const script = iframeDocument.createElement('script')
+
+          iframeAssets.forEach(function(jsPath) {
+            var script = iframeDocument.createElement('script')
             script.type = 'text/javascript'
             script.src = jsPath
             iframeHead.appendChild(script)
