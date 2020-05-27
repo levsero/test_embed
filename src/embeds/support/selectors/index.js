@@ -215,7 +215,8 @@ const convertTicketFieldToFormField = ticketField => {
     title: ticketField.title_in_portal,
     required: ticketField.required_in_portal,
     visible: ticketField.visible_in_portal,
-    type: ticketField.type
+    type: ticketField.type,
+    description: ticketField.description
   }
 
   if (ticketField.custom_field_options) {

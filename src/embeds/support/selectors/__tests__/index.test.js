@@ -45,7 +45,8 @@ const checkboxField = {
   title_in_portal: 'Checkbox field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'checkbox'
+  type: 'checkbox',
+  description: 'hello world'
 }
 const expectedCheckboxField = {
   id: createKeyID('123'),
@@ -53,7 +54,8 @@ const expectedCheckboxField = {
   title: 'Checkbox field',
   required: false,
   visible: true,
-  type: 'checkbox'
+  type: 'checkbox',
+  description: 'hello world'
 }
 
 const textField = {
@@ -64,7 +66,7 @@ const textField = {
   type: 'text'
 }
 
-const exepctedTextField = {
+const expectedTextField = {
   id: createKeyID('456'),
   originalId: '456',
   title: 'Text field',
@@ -254,7 +256,7 @@ describe('getTicketFormFields', () => {
         type: 'text'
       },
       expectedEmailField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField,
       {
         id: 'subject',
@@ -307,7 +309,7 @@ describe('getCustomTicketFields', () => {
     expect(result).toEqual([
       expectedEmailField,
       expectedCheckboxField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField
     ])
   })
@@ -319,7 +321,7 @@ describe('getCustomTicketFields', () => {
       expectedNameField,
       expectedEmailField,
       expectedCheckboxField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField
     ])
   })
@@ -338,7 +340,7 @@ describe('getCustomTicketFields', () => {
       requiredNameField,
       expectedEmailField,
       expectedCheckboxField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField
     ])
   })
@@ -423,7 +425,7 @@ describe('getFormTicketFields', () => {
 
     expect(result).toEqual([
       expectedEmailField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField,
       expectedDescriptionField,
       expectedCheckboxField
@@ -450,7 +452,7 @@ describe('getFormTicketFields', () => {
     expect(result).toEqual([
       expectedEmailField,
       expectedCheckboxField,
-      exepctedTextField,
+      expectedTextField,
       expectedTextareaField
     ])
   })
