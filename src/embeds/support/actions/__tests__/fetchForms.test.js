@@ -209,7 +209,7 @@ describe('fetchTicketForms', () => {
   it('dispatches a failure action when request failed', async () => {
     http.getWithCache = jest.fn(() => {
       return new Promise((resolve, reject) => {
-        reject()
+        reject({ message: 'error' })
       })
     })
 
@@ -294,7 +294,7 @@ describe('getTicketFields', () => {
   it('dispatches expected actions on failed request', async () => {
     http.getWithCache = jest.fn(() => {
       return new Promise((resolve, reject) => {
-        reject()
+        reject({ message: 'error' })
       })
     })
 

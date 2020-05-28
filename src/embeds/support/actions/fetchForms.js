@@ -11,6 +11,7 @@ import {
 import { http } from 'service/transport'
 import { getCustomFieldIds } from 'src/redux/modules/base/base-selectors'
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
+import errorTracker from 'service/errorTracker'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
   return async (dispatch, getState) => {
@@ -82,7 +83,7 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
           })
         }
       })
-      .catch(_err => {
+      .catch(err => {
         dispatch({
           type: TICKET_FORMS_REQUEST_FAILURE,
           payload: {
@@ -90,6 +91,8 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
             formIds: ticketFormIdsToLoad
           }
         })
+
+        errorTracker.error('ticket form request failure', err.message)
       })
   }
 }
@@ -118,10 +121,12 @@ export function getTicketFields(locale) {
           payload: res.body
         })
       })
-      .catch(_err => {
+      .catch(err => {
         dispatch({
           type: TICKET_FIELDS_REQUEST_FAILURE
         })
+
+        errorTracker.error('ticket fields request failure', err.message)
       })
   }
 }
