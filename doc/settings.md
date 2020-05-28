@@ -227,11 +227,11 @@ Customizes the avatar bot name and profile picture.
 
 The `badge` setting customizes the Chat standalone badge. It has the following properties:
 
-| Property | Type   | Description                  |
-| -------- | ------ | ---------------------------- |
-| label    | object | Sets the label of the badge  |
-| image    | string | Sets the image of the badge  |
-| layout   | string | Sets the layout of the badge |
+| Property | Type   | Description                       |
+| -------- | ------ | --------------------------------- |
+| label    | object | Sets the label of the Chat badge  |
+| image    | string | Sets the image of the Chat badge  |
+| layout   | string | Sets the layout of the Chat badge |
 
 #### Availability
 
@@ -239,7 +239,7 @@ The `badge` setting customizes the Chat standalone badge. It has the following p
 
 #### badge.label
 
-Sets the label of the badge. Will only show if the label is allowed in the layout.
+Sets the label of the Chat standalone badge. Will only show if the label is allowed in the layout.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -266,7 +266,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### badge.image
 
-Sets the image of the badge. Will only show if the image is allowed in the layout.
+Sets the image of the Chat standalone badge. Will only show if the image is allowed in the layout.
 
 <a name="example-badgeimage"></a>
 
@@ -288,7 +288,7 @@ Sets the image of the badge. Will only show if the image is allowed in the layou
 
 #### badge.layout
 
-Sets the layout of the badge. Valid values are 'image_right', 'image_left', 'image_only' and 'text_only'. If an invalid value is used it will default to 'image_right'.
+Sets the layout of the Chat standalone badge. Valid values are 'image_right', 'image_left', 'image_only' and 'text_only'. If an invalid value is used it will default to 'image_right'.
 
 <a name="example-badgelayout"></a>
 
