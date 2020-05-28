@@ -3,7 +3,7 @@ const chattingScreen = 'widget/chat/CHATTING_SCREEN'
 const loadingScreen = 'widget/chat/LOADING_SCREEN'
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN'
 const postChatScreen = 'widget/chat/POST_CHAT_SCREEN'
-const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN'
+const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SUCCESS_SCREEN'
 
 describe('ChatOnline component', () => {
   let ChatOnline
@@ -77,7 +77,7 @@ describe('ChatOnline component', () => {
         FEEDBACK_SCREEN: feedbackScreen,
         POST_CHAT_SCREEN: postChatScreen,
         LOADING_SCREEN: loadingScreen,
-        OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
+        OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen,
         AGENT_LIST_SCREEN
       },
       'src/embeds/chat/actions/email-transcript': {

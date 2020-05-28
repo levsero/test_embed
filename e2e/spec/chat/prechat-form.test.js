@@ -142,7 +142,7 @@ describe('prechat form', () => {
 
     await widget.clickButton('Send message')
 
-    await widget.waitForText('Send Another')
+    await widget.waitForText('Go Back')
 
     await zChat.expectOfflineFormSubmissionToBe(
       expect.objectContaining({

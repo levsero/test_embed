@@ -95,7 +95,7 @@ test('renders prechat screen', async () => {
 })
 
 test('renders offline screen', async () => {
-  await goTo(constants.OFFLINE_MESSAGE_SCREEN)
+  await goTo(constants.OFFLINE_MESSAGE_SUCCESS_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByText(doc, 'Sorry, we are not online at the moment')).toBeTruthy()
 })
@@ -112,7 +112,7 @@ test('renders chat badge', async () => {
 
 test('updateLocale updates the translations', async () => {
   await page.evaluate(() => window.preview.updateLocale('fr'))
-  await goTo(constants.OFFLINE_MESSAGE_SCREEN)
+  await goTo(constants.OFFLINE_MESSAGE_SUCCESS_SCREEN)
   const doc = await preview.getDocument()
   expect(
     await queries.queryByText(doc, 'Désolés, nous ne sommes pas en ligne actuellement')

@@ -11,7 +11,6 @@ describe('ChatOfflineForm component', () => {
   const Button = noopReactComponent()
   const LoadingSpinner = noopReactComponent()
   const ChatOperatingHours = noopReactComponent()
-  const ChatOfflineMessageForm = noopReactComponent()
   const ChatMessagingChannels = noopReactComponent()
   const UserProfile = noopReactComponent()
   const GardenField = noopReactComponent()
@@ -84,7 +83,6 @@ describe('ChatOfflineForm component', () => {
         LoadingSpinner: LoadingSpinner
       },
       'src/embeds/chat/pages/OperatingHoursPage': ChatOperatingHours,
-      'component/chat/ChatOfflineDepartmentMessageSuccess': ChatOfflineMessageForm,
       'component/chat/ChatMessagingChannels': {
         ChatMessagingChannels
       },

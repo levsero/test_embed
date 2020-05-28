@@ -1,7 +1,7 @@
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN'
 const chattingScreen = 'widget/chat/CHATTING_SCREEN'
 const loadingScreen = 'widget/chat/LOADING_SCREEN'
-const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN'
+const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SUCCESS_SCREEN'
 
 describe('PrechatScreen component', () => {
   let PrechatScreen, prechatFormSettingsProp
@@ -13,8 +13,10 @@ describe('PrechatScreen component', () => {
   const handlePrechatFormSubmitSpy = jasmine.createSpy('handlePrechatFormSubmit')
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage')
 
-  const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm')
   const PrechatForm = noopReactComponent('PrechatForm')
+  const PrechatFormOfflineMessageSuccessPage = noopReactComponent(
+    'PrechatFormOfflineMessageSuccessPage'
+  )
   const LoadingSpinner = noopReactComponent('LoadingSpinner')
 
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES
@@ -70,7 +72,7 @@ describe('PrechatScreen component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
         LOADING_SCREEN: loadingScreen,
-        OFFLINE_MESSAGE_SCREEN: offlineMessageScreen
+        OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen
       },
       'service/i18n': {
         i18n: {
@@ -82,7 +84,7 @@ describe('PrechatScreen component', () => {
         AGENT_BOT: 'agent:trigger',
         DEPARTMENT_STATUSES
       },
-      'src/embeds/chat/components/ChatOfflineDepartmentMessageSuccess': ChatOfflineMessageForm,
+      'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage': PrechatFormOfflineMessageSuccessPage,
       'src/redux/modules/chat/chat-selectors': {},
       'src/redux/modules/chat/chat-history-selectors': {},
       'src/components/Widget': {
@@ -178,7 +180,6 @@ describe('PrechatScreen component', () => {
 
       spyOn(component, 'renderPreChatForm')
       spyOn(component, 'renderLoadingSpinner')
-      spyOn(component, 'renderChatOfflineForm')
 
       component.render()
     })
@@ -203,16 +204,6 @@ describe('PrechatScreen component', () => {
       })
     })
 
-    describe('when the screen is offline message screen', () => {
-      beforeAll(() => {
-        mockScreen = offlineMessageScreen
-      })
-
-      it('calls renderChatOfflineForm', () => {
-        expect(component.renderChatOfflineForm).toHaveBeenCalled()
-      })
-    })
-
     describe('when the screen is unrecognised', () => {
       beforeAll(() => {
         mockScreen = 'bob screen'
@@ -224,10 +215,6 @@ describe('PrechatScreen component', () => {
 
       it('does not call renderLoadingSpinner', () => {
         expect(component.renderLoadingSpinner).not.toHaveBeenCalled()
-      })
-
-      it('does not call renderChatOfflineForm', () => {
-        expect(component.renderChatOfflineForm).not.toHaveBeenCalled()
       })
     })
   })

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ChatOfflineDepartmentMessageSuccess from 'src/embeds/chat/components/ChatOfflineDepartmentMessageSuccess'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
+import PrechatFormOfflineMessageSuccessPage from 'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
@@ -80,7 +80,6 @@ const mapStateToProps = state => {
 class PrechatScreen extends Component {
   static propTypes = {
     hideZendeskLogo: PropTypes.bool,
-    updateChatScreen: PropTypes.func.isRequired,
     hasChatHistory: PropTypes.bool.isRequired,
     screen: PropTypes.string.isRequired,
     visitor: PropTypes.object.isRequired,
@@ -90,7 +89,6 @@ class PrechatScreen extends Component {
     resetCurrentMessage: PropTypes.func,
     prechatFormSettings: PropTypes.object.isRequired,
     settingsDepartmentsEnabled: PropTypes.array,
-    offlineMessage: PropTypes.object,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     loginSettings: PropTypes.object.isRequired,
@@ -128,21 +126,6 @@ class PrechatScreen extends Component {
     })
 
     this.props.resetCurrentMessage()
-  }
-
-  renderChatOfflineForm() {
-    return (
-      <Widget>
-        <Header title={this.props.title} />
-        <Main>
-          <ChatOfflineDepartmentMessageSuccess
-            offlineMessage={this.props.offlineMessage}
-            onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)}
-          />
-        </Main>
-        <Footer />
-      </Widget>
-    )
   }
 
   renderPreChatForm() {
@@ -202,8 +185,8 @@ class PrechatScreen extends Component {
         return this.renderPreChatForm()
       case screens.LOADING_SCREEN:
         return this.renderLoadingSpinner()
-      case screens.OFFLINE_MESSAGE_SCREEN:
-        return this.renderChatOfflineForm()
+      case screens.OFFLINE_MESSAGE_SUCCESS_SCREEN:
+        return <PrechatFormOfflineMessageSuccessPage />
     }
 
     return null

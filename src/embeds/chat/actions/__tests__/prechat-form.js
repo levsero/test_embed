@@ -76,7 +76,9 @@ describe('submitPrechatForm', () => {
 
       onSuccess()
 
-      expect(dispatchedActions).toContainEqual(updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN))
+      expect(dispatchedActions).toContainEqual(
+        updateChatScreen(screens.OFFLINE_MESSAGE_SUCCESS_SCREEN)
+      )
     })
 
     it('navigates back to the prechat screen on failed send of the offline message', () => {

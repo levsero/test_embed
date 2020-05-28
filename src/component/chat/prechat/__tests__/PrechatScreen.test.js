@@ -116,45 +116,17 @@ describe('render', () => {
   })
 
   describe('when screen is offline message screen', () => {
-    const renderOfflineScreen = () => renderComponent({ screen: screens.OFFLINE_MESSAGE_SCREEN })
+    const renderOfflineScreen = () =>
+      renderComponent({ screen: screens.OFFLINE_MESSAGE_SUCCESS_SCREEN })
 
     it('renders success message', () => {
       expect(
-        renderOfflineScreen().getByText(
-          "Thanks for the message! We'll get back to you as soon as we can."
-        )
+        renderOfflineScreen().getByText('Someone will get back to you soon')
       ).toBeInTheDocument()
     })
 
-    it('renders name field', () => {
-      expect(renderOfflineScreen().getByText('testName')).toBeInTheDocument()
-    })
-
-    it('renders email field', () => {
-      expect(renderOfflineScreen().getByText('testEmail@test.com')).toBeInTheDocument()
-    })
-
-    it('renders phone field', () => {
-      expect(renderOfflineScreen().getByText('0400000000')).toBeInTheDocument()
-    })
-
-    it('renders message field', () => {
-      expect(renderOfflineScreen().getByText('Hello Message')).toBeInTheDocument()
-    })
-
-    it('renders Send Another button', () => {
-      expect(renderOfflineScreen().getByText('Send Another')).toBeInTheDocument()
-    })
-
     it('renders the title', () => {
-      expect(renderOfflineScreen().getByText('mockTitle')).toBeInTheDocument()
-    })
-
-    it('when send another button is pressed, call updateChatScreen', () => {
-      const result = renderOfflineScreen()
-      expect(updateChatScreenSpy).not.toHaveBeenCalled()
-      fireEvent.click(result.getByText('Send Another'))
-      expect(updateChatScreenSpy).toHaveBeenCalledWith(screens.PRECHAT_SCREEN)
+      expect(renderOfflineScreen().getByText('Chat with us')).toBeInTheDocument()
     })
   })
 })
