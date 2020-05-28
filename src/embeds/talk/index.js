@@ -13,11 +13,17 @@ import OfflinePage from './pages/offline/OfflinePage'
 import PhoneOnlyPage from './pages/online/PhoneOnlyPage'
 import CallbackOnlyPage from './pages/online/CallbackOnlyPage'
 import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
+import LoadingPage from 'components/LoadingPage'
 const ClickToCallPage = lazy(() =>
   import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/ClickToCallPage')
 )
-import { getAgentAvailability } from 'src/redux/modules/talk/talk-selectors'
+import {
+  getAgentAvailability,
+  getSocketIoVendor,
+  getDefferedStatusOnline
+} from 'src/redux/modules/talk/talk-selectors'
 import { getCapability } from 'src/embeds/talk/selectors'
+import { loadTalkVendors } from 'src/redux/modules/talk'
 
 const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),
@@ -29,7 +35,14 @@ const onlineContactOptions = {
 // This component needs to be a class component since the parent WebWidget component expects to be able
 // to put a ref on each embed component.
 class Talk extends Component {
+  componentDidMount() {
+    if (!this.props.talkVendorLoaded) {
+      this.props.loadTalkVendors()
+    }
+  }
+
   componentDidUpdate(prevProps) {
+    if (this.props.talkIsDefferred || prevProps.talkIsDefferred) return
     if (
       prevProps.contactOption != this.props.contactOption ||
       prevProps.agentsAreAvailable != this.props.agentsAreAvailable
@@ -43,7 +56,11 @@ class Talk extends Component {
   }
 
   render() {
-    const { agentsAreAvailable, contactOption } = this.props
+    const { agentsAreAvailable, contactOption, talkIsDefferred } = this.props
+
+    if (talkIsDefferred) {
+      return <LoadingPage />
+    }
 
     return (
       <WidgetThemeProvider>
@@ -79,16 +96,27 @@ Talk.propTypes = {
   contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired
-  })
+  }),
+  loadTalkVendors: PropTypes.func.isRequired,
+  talkVendorLoaded: PropTypes.bool.isRequired,
+  talkIsDefferred: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   agentsAreAvailable: getAgentAvailability(state),
-  contactOption: getCapability(state)
+  contactOption: getCapability(state),
+  talkVendorLoaded: !!getSocketIoVendor(state),
+  talkIsDefferred: getDefferedStatusOnline(state)
 })
+
+const actionCreators = {
+  loadTalkVendors
+}
 
 const connectedComponent = connect(
   mapStateToProps,
+  actionCreators,
+  null,
   { forwardRef: true }
 )(withRouter(Talk))
 

@@ -90,7 +90,7 @@ const clearCache = () => {
   cache = {}
 }
 
-function getWithCache(payload, options) {
+function getWithCache(payload, options = {}) {
   const queryConfig = {
     ...defaultConfig,
     method: 'GET',
@@ -102,7 +102,7 @@ function getWithCache(payload, options) {
     payload.query ? `-${JSON.stringify(payload.query)}` : ''
   }${payload.authorization ? `-${JSON.stringify(payload.authorization)}` : ''}`
 
-  if (cache[cacheKey]) return cache[cacheKey]
+  if (cache[cacheKey] && !options.skipCache) return cache[cacheKey]
 
   const request = superagent(queryConfig.method, url)
     .timeout(queryConfig.timeout)

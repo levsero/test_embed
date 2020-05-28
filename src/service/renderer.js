@@ -7,7 +7,7 @@ import { settings } from 'service/settings'
 import { win } from 'utility/globals'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
-import { loadTalkVendors } from 'src/redux/modules/talk'
+import { pollTalkStatus } from 'src/redux/modules/talk'
 import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
@@ -34,7 +34,7 @@ function setUpEmbeds(embeds, reduxStore) {
   }
 
   if (embeds.talk) {
-    reduxStore.dispatch(loadTalkVendors())
+    reduxStore.dispatch(pollTalkStatus())
   }
 
   if (embeds.helpCenterForm) {

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import errorTracker from 'service/errorTracker'
 import { http, socketio } from 'service/transport'
 import { parseUrl } from 'utility/utils'
+import wait from 'utility/wait'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
@@ -12,12 +13,18 @@ import {
   TALK_CALLBACK_REQUEST,
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE,
-  TALK_VENDOR_LOADED
+  TALK_VENDOR_LOADED,
+  RECEIVED_DEFERRED_TALK_STATUS
 } from './talk-action-types'
-import { getFormState } from './talk-selectors'
+import { getFormState, getDeferredTalkApiUrl, getIsPollingTalk } from './talk-selectors'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getTalkEnabled, getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
+import {
+  BASE_CHAT_POLL_INTERVAL,
+  MAX_CHAT_POLL_INTERVAL,
+  REQUESTS_BEFORE_BACKOFF
+} from 'constants/chat'
 
 export function updateTalkEmbeddableConfig(config) {
   return {
@@ -101,6 +108,48 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
       params,
       callbacks
     })
+  }
+}
+
+let requests = 0
+const talkPollInterval = () => {
+  if (requests < REQUESTS_BEFORE_BACKOFF) {
+    requests += 1
+    return BASE_CHAT_POLL_INTERVAL
+  }
+  const delay = BASE_CHAT_POLL_INTERVAL * Math.pow(2, requests - REQUESTS_BEFORE_BACKOFF)
+  requests += 1
+  return Math.min(delay, MAX_CHAT_POLL_INTERVAL)
+}
+
+export function pollTalkStatus() {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const path = getDeferredTalkApiUrl(state)
+
+    while (getIsPollingTalk(state)) {
+      const skip = document.hidden && requests > 1
+      if (!skip) {
+        http
+          .getWithCache({ path }, { skipCache: true })
+          .then(response => {
+            if (!getIsPollingTalk(state)) {
+              return
+            }
+            dispatch({
+              type: RECEIVED_DEFERRED_TALK_STATUS,
+              payload: response.body
+            })
+          })
+          .catch(err => {
+            errorTracker.warn(err, {
+              rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
+              rollbarTitle: 'Failed to connect to chat ODVR endpoint'
+            })
+          })
+      }
+      await wait(talkPollInterval())
+    }
   }
 }
 

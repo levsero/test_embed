@@ -59,7 +59,8 @@ import {
   getAgentAvailability,
   getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
   isCallbackEnabled,
-  getPhoneNumber
+  getPhoneNumber,
+  getDefferedStatusOnline
 } from '../talk/talk-selectors'
 import {
   getActiveEmbed,
@@ -331,8 +332,9 @@ export const getTalkAvailable = createSelector(
 )
 
 export const getTalkOnline = createSelector(
-  [getTalkAvailable, getAgentAvailability],
-  (talkAvailable, agentsAvailable) => talkAvailable && agentsAvailable
+  [getTalkAvailable, getAgentAvailability, getDefferedStatusOnline],
+  (talkAvailable, agentsAvailable, deferredTalkOnline) =>
+    (talkAvailable && agentsAvailable) || deferredTalkOnline
 )
 
 export const getFixedStyles = (state, frame = 'webWidget') => {
@@ -537,9 +539,8 @@ export const getIpmHelpCenterAllowed = createSelector(
 
 export const getIsWidgetReady = createSelector(
   [getTalkReady, getChatReady, getHelpCenterReady, getBootupTimeout],
-  (talkReady, chatReady, helpCenterReady, bootupTimeout) => {
-    return (talkReady && chatReady && helpCenterReady) || bootupTimeout
-  }
+  (talkReady, chatReady, helpCenterReady, bootupTimeout) =>
+    (talkReady && chatReady && helpCenterReady) || bootupTimeout
 )
 
 const getIsChannelAvailable = createSelector(

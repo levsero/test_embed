@@ -2,7 +2,8 @@ import _ from 'lodash'
 
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-  TALK_DISCONNECT_SOCKET_EVENT
+  TALK_DISCONNECT_SOCKET_EVENT,
+  RECEIVED_DEFERRED_TALK_STATUS
 } from '../talk-action-types'
 import {
   CALLBACK_ONLY,
@@ -25,7 +26,8 @@ const initialState = {
   nickname: '',
   phoneNumber: '',
   supportedCountries: [],
-  connected: false
+  connected: false,
+  defferedStatusOnline: false
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -41,12 +43,20 @@ const embeddableConfig = (state = initialState, action) => {
         supportedCountries: _.pull(supportedCountries, '', null),
         capability: capabilityMap[payload.capability],
         enabled: payload.enabled === true,
-        connected: true
+        connected: true,
+        defferedStatusOnline: false
       }
     case TALK_DISCONNECT_SOCKET_EVENT:
       return {
         ...state,
         enabled: false
+      }
+    case RECEIVED_DEFERRED_TALK_STATUS:
+      return {
+        ...state,
+        capability: capabilityMap[payload.capability],
+        enabled: payload.enabled === true,
+        defferedStatusOnline: payload.availability
       }
     default:
       return state
