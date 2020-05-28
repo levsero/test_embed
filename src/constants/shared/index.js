@@ -107,6 +107,7 @@ export const TEST_IDS = {
   CHAT_HEADER_TITLE: 'chat-header-title',
   CHAT_HEADER_SUBTEXT: 'chat-header-subtext',
   CHAT_RATING_GROUP: 'chat-header-rating-group',
+  CHAT_LOG: 'chat-log',
   CHAT_MENU: 'chat-menu',
   CHAT_MENU_LIST: 'chat-menu-list',
   CHAT_MENU_ITEM: 'chat-menu-item',

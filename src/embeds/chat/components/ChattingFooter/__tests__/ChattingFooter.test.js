@@ -11,7 +11,7 @@ const renderComponent = inProps => {
     handleAttachmentDrop: jest.fn(),
     hideZendeskLogo: false,
     isChatting: false,
-    isMobile: false,
+    theme: { isMobile: false },
     isPreview: false,
     sendChat: jest.fn()
   }
@@ -42,7 +42,7 @@ describe('render', () => {
 
   describe('when is mobile', () => {
     it('renders mobile footer', () => {
-      const { getByTestId, queryByTestId } = renderComponent({ isMobile: true })
+      const { getByTestId, queryByTestId } = renderComponent({ theme: { isMobile: true } })
 
       expect(getByTestId(TEST_IDS.CHAT_FOOTER_MOBILE)).toBeInTheDocument()
       expect(queryByTestId(TEST_IDS.CHAT_FOOTER_DESKTOP)).toBeNull()
@@ -51,7 +51,7 @@ describe('render', () => {
 
   describe('when is not mobile', () => {
     it('renders desktop footer', () => {
-      const { getByTestId, queryByTestId } = renderComponent({ isMobile: false })
+      const { getByTestId, queryByTestId } = renderComponent({ theme: { isMobile: false } })
 
       expect(getByTestId(TEST_IDS.CHAT_FOOTER_DESKTOP)).toBeInTheDocument()
       expect(queryByTestId(TEST_IDS.CHAT_FOOTER_MOBILE)).toBeNull()

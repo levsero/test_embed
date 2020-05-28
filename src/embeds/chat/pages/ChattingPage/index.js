@@ -2,7 +2,6 @@ import React, { useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import classNames from 'classnames'
 import ChatBox from 'src/embeds/chat/components/InputBox'
 import ChattingFooter from 'src/embeds/chat/components/ChattingFooter'
 import ChatLog from 'component/chat/chatting/ChatLog'
@@ -11,14 +10,13 @@ import ChatHeader from 'embeds/chat/components/ChatHeader'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import ScrollPill from 'src/embeds/chat/components/ScrollPill'
 import { QuickReply, QuickReplies } from 'src/embeds/chat/components/QuickReplies'
+import { TEST_IDS } from 'src/constants/shared'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
 import {
   fetchConversationHistory,
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendAttachments,
-  sendChatRating,
   sendMsg,
   updateChatScreen
 } from 'src/redux/modules/chat'
@@ -28,25 +26,17 @@ import {
   getHistoryRequestStatus
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
-import {
-  getConciergeSettings,
-  getCurrentConcierges,
-  getProfileConfig,
-  getShowRatingButtons,
-  isInChattingScreen
-} from 'src/redux/modules/selectors'
+import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
 import {
   SCROLL_BOTTOM_THRESHOLD,
   HISTORY_REQUEST_STATUS,
   CONNECTION_STATUSES
 } from 'constants/chat'
-import { locals as styles } from './ChattingScreen.scss'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 import QueuePosition from 'src/embeds/chat/components/QueuePosition'
-import { getMenuVisible } from 'embeds/chat/selectors'
 import {
   useMessagesOnMount,
   useHistoryUpdate,
@@ -54,6 +44,7 @@ import {
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
+import { ChatLogContainer } from './styles'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = state => {
@@ -61,22 +52,16 @@ const mapStateToProps = state => {
     activeAgents: chatSelectors.getActiveAgents(state),
     agentsTyping: chatSelectors.getAgentsTyping(state),
     allAgents: chatSelectors.getAllAgents(state),
-    attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
-    concierges: getCurrentConcierges(state),
     conciergeSettings: getConciergeSettings(state),
     currentMessage: chatSelectors.getCurrentMessage(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
     hasMoreHistory: getHasMoreHistory(state),
     historyRequestStatus: getHistoryRequestStatus(state),
-    isChatting: chatSelectors.getIsChatting(state),
     latestQuickReply: chatSelectors.getLatestQuickReply(state),
-    menuVisible: getMenuVisible(state),
     notificationCount: chatSelectors.getNotificationCount(state),
-    profileConfig: getProfileConfig(state),
     queuePosition: chatSelectors.getQueuePosition(state),
     rating: chatSelectors.getChatRating(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
-    showRating: getShowRatingButtons(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state),
     connection: selectors.getConnection(state)
@@ -86,27 +71,20 @@ const mapStateToProps = state => {
 const ChattingScreen = ({
   latestQuickReply,
   currentMessage,
-  sendAttachments,
   showChatEndFn,
   sendMsg,
   handleChatBoxChange,
-  sendChatRating,
   updateChatScreen,
-  isChatting,
   toggleMenu,
   showAvatar,
   queuePosition,
-  showRating,
-  attachmentsEnabled = false,
   isMobile = false,
-  concierges = [],
   rating = {},
   agentsTyping = [],
   hasMoreHistory = false,
   historyRequestStatus = '',
   allAgents = {},
   activeAgents = {},
-  menuVisible = false,
   resetCurrentMessage = () => {},
   fetchConversationHistory = () => {},
   hideZendeskLogo = false,
@@ -114,7 +92,6 @@ const ChattingScreen = ({
   socialLogin = {},
   conciergeSettings = {},
   showContactDetails = () => {},
-  profileConfig = {},
   notificationCount = 0,
   markAsRead = () => {},
   visible = false,
@@ -158,12 +135,6 @@ const ChattingScreen = ({
     }
   }
 
-  const renderQueuePosition = () => {
-    if (!queuePosition || _.size(activeAgents) > 0) return null
-
-    return <QueuePosition queuePosition={queuePosition} />
-  }
-
   const renderChatFooter = () => {
     const sendChatFn = () => {
       if (connection !== CONNECTION_STATUSES.CONNECTED) {
@@ -179,15 +150,9 @@ const ChattingScreen = ({
 
     return (
       <ChattingFooter
-        attachmentsEnabled={attachmentsEnabled}
-        isMobile={isMobile}
         endChat={showChatEndFn}
         sendChat={sendChatFn}
-        isChatting={isChatting}
-        handleAttachmentDrop={sendAttachments}
-        menuVisible={menuVisible}
         toggleMenu={toggleMenu}
-        hideZendeskLogo={hideZendeskLogo}
         isPreview={isPreview}
       >
         <ChatBox
@@ -206,41 +171,6 @@ const ChattingScreen = ({
     )
   }
 
-  const renderChatHeader = () => {
-    const onAgentDetailsClick =
-      _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
-
-    return (
-      <ChatHeader
-        agentsActive={Object.keys(activeAgents).length > 0}
-        showRating={showRating}
-        showTitle={profileConfig.title}
-        showAvatar={profileConfig.avatar}
-        rating={rating.value}
-        updateRating={sendChatRating}
-        concierges={concierges}
-        onAgentDetailsClick={onAgentDetailsClick}
-      />
-    )
-  }
-
-  const renderScrollPill = () => {
-    if (notificationCount === 0 || isScrollCloseToBottom()) return null
-
-    return (
-      <ScrollPill
-        notificationCount={notificationCount}
-        onClick={() => {
-          markAsRead()
-          scrollToBottom()
-        }}
-      />
-    )
-  }
-
-  /**
-   * Render QuickReplies component if one should be shown
-   */
   const renderQuickReply = () => {
     if (!latestQuickReply) return null
     const { timestamp, items } = latestQuickReply
@@ -261,17 +191,20 @@ const ChattingScreen = ({
   const goToFeedbackScreen = () => {
     updateChatScreen(screens.FEEDBACK_SCREEN)
   }
-
-  const chatLogContainerClasses = classNames(styles.chatLogContainer, {
-    [styles.chatLogContainerMobile]: isMobile
-  })
+  const showScrollPill = Boolean(notificationCount > 0 && !isScrollCloseToBottom())
+  const showQueuePosition = Boolean(queuePosition && _.size(activeAgents) === 0)
+  const onAgentDetailsClick =
+    _.size(activeAgents) > 0 ? () => updateChatScreen(screens.AGENT_LIST_SCREEN) : null
 
   return (
     <Widget>
       <ChatWidgetHeader />
-      {renderChatHeader()}
+      <ChatHeader
+        agentsActive={Object.keys(activeAgents).length > 0}
+        onAgentDetailsClick={onAgentDetailsClick}
+      />
       <Main ref={scrollContainer} onScroll={handleChatScreenScrolled}>
-        <div className={chatLogContainerClasses}>
+        <ChatLogContainer data-testid={TEST_IDS.CHAT_LOG}>
           <HistoryLog
             isMobile={isMobile}
             showAvatar={showAvatar}
@@ -290,7 +223,7 @@ const ChattingScreen = ({
             updateInfoOnClick={showContactDetails}
             socialLogin={socialLogin}
           />
-          {renderQueuePosition()}
+          {showQueuePosition && <QueuePosition queuePosition={queuePosition} />}
           <ChatLogFooter
             agentsTyping={agentsTyping}
             ref={agentTypingRef}
@@ -298,8 +231,16 @@ const ChattingScreen = ({
             hideZendeskLogo={hideZendeskLogo}
           />
           <LoadingMessagesIndicator loading={historyRequestStatus === 'pending'} />
-          {renderScrollPill()}
-        </div>
+          {showScrollPill && (
+            <ScrollPill
+              notificationCount={notificationCount}
+              onClick={() => {
+                markAsRead()
+                scrollToBottom()
+              }}
+            />
+          )}
+        </ChatLogContainer>
         {renderQuickReply()}
       </Main>
       {renderChatFooter()}
@@ -312,8 +253,6 @@ ChattingScreen.propTypes = {
   activeAgents: PropTypes.object.isRequired,
   agentsTyping: PropTypes.array.isRequired,
   allAgents: PropTypes.object.isRequired,
-  attachmentsEnabled: PropTypes.bool.isRequired,
-  concierges: PropTypes.array.isRequired,
   conciergeSettings: PropTypes.object.isRequired,
   currentMessage: PropTypes.string.isRequired,
   fetchConversationHistory: PropTypes.func,
@@ -322,24 +261,18 @@ ChattingScreen.propTypes = {
   hasMoreHistory: PropTypes.bool,
   hideZendeskLogo: PropTypes.bool,
   historyRequestStatus: PropTypes.string,
-  isChatting: PropTypes.bool.isRequired,
   isMobile: PropTypes.bool,
   isPreview: PropTypes.bool,
   latestQuickReply: PropTypes.object,
   markAsRead: PropTypes.func,
-  menuVisible: PropTypes.bool,
   notificationCount: PropTypes.number,
-  profileConfig: PropTypes.object.isRequired,
   queuePosition: PropTypes.number,
   rating: PropTypes.object.isRequired,
   resetCurrentMessage: PropTypes.func,
-  sendAttachments: PropTypes.func.isRequired,
-  sendChatRating: PropTypes.func.isRequired,
   sendMsg: PropTypes.func.isRequired,
   showAvatar: PropTypes.bool.isRequired,
   showChatEndFn: PropTypes.func.isRequired,
   showContactDetails: PropTypes.func.isRequired,
-  showRating: PropTypes.bool,
   socialLogin: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
@@ -352,8 +285,6 @@ const actionCreators = {
   handleChatBoxChange,
   markAsRead,
   resetCurrentMessage,
-  sendAttachments,
-  sendChatRating,
   sendMsg,
   updateChatScreen
 }

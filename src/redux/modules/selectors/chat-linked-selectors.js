@@ -328,6 +328,7 @@ export const getDelayChatConnection = createSelector(
 )
 
 export const getShowRatingButtons = createSelector(
-  [getProfileConfig, getActiveAgentCount, getIsChatting],
-  (profileConfig, agentCount, isChatting) => profileConfig.rating && agentCount > 0 && isChatting
+  [getProfileConfig, getActiveAgentCount, getIsChatting, getChatScreen],
+  (profileConfig, agentCount, isChatting, chatScreen) =>
+    profileConfig.rating && agentCount > 0 && isChatting && chatScreen === CHATTING_SCREEN
 )

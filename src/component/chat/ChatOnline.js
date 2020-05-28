@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import ChattingScreen from 'component/chat/chatting/ChattingScreen'
+import ChattingScreen from 'src/embeds/chat/pages/ChattingPage'
 import AgentDetailsPage from 'src/embeds/chat/pages/AgentDetailsPage'
 import ChatRatingPage from 'src/embeds/chat/pages/ChatRatingPage'
 import PostChatPage from 'src/embeds/chat/pages/PostChatPage'

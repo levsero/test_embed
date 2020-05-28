@@ -42,13 +42,14 @@ const renderComponent = props => {
 
 describe('chat log', () => {
   const assertChatLog = (...actions) => {
-    const { container } = renderComponent()
+    const { queryByTestId } = renderComponent()
 
     actions.forEach(action => {
       store.dispatch(action)
     })
     jest.runAllTimers()
-    expect(container.querySelector('.chatLogContainer')).toMatchSnapshot()
+
+    expect(queryByTestId(TEST_IDS.CHAT_LOG)).toMatchSnapshot()
   }
 
   test('member join', () => {

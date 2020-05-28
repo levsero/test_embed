@@ -40,7 +40,7 @@ describe('ChatOnline component', () => {
         FileDropProvider: noopReactComponent(),
         FileDropTarget
       },
-      'component/chat/chatting/ChattingScreen': noopReactComponent(),
+      'src/embeds/chat/pages/ChattingPage': noopReactComponent(),
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
       'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),

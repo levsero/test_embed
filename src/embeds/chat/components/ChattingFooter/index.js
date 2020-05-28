@@ -1,25 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import DesktopFooter from 'src/embeds/chat/components/ChattingFooter/Desktop'
 import MobileFooter from 'src/embeds/chat/components/ChattingFooter/Mobile'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import { getMenuVisible } from 'embeds/chat/selectors'
+import { sendAttachments } from 'src/redux/modules/chat'
+import { getHideZendeskLogo } from 'src/redux/modules/selectors'
+import { withTheme } from 'styled-components'
 
 const ChattingFooter = ({
   attachmentsEnabled,
   children,
   endChat,
-  handleAttachmentDrop,
+  sendAttachments,
   hideZendeskLogo,
   isChatting,
-  isMobile,
+  theme,
   isPreview,
   sendChat
 }) => {
-  return isMobile ? (
+  return theme.isMobile ? (
     <MobileFooter
       attachmentsEnabled={attachmentsEnabled}
-      handleAttachmentDrop={handleAttachmentDrop}
-      isMobile={isMobile}
+      handleAttachmentDrop={sendAttachments}
+      isMobile={theme.isMobile}
       isPreview={isPreview}
       sendChat={sendChat}
     >
@@ -28,11 +34,11 @@ const ChattingFooter = ({
   ) : (
     <DesktopFooter
       attachmentsEnabled={attachmentsEnabled}
-      handleAttachmentDrop={handleAttachmentDrop}
+      handleAttachmentDrop={sendAttachments}
       endChat={endChat}
       hideZendeskLogo={hideZendeskLogo}
       isChatting={isChatting}
-      isMobile={isMobile}
+      isMobile={theme.isMobile}
       isPreview={isPreview}
     >
       {children}
@@ -44,12 +50,30 @@ ChattingFooter.propTypes = {
   attachmentsEnabled: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   endChat: PropTypes.func,
-  handleAttachmentDrop: PropTypes.func,
+  sendAttachments: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   isChatting: PropTypes.bool,
-  isMobile: PropTypes.bool.isRequired,
   isPreview: PropTypes.bool,
-  sendChat: PropTypes.func
+  sendChat: PropTypes.func,
+  theme: PropTypes.shape({
+    isMobile: PropTypes.bool.isRequired
+  })
 }
 
-export default ChattingFooter
+const actionCreators = {
+  sendAttachments
+}
+
+const mapStateToProps = state => ({
+  attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
+  menuVisible: getMenuVisible(state),
+  isChatting: chatSelectors.getIsChatting(state),
+  hideZendeskLogo: getHideZendeskLogo(state)
+})
+
+const connectedComponent = connect(
+  mapStateToProps,
+  actionCreators
+)(withTheme(ChattingFooter))
+
+export { connectedComponent as default, ChattingFooter as Component }

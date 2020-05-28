@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent } from '@testing-library/react'
 
 import { render } from 'src/util/testHelpers'
-import { Component as ChattingScreen } from '../ChattingScreen'
+import { Component as ChattingPage } from '../'
 import { TEST_IDS } from 'src/constants/shared'
 jest.mock('src/redux/modules/chat')
 jest.mock('src/embeds/chat/hooks/chattingScreenHooks')
@@ -11,7 +11,6 @@ const sendAttachmentsSpy = jest.fn(),
   showChatEndSpy = jest.fn(),
   sendMsgSpy = jest.fn(),
   handleChatBoxChangeSpy = jest.fn(),
-  sendChatRatingSpy = jest.fn(),
   updateChatScreenSpy = jest.fn(),
   toggleMenuSpy = jest.fn(),
   markAsReadSpy = jest.fn(),
@@ -22,25 +21,14 @@ const renderComponent = (inProps, rerender) => {
     activeAgents: {},
     agentsTyping: [],
     allAgents: {},
-    attachmentsEnabled: false,
-    concierges: [
-      {
-        avatar: 'https://example.com/snake',
-        display_name: 'Luke Skywalker',
-        title: 'Jedi Knight'
-      }
-    ],
     conciergeSettings: {},
     currentMessage: 'hello',
     emailTranscript: {},
     handleChatBoxChange: handleChatBoxChangeSpy,
-    isChatting: false,
     lastMessageAuthor: 'bob',
     markAsRead: markAsReadSpy,
-    profileConfig: {},
     rating: {},
     sendAttachments: sendAttachmentsSpy,
-    sendChatRating: sendChatRatingSpy,
     sendMsg: sendMsgSpy,
     showAvatar: false,
     showChatEndFn: showChatEndSpy,
@@ -55,7 +43,7 @@ const renderComponent = (inProps, rerender) => {
     ...inProps
   }
 
-  const component = <ChattingScreen {...props} />
+  const component = <ChattingPage {...props} />
   return render(component, { render: rerender })
 }
 
