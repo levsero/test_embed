@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { LauncherContainer } from './LauncherContainer'
-import { WebWidgetContainer } from './WebWidgetContainer'
+import WebWidgetContainer from './WebWidgetContainer'
 
 import { getPreviewShowWidget } from 'src/redux/modules/preview/preview-selectors'
 
@@ -38,12 +38,6 @@ export class PreviewContainer extends Component {
   constructor(props) {
     super(props)
     this.launcherContainer = null
-    this.webWidgetContainer = null
-  }
-
-  updateFrameLocale = () => {
-    this.launcherContainer.updateFrameLocale()
-    this.webWidgetContainer.updateFrameLocale()
   }
 
   render = () => {
@@ -59,15 +53,13 @@ export class PreviewContainer extends Component {
             if (el) this.launcherContainer = el
           }}
         />
-        <WebWidgetContainer
-          store={store}
-          webWidgetVisible={webWidgetVisible}
-          frameStyle={frameStyle}
-          containerStyle={containerStyle}
-          ref={el => {
-            if (el) this.webWidgetContainer = el
-          }}
-        />
+        {webWidgetVisible && (
+          <WebWidgetContainer
+            store={store}
+            frameStyle={frameStyle}
+            containerStyle={containerStyle}
+          />
+        )}
       </>
     )
   }
