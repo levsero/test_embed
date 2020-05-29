@@ -35,7 +35,7 @@ describe('support list page', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketForms: [form1.form.id, form2.form.id, form3.form.id]
+              ticketFormsEnabled: true
             }
           }
         }

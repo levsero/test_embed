@@ -10,7 +10,9 @@ import {
   getContactFormFields,
   getField,
   getForm,
+  getFormIdsToDisplay,
   getFormsToDisplay,
+  getTicketForms,
   getIsFormLoading,
   getIsAnyTicketFormLoading,
   getHasFetchedTicketForms
@@ -712,7 +714,9 @@ describe('getCanDisplayForm', () => {
     const result = getCanDisplayForm(
       {
         base: {
-          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
+          embeddableConfig: {
+            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } }
+          }
         },
         support: { forms: { 123: form }, filteredFormsToDisplay: [456] }
       },
@@ -726,7 +730,9 @@ describe('getCanDisplayForm', () => {
     const result = getCanDisplayForm(
       {
         base: {
-          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
+          embeddableConfig: {
+            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } }
+          }
         },
         support: { forms: { 123: form }, filteredFormsToDisplay: [123] }
       },
@@ -765,14 +771,19 @@ describe('getContactFormFields', () => {
   })
 })
 
-describe('getFormsToDisplay', () => {
-  const createState = ({ forms, formIds, filteredFormIds = [] }) => ({
+describe('getFormIdsToDisplay', () => {
+  const createState = ({
+    enabled = true,
+    forms = [],
+    filteredFormIds = [],
+    allFormsRequested = true
+  }) => ({
     base: {
       embeddableConfig: {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketForms: formIds
+              ticketFormsEnabled: enabled
             }
           }
         }
@@ -780,7 +791,71 @@ describe('getFormsToDisplay', () => {
     },
     support: {
       forms,
-      filteredFormsToDisplay: filteredFormIds
+      filteredFormsToDisplay: filteredFormIds,
+      allFormsRequested
+    }
+  })
+
+  describe('when ticket forms are not enabled in config', () => {
+    it('returns undefined', () => {
+      const result = getFormIdsToDisplay(createState({ enabled: false }))
+
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe('when passed explicit form IDs in settings', () => {
+    it('returns those IDs', () => {
+      const result = getFormIdsToDisplay(createState({ filteredFormIds: [1337, 50] }))
+
+      expect(result).toEqual([1337, 50])
+    })
+  })
+
+  describe('when the request is implicit for all forms', () => {
+    it('returns all available form IDs', () => {
+      const form1 = { id: 42, active: true }
+      const form2 = { id: 101, active: true }
+      const form3 = { id: 404, active: true }
+
+      const forms = {
+        [form1.id]: form1,
+        [form2.id]: form2,
+        [form3.id]: form3
+      }
+
+      const result = getFormIdsToDisplay(createState({ forms, allFormsRequested: true }))
+
+      expect(result).toEqual([42, 101, 404])
+    })
+  })
+
+  describe('when the request does not have explicit IDs or requests all forms', () => {
+    it('returns an empty collection', () => {
+      const result = getFormIdsToDisplay(createState({ allFormsRequested: false }))
+
+      expect(result).toEqual([])
+    })
+  })
+})
+
+describe('getFormsToDisplay', () => {
+  const createState = ({ forms, filteredFormIds = [] }) => ({
+    base: {
+      embeddableConfig: {
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              ticketFormsEnabled: true
+            }
+          }
+        }
+      }
+    },
+    support: {
+      forms,
+      filteredFormsToDisplay: filteredFormIds,
+      allFormsRequested: true
     }
   })
 
@@ -796,10 +871,9 @@ describe('getFormsToDisplay', () => {
         [form3.id]: form3
       }
 
-      const formIds = Object.keys(forms)
       const filteredFormIds = [form1.id, form3.id]
 
-      const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+      const result = getFormsToDisplay(createState({ forms, filteredFormIds }))
 
       expect(result).toEqual([form1, form3])
     })
@@ -815,10 +889,9 @@ describe('getFormsToDisplay', () => {
         [form3.id]: form3
       }
 
-      const formIds = Object.keys(forms)
       const filteredFormIds = [form1.id, form3.id, "some id that doesn't match"]
 
-      const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+      const result = getFormsToDisplay(createState({ forms, filteredFormIds }))
 
       expect(result).toEqual([form1, form3])
     })
@@ -835,7 +908,7 @@ describe('getFormsToDisplay', () => {
       [form3.id]: form3
     }
 
-    const result = getFormsToDisplay(createState({ forms, formIds: Object.keys(forms) }))
+    const result = getFormsToDisplay(createState({ forms }))
 
     expect(result).toEqual([form2, form3, form1])
   })
@@ -851,7 +924,7 @@ describe('getFormsToDisplay', () => {
       [form3.id]: form3
     }
 
-    const result = getFormsToDisplay(createState({ forms, formIds: Object.keys(forms) }))
+    const result = getFormsToDisplay(createState({ forms }))
 
     expect(result).toEqual([form2])
   })
@@ -865,12 +938,107 @@ describe('getFormsToDisplay', () => {
       [form2.id]: form2
     }
 
-    const formIds = Object.keys(forms)
     const filteredFormIds = [form1.id, form2.id, form1.id, form2.id, form1.id, form2.id]
 
-    const result = getFormsToDisplay(createState({ forms, formIds, filteredFormIds }))
+    const result = getFormsToDisplay(createState({ forms, filteredFormIds }))
 
     expect(result).toEqual([form1, form2])
+  })
+})
+
+describe('getTicketForms', () => {
+  const createState = ({
+    enabled = true,
+    forms = [],
+    filteredFormIds = [],
+    allFormsRequested = true
+  }) => ({
+    base: {
+      embeddableConfig: {
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              ticketFormsEnabled: enabled
+            }
+          }
+        }
+      }
+    },
+    support: {
+      forms,
+      filteredFormsToDisplay: filteredFormIds,
+      allFormsRequested
+    }
+  })
+
+  it('returns the form IDs', () => {
+    const result = getTicketForms(createState({ filteredFormIds: [1337, 50] }))
+
+    expect(result.ids).toEqual([1337, 50])
+  })
+
+  describe('when the list of ticket forms should be shown', () => {
+    it('returns a property of showList as true', () => {
+      const form1 = { id: 1, position: 1, active: true }
+      const form2 = { id: 2, position: 2, active: true }
+
+      const forms = {
+        [form1.id]: form1,
+        [form2.id]: form2
+      }
+
+      const result = getTicketForms(createState({ forms }))
+
+      expect(result.showList).toBeTruthy()
+    })
+  })
+
+  describe('when all forms are implicitly requested', () => {
+    it('returns a property of requestAll as true', () => {
+      const result = getTicketForms(createState({}))
+
+      expect(result.requestAll).toBeTruthy()
+    })
+  })
+
+  describe('when some forms are explicitly requested', () => {
+    it('returns a property of requestAll as false', () => {
+      const form1 = { id: 1, position: 1, active: true }
+      const form2 = { id: 2, position: 2, active: true }
+
+      const forms = {
+        [form1.id]: form1,
+        [form2.id]: form2
+      }
+
+      const result = getTicketForms(createState({ forms }))
+
+      expect(result.requestAll).toBeFalsy()
+    })
+  })
+
+  describe('when ticket forms are enabled', () => {
+    it('returns a property of active as true', () => {
+      const result = getTicketForms(createState({ enabled: true }))
+
+      expect(result.active).toBeTruthy()
+    })
+  })
+
+  describe('when ticket forms are disabled', () => {
+    it('returns a property of active as false', () => {
+      const result = getTicketForms(createState({ enabled: false }))
+
+      expect(result.active).toBeFalsy()
+    })
+  })
+
+  describe('when only some forms have been fetched', () => {
+    it('returns a property of allFetched as false', () => {
+      const result = getTicketForms(createState({ allFormsRequested: false }))
+
+      expect(result.allFetched).toBeFalsy()
+    })
   })
 })
 
