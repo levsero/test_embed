@@ -55,8 +55,9 @@ test('ends the chat when the Skip button is clicked', () => {
 
 test('ends the chat when the Send button is clicked', () => {
   const endChat = jest.fn()
+  const rating = { comment: 'A comment' }
 
-  const { queryByText } = renderComponent({ endChat })
+  const { queryByText } = renderComponent({ endChat, rating })
 
   queryByText('Send').click()
 

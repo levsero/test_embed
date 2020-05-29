@@ -17,8 +17,10 @@ const SubmitButton = styled(Button)`
 
   ${props =>
     props.theme.rtl &&
-    `margin-left: 0 !important;
-    margin-right: ${props => 7 / props.theme.fontSize}rem !important;`}
+    `
+      margin-left: 0 !important;
+      margin-right: ${7 / props.theme.fontSize}rem !important;
+    `}
 `
 
 const ButtonGroup = styled.div`
