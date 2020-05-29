@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ProgressBar } from 'component/attachment/ProgressBar'
+import ProgressBar from 'src/components/ProgressBar'
 import { Close } from '@zendeskgarden/react-notifications'
 import { TEST_IDS } from 'src/constants/shared'
 import {

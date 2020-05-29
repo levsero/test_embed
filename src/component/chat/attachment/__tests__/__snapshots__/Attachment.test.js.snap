@@ -3,36 +3,38 @@
 exports[`filename is truncated when it is more than max 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment…ent.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment…ent.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
         </div>
       </div>
@@ -44,36 +46,38 @@ exports[`filename is truncated when it is more than max 1`] = `
 exports[`renders expected classes 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
         </div>
       </div>
@@ -85,36 +89,38 @@ exports[`renders expected classes 1`] = `
 exports[`renders icon when icon is specified and attachment is not downloadable 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
         </div>
       </div>
@@ -126,65 +132,67 @@ exports[`renders icon when icon is specified and attachment is not downloadable 
 exports[`renders link when icon is specified and attachment is downloadable 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <a
-          class="link"
-          href="path://to/file"
-          target="_blank"
-        >
-          <span
-            class="container iconPreview Icon--preview-default"
-            data-testid="Icon--preview-default"
-            type="Icon--preview-default"
-          >
-            <svg
-              aria-hidden="true"
-              realfilename="file.svg"
-            />
-          </span>
-        </a>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
           <a
             class="link"
             href="path://to/file"
             target="_blank"
           >
-            <div
-              class="previewName"
+            <span
+              class="container iconPreview Icon--preview-default"
+              data-testid="Icon--preview-default"
+              type="Icon--preview-default"
             >
-              attachment.jpg
-            </div>
+              <svg
+                aria-hidden="true"
+                realfilename="file.svg"
+              />
+            </span>
           </a>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
             <a
               class="link"
               href="path://to/file"
               target="_blank"
             >
-              <div>
-                <span
-                  class="downloadSize"
-                >
-                  1 KB
-                </span>
-                <span
-                  class="downloadText"
-                >
-                  Download
-                </span>
+              <div
+                class="previewName"
+              >
+                attachment.jpg
               </div>
             </a>
+            <div
+              class="secondaryText"
+            >
+              <a
+                class="link"
+                href="path://to/file"
+                target="_blank"
+              >
+                <div>
+                  <span
+                    class="downloadSize"
+                  >
+                    1 KB
+                  </span>
+                  <span
+                    class="downloadText"
+                  >
+                    Download
+                  </span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -196,65 +204,67 @@ exports[`renders link when icon is specified and attachment is downloadable 1`] 
 exports[`renders link when it is downloadable 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <a
-          class="link"
-          href="path://to/file"
-          target="_blank"
-        >
-          <span
-            class="container iconPreview Icon--preview-default"
-            data-testid="Icon--preview-default"
-            type="Icon--preview-default"
-          >
-            <svg
-              aria-hidden="true"
-              realfilename="file.svg"
-            />
-          </span>
-        </a>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
           <a
             class="link"
             href="path://to/file"
             target="_blank"
           >
-            <div
-              class="previewName"
+            <span
+              class="container iconPreview Icon--preview-default"
+              data-testid="Icon--preview-default"
+              type="Icon--preview-default"
             >
-              attachment.jpg
-            </div>
+              <svg
+                aria-hidden="true"
+                realfilename="file.svg"
+              />
+            </span>
           </a>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
             <a
               class="link"
               href="path://to/file"
               target="_blank"
             >
-              <div>
-                <span
-                  class="downloadSize"
-                >
-                  1 KB
-                </span>
-                <span
-                  class="downloadText"
-                >
-                  Download
-                </span>
+              <div
+                class="previewName"
+              >
+                attachment.jpg
               </div>
             </a>
+            <div
+              class="secondaryText"
+            >
+              <a
+                class="link"
+                href="path://to/file"
+                target="_blank"
+              >
+                <div>
+                  <span
+                    class="downloadSize"
+                  >
+                    1 KB
+                  </span>
+                  <span
+                    class="downloadText"
+                  >
+                    Download
+                  </span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -266,50 +276,52 @@ exports[`renders link when it is downloadable 1`] = `
 exports[`renders removal button when it is removable 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
+          <span
+            class="container icon Icon--close"
+            data-testid="Icon--close"
+            role="button"
+            tabindex="0"
+            type="Icon--close"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="x-stroke.svg"
+            />
+          </span>
         </div>
-        <span
-          class="container icon Icon--close"
-          data-testid="Icon--close"
-          role="button"
-          tabindex="0"
-          type="Icon--close"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="x-stroke.svg"
-          />
-        </span>
       </div>
     </div>
   </div>
@@ -317,49 +329,63 @@ exports[`renders removal button when it is removable 1`] = `
 `;
 
 exports[`renders uploading text when it is uploading 1`] = `
+.c0 {
+  background-color: #d8dcde;
+  border-radius: 0.2857142857142857rem;
+  margin-top: 0.35714285714285715rem;
+}
+
+.c1 {
+  height: 0.35714285714285715rem;
+  background-color: #228f67;
+  border-radius: 0.2857142857142857rem;
+  width: 0%;
+}
+
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
-      <div
-        class="preview"
-      >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
-        <div
-          class="description"
-          data-testid="description"
-        >
-          <div
-            class="previewName"
-          >
-            attachment.jpg
-          </div>
-          <div
-            class="secondaryText"
-          >
-            Uploading...
-          </div>
-        </div>
-      </div>
+    <div>
       <div
         class="container"
+        data-testid="file-name-1234"
       >
         <div
-          class="progressBar"
-          data-testid="progress-bar"
-          style="width: 0%;"
-        />
+          class="preview"
+        >
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
+          >
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
+          <div
+            class="description"
+            data-testid="description"
+          >
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              Uploading...
+            </div>
+          </div>
+        </div>
+        <div
+          class="c0"
+        >
+          <div
+            class="c1"
+            data-testid="progress-bar"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -369,36 +395,38 @@ exports[`renders uploading text when it is uploading 1`] = `
 exports[`renders with custom class name 1`] = `
 <div>
   <div>
-    <div
-      class="container custom"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container custom"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
         </div>
       </div>
@@ -479,76 +507,78 @@ exports[`renders with error message 1`] = `
 
 <div>
   <div>
-    <div
-      class="containerError c0"
-      data-garden-id="notifications.alert"
-      data-garden-version="8.9.0"
-      data-testid="error-message"
-      role="alert"
-      type="error"
-    >
-      <svg
-        class="c1"
-        focusable="false"
-        height="16"
-        hue="dangerHue"
-        role="presentation"
-        theme="[object Object]"
-        viewBox="0 0 16 16"
-        width="16"
-      >
-        <g
-          fill="none"
-          stroke="currentColor"
-        >
-          <circle
-            cx="7.5"
-            cy="8.5"
-            r="7"
-          />
-          <path
-            d="M7.5 4.5V9"
-            stroke-linecap="round"
-          />
-        </g>
-        <circle
-          cx="7.5"
-          cy="12"
-          fill="currentColor"
-          r="1"
-        />
-      </svg>
+    <div>
       <div
-        class="previewError c2 c3"
-        data-garden-id="notifications.title"
+        class="containerError c0"
+        data-garden-id="notifications.alert"
         data-garden-version="8.9.0"
-      >
-        attachment.jpg
-      </div>
-      <div
-        class="secondaryTextError"
-      >
-        this is incorrect
-      </div>
-      <button
-        class="c4"
-        data-garden-id="notifications.close"
-        data-garden-version="8.9.0"
+        data-testid="error-message"
+        role="alert"
+        type="error"
       >
         <svg
+          class="c1"
           focusable="false"
-          height="12"
+          height="16"
+          hue="dangerHue"
           role="presentation"
-          viewBox="0 0 12 12"
-          width="12"
+          theme="[object Object]"
+          viewBox="0 0 16 16"
+          width="16"
         >
-          <path
-            d="M3 9l6-6m0 6L3 3"
+          <g
+            fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
+          >
+            <circle
+              cx="7.5"
+              cy="8.5"
+              r="7"
+            />
+            <path
+              d="M7.5 4.5V9"
+              stroke-linecap="round"
+            />
+          </g>
+          <circle
+            cx="7.5"
+            cy="12"
+            fill="currentColor"
+            r="1"
           />
         </svg>
-      </button>
+        <div
+          class="previewError c2 c3"
+          data-garden-id="notifications.title"
+          data-garden-version="8.9.0"
+        >
+          attachment.jpg
+        </div>
+        <div
+          class="secondaryTextError"
+        >
+          this is incorrect
+        </div>
+        <button
+          class="c4"
+          data-garden-id="notifications.close"
+          data-garden-version="8.9.0"
+        >
+          <svg
+            focusable="false"
+            height="12"
+            role="presentation"
+            viewBox="0 0 12 12"
+            width="12"
+          >
+            <path
+              d="M3 9l6-6m0 6L3 3"
+              stroke="currentColor"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -557,36 +587,38 @@ exports[`renders with error message 1`] = `
 exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 MB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 MB
+            </div>
           </div>
         </div>
       </div>
@@ -598,36 +630,38 @@ exports[`size formatting greater than or equal to 1MB displays correctly 1`] = `
 exports[`size formatting greater than or equal to 1MB includes one decimal place precision 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1.1 MB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1.1 MB
+            </div>
           </div>
         </div>
       </div>
@@ -639,36 +673,38 @@ exports[`size formatting greater than or equal to 1MB includes one decimal place
 exports[`size formatting when the file size is less than one kilobyte displays 1 KB 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            1 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              1 KB
+            </div>
           </div>
         </div>
       </div>
@@ -680,36 +716,38 @@ exports[`size formatting when the file size is less than one kilobyte displays 1
 exports[`size formatting when the file size is less than one megabyte displays file size in kilobytes 1`] = `
 <div>
   <div>
-    <div
-      class="container"
-      data-testid="file-name-1234"
-    >
+    <div>
       <div
-        class="preview"
+        class="container"
+        data-testid="file-name-1234"
       >
-        <span
-          class="container iconPreview Icon--preview-default"
-          data-testid="Icon--preview-default"
-          type="Icon--preview-default"
-        >
-          <svg
-            aria-hidden="true"
-            realfilename="file.svg"
-          />
-        </span>
         <div
-          class="description"
-          data-testid="description"
+          class="preview"
         >
-          <div
-            class="previewName"
+          <span
+            class="container iconPreview Icon--preview-default"
+            data-testid="Icon--preview-default"
+            type="Icon--preview-default"
           >
-            attachment.jpg
-          </div>
+            <svg
+              aria-hidden="true"
+              realfilename="file.svg"
+            />
+          </span>
           <div
-            class="secondaryText"
+            class="description"
+            data-testid="description"
           >
-            999 KB
+            <div
+              class="previewName"
+            >
+              attachment.jpg
+            </div>
+            <div
+              class="secondaryText"
+            >
+              999 KB
+            </div>
           </div>
         </div>
       </div>

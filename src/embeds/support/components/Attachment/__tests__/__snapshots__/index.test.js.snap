@@ -8,14 +8,13 @@ Snapshot Diff:
 @@ -34,1 +34,1 @@
 -             20 KB
 +             Uploading...
-@@ -58,0 +58,9 @@
+@@ -58,0 +58,8 @@
 +       </div>
 +       <div
-+         class="container"
++         class="sc-fYxtnH MSqDA"
 +       >
 +         <div
-+           class="progressBar"
++           class="sc-tilXH kepIRY"
 +           data-testid="progress-bar"
-+           style="width: 50%;"
 +         />
 `;
