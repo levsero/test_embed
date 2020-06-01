@@ -10,7 +10,6 @@ jest.mock('translation/ze_countries', () => require('translation/__mocks__/ze_co
   virtual: true
 })
 
-jest.mock('component/Refocus')
 jest.mock('src/redux/middleware/preventLoops/index')
 jest.mock('src/embed/webWidget/webWidgetStyles')
 jest.mock('src/embed/launcher/launcherStyles')

@@ -4,7 +4,7 @@ import sharedPropTypes from 'types/shared'
 import _ from 'lodash'
 
 import { Icon } from 'component/Icon'
-import { ProgressBar } from './ProgressBar'
+import ProgressBar from 'src/components/ProgressBar/index'
 import { Alert, Title, Close } from '@zendeskgarden/react-notifications'
 import { i18n } from 'service/i18n'
 import { locals as styles } from './Attachment.scss'

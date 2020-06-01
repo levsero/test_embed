@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with expected classes 1`] = `
+.c0 {
+  background-color: #d8dcde;
+  border-radius: 0.2857142857142857rem;
+  margin-top: 0.35714285714285715rem;
+}
+
+.c1 {
+  height: 0.35714285714285715rem;
+  background-color: #228f67;
+  border-radius: 0.2857142857142857rem;
+  width: 0%;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+        data-testid="progress-bar"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders with expected classes and width 1`] = `
+.c0 {
+  background-color: #d8dcde;
+  border-radius: 0.2857142857142857rem;
+  margin-top: 0.35714285714285715rem;
+}
+
+.c1 {
+  height: 0.35714285714285715rem;
+  background-color: #228f67;
+  border-radius: 0.2857142857142857rem;
+  width: 33%;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+        data-testid="progress-bar"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders with fake progress bar classes when needed 1`] = `
+.c0 {
+  background-color: #d8dcde;
+  border-radius: 0.2857142857142857rem;
+  margin-top: 0.35714285714285715rem;
+}
+
+.c1 {
+  height: 0.35714285714285715rem;
+  background-color: #228f67;
+  border-radius: 0.2857142857142857rem;
+  width: 25%;
+  -webkit-animation: bzOlTp 7s ease-out;
+  animation: bzOlTp 7s ease-out;
+}
+
+<div>
+  <div>
+    <div
+      class="c0"
+    >
+      <div
+        class="c1"
+        data-testid="progress-bar"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -3,7 +3,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
 import ChatAttachmentStyles from 'component/chat/attachment/Attachment.scss'
-import ChatProgressBarStyles from 'component/chat/attachment/ProgressBar.scss'
 import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss'
 import ChatGroupStyles from 'component/chat/chatting/log/messages/ChatGroup.scss'
 import ChatLogStyles from 'component/chat/chatting/ChatLog.scss'
@@ -17,7 +16,6 @@ import ContainerStyles from 'component/container/Container.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
 import MessageErrorStyles from 'component/chat/chatting/MessageError.scss'
-import ProgressBarStyles from 'component/attachment/ProgressBar.scss'
 import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
@@ -35,7 +33,6 @@ export const webWidgetStyles = `
   ${ButtonGroupStyles}
   ${ChannelChoiceMenuStyles}
   ${ChatAttachmentStyles}
-  ${ChatProgressBarStyles}
   ${ChattHistoryScreenStyles}
   ${PrechatFormStyles}
   ${ChatGroupStyles}
@@ -49,7 +46,6 @@ export const webWidgetStyles = `
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
   ${MessageErrorStyles}
-  ${ProgressBarStyles}
   ${SharedComponentStyles}
   ${FrameStyles}
   ${PanelCardStyles}
