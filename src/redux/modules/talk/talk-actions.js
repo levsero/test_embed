@@ -16,15 +16,20 @@ import {
   TALK_VENDOR_LOADED,
   RECEIVED_DEFERRED_TALK_STATUS
 } from './talk-action-types'
-import { getFormState, getDeferredTalkApiUrl, getIsPollingTalk } from './talk-selectors'
+import { getFormState, getIsPollingTalk } from './talk-selectors'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
-import { getTalkEnabled, getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
+import {
+  getTalkEnabled,
+  getTalkNickname,
+  getTalkServiceUrl,
+  getDeferredTalkApiUrl
+} from 'src/redux/modules/selectors'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 import {
-  BASE_CHAT_POLL_INTERVAL,
-  MAX_CHAT_POLL_INTERVAL,
+  BASE_TALK_POLL_INTERVAL,
+  MAX_TALK_POLL_INTERVAL,
   REQUESTS_BEFORE_BACKOFF
-} from 'constants/chat'
+} from 'src/redux/modules/talk/constants'
 
 export function updateTalkEmbeddableConfig(config) {
   return {
@@ -115,25 +120,24 @@ let requests = 0
 const talkPollInterval = () => {
   if (requests < REQUESTS_BEFORE_BACKOFF) {
     requests += 1
-    return BASE_CHAT_POLL_INTERVAL
+    return BASE_TALK_POLL_INTERVAL
   }
-  const delay = BASE_CHAT_POLL_INTERVAL * Math.pow(2, requests - REQUESTS_BEFORE_BACKOFF)
+  const delay = BASE_TALK_POLL_INTERVAL * Math.pow(2, requests - REQUESTS_BEFORE_BACKOFF)
   requests += 1
-  return Math.min(delay, MAX_CHAT_POLL_INTERVAL)
+  return Math.min(delay, MAX_TALK_POLL_INTERVAL)
 }
 
 export function pollTalkStatus() {
   return async (dispatch, getState) => {
-    const state = getState()
-    const path = getDeferredTalkApiUrl(state)
-
-    while (getIsPollingTalk(state)) {
+    const path = getDeferredTalkApiUrl(getState())
+    while (getIsPollingTalk(getState())) {
       const skip = document.hidden && requests > 1
+
       if (!skip) {
         http
           .getWithCache({ path }, { skipCache: true })
           .then(response => {
-            if (!getIsPollingTalk(state)) {
+            if (!getIsPollingTalk(getState())) {
               return
             }
             dispatch({
@@ -143,8 +147,8 @@ export function pollTalkStatus() {
           })
           .catch(err => {
             errorTracker.warn(err, {
-              rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
-              rollbarTitle: 'Failed to connect to chat ODVR endpoint'
+              rollbarFingerprint: 'Failed to connect to deferred talk endpoint',
+              rollbarTitle: 'Failed to connect to deferred talk endpoint'
             })
           })
       }

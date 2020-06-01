@@ -589,18 +589,19 @@ describe('getTalkEnabled', () => {
 
 describe('getTalkAvailable', () => {
   test.each([
-    [true, true, '123456', true],
-    [true, false, '123456', false],
-    [false, false, '123456', false],
-    [false, true, '123456', false],
-    [true, true, '', false],
-    [true, true, undefined, false],
-    [true, true, null, false]
+    [true, true, '123456', false, true],
+    [true, true, '', true, true],
+    [true, false, '123456', false, false],
+    [false, false, '123456', false, false],
+    [false, true, '123456', false, false],
+    [true, true, '', false, false],
+    [true, true, undefined, false, false],
+    [true, true, null, false, false]
   ])(
-    'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, it returns %p',
-    (talkEnabled, configEnabled, phoneNumber, expected) => {
+    'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, && deferredTalk is %p, it returns %p',
+    (talkEnabled, configEnabled, phoneNumber, deferredTalk, expected) => {
       expect(
-        selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled, phoneNumber)
+        selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled, phoneNumber, deferredTalk)
       ).toEqual(expected)
     }
   )
@@ -608,16 +609,29 @@ describe('getTalkAvailable', () => {
 
 describe('getTalkOnline', () => {
   test.each([
-    [true, true, true],
-    [true, false, false],
-    [false, false, false],
-    [false, true, false]
+    [true, true, false, true],
+    [true, false, true, true],
+    [true, false, false, false],
+    [false, false, false, false],
+    [false, true, false, false]
   ])(
-    'when talkAvailable is %p, && agentsAvailable is %p, it returns %p',
-    (talkAvailable, agentsAvailable, expected) => {
-      expect(selectors.getTalkOnline.resultFunc(talkAvailable, agentsAvailable)).toEqual(expected)
+    'when talkAvailable is %p, && agentsAvailable is %p, && deferred talk status is %p, it returns %p',
+    (talkAvailable, agentsAvailable, deferredTalkOnline, expected) => {
+      expect(
+        selectors.getTalkOnline.resultFunc(talkAvailable, agentsAvailable, deferredTalkOnline)
+      ).toEqual(expected)
     }
   )
+})
+
+describe('getDeferredTalkApiUrl', () => {
+  it('returns the correct url', () => {
+    expect(
+      selectors.getDeferredTalkApiUrl.resultFunc('http://z3n.zendesk.com', 'talkNickname')
+    ).toEqual(
+      'http://z3n.zendesk.com/talk_embeddables_service/web/status?subdomain=testingHost&nickname=talkNickname'
+    )
+  })
 })
 
 describe('getTalkNickname', () => {

@@ -346,7 +346,7 @@ Note:
 ```jsx
 import React from 'react
 import { useSelector } from 'react-redux'
-import { isFeatureEnabled } from 'src/embeds/webWidget/selectors/feature-flags'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 
 const FancyNewFeature = React.lazy(() => import('./FancyNewFeature))
 

@@ -1,9 +1,14 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import createStore from 'src/redux/createStore'
+
 import * as actions from '../talk-actions'
 import * as types from '../talk-action-types'
 import * as baseTypes from 'src/redux/modules/base/base-action-types'
 import { http, socketio } from 'service/transport'
+import * as baseSelectors from 'src/redux/modules/selectors/selectors'
+import { MAX_TALK_POLL_INTERVAL, BASE_TALK_POLL_INTERVAL } from 'src/redux/modules/talk/constants'
+jest.useFakeTimers()
 
 jest.mock('service/transport')
 
@@ -269,6 +274,130 @@ describe('loadTalkVendors', () => {
 
       expect(socketio.connect).not.toHaveBeenCalled()
     })
+  })
+})
+
+const waitForApi = async () => {
+  await new Promise(res => {
+    res()
+  })
+  await new Promise(res => {
+    res()
+  })
+}
+
+const waitForTimer = async (time = MAX_TALK_POLL_INTERVAL) => {
+  await new Promise(res => {
+    res()
+  })
+  jest.advanceTimersByTime(time)
+  await new Promise(res => {
+    res()
+  })
+}
+
+const iteration = async time => {
+  await waitForApi()
+  await waitForTimer(time)
+}
+
+describe('pollTalkStatus', () => {
+  let store
+  beforeEach(() => {
+    baseSelectors.getDeferredTalkApiUrl = jest.fn(() => 'http://talk/url')
+    http.getWithCache = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve({
+          body: {
+            subdomain: 'support',
+            nickname: 'Support',
+            availability: true,
+            capability: 0
+          }
+        })
+      })
+    })
+
+    store = mockStore({
+      talk: { isPolling: true }
+    })
+  })
+
+  it('polls backing off exponentially', async () => {
+    const expectedAction = {
+      type: types.RECEIVED_DEFERRED_TALK_STATUS,
+      payload: {
+        availability: true,
+        capability: 0,
+        nickname: 'Support',
+        subdomain: 'support'
+      }
+    }
+
+    store.dispatch(actions.pollTalkStatus())
+
+    // initial call is immediate
+    await iteration(0)
+    expect(store.getActions()).toEqual([expectedAction])
+    store.clearActions()
+
+    // subsequent 2 calls use base interval
+    await iteration(BASE_TALK_POLL_INTERVAL)
+    await iteration(BASE_TALK_POLL_INTERVAL)
+
+    expect(store.getActions()).toEqual([expectedAction, expectedAction])
+    store.clearActions()
+
+    // then waits double base time
+    await iteration(BASE_TALK_POLL_INTERVAL)
+    expect(store.getActions()).toEqual([])
+    await iteration(BASE_TALK_POLL_INTERVAL)
+    expect(store.getActions()).toEqual([expectedAction])
+    store.clearActions()
+
+    // then waits four * base time
+    await iteration(BASE_TALK_POLL_INTERVAL * 3)
+    expect(store.getActions()).toEqual([])
+    await iteration(BASE_TALK_POLL_INTERVAL)
+    expect(store.getActions()).toEqual([expectedAction])
+    store.clearActions()
+  })
+
+  it('polls the deferred talk api until stopped', async () => {
+    store = createStore()
+    const expectedAction = {
+      type: types.RECEIVED_DEFERRED_TALK_STATUS,
+      payload: {
+        availability: true,
+        capability: 0,
+        nickname: 'Support',
+        subdomain: 'support'
+      }
+    }
+
+    const mockDispatch = jest.fn(store.dispatch)
+    actions.pollTalkStatus()(mockDispatch, store.getState)
+
+    await iteration()
+    await iteration()
+    await iteration()
+
+    await waitForApi()
+
+    expect(mockDispatch.mock.calls).toEqual([
+      [expectedAction],
+      [expectedAction],
+      [expectedAction],
+      [expectedAction]
+    ])
+    mockDispatch.mockClear()
+
+    store.dispatch(actions.handleTalkVendorLoaded())
+
+    await iteration()
+    await iteration()
+
+    expect(mockDispatch).not.toHaveBeenCalled()
   })
 })
 

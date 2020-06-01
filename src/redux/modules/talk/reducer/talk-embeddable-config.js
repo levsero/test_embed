@@ -27,7 +27,7 @@ const initialState = {
   phoneNumber: '',
   supportedCountries: [],
   connected: false,
-  defferedStatusOnline: false
+  deferredStatusOnline: false
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -44,7 +44,7 @@ const embeddableConfig = (state = initialState, action) => {
         capability: capabilityMap[payload.capability],
         enabled: payload.enabled === true,
         connected: true,
-        defferedStatusOnline: false
+        deferredStatusOnline: false
       }
     case TALK_DISCONNECT_SOCKET_EVENT:
       return {
@@ -56,7 +56,7 @@ const embeddableConfig = (state = initialState, action) => {
         ...state,
         capability: capabilityMap[payload.capability],
         enabled: payload.enabled === true,
-        defferedStatusOnline: payload.availability
+        deferredStatusOnline: payload.availability
       }
     default:
       return state

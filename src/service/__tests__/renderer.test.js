@@ -11,6 +11,7 @@ jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/talk')
 jest.mock('src/embeds/helpCenter/actions')
+jest.mock('src/embeds/webWidget/selectors/feature-flags')
 
 const store = createStore(reducer)
 
@@ -26,7 +27,8 @@ let mockSettings,
   helpCenterActions,
   setLocaleApi,
   i18n,
-  settings
+  settings,
+  talkfeature
 
 beforeEach(() => {
   jest.resetModules()
@@ -43,7 +45,8 @@ beforeEach(() => {
   settings.get = value => _.get(mockSettings, value, null)
   const embedLauncher = require('embed/launcher/launcher')
   const WebWidgetFactory = require('embed/webWidget/webWidget').default
-
+  talkfeature = require('src/embeds/webWidget/selectors/feature-flags').default
+  talkfeature.mockImplementation(() => false)
   baseActions = require('src/redux/modules/base')
   setLocaleApi = require('src/service/api/apis').setLocaleApi
   i18n = require('service/i18n').i18n
@@ -227,6 +230,15 @@ describe('init', () => {
 
     expect(chatActions.setUpChat).toHaveBeenCalled()
     expect(talkActions.loadTalkVendors).toHaveBeenCalled()
+    expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
+  })
+
+  it('it sets up the embeds when polling talk', () => {
+    talkfeature.mockImplementation(() => true)
+    renderer.init(testConfig())
+
+    expect(chatActions.setUpChat).toHaveBeenCalled()
+    expect(talkActions.pollTalkStatus).toHaveBeenCalled()
     expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
   })
 

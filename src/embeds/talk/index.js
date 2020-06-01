@@ -20,7 +20,7 @@ const ClickToCallPage = lazy(() =>
 import {
   getAgentAvailability,
   getSocketIoVendor,
-  getDefferedStatusOnline
+  getDeferredStatusOnline
 } from 'src/redux/modules/talk/talk-selectors'
 import { getCapability } from 'src/embeds/talk/selectors'
 import { loadTalkVendors } from 'src/redux/modules/talk'
@@ -42,7 +42,7 @@ class Talk extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.talkIsDefferred || prevProps.talkIsDefferred) return
+    if (this.props.talkIsDeferred || prevProps.talkIsDeferred) return
     if (
       prevProps.contactOption != this.props.contactOption ||
       prevProps.agentsAreAvailable != this.props.agentsAreAvailable
@@ -56,9 +56,9 @@ class Talk extends Component {
   }
 
   render() {
-    const { agentsAreAvailable, contactOption, talkIsDefferred } = this.props
+    const { agentsAreAvailable, contactOption, talkIsDeferred } = this.props
 
-    if (talkIsDefferred) {
+    if (talkIsDeferred) {
       return <LoadingPage />
     }
 
@@ -99,14 +99,14 @@ Talk.propTypes = {
   }),
   loadTalkVendors: PropTypes.func.isRequired,
   talkVendorLoaded: PropTypes.bool.isRequired,
-  talkIsDefferred: PropTypes.bool.isRequired
+  talkIsDeferred: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
   agentsAreAvailable: getAgentAvailability(state),
   contactOption: getCapability(state),
   talkVendorLoaded: !!getSocketIoVendor(state),
-  talkIsDefferred: getDefferedStatusOnline(state)
+  talkIsDeferred: getDeferredStatusOnline(state)
 })
 
 const actionCreators = {

@@ -10,6 +10,7 @@ const initialState = {
   nickname: '',
   phoneNumber: '',
   supportedCountries: [],
+  deferredStatusOnline: false,
   connected: false
 }
 
@@ -42,7 +43,8 @@ testReducer(embeddableConfig, [
       supportedCountries: ['CA', 'ID'],
       capability: CALLBACK_ONLY,
       enabled: true,
-      connected: true
+      connected: true,
+      deferredStatusOnline: false
     }
   },
   {
@@ -58,7 +60,8 @@ testReducer(embeddableConfig, [
       supportedCountries: ['CA', 'ID'],
       capability: CALLBACK_AND_PHONE,
       enabled: true,
-      connected: true
+      connected: true,
+      deferredStatusOnline: false
     }
   },
   {
@@ -74,7 +77,8 @@ testReducer(embeddableConfig, [
       supportedCountries: ['CA', 'ID'],
       capability: PHONE_ONLY,
       enabled: true,
-      connected: true
+      connected: true,
+      deferredStatusOnline: false
     }
   }
 ])
