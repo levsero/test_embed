@@ -118,7 +118,7 @@ function getWithCache(payload, options) {
     request.query({ _: Date.now() })
   }
 
-  const requestPromise = new Promise((resolve, reject) => {
+  const requestPromise = (cache[cacheKey] = new Promise((resolve, reject) => {
     request
       .then(response => {
         resolve(response)
@@ -127,11 +127,12 @@ function getWithCache(payload, options) {
         reject(err)
         logFailure(err, { ...queryConfig, ...payload })
       })
+  }))
+
+  requestPromise.catch(() => {
+    delete cache[cacheKey]
   })
 
-  requestPromise.then(() => {
-    cache[cacheKey] = requestPromise
-  })
   return requestPromise
 }
 
@@ -207,32 +208,6 @@ function sendFile(payload) {
     })
 }
 
-function getImage(payload) {
-  const defaultPayload = {
-    path: '',
-    callbacks: {
-      done: () => {},
-      fail: () => {},
-      always: () => {}
-    }
-  }
-  payload = _.defaultsDeep({}, payload, defaultPayload)
-
-  const { done, fail } = payload.callbacks
-  const onEnd = (err, res) => {
-    if (err) {
-      fail(err, res)
-    } else {
-      done(res)
-    }
-  }
-
-  return superagent(payload.method, payload.path)
-    .responseType('blob')
-    .set('Authorization', payload.authorization)
-    .end(onEnd)
-}
-
 function buildFullUrl(payload) {
   const scheme = payload.forceHttp ? config.insecureScheme : config.scheme
   const host = payload.forceHttp
@@ -287,7 +262,6 @@ function shouldExclude(error, payload = {}) {
 }
 
 export const http = {
-  getImage,
   send,
   sendWithMeta,
   sendFile,

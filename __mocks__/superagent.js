@@ -36,8 +36,8 @@ function Request() {
   self.timeout = createRequestStub(self)
   self.retry = createRequestStub(self)
   self.then = cb => {
-    if (self.mockError) {
-      return self.mockError
+    if (superagent.mockError) {
+      return self
     }
     return cb(self.mockResponse)
   }
@@ -50,16 +50,11 @@ function Request() {
 
     callback(self.mockError, self.mockResponse)
   })
-  // expose helper methods for tests to set
-  ;(self.__setMockDelay = boolValue => {
-    self.mockDelay = boolValue
-  }),
-    (self.__setMockResponse = mockRes => {
-      self.mockResponse = mockRes
-    }),
-    (self.__setMockError = mockErr => {
-      self.mockError = mockErr
-    })
+  self.catch = cb => {
+    if (superagent.mockError) {
+      cb(superagent.mockError)
+    }
+  }
 
   instances.push(this)
 }
@@ -84,5 +79,8 @@ superagent.__clearInstances = () => {
 }
 superagent.__getInstances = () => instances
 superagent.__mostRecent = () => instances[instances.length - 1]
+superagent.__setMockError = mockErr => {
+  superagent.mockError = mockErr
+}
 
 module.exports = superagent
