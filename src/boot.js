@@ -108,7 +108,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       done({ body: embeddableConfig })
       return
     }
-    http.get(
+    http.send(
       {
         method: 'get',
         path: '/embeddable/config',

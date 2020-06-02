@@ -305,7 +305,7 @@ describe('pollTalkStatus', () => {
   let store
   beforeEach(() => {
     baseSelectors.getDeferredTalkApiUrl = jest.fn(() => 'http://talk/url')
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve({
           body: {

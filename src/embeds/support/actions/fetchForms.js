@@ -50,7 +50,7 @@ export function fetchTicketForms(ticketFormIds = [], locale) {
     )}&include=ticket_fields&locale=${locale}`
 
     return http
-      .getWithCache(
+      .get(
         {
           path,
           locale
@@ -108,7 +108,7 @@ export function getTicketFields(locale) {
     })
 
     return http
-      .getWithCache(
+      .get(
         {
           path,
           locale

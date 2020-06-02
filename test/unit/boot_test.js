@@ -17,7 +17,7 @@ describe('boot', () => {
     ),
     identitySpy = registerImportSpy('identity', 'init'),
     errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),
-    transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
+    transportSpy = registerImportSpy('http', 'send', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', 'apiSetup']),
@@ -136,7 +136,7 @@ describe('boot', () => {
       win = {}
       postRenderQueue = []
 
-      mockGetCalls = transportSpy.http.get.calls
+      mockGetCalls = transportSpy.http.send.calls
     })
 
     it('makes a GET request to /embeddable/config', () => {
@@ -150,7 +150,7 @@ describe('boot', () => {
         }
       }
 
-      expect(transportSpy.http.get).toHaveBeenCalledWith(jasmine.objectContaining(params), false)
+      expect(transportSpy.http.send).toHaveBeenCalledWith(jasmine.objectContaining(params), false)
     })
 
     describe('when the request succeeds', () => {

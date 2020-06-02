@@ -17,7 +17,7 @@ describe('fetchTicketForms', () => {
 
   beforeEach(() => {
     createStore().clearActions()
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve()
       })
@@ -121,7 +121,7 @@ describe('fetchTicketForms', () => {
       ])
     )
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'en-US',
         path: '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US'
@@ -132,7 +132,7 @@ describe('fetchTicketForms', () => {
 
   it('dispatches a request success action when successful', async () => {
     const response = { body: { ticket_forms: [{ id: 123 }] } }
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve(response)
       })
@@ -173,7 +173,7 @@ describe('fetchTicketForms', () => {
 
   it('dispatches a ticket form update action when successful and only one form retrieved from api', async () => {
     const response = { body: { ticket_forms: [{ id: 123 }] } }
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve(response)
       })
@@ -207,7 +207,7 @@ describe('fetchTicketForms', () => {
   })
 
   it('dispatches a failure action when request failed', async () => {
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise((resolve, reject) => {
         reject({ message: 'error' })
       })
@@ -270,7 +270,7 @@ describe('getTicketFields', () => {
   it('sends the expected request payload for ids', () => {
     dispatchAction({ ids: ['123'] }, 'ru')
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'ru',
         path: '/embeddable/ticket_fields?field_ids=123&locale=ru'
@@ -282,7 +282,7 @@ describe('getTicketFields', () => {
   it('sends the expected request payload for all', () => {
     dispatchAction({ all: true }, 'th')
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'th',
         path: '/embeddable/ticket_fields?locale=th'
@@ -292,7 +292,7 @@ describe('getTicketFields', () => {
   })
 
   it('dispatches expected actions on failed request', async () => {
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise((resolve, reject) => {
         reject({ message: 'error' })
       })
@@ -317,7 +317,7 @@ describe('getTicketFields', () => {
   })
 
   it('dispatches expected actions on successful request', async () => {
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve({ body: { abc: true } })
       })

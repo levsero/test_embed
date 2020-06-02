@@ -4,7 +4,7 @@ import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import { TEST_IDS } from 'src/constants/shared'
 import { http } from 'service/transport'
-http.getWithCache = jest.fn(
+http.get = jest.fn(
   () =>
     new Promise(resolve => {
       resolve()

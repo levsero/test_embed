@@ -135,7 +135,7 @@ export function pollTalkStatus() {
 
       if (!skip) {
         http
-          .getWithCache({ path }, { skipCache: true })
+          .get({ path }, { skipCache: true })
           .then(response => {
             if (!getIsPollingTalk(getState())) {
               return

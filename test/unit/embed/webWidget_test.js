@@ -87,7 +87,6 @@ describe('embed.webWidget', () => {
       },
       'service/transport': {
         http: {
-          get: jasmine.createSpy('http.get'),
           send: jasmine.createSpy('http.send'),
           sendFile: jasmine.createSpy('http.sendFile'),
           getImage: jasmine.createSpy('http.getImage'),

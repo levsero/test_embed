@@ -19,7 +19,7 @@ jest.mock('service/settings')
 helpCenterSelectors.getLastSearchTimestamp = jest.fn()
 
 beforeEach(() => {
-  http.getWithCache = jest.fn(() => {
+  http.get = jest.fn(() => {
     return new Promise(resolve => {
       resolve()
     })
@@ -83,7 +83,7 @@ describe('performImageSearch', () => {
   describe('http', () => {
     it('sends expected http payload', () => {
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.get).toHaveBeenCalledWith(
         expect.objectContaining({
           path: '/this/is/path',
           responseType: 'blob'
@@ -94,7 +94,7 @@ describe('performImageSearch', () => {
     it('includes auth token if available', () => {
       baseSelectors.getAuthToken.mockReturnValue('blah')
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.get).toHaveBeenCalledWith(
         expect.objectContaining({
           authorization: 'Bearer blah'
         })
@@ -104,7 +104,7 @@ describe('performImageSearch', () => {
     it('uses host mapping if on host mapped domain', () => {
       pages.isOnHostMappedDomain.mockReturnValue(true)
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.get).toHaveBeenCalledWith(
         expect.objectContaining({
           useHostMappingIfAvailable: true
         })
@@ -134,7 +134,7 @@ describe('displayArticle', () => {
   it('sends the expected request payload', () => {
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
         path: '/api/v2/help_center/articles/123.json'
@@ -147,7 +147,7 @@ describe('displayArticle', () => {
     pages.isOnHostMappedDomain.mockReturnValue(false)
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: false,
         useHostMappingIfAvailable: false
@@ -160,7 +160,7 @@ describe('displayArticle', () => {
     pages.isOnHostMappedDomain.mockReturnValue(true)
     dispatchAction(123)
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: true,
         useHostMappingIfAvailable: true
@@ -177,7 +177,7 @@ describe('displayArticle', () => {
   }
 
   it('dispatches expected action on failed request', async () => {
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise((resolve, reject) => {
         reject({ response: 'something bad happened' })
       })
@@ -192,7 +192,7 @@ describe('displayArticle', () => {
   })
 
   it('dispatches expected action on successful request', async () => {
-    http.getWithCache = jest.fn(() => {
+    http.get = jest.fn(() => {
       return new Promise(resolve => {
         resolve({ body: { article: 'blah' } })
       })
@@ -255,7 +255,7 @@ describe('setContextualSuggestionsManually', () => {
 
     it('sends http request with expected payload', () => {
       store.dispatch(actions.setContextualSuggestionsManually(options, callback))
-      expect(http.getWithCache).toHaveBeenCalledWith(
+      expect(http.get).toHaveBeenCalledWith(
         expect.objectContaining({
           path: '/api/v2/help_center/articles/embeddable_search.json'
         })
@@ -298,7 +298,7 @@ describe('performSearch', () => {
 
     store.dispatch(actions.performSearch(query, doneFn, failFn))
 
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
@@ -325,7 +325,7 @@ describe('performSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise(resolve => {
           resolve(response)
         })
@@ -361,7 +361,7 @@ describe('performSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise(resolve => {
           resolve(response)
         })
@@ -381,7 +381,7 @@ describe('performSearch', () => {
           count: 0
         }
       }
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise(resolve => {
           resolve(response)
         })
@@ -432,7 +432,7 @@ describe('performSearch', () => {
 
   describe('on failure', () => {
     it('dispatches SEARCH_REQUEST_FAILURE if timestamp matches', async () => {
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise((resolve, reject) => {
           reject()
         })
@@ -450,7 +450,7 @@ describe('performSearch', () => {
     it('prevents dispatch of SEARCH_REQUEST_FAILURE if timestamp does not matches', async () => {
       jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
 
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise((resolve, reject) => {
           reject()
         })
@@ -497,7 +497,7 @@ describe('performContextualSearch', () => {
 
     jest.spyOn(i18n, 'getLocale').mockReturnValue('fil')
     store.dispatch(actions.performContextualSearch(doneFn, failFn))
-    expect(http.getWithCache).toHaveBeenCalledWith(
+    expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         path: '/api/v2/help_center/articles/embeddable_search.json',
         query: {
@@ -523,7 +523,7 @@ describe('performContextualSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise(resolve => {
           resolve(response)
         })
@@ -559,7 +559,7 @@ describe('performContextualSearch', () => {
           count: 1
         }
       }
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise(resolve => {
           resolve(response)
         })
@@ -575,7 +575,7 @@ describe('performContextualSearch', () => {
 
   describe('on failure', () => {
     it('dispatches CONTEXTUAL_SEARCH_REQUEST_FAILURE if timestamp matches', async () => {
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise((resolve, reject) => {
           reject()
         })
@@ -595,7 +595,7 @@ describe('performContextualSearch', () => {
     it('prevents dispatch of CONTEXTUAL_SEARCH_REQUEST_FAILURE if timestamp does not matches', async () => {
       jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(4321)
 
-      http.getWithCache = jest.fn(() => {
+      http.get = jest.fn(() => {
         return new Promise((resolve, reject) => {
           reject()
         })
