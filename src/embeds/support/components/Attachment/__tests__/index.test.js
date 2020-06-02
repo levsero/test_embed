@@ -44,7 +44,24 @@ describe('Attachment', () => {
       attachment: { uploading: true, uploadProgress: 50 }
     }).container
 
-    expect(snapshotDiff(finishedUploading, uploading, { contextLines: 0 })).toMatchSnapshot()
+    expect(snapshotDiff(finishedUploading, uploading, { contextLines: 0 })).toMatchInlineSnapshot(`
+      Snapshot Diff:
+      - First value
+      + Second value
+
+      @@ -34,1 +34,1 @@
+      -             20 KB
+      +             Uploading...
+      @@ -58,0 +58,8 @@
+      +       </div>
+      +       <div
+      +         class="sc-hEsumM gwffXk"
+      +       >
+      +         <div
+      +           class="sc-ktHwxA beZqvW"
+      +           data-testid="progress-bar"
+      +         />
+    `)
   })
 
   it('clicking the close button fires handleRemoveAttachment', () => {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { i18n } from 'service/i18n'
 import classNames from 'classnames'
-import Linkify from 'react-linkify'
 import { Message, Field, Label, Input, Textarea } from '@zendeskgarden/react-forms'
 
 import ChatOperatingHoursPage from 'src/embeds/chat/pages/OperatingHoursPage'
@@ -17,6 +16,8 @@ import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import ChatFooter from 'src/embeds/chat/components/Footer/index'
 import { Widget, Header, Main } from 'src/components/Widget'
 import OfflineFormSuccessPage from 'src/embeds/chat/pages/OfflineFormSuccessPage'
+import OfflineGreeting from 'src/embeds/chat/components/OfflineForm/OfflineGreeting'
+import OperatingHours from 'src/embeds/chat/components/OfflineForm/OperatingHours'
 
 import { locals as styles } from './ChatOfflineForm.scss'
 
@@ -257,33 +258,12 @@ export class ChatOfflineForm extends Component {
     )
   }
 
-  renderOfflineGreeting() {
-    const { greeting } = this.props
-
-    return (
-      <Linkify properties={{ target: '_blank' }} className={styles.offlineGreeting}>
-        <span data-testid={TEST_IDS.FORM_GREETING_MSG}>{greeting}</span>
-      </Linkify>
-    )
-  }
-
   renderOperatingHoursLink() {
-    const { operatingHours } = this.props
+    const { operatingHours, handleOperatingHoursClick } = this.props
 
     if (!operatingHours.enabled) return
 
-    const operatingHoursAnchor = i18n.t('embeddable_framework.chat.operatingHours.label.anchor')
-
-    return (
-      <p className={styles.operatingHoursContainer}>
-        <button
-          className={styles.operatingHoursLink}
-          onClick={this.props.handleOperatingHoursClick}
-        >
-          {operatingHoursAnchor}
-        </button>
-      </p>
-    )
+    return <OperatingHours onClick={handleOperatingHoursClick} />
   }
 
   renderUserProfile() {
@@ -364,7 +344,7 @@ export class ChatOfflineForm extends Component {
             data-testid={TEST_IDS.CHAT_OFFLINE_FORM}
           >
             <ViewHistoryButton />
-            {this.renderOfflineGreeting()}
+            <OfflineGreeting greeting={this.props.greeting} />
             {this.renderOperatingHoursLink()}
             {this.renderMessagingChannels()}
             {this.renderUserProfile()}
