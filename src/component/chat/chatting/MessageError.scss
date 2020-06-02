@@ -13,14 +13,14 @@
 
   [dir='rtl'] & {
     padding-left: 0;
-    padding-right: #{35 / $font-size}rem;
+    padding-right: #{48 / $font-size}rem;
 
     background-position-x: #{67 / $font-size}rem;
     background-position-y: #{0.28 / $font-size}rem;
   }
 
   [dir='ltr'] & {
-    padding-left: #{35 / $font-size}rem;
+    padding-left: #{42 / $font-size}rem;
     padding-right: 0;
   }
 }
