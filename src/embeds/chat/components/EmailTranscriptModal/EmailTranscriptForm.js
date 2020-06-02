@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Body, Footer, FooterItem, Header } from '@zendeskgarden/react-modals'
 import { Alert, Title } from 'embeds/support/components/Notifications'
 import { Button } from '@zendeskgarden/react-buttons'
-import { Dots } from '@zendeskgarden/react-loaders'
 import { Form } from 'embeds/chat/components/EmailTranscriptModal/styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { Form as ReactFinalForm } from 'react-final-form'
@@ -12,8 +11,8 @@ import { FORM_ERROR } from 'final-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { getVisitorEmail } from 'embeds/chat/selectors'
 import { EMAIL_PATTERN } from 'constants/shared'
-import { withTheme } from 'styled-components'
 import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptFormValues'
+import SubmitButton from 'src/embeds/chat/components/SubmitButton'
 
 const validate = values => {
   if (!EMAIL_PATTERN.test(values.email)) {
@@ -25,7 +24,7 @@ const validate = values => {
   return undefined
 }
 
-const EmailTranscriptForm = ({ theme, onClose, onSuccess }) => {
+const EmailTranscriptForm = ({ onClose, onSuccess }) => {
   const translate = useTranslate()
   const dispatch = useDispatch()
   const initialEmail = useSelector(getVisitorEmail)
@@ -94,13 +93,10 @@ const EmailTranscriptForm = ({ theme, onClose, onSuccess }) => {
               </Button>
             </FooterItem>
             <FooterItem>
-              <Button primary={true} type="submit">
-                {submitting ? (
-                  <Dots size={`${20 / theme.fontSize}rem`} color={theme.buttonTextColorStr} />
-                ) : (
-                  translate('embeddable_framework.common.button.send')
-                )}
-              </Button>
+              <SubmitButton
+                label={translate('embeddable_framework.common.button.send')}
+                submitting={submitting}
+              />
             </FooterItem>
           </Footer>
         </Form>
@@ -110,12 +106,8 @@ const EmailTranscriptForm = ({ theme, onClose, onSuccess }) => {
 }
 
 EmailTranscriptForm.propTypes = {
-  theme: PropTypes.shape({
-    fontSize: PropTypes.number,
-    buttonTextColorStr: PropTypes.string
-  }),
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 }
 
-export default withTheme(EmailTranscriptForm)
+export default EmailTranscriptForm

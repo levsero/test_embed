@@ -5,8 +5,7 @@ import { Footer, FooterItem } from '@zendeskgarden/react-modals'
 
 import { TEST_IDS } from 'constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
-
-import { Dots } from './styles'
+import SubmitButton from 'src/embeds/chat/components/SubmitButton'
 
 const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibility }) => {
   const translate = useTranslate()
@@ -25,20 +24,10 @@ const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibilit
       </FooterItem>
       {!isAuthenticated && (
         <FooterItem>
-          <Button
-            primary={true}
-            type="submit"
-            disabled={submitting}
-            data-testid={TEST_IDS.BUTTON_OK}
-          >
-            {submitting ? (
-              <div data-testid={TEST_IDS.DOTS}>
-                <Dots delayMS={125} />
-              </div>
-            ) : (
-              translate('embeddable_framework.common.button.save')
-            )}
-          </Button>
+          <SubmitButton
+            submitting={submitting}
+            label={translate('embeddable_framework.common.button.save')}
+          />
         </FooterItem>
       )}
     </Footer>
