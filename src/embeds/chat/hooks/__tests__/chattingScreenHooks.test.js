@@ -29,8 +29,8 @@ const UseAgentTyping = ({ agentTypingRef, scrollContainer, scrollToBottom }) => 
   return null
 }
 
-const UseNewMessages = ({ scrollToBottom, isScrollCloseToBottom }) => {
-  useNewMessages(scrollToBottom, isScrollCloseToBottom)
+const UseNewMessages = ({ scrollToBottom, scrollContainer }) => {
+  useNewMessages(scrollToBottom, scrollContainer)
   return null
 }
 
@@ -178,19 +178,35 @@ describe('useNewMessages', () => {
   })
 
   it('only calls again if chatsLength or author has changed', () => {
+    let scrollContainer = {
+      scrollTop: 0,
+      scrollHeight: 400,
+      offsetHeight: 30
+    }
     jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('agent:name')
     const scrollToBottom = jest.fn()
     const { rerender } = renderHookComponent(
       UseNewMessages,
-      { scrollToBottom },
+      { scrollToBottom, scrollContainer },
       { store: testContext.store }
     )
-    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+    renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer }, { render: rerender })
 
+    scrollContainer = {
+      scrollTop: 0,
+      scrollHeight: 420,
+      offsetHeight: 30
+    }
     jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(3)
-    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+    renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer }, { render: rerender })
+
+    scrollContainer = {
+      scrollTop: 0,
+      scrollHeight: 440,
+      offsetHeight: 30
+    }
     jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('visitor')
-    renderHookComponent(UseNewMessages, { scrollToBottom }, { render: rerender })
+    renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer }, { render: rerender })
     expect(scrollToBottom).toHaveBeenCalledTimes(3)
   })
 
@@ -200,15 +216,29 @@ describe('useNewMessages', () => {
     })
 
     it('calls markAsRead if scroll is close to bottom', () => {
+      const scrollContainer = {
+        scrollTop: 10,
+        scrollHeight: 400,
+        offsetHeight: 30
+      }
       const scrollToBottom = jest.fn()
-      renderHookComponent(UseNewMessages, { scrollToBottom }, { store: testContext.store })
+      renderHookComponent(
+        UseNewMessages,
+        { scrollToBottom, scrollContainer },
+        { store: testContext.store }
+      )
 
       expect(testContext.dispatchSpy).toHaveBeenCalledWith(chatActions.markAsRead())
     })
 
     it('calls scrollToBottom if scroll is close to bottom', () => {
+      const scrollContainer = {
+        scrollTop: 10,
+        scrollHeight: 400,
+        offsetHeight: 30
+      }
       const scrollToBottom = jest.fn()
-      renderHookComponent(UseNewMessages, { scrollToBottom })
+      renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer })
 
       expect(scrollToBottom).toHaveBeenCalled()
     })
@@ -238,8 +268,13 @@ describe('useNewMessages', () => {
     })
 
     it('calls scrollToBottom even if scroll is not close to bottom', () => {
+      const scrollContainer = {
+        scrollTop: 200,
+        scrollHeight: 400,
+        offsetHeight: 0
+      }
       const scrollToBottom = jest.fn()
-      renderHookComponent(UseNewMessages, { isScrollCloseToBottom: false, scrollToBottom })
+      renderHookComponent(UseNewMessages, { scrollContainer, scrollToBottom })
 
       expect(scrollToBottom).toHaveBeenCalled()
     })

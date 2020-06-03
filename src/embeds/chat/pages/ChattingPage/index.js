@@ -117,7 +117,7 @@ const ChattingScreen = ({
   useMessagesOnMount(scrollToBottom)
   useHistoryUpdate(scrollContainer.current, scrollToBottom)
   useAgentTyping(agentTypingRef.current, scrollContainer.current, scrollToBottom)
-  useNewMessages(scrollToBottom, isScrollCloseToBottom())
+  useNewMessages(scrollToBottom, scrollContainer.current)
 
   const handleChatScreenScrolled = () => {
     if (!scrollContainer.current) return

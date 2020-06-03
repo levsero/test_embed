@@ -10,6 +10,7 @@ import {
 import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
 import { markAsRead } from 'src/redux/modules/chat'
 import getScrollBottom from 'utility/get-scroll-bottom'
+import { SCROLL_BOTTOM_THRESHOLD } from 'constants/chat'
 
 export const useMessagesOnMount = scrollToBottom => {
   const dispatch = useDispatch()
@@ -60,18 +61,28 @@ export const useAgentTyping = (agentTypingRef, scrollContainer, scrollToBottom) 
   }, [numAgentsTyping])
 }
 
-export const useNewMessages = (scrollToBottom, isScrollCloseToBottom) => {
+export const useNewMessages = (scrollToBottom, scrollContainer) => {
+  const [prevScrollHeight, setPrevScrollHeight] = useState(false)
+
+  const isScrollCloseToBottom = () => {
+    const messageHeight = scrollContainer.scrollHeight - prevScrollHeight
+    return getScrollBottom(scrollContainer) < messageHeight + SCROLL_BOTTOM_THRESHOLD
+  }
+
   const dispatch = useDispatch()
   const chatsLength = useSelector(getChatsLength)
   const lastMessageAuthor = useSelector(getLastMessageAuthor)
 
   useEffect(() => {
-    if (isScrollCloseToBottom && isAgent(lastMessageAuthor)) {
+    if (!scrollContainer) return
+    setPrevScrollHeight(scrollContainer.scrollHeight)
+
+    if (isScrollCloseToBottom() && isAgent(lastMessageAuthor)) {
       dispatch(markAsRead())
     }
 
-    if (isScrollCloseToBottom || lastMessageAuthor === 'visitor') {
+    if (isScrollCloseToBottom() || lastMessageAuthor === 'visitor') {
       scrollToBottom()
     }
-  }, [chatsLength, lastMessageAuthor])
+  }, [chatsLength, lastMessageAuthor, prevScrollHeight])
 }
