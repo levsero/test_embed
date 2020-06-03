@@ -139,6 +139,25 @@ describe('setupZopimQueue', () => {
         expect(mockWin.$zopim._).toContain('mockApiCall')
       })
     })
+
+    describe('when $zopim has already been defined on the window', () => {
+      const mockWin = { $zopim: 'already defined!!' }
+
+      beforeEach(() => {
+        zopimApi.setupZopimQueue(mockWin, mockStore)
+      })
+
+      it('does not override $zopim on win', () => {
+        expect(mockWin.$zopim).toEqual('already defined!!')
+      })
+    })
+
+    it('executes functions when flushed is set', done => {
+      mockWin.$zopim.flushed = true
+      mockWin.$zopim(() => {
+        done()
+      })
+    })
   })
 })
 
