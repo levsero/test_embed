@@ -3,6 +3,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import zChat from 'e2e/helpers/zChat'
+import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 
 export const assertChatOpenedPayload = url => {
@@ -25,12 +26,16 @@ test('sends chat opened blips in the correct format', async () => {
 
   await zChat.online()
   await launcher.click()
+  await waitForHelpCenter()
+
   const widgetDoc = await widget.getDocument()
 
   blipEndpoint.mockClear()
 
   const channelButton = await queries.getByText(widgetDoc, 'Live chat')
   await channelButton.click()
+
+  await widget.waitForText('Chat with us')
   await queries.getByText(widgetDoc, 'Chat with us')
 
   const chatOpenedRequestUrl = blipEndpoint.mock.calls[0][0]
