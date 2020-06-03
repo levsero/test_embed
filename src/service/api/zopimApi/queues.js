@@ -1,29 +1,43 @@
 import _ from 'lodash'
-import { zopimExistsOnPage } from './helpers'
 import ZopimApiError from 'errors/nonFatal/ZopimApiError'
 import { logAndTrackApiError } from 'src/service/api/errorHandlers'
 
 export function setupZopimQueue(win) {
-  // To enable $zopim api calls to work we need to define the queue callback.
-  // When we inject the snippet we remove the queue method and just inject
-  // the script tag.
-  if (!zopimExistsOnPage(win)) {
-    let $zopim
-
-    $zopim = win.$zopim = callback => {
-      if ($zopim.flushed) {
-        callback()
-      } else {
-        $zopim._.push(callback)
-      }
+  // Define the global $zopim object.
+  // The global object accepts a callback, e.g.
+  // $zopim(() => console.log('callback'))
+  // If there is an existing $zopim global,
+  // preserve the old values that are set on it
+  let $zopim, oldQueue, oldSet
+  if (win.$zopim) {
+    oldQueue = win.$zopim._
+    if (win.$zopim.set) {
+      oldSet = win.$zopim.set._
     }
+  }
 
-    $zopim.set = callback => {
+  $zopim = win.$zopim = callback => {
+    if ($zopim.flushed) {
+      callback()
+    } else {
+      $zopim._.push(callback)
+    }
+  }
+  $zopim.set = callback => {
+    $zopim.set._.push(callback)
+  }
+  $zopim._ = []
+  $zopim.set._ = []
+  $zopim._setByWW = true
+  if (oldQueue) {
+    _.forEach(oldQueue, callback => {
+      $zopim._.push(callback)
+    })
+  }
+  if (oldSet) {
+    _.forEach(oldSet, callback => {
       $zopim.set._.push(callback)
-    }
-    $zopim._ = []
-    $zopim.set._ = []
-    $zopim._setByWW = true
+    })
   }
 }
 
