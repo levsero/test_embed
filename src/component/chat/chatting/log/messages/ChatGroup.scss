@@ -9,19 +9,24 @@
 .wrapper {
   composes: u-cf from global;
   display: block;
-
-  [dir='rtl'] & {
-    margin-left: 0;
-    margin-right: #{40 / $font-size}rem;
-  }
 }
 
 .avatarAgentWrapper {
   margin-left: #{40 / $font-size}rem;
+
+  [dir='rtl'] & {
+    margin-right: #{40 / $font-size}rem;
+    margin-left: 0;
+  }
 }
 
 .avatarEndUserWrapper {
   margin-right: #{40 / $font-size}rem;
+
+  [dir='rtl'] & {
+    margin-left: #{40 / $font-size}rem;
+    margin-right: 0;
+  }
 }
 
 .message {
