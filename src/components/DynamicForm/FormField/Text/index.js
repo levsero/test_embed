@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, Hint, Input, Message } from '@zendeskgarden/react-forms'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 
-const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnly }) => {
+const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnly, isPreview }) => {
   return (
     <Field>
       {field.title && (
@@ -11,6 +11,7 @@ const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnl
           value={field.title}
           required={field.required}
           isReadOnly={isReadOnly}
+          isPreview={isPreview}
           fieldId={field.id}
         />
       )}
@@ -47,6 +48,7 @@ Text.propTypes = {
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
+  isPreview: PropTypes.bool,
   errorMessageKey: PropTypes.number
 }
 

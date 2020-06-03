@@ -15,6 +15,7 @@ import { generateUserWidgetCSS } from 'utility/color/styles'
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
 import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
+import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 
 const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN
 const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN
@@ -57,6 +58,11 @@ const renderWebWidgetPreview = options => {
     width,
     margin: `${BOX_SHADOW_SIZE}px`
   }
+
+  // force name field to be required so "(optional)" does not show in the label
+  const embeddableConfig = _.cloneDeep(getEmbeddableConfig(store.getState()))
+  embeddableConfig.embeds.ticketSubmissionForm.props.nameFieldRequired = true
+  store.dispatch(updateEmbeddableConfig(embeddableConfig))
 
   store.dispatch(updateSettings({ color: { theme: color, button: color } }))
 

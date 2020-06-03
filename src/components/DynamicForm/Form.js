@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { TEST_IDS } from 'constants/shared'
 import { Main } from 'components/Widget'
 import useTranslate from 'src/hooks/useTranslate'
-import { Field, useForm } from 'react-final-form'
+import { Field, useForm, useFormState } from 'react-final-form'
 import { convertFieldValue } from 'embeds/support/utils/fieldConversion'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import { FORM_ERROR } from 'final-form'
@@ -29,6 +29,7 @@ const Form = ({
 }) => {
   const translate = useTranslate()
   const form = useForm()
+  const { values } = useFormState()
   useFormBackup(formId)
 
   const onClear = useCallback(() => {
@@ -54,6 +55,7 @@ const Form = ({
                     value={convertFieldValue(field.type, input.value)}
                     onChange={value => input.onChange(value)}
                     isReadOnly={isPreview || readOnlyValues[field.id]}
+                    isPreview={isPreview}
                     errorMessageKey={errorMessageKey}
                   />
                 )}
@@ -69,7 +71,7 @@ const Form = ({
           )}
         </div>
       </Main>
-      {FooterComponent && <FooterComponent isSubmitting={isSubmitting} />}
+      {FooterComponent && <FooterComponent isSubmitting={isSubmitting} formValues={values} />}
     </FormContainer>
   )
 }

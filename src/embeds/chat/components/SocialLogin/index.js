@@ -38,7 +38,10 @@ const SocialLogin = ({ authUrls = {}, shouldSpace = false }) => {
 }
 
 SocialLogin.propTypes = {
-  authUrls: PropTypes.object,
+  authUrls: PropTypes.shape({
+    google: PropTypes.string,
+    facebook: PropTypes.string
+  }),
   shouldSpace: PropTypes.bool
 }
 
