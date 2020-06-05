@@ -1401,7 +1401,7 @@ exports[`chat log visitor message account settings login enabled does not displa
 `;
 
 exports[`chat log visitor message failure 1`] = `
-.c3 {
+.c4 {
   position: relative;
   border: 1px solid;
   border-radius: 4px;
@@ -1413,15 +1413,56 @@ exports[`chat log visitor message failure 1`] = `
   color: #8c232c;
 }
 
-.c3 .c6 {
+.c4 .c8 {
   color: #681219;
 }
 
-.c4 {
+.c5 {
   position: absolute;
   left: 24px;
   margin-top: 2px;
   color: #cc3340;
+}
+
+.c3 {
+  margin-bottom: $spacing-tny;
+  display: inline-block;
+  float: right;
+}
+
+.c3.c3.c3 {
+  background-color: transparent;
+  color: #d93f4c;
+  background-position: 1rem 0.21428571428571427rem;
+  border: none;
+  font-size: 1rem;
+  padding-bottom: 0.8571428571428571rem;
+  padding-top: 0;
+  background-size: 1rem;
+  padding-right: 0rem;
+  padding-left: 3rem;
+}
+
+.c6 {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  color: #d93f4c;
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  line-height: 1.2857142857142858rem;
+  max-width: calc( 14.428571428571429rem - 1.3571428571428572rem );
+}
+
+.c6:hover,
+.c6:focus,
+.c6:active {
+  color: #d93f4c;
 }
 
 .c1.c1.c1 {
@@ -1450,7 +1491,7 @@ exports[`chat log visitor message failure 1`] = `
   color: #FFFFFF !important;
 }
 
-.c5 {
+.c7 {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1510,52 +1551,48 @@ exports[`chat log visitor message failure 1`] = `
               </div>
             </div>
             <div
-              class="messageErrorContainer"
+              class="c3 c4"
+              data-garden-id="notifications.alert"
+              data-garden-version="8.9.0"
+              role="alert"
+              type="error"
             >
-              <div
-                class="container c3"
-                data-garden-id="notifications.alert"
-                data-garden-version="8.9.0"
-                role="alert"
-                type="error"
+              <svg
+                class="c5"
+                focusable="false"
+                height="16"
+                hue="dangerHue"
+                role="presentation"
+                theme="[object Object]"
+                viewBox="0 0 16 16"
+                width="16"
               >
-                <svg
-                  class="c4"
-                  focusable="false"
-                  height="16"
-                  hue="dangerHue"
-                  role="presentation"
-                  theme="[object Object]"
-                  viewBox="0 0 16 16"
-                  width="16"
+                <g
+                  fill="none"
+                  stroke="currentColor"
                 >
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <circle
-                      cx="7.5"
-                      cy="8.5"
-                      r="7"
-                    />
-                    <path
-                      d="M7.5 4.5V9"
-                      stroke-linecap="round"
-                    />
-                  </g>
                   <circle
                     cx="7.5"
-                    cy="12"
-                    fill="currentColor"
-                    r="1"
+                    cy="8.5"
+                    r="7"
                   />
-                </svg>
-                <button
-                  class="messageErrorLink "
-                >
-                  Resend
-                </button>
-              </div>
+                  <path
+                    d="M7.5 4.5V9"
+                    stroke-linecap="round"
+                  />
+                </g>
+                <circle
+                  cx="7.5"
+                  cy="12"
+                  fill="currentColor"
+                  r="1"
+                />
+              </svg>
+              <button
+                class="c6"
+              >
+                Resend
+              </button>
             </div>
           </div>
         </div>
@@ -1563,7 +1600,7 @@ exports[`chat log visitor message failure 1`] = `
     </div>
   </div>
   <div
-    class="c5"
+    class="c7"
   />
 </div>
 `;

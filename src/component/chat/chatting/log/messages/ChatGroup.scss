@@ -155,22 +155,6 @@
   @include fade-up(200ms);
 }
 
-.attachmentMessageError {
-  display: inline-block;
-  hyphens: auto;
-  line-height: #{18 / $font-size}rem;
-  max-width: calc(#{202 / $font-size}rem - #{19 / $font-size}rem);
-  word-break: break-word;
-}
-
-.attachmentErrorMessageContainer {
-  float: right;
-
-  [dir='rtl'] & {
-    float: left;
-  }
-}
-
 .sentIndicator {
   color: $zd-color-grey-400;
   height: #{12 / $font-size}rem;

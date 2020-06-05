@@ -39,7 +39,7 @@ describe('ChatGroup component', () => {
       'component/Avatar': { Avatar },
       'src/embeds/chat/components/MessageBubble': MessageBubble,
       'component/chat/attachment/Attachment': { Attachment },
-      'component/chat/chatting/MessageError': { MessageError },
+      'src/embeds/chat/components/MessageError': MessageError,
       'component/chat/chatting/ImageMessage': { ImageMessage },
       'component/chat/chatting/StructuredMessage': StructuredMessage,
       'component/chat/chatting/Carousel': Carousel,
@@ -289,18 +289,18 @@ describe('ChatGroup component', () => {
         })
 
         it('passes an expected value to props.errorMessage', () => {
-          const messageErrorComponent = result.props.children[1].props.children
+          const messageErrorComponent = result.props.children[1]
 
           expect(messageErrorComponent.props.errorMessage).toEqual(
             'embeddable_framework.chat.messagefailed.resend'
           )
         })
 
-        it('passes an expected function to props.handleError', () => {
-          const messageErrorComponent = result.props.children[1].props.children
-          const handleErrorFn = messageErrorComponent.props.handleError
+        it('passes an expected function to props.onClick', () => {
+          const messageErrorComponent = result.props.children[1]
+          const onClickFn = messageErrorComponent.props.onClick
 
-          handleErrorFn()
+          onClickFn()
 
           expect(handleSendMsgSpy).toHaveBeenCalledWith(chat.msg, chat.timestamp)
         })
@@ -322,18 +322,18 @@ describe('ChatGroup component', () => {
         })
 
         it('passes an expected value to props.errorMessage', () => {
-          const messageErrorComponent = result.props.children[1].props.children
+          const messageErrorComponent = result.props.children[1]
 
           expect(messageErrorComponent.props.errorMessage).toEqual(
             'embeddable_framework.chat.messagefailed.failed_twice'
           )
         })
 
-        it('does not pass a function to props.handleError', () => {
-          const messageErrorComponent = result.props.children[1].props.children
-          const handleErrorFn = messageErrorComponent.props.handleError
+        it('does not pass a function to props.onClick', () => {
+          const messageErrorComponent = result.props.children[1]
+          const onClickFn = messageErrorComponent.props.onClick
 
-          expect(handleErrorFn).toBeUndefined()
+          expect(onClickFn).toBeUndefined()
         })
       })
     })
@@ -862,13 +862,11 @@ describe('ChatGroup component', () => {
               })
 
               it('returns a wrapped MessageError component', () => {
-                expect(TestUtils.isElementOfType(children[1].props.children, MessageError)).toEqual(
-                  true
-                )
+                expect(TestUtils.isElementOfType(children[1], MessageError)).toEqual(true)
               })
 
               it('passes the correct props to the MessageError component', () => {
-                expect(children[1].props.children.props).toEqual(
+                expect(children[1].props).toEqual(
                   jasmine.objectContaining({
                     errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension'
                   })
@@ -897,7 +895,7 @@ describe('ChatGroup component', () => {
               })
 
               it('falls back to a default "something went wrong" error message', () => {
-                expect(children[1].props.children.props).toEqual(
+                expect(children[1].props).toEqual(
                   jasmine.objectContaining({
                     errorMessage: 'embeddable_framework.chat.attachments.error.unknown_error'
                   })
