@@ -17,6 +17,7 @@ Object {
     "averageWaitTimeSetting": null,
     "capability": "widget/talk/CALLBACK_ONLY",
     "connected": false,
+    "deferredStatusOnline": false,
     "enabled": false,
     "nickname": "",
     "phoneNumber": "",
@@ -26,6 +27,7 @@ Object {
     "name": "",
     "phone": "",
   },
+  "isPolling": true,
   "snapcall": Object {
     "buttonId": "",
     "callDuration": "0:00",

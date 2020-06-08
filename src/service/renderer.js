@@ -7,10 +7,11 @@ import { settings } from 'service/settings'
 import { win } from 'utility/globals'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
-import { loadTalkVendors } from 'src/redux/modules/talk'
+import { loadTalkVendors, pollTalkStatus } from 'src/redux/modules/talk'
 import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { FONT_SIZE } from 'constants/shared'
 import { setLocaleApi } from 'src/service/api/apis'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 
 const embedsMap = {
   launcher: launcher,
@@ -25,7 +26,8 @@ function hide() {
 }
 
 const dummyStore = {
-  dispatch: () => {}
+  dispatch: () => {},
+  getState: () => {}
 }
 
 function setUpEmbeds(embeds, reduxStore) {
@@ -34,7 +36,11 @@ function setUpEmbeds(embeds, reduxStore) {
   }
 
   if (embeds.talk) {
-    reduxStore.dispatch(loadTalkVendors())
+    if (isFeatureEnabled(reduxStore.getState(), 'talk_deferred_enabled')) {
+      reduxStore.dispatch(pollTalkStatus())
+    } else {
+      reduxStore.dispatch(loadTalkVendors())
+    }
   }
 
   if (embeds.helpCenterForm) {

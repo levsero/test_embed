@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
+import { getZendeskHost } from 'utility/globals'
 
 import {
   getShowOfflineChat,
@@ -59,7 +60,8 @@ import {
   getAgentAvailability,
   getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
   isCallbackEnabled,
-  getPhoneNumber
+  getPhoneNumber,
+  getDeferredStatusOnline
 } from '../talk/talk-selectors'
 import {
   getActiveEmbed,
@@ -325,14 +327,15 @@ export const getTalkEnabled = createSelector(
 )
 
 export const getTalkAvailable = createSelector(
-  [getTalkEnabled, getTalkEmbeddableConfigEnabled, getPhoneNumber],
-  (talkEnabled, configEnabled, phoneNumber) =>
-    talkEnabled && configEnabled && !_.isEmpty(phoneNumber)
+  [getTalkEnabled, getTalkEmbeddableConfigEnabled, getPhoneNumber, getDeferredStatusOnline],
+  (talkEnabled, configEnabled, phoneNumber, deferredTalkOnline) =>
+    talkEnabled && configEnabled && (!_.isEmpty(phoneNumber) || deferredTalkOnline)
 )
 
 export const getTalkOnline = createSelector(
-  [getTalkAvailable, getAgentAvailability],
-  (talkAvailable, agentsAvailable) => talkAvailable && agentsAvailable
+  [getTalkAvailable, getAgentAvailability, getDeferredStatusOnline],
+  (talkAvailable, agentsAvailable, deferredTalkOnline) =>
+    talkAvailable && (agentsAvailable || deferredTalkOnline)
 )
 
 export const getFixedStyles = (state, frame = 'webWidget') => {
@@ -537,9 +540,8 @@ export const getIpmHelpCenterAllowed = createSelector(
 
 export const getIsWidgetReady = createSelector(
   [getTalkReady, getChatReady, getHelpCenterReady, getBootupTimeout],
-  (talkReady, chatReady, helpCenterReady, bootupTimeout) => {
-    return (talkReady && chatReady && helpCenterReady) || bootupTimeout
-  }
+  (talkReady, chatReady, helpCenterReady, bootupTimeout) =>
+    (talkReady && chatReady && helpCenterReady) || bootupTimeout
 )
 
 const getIsChannelAvailable = createSelector(
@@ -637,6 +639,15 @@ export const getAttachmentsEnabled = state => {
 export const getTalkServiceUrl = createSelector(
   getTalkConfig,
   config => config.props.serviceUrl
+)
+
+export const getDeferredTalkApiUrl = createSelector(
+  [getTalkServiceUrl, getTalkNickname],
+  (talkServiceUrl, nickname) => {
+    const subdomain = getZendeskHost(document).split('.')[0]
+
+    return `${talkServiceUrl}/talk_embeddables_service/web/status?subdomain=${subdomain}&nickname=${nickname}`
+  }
 )
 
 export const getSettingsAnswerBotTitle = createSelector(

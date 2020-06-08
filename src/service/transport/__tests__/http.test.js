@@ -346,6 +346,13 @@ describe('#getWithCache', () => {
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
+  it('does not use cache if skipCache is true', async () => {
+    await http.getWithCache(payload)
+    expect(superagent.__getInstances().length).toEqual(1)
+    await http.getWithCache(payload, { skipCache: true })
+    expect(superagent.__getInstances().length).toEqual(2)
+  })
+
   describe('when not forcing http', () => {
     let urlArg
 
