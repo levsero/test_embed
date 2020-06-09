@@ -115,7 +115,9 @@ describe('ChatOfflineForm component', () => {
       'src/components/SuccessNotification': {},
       'src/hooks/useTranslate': {},
       'icons/widget-icon_success_contactForm.svg': {},
-      'src/embeds/chat/pages/OfflineFormSuccessPage': {}
+      'src/embeds/chat/pages/OfflineFormSuccessPage': {},
+      'src/embeds/chat/components/OfflineForm/OfflineGreeting': {},
+      'src/embeds/chat/components/OfflineForm/OperatingHours': {}
     })
 
     mockery.registerAllowable(ChatOfflineFormPath)
@@ -472,8 +474,6 @@ describe('ChatOfflineForm component', () => {
         />
       )
 
-      spyOn(component, 'renderOfflineGreeting')
-      spyOn(component, 'renderOperatingHoursLink')
       spyOn(component, 'renderMessagingChannels')
       spyOn(component, 'renderPhoneNumberField')
       spyOn(component, 'renderMessageField')
@@ -497,104 +497,6 @@ describe('ChatOfflineForm component', () => {
 
       it('returns null', () => {
         expect(result).toBeNull()
-      })
-    })
-  })
-
-  describe('renderOperatingHoursLink', () => {
-    let result, link, mockOperatingHours, handleOperatingHoursClickFn
-
-    beforeEach(() => {
-      handleOperatingHoursClickFn = () => {}
-
-      const component = instanceRender(
-        <ChatOfflineForm
-          formState={initialFormState}
-          operatingHours={mockOperatingHours}
-          handleOperatingHoursClick={handleOperatingHoursClickFn}
-          offlineMessage={{ screen: 'main' }}
-        />
-      )
-
-      result = component.renderOperatingHoursLink()
-      link = _.get(result, 'props.children')
-    })
-
-    describe('when operating hours are active', () => {
-      beforeAll(() => {
-        mockOperatingHours = {
-          account_schedule: [[456]],
-          enabled: true
-        }
-      })
-
-      it('returns a <p> element at the top', () => {
-        expect(TestUtils.isElementOfType(result, 'p')).toEqual(true)
-      })
-
-      it('returns the right classes for the <p> element', () => {
-        expect(result.props.className).toEqual('operatingHoursContainerClass')
-      })
-
-      it('returns a link (<button> element) inside the <p>', () => {
-        expect(TestUtils.isElementOfType(link, 'button')).toEqual(true)
-      })
-
-      it('returns the right classes for the <button> element', () => {
-        expect(link.props.className).toEqual('operatingHoursLinkClass')
-      })
-
-      it('returns a prop for onClick for the <button> element', () => {
-        expect(link.props.onClick).toEqual(handleOperatingHoursClickFn)
-      })
-
-      it('returns a the right label for the link', () => {
-        expect(link.props.children).toEqual('embeddable_framework.chat.operatingHours.label.anchor')
-      })
-    })
-
-    describe('when operating hours are not active', () => {
-      beforeAll(() => {
-        mockOperatingHours = { enabled: false }
-      })
-
-      it('returns nothing', () => {
-        expect(result).toBeUndefined()
-      })
-    })
-  })
-
-  describe('renderOfflineGreeting', () => {
-    let result,
-      greeting = ''
-
-    beforeEach(() => {
-      const component = instanceRender(
-        <ChatOfflineForm
-          formState={initialFormState}
-          greeting={greeting}
-          offlineMessage={{ screen: 'main' }}
-        />
-      )
-
-      result = component.renderOfflineGreeting()
-    })
-
-    it('renders a type of <Linkify>', () => {
-      expect(TestUtils.isElementOfType(result, Linkify)).toEqual(true)
-    })
-
-    it('has the right className', () => {
-      expect(result.props.className).toEqual('offlineGreetingClass')
-    })
-
-    describe('when a greeting is passed in', () => {
-      beforeAll(() => {
-        greeting = 'Show me what you got!'
-      })
-
-      it('uses the greeting passed in', () => {
-        expect(result.props.children.props.children).toEqual('Show me what you got!')
       })
     })
   })
