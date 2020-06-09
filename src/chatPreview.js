@@ -100,11 +100,7 @@ const renderPreview = options => {
   }
 
   const updateLocale = locale => {
-    i18n.setLocale(locale, () => {
-      waitForComponent(() => {
-        previewContainer.updateFrameLocale()
-      })
-    })
+    i18n.setLocale(locale)
   }
 
   const updateChatState = data => {

@@ -32,10 +32,6 @@ export class LauncherContainer extends Component {
     this.frame = null
   }
 
-  updateFrameLocale = () => {
-    if (this.frame) this.frame.updateFrameLocale()
-  }
-
   render() {
     const { store, webWidgetVisible, frameStyle } = this.props
 
