@@ -1,5 +1,6 @@
 import '../chatPreview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
+import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 
 import { i18n } from 'service/i18n'
 
@@ -74,7 +75,7 @@ describe('rendered with default options', () => {
   })
 
   it('can update to offline message screen', done => {
-    preview.updateScreen(constants.OFFLINE_MESSAGE_SUCCESS_SCREEN)
+    preview.updateScreen(OFFLINE_FORM_SCREENS.MAIN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Sorry, we are not online at the moment')
       done()

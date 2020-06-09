@@ -6,7 +6,7 @@ import createStore from 'src/redux/createStore'
 
 import { i18n } from 'service/i18n'
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat'
-import { OFFLINE_MESSAGE_SUCCESS_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
+import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import {
   UPDATE_PREVIEWER_SCREEN,
   UPDATE_PREVIEWER_SETTINGS,
@@ -84,7 +84,7 @@ const renderPreview = options => {
     store.dispatch(
       updatePreviewerScreen({
         screen,
-        status: screen !== OFFLINE_MESSAGE_SUCCESS_SCREEN
+        status: screen !== OFFLINE_FORM_SCREENS.MAIN
       })
     )
 
