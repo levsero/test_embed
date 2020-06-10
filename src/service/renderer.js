@@ -36,7 +36,7 @@ function setUpEmbeds(embeds, reduxStore) {
   }
 
   if (embeds.talk) {
-    if (isFeatureEnabled(reduxStore.getState(), 'talk_deferred_enabled')) {
+    if (isFeatureEnabled(reduxStore.getState(), 'defer_talk_connection')) {
       reduxStore.dispatch(pollTalkStatus())
     } else {
       reduxStore.dispatch(loadTalkVendors())

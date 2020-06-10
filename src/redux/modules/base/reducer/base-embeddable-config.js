@@ -35,7 +35,8 @@ const initialState = {
   brand: undefined,
   brandCount: undefined,
   brandLogoUrl: undefined,
-  disableStatusPolling: false
+  disableStatusPolling: false,
+  deferTalkConnection: false
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -87,7 +88,8 @@ const embeddableConfig = (state = initialState, action) => {
         brand: _.get(payload, 'brand', state.brand),
         brandCount: _.get(payload, 'brandCount', state.brandCount),
         brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl),
-        disableStatusPolling: _.get(payload, 'disableStatusPolling', state.disableStatusPolling)
+        disableStatusPolling: _.get(payload, 'disableStatusPolling', state.disableStatusPolling),
+        deferTalkConnection: _.get(payload, 'deferTalkConnection', state.deferTalkConnection)
       }
     default:
       return state
