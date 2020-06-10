@@ -20,6 +20,38 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 29 May 2020
+
+- Updated the widget to use a more generic and consistent success page when the
+  prechat form submits and sends an offline message.
+
+### 27 May 2020
+
+- Fixed a bug where the description of labels in ticket fields was not being displayed.
+
+### 25 May 2020
+
+- Fixed a bug where users could send a message while Chat was disconnected.
+
+### 20 May 2020
+
+- Fixed a bug that would cause the edit contact details form submission to fail if a user submitted an empty optional value.
+- Fixed a bug where the back button in right-to-left languages was pointing to the
+  left instead of to the right, and the exclamation icon in the Alert message box was in the left position instead of the right position.
+- Fixed a bug that caused the widget to not be hidden when the `hide` API command
+  was called straight after the `show` API command on page load.
+- Fixed multi-line label spacing in contact forms.
+
+### 14 May 2020
+
+- Added improvements in the widget loading time by deferring when certain data is loaded and processed.
+
+### 12 May 2020
+
+- Fixed an issue that caused panel carousel structured messages not to appear in the chat log.
+- Added a dark background overlay behind modals when they are opened in Chat.
+- Added improvements to success and error notifications when submitting modal forms in Chat.
+
 ### 29 April 2020
 
 - Added support for enhanced event tracking. For more information, refer to the [announcement](https://support.zendesk.com/hc/en-us/articles/360047581933-Announcing-enhanced-event-tracking-for-the-Web-Widget-in-Google-Analytics-and-other-analytics-tools) and the [API documentation](https://developer.zendesk.com/embeddables/docs/widget/core#on-userevent).
