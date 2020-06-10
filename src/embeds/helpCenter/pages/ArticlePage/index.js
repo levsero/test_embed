@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
 
 import { Widget, Main, Header } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
-import { i18n } from 'service/i18n'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getRestrictedImages, getResultsLocale, getArticles } from 'src/embeds/helpCenter/selectors'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
@@ -22,12 +22,11 @@ import {
   getShowNextButton
 } from 'src/redux/modules/selectors'
 import HelpCenterArticle from 'src/components/HelpCenterArticle'
-import { isMobileBrowser } from 'utility/devices'
 
 const ArticlePage = ({
   addRestrictedImage,
   handleOriginalArticleClicked,
-  isMobile,
+  theme: { isMobile },
   onClick,
   originalArticleButton,
   performImageSearch,
@@ -77,7 +76,7 @@ ArticlePage.propTypes = {
   addRestrictedImage: PropTypes.func,
   resultsLocale: PropTypes.string,
   title: PropTypes.string,
-  isMobile: PropTypes.bool,
+  theme: PropTypes.shape({ isMobile: PropTypes.bool }),
   onClick: PropTypes.func,
   showNextButton: PropTypes.bool,
   article: PropTypes.object
@@ -102,8 +101,6 @@ const mapStateToProps = (state, ownProps) => {
     title: getSettingsHelpCenterTitle(state, titleKey),
     buttonLabel: getHelpCenterButtonLabel(state),
     loading: getChatConnectionConnecting(state),
-    isMobile: isMobileBrowser(),
-    isRTL: i18n.isRTL(),
     showNextButton: getShowNextButton(state)
   }
 }
@@ -116,9 +113,11 @@ const actionCreators = {
   handleArticleView
 }
 
+const themedComponent = withTheme(ArticlePage)
+
 const connectedComponent = connect(
   mapStateToProps,
   actionCreators
-)(ArticlePage)
+)(themedComponent)
 
-export { connectedComponent as default, ArticlePage as Component }
+export { connectedComponent as default, themedComponent as Component }
