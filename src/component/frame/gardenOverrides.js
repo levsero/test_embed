@@ -151,9 +151,9 @@ const getButtonOverrides = colorVariables => {
 
         :not([disabled]) {
           background-color: ${props =>
-            props.primary ? colorVariables.buttonColorStr : zdColorWhite} !important;
+            props.isPrimary ? colorVariables.buttonColorStr : zdColorWhite} !important;
           color: ${props =>
-            props.primary
+            props.isPrimary
               ? colorVariables.buttonTextColorStr
               : colorVariables.buttonColorStr} !important;
           border-color: ${colorVariables.buttonColorStr} !important;
@@ -162,13 +162,13 @@ const getButtonOverrides = colorVariables => {
           &:focus,
           &:active {
             background-color: ${props =>
-              !props.link &&
+              !props.isLink &&
               !isMobile &&
-              (props.primary
+              (props.isPrimary
                 ? colorVariables.buttonHighlightColorStr
                 : colorVariables.buttonColorStr)} !important;
             color: ${props =>
-              !props.link && !isMobile && colorVariables.buttonTextColorStr} !important;
+              !props.isLink && !isMobile && colorVariables.buttonTextColorStr} !important;
           }
         }
       `

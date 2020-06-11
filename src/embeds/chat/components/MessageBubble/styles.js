@@ -49,7 +49,7 @@ const MessageContainer = styled.div`
 const Message = styled.span``
 
 const TranslateLink = styled(Button).attrs(() => ({
-  link: true,
+  isLink: true,
   ignoreThemeOverride: true
 }))`
   &&& {

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Dropdown, Item, Trigger } from '@zendeskgarden/react-dropdowns'
-import { Icon } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { getLoginSettings, getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 
@@ -110,9 +109,7 @@ const ChatMenu = ({
           </HeaderItem>
         ) : (
           <FooterIconButton aria-label="Menu" data-testid={TEST_IDS.CHAT_MENU}>
-            <Icon>
-              <EllipsisIcon data-testid={TEST_IDS.ICON_ELLIPSIS} aria-hidden="true" />
-            </Icon>
+            <EllipsisIcon data-testid={TEST_IDS.ICON_ELLIPSIS} aria-hidden="true" />
           </FooterIconButton>
         )}
       </Trigger>

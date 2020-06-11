@@ -95,7 +95,7 @@ const FeedbackForm = ({
             </SecondaryButton>
 
             <SubmitButton
-              primary={true}
+              isPrimary={true}
               type="submit"
               data-testid={TEST_IDS.BUTTON_OK}
               aria-label={translate('embeddable_framework.common.button.send')}

@@ -2,11 +2,17 @@ import styled, { css } from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { FONT_SIZE } from 'constants/shared'
 
+const HEADER_ICON_SIZE = 2
+
 const StyledIconButton = styled(IconButton)`
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  && {
+    width: ${HEADER_ICON_SIZE}rem;
+    height: ${HEADER_ICON_SIZE}rem;
+  }
 
   svg {
     width: 1rem !important;

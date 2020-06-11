@@ -8,7 +8,7 @@ const OperatingHours = ({ onClick }) => {
   const translate = useTranslate()
 
   return (
-    <OperatingHoursLink link={true} onClick={onClick}>
+    <OperatingHoursLink isLink={true} onClick={onClick}>
       {translate('embeddable_framework.chat.operatingHours.label.anchor')}
     </OperatingHoursLink>
   )

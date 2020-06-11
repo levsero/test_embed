@@ -1,6 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeaderItem renders 1`] = `
+.c3 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+}
+
+.c1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 0.9166666666666666em;
+  height: 32px;
+  line-height: 30px;
+  font-size: 12px;
+  background-color: transparent;
+  color: #1f73b7;
+  border: none;
+  padding: 0;
+  width: 32px;
+  color: #68737d;
+}
+
+.c1::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c1:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c1[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:active,
+.c1[aria-pressed='true'],
+.c1[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:hover {
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c1[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c1:active,
+.c1[aria-pressed='true'],
+.c1[aria-pressed='mixed'] {
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c1:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c1:disabled {
+  cursor: default;
+}
+
+.c1 .c2 {
+  width: 12px;
+  min-width: 12px;
+  height: 12px;
+}
+
+.c4 .c1 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c4 .c1:hover,
+.c4 .c1:active {
+  z-index: 1;
+}
+
+.c4 .c1:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c4 .c1:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c4 .c1:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c4 .c1:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c1:hover {
+  color: #49545c;
+}
+
+.c1:active,
+.c1[aria-pressed='true'],
+.c1[aria-pressed='mixed'] {
+  color: #2f3941;
+}
+
+.c1 .c2 {
+  width: 16px;
+  height: 16px;
+}
+
 .c0 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -19,6 +178,11 @@ exports[`HeaderItem renders 1`] = `
   justify-content: center;
 }
 
+.c0.c0 {
+  width: 2rem;
+  height: 2rem;
+}
+
 .c0 svg {
   width: 1rem !important;
   height: 1rem !important;
@@ -34,18 +198,16 @@ exports[`HeaderItem renders 1`] = `
 }
 
 <button
-  class="index__c-btn--icon___1Yl4x c0 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-  data-garden-container-id="containers.keyboardfocus"
-  data-garden-container-version="0.4.4"
+  class="c0 c1"
   data-garden-id="buttons.icon_button"
-  data-garden-version="7.1.10"
-  tabindex="0"
+  data-garden-version="8.13.0"
   type="button"
 >
   <div
-    class="index__c-btn__icon___3V0Rl"
+    class="c2 c3"
     data-garden-id="buttons.icon"
-    data-garden-version="7.1.10"
+    data-garden-version="8.13.0"
+    theme="[object Object]"
   >
     Some child component
   </div>

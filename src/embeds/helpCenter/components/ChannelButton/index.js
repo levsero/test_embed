@@ -11,7 +11,7 @@ const ChannelButton = ({ buttonLabel, isRTL, onClick, loading }) => {
   return (
     <ButtonContainer>
       <ButtonGroup rtl={isRTL}>
-        <StyledButton primary={true} onClick={!loading ? onClick : null}>
+        <StyledButton isPrimary={true} onClick={!loading ? onClick : null}>
           {loading ? <Loading color="white" size={24} /> : buttonLabel}
         </StyledButton>
       </ButtonGroup>

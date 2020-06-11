@@ -96,7 +96,7 @@ export default class ChatPopup extends Component {
     )
     const rightCtaButton = !this.props.showOnlyLeftCta ? (
       <CtaButtonRight
-        primary={true}
+        isPrimary={true}
         disabled={rightCtaDisabled}
         onClick={rightCtaFn}
         data-testid={TEST_IDS.BUTTON_OK}

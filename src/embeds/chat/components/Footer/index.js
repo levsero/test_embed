@@ -8,7 +8,7 @@ const ChatFooter = ({ onClick, label, hideButton }) => {
   return (
     <Footer>
       {!hideButton && (
-        <Button primary={true} onClick={onClick} type="submit" data-testid={TEST_IDS.CHAT_START}>
+        <Button isPrimary={true} onClick={onClick} type="submit" data-testid={TEST_IDS.CHAT_START}>
           {label}
         </Button>
       )}

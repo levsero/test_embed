@@ -5,7 +5,7 @@ import { Button } from './styles'
 
 const ButtonPill = ({ onClick = () => {}, children }) => {
   return (
-    <Button onClick={onClick} pill={true}>
+    <Button onClick={onClick} isPill={true}>
       {children}
     </Button>
   )

@@ -5,7 +5,7 @@ import { Form } from 'component/form/Form'
 import { FONT_SIZE } from 'constants/shared'
 
 const SubmitButton = styled(Button).attrs({
-  primary: true,
+  isPrimary: true,
   type: 'submit'
 })`
   max-width: ${200 / FONT_SIZE}rem !important;

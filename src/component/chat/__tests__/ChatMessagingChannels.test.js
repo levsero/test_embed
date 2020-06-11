@@ -123,7 +123,7 @@ describe('ChatMessagingChannels', () => {
               },
               isMobile: false
             },
-            { theme: { rtl: true } }
+            { rtl: true }
           )
           const { container: mobileContainer } = renderComponent(
             {
@@ -133,7 +133,7 @@ describe('ChatMessagingChannels', () => {
               },
               isMobile: true
             },
-            { theme: { rtl: true } }
+            { rtl: true }
           )
 
           expect(

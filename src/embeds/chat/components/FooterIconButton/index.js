@@ -28,9 +28,8 @@ const FooterIconButton = styled(IconButton)`
     padding: ${padding};
     min-width: ${size};
     min-height: ${size};
-    width: ${size};
-    height: ${size};
-    color: ${zdColorGrey600};
+    width: ${size} !important;
+    height: ${size} !important;
 
     g,
     path {
@@ -61,7 +60,7 @@ FooterIconButton.propTypes = {
 }
 
 FooterIconButton.defaultProps = {
-  pill: isMobileBrowser(),
+  isPill: isMobileBrowser(),
   ignoreThemeOverride: true,
   colorType: 'stroke',
   size: 'small'

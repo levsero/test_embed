@@ -5,6 +5,143 @@ Snapshot Diff:
 - First value
 + Second value
 
++ .c14 {
++   display: -webkit-inline-box;
++   display: -webkit-inline-flex;
++   display: -ms-inline-flexbox;
++   display: inline-flex;
++   -webkit-align-items: center;
++   -webkit-box-align: center;
++   -ms-flex-align: center;
++   align-items: center;
++   -webkit-box-pack: center;
++   -webkit-justify-content: center;
++   -ms-flex-pack: center;
++   justify-content: center;
++   -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
++   transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
++   margin: 0;
++   border: 1px solid transparent;
++   border-radius: 4px;
++   cursor: pointer;
++   overflow: hidden;
++   -webkit-text-decoration: none;
++   text-decoration: none;
++   text-overflow: ellipsis;
++   white-space: nowrap;
++   font-family: inherit;
++   font-weight: 400;
++   -webkit-font-smoothing: subpixel-antialiased;
++   box-sizing: border-box;
++   -webkit-user-select: none;
++   -moz-user-select: none;
++   -ms-user-select: none;
++   user-select: none;
++   -webkit-touch-callout: none;
++   padding: 0 1.0714285714285714em;
++   height: 40px;
++   line-height: 38px;
++   font-size: 14px;
++   border-color: #1f73b7;
++   background-color: transparent;
++   color: #1f73b7;
++ }
++ 
++ .c14::-moz-focus-inner {
++   border: 0;
++   padding: 0;
++ }
++ 
++ .c14:hover {
++   -webkit-text-decoration: none;
++   text-decoration: none;
++ }
++ 
++ .c14:focus {
++   outline: none;
++ }
++ 
++ .c14[data-garden-focus-visible] {
++   -webkit-text-decoration: none;
++   text-decoration: none;
++ }
++ 
++ .c14:active,
++ .c14[aria-pressed='true'],
++ .c14[aria-pressed='mixed'] {
++   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
++   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
++   -webkit-text-decoration: none;
++   text-decoration: none;
++ }
++ 
++ .c14:hover {
++   border-color: #144a75;
++   background-color: rgba(31,115,183,0.08);
++   color: #144a75;
++ }
++ 
++ .c14[data-garden-focus-visible] {
++   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
++ }
++ 
++ .c14:active,
++ .c14[aria-pressed='true'],
++ .c14[aria-pressed='mixed'] {
++   border-color: #0f3554;
++   background-color: rgba(31,115,183,0.2);
++   color: #0f3554;
++ }
++ 
++ .c14:disabled {
++   border-color: transparent;
++   background-color: #cee2f2;
++   color: #5293c7;
++ }
++ 
++ .c14:disabled {
++   cursor: default;
++ }
++ 
++ .c14 .c19 {
++   width: 16px;
++   min-width: 16px;
++   height: 16px;
++ }
++ 
++ .c18 .c14 {
++   position: relative;
++   margin-left: -1px;
++ }
++ 
++ .c18 .c14:hover,
++ .c18 .c14:active {
++   z-index: 1;
++ }
++ 
++ .c18 .c14:disabled {
++   z-index: -1;
++   border-top-width: 0;
++   border-bottom-width: 0;
++   border-right-color: #fff;
++   border-left-color: #fff;
++ }
++ 
++ .c18 .c14:first-of-type:not(:last-of-type) {
++   margin-left: 0;
++   border-top-right-radius: 0;
++   border-bottom-right-radius: 0;
++ }
++ 
++ .c18 .c14:last-of-type:not(:first-of-type) {
++   border-top-left-radius: 0;
++   border-bottom-left-radius: 0;
++ }
++ 
++ .c18 .c14:not(:first-of-type):not(:last-of-type) {
++   border-radius: 0;
++ }
++ 
 + .c10 {
 +   margin-bottom: 0.5rem;
 +   float: left;
@@ -128,13 +265,13 @@ Snapshot Diff:
 +   margin-bottom: 0.5rem;
 + }
 + 
-+ .c14 {
++ .c15 {
 +   float: right !important;
 +   display: block;
 +   margin-bottom: 0.5rem !important;
 + }
 + 
-+ .c15 {
++ .c16 {
 +   display: inline-block;
 +   max-width: 100%;
 +   float: left;
@@ -144,11 +281,11 @@ Snapshot Diff:
 +   margin-left: 2.857142857142857rem;
 + }
 + 
-+ .c16 {
++ .c17 {
 +   margin: 0.2857142857142857rem;
 + }
 + 
-+ .c16 div {
++ .c17 div {
 +   width: 0.39285714285714285rem;
 +   height: 0.39285714285714285rem;
 +   background-color: #68737d;

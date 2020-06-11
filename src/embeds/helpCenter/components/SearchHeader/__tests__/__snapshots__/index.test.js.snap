@@ -1,6 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on desktop 1`] = `
+.c7 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 0.9166666666666666em;
+  height: 32px;
+  line-height: 30px;
+  font-size: 12px;
+  background-color: transparent;
+  color: #1f73b7;
+  border: none;
+  padding: 0;
+  width: 32px;
+  color: #68737d;
+}
+
+.c5::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c5:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5:focus {
+  outline: none;
+}
+
+.c5[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5:active,
+.c5[aria-pressed='true'],
+.c5[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5:hover {
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c5[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c5:active,
+.c5[aria-pressed='true'],
+.c5[aria-pressed='mixed'] {
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c5:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c5:disabled {
+  cursor: default;
+}
+
+.c5 .c6 {
+  width: 12px;
+  min-width: 12px;
+  height: 12px;
+}
+
+.c13 .c5 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c13 .c5:hover,
+.c13 .c5:active {
+  z-index: 1;
+}
+
+.c13 .c5:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c13 .c5:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c13 .c5:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c13 .c5:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c5:hover {
+  color: #49545c;
+}
+
+.c5:active,
+.c5[aria-pressed='true'],
+.c5[aria-pressed='mixed'] {
+  color: #2f3941;
+}
+
+.c5 .c6 {
+  width: 16px;
+  height: 16px;
+}
+
 .c0 {
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
@@ -23,7 +182,7 @@ exports[`renders correctly on desktop 1`] = `
   margin-bottom: 2px;
 }
 
-.c6:not(:first-child) {
+.c8:not(:first-child) {
   margin-top: 0.2857142857142857rem;
 }
 
@@ -62,12 +221,7 @@ exports[`renders correctly on desktop 1`] = `
   margin-right: 2rem;
 }
 
-.c1 .c4 {
-  width: 2rem !important;
-  height: 2rem !important;
-}
-
-.c5 {
+.c4 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -85,45 +239,50 @@ exports[`renders correctly on desktop 1`] = `
   justify-content: center;
 }
 
-.c5 svg {
+.c4.c4 {
+  width: 2rem;
+  height: 2rem;
+}
+
+.c4 svg {
   width: 1rem !important;
   height: 1rem !important;
 }
 
-.c5 svg,
-.c5 path {
+.c4 svg,
+.c4 path {
   fill: #FFFFFF !important;
   color: #FFFFFF !important;
 }
 
-.c5:focus {
+.c4:focus {
   outline: none !important;
   box-shadow: 0 0 0 0.21428571428571427rem rgba(255,255,255,0.4) !important;
 }
 
-.c5:hover {
+.c4:hover {
   background: #227EC9 !important;
 }
 
-.c7 {
+.c9 {
   padding: 0 0.7142857142857143rem 0.35714285714285715rem;
 }
 
-.c10 {
+.c12 {
   color: #c2c8cc !important;
   height: 1.2rem !important;
   width: 1.2rem !important;
 }
 
-.c9 {
+.c11 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c9 > div > div {
+.c11 > div > div {
   max-height: unset;
 }
 
-.c8 {
+.c10 {
   margin-bottom: 0;
 }
 
@@ -144,36 +303,34 @@ exports[`renders correctly on desktop 1`] = `
         </h1>
         <button
           aria-label="Minimize widget"
-          class="c4 index__c-btn--icon___1Yl4x c5 index__c-btn___3y2Qe index__c-btn--basic___38OO7 index__c-btn--muted___ze6U0 index__c-btn--sm___3Kuhv "
-          data-garden-container-id="containers.keyboardfocus"
-          data-garden-container-version="0.4.4"
+          class="c4 c5"
           data-garden-id="buttons.icon_button"
-          data-garden-version="7.1.10"
-          tabindex="0"
+          data-garden-version="8.13.0"
           type="button"
         >
           <svg
-            class="index__c-btn__icon___3V0Rl"
+            class="c6 c7"
             data-garden-id="buttons.icon"
-            data-garden-version="7.1.10"
+            data-garden-version="8.13.0"
             data-testid="Icon--dash"
             realfilename="dash-fill.svg"
+            theme="[object Object]"
           />
         </button>
       </div>
       <div
-        class="c6"
+        class="c8"
       >
         <div
-          class="c7"
+          class="c9"
           data-testid="page-header-container"
         >
           <form
-            class="c8"
+            class="c10"
             novalidate=""
           >
             <div
-              class="c9"
+              class="c11"
             >
               <div
                 class="text__c-txt___Uzv-G range__c-range___1aYaS "
@@ -188,7 +345,7 @@ exports[`renders correctly on desktop 1`] = `
                     class="text__c-txt__input--media__figure___gBDfx "
                   >
                     <svg
-                      class="c10"
+                      class="c12"
                       data-testid="Icon--search"
                       realfilename="search-stroke.svg"
                     />
@@ -225,7 +382,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -67,9 +67,9 @@
+@@ -65,9 +65,9 @@
                     <input
                       aria-invalid="false"
 -                     aria-labelledby="2val-field_1.3.3--label"

@@ -1,6 +1,151 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders the expected classes 1`] = `
+.c1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: border-color 0.25s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: inherit;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  padding: 0 1.0714285714285714em;
+  height: 40px;
+  line-height: 38px;
+  font-size: 14px;
+  border-color: #1f73b7;
+  background-color: transparent;
+  color: #1f73b7;
+}
+
+.c1::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.c1:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c1[data-garden-focus-visible] {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:active,
+.c1[aria-pressed='true'],
+.c1[aria-pressed='mixed'] {
+  -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c1:hover {
+  border-color: #144a75;
+  background-color: rgba(31,115,183,0.08);
+  color: #144a75;
+}
+
+.c1[data-garden-focus-visible] {
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c1:active,
+.c1[aria-pressed='true'],
+.c1[aria-pressed='mixed'] {
+  border-color: #0f3554;
+  background-color: rgba(31,115,183,0.2);
+  color: #0f3554;
+}
+
+.c1:disabled {
+  border-color: transparent;
+  background-color: #cee2f2;
+  color: #5293c7;
+}
+
+.c1:disabled {
+  cursor: default;
+}
+
+.c1 .c3 {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+}
+
+.c2 .c1 {
+  position: relative;
+  margin-left: -1px;
+}
+
+.c2 .c1:hover,
+.c2 .c1:active {
+  z-index: 1;
+}
+
+.c2 .c1:disabled {
+  z-index: -1;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-color: #fff;
+  border-left-color: #fff;
+}
+
+.c2 .c1:first-of-type:not(:last-of-type) {
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c2 .c1:last-of-type:not(:first-of-type) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c2 .c1:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+}
+
+.c2 .c1:first-of-type:not(:last-of-type) .c3 {
+  margin-right: -2px;
+}
+
+.c2 .c1:last-of-type:not(:first-of-type) .c3 {
+  margin-left: -2px;
+}
+
 .c0.c0.c0 {
   background-color: #fff;
   border-color: #e9ebed !important;
@@ -26,12 +171,9 @@ exports[`renders the expected classes 1`] = `
 <div>
   <div>
     <button
-      class="c0 index__c-btn___3y2Qe index__c-btn--pill___QYWDJ "
-      data-garden-container-id="containers.keyboardfocus"
-      data-garden-container-version="0.4.4"
+      class="c0 c1"
       data-garden-id="buttons.button"
-      data-garden-version="7.1.10"
-      tabindex="0"
+      data-garden-version="8.13.0"
       type="button"
     >
       mylabel
@@ -45,7 +187,28 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -15,0 +15,3 @@
+@@ -107,1 +107,1 @@
+-   margin-left: -1px;
++   margin-right: -1px;
+@@ -124,3 +124,3 @@
+-   margin-left: 0;
+-   border-top-right-radius: 0;
+-   border-bottom-right-radius: 0;
++   margin-right: 0;
++   border-top-left-radius: 0;
++   border-bottom-left-radius: 0;
+@@ -130,2 +130,2 @@
+-   border-top-left-radius: 0;
+-   border-bottom-left-radius: 0;
++   border-top-right-radius: 0;
++   border-bottom-right-radius: 0;
+@@ -139,1 +139,1 @@
+-   margin-right: -2px;
++   margin-left: -2px;
+@@ -143,1 +143,1 @@
+-   margin-left: -2px;
++   margin-right: -2px;
+@@ -160,0 +160,3 @@
 +   padding-left: 0.6428571428571429rem !important;
 +   padding-right: 1rem !important;
 +   white-space: nowrap !important;
