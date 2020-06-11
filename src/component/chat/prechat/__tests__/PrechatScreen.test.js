@@ -1,4 +1,4 @@
-import { fireEvent, getByTestId } from '@testing-library/react'
+import { getByTestId } from '@testing-library/react'
 import React from 'react'
 
 import { render } from 'src/util/testHelpers'
@@ -48,59 +48,6 @@ const renderComponent = inProps => {
 }
 
 describe('render', () => {
-  describe('when screen is prechat screen', () => {
-    describe('renders Prechat Form', () => {
-      it('renders title', () => {
-        expect(renderComponent().getByText('mockTitle')).toBeInTheDocument()
-      })
-
-      it('renders intro message', () => {
-        expect(renderComponent().getByText('hello friend, intro message')).toBeInTheDocument()
-      })
-
-      it('renders message field', () => {
-        expect(renderComponent().getByText('Message')).toBeInTheDocument()
-      })
-
-      it('renders email field', () => {
-        expect(renderComponent().getByText('Email')).toBeInTheDocument()
-      })
-
-      it('renders name field', () => {
-        expect(renderComponent().getByText('Name')).toBeInTheDocument()
-      })
-    })
-
-    describe('submits the prechat form', () => {
-      it('validates the fields', () => {
-        const form = {
-          name: { name: 'name', required: true },
-          email: { name: 'email', required: true },
-          phone: {
-            name: 'phone',
-            label: 'Phone Number',
-            required: true,
-            hidden: false
-          },
-          message: { name: 'message', label: 'Message', required: true },
-          department: {
-            name: 'department',
-            label: 'Choose Department',
-            required: true
-          },
-          departments: [{ name: 'dept', id: 1234, isDefault: false }]
-        }
-        const { getByText, queryByText } = renderComponent({ prechatFormSettings: { form } })
-        fireEvent.click(getByText('Start chat'))
-        expect(queryByText('Please enter a valid name.')).toBeInTheDocument()
-        expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
-        expect(queryByText('Please select a department.')).toBeInTheDocument()
-        expect(queryByText('Please enter a valid phone number.')).toBeInTheDocument()
-        expect(queryByText('Please enter a valid message.')).toBeInTheDocument()
-      })
-    })
-  })
-
   describe('when screen is loading screen', () => {
     const renderLoadingScreen = () => renderComponent({ screen: screens.LOADING_SCREEN })
 

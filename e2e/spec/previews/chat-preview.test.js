@@ -1,9 +1,10 @@
-import preview, { loadPreview } from 'e2e/helpers/chat-preview'
 import { queries, wait } from 'pptr-testing-library'
+import preview, { loadPreview } from 'e2e/helpers/chat-preview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import { CHAT_BADGE } from 'src/constants/preview'
 import { TEST_IDS } from 'src/constants/shared'
+import widget from 'e2e/helpers/widget'
 
 const events = [
   { type: 'account_status', detail: 'online' },
@@ -90,9 +91,9 @@ test('renders prechat screen', async () => {
   expect(await queries.queryByLabelText(doc, 'Message (optional)')).toBeTruthy()
   expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
   expect(await queries.queryByText(doc, 'Start chat')).toBeTruthy()
-  const dropdown = await queries.getByPlaceholderText(doc, 'Choose a department')
+  const dropdown = await queries.getByRole(doc, 'button', { name: 'department' })
   await dropdown.click()
-  expect(await queries.queryByText(doc, 'Dept 1')).toBeTruthy()
+  await widget.waitForText('Dept 1')
 })
 
 test('renders offline screen', async () => {

@@ -43,9 +43,7 @@ describe('PrechatScreen component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner
       },
-      'component/chat/prechat/PrechatForm': {
-        PrechatForm
-      },
+      'embeds/chat/components/PrechatForm': PrechatForm,
       'embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
       'component/container/Container': {
         Container: noopReactComponent()
@@ -178,20 +176,9 @@ describe('PrechatScreen component', () => {
         <PrechatScreen screen={mockScreen} prechatFormSettings={prechatFormSettings} />
       )
 
-      spyOn(component, 'renderPreChatForm')
       spyOn(component, 'renderLoadingSpinner')
 
       component.render()
-    })
-
-    describe('when the screen is prechat screen', () => {
-      beforeAll(() => {
-        mockScreen = prechatScreen
-      })
-
-      it('calls renderPreChatForm', () => {
-        expect(component.renderPreChatForm).toHaveBeenCalled()
-      })
     })
 
     describe('when the screen is loading screen', () => {
@@ -209,47 +196,9 @@ describe('PrechatScreen component', () => {
         mockScreen = 'bob screen'
       })
 
-      it('does not call renderPreChatForm', () => {
-        expect(component.renderPreChatForm).not.toHaveBeenCalled()
-      })
-
       it('does not call renderLoadingSpinner', () => {
         expect(component.renderLoadingSpinner).not.toHaveBeenCalled()
       })
-    })
-  })
-
-  describe('renderPreChatForm', () => {
-    let result
-
-    beforeEach(() => {
-      const prechatFormSettings = { form: {}, message: '' }
-      const component = instanceRender(
-        <PrechatScreen
-          title={mockTitle}
-          prechatFormSettings={prechatFormSettings}
-          isMobile={true}
-          fullscreen={true}
-        />
-      )
-
-      result = component.renderPreChatForm()
-    })
-
-    it('renders renderPreChatForm', () => {
-      expect(TestUtils.isElementOfType(result, PrechatForm)).toEqual(true)
-    })
-
-    it('renders with the correct title', () => {
-      expect(result.props.title).toEqual(mockTitle)
-    })
-
-    it('renders with the correct title', () => {
-      expect(result.props.title).toEqual(mockTitle)
-    })
-
-    it('renders with the correct fullscreen', () => {
-      expect(result.props.fullscreen).toEqual(true)
     })
   })
 

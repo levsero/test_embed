@@ -2,12 +2,12 @@ import {
   clickStartChat,
   loadWidgetWithChatOnline,
   waitForChatToBeReady
-} from '../../helpers/chat-embed'
+} from 'e2e/helpers/chat-embed'
 import { queries } from 'pptr-testing-library'
-import widget from '../../helpers/widget'
-import { allowsInputTextEditing } from '../shared-examples'
-import { assertInputValue, clearInputField } from '../../helpers/utils'
-import zChat from '../../helpers/zChat'
+import widget from 'e2e/helpers/widget'
+import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
+import { assertInputValue, clearInputField } from 'e2e/helpers/utils'
+import zChat from 'e2e/helpers/zChat'
 
 describe('prechat form', () => {
   test('submit prechat form', async () => {
@@ -53,12 +53,7 @@ describe('prechat form', () => {
     await zChat.updateDepartment({ status: 'online', id: 1, name: 'Department 1' })
     await zChat.updateDepartment({ status: 'online', id: 2, name: 'Department 2' })
 
-    const departmentDropdown = await queries.queryByPlaceholderText(
-      await widget.getDocument(),
-      'Choose a department'
-    )
-    await departmentDropdown.click()
-
+    await widget.clickText('Choose a department')
     await widget.clickText('Department 1')
 
     const messageElement = await queries.queryByLabelText(
@@ -130,14 +125,23 @@ describe('prechat form', () => {
       })
     })
 
-    const nameElement = await queries.queryByLabelText(await widget.getDocument(), 'Name')
+    const nameElement = await queries.queryByLabelText(
+      await widget.getDocument(),
+      'Name (optional)'
+    )
     await clearInputField(nameElement)
     await allowsInputTextEditing(nameElement, 'Some name')
 
-    const emailElement = await queries.queryByLabelText(await widget.getDocument(), 'Email')
+    const emailElement = await queries.queryByLabelText(
+      await widget.getDocument(),
+      'Email (optional)'
+    )
     await allowsInputTextEditing(emailElement, 'example@example.com')
 
-    const messageElement = await queries.queryByLabelText(await widget.getDocument(), 'Message')
+    const messageElement = await queries.queryByLabelText(
+      await widget.getDocument(),
+      'Message (optional)'
+    )
     await allowsInputTextEditing(messageElement, 'Some message')
 
     await widget.clickButton('Send message')

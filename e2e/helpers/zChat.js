@@ -11,7 +11,7 @@ const getAccountSettings = async () => {
       behavior: { do_not_display: false },
       branding: { hide_branding: true, hide_favicon: false, custom_favicon_path: '' },
       bubble: { enabled: true, title: null, text: null },
-      chat_button: { hide_when_offline: true },
+      chat_button: { hide_when_offline: false },
       chat_window: {
         mobile_mode: 'overlay',
         title_bar: { title: null, status_messages: { online: null, away: null, offline: null } }
