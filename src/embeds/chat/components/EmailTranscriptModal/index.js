@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
-import { Modal } from '@zendeskgarden/react-modals'
+import { StyledModal } from './styles'
 
 import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
 import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
@@ -15,7 +15,7 @@ const EmailTranscriptModal = ({ onClose }) => {
     <>
       <div ref={ref => setContainer(ref)} data-testid={TEST_IDS.CHAT_EMAIL_TRANSCRIPT_MODAL} />
       {container && (
-        <Modal
+        <StyledModal
           backdropProps={{
             style: {
               position: 'absolute'
@@ -32,7 +32,7 @@ const EmailTranscriptModal = ({ onClose }) => {
           ) : (
             <EmailTranscriptForm onSuccess={email => setUpdatedEmail(email)} onClose={onClose} />
           )}
-        </Modal>
+        </StyledModal>
       )}
     </>
   )

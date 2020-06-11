@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Body, Footer, FooterItem, Header } from '@zendeskgarden/react-modals'
+import { Footer, FooterItem, Header } from '@zendeskgarden/react-modals'
 import { Alert, Title } from 'embeds/support/components/Notifications'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Form } from 'embeds/chat/components/EmailTranscriptModal/styles'
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getVisitorEmail } from 'embeds/chat/selectors'
 import { EMAIL_PATTERN } from 'constants/shared'
 import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptFormValues'
+import { StyledBody } from './styles'
 import SubmitButton from 'src/embeds/chat/components/SubmitButton'
 
 const validate = values => {
@@ -69,7 +70,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
       {({ handleSubmit, submitError, submitting }) => (
         <Form onSubmit={handleSubmit}>
           <Header>{translate('embeddable_framework.chat.emailtranscript.title')}</Header>
-          <Body>
+          <StyledBody>
             <EmailTranscriptFormValues
               onSubmit={handleSubmit}
               onClose={onClose}
@@ -85,7 +86,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
                 </Title>
               </Alert>
             )}
-          </Body>
+          </StyledBody>
           <Footer>
             <FooterItem>
               <Button basic={true} onClick={onClose}>
