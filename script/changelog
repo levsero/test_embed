@@ -1,0 +1,152 @@
+#!/usr/bin/env node
+
+/* eslint no-console: 0 */
+const { Octokit } = require('@octokit/rest')
+const _ = require('lodash')
+
+const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN
+let startTag = process.argv.slice(2)[0]
+
+if (!token) {
+  console.error(`Please supply your github auth token by defining it in the environment variable
+  GITHUB_PERSONAL_ACCESS_TOKEN. It can be generated in https://github.com/settings/tokens.
+  Give it repo scope to access private repositories, and enable SSO to enable SAML authentication. `)
+  process.exit(1)
+}
+
+if (!startTag) {
+  console.error('Please specify which tag to start generating the changelog from')
+  process.exit(1)
+}
+
+if (!startTag.startsWith('v')) {
+  startTag = 'v' + startTag
+}
+
+const octokit = new Octokit({ auth: token })
+const owner = 'zendesk'
+const repo = 'embeddable_framework'
+const options = { owner, repo, per_page: 100 }
+
+const listShas = tags => {
+  const queries = []
+  let found = false
+  for (let i = 0; i < tags.length; i++) {
+    const tag = tags[i]
+    const { sha } = tag.commit
+    queries.push(`sha:${sha}`)
+    if (tag.name === startTag) {
+      found = true
+      break
+    }
+  }
+  if (!found) {
+    throw new Error(`${startTag} did not match any tags`)
+  }
+  return queries
+}
+
+const inProd = comment => comment.body.startsWith('This PR was deployed to Release Production')
+
+const findPullRequests = (tags, callback) => {
+  const shas = listShas(tags)
+  const chunks = _.chunk(shas, 5)
+  return Promise.all(
+    chunks.map(async shas => {
+      const q = shas.join(' OR ')
+      const { data: { items } } = await octokit.search.issuesAndPullRequests({ q })
+      return Promise.all(items.map(item => callback(item)))
+    })
+  )
+}
+
+const deployedComment = async number => {
+  const { data: comments } = await octokit.issues.listComments({
+    ...options,
+    issue_number: number
+  })
+  return comments.find(comment => inProd(comment))
+}
+
+const validChangelog = line =>
+  !line.toLowerCase().includes('n/a') && !line.toLowerCase().includes('none') && line.length > 6
+
+const getChangelog = body => {
+  let record = false,
+    prevState = false
+  const lines = []
+  body.split('\r\n').forEach(line => {
+    if (line) {
+      if (line.startsWith('###')) {
+        if (line.toLowerCase().includes('changelog')) {
+          record = true
+        } else {
+          record = false
+        }
+      } else if (line.startsWith('<!--')) {
+        prevState = record
+        record = false
+      } else if (line.endsWith('-->')) {
+        record = prevState
+      } else {
+        if (record) {
+          lines.push(line)
+        }
+      }
+    }
+  })
+  const changelog = lines.join(' ')
+  return validChangelog(changelog) ? changelog : null
+}
+
+const formatDate = str => {
+  const date = new Date(str)
+  return `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`
+}
+
+const trimDate = str => str.split('T')[0]
+
+const run = async () => {
+  const { data: tags } = await octokit.repos.listTags(options)
+  const logs = {}
+  await findPullRequests(tags, async item => {
+    const { number, pull_request: { html_url: url }, body } = item
+    const changelog = getChangelog(body)
+    const info = {
+      url,
+      changelog
+    }
+
+    if (changelog) {
+      const comment = await deployedComment(number)
+      if (comment) {
+        info.tag = comment.body.match(/v(\d)+/)[0]
+        const deployDate = trimDate(comment.created_at)
+        if (logs[deployDate]) {
+          logs[deployDate].push(info)
+        } else {
+          logs[deployDate] = [info]
+        }
+      }
+    }
+  })
+  Object.keys(logs)
+    .sort()
+    .reverse()
+    .forEach(date => {
+      const details = logs[date]
+      const latestTag = details.map(d => d.tag).sort()[details.length - 1]
+      console.log(`### ${formatDate(date)} <!-- tag: ${latestTag} -->`)
+      details.forEach(detail => {
+        console.log(detail.changelog)
+        console.log(`<!--- PR: ${detail.url} --->`)
+      })
+      console.log('\n')
+    })
+}
+
+try {
+  run()
+} catch (e) {
+  console.error(e.message)
+}
