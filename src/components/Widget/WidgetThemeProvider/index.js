@@ -43,14 +43,18 @@ WidgetThemeProvider.defaultProps = {
   children: []
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   theme: {
     ...themeColors(getColor(state, 'webWidget')),
     fontSize: FONT_SIZE,
-    isMobile: isMobileBrowser()
+    isMobile: isMobileBrowser(),
+    ...ownProps.theme
   }
 })
 
-const connectedComponent = connect(mapStateToProps)(WidgetThemeProvider)
+const connectedComponent = connect(
+  mapStateToProps,
+  null
+)(WidgetThemeProvider)
 
 export { connectedComponent as default, WidgetThemeProvider as Component }

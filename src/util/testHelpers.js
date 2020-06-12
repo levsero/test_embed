@@ -133,7 +133,7 @@ export function render(
     ...renderFn(
       <Provider store={reduxStore}>
         <ThemeProvider {...themeProps}>
-          <WidgetThemeProvider {...widgetThemeProps}>
+          <WidgetThemeProvider theme={widgetThemeProps}>
             <Router history={history}>{ui}</Router>
           </WidgetThemeProvider>
         </ThemeProvider>

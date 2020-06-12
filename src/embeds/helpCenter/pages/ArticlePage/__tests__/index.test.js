@@ -20,7 +20,6 @@ const renderComponent = inProps => {
     restrictedImages: {},
     resultsLocale: 'derp',
     title: 'pageTitle',
-    isMobile: false,
     hideZendeskLogo: false,
     showNextButton: true,
     onClick,
