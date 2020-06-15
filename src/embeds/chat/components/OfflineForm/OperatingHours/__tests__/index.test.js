@@ -137,8 +137,9 @@ describe('OperatingHours', () => {
         cursor: pointer;
         -webkit-text-decoration: underline !important;
         text-decoration: underline !important;
-        height: inherit !important;
-        line-height: inherit !important;
+        display: block !important;
+        line-height: 1em !important;
+        height: auto !important;
         margin-bottom: 0.6428571428571429rem;
       }
 
