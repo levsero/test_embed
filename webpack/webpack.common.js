@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-const I18nPlugin = require('./i18nPlugin.js')
 
 const legalNotices =
   'Our embeddable contains third-party, open source software and/or libraries. ' +
@@ -136,7 +135,6 @@ module.exports = {
     }),
     new webpack.BannerPlugin({
       banner: legalNotices
-    }),
-    I18nPlugin
+    })
   ]
 }

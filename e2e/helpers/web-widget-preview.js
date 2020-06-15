@@ -15,6 +15,7 @@ export const loadPreview = async () => {
   await goToTestPage()
   await setupContainer()
   await renderPreview()
+  await page.waitForSelector('#webWidgetPreview')
 }
 
 const getDocument = () => frame.getDocument('webWidgetPreview')

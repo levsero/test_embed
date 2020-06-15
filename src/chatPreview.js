@@ -48,6 +48,8 @@ const waitForComponent = callback => {
   }
 }
 
+i18n.initFetchLocale()
+
 const renderPreview = options => {
   options = _.defaultsDeep({}, options, defaultOptions)
 

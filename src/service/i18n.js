@@ -12,10 +12,6 @@ const locales = Object.keys(zELocaleIdMap)
 
 // reset is only used in tests
 
-// The __ZENDESK_CLIENT_I18N_GLOBAL global is provided by the i18n webpack plugin.
-// It specifies where the translations and locale information is stored on the window object.
-const i18nDataLocation = __ZENDESK_CLIENT_I18N_GLOBAL
-
 function reset() {
   store = undefined
   // currentLocale is used to ensure when booting it respects a previously set locale
@@ -27,28 +23,34 @@ function init(s) {
 }
 
 function setLocale(apiLocale, callback, configLocale = 'en-US') {
-  currentLocale = apiLocale || currentLocale
   if (!store) return
-  const locale = parseLocale(currentLocale || configLocale)
 
-  t.load(locale, () => {
-    store.dispatch({
-      type: LOCALE_SET,
-      payload: locale
+  currentLocale = parseLocale(apiLocale || currentLocale || configLocale)
+
+  global
+    .fetchLocale(currentLocale)
+    .then(res => {
+      const translations = res.default.locale
+
+      if (currentLocale !== translations.locale) return
+
+      window[global.__ZENDESK_CLIENT_I18N_GLOBAL] = undefined
+
+      t.set(translations)
+
+      store.dispatch({
+        type: LOCALE_SET,
+        payload: currentLocale
+      })
+
+      if (callback) {
+        callback()
+      }
     })
-
-    if (callback) {
-      callback()
-    }
-  })
+    .catch(() => {})
 }
 
 function translate(key, params = {}) {
-  if (
-    typeof window[i18nDataLocation] === 'undefined' ||
-    typeof window[i18nDataLocation].translations !== 'object'
-  )
-    return ''
   const translation = t(key)
 
   const locale = getLocale()
@@ -74,11 +76,6 @@ function getLocaleId() {
 }
 
 function isRTL() {
-  if (
-    typeof window[i18nDataLocation] === 'undefined' ||
-    typeof window[i18nDataLocation].translations !== 'object'
-  )
-    return false
   return t.dir === 'rtl'
 }
 
@@ -178,6 +175,14 @@ const getSettingTranslation = translations => {
   return translations[i18n.getLocale()] || translations['*'] || null
 }
 
+const initFetchLocale = () => {
+  global.fetchLocale = locale =>
+    import(
+      /* webpackChunkName: "locales/[request]" */ `src/translation/locales/${locale.toLowerCase()}.json`
+    ).catch(() => {})
+  global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
+}
+
 export const i18n = {
   t: translate,
   dateTimeFormat: dateTimeFormat,
@@ -190,5 +195,6 @@ export const i18n = {
   init: init,
   reset,
   parseLocale,
-  getClientLocale
+  getClientLocale,
+  initFetchLocale
 }

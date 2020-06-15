@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const I18nPlugin = require('./i18nPlugin.js')
 
 const common = require('./webpack.common.js')
 const CWD = process.cwd()
@@ -34,7 +33,6 @@ module.exports = merge(common, {
   },
   plugins: [
     ...previewTemplates(),
-    I18nPlugin,
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true)
     }),
