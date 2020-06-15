@@ -29,7 +29,7 @@ def upload_web_widget
     ignore_extensions: ['.map'],
     key_transform: -> (key) { key.gsub('public/', '') }
   }
-  
+
   s3_deployer.upload_directory(
     ASSETS_DIR,
     S3_RELEASE_DIRECTORY_VERSIONED,
@@ -56,6 +56,11 @@ def upload_previewer
       cache_control: "public, max-age=600",
       expires: nil # we don't want to send the expires header
     }
+  )
+  s3_deployer.upload_files(
+    'dist/public/locales',
+    S3_RELEASE_DIRECTORY_LATEST + '/locales',
+    Dir['dist/public/locales/*.js'].map { |f| File.basename(f) }
   )
 end
 
