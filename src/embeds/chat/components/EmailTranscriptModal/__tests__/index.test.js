@@ -1,5 +1,5 @@
 import React from 'react'
-import { wait } from '@testing-library/dom'
+import { waitFor } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/react'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { render } from 'src/util/testHelpers'
@@ -18,7 +18,7 @@ describe('EmailTranscriptModal', () => {
   const renderComponent = async (props = {}) => {
     const result = render(<EmailTranscriptModal {...defaultProps} {...props} />)
 
-    await wait(() => expect(result.queryByText('Email')).toBeInTheDocument())
+    await waitFor(() => expect(result.queryByText('Email')).toBeInTheDocument())
 
     return result
   }
@@ -31,7 +31,7 @@ describe('EmailTranscriptModal', () => {
       payload: { email: 'example@example.com' }
     })
 
-    await wait(() => expect(queryByLabelText('Email')).toHaveValue('example@example.com'))
+    await waitFor(() => expect(queryByLabelText('Email')).toHaveValue('example@example.com'))
   })
 
   it('does not show validation errors until the user submits the form for the first time', async () => {
@@ -68,7 +68,7 @@ describe('EmailTranscriptModal', () => {
 
     fireEvent.click(queryByText('Send'))
 
-    await wait(() => expect(container.querySelector('[type="success"]')).toBeInTheDocument())
+    await waitFor(() => expect(container.querySelector('[type="success"]')).toBeInTheDocument())
   })
 
   it('displays an error message when the form fails to submit', async () => {
@@ -80,7 +80,7 @@ describe('EmailTranscriptModal', () => {
 
     fireEvent.click(queryByText('Send'))
 
-    await wait(() => expect(queryByText('Unable to send transcript.')).toBeInTheDocument())
+    await waitFor(() => expect(queryByText('Unable to send transcript.')).toBeInTheDocument())
   })
 
   it('clears the form when the clear api is called', async () => {
@@ -108,6 +108,6 @@ describe('EmailTranscriptModal', () => {
   it('focuses the email input on first render', async () => {
     const { queryByLabelText } = await renderComponent()
 
-    wait(() => expect(queryByLabelText('Email')).toHaveFocus())
+    waitFor(() => expect(queryByLabelText('Email')).toHaveFocus())
   })
 })

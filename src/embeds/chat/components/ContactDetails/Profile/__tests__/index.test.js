@@ -1,5 +1,5 @@
 import React from 'react'
-import { wait } from '@testing-library/dom'
+import { waitFor } from '@testing-library/dom'
 import { render } from 'src/util/testHelpers'
 import { Form } from 'react-final-form'
 
@@ -35,7 +35,7 @@ const renderComponent = async (props = {}) => {
     />
   )
 
-  await wait(() => expect(result.getByTestId(TEST_IDS.NAME_FIELD)).toBeInTheDocument())
+  await waitFor(() => expect(result.getByTestId(TEST_IDS.NAME_FIELD)).toBeInTheDocument())
 
   //We have to use a Form render here as RFF complains if there isn't one in scope
   return result
@@ -51,7 +51,7 @@ describe('userProfile', () => {
   it('focuses the name input on first render', async () => {
     const { queryByTestId } = await renderComponent()
 
-    expect(queryByTestId(TEST_IDS.NAME_FIELD)).toHaveFocus()
+    await waitFor(() => expect(queryByTestId(TEST_IDS.NAME_FIELD)).toHaveFocus())
   })
 
   it('renders nameField', async () => {

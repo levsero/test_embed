@@ -4,7 +4,7 @@ import { Component as Support } from '../'
 import createStore from 'src/redux/createStore'
 import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { wait } from '@testing-library/dom'
+import { waitFor } from '@testing-library/dom'
 
 describe('TicketFormPage', () => {
   const renderComponent = (props = {}, options) => {
@@ -23,7 +23,7 @@ describe('TicketFormPage', () => {
   it('renders the default form when ticketForms length is 0', async () => {
     const { queryByText } = renderComponent()
 
-    await wait(() => queryByText('Email address'))
+    await waitFor(() => queryByText('Email address'))
 
     expect(queryByText('Email address')).toBeInTheDocument()
     expect(queryByText('How can we help you?')).toBeInTheDocument()
@@ -74,7 +74,7 @@ describe('TicketFormPage', () => {
     })
     const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }] }, { store })
 
-    await wait(() => queryByText('Email address'))
+    await waitFor(() => queryByText('Email address'))
 
     expect(queryByText('Email address')).toBeInTheDocument()
     expect(queryByText('How can we help you?')).not.toBeInTheDocument()
@@ -84,7 +84,7 @@ describe('TicketFormPage', () => {
   it('renders the list when ticketForms length is greater than 1', async () => {
     const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }, { id: 2 }] })
 
-    await wait(() => queryByText('Email address'))
+    await waitFor(() => queryByText('Email address'))
 
     expect(queryByText('Email address')).not.toBeInTheDocument()
     expect(queryByText('How can we help you?')).not.toBeInTheDocument()
@@ -142,7 +142,7 @@ describe('TicketFormPage', () => {
 
     expect(queryByRole('progressbar')).toBeInTheDocument()
 
-    await wait()
+    await waitFor(() => {})
 
     expect(queryByRole('progressbar')).not.toBeInTheDocument()
   })

@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import '@testing-library/react/cleanup-after-each'
 import 'jest-styled-components'
+import 'mutationobserver-shim'
 
 jest.mock('translation/ze_localeIdMap', () => require('translation/__mocks__/ze_localeIdMap'), {
   virtual: true
@@ -45,6 +46,7 @@ document.zendeskHost = 'testingHost'
 
 document.elementFromPoint = jest.fn()
 window.HTMLElement.prototype.scrollIntoView = () => undefined
+global.MutationObserver = global.window.MutationObserver
 
 // this is just a little hack to silence a warning that we'll get until react
 // fixes this: https://github.com/facebook/react/pull/14853
