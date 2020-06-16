@@ -14,6 +14,7 @@ module.exports = merge(common, {
     chatPreview: path.join(prefix, '/src/chatPreview.js')
   },
   output: {
+    chunkFilename: '[name].[chunkhash].js',
     publicPath: process.env.STATIC_ASSETS_DOMAIN + '/web_widget/latest/'
   },
   plugins: [
