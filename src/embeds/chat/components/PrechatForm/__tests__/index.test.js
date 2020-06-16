@@ -7,6 +7,7 @@ import { fireEvent } from '@testing-library/dom'
 import { setDefaultDepartment } from 'src/redux/modules/chat'
 import { handlePrefillReceived } from 'src/redux/modules/base'
 import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
+import { SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE } from 'src/redux/modules/chat/chat-action-types'
 
 jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
   return {
@@ -99,8 +100,29 @@ describe('PrechatForm', () => {
   })
 
   describe('form', () => {
-    it('calls submit with isDepartmentFieldVisible as true when the department was visible to the user', () => {
-      const onSubmit = jest.fn()
+    it('calls submit with isDepartmentFieldVisible as true when the department was visible to the user', async () => {
+      const onSubmit = jest.fn(() => new Promise(() => {}))
+
+      const { getByText } = renderComponent({
+        getFields: () => [
+          {
+            id: 'department',
+            options: [{ id: 1, value: 'dep 1' }]
+          }
+        ],
+        onSubmit
+      })
+
+      fireEvent.click(getByText('Start chat'))
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        values: {},
+        isDepartmentFieldVisible: true
+      })
+    })
+
+    it('calls submit with isDepartmentFieldVisible as false when the department was not visible to the user', () => {
+      const onSubmit = jest.fn(() => new Promise(() => {}))
 
       const { getByText } = renderComponent({
         getFields: () => [],
@@ -115,41 +137,6 @@ describe('PrechatForm', () => {
       })
     })
 
-    it('calls submit with isDepartmentFieldVisible as false when the department was visible to the user', () => {
-      const onSubmit = jest.fn()
-
-      const { getByText } = renderComponent({
-        getFields: () => [{ id: 'department', options: [] }],
-        onSubmit
-      })
-
-      fireEvent.click(getByText('Start chat'))
-
-      expect(onSubmit).toHaveBeenCalledWith({
-        values: {},
-        isDepartmentFieldVisible: true
-      })
-    })
-
-    it('initialises with the provided default department', async () => {
-      const { getByText } = renderComponent({
-        getFields: () => [
-          {
-            id: 'department',
-            title: 'Departments',
-            required: true,
-            type: 'dropdown',
-            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
-          }
-        ],
-        defaultDepartment: 2
-      })
-
-      await wait(() => expect(getByText('Departments')).toBeInTheDocument())
-
-      expect(getByText('Department 2')).toBeInTheDocument()
-    })
-
     it('displays a start chat message in the submit button when contacting an online department', () => {
       const { getByText } = renderComponent({
         getFields: () => [
@@ -161,7 +148,6 @@ describe('PrechatForm', () => {
             options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
           }
         ],
-        defaultDepartment: 1,
         departments: {
           1: {
             status: 'online'
@@ -172,24 +158,27 @@ describe('PrechatForm', () => {
       expect(getByText('Start chat')).toBeInTheDocument()
     })
 
-    it('displays a send message in the submit button when contacting an offline department', () => {
-      const { getByText } = renderComponent({
+    it('displays a send message in the submit button when contacting an offline department', async () => {
+      const { getByText, store } = renderComponent({
         getFields: () => [
           {
             id: 'department',
             title: 'Departments',
             required: true,
             type: 'dropdown',
-            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
+            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }],
+            value: 1
           }
         ],
-        defaultDepartment: 1,
         departments: {
           1: {
             status: 'offline'
           }
         }
       })
+
+      store.dispatch(setDefaultDepartment(1, 123))
+      await wait(() => expect(getByText('Department 1')).toBeInTheDocument())
 
       expect(getByText('Send message')).toBeInTheDocument()
     })
@@ -211,23 +200,54 @@ describe('PrechatForm', () => {
 
     it('updates when department.select zESetting changes', async () => {
       const { getByText, queryByText, store } = renderComponent({
-        getFields: () => allFields,
-        defaultDepartment: 1
+        getFields: () => [
+          {
+            id: 'department',
+            title: 'Departments',
+            required: true,
+            type: 'dropdown',
+            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
+          }
+        ],
+        departments: {
+          1: { id: 1, name: 'Department 1', status: 'online' },
+          2: { id: 2, name: 'Department 2', status: 'online' }
+        }
+      })
+
+      store.dispatch(setDefaultDepartment(2, 123))
+      await wait(() => expect(getByText('Department 2')).toBeInTheDocument())
+      expect(queryByText('Department 1')).not.toBeInTheDocument()
+
+      store.dispatch(setDefaultDepartment(1, 124))
+      await wait(() => expect(getByText('Department 1')).toBeInTheDocument())
+      expect(queryByText('Department 2')).not.toBeInTheDocument()
+    })
+
+    it('updates the department when the department is set via the websdk', async () => {
+      const { getByText, store } = renderComponent({
+        departments: {
+          1: { id: 1, name: 'Department 1', status: 'online' }
+        },
+        getFields: () => allFields
+      })
+
+      store.dispatch({
+        type: SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
+        payload: {
+          detail: {
+            id: 1
+          },
+          timestamp: 123
+        }
       })
 
       await wait(() => expect(getByText('Department 1')).toBeInTheDocument())
-
-      store.dispatch(setDefaultDepartment(2, 123))
-
-      await wait(() => expect(getByText('Department 2')).toBeInTheDocument())
-
-      expect(queryByText('Department 1')).not.toBeInTheDocument()
     })
 
     it('updates when the prefill command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getFields: () => allFields,
-        defaultDepartment: 1
+        getFields: () => allFields
       })
 
       const name = getByLabelText('Name')
@@ -257,8 +277,7 @@ describe('PrechatForm', () => {
 
     it('updates when the identify command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getFields: () => allFields,
-        defaultDepartment: 1
+        getFields: () => allFields
       })
 
       const name = getByLabelText('Name')

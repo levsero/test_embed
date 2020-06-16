@@ -4,11 +4,13 @@ import identify from './identify'
 import chatDepartmentSelect from './chatDepartmentSelect'
 import supportFields from './supportFields'
 import supportCustomFormFields from './supportCustomFormFields'
+import chatVisitor from './chatVisitor'
 
 const reducers = {
   prefill,
   identify,
   chatDepartmentSelect,
+  chatVisitor,
   supportFields,
   supportCustomFormFields
 }

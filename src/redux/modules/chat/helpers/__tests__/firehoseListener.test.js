@@ -90,6 +90,27 @@ describe('firehoseListener', () => {
     expect(dispatch).toHaveBeenCalledWith(expectedAction)
   })
 
+  it('sets the payload timestamp to now when the type is not "chat"', () => {
+    Date.now = jest.fn(() => 123)
+    const data = {
+      type: 'visitor_update',
+      detail: {}
+    }
+
+    const expectedAction = {
+      type: `${SDK_ACTION_TYPE_PREFIX}/${data.type}`,
+      payload: {
+        type: 'visitor_update',
+        timestamp: Date.now(),
+        detail: {}
+      }
+    }
+
+    listener(data)
+
+    expect(dispatch).toHaveBeenCalledWith(expectedAction)
+  })
+
   it('does not change the detail timestamp for chat types if it exists', () => {
     Date.now = jest.fn(() => 123)
     const data = {
