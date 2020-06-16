@@ -1,8 +1,8 @@
 import '../webWidgetPreview'
 
 import { i18n } from 'service/i18n'
-import { wait } from '@testing-library/dom'
 import t from '@zendesk/client-i18n-tools'
+import { waitFor } from '@testing-library/dom'
 
 t.set = jest.fn()
 
@@ -55,20 +55,20 @@ describe('default parameters', () => {
   it('renders the message title', async () => {
     preview.setTitle('message')
 
-    await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
+    await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
   })
 
   describe('the contact title', () => {
     it('renders it', async () => {
       preview.setTitle('contact')
 
-      await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Contact us'))
+      await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Contact us'))
     })
 
     it('updates it', async () => {
       preview.setTitle('message')
 
-      await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
+      await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
     })
 
     it("preserves the widget's colour after changing it", () => {
@@ -85,7 +85,7 @@ describe('default parameters', () => {
   it('sets it with default title if no title is passed', async () => {
     preview.setTitle()
 
-    await wait(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
+    await waitFor(() => expect(webWidgetPreviewBodyEl()).toHaveTextContent('Leave us a message'))
   })
 
   it('allows setting of color', () => {
@@ -115,7 +115,7 @@ test('locale can be set', async () => {
     locale: 'fr'
   })
 
-  await wait(() => expect(i18n.getLocale()).toEqual('fr'))
+  await waitFor(() => expect(i18n.getLocale()).toEqual('fr'))
 })
 
 test('styles can be customized', async () => {
@@ -131,7 +131,7 @@ test('styles can be customized', async () => {
     styles
   })
 
-  await wait(() =>
+  await waitFor(() =>
     expect(webWidgetPreview()).toHaveStyle(`
         float: left;
         margin-top: 32px;

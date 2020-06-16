@@ -8,7 +8,7 @@ import { screenChanged } from 'src/embeds/answerBot/actions/root'
 import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
 import AnswerBot from '../../index'
-import { wait } from '@testing-library/dom'
+import { waitFor } from '@testing-library/dom'
 import { updateWidgetShown } from 'src/redux/modules/base'
 
 jest.mock('service/transport')
@@ -121,7 +121,7 @@ test('integration', async () => {
   jest.runAllTimers()
 
   // Greeting is now available
-  await wait(() => expect(utils.queryByText('Hello.')).toBeInTheDocument())
+  await waitFor(() => expect(utils.queryByText('Hello.')).toBeInTheDocument())
 
   // Type in a question
   fireEvent.change(textArea, { target: { value: 'Help me' } })

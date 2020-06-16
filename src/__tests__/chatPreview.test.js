@@ -1,4 +1,4 @@
-import { wait } from '@testing-library/dom'
+import { waitFor } from '@testing-library/dom'
 
 import '../chatPreview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
@@ -74,7 +74,7 @@ describe('rendered with default options', () => {
   it('can update to prechat screen', done => {
     preview.updateScreen(constants.PRECHAT_SCREEN)
     preview.waitForComponent(async () => {
-      await wait(() => expect(chatPreviewBodyEl()).toHaveTextContent('Start chat'))
+      await waitFor(() => expect(chatPreviewBodyEl()).toHaveTextContent('Start chat'))
       done()
     })
   })
@@ -108,7 +108,7 @@ describe('rendered with default options', () => {
   it('allows updating of locale', async () => {
     preview.updateLocale('zh')
 
-    await wait(() => expect(i18n.getLocale()).toEqual('zh-cn'))
+    await waitFor(() => expect(i18n.getLocale()).toEqual('zh-cn'))
   })
 
   it('allows setting of chat state', done => {
@@ -148,7 +148,7 @@ test('locale can be set', async () => {
     locale: 'fr'
   })
 
-  await wait(() => expect(i18n.getLocale()).toEqual('fr'))
+  await waitFor(() => expect(i18n.getLocale()).toEqual('fr'))
 })
 
 test('styles can be customized', async () => {
@@ -164,7 +164,7 @@ test('styles can be customized', async () => {
     styles
   })
 
-  await wait(() =>
+  await waitFor(() =>
     expect(chatPreview()).toHaveStyle(`
         float: left;
         margin-top: 32px;

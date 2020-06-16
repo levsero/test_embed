@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'src/util/testHelpers'
 import EndChat from '../'
-import { wait, fireEvent } from '@testing-library/dom'
+import { waitFor, fireEvent } from '@testing-library/dom'
 
 const endChatViaPostChatScreen = jest.fn(),
   onClose = jest.fn()
@@ -14,7 +14,7 @@ const renderComponent = async (props = {}) => {
 
   const result = render(<EndChat {...defaultProps} {...props} />)
 
-  await wait(() =>
+  await waitFor(() =>
     expect(result.queryByText('Are you sure you want to end this chat?')).toBeInTheDocument()
   )
 
