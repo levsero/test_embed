@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import { Avatar } from 'component/Avatar'
 import { Attachment } from 'component/chat/attachment/Attachment'
-import { MessageError } from 'component/chat/chatting/MessageError'
+import MessageError from 'src/embeds/chat/components/MessageError'
 import { ImageMessage } from 'component/chat/chatting/ImageMessage'
 import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import {
@@ -160,7 +160,7 @@ export default class ChatGroup extends Component {
       numFailedTries === 1 ? (
         <MessageError
           errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
-          handleError={() => this.props.handleSendMsg(msg, timestamp)}
+          onClick={() => this.props.handleSendMsg(msg, timestamp)}
         />
       ) : (
         <MessageError
@@ -171,7 +171,7 @@ export default class ChatGroup extends Component {
     return (
       <div>
         {this.renderMessageBubble(chat, isAgent)}
-        <div className={styles.messageErrorContainer}>{messageError}</div>
+        {messageError}
       </div>
     )
   }
@@ -232,13 +232,7 @@ export default class ChatGroup extends Component {
       return (
         <div>
           {inlineAttachment}
-          <div className={styles.messageErrorContainer}>
-            <MessageError
-              className={styles.attachmentErrorMessageContainer}
-              messageErrorClasses={styles.attachmentMessageError}
-              errorMessage={errorMessage}
-            />
-          </div>
+          <MessageError errorMessage={errorMessage} />
         </div>
       )
     }

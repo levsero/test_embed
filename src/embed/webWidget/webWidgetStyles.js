@@ -14,7 +14,6 @@ import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
 import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
-import MessageErrorStyles from 'component/chat/chatting/MessageError.scss'
 import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
 import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCard.scss'
@@ -43,7 +42,6 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
-  ${MessageErrorStyles}
   ${SharedComponentStyles}
   ${FrameStyles}
   ${PanelCardStyles}
