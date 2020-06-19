@@ -4,7 +4,7 @@ import { render } from 'utility/testHelpers'
 import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchForm from '../index'
 import { http } from 'service/transport'
-http.getWithCache = jest.fn(() => {
+http.get = jest.fn(() => {
   return new Promise(resolve => {
     resolve()
   })

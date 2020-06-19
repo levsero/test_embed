@@ -90,7 +90,7 @@ const clearCache = () => {
   cache = {}
 }
 
-function getWithCache(payload, options = {}) {
+function get(payload, options = {}) {
   const queryConfig = {
     ...defaultConfig,
     method: 'GET',
@@ -265,8 +265,7 @@ export const http = {
   send,
   sendWithMeta,
   sendFile,
-  getWithCache,
-  get: send,
+  get,
   callMeRequest,
   updateConfig,
   getDynamicHostname,

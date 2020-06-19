@@ -47,7 +47,7 @@ const sendQuery = async (path, query, doneFn, failFn, filter, responseType) => {
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
   const queryParams = _.extend(query, filter)
   return http
-    .getWithCache({
+    .get({
       forceHttp: forceHttp,
       useHostMappingIfAvailable: isOnHostMappedDomain(),
       path,
@@ -249,7 +249,7 @@ export function displayArticle(articleId) {
     const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
 
     return http
-      .getWithCache(
+      .get(
         {
           method: 'get',
           forceHttp: forceHttp,

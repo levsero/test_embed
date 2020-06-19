@@ -256,7 +256,7 @@ describe('#send', () => {
   })
 })
 
-describe('#getWithCache', () => {
+describe('#get', () => {
   let payload
 
   beforeEach(() => {
@@ -267,7 +267,7 @@ describe('#getWithCache', () => {
   })
 
   it('with default config values only path passed in', () => {
-    http.getWithCache(payload)
+    http.get(payload)
 
     expect(superagent.__mostRecent().query).not.toHaveBeenCalled()
     expect(superagent.__mostRecent().retry).toHaveBeenCalledWith(1)
@@ -283,51 +283,51 @@ describe('#getWithCache', () => {
   it('sends a query string if payload contains it', () => {
     payload.query = { hello: 'there' }
 
-    http.getWithCache(payload)
+    http.get(payload)
 
     expect(superagent.__mostRecent().query).toHaveBeenCalledWith(payload.query)
   })
 
   it('sends the Accept-Language if payload contains a locale', () => {
     payload.locale = 'fr'
-    http.getWithCache(payload)
+    http.get(payload)
     expect(superagent.__mostRecent().set).toHaveBeenCalledWith('Accept-Language', 'fr')
   })
 
   it('overrides the timeout value if passed in', () => {
-    http.getWithCache(payload, { timeout: 1000 })
+    http.get(payload, { timeout: 1000 })
     expect(superagent.__mostRecent().timeout).toHaveBeenCalledWith(1000)
   })
 
   it('overrides the retries value if passed in', () => {
-    http.getWithCache(payload, { retries: 3 })
+    http.get(payload, { retries: 3 })
     expect(superagent.__mostRecent().retry).toHaveBeenCalledWith(3)
   })
 
   it('caches correctly based on path', async () => {
-    await http.getWithCache(payload)
+    await http.get(payload)
     expect(superagent.__getInstances().length).toEqual(1)
-    await http.getWithCache({ path: '/test/path/2' })
+    await http.get({ path: '/test/path/2' })
     expect(superagent.__getInstances().length).toEqual(2)
-    await http.getWithCache(payload)
+    await http.get(payload)
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
   it('caches correctly based on query string', async () => {
-    await http.getWithCache({ path: '/test/path', query: { a: '123' } })
+    await http.get({ path: '/test/path', query: { a: '123' } })
     expect(superagent.__getInstances().length).toEqual(1)
-    await http.getWithCache({ path: '/test/path', query: { a: '123', b: '123' } })
+    await http.get({ path: '/test/path', query: { a: '123', b: '123' } })
     expect(superagent.__getInstances().length).toEqual(2)
-    await http.getWithCache({ path: '/test/path', query: { a: '123' } })
+    await http.get({ path: '/test/path', query: { a: '123' } })
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
   it('caches correctly based on authorization', async () => {
-    await http.getWithCache({ path: '/test/path', authorization: 'token1' })
+    await http.get({ path: '/test/path', authorization: 'token1' })
     expect(superagent.__getInstances().length).toEqual(1)
-    await http.getWithCache({ path: '/test/path' })
+    await http.get({ path: '/test/path' })
     expect(superagent.__getInstances().length).toEqual(2)
-    await http.getWithCache({ path: '/test/path', authorization: 'token1' })
+    await http.get({ path: '/test/path', authorization: 'token1' })
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
@@ -335,21 +335,21 @@ describe('#getWithCache', () => {
     const error = new Error('there was an error')
     superagent.__setMockError(error)
 
-    await http.getWithCache({ path: '/test/path' }).catch(err => {
+    await http.get({ path: '/test/path' }).catch(err => {
       expect(err).toEqual(error)
     })
 
     expect(superagent.__getInstances().length).toEqual(1)
     superagent.__setMockError(undefined)
 
-    await http.getWithCache({ path: '/test/path' })
+    await http.get({ path: '/test/path' })
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
   it('does not use cache if skipCache is true', async () => {
-    await http.getWithCache(payload)
+    await http.get(payload)
     expect(superagent.__getInstances().length).toEqual(1)
-    await http.getWithCache(payload, { skipCache: true })
+    await http.get(payload, { skipCache: true })
     expect(superagent.__getInstances().length).toEqual(2)
   })
 
@@ -357,7 +357,7 @@ describe('#getWithCache', () => {
     let urlArg
 
     beforeEach(() => {
-      http.getWithCache(payload)
+      http.get(payload)
 
       urlArg = superagent.mock.calls[0][1]
     })
@@ -374,7 +374,7 @@ describe('#getWithCache', () => {
       payload.useHostMappingIfAvailable = true
       http.updateConfig({ hostMapping: 'help.x.yz' })
 
-      http.getWithCache(payload)
+      http.get(payload)
 
       urlArg = superagent.mock.calls[0][1]
     })

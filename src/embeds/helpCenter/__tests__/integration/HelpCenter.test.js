@@ -181,7 +181,7 @@ const results = {
 /* eslint-enable camelcase */
 
 const setupMocks = () => {
-  http.getWithCache = jest.fn(({ path }) => {
+  http.get = jest.fn(({ path }) => {
     return new Promise((resolve, reject) => {
       switch (path) {
         case '/api/v2/help_center/articles/embeddable_search.json':
@@ -206,7 +206,7 @@ const focusedOnArticle = (queryByText, title) => {
 }
 
 const setupNoResultsMock = () => {
-  http.getWithCache = jest.fn(() => {
+  http.get = jest.fn(() => {
     return new Promise(resolve => {
       resolve({
         body: {
