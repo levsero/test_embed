@@ -5,7 +5,8 @@ export default {
   chat_embed_prechat_form_enabled: {
     defaultValue: false
   },
-  talk_deferred_enabled: {
-    defaultValue: false
+  defer_talk_connection: {
+    defaultValue: false,
+    getArturoValue: state => state.base.embeddableConfig.deferTalkConnection
   }
 }
