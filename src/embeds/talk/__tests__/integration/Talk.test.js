@@ -83,7 +83,7 @@ test('limit phone input field length based on libphonenumber-js validation', () 
   const utils = setUpComponent()
   checkForForm(utils)
   userEvent.type(utils.getByLabelText('Phone Number'), '+12222333344445555666677778888')
-  expect(utils.getByLabelText('Phone Number').value).toEqual('+122223333444455556')
+  expect(utils.getByLabelText('Phone Number').value).toEqual('+1 22223333444455556')
 })
 
 test('phone number is displayed as the user types', () => {
