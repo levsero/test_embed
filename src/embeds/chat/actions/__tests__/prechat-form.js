@@ -17,7 +17,7 @@ jest.mock('src/redux/modules/chat/chat-selectors')
 
 describe('submitPrechatForm', () => {
   beforeEach(() => {
-    // Since most chat actions are etiher thunks or interact with the chat sdk,
+    // Since most chat actions are either thunks or interact with the chat sdk,
     // here they are all mocked out to return simple actions to test against
 
     handlePrechatFormSubmit.mockImplementation(values => ({

@@ -6,11 +6,7 @@ import { connect } from 'react-redux'
 import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 import validate from './validate'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
-import {
-  getDefaultSelectedDepartment,
-  getPrechatFields,
-  getPrechatGreeting
-} from 'embeds/chat/selectors/prechat-form'
+import { getPrechatFields, getPrechatGreeting } from 'embeds/chat/selectors/prechat-form'
 import {
   getAuthUrls,
   getChatVisitor,
@@ -42,7 +38,6 @@ const PrechatForm = ({
   initiateSocialLogout,
   readOnlyValues,
   isOfflineFormEnabled,
-  defaultDepartment,
   departments,
   isPreview
 }) => {
@@ -61,11 +56,10 @@ const PrechatForm = ({
           onSubmit({
             values,
             isDepartmentFieldVisible: getFields(values).some(field => field.id === 'department')
+          }).then(() => {
+            return { success: true }
           })
         }
-        initialValues={{
-          department: defaultDepartment
-        }}
         getFields={getFields}
         isPreview={isPreview}
         validate={values =>
@@ -76,7 +70,7 @@ const PrechatForm = ({
             <SubmitButton
               submitting={isSubmitting}
               label={
-                isDepartmentOffline(formValues.department)
+                isDepartmentOffline(formValues?.department)
                   ? translate('embeddable_framework.chat.preChat.offline.button.sendMessage')
                   : translate('embeddable_framework.chat.preChat.online.button.startChat')
               }
@@ -119,7 +113,6 @@ PrechatForm.propTypes = {
   readOnlyValues: PropTypes.objectOf(PropTypes.bool),
   isOfflineFormEnabled: PropTypes.bool,
   isPreview: PropTypes.bool,
-  defaultDepartment: PropTypes.any,
   departments: PropTypes.objectOf(
     PropTypes.shape({
       status: PropTypes.string
@@ -138,7 +131,6 @@ const mapStateToProps = state => ({
   authUrls: getAuthUrls(state),
   readOnlyValues: getReadOnlyState(state),
   isOfflineFormEnabled: getOfflineFormSettings(state).enabled,
-  defaultDepartment: getDefaultSelectedDepartment(state)?.id,
   departments: getDepartments(state)
 })
 

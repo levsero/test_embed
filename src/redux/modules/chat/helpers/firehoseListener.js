@@ -46,6 +46,8 @@ const firehoseListener = (zChat, dispatch) => data => {
 
   if (data.type === 'chat' && data.detail && !data.detail.timestamp) {
     data.detail.timestamp = Date.now()
+  } else {
+    data.timestamp = Date.now()
   }
 
   const chatAction = {
