@@ -17,7 +17,7 @@ export function setupZopimQueue(win) {
   }
 
   $zopim = win.$zopim = callback => {
-    if ($zopim.flushed) {
+    if ($zopim._exec) {
       callback()
     } else {
       $zopim._.push(callback)
@@ -42,7 +42,9 @@ export function setupZopimQueue(win) {
 }
 
 export function handleZopimQueue(win) {
-  if (_.get(win.$zopim, '_setByWW') === false || _.get(win.$zopim, 'flushed') === true) return
+  if (_.get(win.$zopim, '_setByWW') === false || _.get(win.$zopim, '_exec') === true) return
+
+  _.set(win.$zopim, '_exec', true)
 
   _.forEach(_.get(win.$zopim, '_', []), method => {
     try {
@@ -52,5 +54,4 @@ export function handleZopimQueue(win) {
       logAndTrackApiError(new ZopimApiError(zopimCodeBlock, e))
     }
   })
-  _.set(win.$zopim, 'flushed', true)
 }
