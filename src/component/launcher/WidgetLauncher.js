@@ -190,6 +190,7 @@ class WidgetLauncher extends Component {
       <button
         data-testid={TEST_IDS.LAUNCHER}
         aria-haspopup="true"
+        aria-label={this.getActiveEmbedLabel()}
         className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={e => {
           this.props.onClick(e)
