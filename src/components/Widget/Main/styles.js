@@ -23,7 +23,7 @@ const webkitStyles = `
 
 const firefoxStyles = `
   padding-left: ${20 / FONT_SIZE}rem;
-  padding-right: ${10 / FONT_SIZE}rem;
+  padding-right: ${20 / FONT_SIZE}rem;
   margin: 0;
   scrollbar-width: thin;
 `
