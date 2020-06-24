@@ -426,7 +426,18 @@ Updates the visitor path by setting the title to the current user's page title a
 
 ##### Parameters
 
-- `data`: Object. This object accepts two optional string parameters `title` and `url`.
+- `data`: Object. This object accepts two optional string parameters `title` and `url`. Note that the `url` parameter must be a complete URL, including the scheme.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'updatePath', {
+    title: 'Voltron',
+    url: 'https://example.com/voltron'
+  });
+</script>
+```
 
 #### updateSettings
 
