@@ -46,8 +46,10 @@ const LoginIconButton = styled(IconButton)`
 `
 const FacebookLoginIcon = styled(FacebookIcon)`
    {
-    width: ${15 / FONT_SIZE}rem;
-    height: ${15 / FONT_SIZE}rem;
+    && {
+      width: ${15 / FONT_SIZE}rem;
+      height: ${15 / FONT_SIZE}rem;
+    }
     path {
       fill: #3b5998;
     }
@@ -56,8 +58,10 @@ const FacebookLoginIcon = styled(FacebookIcon)`
 
 const GoogleLoginIcon = styled(GoogleIcon)`
    {
-    width: ${15 / FONT_SIZE}rem;
-    height: ${15 / FONT_SIZE}rem;
+    && {
+      width: ${15 / FONT_SIZE}rem;
+      height: ${15 / FONT_SIZE}rem;
+    }
   }
 `
 export { SocialLoginContainer, LoginIconButton, FacebookLoginIcon, GoogleLoginIcon }

@@ -78,7 +78,7 @@ const TicketForm = ({
       footer={({ isSubmitting }) => (
         <Footer>
           <Button
-            primary={true}
+            isPrimary={true}
             type="submit"
             disabled={isSubmitting}
             data-testid={TEST_IDS.SUPPORT_SUBMIT_BUTTON}

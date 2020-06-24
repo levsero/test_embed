@@ -89,7 +89,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
           </StyledBody>
           <Footer>
             <FooterItem>
-              <Button basic={true} onClick={onClose}>
+              <Button isBasic={true} onClick={onClose}>
                 {translate('embeddable_framework.common.button.cancel')}
               </Button>
             </FooterItem>

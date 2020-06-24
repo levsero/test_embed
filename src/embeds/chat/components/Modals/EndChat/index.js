@@ -30,7 +30,7 @@ const EndChatModal = ({ endChatViaPostChatScreen, onClose }) => {
         </Button>
         <Button
           onClick={endChat}
-          primary={true}
+          isPrimary={true}
           aria-label={translate('embeddable_framework.common.button.end')}
           data-testid={TEST_IDS.BUTTON_OK}
         >

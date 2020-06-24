@@ -20,25 +20,20 @@ exports[`TitleRow renders 1`] = `
   margin-top: 0.2857142857142857rem;
 }
 
-.c0 .c2:first-child {
+.c0 .c1:first-child {
   margin-left: 4rem;
 }
 
-.c0 .c2:nth-child(2) {
+.c0 .c1:nth-child(2) {
   margin-left: 2rem;
 }
 
-.c0 .c2:last-child {
+.c0 .c1:last-child {
   margin-right: 4rem;
 }
 
-.c0 .c2:nth-last-child(2) {
+.c0 .c1:nth-last-child(2) {
   margin-right: 2rem;
-}
-
-.c0 .c1 {
-  width: 2rem !important;
-  height: 2rem !important;
 }
 
 <div

@@ -19,7 +19,7 @@ const AgentDetailsPage = ({ updateChatScreen }) => {
         <AgentList />
       </Main>
       <Footer>
-        <Button primary={true} onClick={() => updateChatScreen(CHATTING_SCREEN)}>
+        <Button isPrimary={true} onClick={() => updateChatScreen(CHATTING_SCREEN)}>
           {translate('embeddable_framework.chat.agentList.button.backToChat')}
         </Button>
       </Footer>

@@ -17,7 +17,7 @@ const SuccessNotification = ({ onClick, doneText, icon }) => {
         <Message>{translate('embeddable_framework.common.notify.message.get_back_v2')}</Message>
       </div>
       <div>
-        <LinkText link={true} onClick={onClick}>
+        <LinkText isLink={true} onClick={onClick}>
           {doneText}
         </LinkText>
       </div>

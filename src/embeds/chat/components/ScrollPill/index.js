@@ -16,7 +16,7 @@ const ScrollPill = ({ notificationCount, onClick }) => {
       : translate('embeddable_framework.common.notification.oneMessage')
 
   return (
-    <ButtonPill onClick={onClick} pill={true}>
+    <ButtonPill onClick={onClick}>
       {label}
       <ArrowDownIcon data-testid="Icon--arrow-down" aria-hidden={'true'} />
     </ButtonPill>

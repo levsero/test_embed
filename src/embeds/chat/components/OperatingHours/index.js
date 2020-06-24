@@ -45,7 +45,7 @@ const OperatingHours = ({ operatingHours, handleOfflineFormBack, locale }) => {
         />
       )}
       <Schedule schedule={schedule} locale={locale} />
-      <Button primary={true} onClick={handleOfflineFormBack}>
+      <Button isPrimary={true} onClick={handleOfflineFormBack}>
         {translate('embeddable_framework.common.button.goBack')}
       </Button>
     </div>

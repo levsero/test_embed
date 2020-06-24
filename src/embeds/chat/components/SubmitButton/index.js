@@ -8,7 +8,7 @@ import { TEST_IDS } from 'constants/shared'
 
 const SubmitButton = ({ submitting, label, theme: { fontSize, buttonTextColorStr } }) => {
   return (
-    <Button primary={true} type="submit" data-testid={TEST_IDS.BUTTON_OK}>
+    <Button isPrimary={true} type="submit" data-testid={TEST_IDS.BUTTON_OK}>
       {submitting ? (
         <div data-testid={TEST_IDS.DOTS}>
           <Dots delayMS={125} size={`${20 / fontSize}rem`} color={buttonTextColorStr} />

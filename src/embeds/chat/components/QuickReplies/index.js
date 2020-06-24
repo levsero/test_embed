@@ -28,7 +28,7 @@ export class QuickReply extends Component {
     return (
       <Button
         className={className}
-        pill={true}
+        isPill={true}
         onClick={this.props.onClick}
         onFocus={this.props.onFocus}
         onBlur={this.props.onBlur}

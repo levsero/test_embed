@@ -23,7 +23,7 @@ const NoAgentsPage = ({ title, onButtonClick }) => {
           <Greeting data-testid={TEST_IDS.FORM_GREETING_MSG}>
             {translate('embeddable_framework.chat.offline.label.noForm')}
           </Greeting>
-          <Button primary={true} onClick={onButtonClick}>
+          <Button isPrimary={true} onClick={onButtonClick}>
             {translate('embeddable_framework.chat.offline.button.close')}
           </Button>
         </InnerContentContainer>

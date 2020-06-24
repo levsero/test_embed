@@ -5,7 +5,7 @@ import { Button } from './styles'
 
 const StartCallButton = ({ clickHandler, contents }) => {
   return (
-    <Button onClick={clickHandler} primary={true}>
+    <Button onClick={clickHandler} isPrimary={true}>
       {contents}
     </Button>
   )

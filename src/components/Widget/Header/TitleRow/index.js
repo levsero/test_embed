@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { IconButton } from '@zendeskgarden/react-buttons'
 import Title from 'components/Widget/Header/Title'
 import HeaderRow from 'components/Widget/Header/HeaderRow'
 
@@ -28,11 +27,6 @@ const TitleRow = styled(HeaderRow)`
     &:nth-last-child(2) {
       margin-right: ${HEADER_ICON_SIZE}rem;
     }
-  }
-
-  ${IconButton} {
-    width: ${HEADER_ICON_SIZE}rem !important;
-    height: ${HEADER_ICON_SIZE}rem !important;
   }
 `
 

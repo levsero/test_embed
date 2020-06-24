@@ -11,7 +11,7 @@ const Container = styled.div`
 `
 
 const Button = styled(GardenButton).attrs(() => ({
-  link: true,
+  isLink: true,
   ignoreThemeOverride: true
 }))`
   &&& {

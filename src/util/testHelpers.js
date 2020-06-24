@@ -14,7 +14,7 @@ import { createMemoryHistory } from 'history'
 import { render as rtlRender } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { IdManager } from '@zendeskgarden/react-selection'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 
 export const dispatchChatAccountSettings = (store, settings) => {
@@ -132,7 +132,7 @@ export function render(
   return {
     ...renderFn(
       <Provider store={reduxStore}>
-        <ThemeProvider {...themeProps}>
+        <ThemeProvider theme={{ ...DEFAULT_THEME, ...themeProps }}>
           <WidgetThemeProvider theme={widgetThemeProps}>
             <Router history={history}>{ui}</Router>
           </WidgetThemeProvider>

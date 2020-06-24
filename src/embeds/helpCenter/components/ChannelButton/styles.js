@@ -8,8 +8,6 @@ export const ButtonContainer = styled.div`
 `
 
 export const StyledButton = styled(Button)`
-  padding-right: ${10 / FONT_SIZE}rem !important;
-  padding-left: ${10 / FONT_SIZE}rem !important;
   max-width: ${200 / FONT_SIZE}rem;
 `
 
