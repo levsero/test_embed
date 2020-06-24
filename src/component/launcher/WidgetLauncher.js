@@ -76,11 +76,11 @@ class WidgetLauncher extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.container.current) {
-      return
-    }
-
     onNextTick(() => {
+      if (!this.container.current) {
+        return
+      }
+
       const newWidth = Math.max(
         this.container.current.clientWidth,
         this.container.current.offsetWidth

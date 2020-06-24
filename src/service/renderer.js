@@ -9,13 +9,19 @@ import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import { setLocaleApi } from 'src/service/api/apis'
 import webWidgetApp from 'src/embeds/webWidget'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import { getIsWidgetReady } from 'src/redux/modules/selectors'
+import publicApi from 'src/framework/services/public-api'
+import { getWebWidgetPublicApi } from 'service/api/webWidgetApi/setupApi'
+import { getWebWidgetLegacyPublicApi } from 'service/api/webWidgetApi/setupLegacyApi'
+import logger from 'src/util/logger'
 
 let initialised = false
+let hasRendered = false
 
 const dummyStore = {
   dispatch: () => {},
-  subscribe: () => {},
-  getState: () => {}
+  getState: () => {},
+  subscribe: () => {}
 }
 
 function setUpEmbeds(embeds, reduxStore) {
@@ -42,7 +48,10 @@ function registerEmbedsInRedux(config, reduxStore) {
   })
 }
 
-function init(config, reduxStore = dummyStore) {
+async function init(config, reduxStore = dummyStore) {
+  publicApi.registerApi(getWebWidgetPublicApi(reduxStore))
+  publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(reduxStore, config))
+
   if (_.isEmpty(config.embeds)) return
   if (!initialised) {
     if (config.webWidgetCustomizations) {
@@ -56,13 +65,43 @@ function init(config, reduxStore = dummyStore) {
     if (!_.isEmpty(config.embeds)) {
       registerEmbedsInRedux(config, reduxStore)
       setUpEmbeds(config.embeds, reduxStore)
-      webWidgetApp.render({ reduxStore, config })
     }
 
     reduxStore.dispatch(widgetInitialised())
 
+    // Wait for the widget to be ready
+    try {
+      await new Promise(resolve => {
+        const unsubscribe = reduxStore.subscribe(() => {
+          if (getIsWidgetReady(reduxStore.getState())) {
+            resolve()
+            unsubscribe()
+          }
+        })
+
+        if (getIsWidgetReady(reduxStore.getState())) {
+          resolve()
+          unsubscribe()
+        }
+      })
+    } catch (err) {
+      logger.error('Failed while waiting for web widget to initialise', err)
+      return
+    }
+
     initialised = true
   }
+}
+
+function run(config, reduxStore = dummyStore) {
+  if (hasRendered) {
+    return
+  }
+
+  if (!_.isEmpty(config.embeds)) {
+    webWidgetApp.render({ reduxStore, config })
+  }
+  hasRendered = true
 }
 
 function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
@@ -70,6 +109,7 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 }
 
 export const renderer = {
+  run,
   init: init,
   initIPM: initIPM
 }

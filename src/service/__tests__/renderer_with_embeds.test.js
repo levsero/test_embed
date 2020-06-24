@@ -45,7 +45,7 @@ test('renders expected embeds from config', () => {
     }
   }
 
-  renderer.init(configJSON, store)
+  renderer.run(configJSON, store)
 
   expect(document.body.innerHTML).toMatchSnapshot()
 })

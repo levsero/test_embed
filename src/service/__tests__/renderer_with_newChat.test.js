@@ -38,6 +38,7 @@ test('new chat', () => {
   }
 
   renderer.init(configJSON, store)
+  renderer.run(configJSON, store)
 
   expect(document.body.innerHTML).toMatchSnapshot()
 })
