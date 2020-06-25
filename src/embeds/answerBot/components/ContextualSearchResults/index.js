@@ -25,7 +25,10 @@ class ContextualSearchResults extends Component {
     } = this.props
 
     articleShown(article.id)
+
     screenChanged(ARTICLE_SCREEN)
+
+    return
   }
 
   render() {

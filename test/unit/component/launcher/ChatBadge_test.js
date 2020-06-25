@@ -52,6 +52,9 @@ describe('ChatBadge component', () => {
       '@zendeskgarden/react-forms': {
         Input: noopReactComponent()
       },
+      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+        FrameStyle: noopReactComponent()
+      },
       'src/redux/modules/selectors': {
         getChatOnline: noop
       },

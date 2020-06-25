@@ -24,6 +24,7 @@ test('includes the subject field in ticket form when enabled', async () => {
     })
     .intercept(mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint))
     .load()
+
   await launcher.click()
   await waitForContactForm()
   const frame = await widget.getFrame()
@@ -34,7 +35,6 @@ test('includes the subject field in ticket form when enabled', async () => {
     'Subject (optional)': 'test subject',
     'How can we help you?': 'test description'
   })
-
   await expect(frame).toClick('button', { text: 'Send' })
   await waitForSubmissionSuccess()
   expect(mockSubmissionEndpoint).toHaveBeenCalledWith(

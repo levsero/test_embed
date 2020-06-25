@@ -73,9 +73,6 @@ describe('boot', () => {
         getMetaTagsByName: noop,
         isMobileBrowser: noop
       },
-      'utility/mobileScaling': {
-        initMobileScaling: noop
-      },
       'src/redux/modules/base': {
         updateEmbeddableConfig: updateEmbeddableConfigSpy
       },

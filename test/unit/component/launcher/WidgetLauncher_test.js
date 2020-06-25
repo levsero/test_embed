@@ -34,12 +34,18 @@ describe('WidgetLauncher component', () => {
           icon: 'iconClasses'
         }
       },
+      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+        FrameStyle: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           t: _.identity,
           getLocale: () => mockLocale,
           isRTL: () => mockIsRTL
         }
+      },
+      'utility/utils': {
+        onNextTick: callback => callback()
       },
       'src/redux/modules/selectors': {
         getChatOnline: noop
@@ -457,17 +463,13 @@ describe('WidgetLauncher component', () => {
       it('should ignore state and set label to online', () => {
         launcher.setState({ label: 'foo' })
 
-        expect(ReactDOM.findDOMNode(launcher).querySelector('.labelClasses').innerHTML).toContain(
-          'chat'
-        )
+        expect(global.document.body.querySelector('.labelClasses').innerHTML).toContain('chat')
       })
 
       it('should ignore state and set label to Icon--chat', () => {
         launcher.setState({ icon: 'bar' })
 
-        expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML).toEqual(
-          'Icon--chat'
-        )
+        expect(global.document.body.querySelector('.iconClasses').innerHTML).toEqual('Icon--chat')
       })
     })
   })
@@ -484,7 +486,7 @@ describe('WidgetLauncher component', () => {
     })
 
     it('does not renders the launcher with flipped icon', () => {
-      const targetElem = rendered.props.children[0]
+      const targetElem = rendered.props.children[1].props.children.props.children[0]
 
       expect(targetElem.props.flipX).toBe(false)
     })
@@ -497,7 +499,7 @@ describe('WidgetLauncher component', () => {
       })
 
       it('renders the launcher with flipped icon', () => {
-        const targetElem = rendered.props.children[0]
+        const targetElem = rendered.props.children[1].props.children.props.children[0]
 
         expect(targetElem.props.flipX).toBe(true)
       })
@@ -511,7 +513,7 @@ describe('WidgetLauncher component', () => {
       })
 
       it('does not render the launcher with flipped icon', () => {
-        const targetElem = rendered.props.children[0]
+        const targetElem = rendered.props.children[1].props.children.props.children[0]
 
         expect(targetElem.props.flipX).toBe(false)
       })
@@ -524,7 +526,7 @@ describe('WidgetLauncher component', () => {
       })
 
       it('renders the launcher with flipped icon', () => {
-        const targetElem = rendered.props.children[0]
+        const targetElem = rendered.props.children[1].props.children.props.children[0]
 
         expect(targetElem.props.flipX).toBe(true)
       })

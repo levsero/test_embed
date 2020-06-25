@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import { LauncherPreview } from './LauncherPreview'
 import Frame from 'src/component/frame/Frame'
-import { launcherStyles } from 'embed/launcher/launcherStyles'
 import { generateUserLauncherCSS } from 'utility/color/styles'
 
 import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'constants/launcher'
+import { launcherStyles } from 'embeds/webWidget/components/Launcher/styles'
 
 export class LauncherContainer extends Component {
   static propTypes = {

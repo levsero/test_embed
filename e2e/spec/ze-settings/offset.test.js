@@ -63,10 +63,13 @@ describe('desktop', () => {
     })
     await widget.openByKeyboard()
     await waitForHelpCenter()
-    expect(await getPosition(widget.selector)).toEqual({
-      right: '',
-      bottom: ''
-    })
+
+    await wait(async () =>
+      expect(await getPosition(widget.selector)).toEqual({
+        right: '',
+        bottom: ''
+      })
+    )
   })
 })
 

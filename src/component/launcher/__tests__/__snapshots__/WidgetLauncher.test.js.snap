@@ -2,28 +2,30 @@
 
 exports[`WidgetLauncher renders the component 1`] = `
 <div>
-  <button
-    aria-haspopup="true"
-    aria-label="launcherLabel"
-    class="wrapper "
-    data-testid="launcher"
-  >
-    <span
-      class="container icon  Icon"
-      data-testid="Icon"
-      type="Icon"
+  <div>
+    <button
+      aria-haspopup="true"
+      aria-label="launcherLabel"
+      class="wrapper "
+      data-testid="launcher"
     >
-      <svg
-        aria-hidden="true"
-        realfilename="widget-icon_help.svg"
-      />
-    </span>
-    <span
-      class="label "
-      data-testid="launcher-label"
-    >
-      launcherLabel
-    </span>
-  </button>
+      <span
+        class="container icon  Icon"
+        data-testid="Icon"
+        type="Icon"
+      >
+        <svg
+          aria-hidden="true"
+          realfilename="widget-icon_help.svg"
+        />
+      </span>
+      <span
+        class="label "
+        data-testid="launcher-label"
+      >
+        launcherLabel
+      </span>
+    </button>
+  </div>
 </div>
 `;

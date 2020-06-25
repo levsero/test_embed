@@ -4,7 +4,6 @@ let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('utility/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
 let devices = require('utility/devices')
-let renderer = require('service/renderer').renderer
 let chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
 const dispatch = jest.fn()
@@ -19,7 +18,6 @@ beforeEach(() => {
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
   scrollHacks = require('utility/scrollHacks')
-  renderer = require('service/renderer').renderer
   chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
   jest.mock('service/renderer')
@@ -51,8 +49,6 @@ describe('when widget visibility transitions from false to true', () => {
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledWith(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledWith(true)
     expect(devices.setScaleLock).toHaveBeenCalledWith(true)
-    expect(devices.getZoomSizingRatio).toHaveBeenCalled()
-    expect(renderer.propagateFontRatio).toHaveBeenCalled()
   })
 
   it('disables auto-scroll-to-the-top when proactivechat popup is displayed', () => {
@@ -66,8 +62,6 @@ describe('when widget visibility transitions from false to true', () => {
     expect(scrollHacks.setWindowScroll).toHaveBeenCalledTimes(0)
     expect(scrollHacks.setScrollKiller).toHaveBeenCalledTimes(0)
     expect(devices.setScaleLock).toHaveBeenCalledWith(true)
-    expect(devices.getZoomSizingRatio).toHaveBeenCalled()
-    expect(renderer.propagateFontRatio).toHaveBeenCalled()
   })
 
   it('does not call any mobile functions when on desktop', () => {
@@ -78,7 +72,6 @@ describe('when widget visibility transitions from false to true', () => {
     expect(scrollHacks.setWindowScroll).not.toHaveBeenCalled()
     expect(scrollHacks.setScrollKiller).not.toHaveBeenCalled()
     expect(devices.setScaleLock).not.toHaveBeenCalled()
-    expect(devices.getZoomSizingRatio).not.toHaveBeenCalled()
   })
 })
 

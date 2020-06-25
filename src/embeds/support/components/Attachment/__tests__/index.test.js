@@ -55,10 +55,10 @@ describe('Attachment', () => {
       @@ -58,0 +58,8 @@
       +       </div>
       +       <div
-      +         class="sc-cmTdod bXWvvJ"
+      +         class="sc-htoDjs eTMavl"
       +       >
       +         <div
-      +           class="sc-jwKygS iLlWCm"
+      +           class="sc-dnqmqq dxumBh"
       +           data-testid="progress-bar"
       +         />
     `)

@@ -160,6 +160,28 @@ exports[`renders correctly on desktop 1`] = `
   height: 16px;
 }
 
+.c9 {
+  padding: 0 0.7142857142857143rem 0.35714285714285715rem;
+}
+
+.c12 {
+  color: #c2c8cc !important;
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+}
+
+.c11 {
+  margin-top: 0.2857142857142857rem;
+}
+
+.c11 > div > div {
+  max-height: unset;
+}
+
+.c10 {
+  margin-bottom: 0;
+}
+
 .c0 {
   padding: 0.5714285714285714rem 1rem;
   background: #1F73B7 !important;
@@ -262,28 +284,6 @@ exports[`renders correctly on desktop 1`] = `
 
 .c4:hover {
   background: #227EC9 !important;
-}
-
-.c9 {
-  padding: 0 0.7142857142857143rem 0.35714285714285715rem;
-}
-
-.c12 {
-  color: #c2c8cc !important;
-  height: 1.2rem !important;
-  width: 1.2rem !important;
-}
-
-.c11 {
-  margin-top: 0.2857142857142857rem;
-}
-
-.c11 > div > div {
-  max-height: unset;
-}
-
-.c10 {
-  margin-bottom: 0;
 }
 
 <div>
