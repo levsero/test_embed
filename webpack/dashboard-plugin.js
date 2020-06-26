@@ -4,12 +4,12 @@ const spawn = require('child_process').spawn
 
 let running = false
 
-function DashboardPlugin({ isAvailable }) {
+function DashboardPlugin() {
   const zendeskCodePath = process.env.ZENDESK_CODE_DIR || path.resolve(__dirname, '../')
 
   const dashboardPath = path.resolve(zendeskCodePath, 'widget-developer-dashboard')
 
-  if (isAvailable && !fs.existsSync(dashboardPath)) {
+  if (!fs.existsSync(dashboardPath)) {
     throw new Error(
       [
         "You tried to start the widget with the dashboard, but don't have the dashboard installed yet.\n",
@@ -19,10 +19,6 @@ function DashboardPlugin({ isAvailable }) {
   }
 
   return compiler => {
-    if (!isAvailable) {
-      return
-    }
-
     compiler.plugin('compilation', () => {
       if (running) {
         return

@@ -5,6 +5,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
 const DashboardPlugin = require('./dashboard-plugin')
+const previewTemplates = require('../dev/preview_templates')
 
 const CWD = process.cwd()
 const CSP_HEADER =
@@ -19,7 +20,7 @@ module.exports = () => {
 
   const config = require(path.join(CWD, `/dev/configs/${userConfig}`))
 
-  return merge(common, {
+  const webpackConfig = merge(common, {
     mode: 'development',
     devtool: 'eval-source-map',
     output: {
@@ -42,7 +43,6 @@ module.exports = () => {
       }
     },
     plugins: [
-      new DashboardPlugin({ isAvailable: process.env.USE_DASHBOARD === 'true' }),
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(true)
@@ -57,4 +57,15 @@ module.exports = () => {
       })
     ]
   })
+
+  if (process.env.USE_DASHBOARD === 'true') {
+    webpackConfig.entry = {
+      preload: path.join(CWD, '/src/preload.js'),
+      webWidgetPreview: path.join(CWD, '/src/webWidgetPreview.js'),
+      chatPreview: path.join(CWD, '/src/chatPreview.js')
+    }
+    webpackConfig.plugins.push(new DashboardPlugin(), ...previewTemplates())
+  }
+
+  return webpackConfig
 }
