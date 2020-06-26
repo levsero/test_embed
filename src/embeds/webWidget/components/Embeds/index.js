@@ -12,6 +12,7 @@ import FocusJail from 'components/FrameFocusJail'
 import { widgetShowAnimationComplete } from 'src/redux/modules/base'
 import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
 import useTranslate from 'src/hooks/useTranslate'
+import { isPopout } from 'utility/globals'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
@@ -34,6 +35,17 @@ const mobileWebWidgetStyle = {
   border: 0
 }
 
+const fullscreenDesktopStyle = {
+  height: '100%',
+  maxHeight: 'none',
+  width: '100%',
+  maxWidth: '100%',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0
+}
+
 // On mobile we don't want to transition the web widget's position
 const mobileTransitionOverrides = {
   top: 0,
@@ -50,6 +62,9 @@ const Embeds = () => {
   const zIndex = useSelector(getStylingZIndex)
 
   const frameStyle = isMobileBrowser() ? mobileWebWidgetStyle : baseWebWidgetStyle
+  if (!isMobileBrowser() && isPopout()) {
+    Object.assign(frameStyle, fullscreenDesktopStyle)
+  }
 
   return (
     <FrameTransition

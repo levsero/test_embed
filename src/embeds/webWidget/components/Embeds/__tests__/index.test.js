@@ -6,6 +6,7 @@ import * as actions from 'src/redux/modules/base/base-action-types'
 import { wait, getByTestId } from '@testing-library/react'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import { updateSettings } from 'src/redux/modules/settings'
+import * as globalUtilities from 'utility/globals'
 
 jest.mock('component/webWidget/WebWidget', () => {
   return {
@@ -102,5 +103,22 @@ describe('Embeds', () => {
     )
 
     expect(document.querySelector('iframe')).toHaveStyle('z-index: 200')
+  })
+
+  it('takes up the whole screen when in popout mode', async () => {
+    jest.spyOn(globalUtilities, 'isPopout').mockReturnValue(true)
+
+    const { container, store } = renderComponent()
+
+    store.dispatch(openReceived())
+
+    await wait(() =>
+      expect(container.querySelector('iframe')).toHaveStyle(`
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    `)
+    )
   })
 })
