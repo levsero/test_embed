@@ -1077,6 +1077,11 @@ parts:
       title: "A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article"
       screenshot: "https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15"
       value: "Back to chat"
+  - translation:
+      key: "embeddable_framework.helpCenter.search.clear"
+      title: "[A11Y] The aria label for clearing the search input."
+      screenshot: "https://drive.google.com/file/d/10mFaL5WxgS8d8Sll_ZMQzyY9N26SGqna/view?usp=sharing"
+      value: "Clear search"
 
   # Answer bot embed
   - translation:
