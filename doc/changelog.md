@@ -20,6 +20,36 @@ Formatting guide:
 • Security - in case of vulnerabilities
 -->
 
+### 25 June 2020
+
+- Fixed a bug where nested callbacks in `$zopim(fn)` functions are not executed when placed right after the snippet.
+- Fixed a minor scrollbar rendering bug in Firefox.
+- Fixed the launcher to be more accessible to screen reader users on mobile devices.
+- Changed the padding on a number of buttons, and fixed icon sizes in the Chat footer.
+
+### 23 June 2020
+
+- Fixed a bug that prevented Philippine phone numbers from rendering in the widget.
+
+### 22 June 2020
+
+- Fixed incorrect positioning of modals in Chat in IE11.
+- Fixed a bug where `$zopim(fn)` callbacks were not being executed when placed right after the snippet.
+
+### 4 June 2020
+
+- Fixed a bug where the user avatar appeared on top of the message for right-to-left languages.
+- Fixed scrolling behavior in Chat for long text replies and some structured messages.
+
+### 3 June 2020
+
+- Fixed alignment of alert icon in chat attachment error message.
+
+### 2 June 2020
+
+- Added a validation error when the feedback form is submitted with empty values rather than
+  just disabling the Send button.
+
 ### 29 May 2020
 
 - Updated the widget to use a more generic and consistent success page when the
