@@ -1,6 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
+import { render } from 'src/util/testHelpers'
 import { Component as SearchField } from '../index'
 import { TEST_IDS } from 'src/constants/shared'
 

@@ -501,15 +501,15 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 
 .c13 {
   color: #c2c8cc !important;
-  height: 1.2rem !important;
-  width: 1.2rem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c12 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c12 > div > div {
+.c12 > div > div > div {
   max-height: unset;
 }
 
@@ -619,9 +619,12 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                       class="text__c-txt__input--media__figure___gBDfx "
                     >
                       <svg
+                        aria-hidden="true"
                         class="c13"
                         data-testid="Icon--search"
+                        focusable="false"
                         realfilename="search-stroke.svg"
+                        role="presentation"
                       />
                     </div>
                     <input
@@ -637,9 +640,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                     />
                     <div
                       class="text__c-txt__input--media__figure___gBDfx "
-                    >
-                      <div />
-                    </div>
+                    />
                   </div>
                 </div>
               </div>
@@ -1211,15 +1212,15 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 
 .c13 {
   color: #c2c8cc !important;
-  height: 1.2rem !important;
-  width: 1.2rem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c12 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c12 > div > div {
+.c12 > div > div > div {
   max-height: unset;
 }
 
@@ -1329,9 +1330,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
                       class="text__c-txt__input--media__figure___gBDfx "
                     >
                       <svg
+                        aria-hidden="true"
                         class="c13"
                         data-testid="Icon--search"
+                        focusable="false"
                         realfilename="search-stroke.svg"
+                        role="presentation"
                       />
                     </div>
                     <input
@@ -1347,9 +1351,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
                     />
                     <div
                       class="text__c-txt__input--media__figure___gBDfx "
-                    >
-                      <div />
-                    </div>
+                    />
                   </div>
                 </div>
               </div>
