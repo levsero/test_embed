@@ -20,21 +20,26 @@ jobs:
             env:
               TASK: lint
             run: npm run $TASK
-          - task: testi-ci
+          - task: test-ci
             env:
               TASK: testi-ci
-            run: echo "Starting unit and integration tests" && download_translations && npm run test:ci
+            run: |
+              echo "Starting unit and integration tests"
+              download_translations
+              npm run test:ci
           - task: fossa
             env:
               TASK: fossa
             run: echo "Starting Fossa open source scan" && ./script/run_fossa.sh;
           - task: audit
+            env:
+              TASK: audit
             run: echo "Starting npm audit" && audit-ci --critical
           - task: validate
             run:
               echo "Validating prod builds";
               download_translations
-              bundle exec ruby ./script/validate_i18n.rb || travis_terminate 1
+              bundle exec ruby ./script/validate_i18n.rb
               npm run build:validate
           - task: e2e0
             env:
@@ -100,5 +105,5 @@ jobs:
           bundle install --jobs=3 --retry=3 --path=vendor/bundle
           npm run build-setup:prod
         }
-
+        git config --global url."https://${{ secrets.ORG_GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
         ${{ matrix.run }}
