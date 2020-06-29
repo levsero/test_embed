@@ -93,6 +93,7 @@ jobs:
         npm i -g npm@6.13.4
     - name: install
       run: |
+        git config --global url."https://${{ secrets.ORG_GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
         mkdir dist
         npm set progress=false && npm install
         npm run build:version:generate
@@ -105,5 +106,4 @@ jobs:
           bundle install --jobs=3 --retry=3 --path=vendor/bundle
           npm run build-setup:prod
         }
-        git config --global url."https://${{ secrets.ORG_GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
         ${{ matrix.run }}
