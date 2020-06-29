@@ -16,6 +16,7 @@ const DynamicForm = ({
   validate,
   footer,
   children,
+  controls,
   extraFieldOptions,
   readOnlyValues = {},
   initialValues = {}
@@ -91,6 +92,7 @@ const DynamicForm = ({
           extraFieldOptions={extraFieldOptions}
           isSubmitting={submitting}
           isPreview={isPreview}
+          controls={controls}
           onSubmit={e => {
             e.preventDefault()
             if (isPreview) {
@@ -132,7 +134,8 @@ DynamicForm.propTypes = {
   extraFieldOptions: PropTypes.objectOf(PropTypes.elementType),
   readOnlyValues: PropTypes.objectOf(PropTypes.bool),
   initialValues: PropTypes.objectOf(PropTypes.any),
-  children: PropTypes.node
+  children: PropTypes.node,
+  controls: PropTypes.node
 }
 
 export default DynamicForm

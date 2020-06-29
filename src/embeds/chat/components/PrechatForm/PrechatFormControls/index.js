@@ -2,7 +2,6 @@ import { useForm } from 'react-final-form'
 import { useCallback } from 'react'
 
 import useOnChange from 'src/hooks/useOnChange'
-import { onNextTick } from 'src/util/utils'
 
 const PrechatFormControls = () => {
   const form = useForm()
@@ -11,16 +10,14 @@ const PrechatFormControls = () => {
 
   const onIdentify = useCallback(
     values => {
-      onNextTick(() => {
-        form.batch(() => {
-          if (values.display_name) {
-            form.change('name', values.display_name)
-          }
+      form.batch(() => {
+        if (values.display_name) {
+          form.change('name', values.display_name)
+        }
 
-          if (values.email) {
-            form.change('email', values.email)
-          }
-        })
+        if (values.email) {
+          form.change('email', values.email)
+        }
       })
     },
     [form]
@@ -28,20 +25,18 @@ const PrechatFormControls = () => {
 
   const onPrefill = useCallback(
     (values = {}) => {
-      onNextTick(() => {
-        form.batch(() => {
-          if (values.name) {
-            form.change('name', values.name)
-          }
+      form.batch(() => {
+        if (values.name) {
+          form.change('name', values.name)
+        }
 
-          if (values.email) {
-            form.change('email', values.email)
-          }
+        if (values.email) {
+          form.change('email', values.email)
+        }
 
-          if (values.phone) {
-            form.change('phone', values.phone)
-          }
-        })
+        if (values.phone) {
+          form.change('phone', values.phone)
+        }
       })
     },
     [form]
@@ -49,12 +44,10 @@ const PrechatFormControls = () => {
 
   const onDepartmentSelect = useCallback(
     (values = {}) => {
-      onNextTick(() => {
-        form.batch(() => {
-          if (values.departmentId !== form.values?.department) {
-            form.change('department', values.departmentId)
-          }
-        })
+      form.batch(() => {
+        if (values.departmentId !== form.values?.department) {
+          form.change('department', values.departmentId)
+        }
       })
     },
     [form]
@@ -62,20 +55,18 @@ const PrechatFormControls = () => {
 
   const onChatVisitorUpdate = useCallback(
     (values = {}) => {
-      onNextTick(() => {
-        form.batch(() => {
-          if (values.name) {
-            form.change('name', values.name)
-          }
+      form.batch(() => {
+        if (values.name) {
+          form.change('name', values.name)
+        }
 
-          if (values.email) {
-            form.change('email', values.email)
-          }
+        if (values.email) {
+          form.change('email', values.email)
+        }
 
-          if (values.phone) {
-            form.change('phone', values.phone)
-          }
-        })
+        if (values.phone) {
+          form.change('phone', values.phone)
+        }
       })
     },
     [form]
