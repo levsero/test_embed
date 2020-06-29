@@ -115,14 +115,18 @@ test('renders chat badge', async () => {
 test('updateLocale updates the translations', async () => {
   await page.evaluate(() => window.preview.updateLocale('fr'))
   await goTo(OFFLINE_FORM_SCREENS.MAIN)
-  const doc = await preview.getDocument()
-  expect(
-    await queries.queryByText(doc, 'Désolés, nous ne sommes pas en ligne actuellement')
-  ).toBeTruthy()
+  await wait(async () => {
+    const doc = await preview.getDocument()
+    expect(
+      await queries.queryByText(doc, 'Désolés, nous ne sommes pas en ligne actuellement')
+    ).toBeTruthy()
+  })
   await goTo(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
-  const launcher = await preview.getLauncherDocument()
-  expect(await queries.queryByPlaceholderText(launcher, 'Saisir un message ici')).toBeTruthy()
+  await wait(async () => {
+    const launcher = await preview.getLauncherDocument()
+    expect(await queries.queryByPlaceholderText(launcher, 'Saisir un message ici')).toBeTruthy()
+  })
 })
 
 test('setColor updates the color of the preview widget and badge', async () => {
