@@ -40,7 +40,8 @@ describe('DynamicForm', () => {
     validate: () => true
   }
 
-  const renderComponent = (props = {}) => render(<DynamicForm {...defaultProps} {...props} />)
+  const renderComponent = (props = {}, options) =>
+    render(<DynamicForm {...defaultProps} {...props} />, options)
 
   it('uses the useFormBackup hook to save the form state to redux when needed', () => {
     renderComponent()
@@ -187,6 +188,40 @@ describe('DynamicForm', () => {
       fireEvent.click(getByText('Send'))
 
       expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    it('does not change what fields are shown while submitting', async () => {
+      let resolveSubmit
+      const onSubmit = jest.fn(
+        () =>
+          new Promise(res => {
+            resolveSubmit = res
+          })
+      )
+
+      const result = renderComponent({ onSubmit, getFields: () => [field1, field2] })
+
+      expect(result.queryByLabelText(`${field1.title} (optional)`)).toBeInTheDocument()
+      expect(result.queryByLabelText(`${field2.title} (optional)`)).toBeInTheDocument()
+
+      fireEvent.click(result.getByText('Send'))
+
+      renderComponent(
+        { onSubmit, getFields: () => [field1] },
+        {
+          render: result.rerender
+        }
+      )
+
+      expect(result.queryByLabelText(`${field1.title} (optional)`)).toBeInTheDocument()
+      expect(result.queryByLabelText(`${field2.title} (optional)`)).toBeInTheDocument()
+
+      resolveSubmit()
+
+      await wait(() => expect(result.getByText('Send')).toBeInTheDocument())
+
+      expect(result.queryByLabelText(`${field1.title} (optional)`)).toBeInTheDocument()
+      expect(result.queryByLabelText(`${field2.title} (optional)`)).not.toBeInTheDocument()
     })
   })
 
