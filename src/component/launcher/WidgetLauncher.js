@@ -69,18 +69,16 @@ class WidgetLauncher extends Component {
 
     this.container = React.createRef()
     this.state = {
-      style: {
-        width: 0
-      }
+      style: baseLauncherStyle
     }
   }
 
   componentDidUpdate() {
-    if (!this.container.current) {
-      return
-    }
-
     onNextTick(() => {
+      if (!this.container.current) {
+        return
+      }
+
       const newWidth = Math.max(
         this.container.current.clientWidth,
         this.container.current.offsetWidth

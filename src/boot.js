@@ -5,7 +5,6 @@ import { identity } from 'service/identity'
 import errorTracker from 'service/errorTracker'
 import { store as persistenceStore } from 'service/persistence'
 import { renderer } from 'service/renderer'
-import webWidgetApi from 'service/api/webWidgetApi'
 import zopimApi from 'service/api/zopimApi'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
@@ -16,6 +15,7 @@ import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
+import publicApi from 'src/framework/services/public-api'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -60,7 +60,7 @@ const filterEmbeds = config => {
   return config
 }
 
-const getConfig = (win, postRenderQueue, reduxStore) => {
+const getConfig = (win, reduxStore) => {
   if (win.zESkipWebWidget) return
 
   const configLoadStart = Date.now()
@@ -79,8 +79,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config)
 
-    webWidgetApi.apiSetup(win, reduxStore, config)
-
     beacon.setConfigLoadTime(Date.now() - configLoadStart)
 
     if (win.zESettings) {
@@ -91,9 +89,13 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 
-    const renderCallback = () => {
-      renderer.init(config, reduxStore)
-      webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore)
+    const renderCallback = async () => {
+      await renderer.init(config, reduxStore)
+
+      publicApi.run()
+
+      renderer.run(config, reduxStore)
+
       beacon.sendPageView()
     }
 
@@ -143,24 +145,16 @@ const shouldSendZeDiffBlip = win => {
 
 const start = (win, doc) => {
   const reduxStore = createStore()
-  const postRenderQueue = []
-  const { publicApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore)
 
   i18n.init(reduxStore)
   boot.setupIframe(window.frameElement, doc)
   boot.setupServices(reduxStore)
   zopimApi.setupZopimQueue(win)
 
-  _.extend(win.zEmbed, publicApi)
-
-  webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue)
-
   beacon.init()
   win.onunload = identity.unload
 
-  webWidgetApi.legacyApiSetup(win, reduxStore)
-
-  boot.getConfig(win, postRenderQueue, reduxStore)
+  boot.getConfig(win, reduxStore)
 
   if (shouldSendZeDiffBlip(win)) {
     beacon.trackUserAction('zEmbedFallback', 'warning')

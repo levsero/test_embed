@@ -28,7 +28,9 @@ test('widget toggles to launcher when it is initially open', async () => {
 test('works on prerender as well', async () => {
   await buildWidget()
     .evaluateAfterSnippetLoads(toggleFn)
+    .hiddenInitially()
     .load()
+
   await expect(launcher).toBeHidden()
   await expect(widget).toBeVisible()
 })

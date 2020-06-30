@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import createStore from 'src/redux/createStore'
+import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('service/settings')
 jest.mock('src/redux/modules/base', () => ({
@@ -10,12 +12,16 @@ jest.mock('service/i18n')
 jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/talk')
+jest.mock('src/embeds/webWidget', () => ({
+  render: jest.fn()
+}))
 jest.mock('src/embeds/helpCenter/actions')
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
 
 const store = createStore()
 
 store.dispatch = jest.fn()
+store.dispatch({ type: BOOT_UP_TIMER_COMPLETE })
 
 let mockSettings,
   renderer,
@@ -26,7 +32,8 @@ let mockSettings,
   setLocaleApi,
   i18n,
   settings,
-  talkfeature
+  talkfeature,
+  renderWebWidget
 
 beforeEach(() => {
   jest.resetModules()
@@ -43,6 +50,7 @@ beforeEach(() => {
   baseActions = require('src/redux/modules/base')
   setLocaleApi = require('src/service/api/apis').setLocaleApi
   i18n = require('service/i18n').i18n
+  renderWebWidget = require('src/embeds/webWidget').render
 
   chatActions = require('src/redux/modules/chat')
   talkActions = require('src/redux/modules/talk')
@@ -85,6 +93,7 @@ const testConfig = () => ({
 describe('init', () => {
   it('calls and renders correct embeds from config', () => {
     renderer.init(testConfig(), store)
+    renderer.run(testConfig(), store)
 
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
 
@@ -97,59 +106,44 @@ describe('init', () => {
     }).not.toThrow()
   })
 
-  it('does not call renderer.init more than once', () => {
-    renderer.init(
-      {
-        embeds: {
-          thing: {
-            embed: 'submitTicket'
-          },
-          thingLauncher: {
-            embed: 'launcher',
-            props: {
-              onDoubleClick: {
-                name: 'thing',
-                method: 'show'
-              }
-            }
-          }
-        }
-      },
-      store
-    )
+  describe('when config is not naked zopim', () => {
+    beforeEach(async () => {
+      await renderer.init(testConfig(), store)
+      renderer.run(testConfig(), store)
+    })
 
-    renderer.init(
-      {
-        embeds: {
-          thing: {
-            embed: 'submitTicket'
-          },
-          thingLauncher: {
-            embed: 'launcher',
-            props: {
-              onDoubleClick: {
-                name: 'thing',
-                method: 'show'
-              }
-            }
-          }
+    it('creates a webWidget embed', () => {
+      expect(renderWebWidget).toHaveBeenCalled()
+    })
+
+    describe('when the config is chat standalone', () => {
+      beforeEach(async () => {
+        const config = {
+          embeds: { chat: { embed: 'chat' } }
         }
-      },
-      store
-    )
+
+        await renderer.init(config)
+        renderer.run(config)
+      })
+
+      it('creates a webWidget', () => {
+        expect(renderWebWidget).toHaveBeenCalled()
+      })
+    })
+
+    it('it calls set up on the embeds if they exist in config', () => {
+      renderer.init(testConfig(), store)
+
+      expect(chatActions.setUpChat).toHaveBeenCalled()
+      expect(talkActions.loadTalkVendors).toHaveBeenCalled()
+      expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
+    })
   })
 
-  it('it calls set up on the embeds if they exist in config', () => {
-    renderer.init(testConfig(), store)
-
-    expect(chatActions.setUpChat).toHaveBeenCalled()
-    expect(talkActions.loadTalkVendors).toHaveBeenCalled()
-    expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
-  })
-
-  it('it sets up the embeds when polling talk', () => {
+  it('it sets up the embeds when polling talk', async () => {
     talkfeature.mockImplementation(() => true)
-    renderer.init(testConfig(), store)
+    isFeatureEnabled.mockReturnValue(true)
+    await renderer.init(testConfig(), store)
 
     expect(chatActions.setUpChat).toHaveBeenCalled()
     expect(talkActions.pollTalkStatus).toHaveBeenCalled()
@@ -197,21 +191,21 @@ describe('init', () => {
       })
     })
   })
-})
 
-describe('#initIPM', () => {
-  const configJSON = {
-    embeds: {
-      helpCenterForm: {
-        embed: 'helpCenter',
-        props: { color: 'white' }
+  describe('#initIPM', () => {
+    const configJSON = {
+      embeds: {
+        helpCenterForm: {
+          embed: 'helpCenter',
+          props: { color: 'white' }
+        }
       }
     }
-  }
 
-  it('calls and render correct embeds from config', () => {
-    renderer.initIPM(configJSON)
+    it('calls and render correct embeds from config', () => {
+      renderer.initIPM(configJSON)
 
-    expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
+      expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
+    })
   })
 })
