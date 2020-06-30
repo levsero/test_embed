@@ -26,7 +26,7 @@ import { handleOperatingHoursClick, initiateSocialLogout } from 'src/redux/modul
 import { getOfflineFormSettings } from 'src/redux/modules/selectors'
 import OfflineFormControls from 'src/embeds/chat/components/OfflineForm/OfflineFormControls'
 import validate from './validate'
-import SubmitButton from 'src/embeds/chat/components/SubmitButton'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const OfflineForm = ({
   authUrls,

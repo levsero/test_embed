@@ -316,4 +316,10 @@ describe('OfflineForm', () => {
 
     expect(getByTestId('viewHistoryButton')).toBeInTheDocument()
   })
+
+  it('renders a submit button', () => {
+    const { getByRole } = renderComponent()
+
+    getByRole('button', { name: 'Send message' })
+  })
 })
