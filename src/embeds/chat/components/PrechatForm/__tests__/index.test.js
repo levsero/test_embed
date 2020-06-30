@@ -28,7 +28,12 @@ describe('PrechatForm', () => {
       authenticated: false
     },
     visitor: {},
-    initiateSocialLogout: jest.fn()
+    initiateSocialLogout: jest.fn(),
+    initialValues: {
+      name: 'initial name',
+      email: 'initialEmail@example.com',
+      message: 'initial message'
+    }
   }
 
   const allFields = [
@@ -54,6 +59,12 @@ describe('PrechatForm', () => {
     {
       id: 'phone',
       title: 'Phone',
+      required: true,
+      type: 'text'
+    },
+    {
+      id: 'message',
+      title: 'Message',
       required: true,
       type: 'text'
     }
@@ -181,6 +192,20 @@ describe('PrechatForm', () => {
       await wait(() => expect(getByText('Department 1')).toBeInTheDocument())
 
       expect(getByText('Send message')).toBeInTheDocument()
+    })
+
+    it('only respects the initialValue for message', async () => {
+      const { getByLabelText } = renderComponent({
+        getFields: () => allFields
+      })
+
+      const name = getByLabelText('Name')
+      const email = getByLabelText('Email')
+      const message = getByLabelText('Message')
+
+      expect(name).toHaveValue('')
+      expect(email).toHaveValue('')
+      expect(message).toHaveValue('initial message')
     })
 
     it('respects the prefill read only values', () => {

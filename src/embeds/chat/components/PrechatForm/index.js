@@ -12,7 +12,8 @@ import {
   getChatVisitor,
   getDepartments,
   getIsAuthenticated,
-  getSocialLogin
+  getSocialLogin,
+  getPreChatFormState
 } from 'src/redux/modules/chat/chat-selectors'
 import DynamicForm from 'components/DynamicForm'
 import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
@@ -39,7 +40,8 @@ const PrechatForm = ({
   readOnlyValues,
   isOfflineFormEnabled,
   departments,
-  isPreview
+  isPreview,
+  initialValues
 }) => {
   const translate = useTranslate()
   const isDepartmentOffline = departmentId => {
@@ -60,6 +62,7 @@ const PrechatForm = ({
             return { success: true }
           })
         }
+        initialValues={{ message: initialValues?.message }}
         getFields={getFields}
         isPreview={isPreview}
         validate={values =>
@@ -117,7 +120,10 @@ PrechatForm.propTypes = {
     PropTypes.shape({
       status: PropTypes.string
     })
-  )
+  ),
+  initialValues: PropTypes.shape({
+    message: PropTypes.string
+  })
 }
 
 const mapStateToProps = state => ({
@@ -131,7 +137,8 @@ const mapStateToProps = state => ({
   authUrls: getAuthUrls(state),
   readOnlyValues: getReadOnlyState(state),
   isOfflineFormEnabled: getOfflineFormSettings(state).enabled,
-  departments: getDepartments(state)
+  departments: getDepartments(state),
+  initialValues: getPreChatFormState(state)
 })
 
 export default connect(
