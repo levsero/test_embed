@@ -24,6 +24,7 @@ describe('SubmitButton', () => {
       const { getByText, queryByTestId } = renderComponent({ submitting: false })
 
       expect(getByText(defaultProps.label)).toBeInTheDocument()
+      expect(getByText(defaultProps.label)).not.toHaveStyleRule('opacity', '0')
       expect(queryByTestId(TEST_IDS.DOTS)).toBeNull()
     })
   })
@@ -33,7 +34,7 @@ describe('SubmitButton', () => {
       const { getByTestId, queryByText } = renderComponent({ submitting: true })
 
       expect(getByTestId(TEST_IDS.DOTS)).toBeInTheDocument()
-      expect(queryByText(defaultProps.label)).toBeNull()
+      expect(queryByText(defaultProps.label)).toHaveStyleRule('opacity', '0')
     })
   })
 })

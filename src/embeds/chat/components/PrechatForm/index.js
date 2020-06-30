@@ -24,7 +24,7 @@ import PrechatFormControls from 'embeds/chat/components/PrechatForm/PrechatFormC
 import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 import { getReadOnlyState } from 'embeds/support/selectors'
 import useTranslate from 'src/hooks/useTranslate'
-import SubmitButton from 'embeds/chat/components/SubmitButton'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 import { Footer } from 'src/components/Widget'
 
 const PrechatForm = ({

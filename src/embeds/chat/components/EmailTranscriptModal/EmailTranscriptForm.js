@@ -13,7 +13,7 @@ import { getVisitorEmail } from 'embeds/chat/selectors'
 import { EMAIL_PATTERN } from 'constants/shared'
 import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptFormValues'
 import { StyledBody } from './styles'
-import SubmitButton from 'src/embeds/chat/components/SubmitButton'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const validate = values => {
   if (!EMAIL_PATTERN.test(values.email)) {
