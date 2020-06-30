@@ -136,6 +136,20 @@ function get(payload, options = {}) {
   return requestPromise
 }
 
+function getImage(payload) {
+  const { done } = payload.callbacks
+  const onEnd = (err, res) => {
+    if (!err) {
+      done(res)
+    }
+  }
+
+  return superagent('get', payload.path)
+    .responseType('blob')
+    .set('Authorization', payload.authorization)
+    .end(onEnd)
+}
+
 function sendWithMeta(payload) {
   const commonParams = {
     buid: identity.getBuid(),
@@ -262,6 +276,7 @@ function shouldExclude(error, payload = {}) {
 }
 
 export const http = {
+  getImage,
   send,
   sendWithMeta,
   sendFile,
