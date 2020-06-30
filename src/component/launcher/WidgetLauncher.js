@@ -69,9 +69,7 @@ class WidgetLauncher extends Component {
 
     this.container = React.createRef()
     this.state = {
-      style: {
-        width: 0
-      }
+      style: baseLauncherStyle
     }
   }
 
