@@ -9,28 +9,20 @@ import { allowsInputTextEditing } from '../shared-examples'
 import { assertInputValue, clearInputField } from '../../helpers/utils'
 import zChat from '../../helpers/zChat'
 
+const populateField = async (fieldLabel, value) => {
+  const element = await queries.queryByLabelText(await widget.getDocument(), fieldLabel)
+
+  await clearInputField(element)
+  await allowsInputTextEditing(element, value)
+}
+
 describe('prechat form', () => {
   test('submit prechat form', async () => {
     await loadWidgetWithChatOnline()
 
-    const nameElement = await queries.queryByLabelText(
-      await widget.getDocument(),
-      'Name (optional)'
-    )
-    await clearInputField(nameElement)
-    await allowsInputTextEditing(nameElement, 'Some name')
-
-    const emailElement = await queries.queryByLabelText(
-      await widget.getDocument(),
-      'Email (optional)'
-    )
-    await allowsInputTextEditing(emailElement, 'example@example.com')
-
-    const messageElement = await queries.queryByLabelText(
-      await widget.getDocument(),
-      'Message (optional)'
-    )
-    await allowsInputTextEditing(messageElement, 'Some message')
+    await populateField('Name (optional)', 'Some name')
+    await populateField('Email (optional)', 'example@example.com')
+    await populateField('Message (optional)', 'Some message')
 
     await clickStartChat()
     await waitForChatToBeReady()
@@ -58,17 +50,11 @@ describe('prechat form', () => {
       'Choose a department'
     )
     await departmentDropdown.click()
-
     await widget.clickText('Department 1')
 
-    const messageElement = await queries.queryByLabelText(
-      await widget.getDocument(),
-      'Message (optional)'
-    )
-    await allowsInputTextEditing(messageElement, 'Some message')
+    await populateField('Message (optional)', 'Some message')
 
     await clickStartChat()
-
     await waitForChatToBeReady()
 
     await zChat.expectCurrentDepartmentToBe(1)
@@ -81,7 +67,6 @@ describe('prechat form', () => {
     await zChat.setVisitorDefaultDepartment()
 
     await zChat.updateDepartment({ status: 'online', id: 1, name: 'Department 1' })
-    await zChat.updateDepartment({ status: 'offline', id: 2, name: 'Department 2' })
 
     await page.evaluate(() => {
       zE('webWidget', 'updateSettings', {
@@ -95,11 +80,7 @@ describe('prechat form', () => {
       })
     })
 
-    const messageElement = await queries.queryByLabelText(
-      await widget.getDocument(),
-      'Message (optional)'
-    )
-    await allowsInputTextEditing(messageElement, 'Some message')
+    await populateField('Message (optional)', 'Some message')
 
     await clickStartChat()
 
@@ -115,30 +96,23 @@ describe('prechat form', () => {
     await zChat.setVisitorDefaultDepartment()
     await zChat.sendOfflineMsg()
 
-    await zChat.updateDepartment({ status: 'offline', id: 1, name: 'Department 1' })
-    await zChat.updateDepartment({ status: 'offline', id: 2, name: 'Department 2' })
+    await zChat.updateDepartment({ status: 'offline', id: 1, name: 'offline department' })
 
     await page.evaluate(() => {
       zE('webWidget', 'updateSettings', {
         webWidget: {
           chat: {
             departments: {
-              select: ['Department 1']
+              select: ['offline department']
             }
           }
         }
       })
     })
 
-    const nameElement = await queries.queryByLabelText(await widget.getDocument(), 'Name')
-    await clearInputField(nameElement)
-    await allowsInputTextEditing(nameElement, 'Some name')
-
-    const emailElement = await queries.queryByLabelText(await widget.getDocument(), 'Email')
-    await allowsInputTextEditing(emailElement, 'example@example.com')
-
-    const messageElement = await queries.queryByLabelText(await widget.getDocument(), 'Message')
-    await allowsInputTextEditing(messageElement, 'Some message')
+    await populateField('Name', 'Some name')
+    await populateField('Email', 'example@example.com')
+    await populateField('Message', 'Some message')
 
     await widget.clickButton('Send message')
 
@@ -152,5 +126,61 @@ describe('prechat form', () => {
         department: 1
       })
     )
+  })
+
+  test('set name field to required if offline department is selected', async () => {
+    await loadWidgetWithChatOnline()
+    await zChat.clearVisitorDefaultDepartment()
+    await zChat.setVisitorDefaultDepartment()
+    await zChat.sendOfflineMsg()
+    await zChat.updateDepartment({ status: 'offline', id: 1, name: 'Offline department' })
+
+    await page.evaluate(() => {
+      zE('webWidget', 'updateSettings', {
+        webWidget: {
+          chat: {
+            departments: {
+              select: ['Offline department']
+            }
+          }
+        }
+      })
+    })
+
+    await populateField('Name', '')
+    await populateField('Email', 'example@example.com')
+    await populateField('Message', 'Some message')
+
+    await widget.clickButton('Send message')
+
+    await widget.expectToSeeText('Please enter a valid name.')
+  })
+
+  test('set email field to required if offline department is selected', async () => {
+    await loadWidgetWithChatOnline()
+    await zChat.clearVisitorDefaultDepartment()
+    await zChat.setVisitorDefaultDepartment()
+    await zChat.sendOfflineMsg()
+    await zChat.updateDepartment({ status: 'offline', id: 1, name: 'Offline department' })
+
+    await page.evaluate(() => {
+      zE('webWidget', 'updateSettings', {
+        webWidget: {
+          chat: {
+            departments: {
+              select: ['Offline department']
+            }
+          }
+        }
+      })
+    })
+
+    await populateField('Name', 'Some name')
+    await populateField('Email', '')
+    await populateField('Message', 'Some message')
+
+    await widget.clickButton('Send message')
+
+    await widget.waitForText('Please enter a valid email address.')
   })
 })

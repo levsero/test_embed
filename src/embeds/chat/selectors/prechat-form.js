@@ -59,7 +59,7 @@ export const getPrechatFields = (state, options = {}) => {
 
   // If the user has selected an offline department,
   // then all other fields except the phone field are changed to be required
-  const selectedDepartment = getDepartment(state, options.selectedDepartment)
+  const selectedDepartment = getDepartment(state, options.department)
   const isDepartmentOffline = selectedDepartment?.status === 'offline' ? true : undefined
 
   return [
