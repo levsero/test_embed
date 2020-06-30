@@ -83,10 +83,10 @@ describe('performImageSearch', () => {
   describe('http', () => {
     it('sends expected http payload', () => {
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.get).toHaveBeenCalledWith(
+      expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
           path: '/this/is/path',
-          responseType: 'blob'
+          authorization: ''
         })
       )
     })
@@ -94,19 +94,9 @@ describe('performImageSearch', () => {
     it('includes auth token if available', () => {
       baseSelectors.getAuthToken.mockReturnValue('blah')
       actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.get).toHaveBeenCalledWith(
+      expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
           authorization: 'Bearer blah'
-        })
-      )
-    })
-
-    it('uses host mapping if on host mapped domain', () => {
-      pages.isOnHostMappedDomain.mockReturnValue(true)
-      actions.performImageSearch('/this/is/path', doneFn)
-      expect(http.get).toHaveBeenCalledWith(
-        expect.objectContaining({
-          useHostMappingIfAvailable: true
         })
       )
     })

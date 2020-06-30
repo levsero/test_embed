@@ -85,7 +85,12 @@ const preventSearchCompleteDispatch = (getState, timestamp) => {
 }
 
 export function performImageSearch(path, done) {
-  sendQuery(path, null, done, null, null, 'blob')
+  const token = getAuthToken()
+  http.getImage({
+    path,
+    callbacks: { done },
+    authorization: token ? `Bearer ${token}` : ''
+  })
 
   // Temporary to stop middleware from breaking until we properly implement images
   return { type: '' }
