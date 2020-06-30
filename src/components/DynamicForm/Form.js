@@ -21,10 +21,11 @@ const Form = ({
   fields,
   readOnlyValues,
   submitErrorMessage,
+  children,
   errorMessageKey,
   isPreview,
   footer: FooterComponent,
-  children,
+  controls,
   extraFieldOptions
 }) => {
   const translate = useTranslate()
@@ -70,6 +71,7 @@ const Form = ({
             </Alert>
           )}
         </div>
+        {controls && controls}
       </Main>
       {FooterComponent && <FooterComponent isSubmitting={isSubmitting} formValues={values} />}
     </FormContainer>
@@ -88,7 +90,8 @@ Form.propTypes = {
   isPreview: PropTypes.bool,
   footer: PropTypes.elementType,
   extraFieldOptions: PropTypes.objectOf(PropTypes.elementType),
-  children: PropTypes.node
+  children: PropTypes.node,
+  controls: PropTypes.node
 }
 
 export default Form

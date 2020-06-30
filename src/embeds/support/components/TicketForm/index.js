@@ -74,6 +74,7 @@ const TicketForm = ({
       initialValues={initialValues}
       isPreview={isPreview}
       validate={values => validateTicketForm(ticketFields, values, attachments, conditions)}
+      controls={<TicketFormControls formId={formId} fields={ticketFields} />}
       readOnlyValues={readOnlyState}
       footer={({ isSubmitting }) => (
         <Footer>
@@ -93,7 +94,6 @@ const TicketForm = ({
       )}
       children={null}
     >
-      <TicketFormControls formId={formId} fields={ticketFields} />
       {ticketFormTitle && <TicketFormTitle>{ticketFormTitle}</TicketFormTitle>}
     </DynamicForm>
   )

@@ -64,6 +64,7 @@ const PrechatForm = ({
         }
         initialValues={{ message: initialValues?.message }}
         getFields={getFields}
+        controls={<PrechatFormControls />}
         isPreview={isPreview}
         validate={values =>
           validate({ values, isAuthenticated, fields: getFields(values), isOfflineFormEnabled })
@@ -96,8 +97,6 @@ const PrechatForm = ({
             initiateSocialLogout={initiateSocialLogout}
           />
         )}
-
-        <PrechatFormControls />
       </DynamicForm>
     </Widget>
   )
