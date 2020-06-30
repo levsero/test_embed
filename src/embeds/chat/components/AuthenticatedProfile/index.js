@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { ICONS, TEST_IDS } from 'constants/shared'
 import UserProfileDetails from 'embeds/chat/components/UserProfileDetails'
 import useTranslate from 'src/hooks/useTranslate'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
+
 import {
   AuthenticatedProfileContainer,
   LoadingSpinnerIcon,

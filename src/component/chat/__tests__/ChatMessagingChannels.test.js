@@ -11,10 +11,10 @@ import { TEST_IDS } from 'src/constants/shared'
 snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSerializer])
 expect.addSnapshotSerializer(styleSheetSerializer)
 
-const renderComponent = (props = {}, themeProps = {}) => {
+const renderComponent = (props = {}, testProps = {}) => {
   const defaultProps = {}
 
-  return render(<ChatMessagingChannels {...defaultProps} {...props} />, { themeProps })
+  return render(<ChatMessagingChannels {...defaultProps} {...props} />, { ...testProps })
 }
 
 describe('ChatMessagingChannels', () => {
@@ -97,16 +97,17 @@ describe('ChatMessagingChannels', () => {
           channels: {
             facebook: { allowed: true, page_id: '1' },
             twitter: { allowed: true, page_id: '1' }
-          },
-          isMobile: false
+          }
         })
-        const { container: mobileContainer } = renderComponent({
-          channels: {
-            facebook: { allowed: true, page_id: '1' },
-            twitter: { allowed: true, page_id: '1' }
+        const { container: mobileContainer } = renderComponent(
+          {
+            channels: {
+              facebook: { allowed: true, page_id: '1' },
+              twitter: { allowed: true, page_id: '1' }
+            }
           },
-          isMobile: true
-        })
+          { widgetThemeProps: { isMobile: true } }
+        )
 
         expect(
           snapshotDiff(desktopContainer, mobileContainer, { contextLines: 0 })
@@ -120,20 +121,24 @@ describe('ChatMessagingChannels', () => {
               channels: {
                 facebook: { allowed: true, page_id: '1' },
                 twitter: { allowed: true, page_id: '1' }
-              },
-              isMobile: false
+              }
             },
-            { rtl: true }
+            {
+              themeProps: { rtl: true }
+            }
           )
+
           const { container: mobileContainer } = renderComponent(
             {
               channels: {
                 facebook: { allowed: true, page_id: '1' },
                 twitter: { allowed: true, page_id: '1' }
-              },
-              isMobile: true
+              }
             },
-            { rtl: true }
+            {
+              themeProps: { rtl: true },
+              widgetThemeProps: { isMobile: true }
+            }
           )
 
           expect(

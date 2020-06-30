@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FONT_SIZE } from 'constants/shared'
+import { Alert } from 'src/embeds/support/components/Notifications'
 
 const FormContainer = styled.form`
   display: flex;
@@ -15,8 +15,12 @@ const FormContainer = styled.form`
 
 const Fields = styled.div`
   > *:not(:first-child) {
-    margin-top: ${16 / FONT_SIZE}rem;
+    margin-top: ${props => 16 / props.theme.fontSize}rem;
   }
 `
 
-export { FormContainer, Fields }
+const StyledAlert = styled(Alert)`
+  margin-top: ${props => 6 / props.theme.fontSize}rem;
+`
+
+export { StyledAlert as Alert, FormContainer, Fields }

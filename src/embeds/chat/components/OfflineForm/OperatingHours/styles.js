@@ -7,8 +7,10 @@ const OperatingHoursLink = styled(Button)`
     color: ${zdColorGrey800} !important;
     cursor: pointer;
     text-decoration: underline !important;
-    height: inherit !important;
-    line-height: inherit !important;
+
+    display: block !important;
+    line-height: 1em !important;
+    height: auto !important;
     margin-bottom: ${props => 9 / props.theme.fontSize}rem;
 
     &:hover {

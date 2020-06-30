@@ -1,45 +1,33 @@
 import { render } from 'utility/testHelpers'
 import React from 'react'
+import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 
 import { Component as ChatOffline } from '../'
 
-jest.mock('component/chat/ChatOfflineForm', () => {
-  return {
-    ChatOfflineForm: () => <div>ChatOfflineForm</div>
-  }
-})
+jest.mock('src/embeds/chat/pages/OfflineFormPage', () => () => <div>ChatOfflineForm</div>)
+
+jest.mock('src/embeds/chat/pages/OperatingHoursPage', () => () => <div>OperatingHoursPage</div>)
 
 const renderComponent = inProps => {
   const props = {
-    chatOfflineFormChanged: () => {},
-    initiateSocialLogout: () => {},
-    sendOfflineMessage: () => {},
-    handleOfflineFormBack: () => {},
-    handleOperatingHoursClick: () => {},
-    readOnlyState: {},
-    formState: {},
-    formFields: {},
     formSettings: { enabled: false },
-    loginSettings: {},
-    offlineMessage: {},
-    socialLogin: {},
-    authUrls: {},
-    visitor: {},
-    operatingHours: {},
-    hideZendeskLogo: false,
-    isAuthenticated: false,
-    widgetShown: false,
-    title: 'testTitle',
-    fullscreen: false,
-    hasChatHistory: false,
-    openedChatHistory: () => {},
-    chatHistoryLabel: 'testChatHistoryLabel',
+    offlineMessage: { screen: OFFLINE_FORM_SCREENS.MAIN },
     ...inProps
   }
   return render(<ChatOffline {...props} />)
 }
 
 describe('render', () => {
+  describe('when screen is the OPERATING_HOURS screen', () => {
+    it('renders the operating hours screen', () => {
+      const { getByText } = renderComponent({
+        offlineMessage: { screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS }
+      })
+
+      expect(getByText('OperatingHoursPage')).toBeInTheDocument()
+    })
+  })
+
   describe('when formSettings are not enabled', () => {
     describe('renders chatOfflineScreen', () => {
       it('renders title', () => {

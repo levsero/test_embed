@@ -35,7 +35,6 @@ const mapStateToProps = state => {
     menuVisible: getMenuVisible(state),
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
-    offlineMessage: selectors.getOfflineMessage(state),
     isLoggingOut: selectors.getIsLoggingOut(state)
   }
 }
@@ -70,8 +69,6 @@ class Chat extends Component {
     menuVisible: false,
     connection: '',
     departments: {},
-    offlineMessage: {},
-    sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
     isLoggingOut: false,

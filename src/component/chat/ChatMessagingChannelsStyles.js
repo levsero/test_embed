@@ -17,13 +17,13 @@ width: ${(props.mobile ? 40 : 24) / props.theme.fontSize}rem;
 
 const ChannelIcon = styled.a`
   display: inline-block;
-  padding-right: ${props => (props.isMobile ? 12 : 8) / props.theme.fontSize}rem;
+  padding-right: ${props => (props.theme.isMobile ? 12 : 8) / props.theme.fontSize}rem;
 
   ${props =>
     props.theme.rtl &&
     `
     padding-right: 0;
-    padding-left: ${(props.isMobile ? 12 : 8) / props.theme.fontSize}rem;
+    padding-left: ${(props.theme.isMobile ? 12 : 8) / props.theme.fontSize}rem;
   `}
 `
 

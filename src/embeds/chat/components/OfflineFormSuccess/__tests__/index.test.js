@@ -2,25 +2,17 @@ import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 
-import { Component as OfflineFormSuccessPage } from '../'
+import OfflineFormSuccess from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    onClick: jest.fn(),
-    hideZendeskLogo: false,
-    title: 'boop'
+    onClick: jest.fn()
   }
 
-  return render(<OfflineFormSuccessPage {...defaultProps} {...props} />)
+  return render(<OfflineFormSuccess {...defaultProps} {...props} />)
 }
 
-describe('OfflineFormSuccessPage', () => {
-  it('renders the expected title', () => {
-    const { getByText } = renderComponent()
-
-    expect(getByText('boop')).toBeInTheDocument()
-  })
-
+describe('OfflineFormSuccess', () => {
   it('renders success text', () => {
     const { getByText } = renderComponent()
 
@@ -31,14 +23,14 @@ describe('OfflineFormSuccessPage', () => {
   it('renders Back button', () => {
     const { getByText } = renderComponent()
 
-    expect(getByText('Go Back')).toBeInTheDocument()
+    expect(getByText('Done')).toBeInTheDocument()
   })
 
   it('fires onClick when back button is pressed', () => {
     const onClick = jest.fn()
     const { getByText } = renderComponent({ onClick })
 
-    fireEvent.click(getByText('Go Back'))
+    fireEvent.click(getByText('Done'))
 
     expect(onClick).toHaveBeenCalled()
   })

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
 
 import useTranslate from 'src/hooks/useTranslate'
 import { renderLabel } from 'src/util/fields'
@@ -12,7 +13,7 @@ import {
   TwitterIcon
 } from './ChatMessagingChannelsStyles'
 
-const ChatMessagingChannels = ({ channels: { facebook, twitter }, isMobile = false }) => {
+const ChatMessagingChannels = ({ channels: { facebook, twitter }, theme: { isMobile } }) => {
   const translate = useTranslate()
 
   const { allowed: messengerAllowed, page_id: messengerPageId } = facebook
@@ -65,7 +66,9 @@ ChatMessagingChannels.propTypes = {
       page_id: PropTypes.string
     })
   }),
-  isMobile: PropTypes.bool
+  theme: PropTypes.shape({ isMobile: PropTypes.bool })
 }
 
-export default ChatMessagingChannels
+const themedComponent = withTheme(ChatMessagingChannels)
+
+export default themedComponent
