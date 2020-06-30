@@ -203,7 +203,7 @@ describe('TicketForm', () => {
     it('renders error messages if the form is not valid', async () => {
       const { getByTestId, getByText } = run({ isValid: false })
 
-      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       await wait()
 
@@ -218,7 +218,7 @@ describe('TicketForm', () => {
 
       expect(getErrorMessage()).not.toBeInTheDocument()
 
-      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       await wait()
 
@@ -240,7 +240,7 @@ describe('TicketForm', () => {
         isValid: false
       })
 
-      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       expect(submitTicket).not.toHaveBeenCalled()
     })
@@ -267,7 +267,7 @@ describe('TicketForm', () => {
         ]
       })
 
-      await fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      await fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       expect(submitTicket).toHaveBeenCalledWith(
         {
@@ -301,7 +301,7 @@ describe('TicketForm', () => {
         ]
       })
 
-      fireEvent.click(getByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON))
+      fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       expect(submitTicket).toHaveBeenCalledWith(
         {
@@ -318,7 +318,7 @@ describe('TicketForm', () => {
     it('has a type submit so it can submit the form', () => {
       const { queryByTestId } = renderComponent()
 
-      expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON).getAttribute('type')).toEqual('submit')
+      expect(queryByTestId(TEST_IDS.BUTTON_OK).getAttribute('type')).toEqual('submit')
     })
 
     describe('when the form is submitting', () => {
@@ -333,16 +333,10 @@ describe('TicketForm', () => {
         return result
       }
 
-      it('displays text to show that the form is currently submitting', async () => {
+      it('displays dots to show that the form is currently submitting', async () => {
         const { queryByTestId } = await run()
 
-        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toHaveTextContent('Submitting...')
-      })
-
-      it('is disabled', async () => {
-        const { queryByTestId } = await run()
-
-        await expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toBeDisabled()
+        expect(queryByTestId(TEST_IDS.DOTS)).toBeInTheDocument()
       })
     })
 
@@ -350,13 +344,13 @@ describe('TicketForm', () => {
       it('renders text to show that it submits the form', () => {
         const { queryByTestId } = renderComponent({ isSubmitting: false })
 
-        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).toHaveTextContent('Send')
+        expect(queryByTestId(TEST_IDS.BUTTON_OK)).toHaveTextContent('Send')
       })
 
       it('is not disabled', () => {
         const { queryByTestId } = renderComponent({ isSubmitting: false })
 
-        expect(queryByTestId(TEST_IDS.SUPPORT_SUBMIT_BUTTON)).not.toBeDisabled()
+        expect(queryByTestId(TEST_IDS.BUTTON_OK)).not.toBeDisabled()
       })
     })
   })

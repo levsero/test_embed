@@ -5,8 +5,6 @@ import validateTicketForm from 'src/embeds/support/utils/validateTicketForm'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getFields from 'embeds/support/utils/getFields'
 import { Footer } from 'components/Widget'
-import { Button } from '@zendeskgarden/react-buttons'
-import { TEST_IDS } from 'constants/shared'
 import { TicketFormTitle } from 'embeds/support/components/TicketForm/styles'
 import DynamicForm from 'components/DynamicForm'
 import {
@@ -26,6 +24,7 @@ import routes from 'embeds/support/routes'
 import useTranslate from 'src/hooks/useTranslate'
 import { formOpened, submitTicket } from 'embeds/support/actions'
 import TicketFormControls from 'embeds/support/components/TicketForm/TicketFormControls'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const TicketForm = ({
   formId,
@@ -77,18 +76,10 @@ const TicketForm = ({
       readOnlyValues={readOnlyState}
       footer={({ isSubmitting }) => (
         <Footer>
-          <Button
-            isPrimary={true}
-            type="submit"
-            disabled={isSubmitting}
-            data-testid={TEST_IDS.SUPPORT_SUBMIT_BUTTON}
-          >
-            {translate(
-              isSubmitting
-                ? 'embeddable_framework.submitTicket.form.submitButton.label.sending'
-                : 'embeddable_framework.submitTicket.form.submitButton.label.send'
-            )}
-          </Button>
+          <SubmitButton
+            submitting={isSubmitting}
+            label={translate('embeddable_framework.submitTicket.form.submitButton.label.send')}
+          />
         </Footer>
       )}
       children={null}

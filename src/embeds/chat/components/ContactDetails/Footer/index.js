@@ -5,7 +5,7 @@ import { Footer, FooterItem } from '@zendeskgarden/react-modals'
 
 import { TEST_IDS } from 'constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
-import SubmitButton from 'src/embeds/chat/components/SubmitButton'
+import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
 const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibility }) => {
   const translate = useTranslate()
