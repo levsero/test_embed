@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
-import { Anchor } from '@zendeskgarden/react-buttons'
+
 import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
-import { Container, MessageContainer, Message, TranslateLink } from './styles'
+import { Container, MessageContainer, Message, TranslateLink, MessageBubbleLink } from './styles'
 import MessageOptions from './MessageOptions'
 
 const MessageBubble = ({ message, translatedMessage, isAgent, options = [], onOptionSelect }) => {
@@ -17,7 +17,7 @@ const MessageBubble = ({ message, translatedMessage, isAgent, options = [], onOp
     <Container data-testid={isAgent ? TEST_IDS.CHAT_MSG_AGENT : TEST_IDS.CHAT_MSG_USER}>
       <MessageContainer isAgent={isAgent} hasOptions={options.length > 0}>
         <Message>
-          <Linkify properties={{ target: '_blank', link: true }} component={Anchor}>
+          <Linkify properties={{ target: '_blank', link: true }} component={MessageBubbleLink}>
             {messageToDisplay}
           </Linkify>
         </Message>
