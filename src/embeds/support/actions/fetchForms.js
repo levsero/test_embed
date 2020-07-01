@@ -11,7 +11,7 @@ import {
 import { http } from 'service/transport'
 import { getCustomFieldIds } from 'src/redux/modules/base/base-selectors'
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 
 export function fetchTicketForms(ticketFormIds = [], locale) {
   return async (dispatch, getState) => {

@@ -2,7 +2,7 @@ import { http } from '../http'
 import { identity } from 'service/identity'
 import { base64decode } from 'utility/utils'
 import superagent from 'superagent'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 
 jest.mock('superagent')
 jest.mock('service/settings', () => {
@@ -13,7 +13,7 @@ jest.mock('service/settings', () => {
   }
 })
 
-jest.mock('service/errorTracker', () => ({
+jest.mock('src/framework/services/errorTracker', () => ({
   error: jest.fn()
 }))
 

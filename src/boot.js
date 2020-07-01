@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import { store as persistenceStore } from 'service/persistence'
 import { renderer } from 'service/renderer'
 import zopimApi from 'service/api/zopimApi'
@@ -41,7 +41,7 @@ const setupServices = reduxStore => {
   settings.init(reduxStore)
   identity.init()
 
-  errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
+  errorTracker.init({ enabled: settings.getErrorReportingEnabled() })
   GA.init()
 }
 

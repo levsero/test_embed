@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LoadingPage from 'src/components/LoadingPage'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 
 export default class LoadingPageErrorBoundary extends Component {
   static getDerivedStateFromError(_error) {

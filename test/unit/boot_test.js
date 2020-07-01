@@ -16,7 +16,7 @@ describe('boot', () => {
       'trackLocaleDiff'
     ),
     identitySpy = registerImportSpy('identity', 'init'),
-    errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),
+    errorTracker = jasmine.createSpyObj('errorTracker', ['init', 'error']),
     transportSpy = registerImportSpy('http', 'send', 'init', 'updateConfig'),
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks', 'run'),
     gaSpy = registerImportSpy('GA', 'init'),
@@ -35,7 +35,7 @@ describe('boot', () => {
     initMockRegistry({
       'service/beacon': beaconSpy,
       'service/identity': identitySpy,
-      'service/errorTracker': errorTracker,
+      'src/framework/services/errorTracker': errorTracker,
       'service/api/webWidgetApi': apiSpy,
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
@@ -121,7 +121,7 @@ describe('boot', () => {
       })
 
       it('enables error tracking', () => {
-        expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: true })
+        expect(errorTracker.init).toHaveBeenCalledWith({ enabled: true })
       })
     })
 
@@ -132,7 +132,7 @@ describe('boot', () => {
       })
 
       it('disables error tracking', () => {
-        expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: false })
+        expect(errorTracker.init).toHaveBeenCalledWith({ enabled: false })
       })
     })
   })

@@ -1,8 +1,8 @@
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import { beacon } from 'service/beacon'
 const preventLoops = jest.requireActual('../').default
 
-jest.mock('service/errorTracker', () => ({
+jest.mock('src/framework/services/errorTracker', () => ({
   error: jest.fn()
 }))
 jest.mock('service/beacon', () => ({

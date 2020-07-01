@@ -1,7 +1,7 @@
 import Rollbar from 'rollbar'
 import _ from 'lodash'
-import { inDebugMode } from 'utility/runtime'
-import { getHostUrl } from 'src/util/utils'
+
+import { getHostUrl, inDebugMode } from './helpers'
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
@@ -68,7 +68,7 @@ const rollbarConfig = {
 const errorTracker = new Rollbar(rollbarConfig)
 
 export default {
-  configure: (...args) => {
+  init: (...args) => {
     errorTracker.configure(...args)
   },
   critical: (...args) => {

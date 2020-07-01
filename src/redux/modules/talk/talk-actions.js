@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import { http, socketio } from 'service/transport'
 import { parseUrl } from 'utility/utils'
 import wait from 'utility/wait'
