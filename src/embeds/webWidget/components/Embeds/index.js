@@ -32,7 +32,8 @@ const mobileWebWidgetStyle = {
   height: '100%',
   position: 'fixed',
   opacity: 0,
-  border: 0
+  border: 0,
+  top: 0
 }
 
 const fullscreenDesktopStyle = {
@@ -48,7 +49,6 @@ const fullscreenDesktopStyle = {
 
 // On mobile we don't want to transition the web widget's position
 const mobileTransitionOverrides = {
-  top: 0,
   left: 0,
   bottom: null,
   right: null
