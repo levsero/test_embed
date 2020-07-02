@@ -1,12 +1,22 @@
 # 13. Folder structure for messenger
 
-Date: 2020-04-02
+Date: 2020-07-02
 
 ## Attendees
 
+- Adrian Yong
+- Alex Robinson
+- Briana Coppard
+- David Allen
+- Daniel Bradford
+- Levi Serebryanski
+- Lucas Hills
+- Tim Patullock
+- Wayne See
+
 ## Status
 
-Pending
+Approved
 
 ## Results
 
@@ -200,3 +210,11 @@ In the above example the message slice was put with the messenger. But what happ
 At first it could be argued to leave it alongside the messenger, but at what point do we move the message slice out into the general "store" folder and not nested in the Messenger component?
 
 ## Decision
+
+Option 3 - we liked that code was co-located under their feature folders and that each feature folder had consistent sub folders no matter how big they are.
+
+For option 1 we had concerns around features being split between different folders and the top level components folder becoming very large since all components would go there.
+
+For option 2, we had concerns around having to decide when to create folders, we didn't want the burden of having to always make that judgement call when we add to a feature.
+
+For option 4, we also had concerns around having to make that judgement call around when it makes sense to leave in the component folder and when it makes sense to move it out of there.
