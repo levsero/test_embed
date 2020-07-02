@@ -639,7 +639,7 @@ export function initiateSocialLogout() {
   return (dispatch, getState) => {
     dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_PENDING })
 
-    zChatWithTimeout(getState, 'doAuthLogout')(err => {
+    zChatWithTimeout(getState, 'doAuthLogout', 10000)(err => {
       if (!err) {
         dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_SUCCESS })
       } else {
