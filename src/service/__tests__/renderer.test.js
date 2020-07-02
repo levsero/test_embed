@@ -4,6 +4,7 @@ import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 jest.mock('service/settings')
+jest.mock('src/framework/services/errorTracker')
 jest.mock('src/redux/modules/base', () => ({
   updateEmbedAccessible: jest.fn().mockReturnValue({ type: 'embed accessible' }),
   widgetInitialised: jest.fn().mockReturnValue({ type: 'widget init' })
@@ -32,11 +33,13 @@ let mockSettings,
   setLocaleApi,
   i18n,
   settings,
+  errorTracker,
   talkfeature,
   renderWebWidget
 
 beforeEach(() => {
   jest.resetModules()
+
   window.zESettings = {}
   mockSettings = {
     contactOptions: { enabled: false },
@@ -44,7 +47,9 @@ beforeEach(() => {
   }
   settings = require('service/settings').settings
   settings.get = value => _.get(mockSettings, value, null)
-
+  settings.getErrorReportingEnabled = () => false
+  errorTracker = require('src/framework/services/errorTracker').default
+  errorTracker.configure = jest.fn()
   talkfeature = require('src/embeds/webWidget/selectors/feature-flags').default
   talkfeature.mockImplementation(() => false)
   baseActions = require('src/redux/modules/base')
@@ -104,6 +109,17 @@ describe('init', () => {
     expect(() => {
       renderer.init({})
     }).not.toThrow()
+  })
+
+  it('configures the errorTracker when false', () => {
+    renderer.init({})
+    expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: false })
+  })
+
+  it('configures the errorTracker when true', () => {
+    settings.getErrorReportingEnabled = () => true
+    renderer.init({})
+    expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: true })
   })
 
   describe('when config is not naked zopim', () => {

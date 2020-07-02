@@ -68,7 +68,7 @@ const rollbarConfig = {
 const errorTracker = new Rollbar(rollbarConfig)
 
 export default {
-  init: (...args) => {
+  configure: (...args) => {
     errorTracker.configure(...args)
   },
   critical: (...args) => {

@@ -113,28 +113,6 @@ describe('boot', () => {
       expect(identitySpy.identity.init).toHaveBeenCalled()
       expect(gaSpy.GA.init).toHaveBeenCalled()
     })
-
-    describe('when settings.getErrorReportingDisabled returns true', () => {
-      beforeEach(() => {
-        mockGetErrorReportingEnabled = true
-        boot.setupServices({})
-      })
-
-      it('enables error tracking', () => {
-        expect(errorTracker.init).toHaveBeenCalledWith({ enabled: true })
-      })
-    })
-
-    describe('when settings.getErrorReportingDisabled returns false', () => {
-      beforeEach(() => {
-        mockGetErrorReportingEnabled = false
-        boot.setupServices({})
-      })
-
-      it('disables error tracking', () => {
-        expect(errorTracker.init).toHaveBeenCalledWith({ enabled: false })
-      })
-    })
   })
 
   describe('#getConfig', () => {
