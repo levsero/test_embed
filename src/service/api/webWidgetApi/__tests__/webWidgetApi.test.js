@@ -1,4 +1,4 @@
-import publicApi from 'src/framework/services/public-api'
+import publicApi from 'src/framework/services/publicApi'
 import { getWebWidgetPublicApi } from './../setupApi'
 import tracker from 'service/tracker'
 import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'

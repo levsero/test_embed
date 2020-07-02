@@ -15,7 +15,7 @@ import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
-import publicApi from 'src/framework/services/public-api'
+import publicApi from 'src/framework/services/publicApi'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
