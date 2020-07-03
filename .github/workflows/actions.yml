@@ -11,6 +11,8 @@ jobs:
   main:
     name: node-ruby
     runs-on: zendesk-stable
+    env:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
     strategy:
       fail-fast: true
       matrix:
