@@ -63,7 +63,12 @@ const FrameTransition = ({ visible, children, onEntered }) => {
   }
 
   return (
-    <Transition in={visible} timeout={FRAME_TRANSITION_DURATION} onEntered={onEntered}>
+    <Transition
+      in={visible}
+      timeout={FRAME_TRANSITION_DURATION}
+      onEntered={onEntered}
+      appear={true}
+    >
       {status => children({ ...baseStyles, ...transitionStyles[status] })}
     </Transition>
   )
