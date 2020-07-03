@@ -105,7 +105,6 @@ jobs:
         ${{ matrix.env }}
       run: |
         download_translations() {
-          rvm install 2.5.5
           bundle install --jobs=3 --retry=3 --path=vendor/bundle
           npm run build-setup:prod
         }
