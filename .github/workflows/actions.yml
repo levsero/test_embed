@@ -35,7 +35,7 @@ jobs:
           - task: audit
             run: |
               export TASK=audit
-              npm install --save-dev audit-ci
+              npm install -g audit-ci
               echo "Starting npm audit" && audit-ci --critical
           - task: validate
             run: |
