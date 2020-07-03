@@ -127,11 +127,12 @@ const talkPollInterval = () => {
   return Math.min(delay, MAX_TALK_POLL_INTERVAL)
 }
 
+const pathsToSkip = {}
 export function pollTalkStatus() {
   return async (dispatch, getState) => {
     const path = getDeferredTalkApiUrl(getState())
     while (getIsPollingTalk(getState())) {
-      const skip = document.hidden && requests > 1
+      const skip = (document.hidden && requests > 1) || pathsToSkip[path]
 
       if (!skip) {
         http
@@ -150,6 +151,9 @@ export function pollTalkStatus() {
               rollbarFingerprint: 'Failed to connect to deferred talk endpoint',
               rollbarTitle: 'Failed to connect to deferred talk endpoint'
             })
+            if (err.status == 404) {
+              pathsToSkip[path] = true
+            }
           })
       }
       await wait(talkPollInterval())
