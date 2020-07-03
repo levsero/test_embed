@@ -1,12 +1,12 @@
 name: repo-checks
-
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
     - master
-    - /^feature.*$/
-    - Code_Freeze
-
+    - "/^feature.*$/"
 jobs:
   main:
     name: node-ruby
