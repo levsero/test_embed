@@ -83,6 +83,9 @@ jobs:
               npm run e2e:ci
     steps:
     - uses: zendesk/checkout@v2
+      with:
+        token: ${{ secrets.ORG_GITHUB_TOKEN }}
+        submodules: recursive
     - uses: zendesk/setup-node@v2.0.0
       with:
         node-version: '10.18.0'
