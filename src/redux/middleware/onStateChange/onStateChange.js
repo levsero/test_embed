@@ -44,7 +44,7 @@ import {
   getHelpCenterEmbed,
   getIPMWidget
 } from 'src/redux/modules/base/base-selectors'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import history from 'service/history'
 import {
   getSettingsMobileNotificationsDisabled,

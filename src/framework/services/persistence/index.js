@@ -1,15 +1,11 @@
 import _ from 'lodash'
 
-import { win } from 'utility/globals'
-
+const win = window.parent
 const prefix = __EMBEDDABLE_FRAMEWORK_ENV__ === 'e2e' ? `ZD-${Date.now()}-` : 'ZD-'
-
-// TODO: find a better way to differentiate between localStorage
-// and sessionStorage, and refactor everywhere it is used
 
 let enabled = true
 
-const storage = type => win[`${type}Storage`]
+const storage = win.localStorage
 
 const defaults = {
   suid: {
@@ -19,9 +15,9 @@ const defaults = {
   store: {}
 }
 
-function get(name, type = 'local') {
+function get(name) {
   try {
-    const data = deserialize(storage(type).getItem(prefix + name))
+    const data = deserialize(storage.getItem(prefix + name))
 
     return data ? data : defaults[name] || null
   } catch (e) {}
@@ -29,29 +25,28 @@ function get(name, type = 'local') {
   return defaults[name]
 }
 
-function set(name, data, type = 'local') {
+function set(name, data) {
   if (!enabled) return data
 
   try {
-    storage(type).setItem(prefix + name, serialize(data))
+    storage.setItem(prefix + name, serialize(data))
   } catch (e) {}
 
   return data
 }
 
-function remove(name, type = 'local') {
+function remove(name) {
   try {
-    storage(type).removeItem(prefix + name)
+    storage.removeItem(prefix + name)
   } catch (e) {}
 }
 
-function clear(type = 'local') {
+function clear() {
   try {
-    const backend = storage(type)
-    const keys = _.keys(backend).filter(key => _.includes(key, prefix))
+    const keys = _.keys(storage).filter(key => _.includes(key, prefix))
 
     keys.forEach(key => {
-      backend.removeItem(key)
+      storage.removeItem(key)
     })
   } catch (e) {}
 }

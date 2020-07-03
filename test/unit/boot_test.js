@@ -80,7 +80,7 @@ describe('boot', () => {
       'utility/globals': {
         getZendeskHost: () => mockHost
       },
-      'service/persistence': {
+      'src/framework/services/persistence': {
         store: {
           get: noop
         }

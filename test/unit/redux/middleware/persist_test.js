@@ -13,7 +13,7 @@ describe('persist middleware', () => {
 
     mockery.enable()
     initMockRegistry({
-      'service/persistence': {
+      'src/framework/services/persistence': {
         store: {
           set: storeSetSpy
         }

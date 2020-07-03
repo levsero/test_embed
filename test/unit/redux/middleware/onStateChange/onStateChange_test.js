@@ -181,7 +181,7 @@ describe('onStateChange middleware', () => {
         getChatEmbed: () => mockChatEnabled,
         getIPMWidget: () => mockIPMWidget
       },
-      'service/persistence': {
+      'src/framework/services/persistence': {
         store: {
           get: () => mockStoreValue,
           enable: storeEnableSpy,

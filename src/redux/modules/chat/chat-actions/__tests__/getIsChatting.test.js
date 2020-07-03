@@ -7,7 +7,7 @@ import {
   CHAT_DROPPED
 } from 'src/redux/modules/chat/chat-action-types'
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 
 let getIsChatting = require('../getIsChatting').getIsChatting
 let isMobileBrowser = require('utility/devices').isMobileBrowser

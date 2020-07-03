@@ -1,4 +1,4 @@
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth'
 import { createSelector } from 'reselect'
 import { win } from 'utility/globals'

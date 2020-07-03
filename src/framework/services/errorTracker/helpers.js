@@ -1,4 +1,4 @@
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 
 const inDebugMode = () => __DEV__ || store.get('debug') || false
 

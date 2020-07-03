@@ -1,4 +1,4 @@
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 
 const RATE_LIMITING_QUEUES = 'rateRimitingQueues'
 
