@@ -1,3 +1,4 @@
+/* eslint-disable */
 # Embeddable Framework ![repo-checks](https://github.com/zendesk/embeddable_framework/workflows/repo-checks/badge.svg)
 [![FOSSA Status](https://app.fossa.io/api/projects/custom%2B4071%2Fgit%40github.com%3Azendesk%2Fembeddable_framework.git.svg?type=shield)](https://app.fossa.io/projects/custom%2B4071%2Fgit%40github.com%3Azendesk%2Fembeddable_framework.git?ref=badge_shield)
 
