@@ -38,7 +38,7 @@
     "test:debug:old": "node debug test/runner.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --watch",
     "lint:js": "eslint *.js config dev e2e script src test webpack",
-    "lint:other": "prettier --check \"**/*.{css,scss,json,md}\"",
+    "lint:other": "prettier --check \"**/*.{css,scss,json}\"",
     "lint": "npm run lint:js && npm run lint:other",
     "lint-fix:js": "npm run lint:js -- --fix",
     "lint-fix:other": "prettier --write \"**/*.{css,scss,json,md}\"",
