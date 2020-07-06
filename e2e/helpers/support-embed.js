@@ -1,4 +1,4 @@
-import { queries, wait } from 'pptr-testing-library'
+import { queries } from 'pptr-testing-library'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import loadWidget from './widget-page'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
@@ -155,13 +155,11 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
 }
 
 const waitForContactForm = async () => {
-  const doc = await widget.getDocument()
-  await wait(async () => await queries.getByText(doc, 'Leave us a message'))
+  await widget.waitForText('Leave us a message', { exact: 'false' })
 }
 
 const waitForSubmissionSuccess = async () => {
-  const doc = await widget.getDocument()
-  await wait(async () => await queries.getByText(doc, 'Message sent'))
+  await widget.waitForText('Message sent')
 }
 
 const uploadFiles = async (...filePaths) => {

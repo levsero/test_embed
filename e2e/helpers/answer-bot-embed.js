@@ -58,7 +58,8 @@ export const mockRejectionEndpoint = callback => {
 }
 
 export const waitForAnswerBot = async () => {
-  await widget.waitForText("Ask me a question and I'll find the answer for you.")
+  await widget.waitForText('Browser tests')
+  await widget.waitForText('Ask me a question', { exact: false })
 }
 
 export const waitForGetInTouchButton = async () => {
