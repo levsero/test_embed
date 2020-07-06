@@ -51,14 +51,9 @@ describe('ContactFormLabel', () => {
 
   it('supports rendering label as a different component, since Garden has different Label components for forms and dropdowns', () => {
     // eslint-disable-next-line react/prop-types
-    const as = ({ dangerouslySetInnerHTML }) => (
-      <div>
-        Example <span dangerouslySetInnerHTML={dangerouslySetInnerHTML} />
-      </div>
-    )
+    const as = ({ children }) => <div>Example {children}</div>
 
     const { container } = renderComponent({ value: 'A title', required: false, as })
-
     expect(container).toHaveTextContent('Example A title (optional)')
   })
 })

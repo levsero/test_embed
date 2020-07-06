@@ -88,9 +88,9 @@ const genericOverrides = css`
       (!validation || validation === 'none') && `${zdColorGrey600} !important;`};
   }
   :focus {
-    box-shadow: ${({ validation, bare }) =>
+    box-shadow: ${({ validation, isBare }) =>
       (!validation || validation === 'none') &&
-      !bare &&
+      !isBare &&
       `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   }
   box-shadow: ${({ focused, validation }) =>

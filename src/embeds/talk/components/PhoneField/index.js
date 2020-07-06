@@ -182,7 +182,6 @@ class PhoneField extends ControlledComponent {
                       <FauxInput
                         {...focused}
                         validation={showError ? 'error' : undefined}
-                        mediaLayout={true}
                         ref={container => {
                           if (!container) {
                             return
@@ -217,7 +216,7 @@ class PhoneField extends ControlledComponent {
                           autoComplete="off"
                           ref={node => (this.phoneInput = node)}
                           required={this.props.required}
-                          bare={true}
+                          isBare={true}
                           data-testid={TEST_IDS.PHONE_FIELD}
                         />
                       </FauxInput>
