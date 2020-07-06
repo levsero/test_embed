@@ -7,7 +7,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   transition: transform 0.25s ease-in-out;
 }
 
-.c23 {
+.c28 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -48,67 +48,67 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   color: #fff;
 }
 
-.c23::-moz-focus-inner {
+.c28::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.c23:hover {
+.c28:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:focus {
+.c28:focus {
   outline: none;
 }
 
-.c23[data-garden-focus-visible] {
+.c28[data-garden-focus-visible] {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:active,
-.c23[aria-pressed='true'],
-.c23[aria-pressed='mixed'] {
+.c28:active,
+.c28[aria-pressed='true'],
+.c28[aria-pressed='mixed'] {
   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:hover {
+.c28:hover {
   background-color: #144a75;
 }
 
-.c23[data-garden-focus-visible] {
+.c28[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
 }
 
-.c23:active {
+.c28:active {
   background-color: #0f3554;
 }
 
-.c23[aria-pressed='true'],
-.c23[aria-pressed='mixed'] {
+.c28[aria-pressed='true'],
+.c28[aria-pressed='mixed'] {
   background-color: #0f3554;
 }
 
-.c23:disabled {
+.c28:disabled {
   background-color: #cee2f2;
   color: #5293c7;
 }
 
-.c23:disabled {
+.c28:disabled {
   cursor: default;
 }
 
-.c23 .c7 {
+.c28 .c7 {
   width: 16px;
   min-width: 16px;
   height: 16px;
 }
 
-.c24 .c23 {
+.c30 .c28 {
   position: relative;
   margin-left: -1px;
   border-top-width: 0;
@@ -117,12 +117,12 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c24 .c23:hover,
-.c24 .c23:active {
+.c30 .c28:hover,
+.c30 .c28:active {
   z-index: 1;
 }
 
-.c24 .c23:disabled {
+.c30 .c28:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -130,20 +130,20 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c24 .c23:first-of-type:not(:last-of-type) {
+.c30 .c28:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-left-width: 0;
 }
 
-.c24 .c23:last-of-type:not(:first-of-type) {
+.c30 .c28:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-right-width: 0;
 }
 
-.c24 .c23:not(:first-of-type):not(:last-of-type) {
+.c30 .c28:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -252,17 +252,17 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 12px;
 }
 
-.c24 .c6 {
+.c30 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c24 .c6:hover,
-.c24 .c6:active {
+.c30 .c6:hover,
+.c30 .c6:active {
   z-index: 1;
 }
 
-.c24 .c6:disabled {
+.c30 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -270,18 +270,18 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c24 .c6:first-of-type:not(:last-of-type) {
+.c30 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c24 .c6:last-of-type:not(:first-of-type) {
+.c30 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c24 .c6:not(:first-of-type):not(:last-of-type) {
+.c30 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -424,7 +424,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   background: #227EC9 !important;
 }
 
-.c14 {
+.c19 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -439,48 +439,48 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 100%;
 }
 
-.c14::-webkit-scrollbar-track {
+.c19::-webkit-scrollbar-track {
   margin: 1.0714285714285714 0;
 }
 
-.c14::-webkit-scrollbar {
+.c19::-webkit-scrollbar {
   box-shadow: none;
   width: 0.42857142857142855rem;
 }
 
-.c14::-webkit-scrollbar-thumb {
+.c19::-webkit-scrollbar-thumb {
   background: #d8dcde;
   border-radius: 0.21428571428571427rem;
 }
 
-.c18 {
+.c23 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c20 {
+.c25 {
   position: relative;
   display: inline-block;
 }
 
-.c20 svg {
+.c25 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
   height: 0.7142857142857143rem;
 }
 
-.c20 svg:hover path,
-.c20 svg:active path,
-.c20 svg:focus path {
+.c25 svg:hover path,
+.c25 svg:active path,
+.c25 svg:focus path {
   fill: #68737d;
 }
 
-.c20 svg path {
+.c25 svg path {
   fill: #87929d;
 }
 
-.c19 {
+.c24 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -500,9 +500,369 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c13 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.c16 {
+  color: #68737d;
+  width: 16px;
+  height: 16px;
+}
+
+.c29 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c29 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c14 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  border: 1px solid;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-family: inherit;
+  padding: 0.7142857142857143em 0.8571428571428571em;
+  min-height: 40px;
+  line-height: 1.2857142857142858;
+  font-size: 14px;
+  border-color: #1f73b7;
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+  background-color: #fff;
+  color: #2f3941;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  cursor: text;
+}
+
+.c14::-ms-browse {
+  border-radius: 2px;
+}
+
+.c14::-ms-clear,
+.c14::-ms-reveal {
+  display: none;
+}
+
+.c14::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c14::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c14::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.c14::-webkit-clear-button,
+.c14::-webkit-inner-spin-button,
+.c14::-webkit-search-cancel-button,
+.c14::-webkit-search-results-button {
+  display: none;
+}
+
+.c14::-webkit-datetime-edit {
+  line-height: 1;
+}
+
+.c14::-webkit-input-placeholder {
+  opacity: 1;
+}
+
+.c14::-moz-placeholder {
+  opacity: 1;
+}
+
+.c14:-ms-input-placeholder {
+  opacity: 1;
+}
+
+.c14::placeholder {
+  opacity: 1;
+}
+
+.c14:invalid {
+  box-shadow: none;
+}
+
+.c14[type='file']::-ms-value {
+  display: none;
+}
+
+.c14::-ms-browse {
+  font-size: 12px;
+}
+
+.c14[type='date'],
+.c14[type='datetime-local'],
+.c14[type='file'],
+.c14[type='month'],
+.c14[type='time'],
+.c14[type='week'] {
+  max-height: 40px;
+}
+
+.c14[type='file'] {
+  line-height: 1;
+}
+
+.c14::-moz-color-swatch {
+  margin-top: -5px;
+  margin-left: -7px;
+  width: calc(100% + 14px);
+  height: 28px;
+}
+
+.c14::-webkit-color-swatch {
+  margin: -5px -7px;
+}
+
+.c31 + .c14,
+.sc-kGXeez + .c14,
+.sc-ckVGcZ + .c14,
+.c14 + .sc-kGXeez,
+.c14 + .sc-ckVGcZ {
+  margin-top: 8px;
+}
+
+.c14 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c14 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c14:focus {
+  outline: none;
+}
+
+.c14::-webkit-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c14::-moz-placeholder {
+  color: #c2c8cc;
+}
+
+.c14:-ms-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c14::placeholder {
+  color: #c2c8cc;
+}
+
+.c14:hover {
+  border-color: #5293c7;
+}
+
+.c14:focus,
+.c14[data-garden-focus-visible='true'] {
+  border-color: #1f73b7;
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c14:disabled,
+.c14[aria-disabled='true'] {
+  border-color: #e9ebed;
+  background-color: #f8f9f9;
+  color: #c2c8cc;
+}
+
+.c14:disabled {
+  cursor: default;
+}
+
+.c18 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-family: inherit;
+  padding: 0;
+  min-height: 1em;
+  line-height: 1.2857142857142858;
+  font-size: 14px;
+  border-color: #d8dcde;
+  background-color: transparent;
+  color: #2f3941;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c18::-ms-browse {
+  border-radius: 2px;
+}
+
+.c18::-ms-clear,
+.c18::-ms-reveal {
+  display: none;
+}
+
+.c18::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c18::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c18::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.c18::-webkit-clear-button,
+.c18::-webkit-inner-spin-button,
+.c18::-webkit-search-cancel-button,
+.c18::-webkit-search-results-button {
+  display: none;
+}
+
+.c18::-webkit-datetime-edit {
+  line-height: 1;
+}
+
+.c18::-webkit-input-placeholder {
+  opacity: 1;
+}
+
+.c18::-moz-placeholder {
+  opacity: 1;
+}
+
+.c18:-ms-input-placeholder {
+  opacity: 1;
+}
+
+.c18::placeholder {
+  opacity: 1;
+}
+
+.c18:invalid {
+  box-shadow: none;
+}
+
+.c18[type='file']::-ms-value {
+  display: none;
+}
+
+.c18::-ms-browse {
+  font-size: 12px;
+}
+
+.c18[type='date'],
+.c18[type='datetime-local'],
+.c18[type='file'],
+.c18[type='month'],
+.c18[type='time'],
+.c18[type='week'] {
+  max-height: 40px;
+}
+
+.c18[type='file'] {
+  line-height: 1;
+}
+
+.c18::-moz-color-swatch {
+  margin-top: -5px;
+  margin-left: -7px;
+  width: calc(100% + 14px);
+  height: 28px;
+}
+
+.c18::-webkit-color-swatch {
+  margin: -5px -7px;
+}
+
+.c31 + .c18,
+.sc-kGXeez + .c18,
+.sc-ckVGcZ + .c18,
+.c18 + .sc-kGXeez,
+.c18 + .sc-ckVGcZ {
+  margin-top: 8px;
+}
+
+.c18 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c18 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c18:focus {
+  outline: none;
+}
+
+.c18::-webkit-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c18::-moz-placeholder {
+  color: #c2c8cc;
+}
+
+.c18:-ms-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c18::placeholder {
+  color: #c2c8cc;
+}
+
+.c18:hover {
+  border-color: #5293c7;
+}
+
+.c18:focus,
+.c18[data-garden-focus-visible='true'] {
+  border-color: #1f73b7;
+}
+
+.c18:disabled,
+.c18[aria-disabled='true'] {
+  border-color: #e9ebed;
+  color: #c2c8cc;
+}
+
+.c18:disabled {
+  cursor: default;
+}
+
+.c17 {
   color: #c2c8cc !important;
-  height: 1.3714285714285714rem !important;
-  width: 1.3714285714285714rem !important;
+  height: NaNrem !important;
+  width: NaNrem !important;
 }
 
 .c12 {
@@ -517,15 +877,15 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-bottom: 0;
 }
 
-.c21 {
+.c26 {
   position: relative !important;
 }
 
-.c22 {
+.c27 {
   max-width: 14.285714285714286rem;
 }
 
-.c15 {
+.c20 {
   text-align: center !important;
   color: #2f3941;
   font-size: 1.0714285714285714rem;
@@ -547,14 +907,42 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   flex-direction: column;
 }
 
-.c16 {
+.c21 {
   margin-bottom: 0 !important;
   margin-top: 1.4285714285714286 !important;
 }
 
-.c17 {
+.c22 {
   color: #68737d;
   margin-bottom: 1.4285714285714286 !important;
+}
+
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .c14[type='number'] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .c14[type='color'] {
+    padding: 1px 3px;
+  }
+}
+
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .c18[type='number'] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .c18[type='color'] {
+    padding: 1px 3px;
+  }
 }
 
 <div>
@@ -607,39 +995,40 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                 class="c12"
               >
                 <div
-                  class="text__c-txt___Uzv-G range__c-range___1aYaS "
+                  class="c13"
+                  data-garden-id="forms.field"
+                  data-garden-version="8.15.0"
                 >
                   <div
                     aria-invalid="false"
-                    class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb "
-                    data-garden-id="forms.media_input"
-                    data-garden-version="7.1.10"
+                    class="c14"
+                    data-garden-id="forms.faux_input"
+                    data-garden-version="8.15.0"
                   >
-                    <div
-                      class="text__c-txt__input--media__figure___gBDfx "
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="c13"
-                        data-testid="Icon--search"
-                        focusable="false"
-                        realfilename="search-stroke.svg"
-                        role="presentation"
-                      />
-                    </div>
+                    <svg
+                      aria-hidden="true"
+                      class="c15 c16 c17"
+                      data-garden-id="forms.media_figure"
+                      data-garden-version="8.15.0"
+                      data-testid="Icon--search"
+                      focusable="false"
+                      realfilename="search-stroke.svg"
+                      role="presentation"
+                      theme="[object Object]"
+                    />
                     <input
+                      aria-describedby="2val-field_1.3.4--hint"
                       aria-invalid="false"
-                      aria-labelledby="2val-field_1.3.3--label"
+                      aria-labelledby="2val-field_1.3.4--label"
                       autocapitalize="off"
-                      class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+                      class="c18"
+                      data-garden-id="forms.media_input"
+                      data-garden-version="8.15.0"
                       data-testid="search-field"
-                      id="2val-field_1.3.3--input"
+                      id="2val-field_1.3.4--input"
                       placeholder="How can we help?"
                       type="search"
                       value=""
-                    />
-                    <div
-                      class="text__c-txt__input--media__figure___gBDfx "
                     />
                   </div>
                 </div>
@@ -649,32 +1038,32 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
         </div>
       </div>
       <div
-        class="c14"
+        class="c19"
         data-testid="scroll-container-content"
       >
         <div
-          class="c15"
+          class="c20"
         >
           <p
-            class="c16"
+            class="c21"
           >
             There are no results for ""
           </p>
           <p
-            class="c17"
+            class="c22"
           >
             Try searching for something else.
           </p>
         </div>
       </div>
       <footer
-        class="c18"
+        class="c23"
       >
         <div
-          class="c19"
+          class="c24"
         >
           <a
-            class="c20"
+            class="c25"
             data-testid="Icon--zendesk"
             href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
             tabindex="-1"
@@ -686,13 +1075,13 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
             />
           </a>
           <div
-            class="c21"
+            class="c26"
           >
             <div
               class="container buttonRight "
             >
               <button
-                class="c22 c23"
+                class="c27 c28"
                 data-garden-id="buttons.button"
                 data-garden-version="8.13.0"
                 type="button"
@@ -718,7 +1107,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   transition: transform 0.25s ease-in-out;
 }
 
-.c23 {
+.c28 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -759,67 +1148,67 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   color: #fff;
 }
 
-.c23::-moz-focus-inner {
+.c28::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.c23:hover {
+.c28:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:focus {
+.c28:focus {
   outline: none;
 }
 
-.c23[data-garden-focus-visible] {
+.c28[data-garden-focus-visible] {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:active,
-.c23[aria-pressed='true'],
-.c23[aria-pressed='mixed'] {
+.c28:active,
+.c28[aria-pressed='true'],
+.c28[aria-pressed='mixed'] {
   -webkit-transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23:hover {
+.c28:hover {
   background-color: #144a75;
 }
 
-.c23[data-garden-focus-visible] {
+.c28[data-garden-focus-visible] {
   box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
 }
 
-.c23:active {
+.c28:active {
   background-color: #0f3554;
 }
 
-.c23[aria-pressed='true'],
-.c23[aria-pressed='mixed'] {
+.c28[aria-pressed='true'],
+.c28[aria-pressed='mixed'] {
   background-color: #0f3554;
 }
 
-.c23:disabled {
+.c28:disabled {
   background-color: #cee2f2;
   color: #5293c7;
 }
 
-.c23:disabled {
+.c28:disabled {
   cursor: default;
 }
 
-.c23 .c7 {
+.c28 .c7 {
   width: 16px;
   min-width: 16px;
   height: 16px;
 }
 
-.c24 .c23 {
+.c30 .c28 {
   position: relative;
   margin-left: -1px;
   border-top-width: 0;
@@ -828,12 +1217,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c24 .c23:hover,
-.c24 .c23:active {
+.c30 .c28:hover,
+.c30 .c28:active {
   z-index: 1;
 }
 
-.c24 .c23:disabled {
+.c30 .c28:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -841,20 +1230,20 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c24 .c23:first-of-type:not(:last-of-type) {
+.c30 .c28:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-left-width: 0;
 }
 
-.c24 .c23:last-of-type:not(:first-of-type) {
+.c30 .c28:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-right-width: 0;
 }
 
-.c24 .c23:not(:first-of-type):not(:last-of-type) {
+.c30 .c28:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -963,17 +1352,17 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 12px;
 }
 
-.c24 .c6 {
+.c30 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c24 .c6:hover,
-.c24 .c6:active {
+.c30 .c6:hover,
+.c30 .c6:active {
   z-index: 1;
 }
 
-.c24 .c6:disabled {
+.c30 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -981,18 +1370,18 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c24 .c6:first-of-type:not(:last-of-type) {
+.c30 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c24 .c6:last-of-type:not(:first-of-type) {
+.c30 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c24 .c6:not(:first-of-type):not(:last-of-type) {
+.c30 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1135,7 +1524,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   background: #227EC9 !important;
 }
 
-.c14 {
+.c19 {
   -webkit-box-flex: 2;
   -webkit-flex-grow: 2;
   -ms-flex-positive: 2;
@@ -1150,48 +1539,48 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 100%;
 }
 
-.c14::-webkit-scrollbar-track {
+.c19::-webkit-scrollbar-track {
   margin: 1.0714285714285714 0;
 }
 
-.c14::-webkit-scrollbar {
+.c19::-webkit-scrollbar {
   box-shadow: none;
   width: 0.42857142857142855rem;
 }
 
-.c14::-webkit-scrollbar-thumb {
+.c19::-webkit-scrollbar-thumb {
   background: #d8dcde;
   border-radius: 0.21428571428571427rem;
 }
 
-.c18 {
+.c23 {
   padding: 1.0714285714285714rem 1.4285714285714286rem;
   border-top: 0.07857142857142858rem solid #e9ebed;
   box-shadow: 0 -0.07142857142857142rem 0.8571428571428571rem rgba(0,0,0,0.08);
 }
 
-.c20 {
+.c25 {
   position: relative;
   display: inline-block;
 }
 
-.c20 svg {
+.c25 svg {
   min-width: 3.5714285714285716rem;
   width: 3.5714285714285716rem;
   height: 0.7142857142857143rem;
 }
 
-.c20 svg:hover path,
-.c20 svg:active path,
-.c20 svg:focus path {
+.c25 svg:hover path,
+.c25 svg:active path,
+.c25 svg:focus path {
   fill: #68737d;
 }
 
-.c20 svg path {
+.c25 svg path {
   fill: #87929d;
 }
 
-.c19 {
+.c24 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1211,9 +1600,369 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 }
 
 .c13 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.c16 {
+  color: #68737d;
+  width: 16px;
+  height: 16px;
+}
+
+.c29 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c29 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c14 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  border: 1px solid;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-family: inherit;
+  padding: 0.7142857142857143em 0.8571428571428571em;
+  min-height: 40px;
+  line-height: 1.2857142857142858;
+  font-size: 14px;
+  border-color: #1f73b7;
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+  background-color: #fff;
+  color: #2f3941;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  cursor: text;
+}
+
+.c14::-ms-browse {
+  border-radius: 2px;
+}
+
+.c14::-ms-clear,
+.c14::-ms-reveal {
+  display: none;
+}
+
+.c14::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c14::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c14::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.c14::-webkit-clear-button,
+.c14::-webkit-inner-spin-button,
+.c14::-webkit-search-cancel-button,
+.c14::-webkit-search-results-button {
+  display: none;
+}
+
+.c14::-webkit-datetime-edit {
+  line-height: 1;
+}
+
+.c14::-webkit-input-placeholder {
+  opacity: 1;
+}
+
+.c14::-moz-placeholder {
+  opacity: 1;
+}
+
+.c14:-ms-input-placeholder {
+  opacity: 1;
+}
+
+.c14::placeholder {
+  opacity: 1;
+}
+
+.c14:invalid {
+  box-shadow: none;
+}
+
+.c14[type='file']::-ms-value {
+  display: none;
+}
+
+.c14::-ms-browse {
+  font-size: 12px;
+}
+
+.c14[type='date'],
+.c14[type='datetime-local'],
+.c14[type='file'],
+.c14[type='month'],
+.c14[type='time'],
+.c14[type='week'] {
+  max-height: 40px;
+}
+
+.c14[type='file'] {
+  line-height: 1;
+}
+
+.c14::-moz-color-swatch {
+  margin-top: -5px;
+  margin-left: -7px;
+  width: calc(100% + 14px);
+  height: 28px;
+}
+
+.c14::-webkit-color-swatch {
+  margin: -5px -7px;
+}
+
+.c31 + .c14,
+.sc-kGXeez + .c14,
+.sc-ckVGcZ + .c14,
+.c14 + .sc-kGXeez,
+.c14 + .sc-ckVGcZ {
+  margin-top: 8px;
+}
+
+.c14 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c14 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c14:focus {
+  outline: none;
+}
+
+.c14::-webkit-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c14::-moz-placeholder {
+  color: #c2c8cc;
+}
+
+.c14:-ms-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c14::placeholder {
+  color: #c2c8cc;
+}
+
+.c14:hover {
+  border-color: #5293c7;
+}
+
+.c14:focus,
+.c14[data-garden-focus-visible='true'] {
+  border-color: #1f73b7;
+  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+}
+
+.c14:disabled,
+.c14[aria-disabled='true'] {
+  border-color: #e9ebed;
+  background-color: #f8f9f9;
+  color: #c2c8cc;
+}
+
+.c14:disabled {
+  cursor: default;
+}
+
+.c18 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  transition: border-color .25s ease-in-out, box-shadow .1s ease-in-out, background-color .25s ease-in-out, color .25s ease-in-out;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  font-family: inherit;
+  padding: 0;
+  min-height: 1em;
+  line-height: 1.2857142857142858;
+  font-size: 14px;
+  border-color: #d8dcde;
+  background-color: transparent;
+  color: #2f3941;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c18::-ms-browse {
+  border-radius: 2px;
+}
+
+.c18::-ms-clear,
+.c18::-ms-reveal {
+  display: none;
+}
+
+.c18::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c18::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.c18::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.c18::-webkit-clear-button,
+.c18::-webkit-inner-spin-button,
+.c18::-webkit-search-cancel-button,
+.c18::-webkit-search-results-button {
+  display: none;
+}
+
+.c18::-webkit-datetime-edit {
+  line-height: 1;
+}
+
+.c18::-webkit-input-placeholder {
+  opacity: 1;
+}
+
+.c18::-moz-placeholder {
+  opacity: 1;
+}
+
+.c18:-ms-input-placeholder {
+  opacity: 1;
+}
+
+.c18::placeholder {
+  opacity: 1;
+}
+
+.c18:invalid {
+  box-shadow: none;
+}
+
+.c18[type='file']::-ms-value {
+  display: none;
+}
+
+.c18::-ms-browse {
+  font-size: 12px;
+}
+
+.c18[type='date'],
+.c18[type='datetime-local'],
+.c18[type='file'],
+.c18[type='month'],
+.c18[type='time'],
+.c18[type='week'] {
+  max-height: 40px;
+}
+
+.c18[type='file'] {
+  line-height: 1;
+}
+
+.c18::-moz-color-swatch {
+  margin-top: -5px;
+  margin-left: -7px;
+  width: calc(100% + 14px);
+  height: 28px;
+}
+
+.c18::-webkit-color-swatch {
+  margin: -5px -7px;
+}
+
+.c31 + .c18,
+.sc-kGXeez + .c18,
+.sc-ckVGcZ + .c18,
+.c18 + .sc-kGXeez,
+.c18 + .sc-ckVGcZ {
+  margin-top: 8px;
+}
+
+.c18 .c15:first-child {
+  margin: auto 8px auto 0;
+}
+
+.c18 .c15:last-child {
+  margin: auto 0 auto 8px;
+}
+
+.c18:focus {
+  outline: none;
+}
+
+.c18::-webkit-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c18::-moz-placeholder {
+  color: #c2c8cc;
+}
+
+.c18:-ms-input-placeholder {
+  color: #c2c8cc;
+}
+
+.c18::placeholder {
+  color: #c2c8cc;
+}
+
+.c18:hover {
+  border-color: #5293c7;
+}
+
+.c18:focus,
+.c18[data-garden-focus-visible='true'] {
+  border-color: #1f73b7;
+}
+
+.c18:disabled,
+.c18[aria-disabled='true'] {
+  border-color: #e9ebed;
+  color: #c2c8cc;
+}
+
+.c18:disabled {
+  cursor: default;
+}
+
+.c17 {
   color: #c2c8cc !important;
-  height: 1.3714285714285714rem !important;
-  width: 1.3714285714285714rem !important;
+  height: NaNrem !important;
+  width: NaNrem !important;
 }
 
 .c12 {
@@ -1228,15 +1977,15 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin-bottom: 0;
 }
 
-.c21 {
+.c26 {
   position: relative !important;
 }
 
-.c22 {
+.c27 {
   max-width: 14.285714285714286rem;
 }
 
-.c15 {
+.c20 {
   text-align: center !important;
   color: #2f3941;
   font-size: 1.0714285714285714rem;
@@ -1258,14 +2007,42 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   flex-direction: column;
 }
 
-.c16 {
+.c21 {
   margin-bottom: 0 !important;
   margin-top: 1.4285714285714286 !important;
 }
 
-.c17 {
+.c22 {
   color: #68737d;
   margin-bottom: 1.4285714285714286 !important;
+}
+
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .c14[type='number'] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .c14[type='color'] {
+    padding: 1px 3px;
+  }
+}
+
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .c18[type='number'] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+  .c18[type='color'] {
+    padding: 1px 3px;
+  }
 }
 
 <div>
@@ -1318,39 +2095,40 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
                 class="c12"
               >
                 <div
-                  class="text__c-txt___Uzv-G range__c-range___1aYaS "
+                  class="c13"
+                  data-garden-id="forms.field"
+                  data-garden-version="8.15.0"
                 >
                   <div
                     aria-invalid="false"
-                    class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 text__is-focused___26DQb "
-                    data-garden-id="forms.media_input"
-                    data-garden-version="7.1.10"
+                    class="c14"
+                    data-garden-id="forms.faux_input"
+                    data-garden-version="8.15.0"
                   >
-                    <div
-                      class="text__c-txt__input--media__figure___gBDfx "
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="c13"
-                        data-testid="Icon--search"
-                        focusable="false"
-                        realfilename="search-stroke.svg"
-                        role="presentation"
-                      />
-                    </div>
+                    <svg
+                      aria-hidden="true"
+                      class="c15 c16 c17"
+                      data-garden-id="forms.media_figure"
+                      data-garden-version="8.15.0"
+                      data-testid="Icon--search"
+                      focusable="false"
+                      realfilename="search-stroke.svg"
+                      role="presentation"
+                      theme="[object Object]"
+                    />
                     <input
+                      aria-describedby="1val-field_1.3.4--hint"
                       aria-invalid="false"
-                      aria-labelledby="1val-field_1.3.3--label"
+                      aria-labelledby="1val-field_1.3.4--label"
                       autocapitalize="off"
-                      class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+                      class="c18"
+                      data-garden-id="forms.media_input"
+                      data-garden-version="8.15.0"
                       data-testid="search-field"
-                      id="1val-field_1.3.3--input"
+                      id="1val-field_1.3.4--input"
                       placeholder="How can we help?"
                       type="search"
                       value=""
-                    />
-                    <div
-                      class="text__c-txt__input--media__figure___gBDfx "
                     />
                   </div>
                 </div>
@@ -1360,32 +2138,32 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
         </div>
       </div>
       <div
-        class="c14"
+        class="c19"
         data-testid="scroll-container-content"
       >
         <div
-          class="c15"
+          class="c20"
         >
           <p
-            class="c16"
+            class="c21"
           >
             There are no results for ""
           </p>
           <p
-            class="c17"
+            class="c22"
           >
             Try searching for something else.
           </p>
         </div>
       </div>
       <footer
-        class="c18"
+        class="c23"
       >
         <div
-          class="c19"
+          class="c24"
         >
           <a
-            class="c20"
+            class="c25"
             data-testid="Icon--zendesk"
             href="https://www.zendesk.com/embeddables/?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image"
             tabindex="-1"
@@ -1397,13 +2175,13 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
             />
           </a>
           <div
-            class="c21"
+            class="c26"
           >
             <div
               class="container buttonRight "
             >
               <button
-                class="c22 c23"
+                class="c27 c28"
                 data-garden-id="buttons.button"
                 data-garden-version="8.13.0"
                 type="button"
