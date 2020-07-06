@@ -182,6 +182,7 @@ class PhoneField extends ControlledComponent {
                       <FauxInput
                         {...focused}
                         validation={showError ? 'error' : undefined}
+                        mediaLayout={true}
                         ref={container => {
                           if (!container) {
                             return

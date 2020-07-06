@@ -282,8 +282,8 @@ function getGardenOverrides(colors) {
   const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors })
 
   return {
-    'forms.text_area': inputOverrides,
-    'forms.text_input': inputOverrides,
+    'forms.textarea': inputOverrides,
+    'forms.input': inputOverrides,
     'forms.text_label': labelOverrides,
     'forms.label': labelOverrides,
     'forms.message': messageOverrides,
@@ -291,9 +291,9 @@ function getGardenOverrides(colors) {
     'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables),
-    'forms.check_label': checkboxLabelOverrides,
-    'forms.check_input': checkboxInputOverrides(themeColor),
-    'forms.check_hint': checkboxHintMobileOverrides,
+    'forms.checkbox_label': checkboxLabelOverrides,
+    'forms.checkbox': checkboxInputOverrides(themeColor),
+    'forms.checkbox_hint': checkboxHintMobileOverrides,
     'dropdowns.label': mobileOverrides,
     'dropdowns.hint': mobileOverrides,
     'dropdowns.select': css`
