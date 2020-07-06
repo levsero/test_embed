@@ -18,6 +18,7 @@ describe('zESettings.webWidget.contactForm.attachments', () => {
       }, attachments)
       .load()
     await launcher.click()
+    await widget.waitForText('Leave us a message')
     return await queries.queryByText(await widget.getDocument(), 'Attachments')
   }
 

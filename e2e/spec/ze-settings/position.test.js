@@ -25,10 +25,12 @@ test('override left and top positions for launcher and frame', async () => {
       }
     })
     .load()
-  expect(await getPosition(launcher.selector)).toEqual({
-    top: '0px',
-    left: '0px'
-  })
+  await wait(async () =>
+    expect(await getPosition(launcher.selector)).toEqual({
+      top: '0px',
+      left: '0px'
+    })
+  )
   await launcher.click()
   await waitForContactForm()
   await wait(async () => {

@@ -11,6 +11,7 @@ import {
 import { getJsonPayload } from 'e2e/helpers/utils'
 import { queries, wait } from 'pptr-testing-library'
 import { TEST_IDS } from 'src/constants/shared'
+import launcher from 'e2e/helpers/launcher'
 
 const buildWidget = () =>
   loadWidget()
@@ -19,7 +20,7 @@ const buildWidget = () =>
     .intercept(mockViewedEndpoint())
 
 const goToArticle = async title => {
-  await widget.openByKeyboard()
+  await launcher.click()
   await waitForAnswerBot()
   await search('Help')
   await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
@@ -28,7 +29,7 @@ const goToArticle = async title => {
 }
 
 const answerFeedback = async answer => {
-  await widget.clickButton(answer)
+  await widget.clickText(answer, { exact: false })
   const doc = await widget.getDocument()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Does this article answer your question?')).toBeNull()
@@ -106,7 +107,7 @@ describe('clicking no', () => {
       await widget.clickText("It's related, but it didn't answer my question")
     })
 
-    it('shows expected message in coversation', async () => {
+    it('shows expected message in conversation', async () => {
       await widget.waitForText('I see. Your question is still unresolved.')
     })
 

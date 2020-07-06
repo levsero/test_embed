@@ -47,7 +47,7 @@ describe('clicking no', () => {
   it('shows the expected messages after', async () => {
     await widget.clickBack()
     await widget.waitForText('Did the article you viewed help to answer your question?')
-    await widget.clickButton('No')
+    await widget.clickText('No', { exact: false })
     await widget.waitForText('Please tell us why.')
     await widget.clickButton("It's related, but it didn't answer my question")
     await widget.waitForText('I see. Your question is still unresolved.')

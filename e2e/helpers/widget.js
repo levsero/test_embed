@@ -20,14 +20,16 @@ const clickBack = async () => {
 
 const clickButton = async buttonText => {
   const frame = await getFrame()
+  await waitForText(buttonText)
   await expect(frame).toClick('button', { text: buttonText })
 }
 
 const clickText = async (text, options) => {
   const widget = await getDocument()
-  await wait(async () => await queries.getByText(widget, text, options))
-  const element = await queries.getByText(widget, text, options)
-  await element.click()
+  await wait(async () => {
+    const element = await queries.getByText(widget, text, options)
+    await element.click()
+  })
 }
 
 const zendeskLogoVisible = async () => {
@@ -50,9 +52,9 @@ const waitForTestId = async (testId, options = { visible: true }) => {
   await frame.waitForSelector(`[data-testid="${testId}"]`, options)
 }
 
-const waitForText = async text => {
+const waitForText = async (text, options) => {
   const widget = await getDocument()
-  await wait(async () => await queries.getByText(widget, text))
+  await wait(async () => await queries.getByText(widget, text, options))
 }
 
 const waitForPlaceholderText = async placeholderText => {

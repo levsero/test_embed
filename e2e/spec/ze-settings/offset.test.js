@@ -36,10 +36,12 @@ describe('desktop', () => {
 
   test('adjusts the position of launcher', async () => {
     await setup()
-    expect(await getPosition(launcher.selector)).toEqual({
-      right: '100px',
-      bottom: '150px'
-    })
+    await wait(async () =>
+      expect(await getPosition(launcher.selector)).toEqual({
+        right: '100px',
+        bottom: '150px'
+      })
+    )
   })
 
   test('adjusts the position of widget', async () => {
@@ -57,10 +59,12 @@ describe('desktop', () => {
 
   test('does not affect mobile position', async () => {
     await setup(true)
-    expect(await getPosition(launcher.selector)).toEqual({
-      right: '0px',
-      bottom: '0px'
-    })
+    await wait(async () =>
+      expect(await getPosition(launcher.selector)).toEqual({
+        right: '0px',
+        bottom: '0px'
+      })
+    )
     await widget.openByKeyboard()
     await waitForHelpCenter()
 
@@ -91,10 +95,12 @@ describe('mobile', () => {
 
   test('adjusts the position of launcher', async () => {
     await setup()
-    expect(await getPosition(launcher.selector)).toEqual({
-      right: '230px',
-      bottom: '100px'
-    })
+    await wait(async () =>
+      expect(await getPosition(launcher.selector)).toEqual({
+        right: '230px',
+        bottom: '100px'
+      })
+    )
   })
 
   test('does not affect the position of the widget', async () => {
@@ -112,10 +118,12 @@ describe('mobile', () => {
 
   test('does not affect desktop position', async () => {
     await setup(false)
-    expect(await getPosition(launcher.selector)).toEqual({
-      right: '0px',
-      bottom: '0px'
-    })
+    await wait(async () =>
+      expect(await getPosition(launcher.selector)).toEqual({
+        right: '0px',
+        bottom: '0px'
+      })
+    )
     await widget.openByKeyboard()
     await waitForHelpCenter()
     await wait(async () => {
