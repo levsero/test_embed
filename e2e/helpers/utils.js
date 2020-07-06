@@ -4,7 +4,9 @@ import fs from 'fs'
 import { allowsInputTextEditing } from '../spec/shared-examples'
 
 export const goToTestPage = async () =>
-  await page.goto('http://localhost:5123/e2e.html', { waitUntil: 'domcontentloaded' })
+  await page.goto('http://localhost:5123/e2e.html', {
+    waitUntil: ['domcontentloaded', 'load', 'networkidle0']
+  })
 
 export const failOnConsoleError = () =>
   page.on('console', msg => {
