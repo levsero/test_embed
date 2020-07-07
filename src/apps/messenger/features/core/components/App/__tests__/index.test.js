@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'src/embeddables/messenger/utils/testHelpers'
+import { render } from 'src/apps/messenger/utils/testHelpers'
 import App from '../'
 
 describe('Messenger app', () => {

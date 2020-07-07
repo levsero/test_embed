@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import App from 'src/embeddables/messenger/features/core/components/App'
-import createStore from 'src/embeddables/messenger/store'
-import { throwawayAction } from 'src/embeddables/messenger/store/throwaway'
+import App from 'src/apps/messenger/features/core/components/App'
+import createStore from 'src/apps/messenger/store'
+import { throwawayAction } from 'src/apps/messenger/store/throwaway'
 
 const run = () => {
   const element = hostPageWindow.document.body.appendChild(
