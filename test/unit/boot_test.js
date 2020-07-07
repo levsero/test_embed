@@ -84,7 +84,7 @@ describe('boot', () => {
           get: noop
         }
       },
-      'src/framework/services/public-api': {
+      'src/framework/services/publicApi': {
         registerApi: () => undefined,
         registerLegacyApi: () => undefined,
         run: () => undefined
