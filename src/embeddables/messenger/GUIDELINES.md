@@ -47,13 +47,13 @@ Page components are responsible for piecing together the UI for each of the main
 
 ### Components
 
-Contains React components that are general in natural and not tied to any specific feature.
+Contains React components that are general in nature and not tied to any specific feature.
 
 E.g. `Button`
 
 ### Hooks
 
-Contains React hooks that are general in natural and not tied to any specific feature.
+Contains React hooks that are general in nature and not tied to any specific feature.
 
 E.g. `useInterval`
 
