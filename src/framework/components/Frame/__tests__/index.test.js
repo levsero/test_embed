@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import styled from 'styled-components'
-import Frame, { useCurrentFrame } from '../'
+import Frame, { useCurrentFrame } from '../index'
 
 describe('Frame', () => {
   const defaultProps = {

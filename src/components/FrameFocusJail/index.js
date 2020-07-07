@@ -5,7 +5,7 @@ import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { focusLauncher } from 'utility/globals'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 import { connect } from 'react-redux'
-import { useCurrentFrame } from 'components/Frame'
+import { useCurrentFrame } from 'src/framework/components/Frame'
 
 const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
   const containerRef = useRef()

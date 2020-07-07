@@ -25,7 +25,7 @@ import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'
 import { FONT_SIZE, NAME_PATTERN, EMAIL_PATTERN, PHONE_PATTERN } from 'src/constants/shared'
 import { onNextTick } from 'src/util/utils'
 import { TEST_IDS } from 'src/constants/shared'
-import { CurrentFrameConsumer } from 'components/Frame'
+import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import ViewHistoryButton from 'embeds/chat/components/ViewHistoryButton'
 
 export class PrechatForm extends Component {

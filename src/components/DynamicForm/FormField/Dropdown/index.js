@@ -12,7 +12,7 @@ import {
   Message
 } from '@zendeskgarden/react-dropdowns'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
-import { useCurrentFrame } from 'components/Frame'
+import { useCurrentFrame } from 'src/framework/components/Frame'
 import { TEST_IDS } from 'constants/shared'
 import { DropdownSelect } from './styles'
 import { withTheme } from 'styled-components'

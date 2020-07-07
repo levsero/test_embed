@@ -31,7 +31,7 @@ import {
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
 import { HeaderItem } from 'components/Widget'
-import { useCurrentFrame } from 'components/Frame'
+import { useCurrentFrame } from 'src/framework/components/Frame'
 import { getMenuVisible, getUserSoundSettings } from 'embeds/chat/selectors'
 import { handleSoundIconClick, updateMenuVisibility } from 'embeds/chat/actions/actions'
 
