@@ -1,22 +1,16 @@
 import React from 'react'
-import Frame from 'src/framework/components/Frame'
+import MessengerFrame from './MessengerFrame'
+import { Container } from './styles'
 
 const Messenger = () => {
   return (
-    <Frame
-      title="TODO: Messenger"
-      style={{
-        height: 700,
-        width: 380,
-        maxHeight: 'calc(100vh - 90px - 10px)',
-        position: 'fixed',
-        bottom: 90,
-        right: 0,
-        border: '1px solid black'
-      }}
-    >
-      Messenger
-    </Frame>
+    <MessengerFrame>
+      <Container>
+        <div>Header</div>
+        <div style={{ flex: 1 }}>Message log</div>
+        <div>Footer</div>
+      </Container>
+    </MessengerFrame>
   )
 }
 
