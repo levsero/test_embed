@@ -93,8 +93,14 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     const renderCallback = async () => {
       try {
-        await renderer.init(config, reduxStore)
-        await renderer.run(config, reduxStore)
+        await renderer.init({
+          config,
+          reduxStore
+        })
+        await renderer.run({
+          config,
+          reduxStore
+        })
 
         webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore)
 

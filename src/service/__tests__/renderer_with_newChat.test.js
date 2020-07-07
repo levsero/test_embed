@@ -19,7 +19,7 @@ beforeEach(() => {
   settings.get = value => _.get(mockSettings, value, null)
 })
 
-test('new chat', () => {
+test('new chat', async () => {
   const configJSON = {
     embeds: {
       chat: {
@@ -37,8 +37,14 @@ test('new chat', () => {
     }
   }
 
-  renderer.init(configJSON, store)
-  renderer.run(configJSON, store)
+  await renderer.init({
+    config: configJSON,
+    reduxStore: store
+  })
+  await renderer.run({
+    config: configJSON,
+    reduxStore: store
+  })
 
   expect(document.body.innerHTML).toMatchSnapshot()
 })

@@ -16,6 +16,7 @@ import { setReferrerMetas } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import webWidget from 'src/embeddables/webWidget'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -88,13 +89,31 @@ const getConfig = (win, reduxStore) => {
       zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 
+    const getEmbeddable = async () => {
+      if (isFeatureEnabled(reduxStore.getState(), 'messenger_widget')) {
+        return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger')
+          .then(messenger => messenger.default)
+          .catch(() => {})
+      }
+
+      return webWidget
+    }
+
     const renderCallback = async () => {
       try {
-        await webWidget.init(config, reduxStore)
+        const embeddable = await getEmbeddable()
+
+        embeddable.init?.({
+          config,
+          reduxStore
+        })
 
         publicApi.run()
 
-        await webWidget.run(config, reduxStore)
+        embeddable.run?.({
+          config,
+          reduxStore
+        })
 
         beacon.sendPageView()
 
