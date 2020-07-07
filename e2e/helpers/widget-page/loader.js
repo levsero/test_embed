@@ -1,5 +1,6 @@
 import { mockRollbarEndpoint, mockStaticAssets, goToTestPage, failOnConsoleError } from './../utils'
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
+import launcher from 'e2e/helpers/launcher'
 import devices from 'puppeteer/DeviceDescriptors'
 
 const defaultMocks = [
@@ -68,6 +69,9 @@ const load = async (options = {}) => {
     selectorOptions.visible = false
   }
   await page.waitForSelector('iframe#launcher', selectorOptions)
+  if (!options.hidden) {
+    await launcher.getFrame().waitForSelector('#Embed', { visible: true })
+  }
 }
 
 export default load

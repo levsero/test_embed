@@ -2,7 +2,9 @@ import { setupContainer } from './previews'
 import frame from './frame'
 
 const goToTestPage = async () =>
-  await page.goto('http://localhost:5123/chatPreview.html', { waitUntil: 'domcontentloaded' })
+  await page.goto('http://localhost:5123/chatPreview.html', {
+    waitUntil: ['domcontentloaded', 'load', 'networkidle0']
+  })
 
 const renderPreview = () =>
   page.evaluate(() => {
