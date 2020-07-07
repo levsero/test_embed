@@ -7,6 +7,7 @@ import { FORM_ERROR } from 'final-form'
 import { useSelector } from 'react-redux'
 import { getFormValues } from 'src/redux/modules/form/selectors'
 import useScrollToFirstError from 'components/DynamicForm/hooks/useScrollToFirstError'
+import useSafeState from 'src/hooks/useSafeState'
 
 const DynamicForm = ({
   formId,
@@ -24,6 +25,10 @@ const DynamicForm = ({
   const [showErrors, setShowFormErrors] = useState(false)
   const scrollToFirstError = useScrollToFirstError()
   const initialState = useSelector(state => getFormValues(state, formId))
+  const [
+    temporaryFieldsToShowWhileSubmitting,
+    setTemporaryFieldsToShowWhileSubmitting
+  ] = useSafeState(null)
 
   // We want screen readers to read out the error message every time the user tries to submit the form.
   // Since in some cases, the error element might already be there, we need a way to get the element to be recreated
@@ -43,6 +48,8 @@ const DynamicForm = ({
       fields.forEach(field => {
         valuesToSubmit[field.id] = values[field.id]
       })
+
+      setTemporaryFieldsToShowWhileSubmitting(fields)
 
       Promise.resolve(onSubmit(valuesToSubmit))
         .then(result => {
@@ -67,6 +74,9 @@ const DynamicForm = ({
           }
           callback(newErrors)
           scrollToFirstError(getFields(values), newErrors)
+        })
+        .finally(() => {
+          setTemporaryFieldsToShowWhileSubmitting(null)
         })
     } else {
       callback(errors)
@@ -111,7 +121,7 @@ const DynamicForm = ({
           }}
           formId={formId}
           showErrors={showErrors}
-          fields={getFields(values)}
+          fields={temporaryFieldsToShowWhileSubmitting ?? getFields(values)}
           submitErrorMessage={submitError}
           errorMessageKey={errorMessageKey}
           readOnlyValues={readOnlyValues}

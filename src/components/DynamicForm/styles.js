@@ -9,7 +9,7 @@ const FormContainer = styled.form`
   overflow-y: hidden;
 
   > *:first-child {
-    padding-bottom: ${props => 10 / props.theme.fontSize}rem;
+    padding-bottom: ${props => 30 / props.theme.fontSize}rem;
   }
 `
 
