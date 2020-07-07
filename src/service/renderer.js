@@ -11,6 +11,7 @@ import webWidgetApp from 'src/embeds/webWidget'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getIsWidgetReady } from 'src/redux/modules/selectors'
 import publicApi from 'src/framework/services/publicApi'
+import errorTracker from 'src/framework/services/errorTracker'
 import { getWebWidgetPublicApi } from 'service/api/webWidgetApi/setupApi'
 import { getWebWidgetLegacyPublicApi } from 'service/api/webWidgetApi/setupLegacyApi'
 import logger from 'src/util/logger'
@@ -51,6 +52,8 @@ function registerEmbedsInRedux(config, reduxStore) {
 async function init(config, reduxStore = dummyStore) {
   publicApi.registerApi(getWebWidgetPublicApi(reduxStore))
   publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(reduxStore, config))
+
+  errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
 
   if (_.isEmpty(config.embeds)) return
   if (!initialised) {

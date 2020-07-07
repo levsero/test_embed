@@ -5,7 +5,7 @@ import { identity } from 'service/identity'
 import { settings } from 'service/settings'
 import { location, getReferrerPolicy, getZendeskHost } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import HttpApiError from 'errors/nonFatal/HttpApiError'
 
 let config = {

@@ -12,7 +12,7 @@ import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-
 import { http } from 'service/transport'
 import { getCustomFieldIds } from 'src/redux/modules/base/base-selectors'
 import { getForm, getHasFetchedTicketForms } from 'embeds/support/selectors'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 
 export function fetchTicketForms(ticketForms = {}, locale) {
   return async (dispatch, getState) => {

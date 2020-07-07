@@ -1,5 +1,5 @@
 import { supportedFields } from 'src/components/DynamicForm/FormField/fields'
-import errorTracker from 'service/errorTracker/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import createKeyID from 'embeds/support/utils/createKeyID'
 
 // Some fields use different values for different apis

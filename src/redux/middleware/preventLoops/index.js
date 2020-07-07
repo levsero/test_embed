@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import InfiniteLoopError from 'errors/fatal/InfiniteLoopError'
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 import { beacon } from 'service/beacon'
 import {
   SDK_CHAT_MSG,

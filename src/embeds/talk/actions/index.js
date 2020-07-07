@@ -1,4 +1,4 @@
-import errorTracker from 'service/errorTracker'
+import errorTracker from 'src/framework/services/errorTracker'
 
 import {
   SNAPCALL_CALL_ENDED,
