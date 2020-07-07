@@ -168,7 +168,11 @@ class PhoneField extends ControlledComponent {
                 ...DEFAULT_THEME,
                 document: frame.document,
                 rtl: this.props.rtl,
-                components: styleOverrides
+                components: styleOverrides,
+                colors: {
+                  ...DEFAULT_THEME.colors,
+                  primaryHue: 'grey'
+                }
               }}
             >
               <FieldContainer>
@@ -182,6 +186,7 @@ class PhoneField extends ControlledComponent {
                       <FauxInput
                         {...focused}
                         validation={showError ? 'error' : undefined}
+                        tabIndex={-1}
                         mediaLayout={true}
                         ref={container => {
                           if (!container) {

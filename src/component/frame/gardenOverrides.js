@@ -231,6 +231,10 @@ const checkboxInputOverrides = themeColor => {
       background-color: ${themeColor} !important;
       border-color: ${zdColorGrey600} !important;
     }
+    &[data-garden-focus-visible='true'] ~ [data-garden-id='forms.checkbox_label']::before {
+      box-shadow: ${`0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${zdColorGrey400} !important;
+    }
   `
 }
 
