@@ -2,6 +2,7 @@
 
 exports[`includes all expected substates 1`] = `
 Object {
+  "allFormsRequested": false,
   "attachmentLimitExceeded": false,
   "attachments": Array [],
   "config": Object {
@@ -21,5 +22,6 @@ Object {
     "fetchKey": null,
     "isLoading": false,
   },
+  "ticketFormsSetViaAPI": false,
 }
 `;
