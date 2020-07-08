@@ -153,7 +153,7 @@ test('load with three custom forms, update to show only two custom forms then re
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
+          ticketForms: [option1.form.id, option2.form.id, option3.form.id]
         }
       }
     }

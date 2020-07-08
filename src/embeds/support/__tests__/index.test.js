@@ -3,14 +3,14 @@ import { render } from 'src/util/testHelpers'
 import { Component as Support } from '../'
 import createStore from 'src/redux/createStore'
 import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
-import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { waitFor } from '@testing-library/dom'
 
 describe('TicketFormPage', () => {
   const renderComponent = (props = {}, options) => {
     const defaultProps = {
-      ticketForms: { ids: [], enabled: true },
+      ticketForms: [],
+      formIds: [],
       fetchTicketForms: jest.fn(async () => undefined),
       getTicketFields: jest.fn(async () => undefined),
       locale: 'en-US',
@@ -37,7 +37,7 @@ describe('TicketFormPage', () => {
     renderComponent({
       getTicketFields,
       fetchTicketForms,
-      ticketForms: { enabled: false, ids: [] },
+      formIds: [],
       locale: 'en-US'
     })
 
@@ -52,24 +52,18 @@ describe('TicketFormPage', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
+              ticketForms: [1]
             }
           }
         }
       })
     )
-
-    store.dispatch({
-      type: ALL_FORMS_REQUESTED,
-      payload: true
-    })
-
     store.dispatch({
       type: TICKET_FORMS_REQUEST_SUCCESS,
       payload: {
         ticket_forms: [
           {
-            id: 1337,
+            id: 1,
             active: true,
             ticket_field_ids: []
           }
@@ -78,9 +72,7 @@ describe('TicketFormPage', () => {
         formIds: []
       }
     })
-
-    const ticketForms = { ids: [1337], enabled: true, showList: false }
-    const { queryByText } = renderComponent({ ticketForms: ticketForms }, { store })
+    const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }] }, { store })
 
     await waitFor(() => queryByText('Email address'))
 
@@ -90,8 +82,7 @@ describe('TicketFormPage', () => {
   })
 
   it('renders the list when ticketForms length is greater than 1', async () => {
-    const ticketForms = { ids: [1, 2], enabled: true, showList: true }
-    const { queryByText } = renderComponent({ ticketForms: ticketForms })
+    const { queryByText } = renderComponent({ ticketForms: [{ id: 1 }, { id: 2 }] })
 
     await waitFor(() => queryByText('Email address'))
 
@@ -105,7 +96,7 @@ describe('TicketFormPage', () => {
 
     const { rerender } = renderComponent({
       getTicketFields,
-      ticketForms: { ids: [] },
+      formIds: [],
       locale: 'en-US',
       customFieldsAvailable: true
     })
@@ -115,7 +106,7 @@ describe('TicketFormPage', () => {
     getTicketFields.mockClear()
 
     renderComponent(
-      { ticketForms: { ids: [] }, getTicketFields, locale: 'ru', customFieldsAvailable: true },
+      { formIds: [], getTicketFields, locale: 'ru', customFieldsAvailable: true },
       { render: rerender }
     )
 
@@ -127,64 +118,27 @@ describe('TicketFormPage', () => {
 
     const { rerender } = renderComponent({
       fetchTicketForms,
-      ticketForms: { ids: [123, 456], active: true },
+      formIds: [123, 456],
       locale: 'en-US'
     })
 
-    expect(fetchTicketForms).toHaveBeenCalledWith({ ids: [123, 456], active: true }, 'en-US')
+    expect(fetchTicketForms).toHaveBeenCalledWith([123, 456], 'en-US')
 
     fetchTicketForms.mockClear()
 
     renderComponent(
-      { ticketForms: { ids: [456, 789], active: true }, fetchTicketForms, locale: 'en-US' },
+      { formIds: [456, 789], fetchTicketForms, locale: 'en-US' },
       { render: rerender }
     )
 
-    expect(fetchTicketForms).toHaveBeenCalledWith({ ids: [456, 789], active: true }, 'en-US')
+    expect(fetchTicketForms).toHaveBeenCalledWith([456, 789], 'en-US')
   })
 
   it('renders the loading page when fetching custom forms on first render', async () => {
-    const store = createStore()
-
-    store.dispatch(
-      updateEmbeddableConfig({
-        embeds: {
-          ticketSubmissionForm: {
-            props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
-      })
-    )
-
-    store.dispatch({
-      type: ALL_FORMS_REQUESTED,
-      payload: true
+    const { queryByRole } = renderComponent({
+      formIds: [123],
+      locale: 'en-US'
     })
-
-    store.dispatch({
-      type: TICKET_FORMS_REQUEST_SUCCESS,
-      payload: {
-        ticket_forms: [
-          {
-            id: 1337,
-            active: true,
-            ticket_field_ids: []
-          }
-        ],
-        ticket_fields: [],
-        formIds: []
-      }
-    })
-
-    const { queryByRole } = renderComponent(
-      {
-        ticketForms: { ids: [1337], active: true },
-        locale: 'en-US'
-      },
-      { store }
-    )
 
     expect(queryByRole('progressbar')).toBeInTheDocument()
 
