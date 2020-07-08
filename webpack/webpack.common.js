@@ -31,7 +31,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules|spec\/support\/custom-fields.test.js/,
+        exclude: /node_modules|spec\/support\/custom-fields.test.js|spec\/answer-bot\/feedback\/in-article.test.js/,
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
