@@ -160,6 +160,7 @@ describe('init', () => {
     talkfeature.mockImplementation(() => true)
     isFeatureEnabled.mockReturnValue(true)
     await renderer.init(testConfig(), store)
+    renderer.run(testConfig(), store)
 
     expect(chatActions.setUpChat).toHaveBeenCalled()
     expect(talkActions.pollTalkStatus).toHaveBeenCalled()
