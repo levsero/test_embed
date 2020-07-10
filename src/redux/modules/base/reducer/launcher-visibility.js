@@ -9,7 +9,7 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
+  POPOUT_CREATED,
   ESCAPE_KEY_PRESSED
 } from '../base-action-types'
 import {
@@ -35,7 +35,7 @@ const launcherVisible = (state = initialState, action) => {
     case OPEN_RECEIVED:
       return false
     case CLOSE_BUTTON_CLICKED:
-    case POPOUT_BUTTON_CLICKED:
+    case POPOUT_CREATED:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:
     case PROACTIVE_CHAT_NOTIFICATION_DISMISSED:

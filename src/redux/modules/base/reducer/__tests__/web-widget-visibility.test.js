@@ -9,7 +9,7 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
+  POPOUT_CREATED,
   UPDATE_ACTIVE_EMBED,
   ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
@@ -56,7 +56,7 @@ testReducer(webWidgetVisibility, [
     expected: false
   },
   {
-    action: { type: POPOUT_BUTTON_CLICKED },
+    action: { type: POPOUT_CREATED },
     expected: false
   },
   {

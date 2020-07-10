@@ -8,7 +8,7 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
+  POPOUT_CREATED,
   UPDATE_ACTIVE_EMBED,
   SHOW_WIDGET,
   ESCAPE_KEY_PRESSED
@@ -35,7 +35,7 @@ const webWidgetVisible = (state = initialState, action) => {
     case SHOW_WIDGET:
       return true
     case CLOSE_BUTTON_CLICKED:
-    case POPOUT_BUTTON_CLICKED:
+    case POPOUT_CREATED:
     case CHAT_BANNED:
     case LEGACY_SHOW_RECEIVED:
     case CANCEL_BUTTON_CLICKED:

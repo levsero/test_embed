@@ -277,9 +277,9 @@ export const showWidget = () => {
   }
 }
 
-export const handlePopoutButtonClicked = () => {
+export const handlePopoutCreated = () => {
   callbacks.fireFor(CHAT_POPOUT_EVENT)
-  return { type: actions.POPOUT_BUTTON_CLICKED }
+  return { type: actions.POPOUT_CREATED }
 }
 
 export const apiClearForm = () => (dispatch, _getState) => {

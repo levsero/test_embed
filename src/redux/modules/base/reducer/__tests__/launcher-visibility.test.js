@@ -10,7 +10,7 @@ import {
   OPEN_RECEIVED,
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
-  POPOUT_BUTTON_CLICKED,
+  POPOUT_CREATED,
   ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
@@ -61,7 +61,7 @@ testReducer(launcherVisibility, [
     expected: true
   },
   {
-    action: { type: POPOUT_BUTTON_CLICKED },
+    action: { type: POPOUT_CREATED },
     expected: true
   },
   {

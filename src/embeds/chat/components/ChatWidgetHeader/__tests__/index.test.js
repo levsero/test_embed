@@ -27,7 +27,7 @@ describe('ChatWidgetHeader', () => {
     isChatPreview: false,
     locale: 'en-US',
     popoutButtonIsVisible: false,
-    handlePopoutButtonClicked: jest.fn()
+    handlePopoutCreated: jest.fn()
   }
 
   const renderComponent = (props = {}) => {
@@ -48,28 +48,28 @@ describe('ChatWidgetHeader', () => {
     })
 
     it('does nothing when clicked if it is a chat preview', () => {
-      const handlePopoutButtonClicked = jest.fn()
+      const handlePopoutCreated = jest.fn()
       const { queryByLabelText } = renderComponent({
         isPopoutButtonVisible: true,
         isChatPreview: true,
-        handlePopoutButtonClicked
+        handlePopoutCreated
       })
 
       queryByLabelText('Popout').click()
 
-      expect(handlePopoutButtonClicked).not.toHaveBeenCalled()
+      expect(handlePopoutCreated).not.toHaveBeenCalled()
     })
 
-    it('calls "handlePopoutButtonClicked" when clicked', () => {
-      const handlePopoutButtonClicked = jest.fn()
+    it('calls "handlePopoutCreated" when clicked', () => {
+      const handlePopoutCreated = jest.fn()
       const { queryByLabelText } = renderComponent({
         isPopoutButtonVisible: true,
-        handlePopoutButtonClicked
+        handlePopoutCreated
       })
 
       queryByLabelText('Popout').click()
 
-      expect(handlePopoutButtonClicked).toHaveBeenCalled()
+      expect(handlePopoutCreated).toHaveBeenCalled()
     })
 
     it('opens a chat popup window when clicked', () => {

@@ -11,7 +11,7 @@ import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selec
 import { createChatPopoutWindow } from 'utility/chat'
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { handlePopoutButtonClicked } from 'src/redux/modules/base'
+import { handlePopoutCreated } from 'src/redux/modules/base'
 import { PopoutIcon } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -22,7 +22,7 @@ const ChatWidgetHeader = ({
   isChatPreview,
   isPopoutButtonVisible,
   locale,
-  handlePopoutButtonClicked
+  handlePopoutCreated
 }) => {
   const onBack = useOnBack()
 
@@ -31,7 +31,7 @@ const ChatWidgetHeader = ({
       return
     }
 
-    handlePopoutButtonClicked()
+    handlePopoutCreated()
     createChatPopoutWindow(popoutSettings, zChat.getMachineId(), locale)
   }
 
@@ -62,7 +62,7 @@ ChatWidgetHeader.propTypes = {
   isChatPreview: PropTypes.bool,
   isPopoutButtonVisible: PropTypes.bool,
   locale: PropTypes.string,
-  handlePopoutButtonClicked: PropTypes.func
+  handlePopoutCreated: PropTypes.func
 }
 
 const mapStateToProps = state => ({
@@ -75,7 +75,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  handlePopoutButtonClicked
+  handlePopoutCreated
 }
 
 const connectedComponent = connect(
