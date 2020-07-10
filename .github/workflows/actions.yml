@@ -1,0 +1,120 @@
+name: repo-checks
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+    - master
+    - "/^feature.*$/"
+jobs:
+  main:
+    name: node-ruby
+    runs-on: [ self-hosted, zendesk-stable ]
+    env:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+    strategy:
+      fail-fast: true
+      matrix:
+        task: ['lint', 'test-ci', 'fossa', 'audit', 'validate', 'e2e0', 'e2e1', 'e2e2', 'e2e3']
+        include:
+          - task: lint
+            run: |
+              export TASK=lint
+              npm run $TASK
+          - task: test-ci
+            run: |
+              export TASK=test-ci
+              echo "Starting unit and integration tests"
+              download_translations
+              npm run test:ci
+          - task: fossa
+            run: |
+              export TASK=fossa
+              echo "Starting Fossa open source scan" && ./script/run_fossa.sh;
+          - task: audit
+            run: |
+              export TASK=audit
+              npm install -g audit-ci
+              echo "Starting npm audit" && audit-ci --critical
+          - task: validate
+            run: |
+              export TASK=validate
+              echo "Validating prod builds";
+              download_translations
+              bundle exec ruby ./script/validate_i18n.rb
+              npm run build:validate
+          - task: e2e0
+            run: |
+              export TASK=e2e
+              export CI_NODE_TOTAL=4
+              export CI_NODE_INDEX=0
+              echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
+              download_translations
+              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
+              npm run e2e:ci
+          - task: e2e1
+            run: |
+              export TASK=e2e
+              export CI_NODE_TOTAL=4
+              export CI_NODE_INDEX=1
+              echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
+              download_translations
+              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
+              npm run e2e:ci
+          - task: e2e2
+            run: |
+              export TASK=e2e
+              export CI_NODE_TOTAL=4
+              export CI_NODE_INDEX=2
+              echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
+              download_translations
+              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
+              npm run e2e:ci
+          - task: e2e3
+            run: |
+              export TASK=e2e
+              export CI_NODE_TOTAL=4
+              export CI_NODE_INDEX=3
+              export TASK=e2e
+              echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
+              download_translations
+              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
+              npm run e2e:ci
+    steps:
+    - uses: zendesk/checkout@v2
+      with:
+        token: ${{ secrets.ORG_GITHUB_TOKEN }}
+        submodules: recursive
+    - uses: zendesk/setup-node@v2.0.0
+      with:
+        node-version: '10.18.0'
+    - uses: zendesk/setup-ruby@v1
+    - name: before_install
+      run: |
+        curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
+        npm i -g npm@6.13.4
+    - name: install
+      run: |
+        git config --global url."https://${{ secrets.ORG_GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        mkdir dist
+        npm set progress=false && npm install
+        npm run build:version:generate
+    - name: ${{ matrix.task }}
+      run: |
+        download_translations() {
+          bundle install --jobs=3 --retry=3 --path=vendor/bundle
+          npm run build-setup:prod
+        }
+        ${{ matrix.run }}
+  release:
+    needs:
+      - main
+    if: github.ref == 'refs/heads/master'
+    runs-on: [ self-hosted, zendesk-stable ]
+    steps:
+      - name: Notify Samson
+        uses: zendesk/ga/samson-create-release@v1
+        env:
+          WEBHOOK_URL: "https://samson.zende.sk/integrations/generic/b127503546dbc459293e47fbae026af2"
+          COMMIT: ${{ github.sha }}
