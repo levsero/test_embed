@@ -530,7 +530,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
             class="c3 c4"
             data-testid="widget-title"
           >
-            Phone only page
+            Call us
           </h1>
           <button
             aria-label="Minimize widget"

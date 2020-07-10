@@ -18,7 +18,6 @@ describe('PhoneOnlyPage', () => {
     averageWaitTime: '10',
     phoneNumber: '+61412345678',
     formattedPhoneNumber: '+61412 345 678',
-    title: 'Phone only page',
     hideZendeskLogo: false
   }
 

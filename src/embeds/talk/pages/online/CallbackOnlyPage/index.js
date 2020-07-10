@@ -1,26 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import CallbackForm from 'src/embeds/talk/components/CallbackForm'
 import { Widget, Header } from 'src/components/Widget'
-import { getTitle } from 'src/embeds/talk/selectors'
+import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
 
-const CallbackOnlyPage = ({ title }) => {
+const CallbackOnlyPage = () => {
+  const getTitle = useGetTitle()
+
   return (
     <Widget>
-      <Header title={title} />
+      <Header title={getTitle('embeddable_framework.talk.form.title')} />
       <CallbackForm showCallbackNumber={false} />
     </Widget>
   )
 }
 
-CallbackOnlyPage.propTypes = {
-  title: PropTypes.string.isRequired
-}
-
-const mapStateToProps = state => ({
-  title: getTitle(state, 'embeddable_framework.talk.form.title')
-})
-
-export default connect(mapStateToProps)(CallbackOnlyPage)
+export default CallbackOnlyPage
