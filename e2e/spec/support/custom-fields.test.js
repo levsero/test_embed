@@ -19,7 +19,6 @@ const testCustomForm = async ({ field, queryElement = true, ...other }) => {
     ...other,
     config: {
       attachmentsEnabled: false,
-      ticketFormsEnabled: true,
       nameEnabled: false,
       ...embedConfig
     }
