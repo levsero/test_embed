@@ -6,45 +6,44 @@ import routes from './routes'
 import SuccessPage from 'embeds/support/pages/SuccessPage'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import TicketFormsListPage from 'embeds/support/pages/TicketFormsListPage'
-import { getFormIdsToDisplay, getFormsToDisplay } from 'src/embeds/support/selectors'
+import { getTicketForms } from 'src/embeds/support/selectors'
 import { getLocale, getCustomFieldsAvailable } from 'src/redux/modules/base/base-selectors'
 import { fetchTicketForms, getTicketFields } from 'embeds/support/actions/fetchForms'
 import LoadingPage from 'components/LoadingPage'
 
 const Support = ({
   ticketForms,
-  formIds,
   fetchTicketForms,
   getTicketFields,
   locale,
   customFieldsAvailable
 }) => {
-  const [isFetchingInitialForms, setIsFetchingInitialForms] = useState(true)
-  const formId = ticketForms.length ? ticketForms[0].id : routes.defaultFormId
-  const indexRoute = ticketForms.length > 1 ? routes.list() : routes.form(formId)
+  const [isFetchingForms, setIsFetchingForms] = useState(true)
+  const formId = (ticketForms.ids && ticketForms.ids[0]) || routes.defaultFormId
+  const indexRoute = ticketForms.showList ? routes.list() : routes.form(formId)
 
   useEffect(() => {
-    if (formIds.length > 0) {
-      fetchTicketForms(formIds, locale).finally(() => {
-        setIsFetchingInitialForms(false)
+    if (ticketForms.active) {
+      fetchTicketForms(ticketForms, locale).finally(() => {
+        setIsFetchingForms(false)
       })
     } else if (customFieldsAvailable) {
       getTicketFields(locale).finally(() => {
-        setIsFetchingInitialForms(false)
+        setIsFetchingForms(false)
       })
     } else {
-      setIsFetchingInitialForms(false)
+      setIsFetchingForms(false)
     }
-  }, [fetchTicketForms, formIds, locale])
+  }, [fetchTicketForms, ticketForms, locale])
 
-  if (isFetchingInitialForms) {
+  if (isFetchingForms) {
     return <LoadingPage />
   }
 
   return (
     <Switch>
       <Route path={routes.form()} component={TicketFormPage} />
-      {ticketForms.length > 1 && <Route path={routes.list()} component={TicketFormsListPage} />}
+      {ticketForms.showList && <Route path={routes.list()} component={TicketFormsListPage} />}
       <Route path={routes.success()} component={SuccessPage} />
 
       <Redirect to={indexRoute} />
@@ -53,8 +52,13 @@ const Support = ({
 }
 
 Support.propTypes = {
-  ticketForms: PropTypes.array.isRequired,
-  formIds: PropTypes.arrayOf(PropTypes.number),
+  ticketForms: PropTypes.shape({
+    ids: PropTypes.array,
+    showList: PropTypes.bool,
+    requestAll: PropTypes.bool,
+    active: PropTypes.bool,
+    allFetched: PropTypes.bool
+  }),
   fetchTicketForms: PropTypes.func,
   getTicketFields: PropTypes.func,
   locale: PropTypes.string,
@@ -62,8 +66,7 @@ Support.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  ticketForms: getFormsToDisplay(state),
-  formIds: getFormIdsToDisplay(state),
+  ticketForms: getTicketForms(state),
   locale: getLocale(state),
   customFieldsAvailable: getCustomFieldsAvailable(state)
 })

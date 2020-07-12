@@ -10,6 +10,7 @@ import {
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORM_UPDATE
 } from '../action-types'
+import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 jest.mock('service/i18n')
 
 describe('fetchTicketForms', () => {
@@ -35,9 +36,15 @@ describe('fetchTicketForms', () => {
         }
       }
     })
+
+    const ticketForms = {
+      ids: [123, 456],
+      requestAll: false
+    }
+
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123, 456], 'en-US'))
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).not.toEqual(
       expect.arrayContaining([
@@ -67,9 +74,15 @@ describe('fetchTicketForms', () => {
         }
       }
     })
+
+    const ticketForms = {
+      ids: [123],
+      requestAll: false
+    }
+
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123], 'en-US'))
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).not.toEqual(
       expect.arrayContaining([
@@ -83,7 +96,80 @@ describe('fetchTicketForms', () => {
     )
   })
 
-  it('only requests forms that it has not already downloaded', () => {
+  it('does not make a request if all forms have downloaded', () => {
+    const store = createStore({
+      support: {
+        forms: {
+          123: {
+            id: 123,
+            locale: 'en-US'
+          }
+        },
+        filteredFormsToDisplay: [],
+        allFormsRequested: true,
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: 'en-US/all'
+        }
+      }
+    })
+
+    const ticketForms = {
+      ids: [],
+      requestAll: true
+    }
+
+    jest.spyOn(store, 'dispatch')
+
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: TICKET_FORMS_REQUEST_SENT,
+          payload: {
+            fetchKey: 'en-US/all',
+            formIds: []
+          }
+        }
+      ])
+    )
+  })
+
+  it('does not make a request if no IDs are specified but the request is not for all forms ', () => {
+    const store = createStore({
+      support: {
+        allFormsRequested: false,
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: 'en-US/123'
+        }
+      }
+    })
+
+    const ticketForms = {
+      ids: [],
+      requestAll: false
+    }
+
+    jest.spyOn(store, 'dispatch')
+
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: TICKET_FORMS_REQUEST_SENT,
+          payload: {
+            fetchKey: 'en-US/all',
+            formIds: []
+          }
+        }
+      ])
+    )
+  })
+
+  it('only requests forms that have not already downloaded', () => {
     const store = createStore({
       support: {
         forms: {
@@ -105,9 +191,15 @@ describe('fetchTicketForms', () => {
         }
       }
     })
+
+    const ticketForms = {
+      ids: [123, 456],
+      requestAll: false
+    }
+
     jest.spyOn(store, 'dispatch')
 
-    store.dispatch(fetchTicketForms([123, 456], 'en-US'))
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -125,6 +217,47 @@ describe('fetchTicketForms', () => {
       {
         locale: 'en-US',
         path: '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US'
+      },
+      false
+    )
+  })
+
+  it('requests all forms if no specific IDs are passed', () => {
+    const store = createStore({
+      support: {
+        forms: {
+          123: {
+            id: 123,
+            locale: 'en-US',
+            active: true
+          },
+          456: {
+            id: 456,
+            locale: 'fr',
+            active: true
+          }
+        },
+        filteredFormsToDisplay: [123, 456],
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: null
+        }
+      }
+    })
+
+    const ticketForms = {
+      ids: [],
+      requestAll: true
+    }
+
+    jest.spyOn(store, 'dispatch')
+
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    expect(http.get).toHaveBeenCalledWith(
+      {
+        locale: 'en-US',
+        path: '/api/v2/ticket_forms/show_many.json?include=ticket_fields&locale=en-US'
       },
       false
     )
@@ -150,7 +283,12 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    await store.dispatch(fetchTicketForms([123], 'en-US'))
+    const ticketForms = {
+      ids: [123],
+      requestAll: false
+    }
+
+    await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -166,6 +304,43 @@ describe('fetchTicketForms', () => {
             fetchKey: 'en-US/123',
             formIds: [123]
           }
+        }
+      ])
+    )
+  })
+
+  it('dispatches an ALL_FORMS_REQUESTED action when all forms are requested', async () => {
+    const response = { body: { ticket_forms: [{ id: 123 }] } }
+    http.get = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve(response)
+      })
+    })
+
+    const store = createStore({
+      support: {
+        forms: {},
+        filteredFormsToDisplay: [],
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: null
+        }
+      }
+    })
+    jest.spyOn(store, 'dispatch')
+
+    const ticketForms = {
+      ids: [],
+      requestAll: true
+    }
+
+    await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: ALL_FORMS_REQUESTED,
+          payload: true
         }
       ])
     )
@@ -191,7 +366,12 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    await store.dispatch(fetchTicketForms([123], 'en-US'))
+    const ticketForms = {
+      ids: [123],
+      requestAll: false
+    }
+
+    await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -225,7 +405,12 @@ describe('fetchTicketForms', () => {
     })
     jest.spyOn(store, 'dispatch')
 
-    await store.dispatch(fetchTicketForms([123], 'en-US'))
+    const ticketForms = {
+      ids: [123],
+      requestAll: false
+    }
+
+    await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
