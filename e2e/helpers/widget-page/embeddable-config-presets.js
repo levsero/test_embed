@@ -34,7 +34,6 @@ const presets = {
           attachmentsEnabled: true,
           nameFieldEnabled: true,
           nameFieldRequired: false,
-          ticketFormsEnabled: false,
           color: '#1F73B7',
           maxFileSize: 20971520
         }

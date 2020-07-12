@@ -18,7 +18,7 @@ beforeEach(async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
+          ticketForms: [form1.form.id, form2.form.id]
         }
       }
     }
