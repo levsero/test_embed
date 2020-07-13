@@ -94,7 +94,7 @@ const createForm = ({ name, id, active = true, fields = [] }) => {
   }
 
   const embedConfig = {
-    ticketFormsEnabled: true,
+    ticketForms: [id],
     nameFieldEnabled: false
   }
 
