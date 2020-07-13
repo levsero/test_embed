@@ -64,7 +64,7 @@ const Form = ({
             </div>
           ))}
         </Fields>
-        <div data-keyid={FORM_ERROR}>
+        <div data-fieldid={FORM_ERROR}>
           {submitErrorMessage && (
             <Alert type="error" role="alert" key={errorMessageKey}>
               <Title>{translate(submitErrorMessage)}</Title>

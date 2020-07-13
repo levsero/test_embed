@@ -58,7 +58,7 @@ const AttachmentField = ({
 
   return (
     <Container data-testid={TEST_IDS.ATTACHMENT_LIST_CONTAINER}>
-      <StyledLabel htmlFor={INPUT_ID} data-keyid={field.keyID}>
+      <StyledLabel htmlFor={INPUT_ID} data-fieldid={field.keyID}>
         {title}
       </StyledLabel>
       {errorMessage && (
