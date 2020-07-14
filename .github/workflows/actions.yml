@@ -46,6 +46,7 @@ jobs:
               export CI_NODE_INDEX=0
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
+              start_e2e_server
               export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
               npm run e2e:ci
           - task: e2e1
@@ -54,6 +55,7 @@ jobs:
               export CI_NODE_INDEX=1
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
+              start_e2e_server
               export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
               npm run e2e:ci
           - task: e2e2
@@ -62,6 +64,7 @@ jobs:
               export CI_NODE_INDEX=2
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
+              start_e2e_server
               export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
               npm run e2e:ci
           - task: e2e3
@@ -70,6 +73,7 @@ jobs:
               export CI_NODE_INDEX=3
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
+              start_e2e_server
               export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
               npm run e2e:ci
     steps:
@@ -97,6 +101,11 @@ jobs:
         download_translations() {
           bundle install --jobs=3 --retry=3 --path=vendor/bundle
           npm run build-setup:prod
+        }
+        start_e2e_server() {
+          npm run e2e:server &
+          sleep 5
+          curl localhost:5123/e2e.html
         }
         ${{ matrix.run }}
   release:
