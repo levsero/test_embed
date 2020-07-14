@@ -21,6 +21,14 @@ function zE(...params) {
     return
   }
 
+  // Support a legacy, undocumented way of setting locale
+  // zE({ locale: 'en-US' })
+  if (root && root.locale) {
+    zE('webWidget', 'setLocale', root.locale)
+    tracker.track(`legacy-webWidget.setLocale`, root.locale)
+    return
+  }
+
   if (typeof api[root]?.[name] !== 'function') {
     throw new Error(`Method ${root}.${name} does not exist`)
   }
