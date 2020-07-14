@@ -13,7 +13,7 @@ describe('Carousel Component', () => {
           carouselSlider: 'carouselSlider'
         }
       },
-      'embeds/chat/SliderContainer': Slider
+      'embeds/chat/components/SliderContainer': Slider
     })
 
     mockery.registerAllowable(carouselPath)
