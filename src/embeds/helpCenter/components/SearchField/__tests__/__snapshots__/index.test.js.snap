@@ -3,55 +3,58 @@
 exports[`renders 1`] = `
 .c1 {
   color: #c2c8cc !important;
-  height: 1.2rem !important;
-  width: 1.2rem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c0 {
   margin-top: 0.2857142857142857rem;
 }
 
-.c0 > div > div {
+.c0 > div > div > div {
   max-height: unset;
 }
 
 <div>
-  <div
-    class="c0"
-  >
+  <div>
     <div
-      class="text__c-txt___Uzv-G range__c-range___1aYaS "
+      class="c0"
     >
       <div
-        aria-invalid="false"
-        class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 "
-        data-garden-id="forms.media_input"
-        data-garden-version="7.1.10"
+        class="text__c-txt___Uzv-G range__c-range___1aYaS "
       >
         <div
-          class="text__c-txt__input--media__figure___gBDfx "
-        >
-          <svg
-            class="c1"
-            data-testid="Icon--search"
-            realfilename="search-stroke.svg"
-          />
-        </div>
-        <input
           aria-invalid="false"
-          aria-labelledby="1val-field_1.3.3--label"
-          autocapitalize="off"
-          class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
-          data-testid="search-field"
-          id="1val-field_1.3.3--input"
-          placeholder="hello there"
-          type="search"
-          value=""
-        />
-        <div
-          class="text__c-txt__input--media__figure___gBDfx "
+          class="-div text__c-txt__input___38pRd text__c-txt__input--media___1dY36 "
+          data-garden-id="forms.media_input"
+          data-garden-version="7.1.10"
         >
-          <div />
+          <div
+            class="text__c-txt__input--media__figure___gBDfx "
+          >
+            <svg
+              aria-hidden="true"
+              class="c1"
+              data-testid="Icon--search"
+              focusable="false"
+              realfilename="search-stroke.svg"
+              role="presentation"
+            />
+          </div>
+          <input
+            aria-invalid="false"
+            aria-labelledby="1val-field_1.3.3--label"
+            autocapitalize="off"
+            class="text__c-txt__input___38pRd text__c-txt__input--bare___wp3DV text__c-txt__input--media__body___11J0_ "
+            data-testid="search-field"
+            id="1val-field_1.3.3--input"
+            placeholder="hello there"
+            type="search"
+            value=""
+          />
+          <div
+            class="text__c-txt__input--media__figure___gBDfx "
+          />
         </div>
       </div>
     </div>

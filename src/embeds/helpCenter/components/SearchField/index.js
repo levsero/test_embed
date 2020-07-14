@@ -1,42 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
 import { Field, MediaInput } from '@zendeskgarden/react-forms'
+
 import { TEST_IDS } from 'src/constants/shared'
-import { LoadingDots, SearchIcon, ClearInputButton, Container } from './styles'
-import { triggerOnEnter } from 'utility/keyboard'
 import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/selectors'
 import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selectors'
+import SearchFieldEndIcon from 'src/embeds/helpCenter/components/SearchFieldEndIcon'
+
+import { SearchIcon, Container } from './styles'
+
+const handleSearchFieldCleared = (onChange, inputRef) => () => {
+  onChange()
+  inputRef.current.focus()
+}
 
 const SearchField = ({ isLoading, onChange, placeholder, value, inputRef }) => {
-  const endIcon = () => {
-    let icon = null
-
-    if (isLoading) {
-      icon = <LoadingDots data-testid={TEST_IDS.ICON_ELLIPSIS} />
-    } else if (value) {
-      icon = (
-        <ClearInputButton
-          onClick={() => onChange()}
-          role="button"
-          cursor="pointer"
-          data-testid={TEST_IDS.ICON_CLEAR_INPUT}
-          tabIndex="0"
-          onKeyDown={triggerOnEnter(() => onChange())}
-        />
-      )
-    }
-
-    return <div key="clearInputOrLoading">{icon}</div>
-  }
-
   return (
     <Container>
       <Field>
         <MediaInput
-          start={<SearchIcon data-testid={TEST_IDS.ICON_SEARCH} />}
-          end={endIcon()}
+          start={
+            <SearchIcon
+              data-testid={TEST_IDS.ICON_SEARCH}
+              role="presentation"
+              aria-hidden="true"
+              focusable="false"
+            />
+          }
+          end={
+            <SearchFieldEndIcon
+              isLoading={isLoading}
+              isVisible={!!value}
+              onClick={handleSearchFieldCleared(onChange, inputRef)}
+            />
+          }
           onChange={e => onChange(e.target.value)}
           value={value}
           ref={inputRef}
