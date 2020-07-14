@@ -12,7 +12,8 @@ import {
   getZChatVendor,
   getStandaloneMobileNotificationVisible,
   getNotification,
-  getPrechatFormRequired
+  getPrechatFormRequired,
+  getChatBanned
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
 import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
@@ -192,6 +193,11 @@ export function handleChatBoxChange(msg) {
 export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
   return (dispatch, getState) => {
     const state = getState()
+
+    // if chat is banned, do not call setVisitorInfo
+    if (getChatBanned(state)) {
+      return
+    }
     const isAuthenticated = getIsAuthenticated(state)
 
     let infoToUpdate = { ...visitor }
@@ -226,6 +232,8 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
           }
         })
       })
+    }).catch(() => {
+      dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
     })
   }
 }
