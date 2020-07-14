@@ -15,6 +15,7 @@ import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
+import errorTracker from 'src/framework/services/errorTracker'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -88,13 +89,24 @@ const getConfig = (win, reduxStore) => {
     }
 
     const renderCallback = async () => {
-      await renderer.init(config, reduxStore)
+      try {
+        await renderer.init(config, reduxStore)
 
-      publicApi.run()
+        publicApi.run()
 
-      renderer.run(config, reduxStore)
+        await renderer.run(config, reduxStore)
 
-      beacon.sendPageView()
+        beacon.sendPageView()
+
+        if (Math.random() <= 0.1) {
+          beacon.sendWidgetInitInterval()
+        }
+      } catch (err) {
+        errorTracker.error(err, {
+          rollbarFingerprint: 'Failed to render embeddable',
+          rollbarTitle: 'Failed to render embeddable'
+        })
+      }
     }
 
     i18n.setLocale(undefined, renderCallback, config.locale)
