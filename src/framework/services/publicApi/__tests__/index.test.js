@@ -68,6 +68,22 @@ describe('public api service', () => {
 
       expect(document.zEQueue).toBeUndefined()
     })
+
+    it('logs an error instead of crashing when an unknown API was in the queue', () => {
+      /* eslint-disable no-console */
+
+      console.error = jest.fn()
+
+      setupWithQueueAndMockApi()
+      zE('mock', 'invalid')
+      zE('mock', 'example')
+
+      publicApi.run()
+
+      expect(mockApi.mock.example).toHaveBeenCalled()
+      expect(console.error).toHaveBeenCalledWith(new Error('Method mock.invalid does not exist'))
+      /* eslint-enable no-console */
+    })
   })
 
   describe('function based api', () => {

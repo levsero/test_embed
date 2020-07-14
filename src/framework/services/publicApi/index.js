@@ -75,7 +75,12 @@ const run = () => {
   tracker.addTo(window.parent.zE, 'zE')
 
   document.zEQueue?.forEach?.(call => {
-    zE(...call)
+    try {
+      zE(...call)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+    }
   })
   delete document.zEQueue
 }
