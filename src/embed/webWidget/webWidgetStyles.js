@@ -12,7 +12,6 @@ import ChatOnlineStyles from 'component/chat/ChatOnline.scss'
 import ChattHistoryScreenStyles from 'component/chat/chatting/chatHistoryScreen/styles/index.scss'
 import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss'
 import ContainerStyles from 'component/container/Container.scss'
-import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss'
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss'
 import FrameStyles from 'component/frame/Frame.scss'
 import PanelCardStyles from 'component/chat/chatting/structuredMessage/PanelCard.scss'
@@ -40,7 +39,6 @@ export const webWidgetStyles = `
   ${ChatOnlineStyles}
   ${PrechatScreenStyles}
   ${ContainerStyles}
-  ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
   ${SharedComponentStyles}
   ${FrameStyles}

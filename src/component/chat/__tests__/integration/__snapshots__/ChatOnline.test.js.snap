@@ -47,13 +47,7 @@ exports[`chat log agent attachment 1`] = `
           class="message messageAgent"
         >
           <div>
-            <div
-              class="container"
-            >
-              <div
-                class="spinner"
-              />
-            </div>
+            ImageMessage
           </div>
         </div>
       </div>
@@ -934,13 +928,7 @@ exports[`chat log series of actions 1`] = `
           class="message messageAgent"
         >
           <div>
-            <div
-              class="container"
-            >
-              <div
-                class="spinner"
-              />
-            </div>
+            ImageMessage
           </div>
         </div>
       </div>

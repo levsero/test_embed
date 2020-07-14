@@ -40,7 +40,7 @@ describe('ChatGroup component', () => {
       'src/embeds/chat/components/MessageBubble': MessageBubble,
       'component/chat/attachment/Attachment': { Attachment },
       'src/embeds/chat/components/MessageError': MessageError,
-      'component/chat/chatting/ImageMessage': { ImageMessage },
+      'embeds/chat/components/ImageMessage': ImageMessage,
       'component/chat/chatting/StructuredMessage': StructuredMessage,
       'component/chat/chatting/Carousel': Carousel,
       'constants/chat': {

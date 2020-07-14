@@ -10,6 +10,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import { handleChatSDKInitialized, handleChatConnected } from 'src/service/api/zopimApi/callbacks'
 
 jest.mock('service/transport/http')
+jest.mock('embeds/chat/components/ImageMessage', () => () => <div>ImageMessage</div>)
 
 jest.useFakeTimers()
 

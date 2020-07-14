@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { Avatar } from 'component/Avatar'
 import { Attachment } from 'component/chat/attachment/Attachment'
 import MessageError from 'src/embeds/chat/components/MessageError'
-import { ImageMessage } from 'component/chat/chatting/ImageMessage'
+import ImageMessage from 'embeds/chat/components/ImageMessage'
 import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import {
   ATTACHMENT_ERROR_TYPES,

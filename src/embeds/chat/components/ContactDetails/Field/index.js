@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Field as GardenField, Label, Input, Message } from '@zendeskgarden/react-forms'
+
+import useSafeState from 'src/hooks/useSafeState'
 
 import { renderLabel } from 'src/util/fields'
 import useTranslate from 'src/hooks/useTranslate'
@@ -16,7 +18,7 @@ const ContactDetailField = ({
   shouldFocusOnMount = false
 }) => {
   const translate = useTranslate()
-  const [hasFocused, setHasFocused] = useState(false)
+  const [hasFocused, setHasFocused] = useSafeState(false)
 
   return (
     <Field
