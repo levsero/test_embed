@@ -795,16 +795,16 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('handlePopoutButtonClicked', () => {
+  describe('handlePopoutCreated', () => {
     let dispatchedActions
 
     beforeEach(() => {
-      mockStore.dispatch(actions.handlePopoutButtonClicked())
+      mockStore.dispatch(actions.handlePopoutCreated())
       dispatchedActions = mockStore.getActions()
     })
 
-    it('dispatches a POPOUT_BUTTON_CLICKED event', () => {
-      expect(dispatchedActions[0].type).toEqual(actionTypes.POPOUT_BUTTON_CLICKED)
+    it('dispatches a POPOUT_CREATED event', () => {
+      expect(dispatchedActions[0].type).toEqual(actionTypes.POPOUT_CREATED)
     })
 
     it('fires off chat popout event', () => {

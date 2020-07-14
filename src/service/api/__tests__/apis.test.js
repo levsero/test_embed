@@ -776,7 +776,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled()
     store.dispatch({
-      type: baseActionTypes.POPOUT_BUTTON_CLICKED
+      type: baseActionTypes.POPOUT_CREATED
     })
     callbacks.fireFor(eventConstants.CHAT_POPOUT_EVENT)
 

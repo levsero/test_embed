@@ -8,7 +8,8 @@ import {
   hideReceived,
   openReceived,
   closeReceived,
-  toggleReceived
+  toggleReceived,
+  handlePopoutCreated
 } from 'src/redux/modules/base'
 import {
   API_ON_CHAT_STATUS_NAME,
@@ -188,6 +189,7 @@ export const popoutApi = reduxStore => {
       getZChatVendor(reduxState).getMachineId(),
       i18n.getLocale()
     )
+    reduxStore.dispatch(handlePopoutCreated())
   }
 }
 
