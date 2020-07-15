@@ -14,59 +14,78 @@ import {
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import tracker from 'service/tracker'
 
-export const getWebWidgetLegacyPublicApi = (reduxStore, embeddableConfig) => {
+export function apiSetup(win, reduxStore, embeddableConfig = {}) {
   const existingConfig = !_.isEmpty(embeddableConfig.embeds)
 
+  win.zE.configureIPMWidget = config => {
+    if (!existingConfig) {
+      renderer.initIPM(config, embeddableConfig, reduxStore)
+    }
+  }
+  win.zE.showIPMArticle = articleId => {
+    reduxStore.dispatch(displayArticle(articleId))
+  }
+  win.zE.showIPMWidget = () => {
+    reduxStore.dispatch(activateReceived())
+  }
+  win.zE.hideIPMWidget = () => {
+    hideApi(reduxStore)
+  }
+}
+
+export function legacyApiSetup(win, reduxStore) {
+  win.zE.identify = user => {
+    identifyApi(reduxStore, user)
+
+    if (!user || (!user.email || !user.name)) return
+
+    const prefillUser = {
+      name: {
+        value: user.name
+      },
+      email: {
+        value: user.email
+      }
+    }
+
+    prefill(reduxStore, prefillUser)
+  }
+  win.zE.logout = () => logoutApi(reduxStore)
+  win.zE.setHelpCenterSuggestions = options => setHelpCenterSuggestionsApi(reduxStore, options)
+  win.zE.activate = options => {
+    reduxStore.dispatch(activateReceived(options))
+  }
+  win.zE.activateIpm = () => {} // no-op until rest of connect code is removed
+  win.zE.hide = () => hideApi(reduxStore)
+  win.zE.show = () => {
+    const state = reduxStore.getState()
+
+    if (!getWidgetAlreadyHidden(state)) return
+    reduxStore.dispatch(legacyShowReceived())
+  }
+  win.zE.setLocale = locale => setLocaleApi(reduxStore, locale)
+  tracker.addTo(win.zE, 'zE')
+}
+
+export function setupPublicApi(postRenderQueueCallback, reduxStore) {
   return {
-    configureIPMWidget: config => {
-      if (!existingConfig) {
-        renderer.initIPM(config, embeddableConfig, reduxStore)
-      }
+    version: __EMBEDDABLE_VERSION__,
+    setLocale: locale => {
+      tracker.track('zE.setLocale', locale)
+      setLocaleApi(reduxStore, locale)
     },
-    showIPMArticle: articleId => {
-      reduxStore.dispatch(displayArticle(articleId))
-    },
-    showIPMWidget: () => {
-      reduxStore.dispatch(activateReceived())
-    },
-    hideIPMWidget: () => {
-      hideApi(reduxStore)
-    },
-    identify: user => {
-      identifyApi(reduxStore, user)
-
-      if (!user || (!user.email || !user.name)) return
-
-      const prefillUser = {
-        name: {
-          value: user.name
-        },
-        email: {
-          value: user.email
-        }
-      }
-
-      prefill(reduxStore, prefillUser)
-    },
-    logout: () => logoutApi(reduxStore),
-    setHelpCenterSuggestions: options => setHelpCenterSuggestionsApi(reduxStore, options),
-    activate: options => {
-      reduxStore.dispatch(activateReceived(options))
-    },
-    activateIpm: () => {}, // no-op until rest of connect code is removed
     hide: () => {
       tracker.track('zE.hide')
       hideApi(reduxStore)
     },
-    show: () => {
-      const state = reduxStore.getState()
-
-      if (!getWidgetAlreadyHidden(state)) return
-      reduxStore.dispatch(legacyShowReceived())
-    },
-    setLocale: locale => {
-      tracker.track('zE.setLocale', locale)
-      setLocaleApi(reduxStore, locale)
-    }
+    show: postRenderQueueCallback.bind('show'),
+    setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
+    identify: postRenderQueueCallback.bind('identify'),
+    logout: postRenderQueueCallback.bind('logout'),
+    activate: postRenderQueueCallback.bind('activate'),
+    configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
+    showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
+    hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
+    activateIpm: () => {} // no-op until rest of connect code is removed
   }
 }

@@ -1,4 +1,4 @@
-describe('boot', () => {
+describe('framework boot', () => {
   let boot, mockGetErrorReportingEnabled, mockHost
   const registerImportSpy = (name, ...methods) => {
     return {
@@ -6,7 +6,7 @@ describe('boot', () => {
     }
   }
 
-  const bootPath = buildSrcPath('boot'),
+  const bootPath = buildSrcPath('framework'),
     beaconSpy = registerImportSpy(
       'beacon',
       'setConfig',
@@ -18,7 +18,11 @@ describe('boot', () => {
     identitySpy = registerImportSpy('identity', 'init'),
     errorTracker = jasmine.createSpyObj('errorTracker', ['configure', 'error']),
     transportSpy = registerImportSpy('http', 'send', 'init', 'updateConfig'),
-    rendererSpy = registerImportSpy('renderer', 'init', 'run', 'postRenderCallbacks'),
+    rendererSpy = {
+      run: jasmine.createSpy('run'),
+      init: jasmine.createSpy('init'),
+      initIPM: jasmine.createSpy('initIPM')
+    },
     gaSpy = registerImportSpy('GA', 'init'),
     apiSpy = jasmine.createSpyObj('webWidgetApi', ['apisExecutePostRenderQueue', 'apiSetup']),
     zopimApiSpy = jasmine.createSpyObj('zopimApi', ['setupZopimQueue', 'setUpZopimApiMethods']),
@@ -36,10 +40,10 @@ describe('boot', () => {
       'service/beacon': beaconSpy,
       'service/identity': identitySpy,
       'src/framework/services/errorTracker': errorTracker,
-      'embeds/webWidget/selectors/feature-flags': () => false,
       'service/api/webWidgetApi': apiSpy,
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
+      'embeds/webWidget/selectors/feature-flags': () => false,
       'service/tracker': trackerSpy,
       'service/settings': {
         settings: {
@@ -64,7 +68,7 @@ describe('boot', () => {
         }
       },
       'service/transport': transportSpy,
-      'service/renderer': rendererSpy,
+      'src/embeddables/webWidget': rendererSpy,
       'src/redux/createStore': () => ({
         dispatch: jasmine.createSpy.and.callThrough()
       }),
@@ -84,11 +88,22 @@ describe('boot', () => {
         store: {
           get: noop
         }
+      },
+      'src/framework/services/publicApi': {
+        registerApi: () => undefined,
+        registerLegacyApi: () => undefined,
+        run: () => undefined
+      },
+      'service/api/webWidgetApi/setupApi': {
+        getWebWidgetPublicApi: () => ({})
+      },
+      'service/api/webWidgetApi/setupLegacyApi': {
+        getWebWidgetLegacyPublicApi: () => ({})
       }
     })
 
     mockery.registerAllowable(bootPath)
-    boot = requireUncached(bootPath).boot
+    boot = requireUncached(bootPath).default
   })
 
   afterEach(() => {
@@ -106,17 +121,16 @@ describe('boot', () => {
   })
 
   describe('#getConfig', () => {
-    let win, postRenderQueue, mockGetCalls
+    let win, mockGetCalls
 
     beforeEach(() => {
       win = {}
-      postRenderQueue = []
 
       mockGetCalls = transportSpy.http.send.calls
     })
 
     it('makes a GET request to /embeddable/config', () => {
-      boot.getConfig(win, postRenderQueue)
+      boot.getConfig(win)
 
       const params = {
         method: 'get',
@@ -145,7 +159,7 @@ describe('boot', () => {
           dispatch: jasmine.createSpy().and.callThrough()
         }
 
-        boot.getConfig(win, postRenderQueue, reduxStore)
+        boot.getConfig(win, reduxStore)
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done
 
         doneHandler({ body: config })
@@ -167,7 +181,7 @@ describe('boot', () => {
         expect(transportSpy.http.updateConfig).not.toHaveBeenCalled()
       })
 
-      it('calls beacon.sendPageView', () => {
+      it('calls beacon.sendPageView', async () => {
         expect(beaconSpy.beacon.sendPageView).toHaveBeenCalled()
       })
 
@@ -175,16 +189,8 @@ describe('boot', () => {
         expect(trackerSpy.enable).toHaveBeenCalled()
       })
 
-      it('calls apisExecutePostRenderQueue with win, postRenderQueue and reduxStore', () => {
-        expect(apiSpy.apiSetup).toHaveBeenCalledWith(win, reduxStore, config)
-      })
-
       it('calls renderer.init with the config', () => {
-        expect(rendererSpy.renderer.init).toHaveBeenCalled()
-      })
-
-      it('calls apisExecutePostRenderQueue with win, postRenderQueue and reduxStore', async () => {
-        expect(apiSpy.apisExecutePostRenderQueue).toHaveBeenCalled()
+        expect(rendererSpy.init).toHaveBeenCalled()
       })
 
       describe('when chat is not part of config', () => {
@@ -297,7 +303,7 @@ describe('boot', () => {
           Math.random = jasmine.createSpy('random').and.returnValue(0.1)
 
           // Simulate 1 second passing between the call to config, and the response.
-          boot.getConfig(win, postRenderQueue)
+          boot.getConfig(win)
           jasmine.clock().tick(1000)
           doneHandler({ body: config })
         })

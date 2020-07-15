@@ -11,6 +11,7 @@ import {
   showApi,
   updatePathApi,
   clearFormState,
+  onApiObj,
   updateSettingsApi,
   hideApi,
   setLocaleApi,
@@ -26,39 +27,12 @@ import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
-  API_GET_DISPLAY_NAME,
-  API_ON_CHAT_CONNECTED_NAME,
-  API_ON_CHAT_END_NAME,
-  API_ON_CHAT_START_NAME,
-  API_ON_CHAT_DEPARTMENT_STATUS,
-  API_ON_CHAT_UNREAD_MESSAGES_NAME,
-  API_ON_CHAT_STATUS_NAME,
-  API_ON_CHAT_POPOUT,
-  API_ON_OPEN_NAME,
-  API_ON_CLOSE_NAME
+  API_GET_DISPLAY_NAME
 } from 'constants/api'
 import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
 import { apiResetWidget } from 'src/redux/modules/base'
 import _ from 'lodash'
 import tracker from 'service/tracker'
-import * as callbacks from 'service/api/callbacks'
-import {
-  CHAT_CONNECTED_EVENT,
-  CHAT_DEPARTMENT_STATUS_EVENT,
-  CHAT_ENDED_EVENT,
-  CHAT_POPOUT_EVENT,
-  CHAT_STARTED_EVENT,
-  CHAT_STATUS_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT,
-  USER_EVENT,
-  WIDGET_CLOSED_EVENT,
-  WIDGET_OPENED_EVENT
-} from 'constants/event'
-import {
-  getChatStatus,
-  getHasBackfillCompleted,
-  getNotificationCount
-} from 'src/redux/modules/chat/chat-selectors'
 
 export const getApiObj = () => {
   return {
@@ -68,6 +42,29 @@ export const getApiObj = () => {
       [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartmentApi
     },
     [API_GET_DISPLAY_NAME]: displayApi
+  }
+}
+
+const getApiPreRenderQueue = apiAddToPostRenderQueue => {
+  return {
+    chat: {
+      [API_GET_IS_CHATTING_NAME]: () =>
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:isChatting']),
+      [API_GET_DEPARTMENTS_ALL_NAME]: (_, ...args) =>
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:departments', ...args]),
+      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: (_, ...args) =>
+        apiAddToPostRenderQueue(['webWidget:get', 'chat:department', ...args])
+    },
+    [API_GET_DISPLAY_NAME]: () => apiAddToPostRenderQueue(['webWidget:get', 'display'])
+  }
+}
+
+export const chatApiObj = () => {
+  return {
+    addTags: (store, ...args) => addTagsApi(store)(...args),
+    removeTags: (store, ...args) => removeTagsApi(store)(...args),
+    end: endChatApi,
+    send: sendChatMsgApi
   }
 }
 
@@ -110,22 +107,37 @@ export const apiExecute = (apiStructure, reduxStore, args) => {
   return apiFunction(reduxStore, ...apiMethodParams)
 }
 
-const wrapAllFunctionsWithRedux = (reduxStore, group) => {
-  Object.keys(group).forEach(key => {
-    const value = group[key]
-
-    if (typeof value === 'function') {
-      group[key] = (...args) => value(reduxStore, ...args)
-    } else {
-      wrapAllFunctionsWithRedux(reduxStore, value)
+export const apiStructurePreRenderSetup = apiAddToPostRenderQueue => {
+  return {
+    webWidget: {
+      hide: hideApi,
+      show: showApi,
+      open: () => apiAddToPostRenderQueue(['webWidget', 'open']),
+      close: closeApi,
+      toggle: () => apiAddToPostRenderQueue(['webWidget', 'toggle']),
+      setLocale: setLocaleApi,
+      identify: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'identify', ...args]),
+      updateSettings: (_, ...args) =>
+        apiAddToPostRenderQueue(['webWidget', 'updateSettings', ...args]),
+      logout: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'logout', ...args]),
+      updatePath: (_, ...args) => apiAddToPostRenderQueue(['webWidget', 'updatePath', ...args]),
+      clear: reduxStore => clearFormState(reduxStore),
+      reset: reduxStore => resetWidget(reduxStore),
+      prefill: prefill,
+      chat: chatApiObj(),
+      on: onApiObj(),
+      get: getApiPreRenderQueue(apiAddToPostRenderQueue),
+      helpCenter: {
+        setSuggestions: (_, ...args) =>
+          apiAddToPostRenderQueue(['webWidget', 'helpCenter:setSuggestions', ...args])
+      },
+      popout: popoutApi
     }
-  })
-
-  return group
+  }
 }
 
-export const getWebWidgetPublicApi = reduxStore => {
-  return wrapAllFunctionsWithRedux(reduxStore, {
+export const apiStructurePostRenderSetup = () => {
+  return {
     webWidget: {
       hide: hideApi,
       show: showApi,
@@ -139,51 +151,14 @@ export const getWebWidgetPublicApi = reduxStore => {
       updatePath: updatePathApi,
       clear: clearFormState,
       prefill: prefill,
-      'chat:addTags': (store, ...args) => addTagsApi(store)(...args),
-      'chat:removeTags': (store, ...args) => removeTagsApi(store)(...args),
-      'chat:end': endChatApi,
-      'chat:send': sendChatMsgApi,
+      chat: chatApiObj(),
+      on: onApiObj(),
+      get: getApiObj(),
+      helpCenter: {
+        setSuggestions: setHelpCenterSuggestionsApi
+      },
       reset: resetWidget,
-      popout: popoutApi,
-      'helpCenter:setSuggestions': setHelpCenterSuggestionsApi
-    },
-    'webWidget:on': {
-      userEvent: (_reduxStore, cb) => {
-        callbacks.registerCallback(cb, USER_EVENT)
-      },
-      [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_OPENED_EVENT),
-      [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_CLOSED_EVENT),
-      [`chat:${API_ON_CHAT_CONNECTED_NAME}`]: (_reduxStore, cb) =>
-        callbacks.registerCallback(cb, CHAT_CONNECTED_EVENT),
-      [`chat:${API_ON_CHAT_END_NAME}`]: (_reduxStore, cb) =>
-        callbacks.registerCallback(cb, CHAT_ENDED_EVENT),
-      [`chat:${API_ON_CHAT_START_NAME}`]: (reduxStore, cb) =>
-        callbacks.registerCallback(() => {
-          if (getHasBackfillCompleted(reduxStore.getState())) {
-            cb()
-          }
-        }, CHAT_STARTED_EVENT),
-      [`chat:${API_ON_CHAT_DEPARTMENT_STATUS}`]: (_reduxStore, cb) => {
-        callbacks.registerCallback(cb, CHAT_DEPARTMENT_STATUS_EVENT)
-      },
-      [`chat:${API_ON_CHAT_UNREAD_MESSAGES_NAME}`]: (store, cb) => {
-        callbacks.registerCallback(
-          () => cb(getNotificationCount(store.getState())),
-          CHAT_UNREAD_MESSAGES_EVENT
-        )
-      },
-      [`chat:${API_ON_CHAT_STATUS_NAME}`]: (store, cb) => {
-        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_STATUS_EVENT)
-      },
-      [`chat:${API_ON_CHAT_POPOUT}`]: (store, cb) => {
-        callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_POPOUT_EVENT)
-      }
-    },
-    'webWidget:get': {
-      [API_GET_DISPLAY_NAME]: displayApi,
-      [`chat:${API_GET_IS_CHATTING_NAME}`]: isChattingApi,
-      [`chat:${API_GET_DEPARTMENTS_ALL_NAME}`]: getAllDepartmentsApi,
-      [`chat:${API_GET_DEPARTMENTS_DEPARTMENT_NAME}`]: getDepartmentApi
+      popout: popoutApi
     }
-  })
+  }
 }
