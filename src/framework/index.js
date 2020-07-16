@@ -3,8 +3,6 @@ import _ from 'lodash'
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
 import { store as persistenceStore } from 'service/persistence'
-import { renderer } from 'service/renderer'
-import webWidgetApi from 'service/api/webWidgetApi'
 import zopimApi from 'service/api/zopimApi'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
@@ -15,8 +13,9 @@ import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
+import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import webWidget from 'src/embeddables/webWidget'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -60,7 +59,7 @@ const filterEmbeds = config => {
   return config
 }
 
-const getConfig = (win, postRenderQueue, reduxStore) => {
+const getConfig = (win, reduxStore) => {
   if (win.zESkipWebWidget) return
 
   const configLoadStart = Date.now()
@@ -79,8 +78,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config)
 
-    webWidgetApi.apiSetup(win, reduxStore, config)
-
     beacon.setConfigLoadTime(Date.now() - configLoadStart)
 
     if (win.zESettings) {
@@ -93,12 +90,17 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     const renderCallback = async () => {
       try {
-        await renderer.init(config, reduxStore)
-        await renderer.run(config, reduxStore)
+        await webWidget.init(config, reduxStore)
 
-        webWidgetApi.apisExecutePostRenderQueue(win, postRenderQueue, reduxStore)
+        publicApi.run()
+
+        await webWidget.run(config, reduxStore)
 
         beacon.sendPageView()
+
+        if (Math.random() <= 0.1) {
+          beacon.sendWidgetInitInterval()
+        }
       } catch (err) {
         errorTracker.error(err, {
           rollbarFingerprint: 'Failed to render embeddable',
@@ -154,33 +156,15 @@ const shouldSendZeDiffBlip = win => {
 const start = (win, doc) => {
   const reduxStore = createStore()
 
-  if (isFeatureEnabled(reduxStore, 'web_widget_new_boot_sequence')) {
-    import(/* webpackChunkName: 'lazy/framework-boot' */ './framework').then(
-      ({ default: framework }) => {
-        framework.start(win, doc)
-      }
-    )
-    return
-  }
-
-  const postRenderQueue = []
-  const { publicApi } = webWidgetApi.setupLegacyApiQueue(win, postRenderQueue, reduxStore)
-
   i18n.init(reduxStore)
-  boot.setupIframe(window.frameElement, doc)
-  boot.setupServices(reduxStore)
+  framework.setupIframe(window.frameElement, doc)
+  framework.setupServices(reduxStore)
   zopimApi.setupZopimQueue(win)
-
-  _.extend(win.zEmbed, publicApi)
-
-  webWidgetApi.apisExecuteQueue(reduxStore, document.zEQueue)
 
   beacon.init()
   win.onunload = identity.unload
 
-  webWidgetApi.legacyApiSetup(win, reduxStore)
-
-  boot.getConfig(win, postRenderQueue, reduxStore)
+  framework.getConfig(win, reduxStore)
 
   if (shouldSendZeDiffBlip(win)) {
     beacon.trackUserAction('zEmbedFallback', 'warning')
@@ -191,7 +175,7 @@ const start = (win, doc) => {
   }
 }
 
-export const boot = {
+const framework = {
   start,
 
   // Exported for testing only.
@@ -199,3 +183,5 @@ export const boot = {
   setupServices,
   getConfig
 }
+
+export default framework

@@ -8,5 +8,8 @@ export default {
   defer_talk_connection: {
     defaultValue: false,
     getArturoValue: state => state.base.embeddableConfig.deferTalkConnection
+  },
+  web_widget_new_boot_sequence: {
+    defaultValue: false
   }
 }

@@ -5,11 +5,14 @@ import { settings } from 'service/settings'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
 import { loadTalkVendors, pollTalkStatus } from 'src/redux/modules/talk'
-import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
-import { setLocaleApi } from 'src/service/api/apis'
-import webWidgetApp from 'src/embeds/webWidget'
-import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
+import { setUpHelpCenterAuth } from 'embeds/helpCenter/actions'
+import { setLocaleApi } from 'service/api/apis'
+import webWidgetApp from 'embeds/webWidget'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
+import { getWebWidgetPublicApi } from './public-api/setupApi'
+import { getWebWidgetLegacyPublicApi } from './public-api/setupLegacyApi'
 
 let initialised = false
 let hasRendered = false
@@ -51,6 +54,9 @@ function init(config, reduxStore = dummyStore) {
 
   initialised = true
 
+  publicApi.registerApi(getWebWidgetPublicApi(reduxStore))
+  publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(reduxStore, config))
+
   errorTracker.configure({ enabled: settings.getErrorReportingEnabled() })
 
   if (_.isEmpty(config.embeds)) return
@@ -87,7 +93,7 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
   reduxStore.dispatch(updateEmbedAccessible('ipmWidget', true))
 }
 
-export const renderer = {
+export default {
   run,
   init: init,
   initIPM: initIPM
