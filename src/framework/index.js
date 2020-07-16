@@ -15,7 +15,7 @@ import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
-import webWidget from 'src/embeddables/webWidget'
+import webWidget from 'src/apps/webWidget'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const setupIframe = (iframe, doc) => {
