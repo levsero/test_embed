@@ -12,7 +12,7 @@ describe('widget close behavior', () => {
     await page.evaluate(() => zE.hide())
     await page.evaluate(() => zE.activate())
     await expect(launcher).toBeHidden()
-    await expect(widget).toBeVisible()
+    await widget.expectToBeVisible()
     await widget.clickClose()
     await expect(launcher).toBeHidden()
     await expect(widget).toBeHidden()
@@ -21,7 +21,7 @@ describe('widget close behavior', () => {
   test('closing shows the launcher', async () => {
     await page.evaluate(() => zE.activate())
     await expect(launcher).toBeHidden()
-    await expect(widget).toBeVisible()
+    await widget.expectToBeVisible()
 
     await waitForHelpCenter()
     await widget.clickClose()
@@ -54,7 +54,7 @@ test('api is no-op if widget is already opened', async () => {
   await waitForHelpCenter()
   await page.evaluate(() => zE.activate())
   await expect(launcher).toBeHidden()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
 })
 
 test('works on prerender as well', async () => {
@@ -68,5 +68,5 @@ test('works on prerender as well', async () => {
     .hiddenInitially()
     .load()
   await expect(launcher).toBeHidden()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
 })

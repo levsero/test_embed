@@ -8,7 +8,7 @@ const fn = () => zE('webWidget', 'open')
 test('api opens the widget and hides the launcher', async () => {
   await buildWidget().load()
   await page.evaluate(fn)
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
   await expect(launcher).toBeHidden()
 })
 
@@ -17,6 +17,6 @@ test('works on prerender as well', async () => {
     .evaluateAfterSnippetLoads(fn)
     .hiddenInitially()
     .load()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
   await expect(launcher).toBeHidden()
 })

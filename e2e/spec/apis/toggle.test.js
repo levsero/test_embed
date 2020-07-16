@@ -9,7 +9,7 @@ test('api toggles the widget visibility', async () => {
   await buildWidget().load()
   await page.evaluate(toggleFn)
   await expect(launcher).toBeHidden()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
   expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('helpCenter')
   await page.evaluate(() => zE('webWidget', 'toggle'))
   await expect(launcher).toBeVisible()
@@ -32,5 +32,5 @@ test('works on prerender as well', async () => {
     .load()
 
   await expect(launcher).toBeHidden()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
 })

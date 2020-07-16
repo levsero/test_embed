@@ -21,7 +21,7 @@ test('api does nothing when widget is already open', async () => {
   await launcher.click()
   await page.evaluate(() => zE.show())
   await expect(launcher).toBeHidden()
-  await expect(widget).toBeVisible()
+  await widget.expectToBeVisible()
 })
 
 test('api shows the widget after hide', async () => {
