@@ -7,7 +7,7 @@ describe('widget top level keyboard interactions', () => {
   const openWidgetViaKeyboard = async () => {
     await expect(widget).toBeHidden()
     await widget.openByKeyboard()
-    await expect(widget).toBeVisible()
+    await widget.expectToBeVisible()
     await wait(() => expect(widget).toHaveFocus())
   }
 

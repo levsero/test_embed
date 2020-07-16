@@ -3,6 +3,7 @@ import frame from './frame'
 import { TEST_IDS } from 'src/constants/shared'
 
 const webWidgetId = 'webWidget'
+const selector = `iframe#${webWidgetId}`
 const getDocument = () => frame.getDocument(webWidgetId)
 const getFrame = () => frame.getByName(webWidgetId)
 
@@ -70,6 +71,21 @@ const expectNotToSeeText = async text => {
   expect(await queries.queryByText(await getDocument(), text)).toBeNull()
 }
 
+const expectToBeVisible = async () => {
+  try {
+    await page.waitForSelector(selector, {
+      visible: true,
+      timeout: 5000 // wait for 5 seconds
+    })
+    const embed = await evaluate(() => {
+      return document.querySelector('#Embed [data-embed]').dataset['embed']
+    })
+    expect(embed).not.toEqual('nilEmbed')
+  } catch (e) {
+    fail('Expected web widget to be visible, but was not')
+  }
+}
+
 export default {
   getDocument,
   getFrame,
@@ -78,12 +94,13 @@ export default {
   clickButton,
   clickText,
   openByKeyboard,
-  selector: `iframe#${webWidgetId}`,
+  selector,
   waitForTestId,
   waitForPlaceholderText,
   waitForText,
   expectToSeeText,
   expectNotToSeeText,
   evaluate,
-  zendeskLogoVisible
+  zendeskLogoVisible,
+  expectToBeVisible
 }

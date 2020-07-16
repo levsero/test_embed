@@ -5,7 +5,7 @@ import { allowsInputTextEditing } from '../spec/shared-examples'
 
 export const goToTestPage = async () =>
   await page.goto('http://localhost:5123/e2e.html', {
-    waitUntil: ['domcontentloaded', 'load', 'networkidle0']
+    waitUntil: 'domcontentloaded'
   })
 
 export const failOnConsoleError = () =>
