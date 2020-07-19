@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { ratings } from 'embeds/chat/components/RatingGroup'
 import FeedbackForm from 'embeds/chat/components/FeedbackForm'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
 import { getIsChatting, getChatRating } from 'src/redux/modules/chat/chat-selectors'
@@ -11,6 +10,7 @@ import { sendChatRating, sendChatComment, endChat, updateChatScreen } from 'src/
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main, Footer } from 'components/Widget'
 import useTranslate from 'src/hooks/useTranslate'
+import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
 
 const mapStateToProps = state => {
   return {
@@ -60,11 +60,7 @@ const actionCreators = {
 }
 
 PostChatPage.propTypes = {
-  rating: PropTypes.shape({
-    value: PropTypes.oneOf(Object.values(ratings)),
-    disableEndScreen: PropTypes.bool,
-    comment: PropTypes.string
-  }).isRequired,
+  rating: ChatPropTypes.chatRating.isRequired,
   sendChatRating: PropTypes.func.isRequired,
   sendChatComment: PropTypes.func.isRequired,
   endChat: PropTypes.func.isRequired,

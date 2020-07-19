@@ -15,7 +15,7 @@ describe('ChatLog component', () => {
 
   const ChatGroup = noopReactComponent()
   const EventMessage = noopReactComponent()
-  const Button = noopReactComponent()
+  const RequestRatingButton = noopReactComponent()
 
   beforeEach(() => {
     mockery.enable()
@@ -30,15 +30,13 @@ describe('ChatLog component', () => {
     initMockRegistry({
       'component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
       'src/embeds/chat/components/EventMessage': EventMessage,
-      '@zendeskgarden/react-buttons': { Button },
+      'src/embeds/chat/components/RequestRatingButton': RequestRatingButton,
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       },
       './ChatLog.scss': {
-        locals: {
-          requestRatingButton: 'requestRatingButtonStyles'
-        }
+        locals: {}
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatLog: noop
@@ -173,190 +171,6 @@ describe('ChatLog component', () => {
             eventKey: 7
           })
         )
-      })
-    })
-  })
-
-  describe('#renderRequestRatingButton', () => {
-    let component,
-      result,
-      eventKey,
-      mockStringValues,
-      goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen')
-
-    beforeEach(() => {
-      eventKey = 1
-      mockStringValues = {
-        'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
-        'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
-      }
-
-      i18n.t.and.callFake(key => {
-        return mockStringValues[key]
-      })
-    })
-
-    describe('when the Chat account settings prevent rating an agent', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatLog
-            chatLog={{}}
-            agents={{}}
-            isChatting={true}
-            latestAgentLeaveEvent={1}
-            activeAgentCount={0}
-            goToFeedbackScreen={goToFeedbackScreenSpy}
-            canRateChat={false}
-            chatRating={{}}
-          />
-        )
-
-        result = component.renderRequestRatingButton(eventKey)
-      })
-
-      it('does not render a button', () => {
-        expect(result).toBeFalsy()
-      })
-    })
-
-    describe('when the event is the latest rating', () => {
-      describe('and a comment has been left', () => {
-        const rating = {
-          value: 'good',
-          comment: 'cool comment'
-        }
-
-        beforeEach(() => {
-          component = instanceRender(
-            <ChatLog
-              chatLog={{}}
-              agents={{}}
-              latestRating={1}
-              chatCommentLeft={true}
-              canRateChat={true}
-              chatRating={rating}
-            />
-          )
-
-          result = component.renderRequestRatingButton(eventKey)
-        })
-
-        it('returns nothing', () => {
-          expect(result).toBeFalsy()
-        })
-      })
-
-      describe('and a comment has not been left', () => {
-        const rating = {
-          value: 'good',
-          comment: null
-        }
-
-        beforeEach(() => {
-          component = instanceRender(
-            <ChatLog
-              chatLog={{}}
-              agents={{}}
-              latestRating={1}
-              chatCommentLeft={false}
-              goToFeedbackScreen={goToFeedbackScreenSpy}
-              canRateChat={true}
-              chatRating={rating}
-            />
-          )
-
-          result = component.renderRequestRatingButton(eventKey)
-        })
-
-        it('does not render a button', () => {
-          expect(result).toBeUndefined()
-        })
-      })
-    })
-
-    describe('when the event is the latest rating request', () => {
-      let mockIsChatting = true
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatLog
-            chatLog={{}}
-            agents={{}}
-            isChatting={mockIsChatting}
-            latestRatingRequest={1}
-            goToFeedbackScreen={goToFeedbackScreenSpy}
-            canRateChat={true}
-            chatRating={{}}
-          />
-        )
-
-        result = component.renderRequestRatingButton(eventKey)
-      })
-
-      afterEach(() => {
-        mockIsChatting = true
-      })
-
-      it('returns a button with the correct props', () => {
-        expect(result.props).toEqual(
-          jasmine.objectContaining({
-            className: 'requestRatingButtonStyles',
-            onClick: goToFeedbackScreenSpy,
-            children: 'Rate this chat'
-          })
-        )
-      })
-    })
-
-    describe('when the event is the last agent leaving', () => {
-      describe('and there are no more agents in the chat', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <ChatLog
-              chatLog={{}}
-              agents={{}}
-              isChatting={true}
-              latestAgentLeaveEvent={1}
-              activeAgentCount={0}
-              goToFeedbackScreen={goToFeedbackScreenSpy}
-              canRateChat={true}
-              chatRating={{}}
-            />
-          )
-
-          result = component.renderRequestRatingButton(eventKey)
-        })
-
-        it('returns a button with the correct props', () => {
-          expect(result.props).toEqual(
-            jasmine.objectContaining({
-              className: 'requestRatingButtonStyles',
-              onClick: goToFeedbackScreenSpy,
-              children: 'Rate this chat'
-            })
-          )
-        })
-      })
-
-      describe('and there are agents remaining in the chat', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <ChatLog
-              chatLog={{}}
-              activeAgentCount={1}
-              latestAgentLeaveEvent={1}
-              goToFeedbackScreen={goToFeedbackScreenSpy}
-              canRateChat={true}
-              chatRating={{}}
-            />
-          )
-
-          result = component.renderRequestRatingButton(eventKey)
-        })
-
-        it('returns nothing', () => {
-          expect(result).toBeFalsy()
-        })
       })
     })
   })
