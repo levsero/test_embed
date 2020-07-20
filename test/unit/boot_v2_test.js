@@ -68,7 +68,7 @@ describe('framework boot', () => {
         }
       },
       'service/transport': transportSpy,
-      'src/embeddables/webWidget': rendererSpy,
+      'src/apps/webWidget': rendererSpy,
       'src/redux/createStore': () => ({
         dispatch: jasmine.createSpy.and.callThrough()
       }),
@@ -156,7 +156,8 @@ describe('framework boot', () => {
         jasmine.clock().mockDate(new Date())
 
         reduxStore = {
-          dispatch: jasmine.createSpy().and.callThrough()
+          dispatch: jasmine.createSpy().and.callThrough(),
+          getState: jasmine.createSpy().and.callThrough()
         }
 
         boot.getConfig(win, reduxStore)

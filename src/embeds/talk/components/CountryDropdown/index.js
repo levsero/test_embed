@@ -6,7 +6,7 @@ import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 
 import { Item, Menu } from './styles'
-import { useCurrentFrame } from 'components/Frame'
+import { useCurrentFrame } from 'src/framework/components/Frame'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {
   const frame = useCurrentFrame()

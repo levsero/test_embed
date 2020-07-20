@@ -103,7 +103,7 @@ describe('PrechatForm component', () => {
         Footer: noopReactComponent()
       },
       'src/embeds/chat/components/Footer': {},
-      'components/Frame': {}
+      'src/framework/components/Frame': {}
     })
 
     mockery.registerAllowable(PrechatFormPath)

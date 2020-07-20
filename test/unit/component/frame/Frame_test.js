@@ -105,7 +105,9 @@ describe('Frame', () => {
         }
       },
       'component/frame/EmbedWrapper': MockEmbedWrapper,
-      'src/components/Frame': requireUncached(buildSrcPath('components/Frame/index.js')),
+      'src/framework/components/Frame': requireUncached(
+        buildSrcPath('framework/components/Frame/index.js')
+      ),
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
         widgetShowAnimationComplete: noop

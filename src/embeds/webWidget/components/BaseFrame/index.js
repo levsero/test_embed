@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import IFrame, { CurrentFrameConsumer } from 'components/Frame'
+import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { getGardenOverrides } from 'component/frame/gardenOverrides'
 import { i18n } from 'service/i18n'

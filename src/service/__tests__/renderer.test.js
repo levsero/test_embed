@@ -96,9 +96,15 @@ const testConfig = () => ({
 })
 
 describe('init', () => {
-  it('calls and renders correct embeds from config', () => {
-    renderer.init(testConfig(), store)
-    renderer.run(testConfig(), store)
+  it('calls and renders correct embeds from config', async () => {
+    await renderer.init({
+      config: testConfig(),
+      reduxStore: store
+    })
+    await renderer.run({
+      config: testConfig(),
+      reduxStore: store
+    })
 
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
 
@@ -111,21 +117,27 @@ describe('init', () => {
     }).not.toThrow()
   })
 
-  it('configures the errorTracker when false', () => {
-    renderer.init({})
+  it('configures the errorTracker when false', async () => {
+    await renderer.init({ config: testConfig() })
     expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: false })
   })
 
-  it('configures the errorTracker when true', () => {
+  it('configures the errorTracker when true', async () => {
     settings.getErrorReportingEnabled = () => true
-    renderer.init({})
+    await renderer.init({ config: testConfig() })
     expect(errorTracker.configure).toHaveBeenCalledWith({ enabled: true })
   })
 
   describe('when config is not naked zopim', () => {
     beforeEach(async () => {
-      await renderer.init(testConfig(), store)
-      renderer.run(testConfig(), store)
+      await renderer.init({
+        config: testConfig(),
+        reduxStore: store
+      })
+      renderer.run({
+        config: testConfig(),
+        reduxStore: store
+      })
     })
 
     it('creates a webWidget embed', () => {
@@ -138,8 +150,8 @@ describe('init', () => {
           embeds: { chat: { embed: 'chat' } }
         }
 
-        await renderer.init(config)
-        renderer.run(config)
+        await renderer.init({ config })
+        renderer.run({ config })
       })
 
       it('creates a webWidget', () => {
@@ -148,7 +160,10 @@ describe('init', () => {
     })
 
     it('it calls set up on the embeds if they exist in config', () => {
-      renderer.init(testConfig(), store)
+      renderer.init({
+        config: testConfig(),
+        reduxStore: store
+      })
 
       expect(chatActions.setUpChat).toHaveBeenCalled()
       expect(talkActions.loadTalkVendors).toHaveBeenCalled()
@@ -159,8 +174,14 @@ describe('init', () => {
   it('it sets up the embeds when polling talk', async () => {
     talkfeature.mockImplementation(() => true)
     isFeatureEnabled.mockReturnValue(true)
-    await renderer.init(testConfig(), store)
-    renderer.run(testConfig(), store)
+    await renderer.init({
+      config: testConfig(),
+      reduxStore: store
+    })
+    await renderer.run({
+      config: testConfig(),
+      reduxStore: store
+    })
 
     expect(chatActions.setUpChat).toHaveBeenCalled()
     expect(talkActions.pollTalkStatus).toHaveBeenCalled()
@@ -177,14 +198,16 @@ describe('init', () => {
 
   describe('initialising services', () => {
     const initRender = () => {
-      renderer.init(
-        {
+      renderer.init({
+        config: {
           locale: 'en',
           webWidgetCustomizations: true,
-          embeds: { x: 1 }
+          embeds: {
+            x: 1
+          }
         },
-        store
-      )
+        reduxStore: store
+      })
     }
 
     it('call settings.enableCustomizations', () => {
@@ -193,9 +216,9 @@ describe('init', () => {
     })
 
     describe('when locale has not been set', () => {
-      it('calls i18n.setLocale with the correct locale', () => {
+      it('calls i18n.setLocale with the correct locale', async () => {
         i18n.getLocale.mockReturnValue(null)
-        initRender()
+        await initRender()
         expect(setLocaleApi).toHaveBeenCalledWith(store, 'en')
       })
     })

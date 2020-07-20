@@ -18,7 +18,7 @@ import { getStyledLabelText } from 'utility/fields'
 import styleOverrides from './styles.overrides'
 import { Container, FauxInput, Input, Message } from './styles'
 import { onNextTick } from 'src/util/utils'
-import { CurrentFrameConsumer } from 'components/Frame'
+import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 
 const mapStateToProps = () => {
   return {

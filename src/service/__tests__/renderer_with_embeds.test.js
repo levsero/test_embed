@@ -19,7 +19,7 @@ beforeEach(() => {
   settings.get = value => _.get(mockSettings, value, null)
 })
 
-test('renders expected embeds from config', () => {
+test('renders expected embeds from config', async () => {
   const configJSON = {
     embeds: {
       helpCenterForm: {
@@ -45,7 +45,10 @@ test('renders expected embeds from config', () => {
     }
   }
 
-  renderer.run(configJSON, store)
+  await renderer.run({
+    config: configJSON,
+    reduxStore: store
+  })
 
   expect(document.body.innerHTML).toMatchSnapshot()
 })

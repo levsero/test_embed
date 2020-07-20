@@ -32,7 +32,7 @@ import {
   getStylingZIndex
 } from 'src/redux/modules/settings/settings-selectors'
 import { onNextTick } from 'src/util/utils'
-import IFrame from 'src/components/Frame'
+import IFrame from 'src/framework/components/Frame'
 
 const mapStateToProps = (state, ownProps) => {
   return {

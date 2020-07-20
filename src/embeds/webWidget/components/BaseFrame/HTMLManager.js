@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { useCurrentFrame } from 'components/Frame'
+import { useCurrentFrame } from 'src/framework/components/Frame'
 import { i18n } from 'service/i18n'
 
 const HTMLManager = ({ baseFontSize }) => {

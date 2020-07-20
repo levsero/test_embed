@@ -9,6 +9,9 @@ export default {
     defaultValue: false,
     getArturoValue: state => state.base.embeddableConfig.deferTalkConnection
   },
+  messenger_widget: {
+    defaultValue: false
+  },
   web_widget_new_boot_sequence: {
     defaultValue: false
   }

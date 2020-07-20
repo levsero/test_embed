@@ -44,7 +44,7 @@ function registerEmbedsInRedux(config, reduxStore) {
   })
 }
 
-function init(config, reduxStore = dummyStore) {
+function init({ config = {}, reduxStore = dummyStore }) {
   if (initialised) {
     return
   }
@@ -64,7 +64,7 @@ function init(config, reduxStore = dummyStore) {
   }
 }
 
-async function run(config, reduxStore = dummyStore) {
+async function run({ config, reduxStore = dummyStore }) {
   if (hasRendered) {
     return
   }
