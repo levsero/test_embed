@@ -10,8 +10,8 @@ describe('public api service', () => {
   let mockApi
   let mockLegacyApi
 
-  const setupWithQueueAndMockApi = () => {
-    mockApi = {
+  const setupWithQueueAndMockApi = api => {
+    mockApi = api || {
       mock: {
         example: jest.fn(),
         example2: jest.fn()
@@ -28,6 +28,21 @@ describe('public api service', () => {
     publicApi.registerApi(mockApi)
     publicApi.registerLegacyApi(mockLegacyApi)
   }
+
+  it('supports a legacy and undocumented way of changing the locale', () => {
+    const mockSetLocale = jest.fn()
+
+    setupWithQueueAndMockApi({
+      webWidget: {
+        setLocale: mockSetLocale
+      }
+    })
+    zE({ locale: 'ko' })
+
+    publicApi.run()
+
+    expect(mockSetLocale).toHaveBeenCalledWith('ko')
+  })
 
   describe('when the service is run', () => {
     it('begins running apis on demand', () => {
