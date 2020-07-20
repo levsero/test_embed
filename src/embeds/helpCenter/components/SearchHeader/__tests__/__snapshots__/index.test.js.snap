@@ -517,8 +517,8 @@ exports[`renders correctly on desktop 1`] = `
 
 .c16 {
   color: #c2c8cc !important;
-  height: NaNrem !important;
-  width: NaNrem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c11 {

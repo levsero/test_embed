@@ -861,8 +861,8 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 
 .c17 {
   color: #c2c8cc !important;
-  height: NaNrem !important;
-  width: NaNrem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c12 {
@@ -1961,8 +1961,8 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 
 .c17 {
   color: #c2c8cc !important;
-  height: NaNrem !important;
-  width: NaNrem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c12 {

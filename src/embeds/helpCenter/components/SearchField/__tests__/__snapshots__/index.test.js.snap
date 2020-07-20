@@ -354,8 +354,8 @@ exports[`renders 1`] = `
 
 .c5 {
   color: #c2c8cc !important;
-  height: NaNrem !important;
-  width: NaNrem !important;
+  height: 1.3714285714285714rem !important;
+  width: 1.3714285714285714rem !important;
 }
 
 .c0 {
