@@ -8,6 +8,7 @@ import { Alert, Title } from 'src/components/Alert'
 import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
 import { ratings } from 'embeds/chat/components/RatingGroup'
+import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
 
 import { SecondaryButton, SubmitButton, ButtonGroup, Label, Textarea, RatingGroup } from './styles'
 
@@ -110,11 +111,7 @@ const FeedbackForm = ({
 }
 
 FeedbackForm.propTypes = {
-  rating: PropTypes.shape({
-    value: PropTypes.oneOf(Object.values(ratings)),
-    disableEndScreen: PropTypes.bool,
-    comment: PropTypes.string
-  }).isRequired,
+  rating: ChatPropTypes.chatRating.isRequired,
   secondaryButtonText: PropTypes.string.isRequired,
   handleSecondaryButtonClick: PropTypes.func,
   submitForm: PropTypes.func.isRequired

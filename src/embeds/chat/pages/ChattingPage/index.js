@@ -60,7 +60,6 @@ const mapStateToProps = state => {
     latestQuickReply: chatSelectors.getLatestQuickReply(state),
     notificationCount: chatSelectors.getNotificationCount(state),
     queuePosition: chatSelectors.getQueuePosition(state),
-    rating: chatSelectors.getChatRating(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state),
@@ -79,7 +78,6 @@ const ChattingScreen = ({
   showAvatar,
   queuePosition,
   isMobile = false,
-  rating = {},
   agentsTyping = [],
   hasMoreHistory = false,
   historyRequestStatus = '',
@@ -215,7 +213,6 @@ const ChattingScreen = ({
             isMobile={isMobile}
             showAvatar={showAvatar}
             agents={allAgents}
-            chatRating={rating}
             goToFeedbackScreen={goToFeedbackScreen}
             handleSendMsg={sendMsg}
             onImageLoad={scrollToBottom}
@@ -267,7 +264,6 @@ ChattingScreen.propTypes = {
   markAsRead: PropTypes.func,
   notificationCount: PropTypes.number,
   queuePosition: PropTypes.number,
-  rating: PropTypes.object.isRequired,
   resetCurrentMessage: PropTypes.func,
   sendMsg: PropTypes.func.isRequired,
   showAvatar: PropTypes.bool.isRequired,
