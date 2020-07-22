@@ -533,7 +533,12 @@ const getIsChannelAvailable = createSelector(
 )
 
 export const getWebWidgetVisible = state => {
-  return getBaseWebWidgetVisible(state) && !getHiddenByHideAPI(state) && getIsWidgetReady(state)
+  return (
+    getBaseWebWidgetVisible(state) &&
+    !getHiddenByHideAPI(state) &&
+    getIsWidgetReady(state) &&
+    getActiveEmbed(state) !== 'nilEmbed'
+  )
 }
 
 export const getLauncherVisible = createSelector(
