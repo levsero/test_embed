@@ -10,6 +10,7 @@ import forms from './forms'
 import fields from './fields'
 import contactFormFields from './contactFormFields'
 import filteredFormsToDisplay from 'embeds/support/reducers/filteredFormsToDisplay'
+import formsWithSuppressedSubject from 'embeds/support/reducers/formsWithSuppressedSubject'
 import ticketFormsRequest from 'embeds/support/reducers/ticketFormsRequest'
 import isTicketFieldsLoading from 'embeds/support/reducers/isTicketFieldsLoading'
 import isFormLoading from 'embeds/support/reducers/isFormLoading'
@@ -26,6 +27,7 @@ export default combineReducers({
   fields,
   contactFormFields,
   filteredFormsToDisplay,
+  formsWithSuppressedSubject,
   ticketFormsRequest,
   isTicketFieldsLoading,
   isFormLoading,
