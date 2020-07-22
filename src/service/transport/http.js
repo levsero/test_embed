@@ -4,6 +4,7 @@ import superagent from 'superagent'
 import { identity } from 'service/identity'
 import { settings } from 'service/settings'
 import { location, getReferrerPolicy, getZendeskHost } from 'utility/globals'
+import { win } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
 import errorTracker from 'src/framework/services/errorTracker'
 import HttpApiError from 'errors/nonFatal/HttpApiError'
@@ -256,6 +257,13 @@ function callMeRequest(talkServiceUrl, payload) {
     })
 }
 
+let hasLeftPage = false
+try {
+  window.addEventListener('beforeunload', () => {
+    hasLeftPage = true
+  })
+} catch {}
+
 function logFailure(error, payload) {
   if (shouldExclude(error, payload)) return
 
@@ -268,6 +276,13 @@ function logFailure(error, payload) {
     status: apiError.data.status,
     hostname: location.hostname
   }
+
+  if (!apiError.data.status) {
+    if (hasLeftPage || win.navigator?.onLine === false) {
+      return
+    }
+  }
+
   errorTracker.error(errorTitle, errorData)
 }
 
