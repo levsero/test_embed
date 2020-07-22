@@ -293,6 +293,7 @@ describe('getCustomTicketFields', () => {
         123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true }
       },
       filteredFormsToDisplay: [123456],
+      formsWithSuppressedSubject: [],
       fields: ticketFields
     }
   })
@@ -409,6 +410,7 @@ describe('getFormTicketFields', () => {
       support: {
         forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'], active: true } },
         filteredFormsToDisplay: [123456],
+        formsWithSuppressedSubject: [],
         fields,
         contactFormFields
       },
@@ -529,6 +531,7 @@ describe('getFormState', () => {
           }
         },
         filteredFormsToDisplay: ['contactForm'],
+        formsWithSuppressedSubject: [],
         fields: {
           123: {
             id: 123,
