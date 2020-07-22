@@ -107,7 +107,7 @@ describe('base redux actions', () => {
       'src/constants/shared': {
         PHONE_PATTERN: /^[0-9]+$/
       },
-      'service/persistence': {
+      'src/framework/services/persistence': {
         store: {
           get: () => mockPersistentStoreValue,
           remove: persistentStoreRemoveSpy,

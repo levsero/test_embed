@@ -1,4 +1,4 @@
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import _ from 'lodash'
 
 const timeToExpire = 1000 * 60 * 15 // 15 Minutes

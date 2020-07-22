@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import { i18n } from 'service/i18n'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { http } from 'service/transport'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
@@ -77,7 +77,7 @@ const sendPageView = () => {
 
   const now = Date.now()
   const referrer = parseUrl(doc.referrer)
-  const previousTime = store.get('currentTime', 'session') || 0
+  const previousTime = store.get('currentTime') || 0
   const url = win.location.origin
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? now - previousTime : 0
@@ -148,7 +148,7 @@ function setConfig(_config) {
 function init() {
   const now = Date.now()
 
-  store.set('currentTime', now, 'session')
+  store.set('currentTime', now)
 }
 
 function setConfigLoadTime(time) {

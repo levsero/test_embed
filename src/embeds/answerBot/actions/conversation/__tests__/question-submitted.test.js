@@ -4,7 +4,7 @@ import * as actions from '../question-submitted'
 import { http } from 'service/transport'
 import { settings } from 'service/settings'
 import { identity } from 'service/identity'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { i18n } from 'service/i18n'
 import _ from 'lodash'
 

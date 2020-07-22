@@ -1,5 +1,5 @@
 import { inDebugMode } from 'utility/runtime'
-import { store as persistenceStore } from 'service/persistence'
+import { store as persistenceStore } from 'src/framework/services/persistence'
 import logger from 'src/util/logger'
 import features from './features'
 

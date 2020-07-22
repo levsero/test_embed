@@ -84,11 +84,6 @@ describe('framework boot', () => {
       'utility/globals': {
         getZendeskHost: () => mockHost
       },
-      'service/persistence': {
-        store: {
-          get: noop
-        }
-      },
       'src/framework/services/publicApi': {
         registerApi: () => undefined,
         registerLegacyApi: () => undefined,

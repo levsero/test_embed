@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import errorTracker from 'src/framework/services/errorTracker'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { settings } from 'service/settings'
 import { getChatConfig, getBrandCount, getBrand } from 'src/redux/modules/base/base-selectors'
 import {

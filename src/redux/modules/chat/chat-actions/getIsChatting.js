@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types'
 import { isMobileBrowser } from 'utility/devices'
 import { updateActiveEmbed } from 'src/redux/modules/base'

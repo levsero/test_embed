@@ -1,4 +1,4 @@
-import { store } from '../persistence'
+import { store } from '../'
 import { win } from 'utility/globals'
 
 describe('localStorage', () => {

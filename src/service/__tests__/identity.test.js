@@ -1,5 +1,5 @@
 import { identity } from '../identity'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 
 jest.useFakeTimers()
 

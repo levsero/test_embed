@@ -17,7 +17,7 @@ import {
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { nameValid, emailValid, phoneValid } from 'src/util/utils'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 import { http } from 'service/transport'
 import { WIDGET_OPENED_EVENT, WIDGET_CLOSED_EVENT, CHAT_POPOUT_EVENT } from 'constants/event'
 import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types'

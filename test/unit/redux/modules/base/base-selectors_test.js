@@ -12,7 +12,7 @@ describe('base selectors', () => {
     mockery.registerAllowable(selectorsPath)
 
     initMockRegistry({
-      'service/persistence': {
+      'src/framework/services/persistence': {
         store: {
           get: () => mockStoreValue
         }

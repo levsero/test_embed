@@ -9,7 +9,7 @@ import {
   SDK_CONNECTION_UPDATE,
   SDK_CHAT_MEMBER_JOIN
 } from '../chat-action-types'
-import { store } from 'service/persistence'
+import { store } from 'src/framework/services/persistence'
 
 const initialState = _.get(store.get('store'), 'is_chatting', false)
 
