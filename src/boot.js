@@ -2,7 +2,6 @@ import _ from 'lodash'
 
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
-import { store as persistenceStore } from 'service/persistence'
 import { renderer } from 'service/renderer'
 import webWidgetApi from 'service/api/webWidgetApi'
 import zopimApi from 'service/api/zopimApi'
@@ -117,12 +116,6 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   }
 
   const fetchEmbeddableConfig = () => {
-    const embeddableConfig = persistenceStore.get('embeddableConfig')
-
-    if (embeddableConfig) {
-      done({ body: embeddableConfig })
-      return
-    }
     http.send(
       {
         method: 'get',
