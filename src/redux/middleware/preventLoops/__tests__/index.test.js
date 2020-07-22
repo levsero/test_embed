@@ -23,9 +23,9 @@ const getAction = (actionType = 'fake_action') => {
 }
 
 describe('preventLoops', () => {
-  describe('with fewer than 100 actions', () => {
+  describe('with fewer than 200 actions', () => {
     beforeEach(() => {
-      Array.from({ length: 90 }).forEach(() => {
+      Array.from({ length: 190 }).forEach(() => {
         preventLoops({ getState: noop })(jest.fn())(getAction())
       })
     })
@@ -36,7 +36,7 @@ describe('preventLoops', () => {
     })
   })
 
-  describe('with a total of more than 100 actions calls', () => {
+  describe('with a total of more than 200 actions calls', () => {
     beforeEach(() => {
       Array.from({ length: 30 }).forEach(() => {
         preventLoops({ getState: noop })(jest.fn())(getAction())

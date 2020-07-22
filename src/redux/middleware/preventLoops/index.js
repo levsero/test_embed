@@ -19,7 +19,7 @@ let actionTimes = []
 let actions = []
 
 const TIME_WINDOW = 1000
-const MAX_NUMBER_OF_ACTIONS = 100
+const MAX_NUMBER_OF_ACTIONS = 200
 const NUMBER_OF_ACTIONS_TO_SEND = 20
 
 let loggedToRollbarAndBlips = false
