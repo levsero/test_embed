@@ -100,7 +100,7 @@
   ],
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
-    "@zendesk/client-i18n-tools": "^12.0.0",
+    "@zendesk/client-i18n-tools": "^13.0.0",
     "@zendeskgarden/container-focusjail": "^1.2.2",
     "@zendeskgarden/container-modal": "^0.8.2",
     "@zendeskgarden/css-bedrock": "^7.0.14",
