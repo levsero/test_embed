@@ -67,6 +67,7 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 
 - [chatLabel](./settings#chatlabel)
 - [label](./settings#label)
+- [talkLabel](./settings#talkLabel)
 - mobile
 - [labelVisible](./settings#labelvisible)
 

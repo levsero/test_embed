@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import launcherSettings from './launcher-settings'
+import launcherSettings from 'src/embeds/launcher/settings/reducers'
 import badge from './launcher-badge-settings'
 import mobile from './launcher-mobile-settings'
 

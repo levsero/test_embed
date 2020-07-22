@@ -71,6 +71,7 @@ Available settings:
 - [selectTicketForm](#selectticketform)
 - [subject](#subject)
 - [suppress](#suppress)
+- [talkLabel](#talkLabel)
 - [ticketForms](#ticketforms)
 - [title](#title)
 - [zIndex](#zindex)
@@ -1505,6 +1506,43 @@ Suppresses the Help Center, Chat, Talk, Contact Form, or Answer Bot in the Web W
   };
 </script>
 ```
+
+### talkLabel
+
+Replaces the default string on the launcher button when Talk is enabled, and Chat and Help Center are disabled.
+
+![Talk Label Example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/talkLabel.png)
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale. For a list of supported locales and associated codes, see <a name="locales" href="https://support.zendesk.com/api/v2/rosetta/locales/public.json">here.</a>
+
+#### Availability
+
+- [launcher](./core#launcher-settings)
+
+<a name="example-talkLabel"></a>
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      launcher: {
+        talkLabel: {
+          '*': 'Hello!',
+          fr: 'Bonjour!',
+          de: 'Hallo!'
+        }
+      }
+    }
+  };
+</script>
+```
+
+#### Related settings
+
+- [label](#label)
+- [labelVisible](#labelvisible)
 
 ### ticketForms
 
