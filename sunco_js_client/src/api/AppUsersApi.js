@@ -1,0 +1,40 @@
+import BaseApi from './BaseApi'
+import { getClientInfo } from '../utils/device'
+import * as storage from '../utils/storage'
+
+export class AppUsersApi extends BaseApi {}
+
+Object.assign(AppUsersApi.prototype, {
+  create(data = {}) {
+    return this.request({
+      method: 'POST',
+      path: `/sdk/v2/apps/${this.appId}/appusers`,
+      data: {
+        client: getClientInfo(this.integrationId),
+        userId: '', //must be an empty string for anonymous user
+        intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
+        ...data
+      }
+    }).then(response => {
+      // TODO - temp hack to store session - will remove this
+      if (response.body.sessionToken) {
+        storage.setItem(`${this.integrationId}.sessionToken`, response.body.sessionToken)
+      }
+      return response
+    })
+  },
+
+  get(appUserId) {
+    return this.request({
+      method: 'GET',
+      path: `/sdk/v2/apps/${this.appId}/appusers/${appUserId}`
+    })
+  },
+
+  subscribe(_callback) {
+    // const sessionToken = storage.getItem(`${this.integrationId}.sessionToken`)
+    // TODO - subscribe to socket client here
+  }
+})
+
+export default AppUsersApi
