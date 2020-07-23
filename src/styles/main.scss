@@ -1,16 +1,14 @@
 @import '@zendeskgarden/css-bedrock';
 
-/**
- * A thin layer on top of normalize.css that provides a starting point more
- * suitable for web applications. Removes the default spacing and border for
- * appropriate elements.
- * 1. With the translation keys sometimes the launcher will show scroll bars
- * 2. Set iOS/Android tap highlight to be transparent using rgba
- * 3. Some androids need transparent keyword over rbga value
- * 4. IE doesn't have appearance: none so we can't override its
- *    arrows like other browsers so we just need to hide this
- *    and use the default ones.
- */
+// A thin layer on top of normalize.css that provides a starting point more
+// suitable for web applications. Removes the default spacing and border for
+// appropriate elements.
+// 1. With the translation keys sometimes the launcher will show scroll bars
+// 2. Set iOS/Android tap highlight to be transparent using rgba
+// 3. Some androids need transparent keyword over rbga value
+// 4. IE doesn't have appearance: none so we can't override its
+//    arrows like other browsers so we just need to hide this
+//    and use the default ones.
 
 html {
   color: $zd-color-grey-800;
@@ -52,11 +50,9 @@ iframe {
   border: 0;
 }
 
-/**
- * Suppress the focus outline on links that cannot be accessed via keyboard.
- * This prevents an unwanted focus outline from appearing around elements that
- * might still respond to pointer events.
- */
+// Suppress the focus outline on links that cannot be accessed via keyboard.
+// This prevents an unwanted focus outline from appearing around elements that
+// might still respond to pointer events.
 
 [tabindex='-1']:focus {
   outline: none !important;

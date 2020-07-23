@@ -1,13 +1,9 @@
-/**
- * Extra utility classes beyond built-in suit css ones
- */
+// Extra utility classes beyond built-in suit css ones
 
 @import '_vars.scss';
 @import './suit.scss';
 
-/**
- * Positions
- */
+// Positions
 
 $Base-posOffset: $med + 1;
 
@@ -30,27 +26,25 @@ $Base-posOffset: $med + 1;
   right: 0;
 }
 
-/**
- * Used to adjust the default spacing between components
- * Use with great care!
- *
- * u-<type><direction><size>
- *
- * A = all
- * T = top
- * R = right
- * B = bottom
- * L = left
- * H = horizontal
- * V = vertical
- *
- * A = auto
- * N = none
- * T = tiny 5px
- * S = small 10px
- * M = medium 15px
- * L = large 20px
- */
+// Used to adjust the default spacing between components
+// Use with great care!
+//
+// u-<type><direction><size>
+//
+// A = all
+// T = top
+// R = right
+// B = bottom
+// L = left
+// H = horizontal
+// V = vertical
+//
+// A = auto
+// N = none
+// T = tiny 5px
+// S = small 10px
+// M = medium 15px
+// L = large 20px
 
 .u-marginBN {
   margin-bottom: 0 !important;
@@ -170,9 +164,7 @@ $Base-posOffset: $med + 1;
   width: 100% !important;
 }
 
-/**
- * Extend display utils
- */
+// Extend display utils
 
 .u-flex {
   display: flex !important;
@@ -186,9 +178,7 @@ $Base-posOffset: $med + 1;
   align-items: center !important;
 }
 
-/**
- * Used to hide the widget when printing the host page
- */
+// Used to hide the widget when printing the host page
 @media print {
   .u-noPrint {
     display: none !important;

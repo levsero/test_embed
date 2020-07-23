@@ -1,9 +1,3 @@
-/**
- * 1. because safari 8 is dumb and rounds 1/12 to .083rem
- *    which computes to 0.9999px & borders can't be sub pixel
- *    we boost the calculation to do 1.1/12
- */
-
 // If this changes it also needs to change in javascript shared constants
 $font-size: 14;
 $font-size-lrg: #{15 / $font-size}rem;
@@ -11,6 +5,9 @@ $font-size-mobile: #{15 / $font-size}rem;
 
 $font-size-lrg: #{15 / $font-size}rem;
 
+// because safari 8 rounds 1/12 to .083rem
+// which computes to 0.9999px & borders can't be sub pixel
+// we boost the calculation to do 1.1/12
 $thin-border-size: #{1.1 / $font-size}rem; /* 1 */
 
 @import '../../node_modules/@zendeskgarden/css-variables/dist/index';
