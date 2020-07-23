@@ -5,17 +5,25 @@ import { chatBanned } from 'src/redux/modules/chat'
 import firehoseListener from '../firehoseListener'
 
 describe('firehoseListener', () => {
-  let zChat, dispatch, listener, departmentCallback, statusCallback, endChatCallback
+  let zChat,
+    dispatch,
+    listener,
+    departmentCallback,
+    statusCallback,
+    endChatCallback,
+    getReduxState,
+    mockHasBackfillCompleted
 
   beforeEach(() => {
     dispatch = jest.fn()
+    getReduxState = () => ({ chat: { chatLogBackfillCompleted: mockHasBackfillCompleted } })
     departmentCallback = jest.fn()
     statusCallback = jest.fn()
     endChatCallback = jest.fn()
     zChat = {
       getConnectionClosedReason: jest.fn()
     }
-    listener = firehoseListener(zChat, dispatch)
+    listener = firehoseListener(zChat, dispatch, getReduxState)
     registerCallback(departmentCallback, CHAT_DEPARTMENT_STATUS_EVENT)
     registerCallback(statusCallback, CHAT_STATUS_EVENT)
     registerCallback(endChatCallback, CHAT_ENDED_EVENT)
@@ -154,15 +162,32 @@ describe('firehoseListener', () => {
     expect(statusCallback).toHaveBeenCalled()
   })
 
-  it('calls the end chat callbacks when a type is a visitor member leave', () => {
-    const data = {
-      type: 'chat.memberleave',
-      detail: { nick: 'visitor' }
-    }
+  describe('when backfill has completed', () => {
+    it('calls the end chat callbacks when the type is a visitor member leave', () => {
+      mockHasBackfillCompleted = true
+      const data = {
+        type: 'chat.memberleave',
+        detail: { nick: 'visitor' }
+      }
 
-    listener(data)
+      listener(data)
 
-    expect(endChatCallback).toHaveBeenCalled()
+      expect(endChatCallback).toHaveBeenCalled()
+    })
+  })
+
+  describe('when backfill has not completed', () => {
+    it('does not call the end chat callbacks when the type is a visitor member leave', () => {
+      mockHasBackfillCompleted = false
+      const data = {
+        type: 'chat.memberleave',
+        detail: { nick: 'visitor' }
+      }
+
+      listener(data)
+
+      expect(endChatCallback).not.toHaveBeenCalled()
+    })
   })
 
   it('does not call the end chat callbacks when a type is an agent member leave', () => {

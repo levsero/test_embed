@@ -129,7 +129,7 @@ export function setUpChat(canBeDeferred = true) {
         }
       })
 
-      zChat.getFirehose().on('data', firehoseListener(zChat, dispatch))
+      zChat.getFirehose().on('data', firehoseListener(zChat, dispatch, getState))
 
       zopimApi.handleChatSDKInitialized()
     }
