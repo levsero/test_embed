@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import SearchIcon from '@zendeskgarden/svg-icons/src/16/search-stroke.svg'
 import { zdColorGrey400 } from '@zendeskgarden/css-variables'
+import { FONT_SIZE } from 'constants/shared'
 
 const StyledSearchIcon = styled(SearchIcon)`
   color: ${zdColorGrey400} !important;
-  height: ${props => 19.2 / props.theme.fontSize}rem !important;
-  width: ${props => 19.2 / props.theme.fontSize}rem !important;
+  height: ${() => 19.2 / FONT_SIZE}rem !important;
+  width: ${() => 19.2 / FONT_SIZE}rem !important;
 `
 
 const Container = styled.div`

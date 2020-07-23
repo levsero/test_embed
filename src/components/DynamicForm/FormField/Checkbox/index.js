@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Field, Checkbox as GardenCheckbox, Message, Hint } from '@zendeskgarden/react-forms'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 import { TEST_IDS } from 'constants/shared'
+import { Container } from './styles'
 
 const Checkbox = ({
   field,
@@ -14,7 +15,7 @@ const Checkbox = ({
   isPreview
 }) => {
   return (
-    <div data-testid={TEST_IDS.CHECKBOX_FIELD}>
+    <Container data-testid={TEST_IDS.CHECKBOX_FIELD}>
       <Field>
         <GardenCheckbox
           name={field.id}
@@ -43,7 +44,7 @@ const Checkbox = ({
           )}
         </GardenCheckbox>
       </Field>
-    </div>
+    </Container>
   )
 }
 

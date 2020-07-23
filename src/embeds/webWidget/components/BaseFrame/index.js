@@ -43,7 +43,11 @@ const BaseFrame = ({ children, style, color, visible, ...props }) => {
                     ...DEFAULT_THEME,
                     document: frame.document,
                     rtl: i18n.isRTL(),
-                    components: getGardenOverrides(color)
+                    components: getGardenOverrides(color),
+                    colors: {
+                      ...DEFAULT_THEME.colors,
+                      primaryHue: 'grey'
+                    }
                   }}
                 >
                   <WidgetThemeProvider>

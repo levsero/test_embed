@@ -88,9 +88,9 @@ const genericOverrides = css`
       (!validation || validation === 'none') && `${zdColorGrey600} !important;`};
   }
   :focus {
-    box-shadow: ${({ validation, bare }) =>
+    box-shadow: ${({ validation, isBare }) =>
       (!validation || validation === 'none') &&
-      !bare &&
+      !isBare &&
       `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
   }
   box-shadow: ${({ focused, validation }) =>
@@ -231,6 +231,10 @@ const checkboxInputOverrides = themeColor => {
       background-color: ${themeColor} !important;
       border-color: ${zdColorGrey600} !important;
     }
+    &[data-garden-focus-visible='true'] ~ [data-garden-id='forms.checkbox_label']::before {
+      box-shadow: ${`0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${zdColorGrey400} !important;
+    }
   `
 }
 
@@ -282,8 +286,8 @@ function getGardenOverrides(colors) {
   const colorVariables = getWidgetColorVariables({ ...themeColor, ...colors })
 
   return {
-    'forms.text_area': inputOverrides,
-    'forms.text_input': inputOverrides,
+    'forms.textarea': inputOverrides,
+    'forms.input': inputOverrides,
     'forms.text_label': labelOverrides,
     'forms.label': labelOverrides,
     'forms.message': messageOverrides,
@@ -291,9 +295,9 @@ function getGardenOverrides(colors) {
     'checkboxes.message': messageOverrides,
     'textfields.hint': mobileOverrides,
     'buttons.button': getButtonOverrides(colorVariables),
-    'forms.check_label': checkboxLabelOverrides,
-    'forms.check_input': checkboxInputOverrides(themeColor),
-    'forms.check_hint': checkboxHintMobileOverrides,
+    'forms.checkbox_label': checkboxLabelOverrides,
+    'forms.checkbox': checkboxInputOverrides(themeColor),
+    'forms.checkbox_hint': checkboxHintMobileOverrides,
     'dropdowns.label': mobileOverrides,
     'dropdowns.hint': mobileOverrides,
     'dropdowns.select': css`

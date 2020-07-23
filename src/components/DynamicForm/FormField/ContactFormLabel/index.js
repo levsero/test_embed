@@ -26,15 +26,15 @@ const ContactFormLabel = ({ fieldId, value, required, as, isReadOnly, isPreview 
   })
 
   return (
-    <FormLabel
-      as={as}
-      data-fieldid={fieldId}
-      dangerouslySetInnerHTML={{
-        __html: getShouldShowWithOptionalLabel(required, isReadOnly, isPreview)
-          ? optionalLabel
-          : requiredLabel
-      }}
-    />
+    <FormLabel as={as} data-fieldid={fieldId}>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: getShouldShowWithOptionalLabel(required, isReadOnly, isPreview)
+            ? optionalLabel
+            : requiredLabel
+        }}
+      />
+    </FormLabel>
   )
 }
 
