@@ -14,9 +14,10 @@ describe('Frame', () => {
   const FramePath = buildSrcPath('component/frame/Frame')
   const sharedConstantsPath = basePath('src/constants/shared')
 
-  const MAX_WIDGET_HEIGHT = 550
+  const DEFAULT_WIDGET_HEIGHT = 540
   const MIN_WIDGET_HEIGHT = 150
   const WIDGET_WIDTH = 342
+  const WIDGET_MARGIN = 16
 
   class MockEmbedWrapper extends Component {
     constructor(props, context) {
@@ -114,9 +115,10 @@ describe('Frame', () => {
       },
       'constants/shared': {
         FONT_SIZE: 14,
-        MAX_WIDGET_HEIGHT,
+        DEFAULT_WIDGET_HEIGHT,
         MIN_WIDGET_HEIGHT,
         WIDGET_WIDTH,
+        WIDGET_MARGIN,
         TEST_IDS
       },
       lodash: _,
@@ -711,9 +713,9 @@ describe('Frame', () => {
       height: '100%'
     }
     const expectedDesktopDimensions = {
-      width: `${WIDGET_WIDTH + 15}px`,
+      width: `${WIDGET_WIDTH + 2 * WIDGET_MARGIN}px`,
       height: '100%',
-      maxHeight: `${MAX_WIDGET_HEIGHT + 15}px`,
+      maxHeight: `${DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN}px`,
       minHeight: `${MIN_WIDGET_HEIGHT}px`
     }
     const expectedDesktopPopoutDimensions = {

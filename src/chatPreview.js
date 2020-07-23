@@ -20,10 +20,10 @@ import { choosePreview } from 'src/redux/modules/preview/preview-actions'
 import { CHAT, CHAT_BADGE } from 'src/constants/preview'
 import { PREVIEW_CHOICE_SELECTED } from 'src/redux/modules/preview/preview-action-types'
 import PreviewContainer from 'src/component/preview/PreviewContainer'
-import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
+import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
-const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN
-const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN
+const FRAME_WIDTH = WIDGET_WIDTH
+const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
 const BOX_SHADOW_SIZE = 6
 
 let previewContainer = null
@@ -33,8 +33,8 @@ const defaultOptions = {
   color: '#1F73B7',
   styles: {
     float: 'right',
-    marginTop: '16px',
-    marginRight: '16px',
+    marginRight: `${WIDGET_MARGIN}px`,
+    marginTop: `${WIDGET_MARGIN}px`,
     width: `${FRAME_WIDTH}px`,
     height: `${FRAME_HEIGHT}px`
   }

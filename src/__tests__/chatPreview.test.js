@@ -54,12 +54,12 @@ describe('rendered with default options', () => {
     expect(chatPreview()).toHaveStyle(`
         position: relative;
         float: right;
-        margin-top: 16px;
-        margin-right: 16px;
         right: 0px;
         bottom: 0px;
-        width: 369px;
-        height: 565px;
+        margin-right: 16px;
+        margin-top: 16px;
+        width: 354px;
+        height: 540px;
     `)
   })
 

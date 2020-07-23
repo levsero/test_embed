@@ -106,10 +106,10 @@ import {
   FONT_SIZE,
   EMBED_MAP,
   LAUNCHER,
-  MAX_WIDGET_HEIGHT_NO_SEARCH,
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
   WIDGET_MARGIN,
-  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
-  MAX_WIDGET_HEIGHT
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
+  DEFAULT_WIDGET_HEIGHT
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
@@ -233,18 +233,18 @@ const getWidgetFixedFrameStyles = createSelector(
 
     if (canShowHelpCenterIntroState) {
       const height = hideZendeskLogo
-        ? MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
-        : MAX_WIDGET_HEIGHT_NO_SEARCH
+        ? DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + 2 * WIDGET_MARGIN
+        : DEFAULT_WIDGET_HEIGHT_NO_SEARCH + 2 * WIDGET_MARGIN
 
       return {
-        maxHeight: `${height + WIDGET_MARGIN}px`,
-        minHeight: `${height + WIDGET_MARGIN}px`
+        maxHeight: `${height}px`,
+        minHeight: `${height}px`
       }
     }
 
     if (standaloneMobileNotificationVisible) {
       return {
-        height: `${MAX_WIDGET_HEIGHT + WIDGET_MARGIN / FONT_SIZE}rem`,
+        height: `${DEFAULT_WIDGET_HEIGHT + (2 * WIDGET_MARGIN) / FONT_SIZE}rem`,
         bottom: 0,
         top: 'initial',
         background: 'transparent'
@@ -353,7 +353,7 @@ export const getMaxWidgetHeight = (state, frame = 'webWidget') => {
   const fixedStyles = getFixedStyles(state, frame)
 
   if (getIsOnInitialDesktopSearchScreen(state) && fixedStyles.maxHeight) {
-    return parseInt(fixedStyles.maxHeight) - WIDGET_MARGIN
+    return parseInt(fixedStyles.maxHeight) - 2 * WIDGET_MARGIN
   }
 
   return undefined
