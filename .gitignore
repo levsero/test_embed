@@ -35,4 +35,4 @@ example/*
 .bundle
 webdrivercss/
 **/*.csv
-**/*.png
+docker-chromium

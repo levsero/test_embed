@@ -1,5 +1,6 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
+const { port } = require('./env')
 
 module.exports = async function globalSetup(globalConfig) {
   await setupPuppeteer(globalConfig)
@@ -8,7 +9,7 @@ module.exports = async function globalSetup(globalConfig) {
     usedPortAction: 'ignore',
     launchTimeout: 15000,
     host: '0.0.0.0',
-    port: 5123,
+    port,
     debug: true
   })
 }

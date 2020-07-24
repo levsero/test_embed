@@ -5,61 +5,7 @@ import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 import { CHAT_BADGE } from 'src/constants/preview'
 import { TEST_IDS } from 'src/constants/shared'
 import widget from 'e2e/helpers/widget'
-
-const events = [
-  { type: 'account_status', detail: 'online' },
-  { type: 'visitor_update', detail: { email: '', display_name: 'Visitor 85153315' } },
-  { type: 'connection_update', detail: 'connected' },
-  { type: 'department_update', detail: { status: 'online', id: 1, name: 'Dept 1' } },
-  {
-    type: 'chat',
-    detail: {
-      timestamp: 1525325772386,
-      nick: 'visitor',
-      type: 'chat.memberjoin',
-      display_name: 'Visitor 1525325771'
-    }
-  },
-  {
-    type: 'chat',
-    detail: {
-      timestamp: 1525325926444,
-      nick: 'visitor',
-      type: 'chat.msg',
-      display_name: 'Visitor 1525325926',
-      msg: 'hey there'
-    }
-  },
-  {
-    type: 'chat',
-    detail: {
-      timestamp: 1525325936518,
-      nick: 'agent:1689357',
-      type: 'chat.memberjoin',
-      display_name: 'Briana Coppard'
-    }
-  },
-  {
-    type: 'chat',
-    detail: {
-      timestamp: 1525325939026,
-      nick: 'agent:1689357',
-      type: 'chat.msg',
-      display_name: 'Briana Coppard',
-      msg: 'hey to you too'
-    }
-  },
-  {
-    type: 'agent_update',
-    detail: {
-      avatar_path:
-        'https://v2assets.zopim.io/2EkTn0An31opxOLXuGgRCy5nPnSNmpe6-agents-1689357?1524707165289',
-      display_name: 'Briana Coppard',
-      title: 'Customer Service',
-      nick: 'agent:1689357'
-    }
-  }
-]
+import events from 'e2e/fixtures/chat-preview-events'
 
 beforeEach(async () => {
   await loadPreview()
@@ -70,10 +16,8 @@ beforeEach(async () => {
   }, events)
 })
 
-const goTo = screen => page.evaluate(screen => window.preview.updateScreen(screen), screen)
-
 test('renders chat log', async () => {
-  await goTo(constants.CHATTING_SCREEN)
+  await preview.updateScreen(constants.CHATTING_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
   expect(await queries.queryByText(doc, 'Chat started')).toBeTruthy()
@@ -85,7 +29,7 @@ test('renders chat log', async () => {
 })
 
 test('renders prechat screen', async () => {
-  await goTo(constants.PRECHAT_SCREEN)
+  await preview.updateScreen(constants.PRECHAT_SCREEN)
   const doc = await preview.getDocument()
   expect(await queries.queryByLabelText(doc, 'Choose a department (optional)')).toBeTruthy()
   expect(await queries.queryByLabelText(doc, 'Message (optional)')).toBeTruthy()
@@ -97,13 +41,13 @@ test('renders prechat screen', async () => {
 })
 
 test('renders offline screen', async () => {
-  await goTo(OFFLINE_FORM_SCREENS.MAIN)
+  await preview.updateScreen(OFFLINE_FORM_SCREENS.MAIN)
   const doc = await preview.getDocument()
   expect(await queries.queryByText(doc, 'Sorry, we are not online at the moment')).toBeTruthy()
 })
 
 test('renders chat badge', async () => {
-  await goTo(CHAT_BADGE)
+  await preview.updateScreen(CHAT_BADGE)
   const doc = await preview.getLauncherDocument()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Chat with us')).toBeTruthy()
@@ -114,14 +58,14 @@ test('renders chat badge', async () => {
 
 test('updateLocale updates the translations', async () => {
   await page.evaluate(() => window.preview.updateLocale('fr'))
-  await goTo(OFFLINE_FORM_SCREENS.MAIN)
+  await preview.updateScreen(OFFLINE_FORM_SCREENS.MAIN)
   await wait(async () => {
     const doc = await preview.getDocument()
     expect(
       await queries.queryByText(doc, 'Désolés, nous ne sommes pas en ligne actuellement')
     ).toBeTruthy()
   })
-  await goTo(CHAT_BADGE)
+  await preview.updateScreen(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
   await wait(async () => {
     const launcher = await preview.getLauncherDocument()
@@ -131,12 +75,12 @@ test('updateLocale updates the translations', async () => {
 
 test('setColor updates the color of the preview widget and badge', async () => {
   await page.evaluate(() => window.preview.setColor('#00FFFF'))
-  await goTo(constants.PRECHAT_SCREEN)
+  await preview.updateScreen(constants.PRECHAT_SCREEN)
   const headerColor = await preview.evaluate(
     () => getComputedStyle(document.querySelector('h1').parentElement.parentElement).backgroundColor
   )
   expect(headerColor).toEqual('rgb(0, 255, 255)')
-  await goTo(CHAT_BADGE)
+  await preview.updateScreen(CHAT_BADGE)
   await page.waitForSelector('iframe#launcher', { visible: true })
   const badgeColor = await preview
     .getLauncherFrame()
@@ -150,7 +94,7 @@ test('setColor updates the color of the preview widget and badge', async () => {
 
 describe('updateSettings', () => {
   test('updates settings for chat badge', async () => {
-    await goTo(CHAT_BADGE)
+    await preview.updateScreen(CHAT_BADGE)
     await page.evaluate(() => {
       window.preview.updateSettings({
         banner: {
@@ -205,7 +149,7 @@ describe('updateSettings', () => {
         }
       })
     })
-    await goTo(constants.PRECHAT_SCREEN)
+    await preview.updateScreen(constants.PRECHAT_SCREEN)
     const doc = await preview.getDocument()
     expect(await queries.queryByLabelText(doc, 'Name (optional)')).toBeTruthy()
     expect(await queries.queryByLabelText(doc, 'Email')).toBeTruthy()

@@ -4,13 +4,17 @@ import launcher from 'e2e/helpers/launcher'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import zChat from 'e2e/helpers/zChat'
 import widget from './widget'
-import { TEST_IDS } from 'src/constants/shared'
 
-const loadWidgetWithChatOnline = async () => {
-  await loadWidget()
+const loadWidgetWithChatOnline = async (options = {}) => {
+  let builder = loadWidget()
     .withPresets('chat')
     .hiddenInitially()
-    .load()
+
+  if (options.mobile) {
+    builder = builder.useMobile()
+  }
+
+  await builder.load()
   await zChat.online()
   await launcher.click()
   await waitForPrechatForm()
@@ -102,10 +106,7 @@ const sendMessageFromAgent = async (agentName, message) => {
 }
 
 const clickChatOptions = async () => {
-  const optionsButton = await queries.getByTestId(
-    await widget.getDocument(),
-    TEST_IDS.ICON_ELLIPSIS
-  )
+  const optionsButton = await queries.getByLabelText(await widget.getDocument(), 'Menu')
 
   await optionsButton.click()
 }

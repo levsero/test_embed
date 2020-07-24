@@ -2,9 +2,10 @@ import { queries } from 'pptr-testing-library'
 import widget from 'e2e/helpers/widget'
 import fs from 'fs'
 import { allowsInputTextEditing } from '../spec/shared-examples'
+import { hostWithPort } from 'e2e/env'
 
 export const goToTestPage = async () =>
-  await page.goto('http://localhost:5123/e2e.html', {
+  await page.goto(`http://${hostWithPort}/e2e.html`, {
     waitUntil: 'domcontentloaded'
   })
 

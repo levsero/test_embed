@@ -1,8 +1,9 @@
+import { hostWithPort } from 'e2e/env'
 import { setupContainer } from './previews'
 import frame from './frame'
 
 const goToTestPage = async () =>
-  await page.goto('http://localhost:5123/webWidgetPreview.html', {
+  await page.goto(`http://${hostWithPort}/webWidgetPreview.html`, {
     waitUntil: ['domcontentloaded', 'load', 'networkidle0']
   })
 
