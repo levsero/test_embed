@@ -1,7 +1,5 @@
-/**
- * 1. Prevent first frame from flickering when animation starts
- * 2. Needed for ios8 iphone where bounce doesn't work
- */
+// 1. Prevent first frame from flickering when animation starts
+// 2. Needed for ios8 iphone where bounce doesn't work
 @import '../../styles/_vars.scss';
 
 .container {
