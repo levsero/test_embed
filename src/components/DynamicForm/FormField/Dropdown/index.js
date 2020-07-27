@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   Dropdown as GardenDropdown,
@@ -18,12 +18,12 @@ import { DropdownSelect } from './styles'
 import { withTheme } from 'styled-components'
 
 const useDropdownTree = (items = []) => {
-  const [root, tree, rootId] = useMemo(() => {
-    const tree = new Map()
+  // Use a symbol as the root id so it has no chance of clashing with a customer
+  // defined field
+  const { current: rootId } = useRef(Symbol())
 
-    // Use a symbol as the root id so it has no chance of clashing with a customer
-    // defined field
-    const rootId = Symbol()
+  const tree = useMemo(() => {
+    const tree = new Map()
 
     tree.set(rootId, {
       id: rootId,
@@ -65,19 +65,19 @@ const useDropdownTree = (items = []) => {
       })
     })
 
-    return [tree.get(rootId), tree, rootId]
+    return tree
   }, [items])
 
-  const [view, setView] = useState(root)
+  const [currentViewId, setViewId] = useState(rootId)
 
   return {
-    view,
-    open: setView,
+    view: tree.get(currentViewId),
+    open: setViewId,
     getItem: id => {
       return tree.get(id)
     },
     isRoot: () => {
-      return view.id === rootId
+      return currentViewId === rootId
     }
   }
 }
@@ -130,7 +130,7 @@ const Dropdown = ({
 
             // When an option with children is clicked, open the nested view
             if (item.children.length > 0) {
-              open(item)
+              open(state.selectedItem)
               return
             }
 
