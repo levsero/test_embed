@@ -23,6 +23,7 @@ testReducer(reducer, [
               { xid: 456, subject: false },
               { id: 789, subject: null },
               { id: 789, subject: null },
+              { id: 666, subject: false },
               { id: 234, subject: undefined },
               { id: 567, subject: 123 }
             ]
@@ -30,6 +31,6 @@ testReducer(reducer, [
         }
       }
     },
-    expected: [123]
+    expected: [123, 666]
   }
 ])

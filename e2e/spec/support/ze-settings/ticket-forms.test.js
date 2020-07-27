@@ -150,7 +150,7 @@ test('filters the ticket forms', async () => {
       contentType: 'application/json',
       body: JSON.stringify({
         ticket_forms: form2.mockFormsResponse.ticket_forms,
-        ticket_fields: [form2.mockFormsResponse.ticket_fields]
+        ticket_fields: form2.mockFormsResponse.ticket_fields
       })
     })
   }
@@ -246,5 +246,64 @@ describe('disable ticket form title', () => {
       })
     }, form.form.id)
     await widget.expectNotToSeeText('Example form')
+
+test('suppresses the subject field if specified via API', async () => {
+  const textarea = createField({ id: 4, type: 'textarea', title_in_portal: 'Description, yo' })
+  const subject = createField({ id: 45, title_in_portal: 'Subject', type: 'subject' })
+  const theForm = createForm({ name: 'Supefantastic form', id: 123, fields: [subject, textarea] })
+
+  const mockConfigWithForms = {
+    embeds: {
+      ticketSubmissionForm: {
+        props: {
+          ticketForms: [theForm.form.id]
+        }
+      }
+    }
+  }
+
+  const ticketForms = jest.fn()
+  const mockTicketFormsEndpoint = request => {
+    if (!request.url().includes('ticket_forms')) {
+      return false
+    }
+    ticketForms(request.url())
+    request.respond({
+      status: 200,
+      headers: DEFAULT_CORS_HEADERS,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ticket_forms: theForm.mockFormsResponse.ticket_forms,
+        ticket_fields: theForm.mockFormsResponse.ticket_fields
+      })
+    })
+  }
+
+  await loadWidget()
+    .withPresets('contactForm', mockConfigWithForms)
+    .intercept(mockTicketFormsEndpoint)
+    .evaluateOnNewDocument(form => {
+      window.zESettings = {
+        webWidget: {
+          contactForm: {
+            ticketForms: [
+              {
+                id: form.form.id,
+                subject: false
+              }
+            ]
+          }
+        }
+      }
+    }, theForm)
+    .load()
+  await widget.openByKeyboard()
+  const doc = await widget.getDocument()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Supefantastic form')).toBeTruthy()
+  })
+
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Subject')).toBeNull()
   })
 })

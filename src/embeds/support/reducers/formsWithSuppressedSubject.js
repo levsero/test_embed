@@ -8,11 +8,13 @@ const formsWithSuppressedSubject = (state = initialState, action) => {
       const ticketForms = action.payload?.webWidget?.contactForm?.ticketForms
 
       if (ticketForms !== undefined && Array.isArray(ticketForms)) {
-        return ticketForms
-          .filter(form => {
-            return form?.id && form?.subject === false
-          })
-          .map(form => form.id)
+        return ticketForms.reduce((ids, form) => {
+          if (form?.id && form?.subject === false) {
+            ids.push(form.id)
+          }
+
+          return ids
+        }, [])
       }
 
       return state
