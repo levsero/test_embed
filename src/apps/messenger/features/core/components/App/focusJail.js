@@ -7,13 +7,13 @@ const firstNodes = elementsByContainer => elementsByContainer.map(container => c
 const lastNodes = elementsByContainer =>
   elementsByContainer.map(container => container[container.length - 1])
 
-const useFocusJail = () => {
+const useFocusJail = enabled => {
   const refLauncher = React.createRef()
   const refWidget = React.createRef()
 
   const onKeyDownForContainer = event => {
     const { keyCode } = event
-    if (!keyCode === KEY_CODES.TAB) return
+    if (!keyCode === KEY_CODES.TAB || !enabled) return
     const containers = [refLauncher.current, refWidget.current].filter(el => el != null)
     const elementsByContainer = containers.map(container => tabbable(container))
 

@@ -1,9 +1,16 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
-import App from '../'
+import { Component } from '../'
 
 describe('Messenger app', () => {
-  const renderComponent = () => render(<App />)
+  const renderComponent = props => {
+    const combinedProps = {
+      showMessenger: false,
+      ...props
+    }
+
+    return render(<Component {...combinedProps} />)
+  }
 
   it('renders the launcher', () => {
     const { getByTitle } = renderComponent()
@@ -11,8 +18,14 @@ describe('Messenger app', () => {
     expect(getByTitle('TODO: Launcher')).toBeInTheDocument()
   })
 
-  it('renders the messenger', () => {
-    const { getByTitle } = renderComponent()
+  it('does not render the messenger when not open', () => {
+    const { queryByTitle } = renderComponent()
+
+    expect(queryByTitle('TODO: Messenger')).not.toBeInTheDocument()
+  })
+
+  it('renders the messenger when open', () => {
+    const { getByTitle } = renderComponent({ showMessenger: true })
 
     expect(getByTitle('TODO: Messenger')).toBeInTheDocument()
   })
