@@ -6,10 +6,6 @@ import { isCallbackEnabled, getEmbeddableConfig } from 'src/redux/modules/talk/t
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import { CLICK_TO_CALL, PHONE_ONLY } from 'src/redux/modules/talk/talk-capability-types'
 
-export const getTitle = (state, fallback) => {
-  return i18n.getSettingTranslation(getSettingsTalkTitle(state)) || i18n.t(fallback)
-}
-
 export const getSnapcallButtonId = state => state.talk.snapcall.buttonId
 export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
 export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration

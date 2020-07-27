@@ -6,13 +6,7 @@ import {
   CALLBACK_AND_PHONE
 } from 'src/redux/modules/talk/talk-capability-types'
 
-import {
-  getTitle,
-  getOfflineTitle,
-  getTalkTitleKey,
-  getSnapcallSupported,
-  getCapability
-} from '../selectors'
+import { getOfflineTitle, getTalkTitleKey, getSnapcallSupported, getCapability } from '../selectors'
 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
@@ -35,36 +29,10 @@ describe('talk selectors', () => {
     )
   })
 
-  describe('getTitle', () => {
-    const createState = title => ({ settings: { talk: { title } } })
-
-    it('returns the settings talk title if it exists', () => {
-      const state = createState({
-        '*': 'Custom title'
-      })
-
-      expect(getTitle(state, 'embeddable_framework.talk.form.title')).toBe('Custom title')
-    })
-
-    it('returns the fallback translation if no settings talk title', () => {
-      const state = createState()
-
-      expect(getTitle(state, 'embeddable_framework.talk.form.title')).toBe('Request a callback')
-    })
-  })
-
   describe('getOfflineTitle', () => {
     const createState = (title, capability) => ({
       settings: { talk: { title } },
       talk: { snapcall: {}, embeddableConfig: { capability } }
-    })
-
-    it('returns the settings talk title if it exists', () => {
-      const state = createState({
-        '*': 'Custom title'
-      })
-
-      expect(getTitle(state, 'embeddable_framework.talk.form.title')).toBe('Custom title')
     })
 
     describe('when no custom talk title set', () => {
