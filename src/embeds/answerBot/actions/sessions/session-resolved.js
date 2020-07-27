@@ -65,14 +65,12 @@ export const sessionResolved = () => {
       }
     }
 
-    /* eslint-disable camelcase */
     const params = {
       deflection_id: deflection.id,
       article_id: articleID,
       resolution_channel_id: settings.get('viaIdAnswerBot'),
       interaction_access_token: interactionToken
     }
-    /* eslint-enable camelcase */
 
     http.send({
       callbacks,

@@ -29,14 +29,6 @@ describe('rateLimiting', () => {
     it('makes the api call', () => {
       expect(apiCall).toHaveBeenCalled()
     })
-
-    it.skip('does not make the api call', () => {
-      expect(apiCall).not.toHaveBeenCalled()
-    })
-
-    it.skip('calls the error callback', () => {
-      expect(errorCallback).toHaveBeenCalled()
-    })
   })
 
   describe('when not rate limited', () => {
@@ -52,10 +44,6 @@ describe('rateLimiting', () => {
 
     it('makes the api call', () => {
       expect(apiCall).toHaveBeenCalledWith('payload')
-    })
-
-    it.skip('does not calls the error callback', () => {
-      expect(errorCallback).not.toHaveBeenCalled()
     })
   })
 })

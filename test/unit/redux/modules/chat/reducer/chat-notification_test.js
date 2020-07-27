@@ -22,7 +22,7 @@ describe('chat reducer notification', () => {
     let state
     const mockInitialState = {
       nick: '',
-      display_name: '', // eslint-disable-line camelcase
+      display_name: '',
       msg: '',
       show: false,
       count: 0,
@@ -52,7 +52,7 @@ describe('chat reducer notification', () => {
       })
 
       it('updates the state with payload', () => {
-        const { nick, display_name, msg } = payload
+        const { nick, display_name, msg } = payload // eslint-disable-line babel/camelcase
         const expected = {
           ...mockInitialState,
           nick,

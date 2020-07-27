@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import _ from 'lodash'
 import * as globals from 'utility/globals'
 import * as devices from 'utility/devices'

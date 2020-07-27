@@ -129,7 +129,6 @@ describe('renderLabel', () => {
 describe('customFields', () => {
   let payload, customFields
 
-  /* eslint-disable camelcase */
   const textFieldPayload = {
     id: '22660514',
     type: 'text',

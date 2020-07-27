@@ -1,8 +1,6 @@
 import _ from 'lodash'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
-/* eslint-disable camelcase */
-
 const getModifiedState = inputState => {
   const defaultState = {
     base: {

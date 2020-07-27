@@ -51,8 +51,8 @@ function questionValueSubmitted(message) {
   }
 }
 
-/* eslint-disable camelcase */
 function questionSubmittedFulfilled(data, sessionID) {
+  // eslint-disable-next-line babel/camelcase
   const { deflection_articles, deflection, interaction_access_token } = data
 
   return {
@@ -64,7 +64,6 @@ function questionSubmittedFulfilled(data, sessionID) {
     }
   }
 }
-/* eslint-enable camelcase */
 
 function questionSubmittedRejected(error, sessionID) {
   return {
@@ -105,7 +104,6 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
     }
   }
 
-  /* eslint-disable camelcase */
   http.send({
     timeout: 10000,
     callbacks,
@@ -123,7 +121,6 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
     },
     authorization: token ? `Bearer ${token}` : ''
   })
-  /* eslint-enable camelcase */
 }
 
 let messages = []

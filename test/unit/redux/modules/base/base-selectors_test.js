@@ -57,13 +57,11 @@ describe('base selectors', () => {
       })
 
       it('returns the chat config', () => {
-        /* eslint-disable camelcase */
         expect(result).toEqual({
           account_key: 'id',
           override_proxy: 'someProxy',
           activity_window: {}
         })
-        /* eslint-enable camelcase */
       })
     })
 
@@ -85,12 +83,10 @@ describe('base selectors', () => {
       })
 
       it('returns the chat config', () => {
-        /* eslint-disable camelcase */
         expect(result).toEqual({
           account_key: 'id',
           activity_window: {}
         })
-        /* eslint-enable camelcase */
       })
     })
   })

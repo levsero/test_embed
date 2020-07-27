@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 export default {
   chat: {
     account_status: 'online',

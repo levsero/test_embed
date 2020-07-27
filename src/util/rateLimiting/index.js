@@ -8,7 +8,6 @@ export default (apiCall, payload, name, _errorCallback) => {
     beacon.trackUserAction('api', 'rateLimited', {
       label: name
     })
-    // return errorCallback();
   }
 
   return apiCall(payload)
