@@ -113,6 +113,7 @@ export const getConciergeSettings = createSelector(
 
     if (settingsChatConcierge) {
       if (settingsChatConcierge.avatarPath) {
+        // eslint-disable-next-line camelcase
         concierge.avatar_path = settingsChatConcierge.avatarPath
       }
       if (settingsChatConcierge.name) {

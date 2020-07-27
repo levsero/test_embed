@@ -48,6 +48,7 @@ const sessions = (state = initialState, action) => {
         requestStatus: 'PENDING'
       })
     case QUESTION_SUBMITTED_FULFILLED:
+      // eslint-disable-next-line camelcase
       const { message, deflection, interaction_access_token } = action.payload
 
       return setSession(state, action.payload, {

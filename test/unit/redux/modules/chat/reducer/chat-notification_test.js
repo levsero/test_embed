@@ -22,7 +22,7 @@ describe('chat reducer notification', () => {
     let state
     const mockInitialState = {
       nick: '',
-      display_name: '',
+      display_name: '', // eslint-disable-line camelcase
       msg: '',
       show: false,
       count: 0,

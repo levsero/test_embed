@@ -51,6 +51,7 @@ function questionValueSubmitted(message) {
   }
 }
 
+/* eslint-disable camelcase */
 function questionSubmittedFulfilled(data, sessionID) {
   const { deflection_articles, deflection, interaction_access_token } = data
 
@@ -63,6 +64,7 @@ function questionSubmittedFulfilled(data, sessionID) {
     }
   }
 }
+/* eslint-enable camelcase */
 
 function questionSubmittedRejected(error, sessionID) {
   return {
