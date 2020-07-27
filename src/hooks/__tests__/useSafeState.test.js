@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { render } from 'src/util/testHelpers'
 import useSafeState from 'src/hooks/useSafeState'
-import { fireEvent, wait } from '@testing-library/dom'
+import { fireEvent, waitFor } from '@testing-library/dom'
 
 describe('useSafeState', () => {
   // eslint-disable-next-line react/prop-types
@@ -48,7 +48,7 @@ describe('useSafeState', () => {
 
     fireEvent.click(getByText('one'))
 
-    await wait(() => expect(getByText('one - two')).toBeInTheDocument())
+    await waitFor(() => expect(getByText('one - two')).toBeInTheDocument())
   })
 
   it('does not throw an error when setting state on an unmounted component', () => {
@@ -93,7 +93,7 @@ describe('useSafeState', () => {
 
       resolve()
 
-      await wait(() =>
+      await waitFor(() =>
         expect(mockedWarn.mock.calls[1]?.[0]).toEqual(
           expect.stringContaining("Can't perform a React state update on an unmounted component")
         )
