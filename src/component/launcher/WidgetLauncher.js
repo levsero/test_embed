@@ -15,10 +15,13 @@ import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'
 import { launcherClicked } from 'src/redux/modules/base/'
-import { getLauncherChatLabel, getLauncherLabel } from 'src/redux/modules/selectors'
+import {
+  getLauncherChatLabel,
+  getLauncherTalkLabel,
+  getLauncherLabel
+} from 'src/embeds/launcher/settings/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
-import { getTalkTitleKey } from 'src/embeds/talk/selectors'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { onNextTick } from 'utility/utils'
 
@@ -37,8 +40,8 @@ const mapStateToProps = (state, ownProps) => {
     chatOfflineAvailable: getChatOfflineAvailable(state),
     chatLabel: getLauncherChatLabel(state),
     launcherLabel: getLauncherLabel(state, ownProps.label),
-    showLabelMobile: getSettingsLauncherMobile(state).labelVisible,
-    talkLabel: i18n.t(getTalkTitleKey(state))
+    talkLabel: getLauncherTalkLabel(state),
+    showLabelMobile: getSettingsLauncherMobile(state).labelVisible
   }
 }
 

@@ -82,6 +82,11 @@ describe('WidgetLauncher component', () => {
       },
       'src/embeds/talk/selectors': {
         getTalkTitleKey: noop
+      },
+      'src/embeds/launcher/settings/selectors': {
+        getLauncherChatLabel: noop,
+        getLauncherTalkLabel: noop,
+        getLauncherLabel: noop
       }
     })
 

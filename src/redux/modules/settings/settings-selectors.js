@@ -22,12 +22,11 @@ export const getSettingsChatPrechatForm = state => state.settings.chat.prechatFo
 export const getSettingsChatTitle = state => state.settings.chat.title
 export const getSettingsChatProfileCard = state => state.settings.chat.profileCard
 export const getSettingsChatHideWhenOffline = state => state.settings.chat.hideWhenOffline
-export const getSettingsLauncherChatLabel = state => state.settings.launcher.settings.chatLabel
+
 export const getSettingsChatEmailTranscriptEnabled = state =>
   state.settings.chat.emailTranscriptEnabled
 
 // LAUNCHER
-export const getSettingsLauncherLabel = state => state.settings.launcher.settings.label
 export const getSettingsLauncherBadge = state => state.settings.launcher.badge
 export const getSettingsLauncherMobile = state => state.settings.launcher.mobile
 

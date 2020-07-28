@@ -113,10 +113,6 @@ import {
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
-import {
-  getSettingsLauncherChatLabel,
-  getSettingsLauncherLabel
-} from '../settings/settings-selectors'
 import { i18n } from 'service/i18n'
 
 /*
@@ -125,8 +121,6 @@ import { i18n } from 'service/i18n'
  * Available: When an embed is part of config, not suppressed and has all the conditions to be used.
  * Online: When all of the above and there are agents to service the request
  */
-
-const getLabel = (_, label) => label
 
 export const getTranslation = (translationKey, override) => {
   return i18n.t(translationKey, override)
@@ -199,19 +193,6 @@ export const getSelectTicketFormLabel = createSelector(
   (settingsSelectTicketFormLabel, _locale) =>
     i18n.getSettingTranslation(settingsSelectTicketFormLabel) ||
     i18n.t('embeddable_framework.submitTicket.ticketForms.title')
-)
-
-export const getLauncherChatLabel = createSelector(
-  [getSettingsLauncherChatLabel, getLocale],
-  (settingsLauncherChatLabel, _locale) =>
-    i18n.getSettingTranslation(settingsLauncherChatLabel) ||
-    i18n.t('embeddable_framework.launcher.label.chat')
-)
-
-export const getLauncherLabel = createSelector(
-  [getSettingsLauncherLabel, getLocale, getLabel],
-  (settingsLauncherLabel, _locale, label) =>
-    i18n.getSettingTranslation(settingsLauncherLabel) || i18n.t(label)
 )
 
 const getWidgetFixedFrameStyles = createSelector(

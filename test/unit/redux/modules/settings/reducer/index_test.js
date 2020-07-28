@@ -15,7 +15,8 @@ describe('settings reducer', () => {
       },
       'src/util/color/validate': {
         normalizeColor: noop
-      }
+      },
+      'src/embeds/launcher/settings/reducers': {}
     })
 
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/index')

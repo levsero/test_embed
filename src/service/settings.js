@@ -63,6 +63,7 @@ const optionAllowList = {
     'navigation',
     'launcher.chatLabel',
     'launcher.label',
+    'launcher.talkLabel',
     'launcher.badge.layout',
     'launcher.badge.image',
     'launcher.badge.label',
