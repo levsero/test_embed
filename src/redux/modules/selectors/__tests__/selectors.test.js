@@ -1050,7 +1050,7 @@ describe('getChannelChoiceAvailable', () => {
   )
 })
 
-describe('getWebWidgetVisible', () => {
+describe('getWebWidgetVisibleOpenAndReady', () => {
   // TODO when the file has been split, it's too painful right now
 })
 

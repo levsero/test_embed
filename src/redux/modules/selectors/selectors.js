@@ -76,7 +76,7 @@ import {
   getConfigColorText,
   getHiddenByActivateAPI,
   getBootupTimeout,
-  getWebWidgetVisible as getBaseWebWidgetVisible,
+  getWebWidgetVisible,
   getLauncherVisible as getBaseLauncherVisible,
   getChatStandalone,
   getIsChatBadgeMinimized,
@@ -532,9 +532,9 @@ const getIsChannelAvailable = createSelector(
   }
 )
 
-export const getWebWidgetVisible = state => {
+export const getWebWidgetVisibleOpenAndReady = state => {
   return (
-    getBaseWebWidgetVisible(state) &&
+    getWebWidgetVisible(state) &&
     !getHiddenByHideAPI(state) &&
     getIsWidgetReady(state) &&
     getActiveEmbed(state) !== 'nilEmbed'
@@ -558,13 +558,13 @@ export const getLauncherVisible = createSelector(
 
 export const getFrameVisible = (state, frame = 'webWidget') => {
   if (frame === 'webWidget' || frame === 'ipmWidget') {
-    return getWebWidgetVisible(state)
+    return getWebWidgetVisibleOpenAndReady(state)
   }
   return getLauncherVisible(state)
 }
 
 export const getWidgetDisplayInfo = createSelector(
-  [getLauncherVisible, getWebWidgetVisible, getActiveEmbed],
+  [getLauncherVisible, getWebWidgetVisibleOpenAndReady, getActiveEmbed],
   (launcherVisible, webWidgetVisible, activeEmbed) => {
     if (webWidgetVisible) {
       return EMBED_MAP[activeEmbed]
