@@ -5,7 +5,7 @@ import FrameTransition from 'embeds/webWidget/components/BaseFrame/FrameTransiti
 import BaseFrame from 'embeds/webWidget/components/BaseFrame'
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
 import WebWidget from 'component/webWidget/WebWidget'
-import { FONT_SIZE, MAX_WIDGET_HEIGHT, WIDGET_WIDTH } from 'constants/shared'
+import { FONT_SIZE, DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'constants/shared'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
 import FocusJail from 'components/FrameFocusJail'
@@ -19,9 +19,9 @@ const baseFontCSS = `html { font-size: ${sizingRatio}px }`
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
 
 const baseWebWidgetStyle = {
-  width: WIDGET_WIDTH + 20,
-  maxHeight: 'calc(100vh - 10px)',
-  height: MAX_WIDGET_HEIGHT,
+  width: WIDGET_WIDTH + 2 * WIDGET_MARGIN,
+  maxHeight: `calc(100vh - ${2 * WIDGET_MARGIN}px)`,
+  height: DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN,
   position: 'fixed',
   opacity: 0,
   border: 0

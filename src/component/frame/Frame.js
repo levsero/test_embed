@@ -19,11 +19,12 @@ import {
 } from 'src/redux/modules/selectors'
 import {
   FONT_SIZE,
-  MAX_WIDGET_HEIGHT,
+  DEFAULT_WIDGET_HEIGHT,
   MIN_WIDGET_HEIGHT,
   WIDGET_WIDTH,
   FRAME_TRANSITION_DURATION,
-  TEST_IDS
+  TEST_IDS,
+  WIDGET_MARGIN
 } from 'constants/shared'
 import { getChatStandalone, getLocale } from 'src/redux/modules/base/base-selectors'
 import {
@@ -69,8 +70,6 @@ class Frame extends Component {
     }).isRequired,
     css: PropTypes.string,
     frameStyleModifier: PropTypes.func,
-    frameOffsetWidth: PropTypes.number,
-    frameOffsetHeight: PropTypes.number,
     frameStyle: PropTypes.shape({
       height: PropTypes.string,
       marginBottom: stringOrNumber,
@@ -128,7 +127,6 @@ class Frame extends Component {
   static defaultProps = {
     css: '',
     frameStyleModifier: () => {},
-    frameOffsetWidth: 15,
     frameOffsetHeight: 15,
     customFrameStyle: {},
     fullscreenable: false,
@@ -258,14 +256,7 @@ class Frame extends Component {
   }
 
   getDefaultDimensions = () => {
-    const {
-      frameOffsetHeight,
-      frameOffsetWidth,
-      fullscreenable,
-      fullscreen,
-      isMobile,
-      horizontalPosition
-    } = this.props
+    const { fullscreenable, fullscreen, isMobile, horizontalPosition } = this.props
     const isLeft = horizontalPosition === 'left'
 
     let fullscreenStyle = {
@@ -282,9 +273,9 @@ class Frame extends Component {
       }
     }
     const popoverStyle = {
-      width: `${WIDGET_WIDTH + frameOffsetWidth}px`,
+      width: `${WIDGET_WIDTH + 2 * WIDGET_MARGIN}px`,
       height: '100%',
-      maxHeight: `${MAX_WIDGET_HEIGHT + frameOffsetHeight}px`,
+      maxHeight: `${DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN}px`,
       minHeight: `${MIN_WIDGET_HEIGHT}px`
     }
 

@@ -13,12 +13,12 @@ import { updateSettings } from 'src/redux/modules/settings'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
-import { MAX_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
+import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 
-const FRAME_WIDTH = WIDGET_WIDTH + WIDGET_MARGIN
-const FRAME_HEIGHT = MAX_WIDGET_HEIGHT + WIDGET_MARGIN
+const FRAME_WIDTH = WIDGET_WIDTH
+const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
 const BOX_SHADOW_SIZE = 6
 
 const defaultOptions = {
@@ -27,8 +27,8 @@ const defaultOptions = {
   titleKey: 'message',
   styles: {
     float: 'right',
-    marginTop: '16px',
-    marginRight: '16px',
+    marginRight: `${WIDGET_MARGIN}px`,
+    marginTop: `${WIDGET_MARGIN}px`,
     width: `${FRAME_WIDTH}px`,
     height: `${FRAME_HEIGHT}px`
   }

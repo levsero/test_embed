@@ -11,18 +11,18 @@ import { getHasSearched } from '../../selectors'
 import routes from 'src/embeds/helpCenter/routes'
 import { useFrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import {
-  MAX_WIDGET_HEIGHT_NO_SEARCH,
-  MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
-  WIDGET_MARGIN
+  WIDGET_MARGIN,
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
 } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const frameStyle = {
-  height: MAX_WIDGET_HEIGHT_NO_SEARCH + WIDGET_MARGIN
+  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH + 2 * WIDGET_MARGIN
 }
 
 const frameStyleWithoutLogo = {
-  height: MAX_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + WIDGET_MARGIN
+  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + 2 * WIDGET_MARGIN
 }
 
 const mobileFrameStyle = {}

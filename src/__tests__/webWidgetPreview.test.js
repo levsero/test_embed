@@ -47,8 +47,8 @@ describe('default parameters', () => {
         margin-right: 16px;
         right: 0px;
         bottom: 0px;
-        width: 369px;
-        height: 565px;
+        width: 354px;
+        height: 540px;
     `)
   })
 
