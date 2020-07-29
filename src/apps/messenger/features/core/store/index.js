@@ -4,16 +4,19 @@ const core = createSlice({
   name: 'core',
   initialState: { open: false },
   reducers: {
-    widgetCloseAction: state => ({ ...state, open: false }),
-    widgetOpenAction: state => ({ ...state, open: true }),
-    widgetToggleAction: state => {
-      const isOpen = state.open ? false : true
-      return { ...state, open: isOpen }
+    widgetClose: state => {
+      state.open = false
+    },
+    widgetOpen: state => {
+      state.open = true
+    },
+    widgetToggle: state => {
+      state.open = !state.open
     }
   }
 })
 
-export const { widgetCloseAction, widgetOpenAction, widgetToggleAction } = core.actions
+export const { widgetClose, widgetOpen, widgetToggle } = core.actions
 
 export const getIsWidgetOpen = state => state.core.open
 

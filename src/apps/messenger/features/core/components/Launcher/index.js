@@ -2,11 +2,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import LauncherFrame from './LauncherFrame'
 import { Container } from './styles'
-import { widgetToggleAction } from 'src/apps/messenger/features/core/store'
+import { widgetToggle } from 'src/apps/messenger/features/core/store'
 
 const FocusJailTestComponents = () => <button>ok</button>
 
 const Launcher = React.forwardRef((_props, ref) => {
+  const dispatch = useDispatch()
   return (
     <LauncherFrame>
       <Container
@@ -16,7 +17,7 @@ const Launcher = React.forwardRef((_props, ref) => {
         }}
         role="button"
         onClick={() => {
-          dispatch(widgetToggleAction())
+          dispatch(widgetToggle())
         }}
       >
         Launcher
