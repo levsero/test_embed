@@ -26,6 +26,7 @@ export const getDisplayDropzone = state => state.support.displayDropzone
 export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
 export const getFilteredFormIds = state => state.support.filteredFormsToDisplay
 export const getFormsWithSuppressedSubject = state => state.support.formsWithSuppressedSubject
+export const getFieldDescriptionOverrides = state => state.support.fieldDescriptionOverrides
 export const getAttachmentTitle = (state, attachmentIds) => {
   const validAttachments = getAttachmentsForForm(state, attachmentIds)
   const numAttachments = validAttachments.length
@@ -238,7 +239,7 @@ export const getCustomTicketFields = (state, formId) => {
   const nameRequired = getConfigNameFieldRequired(state)
   const suppressedSubjects = getFormsWithSuppressedSubject(state)
   const subjectDisabled = suppressedSubjects.find(form => `${form}` === `${formId}`)
-
+  const fieldDescriptionOverrides = getFieldDescriptionOverrides(state)
   const fields = ticketForm.ticket_field_ids
     .map(id => getField(state, id))
     .filter(Boolean)
@@ -288,6 +289,22 @@ export const getCustomTicketFields = (state, formId) => {
       }
 
       return field
+    })
+    .map(field => {
+      const override =
+        fieldDescriptionOverrides[formId] &&
+        (fieldDescriptionOverrides[formId][field.id] ||
+          fieldDescriptionOverrides[formId][field.originalId])
+
+      if (!override) return field
+
+      const translation = i18n.getSettingTranslation(override)
+      const description = !!translation || override['*'] === '' ? translation : field.description
+
+      return {
+        ...field,
+        description: description
+      }
     })
 }
 

@@ -292,7 +292,8 @@ describe('getCustomTicketFields', () => {
     nameFieldEnabled = false,
     nameFieldRequired = false,
     ticketFields = defaultTicketFields,
-    formsWithSuppressedSubject = []
+    formsWithSuppressedSubject = [],
+    descriptionOverrides = {}
   } = {}) => ({
     base: {
       embeddableConfig: {
@@ -302,6 +303,9 @@ describe('getCustomTicketFields', () => {
     support: {
       forms: {
         123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true }
+      },
+      fieldDescriptionOverrides: {
+        123456: descriptionOverrides
       },
       filteredFormsToDisplay: [123456],
       formsWithSuppressedSubject: formsWithSuppressedSubject,
@@ -426,6 +430,71 @@ describe('getCustomTicketFields', () => {
 
     expect(result).toEqual([expectedEmailField, expectedSubjectField])
   })
+
+  describe('description (hint) overrides', () => {
+    const descriptionField = {
+      id: '666',
+      title_in_portal: 'Description',
+      required_in_portal: false,
+      visible_in_portal: true,
+      type: 'description'
+    }
+    const expectedDescriptionField = {
+      id: 'description',
+      originalId: '666',
+      title: 'Description',
+      required: false,
+      visible: true,
+      type: 'description',
+      description: 'salut!'
+    }
+
+    it('correctly overrides the description when given a numeric ID', () => {
+      const state = getState({
+        ticketFields: {
+          123: descriptionField
+        },
+        descriptionOverrides: {
+          666: { '*': 'salut!' }
+        }
+      })
+
+      const result = selectors.getCustomTicketFields(state, '123456')
+
+      expect(result).toEqual([expectedEmailField, expectedDescriptionField])
+    })
+
+    it('correctly overrides the description when given a string ID', () => {
+      const state = getState({
+        ticketFields: {
+          123: descriptionField
+        },
+        descriptionOverrides: {
+          description: { '*': 'salut!' }
+        }
+      })
+
+      const result = selectors.getCustomTicketFields(state, '123456')
+
+      expect(result).toEqual([expectedEmailField, expectedDescriptionField])
+    })
+
+    it('omits the hint altogether if passed an empty string for the catch-all', () => {
+      const state = getState({
+        ticketFields: {
+          123: descriptionField
+        },
+        descriptionOverrides: {
+          description: { '*': '' }
+        }
+      })
+
+      const result = selectors.getCustomTicketFields(state, '123456')
+      const emptyDescriptionField = { ...expectedDescriptionField, description: null }
+
+      expect(result).toEqual([expectedEmailField, emptyDescriptionField])
+    })
+  })
 })
 
 describe('getFormTicketFields', () => {
@@ -435,6 +504,9 @@ describe('getFormTicketFields', () => {
         forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'], active: true } },
         filteredFormsToDisplay: [123456],
         formsWithSuppressedSubject: [],
+        fieldDescriptionOverrides: {
+          123456: {}
+        },
         fields,
         contactFormFields
       },
@@ -556,6 +628,9 @@ describe('getFormState', () => {
         },
         filteredFormsToDisplay: ['contactForm'],
         formsWithSuppressedSubject: [],
+        fieldDescriptionOverrides: {
+          123456: {}
+        },
         fields: {
           123: {
             id: 123,
