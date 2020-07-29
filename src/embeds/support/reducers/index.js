@@ -13,6 +13,7 @@ import filteredFormsToDisplay from 'embeds/support/reducers/filteredFormsToDispl
 import ticketFormsRequest from 'embeds/support/reducers/ticketFormsRequest'
 import isTicketFieldsLoading from 'embeds/support/reducers/isTicketFieldsLoading'
 import isFormLoading from 'embeds/support/reducers/isFormLoading'
+import formsWithSuppressedTitle from 'embeds/support/reducers/formsWithSuppressedTitle'
 
 export default combineReducers({
   config,
@@ -27,5 +28,6 @@ export default combineReducers({
   filteredFormsToDisplay,
   ticketFormsRequest,
   isTicketFieldsLoading,
-  isFormLoading
+  isFormLoading,
+  formsWithSuppressedTitle
 })

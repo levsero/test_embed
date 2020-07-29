@@ -8,9 +8,9 @@ import { Footer } from 'components/Widget'
 import { TicketFormTitle } from 'embeds/support/components/TicketForm/styles'
 import DynamicForm from 'components/DynamicForm'
 import {
+  getTicketFormTitle,
   getAllAttachments,
   getCanDisplayForm,
-  getContactFormTitle,
   getForm,
   getFormState,
   getFormsToDisplay,
@@ -111,10 +111,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     formId: id,
     formState: getFormState(state, id),
-    formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
-    ticketFormTitle: form ? form.display_name : '',
+    ticketFormTitle: getTicketFormTitle(state, id),
     amountOfCustomForms: getFormsToDisplay(state).length,
     conditions: form ? form.end_user_conditions : [],
     attachments: getAllAttachments(state),
