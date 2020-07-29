@@ -10,7 +10,6 @@ import DynamicForm from 'components/DynamicForm'
 import {
   getAllAttachments,
   getCanDisplayForm,
-  getContactFormTitle,
   getForm,
   getFormState,
   getFormsToDisplay,
@@ -111,7 +110,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     formId: id,
     formState: getFormState(state, id),
-    formTitle: getContactFormTitle(state),
     ticketFields: getFormTicketFields(state, id),
     readOnlyState: getReadOnlyState(state),
     ticketFormTitle: form ? form.display_name : '',
