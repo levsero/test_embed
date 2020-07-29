@@ -7,18 +7,16 @@ const FocusJailTestComponents = () => <button>ok</button>
 const Launcher = React.forwardRef((_props, ref) => {
   return (
     <LauncherFrame>
-      <div
+      <Container
         ref={ref}
         onKeyDown={() => {
           // The focus jail does not pick up onKeyDown if not used at least once.
         }}
         role="presentation"
       >
-        <Container>
-          Launcher
-          <FocusJailTestComponents />
-        </Container>
-      </div>
+        Launcher
+        <FocusJailTestComponents />
+      </Container>
     </LauncherFrame>
   )
 })
