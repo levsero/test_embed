@@ -292,3 +292,14 @@ export const getFormTicketFields = (state, formId) => {
 
   return getCustomTicketFields(state, formId)
 }
+
+const getFormsWithSuppressedTitle = state => state.support.formsWithSuppressedTitle
+
+export const getTicketFormTitle = (state, formId) => {
+  const suppressed = getFormsWithSuppressedTitle(state).find(id => `${id}` === `${formId}`)
+  if (suppressed) {
+    return undefined
+  }
+  const form = getForm(state, formId)
+  return form ? form.display_name : undefined
+}

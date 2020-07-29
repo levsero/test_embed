@@ -963,3 +963,52 @@ describe('getHasFetchedTicketForms', () => {
     expect(getHasFetchedTicketForms(state, 'anOlderFetchKey')).toBe(false)
   })
 })
+
+describe('getTicketFormTitle', () => {
+  const createState = () => {
+    return {
+      base: {
+        embeddableConfig: {
+          embeds: {
+            ticketSubmissionForm: {
+              props: {
+                ticketForms: [123]
+              }
+            }
+          }
+        }
+      },
+      support: {
+        forms: {
+          123: {
+            display_name: 'one two three'
+          },
+          456: {
+            display_name: 'four five six'
+          }
+        },
+        formsWithSuppressedTitle: [123]
+      }
+    }
+  }
+
+  it('returns the title of the corresponding form id', () => {
+    const result = selectors.getTicketFormTitle(createState(), 456)
+    expect(result).toEqual('four five six')
+  })
+
+  it('returns undefined if title is suppressed', () => {
+    const result = selectors.getTicketFormTitle(createState(), 123)
+    expect(result).toBeUndefined()
+  })
+
+  it('returns undefined if id does not exist', () => {
+    const result = selectors.getTicketFormTitle(createState(), 1234)
+    expect(result).toBeUndefined()
+  })
+
+  it('returns the title of the corresponding form id even if id is string', () => {
+    const result = selectors.getTicketFormTitle(createState(), '456')
+    expect(result).toEqual('four five six')
+  })
+})

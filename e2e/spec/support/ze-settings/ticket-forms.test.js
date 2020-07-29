@@ -182,3 +182,69 @@ test('filters the ticket forms', async () => {
     expect.stringContaining(`ids=${form2.form.id}&include=ticket_fields`)
   )
 })
+
+describe('disable ticket form title', () => {
+  const setup = () => {
+    const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })
+    const form = createForm({
+      name: 'Example form',
+      id: 123,
+      fields: [createField({ type: 'checkbox' }, description)]
+    })
+    const mockConfigWithForms = {
+      embeds: {
+        ticketSubmissionForm: {
+          props: {
+            ticketForms: [form.form.id]
+          }
+        }
+      }
+    }
+    const mockFormsResponse = {
+      ticket_forms: form.mockFormsResponse.ticket_forms,
+      ticket_fields: form.mockFormsResponse.ticket_fields
+    }
+    return {
+      loader: loadWidget()
+        .withPresets('contactForm', mockConfigWithForms)
+        .intercept(mockTicketFormsEndpoint(mockFormsResponse)),
+      form
+    }
+  }
+
+  test('hides the ticket form title on prerender', async () => {
+    const { loader, form } = setup()
+    await loader
+      .evaluateOnNewDocument(formId => {
+        window.zESettings = {
+          webWidget: {
+            contactForm: {
+              ticketForms: [{ id: formId, title: false }]
+            }
+          }
+        }
+      }, form.form.id)
+      .load()
+    await widget.openByKeyboard()
+    await waitForContactForm()
+    await widget.expectNotToSeeText('Example form')
+  })
+
+  test('hides the ticket form title using updateSettings', async () => {
+    const { loader, form } = setup()
+    await loader.load()
+    await widget.openByKeyboard()
+    await waitForContactForm()
+    await widget.expectToSeeText('Example form')
+    await page.evaluate(formId => {
+      zE('webWidget', 'updateSettings', {
+        webWidget: {
+          contactForm: {
+            ticketForms: [{ id: formId, title: false }]
+          }
+        }
+      })
+    }, form.form.id)
+    await widget.expectNotToSeeText('Example form')
+  })
+})
