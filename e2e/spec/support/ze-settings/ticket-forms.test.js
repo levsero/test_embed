@@ -264,26 +264,14 @@ test('suppresses the subject field if specified via API', async () => {
     }
   }
 
-  const ticketForms = jest.fn()
-  const mockTicketFormsEndpoint = request => {
-    if (!request.url().includes('ticket_forms')) {
-      return false
-    }
-    ticketForms(request.url())
-    request.respond({
-      status: 200,
-      headers: DEFAULT_CORS_HEADERS,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        ticket_forms: theForm.mockFormsResponse.ticket_forms,
-        ticket_fields: theForm.mockFormsResponse.ticket_fields
-      })
-    })
+  const mockFormsResponse = {
+    ticket_forms: theForm.mockFormsResponse.ticket_forms,
+    ticket_fields: theForm.mockFormsResponse.ticket_fields
   }
 
   await loadWidget()
     .withPresets('contactForm', mockConfigWithForms)
-    .intercept(mockTicketFormsEndpoint)
+    .intercept(mockTicketFormsEndpoint(mockFormsResponse))
     .evaluateOnNewDocument(form => {
       window.zESettings = {
         webWidget: {
@@ -300,11 +288,8 @@ test('suppresses the subject field if specified via API', async () => {
     }, theForm)
     .load()
   await widget.openByKeyboard()
-  const doc = await widget.getDocument()
 
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'Superfantastic form')).toBeTruthy()
-  })
+  await wait(() => widget.expectToSeeText('Superfantastic form'))
 
-  expect(await queries.queryByText(doc, 'Subject')).toBeNull()
+  await widget.expectNotToSeeText('Subject')
 })
