@@ -1,7 +1,6 @@
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
-import IntegrationsApi from './api/IntegrationsApi'
 import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser } from './utils/context'
 
@@ -19,7 +18,6 @@ export default class Sunco {
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
-    this.integrations = new IntegrationsApi(this) //temp - will remove
   }
 
   get activeConversation() {
