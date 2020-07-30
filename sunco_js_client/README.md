@@ -45,7 +45,7 @@ client.startConversation().then(conversation => {
 })
 
 client.sendMessage('plain text message')
-client.listMessages('plain text message')
+client.listMessages()
 ```
 
 ##### Local storage tokens
