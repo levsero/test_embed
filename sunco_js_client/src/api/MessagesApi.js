@@ -2,9 +2,7 @@ import BaseApi from './BaseApi'
 import { getClientInfo, getSessionId } from '../utils/device'
 import * as storage from '../utils/storage'
 
-class MessagesApi extends BaseApi {}
-
-Object.assign(MessagesApi.prototype, {
+class MessagesApi extends BaseApi {
   list(appUserId, conversationId) {
     return this.request({
       method: 'GET',
@@ -15,7 +13,7 @@ Object.assign(MessagesApi.prototype, {
         )}`
       }
     })
-  },
+  }
 
   create(appUserId, conversationId, message) {
     const messagePayload = {
@@ -43,6 +41,6 @@ Object.assign(MessagesApi.prototype, {
       }
     })
   }
-})
+}
 
 export default MessagesApi

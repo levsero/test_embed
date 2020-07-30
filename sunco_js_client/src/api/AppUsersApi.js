@@ -2,9 +2,7 @@ import BaseApi from './BaseApi'
 import { getClientInfo } from '../utils/device'
 import * as storage from '../utils/storage'
 
-export class AppUsersApi extends BaseApi {}
-
-Object.assign(AppUsersApi.prototype, {
+class AppUsersApi extends BaseApi {
   create(data = {}) {
     return this.request({
       method: 'POST',
@@ -16,7 +14,7 @@ Object.assign(AppUsersApi.prototype, {
         ...data
       }
     })
-  },
+  }
 
   get(appUserId) {
     return this.request({
@@ -29,6 +27,6 @@ Object.assign(AppUsersApi.prototype, {
       }
     })
   }
-})
+}
 
 export default AppUsersApi
