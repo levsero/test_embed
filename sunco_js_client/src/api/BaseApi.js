@@ -24,10 +24,7 @@ class BaseApi {
     const url = buildUrl(this.baseUrl, path)
     const _request = new Request({ method, url, data, params, headers: suncoApiHeaders })
 
-    return _request.then(response => {
-      // TODO - temp logging
-      console.log('RESPONSE: ', response)
-    })
+    return _request.response()
   }
 }
 

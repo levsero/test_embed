@@ -1,9 +1,13 @@
-import Faye, { Client, Scheduler as FayeScheduler } from 'faye'
+import { Client, Scheduler as FayeScheduler } from 'faye'
 import ObserverList from '../utils/ObserverList'
 
 // See "Advanced customisations" section here: https://faye.jcoglan.com/browser/dispatch.html
 
-Faye.logger = window.console
+// Temp dev logging
+// Faye.logger = window.console
+const log = _message => {
+  // console.log(message)
+}
 
 const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAttempts = 5 }) => {
   return class Scheduler extends FayeScheduler {
@@ -18,11 +22,11 @@ const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAtte
     }
 
     succeed() {
-      console.log('scheduler succeed CONNECTED')
+      log('scheduler succeed CONNECTED')
     }
 
     fail() {
-      console.log('scheduler fail DISCONNECTED')
+      log('scheduler fail DISCONNECTED')
     }
 
     isDeliverable() {
@@ -37,20 +41,20 @@ const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAtte
       const isDeliverable = super.isDeliverable()
 
       if (!isDeliverable) {
-        console.log('scheduler isDeliverable DISCONNECTED 1')
+        log('scheduler isDeliverable DISCONNECTED 1')
         return false
       }
 
       const { channel } = this.message
 
-      console.log('scheduler isDeliverable: channel', channel)
-      console.log('scheduler isDeliverable: channel', this.message)
+      log('scheduler isDeliverable: channel', channel)
+      log('scheduler isDeliverable: channel', this.message)
       // target only setup messages
       if (['/meta/handshake', '/meta/connect', '/meta/subscribe'].includes(channel)) {
         const shouldRetry = this.attempts < maxConnectionAttempts
 
         if (!shouldRetry) {
-          console.log('scheduler isDeliverable DISCONNECTED 2')
+          log('scheduler isDeliverable DISCONNECTED 2')
         }
 
         return shouldRetry
@@ -72,18 +76,15 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
   this.fayeClient.addExtension({
     outgoing: (message, callback) => {
       if (message.channel === '/meta/subscribe') {
-        console.log('/meta/subscribe ', message)
         message.ext = {
           appUserId: this.appUserId,
           appId: this.appId
         }
-
         // if (auth.jwt) {
         //   message.ext.jwt = auth.jwt;
         // } else if (auth.sessionToken) {
         message.ext.sessionToken = this.sessionToken
         // }
-        console.log('outgoing message', message)
       }
 
       callback(message)
@@ -92,7 +93,12 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
 
   this.eventObservers = {
     connected: new ObserverList(),
-    disconnected: new ObserverList()
+    disconnected: new ObserverList(),
+    message: new ObserverList()
+  }
+
+  const addObserver = (eventType, callback) => {
+    this.eventObservers[eventType].addObserver(callback)
   }
 
   this.fayeClient.on('transport:down', () => {
@@ -103,13 +109,22 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
     this.eventObservers['connected'].notify()
   })
 
-  const addObserver = (eventType, callback) => {
-    this.eventObservers[eventType].addObserver(callback)
+  const subscribe = callback => {
+    this.fayeClient.subscribe.call(
+      this.fayeClient,
+      `/sdk/apps/${this.appId}/appusers/${this.appUserId}`,
+      ({ events }) => {
+        for (const event of events) {
+          callback(event)
+        }
+      }
+    )
   }
 
   return {
     on: addObserver,
-    subscribe: (...args) => this.fayeClient.subscribe.call(this.fayeClient, ...args)
+    // subscribe: (...args) => this.fayeClient.subscribe.call(this.fayeClient, ...args)
+    subscribe
   }
 }
 

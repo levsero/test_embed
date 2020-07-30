@@ -15,25 +15,19 @@ Object.assign(AppUsersApi.prototype, {
         intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
         ...data
       }
-    }).then(response => {
-      // TODO - temp hack to store session - will remove this
-      if (response.body.sessionToken) {
-        storage.setItem(`${this.integrationId}.sessionToken`, response.body.sessionToken)
-      }
-      return response
     })
   },
 
   get(appUserId) {
     return this.request({
       method: 'GET',
-      path: `/sdk/v2/apps/${this.appId}/appusers/${appUserId}`
+      path: `/sdk/v2/apps/${this.appId}/appusers/${appUserId}`,
+      headers: {
+        Authorization: `Basic ${btoa(
+          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
+        )}`
+      }
     })
-  },
-
-  subscribe(_callback) {
-    // const sessionToken = storage.getItem(`${this.integrationId}.sessionToken`)
-    // TODO - subscribe to socket client here
   }
 })
 
