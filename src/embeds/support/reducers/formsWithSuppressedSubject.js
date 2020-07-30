@@ -7,7 +7,7 @@ const formsWithSuppressedSubject = (state = initialState, action) => {
     case UPDATE_SETTINGS: {
       const ticketForms = action.payload?.webWidget?.contactForm?.ticketForms
 
-      if (ticketForms !== undefined && Array.isArray(ticketForms)) {
+      if (Array.isArray(ticketForms)) {
         return ticketForms.reduce((ids, form) => {
           if (form?.id && form?.subject === false) {
             ids.push(form.id)

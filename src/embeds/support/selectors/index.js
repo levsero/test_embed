@@ -237,7 +237,7 @@ export const getCustomTicketFields = (state, formId) => {
   const nameEnabled = getConfigNameFieldEnabled(state)
   const nameRequired = getConfigNameFieldRequired(state)
   const suppresedSubjects = getFormsWithSuppressedSubject(state)
-  const subjectDisabled = suppresedSubjects.includes(parseInt(formId, 10))
+  const subjectDisabled = suppresedSubjects.find(form => `${form}` === `${formId}`)
 
   const fields = ticketForm.ticket_field_ids
     .map(id => getField(state, id))

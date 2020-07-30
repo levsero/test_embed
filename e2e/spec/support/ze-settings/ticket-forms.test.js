@@ -246,11 +246,13 @@ describe('disable ticket form title', () => {
       })
     }, form.form.id)
     await widget.expectNotToSeeText('Example form')
+  })
+})
 
 test('suppresses the subject field if specified via API', async () => {
   const textarea = createField({ id: 4, type: 'textarea', title_in_portal: 'Description, yo' })
   const subject = createField({ id: 45, title_in_portal: 'Subject', type: 'subject' })
-  const theForm = createForm({ name: 'Supefantastic form', id: 123, fields: [subject, textarea] })
+  const theForm = createForm({ name: 'Superfantastic form', id: 123, fields: [subject, textarea] })
 
   const mockConfigWithForms = {
     embeds: {
@@ -299,11 +301,10 @@ test('suppresses the subject field if specified via API', async () => {
     .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
-  await wait(async () => {
-    expect(await queries.queryByText(doc, 'Supefantastic form')).toBeTruthy()
-  })
 
   await wait(async () => {
-    expect(await queries.queryByText(doc, 'Subject')).toBeNull()
+    expect(await queries.queryByText(doc, 'Superfantastic form')).toBeTruthy()
   })
+
+  expect(await queries.queryByText(doc, 'Subject')).toBeNull()
 })
