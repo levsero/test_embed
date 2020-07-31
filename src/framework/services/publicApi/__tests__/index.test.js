@@ -73,17 +73,6 @@ describe('public api service', () => {
       expect(mockApi.mock.example2).toHaveBeenCalledTimes(1)
     })
 
-    it('cleans up the queue that was part of the asset composer', () => {
-      setupWithQueueAndMockApi()
-      zE('mock', 'example')
-
-      expect(document.zEQueue).toHaveLength(1)
-
-      publicApi.run()
-
-      expect(document.zEQueue).toBeUndefined()
-    })
-
     it('logs an error instead of crashing when an unknown API was in the queue', () => {
       /* eslint-disable no-console */
 

@@ -90,7 +90,6 @@ const run = () => {
       console.error(err)
     }
   })
-  delete document.zEQueue
 }
 
 export default { run, registerApi, registerLegacyApi }
