@@ -2,22 +2,22 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const core = createSlice({
   name: 'core',
-  initialState: { open: false },
+  initialState: { isMessengerOpen: false },
   reducers: {
-    widgetClose: state => {
-      state.open = false
+    messengerClose: state => {
+      state.isMessengerOpen = false
     },
-    widgetOpen: state => {
-      state.open = true
+    messengerOpen: state => {
+      state.isMessengerOpen = true
     },
-    widgetToggle: state => {
-      state.open = !state.open
+    messengerToggle: state => {
+      state.isMessengerOpen = !state.isMessengerOpen
     }
   }
 })
 
-export const { widgetClose, widgetOpen, widgetToggle } = core.actions
+export const { messengerClose, messengerOpen, messengerToggle } = core.actions
 
-export const getIsWidgetOpen = state => state.core.open
+export const getIsMessengerOpen = state => state.core.isMessengerOpen
 
 export default core.reducer

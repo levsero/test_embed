@@ -1,13 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Launcher from 'src/apps/messenger/features/core/components/Launcher'
 import Messenger from 'src/apps/messenger/features/core/components/Messenger'
-import { getIsWidgetOpen } from 'src/apps/messenger/features/core/store'
-import { connect } from 'react-redux'
+import { getIsMessengerOpen } from 'src/apps/messenger/features/core/store'
+import { useSelector } from 'react-redux'
 
 import { useFocusJail } from './focusJail'
 
-const App = ({ showMessenger }) => {
+const App = () => {
+  const showMessenger = useSelector(getIsMessengerOpen)
   const { refLauncher, refWidget, onKeyDownForContainer } = useFocusJail(showMessenger)
 
   return (
@@ -18,15 +18,4 @@ const App = ({ showMessenger }) => {
   )
 }
 
-App.propTypes = {
-  showMessenger: PropTypes.bool.isRequired
-}
-
-const mapStateToProps = state => {
-  return {
-    showMessenger: getIsWidgetOpen(state)
-  }
-}
-
-const connectedComponent = connect(mapStateToProps)(App)
-export { connectedComponent as default, App as Component }
+export default App
