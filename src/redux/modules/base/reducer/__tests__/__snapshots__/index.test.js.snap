@@ -53,7 +53,7 @@ Object {
   "launcherVisible": true,
   "locale": "",
   "queue": Object {},
-  "webWidgetVisible": false,
+  "webWidgetOpen": false,
   "widgetInitialised": false,
   "widgetShown": false,
 }

@@ -77,7 +77,7 @@ describe('apiResetWidget', () => {
 describe('handleEscapeKeyPressed', () => {
   describe('when the web widget is open', () => {
     beforeEach(() => {
-      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(true)
+      jest.spyOn(selectors, 'getWebWidgetOpen').mockReturnValue(true)
     })
 
     it('dispatches an action of type ESCAPE_KEY_PRESSED', () => {
@@ -95,7 +95,7 @@ describe('handleEscapeKeyPressed', () => {
 
   describe('when the web widget is not open', () => {
     beforeEach(() => {
-      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(false)
+      jest.spyOn(selectors, 'getWebWidgetOpen').mockReturnValue(false)
     })
 
     it('does not dispatch an action of type ESCAPE_KEY_PRESSED', () => {
@@ -127,7 +127,7 @@ describe('apiClearForm', () => {
 
 describe('toggleReceived', () => {
   beforeEach(() => {
-    jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(true)
+    jest.spyOn(selectors, 'getWebWidgetOpen').mockReturnValue(true)
   })
 
   it('dispatches a TOGGLE_RECEIVED action', () => {
@@ -146,7 +146,7 @@ describe('toggleReceived', () => {
 
   describe('when the widget is open before calling toggle', () => {
     beforeEach(() => {
-      jest.spyOn(selectors, 'getWebWidgetVisible').mockReturnValue(false)
+      jest.spyOn(selectors, 'getWebWidgetOpen').mockReturnValue(false)
     })
 
     it('fires the callback queue for a WIDGET_CLOSED_EVENT', () => {

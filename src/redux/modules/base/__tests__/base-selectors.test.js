@@ -193,10 +193,10 @@ test('getLauncherVisible', () => {
   expect(selectors.getLauncherVisible(config)).toEqual(true)
 })
 
-test('getWebWidgetVisible', () => {
-  const config = mockState({ webWidgetVisible: true })
+test('getWebWidgetOpen', () => {
+  const config = mockState({ webWidgetOpen: true })
 
-  expect(selectors.getWebWidgetVisible(config)).toEqual(true)
+  expect(selectors.getWebWidgetOpen(config)).toEqual(true)
 })
 
 test('getHiddenByActivateAPI', () => {
@@ -220,13 +220,13 @@ describe('getWidgetAlreadyHidden', () => {
       [false, false, false, false]
     ],
     'fn(%p, %p, %p) = %p',
-    (hideApi, activateApi, webWidgetVisible, expected) => {
+    (hideApi, activateApi, webWidgetOpen, expected) => {
       const config = mockState({
-        webWidgetVisible,
+        webWidgetOpen,
         hidden: { hideApi, activateApi }
       })
 
-      expect(selectors.getWebWidgetVisible(config)).toEqual(expected)
+      expect(selectors.getWebWidgetOpen(config)).toEqual(expected)
     }
   )
 })

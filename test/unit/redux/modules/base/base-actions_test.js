@@ -21,7 +21,7 @@ let actions,
   mockActiveEmbed,
   mockIsTokenExpired,
   mockAfterWidgetShowAnimationQueue,
-  mockWebWidgetVisible,
+  mockWebWidgetOpen,
   mockIsTokenRenewable = jasmine.createSpy('isTokenRenewable'),
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
@@ -89,7 +89,7 @@ describe('base redux actions', () => {
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
         getActiveEmbed: () => mockActiveEmbed,
         getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
-        getWebWidgetVisible: () => mockWebWidgetVisible
+        getWebWidgetOpen: () => mockWebWidgetOpen
       },
       'embeds/helpCenter/selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched,
@@ -1020,7 +1020,7 @@ describe('base redux actions', () => {
   describe('openReceived', () => {
     describe('widget is open', () => {
       beforeAll(() => {
-        mockWebWidgetVisible = true
+        mockWebWidgetOpen = true
       })
 
       it('does not dispatch any actions', () => {
@@ -1033,7 +1033,7 @@ describe('base redux actions', () => {
       let action
 
       beforeAll(() => {
-        mockWebWidgetVisible = false
+        mockWebWidgetOpen = false
       })
 
       beforeEach(() => {
@@ -1058,7 +1058,7 @@ describe('base redux actions', () => {
   describe('closeReceived', () => {
     describe('widget is close', () => {
       beforeAll(() => {
-        mockWebWidgetVisible = false
+        mockWebWidgetOpen = false
       })
 
       it('does not dispatch any actions', () => {
@@ -1071,7 +1071,7 @@ describe('base redux actions', () => {
       let action
 
       beforeAll(() => {
-        mockWebWidgetVisible = true
+        mockWebWidgetOpen = true
       })
 
       beforeEach(() => {

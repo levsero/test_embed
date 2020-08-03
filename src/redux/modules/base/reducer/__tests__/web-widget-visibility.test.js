@@ -1,4 +1,4 @@
-import webWidgetVisibility from '../web-widget-visibility'
+import webWidgetVisibility from '../web-widget-open'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,

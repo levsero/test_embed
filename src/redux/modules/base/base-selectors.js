@@ -16,7 +16,7 @@ export const getIPMWidget = state => !!state.base.embeds.ipmWidget
 export const getOnApiListeners = state => state.base.onApiListeners
 export const getWidgetInitialised = state => state.base.widgetInitialised
 export const getBootupTimeout = state => state.base.bootupTimeout
-export const getWebWidgetVisible = state => state.base.webWidgetVisible
+export const getWebWidgetOpen = state => state.base.webWidgetOpen
 export const getLauncherVisible = state => state.base.launcherVisible
 export const getLocale = state => state.base.locale
 export const getIsChatBadgeMinimized = state => state.base.isChatBadgeMinimized
@@ -28,7 +28,7 @@ export const getBrand = state => state.base.embeddableConfig.brand
 export const getBrandCount = state => state.base.embeddableConfig.brandCount
 export const getBackButtonVisible = state => state.base.backButtonVisible
 export const getWidgetAlreadyHidden = state => {
-  return getHiddenByHideAPI(state) || (getHiddenByActivateAPI(state) && !getWebWidgetVisible(state))
+  return getHiddenByHideAPI(state) || (getHiddenByActivateAPI(state) && !getWebWidgetOpen(state))
 }
 
 export const getOAuth = () => {

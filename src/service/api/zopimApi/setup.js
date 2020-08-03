@@ -44,7 +44,7 @@ import {
 import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
-import { getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
+import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { settings } from 'service/settings'
 import { nameValid, emailValid, phoneValid } from 'utility/utils'
@@ -88,7 +88,7 @@ export function setUpZopimApiMethods(win, store) {
           }
         },
         setSize: noop,
-        getDisplay: () => getWebWidgetVisible(store.getState()),
+        getDisplay: () => getWebWidgetOpen(store.getState()),
         onHide: callback => onApis[API_ON_CLOSE_NAME](store, callback),
         onShow: callback => onApis[API_ON_OPEN_NAME](store, callback),
         setTitle: title => updateSettings(store, 'webWidget.chat.title.*', title),

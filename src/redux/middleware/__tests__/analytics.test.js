@@ -25,7 +25,7 @@ describe('analytics', () => {
 
   const callMiddleware = (action, state = {}, getStateOverride = undefined) => {
     const defaultState = {
-      base: { webWidgetVisible: true, activeEmbed: '' },
+      base: { webWidgetOpen: true, activeEmbed: '' },
       settings: { analytics: true }
     }
     const mergedState = _.merge(defaultState, state)
@@ -75,11 +75,11 @@ describe('analytics', () => {
   describe('trackEmbedOnOpen', () => {
     it('tracks chat on open', () => {
       const state = {
-        base: { webWidgetVisible: false, activeEmbed: 'chat' },
+        base: { webWidgetOpen: false, activeEmbed: 'chat' },
         settings: { analytics: true }
       }
       const state2 = {
-        base: { webWidgetVisible: true, activeEmbed: 'chat' },
+        base: { webWidgetOpen: true, activeEmbed: 'chat' },
         settings: { analytics: true }
       }
       const action = {
@@ -97,12 +97,12 @@ describe('analytics', () => {
 
     it('tracks talk with capabitlity on open', () => {
       const state = {
-        base: { webWidgetVisible: false, activeEmbed: 'talk' },
+        base: { webWidgetOpen: false, activeEmbed: 'talk' },
         settings: { analytics: {} },
         talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
       }
       const state2 = {
-        base: { webWidgetVisible: true, activeEmbed: 'talk' },
+        base: { webWidgetOpen: true, activeEmbed: 'talk' },
         settings: { analytics: {} },
         talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
       }
@@ -124,11 +124,11 @@ describe('analytics', () => {
 
     it('tracks talk with capabitlity on open', () => {
       const state = {
-        base: { webWidgetVisible: false, activeEmbed: 'helpCenterForm' },
+        base: { webWidgetOpen: false, activeEmbed: 'helpCenterForm' },
         settings: { analytics: {} }
       }
       const state2 = {
-        base: { webWidgetVisible: true, activeEmbed: 'helpCenterForm' },
+        base: { webWidgetOpen: true, activeEmbed: 'helpCenterForm' },
         settings: { analytics: {} }
       }
       const action = {
@@ -146,7 +146,7 @@ describe('analytics', () => {
 
   describe('UPDATE_ACTIVE_EMBED', () => {
     it('does not track if not visible', () => {
-      const state = { base: { webWidgetVisible: false } }
+      const state = { base: { webWidgetOpen: false } }
       const action = {
         type: UPDATE_ACTIVE_EMBED,
         payload: 'chat'

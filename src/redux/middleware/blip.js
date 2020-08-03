@@ -30,7 +30,7 @@ import {
   getHasContextuallySearched
 } from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
-import { getWebWidgetVisible, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getCurrentArticleID,
@@ -261,7 +261,7 @@ export function sendBlips({ getState }) {
         sendTalkCallbackRequestBlip(prevState)
         break
       case UPDATE_ACTIVE_EMBED:
-        if (!getWebWidgetVisible(prevState)) {
+        if (!getWebWidgetOpen(prevState)) {
           break
         }
 

@@ -21,7 +21,7 @@ import { isPopout } from 'utility/globals'
 
 const initialState = isPopout()
 
-const webWidgetVisible = (state = initialState, action) => {
+const webWidgetOpen = (state = initialState, action) => {
   const { type } = action
 
   switch (type) {
@@ -48,4 +48,4 @@ const webWidgetVisible = (state = initialState, action) => {
   }
 }
 
-export default webWidgetVisible
+export default webWidgetOpen
