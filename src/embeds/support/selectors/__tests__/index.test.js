@@ -63,7 +63,8 @@ const textField = {
   title_in_portal: 'Text field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'text'
+  type: 'text',
+  description: 'hello'
 }
 
 const expectedTextField = {
@@ -72,7 +73,8 @@ const expectedTextField = {
   title: 'Text field',
   required: false,
   visible: true,
-  type: 'text'
+  type: 'text',
+  description: 'hello'
 }
 const textareaField = {
   id: '789',
@@ -95,7 +97,7 @@ const subjectField = {
   title: 'Subject',
   required: false,
   visible: true,
-  type: 'text'
+  type: 'subject'
 }
 const attachmentField = {
   id: 'attachments',
@@ -224,11 +226,19 @@ describe('getTicketFormFields', () => {
   })
 
   it('includes a subject field when enabled', () => {
+    const expectedSubjectField = {
+      id: 'subject',
+      title: 'Subject',
+      required: false,
+      visible: true,
+      type: 'text'
+    }
+
     const result = run({
       subjectFieldEnabled: true
     })
 
-    expect(result).toEqual([expectedEmailField, subjectField, expectedDescriptionField])
+    expect(result).toEqual([expectedEmailField, expectedSubjectField, expectedDescriptionField])
   })
 
   it('attachments are visible when enabled', () => {
@@ -281,7 +291,8 @@ describe('getCustomTicketFields', () => {
   const getState = ({
     nameFieldEnabled = false,
     nameFieldRequired = false,
-    ticketFields = defaultTicketFields
+    ticketFields = defaultTicketFields,
+    formsWithSuppressedSubject = []
   } = {}) => ({
     base: {
       embeddableConfig: {
@@ -293,6 +304,7 @@ describe('getCustomTicketFields', () => {
         123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true }
       },
       filteredFormsToDisplay: [123456],
+      formsWithSuppressedSubject: formsWithSuppressedSubject,
       fields: ticketFields
     }
   })
@@ -301,6 +313,19 @@ describe('getCustomTicketFields', () => {
     const result = selectors.getCustomTicketFields(getState(), 'unknown form')
 
     expect(result).toEqual([expectedEmailField])
+  })
+
+  it('does not include the subject if it has been suppressed through the API', () => {
+    const state = getState({
+      formsWithSuppressedSubject: [123456],
+      ticketFields: { ...defaultTicketFields, 666: subjectField }
+    })
+
+    const result = selectors.getCustomTicketFields(state, '123456')
+    const types = result.map(field => field.type)
+
+    expect(types).toContain('text', 'checkbox', 'textarea')
+    expect(types).not.toContain('subject')
   })
 
   it('displays all other custom fields below the email field when the form is found', () => {
@@ -409,6 +434,7 @@ describe('getFormTicketFields', () => {
       support: {
         forms: { 123456: { id: '123456', ticket_field_ids: ['123', '456', '789'], active: true } },
         filteredFormsToDisplay: [123456],
+        formsWithSuppressedSubject: [],
         fields,
         contactFormFields
       },
@@ -529,6 +555,7 @@ describe('getFormState', () => {
           }
         },
         filteredFormsToDisplay: ['contactForm'],
+        formsWithSuppressedSubject: [],
         fields: {
           123: {
             id: 123,

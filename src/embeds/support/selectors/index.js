@@ -25,6 +25,7 @@ export const getAllAttachments = state => state.support.attachments
 export const getDisplayDropzone = state => state.support.displayDropzone
 export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
 export const getFilteredFormIds = state => state.support.filteredFormsToDisplay
+export const getFormsWithSuppressedSubject = state => state.support.formsWithSuppressedSubject
 export const getAttachmentTitle = (state, attachmentIds) => {
   const validAttachments = getAttachmentsForForm(state, attachmentIds)
   const numAttachments = validAttachments.length
@@ -235,6 +236,9 @@ export const getCustomTicketFields = (state, formId) => {
   const ticketForm = getForm(state, formId) || fallbackForm
   const nameEnabled = getConfigNameFieldEnabled(state)
   const nameRequired = getConfigNameFieldRequired(state)
+  const suppressedSubjects = getFormsWithSuppressedSubject(state)
+  const subjectDisabled = suppressedSubjects.find(form => `${form}` === `${formId}`)
+
   const fields = ticketForm.ticket_field_ids
     .map(id => getField(state, id))
     .filter(Boolean)
@@ -275,6 +279,8 @@ export const getCustomTicketFields = (state, formId) => {
       }
 
       if (field.type === 'subject') {
+        if (subjectDisabled) return {}
+
         return {
           ...field,
           id: 'subject'

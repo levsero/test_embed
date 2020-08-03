@@ -14,6 +14,7 @@ Object {
   "filteredFormsToDisplay": Array [],
   "formStates": Object {},
   "forms": Object {},
+  "formsWithSuppressedSubject": Array [],
   "formsWithSuppressedTitle": Array [],
   "isFormLoading": Object {},
   "isTicketFieldsLoading": false,
