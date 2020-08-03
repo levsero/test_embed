@@ -54,7 +54,9 @@ const findPullRequests = (tags, callback) => {
   return Promise.all(
     chunks.map(async shas => {
       const q = shas.join(' OR ')
-      const { data: { items } } = await octokit.search.issuesAndPullRequests({ q })
+      const {
+        data: { items }
+      } = await octokit.search.issuesAndPullRequests({ q })
       return Promise.all(items.map(item => callback(item)))
     })
   )
@@ -101,7 +103,9 @@ const getChangelog = body => {
 
 const formatDate = str => {
   const date = new Date(str)
-  return `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`
+  return `${date.getDate()} ${date.toLocaleString('default', {
+    month: 'long'
+  })} ${date.getFullYear()}`
 }
 
 const trimDate = str => str.split('T')[0]
@@ -110,7 +114,11 @@ const run = async () => {
   const { data: tags } = await octokit.repos.listTags(options)
   const logs = {}
   await findPullRequests(tags, async item => {
-    const { number, pull_request: { html_url: url }, body } = item
+    const {
+      number,
+      pull_request: { html_url: url },
+      body
+    } = item
     const changelog = getChangelog(body)
     const info = {
       url,
