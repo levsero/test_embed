@@ -24,7 +24,6 @@ import { chatBanned } from 'src/redux/modules/chat'
 import loadZChat from './loadZChat'
 
 function makeChatConfig(config) {
-  /* eslint-disable camelcase */
   const jwtFn = _.get(config, 'authentication.jwtFn')
   const authentication = jwtFn ? { jwt_fn: jwtFn } : null
 
@@ -41,7 +40,6 @@ function makeChatConfig(config) {
     },
     _.isNil
   )
-  /* eslint-enable camelcase */
 }
 
 export function setUpChat(canBeDeferred = true) {

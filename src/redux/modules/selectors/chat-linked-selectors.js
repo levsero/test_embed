@@ -40,8 +40,6 @@ import { DEPARTMENT_STATUSES } from 'constants/chat'
 import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { isPopout } from 'utility/globals'
 
-/* eslint-disable camelcase */
-
 export const getShowMenu = state =>
   getActiveEmbed(state) === 'chat' &&
   getChatScreen(state) === CHATTING_SCREEN &&
@@ -113,7 +111,7 @@ export const getConciergeSettings = createSelector(
 
     if (settingsChatConcierge) {
       if (settingsChatConcierge.avatarPath) {
-        concierge.avatar_path = settingsChatConcierge.avatarPath
+        concierge.avatar_path = settingsChatConcierge.avatarPath // eslint-disable-line babel/camelcase
       }
       if (settingsChatConcierge.name) {
         concierge.display_name = settingsChatConcierge.name
@@ -292,6 +290,7 @@ export const getChatNotification = createSelector(
   [getNotification, getActiveAgents, getConciergeSettings],
   (notification, agents, conciergeSettings) => {
     const currentAgent = agents[notification.nick]
+    // eslint-disable-next-line babel/camelcase
     const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path
 
     return {

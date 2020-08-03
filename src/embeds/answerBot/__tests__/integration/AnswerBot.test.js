@@ -21,7 +21,6 @@ const resolution = jest.fn(successfulResponse)
 const viewed = jest.fn(successfulResponse)
 const rejection = jest.fn(successfulResponse)
 const interaction = jest.fn(options => {
-  /* eslint-disable camelcase */
   options.callbacks.done({
     body: {
       deflection: {
@@ -82,7 +81,6 @@ const interaction = jest.fn(options => {
       interaction_access_token: 'eyJ0eXAi'
     }
   })
-  /* eslint-enable camelcase */
 })
 
 const setupAnswerBotServerMocks = () => {

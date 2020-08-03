@@ -178,7 +178,6 @@ const results = {
     count: 5
   }
 }
-/* eslint-enable camelcase */
 
 const setupMocks = () => {
   http.get = jest.fn(({ path }) => {

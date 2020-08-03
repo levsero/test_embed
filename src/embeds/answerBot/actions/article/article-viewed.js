@@ -60,14 +60,12 @@ export const articleViewed = (sessionID, articleID) => {
       }
     }
 
-    /* eslint-disable camelcase */
     const params = {
       deflection_id: deflectionID,
       interaction_access_token: interactionToken,
       article_id: articleID,
       resolution_channel_id: settings.get('viaIdAnswerBot')
     }
-    /* eslint-enable camelcase */
 
     http.send({
       callbacks,

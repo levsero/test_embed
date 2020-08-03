@@ -68,7 +68,6 @@ export const articleDismissed = reasonID => {
       }
     }
 
-    /* eslint-disable camelcase */
     const params = {
       reason_id: reasonID,
       deflection_id: deflection.id,
@@ -76,7 +75,6 @@ export const articleDismissed = reasonID => {
       article_id: articleID,
       resolution_channel_id: settings.get('viaIdAnswerBot')
     }
-    /* eslint-enable camelcase */
 
     http.send({
       callbacks,

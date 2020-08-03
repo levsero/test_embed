@@ -615,7 +615,6 @@ describe('base redux actions', () => {
         beforeEach(() => {
           let doneCallback = httpPostSpy.calls.mostRecent().args[0].callbacks.done
 
-          /* eslint-disable camelcase */
           doneCallback({
             body: {
               oauth_token: 'abcde',
@@ -623,7 +622,6 @@ describe('base redux actions', () => {
               oauth_created_at: 'createdAt'
             }
           })
-          /* eslint-enable camelcase */
 
           action = mockStore.getActions()[0]
         })

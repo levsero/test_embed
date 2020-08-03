@@ -112,12 +112,10 @@ export const getChatOverrideProxy = createSelector(
 export const getZChatConfig = createSelector(
   [getZopimId, getChatOverrideProxy],
   (zopimId, overrideProxy) => {
-    /* eslint-disable camelcase */
     return {
       account_key: zopimId,
       activity_window: win,
       ...(overrideProxy && { override_proxy: overrideProxy })
     }
-    /* eslint-enable camelcase */
   }
 )

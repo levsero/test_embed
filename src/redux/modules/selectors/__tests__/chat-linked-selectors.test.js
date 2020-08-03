@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import * as selectors from '../chat-linked-selectors'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as globals from 'utility/globals'
