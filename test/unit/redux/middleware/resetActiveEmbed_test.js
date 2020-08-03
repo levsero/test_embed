@@ -45,7 +45,7 @@ describe('resetActiveEmbed middleware', () => {
         getChannelChoiceAvailable: () => mockChannelChoiceAvailable,
         getHelpCenterAvailable: () => mockHelpCenterAvailable,
         getIpmHelpCenterAllowed: () => mockIpmHelpCenterAllowed,
-        getWebWidgetVisible: () => mockWidgetVisible,
+        getWebWidgetVisibleOpenAndReady: () => mockWidgetVisible,
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable
       },

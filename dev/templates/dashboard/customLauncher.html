@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custome Launcher Template</title>
+  </head>
+  <body>
+    <h1>Custom Launcher</h1>
+
+    This template uses the code from our
+    <a
+      href="https://develop.zendesk.com/hc/en-us/articles/360034804493-Quickstart-Creating-a-launcher-for-the-Web-Widget-"
+      target="_blank"
+      >HC quickstart guide for building a custom launcher</a
+    >.
+
+    <script>
+      document.startDashboard()
+    </script>
+
+    <div
+      id="myLauncher"
+      onclick="openWidget()"
+      style="background-color: red; padding: 10px; border-radius: 4px; width: 100px;
+    text-align: center; color: white; font-family: sans-serif;"
+    >
+      Click to chat with me!
+    </div>
+
+    <script type="text/javascript">
+      console.log('hide')
+      zE('webWidget', 'hide')
+
+      function openWidget() {
+        console.log('show and open')
+        zE('webWidget', 'show')
+        zE('webWidget', 'open')
+        document.querySelector('#myLauncher').style.opacity = 0
+      }
+
+      zE('webWidget:on', 'close', function() {
+        console.log('hide on close')
+        zE('webWidget', 'hide')
+        document.querySelector('#myLauncher').style.opacity = 1
+      })
+    </script>
+  </body>
+</html>

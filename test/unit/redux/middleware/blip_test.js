@@ -38,7 +38,7 @@ describe('blip middleware', () => {
         getIsChatting: prevState => prevState.isChatting
       },
       'src/redux/modules/base/base-selectors': {
-        getWebWidgetVisible: prevState => prevState.webWidgetVisible,
+        getWebWidgetOpen: prevState => prevState.webWidgetOpen,
         getActiveEmbed: prevState => prevState.activeEmbed
       },
       'embeds/helpCenter/selectors': {
@@ -224,7 +224,7 @@ describe('blip middleware', () => {
       let flatState,
         mockChatEmbed,
         mockIsChatting,
-        mockWebWidgetVisible,
+        mockWebWidgetOpen,
         mockActiveEmbed,
         mockDeflection,
         mockQuery,
@@ -239,7 +239,7 @@ describe('blip middleware', () => {
           agentAvailability: true,
           chatEmbed: mockChatEmbed,
           isChatting: mockIsChatting,
-          webWidgetVisible: mockWebWidgetVisible,
+          webWidgetOpen: mockWebWidgetOpen,
           activeEmbed: mockActiveEmbed,
           deflection: mockDeflection,
           query: mockQuery
@@ -273,7 +273,7 @@ describe('blip middleware', () => {
         describe('payload is chat', () => {
           beforeAll(() => {
             payload = 'chat'
-            mockWebWidgetVisible = false
+            mockWebWidgetOpen = false
           })
 
           it('does not send chatOpened blip', () => {
@@ -282,7 +282,7 @@ describe('blip middleware', () => {
 
           describe('web widget is visible', () => {
             beforeAll(() => {
-              mockWebWidgetVisible = true
+              mockWebWidgetOpen = true
             })
 
             it('calls trackUserAction with the correct params', () => {
@@ -297,7 +297,7 @@ describe('blip middleware', () => {
       describe('payload is talk', () => {
         beforeAll(() => {
           payload = 'talk'
-          mockWebWidgetVisible = false
+          mockWebWidgetOpen = false
         })
 
         it('does not send talkOpened blip', () => {
@@ -306,7 +306,7 @@ describe('blip middleware', () => {
 
         describe('web widget is visible', () => {
           beforeAll(() => {
-            mockWebWidgetVisible = true
+            mockWebWidgetOpen = true
           })
 
           it('calls trackUserAction with the correct params', () => {
@@ -331,7 +331,7 @@ describe('blip middleware', () => {
         describe('not answerBot context', () => {
           beforeAll(() => {
             payload = 'helpCenterForm'
-            mockWebWidgetVisible = true
+            mockWebWidgetOpen = true
             mockActiveEmbed = 'helpCenterForm'
           })
 
@@ -345,7 +345,7 @@ describe('blip middleware', () => {
             payload = 'chat'
             mockDeflection = { id: 23 }
             mockQuery = 'hello world'
-            mockWebWidgetVisible = true
+            mockWebWidgetOpen = true
             mockActiveEmbed = 'answerBot'
           })
 

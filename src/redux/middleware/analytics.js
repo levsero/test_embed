@@ -17,7 +17,7 @@ import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/sele
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors'
-import { getActiveEmbed, getWebWidgetVisible } from 'src/redux/modules/base/base-selectors'
+import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { isAgent } from 'src/util/chat'
 import {
   TICKET_SUBMISSION_REQUEST_SUCCESS,
@@ -76,7 +76,7 @@ const embedAction = {
 
 const trackEmbedShownOnUpdateEmbed = ({ payload, prevState }) => {
   const prevEmbed = getActiveEmbed(prevState)
-  const visible = getWebWidgetVisible(prevState)
+  const visible = getWebWidgetOpen(prevState)
 
   if (visible && prevEmbed !== payload) {
     const tracker = embedTracker[payload]
@@ -194,7 +194,7 @@ export function trackAnalytics({ getState }) {
     const result = next(action)
     const nextState = getState()
 
-    if (!getWebWidgetVisible(prevState) && getWebWidgetVisible(nextState)) {
+    if (!getWebWidgetOpen(prevState) && getWebWidgetOpen(nextState)) {
       trackEmbedOnOpen(nextState)
     }
     return result

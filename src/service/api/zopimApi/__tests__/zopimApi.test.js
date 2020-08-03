@@ -254,7 +254,7 @@ describe('setUpZopimApiMethods', () => {
 
     describe('getDisplay method', () => {
       it('returns true when the widget is visibile', () => {
-        jest.spyOn(baseSelectors, 'getWebWidgetVisible').mockReturnValue(true)
+        jest.spyOn(baseSelectors, 'getWebWidgetOpen').mockReturnValue(true)
 
         const result = mockWin.$zopim.livechat.window.getDisplay()
 
@@ -262,7 +262,7 @@ describe('setUpZopimApiMethods', () => {
       })
 
       it('returns false when the widget not visibile', () => {
-        jest.spyOn(baseSelectors, 'getWebWidgetVisible').mockReturnValue(false)
+        jest.spyOn(baseSelectors, 'getWebWidgetOpen').mockReturnValue(false)
 
         const result = mockWin.$zopim.livechat.window.getDisplay()
 

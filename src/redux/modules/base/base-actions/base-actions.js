@@ -4,7 +4,7 @@ import {
   getOAuth,
   getBaseIsAuthenticated,
   getAfterWidgetShowAnimation,
-  getWebWidgetVisible,
+  getWebWidgetOpen,
   getWidgetAlreadyHidden
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
@@ -260,7 +260,7 @@ export const handleCloseButtonClicked = () => {
 
 export const handleEscapeKeyPressed = () => {
   return (dispatch, getState) => {
-    if (getWebWidgetVisible(getState())) {
+    if (getWebWidgetOpen(getState())) {
       dispatch({
         type: actions.ESCAPE_KEY_PRESSED
       })
@@ -357,7 +357,7 @@ export const legacyShowReceived = () => {
 
 export const openReceived = () => {
   return (dispatch, getState) => {
-    if (!getWebWidgetVisible(getState())) {
+    if (!getWebWidgetOpen(getState())) {
       dispatch({ type: actions.OPEN_RECEIVED })
       callbacks.fireFor(WIDGET_OPENED_EVENT)
     }
@@ -366,7 +366,7 @@ export const openReceived = () => {
 
 export const closeReceived = () => {
   return (dispatch, getState) => {
-    if (getWebWidgetVisible(getState())) {
+    if (getWebWidgetOpen(getState())) {
       dispatch({ type: actions.CLOSE_RECEIVED })
       callbacks.fireFor(WIDGET_CLOSED_EVENT)
     }
@@ -375,7 +375,7 @@ export const closeReceived = () => {
 export const toggleReceived = () => (dispatch, getState) => {
   dispatch({ type: actions.TOGGLE_RECEIVED })
 
-  if (getWebWidgetVisible(getState())) {
+  if (getWebWidgetOpen(getState())) {
     callbacks.fireFor(WIDGET_OPENED_EVENT)
   } else {
     callbacks.fireFor(WIDGET_CLOSED_EVENT)

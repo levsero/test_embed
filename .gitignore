@@ -19,6 +19,7 @@ dev/configs/*.js
 dev/templates/web_widget/*.html
 dev/templates/dashboard/*.html
 !dev/templates/dashboard/example.html
+!dev/templates/dashboard/customLauncher.html
 
 # Editor specific things
 .vscode/*.*

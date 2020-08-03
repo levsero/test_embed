@@ -97,7 +97,7 @@ We use jest for unit and integration tests (`npm run test __test_file__`).
 
 - [Please read our Test Style Guidelines](./TEST_STYLE.md)
 
-We use puppeteer for e2e tests (`npm run e2e __test_file__`). If you want to see your browser tests run in the browser you can use `HEADLESS=false`. When you're running tests this way you can add a breakpoint with `await jestPuppeteer.debug()`
+We use puppeteer for e2e tests (`npm run e2e __test_file__`). If you want to see your browser tests run in the browser you can use `HEADLESS=false`. When you're running tests this way you can add a breakpoint with `await jestPuppeteer.debug()`. If you want to re-run the tests more quickly, it can be worth running `npm run e2e:server` in another tab to save on setup time.
 
 - [Please read our e2e Test Style Guidelines](./BROWSER_TEST_STYLE.md)
 

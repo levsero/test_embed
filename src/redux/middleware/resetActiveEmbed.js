@@ -31,7 +31,7 @@ import {
   getIpmHelpCenterAllowed,
   getSubmitTicketAvailable,
   getAnswerBotAvailable,
-  getWebWidgetVisible
+  getWebWidgetVisibleOpenAndReady
 } from 'src/redux/modules/selectors'
 import { getArticleViewActive } from 'embeds/helpCenter/selectors'
 import { getIsChatting, getChatBanned } from 'src/redux/modules/chat/chat-selectors'
@@ -68,13 +68,13 @@ const shouldResetForSuppress = (action, state) => {
     []
   )
   const activeEmbed = getActiveEmbed(state)
-  const widgetVisible = getWebWidgetVisible(state)
+  const widgetVisibleOpenAndReady = getWebWidgetVisibleOpenAndReady(state)
   const shouldSuppressActiveEmbed = _.includes(
     suppressedEmbeds,
     EMBED_MAP[activeEmbed] || activeEmbed
   )
 
-  return widgetVisible ? shouldSuppressActiveEmbed : !_.isEmpty(suppressedEmbeds)
+  return widgetVisibleOpenAndReady ? shouldSuppressActiveEmbed : !_.isEmpty(suppressedEmbeds)
 }
 
 const setNewActiveEmbed = (state, dispatch) => {
@@ -140,7 +140,7 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     RECEIVE_DEFERRED_CHAT_STATUS,
     RECEIVED_DEFERRED_TALK_STATUS
   ]
-  const widgetVisible = getWebWidgetVisible(prevState)
+  const widgetVisibleOpenAndReady = getWebWidgetVisibleOpenAndReady(prevState)
   const isChatting = getIsChatting(prevState) && getActiveEmbed(prevState) === 'chat'
   const shouldReset =
     (_.includes(updateActions, type) && !isChatting) || shouldResetForChat(type, nextState)
@@ -150,7 +150,7 @@ export default function resetActiveEmbed(prevState, nextState, action, dispatch 
     getActiveEmbed(prevState) === 'channelChoice'
 
   if (
-    (!widgetVisible && shouldReset) ||
+    (!widgetVisibleOpenAndReady && shouldReset) ||
     shouldResetForSuppress(action, prevState) ||
     shouldResetForChatChannelChoice
   ) {

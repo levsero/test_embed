@@ -9,7 +9,6 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
-  UPDATE_ACTIVE_EMBED,
   SHOW_WIDGET,
   ESCAPE_KEY_PRESSED
 } from '../base-action-types'
@@ -18,13 +17,12 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
 } from '../../chat/chat-action-types'
-import { NIL_EMBED } from 'constants/shared'
 import { isPopout } from 'utility/globals'
 
 const initialState = isPopout()
 
-const webWidgetVisible = (state = initialState, action) => {
-  const { type, payload } = action
+const webWidgetOpen = (state = initialState, action) => {
+  const { type } = action
 
   switch (type) {
     case LAUNCHER_CLICKED:
@@ -45,12 +43,9 @@ const webWidgetVisible = (state = initialState, action) => {
       return false
     case TOGGLE_RECEIVED:
       return !state
-    case UPDATE_ACTIVE_EMBED:
-      if (payload === NIL_EMBED) return false
-      return state
     default:
       return state
   }
 }
 
-export default webWidgetVisible
+export default webWidgetOpen

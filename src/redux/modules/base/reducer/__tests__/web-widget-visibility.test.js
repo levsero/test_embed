@@ -1,4 +1,4 @@
-import webWidgetVisibility from '../web-widget-visibility'
+import webWidgetVisibility from '../web-widget-open'
 import {
   LAUNCHER_CLICKED,
   CHAT_BADGE_CLICKED,
@@ -10,7 +10,6 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
-  UPDATE_ACTIVE_EMBED,
   ESCAPE_KEY_PRESSED
 } from '../../base-action-types'
 import {
@@ -18,7 +17,6 @@ import {
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_BANNED
 } from 'src/redux/modules/chat/chat-action-types'
-import { NIL_EMBED } from 'constants/shared'
 import { testReducer } from 'src/util/testHelpers'
 
 testReducer(webWidgetVisibility, [
@@ -87,15 +85,5 @@ testReducer(webWidgetVisibility, [
     action: { type: TOGGLE_RECEIVED },
     initialState: false,
     expected: true
-  },
-  {
-    action: { type: UPDATE_ACTIVE_EMBED, payload: 'helpCenterForm' },
-    initialState: true,
-    expected: true
-  },
-  {
-    action: { type: UPDATE_ACTIVE_EMBED, payload: NIL_EMBED },
-    initialState: true,
-    expected: false
   }
 ])

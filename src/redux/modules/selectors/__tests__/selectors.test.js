@@ -1050,7 +1050,7 @@ describe('getChannelChoiceAvailable', () => {
   )
 })
 
-describe('getWebWidgetVisible', () => {
+describe('getWebWidgetVisibleOpenAndReady', () => {
   // TODO when the file has been split, it's too painful right now
 })
 
@@ -1367,10 +1367,10 @@ describe('getWidgetDisplayInfo', () => {
     ['widget is not visible, launcher is not visible', false, false, '', 'hidden'],
     ['launcher is visible', true, false, '', LAUNCHER],
     ['widget is visible', false, true, 'channelChoice', 'contactOptions']
-  ])('%p', (_title, launcherVisible, webWidgetVisible, activeEmbed, expectedValue) => {
+  ])('%p', (_title, launcherVisible, webWidgetOpen, activeEmbed, expectedValue) => {
     const result = selectors.getWidgetDisplayInfo.resultFunc(
       launcherVisible,
-      webWidgetVisible,
+      webWidgetOpen,
       activeEmbed
     )
 

@@ -9,7 +9,7 @@ import embeddableConfig from './base-embeddable-config'
 import isAuthenticationPending from './base-is-authentication-pending'
 import queue from './base-queue'
 import hasWidgetShown from './base-has-widget-shown'
-import webWidgetVisible from './web-widget-visibility'
+import webWidgetOpen from './web-widget-open'
 import launcherVisible from './launcher-visibility'
 import widgetInitialised from './base-widget-initialised'
 import hidden from './base-hidden'
@@ -34,6 +34,6 @@ export default combineReducers({
   locale,
   queue,
   widgetInitialised,
-  webWidgetVisible,
+  webWidgetOpen,
   widgetShown
 })

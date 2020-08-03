@@ -31,7 +31,7 @@ import {
 import {
   getActiveEmbed,
   getChatStandalone,
-  getWebWidgetVisible
+  getWebWidgetOpen
 } from 'src/redux/modules/base/base-selectors'
 import {
   getStandaloneMobileNotificationVisible,
@@ -77,7 +77,7 @@ const mapStateToProps = state => {
     channelChoiceAvailable: getChannelChoiceAvailable(state),
     submitTicketAvailable: getSubmitTicketAvailable(state),
     hideZendeskLogo: getHideZendeskLogo(state),
-    webWidgetVisible: getWebWidgetVisible(state),
+    webWidgetOpen: getWebWidgetOpen(state),
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state),
     ipmHelpCenterAvailable: !getHelpCenterAvailable(state),
@@ -116,7 +116,7 @@ class WebWidget extends Component {
     channelChoiceAvailable: PropTypes.bool.isRequired,
     submitTicketAvailable: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    webWidgetVisible: PropTypes.bool.isRequired,
+    webWidgetOpen: PropTypes.bool.isRequired,
     answerBotAvailable: PropTypes.bool.isRequired,
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
@@ -137,7 +137,7 @@ class WebWidget extends Component {
     ipmHelpCenterAvailable: false,
     mobileNotificationsDisabled: false,
     proactiveChatNotificationDismissed: () => {},
-    webWidgetVisible: true,
+    webWidgetOpen: true,
     answerBotAvailable: false,
     updateAnswerBotScreen: () => {}
   }
@@ -302,7 +302,7 @@ class WebWidget extends Component {
       isMobile,
       activeEmbed,
       mobileNotificationsDisabled,
-      webWidgetVisible,
+      webWidgetOpen,
       chatStandaloneMobileNotificationVisible
     } = this.props
 
@@ -310,7 +310,7 @@ class WebWidget extends Component {
       return this.renderStandaloneChatPopup()
     }
 
-    if (!webWidgetVisible) return null
+    if (!webWidgetOpen) return null
 
     return (
       // data-embed is needed for our integration tests
