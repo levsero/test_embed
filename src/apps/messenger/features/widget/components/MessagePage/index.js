@@ -1,8 +1,11 @@
 import React from 'react'
-import Header from 'src/apps/messenger/features/header'
-import { Container } from './styles'
 import { useSelector } from 'react-redux'
+
+import Header from 'src/apps/messenger/features/header'
+import Footer from 'src/apps/messenger/features/footer'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+
+import { Container } from './styles'
 
 const FocusJailTestComponents = () => {
   return (
@@ -37,11 +40,18 @@ const MessagePage = React.forwardRef((_props, ref) => {
       role="presentation"
     >
       <Header />
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexGrow: '1',
+          flexDirection: 'column',
+          backgroundColor: 'white'
+        }}
+      >
         <div>Message log</div>
         <FocusJailTestComponents />
       </div>
-      <div>Footer</div>
+      <Footer />
     </Container>
   )
 })

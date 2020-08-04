@@ -60,6 +60,19 @@ beforeAll(() => {
   }
 })
 
+// Hack for avoiding OOM errors when rendering resizable text areas
+const actuallyGetComputedStyle = window.getComputedStyle
+
+window.getComputedStyle = jest.fn().mockImplementation(arg => {
+  if (arg.type === 'textarea' && arg.hasAttribute('data-garden-id')) {
+    return {
+      getPropertyValue: () => {}
+    }
+  } else {
+    return actuallyGetComputedStyle(arg)
+  }
+})
+
 afterAll(() => {
   console.error = originalError
 })
