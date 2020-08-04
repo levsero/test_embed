@@ -6,7 +6,8 @@ const tabTimeToExpire = 1000 * 30 // 30 Seconds
 
 let userIdentity = {
   name: null,
-  email: null
+  email: null,
+  phone: null
 }
 
 const hex = () =>
@@ -61,8 +62,8 @@ function getSuid() {
   return checkSuid(suid) ? suid : setSuid(generateUid(), expiry, 1, 0)
 }
 
-function setUserIdentity(name = null, email = null) {
-  userIdentity = { name, email }
+function setUserIdentity(user = {}) {
+  userIdentity = user
 }
 
 function getUserIdentity() {

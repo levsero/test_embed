@@ -189,26 +189,52 @@ describe('identify', () => {
   })
 
   describe('when valid', () => {
-    let params
-
-    beforeEach(() => {
-      params = {
+    const callIdentify = (includePhone = false) => {
+      const params = {
         name: 'James Dean',
-        email: 'james@dean.com'
+        email: 'james@dean.com',
+        ...(includePhone && { phone: '0430931722' })
       }
 
       apis.identifyApi(store, params)
-    })
+
+      return params
+    }
 
     it('calls identify and chat setUser', () => {
+      const params = callIdentify()
+
       expect(beacon.identify).toHaveBeenCalledWith(params)
-      expect(identity.setUserIdentity).toHaveBeenCalledWith(params.name, params.email)
+      expect(identity.setUserIdentity).toHaveBeenCalledWith(params)
     })
 
     it('calls setVisitorInfo with the name and email', () => {
+      const params = callIdentify()
+
+      apis.identifyApi(store, params)
+
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
         display_name: params.name,
         email: params.email
+      })
+    })
+
+    describe('when valid phone is provided', () => {
+      it('calls identify and chat setUser', () => {
+        const params = callIdentify(true)
+
+        expect(beacon.identify).toHaveBeenCalledWith(params)
+        expect(identity.setUserIdentity).toHaveBeenCalledWith(params)
+      })
+
+      it('calls setVisitorInfo with the name, email and phone', () => {
+        const params = callIdentify(true)
+
+        expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+          display_name: params.name,
+          email: params.email,
+          phone: params.phone
+        })
       })
     })
   })
@@ -219,7 +245,8 @@ describe('identify', () => {
     beforeEach(() => {
       params = {
         name: 'James Dean',
-        email: 'james@dean'
+        email: 'james@dean',
+        phone: '0430931722'
       }
 
       apis.identifyApi(store, params)
@@ -229,9 +256,10 @@ describe('identify', () => {
       expect(beacon.identify).not.toHaveBeenCalled()
     })
 
-    it('still calls setVisitorInfo with the name', () => {
+    it('still calls setVisitorInfo with the name and phone', () => {
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        display_name: params.name
+        display_name: params.name,
+        phone: '0430931722'
       })
     })
 
@@ -267,6 +295,38 @@ describe('identify', () => {
 
     it('prints a warning', () => {
       expect(console.warn).toHaveBeenCalledWith('invalid name passed into zE.identify', params.name)
+    })
+  })
+
+  describe('when phone is invalid', () => {
+    let params
+
+    beforeEach(() => {
+      params = {
+        name: 'helloName',
+        email: 'james@dean.com',
+        phone: 'eeeeee'
+      }
+
+      apis.identifyApi(store, params)
+    })
+
+    it('does not call identify', () => {
+      expect(beacon.identify).not.toHaveBeenCalled()
+    })
+
+    it('still calls setVisitorInfo with the email and name', () => {
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
+        email: params.email,
+        display_name: params.name
+      })
+    })
+
+    it('prints a warning', () => {
+      expect(console.warn).toHaveBeenCalledWith(
+        'invalid phone passed into zE.identify',
+        params.phone
+      )
     })
   })
 
