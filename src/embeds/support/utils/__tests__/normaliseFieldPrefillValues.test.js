@@ -18,18 +18,43 @@ describe('normaliseFieldPrefillValues', () => {
         }
       },
       {
+        id: 'description',
+        prefill: {
+          '*': 'Descrição',
+          it: 'Descrizione'
+        }
+      },
+      {
+        id: 'age',
+        prefill: {
+          '*': 'Edad',
+          de: 'Beschreibung'
+        }
+      },
+      {
         id: 2001
+      },
+      {
+        id: 'Surname'
       }
     ])
 
     expect(result).toEqual({
       '*': {
         1337: 'email@example.com',
-        666: 'Name'
+        666: 'Name',
+        age: 'Edad',
+        description: 'Descrição'
       },
       fr: {
         1337: 'french-email@example.com',
         666: 'French name'
+      },
+      de: {
+        age: 'Beschreibung'
+      },
+      it: {
+        description: 'Descrizione'
       }
     })
   })
