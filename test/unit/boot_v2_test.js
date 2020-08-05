@@ -44,6 +44,7 @@ describe('framework boot', () => {
       'service/api/zopimApi': zopimApiSpy,
       'service/analytics/googleAnalytics': gaSpy,
       'embeds/webWidget/selectors/feature-flags': () => false,
+      'src/util/logger': noop,
       'service/tracker': trackerSpy,
       'service/settings': {
         settings: {

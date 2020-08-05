@@ -1,19 +1,19 @@
 import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import React from 'react'
+import { useRef } from 'react'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
 
 const lastNodes = elementsByContainer =>
   elementsByContainer.map(container => container[container.length - 1])
 
-const useFocusJail = () => {
-  const refLauncher = React.createRef()
-  const refWidget = React.createRef()
+const useFocusJail = enabled => {
+  const refLauncher = useRef()
+  const refWidget = useRef()
 
   const onKeyDownForContainer = event => {
     const { keyCode } = event
-    if (!keyCode === KEY_CODES.TAB) return
+    if (!keyCode === KEY_CODES.TAB || !enabled) return
     const containers = [refLauncher.current, refWidget.current].filter(el => el != null)
     const elementsByContainer = containers.map(container => tabbable(container))
 

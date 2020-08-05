@@ -16,6 +16,7 @@ import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import webWidget from 'src/apps/webWidget'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import logger from 'src/util/logger'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -92,7 +93,9 @@ const getConfig = (win, reduxStore) => {
       if (isFeatureEnabled(reduxStore.getState(), 'messenger_widget')) {
         return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger')
           .then(messenger => messenger.default)
-          .catch(() => {})
+          .catch(err => {
+            logger.error(err)
+          })
       }
 
       return webWidget
