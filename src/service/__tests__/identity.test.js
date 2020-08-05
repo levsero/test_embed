@@ -72,23 +72,13 @@ describe('init', () => {
   })
 })
 
-describe('getUserIdentity', () => {
+describe('userIdentity', () => {
   it('returns saved user identity', () => {
-    const userInfo = { name: 'Bob', email: 'bob@example.com' }
+    const userInfo = { name: 'Bob', email: 'bob@example.com', phone: '0430989722' }
 
-    expect(identity.getUserIdentity()).toEqual({ name: null, email: null })
+    expect(identity.getUserIdentity()).toEqual({ name: null, email: null, phone: null })
 
-    identity.setUserIdentity(userInfo.name, userInfo.email)
-
-    expect(identity.getUserIdentity()).toEqual(userInfo)
-  })
-})
-
-describe('setUserIdentity', () => {
-  it('saves user identity', () => {
-    const userInfo = { name: 'Bob', email: 'bob@example.com' }
-
-    identity.setUserIdentity(userInfo.name, userInfo.email)
+    identity.setUserIdentity(userInfo)
 
     expect(identity.getUserIdentity()).toEqual(userInfo)
   })

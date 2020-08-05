@@ -60,7 +60,7 @@ import { i18n } from 'service/i18n'
 import { identity } from 'service/identity'
 import { beacon } from 'service/beacon'
 import { createChatPopoutWindow } from 'src/util/chat'
-import { nameValid, emailValid } from 'utility/utils'
+import { nameValid, emailValid, phoneValid } from 'utility/utils'
 import { apiResetWidget } from 'src/redux/modules/base/base-actions'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
@@ -113,21 +113,42 @@ export const sendChatMsgApi = (reduxStore, msg) => {
 }
 
 export const identifyApi = (reduxStore, user) => {
-  const isEmailValid = emailValid(user.email),
-    isNameValid = nameValid(user.name)
+  const isEmailValid = user.email && emailValid(user.email)
+  const isNameValid = user.name && nameValid(user.name)
+  const isPhoneProvided = !!user.phone
+  const isPhoneValid = isPhoneProvided && phoneValid(user.phone)
 
-  if (isEmailValid && isNameValid) {
-    beacon.identify(user)
-    identity.setUserIdentity(user.name, user.email)
-    reduxStore.dispatch(setVisitorInfo({ display_name: user.name, email: user.email }))
-  } else if (isEmailValid) {
-    console.warn('invalid name passed into zE.identify', user.name) // eslint-disable-line no-console
-    reduxStore.dispatch(setVisitorInfo({ email: user.email }))
-  } else if (isNameValid) {
-    console.warn('invalid email passed into zE.identify', user.email) // eslint-disable-line no-console
-    reduxStore.dispatch(setVisitorInfo({ display_name: user.name }))
-  } else {
+  const validUser = {
+    ...(isEmailValid && { email: user.email }),
+    ...(isNameValid && { name: user.name }),
+    ...(isPhoneValid && { phone: user.phone }),
+    organization: user.organization
+  }
+  const validUserExist =
+    validUser.email || validUser.name || validUser.phone || validUser.organization
+
+  if (!validUserExist) {
     console.warn('invalid params passed into zE.identify', user) // eslint-disable-line no-console
+  } else {
+    !isNameValid && console.warn('invalid name passed into zE.identify', user.name) // eslint-disable-line no-console
+    !isEmailValid && console.warn('invalid email passed into zE.identify', user.email) // eslint-disable-line no-console
+    !isPhoneValid &&
+      isPhoneProvided &&
+      console.warn('invalid phone passed into zE.identify', user.phone) // eslint-disable-line no-console
+
+    reduxStore.dispatch(
+      // setVisitorInfo cannot accept undefined values.
+      setVisitorInfo({
+        ...(validUser.name && { display_name: validUser.name }),
+        ...(validUser.email && { email: validUser.email }),
+        ...(validUser.phone && { phone: validUser.phone })
+      })
+    )
+  }
+
+  if (isNameValid && isEmailValid && (!isPhoneProvided || isPhoneValid)) {
+    beacon.identify(validUser)
+    identity.setUserIdentity(validUser)
   }
 }
 

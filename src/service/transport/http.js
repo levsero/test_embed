@@ -158,14 +158,15 @@ function sendWithMeta(payload) {
     timestamp: new Date().toISOString()
   }
 
-  const { name, email } = identity.getUserIdentity()
+  const { name, email, phone } = identity.getUserIdentity()
   let identityParams = {}
 
-  if (name || email) {
+  if (name || email || phone) {
     let innerIdentity = {}
 
     if (name) innerIdentity.name = name
     if (email) innerIdentity.email = email
+    if (phone) innerIdentity.phone = phone
 
     identityParams = { identity: innerIdentity }
   }

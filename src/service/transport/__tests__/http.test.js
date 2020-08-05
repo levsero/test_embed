@@ -395,7 +395,8 @@ describe('#sendWithMeta', () => {
   }
   const userInfo = {
     name: 'Bob',
-    email: 'bob@example.com'
+    email: 'bob@example.com',
+    phone: '0430999777'
   }
 
   describe('when identity is not set', () => {
@@ -414,7 +415,7 @@ describe('#sendWithMeta', () => {
 
   describe('when identity is set', () => {
     beforeEach(() => {
-      identity.setUserIdentity(userInfo.name, userInfo.email)
+      identity.setUserIdentity(userInfo)
 
       http.sendWithMeta(payload)
 

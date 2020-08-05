@@ -4,6 +4,7 @@ import { mockIdentifyEndpoint, assertIdentifyPayload } from 'e2e/helpers/blips'
 const user = {
   name: 'Akira Kogane',
   email: 'akira@voltron.com',
+  phone: '0430999212',
   organization: 'Voltron, Inc.'
 }
 
