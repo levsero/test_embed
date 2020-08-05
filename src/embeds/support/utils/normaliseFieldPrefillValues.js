@@ -23,13 +23,14 @@ const normaliseFieldPrefillValues = fields => {
   }
 
   fields.forEach(field => {
-    Object.keys(field.prefill).forEach(locale => {
-      if (!values[locale]) {
-        values[locale] = {}
-      }
+    field.prefill &&
+      Object.keys(field.prefill).forEach(locale => {
+        if (!values[locale]) {
+          values[locale] = {}
+        }
 
-      values[locale][field.id] = field.prefill[locale]
-    })
+        values[locale][field.id] = field.prefill[locale]
+      })
   })
 
   return values
