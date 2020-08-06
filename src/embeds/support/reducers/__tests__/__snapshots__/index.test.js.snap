@@ -10,6 +10,7 @@ Object {
   },
   "contactFormFields": Array [],
   "displayDropzone": false,
+  "fieldDescriptionOverrides": Object {},
   "fields": Object {},
   "filteredFormsToDisplay": Array [],
   "formStates": Object {},

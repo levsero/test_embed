@@ -11,6 +11,7 @@ import fields from './fields'
 import contactFormFields from './contactFormFields'
 import filteredFormsToDisplay from 'embeds/support/reducers/filteredFormsToDisplay'
 import formsWithSuppressedSubject from 'embeds/support/reducers/formsWithSuppressedSubject'
+import fieldDescriptionOverrides from 'embeds/support/reducers/fieldDescriptionOverrides'
 import ticketFormsRequest from 'embeds/support/reducers/ticketFormsRequest'
 import isTicketFieldsLoading from 'embeds/support/reducers/isTicketFieldsLoading'
 import isFormLoading from 'embeds/support/reducers/isFormLoading'
@@ -28,6 +29,7 @@ export default combineReducers({
   contactFormFields,
   filteredFormsToDisplay,
   formsWithSuppressedSubject,
+  fieldDescriptionOverrides,
   ticketFormsRequest,
   isTicketFieldsLoading,
   isFormLoading,

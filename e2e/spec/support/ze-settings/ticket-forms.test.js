@@ -293,3 +293,70 @@ test('suppresses the subject field if specified via API', async () => {
 
   await widget.expectNotToSeeText('Subject')
 })
+
+describe('field descriptions (or hints)', async () => {
+  const textarea = createField({
+    id: 4,
+    type: 'textarea',
+    title_in_portal: 'Description, yo',
+    description: 'this description is lukewarm'
+  })
+  const theForm = createForm({ name: 'Superfantastic form', id: 123, fields: [textarea] })
+
+  const mockConfigWithForms = {
+    embeds: {
+      ticketSubmissionForm: {
+        props: {
+          ticketForms: [theForm.form.id]
+        }
+      }
+    }
+  }
+
+  const mockFormsResponse = {
+    ticket_forms: theForm.mockFormsResponse.ticket_forms,
+    ticket_fields: theForm.mockFormsResponse.ticket_fields
+  }
+
+  test('it overrides the hint if passed a proper one', async () => {
+    await loadWidget()
+      .withPresets('contactForm', mockConfigWithForms)
+      .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+      .evaluateOnNewDocument(form => {
+        window.zESettings = {
+          webWidget: {
+            contactForm: {
+              ticketForms: [
+                {
+                  id: form.form.id,
+                  fields: [
+                    {
+                      id: 4,
+                      prefill: { '*': 'sas' },
+                      hint: { '*': 'this description is more à propos' }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }, theForm)
+      .load()
+    await widget.openByKeyboard()
+
+    await wait(() => widget.expectToSeeText('this description is more à propos'))
+    await widget.expectNotToSeeText('this description is lukewarm')
+  })
+
+  test('does not override the hint otherwise', async () => {
+    await loadWidget()
+      .withPresets('contactForm', mockConfigWithForms)
+      .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+      .load()
+    await widget.openByKeyboard()
+
+    await wait(() => widget.expectToSeeText('this description is lukewarm'))
+    await widget.expectNotToSeeText('this description is more à propos')
+  })
+})
