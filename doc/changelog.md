@@ -1,24 +1,49 @@
 ## Changelog
 
-<!---
-Where to get the changes?
-
-https://samson.zende.sk/projects/embeddable_framework/stages/production-release
-
-. In the Samson deployment page scroll to the bottom to get a list of the deployments.
-. Hover over the elapsed time (the 'STARTED' column) to get deployment date.
-. Click on the deploy link.
-. Select the **Pull Requests** tab, and go through each PR in the description page to create a change log.
-
-Formatting guide:
-
+<!-- Formatting guide:
 • Added - for new features.
 • Changed - for changes in existing functionality.
 • Deprecated -  for soon-to-be removed features.
 • Removed - for now removed features.
 • Fixed - for any bug fixes.
-• Security - in case of vulnerabilities
--->
+• Security - in case of vulnerabilities -->
+
+### 30 July 2020
+
+- Added the [Talk Label API](https://developer.zendesk.com/embeddables/docs/widget/settings#talklabel), which allows the launcher label to be customised when Talk is enabled, and Chat and Help Center are disabled.
+
+- Fixed inconsistencies in the margins used in widget positioning. Margins will now default to 16px on each side.
+
+### 23 July 2020
+
+- Fixed a bug where [on chat:end callbacks](https://developer.zendesk.com/embeddables/docs/widget/chat#on-chatend) would fire on historic chat end system messages.
+
+### 22 July 2020
+
+- Security improvements for translations.
+
+### 20 July 2020
+
+- Fixed the [chat:popout API](https://developer.zendesk.com/embeddables/docs/widget/chat#popout) to call the [on:chat:popout callback](https://developer.zendesk.com/embeddables/docs/widget/chat#on-chatpopout).
+- Fixed some accessibility issues with the Help Center search input. Specifically added an aria-label for the Clear Search button
+
+- Fixed a bug that caused the [Chat connected API](https://developer.zendesk.com/embeddables/docs/widget/chat#on-chatconnected) to not fire.
+- Fixed console errors being shown when the [identify API](https://developer.zendesk.com/embeddables/docs/widget/core#identify) is called and the visitor has been banned from Chat.
+- Changed the Chat offline form to use bouncing dots in the **Submit** button instead of a loading spinner page while the form is being submitted.
+
+### 8 July 2020
+
+- Fixed a bug where social logouts for Chat were frequently timing out.
+- Fixed an issue where long URLs were overflowing in the Chat interface.
+
+### 7 July 2020
+
+- Fixed a bug that caused the launcher not to transition on first view. This bug also caused the launcher to initially appear too far to the right when positioned on the left of the screen.
+- Fixed a bug that caused websites to be unresponsive on iOS 12 and older versions.
+
+### 30 June 2020
+
+- Fixed a bug that prevented Help Center article images loading for customers using host mapped domains.
 
 ### 25 June 2020
 
@@ -185,7 +210,7 @@ Formatting guide:
 
 ### 30 January 2020
 
-- Security - Added `SameSite: lax` to chat cookies to comply with Chrome 80s cookies security update: https://www.chromestatus.com/feature/5088147346030592
+- Security - Added `SameSite: lax` to chat cookies to comply with Chrome 80s cookies security update: <https://www.chromestatus.com/feature/5088147346030592>
 - Fixed visual bug that chat rating feedback buttons being pushed off the side of the agent panel if the agent had a very long Agent Name.
 - Fixed a bug that prevented phone number from being set when using authenticated chat.
 
