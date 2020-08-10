@@ -72,6 +72,8 @@ const TranslateLink = styled(Button).attrs(() => ({
   }
 `
 
-const MessageBubbleLink = styled(Anchor).attrs(() => ({ ignoreThemeOverride: true }))``
+const MessageBubbleLink = styled(Anchor).attrs(() => ({ ignoreThemeOverride: true }))`
+  user-select: auto !important;
+`
 
 export { Container, MessageContainer, TranslateLink, Message, MessageBubbleLink }
