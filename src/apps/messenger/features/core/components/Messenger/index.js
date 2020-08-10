@@ -1,6 +1,7 @@
 import React from 'react'
 import MessengerFrame from './MessengerFrame'
 import { Container } from './styles'
+import Header from 'src/apps/messenger/features/header/components'
 
 const FocusJailTestComponents = () => {
   return (
@@ -32,9 +33,11 @@ const Messenger = React.forwardRef((_props, ref) => {
         }}
         role="presentation"
       >
-        <div>Header</div>
-        <div style={{ flex: 1 }}>Message log</div>
-        <FocusJailTestComponents />
+        <Header />
+        <div>
+          <div>Message log</div>
+          <FocusJailTestComponents />
+        </div>
         <div>Footer</div>
       </Container>
     </MessengerFrame>
