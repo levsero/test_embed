@@ -8,7 +8,7 @@ import { getSettingsHelpCenterSearchPlaceholder } from 'src/redux/modules/select
 import { getSearchLoading, getSearchFieldValue } from 'embeds/helpCenter/selectors'
 import SearchFieldEndIcon from 'src/embeds/helpCenter/components/SearchFieldEndIcon'
 
-import { SearchIcon, Container } from './styles'
+import { SearchIcon } from './styles'
 
 const handleSearchFieldCleared = (onChange, inputRef) => () => {
   onChange()
@@ -17,34 +17,32 @@ const handleSearchFieldCleared = (onChange, inputRef) => () => {
 
 const SearchField = ({ isLoading, onChange, placeholder, value, inputRef }) => {
   return (
-    <Container>
-      <Field>
-        <MediaInput
-          start={
-            <SearchIcon
-              data-testid={TEST_IDS.ICON_SEARCH}
-              role="presentation"
-              aria-hidden="true"
-              focusable="false"
-            />
-          }
-          end={
-            <SearchFieldEndIcon
-              isLoading={isLoading}
-              isVisible={!!value}
-              onClick={handleSearchFieldCleared(onChange, inputRef)}
-            />
-          }
-          onChange={e => onChange(e.target.value)}
-          value={value}
-          ref={inputRef}
-          placeholder={placeholder}
-          data-testid={TEST_IDS.SEARCH_FIELD}
-          type="search"
-          autoCapitalize="off"
-        />
-      </Field>
-    </Container>
+    <Field>
+      <MediaInput
+        start={
+          <SearchIcon
+            data-testid={TEST_IDS.ICON_SEARCH}
+            role="presentation"
+            aria-hidden="true"
+            focusable="false"
+          />
+        }
+        end={
+          <SearchFieldEndIcon
+            isLoading={isLoading}
+            isVisible={!!value}
+            onClick={handleSearchFieldCleared(onChange, inputRef)}
+          />
+        }
+        onChange={e => onChange(e.target.value)}
+        value={value}
+        ref={inputRef}
+        placeholder={placeholder}
+        data-testid={TEST_IDS.SEARCH_FIELD}
+        type="search"
+        autoCapitalize="off"
+      />
+    </Field>
   )
 }
 

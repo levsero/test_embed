@@ -10,10 +10,8 @@ const ClearInputButton = styled(IconButton)`
   align-items: center;
   justify-content: center;
 
-  && {
-    width: ${props => 19.2 / props.theme.fontSize}rem;
-    height: ${props => 19.2 / props.theme.fontSize}rem;
-  }
+  max-height: 1rem !important;
+  width: 1rem !important;
 
   &:not(:disabled) {
     &:hover,
@@ -27,16 +25,12 @@ const ClearInputButton = styled(IconButton)`
       box-shadow: 0 0 0 ${props => 3 / props.theme.fontSize}rem rgba(153, 153, 153, 0.4) !important;
     }
   }
-
-  svg {
-    height: ${props => 19.2 / props.theme.fontSize}rem !important;
-    width: ${props => 19.2 / props.theme.fontSize}rem !important;
-  }
 `
 
 const LoadingDots = styled(Dots)`
   color: ${props => props.theme.baseColor} !important;
-  font-size: ${props => 19.2 / props.theme.fontSize}rem !important;
+  width: 1rem !important;
+  max-height: 1rem !important;
 `
 
 export { LoadingDots, ClearInputButton }
