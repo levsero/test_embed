@@ -22,10 +22,12 @@ const Avatar = styled.img`
   height: 48px;
   width: 48px;
 `
+
 const Title = styled.div`
   font-size: 18px;
   font-weight: 600;
 `
+
 const Tagline = styled.div`
   font-size: 16px;
 `

@@ -1,7 +1,7 @@
 import React from 'react'
 import MessengerFrame from './MessengerFrame'
 import { Container } from './styles'
-import Header from 'src/apps/messenger/features/header/components'
+import Header from 'src/apps/messenger/features/Header'
 
 const FocusJailTestComponents = () => {
   return (

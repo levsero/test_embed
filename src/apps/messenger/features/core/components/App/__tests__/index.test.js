@@ -6,7 +6,7 @@ describe('Messenger app', () => {
   const renderComponent = ({ isMessengerOpen = false }) => {
     const state = {
       core: { isMessengerOpen },
-      header: { company: {} }
+      company: {}
     }
     return render(<App />, { state })
   }

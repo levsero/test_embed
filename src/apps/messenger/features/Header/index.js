@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getCompany } from '../store'
+import { getCompany } from 'src/apps/messenger/store/company'
 import { Avatar, Title, Tagline, Container, Details } from './styles'
 
 const Header = () => {

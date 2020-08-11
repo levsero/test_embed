@@ -5,12 +5,10 @@ import Header from '../'
 describe('Header', () => {
   const renderComponent = () => {
     const state = {
-      header: {
-        company: {
-          name: 'Zendesk',
-          avatar: 'https://www.zendesk.com/avatar.png',
-          tagline: 'Elevate the conversation'
-        }
+      company: {
+        name: 'Zendesk',
+        avatar: 'https://www.zendesk.com/avatar.png',
+        tagline: 'Elevate the conversation'
       }
     }
     return render(<Header />, { state })
