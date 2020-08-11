@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import LauncherFrame from './LauncherFrame'
 import { Container } from './styles'
-import { messengerToggle } from 'src/apps/messenger/features/core/store'
+import { messengerToggle } from 'src/apps/messenger/store/messengerVisibility'
 
 const FocusJailTestComponents = () => <button>ok</button>
 

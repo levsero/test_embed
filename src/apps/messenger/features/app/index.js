@@ -1,8 +1,8 @@
 import React from 'react'
-import Launcher from 'src/apps/messenger/features/core/components/Launcher'
-import Messenger from 'src/apps/messenger/features/core/components/Messenger'
-import { getIsMessengerOpen } from 'src/apps/messenger/features/core/store'
 import { useSelector } from 'react-redux'
+import Launcher from 'src/apps/messenger/features/launcher'
+import Messenger from 'src/apps/messenger/features/messenger'
+import { getIsMessengerOpen } from 'src/apps/messenger/store/messengerVisibility'
 
 import { useFocusJail } from './focusJail'
 

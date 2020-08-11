@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const core = createSlice({
-  name: 'core',
+const messengerVisibility = createSlice({
+  name: 'messengerVisibility',
   initialState: { isMessengerOpen: false },
   reducers: {
     messengerClose: state => {
@@ -16,8 +16,12 @@ const core = createSlice({
   }
 })
 
-export const { messengerClose, messengerOpen, messengerToggle } = core.actions
+export const { messengerClose, messengerOpen, messengerToggle } = messengerVisibility.actions
 
-export const getIsMessengerOpen = state => state.core.isMessengerOpen
+// Selectors
 
-export default core.reducer
+const getIsMessengerOpen = state => state.messengerVisibility.isMessengerOpen
+
+export { getIsMessengerOpen }
+
+export default messengerVisibility.reducer
