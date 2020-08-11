@@ -9,13 +9,13 @@ const company = createSlice({
     tagline: 'Creating widgets for the modern world'
   },
   reducers: {
-    updateCompany: (state, action) => {
+    companyRecieved: (state, action) => {
       state = action.payload
     }
   }
 })
 
-export const { updateCompany } = company.actions
+export const { companyRecieved } = company.actions
 
 export const getCompany = state => state.company
 

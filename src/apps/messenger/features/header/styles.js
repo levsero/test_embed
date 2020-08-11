@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Avatar } from '@zendeskgarden/react-avatars'
 
 const Container = styled.div`
   display: flex;
@@ -18,9 +19,11 @@ const Details = styled.div`
   padding-left: 16px;
 `
 
-const Avatar = styled.img`
-  height: 48px;
-  width: 48px;
+const StyledAvatar = styled(Avatar)`
+  && {
+    height: 48px;
+    width: 48px;
+  }
 `
 
 const Title = styled.div`
@@ -32,4 +35,4 @@ const Tagline = styled.div`
   font-size: 16px;
 `
 
-export { Avatar, Title, Tagline, Container, Details }
+export { StyledAvatar as Avatar, Title, Tagline, Container, Details }
