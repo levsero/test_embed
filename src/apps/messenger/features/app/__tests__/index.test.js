@@ -5,7 +5,7 @@ import App from '../'
 describe('Messenger app', () => {
   const renderComponent = ({ isMessengerOpen = false }) => {
     const state = {
-      core: { isMessengerOpen },
+      messengerVisibility: { isMessengerOpen },
       company: {}
     }
     return render(<App />, { state })
