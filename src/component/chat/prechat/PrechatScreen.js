@@ -73,7 +73,7 @@ const mapStateToProps = state => {
     hasChatHistory: getHasChatHistory(state),
     chatHistoryLabel: getChatHistoryLabel(state),
     defaultDepartment: getDefaultSelectedDepartment(state),
-    isNewPrechatFormEnabled: isFeatureEnabled(state, 'chat_embed_prechat_form_enabled')
+    isNewPrechatFormEnabled: isFeatureEnabled(state, 'web_widget_prechat_form_v2')
   }
 }
 

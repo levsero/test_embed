@@ -2,8 +2,9 @@
 // Do not import from any other file
 
 export default {
-  chat_embed_prechat_form_enabled: {
-    defaultValue: false
+  web_widget_prechat_form_v2: {
+    defaultValue: false,
+    getArturoValue: state => state.base.embeddableConfig.embeds?.chat?.props?.webWidgetPrechatFormV2
   },
   defer_talk_connection: {
     defaultValue: false,
