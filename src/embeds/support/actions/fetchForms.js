@@ -48,7 +48,14 @@ export function fetchTicketForms(ticketForms = {}, locale) {
     })
 
     const idParams = !ticketForms.requestAll ? `ids=${_.toString(ticketFormIdsToLoad)}&` : ''
-    const path = `/api/v2/ticket_forms/show_many.json?${idParams}include=ticket_fields&locale=${locale}`
+    const path = [
+      '/api/v2/ticket_forms/show_many.json',
+      `?${idParams}include=ticket_fields`,
+      `&locale=${locale}`,
+      '&associated_to_brand=true',
+      '&end_user_visible=true',
+      '&active=true'
+    ].join('')
 
     return http
       .get(

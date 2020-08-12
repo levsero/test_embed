@@ -216,7 +216,8 @@ describe('fetchTicketForms', () => {
     expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'en-US',
-        path: '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US'
+        path:
+          '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US&associated_to_brand=true&end_user_visible=true&active=true'
       },
       false
     )
@@ -257,7 +258,8 @@ describe('fetchTicketForms', () => {
     expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'en-US',
-        path: '/api/v2/ticket_forms/show_many.json?include=ticket_fields&locale=en-US'
+        path:
+          '/api/v2/ticket_forms/show_many.json?include=ticket_fields&locale=en-US&associated_to_brand=true&end_user_visible=true&active=true'
       },
       false
     )
