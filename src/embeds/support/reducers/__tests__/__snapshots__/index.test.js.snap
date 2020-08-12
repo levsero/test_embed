@@ -6,7 +6,7 @@ Object {
   "attachments": Array [],
   "config": Object {
     "maxFileCount": 5,
-    "maxFileSize": 5242880,
+    "maxFileSize": 52428800,
   },
   "contactFormFields": Array [],
   "displayDropzone": false,

@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const initialState = {
   maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024
+  maxFileSize: 50 * 1024 * 1024
 }
 
 const config = (state = initialState, action) => {

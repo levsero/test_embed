@@ -4,7 +4,7 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   maxFileCount: 5,
-  maxFileSize: 5242880
+  maxFileSize: 52428800
 }
 const embeddableConfigPayload = {
   embeds: {
