@@ -5,6 +5,7 @@ import zELocaleIdMap from 'translation/ze_localeIdMap'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors'
 import { navigator } from 'utility/globals'
+import errorTracker from 'src/framework/services/errorTracker'
 
 let store
 let currentLocale
@@ -47,7 +48,9 @@ function setLocale(apiLocale, callback, configLocale = 'en-US') {
         callback()
       }
     })
-    .catch(() => {})
+    .catch(err => {
+      errorTracker.error('Failed loading locale', err.message)
+    })
 }
 
 function translate(key, params = {}) {
