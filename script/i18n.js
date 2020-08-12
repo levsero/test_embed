@@ -13,6 +13,11 @@ if (process.env.EMBEDDABLE_FRAMEWORK_ENV === 'staging') {
   localesEndpoint = localesEndpoint.replace('.zendesk.com', '.zendesk-staging.com')
 }
 
+function fatal(error) {
+  console.error(error)
+  process.exit(1)
+}
+
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
     return locale.name === 'Deutsch (informell)'
@@ -31,7 +36,7 @@ function writeJsonToGlobalFile(globalName, path, json) {
 
   fs.writeFile(path, contents, err => {
     if (err) {
-      console.error(err)
+      fatal(err)
     }
   })
 }
@@ -41,7 +46,7 @@ function writeJsonToModuleFile(path, json) {
 
   fs.writeFile(path, contents, err => {
     if (err) {
-      console.error(err)
+      fatal(err)
     }
   })
 }
@@ -56,18 +61,25 @@ function writeJson(path, json, globalName) {
 
 console.log('Downloading ' + localesEndpoint)
 
-rest(localesEndpoint).then(function(res) {
-  var locales = filterLocales(JSON.parse(res.entity).locales)
-
-  console.log('\nWriting to ' + localeIdMapPath)
-
-  writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal)
-
-  var codes = JSON.stringify(locales.map(obj => obj.locale), null, 2)
-  console.log('\nWriting to ' + localesPath)
-  fs.writeFile(localesPath, codes, { flag: 'w' }, err => {
-    if (err) {
-      console.error(err)
+rest(localesEndpoint)
+  .then(function(res) {
+    if (res.status.code !== 200) {
+      fatal(localesEndpoint + ' did not respond with 200')
     }
+    var locales = filterLocales(JSON.parse(res.entity).locales)
+
+    console.log('\nWriting to ' + localeIdMapPath)
+
+    writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal)
+
+    var codes = JSON.stringify(locales.map(obj => obj.locale), null, 2)
+    console.log('\nWriting to ' + localesPath)
+    fs.writeFile(localesPath, codes, { flag: 'w' }, err => {
+      if (err) {
+        console.error(err)
+      }
+    })
   })
-})
+  .catch(function(e) {
+    fatal(e.message)
+  })
