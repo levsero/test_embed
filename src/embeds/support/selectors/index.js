@@ -10,7 +10,7 @@ import {
   getLocale,
   getConfigAttachmentsEnabled,
   getFormTitleKey,
-  getTicketFormIds
+  getTicketFormsEnabled
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'service/i18n'
@@ -27,6 +27,8 @@ export const getAttachmentLimitExceeded = state => state.support.attachmentLimit
 export const getFilteredFormIds = state => state.support.filteredFormsToDisplay
 export const getFormsWithSuppressedSubject = state => state.support.formsWithSuppressedSubject
 export const getFieldDescriptionOverrides = state => state.support.fieldDescriptionOverrides
+export const getTicketFormsSetViaAPI = state => state.support.ticketFormsSetViaAPI
+export const getAllFormsRequested = state => state.support.allFormsRequested
 export const getAttachmentTitle = (state, attachmentIds) => {
   const validAttachments = getAttachmentsForForm(state, attachmentIds)
   const numAttachments = validAttachments.length
@@ -117,12 +119,24 @@ export const getAttachmentTypes = createSelector(
   attachments => attachments.map(attachment => attachment.fileType)
 )
 
-export const getFormIdsToDisplay = createSelector(
-  [getTicketFormIds, getFilteredFormIds],
-  (allFormIds, filteredFormIds) => {
-    const idsToDisplay = filteredFormIds.length > 0 ? filteredFormIds : allFormIds || []
+export const getTicketFormsActive = createSelector(
+  [getTicketFormsEnabled, getTicketFormsSetViaAPI],
+  (ticketFormsEnabled, ticketFormsSetViaAPI) => {
+    return ticketFormsEnabled || ticketFormsSetViaAPI
+  }
+)
 
-    return Array.from(new Set(idsToDisplay))
+export const getFormIdsToDisplay = createSelector(
+  [getAllFormsRequested, getFilteredFormIds, getTicketFormsActive, state => state.support.forms],
+  (allFormsRequested, filteredFormIds, ticketFormsActive, availableForms) => {
+    if (!ticketFormsActive) return
+
+    const filteredArray = Array.from(new Set(filteredFormIds))
+
+    if (filteredArray.length > 0) return filteredArray
+    if (allFormsRequested) return Object.keys(availableForms).map(item => parseInt(item, 10))
+
+    return []
   }
 )
 
@@ -130,10 +144,27 @@ export const getFormsToDisplay = createSelector(
   getFormIdsToDisplay,
   state => state.support.forms,
   (formIds, forms) => {
+    if (!Array.isArray(formIds)) return []
+
     return formIds
       ?.map(id => forms[id])
       .filter(form => form?.active)
       .sort((a, b) => a.position - b.position)
+  }
+)
+
+export const getTicketForms = createSelector(
+  [getFormIdsToDisplay, getTicketFormsActive],
+  (ids, active) => {
+    const requestAll = active && ids.length == 0
+    const showList = requestAll || (active && ids.length > 1)
+
+    return {
+      ids,
+      showList,
+      requestAll,
+      active
+    }
   }
 )
 

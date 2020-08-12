@@ -83,6 +83,40 @@ describe('getCustomFieldsAvailable', () => {
   })
 })
 
+describe('getTicketFormsEnabled', () => {
+  describe('when enabled in config', () => {
+    const config = {
+      ticketSubmission: {
+        props: {
+          ticketFormsEnabled: true
+        }
+      }
+    }
+
+    it('returns true', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getTicketFormsEnabled(state)).toBeTruthy()
+    })
+  })
+
+  describe('when disabled in config', () => {
+    const config = {
+      ticketSubmission: {
+        props: {
+          ticketFormsEnabled: false
+        }
+      }
+    }
+
+    it('returns false', () => {
+      const state = mockConfig(config)
+
+      expect(selectors.getTicketFormsEnabled(state)).toBeFalsy()
+    })
+  })
+})
+
 describe('getCustomFieldIds', () => {
   describe('when config contains the setting', () => {
     const config = {
@@ -113,38 +147,6 @@ describe('getCustomFieldIds', () => {
       const state = mockConfig(config)
 
       expect(selectors.getCustomFieldIds(state)).toEqual({})
-    })
-  })
-})
-
-describe('getTicketFormIds', () => {
-  describe('when config contains the setting', () => {
-    const config = {
-      ticketSubmission: {
-        props: {
-          ticketForms: [10, 20, 30]
-        }
-      }
-    }
-
-    it('returns the setting', () => {
-      const state = mockConfig(config)
-
-      expect(selectors.getTicketFormIds(state)).toEqual([10, 20, 30])
-    })
-  })
-
-  describe('when config does not contain the setting', () => {
-    const config = {
-      ticketSubmission: {
-        props: {}
-      }
-    }
-
-    it('returns undefined', () => {
-      const state = mockConfig(config)
-
-      expect(selectors.getTicketFormIds(state)).toBeUndefined()
     })
   })
 })
