@@ -1,84 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Web Widget Live Chat</title>
-</head>
-<body>
-  <script type='text/javascript'>
-    var parseQueryParams = function(inputString) {
-      var params = {}, queries;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Web Widget Live Chat</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var parseQueryParams = function(inputString) {
+        var params = {},
+          queries
 
-      inputString = inputString.substring(inputString.indexOf('#') + 1);
-      queries = inputString.split('&');
+        inputString = inputString.substring(inputString.indexOf('#') + 1)
+        queries = inputString.split('&')
 
-      queries.forEach(function(element) {
-        var splitElement = element.split('=');
+        queries.forEach(function(element) {
+          var splitElement = element.split('=')
 
-        if (splitElement.length > 1) {
-          params[splitElement[0]] = splitElement[1];
-        }
-      });
+          if (splitElement.length > 1) {
+            params[splitElement[0]] = splitElement[1]
+          }
+        })
 
-      return params;
-    };
-
-    var decodeSettings = function(encodedSettings) {
-      return JSON.parse(decodeURIComponent(window.atob(encodedSettings)));
-    }
-
-    var parseSettings = function(parameters) {
-      if (!parameters || !parameters.settings) return {};
-
-      return decodeSettings(parameters.settings);
-    }
-
-    var setPageTitle = function(title) {
-      if (title) {
-        document.title = decodeURI(title);
+        return params
       }
-    };
 
-    var loadLocale = function(locale) {
-      if (locale) {
-        zE('webWidget', 'setLocale', locale);
+      var decodeSettings = function(encodedSettings) {
+        return JSON.parse(decodeURIComponent(window.atob(encodedSettings)))
       }
-    };
 
-    var loadSnippet = function(parameters) {
-      var head = document.head;
-      var scriptElement = document.createElement('script');
+      var parseSettings = function(parameters) {
+        if (!parameters || !parameters.settings) return {}
 
-      window.zEPopout = true;
-      scriptElement.id = 'ze-snippet';
+        return decodeSettings(parameters.settings)
+      }
 
-      if (parameters && typeof parameters === 'object') {
-        scriptElement.src = '{{popoutURL}}';
-
-        if (parameters.key) {
-          scriptElement.src += ('?key=web_widget/' + parameters.key);
+      var setPageTitle = function(title) {
+        if (title) {
+          document.title = decodeURI(title)
         }
-        // Insert other required parameters below
-        head.appendChild(scriptElement);
-        if (parameters.locale) {
-          scriptElement.onload = function() {
-            loadLocale(queryParams.locale);
+      }
+
+      var loadLocale = function(locale) {
+        if (locale) {
+          zE('webWidget', 'setLocale', locale)
+        }
+      }
+
+      var loadSnippet = function(parameters) {
+        var head = document.head
+        var scriptElement = document.createElement('script')
+
+        window.zEPopout = true
+        scriptElement.id = 'ze-snippet'
+
+        if (parameters && typeof parameters === 'object') {
+          scriptElement.src = '{{popoutURL}}'
+
+          if (parameters.key) {
+            scriptElement.src += '?key=web_widget/' + parameters.key
+          }
+          // Insert other required parameters below
+          head.appendChild(scriptElement)
+          if (parameters.locale) {
+            scriptElement.onload = function() {
+              loadLocale(queryParams.locale)
+            }
           }
         }
       }
-    };
 
-    var queryParams = parseQueryParams(window.location.hash);
+      var queryParams = parseQueryParams(window.location.hash)
 
-    if (queryParams.mid) {
-      document.cookie = '__zlcpomid=' + queryParams.mid + '; SameSite=Lax';
-      window.location.href = (window.location.href || '').replace(/([#?&])mid=[^&#]+/, '$1');
-    }
+      if (queryParams.mid) {
+        document.cookie = '__zlcpomid=' + queryParams.mid + '; SameSite=Lax'
+        window.location.href = (window.location.href || '').replace(/([#?&])mid=[^&#]+/, '$1')
+      }
 
-    window.zESettings = parseSettings(queryParams);
+      window.zESettings = parseSettings(queryParams)
 
-    setPageTitle(queryParams.title);
-    loadSnippet(queryParams);
-  </script>
-</body>
+      setPageTitle(queryParams.title)
+      loadSnippet(queryParams)
+    </script>
+  </body>
 </html>
