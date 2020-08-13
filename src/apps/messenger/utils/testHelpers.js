@@ -13,7 +13,7 @@ export const render = (ui, { render, store, state, themeProps = {} } = {}) => {
   if (state) {
     store = mockStore(state)
   }
-  const reduxStore = store || createStore(state)
+  const reduxStore = store || createStore()
 
   const renderFn = render || rtlRender
   return {
