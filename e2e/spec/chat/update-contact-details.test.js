@@ -10,16 +10,6 @@ import {
 import zChat from 'e2e/helpers/zChat'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import { clearInputField } from 'e2e/helpers/utils'
-import { TEST_IDS } from 'src/constants/shared'
-
-const clickEditContactDetails = async () => {
-  const editDetails = await queries.getByTestId(
-    await widget.getDocument(),
-    TEST_IDS.CHAT_MENU_ITEM_EDIT_CONTACT_DETAILS
-  )
-
-  await editDetails.click()
-}
 
 const setupTest = async () => {
   await loadWidgetWithChatOnline()
@@ -27,7 +17,7 @@ const setupTest = async () => {
   await clickStartChat()
   await waitForChatToBeReady()
   await clickChatOptions()
-  await clickEditContactDetails()
+  await widget.clickText('Edit contact details')
 
   const nameField = await queries.getByLabelText(await widget.getDocument(), 'Name (optional)')
   const emailField = await queries.getByLabelText(await widget.getDocument(), 'Email (optional)')

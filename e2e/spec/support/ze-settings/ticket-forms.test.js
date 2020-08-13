@@ -294,7 +294,7 @@ test('suppresses the subject field if specified via API', async () => {
   await widget.expectNotToSeeText('Subject')
 })
 
-describe('field descriptions (or hints)', async () => {
+describe('field descriptions (or hints)', () => {
   const textarea = createField({
     id: 4,
     type: 'textarea',

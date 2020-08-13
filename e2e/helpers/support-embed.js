@@ -3,6 +3,7 @@ import { allowsInputTextEditing } from 'e2e/spec/shared-examples'
 import loadWidget from './widget-page'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
+import { hostWithPort } from 'e2e/env'
 
 const mockTicketFormsEndpoint = response => request => {
   if (!request.url().includes('ticket_forms')) {
@@ -54,7 +55,7 @@ const createTicketSubmissionEndpointResponse = (formId, fields) => {
       tags: ['web_widget'],
       via_id: 48,
       comment: {
-        body: `${description}\n\n------------------\nSubmitted from: http://localhost:5123/e2e.html`,
+        body: `${description}\n\n------------------\nSubmitted from: http://${hostWithPort}/e2e.html`,
         uploads: uploads || []
       },
       requester: { name, email, locale_id: 1176 },

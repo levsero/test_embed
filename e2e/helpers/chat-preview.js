@@ -1,8 +1,9 @@
+import { hostWithPort } from 'e2e/env'
 import { setupContainer } from './previews'
 import frame from './frame'
 
 const goToTestPage = async () =>
-  await page.goto('http://localhost:5123/chatPreview.html', {
+  await page.goto(`http://${hostWithPort}/chatPreview.html`, {
     waitUntil: ['domcontentloaded', 'load', 'networkidle0']
   })
 
@@ -12,6 +13,8 @@ const renderPreview = () =>
       element: document.getElementById('container')
     })
   })
+
+const updateScreen = screen => page.evaluate(screen => window.preview.updateScreen(screen), screen)
 
 export const loadPreview = async () => {
   await goToTestPage()
@@ -45,5 +48,6 @@ export default {
   getFrame,
   getLauncherFrame,
   evaluate,
-  waitForPreview
+  waitForPreview,
+  updateScreen
 }
