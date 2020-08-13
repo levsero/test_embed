@@ -13,6 +13,7 @@ export default {
     defaultValue: false
   },
   web_widget_new_boot_sequence: {
-    defaultValue: false
+    defaultValue: false,
+    getArturoValue: state => state.base.embeddableConfig.newBootSequence
   }
 }

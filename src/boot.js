@@ -153,7 +153,7 @@ const shouldSendZeDiffBlip = win => {
 const start = (win, doc) => {
   const reduxStore = createStore()
 
-  if (isFeatureEnabled(reduxStore, 'web_widget_new_boot_sequence')) {
+  if (isFeatureEnabled(reduxStore.getState(), 'web_widget_new_boot_sequence')) {
     import(/* webpackChunkName: 'lazy/framework-boot' */ './framework').then(
       ({ default: framework }) => {
         framework.start(win, doc)
