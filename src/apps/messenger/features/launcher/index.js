@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import LauncherFrame from './LauncherFrame'
 import { Container } from './styles'
-import { messengerToggle } from 'src/apps/messenger/store/messengerVisibility'
+import { widgetToggled } from 'src/apps/messenger/store/visibility'
 
 const FocusJailTestComponents = () => <button>ok</button>
 
@@ -17,7 +17,7 @@ const Launcher = React.forwardRef((_props, ref) => {
         }}
         role="button"
         onClick={() => {
-          dispatch(messengerToggle())
+          dispatch(widgetToggled())
         }}
       >
         Launcher

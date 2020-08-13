@@ -63,4 +63,14 @@ Any globally relevant slices will have a file in the top level store as opposed 
 
 A feature is a group of components, hooks, stores, utility functions and anything else that relates to the specific folder.
 
-The index file should be the component that will be rendered by other components. If your feature has nested components, they should be nested under a `components` folder, hooks under a `hooks` folder and so on.
+The index file should be the entry point into your feature, for example if your feature is UI related, this should be a React component.
+
+Any internal components and hooks for the feature should be nested under a components folder, hooks under a hooks folder and so on.
+
+### Selectors and actions
+
+Use [useSelector](https://react-redux.js.org/next/api/hooks#useselector) and [useDispatch](https://react-redux.js.org/next/api/hooks#usedispatch) hooks in components to handle state.
+
+### Testing components
+
+When testing components with selectors, setup the state with actions rather then stubbing the selectors. If the setup is too complicated you can stub the needed selectors instead.
