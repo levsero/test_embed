@@ -1,14 +1,21 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-userLauncherColor from global;
-  margin-top: #{3 / $font-size}rem;
-  background-color: $zd-color-grey-700;
   border-radius: #{8 / $font-size}rem;
   height: #{200 / $font-size}rem;
   width: #{245 / $font-size}rem;
-  margin-left: #{3 / $font-size}rem;
-  box-shadow: 0 #{1 / $font-size}rem #{8 / $font-size}rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 #{6 / $font-size}rem 0 rgba(0, 0, 0, 0.2);
+  margin-right: #{6 / $font-size}rem;
+  margin-top: #{6 / $font-size}rem;
+}
+
+.containerForWidget {
+  margin: 0;
+  position: fixed;
+  bottom: 5px;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .textContainer {
@@ -44,7 +51,14 @@
 }
 
 .splashDisplayContainer {
+  background-color: $zd-color-grey-700;
+  composes: u-userLauncherColor from global;
+  border-radius: #{8 / $font-size}rem #{8 / $font-size}rem 0 0;
+  border: 0;
+  padding: 0;
   overflow: hidden;
+  position: relative;
+
   height: #{160 / $font-size}rem;
 }
 
@@ -57,9 +71,11 @@
   height: 100%;
   table-layout: fixed;
   direction: ltr;
+  margin-top: 8px;
 }
 
 .title {
+  z-index: 1;
   position: absolute;
   top: #{3 / $font-size}rem;
   height: #{20 / $font-size}rem !important;
@@ -68,6 +84,7 @@
   padding-top: #{9 / $font-size}rem !important;
   font-family: Verdana, Geneva, sans-serif;
   font-size: #{10 / $font-size}rem !important;
+  line-height: 1em;
 }
 
 .chatIcon {
@@ -83,26 +100,28 @@
   height: #{40 / $font-size}rem;
   border-bottom-left-radius: #{8 / $font-size}rem;
   border-bottom-right-radius: #{8 / $font-size}rem;
-  border-top: #{1 / $font-size}rem $zd-color-grey-300 solid;
   display: flex;
+
+  > div:first-child {
+    height: #{40 / $font-size}rem;
+    flex: 1;
+  }
 }
 
 .input {
   color: $zd-color-grey-700;
   display: inline-block;
   vertical-align: top;
-  height: #{40 / $font-size}rem;
-  width: #{205 / $font-size}rem;
   padding: 0 #{8 / $font-size}rem;
-  border: none;
   letter-spacing: #{-0.15 / $font-size}rem;
   font-family: Verdana, Geneva, sans-serif;
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none !important;
-    box-shadow: none !important;
+  border-radius: 0;
+  min-height: #{40 / $font-size}rem;
+
+  &:not(:focus) {
+    border: none;
   }
+
   &::placeholder {
     color: $zd-color-grey-500;
   }
@@ -124,14 +143,21 @@
   align-items: center;
   height: #{40 / $font-size}rem;
   width: #{40 / $font-size}rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 
   [dir='ltr'] & {
     border-bottom-right-radius: #{8 / $font-size}rem;
+    border-bottom-left-radius: 0;
   }
 
   [dir='rtl'] & {
-    border-top-right-radius: #{8 / $font-size}rem;
-    transform: scale(-1);
+    border-bottom-left-radius: #{8 / $font-size}rem;
+    border-bottom-right-radius: 0;
+
+    svg {
+      transform: scale(-1);
+    }
   }
   svg {
     fill: $zd-color-grey-400 !important;
@@ -151,31 +177,18 @@
 }
 
 .minimizeButton {
+  composes: u-userLauncherColor from global;
   position: absolute;
   top: #{10 / $font-size}rem;
   height: #{20 / $font-size}rem;
   width: #{21 / $font-size}rem;
-  padding-top: #{9 / $font-size}rem !important;
-
-  border-radius: #{4 / $font-size}rem;
-
-  svg {
-    height: #{2 / $font-size}rem;
-    width: #{13 / $font-size}rem;
-  }
 
   [dir='ltr'] & {
     right: #{6 / $font-size}rem;
-    padding-left: #{4 / $font-size}rem;
   }
 
   [dir='rtl'] & {
     left: #{6 / $font-size}rem;
-    padding-right: #{4 / $font-size}rem;
-  }
-
-  &:hover {
-    background-color: rgba(248, 249, 249, 0.2);
   }
 }
 

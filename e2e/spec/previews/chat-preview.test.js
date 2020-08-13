@@ -86,7 +86,8 @@ test('setColor updates the color of the preview widget and badge', async () => {
     .getLauncherFrame()
     .evaluate(
       testId =>
-        getComputedStyle(document.querySelector(`div[data-testid="${testId}"]`)).backgroundColor,
+        getComputedStyle(document.querySelector(`div[data-testid="${testId}"] > button`))
+          .backgroundColor,
       TEST_IDS.CHAT_BADGE
     )
   expect(badgeColor).toEqual('rgb(0, 255, 255)')

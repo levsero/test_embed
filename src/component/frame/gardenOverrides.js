@@ -82,24 +82,30 @@ const selectArrowOverrides = css`
 `
 
 const genericOverrides = css`
-  :hover,
-  :focus {
-    border-color: ${({ validation }) =>
-      (!validation || validation === 'none') && `${zdColorGrey600} !important;`};
-  }
-  :focus {
-    box-shadow: ${({ validation, isBare }) =>
-      (!validation || validation === 'none') &&
-      !isBare &&
-      `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-  }
-  box-shadow: ${({ focused, validation }) =>
-    focused &&
-    (!validation || validation === 'none') &&
-    `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-  border-color: ${({ focused, validation }) =>
-    focused && (!validation || validation === 'none') && `${zdColorGrey600} !important`};
-  cursor: ${({ readOnly }) => (readOnly ? 'default' : 'auto')} ${mobileOverrides};
+  ${props => {
+    if (props.ignoreThemeOverride) return ''
+
+    return css`
+      :hover,
+      :focus {
+        border-color: ${({ validation }) =>
+          (!validation || validation === 'none') && `${zdColorGrey600} !important;`};
+      }
+      :focus {
+        box-shadow: ${({ validation, isBare }) =>
+          (!validation || validation === 'none') &&
+          !isBare &&
+          `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      }
+      box-shadow: ${({ focused, validation }) =>
+        focused &&
+        (!validation || validation === 'none') &&
+        `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+      border-color: ${({ focused, validation }) =>
+        focused && (!validation || validation === 'none') && `${zdColorGrey600} !important`};
+      cursor: ${({ readOnly }) => (readOnly ? 'default' : 'auto')} ${mobileOverrides};
+    `
+  }}
 `
 
 // This is a workaround for a Safari bug
