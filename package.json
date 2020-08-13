@@ -140,7 +140,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^3.0.1",
-    "rollbar": "^2.7.0",
+    "rollbar": "^2.18.0",
     "sanitize-html": "~1.11.4",
     "sha1": "^1.1.1",
     "snapcall": "^1.8.4",
