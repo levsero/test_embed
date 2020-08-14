@@ -16,12 +16,14 @@ import { i18n } from 'service/i18n'
 
 import { locals as styles } from './ChatBadge.scss'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
+import { Button, IconButton } from '@zendeskgarden/react-buttons'
+import MinimiseIcon from '@zendeskgarden/svg-icons/src/16/dash-fill.svg'
+import SendChatIcon from 'icons/widget-icon_sendChat.svg'
 
 const frameStyle = {
-  height: 210,
-  minHeight: 210,
-  width: 254,
-  minWidth: 254,
+  height: 215,
+  minHeight: 215,
+  width: 260,
   marginTop: 7,
   marginBottom: 7,
   marginLeft: 7,
@@ -44,7 +46,8 @@ class ChatBadge extends Component {
     handleChatBadgeMinimize: PropTypes.func.isRequired,
     bannerSettings: PropTypes.object.isRequired,
     chatBadgeClicked: PropTypes.func.isRequired,
-    hideBranding: PropTypes.bool
+    hideBranding: PropTypes.bool,
+    isPreviewer: PropTypes.bool
   }
 
   static defaultProps = {
@@ -60,11 +63,15 @@ class ChatBadge extends Component {
 
   renderMinimizeButton = () => {
     return (
-      <Icon
+      <IconButton
+        isPill={false}
         className={styles.minimizeButton}
-        type={ICONS.DASH}
+        ignoreThemeOverride={true}
         onClick={this.props.handleChatBadgeMinimize}
-      />
+        size="small"
+      >
+        <MinimiseIcon />
+      </IconButton>
     )
   }
 
@@ -143,19 +150,22 @@ class ChatBadge extends Component {
     })
 
     return (
-      <div
+      <Button
+        isBasic={true}
+        ignoreThemeOverride={true}
         onKeyPress={triggerOnEnter(this.props.chatBadgeClicked)}
-        role="button"
         tabIndex="0"
         onClick={this.props.chatBadgeClicked}
         className={displayClasses}
       >
+        {this.renderTitle()}
+
         <table className={styles.splashTable}>
           <tbody>
             <tr>{this.renderContent()}</tr>
           </tbody>
         </table>
-      </div>
+      </Button>
     )
   }
 
@@ -171,6 +181,8 @@ class ChatBadge extends Component {
             ref={el => {
               this.input = el
             }}
+            focusInset={true}
+            ignoreThemeOverride={true}
             className={styles.input}
             placeholder={i18n.t('embeddable_framework.chat.chatBox.placeholder.type_your_message')}
             onChange={this.handleChange}
@@ -179,7 +191,15 @@ class ChatBadge extends Component {
             data-testid={TEST_IDS.MESSAGE_FIELD}
           />
         </Field>
-        <Icon onClick={this.sendChatMsg} className={sendButtonClasses} type={ICONS.SEND_CHAT} />
+        <IconButton
+          isPill={false}
+          ignoreThemeOverride={true}
+          onClick={this.sendChatMsg}
+          className={sendButtonClasses}
+          focusInset={true}
+        >
+          <SendChatIcon />
+        </IconButton>
       </div>
     )
   }
@@ -198,8 +218,13 @@ class ChatBadge extends Component {
     return (
       <>
         <FrameStyle style={frameStyle} />
-        <div data-testid={TEST_IDS.CHAT_BADGE} className={styles.container}>
-          {this.renderTitle()}
+        <div
+          data-testid={TEST_IDS.CHAT_BADGE}
+          className={classNames({
+            [styles.container]: true,
+            [styles.containerForWidget]: !this.props.isPreviewer
+          })}
+        >
           {this.renderSplashDisplay()}
           {this.renderInputContainer()}
           {this.renderMinimizeButton()}

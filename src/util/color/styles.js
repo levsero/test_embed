@@ -1,6 +1,5 @@
 import { themeColor, mainTextColor, colorFor } from './validate'
 import { ColorMixer } from './mixer'
-import { FONT_SIZE } from 'constants/shared'
 
 function getWidgetColorVariables(color) {
   const mixer = new ColorMixer(themeColor(color && color.base))
@@ -163,14 +162,9 @@ function generateUserWidgetCSS(color) {
 
 function generateUserLauncherCSS(color) {
   const colorVariables = getLauncherColorVariables(color)
-  const zdColorGrey300 = '216, 220, 222'
-  const boxShadow = colorVariables.launcherIsAlmostWhite
-    ? `inset 0 0 0 ${3 / FONT_SIZE}rem rgba(${zdColorGrey300}, 0.8)`
-    : 'none'
 
   return `
     .u-userLauncherColor:not([disabled]) {
-      box-shadow: ${boxShadow};
       background-color: ${colorVariables.launcherColorStr} !important;
       color: ${colorVariables.launcherTextColorStr} !important;
       fill: ${colorVariables.launcherTextColorStr} !important;
@@ -185,11 +179,6 @@ function generateUserLauncherCSS(color) {
       fill: ${colorVariables.launcherTextColorStr};
     }
 
-    .u-userLauncherColor:not([disabled]):focus {
-      box-shadow: inset 0 0 0 ${3 / FONT_SIZE}rem ${
-    colorVariables.launcherFocusRingColorStr
-  } !important;
-    }
   `
 }
 

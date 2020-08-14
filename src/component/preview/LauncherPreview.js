@@ -17,6 +17,7 @@ export class LauncherPreview extends Component {
         chatBadgeClicked={noop}
         prechatFormRequired={false}
         hideBranding={false}
+        isPreviewer={true}
       />
     )
   }
