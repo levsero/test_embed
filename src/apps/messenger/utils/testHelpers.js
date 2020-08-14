@@ -4,15 +4,9 @@ import { render as rtlRender } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import createStore from 'src/apps/messenger/store'
-import configureMockStore from 'redux-mock-store'
 
-const mockStore = configureMockStore()
-
-export const render = (ui, { render, store, state, themeProps = {} } = {}) => {
+export const render = (ui, { render, store, themeProps = {} } = {}) => {
   IdManager.setIdCounter(0)
-  if (state) {
-    store = mockStore(state)
-  }
   const reduxStore = store || createStore()
 
   const renderFn = render || rtlRender

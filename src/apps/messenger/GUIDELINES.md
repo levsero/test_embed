@@ -19,23 +19,20 @@ The messenger embeddable follows a feature folder based approach. Anything that 
         |-- index.js
         |-- styles.js
 |-- store
-    |-- someGeneralStore
-        |-- index.js
+    |-- someGlobalStore.js
+    |-- index.js
 |-- hooks
     |-- useGeneralHook.js
 |-- features
     |-- featureName
-        |-- components
-            |-- SpecificFeatureComponent
-                    |-- __tests__
-                        |-- index.test.js
-                |-- index.js
-                |-- styles.js
+            |-- __tests__
+                |-- index.test.js
+        |-- index.js
+        |-- styles.js
         |-- hooks
-                |-- useSpecificFeatureHook.js
+            |-- useSpecificFeatureHook.js
         |-- store
-            |-- specificFeatureStore
-                |-- index.js
+            |-- index.js
 ```
 
 ## Folders
@@ -60,11 +57,20 @@ E.g. `useInterval`
 ### Store
 
 Contains code for our redux store. Each different chunk of state can include actions, reducers and selectors.
+Any globally relevant slices will have a file in the top level store as opposed to slices for a given feature.
 
 ### Features
 
 A feature is a group of components, hooks, stores, utility functions and anything else that relates to the specific folder.
 
-Each feature folder should match the same folder structure as the top level for the messenger embeddable.
+The index file should be the entry point into your feature, for example if your feature is UI related, this should be a React component.
 
-This means if your feature has a component, it should be nested under a `components` folder, hooks under a `hooks` folder and so on.
+Any internal components and hooks for the feature should be nested under a components folder, hooks under a hooks folder and so on.
+
+### Selectors and actions
+
+Use [useSelector](https://react-redux.js.org/next/api/hooks#useselector) and [useDispatch](https://react-redux.js.org/next/api/hooks#usedispatch) hooks in components to handle state.
+
+### Testing components
+
+When testing components with selectors, setup the state with actions rather then stubbing the selectors. If the setup is too complicated you can stub the needed selectors instead.

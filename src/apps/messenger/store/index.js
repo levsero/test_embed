@@ -1,11 +1,11 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import coreWidgetReducer from 'src/apps/messenger/features/core/store'
 import companyReducer from './company'
+import visibilityReducer from './visibility'
 
 const createStore = () => {
   const store = configureStore({
     reducer: combineReducers({
-      core: coreWidgetReducer,
+      visibility: visibilityReducer,
       company: companyReducer
     })
   })

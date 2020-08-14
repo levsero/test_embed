@@ -1,5 +1,5 @@
 import React from 'react'
-import MessengerFrame from './MessengerFrame'
+import WidgetFrame from './WidgetFrame'
 import { Container } from './styles'
 import Header from 'src/apps/messenger/features/header'
 
@@ -23,9 +23,9 @@ const FocusJailTestComponents = () => {
   )
 }
 
-const Messenger = React.forwardRef((_props, ref) => {
+const Widget = React.forwardRef((_props, ref) => {
   return (
-    <MessengerFrame>
+    <WidgetFrame>
       <Container
         ref={ref}
         onKeyDown={() => {
@@ -40,8 +40,8 @@ const Messenger = React.forwardRef((_props, ref) => {
         </div>
         <div>Footer</div>
       </Container>
-    </MessengerFrame>
+    </WidgetFrame>
   )
 })
 
-export default Messenger
+export default Widget

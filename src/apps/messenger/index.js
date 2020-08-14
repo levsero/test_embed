@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import App from 'src/apps/messenger/features/core/components/App'
+import App from 'src/apps/messenger/features/app'
 import createStore from 'src/apps/messenger/store'
 
 const run = () => {
