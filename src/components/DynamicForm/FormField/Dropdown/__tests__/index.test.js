@@ -17,11 +17,12 @@ describe('Dropdown', () => {
     errorMessage: null
   }
 
-  const renderComponent = (props = {}, containerOnKeyDown = jest.fn()) =>
+  const renderComponent = (props = {}, { onKeyDown = jest.fn(), ...options } = {}) =>
     render(
-      <div onKeyDown={containerOnKeyDown} role="presentation">
+      <div onKeyDown={onKeyDown} role="presentation">
         <Dropdown {...defaultProps} {...props} />
-      </div>
+      </div>,
+      options
     )
 
   describe('when title exists', () => {
@@ -186,6 +187,35 @@ describe('Dropdown', () => {
     expect(queryByText('-')).toBeInTheDocument()
   })
 
+  it('continues to display an empty option at the root level when the values change if the field is not required', () => {
+    const { queryByText, rerender } = renderComponent({
+      field: {
+        ...defaultProps.field,
+        required: false,
+        options: [{ id: 1, name: 'an_option', value: 'an_option' }]
+      },
+      value: 'an_option'
+    })
+
+    renderComponent(
+      {
+        field: {
+          ...defaultProps.field,
+          required: false,
+          options: [
+            { id: 1, name: 'an_option', value: 'an_option' },
+            { id: 2, name: 'another_option', value: 'another_option' }
+          ]
+        },
+        value: 'an_option'
+      },
+      { render: rerender }
+    )
+
+    queryByText('an_option').click()
+    expect(queryByText('-')).toBeInTheDocument()
+  })
+
   it('does not display an empty option at a nested level', () => {
     const { queryByText } = renderComponent({
       field: {
@@ -225,7 +255,7 @@ describe('Dropdown', () => {
           required: true
         }
       },
-      onKeyDown
+      { onKeyDown }
     )
 
     fireEvent.keyDown(queryByLabelText('Some title'), {

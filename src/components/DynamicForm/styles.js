@@ -20,7 +20,8 @@ const Fields = styled.div`
 `
 
 const StyledAlert = styled(Alert)`
-  margin-top: ${props => 6 / props.theme.fontSize}rem;
+  margin-top: ${props => 16 / props.theme.fontSize}rem;
+  margin-bottom: 0 !important;
 `
 
 export { StyledAlert as Alert, FormContainer, Fields }
