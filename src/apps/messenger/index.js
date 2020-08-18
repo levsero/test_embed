@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import App from 'src/apps/messenger/features/app'
 import createStore from 'src/apps/messenger/store'
+import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDesign/store'
 
 const run = () => {
   const element = hostPageWindow.document.body.appendChild(
@@ -11,6 +12,7 @@ const run = () => {
   )
 
   const store = createStore()
+  store.dispatch(watchForScreenChanges())
 
   ReactDOM.render(
     <Provider store={store}>

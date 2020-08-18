@@ -1,0 +1,48 @@
+import {
+  breakpoints,
+  getIsFullScreen,
+  getIsVerticallySmallScreen,
+  watchForScreenChanges
+} from '../store'
+import createStore from 'src/apps/messenger/store'
+import { mockMatchMedia } from 'src/apps/messenger/utils/testHelpers'
+
+describe('response design store', () => {
+  it('is vertically small when the screen is smaller than 400px', () => {
+    const { triggerChangeForBreakpoint } = mockMatchMedia()
+
+    const store = createStore()
+    store.dispatch(watchForScreenChanges())
+
+    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: true })
+
+    expect(getIsVerticallySmallScreen(store.getState())).toBe(true)
+  })
+
+  it('is not vertically small when the screen is larger than 400px', () => {
+    const { triggerChangeForBreakpoint } = mockMatchMedia()
+
+    const store = createStore()
+    store.dispatch(watchForScreenChanges())
+
+    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: false })
+
+    expect(getIsVerticallySmallScreen(store.getState())).toBe(false)
+  })
+
+  it('is full screen when the screen is vertically and horizontally small', () => {
+    const { triggerChangeForBreakpoint } = mockMatchMedia()
+
+    const store = createStore()
+    store.dispatch(watchForScreenChanges())
+
+    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: true })
+    triggerChangeForBreakpoint(breakpoints.horizontallySmallScreen, { matches: false })
+
+    expect(getIsFullScreen(store.getState())).toBe(false)
+
+    triggerChangeForBreakpoint(breakpoints.horizontallySmallScreen, { matches: true })
+
+    expect(getIsFullScreen(store.getState())).toBe(true)
+  })
+})
