@@ -17,7 +17,7 @@ const ignoredMessagesList = [
   'timeout of [0-9]+ms exceeded',
 
   // Occurs when the initial config request is prematurely ended
-  'Request has been terminated Possible causes',
+  'Request has been terminated\nPossible causes',
 
   // Occurs in safari and ios when there's no permission to play audio
   'the user denied permission'
