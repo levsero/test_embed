@@ -506,17 +506,19 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c15 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
   color: #68737d;
+  margin: 1px 8px auto 0;
   width: 16px;
   height: 16px;
 }
 
-.c28 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c28 .c14:last-child {
-  margin: auto 0 auto 8px;
+.c28 > .c14 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c13 {
@@ -548,6 +550,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   -ms-flex-align: baseline;
   align-items: baseline;
   cursor: text;
+  overflow: hidden;
 }
 
 .c13::-ms-browse {
@@ -644,14 +647,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin-top: 8px;
 }
 
-.c13 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c13 .c14:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c13:focus {
   outline: none;
 }
@@ -691,6 +686,12 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 
 .c13:disabled {
   cursor: default;
+}
+
+.c13 > .c14 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c17 {
@@ -810,14 +811,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 .c17 + .sc-kGXeez,
 .c17 + .sc-ckVGcZ {
   margin-top: 8px;
-}
-
-.c17 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c17 .c14:last-child {
-  margin: auto 0 auto 8px;
 }
 
 .c17:focus {
@@ -984,24 +977,23 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
               <div
                 class="c12"
                 data-garden-id="forms.field"
-                data-garden-version="8.15.0"
+                data-garden-version="8.20.0"
               >
                 <div
                   aria-invalid="false"
                   class="c13"
                   data-garden-id="forms.faux_input"
-                  data-garden-version="8.15.0"
+                  data-garden-version="8.20.0"
                 >
                   <svg
                     aria-hidden="true"
                     class="c14 c15 c16"
                     data-garden-id="forms.media_figure"
-                    data-garden-version="8.15.0"
+                    data-garden-version="8.20.0"
                     data-testid="Icon--search"
                     focusable="false"
                     realfilename="search-stroke.svg"
                     role="presentation"
-                    theme="[object Object]"
                   />
                   <input
                     aria-describedby="2val-field_1.3.4--hint"
@@ -1010,7 +1002,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
                     autocapitalize="off"
                     class="c17"
                     data-garden-id="forms.media_input"
-                    data-garden-version="8.15.0"
+                    data-garden-version="8.20.0"
                     data-testid="search-field"
                     id="2val-field_1.3.4--input"
                     placeholder="How can we help?"
@@ -1592,17 +1584,19 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 }
 
 .c15 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
   color: #68737d;
+  margin: 1px 8px auto 0;
   width: 16px;
   height: 16px;
 }
 
-.c28 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c28 .c14:last-child {
-  margin: auto 0 auto 8px;
+.c28 > .c14 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c13 {
@@ -1634,6 +1628,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   -ms-flex-align: baseline;
   align-items: baseline;
   cursor: text;
+  overflow: hidden;
 }
 
 .c13::-ms-browse {
@@ -1730,14 +1725,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin-top: 8px;
 }
 
-.c13 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c13 .c14:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c13:focus {
   outline: none;
 }
@@ -1777,6 +1764,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 
 .c13:disabled {
   cursor: default;
+}
+
+.c13 > .c14 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c17 {
@@ -1896,14 +1889,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 .c17 + .sc-kGXeez,
 .c17 + .sc-ckVGcZ {
   margin-top: 8px;
-}
-
-.c17 .c14:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c17 .c14:last-child {
-  margin: auto 0 auto 8px;
 }
 
 .c17:focus {
@@ -2070,24 +2055,23 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
               <div
                 class="c12"
                 data-garden-id="forms.field"
-                data-garden-version="8.15.0"
+                data-garden-version="8.20.0"
               >
                 <div
                   aria-invalid="false"
                   class="c13"
                   data-garden-id="forms.faux_input"
-                  data-garden-version="8.15.0"
+                  data-garden-version="8.20.0"
                 >
                   <svg
                     aria-hidden="true"
                     class="c14 c15 c16"
                     data-garden-id="forms.media_figure"
-                    data-garden-version="8.15.0"
+                    data-garden-version="8.20.0"
                     data-testid="Icon--search"
                     focusable="false"
                     realfilename="search-stroke.svg"
                     role="presentation"
-                    theme="[object Object]"
                   />
                   <input
                     aria-describedby="1val-field_1.3.4--hint"
@@ -2096,7 +2080,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
                     autocapitalize="off"
                     class="c17"
                     data-garden-id="forms.media_input"
-                    data-garden-version="8.15.0"
+                    data-garden-version="8.20.0"
                     data-testid="search-field"
                     id="1val-field_1.3.4--input"
                     placeholder="How can we help?"

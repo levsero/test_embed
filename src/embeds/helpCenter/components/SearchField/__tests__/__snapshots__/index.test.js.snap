@@ -8,7 +8,11 @@ exports[`renders 1`] = `
 }
 
 .c3 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
   color: #68737d;
+  margin: 1px 8px auto 0;
   width: 16px;
   height: 16px;
 }
@@ -41,6 +45,7 @@ exports[`renders 1`] = `
   -ms-flex-align: baseline;
   align-items: baseline;
   cursor: text;
+  overflow: hidden;
 }
 
 .c1::-ms-browse {
@@ -137,14 +142,6 @@ exports[`renders 1`] = `
   margin-top: 8px;
 }
 
-.c1 .c2:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c1 .c2:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c1:focus {
   outline: none;
 }
@@ -184,6 +181,12 @@ exports[`renders 1`] = `
 
 .c1:disabled {
   cursor: default;
+}
+
+.c1 > .c2 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c5 {
@@ -305,14 +308,6 @@ exports[`renders 1`] = `
   margin-top: 8px;
 }
 
-.c5 .c2:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c5 .c2:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c5:focus {
   outline: none;
 }
@@ -389,24 +384,23 @@ exports[`renders 1`] = `
     <div
       class="c0"
       data-garden-id="forms.field"
-      data-garden-version="8.15.0"
+      data-garden-version="8.20.0"
     >
       <div
         aria-invalid="false"
         class="c1"
         data-garden-id="forms.faux_input"
-        data-garden-version="8.15.0"
+        data-garden-version="8.20.0"
       >
         <svg
           aria-hidden="true"
           class="c2 c3 c4"
           data-garden-id="forms.media_figure"
-          data-garden-version="8.15.0"
+          data-garden-version="8.20.0"
           data-testid="Icon--search"
           focusable="false"
           realfilename="search-stroke.svg"
           role="presentation"
-          theme="[object Object]"
         />
         <input
           aria-describedby="1val-field_1.3.4--hint"
@@ -415,7 +409,7 @@ exports[`renders 1`] = `
           autocapitalize="off"
           class="c5"
           data-garden-id="forms.media_input"
-          data-garden-version="8.15.0"
+          data-garden-version="8.20.0"
           data-testid="search-field"
           id="1val-field_1.3.4--input"
           placeholder="hello there"
