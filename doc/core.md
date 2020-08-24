@@ -266,7 +266,7 @@ Executes a callback when the widget is closed.
 
 `zE('webWidget:on', 'userEvent', function(userEvent<object>));`
 
-Executes a callback when a user event is fired. This can be used as a flexible way of integrating third party analytics tools into the widget. For enabling events reporting to Google Analytics, see the [analytics setting](./settings#analytics).
+Executes a callback when a user event is fired. This can be used as a flexible way of integrating third party analytics tools into the widget, and filtering events sent to Google Analytics. This setting can be applied even when the [analytics setting](./settings#analytics) is used to disable user events tracking.
 
 ##### Parameters
 
