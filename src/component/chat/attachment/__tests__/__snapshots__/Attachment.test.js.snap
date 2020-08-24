@@ -511,7 +511,7 @@ exports[`renders with error message 1`] = `
       <div
         class="containerError c0"
         data-garden-id="notifications.alert"
-        data-garden-version="8.9.0"
+        data-garden-version="8.17.1"
         data-testid="error-message"
         role="alert"
         type="error"
@@ -550,7 +550,7 @@ exports[`renders with error message 1`] = `
         <div
           class="previewError c2 c3"
           data-garden-id="notifications.title"
-          data-garden-version="8.9.0"
+          data-garden-version="8.17.1"
         >
           attachment.jpg
         </div>
@@ -562,7 +562,7 @@ exports[`renders with error message 1`] = `
         <button
           class="c4"
           data-garden-id="notifications.close"
-          data-garden-version="8.9.0"
+          data-garden-version="8.17.1"
         >
           <svg
             focusable="false"
