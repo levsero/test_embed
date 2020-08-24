@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Web Widget Live Chat</title>
-</head>
-<body>
-  <h1>HELLO FREN</h1>
-  <%= htmlWebpackPlugin.options.links %>
-  <%= htmlWebpackPlugin.options.snippet(htmlWebpackPlugin.files.js) %>
-  <script type="text/javascript" nonce="<%= htmlWebpackPlugin.options.nonce %>">
-    var parseQueryParams = function (inputString) {
-      var params = {},
-        queries;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Web Widget Live Chat</title>
+  </head>
+  <body>
+    <h1>HELLO FREN</h1>
+    <%= htmlWebpackPlugin.options.links %> <%=
+    htmlWebpackPlugin.options.snippet(htmlWebpackPlugin.files.js) %>
+    <script type="text/javascript" nonce="<%= htmlWebpackPlugin.options.nonce %>">
+      var parseQueryParams = function(inputString) {
+        var params = {},
+          queries
 
-      inputString = inputString.substring(inputString.indexOf('#') + 1);
-      queries = inputString.split('&');
+        inputString = inputString.substring(inputString.indexOf('#') + 1)
+        queries = inputString.split('&')
 
-      queries.forEach(function(element) {
-        var splitElement = element.split('=');
+        queries.forEach(function(element) {
+          var splitElement = element.split('=')
 
-        if (splitElement.length > 1) {
-          params[splitElement[0]] = splitElement[1];
+          if (splitElement.length > 1) {
+            params[splitElement[0]] = splitElement[1]
+          }
+        })
+        return params
+      }
+
+      var setPageTitle = function(title) {
+        if (title) {
+          document.title = decodeURI(title)
         }
-      });
-      return params;
-    };
-
-    var setPageTitle = function(title) {
-      if (title) {
-        document.title = decodeURI(title);
       }
-    };
 
-    var decodeSettings = function(encodedSettings) {
-      return JSON.parse(decodeURIComponent(window.atob(encodedSettings)));
-    }
-
-    var parseSettings = function(parameters) {
-      if (!parameters || !parameters.settings) return {};
-
-      return decodeSettings(parameters.settings);
-    }
-
-    var loadLocale = function(locale) {
-      if (locale) {
-        zE('webWidget', 'setLocale', locale);
+      var decodeSettings = function(encodedSettings) {
+        return JSON.parse(decodeURIComponent(window.atob(encodedSettings)))
       }
-    };
 
-    var loadSnippet = function (parameters) {
-      window.zEPopout = true;
-    }
+      var parseSettings = function(parameters) {
+        if (!parameters || !parameters.settings) return {}
 
-    var queryParams = parseQueryParams(window.location.hash);
-    window.zESettings = parseSettings(queryParams);
+        return decodeSettings(parameters.settings)
+      }
 
-    if (queryParams.mid) {
-      document.cookie = '__zlcpomid=' + queryParams.mid;
-    }
-    loadSnippet(queryParams);
-    loadLocale(queryParams.locale);
-    setPageTitle(queryParams.title);
-  </script>
-</body>
+      var loadLocale = function(locale) {
+        if (locale) {
+          zE('webWidget', 'setLocale', locale)
+        }
+      }
+
+      var loadSnippet = function(parameters) {
+        window.zEPopout = true
+      }
+
+      var queryParams = parseQueryParams(window.location.hash)
+      window.zESettings = parseSettings(queryParams)
+
+      if (queryParams.mid) {
+        document.cookie = '__zlcpomid=' + queryParams.mid
+      }
+      loadSnippet(queryParams)
+      loadLocale(queryParams.locale)
+      setPageTitle(queryParams.title)
+    </script>
+  </body>
 </html>
