@@ -1,34 +1,6 @@
 import 'core-js/modules/es6.promise'
 import 'core-js/modules/es6.array.iterator'
 
-const OK_RESPONSE = 200
-
-function fakeFetch(url) {
-  return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest()
-
-    req.open('GET', url, true)
-    req.responseType = 'json'
-
-    req.onload = () => {
-      if (req.status === OK_RESPONSE) {
-        const rawRes = req.response
-        const json = typeof rawRes === 'string' ? JSON.parse(rawRes) : rawRes
-
-        resolve(json)
-      } else {
-        reject(Error(req.statusText))
-      }
-    }
-
-    req.onerror = () => {
-      reject(Error('Network error'))
-    }
-
-    req.send()
-  })
-}
-
 global.fetchLocale = locale =>
   import(
     /* webpackChunkName: "locales/[request]" */ `./translation/locales/${locale.toLowerCase()}.json`
@@ -46,11 +18,10 @@ if (document.zEQueue) {
     }
   }
 }
-window.ACFetch = fakeFetch
 
 if (window.ACFetch) {
   global.configRequest = window
-    .ACFetch(`https://z3n-lserebryanski.zendesk.com/embeddable/config`)
+    .ACFetch(`https://${window.document.zendesk.web_widget.id}/embeddable/config`)
     .then(config => {
       if (!localeFetched) {
         global.fetchLocale(config.locale ?? 'en-US').catch(() => {})
