@@ -21,7 +21,7 @@ describe('Launcher', () => {
 
       expect(getByTitle('TODO: Launcher')).toHaveStyle(`
       bottom: 0px;
-      rightL: 0px;
+      right: 0px;
     `)
     })
   })
