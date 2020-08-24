@@ -78,9 +78,9 @@ Available settings:
 
 ### analytics
 
-Specifies whether to enable or disable Google Analytics tracking.
+Disables widget user events being sent to Google Analytics when set to "false".
 
-**Note**: For information on currently supported events, see [Google Analytics for Chat in the Web Widget](https://support.zendesk.com/hc/en-us/community/posts/360003215947-New-Feature-Google-Analytics-for-Chat-in-the-Web-Widget)
+For information on supported widget events in Google Analytics, see [Setting up and using Google Analytics for the Web Widget](https://support.zendesk.com/hc/en-us/articles/360047635353)
 
 #### Availability
 
@@ -91,7 +91,7 @@ Specifies whether to enable or disable Google Analytics tracking.
 ```html
 <script type="text/javascript">
   window.zESettings = {
-    analytics: true
+    analytics: false
   };
 </script>
 ```
