@@ -5,9 +5,15 @@ import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveD
 import { find } from 'styled-components/test-utils'
 import { Container } from 'src/apps/messenger/features/widget/components/MessagePage/styles'
 import { companyReceived } from 'src/apps/messenger/store/company'
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 
 describe('MessagePage', () => {
-  const renderComponent = () => render(<MessagePage />)
+  const renderComponent = () =>
+    render(
+      <ThemeProvider>
+        <MessagePage />
+      </ThemeProvider>
+    )
 
   it('renders the header', () => {
     const { getByText, store } = renderComponent()

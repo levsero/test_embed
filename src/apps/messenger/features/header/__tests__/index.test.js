@@ -3,6 +3,7 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 import Header from '../'
 import createStore from 'src/apps/messenger/store'
 import { companyReceived } from 'src/apps/messenger/store/company'
+import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 
 describe('Header', () => {
   const renderComponent = () => {
@@ -15,7 +16,12 @@ describe('Header', () => {
       })
     )
 
-    return render(<Header />, { store })
+    return render(
+      <ThemeProvider>
+        <Header />
+      </ThemeProvider>,
+      { store }
+    )
   }
 
   it('renders company title', () => {
