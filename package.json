@@ -112,7 +112,7 @@
     "@zendeskgarden/react-forms": "^8.9.0",
     "@zendeskgarden/react-loaders": "^8.9.0",
     "@zendeskgarden/react-modals": "^8.17.0",
-    "@zendeskgarden/react-notifications": "^8.9.0",
+    "@zendeskgarden/react-notifications": "^8.17.1",
     "@zendeskgarden/react-selection": "^7.1.4",
     "@zendeskgarden/react-theming": "^8.17.0",
     "@zendeskgarden/react-tooltips": "^7.1.10",

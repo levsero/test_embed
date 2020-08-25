@@ -56,7 +56,7 @@ exports[`Alert renders a styled garden alert 1`] = `
     <div
       class="c0 c1"
       data-garden-id="notifications.alert"
-      data-garden-version="8.9.0"
+      data-garden-version="8.17.1"
       role="alert"
       type="error"
     >
@@ -94,7 +94,7 @@ exports[`Alert renders a styled garden alert 1`] = `
       <div
         class="c3 c4 c5"
         data-garden-id="notifications.title"
-        data-garden-version="8.9.0"
+        data-garden-version="8.17.1"
       >
         Some title
       </div>

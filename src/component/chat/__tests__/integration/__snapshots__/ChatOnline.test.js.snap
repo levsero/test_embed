@@ -1541,7 +1541,7 @@ exports[`chat log visitor message failure 1`] = `
             <div
               class="c3 c4"
               data-garden-id="notifications.alert"
-              data-garden-version="8.9.0"
+              data-garden-version="8.17.1"
               role="alert"
               type="error"
             >
