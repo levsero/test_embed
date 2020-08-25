@@ -28,7 +28,7 @@ const setup = async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketForms: [form1.form.id, form2.form.id]
+          ticketFormsEnabled: true
         }
       }
     }
@@ -126,13 +126,12 @@ test('prefills by locale', async () => {
 
 test('filters the ticket forms', async () => {
   const description = createField({ id: 1, title_in_portal: 'Description', type: 'description' })
-  const form1 = createForm({ name: 'Example form 1', id: 123, fields: [description] })
-  const form2 = createForm({ name: 'Example form 2', id: 456, fields: [description] })
+  const form = createForm({ name: 'Example form 2', id: 456, fields: [description] })
   const mockConfigWithForms = {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketForms: [form1.form.id, form2.form.id]
+          ticketFormsEnabled: true
         }
       }
     }
@@ -149,8 +148,8 @@ test('filters the ticket forms', async () => {
       headers: DEFAULT_CORS_HEADERS,
       contentType: 'application/json',
       body: JSON.stringify({
-        ticket_forms: form2.mockFormsResponse.ticket_forms,
-        ticket_fields: form2.mockFormsResponse.ticket_fields
+        ticket_forms: form.mockFormsResponse.ticket_forms,
+        ticket_fields: form.mockFormsResponse.ticket_fields
       })
     })
   }
@@ -170,7 +169,7 @@ test('filters the ticket forms', async () => {
           }
         }
       }
-    }, form2.form.id)
+    }, form.form.id)
     .load()
   await widget.openByKeyboard()
   const doc = await widget.getDocument()
@@ -179,7 +178,7 @@ test('filters the ticket forms', async () => {
   })
   expect(await queries.queryByText(doc, 'Example form 1')).toBeNull()
   expect(ticketForms).toHaveBeenCalledWith(
-    expect.stringContaining(`ids=${form2.form.id}&include=ticket_fields`)
+    expect.stringContaining(`ids=${form.form.id}&include=ticket_fields`)
   )
 })
 
@@ -195,7 +194,7 @@ describe('disable ticket form title', () => {
       embeds: {
         ticketSubmissionForm: {
           props: {
-            ticketForms: [form.form.id]
+            ticketFormsEnabled: true
           }
         }
       }
@@ -258,7 +257,7 @@ test('suppresses the subject field if specified via API', async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketForms: [theForm.form.id]
+          ticketFormsEnabled: true
         }
       }
     }
@@ -307,7 +306,7 @@ describe('field descriptions (or hints)', () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketForms: [theForm.form.id]
+          ticketFormsEnabled: true
         }
       }
     }
