@@ -330,14 +330,19 @@ export const getCustomTicketFields = (state, formId) => {
 
       if (!override) return field
 
-      const translation = i18n.getSettingTranslation(override)
-      const description = !!translation || override['*'] === '' ? translation : field.description
-
       return {
         ...field,
-        description: description
+        description: getDescriptionOverride(override, field.description)
       }
     })
+}
+
+const getDescriptionOverride = (override, original) => {
+  if (override.hideHint) return null
+
+  const translation = i18n.getSettingTranslation(override)
+
+  return !!translation || override['*'] === '' ? translation : original
 }
 
 export const getFormTicketFields = (state, formId) => {

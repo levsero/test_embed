@@ -348,6 +348,37 @@ describe('field descriptions (or hints)', () => {
     await widget.expectNotToSeeText('this description is lukewarm')
   })
 
+  test('it overrides the hint with null if passed hideHint: true', async () => {
+    await loadWidget()
+      .withPresets('contactForm', mockConfigWithForms)
+      .intercept(mockTicketFormsEndpoint(mockFormsResponse))
+      .evaluateOnNewDocument(form => {
+        window.zESettings = {
+          webWidget: {
+            contactForm: {
+              ticketForms: [
+                {
+                  id: form.form.id,
+                  fields: [
+                    {
+                      id: 4,
+                      prefill: { '*': 'sas' },
+                      hideHint: true
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }, theForm)
+      .load()
+    await widget.openByKeyboard()
+    await waitForContactForm()
+
+    await widget.expectNotToSeeText('this description is lukewarm')
+  })
+
   test('does not override the hint otherwise', async () => {
     await loadWidget()
       .withPresets('contactForm', mockConfigWithForms)

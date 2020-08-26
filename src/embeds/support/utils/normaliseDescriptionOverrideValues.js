@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 // takes fields in the shape of
 // {
 //   id: 2142225,
@@ -15,26 +17,40 @@
 //     }
 //   }
 // }
+//
+// if the field has a hideHint property set to true,
+// (even if it also contains overrides) then it adds that instead
+// {
+//   id: 2142225,
+//   hint: {
+//     '*': 'Fallback text',
+//     'fr': 'French text',
+//   },
+//   hideHint: true
+// }
+// becomes
+// {
+//   90210: { // <-- form ID
+//     2001: { // <-- field ID
+//       hideHint: true
+//     }
+//   }
+// }
+
 const normaliseDescriptionOverrideValues = fields => {
-  const values = {}
+  if (!Array.isArray(fields)) return {}
 
-  if (!Array.isArray(fields)) {
-    return values
-  }
+  return fields.reduce((normalisedValues, field) => {
+    if (!field.id) {
+      return normalisedValues
+    } else if (field.hideHint === true) {
+      normalisedValues[field.id] = { hideHint: true }
+    } else if (_.isPlainObject(field.hint) && !_.isEmpty(field.hint)) {
+      normalisedValues[field.id] = field.hint
+    }
 
-  fields.forEach(field => {
-    if (
-      !field?.id ||
-      !field?.hint ||
-      !(field.hint === Object(field.hint)) ||
-      Object.keys(field.hint).length === 0
-    )
-      return
-
-    values[field.id] = field.hint
-  })
-
-  return values
+    return normalisedValues
+  }, {})
 }
 
 export default normaliseDescriptionOverrideValues
