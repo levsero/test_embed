@@ -1079,6 +1079,16 @@ describe('getTicketForms', () => {
     expect(result.ids).toEqual([1337, 50])
   })
 
+  describe('when forms are enabled but no ticket forms exist for a given brand', () => {
+    it('returns a property of showList as false', () => {
+      const forms = {}
+
+      const result = getTicketForms(createState({ forms }))
+
+      expect(result.showList).toBeFalsy()
+    })
+  })
+
   describe('when the list of ticket forms should be shown', () => {
     it('returns a property of showList as true', () => {
       const form1 = { id: 1, position: 1, active: true }
