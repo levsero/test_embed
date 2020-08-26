@@ -48,11 +48,12 @@ export function fetchTicketForms(ticketForms = {}, locale) {
     })
 
     const idParams = !ticketForms.requestAll ? `ids=${_.toString(ticketFormIdsToLoad)}&` : ''
+    const associatedToBrandParam = ticketForms.requestAll ? '&associated_to_brand=true' : ''
     const path = [
       '/api/v2/ticket_forms/show_many.json',
       `?${idParams}include=ticket_fields`,
       `&locale=${locale}`,
-      '&associated_to_brand=true',
+      associatedToBrandParam,
       '&end_user_visible=true',
       '&active=true'
     ].join('')
