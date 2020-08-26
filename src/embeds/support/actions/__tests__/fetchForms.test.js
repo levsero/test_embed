@@ -217,10 +217,33 @@ describe('fetchTicketForms', () => {
       {
         locale: 'en-US',
         path:
-          '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US&associated_to_brand=true&end_user_visible=true&active=true'
+          '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US&end_user_visible=true&active=true'
       },
       false
     )
+  })
+
+  it('does not add the associated_to_brand param when requesting with ids', () => {
+    const store = createStore({
+      support: {
+        forms: {},
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: null
+        }
+      }
+    })
+
+    const ticketForms = {
+      ids: [123, 456],
+      requestAll: false
+    }
+
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    const path = http.get.mock.calls[0][0].path
+
+    expect(path).not.toMatch(/associated_to_brand=true/)
   })
 
   it('requests all forms if no specific IDs are passed', () => {
@@ -263,6 +286,29 @@ describe('fetchTicketForms', () => {
       },
       false
     )
+  })
+
+  it('adds the associated_to_brand param when requesting all forms', () => {
+    const store = createStore({
+      support: {
+        forms: {},
+        ticketFormsRequest: {
+          isLoading: false,
+          fetchKey: null
+        }
+      }
+    })
+
+    const ticketForms = {
+      ids: [],
+      requestAll: true
+    }
+
+    store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
+
+    const path = http.get.mock.calls[0][0].path
+
+    expect(path).toMatch(/associated_to_brand=true/)
   })
 
   it('dispatches a request success action when successful', async () => {
