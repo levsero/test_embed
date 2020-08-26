@@ -783,9 +783,6 @@ describe('getForm', () => {
   it('returns the form when it exists', () => {
     const result = getForm(
       {
-        base: {
-          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [123] } } } }
-        },
         support: { forms: { 123: form }, filteredFormsToDisplay: [] }
       },
       123
@@ -797,9 +794,6 @@ describe('getForm', () => {
   it('returns undefined when the form does not exist', () => {
     const result = getForm(
       {
-        base: {
-          embeddableConfig: { embeds: { ticketSubmissionForm: { props: { ticketForms: [] } } } }
-        },
         support: { forms: { 456: form }, filteredFormsToDisplay: [] }
       },
       123
@@ -1247,17 +1241,6 @@ describe('getHasFetchedTicketForms', () => {
 describe('getTicketFormTitle', () => {
   const createState = () => {
     return {
-      base: {
-        embeddableConfig: {
-          embeds: {
-            ticketSubmissionForm: {
-              props: {
-                ticketForms: [123]
-              }
-            }
-          }
-        }
-      },
       support: {
         forms: {
           123: {
