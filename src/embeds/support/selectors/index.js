@@ -157,7 +157,7 @@ export const getTicketForms = createSelector(
   [getFormIdsToDisplay, getTicketFormsActive],
   (ids, active) => {
     const requestAll = active && ids.length == 0
-    const showList = requestAll || (active && ids.length > 1)
+    const showList = (requestAll && ids.length > 0) || (active && ids.length > 1)
 
     return {
       ids,
