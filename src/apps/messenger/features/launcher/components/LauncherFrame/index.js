@@ -6,10 +6,10 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 const LauncherFrame = ({ children }) => {
   return (
     <Frame
-      title="TODO: Launcher"
+      title="Launcher"
       style={{
-        height: 70,
-        width: 70,
+        height: 74,
+        width: 74,
         position: 'fixed',
         bottom: 0,
         right: 0,

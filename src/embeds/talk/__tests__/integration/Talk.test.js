@@ -82,14 +82,14 @@ const checkForPhoneNumber = (utils, { phoneNumber, formattedPhoneNumber, average
 test('limit phone input field length based on libphonenumber-js validation', () => {
   const utils = setUpComponent()
   checkForForm(utils)
-  userEvent.type(utils.getByLabelText('Phone Number'), '+12222333344445555666677778888')
+  userEvent.type(utils.getByLabelText('Phone Number'), '2222333344445555666677778888')
   expect(utils.getByLabelText('Phone Number').value).toEqual('+1 22223333444455556')
 })
 
 test('phone number is displayed as the user types', () => {
   const utils = setUpComponent()
   checkForForm(utils)
-  userEvent.type(utils.getByLabelText('Phone Number'), '+15417543010')
+  userEvent.type(utils.getByLabelText('Phone Number'), '5417543010')
   expect(utils.getByLabelText('Phone Number').value).toEqual('+1 541 754 3010')
 })
 
@@ -102,7 +102,8 @@ test('error message is not displayed on initial page load', () => {
   checkForNoErrorMessage(utils)
   submitForm(utils)
   checkForErrorMessage(utils)
-  userEvent.type(utils.getByLabelText('Phone Number'), '+15417543010')
+  userEvent.clear(utils.getByLabelText('Phone Number'))
+  userEvent.type(utils.getByLabelText('Phone Number'), '5417543010')
   checkForNoErrorMessage(utils)
 })
 
