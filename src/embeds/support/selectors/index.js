@@ -156,12 +156,15 @@ export const getFormsToDisplay = createSelector(
 export const getTicketForms = createSelector(
   [getFormIdsToDisplay, getTicketFormsActive, state => state.support.forms],
   (ids, active, availableForms) => {
-    const formsReturned = Object.keys(availableForms).length > 0
+    const returnedFormIds = Object.keys(availableForms).map(id => parseInt(id, 10))
+    const anyFormsReturned = returnedFormIds.length > 0
     const requestAll = active && ids.length == 0
-    const showList = formsReturned && (requestAll || (active && ids.length > 1))
+    const showList = anyFormsReturned && (requestAll || (active && ids.length > 1))
+    const validatedIds = ids?.filter(value => returnedFormIds.includes(value)) || []
 
     return {
       ids,
+      validatedIds,
       showList,
       requestAll,
       active
