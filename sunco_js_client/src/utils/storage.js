@@ -1,6 +1,6 @@
 const win = window.parent
-const defaultStorageType = 'localStorage'
 let instance = null
+export const DEFAULT_STORAGE_TYPE = 'localStorage'
 
 class Store {
   constructor() {
@@ -59,7 +59,7 @@ const storageAvailable = type => {
 
 const webStorage = () => {
   if (instance) return instance
-  setStorageType({ type: defaultStorageType })
+  setStorageType({ type: DEFAULT_STORAGE_TYPE })
   return instance
 }
 

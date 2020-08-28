@@ -1,4 +1,5 @@
-import storage from './utils/storage'
+import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
+import SDKConfigApi from './api/SDKConfigApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
@@ -6,7 +7,6 @@ import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser } from './utils/context'
 
 const BASE_URL = 'https://api.smooch.io'
-const DEFAULT_STORAGE_TYPE = 'localStorage'
 
 export default class Sunco {
   constructor({ appId, integrationId, baseUrl = BASE_URL, storageType = DEFAULT_STORAGE_TYPE }) {
@@ -16,6 +16,7 @@ export default class Sunco {
     this._activeConversation = null
     storage.setStorageType({ type: storageType }) // TODO - allow value to be sent down in config
 
+    this.SDKConfig = new SDKConfigApi(this) // TODO - Temp api - isn't needed
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
