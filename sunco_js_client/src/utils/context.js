@@ -1,4 +1,4 @@
-import * as storage from './storage'
+import storage from './storage'
 
 export const getCurrentUserIfAny = integrationId => {
   let sessionToken = storage.getItem(`${integrationId}.sessionToken`)

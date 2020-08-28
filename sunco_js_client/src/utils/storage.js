@@ -1,150 +1,89 @@
-let storage
+const win = window.parent
+const defaultStorageType = 'localStorage'
+let instance = null
 
-export function init(options) {
-  storage = new Storage(options)
-}
-
-class Storage {
-  constructor(options = {}) {
-    this.memoryStorage = {}
-
-    try {
-      switch (options.type) {
-        case 'sessionStorage':
-          this.browserStorage = global.sessionStorage
-          break
-        case 'localStorage':
-          this.browserStorage = global.localStorage
-          break
-        default:
-          this.browserStorage = global.localStorage
-      }
-    } catch (err) {
-      // Browsers configured to deny access to localStorage will throw an error if attempted
-    }
-  }
-
-  reset() {
-    this.memoryStorage = {}
-  }
-
-  setItem(key, value) {
-    try {
-      if (this.browserStorage) {
-        // Safari with privacy options will have localStorage
-        // but won't let us write to it.
-        this.browserStorage.setItem(key, value)
-
-        // Write to memory as well in case
-        // we can't read localStorage
-        this.memoryStorage[key] = value
-      } else {
-        // Android WebView might not have localStorage at all.
-        this.memoryStorage[key] = value
-      }
-    } catch (err) {
-      // Browsers configured to deny access to localStorage will throw an error if attempted
-      this.memoryStorage[key] = value
-    }
+class Store {
+  constructor() {
+    this.store = {}
   }
 
   getItem(key) {
-    let value
+    return this.store[key]
+  }
 
-    try {
-      if (this.memoryStorage[key]) {
-        value = this.memoryStorage[key]
-      } else if (this.browserStorage) {
-        this.memoryStorage[key] = this.browserStorage.getItem(key)
-        value = this.memoryStorage[key]
-      }
-    } catch (err) {
-      // Browsers configured to deny access to localStorage will throw an error if attempted
+  setItem(key, value) {
+    this.store[key] = value
+  }
+}
+
+class LocalStore extends Store {
+  constructor() {
+    super()
+    this.store = win.localStorage
+  }
+}
+
+class SessionStore extends Store {
+  constructor() {
+    super()
+    this.store = win.sessionStorage
+  }
+}
+
+// From: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+const storageAvailable = type => {
+  var storage
+  try {
+    storage = win[type]
+    var x = '__storage_test__'
+    storage.setItem(x, x)
+    storage.removeItem(x)
+    return true
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      (storage && storage.length !== 0)
+    )
+  }
+}
+
+const webStorage = () => {
+  if (instance) return instance
+  setStorageType({ type: defaultStorageType })
+  return instance
+}
+
+const setStorageType = ({ type }) => {
+  try {
+    if (!storageAvailable(type)) {
+      throw `WebStorage type: ${type} is unavailable on this device - falling back to in memory store`
     }
+    switch (type) {
+      case 'sessionStorage':
+        instance = new SessionStore()
+        break
 
-    // per localStorage spec, it returns null when not found
-    return value || null
-  }
-
-  removeItem(key) {
-    delete this.memoryStorage[key]
-
-    try {
-      this.browserStorage && this.browserStorage.removeItem(key)
-    } catch (err) {
-      // Browsers configured to deny access to localStorage will throw an error if attempted
+      case 'localStorage':
+        instance = new LocalStore()
+        break
     }
-  }
-
-  getItems(prefix, keys) {
-    return keys.map(key => this.getItem(`${prefix}.${key}`))
-  }
-
-  setItems(prefix, options = {}) {
-    Object.keys(options).forEach(key => {
-      this.setItem(`${prefix}.${key}`, options[key])
-    })
-  }
-
-  removeItems(prefix, keys) {
-    keys.forEach(key => {
-      this.removeItem(`${prefix}.${key}`)
-    })
+  } catch (err) {
+    instance = new Store()
   }
 }
 
-export function reset() {
-  if (!storage) {
-    init()
-  }
-
-  return storage.reset()
-}
-
-export function setItem(key, value) {
-  if (!storage) {
-    init()
-  }
-
-  return storage.setItem(key, value)
-}
-
-export function getItem(key, value) {
-  if (!storage) {
-    init()
-  }
-
-  return storage.getItem(key, value)
-}
-
-export function removeItem(key) {
-  if (!storage) {
-    init()
-  }
-
-  storage.removeItem(key)
-}
-
-export function getItems(prefix, keys) {
-  if (!storage) {
-    init()
-  }
-
-  return storage.getItems(prefix, keys)
-}
-
-export function setItems(prefix, options) {
-  if (!storage) {
-    init()
-  }
-
-  return storage.setItems(prefix, options)
-}
-
-export function removeItems(prefix, keys) {
-  if (!storage) {
-    init()
-  }
-
-  return storage.removeItems(prefix, keys)
+export default {
+  setStorageType,
+  getItem: key => webStorage().getItem(key),
+  setItem: (key, value) => webStorage().setItem(key, value)
 }

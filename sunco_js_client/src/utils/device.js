@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import { VENDOR_ID, VERSION } from './constants'
-import * as storage from './storage'
+import storage from './storage'
 
 // export function verifyStoredClientId(appUser, integrationId) {
 //   const storedClientId = storage.getItem(`${integrationId}.clientId`);
