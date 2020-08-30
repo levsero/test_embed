@@ -5,11 +5,19 @@ This is a very early scaffold to get us up and running with a JS client to send 
 In order to use the SunCo client, you need to have first setup an `App` within https://app.smooch.io/
 and within that `App` you need to have setup a `web` integration - please select the Smooch Web Messenger as the integration type for the time being, we'll likely have our own custom integration shortly, but this will suffice for now.
 
-**please note:- This client will only work with the V2 APIs which need to be enabled via a feature flag**
+**please note:- Most of the client APIs will only work with the V2 APIs. These need to be enabled via a feature flag**
+To see if you integration has the correct feature flag enabled we can use the client to check:
 
 ```js
-const appId = 'copy from Sunco admin'
-const integrationId = 'copy from Sunco admin'
+client.SDKConfig.init().then(response => console.log(response.body.config.app.settings))
+//=> { multiConvoEnabled: true }
+```
+
+##### Client initialisation
+
+```js
+const appId = 'replace with app id'
+const integrationId = 'replace with integration id'
 
 const sunco = new Sunco({ integrationId, appId })
 
@@ -27,8 +35,8 @@ const sunco = new Sunco({
 Super basic interface so far and still needs some work, but the basic gist of it looks something like this:
 
 ```js
-let integrationId = 'replace with integration id'
-let appId = 'replace with app id'
+const appId = 'replace with app id'
+const integrationId = 'replace with integration id'
 
 let client = new Sunco({ integrationId, appId })
 
