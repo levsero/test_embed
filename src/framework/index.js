@@ -91,6 +91,11 @@ const getConfig = (win, reduxStore) => {
 
     const getEmbeddable = async () => {
       if (isFeatureEnabled(reduxStore.getState(), 'messenger_widget')) {
+        import(
+          /* webpackChunkName: 'lazy/sunco-js-client' */ '../../sunco_js_client/src/index'
+        ).then(({ default: Sunco }) => {
+          win.Sunco = Sunco
+        })
         return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger')
           .then(messenger => messenger.default)
           .catch(err => {
