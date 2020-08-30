@@ -22,12 +22,6 @@ const sunco = new Sunco({
 })
 ```
 
-#### Still TODO
-
-- refactor the current session token management - they shouldn't be passed in via params - currently hardcoding additional steps within the API endpoints to cater for the API, `appUsers.create` and the auth headers being used in the messages APIs are examples
-- refactor util/storage.js - its a bit bulky and seems to be catering for very obsolete browsers
-- move socket client + connection into an appUser subscribe API
-
 ##### Example use
 
 Super basic interface so far and still needs some work, but the basic gist of it looks something like this:
@@ -39,19 +33,24 @@ let appId = 'replace with app id'
 let client = new Sunco({ integrationId, appId })
 
 client.startConversation().then(conversation => {
+  // fetch conversation history via REST API
+  conversation.listMessages().then(response => console.log(response))
+
+  // subscribe to socket events to listen for live changes
   conversation.socketClient.subscribe(event => {
-    console.log('received: ', event)
+    console.log('received via socket: ', event.message?.text)
   })
 })
 
+// Once the startConversation promise has been fulfilled you can
+// send and receive messages via the client instance and it will associate the requests
+// with the active conversation taking place
 client.sendMessage('plain text message')
 client.listMessages()
 ```
 
 ##### Local storage tokens
 
-TODO - fill in what these are all used for
-
-- [integrationId].clientId:
-- [integrationId].appUserId:
-- [integrationId].sessionToken:
+- [integrationId].clientId: Used to identify the device where the conversation is initiated from
+- [integrationId].appUserId: Used to identify the particular end user that has started the conversation
+- [integrationId].sessionToken: Long lived session token used to verify that the end user is who they say they are
