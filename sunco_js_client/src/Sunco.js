@@ -4,6 +4,7 @@ import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
+import { verifyStoredClientId } from './utils/device'
 import { getCurrentUserIfAny, storeAppUser } from './utils/context'
 
 const BASE_URL = 'https://api.smooch.io'
@@ -51,6 +52,7 @@ export default class Sunco {
 
       if (appUserId) {
         this.appUsers.get(appUserId).then(response => {
+          verifyStoredClientId(response.body.appUser, this.integrationId)
           this.activeConversation = {
             appUserId,
             conversationId: response.body.conversations[0]._id,
