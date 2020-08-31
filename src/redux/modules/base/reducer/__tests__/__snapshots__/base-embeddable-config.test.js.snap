@@ -33,6 +33,7 @@ Object {
     },
   },
   "hideZendeskLogo": true,
+  "newBootSequence": false,
   "position": "left",
   "textColor": "black",
 }
@@ -71,6 +72,7 @@ Object {
     },
   },
   "hideZendeskLogo": false,
+  "newBootSequence": false,
   "position": "right",
   "textColor": undefined,
 }

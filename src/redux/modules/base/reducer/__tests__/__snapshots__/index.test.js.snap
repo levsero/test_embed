@@ -39,6 +39,7 @@ Object {
       },
     },
     "hideZendeskLogo": false,
+    "newBootSequence": false,
     "position": "right",
     "textColor": undefined,
   },

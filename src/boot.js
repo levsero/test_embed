@@ -150,10 +150,17 @@ const shouldSendZeDiffBlip = win => {
   return win.zE !== win.zEmbed
 }
 
-const start = (win, doc) => {
+const start = async (win, doc) => {
   const reduxStore = createStore()
 
-  if (isFeatureEnabled(reduxStore, 'web_widget_new_boot_sequence')) {
+  let res = {}
+  if (global.configRequest) {
+    try {
+      res = await global.configRequest
+    } catch {}
+  }
+
+  if (isFeatureEnabled(res?.config, 'web_widget_new_boot_sequence')) {
     import(/* webpackChunkName: 'lazy/framework-boot' */ './framework').then(
       ({ default: framework }) => {
         framework.start(win, doc)
