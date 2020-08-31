@@ -171,7 +171,11 @@ exports[`renders correctly on desktop 1`] = `
 }
 
 .c14 {
+  -webkit-transition: -webkit-transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  -webkit-transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out, color 0.25s ease-in-out;
   color: #68737d;
+  margin: 1px 8px auto 0;
   width: 16px;
   height: 16px;
 }
@@ -204,6 +208,7 @@ exports[`renders correctly on desktop 1`] = `
   -ms-flex-align: baseline;
   align-items: baseline;
   cursor: text;
+  overflow: hidden;
 }
 
 .c12::-ms-browse {
@@ -300,14 +305,6 @@ exports[`renders correctly on desktop 1`] = `
   margin-top: 8px;
 }
 
-.c12 .c13:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c12 .c13:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c12:focus {
   outline: none;
 }
@@ -347,6 +344,12 @@ exports[`renders correctly on desktop 1`] = `
 
 .c12:disabled {
   cursor: default;
+}
+
+.c12 > .c13 {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .c16 {
@@ -466,14 +469,6 @@ exports[`renders correctly on desktop 1`] = `
 .c16 + .sc-iwsKbI,
 .c16 + .sc-VigVT {
   margin-top: 8px;
-}
-
-.c16 .c13:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c16 .c13:last-child {
-  margin: auto 0 auto 8px;
 }
 
 .c16:focus {
@@ -701,24 +696,23 @@ exports[`renders correctly on desktop 1`] = `
             <div
               class="c11"
               data-garden-id="forms.field"
-              data-garden-version="8.15.0"
+              data-garden-version="8.20.0"
             >
               <div
                 aria-invalid="false"
                 class="c12"
                 data-garden-id="forms.faux_input"
-                data-garden-version="8.15.0"
+                data-garden-version="8.20.0"
               >
                 <svg
                   aria-hidden="true"
                   class="c13 c14 c15"
                   data-garden-id="forms.media_figure"
-                  data-garden-version="8.15.0"
+                  data-garden-version="8.20.0"
                   data-testid="Icon--search"
                   focusable="false"
                   realfilename="search-stroke.svg"
                   role="presentation"
-                  theme="[object Object]"
                 />
                 <input
                   aria-describedby="1val-field_1.3.4--hint"
@@ -727,7 +721,7 @@ exports[`renders correctly on desktop 1`] = `
                   autocapitalize="off"
                   class="c16"
                   data-garden-id="forms.media_input"
-                  data-garden-version="8.15.0"
+                  data-garden-version="8.20.0"
                   data-testid="search-field"
                   id="1val-field_1.3.4--input"
                   placeholder="How can we help?"
@@ -749,7 +743,7 @@ Snapshot Diff:
 - First value
 + Second value
 
-@@ -65,7 +65,7 @@
+@@ -64,7 +64,7 @@
                   />
                   <input
 -                   aria-describedby="2val-field_1.3.4--hint"
@@ -758,9 +752,9 @@ Snapshot Diff:
 -                   aria-labelledby="2val-field_1.3.4--label"
 +                   aria-labelledby="3val-field_1.3.4--label"
                     autocapitalize="off"
-                    class="sc-fjdhpX sc-kAzzGY iQXLGP"
-@@ -73,5 +73,5 @@
-                    data-garden-version="8.15.0"
+                    class="sc-jTzLTM sc-kAzzGY dicmtd"
+@@ -72,5 +72,5 @@
+                    data-garden-version="8.20.0"
                     data-testid="search-field"
 -                   id="2val-field_1.3.4--input"
 +                   id="3val-field_1.3.4--input"

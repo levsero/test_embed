@@ -1,8 +1,8 @@
 const defaultStyles = {
   position: 'fixed',
-  height: 500,
-  width: 300,
-  minWidth: 300,
+  height: 700,
+  width: 380,
+  minWidth: 380,
   maxHeight: 'calc(100vh - 90px - 10px)',
   right: 0,
   bottom: 90

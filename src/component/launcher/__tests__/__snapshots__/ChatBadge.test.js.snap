@@ -122,14 +122,6 @@ exports[`renders the component 1`] = `
   margin-top: 8px;
 }
 
-.c2 .c8:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c2 .c8:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c2:focus {
   outline: none;
 }
@@ -278,17 +270,17 @@ exports[`renders the component 1`] = `
   height: 16px;
 }
 
-.c9 .c0 {
+.c8 .c0 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c0:hover,
-.c9 .c0:active {
+.c8 .c0:hover,
+.c8 .c0:active {
   z-index: 1;
 }
 
-.c9 .c0:disabled {
+.c8 .c0:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -296,18 +288,18 @@ exports[`renders the component 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c0:first-of-type:not(:last-of-type) {
+.c8 .c0:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c0:last-of-type:not(:first-of-type) {
+.c8 .c0:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c0:not(:first-of-type):not(:last-of-type) {
+.c8 .c0:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -416,17 +408,17 @@ exports[`renders the component 1`] = `
   height: 16px;
 }
 
-.c9 .c3 {
+.c8 .c3 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c3:hover,
-.c9 .c3:active {
+.c8 .c3:hover,
+.c8 .c3:active {
   z-index: 1;
 }
 
-.c9 .c3:disabled {
+.c8 .c3:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -434,18 +426,18 @@ exports[`renders the component 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c3:first-of-type:not(:last-of-type) {
+.c8 .c3:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c3:last-of-type:not(:first-of-type) {
+.c8 .c3:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c3:not(:first-of-type):not(:last-of-type) {
+.c8 .c3:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -569,17 +561,17 @@ exports[`renders the component 1`] = `
   height: 12px;
 }
 
-.c9 .c6 {
+.c8 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c6:hover,
-.c9 .c6:active {
+.c8 .c6:hover,
+.c8 .c6:active {
   z-index: 1;
 }
 
-.c9 .c6:disabled {
+.c8 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -587,18 +579,18 @@ exports[`renders the component 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c6:first-of-type:not(:last-of-type) {
+.c8 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c6:last-of-type:not(:first-of-type) {
+.c8 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c6:not(:first-of-type):not(:last-of-type) {
+.c8 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -680,7 +672,7 @@ exports[`renders the component 1`] = `
       <div
         class="c1"
         data-garden-id="forms.field"
-        data-garden-version="8.15.0"
+        data-garden-version="8.20.0"
       >
         <input
           aria-describedby="1val-field_1.3.4--hint"
@@ -688,7 +680,7 @@ exports[`renders the component 1`] = `
           aria-labelledby="1val-field_1.3.4--label"
           class="input c2"
           data-garden-id="forms.input"
-          data-garden-version="8.15.0"
+          data-garden-version="8.20.0"
           data-testid="message-field"
           id="1val-field_1.3.4--input"
           placeholder="Type your message here"
@@ -850,14 +842,6 @@ exports[`with chatBadgeColor passed in 1`] = `
   margin-top: 8px;
 }
 
-.c2 .c8:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c2 .c8:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c2:focus {
   outline: none;
 }
@@ -1006,17 +990,17 @@ exports[`with chatBadgeColor passed in 1`] = `
   height: 16px;
 }
 
-.c9 .c0 {
+.c8 .c0 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c0:hover,
-.c9 .c0:active {
+.c8 .c0:hover,
+.c8 .c0:active {
   z-index: 1;
 }
 
-.c9 .c0:disabled {
+.c8 .c0:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1024,18 +1008,18 @@ exports[`with chatBadgeColor passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c0:first-of-type:not(:last-of-type) {
+.c8 .c0:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c0:last-of-type:not(:first-of-type) {
+.c8 .c0:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c0:not(:first-of-type):not(:last-of-type) {
+.c8 .c0:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1144,17 +1128,17 @@ exports[`with chatBadgeColor passed in 1`] = `
   height: 16px;
 }
 
-.c9 .c3 {
+.c8 .c3 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c3:hover,
-.c9 .c3:active {
+.c8 .c3:hover,
+.c8 .c3:active {
   z-index: 1;
 }
 
-.c9 .c3:disabled {
+.c8 .c3:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1162,18 +1146,18 @@ exports[`with chatBadgeColor passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c3:first-of-type:not(:last-of-type) {
+.c8 .c3:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c3:last-of-type:not(:first-of-type) {
+.c8 .c3:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c3:not(:first-of-type):not(:last-of-type) {
+.c8 .c3:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1297,17 +1281,17 @@ exports[`with chatBadgeColor passed in 1`] = `
   height: 12px;
 }
 
-.c9 .c6 {
+.c8 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c6:hover,
-.c9 .c6:active {
+.c8 .c6:hover,
+.c8 .c6:active {
   z-index: 1;
 }
 
-.c9 .c6:disabled {
+.c8 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1315,18 +1299,18 @@ exports[`with chatBadgeColor passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c6:first-of-type:not(:last-of-type) {
+.c8 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c6:last-of-type:not(:first-of-type) {
+.c8 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c6:not(:first-of-type):not(:last-of-type) {
+.c8 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1408,7 +1392,7 @@ exports[`with chatBadgeColor passed in 1`] = `
       <div
         class="c1"
         data-garden-id="forms.field"
-        data-garden-version="8.15.0"
+        data-garden-version="8.20.0"
       >
         <input
           aria-describedby="2val-field_1.3.4--hint"
@@ -1416,7 +1400,7 @@ exports[`with chatBadgeColor passed in 1`] = `
           aria-labelledby="2val-field_1.3.4--label"
           class="input c2"
           data-garden-id="forms.input"
-          data-garden-version="8.15.0"
+          data-garden-version="8.20.0"
           data-testid="message-field"
           id="2val-field_1.3.4--input"
           placeholder="Type your message here"
@@ -1578,14 +1562,6 @@ exports[`with label passed in 1`] = `
   margin-top: 8px;
 }
 
-.c2 .c8:first-child {
-  margin: auto 8px auto 0;
-}
-
-.c2 .c8:last-child {
-  margin: auto 0 auto 8px;
-}
-
 .c2:focus {
   outline: none;
 }
@@ -1734,17 +1710,17 @@ exports[`with label passed in 1`] = `
   height: 16px;
 }
 
-.c9 .c0 {
+.c8 .c0 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c0:hover,
-.c9 .c0:active {
+.c8 .c0:hover,
+.c8 .c0:active {
   z-index: 1;
 }
 
-.c9 .c0:disabled {
+.c8 .c0:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1752,18 +1728,18 @@ exports[`with label passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c0:first-of-type:not(:last-of-type) {
+.c8 .c0:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c0:last-of-type:not(:first-of-type) {
+.c8 .c0:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c0:not(:first-of-type):not(:last-of-type) {
+.c8 .c0:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1872,17 +1848,17 @@ exports[`with label passed in 1`] = `
   height: 16px;
 }
 
-.c9 .c3 {
+.c8 .c3 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c3:hover,
-.c9 .c3:active {
+.c8 .c3:hover,
+.c8 .c3:active {
   z-index: 1;
 }
 
-.c9 .c3:disabled {
+.c8 .c3:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1890,18 +1866,18 @@ exports[`with label passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c3:first-of-type:not(:last-of-type) {
+.c8 .c3:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c3:last-of-type:not(:first-of-type) {
+.c8 .c3:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c3:not(:first-of-type):not(:last-of-type) {
+.c8 .c3:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -2025,17 +2001,17 @@ exports[`with label passed in 1`] = `
   height: 12px;
 }
 
-.c9 .c6 {
+.c8 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c9 .c6:hover,
-.c9 .c6:active {
+.c8 .c6:hover,
+.c8 .c6:active {
   z-index: 1;
 }
 
-.c9 .c6:disabled {
+.c8 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -2043,18 +2019,18 @@ exports[`with label passed in 1`] = `
   border-left-color: #fff;
 }
 
-.c9 .c6:first-of-type:not(:last-of-type) {
+.c8 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c9 .c6:last-of-type:not(:first-of-type) {
+.c8 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c9 .c6:not(:first-of-type):not(:last-of-type) {
+.c8 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -2138,7 +2114,7 @@ exports[`with label passed in 1`] = `
       <div
         class="c1"
         data-garden-id="forms.field"
-        data-garden-version="8.15.0"
+        data-garden-version="8.20.0"
       >
         <input
           aria-describedby="3val-field_1.3.4--hint"
@@ -2146,7 +2122,7 @@ exports[`with label passed in 1`] = `
           aria-labelledby="3val-field_1.3.4--label"
           class="input c2"
           data-garden-id="forms.input"
-          data-garden-version="8.15.0"
+          data-garden-version="8.20.0"
           data-testid="message-field"
           id="3val-field_1.3.4--input"
           placeholder="Type your message here"

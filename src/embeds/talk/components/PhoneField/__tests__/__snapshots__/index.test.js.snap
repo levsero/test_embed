@@ -6,8 +6,8 @@ Snapshot Diff:
 + Second value
 
 @@ -276,1 +276,1 @@
--             class="sc-bZQynM sc-gPEVay fiMcPH sc-htoDjs gZmkzP"
-+             class="sc-bZQynM sc-gPEVay fiMcPH sc-htoDjs hRbOka"
+-             class="sc-EHOje sc-jlyJG imwQji sc-htoDjs lmjLkg"
++             class="sc-EHOje sc-jlyJG imwQji sc-htoDjs hfZtrI"
 @@ -282,1 +282,1 @@
 -               aria-expanded="false"
 +               aria-expanded="true"
@@ -32,9 +32,9 @@ Snapshot Diff:
 +               style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none; z-index: 1000;"
 @@ -327,2 +330,2 @@
 -                   aria-labelledby="downshift-4-label"
--                   class="sc-jAaTju jKyMxw StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
+-                   class="sc-gPEVay gopCVT StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx kIhRpn"
 +                   aria-labelledby="downshift-3-label"
-+                   class="sc-jAaTju jKyMxw StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx index__is-open___1wxAy kIhRpn"
++                   class="sc-gPEVay gopCVT StyledMenu__StyledMenuView-sc-12lp0qs-0 index__c-menu___3N4tx index__is-open___1wxAy kIhRpn"
 @@ -332,1 +335,1 @@
 -                   id="downshift-4-menu"
 +                   id="downshift-3-menu"
@@ -42,7 +42,7 @@ Snapshot Diff:
 +                   >
 +                     <li
 +                       aria-selected="false"
-+                       class="sc-jDwBTQ cUmYkQ StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
++                       class="sc-iRbamj hhqNmz StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
 +                       data-garden-id="dropdowns.item"
 +                       data-garden-version="7.1.10"
 +                       id="downshift-3-item-0"
@@ -50,14 +50,14 @@ Snapshot Diff:
 +                     >
 +                       <img
 +                         alt="AU"
-+                         class="sc-cMljjf jwVWwQ"
++                         class="sc-jDwBTQ drnDTM"
 +                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
 +                       />
 +                       Australia (+61)
 +                     </li>
 +                     <li
 +                       aria-selected="false"
-+                       class="sc-jDwBTQ cUmYkQ StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
++                       class="sc-iRbamj hhqNmz StyledItem-sc-1xeog7q-0 index__c-menu__item___36mO8 DlBXR"
 +                       data-garden-id="dropdowns.item"
 +                       data-garden-version="7.1.10"
 +                       id="downshift-3-item-1"
@@ -65,7 +65,7 @@ Snapshot Diff:
 +                     >
 +                       <img
 +                         alt="US"
-+                         class="sc-cMljjf khFgsh"
++                         class="sc-jDwBTQ bAazWW"
 +                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
 @@ -339,0 +370,3 @@
 +                       United States (+1)

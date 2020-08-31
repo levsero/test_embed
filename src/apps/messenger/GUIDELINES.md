@@ -2,11 +2,11 @@
 
 This doc lists our guidelines and conventions for the code for the messenger embeddable.
 
-# File structure
+## File structure
 
 The messenger embeddable follows a feature folder based approach. Anything that is generic can be left in the top level components/hooks/etc folders. But where possible code should be inside of a feature folder.
 
-```
+```code
 |-- pages
     |-- PageComponent
         |-- __tests__
