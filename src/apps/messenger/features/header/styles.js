@@ -5,9 +5,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex: 0;
-  background: rgb(23, 73, 77);
   padding: 16px;
   color: white;
+  background-color: ${props => props.theme.messenger.brandColor};
 `
 
 const Details = styled.div`
@@ -17,6 +17,7 @@ const Details = styled.div`
   flex: auto;
   line-height: 24px;
   padding-left: 16px;
+  color: ${props => props.theme.messenger.brandTextColor};
 `
 
 const StyledAvatar = styled(Avatar)`

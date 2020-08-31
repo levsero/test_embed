@@ -3,7 +3,7 @@ import MessagePage from 'src/apps/messenger/features/widget/components/MessagePa
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { find } from 'styled-components/test-utils'
-import { Container } from 'src/apps/messenger/features/widget/styles'
+import { Container } from 'src/apps/messenger/features/widget/components/MessagePage/styles'
 import { companyReceived } from 'src/apps/messenger/store/company'
 
 describe('MessagePage', () => {

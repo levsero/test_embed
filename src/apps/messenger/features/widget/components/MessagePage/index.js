@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from 'src/apps/messenger/features/header'
-import { Container } from 'src/apps/messenger/features/widget/styles'
+import { Container } from './styles'
 import { useSelector } from 'react-redux'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 

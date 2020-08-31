@@ -1,9 +1,7 @@
 import React from 'react'
 import { widgetToggled } from 'src/apps/messenger/store/visibility'
-import { Container } from './styles'
+import { Avatar, Container } from './styles'
 import { useDispatch } from 'react-redux'
-
-const FocusJailTestComponents = () => <button>ok</button>
 
 const SquareLauncher = React.forwardRef((_props, ref) => {
   const dispatch = useDispatch()
@@ -19,8 +17,7 @@ const SquareLauncher = React.forwardRef((_props, ref) => {
         dispatch(widgetToggled())
       }}
     >
-      Launcher
-      <FocusJailTestComponents />
+      <Avatar />
     </Container>
   )
 })
