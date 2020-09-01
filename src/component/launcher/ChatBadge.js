@@ -70,7 +70,7 @@ class ChatBadge extends Component {
         onClick={this.props.handleChatBadgeMinimize}
         size="small"
       >
-        <MinimiseIcon />
+        <MinimiseIcon data-testid={TEST_IDS.ICON_DASH} />
       </IconButton>
     )
   }
