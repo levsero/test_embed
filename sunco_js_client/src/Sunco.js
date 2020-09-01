@@ -57,7 +57,7 @@ export default class Sunco {
             appUserId,
             conversationId: response.body.conversations[0]._id,
             socketSettings: response.body.settings.realtime
-          } // fix this to select isDefault: true
+          } // TODO - might need to eventually select a particular conversation - isDefault: true
           resolve(this.activeConversation)
         })
       } else {
@@ -71,7 +71,7 @@ export default class Sunco {
             appUserId,
             conversationId: response.body.conversations[0]._id,
             socketSettings: response.body.settings.realtime
-          } // fix this to select isDefault: true
+          } // TODO - might need to eventually select a particular conversation - isDefault: true
           resolve(this.activeConversation)
         })
       }
