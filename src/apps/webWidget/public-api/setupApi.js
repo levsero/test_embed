@@ -9,6 +9,7 @@ import {
   getDepartmentApi,
   getAllDepartmentsApi,
   showApi,
+  reauthenticateHelpCenter,
   updatePathApi,
   clearFormState,
   updateSettingsApi,
@@ -145,6 +146,7 @@ export const getWebWidgetPublicApi = reduxStore => {
       'chat:send': sendChatMsgApi,
       reset: resetWidget,
       popout: popoutApi,
+      'helpCenter:reauthenticate': reauthenticateHelpCenter,
       'helpCenter:setSuggestions': setHelpCenterSuggestionsApi
     },
     'webWidget:on': {

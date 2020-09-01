@@ -9,6 +9,7 @@ import {
   getDepartmentApi,
   getAllDepartmentsApi,
   showApi,
+  reauthenticateHelpCenter,
   updatePathApi,
   clearFormState,
   onApiObj,
@@ -128,6 +129,7 @@ export const apiStructurePreRenderSetup = apiAddToPostRenderQueue => {
       on: onApiObj(),
       get: getApiPreRenderQueue(apiAddToPostRenderQueue),
       helpCenter: {
+        reauthenticate: reduxStore => reauthenticateHelpCenter(reduxStore),
         setSuggestions: (_, ...args) =>
           apiAddToPostRenderQueue(['webWidget', 'helpCenter:setSuggestions', ...args])
       },
@@ -155,7 +157,8 @@ export const apiStructurePostRenderSetup = () => {
       on: onApiObj(),
       get: getApiObj(),
       helpCenter: {
-        setSuggestions: setHelpCenterSuggestionsApi
+        setSuggestions: setHelpCenterSuggestionsApi,
+        reauthenticate: reauthenticateHelpCenter
       },
       reset: resetWidget,
       popout: popoutApi

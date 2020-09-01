@@ -9,7 +9,8 @@ import {
   openReceived,
   closeReceived,
   toggleReceived,
-  handlePopoutCreated
+  handlePopoutCreated,
+  renewToken
 } from 'src/redux/modules/base'
 import {
   API_ON_CHAT_STATUS_NAME,
@@ -199,6 +200,10 @@ export const showApi = reduxStore => {
 
   if (!getWidgetAlreadyHidden(state)) return
   reduxStore.dispatch(showReceived())
+}
+
+export const reauthenticateHelpCenter = reduxStore => {
+  reduxStore.dispatch(renewToken())
 }
 
 export const popoutApi = reduxStore => {
