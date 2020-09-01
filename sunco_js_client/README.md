@@ -9,6 +9,7 @@ and within that `App` you need to have setup a `web` integration - please select
 To see if you integration has the correct feature flag enabled we can use the client to check:
 
 ```js
+//after you've initialised the client
 client.SDKConfig.init().then(response => console.log(response.body.config.app.settings))
 //=> { multiConvoEnabled: true }
 ```
@@ -19,11 +20,8 @@ client.SDKConfig.init().then(response => console.log(response.body.config.app.se
 const appId = 'replace with app id'
 const integrationId = 'replace with integration id'
 
-const sunco = new Sunco({ integrationId, appId })
-
 // by default the client will attempt to connect to a production URL (https://api.smooch.io). If you wish to use a different base url you can pass in during initialisation.
-
-const sunco = new Sunco({
+const client = new Sunco({
   integrationId: integrationId,
   appId: appId,
   baseUrl: 'https://smooch-lhills.ngrok.io'
@@ -35,11 +33,6 @@ const sunco = new Sunco({
 Super basic interface so far and still needs some work, but the basic gist of it looks something like this:
 
 ```js
-const appId = 'replace with app id'
-const integrationId = 'replace with integration id'
-
-let client = new Sunco({ integrationId, appId })
-
 client.startConversation().then(conversation => {
   // fetch conversation history via REST API
   conversation.listMessages().then(response => console.log(response))
@@ -54,7 +47,7 @@ client.startConversation().then(conversation => {
 // send and receive messages via the client instance and it will associate the requests
 // with the active conversation taking place
 client.sendMessage('plain text message')
-client.listMessages()
+client.listMessages().then(response => console.log(response))
 ```
 
 ##### Local storage tokens
