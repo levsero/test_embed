@@ -57,7 +57,17 @@ if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
         accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
         version: version,
         publicPath: PUBLIC_PATH,
-        rollbarEndpoint: process.env.ROLLBAR_ENDPOINT
+        rollbarEndpoint: process.env.ROLLBAR_ENDPOINT,
+        includeChunks: [
+          'messenger',
+          'preload',
+          'talk-sdk',
+          'vendors~lazy/talk',
+          'vendors~lazy/talk/click_to_call~snapcall',
+          'vendors~messenger',
+          'vendors~web_widget',
+          'web_widget'
+        ]
       })
     ]
   })
