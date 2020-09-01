@@ -55,3 +55,14 @@ client.listMessages().then(response => console.log(response))
 - [integrationId].clientId: Used to identify the device where the conversation is initiated from
 - [integrationId].appUserId: Used to identify the particular end user that has started the conversation
 - [integrationId].sessionToken: Long lived session token used to verify that the end user is who they say they are
+
+##### Sunco SDK API Docs
+
+To see the API docs needed for the client, clone this repo: https://github.com/zendesk/sunco-sdk-api-docs
+Then run the docs locally via:
+
+```bash
+npx redoc-cli serve openapi/oas-2.yaml
+```
+
+The docs should then be available to read at: http://127.0.0.1:8080
