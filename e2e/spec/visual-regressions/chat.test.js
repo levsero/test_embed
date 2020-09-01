@@ -45,6 +45,16 @@ test('proactive chats show a notification on mobile', async () => {
   await assertScreenshot('proactive-notification', { wait: 200 })
 })
 
+test('proactive chat', async () => {
+  await loadWidget()
+    .withPresets('chatStandalone')
+    .hiddenInitially()
+    .load()
+  await zChat.online()
+  await launcher.waitForChatBadge()
+  await assertScreenshot('chat-badge')
+})
+
 const populateField = async (fieldLabel, value) => {
   const element = await queries.queryByLabelText(await widget.getDocument(), fieldLabel)
 

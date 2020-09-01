@@ -1,8 +1,10 @@
+import { queries } from 'pptr-testing-library'
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 import { waitForPrechatForm } from 'e2e/helpers/chat-embed'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
+import { TEST_IDS } from 'src/constants/shared'
 import zChat from 'e2e/helpers/zChat'
 
 const buildWidget = async (...embeds) => {
@@ -51,6 +53,15 @@ describe('Chat standalone with chat badge settings', () => {
   test('does not show a launcher when agents are offline', async () => {
     await page.waitFor(2000)
     await expect(launcher).toBeHidden()
+  })
+
+  test('minimize shows the launcher', async () => {
+    await zChat.online()
+    await launcher.waitForTestId(TEST_IDS.ICON_DASH)
+    const doc = await launcher.getDocument()
+    const closeButton = await queries.getByTestId(doc, TEST_IDS.ICON_DASH)
+    await closeButton.click()
+    await expect(launcher).toBeVisible()
   })
 })
 

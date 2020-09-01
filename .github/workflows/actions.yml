@@ -81,7 +81,7 @@ jobs:
               echo "Starting visual regression testing";
               download_translations
               start_e2e_server
-              npm run e2e:visual-regressions
+              npm run e2e:visual-regressions:ci
     steps:
       - uses: zendesk/checkout@v2
         with:

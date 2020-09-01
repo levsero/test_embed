@@ -712,6 +712,7 @@ exports[`renders the component 1`] = `
         class="c4 c5"
         data-garden-id="buttons.icon"
         data-garden-version="8.13.0"
+        data-testid="Icon--dash"
         realfilename="dash-fill.svg"
         theme="[object Object]"
       />
@@ -1432,6 +1433,7 @@ exports[`with chatBadgeColor passed in 1`] = `
         class="c4 c5"
         data-garden-id="buttons.icon"
         data-garden-version="8.13.0"
+        data-testid="Icon--dash"
         realfilename="dash-fill.svg"
         theme="[object Object]"
       />
@@ -2154,6 +2156,7 @@ exports[`with label passed in 1`] = `
         class="c4 c5"
         data-garden-id="buttons.icon"
         data-garden-version="8.13.0"
+        data-testid="Icon--dash"
         realfilename="dash-fill.svg"
         theme="[object Object]"
       />
