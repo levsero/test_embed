@@ -8,6 +8,24 @@
 • Fixed - for any bug fixes.
 • Security - in case of vulnerabilities -->
 
+### 26 August 2020
+
+- Fixed an issue that caused an empty selection screen to appear when no ticket forms were available for a brand.
+
+### 17 August 2020
+
+- Fixed a slight visual regression for the chat badge where the input incorrectly had a border radius.
+
+### 11 August 2020
+
+- Fixed an issue where links in chat messages could not be selected by users.
+- Fixed an issue where the Help Center search bar would resize slightly when entering a search query.
+
+### 6 August 2020
+
+- Added phone property to [`zE('webWidget', 'identify')` api](https://developer.zendesk.com/embeddables/docs/widget/core#identify)
+- Fixed small bug causing the widget to crash if no `prefill` option is passed to the ticket forms fields API.
+
 ### 30 July 2020
 
 - Added the [Talk Label API](https://developer.zendesk.com/embeddables/docs/widget/settings#talklabel), which allows the launcher label to be customised when Talk is enabled, and Chat and Help Center are disabled.
