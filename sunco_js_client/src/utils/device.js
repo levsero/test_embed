@@ -1,17 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { VENDOR_ID, VERSION, CLIENT_ID_ERROR } from './constants'
+import { VENDOR_ID, VERSION } from './constants'
 import storage from './storage'
-
-export function verifyStoredClientId(appUser, integrationId) {
-  const storedClientId = storage.getItem(`${integrationId}.clientId`)
-  const isStoredClientIdValid = appUser.clients.some(client => {
-    return client.id === storedClientId && client.platform === 'web' && client.active
-  })
-  if (!isStoredClientIdValid) {
-    throw new Error(CLIENT_ID_ERROR)
-  }
-}
 
 export function getClientId(integrationId) {
   const key = `${integrationId}.clientId`
