@@ -1,16 +1,18 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import companyReducer from './company'
-import visibilityReducer from './visibility'
+import company from './company'
+import visibility from './visibility'
 import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store'
 import messengerColors from 'src/apps/messenger/features/themeProvider/reducer/messengerColors'
+import messages from 'src/apps/messenger/features/messageLog/store'
 
 const createStore = () => {
   const store = configureStore({
     reducer: combineReducers({
-      visibility: visibilityReducer,
-      company: companyReducer,
+      visibility,
+      company,
       responsiveDesign,
-      messengerColors
+      messengerColors,
+      messages
     })
   })
 

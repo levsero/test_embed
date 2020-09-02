@@ -35,6 +35,7 @@ const Container = styled.div`
   display: flex !important;
   align-items: center;
   padding: 12px 16px;
+  flex-shrink: 0;
 `
 
 const StyledField = styled(Field)`

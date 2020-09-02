@@ -9,6 +9,7 @@ const Container = styled.div`
   padding: ${props => props.theme.messenger.fontSizes.xs};
   color: white;
   background-color: ${props => props.theme.messenger.brandColor};
+  flex-shrink: 0;
 `
 
 const Details = styled.div`

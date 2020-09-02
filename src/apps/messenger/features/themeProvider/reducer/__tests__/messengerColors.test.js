@@ -1,4 +1,4 @@
-import { testReducer } from 'src/util/testHelpers'
+import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import messengerColors, { getMessengerColors } from '../messengerColors'
 import { DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import { configReceived } from 'src/apps/messenger/store/actions'
