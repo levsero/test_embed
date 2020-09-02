@@ -187,6 +187,16 @@ To authenticate with Help Center, provide a function to `zESettings.webWidget.au
 </script>
 ```
 
+You can use the `helpCenter:reauthenticate` command to trigger user authentication after widget page load. This is particularly useful in a single page application (SPA).
+
+```html
+<script type="text/javascript">
+  zE(function() {
+    zE('webWidget', 'helpCenter:reauthenticate');
+  });
+</script>
+```
+
 When the user has logged out or you wish to terminate the authenticated session call the following:
 
 ```html
