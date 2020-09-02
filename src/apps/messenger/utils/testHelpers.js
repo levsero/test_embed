@@ -51,3 +51,33 @@ export const mockMatchMedia = () => {
     triggerChangeForBreakpoint
   }
 }
+
+/*
+  For testing reducers (duh).
+  Pass it your reducer and an array of parameter objects.
+  - If parameter object is a flat action payload, the test will use
+  snapshot testing. The action can also be explicitly specified using
+  an `action` key.
+  - If parameter object contains key `initialState`, the value
+  of that key will be used as initial state for the reducer.
+  - If parameter object contains key `expected`, the value
+  of that key will be used to assert against the result of the reducer.
+*/
+export const testReducer = (reducer, actions) => {
+  actions.forEach(params => {
+    const { expected, initialState, extraDesc } = params
+    const action = params.action || params
+    const basicTestDesc = `${reducer.name}, action: ${action.type}`
+    const testDesc = extraDesc ? `${basicTestDesc} ${extraDesc}` : basicTestDesc
+
+    test(testDesc, () => {
+      const reduced = reducer(initialState, action)
+
+      if ('expected' in params) {
+        expect(reduced).toEqual(expected)
+      } else {
+        expect(reduced).toMatchSnapshot()
+      }
+    })
+  })
+}
