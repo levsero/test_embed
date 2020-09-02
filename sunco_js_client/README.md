@@ -14,6 +14,8 @@ client.SDKConfig.init().then(response => console.log(response.body.config.app.se
 //=> { multiConvoEnabled: true }
 ```
 
+If you need to toggle the feature flag, you can do so via a script in our developer dashboard repo. PR to add this particular script is here: https://github.com/zendesk/widget-developer-dashboard/pull/47
+
 ##### Client initialisation
 
 ```js
