@@ -12,7 +12,8 @@ const LauncherFrame = ({ children }) => {
         width: 70,
         position: 'fixed',
         bottom: 0,
-        right: 0
+        right: 0,
+        border: 0
       }}
     >
       <ThemeProvider>{children}</ThemeProvider>
