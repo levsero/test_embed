@@ -1,19 +1,41 @@
+import { useRef, useEffect } from 'react'
 import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
-import { useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
 
 const lastNodes = elementsByContainer =>
   elementsByContainer.map(container => container[container.length - 1])
 
-const useFocusJail = enabled => {
+const useFocusJail = () => {
+  const isOpen = useSelector(getIsWidgetOpen)
   const refLauncher = useRef()
   const refWidget = useRef()
+  const hasRendered = useRef(false)
+
+  useEffect(() => {
+    if (!hasRendered.current) {
+      hasRendered.current = true
+      return
+    }
+
+    if (!isOpen) {
+      setTimeout(() => {
+        if (!refLauncher.current) {
+          return
+        }
+
+        refLauncher.current.querySelector('[aria-label="Zendesk Messenger Launcher"]')?.focus()
+      }, 0)
+    }
+  }, [isOpen])
 
   const onKeyDownForContainer = event => {
     const { keyCode } = event
-    if (!keyCode === KEY_CODES.TAB || !enabled) return
+    if (!keyCode === KEY_CODES.TAB || !isOpen) return
+
     const containers = [refLauncher.current, refWidget.current].filter(el => el != null)
     const elementsByContainer = containers.map(container => tabbable(container))
 

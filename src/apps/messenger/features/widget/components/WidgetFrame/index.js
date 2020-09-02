@@ -17,7 +17,7 @@ const MessengerFrame = ({ children }) => {
 
   return (
     <Frame
-      title="TODO: Messenger"
+      title="Messenger"
       style={getFrameStyles({ isVerticallySmallScreen, isLauncherVisible, isFullScreen })}
     >
       <ThemeProvider>{children}</ThemeProvider>
