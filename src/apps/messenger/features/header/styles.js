@@ -5,7 +5,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex: 0;
-  padding: 16px;
+  background: rgb(23, 73, 77);
+  padding: ${props => props.theme.messenger.fontSizes.xs};
   color: white;
   background-color: ${props => props.theme.messenger.brandColor};
 `
@@ -15,25 +16,25 @@ const Details = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: auto;
-  line-height: 24px;
-  padding-left: 16px;
   color: ${props => props.theme.messenger.brandTextColor};
+  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  padding-left: ${props => props.theme.messenger.space.xs};
 `
 
 const StyledAvatar = styled(Avatar)`
   && {
-    height: 48px;
-    width: 48px;
+    height: ${props => props.theme.messenger.space.lg};
+    width: ${props => props.theme.messenger.space.lg};
   }
 `
 
 const Title = styled.div`
-  font-size: 18px;
-  font-weight: 600;
+  font-size: ${props => props.theme.messenger.fontSizes.lg};
+  font-weight: ${props => props.theme.fontWeights.semibold};
 `
 
 const Tagline = styled.div`
-  font-size: 16px;
+  font-size: ${props => props.theme.messenger.fontSizes.md};
 `
 
 export { StyledAvatar as Avatar, Title, Tagline, Container, Details }

@@ -127,6 +127,7 @@
     "final-form": "^4.18.6",
     "libphonenumber-js": "^1.7.53",
     "lodash": "^4.17.20",
+    "polished": "^3.6.5",
     "prop-types": "^15.7.2",
     "re-reselect": "^2.2.0",
     "react": "^16.8.6",
