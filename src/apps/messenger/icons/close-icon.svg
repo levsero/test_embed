@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="88px" height="88px" viewBox="0 0 88 88" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>⚡️icon</title>
+    <defs>
+        <filter x="-47.9%" y="-47.9%" width="195.8%" height="195.8%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-4" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.141176471   0 0 0 0 0.141176471   0 0 0 0 0.141176471  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="🦴Anatomy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="btn/chat-button" filter="url(#filter-1)" transform="translate(-4.000000, -4.000000)" fill="#FFFFFF">
+            <g id="⚡️icon" transform="translate(38.000000, 38.000000)">
+                <polygon id="Shape" points="17.2338475 0.833333333 19.1666667 2.76615247 11.9325273 10 19.1666667 17.2338475 17.2338475 19.1666667 10 11.9325273 2.76615247 19.1666667 0.833333333 17.2338475 8.06610603 10 0.833333333 2.76615247 2.76615247 0.833333333 10 8.06610603"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -12,14 +12,14 @@ describe('Launcher', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: false }))
 
-      expect(getByTitle('TODO: Launcher')).toBeInTheDocument()
+      expect(getByTitle('Launcher')).toBeInTheDocument()
     })
 
     it('is positioned in the bottom right of the screen', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: false }))
 
-      expect(getByTitle('TODO: Launcher')).toHaveStyle(`
+      expect(getByTitle('Launcher')).toHaveStyle(`
       bottom: 0px;
       right: 0px;
     `)
@@ -33,7 +33,7 @@ describe('Launcher', () => {
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: true }))
       store.dispatch(widgetOpened())
 
-      expect(queryByTitle('TODO: Launcher')).toBeNull()
+      expect(queryByTitle('Launcher')).toBeNull()
     })
   })
 })

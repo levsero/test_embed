@@ -20,7 +20,7 @@ describe('Messenger app', () => {
   it('renders the launcher', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('TODO: Launcher')).toBeInTheDocument()
+    expect(getByTitle('Launcher')).toBeInTheDocument()
   })
 
   it('does not render the messenger when not messenger is open', () => {
