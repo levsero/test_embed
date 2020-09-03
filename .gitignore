@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-vendor/
+src/vendor
 vendor/bundle
 
 # Logs
