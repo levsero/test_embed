@@ -87,20 +87,10 @@ const ChatHeader = ({
           >
             <Title data-testid={TEST_IDS.CHAT_HEADER_TITLE}>{titleText}</Title>
             <TooltipWrapper>
-              <Tooltip
-                size="medium"
-                style={{ display: 'block' }}
-                trigger={
-                  <Subtext
-                    data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT}
-                    tooltip={subText}
-                    tabIndex="-1"
-                  >
-                    {subText}
-                  </Subtext>
-                }
-              >
-                {subText}
+              <Tooltip size="medium" style={{ display: 'block' }} content={subText}>
+                <Subtext data-testid={TEST_IDS.CHAT_HEADER_SUBTEXT} tooltip={subText} tabIndex="-1">
+                  {subText}
+                </Subtext>
               </Tooltip>
             </TooltipWrapper>
           </Text>

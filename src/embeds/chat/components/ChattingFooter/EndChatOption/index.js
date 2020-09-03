@@ -31,8 +31,11 @@ const EndChatOption = ({ endChat, isChatting, theme: { rtl } }) => {
   )
 
   return (
-    <Tooltip placement={rtl ? 'top-start' : 'top-end'} trigger={endChatButton}>
-      {translate('embeddable_framework.chat.icon.endChat.hover.label')}
+    <Tooltip
+      placement={rtl ? 'top-start' : 'top-end'}
+      content={translate('embeddable_framework.chat.icon.endChat.hover.label')}
+    >
+      {endChatButton}
     </Tooltip>
   )
 }

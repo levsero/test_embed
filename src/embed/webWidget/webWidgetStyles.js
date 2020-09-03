@@ -19,12 +19,10 @@ import ButtonCardStyles from 'component/chat/chatting/structuredMessage/ButtonCa
 
 import SharedComponentStyles from 'component/shared/styles'
 import { sharedStyles } from 'embed/sharedStyles'
-import gardenStyles from 'embed/gardenStyles'
 import componentStyles from 'src/components/styles'
 
 export const webWidgetStyles = `
   ${sharedStyles}
-  ${gardenStyles}
   ${AttachmentBoxStyles}
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
