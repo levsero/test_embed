@@ -4,7 +4,7 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { find } from 'styled-components/test-utils'
 import { Container } from 'src/apps/messenger/features/widget/components/MessagePage/styles'
-import { companyReceived } from 'src/apps/messenger/store/company'
+import { configReceived } from 'src/apps/messenger/store/actions'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import userEvent from '@testing-library/user-event'
 
@@ -13,7 +13,7 @@ describe('MessagePage', () => {
 
   it('renders the header', () => {
     const { getByText, store } = renderComponent()
-    store.dispatch(companyReceived({ name: 'Company name' }))
+    store.dispatch(configReceived({ title: 'Company name' }))
 
     expect(getByText('Company name')).toBeInTheDocument()
   })

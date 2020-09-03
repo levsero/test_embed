@@ -29,6 +29,7 @@ const StyledAvatar = styled(Avatar)`
   && {
     height: ${props => props.theme.messenger.space.lg};
     width: ${props => props.theme.messenger.space.lg};
+    flex-shrink: 0;
   }
 `
 
@@ -37,7 +38,7 @@ const Title = styled.div`
   font-weight: ${props => props.theme.fontWeights.semibold};
 `
 
-const Tagline = styled.div`
+const Description = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.md};
 `
 
@@ -80,7 +81,7 @@ const CloseIconContainer = styled.div`
 export {
   StyledAvatar as Avatar,
   Title,
-  Tagline,
+  Description,
   Container,
   Details,
   StyledCloseIcon as CloseIcon,
