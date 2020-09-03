@@ -8,13 +8,13 @@ describe('Messenger', () => {
   it('renders an iframe', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('TODO: Messenger')).toBeInTheDocument()
+    expect(getByTitle('Messenger')).toBeInTheDocument()
   })
 
   it('is positioned in the bottom right of the screen above the launcher', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('TODO: Messenger')).toHaveStyle(`
+    expect(getByTitle('Messenger')).toHaveStyle(`
       bottom: 90px;
       rightL: 0px;
     `)

@@ -10,7 +10,7 @@ describe('WidgetFrame', () => {
   it('renders an iframe', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('TODO: Messenger')).toBeInTheDocument()
+    expect(getByTitle('Messenger')).toBeInTheDocument()
   })
 
   describe('styles', () => {
@@ -18,14 +18,14 @@ describe('WidgetFrame', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(true)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('TODO: Messenger')).toHaveStyle('bottom: 90px')
+      expect(getByTitle('Messenger')).toHaveStyle('bottom: 90px')
     })
 
     it('is positioned at the bottom of the screen when the launcher is not visible', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(false)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('TODO: Messenger')).toHaveStyle('bottom: 0px')
+      expect(getByTitle('Messenger')).toHaveStyle('bottom: 0px')
     })
 
     it('takes up part of the screen when on a large screen', () => {
@@ -37,7 +37,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('TODO: Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger')).toHaveStyle(`
         height: 500px
         width: 300px
         maxHeight: calc(100vh - 90px - 10px);
@@ -53,7 +53,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('TODO: Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger')).toHaveStyle(`
         top: 0px;
         bottom: 0px;
         left: 0px;
@@ -71,7 +71,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('TODO: Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger')).toHaveStyle(`
         height: 100%;
         max-height: none;
       `)

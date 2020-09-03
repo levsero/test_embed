@@ -7,7 +7,7 @@ import { useFocusJail } from './hooks/focusJail'
 
 const App = () => {
   const showWidget = useSelector(getIsWidgetOpen)
-  const { refLauncher, refWidget, onKeyDownForContainer } = useFocusJail(showWidget)
+  const { refLauncher, refWidget, onKeyDownForContainer } = useFocusJail()
 
   return (
     <div onKeyDown={onKeyDownForContainer} role="presentation">
