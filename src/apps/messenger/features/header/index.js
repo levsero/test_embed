@@ -1,9 +1,20 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { getCompany } from 'src/apps/messenger/store/company'
-import { Title, Tagline, Container, Details, Avatar } from './styles'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+
+import {
+  Title,
+  Tagline,
+  Container,
+  Details,
+  Avatar,
+  IconButton,
+  CloseIcon,
+  CloseIconContainer
+} from './styles'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -23,13 +34,16 @@ const Header = () => {
       </Details>
 
       {!isLauncherVisible && (
-        <button
-          onClick={() => {
-            dispatch(widgetClosed())
-          }}
-        >
-          Close
-        </button>
+        <CloseIconContainer>
+          <IconButton
+            onClick={() => {
+              dispatch(widgetClosed())
+            }}
+            aria-label="Close messenger"
+          >
+            <CloseIcon />
+          </IconButton>
+        </CloseIconContainer>
       )}
     </Container>
   )

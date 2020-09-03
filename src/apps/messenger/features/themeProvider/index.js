@@ -36,6 +36,7 @@ const ThemeProvider = ({ children }) => {
                 xxs: rem(DEFAULT_THEME.space.xxs, baseFontSize),
                 xs: rem(DEFAULT_THEME.space.xs, baseFontSize),
                 sm: rem(DEFAULT_THEME.space.sm, baseFontSize),
+                sixteen: rem('16px', baseFontSize),
                 md: rem(DEFAULT_THEME.space.md, baseFontSize),
                 lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
@@ -47,6 +48,15 @@ const ThemeProvider = ({ children }) => {
                 lg: rem(DEFAULT_THEME.lineHeights.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.lineHeights.xl, baseFontSize),
                 xxl: rem(DEFAULT_THEME.lineHeights.xxl, baseFontSize)
+              },
+              border: {
+                sm: rem('1px', baseFontSize) + ' solid',
+                md: rem('1px', baseFontSize) + ' solid'
+              },
+              iconSizes: {
+                sm: rem(DEFAULT_THEME.iconSizes.sm, baseFontSize),
+                md: rem(DEFAULT_THEME.iconSizes.md, baseFontSize),
+                lg: rem(DEFAULT_THEME.iconSizes.lg, baseFontSize)
               }
             }
           }}
