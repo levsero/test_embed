@@ -45,14 +45,17 @@ describe('prechat form', () => {
     await zChat.updateDepartment({ status: 'online', id: 1, name: 'Department 1' })
     await zChat.updateDepartment({ status: 'online', id: 2, name: 'Department 2' })
 
+    await populateField('Message (optional)', 'Some message')
+
     const departmentDropdown = await queries.queryByPlaceholderText(
       await widget.getDocument(),
       'Choose a department'
     )
     await departmentDropdown.click()
-    await widget.clickText('Department 1')
+    await widget.expectToSeeText('Department 1')
+    await widget.expectToSeeText('Department 2')
 
-    await populateField('Message (optional)', 'Some message')
+    await widget.clickText('Department 1')
 
     await clickStartChat()
     await waitForChatToBeReady()
