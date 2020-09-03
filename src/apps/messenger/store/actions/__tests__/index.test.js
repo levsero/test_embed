@@ -1,10 +1,10 @@
-import { configReceived } from '../'
+import { messengerConfigReceived } from '../'
 
-describe('configReceived', () => {
+describe('messengerConfigReceived', () => {
   it('matches template', () => {
-    expect(configReceived('inputObject')).toEqual({
+    expect(messengerConfigReceived('inputObject')).toEqual({
       payload: 'inputObject',
-      type: 'messenger/configReceived'
+      type: 'messengerConfigReceived'
     })
   })
 })

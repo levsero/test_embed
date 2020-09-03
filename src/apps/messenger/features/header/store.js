@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { configReceived } from 'src/apps/messenger/store/actions'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 
 const header = createReducer(
   {
@@ -9,7 +9,7 @@ const header = createReducer(
       'https://www.vhv.rs/dpng/d/263-2633009_transparent-zendesk-logo-white-hd-png-download.png'
   },
   {
-    [configReceived]: (state, action) => {
+    [messengerConfigReceived]: (state, action) => {
       state.name = action.payload?.title || state.name
       state.description = action.payload?.description || state.description
     }
