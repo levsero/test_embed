@@ -19,7 +19,7 @@ const Support = ({
   customFieldsAvailable
 }) => {
   const [isFetchingForms, setIsFetchingForms] = useState(true)
-  const formId = (ticketForms.ids && ticketForms.ids[0]) || routes.defaultFormId
+  const formId = (ticketForms.validatedIds && ticketForms.validatedIds[0]) || routes.defaultFormId
   const indexRoute = ticketForms.showList ? routes.list() : routes.form(formId)
 
   useEffect(() => {
@@ -54,10 +54,10 @@ const Support = ({
 Support.propTypes = {
   ticketForms: PropTypes.shape({
     ids: PropTypes.array,
+    validatedIds: PropTypes.array,
     showList: PropTypes.bool,
     requestAll: PropTypes.bool,
-    active: PropTypes.bool,
-    allFetched: PropTypes.bool
+    active: PropTypes.bool
   }),
   fetchTicketForms: PropTypes.func,
   getTicketFields: PropTypes.func,

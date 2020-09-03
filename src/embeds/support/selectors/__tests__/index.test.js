@@ -1083,6 +1083,40 @@ describe('getTicketForms', () => {
     })
   })
 
+  describe('when a customer passes an invalid form ID', () => {
+    describe('and it is the only ID passed', () => {
+      it('omits it in the validatedIds property', () => {
+        const form1 = { id: 1, position: 1, active: true }
+
+        const forms = {
+          [form1.id]: form1
+        }
+
+        const filteredFormIds = [666]
+
+        const result = getTicketForms(createState({ forms, filteredFormIds }))
+
+        expect(result.validatedIds).toEqual([])
+      })
+    })
+
+    describe('alongside valid IDs', () => {
+      it('omits it in the validatedIds property', () => {
+        const form1 = { id: 1, position: 1, active: true }
+
+        const forms = {
+          [form1.id]: form1
+        }
+
+        const filteredFormIds = [666, 1]
+
+        const result = getTicketForms(createState({ forms, filteredFormIds }))
+
+        expect(result.validatedIds).toEqual([1])
+      })
+    })
+  })
+
   describe('when the list of ticket forms should be shown', () => {
     it('returns a property of showList as true', () => {
       const form1 = { id: 1, position: 1, active: true }
@@ -1136,6 +1170,12 @@ describe('getTicketForms', () => {
       const result = getTicketForms(createState({ enabled: false }))
 
       expect(result.active).toBeFalsy()
+    })
+
+    it('returns an empty array for the validatedIds property', () => {
+      const result = getTicketForms(createState({ enabled: false }))
+
+      expect(result.validatedIds).toEqual([])
     })
   })
 

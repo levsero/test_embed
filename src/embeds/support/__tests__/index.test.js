@@ -30,6 +30,50 @@ describe('TicketFormPage', () => {
     expect(queryByText('Please select your issue')).not.toBeInTheDocument()
   })
 
+  it('falls back to the default form when an invalid ID is the only ID passed', async () => {
+    const store = createStore()
+    store.dispatch(
+      updateEmbeddableConfig({
+        embeds: {
+          ticketSubmissionForm: {
+            props: {
+              ticketFormsEnabled: true
+            }
+          }
+        }
+      })
+    )
+
+    store.dispatch({
+      type: ALL_FORMS_REQUESTED,
+      payload: false
+    })
+
+    store.dispatch({
+      type: TICKET_FORMS_REQUEST_SUCCESS,
+      payload: {
+        ticket_forms: [
+          {
+            id: 666,
+            active: true,
+            ticket_field_ids: []
+          }
+        ],
+        ticket_fields: [],
+        formIds: []
+      }
+    })
+
+    const ticketForms = { ids: [1337], validatedIds: [], enabled: true, showList: false }
+    const { queryByText } = renderComponent({ ticketForms: ticketForms }, { store })
+
+    await waitFor(() => queryByText('Email address'))
+
+    expect(queryByText('Email address')).toBeInTheDocument()
+    expect(queryByText('How can we help you?')).toBeInTheDocument()
+    expect(queryByText('Please select your issue')).not.toBeInTheDocument()
+  })
+
   it('does not fetch data when forms and custom fields not available', () => {
     const getTicketFields = jest.fn(async () => undefined)
     const fetchTicketForms = jest.fn(async () => undefined)
@@ -45,7 +89,7 @@ describe('TicketFormPage', () => {
     expect(fetchTicketForms).not.toHaveBeenCalled()
   })
 
-  it('renders the ticket form form when ticketForms length is 1', async () => {
+  it('renders the ticket form when ticketForms length is 1', async () => {
     const store = createStore()
     store.dispatch(
       updateEmbeddableConfig({
@@ -79,7 +123,7 @@ describe('TicketFormPage', () => {
       }
     })
 
-    const ticketForms = { ids: [1337], enabled: true, showList: false }
+    const ticketForms = { ids: [1337], validatedIds: [1337], enabled: true, showList: false }
     const { queryByText } = renderComponent({ ticketForms: ticketForms }, { store })
 
     await waitFor(() => queryByText('Email address'))
