@@ -7,14 +7,20 @@ import createStore from 'src/apps/messenger/store'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { i18n } from 'service/i18n'
 
-const reduxStore = createStore()
 i18n.setLocale()
 export const decorators = [
-  Story => (
-    <Provider store={reduxStore}>
-      <ThemeProvider>
-        <Story />
-      </ThemeProvider>
-    </Provider>
-  )
+  (Story, args) => {
+    const reduxStore = createStore()
+    args.args.actions?.forEach(action => {
+      reduxStore.dispatch(action)
+    })
+
+    return (
+      <Provider store={reduxStore}>
+        <ThemeProvider>
+          <Story />
+        </ThemeProvider>
+      </Provider>
+    )
+  }
 ]

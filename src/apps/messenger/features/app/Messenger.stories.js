@@ -1,4 +1,5 @@
 import React from 'react'
+import { widgetOpened } from 'src/apps/messenger/store/visibility'
 
 import App from './'
 
@@ -10,4 +11,12 @@ export default {
 const Template = args => <App {...args} />
 
 export const Messenger = Template.bind({})
-Messenger.args = {}
+export const OpenMessenger = Template.bind({})
+
+Messenger.args = {
+  actions: []
+}
+
+OpenMessenger.args = {
+  actions: [widgetOpened()]
+}
