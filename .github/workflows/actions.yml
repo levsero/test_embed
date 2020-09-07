@@ -105,7 +105,7 @@ jobs:
       - name: ${{ matrix.task }}
         run: |
           download_translations() {
-            bundle install --jobs=3 --retry=3 --path=vendor/bundle
+            bundle install --local --jobs=3 --retry=3 --path=vendor/bundle --without=deployment
             npm run build-setup:prod
           }
           start_e2e_server() {
