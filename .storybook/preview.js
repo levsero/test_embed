@@ -8,6 +8,7 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { i18n } from 'service/i18n'
 
 i18n.setLocale()
+
 export const decorators = [
   (Story, args) => {
     const reduxStore = createStore()
