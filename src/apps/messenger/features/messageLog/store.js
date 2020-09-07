@@ -11,6 +11,9 @@ const messagesSlice = createSlice({
   reducers: {
     messageReceived(state, action) {
       messagesAdapter.addOne(state, action.payload.message)
+    },
+    messagesReceived(state, action) {
+      messagesAdapter.addMany(state, action.payload.messages)
     }
   }
 })
@@ -42,7 +45,7 @@ const getMessageLog = createSelector(
   }
 )
 
-export const { messageReceived } = messagesSlice.actions
+export const { messageReceived, messagesReceived } = messagesSlice.actions
 export { getMessageLog }
 
 export default messagesSlice.reducer

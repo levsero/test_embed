@@ -4,11 +4,13 @@ import { Provider } from 'react-redux'
 
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import App from 'src/apps/messenger/features/app'
+import { createClient } from './suncoClient'
 import createStore from 'src/apps/messenger/store'
 import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDesign/store'
 import publicApi from 'src/framework/services/publicApi'
 import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { messageReceived, messagesReceived } from 'src/apps/messenger/features/messageLog/store'
 
 const run = ({ config }) => {
   const element = hostPageWindow.document.body.appendChild(
@@ -20,6 +22,21 @@ const run = ({ config }) => {
 
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
+
+  // setup Sunco client
+  const { integrationId, appId } = config.messenger
+  const client = createClient({ integrationId, appId })
+  client.startConversation().then(conversation => {
+    // fetch conversation history via REST API
+    conversation.listMessages().then(response => {
+      store.dispatch(messagesReceived({ messages: response.body?.messages }))
+    })
+
+    // subscribe to socket events to listen for live changes
+    conversation.socketClient.subscribe(event => {
+      store.dispatch(messageReceived({ message: event.message }))
+    })
+  })
 
   ReactDOM.render(
     <Provider store={store}>

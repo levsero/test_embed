@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
+import { getClient } from 'src/apps/messenger/suncoClient'
 
 import { Container, Textarea, SendIcon, Field, SendButton } from './styles'
 
@@ -18,10 +19,11 @@ const Footer = () => {
     inputRef.current?.focus()
   }, [])
 
-  const sendMessage = e => {
-    setMessage('')
+  const sendMessage = () => {
     /* eslint-disable no-console */
-    console.log('User sent: ', e.target.value)
+    const client = getClient()
+    client.sendMessage(message)
+    setMessage('')
     /* eslint-enable no-console */
     inputRef.current.focus()
   }

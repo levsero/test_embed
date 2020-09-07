@@ -5,7 +5,8 @@ import DummyStructuredMessage from 'src/apps/messenger/features/messageLog/Messa
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
 const suncoMessageTypes = {
-  _dummy: DummyStructuredMessage
+  dummy: DummyStructuredMessage,
+  text: DummyStructuredMessage
 }
 
 const localMessageTypes = {
