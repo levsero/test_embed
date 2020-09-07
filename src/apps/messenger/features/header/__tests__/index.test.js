@@ -2,18 +2,14 @@ import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Header from '../'
 import createStore from 'src/apps/messenger/store'
-import { companyReceived } from 'src/apps/messenger/store/company'
+import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 
 describe('Header', () => {
   const renderComponent = () => {
     const store = createStore()
     store.dispatch(
-      companyReceived({
-        name: 'Zendesk',
-        avatar: 'https://www.zendesk.com/avatar.png',
-        tagline: 'Elevate the conversation'
-      })
+      messengerConfigReceived({ title: 'Zendesk', description: 'Elevate the conversation' })
     )
 
     return render(

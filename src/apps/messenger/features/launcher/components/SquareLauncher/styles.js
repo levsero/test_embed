@@ -16,7 +16,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.messenger.brandColor} !important;
+  background-color: ${props => props.theme.messenger.colors.primary} !important;
 `
 
 const StyledMessengerIcon = styled(MessengerIcon)``
@@ -28,20 +28,20 @@ const Button = styled(IconButton)`
     height: 100% !important;
     width: 100% !important;
     g {
-      fill: ${props => props.theme.messenger.brandTextColor};
+      fill: ${props => props.theme.messenger.colors.primaryText};
     }
   }
   ${StyledMessengerIcon} {
     width: 60% !important;
     height: 60% !important;
     path {
-      fill: ${props => props.theme.messenger.brandTextColor};
+      fill: ${props => props.theme.messenger.colors.primaryText};
     }
   }
   :hover,
   :active {
-    background-color: ${props => props.theme.messenger.brandColor} !important;
-    color: ${props => props.theme.messenger.brandColor} !important;
+    background-color: ${props => props.theme.messenger.colors.primary} !important;
+    color: ${props => props.theme.messenger.colors.primary} !important;
     box-shadow: -4px 0px 20px 0px rgba(36, 36, 36, 0.2);
   }
 

@@ -22,7 +22,7 @@ const ThemeProvider = ({ children }) => {
             document: frame.document,
             rtl: i18n.isRTL(),
             messenger: {
-              ...messengerColors,
+              colors: messengerColors,
               fontSizes: {
                 xs: rem(DEFAULT_THEME.fontSizes.xs, baseFontSize),
                 sm: rem(DEFAULT_THEME.fontSizes.sm, baseFontSize),

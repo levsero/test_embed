@@ -1,13 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getCompany } from 'src/apps/messenger/store/company'
+import { getHeaderValues } from './store'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 
 import {
   Title,
-  Tagline,
+  Description,
   Container,
   Details,
   Avatar,
@@ -18,7 +18,7 @@ import {
 
 const Header = () => {
   const dispatch = useDispatch()
-  const { avatar, name, tagline } = useSelector(getCompany)
+  const { avatar, name, description } = useSelector(getHeaderValues)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
 
   return (
@@ -30,7 +30,7 @@ const Header = () => {
       )}
       <Details>
         {name && <Title>{name}</Title>}
-        {tagline && <Tagline>{tagline}</Tagline>}
+        {description && <Description>{description}</Description>}
       </Details>
 
       {!isLauncherVisible && (

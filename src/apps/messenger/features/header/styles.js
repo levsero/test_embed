@@ -11,7 +11,7 @@ const Container = styled.div`
   background: rgb(23, 73, 77);
   padding: ${props => props.theme.messenger.fontSizes.xs};
   color: white;
-  background-color: ${props => props.theme.messenger.brandColor};
+  background-color: ${props => props.theme.messenger.colors.primary};
   flex-shrink: 0;
 `
 
@@ -20,7 +20,7 @@ const Details = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: auto;
-  color: ${props => props.theme.messenger.brandTextColor};
+  color: ${props => props.theme.messenger.colors.primaryText};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
   padding-left: ${props => props.theme.messenger.space.xs};
 `
@@ -29,6 +29,7 @@ const StyledAvatar = styled(Avatar)`
   && {
     height: ${props => props.theme.messenger.space.lg};
     width: ${props => props.theme.messenger.space.lg};
+    flex-shrink: 0;
   }
 `
 
@@ -37,7 +38,7 @@ const Title = styled.div`
   font-weight: ${props => props.theme.fontWeights.semibold};
 `
 
-const Tagline = styled.div`
+const Description = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.md};
 `
 
@@ -46,24 +47,24 @@ const StyledCloseIcon = styled(CloseIcon)``
 const StyledIconButton = styled(IconButton)`
   width: ${props => props.theme.messenger.space.xl} !important;
   height: ${props => props.theme.messenger.space.xl} !important;
-  color: ${props => props.theme.messenger.brandColor} !important;
+  color: ${props => props.theme.messenger.colors.primary} !important;
 
   :focus {
     border: ${props =>
       `${props.theme.borders.md} ${transparentize(
         '0.65',
-        props.theme.messenger.brandMessageColor
+        props.theme.messenger.colors.primaryMessage
       )} !important`};
   }
   :active,
   :hover {
     background-color: ${props =>
-      transparentize('0.92', props.theme.messenger.brandMessageColor)} !important;
+      transparentize('0.92', props.theme.messenger.colors.primaryMessage)} !important;
   }
 
   /* We have to style this as a child of the button in order to access the theme props */
   ${StyledCloseIcon} {
-    color: ${props => props.theme.messenger.brandMessageColor};
+    color: ${props => props.theme.messenger.colors.primaryMessage};
     width: ${props => props.theme.messenger.iconSizes.md} !important;
     height: ${props => props.theme.messenger.iconSizes.md} !important;
   }
@@ -80,7 +81,7 @@ const CloseIconContainer = styled.div`
 export {
   StyledAvatar as Avatar,
   Title,
-  Tagline,
+  Description,
   Container,
   Details,
   StyledCloseIcon as CloseIcon,
