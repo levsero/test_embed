@@ -2,18 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
+import { frameBoxShadow, frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
+import { useSelector } from 'react-redux'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/reducer/store'
 
 const LauncherFrame = ({ children }) => {
+  const position = useSelector(getPosition)
+
   return (
     <Frame
       title="Launcher"
       style={{
-        height: 74,
-        width: 74,
+        height: launcherSize,
+        width: launcherSize,
         position: 'fixed',
-        bottom: 0,
-        right: 0,
-        border: 0
+        bottom: frameMarginFromPage,
+        [position]: frameMarginFromPage,
+        border: 0,
+        marginTop: 0,
+        boxShadow: frameBoxShadow
       }}
     >
       <ThemeProvider>{children}</ThemeProvider>

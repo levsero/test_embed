@@ -14,7 +14,7 @@ describe('response design store', () => {
     const store = createStore()
     store.dispatch(watchForScreenChanges())
 
-    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: true })
+    triggerChangeForBreakpoint(breakpoints.isVerticallySmallScreen, { matches: true })
 
     expect(getIsVerticallySmallScreen(store.getState())).toBe(true)
   })
@@ -25,7 +25,7 @@ describe('response design store', () => {
     const store = createStore()
     store.dispatch(watchForScreenChanges())
 
-    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: false })
+    triggerChangeForBreakpoint(breakpoints.isVerticallySmallScreen, { matches: false })
 
     expect(getIsVerticallySmallScreen(store.getState())).toBe(false)
   })
@@ -36,12 +36,11 @@ describe('response design store', () => {
     const store = createStore()
     store.dispatch(watchForScreenChanges())
 
-    triggerChangeForBreakpoint(breakpoints.verticallySmallScreen, { matches: true })
-    triggerChangeForBreakpoint(breakpoints.horizontallySmallScreen, { matches: false })
+    triggerChangeForBreakpoint(breakpoints.isFullScreen, { matches: false })
 
     expect(getIsFullScreen(store.getState())).toBe(false)
 
-    triggerChangeForBreakpoint(breakpoints.horizontallySmallScreen, { matches: true })
+    triggerChangeForBreakpoint(breakpoints.isFullScreen, { matches: true })
 
     expect(getIsFullScreen(store.getState())).toBe(true)
   })

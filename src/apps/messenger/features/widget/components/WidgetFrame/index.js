@@ -9,16 +9,18 @@ import {
   getIsVerticallySmallScreen
 } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/reducer/store'
 
 const MessengerFrame = ({ children }) => {
   const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
   const isFullScreen = useSelector(getIsFullScreen)
+  const position = useSelector(getPosition)
 
   return (
     <Frame
       title="Messenger"
-      style={getFrameStyles({ isVerticallySmallScreen, isLauncherVisible, isFullScreen })}
+      style={getFrameStyles({ isVerticallySmallScreen, isLauncherVisible, isFullScreen, position })}
     >
       <ThemeProvider>{children}</ThemeProvider>
     </Frame>

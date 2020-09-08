@@ -1,14 +1,25 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { createGlobalStyle } from 'styled-components'
+import bedrockCSS from '@zendeskgarden/css-bedrock'
 import { DEFAULT_THEME, ThemeProvider as GardenThemeProvider } from '@zendeskgarden/react-theming'
 import { i18n } from 'service/i18n'
 import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import useTranslate from 'src/hooks/useTranslate'
-import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/reducer/messengerColors'
+import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/reducer/store'
 import { rem } from 'polished'
 
-const baseFontSize = DEFAULT_THEME.fontSizes.md // 14px
+const GlobalStyles = createGlobalStyle`
+  ${bedrockCSS}
+
+  html {
+     overflow-y: hidden;
+  }
+`
+
+export const baseFontSize = DEFAULT_THEME.fontSizes.md // 14px
+
 const ThemeProvider = ({ children }) => {
   useTranslate()
   const messengerColors = useSelector(getMessengerColors)
@@ -61,7 +72,11 @@ const ThemeProvider = ({ children }) => {
             }
           }}
         >
-          {children}
+          <>
+            <GlobalStyles />
+
+            {children}
+          </>
         </GardenThemeProvider>
       )}
     </CurrentFrameConsumer>

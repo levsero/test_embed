@@ -1,22 +1,35 @@
+import { rem } from 'polished'
+import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
+import {
+  frameBoxShadow,
+  frameMarginFromPage,
+  launcherSize,
+  marginBetweenFrames,
+  widgetFrameHeight,
+  widgetFrameWidth
+} from 'src/apps/messenger/constants'
+
 const defaultStyles = {
   position: 'fixed',
-  height: 700,
-  width: 380,
-  minWidth: 380,
-  maxHeight: 'calc(100vh - 90px - 10px)',
-  right: 0,
-  bottom: 90,
-  border: 0
+  height: rem(widgetFrameHeight, baseFontSize),
+  width: rem(widgetFrameWidth, baseFontSize),
+  minWidth: rem(widgetFrameWidth, baseFontSize),
+  maxHeight: `calc(100vh - ${launcherSize +
+    frameMarginFromPage +
+    frameMarginFromPage +
+    marginBetweenFrames}px)`,
+  maxWidth: '100%',
+  bottom: launcherSize + frameMarginFromPage + marginBetweenFrames,
+  border: 0,
+  boxShadow: frameBoxShadow
 }
 
 const verticallySmallStyles = {
-  height: '100%',
-  maxHeight: 'none',
-  top: 0
+  maxHeight: `calc(100vh - ${frameMarginFromPage * 2}px)`
 }
 
 const noLauncherStyles = {
-  bottom: 0
+  bottom: frameMarginFromPage
 }
 
 const fullscreenStyles = {
@@ -24,12 +37,16 @@ const fullscreenStyles = {
   top: 0,
   bottom: 0,
   left: 0,
-  right: 0
+  right: 0,
+  minWidth: 'auto',
+  maxHeight: 'none',
+  height: '100%',
+  boxShadow: 'none'
 }
 
-const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen, isLauncherVisible }) => {
+const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen, isLauncherVisible, position }) => {
   return Object.assign(
-    {},
+    { [position]: frameMarginFromPage },
     defaultStyles,
     isVerticallySmallScreen && verticallySmallStyles,
     !isLauncherVisible && noLauncherStyles,
