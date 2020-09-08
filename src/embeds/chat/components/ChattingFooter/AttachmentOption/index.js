@@ -36,8 +36,11 @@ const AttachmentOption = ({
 
   return (
     <Dropzone onDrop={handleAttachmentDrop}>
-      <Tooltip trigger={attachmentButton} placement={rtl ? 'top-start' : 'top-end'}>
-        {translate('embeddable_framework.chat.icon.attachments.hover.label')}
+      <Tooltip
+        content={translate('embeddable_framework.chat.icon.attachments.hover.label')}
+        placement={rtl ? 'top-start' : 'top-end'}
+      >
+        {attachmentButton}
       </Tooltip>
     </Dropzone>
   )

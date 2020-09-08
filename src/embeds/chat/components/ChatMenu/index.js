@@ -161,22 +161,18 @@ const ChatMenu = ({
   }
 
   return (
-    <Tooltip
-      trigger={
-        <Container
-          role="presentation"
-          onKeyDown={e => {
-            if (e.key === 'Escape' && isOpen) {
-              e.stopPropagation()
-            }
-          }}
-          tabIndex="-1"
-        >
-          {dropdown}
-        </Container>
-      }
-    >
-      {translate('embeddable_framework.chat.icon.menu.hover.label')}
+    <Tooltip content={translate('embeddable_framework.chat.icon.menu.hover.label')}>
+      <Container
+        role="presentation"
+        onKeyDown={e => {
+          if (e.key === 'Escape' && isOpen) {
+            e.stopPropagation()
+          }
+        }}
+        tabIndex="-1"
+      >
+        {dropdown}
+      </Container>
     </Tooltip>
   )
 }

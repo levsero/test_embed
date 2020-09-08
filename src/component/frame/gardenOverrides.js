@@ -306,7 +306,7 @@ function getGardenOverrides(colors) {
     'forms.checkbox_hint': checkboxHintMobileOverrides,
     'dropdowns.label': mobileOverrides,
     'dropdowns.hint': mobileOverrides,
-    'dropdowns.select': css`
+    'dropdowns.faux_input': css`
       ${genericOverrides}
       ${borderOverrides}
       box-shadow: ${props =>
@@ -318,6 +318,15 @@ function getGardenOverrides(colors) {
     `,
     'dropdowns.item': selectOverrides,
     'dropdowns.next_item': selectArrowOverrides,
+    'dropdowns.input': css`
+      width: 1px !important;
+      min-height: auto;
+      max-height: 1px !important;
+      display: block !important;
+      max-width: 1px !important;
+      min-width: auto !important;
+      top: 0;
+    `,
     'tooltip.tooltip':
       isMobileBrowser() &&
       css`

@@ -4,7 +4,11 @@ import { genericOverrides, mobileOverrides, selectOverrides } from 'component/fr
 
 const overrides = {
   'forms.input': genericOverrides,
-  'dropdowns.select': css`
+  'dropdowns.input': css`
+    width: 1px !important;
+    min-height: auto;
+  `,
+  'dropdowns.faux_input': css`
     width: ${53 / FONT_SIZE}rem !important;
     min-height: ${38 / FONT_SIZE}rem !important;
     padding: ${10 / FONT_SIZE}rem ${10 / FONT_SIZE}rem 0 !important;

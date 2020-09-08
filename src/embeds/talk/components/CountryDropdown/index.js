@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dropdown, Field, Select } from '@zendeskgarden/react-dropdowns'
+import { Dropdown, Field } from '@zendeskgarden/react-dropdowns'
 
 import { FONT_SIZE, TEST_IDS } from 'constants/shared'
 import Flag from 'src/embeds/talk/components/Flag'
 
-import { Item, Menu } from './styles'
+import { Item, Menu, Select } from './styles'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 
 const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onToggleOpen }) => {
@@ -26,12 +26,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
       }}
     >
       <Field>
-        <Select
-          style={{
-            width
-          }}
-          data-testid={TEST_IDS.DROPDOWN_FIELD}
-        >
+        <Select data-testid={TEST_IDS.DROPDOWN_FIELD}>
           <Flag country={selectedKey} />
         </Select>
       </Field>
