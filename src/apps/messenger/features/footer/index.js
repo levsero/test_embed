@@ -20,11 +20,9 @@ const Footer = () => {
   }, [])
 
   const sendMessage = () => {
-    /* eslint-disable no-console */
     const client = getClient()
     client.sendMessage(message)
     setMessage('')
-    /* eslint-enable no-console */
     inputRef.current.focus()
   }
 

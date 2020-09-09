@@ -24,8 +24,8 @@ const run = ({ config }) => {
   store.dispatch(watchForScreenChanges())
 
   // setup Sunco client
-  const { integrationId, appId } = config.messenger
-  const client = createClient({ integrationId, appId })
+  const { integrationId, appId, baseUrl } = config.messenger
+  const client = createClient({ integrationId, appId, baseUrl })
   client.startConversation().then(conversation => {
     // fetch conversation history via REST API
     conversation.listMessages().then(response => {

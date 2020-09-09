@@ -13,6 +13,9 @@ export default {
   messenger_widget: {
     defaultValue: false
   },
+  use_production_sunco: {
+    defaultValue: false
+  },
   web_widget_new_boot_sequence: {
     defaultValue: false,
     getArturoValue: config => config?.newBootSequence
