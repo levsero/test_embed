@@ -166,7 +166,7 @@ describe('init', () => {
       })
 
       expect(chatActions.setUpChat).toHaveBeenCalled()
-      expect(talkActions.loadTalkVendors).toHaveBeenCalled()
+      expect(talkActions.pollTalkStatus).toHaveBeenCalled()
       expect(helpCenterActions.setUpHelpCenterAuth).toHaveBeenCalled()
     })
   })

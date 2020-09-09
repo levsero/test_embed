@@ -4,11 +4,10 @@ import { i18n } from 'service/i18n'
 import { settings } from 'service/settings'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
-import { loadTalkVendors, pollTalkStatus } from 'src/redux/modules/talk'
+import { pollTalkStatus } from 'src/redux/modules/talk'
 import { setUpHelpCenterAuth } from 'embeds/helpCenter/actions'
 import { setLocaleApi } from 'service/api/apis'
 import webWidgetApp from 'embeds/webWidget'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import { getWebWidgetPublicApi } from './public-api/setupApi'
@@ -29,11 +28,7 @@ function setUpEmbeds(embeds, reduxStore) {
   }
 
   if (embeds.talk) {
-    if (isFeatureEnabled(reduxStore.getState(), 'defer_talk_connection')) {
-      reduxStore.dispatch(pollTalkStatus())
-    } else {
-      reduxStore.dispatch(loadTalkVendors())
-    }
+    reduxStore.dispatch(pollTalkStatus())
   }
 
   if (embeds.helpCenterForm) {

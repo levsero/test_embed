@@ -6,10 +6,6 @@ export default {
     defaultValue: false,
     getArturoValue: state => state.base.embeddableConfig.embeds?.chat?.props?.webWidgetPrechatFormV2
   },
-  defer_talk_connection: {
-    defaultValue: false,
-    getArturoValue: state => state.base.embeddableConfig.deferTalkConnection
-  },
   messenger_widget: {
     defaultValue: false
   },

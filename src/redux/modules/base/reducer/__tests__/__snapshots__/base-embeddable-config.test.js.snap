@@ -7,7 +7,6 @@ Object {
   "brandLogoUrl": "helloworld",
   "color": "white",
   "cp4": true,
-  "deferTalkConnection": false,
   "disableStatusPolling": true,
   "embeds": Object {
     "chat": Object {
@@ -46,7 +45,6 @@ Object {
   "brandLogoUrl": undefined,
   "color": "#1F73B7",
   "cp4": false,
-  "deferTalkConnection": false,
   "disableStatusPolling": false,
   "embeds": Object {
     "chat": Object {
