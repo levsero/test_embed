@@ -8,7 +8,11 @@ const filteredFormsToDisplay = (state = initialState, action) => {
       const ticketForms = action.payload?.webWidget?.contactForm?.ticketForms
 
       if (ticketForms !== undefined && Array.isArray(ticketForms)) {
-        return ticketForms.map(form => form?.id).filter(Boolean)
+        return ticketForms
+          .map(form => {
+            return parseInt(form?.id, 10)
+          })
+          .filter(Boolean)
       }
 
       return state
