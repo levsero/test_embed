@@ -403,6 +403,159 @@ describe('messages store', () => {
           expect(message3.isLastInGroup).toBe(true)
         })
       })
+
+      it('it matches snapshot', () => {
+        const store = createStore()
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              role: 'business',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2,
+              actions: [
+                {
+                  type: 'reply',
+                  text: 'Pizza',
+                  iconUrl: 'http://example.org/taco.png',
+                  payload: 'PIZZA'
+                },
+                {
+                  type: 'reply',
+                  text: 'Crumpets',
+                  iconUrl: 'http://example.org/burrito.png',
+                  payload: 'CRUMPETS'
+                }
+              ]
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'appUser',
+              received: 3,
+              actions: [
+                {
+                  type: 'reply',
+                  text: 'Tacos',
+                  iconUrl: 'http://example.org/taco.png',
+                  payload: 'TACOS',
+                  _id: '5f584700b53c4e000c41f41a'
+                },
+                {
+                  type: 'reply',
+                  text: 'Burritos',
+                  iconUrl: 'http://example.org/burrito.png',
+                  payload: 'BURRITOS',
+                  _id: '5f584700b53c4e000c41f419'
+                }
+              ]
+            }
+          })
+        )
+
+        const messages = getMessageLog(store.getState())
+        expect(messages).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "_id": 1,
+              "isFirstInGroup": true,
+              "isLastInGroup": true,
+              "isLastInLog": false,
+              "received": 1,
+              "role": "business",
+              "text": "One",
+              "type": "text",
+            },
+            Object {
+              "_id": 2,
+              "actions": Array [
+                Object {
+                  "iconUrl": "http://example.org/taco.png",
+                  "payload": "PIZZA",
+                  "text": "Pizza",
+                  "type": "reply",
+                },
+                Object {
+                  "iconUrl": "http://example.org/burrito.png",
+                  "payload": "CRUMPETS",
+                  "text": "Crumpets",
+                  "type": "reply",
+                },
+              ],
+              "isFirstInGroup": true,
+              "isLastInGroup": false,
+              "isLastInLog": false,
+              "received": 2,
+              "role": "appUser",
+              "text": "Two",
+              "type": "text",
+            },
+            Object {
+              "_id": 3,
+              "actions": Array [
+                Object {
+                  "_id": "5f584700b53c4e000c41f41a",
+                  "iconUrl": "http://example.org/taco.png",
+                  "payload": "TACOS",
+                  "text": "Tacos",
+                  "type": "reply",
+                },
+                Object {
+                  "_id": "5f584700b53c4e000c41f419",
+                  "iconUrl": "http://example.org/burrito.png",
+                  "payload": "BURRITOS",
+                  "text": "Burritos",
+                  "type": "reply",
+                },
+              ],
+              "isFirstInGroup": false,
+              "isLastInGroup": true,
+              "isLastInLog": true,
+              "received": 3,
+              "role": "appUser",
+              "text": "Three",
+              "type": "text",
+            },
+            Object {
+              "id": Array [
+                Object {
+                  "_id": "5f584700b53c4e000c41f41a",
+                  "iconUrl": "http://example.org/taco.png",
+                  "payload": "TACOS",
+                  "text": "Tacos",
+                  "type": "reply",
+                },
+                Object {
+                  "_id": "5f584700b53c4e000c41f419",
+                  "iconUrl": "http://example.org/burrito.png",
+                  "payload": "BURRITOS",
+                  "text": "Burritos",
+                  "type": "reply",
+                },
+              ],
+            },
+          ]
+        `)
+      })
     })
   })
 })

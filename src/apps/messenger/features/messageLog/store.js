@@ -38,10 +38,24 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
+const extractReplyActions = messages => {
+  const lastMessage = messages[messages.length - 1]
+  if (lastMessage.type !== 'text' || !lastMessage.actions) return messages
+
+  const replies = lastMessage.actions.filter(action => action.type === 'reply')
+  return messages.concat({
+    id: Date.now(),
+    type: 'replies',
+    replies
+  })
+}
+
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
-    return addMessagePositionsToGroups(messages)
+    const messagesWithPosition = addMessagePositionsToGroups(messages)
+    const messagesWithReplies = extractReplyActions(messagesWithPosition)
+    return messagesWithReplies
   }
 )
 
