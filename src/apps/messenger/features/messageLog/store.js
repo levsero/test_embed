@@ -39,12 +39,13 @@ const addMessagePositionsToGroups = messages =>
   })
 
 const extractReplyActions = messages => {
+  if (messages.length === 0) return messages
   const lastMessage = messages[messages.length - 1]
   if (lastMessage.type !== 'text' || !lastMessage.actions) return messages
 
   const replies = lastMessage.actions.filter(action => action.type === 'reply')
   return messages.concat({
-    id: Date.now(),
+    id: replies.map(reply => reply._id).join('-'),
     type: 'replies',
     replies
   })

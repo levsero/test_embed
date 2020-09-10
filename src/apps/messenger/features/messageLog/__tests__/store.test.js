@@ -1,6 +1,12 @@
-import reducer, { getMessageLog, messageReceived } from '../store'
+import reducer, { getMessageLog, messageReceived, messagesReceived } from '../store'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
+import {
+  messagesWithDifferentTypes,
+  messagesWithDifferentAuthors,
+  unorderedTextMessages,
+  messagesWithReplies
+} from './storeFixtures'
 
 describe('messages store', () => {
   describe('reducer', () => {
@@ -107,40 +113,7 @@ describe('messages store', () => {
     it('orders messages by their received value', () => {
       const store = createStore()
 
-      store.dispatch(
-        messageReceived({
-          message: {
-            _id: 1,
-            type: 'text',
-            text: 'One',
-            role: 'appUser',
-            received: 100
-          }
-        })
-      )
-      store.dispatch(
-        messageReceived({
-          message: {
-            _id: 2,
-            type: 'text',
-            text: 'Two',
-            role: 'appUser',
-            received: 50
-          }
-        })
-      )
-
-      store.dispatch(
-        messageReceived({
-          message: {
-            _id: 3,
-            type: 'text',
-            text: 'Three',
-            role: 'business',
-            received: 150
-          }
-        })
-      )
+      store.dispatch(messagesReceived(unorderedTextMessages))
 
       const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -153,47 +126,14 @@ describe('messages store', () => {
       it('has isLastInLog equal to true if the message is the last message in the array', () => {
         const store = createStore()
 
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 1,
-              type: 'text',
-              text: 'One',
-              role: 'appUser',
-              received: 1
-            }
-          })
-        )
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 2,
-              type: 'text',
-              text: 'Two',
-              role: 'appUser',
-              received: 2
-            }
-          })
-        )
-
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 3,
-              type: 'text',
-              text: 'Three',
-              role: 'business',
-              received: 3
-            }
-          })
-        )
+        store.dispatch(messagesReceived(unorderedTextMessages))
 
         const [message1, message2, message3] = getMessageLog(store.getState())
 
-        expect(message1._id).toBe(1)
+        expect(message1._id).toBe(2)
         expect(message1.isLastInLog).toBe(false)
 
-        expect(message2._id).toBe(2)
+        expect(message2._id).toBe(1)
         expect(message2.isLastInLog).toBe(false)
 
         expect(message3._id).toBe(3)
@@ -204,40 +144,7 @@ describe('messages store', () => {
         it('is true for the message when previous message is from a different author', () => {
           const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'text',
-                text: 'One',
-                role: 'business',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+          store.dispatch(messagesReceived(messagesWithDifferentAuthors))
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -254,40 +161,7 @@ describe('messages store', () => {
         it('is true for the message when the previous message has a different type', () => {
           const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'image',
-                src: 'cat image',
-                role: 'appUser',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+          store.dispatch(messagesReceived(messagesWithDifferentTypes))
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -306,40 +180,7 @@ describe('messages store', () => {
         it('is true for the message when the next message is from a different author', () => {
           const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'text',
-                text: 'One',
-                role: 'business',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+          store.dispatch(messagesReceived(messagesWithDifferentAuthors))
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -356,40 +197,7 @@ describe('messages store', () => {
         it('is true for the message when the next message has a different type', () => {
           const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'image',
-                src: 'cat image',
-                role: 'appUser',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+          store.dispatch(messagesReceived(messagesWithDifferentTypes))
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -404,157 +212,45 @@ describe('messages store', () => {
         })
       })
 
-      it('it matches snapshot', () => {
+      it('it correctly extracts the replies', () => {
         const store = createStore()
 
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 1,
-              type: 'text',
-              text: 'One',
-              role: 'business',
-              received: 1
-            }
-          })
-        )
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 2,
-              type: 'text',
-              text: 'Two',
-              role: 'appUser',
-              received: 2,
-              actions: [
-                {
-                  type: 'reply',
-                  text: 'Pizza',
-                  iconUrl: 'http://example.org/taco.png',
-                  payload: 'PIZZA'
-                },
-                {
-                  type: 'reply',
-                  text: 'Crumpets',
-                  iconUrl: 'http://example.org/burrito.png',
-                  payload: 'CRUMPETS'
-                }
-              ]
-            }
-          })
-        )
-
-        store.dispatch(
-          messageReceived({
-            message: {
-              _id: 3,
-              type: 'text',
-              text: 'Three',
-              role: 'appUser',
-              received: 3,
-              actions: [
-                {
-                  type: 'reply',
-                  text: 'Tacos',
-                  iconUrl: 'http://example.org/taco.png',
-                  payload: 'TACOS',
-                  _id: '5f584700b53c4e000c41f41a'
-                },
-                {
-                  type: 'reply',
-                  text: 'Burritos',
-                  iconUrl: 'http://example.org/burrito.png',
-                  payload: 'BURRITOS',
-                  _id: '5f584700b53c4e000c41f419'
-                }
-              ]
-            }
-          })
-        )
+        store.dispatch(messagesReceived(messagesWithReplies))
 
         const messages = getMessageLog(store.getState())
-        expect(messages).toMatchInlineSnapshot(`
+
+        const replies = messages[3]
+
+        expect(messages.length).toBe(4)
+        expect(replies.id).toBe('r1-r2')
+        expect(replies.type).toBe('replies')
+        expect(replies.replies).toMatchInlineSnapshot(`
           Array [
             Object {
-              "_id": 1,
-              "isFirstInGroup": true,
-              "isLastInGroup": true,
-              "isLastInLog": false,
-              "received": 1,
-              "role": "business",
-              "text": "One",
-              "type": "text",
+              "_id": "r1",
+              "iconUrl": "http://example.org/taco.png",
+              "payload": "PIZZA",
+              "text": "Pizza",
+              "type": "reply",
             },
             Object {
-              "_id": 2,
-              "actions": Array [
-                Object {
-                  "iconUrl": "http://example.org/taco.png",
-                  "payload": "PIZZA",
-                  "text": "Pizza",
-                  "type": "reply",
-                },
-                Object {
-                  "iconUrl": "http://example.org/burrito.png",
-                  "payload": "CRUMPETS",
-                  "text": "Crumpets",
-                  "type": "reply",
-                },
-              ],
-              "isFirstInGroup": true,
-              "isLastInGroup": false,
-              "isLastInLog": false,
-              "received": 2,
-              "role": "appUser",
-              "text": "Two",
-              "type": "text",
-            },
-            Object {
-              "_id": 3,
-              "actions": Array [
-                Object {
-                  "_id": "5f584700b53c4e000c41f41a",
-                  "iconUrl": "http://example.org/taco.png",
-                  "payload": "TACOS",
-                  "text": "Tacos",
-                  "type": "reply",
-                },
-                Object {
-                  "_id": "5f584700b53c4e000c41f419",
-                  "iconUrl": "http://example.org/burrito.png",
-                  "payload": "BURRITOS",
-                  "text": "Burritos",
-                  "type": "reply",
-                },
-              ],
-              "isFirstInGroup": false,
-              "isLastInGroup": true,
-              "isLastInLog": true,
-              "received": 3,
-              "role": "appUser",
-              "text": "Three",
-              "type": "text",
-            },
-            Object {
-              "id": Array [
-                Object {
-                  "_id": "5f584700b53c4e000c41f41a",
-                  "iconUrl": "http://example.org/taco.png",
-                  "payload": "TACOS",
-                  "text": "Tacos",
-                  "type": "reply",
-                },
-                Object {
-                  "_id": "5f584700b53c4e000c41f419",
-                  "iconUrl": "http://example.org/burrito.png",
-                  "payload": "BURRITOS",
-                  "text": "Burritos",
-                  "type": "reply",
-                },
-              ],
+              "_id": "r2",
+              "iconUrl": "http://example.org/burrito.png",
+              "payload": "CRUMPETS",
+              "text": "Crumpets",
+              "type": "reply",
             },
           ]
         `)
+      })
+
+      it('it generates the correct log', () => {
+        const store = createStore()
+
+        store.dispatch(messagesReceived(messagesWithReplies))
+
+        const messages = getMessageLog(store.getState())
+        expect(messages).toMatchSnapshot()
       })
     })
   })

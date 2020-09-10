@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`messages store getMessageLog position properties on each message it generates the correct log 1`] = `
+Array [
+  Object {
+    "_id": 1,
+    "actions": Array [
+      Object {
+        "_id": "r3",
+        "iconUrl": "http://example.org/taco.png",
+        "payload": "PIZZA",
+        "text": "Pizza",
+        "type": "reply",
+      },
+    ],
+    "isFirstInGroup": true,
+    "isLastInGroup": true,
+    "isLastInLog": false,
+    "received": 1,
+    "role": "business",
+    "text": "One",
+    "type": "text",
+  },
+  Object {
+    "_id": 2,
+    "isFirstInGroup": true,
+    "isLastInGroup": false,
+    "isLastInLog": false,
+    "received": 2,
+    "role": "appUser",
+    "text": "Two",
+    "type": "text",
+  },
+  Object {
+    "_id": 3,
+    "actions": Array [
+      Object {
+        "_id": "r1",
+        "iconUrl": "http://example.org/taco.png",
+        "payload": "PIZZA",
+        "text": "Pizza",
+        "type": "reply",
+      },
+      Object {
+        "_id": "r2",
+        "iconUrl": "http://example.org/burrito.png",
+        "payload": "CRUMPETS",
+        "text": "Crumpets",
+        "type": "reply",
+      },
+    ],
+    "isFirstInGroup": false,
+    "isLastInGroup": true,
+    "isLastInLog": true,
+    "received": 3,
+    "role": "appUser",
+    "text": "Three",
+    "type": "text",
+  },
+  Object {
+    "id": "r1-r2",
+    "replies": Array [
+      Object {
+        "_id": "r1",
+        "iconUrl": "http://example.org/taco.png",
+        "payload": "PIZZA",
+        "text": "Pizza",
+        "type": "reply",
+      },
+      Object {
+        "_id": "r2",
+        "iconUrl": "http://example.org/burrito.png",
+        "payload": "CRUMPETS",
+        "text": "Crumpets",
+        "type": "reply",
+      },
+    ],
+    "type": "replies",
+  },
+]
+`;
