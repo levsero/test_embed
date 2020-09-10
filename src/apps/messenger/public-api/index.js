@@ -14,7 +14,7 @@ export default store => ({
             type: 'dummy',
             text,
             role: fromUser ? 'appUser' : 'business',
-            received: Date.now(),
+            received: Date.now() / 1000,
             isLocalMessageType: true
           }
         })

@@ -1,9 +1,11 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent } from '@testing-library/react'
-
+import * as suncoClient from 'src/apps/messenger/suncoClient'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Footer from '../'
+
+jest.mock('src/apps/messenger/suncoClient')
 
 describe('Footer', () => {
   const renderComponent = () => {
@@ -49,20 +51,24 @@ describe('Footer', () => {
     expect(queryByLabelText('Send message')).not.toBeInTheDocument()
   })
 
-  it('clears text when the user hits enter', () => {
+  it('submits when the user hits enter', () => {
+    const mockClient = { sendMessage: jest.fn() }
+    jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
     const { getByLabelText, queryByText } = renderComponent()
     const input = getByLabelText('Type a message')
 
     userEvent.type(input, 'message from user')
 
     expect(queryByText('message from user')).toBeInTheDocument()
-
     userEvent.type(input, '{enter}')
 
+    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user')
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 
-  it('clears text when the user clicks the Send button', () => {
+  it('submits when the user clicks the Send button', () => {
+    const mockClient = { sendMessage: jest.fn() }
+    jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
     const { getByLabelText, queryByText } = renderComponent()
     const input = getByLabelText('Type a message')
 
@@ -72,6 +78,7 @@ describe('Footer', () => {
 
     userEvent.click(getByLabelText('Send message'))
 
+    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user')
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 })
