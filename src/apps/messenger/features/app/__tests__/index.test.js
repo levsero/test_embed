@@ -49,7 +49,7 @@ describe('Messenger app', () => {
 
     userEvent.type(widget.getByPlaceholderText('Type a message'), '{esc}')
 
-    expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus()
+    await wait(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
   })
 
   it('focuses the launcher when the messenger frame is closed when pressing the close button', async () => {

@@ -2,16 +2,14 @@ import styled from 'styled-components'
 import MessengerIcon from 'src/apps/messenger/icons/messenger_open.svg'
 import CloseIcon from 'src/apps/messenger/icons/close-icon.svg'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import { rgba } from 'polished'
 
 const Container = styled.div`
-  margin: 5px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 64px;
-  height: 64px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -38,15 +36,20 @@ const Button = styled(IconButton)`
       fill: ${props => props.theme.messenger.colors.primaryText};
     }
   }
-  :hover,
-  :active {
-    background-color: ${props => props.theme.messenger.colors.primary} !important;
-    color: ${props => props.theme.messenger.colors.primary} !important;
-    box-shadow: -4px 0px 20px 0px rgba(36, 36, 36, 0.2);
-  }
 
-  width: 100% !important;
-  height: 100% !important;
+  &&& {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    background-color: ${props => props.theme.messenger.colors.primary};
+
+    &[data-garden-focus-visible],
+    &:focus {
+      background-color: ${props => props.theme.messenger.colors.primary};
+      box-shadow: inset
+        ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primaryText, 0.35))};
+    }
+  }
 `
 
 export { Container, StyledMessengerIcon as MessengerIcon, StyledCloseIcon as CloseIcon, Button }

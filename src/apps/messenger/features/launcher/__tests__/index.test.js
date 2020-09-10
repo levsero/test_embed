@@ -3,6 +3,7 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 import Launcher from '../'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { widgetOpened } from 'src/apps/messenger/store/visibility'
+import { frameMarginFromPage } from 'src/apps/messenger/constants'
 
 describe('Launcher', () => {
   const renderComponent = () => render(<Launcher />)
@@ -20,8 +21,8 @@ describe('Launcher', () => {
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: false }))
 
       expect(getByTitle('Launcher')).toHaveStyle(`
-      bottom: 0px;
-      right: 0px;
+      bottom: ${frameMarginFromPage}px;
+      right: ${frameMarginFromPage}px;
     `)
     })
   })

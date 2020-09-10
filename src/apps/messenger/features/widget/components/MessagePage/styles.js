@@ -9,13 +9,6 @@ const Container = styled.div`
   left: 0;
   right: 0;
   background-color: #fff;
-
-  ${props =>
-    !props.isFullScreen &&
-    `
-    margin: 5px;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,0.6);
-  `}
 `
 
 export { Container }

@@ -1,6 +1,11 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Messenger from '../'
+import {
+  frameMarginFromPage,
+  launcherSize,
+  marginBetweenFrames
+} from 'src/apps/messenger/constants'
 
 describe('Messenger', () => {
   const renderComponent = () => render(<Messenger />)
@@ -15,8 +20,8 @@ describe('Messenger', () => {
     const { getByTitle } = renderComponent()
 
     expect(getByTitle('Messenger')).toHaveStyle(`
-      bottom: 90px;
-      rightL: 0px;
+      bottom: ${launcherSize + frameMarginFromPage + marginBetweenFrames};
+      right: ${frameMarginFromPage};
     `)
   })
 })
