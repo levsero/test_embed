@@ -13,7 +13,6 @@ Object {
     "brandLogoUrl": undefined,
     "color": "#1F73B7",
     "cp4": false,
-    "deferTalkConnection": false,
     "disableStatusPolling": false,
     "embeds": Object {
       "chat": Object {
