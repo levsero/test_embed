@@ -10,15 +10,30 @@ const messagesSlice = createSlice({
   initialState: messagesAdapter.getInitialState(),
   reducers: {
     messageReceived(state, action) {
-      messagesAdapter.addOne(state, action.payload.message)
+      const actions = actionsForMessage(action.payload.message)
+
+      messagesAdapter.addOne(state, { ...action.payload.message, ...actions })
     },
     messagesReceived(state, action) {
-      messagesAdapter.addMany(state, action.payload.messages)
+      const messages = action.payload.messages?.map(message => {
+        const actions = actionsForMessage(message)
+        return { ...message, ...actions }
+      })
+      messagesAdapter.addMany(state, messages)
     }
   }
 })
 
 const selectors = messagesAdapter.getSelectors(state => state.messages)
+
+const actionsForMessage = message => {
+  let actions = {}
+  message?.actions?.forEach(action => {
+    actions[action.type] = actions[action.type] || []
+    actions[action.type].push(action)
+  })
+  return actions
+}
 
 const addMessagePositionsToGroups = messages =>
   messages.map((message, index) => {
@@ -38,16 +53,15 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
-const extractReplyActions = messages => {
+const extractReplies = messages => {
   if (messages.length === 0) return messages
   const lastMessage = messages[messages.length - 1]
-  if (lastMessage.type !== 'text' || !lastMessage.actions) return messages
+  if (!lastMessage.reply) return messages
 
-  const replies = lastMessage.actions.filter(action => action.type === 'reply')
   return messages.concat({
-    id: replies.map(reply => reply._id).join('-'),
+    id: lastMessage.reply.map(quickReply => quickReply._id).join('-'),
     type: 'replies',
-    replies
+    replies: lastMessage.reply
   })
 }
 
@@ -55,7 +69,7 @@ const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
     const messagesWithPosition = addMessagePositionsToGroups(messages)
-    const messagesWithReplies = extractReplyActions(messagesWithPosition)
+    const messagesWithReplies = extractReplies(messagesWithPosition)
     return messagesWithReplies
   }
 )

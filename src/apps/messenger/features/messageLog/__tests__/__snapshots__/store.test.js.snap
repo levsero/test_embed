@@ -17,6 +17,15 @@ Array [
     "isLastInGroup": true,
     "isLastInLog": false,
     "received": 1,
+    "reply": Array [
+      Object {
+        "_id": "r3",
+        "iconUrl": "http://example.org/taco.png",
+        "payload": "PIZZA",
+        "text": "Pizza",
+        "type": "reply",
+      },
+    ],
     "role": "business",
     "text": "One",
     "type": "text",
@@ -53,6 +62,22 @@ Array [
     "isLastInGroup": true,
     "isLastInLog": true,
     "received": 3,
+    "reply": Array [
+      Object {
+        "_id": "r1",
+        "iconUrl": "http://example.org/taco.png",
+        "payload": "PIZZA",
+        "text": "Pizza",
+        "type": "reply",
+      },
+      Object {
+        "_id": "r2",
+        "iconUrl": "http://example.org/burrito.png",
+        "payload": "CRUMPETS",
+        "text": "Crumpets",
+        "type": "reply",
+      },
+    ],
     "role": "appUser",
     "text": "Three",
     "type": "text",

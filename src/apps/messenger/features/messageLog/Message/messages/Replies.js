@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Replies = ({ message: { replies } }) => {
-  return replies.map(({ text, payload, iconUrl, _id }) => {
+const Replies = ({ message }) => {
+  return message.replies.map(({ text, payload, iconUrl, _id }) => {
     return (
       <div style={{ backgroundColor: '#00a656' }} key={_id}>
         reply: text-{text} payload-{payload} iconUrl-{iconUrl}
@@ -13,7 +13,6 @@ const Replies = ({ message: { replies } }) => {
 
 Replies.propTypes = {
   message: PropTypes.shape({
-    text: PropTypes.string,
     replies: PropTypes.arrayOf(
       PropTypes.shape({
         iconUrl: PropTypes.string,
