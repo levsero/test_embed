@@ -10,16 +10,10 @@ const messagesSlice = createSlice({
   initialState: messagesAdapter.getInitialState(),
   reducers: {
     messageReceived(state, action) {
-      const actions = actionsForMessage(action.payload.message)
-
-      messagesAdapter.addOne(state, { ...action.payload.message, ...actions })
+      messagesAdapter.addOne(state, action.payload.message)
     },
     messagesReceived(state, action) {
-      const messages = action.payload.messages?.map(message => {
-        const actions = actionsForMessage(message)
-        return { ...message, ...actions }
-      })
-      messagesAdapter.addMany(state, messages)
+      messagesAdapter.addMany(state, action.payload.messages)
     }
   }
 })
@@ -53,24 +47,11 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
-const extractReplies = messages => {
-  if (messages.length === 0) return messages
-  const lastMessage = messages[messages.length - 1]
-  if (!lastMessage.reply) return messages
-
-  return messages.concat({
-    id: lastMessage.reply.map(quickReply => quickReply._id).join('-'),
-    type: 'replies',
-    replies: lastMessage.reply
-  })
-}
-
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
     const messagesWithPosition = addMessagePositionsToGroups(messages)
-    const messagesWithReplies = extractReplies(messagesWithPosition)
-    return messagesWithReplies
+    return messagesWithPosition
   }
 )
 
