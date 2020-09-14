@@ -5,6 +5,7 @@ const i18nPlugin = require('../webpack/i18nPlugin')
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
 const appSourceDir = path.join(__dirname, '..', 'src')
+const nodeSourceDir = path.join(__dirname, '..', 'node_modules')
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -59,11 +60,11 @@ module.exports = {
     ]
 
     const svgRule = config.module.rules.find(rule => 'test.svg'.match(rule.test))
-    svgRule.exclude = [appSourceDir]
+    svgRule.exclude = [appSourceDir, nodeSourceDir]
 
     config.module.rules.push({
       test: /\.svg$/i,
-      include: [appSourceDir],
+      include: [appSourceDir, nodeSourceDir],
       use: [
         {
           loader: '@svgr/webpack',

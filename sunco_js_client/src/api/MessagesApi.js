@@ -15,13 +15,9 @@ class MessagesApi extends BaseApi {
     })
   }
 
-  create(appUserId, conversationId, message) {
+  create(appUserId, conversationId, payload) {
     const messagePayload = {
-      message: {
-        type: 'text',
-        text: message,
-        role: 'appUser'
-      },
+      message: payload,
       author: {
         role: 'appUser',
         appUserId: appUserId,
