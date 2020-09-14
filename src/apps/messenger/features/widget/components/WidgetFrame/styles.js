@@ -1,4 +1,4 @@
-import { rem } from 'polished'
+import { em } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import {
   frameBoxShadow,
@@ -11,9 +11,9 @@ import {
 
 const defaultStyles = {
   position: 'fixed',
-  height: rem(widgetFrameHeight, baseFontSize),
-  width: rem(widgetFrameWidth, baseFontSize),
-  minWidth: rem(widgetFrameWidth, baseFontSize),
+  height: em(widgetFrameHeight, baseFontSize),
+  width: em(widgetFrameWidth, baseFontSize),
+  minWidth: em(widgetFrameWidth, baseFontSize),
   maxHeight: `calc(100vh - ${launcherSize +
     frameMarginFromPage +
     frameMarginFromPage +

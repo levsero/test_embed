@@ -10,7 +10,7 @@ const App = () => {
   const { refLauncher, refWidget, onKeyDownForContainer } = useFocusJail()
 
   return (
-    <div onKeyDown={onKeyDownForContainer} role="presentation">
+    <div style={{ fontSize: 'initial' }} onKeyDown={onKeyDownForContainer} role="presentation">
       <Launcher ref={refLauncher} />
       {showWidget && <Widget ref={refWidget} />}
     </div>

@@ -15,10 +15,11 @@ const GlobalStyles = createGlobalStyle`
 
   html {
      overflow-y: hidden;
+     font-size: initial;
   }
 `
 
-export const baseFontSize = DEFAULT_THEME.fontSizes.md // 14px
+export const baseFontSize = '16px'
 
 const ThemeProvider = ({ children }) => {
   useTranslate()
