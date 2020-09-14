@@ -6,9 +6,6 @@ export default {
     defaultValue: false,
     getArturoValue: state => state.base.embeddableConfig.embeds?.chat?.props?.webWidgetPrechatFormV2
   },
-  messenger_widget: {
-    defaultValue: false
-  },
   use_production_sunco: {
     defaultValue: false
   },

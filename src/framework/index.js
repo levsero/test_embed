@@ -15,7 +15,6 @@ import { setReferrerMetas } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import webWidget from 'src/apps/webWidget'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import logger from 'src/util/logger'
 
 const setupIframe = (iframe, doc) => {
@@ -90,7 +89,7 @@ const getConfig = (win, reduxStore) => {
     }
 
     const getEmbeddable = async () => {
-      if (isFeatureEnabled(reduxStore.getState(), 'messenger_widget')) {
+      if (config?.messenger) {
         import(
           /* webpackChunkName: 'lazy/sunco-js-client' */ '../../sunco_js_client/src/index'
         ).then(({ default: Sunco }) => {
