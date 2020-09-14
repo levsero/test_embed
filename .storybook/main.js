@@ -23,7 +23,7 @@ module.exports = {
       // components: path.join(prefix + '/src/components'),
       constants: path.join(prefix + '/src/constants'),
       // embed: path.join(prefix + '/src/embed'),
-      // embeds: path.join(prefix + '/src/embeds'),
+      embeds: path.join(prefix + '/src/embeds'),
       // errors: path.join(prefix + '/src/errors'),
       // mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),

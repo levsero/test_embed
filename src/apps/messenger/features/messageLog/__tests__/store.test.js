@@ -1,12 +1,6 @@
-import reducer, { getMessageLog, messageReceived, messagesReceived } from '../store'
+import reducer, { getMessageLog, messageReceived } from '../store'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
-import {
-  messagesWithDifferentTypes,
-  messagesWithDifferentAuthors,
-  unorderedTextMessages,
-  messagesWithReplies
-} from './storeFixtures'
 
 describe('messages store', () => {
   describe('reducer', () => {
@@ -113,7 +107,40 @@ describe('messages store', () => {
     it('orders messages by their received value', () => {
       const store = createStore()
 
-      store.dispatch(messagesReceived(unorderedTextMessages))
+      store.dispatch(
+        messageReceived({
+          message: {
+            _id: 1,
+            type: 'text',
+            text: 'One',
+            role: 'appUser',
+            received: 100
+          }
+        })
+      )
+      store.dispatch(
+        messageReceived({
+          message: {
+            _id: 2,
+            type: 'text',
+            text: 'Two',
+            role: 'appUser',
+            received: 50
+          }
+        })
+      )
+
+      store.dispatch(
+        messageReceived({
+          message: {
+            _id: 3,
+            type: 'text',
+            text: 'Three',
+            role: 'business',
+            received: 150
+          }
+        })
+      )
 
       const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -126,14 +153,47 @@ describe('messages store', () => {
       it('has isLastInLog equal to true if the message is the last message in the array', () => {
         const store = createStore()
 
-        store.dispatch(messagesReceived(unorderedTextMessages))
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              role: 'appUser',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'business',
+              received: 3
+            }
+          })
+        )
 
         const [message1, message2, message3] = getMessageLog(store.getState())
 
-        expect(message1._id).toBe(2)
+        expect(message1._id).toBe(1)
         expect(message1.isLastInLog).toBe(false)
 
-        expect(message2._id).toBe(1)
+        expect(message2._id).toBe(2)
         expect(message2.isLastInLog).toBe(false)
 
         expect(message3._id).toBe(3)
@@ -144,7 +204,40 @@ describe('messages store', () => {
         it('is true for the message when previous message is from a different author', () => {
           const store = createStore()
 
-          store.dispatch(messagesReceived(messagesWithDifferentAuthors))
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 1,
+                type: 'text',
+                text: 'One',
+                role: 'business',
+                received: 1
+              }
+            })
+          )
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 2,
+                type: 'text',
+                text: 'Two',
+                role: 'appUser',
+                received: 2
+              }
+            })
+          )
+
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 3,
+                type: 'text',
+                text: 'Three',
+                role: 'appUser',
+                received: 3
+              }
+            })
+          )
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -161,7 +254,40 @@ describe('messages store', () => {
         it('is true for the message when the previous message has a different type', () => {
           const store = createStore()
 
-          store.dispatch(messagesReceived(messagesWithDifferentTypes))
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 1,
+                type: 'image',
+                src: 'cat image',
+                role: 'appUser',
+                received: 1
+              }
+            })
+          )
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 2,
+                type: 'text',
+                text: 'Two',
+                role: 'appUser',
+                received: 2
+              }
+            })
+          )
+
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 3,
+                type: 'text',
+                text: 'Three',
+                role: 'appUser',
+                received: 3
+              }
+            })
+          )
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -180,7 +306,40 @@ describe('messages store', () => {
         it('is true for the message when the next message is from a different author', () => {
           const store = createStore()
 
-          store.dispatch(messagesReceived(messagesWithDifferentAuthors))
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 1,
+                type: 'text',
+                text: 'One',
+                role: 'business',
+                received: 1
+              }
+            })
+          )
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 2,
+                type: 'text',
+                text: 'Two',
+                role: 'appUser',
+                received: 2
+              }
+            })
+          )
+
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 3,
+                type: 'text',
+                text: 'Three',
+                role: 'appUser',
+                received: 3
+              }
+            })
+          )
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -197,7 +356,40 @@ describe('messages store', () => {
         it('is true for the message when the next message has a different type', () => {
           const store = createStore()
 
-          store.dispatch(messagesReceived(messagesWithDifferentTypes))
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 1,
+                type: 'image',
+                src: 'cat image',
+                role: 'appUser',
+                received: 1
+              }
+            })
+          )
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 2,
+                type: 'text',
+                text: 'Two',
+                role: 'appUser',
+                received: 2
+              }
+            })
+          )
+
+          store.dispatch(
+            messageReceived({
+              message: {
+                _id: 3,
+                type: 'text',
+                text: 'Three',
+                role: 'appUser',
+                received: 3
+              }
+            })
+          )
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 
@@ -210,47 +402,6 @@ describe('messages store', () => {
           expect(message3._id).toBe(3)
           expect(message3.isLastInGroup).toBe(true)
         })
-      })
-
-      it('it correctly extracts the replies', () => {
-        const store = createStore()
-
-        store.dispatch(messagesReceived(messagesWithReplies))
-
-        const messages = getMessageLog(store.getState())
-
-        const replies = messages[3]
-
-        expect(messages.length).toBe(4)
-        expect(replies.id).toBe('r1-r2')
-        expect(replies.type).toBe('replies')
-        expect(replies.replies).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "_id": "r1",
-              "iconUrl": "http://example.org/taco.png",
-              "payload": "PIZZA",
-              "text": "Pizza",
-              "type": "reply",
-            },
-            Object {
-              "_id": "r2",
-              "iconUrl": "http://example.org/burrito.png",
-              "payload": "CRUMPETS",
-              "text": "Crumpets",
-              "type": "reply",
-            },
-          ]
-        `)
-      })
-
-      it('it generates the correct log', () => {
-        const store = createStore()
-
-        store.dispatch(messagesReceived(messagesWithReplies))
-
-        const messages = getMessageLog(store.getState())
-        expect(messages).toMatchSnapshot()
       })
     })
   })

@@ -20,15 +20,6 @@ const messagesSlice = createSlice({
 
 const selectors = messagesAdapter.getSelectors(state => state.messages)
 
-const actionsForMessage = message => {
-  let actions = {}
-  message?.actions?.forEach(action => {
-    actions[action.type] = actions[action.type] || []
-    actions[action.type].push(action)
-  })
-  return actions
-}
-
 const addMessagePositionsToGroups = messages =>
   messages.map((message, index) => {
     const previousMessage = messages[index - 1]
@@ -50,8 +41,7 @@ const addMessagePositionsToGroups = messages =>
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
-    const messagesWithPosition = addMessagePositionsToGroups(messages)
-    return messagesWithPosition
+    return addMessagePositionsToGroups(messages)
   }
 )
 
