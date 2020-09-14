@@ -1,0 +1,20 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "modules": false,
+        "corejs": 3
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "ignore": ["src/translation/*.js"],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    "@babel/plugin-proposal-json-strings",
+    "@babel/plugin-proposal-export-namespace-from"
+  ]
+}
