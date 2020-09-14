@@ -45,6 +45,7 @@ const ThemeProvider = ({ children }) => {
                 xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, baseFontSize)
               },
               space: {
+                xxxs: rem('2px', baseFontSize),
                 xxs: rem(DEFAULT_THEME.space.xxs, baseFontSize),
                 xs: rem(DEFAULT_THEME.space.xs, baseFontSize),
                 sm: rem(DEFAULT_THEME.space.sm, baseFontSize),
@@ -52,7 +53,9 @@ const ThemeProvider = ({ children }) => {
                 md: rem(DEFAULT_THEME.space.md, baseFontSize),
                 lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
-                xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize)
+                xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
+                textMaxWidth: rem('200px', baseFontSize),
+                messageMaxWidth: rem('224px', baseFontSize)
               },
               lineHeights: {
                 sm: rem(DEFAULT_THEME.lineHeights.sm, baseFontSize),
@@ -68,7 +71,11 @@ const ThemeProvider = ({ children }) => {
               iconSizes: {
                 sm: rem(DEFAULT_THEME.iconSizes.sm, baseFontSize),
                 md: rem(DEFAULT_THEME.iconSizes.md, baseFontSize),
-                lg: rem(DEFAULT_THEME.iconSizes.lg, baseFontSize)
+                lg: rem(DEFAULT_THEME.iconSizes.lg, baseFontSize),
+                xl: rem('32px', baseFontSize)
+              },
+              borderRadii: {
+                textMessage: rem('20px', baseFontSize)
               }
             }
           }}
