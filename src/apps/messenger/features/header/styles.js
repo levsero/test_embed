@@ -7,12 +7,10 @@ import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 0;
-  background: rgb(23, 73, 77);
-  padding: ${props => props.theme.messenger.fontSizes.xs};
-  color: white;
-  background-color: ${props => props.theme.messenger.colors.primary};
   flex-shrink: 0;
+  padding: ${props => props.theme.messenger.space.sixteen};
+  background-color: ${props => props.theme.messenger.colors.primary};
+  color: ${props => props.theme.messenger.colors.primaryText};
 `
 
 const Details = styled.div`
@@ -21,52 +19,55 @@ const Details = styled.div`
   justify-content: center;
   flex: auto;
   color: ${props => props.theme.messenger.colors.primaryText};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
-  padding-left: ${props => props.theme.messenger.space.xs};
+  padding-left: ${props => props.theme.messenger.space.sixteen};
 `
 
 const StyledAvatar = styled(Avatar)`
   && {
-    height: ${props => props.theme.messenger.space.lg};
-    width: ${props => props.theme.messenger.space.lg};
+    height: ${props => props.theme.messenger.space.xxl};
+    width: ${props => props.theme.messenger.space.xxl};
     flex-shrink: 0;
   }
 `
 
 const Title = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.lg};
+  line-height: ${props => props.theme.messenger.lineHeights.lg};
   font-weight: ${props => props.theme.fontWeights.semibold};
 `
 
 const Description = styled.div`
-  font-size: ${props => props.theme.messenger.fontSizes.md};
+  font-size: ${props => props.theme.messenger.space.sixteen};
+  line-height: ${props => props.theme.messenger.lineHeights.lg};
 `
 
 const StyledCloseIcon = styled(CloseIcon)``
 
 const StyledIconButton = styled(IconButton)`
-  width: ${props => props.theme.messenger.space.xl} !important;
-  height: ${props => props.theme.messenger.space.xl} !important;
-  color: ${props => props.theme.messenger.colors.primary} !important;
+  &&& {
+    width: ${props => props.theme.messenger.space.xl};
+    height: ${props => props.theme.messenger.space.xl};
+    color: ${props => props.theme.messenger.colors.primary};
 
-  :focus {
-    border: ${props =>
-      `${props.theme.borders.md} ${transparentize(
-        '0.65',
-        props.theme.messenger.colors.primaryMessage
-      )} !important`};
-  }
-  :active,
-  :hover {
-    background-color: ${props =>
-      transparentize('0.92', props.theme.messenger.colors.primaryMessage)} !important;
-  }
+    :focus {
+      border: ${props =>
+        `${props.theme.borders.md} ${transparentize(
+          '0.65',
+          props.theme.messenger.colors.primaryMessage
+        )}`};
+    }
+    :active,
+    :hover {
+      background-color: ${props =>
+        transparentize('0.92', props.theme.messenger.colors.primaryMessage)};
+    }
 
-  /* We have to style this as a child of the button in order to access the theme props */
-  ${StyledCloseIcon} {
-    color: ${props => props.theme.messenger.colors.primaryMessage};
-    width: ${props => props.theme.messenger.iconSizes.md} !important;
-    height: ${props => props.theme.messenger.iconSizes.md} !important;
+    /* We have to style this as a child of the button in order to access the theme props */
+    ${StyledCloseIcon} {
+      color: ${props => props.theme.messenger.colors.primaryMessage};
+      width: ${props => props.theme.messenger.iconSizes.md};
+      height: ${props => props.theme.messenger.iconSizes.md};
+    }
   }
 `
 

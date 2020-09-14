@@ -1,46 +1,92 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { rem, rgba } from 'polished'
 import { Textarea, Field } from '@zendeskgarden/react-forms'
 import { IconButton } from '@zendeskgarden/react-buttons'
 
 import SendIcon from './send-icon.svg'
+import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
-const StyledSendIcon = styled(SendIcon)`
-  g {
-    fill: #17494d !important;
-  }
+const StyledSendIcon = styled(SendIcon)``
+
+// Send button size needs to match the height of the text area when it is a single row
+// To do this, add the line height, padding and border together
+const sendButtonSize = css`
+  ${props => `
+  calc(${props.theme.messenger.lineHeights.md} + ${props.theme.messenger.space.sm} + ${props.theme.messenger.space.sm} + ${props.theme.borderWidths.sm})
+`}
 `
 
 const SendButton = styled(IconButton)`
-  position: absolute;
-  right: 20px;
-  bottom: 15px;
+  &&& {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: ${sendButtonSize};
+    width: ${sendButtonSize};
+    border-radius: ${rem(22, baseFontSize)};
+
+    ${StyledSendIcon} {
+      height: ${props => props.theme.messenger.iconSizes.md};
+      width: ${props => props.theme.messenger.iconSizes.md};
+      margin-left: ${props => props.theme.messenger.space.xxs};
+
+      g {
+        fill: ${props => props.theme.messenger.colors.primary};
+      }
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    &:focus {
+      box-shadow: inset
+        ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primary, 0.35))};
+    }
+  }
 `
 
 const StyledTextarea = styled(Textarea)`
-  border-radius: 22px !important;
-  border: 1px solid rgb(216, 220, 222) !important;
-  min-height: 44px !important;
-  padding: 12px 52px 12px 16px !important;
-  box-shadow: none !important;
-  line-height: 20px !important;
+  &&& {
+    border-radius: ${rem(22, baseFontSize)};
+    border: ${props => props.theme.borders.sm} rgb(216, 220, 222);
+    min-height: auto;
+    padding: ${props => props.theme.messenger.space.sm}
+      ${props => props.theme.messenger.space.sixteen};
+    padding-right: ${sendButtonSize};
 
-  :hover,
-  :focus {
-    border: 1px solid #17494d !important;
-    box-shadow: 0 0 0 3px rgba(23, 73, 77, 0.35) !important;
+    box-shadow: none;
+    line-height: ${props => props.theme.messenger.lineHeights.md};
+    font-size: ${props => props.theme.messenger.fontSizes.md};
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    :hover,
+    :focus {
+      border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.primary};
+      box-shadow: ${props =>
+        props.theme.shadows.md(rgba(props.theme.messenger.colors.primary, 0.35))};
+    }
   }
 `
 
 const Container = styled.div`
-  display: flex !important;
+  display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: ${props => props.theme.messenger.space.sm}
+    ${props => props.theme.messenger.space.sixteen};
   flex-shrink: 0;
+  position: relative;
 `
 
 const StyledField = styled(Field)`
   display: flex;
   flex-grow: 1;
+  position: relative;
 `
 
 export {

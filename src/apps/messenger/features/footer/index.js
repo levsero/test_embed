@@ -44,13 +44,12 @@ const Footer = () => {
           aria-label="Type a message"
           ref={inputRef}
         />
+        {message && (
+          <SendButton onClick={e => sendMessage(e)} aria-label="Send message">
+            <SendIcon />
+          </SendButton>
+        )}
       </Field>
-
-      {message && (
-        <SendButton onClick={e => sendMessage(e)} aria-label="Send message">
-          <SendIcon />
-        </SendButton>
-      )}
     </Container>
   )
 }
