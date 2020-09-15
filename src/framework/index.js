@@ -87,8 +87,9 @@ const getConfig = (win, reduxStore) => {
       zopimApi.setUpZopimApiMethods(win, reduxStore)
     }
 
+    const isMessengerWidget = Boolean(config?.messenger)
     const getEmbeddable = async () => {
-      if (config?.messenger) {
+      if (isMessengerWidget) {
         import(
           /* webpackChunkName: 'lazy/sunco-js-client' */ '../../sunco_js_client/src/index'
         ).then(({ default: Sunco }) => {
@@ -117,7 +118,7 @@ const getConfig = (win, reduxStore) => {
           reduxStore
         })
 
-        publicApi.run()
+        publicApi.run?.({ isMessengerWidget })
 
         embeddable.run?.({
           config,
