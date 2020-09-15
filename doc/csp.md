@@ -29,6 +29,7 @@ default-src 'self'
             https://static.zdassets.com
             https://ekr.zdassets.com
             https://{zendeskSubdomain}.zendesk.com
+            https://*.zopim.com
             wss://{zendeskSubdomain}.zendesk.com
             wss://*.zopim.com;
 style-src 'unsafe-inline';
