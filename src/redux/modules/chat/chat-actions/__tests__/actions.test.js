@@ -6,6 +6,7 @@ import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as actions from '../actions'
 import * as actionTypes from 'src/redux/modules/chat/chat-action-types'
 import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
+import * as formActionTypes from 'src/redux/modules/form/action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors'
@@ -573,6 +574,17 @@ describe('sendOfflineMessage', () => {
       )
 
       expect(mockSuccessCallback).toHaveBeenCalled()
+    })
+
+    it('dispatches a setFormState action with the offline form', () => {
+      const { store } = dispatchZChatWithTimeoutAction(
+        actions.sendOfflineMessage(mockFormState, mockSuccessCallback, mockFailureCallback)
+      )
+
+      expect(store.getActions()).toContainEqual({
+        type: formActionTypes.SET_FORM_STATE,
+        payload: { formId: 'offline-form', newFormState: { ...mockFormState, message: '' } }
+      })
     })
   })
 

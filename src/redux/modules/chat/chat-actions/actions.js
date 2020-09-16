@@ -29,6 +29,7 @@ import {
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
 import { updateBackButtonVisibility, showWidget, showChat } from 'src/redux/modules/base'
+import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { isMobileBrowser } from 'utility/devices'
@@ -577,6 +578,7 @@ export function sendOfflineMessage(formState, successCallback = noop, failureCal
           type: actions.OFFLINE_FORM_REQUEST_SUCCESS,
           payload: offlineFormState
         })
+        dispatch(setFormState('offline-form', { ...offlineFormState, message: '' }))
         successCallback()
       } else {
         dispatch({ type: actions.OFFLINE_FORM_REQUEST_FAILURE })
