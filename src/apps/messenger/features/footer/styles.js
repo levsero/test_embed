@@ -35,11 +35,14 @@ const SendButton = styled(IconButton)`
       }
     }
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:active {
       background-color: transparent;
     }
 
-    &:focus {
+    &:focus,
+    &:active {
       box-shadow: inset
         ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primary, 0.35))};
     }
@@ -66,10 +69,11 @@ const StyledTextarea = styled(Textarea)`
     }
 
     :hover,
-    :focus {
-      border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.primary};
+    :focus,
+    :active {
+      border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
       box-shadow: ${props =>
-        props.theme.shadows.md(rgba(props.theme.messenger.colors.primary, 0.35))};
+        props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
     }
   }
 `
