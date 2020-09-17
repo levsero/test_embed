@@ -141,6 +141,7 @@ describe('chat redux actions', () => {
       'service/audio': {
         audio: { load: loadSoundSpy }
       },
+      'src/redux/modules/form/actions': {},
       'src/redux/modules/chat/helpers/zChatWithTimeout': {
         zChatWithTimeout: mockZChatWithTimeout,
         canBeIgnored: mockCanBeIgnored
