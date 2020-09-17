@@ -8,13 +8,23 @@ import useScrollBehaviour from 'src/apps/messenger/features/messageLog/useScroll
 const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
-  const onScroll = useScrollBehaviour({ container, messages })
+  const { onScroll, isLoading, isFetchingHistory } = useScrollBehaviour({ container, messages })
 
-  return (
-    <Container ref={container} role="log" aria-live="polite" onScroll={onScroll}>
+  const messageLog = (
+    <>
       {messages.map(message => (
         <Message key={message._id} message={message} />
       ))}
+    </>
+  )
+
+  const loading = <div>loading</div>
+  const fetchingHistory = <div>isFetchingHistory</div>
+
+  return (
+    <Container ref={container} role="log" aria-live="polite" onScroll={onScroll}>
+      {isFetchingHistory && fetchingHistory}
+      {isLoading ? loading : messageLog}
     </Container>
   )
 }

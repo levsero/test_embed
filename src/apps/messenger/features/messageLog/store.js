@@ -7,13 +7,14 @@ const messagesAdapter = createEntityAdapter({
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: messagesAdapter.getInitialState(),
+  initialState: messagesAdapter.getInitialState({ hasPrevious: false }),
   reducers: {
     messageReceived(state, action) {
       messagesAdapter.addOne(state, action.payload.message)
     },
     messagesReceived(state, action) {
-      messagesAdapter.addMany(state, action.payload.messages)
+      state.hasPrevious = Boolean(action.payload.messages.hasPrevious)
+      messagesAdapter.addMany(state, action.payload.messages.messages)
     }
   }
 })
@@ -81,7 +82,9 @@ const getMessageLog = createSelector(
   }
 )
 
+const getHasPrevious = state => state.messages.hasPrevious
+
 export const { messageReceived, messagesReceived } = messagesSlice.actions
-export { getMessageLog, getIsComposerEnabled }
+export { getMessageLog, getIsComposerEnabled, getHasPrevious }
 
 export default messagesSlice.reducer

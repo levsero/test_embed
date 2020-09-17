@@ -3,10 +3,11 @@ import { getClientInfo, getSessionId } from '../utils/device'
 import storage from '../utils/storage'
 
 class MessagesApi extends BaseApi {
-  list(appUserId, conversationId) {
+  list(appUserId, conversationId, cursor) {
+    const cursorPagination = cursor ? `before=${cursor}` : ''
     return this.request({
       method: 'GET',
-      path: `/sdk/v2/apps/${this.appId}/conversations/${conversationId}/messages`,
+      path: `/sdk/v2/apps/${this.appId}/conversations/${conversationId}/messages?${cursorPagination}`,
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
