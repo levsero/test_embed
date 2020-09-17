@@ -1,14 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Container, Image } from './styles'
 
-import { Icon, SpaceFiller } from './styles'
-
-const Avatar = ({ isLastInGroup }) => {
-  return isLastInGroup ? <Icon /> : <SpaceFiller />
+const Avatar = ({ src }) => {
+  return src ? (
+    <Container>
+      <Image src={src} />
+    </Container>
+  ) : (
+    <Container as="div" />
+  )
 }
 
 Avatar.propTypes = {
-  isLastInGroup: PropTypes.bool
+  src: PropTypes.string
 }
 
 export default Avatar

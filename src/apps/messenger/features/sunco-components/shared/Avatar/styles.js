@@ -1,18 +1,13 @@
 import styled from 'styled-components'
-import TempIcon from 'src/apps/messenger/icons/widget-icon_avatar.svg'
+import { Avatar } from '@zendeskgarden/react-avatars'
 
-const Icon = styled(TempIcon)`
+const Container = styled(Avatar)`
   width: ${props => props.theme.messenger.iconSizes.xl};
   height: ${props => props.theme.messenger.iconSizes.xl};
   margin-right: ${props => props.theme.messenger.space.xxs};
   align-self: flex-end;
 `
 
-const SpaceFiller = styled.div`
-  width: ${props => props.theme.messenger.iconSizes.xl};
-  height: ${props => props.theme.messenger.iconSizes.xl};
-  margin-right: ${props => props.theme.messenger.space.xxs};
-  align-self: flex-end;
-`
+const Image = styled.img``
 
-export { Icon, SpaceFiller }
+export { Container, Image }

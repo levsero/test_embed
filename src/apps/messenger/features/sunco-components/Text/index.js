@@ -6,13 +6,13 @@ import MessageBubble from 'src/apps/messenger/features/sunco-components/Text/Mes
 
 import { Text, Padding } from './styles'
 
-const SuncoTextMessage = ({ role, text, isFirstInGroup, isLastInGroup }) => {
+const SuncoTextMessage = ({ role, text, isFirstInGroup, isLastInGroup, avatar }) => {
   const appUser = role === 'appUser'
 
   const Layout = appUser ? PrimaryParticipantLayout : OtherParticipantLayout
 
   return (
-    <Layout isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}>
+    <Layout isFirstInGroup={isFirstInGroup} avatar={avatar}>
       <MessageBubble
         isFirstInGroup={isFirstInGroup}
         isLastInGroup={isLastInGroup}
@@ -29,6 +29,7 @@ const SuncoTextMessage = ({ role, text, isFirstInGroup, isLastInGroup }) => {
 SuncoTextMessage.propTypes = {
   role: PropTypes.string,
   text: PropTypes.string,
+  avatar: PropTypes.string,
   isFirstInGroup: PropTypes.bool,
   isLastInGroup: PropTypes.bool
 }
