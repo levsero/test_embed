@@ -44,7 +44,7 @@ import {
   useNewMessages
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
-import { ChatLogContainer } from './styles'
+import { ChatLogContainer, Shadow } from './styles'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = state => {
@@ -240,6 +240,7 @@ const ChattingScreen = ({
         </ChatLogContainer>
         {renderQuickReply()}
       </Main>
+      <Shadow />
       {renderChatFooter()}
       <ChatModalController />
     </Widget>

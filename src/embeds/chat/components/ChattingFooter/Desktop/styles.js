@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { zdColorWhite } from '@zendeskgarden/css-variables'
 import { FooterView } from 'components/Widget'
 
 const BottomRow = styled.div`
@@ -10,9 +9,7 @@ const BottomRow = styled.div`
 `
 
 const Footer = styled(FooterView)`
-  box-shadow: 0 0 ${props => 12 / props.theme.fontSize}rem ${props => 8 / props.theme.fontSize}rem
-    ${zdColorWhite};
-  z-index: 1;
+  z-index: 2;
 `
 
 const IconContainer = styled.div`
