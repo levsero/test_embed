@@ -21,9 +21,9 @@ const TextMessage = ({
       {replies && (
         <Replies
           replies={replies}
-          submitReply={payload => {
+          submitReply={message => {
             const client = getClient()
-            client.sendMessage(payload)
+            client.sendMessage(message)
           }}
         />
       )}
