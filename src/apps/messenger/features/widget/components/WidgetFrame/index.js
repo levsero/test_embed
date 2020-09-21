@@ -9,7 +9,7 @@ import {
   getIsVerticallySmallScreen
 } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
-import { getPosition } from 'src/apps/messenger/features/themeProvider/reducer/store'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 
 const MessengerFrame = ({ children }) => {
   const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)

@@ -7,7 +7,7 @@ import { DEFAULT_THEME, ThemeProvider as GardenThemeProvider } from '@zendeskgar
 import { i18n } from 'service/i18n'
 import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import useTranslate from 'src/hooks/useTranslate'
-import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/reducer/store'
+import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
 import { rem } from 'polished'
 
 const GlobalStyles = createGlobalStyle`
