@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Avatar from 'src/apps/messenger/features/sunco-components/shared/Avatar'
+import Avatar from 'src/apps/messenger/features/sunco-components/Avatar'
 import Label from 'src/apps/messenger/features/sunco-components/Label'
 import { LayoutContainer, VerticalContainer } from './styles'
 
