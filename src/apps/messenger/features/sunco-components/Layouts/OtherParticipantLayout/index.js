@@ -4,10 +4,10 @@ import Avatar from 'src/apps/messenger/features/sunco-components/shared/Avatar'
 import Label from 'src/apps/messenger/features/sunco-components/Label'
 import { LayoutContainer, VerticalContainer } from './styles'
 
-const OtherParticipantLayout = ({ children, isFirstInGroup, avatar }) => {
+const OtherParticipantLayout = ({ children, isFirstInGroup, avatar, label }) => {
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
-      {isFirstInGroup && <Label>OtherParticipantName</Label>}
+      {label && <Label>{label}</Label>}
       <LayoutContainer>
         <Avatar src={avatar} />
         {children}
@@ -19,6 +19,7 @@ const OtherParticipantLayout = ({ children, isFirstInGroup, avatar }) => {
 OtherParticipantLayout.propTypes = {
   children: PropTypes.node,
   isFirstInGroup: PropTypes.bool,
+  label: PropTypes.string,
   avatar: PropTypes.string
 }
 

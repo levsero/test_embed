@@ -23,6 +23,7 @@ const TextMessage = ({
         text={text}
         role={role}
         avatar={isLastInGroup ? avatarUrl : undefined}
+        label={isFirstInGroup ? 'Fake name' : undefined}
       />
       {replies && (
         <Replies
