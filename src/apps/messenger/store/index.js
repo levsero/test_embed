@@ -7,6 +7,9 @@ import messages from 'src/apps/messenger/features/messageLog/store'
 
 const createStore = () => {
   const store = configureStore({
+    devTools: {
+      name: 'Zendesk Messenger'
+    },
     reducer: combineReducers({
       visibility,
       responsiveDesign,

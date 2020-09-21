@@ -11,7 +11,7 @@ const extractReplies = (actions, isLastInLog) => {
 }
 
 const TextMessage = ({
-  message: { role, text, isFirstInGroup, isLastInGroup, actions, isLastInLog, avatarUrl }
+  message: { role, text, isFirstInGroup, isLastInGroup, actions, isLastInLog, avatarUrl, name }
 }) => {
   const replies = extractReplies(actions, isLastInLog)
 
@@ -23,7 +23,7 @@ const TextMessage = ({
         text={text}
         role={role}
         avatar={isLastInGroup ? avatarUrl : undefined}
-        label={isFirstInGroup ? 'Fake name' : undefined}
+        label={isFirstInGroup ? name : undefined}
       />
       {replies && (
         <Replies
