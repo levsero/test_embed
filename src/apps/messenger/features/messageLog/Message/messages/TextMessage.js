@@ -11,13 +11,20 @@ const extractReplies = (actions, isLastInLog) => {
 }
 
 const TextMessage = ({
-  message: { role, text, isFirstInGroup, isLastInGroup, actions, isLastInLog }
+  message: { role, text, isFirstInGroup, isLastInGroup, actions, isLastInLog, avatarUrl, name }
 }) => {
   const replies = extractReplies(actions, isLastInLog)
 
   return (
     <>
-      <Text isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup} text={text} role={role} />
+      <Text
+        isFirstInGroup={isFirstInGroup}
+        isLastInGroup={isLastInGroup}
+        text={text}
+        role={role}
+        avatar={isLastInGroup ? avatarUrl : undefined}
+        label={isFirstInGroup ? name : undefined}
+      />
       {replies && (
         <Replies
           replies={replies}
@@ -35,6 +42,7 @@ TextMessage.propTypes = {
   message: PropTypes.shape({
     role: PropTypes.string,
     text: PropTypes.string,
+    avatarUrl: PropTypes.string,
     isFirstInGroup: PropTypes.bool,
     isLastInGroup: PropTypes.bool
   })

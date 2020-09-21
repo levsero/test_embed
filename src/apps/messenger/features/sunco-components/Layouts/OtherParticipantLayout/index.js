@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Avatar from 'src/apps/messenger/features/sunco-components/shared/Avatar'
+import Avatar from 'src/apps/messenger/features/sunco-components/Avatar'
+import Label from 'src/apps/messenger/features/sunco-components/Label'
+import { LayoutContainer, VerticalContainer } from './styles'
 
-import { LayoutContainer, OtherParticipantName, VerticalContainer } from './styles'
-
-const OtherParticipantLayout = ({ children, isFirstInGroup, isLastInGroup }) => {
+const OtherParticipantLayout = ({ children, isFirstInGroup, avatar, label }) => {
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
-      {isFirstInGroup && <OtherParticipantName>OtherParticipantName</OtherParticipantName>}
+      {label && <Label>{label}</Label>}
       <LayoutContainer>
-        {<Avatar isLastInGroup={isLastInGroup} />}
+        <Avatar src={avatar} />
         {children}
       </LayoutContainer>
     </VerticalContainer>
@@ -19,7 +19,8 @@ const OtherParticipantLayout = ({ children, isFirstInGroup, isLastInGroup }) => 
 OtherParticipantLayout.propTypes = {
   children: PropTypes.node,
   isFirstInGroup: PropTypes.bool,
-  isLastInGroup: PropTypes.bool
+  label: PropTypes.string,
+  avatar: PropTypes.string
 }
 
 export default OtherParticipantLayout
