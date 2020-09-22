@@ -6,6 +6,10 @@ import App from '../'
 import userEvent from '@testing-library/user-event'
 import { wait, within } from '@testing-library/dom'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
+  fetchHistoryOnScrollTop: jest.fn(),
+  isFetchingHistory: false
+}))
 
 describe('Messenger app', () => {
   let store
@@ -19,7 +23,6 @@ describe('Messenger app', () => {
     return render(<App />, { store })
   }
 
-  beforeEach(() => {})
   it('renders the launcher', () => {
     const { getByTitle } = renderComponent()
 

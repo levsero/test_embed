@@ -1,39 +1,36 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClient } from 'src/apps/messenger/suncoClient'
-import { getHasPrevious } from 'src/apps/messenger/features/messageLog/store'
-import { messagesReceived } from 'src/apps/messenger/features/messageLog/store'
+import { messagesReceived, getHasPrevious } from 'src/apps/messenger/features/messageLog/store'
+import useSafeState from 'src/hooks/useSafeState'
 
 const useFetchMessages = ({ messages, container }) => {
   const lastScrollTop = useRef(0)
   const dispatch = useDispatch()
   const hasPrevious = useSelector(getHasPrevious)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isFetchingHistory, setIsFetchingHistory] = useState(false)
-  const [scrollHeightOnHistoryFetch, setScrollHeightOnHistoryFetch] = useState(null)
+  const [isFetchingHistory, setIsFetchingHistory] = useSafeState(false)
+  const [scrollHeightOnHistoryFetch, setScrollHeightOnHistoryFetch] = useSafeState(null)
 
-  const fetchConversations = cursor => {
+  const fetchPaginatedMessages = cursor => {
     getClient()
-      .activeConversation.listMessages(cursor)
+      .listMessages(cursor)
       .then(response => {
         if (cursor) {
-          setScrollHeightOnHistoryFetch(container.current.scrollHeight)
+          setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
         }
 
-        setIsLoading(false)
         setIsFetchingHistory(false)
-        dispatch(messagesReceived({ messages: response.body }))
+        dispatch(messagesReceived({ ...response.body }))
       })
   }
 
-  // Fetch existing conversations on load
+  // Fetch existing conversations on initial load
   useEffect(() => {
     if (messages.length > 0) return
-    setIsLoading(true)
-    fetchConversations()
+    fetchPaginatedMessages()
   }, [])
 
-  // Maintain scroll position on history load
+  // Maintain scroll position on conversation load
   useEffect(() => {
     if (!scrollHeightOnHistoryFetch) return
 
@@ -42,7 +39,7 @@ const useFetchMessages = ({ messages, container }) => {
     const scrollHeight = container.current.scrollHeight
     const lengthDifference = scrollHeight - scrollHeightOnHistoryFetch
 
-    // When chat history is fetched, we record the scroll just before
+    // When conversation history is fetched, we record the scroll just before
     // the component updates in order to adjust the  scrollTop
     // by the difference in container height of pre and post update.
     if (lengthDifference !== 0) {
@@ -51,17 +48,16 @@ const useFetchMessages = ({ messages, container }) => {
     }
   }, [messages])
 
-  const fetchHistoryOnScrollTop = () => {
+  const onScrollTop = () => {
     if (container.current.scrollTop === 0 && hasPrevious && !isFetchingHistory) {
       setIsFetchingHistory(true)
-      fetchConversations(messages[0].received)
+      fetchPaginatedMessages(messages[0].received)
     }
     lastScrollTop.current = container.current.scrollTop
   }
 
   return {
-    fetchHistoryOnScrollTop,
-    isLoading,
+    onScrollTop,
     isFetchingHistory
   }
 }

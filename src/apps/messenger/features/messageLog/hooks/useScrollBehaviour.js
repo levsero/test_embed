@@ -2,16 +2,11 @@ import { useRef, useEffect } from 'react'
 import { rem, stripUnit } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import useFetchMessages from './useFetchMessages'
 
 const scrollOffsetInRems = 3
 
 const useScrollBehaviour = ({ messages, container }) => {
   const isScrollCloseToBottom = useRef(true)
-  const { fetchHistoryOnScrollTop, isLoading, isFetchingHistory } = useFetchMessages({
-    container,
-    messages
-  })
 
   // Scroll to the bottom on first render
   useEffect(() => {
@@ -32,13 +27,11 @@ const useScrollBehaviour = ({ messages, container }) => {
   // When messages change, scroll to the bottom if the user was previously at the bottom
   useEffect(() => {
     if (isScrollCloseToBottom.current) {
-      setTimeout(() => {
-        container.current.scrollTop = container.current.scrollHeight
-      }, 0)
+      container.current.scrollTop = container.current.scrollHeight
     }
   }, [messages])
 
-  const setIsCloseToBottom = event => {
+  const onScrollBottom = event => {
     const pxFromBottom =
       event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
     const remFromBottom = stripUnit(rem(pxFromBottom, baseFontSize))
@@ -46,12 +39,7 @@ const useScrollBehaviour = ({ messages, container }) => {
   }
 
   return {
-    onScroll: event => {
-      setIsCloseToBottom(event)
-      fetchHistoryOnScrollTop()
-    },
-    isLoading,
-    isFetchingHistory
+    onScrollBottom
   }
 }
 

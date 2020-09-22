@@ -1,14 +1,23 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { getMessageLog } from 'src/apps/messenger/features/messageLog/store'
+import {
+  getMessageLog,
+  getHasFetchedConversation
+} from 'src/apps/messenger/features/messageLog/store'
 import Message from 'src/apps/messenger/features/messageLog/Message'
 import { Container } from './styles'
-import useScrollBehaviour from 'src/apps/messenger/features/messageLog/useScrollBehaviour'
+import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
+import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
 
 const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
-  const { onScroll, isLoading, isFetchingHistory } = useScrollBehaviour({ container, messages })
+  const hasFetchedConversation = useSelector(getHasFetchedConversation)
+  const { onScrollBottom } = useScrollBehaviour({ container, messages })
+  const { onScrollTop, isFetchingHistory } = useFetchMessages({
+    container,
+    messages
+  })
 
   const messageLog = (
     <>
@@ -22,9 +31,17 @@ const MessageLog = () => {
   const fetchingHistory = <div>isFetchingHistory</div>
 
   return (
-    <Container ref={container} role="log" aria-live="polite" onScroll={onScroll}>
+    <Container
+      ref={container}
+      role="log"
+      aria-live="polite"
+      onScroll={event => {
+        onScrollBottom(event)
+        onScrollTop(event)
+      }}
+    >
       {isFetchingHistory && fetchingHistory}
-      {isLoading ? loading : messageLog}
+      {hasFetchedConversation ? messageLog : loading}
     </Container>
   )
 }

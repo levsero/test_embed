@@ -8,7 +8,7 @@ describe('messages store', () => {
       {
         extraDesc: 'initial state',
         action: { type: undefined },
-        expected: { ids: [], entities: {} }
+        expected: { ids: [], entities: {}, hasPrevious: false, hasFetchedConversation: false }
       },
       {
         extraDesc: 'receive a message',
@@ -21,6 +21,8 @@ describe('messages store', () => {
         }),
         expected: {
           ids: [1],
+          hasPrevious: false,
+          hasFetchedConversation: false,
           entities: {
             1: {
               _id: 1,

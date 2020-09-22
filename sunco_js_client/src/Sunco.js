@@ -40,7 +40,7 @@ export default class Sunco {
         appUserId: appUserId,
         sessionToken: sessionToken
       }),
-      listMessages: () => this.messages.list(appUserId, conversationId, cursor),
+      listMessages: cursor => this.messages.list(appUserId, conversationId, cursor),
       sendMessage: message =>
         this.messages.create(appUserId, conversationId, {
           type: 'text',
