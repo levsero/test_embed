@@ -3,8 +3,11 @@ import styled from 'styled-components'
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
 const Image = styled.img`
-  width: ${props => props.theme.messenger.space.textMaxWidth};
-  max-width: ${props => props.theme.messenger.space.textMaxWidth};
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 `
 
 const PrimaryParticipantImage = styled(Image)`
