@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const radius = props => props.theme.messenger.borderRadii.textMessage
+const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
 const Image = styled.img`
   width: ${props => props.theme.messenger.space.textMaxWidth};
@@ -9,44 +9,46 @@ const Image = styled.img`
 
 const PrimaryParticipantImage = styled(Image)`
   ${props => {
+    const radius = getRadius(props)
     switch (props.shape) {
       case 'standalone':
-        if (props.hasText) return `border-radius: ${radius(props)} ${radius(props)} 0 0;`
-        return `border-radius: ${radius(props)};`
+        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        return `border-radius: ${radius};`
 
       case 'first':
-        if (props.hasText) return `border-radius: ${radius(props)} ${radius(props)} 0 0;`
-        return `border-radius: ${radius(props)} ${radius(props)} 0;`
+        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        return `border-radius: ${radius} ${radius} 0;`
 
       case 'middle':
-        if (props.hasText) return `border-radius: ${radius(props)} 0 0 0;`
-        return `border-radius: ${radius(props)} 0 0 ${radius(props)};`
+        if (props.hasText) return `border-radius: ${radius} 0 0 0;`
+        return `border-radius: ${radius} 0 0 ${radius};`
 
       case 'last':
-        if (props.hasText) return `border-radius: ${radius(props)} 0 0 0;`
-        return `border-radius: ${radius(props)} 0 ${radius(props)} ${radius(props)};`
+        if (props.hasText) return `border-radius: ${radius} 0 0 0;`
+        return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
   }}
 `
 
 const OtherParticipantImage = styled(Image)`
   ${props => {
+    const radius = getRadius(props)
     switch (props.shape) {
       case 'standalone':
-        if (props.hasText) return `border-radius: ${radius(props)} ${radius(props)} 0 0;`
-        return `border-radius: ${radius(props)};`
+        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        return `border-radius: ${radius};`
 
       case 'first':
-        if (props.hasText) return `border-radius: ${radius(props)} ${radius(props)} 0 0;`
-        return `border-radius: ${radius(props)} ${radius(props)} ${radius(props)} 0;`
+        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        return `border-radius: ${radius} ${radius} ${radius} 0;`
 
       case 'middle':
-        if (props.hasText) return `border-radius: 0 ${radius(props)} 0 0;`
-        return `border-radius: 0 ${radius(props)} ${radius(props)} 0;`
+        if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
+        return `border-radius: 0 ${radius} ${radius} 0;`
 
       case 'last':
-        if (props.hasText) return `border-radius: 0 ${radius(props)} 0 0;`
-        return `border-radius: 0 ${radius(props)} ${radius(props)} ${radius(props)};`
+        if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
+        return `border-radius: 0 ${radius} ${radius} ${radius};`
     }
   }}
 `

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const radius = props => props.theme.messenger.borderRadii.textMessage
+const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
 const Bubble = styled.div`
   width: fit-content;
@@ -13,15 +13,16 @@ const PrimaryParticipantBubble = styled(Bubble)`
   color: ${props => props.theme.messenger.colors.messageText};
 
   ${props => {
+    const radius = getRadius(props)
     switch (props.shape) {
       case 'standalone':
-        return `border-radius: ${radius(props)};`
+        return `border-radius: ${radius};`
       case 'first':
-        return `border-radius: ${radius(props)} ${radius(props)} 0;`
+        return `border-radius: ${radius} ${radius} 0;`
       case 'middle':
-        return `border-radius: ${radius(props)} 0 0 ${radius(props)};`
+        return `border-radius: ${radius} 0 0 ${radius};`
       case 'last':
-        return `border-radius: ${radius(props)} 0 ${radius(props)} ${radius(props)};`
+        return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
   }}
 `
@@ -32,15 +33,16 @@ const OtherParticipantBubble = styled(Bubble)`
   color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
 
   ${props => {
+    const radius = getRadius(props)
     switch (props.shape) {
       case 'standalone':
-        return `border-radius: ${radius(props)};`
+        return `border-radius: ${radius};`
       case 'first':
-        return `border-radius: ${radius(props)} ${radius(props)} ${radius(props)} 0;`
+        return `border-radius: ${radius} ${radius} ${radius} 0;`
       case 'middle':
-        return `border-radius: 0 ${radius(props)} ${radius(props)} 0;`
+        return `border-radius: 0 ${radius} ${radius} 0;`
       case 'last':
-        return `border-radius: 0 ${radius(props)} ${radius(props)} ${radius(props)};`
+        return `border-radius: 0 ${radius} ${radius} ${radius};`
     }
   }}
 `
