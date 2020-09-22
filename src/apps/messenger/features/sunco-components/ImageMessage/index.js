@@ -4,7 +4,7 @@ import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-compone
 import MessageBubble from 'src/apps/messenger/features/sunco-components/MessageBubble'
 import { OtherParticipantImage, PrimaryParticipantImage, Text } from './styles'
 
-const ImageMessage = ({ isPrimaryParticipant, mediaUrl, text, shape }) => {
+const ImageMessage = ({ isPrimaryParticipant, mediaUrl, text, shape, onLoad }) => {
   const ParticipantImage = isPrimaryParticipant ? PrimaryParticipantImage : OtherParticipantImage
   const hasText = text && text.trim().length > 0
 
@@ -16,6 +16,7 @@ const ImageMessage = ({ isPrimaryParticipant, mediaUrl, text, shape }) => {
         shape={shape}
         isPrimaryParticipant={isPrimaryParticipant}
         hasText={hasText}
+        onLoad={onLoad}
       />
       {hasText && <Text>{text}</Text>}
     </MessageBubble>
@@ -26,7 +27,8 @@ ImageMessage.propTypes = {
   isPrimaryParticipant: PropTypes.bool,
   text: PropTypes.string,
   mediaUrl: PropTypes.string,
-  shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES))
+  shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES)),
+  onLoad: PropTypes.func
 }
 
 export default ImageMessage

@@ -17,7 +17,8 @@ const SuncoFormMessage = ({
   label,
   isFirstInGroup,
   status,
-  formStatus
+  formStatus,
+  onStep
 }) => {
   const [activeStep, setActiveStep] = useState(1)
   const visibleFields = fields.slice(0, activeStep)
@@ -27,6 +28,7 @@ const SuncoFormMessage = ({
     e.preventDefault()
 
     if (activeStep !== numberOfFields) {
+      onStep()
       return setActiveStep(activeStep + 1)
     } else {
       return handleSubmit()
@@ -93,7 +95,8 @@ SuncoFormMessage.propTypes = {
     failure: PropTypes.string,
     success: PropTypes.string,
     pending: PropTypes.string
-  })
+  }),
+  onStep: PropTypes.func
 }
 
 export default SuncoFormMessage

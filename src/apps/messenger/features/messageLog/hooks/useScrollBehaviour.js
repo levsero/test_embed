@@ -1,45 +1,81 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useLayoutEffect, useCallback } from 'react'
 import { rem, stripUnit } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 const scrollOffsetInRems = 3
 
-const useScrollBehaviour = ({ messages, container }) => {
-  const isScrollCloseToBottom = useRef(true)
+const scrollToBottomUntilHeightSettled = async (container, isScrollAtBottom) => {
+  let previousScrollHeight = null
 
-  // Scroll to the bottom on first render
-  useEffect(() => {
-    container.current.scrollTop = container.current.scrollHeight
-
-    const onResize = () => {
-      if (isScrollCloseToBottom.current) {
-        container.current.scrollTop = container.current.scrollHeight
-      }
+  while (container.current.scrollHeight !== previousScrollHeight) {
+    if (!container.current || !isScrollAtBottom.current) {
+      return
     }
 
-    hostPageWindow.addEventListener('resize', onResize)
+    await new Promise(res => {
+      requestAnimationFrame(() => {
+        if (!container.current || !isScrollAtBottom.current) {
+          return
+        }
+
+        container.current.scrollTop = container.current.scrollHeight
+        previousScrollHeight = container.current.scrollHeight
+
+        res()
+      })
+    })
+  }
+}
+
+const useScrollBehaviour = ({ messages, container }) => {
+  const isScrollAtBottom = useRef(true)
+  const isScrollingToBottom = useRef(false)
+
+  const scrollToBottomIfNeeded = useCallback(() => {
+    if (isScrollAtBottom.current) {
+      if (isScrollingToBottom.current) {
+        return
+      }
+
+      isScrollingToBottom.current = true
+      scrollToBottomUntilHeightSettled(container, isScrollAtBottom)
+        .then(() => {
+          isScrollingToBottom.current = false
+        })
+        .catch(() => {
+          isScrollingToBottom.current = false
+        })
+    }
+  }, [])
+
+  const onScrollBottom = useCallback(event => {
+    const pxFromBottom =
+      event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
+    const remFromBottom = stripUnit(rem(pxFromBottom, baseFontSize))
+
+    isScrollAtBottom.current = remFromBottom <= scrollOffsetInRems
+  }, [])
+
+  useLayoutEffect(() => {
+    scrollToBottomIfNeeded()
+    hostPageWindow.addEventListener('resize', scrollToBottomIfNeeded)
+
     return () => {
-      hostPageWindow.removeEventListener('resize', onResize)
+      hostPageWindow.removeEventListener('resize', scrollToBottomIfNeeded)
     }
   }, [])
 
   // When messages change, scroll to the bottom if the user was previously at the bottom
-  useEffect(() => {
-    if (isScrollCloseToBottom.current) {
-      container.current.scrollTop = container.current.scrollHeight
+  useLayoutEffect(() => {
+    if (isScrollAtBottom.current) {
+      scrollToBottomIfNeeded()
     }
   }, [messages])
 
-  const onScrollBottom = event => {
-    const pxFromBottom =
-      event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
-    const remFromBottom = stripUnit(rem(pxFromBottom, baseFontSize))
-    isScrollCloseToBottom.current = remFromBottom <= scrollOffsetInRems
-  }
-
   return {
-    onScrollBottom
+    onScrollBottom,
+    scrollToBottomIfNeeded
   }
 }
 
