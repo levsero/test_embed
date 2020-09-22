@@ -33,15 +33,26 @@ const slice = createSlice({
 // Actions
 const { screenDimensionsChanged } = slice.actions
 const watchForScreenChanges = () => dispatch => {
-  hostPageWindow
-    .matchMedia(breakpoints.isVerticallySmallScreen)
-    .addEventListener('change', event => {
-      dispatch(screenDimensionsChanged({ isVerticallySmallScreen: event.matches }))
-    })
+  const verticalMatchMedia = hostPageWindow.matchMedia(breakpoints.isVerticallySmallScreen)
+  const fullscreenMatchMedia = hostPageWindow.matchMedia(breakpoints.isFullScreen)
 
-  hostPageWindow.matchMedia(breakpoints.isFullScreen).addEventListener('change', event => {
+  const onVerticalChange = event => {
+    dispatch(screenDimensionsChanged({ isVerticallySmallScreen: event.matches }))
+  }
+
+  const onFullscreenChange = event => {
     dispatch(screenDimensionsChanged({ isFullScreen: event.matches }))
-  })
+  }
+
+  if (verticalMatchMedia.addEventListener) {
+    // For browsers that support modern matchMedia syntax
+    verticalMatchMedia.addEventListener('change', onVerticalChange)
+    fullscreenMatchMedia.addEventListener('change', onFullscreenChange)
+  } else if (verticalMatchMedia.addListener) {
+    // For browsers that only support deprecated matchMedia syntax
+    verticalMatchMedia.addListener(onVerticalChange)
+    fullscreenMatchMedia.addListener(onFullscreenChange)
+  }
 }
 
 // Selectors
