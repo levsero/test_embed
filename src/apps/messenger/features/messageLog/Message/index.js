@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
-import DummyStructuredMessage from 'src/apps/messenger/features/messageLog/Message/messages/DummyStructuredMessage'
-import FormMessage from 'src/apps/messenger/features/messageLog/Message/messages/FormMessage'
-import FormResponseMessage from 'src/apps/messenger/features/messageLog/Message/messages/FormResponseMessage'
-import ImageStructuredMessage from 'src/apps/messenger/features/messageLog/Message/messages/ImageStructuredMessage'
-import TextMessage from 'src/apps/messenger/features/messageLog/Message/messages/TextMessage'
+import DummyStructuredMessage from './messages/DummyStructuredMessage'
+import FormMessage from './messages/FormMessage'
+import FormResponseMessage from './messages/FormResponseMessage'
+import ImageStructuredMessage from './messages/ImageStructuredMessage'
+import TextMessage from './messages/TextMessage'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
