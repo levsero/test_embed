@@ -53,18 +53,18 @@ const StyledIconButton = styled(IconButton)`
       border: ${props =>
         `${props.theme.borders.md} ${transparentize(
           '0.65',
-          props.theme.messenger.colors.primaryMessage
+          props.theme.messenger.colors.otherParticipantMessage
         )}`};
     }
     :active,
     :hover {
       background-color: ${props =>
-        transparentize('0.92', props.theme.messenger.colors.primaryMessage)};
+        transparentize('0.92', props.theme.messenger.colors.otherParticipantMessage)};
     }
 
     /* We have to style this as a child of the button in order to access the theme props */
     ${StyledCloseIcon} {
-      color: ${props => props.theme.messenger.colors.primaryMessage};
+      color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
       width: ${props => props.theme.messenger.iconSizes.md};
       height: ${props => props.theme.messenger.iconSizes.md};
     }
