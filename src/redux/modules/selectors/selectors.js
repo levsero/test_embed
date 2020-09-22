@@ -256,9 +256,9 @@ export const getChatConnectionSuppressed = createSelector(
 )
 
 export const getChatEnabled = createSelector(
-  [getChatEmbed, getSettingsChatSuppress, getChatConnectionSuppressed],
-  (chatEmbed, chatSuppress, chatConnectedConnectionSuppressed) => {
-    return chatEmbed && !chatSuppress && !chatConnectedConnectionSuppressed
+  [getChatEmbed, getSettingsChatSuppress, getChatConnectionSuppressed, getIsChatting],
+  (chatEmbed, chatSuppress, chatConnectedConnectionSuppressed, isChatting) => {
+    return chatEmbed && (!chatSuppress || isChatting) && !chatConnectedConnectionSuppressed
   }
 )
 

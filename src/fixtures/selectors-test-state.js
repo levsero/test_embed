@@ -65,7 +65,8 @@ const defaultState = {
         isBanned: () => false
       }
     },
-    chats: new Map([])
+    chats: new Map([]),
+    is_chatting: false
   },
   helpCenter: {
     contextualSearch: true,

@@ -830,7 +830,12 @@ describe('getChatEnabled', () => {
   test.each([
     ['defaultstate', {}, true],
     ['chatEmbed is missing', { base: { embeds: { chat: null } } }, false],
-    ['chat is suppressed', { settings: { chat: { suppress: true } } }, false]
+    ['chat is suppressed', { settings: { chat: { suppress: true } } }, false],
+    [
+      'chat is suppressed but isChatting is true',
+      { settings: { chat: { suppress: true } }, chat: { is_chatting: true } },
+      true
+    ]
   ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatEnabled(getModifiedState(modifier))
 
