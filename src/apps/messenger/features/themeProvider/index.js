@@ -64,10 +64,6 @@ const ThemeProvider = ({ children }) => {
                 xl: rem(DEFAULT_THEME.lineHeights.xl, baseFontSize),
                 xxl: rem(DEFAULT_THEME.lineHeights.xxl, baseFontSize)
               },
-              border: {
-                sm: rem('1px', baseFontSize) + ' solid',
-                md: rem('1px', baseFontSize) + ' solid'
-              },
               iconSizes: {
                 sm: rem(DEFAULT_THEME.iconSizes.sm, baseFontSize),
                 md: rem(DEFAULT_THEME.iconSizes.md, baseFontSize),

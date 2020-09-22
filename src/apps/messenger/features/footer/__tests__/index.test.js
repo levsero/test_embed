@@ -8,8 +8,10 @@ import Footer from '../'
 jest.mock('src/apps/messenger/suncoClient')
 
 describe('Footer', () => {
-  const renderComponent = () => {
-    return render(<Footer />)
+  const defaultProps = { isComposerEnabled: true }
+
+  const renderComponent = (props = {}) => {
+    return render(<Footer {...defaultProps} {...props} />)
   }
 
   it('renders the component with a placeholder', () => {

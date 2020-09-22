@@ -11,10 +11,13 @@ import { Container } from './styles'
 import MessageLog from 'src/apps/messenger/features/messageLog'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 
+import { getIsComposerEnabled } from 'src/apps/messenger/features/messageLog/store'
+
 const MessagePage = React.forwardRef((_props, ref) => {
   const dispatch = useDispatch()
   const isFullScreen = useSelector(getIsFullScreen)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
+  const isComposerEnabled = useSelector(getIsComposerEnabled)
 
   return (
     <Container
@@ -32,7 +35,7 @@ const MessagePage = React.forwardRef((_props, ref) => {
     >
       <Header />
       <MessageLog />
-      <Footer />
+      <Footer isComposerEnabled={isComposerEnabled} />
     </Container>
   )
 })

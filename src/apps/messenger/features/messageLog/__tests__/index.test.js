@@ -16,7 +16,8 @@ describe('MessageLog', () => {
           type: 'dummy',
           isLocalMessageType: true,
           received: 1,
-          text: 'One'
+          text: 'One',
+          role: 'appUser'
         }
       })
     )
@@ -28,7 +29,8 @@ describe('MessageLog', () => {
           type: 'dummy',
           isLocalMessageType: true,
           received: 2,
-          text: 'Two'
+          text: 'Two',
+          role: 'appUser'
         }
       })
     )
@@ -56,6 +58,52 @@ describe('MessageLog', () => {
           _id: 2,
           type: 'unknown',
           received: 2
+        }
+      })
+    )
+
+    expect(getByRole('log').children).toHaveLength(1)
+  })
+
+  it('does not render form messages that have already been submitted', () => {
+    const { getByRole, store } = renderComponent()
+
+    store.dispatch(
+      messageReceived({
+        message: {
+          _id: 1,
+          type: 'form',
+          isLocalMessageType: false,
+          received: 1,
+          submitted: false,
+          fields: [
+            {
+              label: 'Your first name?',
+              name: 'first_name',
+              type: 'text',
+              _id: '5f669695c511asdsd9877'
+            }
+          ]
+        }
+      })
+    )
+
+    store.dispatch(
+      messageReceived({
+        message: {
+          _id: 2,
+          type: 'form',
+          received: 2,
+          isLocalMessageType: false,
+          submitted: true,
+          fields: [
+            {
+              label: 'Your first name?',
+              name: 'first_name',
+              type: 'text',
+              _id: '5f669695c511asdsd9877'
+            }
+          ]
         }
       })
     )

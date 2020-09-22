@@ -9,8 +9,9 @@ const VerticalContainer = styled.div`
   align-self: flex-start;
   display: flex;
   flex-direction: column;
-  margin-left: ${props => props.theme.messenger.space.md};
+  padding: 0 ${props => props.theme.messenger.space.md};
   margin-top: ${props => (props.isFirstInGroup ? props.theme.messenger.space.sm : 0)};
+  width: 100%;
 `
 
 const OtherParticipantName = styled.p`

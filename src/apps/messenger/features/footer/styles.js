@@ -68,14 +68,14 @@ const StyledTextarea = styled(Textarea)`
       display: none;
     }
 
-    :hover,
-    :focus,
-    :active {
-      border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
-      box-shadow: ${props =>
-        props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
+    &:not(:disabled) {
+      :hover,
+      :focus,
+      :active {
+        border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
+        box-shadow: ${props =>
+          props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
     }
-  }
 `
 
 const Container = styled.div`

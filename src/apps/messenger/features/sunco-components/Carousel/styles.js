@@ -65,7 +65,7 @@ const Content = styled.div`
   padding: ${props => props.theme.messenger.space.sixteen};
   border-radius: ${props =>
     `${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage} 0 0`};
-  border: ${props => `${props.theme.messenger.border.sm} ${props.theme.palette.grey[300]}`};
+  border: ${props => `${props.theme.borders.sm} ${props.theme.palette.grey[300]}`};
 `
 
 const Title = styled.div`
@@ -90,7 +90,7 @@ const Action = styled.a`
   text-align: center;
   border-radius: 0;
 
-  border: ${props => `${props.theme.messenger.border.sm} ${props.theme.palette.grey[300]}`};
+  border: ${props => `${props.theme.borders.sm} ${props.theme.palette.grey[300]}`};
   border-top: 0;
 
   border-radius: ${props =>

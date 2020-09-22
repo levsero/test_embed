@@ -38,14 +38,50 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
+const isFormResponsePresent = (formMessageId, messages) => {
+  return !!messages.find(
+    message => message.type === 'formResponse' && message.quotedMessageId === formMessageId
+  )
+}
+
+const filterSubmittedForms = messages => {
+  return messages.filter(message => {
+    if (message.type !== 'form') return true
+
+    const messagePreviouslySubmitted = message.submitted
+    const messageFormResponsePresent = isFormResponsePresent(message._id, messages)
+
+    if (messagePreviouslySubmitted || messageFormResponsePresent) return false
+
+    return true
+  })
+}
+
+const filterUnsubmittedFormsBlockingInput = messages => {
+  const unsubmittedForms = messages.filter(message =>
+    filterSubmittedForms(messages).includes(message)
+  )
+
+  return unsubmittedForms.filter(message => message.blockChatInput)
+}
+
+const getIsComposerEnabled = createSelector(
+  selectors.selectAll,
+  messages => {
+    return filterUnsubmittedFormsBlockingInput(messages).length === 0
+  }
+)
+
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
-    return addMessagePositionsToGroups(messages)
+    // const filteredMessages = messages.filter(message => !removeMessage(message, messages))
+    const filteredMessages = filterSubmittedForms(messages)
+    return addMessagePositionsToGroups(filteredMessages)
   }
 )
 
 export const { messageReceived, messagesReceived } = messagesSlice.actions
-export { getMessageLog }
+export { getMessageLog, getIsComposerEnabled }
 
 export default messagesSlice.reducer
