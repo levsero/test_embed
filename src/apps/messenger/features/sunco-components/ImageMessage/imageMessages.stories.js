@@ -1,8 +1,18 @@
 import React from 'react'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
 import ImageMessage from './'
 export default {
   title: 'Sunco/Image Message',
-  component: ImageMessage
+  component: ImageMessage,
+  argTypes: {
+    shape: {
+      defaultValue: MESSAGE_BUBBLE_SHAPES.standalone,
+      control: {
+        type: 'inline-radio',
+        options: Object.values(MESSAGE_BUBBLE_SHAPES)
+      }
+    }
+  }
 }
 
 const Template = args => <ImageMessage {...args} />
