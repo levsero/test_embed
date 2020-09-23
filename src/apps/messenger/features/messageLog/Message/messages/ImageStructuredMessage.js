@@ -32,9 +32,10 @@ ImageStructuredMessage.propTypes = {
     role: PropTypes.string,
     text: PropTypes.string,
     mediaUrl: PropTypes.string,
-    avatarUrl: PropTypes.string,
     isFirstInGroup: PropTypes.bool,
-    isLastInGroup: PropTypes.bool
+    isLastInGroup: PropTypes.bool,
+    avatarUrl: PropTypes.string,
+    name: PropTypes.string
   })
 }
 
