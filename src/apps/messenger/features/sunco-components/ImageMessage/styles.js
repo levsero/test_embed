@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
@@ -14,19 +15,19 @@ const PrimaryParticipantImage = styled(Image)`
   ${props => {
     const radius = getRadius(props)
     switch (props.shape) {
-      case 'standalone':
+      case MESSAGE_BUBBLE_SHAPES.standalone:
         if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
         return `border-radius: ${radius};`
 
-      case 'first':
+      case MESSAGE_BUBBLE_SHAPES.first:
         if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
         return `border-radius: ${radius} ${radius} 0;`
 
-      case 'middle':
+      case MESSAGE_BUBBLE_SHAPES.middle:
         if (props.hasText) return `border-radius: ${radius} 0 0 0;`
         return `border-radius: ${radius} 0 0 ${radius};`
 
-      case 'last':
+      case MESSAGE_BUBBLE_SHAPES.last:
         if (props.hasText) return `border-radius: ${radius} 0 0 0;`
         return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
@@ -37,19 +38,19 @@ const OtherParticipantImage = styled(Image)`
   ${props => {
     const radius = getRadius(props)
     switch (props.shape) {
-      case 'standalone':
+      case MESSAGE_BUBBLE_SHAPES.standalone:
         if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
         return `border-radius: ${radius};`
 
-      case 'first':
+      case MESSAGE_BUBBLE_SHAPES.first:
         if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
         return `border-radius: ${radius} ${radius} ${radius} 0;`
 
-      case 'middle':
+      case MESSAGE_BUBBLE_SHAPES.middle:
         if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
         return `border-radius: 0 ${radius} ${radius} 0;`
 
-      case 'last':
+      case MESSAGE_BUBBLE_SHAPES.last:
         if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
         return `border-radius: 0 ${radius} ${radius} ${radius};`
     }

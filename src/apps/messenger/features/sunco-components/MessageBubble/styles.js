@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
@@ -15,13 +16,13 @@ const PrimaryParticipantBubble = styled(Bubble)`
   ${props => {
     const radius = getRadius(props)
     switch (props.shape) {
-      case 'standalone':
+      case MESSAGE_BUBBLE_SHAPES.standalone:
         return `border-radius: ${radius};`
-      case 'first':
+      case MESSAGE_BUBBLE_SHAPES.first:
         return `border-radius: ${radius} ${radius} 0;`
-      case 'middle':
+      case MESSAGE_BUBBLE_SHAPES.middle:
         return `border-radius: ${radius} 0 0 ${radius};`
-      case 'last':
+      case MESSAGE_BUBBLE_SHAPES.last:
         return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
   }}
@@ -35,13 +36,13 @@ const OtherParticipantBubble = styled(Bubble)`
   ${props => {
     const radius = getRadius(props)
     switch (props.shape) {
-      case 'standalone':
+      case MESSAGE_BUBBLE_SHAPES.standalone:
         return `border-radius: ${radius};`
-      case 'first':
+      case MESSAGE_BUBBLE_SHAPES.first:
         return `border-radius: ${radius} ${radius} ${radius} 0;`
-      case 'middle':
+      case MESSAGE_BUBBLE_SHAPES.middle:
         return `border-radius: 0 ${radius} ${radius} 0;`
-      case 'last':
+      case MESSAGE_BUBBLE_SHAPES.last:
         return `border-radius: 0 ${radius} ${radius} ${radius};`
     }
   }}
