@@ -10,10 +10,7 @@ const Text = styled.span`
 `
 
 const Padding = styled.div`
-  padding-left: ${props => props.theme.messenger.space.sm};
-  padding-right: ${props => props.theme.messenger.space.sm};
-  padding-top: ${props => props.theme.messenger.space.xs};
-  padding-bottom: ${props => props.theme.messenger.space.xs};
+  padding: ${props => props.theme.messenger.space.xs} ${props => props.theme.messenger.space.sm};
   width: 100%;
 `
 
