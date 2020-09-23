@@ -27,7 +27,6 @@ const baseLauncherStyle = {
   marginBottom: 10,
   position: 'fixed',
   bottom: 30,
-  right: 10,
   overflow: 'visible',
   opacity: 0,
   border: 0
@@ -36,7 +35,6 @@ const baseLauncherStyle = {
 const getMobileStyles = () => ({
   height: `${50 * getZoomSizingRatio()}px`,
   bottom: 0,
-  right: 0,
   marginTop: Math.round(parseInt(baseLauncherStyle.marginTop, 10) * getZoomSizingRatio()),
   marginBottom: Math.round(parseInt(baseLauncherStyle.marginBottom, 10) * getZoomSizingRatio()),
   marginLeft: Math.round(parseInt(baseLauncherStyle.marginLeft, 10) * getZoomSizingRatio()),
