@@ -24,7 +24,7 @@ const useCombinedRefs = extraRef => {
   return [targetRef, setRef]
 }
 
-const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forwardRef) => {
+const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props }, forwardRef) => {
   const [frame, frameRef] = useCombinedRefs(forwardRef)
   const container = useRef(rootElement)
 
@@ -66,8 +66,14 @@ const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forw
     return () => currentFrame.contentDocument.body.removeChild(currentContainer)
   }, [frame, rootElement, loaded])
 
+  const frameStyles = { ...props.style }
+
+  if (!loaded || !isTargetReady || hidden) {
+    frameStyles.display = 'none'
+  }
+
   return (
-    <iframe ref={frameRef} title={title} {...props}>
+    <iframe ref={frameRef} title={title} {...props} style={frameStyles}>
       {loaded && isTargetReady && (
         <StyleSheetManager target={frame.current.contentDocument.querySelector('head')}>
           <CurrentFrameProvider
@@ -76,7 +82,7 @@ const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forw
               window: frame.current.contentWindow
             }}
           >
-            {ReactDOM.createPortal(children, container.current)}
+            {!hidden && ReactDOM.createPortal(children, container.current)}
           </CurrentFrameProvider>
         </StyleSheetManager>
       )}
@@ -87,7 +93,9 @@ const Frame = React.forwardRef(({ children, rootElement, title, ...props }, forw
 Frame.propTypes = {
   children: PropTypes.node,
   rootElement: PropTypes.instanceOf(Element),
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
+  style: PropTypes.object
 }
 
 export default Frame

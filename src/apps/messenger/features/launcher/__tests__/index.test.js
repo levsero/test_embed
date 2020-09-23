@@ -28,13 +28,13 @@ describe('Launcher', () => {
   })
 
   describe('when launcher is not visible', () => {
-    it('does not render anything', () => {
+    it('is not shown', () => {
       const { queryByTitle, store } = renderComponent()
 
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: true }))
       store.dispatch(widgetOpened())
 
-      expect(queryByTitle('Launcher')).toBeNull()
+      expect(queryByTitle('Launcher').style.display).toBe('none')
     })
   })
 })

@@ -22,6 +22,9 @@ const StyledMessengerIcon = styled(MessengerIcon)``
 const StyledCloseIcon = styled(CloseIcon)``
 
 const Button = styled(IconButton)`
+  position: relative;
+  overflow: hidden;
+
   ${StyledCloseIcon} {
     height: 100% !important;
     width: 100% !important;
@@ -42,6 +45,10 @@ const Button = styled(IconButton)`
     width: 100%;
     height: 100%;
     background-color: ${props => props.theme.messenger.colors.primary};
+
+    &:active {
+      box-shadow: none;
+    }
 
     &[data-garden-focus-visible],
     &:focus {
