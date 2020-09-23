@@ -5,6 +5,9 @@ export default {
   title: 'Sunco/Message Bubble',
   component: MessageBubble,
   argTypes: {
+    isPrimaryParticipant: {
+      defaultValue: true
+    },
     shape: {
       defaultValue: MESSAGE_BUBBLE_SHAPES.standalone,
       control: {
