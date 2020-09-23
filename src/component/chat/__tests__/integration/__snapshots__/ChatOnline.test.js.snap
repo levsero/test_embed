@@ -1827,7 +1827,7 @@ exports[`update chat header 1`] = `
     class="c2"
   >
     <div
-      aria-describedby="1141val-tooltip_0.5.5"
+      aria-describedby="1096val-tooltip_0.5.5"
       class="c3"
       data-garden-container-id="containers.tooltip"
       data-garden-container-version="0.5.5"
@@ -1846,7 +1846,7 @@ exports[`update chat header 1`] = `
         class="c5"
         data-garden-id="tooltip.tooltip"
         data-garden-version="8.21.0"
-        id="1141val-tooltip_0.5.5"
+        id="1096val-tooltip_0.5.5"
         role="tooltip"
         style="display: block;"
         type="dark"

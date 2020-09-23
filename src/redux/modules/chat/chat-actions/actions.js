@@ -16,7 +16,7 @@ import {
   getChatBanned
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
-import { getZChatConfig } from 'src/redux/modules/base/base-selectors'
+import { getZChatConfig, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { audio } from 'service/audio'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { formatSchedule } from 'src/util/chat'
@@ -721,8 +721,13 @@ export function chatWindowOpenOnNavigate() {
 
 export function chatStarted() {
   return (dispatch, getState) => {
+    const state = getState()
     dispatch({ type: actions.CHAT_STARTED })
-    dispatch(updateBackButtonVisibility(getHelpCenterAvailable(getState())))
+    // Proactive chats are handled seperately by checking when chat loads if it
+    // should show so this is only needed if the user starts a chat.
+    if (getActiveEmbed(state) === 'chat') {
+      dispatch(updateBackButtonVisibility(getHelpCenterAvailable(state)))
+    }
     callbacks.fireFor(CHAT_STARTED_EVENT)
   }
 }
