@@ -1,15 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ImageMessage from 'src/apps/messenger/features/sunco-components/ImageMessage'
+
 import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
 import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-
-const messageShape = (isFirstInGroup, isLastInGroup) => {
-  if (isFirstInGroup && isLastInGroup) return 'standalone'
-  if (isFirstInGroup) return 'first'
-  if (!isFirstInGroup && !isLastInGroup) return 'middle'
-  if (isLastInGroup) return 'last'
-}
+import ImageMessage from 'src/apps/messenger/features/sunco-components/ImageMessage'
+import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({
   message: { role, text, mediaUrl, isFirstInGroup, isLastInGroup, avatarUrl, name }
@@ -24,7 +19,7 @@ const ImageStructuredMessage = ({
     >
       <ImageMessage
         isPrimaryParticipant={isPrimaryParticipant}
-        shape={messageShape(isFirstInGroup, isLastInGroup)}
+        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
         mediaUrl={mediaUrl}
         text={text}
       />
