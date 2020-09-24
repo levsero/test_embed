@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { useSelector } from 'react-redux'
 
+import { getClient } from 'src/apps/messenger/suncoClient'
+import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/selectors'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
 
-const Footer = ({ isComposerEnabled }) => {
+const Footer = () => {
+  const isComposerEnabled = useSelector(getIsComposerEnabled)
   const [message, setMessage] = useState('')
 
   const sendMessage = () => {
@@ -29,10 +31,6 @@ const Footer = ({ isComposerEnabled }) => {
       onChange={onChange}
     />
   )
-}
-
-Footer.propTypes = {
-  isComposerEnabled: PropTypes.bool
 }
 
 export default Footer

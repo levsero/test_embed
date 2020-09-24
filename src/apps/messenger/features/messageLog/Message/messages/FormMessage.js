@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
-import { getClient } from 'src/apps/messenger/suncoClient'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
+import { useDispatch } from 'react-redux'
+import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
 
 const formStatus = { failure: 'failure', pending: 'pending', success: 'success' }
 
@@ -10,21 +10,22 @@ const FormMessage = ({
   message: { _id, isFirstInGroup, isLastInGroup, fields, avatarUrl, name },
   scrollToBottomIfNeeded
 }) => {
+  const dispatch = useDispatch()
   const [values, setValues] = useState({})
   const [status, setStatus] = useState('')
 
   if (status === formStatus.success) return null
 
-  const responseFields = fields.map(field => {
-    return { type: field.type, name: field.name, label: field.label, text: values[field._id] }
-  })
-
   const handleSubmit = () => {
-    const client = getClient()
-
     setStatus(formStatus.pending)
 
-    Promise.resolve(client.sendFormResponse(responseFields, _id))
+    dispatch(
+      submitForm({
+        formId: _id,
+        fields,
+        values
+      })
+    )
       .then(() => {
         setStatus(formStatus.success)
       })

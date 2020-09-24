@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, createSelector } from '@reduxjs/toolkit'
+import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
 
 const messagesAdapter = createEntityAdapter({
   selectId: message => message._id,
@@ -20,6 +21,13 @@ const messagesSlice = createSlice({
       state.hasPrevious = Boolean(action.payload.hasPrevious)
 
       messagesAdapter.addMany(state, action.payload.messages)
+    }
+  },
+  extraReducers: {
+    [submitForm.fulfilled](state, action) {
+      if (Array.isArray(action?.payload?.messages)) {
+        messagesAdapter.addMany(state, action.payload.messages)
+      }
     }
   }
 })
@@ -44,45 +52,22 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
-const isFormResponsePresent = (formMessageId, messages) => {
-  return !!messages.find(
-    message => message.type === 'formResponse' && message.quotedMessageId === formMessageId
-  )
-}
-
-const filterSubmittedForms = messages => {
+const removeSubmittedForms = messages => {
   return messages.filter(message => {
-    if (message.type !== 'form') return true
+    if (message.type !== 'form') {
+      return true
+    }
 
-    const messagePreviouslySubmitted = message.submitted
-    const messageFormResponsePresent = isFormResponsePresent(message._id, messages)
-
-    if (messagePreviouslySubmitted || messageFormResponsePresent) return false
-
-    return true
+    return message.submitted !== true
   })
 }
-
-const filterUnsubmittedFormsBlockingInput = messages => {
-  const unsubmittedForms = messages.filter(message =>
-    filterSubmittedForms(messages).includes(message)
-  )
-
-  return unsubmittedForms.filter(message => message.blockChatInput)
-}
-
-const getIsComposerEnabled = createSelector(
-  selectors.selectAll,
-  messages => {
-    return filterUnsubmittedFormsBlockingInput(messages).length === 0
-  }
-)
 
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
-    const filteredMessages = filterSubmittedForms(messages)
-    return addMessagePositionsToGroups(filteredMessages)
+    const withoutSubmittedForms = removeSubmittedForms(messages)
+
+    return addMessagePositionsToGroups(withoutSubmittedForms)
   }
 )
 
@@ -90,6 +75,6 @@ const getHasPrevious = state => state.messages.hasPrevious
 const getHasFetchedConversation = state => state.messages.hasFetchedConversation
 
 export const { messageReceived, messagesReceived } = messagesSlice.actions
-export { getMessageLog, getIsComposerEnabled, getHasPrevious, getHasFetchedConversation }
+export { getMessageLog, getHasPrevious, getHasFetchedConversation }
 
 export default messagesSlice.reducer
