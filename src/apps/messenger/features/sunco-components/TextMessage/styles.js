@@ -9,9 +9,9 @@ const Text = styled.span`
   width: auto;
 `
 
-const Padding = styled.div`
+const Content = styled.div`
   padding: ${props => props.theme.messenger.space.xs} ${props => props.theme.messenger.space.sm};
   width: 100%;
 `
 
-export { Text, Padding }
+export { Text, Content }
