@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import TextField from 'src/apps/messenger/features/sunco-components/Form/TextField'
 import FormButton from './FormButton'
 
 import { FormContainer, Form, FormFooter, TextContainer, Steps } from './styles'
 import SubmissionError from './SubmissionError'
+import FormField from 'src/apps/messenger/features/sunco-components/Form/FormField'
 
 const SuncoFormMessage = ({
   fields,
@@ -42,13 +42,13 @@ const SuncoFormMessage = ({
           <Form onSubmit={onSubmit}>
             {visibleFields.map(field => {
               return (
-                <TextField
-                  label={field.label}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={values[field._id] || ''}
-                  onChange={e => onChange(field._id, e.target.value)}
+                <FormField
                   key={field._id}
+                  value={values[field._id]}
+                  onChange={value => onChange(field._id, value)}
+                  field={field}
+                  error={undefined}
+                  lastSubmittedTimestamp={undefined}
                 />
               )
             })}
