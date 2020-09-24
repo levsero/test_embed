@@ -167,7 +167,6 @@
     "scope": "javascript,typescript",
     "body": [
       "import styled from 'styled-components'",
-      "import { $4 } from '@zendeskgarden/css-variables'",
       "",
       "const ${1:ComponentName} = styled${2}`${3}`",
       "",
