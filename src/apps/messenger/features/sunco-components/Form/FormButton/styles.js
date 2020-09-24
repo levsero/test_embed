@@ -9,13 +9,18 @@ const Label = styled.div`
   opacity: ${props => (props.showLabel ? 1 : 0)};
 `
 
-const LoadingDots = styled(Dots)`
+const Loader = styled.div`
   position: absolute;
-  top: ${rem('9px', baseFontSize)};
+  top: 0;
   left: 0;
   right: 0;
-  margin: auto;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
+
+const LoadingDots = styled(Dots)``
 
 const StyledButton = styled(Button)`
   &&& {
@@ -47,4 +52,4 @@ const StyledButton = styled(Button)`
   }
 `
 
-export { LoadingDots, Label, StyledButton as Button }
+export { LoadingDots, Label, StyledButton as Button, Loader }
