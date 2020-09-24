@@ -9,14 +9,10 @@ const FormContainer = styled.div`
   width: 100%;
   margin-top: ${props => props.theme.messenger.space.xxs};
 `
-
-const Label = styled.div`
-  font-weight: ${props => props.theme.fontWeights.semibold};
-  margin-bottom: ${props => props.theme.messenger.space.small};
-`
-
 const Field = styled.div`
-  margin-bottom: ${props => (props.isLastField ? 0 : props.theme.messenger.space.sixteen)};
+  & + & {
+    margin-top: ${props => props.theme.messenger.space.sixteen};
+  }
 `
 
-export { FormContainer, Field, Label }
+export { FormContainer, Field }
