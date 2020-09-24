@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Receipt from 'src/apps/messenger/features/sunco-components/shared/Receipt/PrimaryParticipantReceipt'
+import Receipt from 'src/apps/messenger/features/sunco-components/Receipts/PrimaryParticipantReceipt'
 
 import { LayoutContainer, VerticalLayout } from './styles'
 

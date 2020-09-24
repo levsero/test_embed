@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from 'src/apps/messenger/features/sunco-components/Avatar'
 import Label from 'src/apps/messenger/features/sunco-components/Label'
-import Receipt from 'src/apps/messenger/features/sunco-components/shared/Receipt/OtherParticipantReceipt'
+import Receipt from 'src/apps/messenger/features/sunco-components/Receipts/OtherParticipantReceipt'
 
 import { LayoutContainer, VerticalContainer } from './styles'
 

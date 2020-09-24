@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useParseTime from 'src/apps/messenger/features/sunco-components/shared/Receipt/hooks/useParseTime'
+import useParseTime from 'src/apps/messenger/features/sunco-components/Receipts/hooks/useParseTime'
 
 import { Layout, Tail, Time } from './styles'
 

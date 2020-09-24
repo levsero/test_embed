@@ -21,7 +21,7 @@ const useParseTime = timeReceived => {
 
     calculate()
 
-    const intervalId = setInterval(() => calculate(), 30000)
+    const intervalId = setInterval(() => calculate(), 60000)
 
     return () => clearInterval(intervalId)
   }, [timeReceived])
