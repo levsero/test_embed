@@ -10,7 +10,7 @@ import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDes
 import publicApi from 'src/framework/services/publicApi'
 import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import { messageReceived, messagesReceived } from 'src/apps/messenger/features/messageLog/store'
+import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 
 const run = ({ config }) => {
   const element = hostPageWindow.document.body.appendChild(
@@ -27,11 +27,6 @@ const run = ({ config }) => {
   const { integrationId, appId, baseUrl } = config.messenger
   const client = createClient({ integrationId, appId, baseUrl })
   client.startConversation().then(conversation => {
-    // fetch conversation history via REST API
-    conversation.listMessages().then(response => {
-      store.dispatch(messagesReceived({ messages: response.body?.messages }))
-    })
-
     // subscribe to socket events to listen for live changes
     conversation.socketClient.subscribe(event => {
       store.dispatch(messageReceived({ message: event.message }))

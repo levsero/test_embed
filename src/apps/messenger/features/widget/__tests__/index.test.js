@@ -6,6 +6,10 @@ import {
   launcherSize,
   marginBetweenFrames
 } from 'src/apps/messenger/constants'
+jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
+  fetchHistoryOnScrollTop: jest.fn(),
+  isFetchingHistory: false
+}))
 
 describe('Messenger', () => {
   const renderComponent = () => render(<Messenger />)

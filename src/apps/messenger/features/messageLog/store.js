@@ -7,12 +7,18 @@ const messagesAdapter = createEntityAdapter({
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: messagesAdapter.getInitialState(),
+  initialState: messagesAdapter.getInitialState({
+    hasPrevious: false,
+    hasFetchedConversation: false
+  }),
   reducers: {
     messageReceived(state, action) {
       messagesAdapter.addOne(state, action.payload.message)
     },
     messagesReceived(state, action) {
+      state.hasFetchedConversation = true
+      state.hasPrevious = Boolean(action.payload.hasPrevious)
+
       messagesAdapter.addMany(state, action.payload.messages)
     }
   }
@@ -75,13 +81,15 @@ const getIsComposerEnabled = createSelector(
 const getMessageLog = createSelector(
   selectors.selectAll,
   messages => {
-    // const filteredMessages = messages.filter(message => !removeMessage(message, messages))
     const filteredMessages = filterSubmittedForms(messages)
     return addMessagePositionsToGroups(filteredMessages)
   }
 )
 
+const getHasPrevious = state => state.messages.hasPrevious
+const getHasFetchedConversation = state => state.messages.hasFetchedConversation
+
 export const { messageReceived, messagesReceived } = messagesSlice.actions
-export { getMessageLog, getIsComposerEnabled }
+export { getMessageLog, getIsComposerEnabled, getHasPrevious, getHasFetchedConversation }
 
 export default messagesSlice.reducer

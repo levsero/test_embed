@@ -40,7 +40,7 @@ export default class Sunco {
         appUserId: appUserId,
         sessionToken: sessionToken
       }),
-      listMessages: () => this.messages.list(appUserId, conversationId),
+      listMessages: cursor => this.messages.list(appUserId, conversationId, cursor),
       sendMessage: message =>
         this.messages.create(appUserId, conversationId, {
           type: 'text',
@@ -58,34 +58,37 @@ export default class Sunco {
   }
 
   startConversation() {
-    return new Promise((resolve, _reject) => {
-      const { appUserId } = getCurrentUserIfAny(this.integrationId)
+    this.conversationPromise =
+      this.conversationPromise ||
+      new Promise((resolve, _reject) => {
+        const { appUserId } = getCurrentUserIfAny(this.integrationId)
 
-      if (appUserId) {
-        this.appUsers.get(appUserId).then(response => {
-          this.activeConversation = {
-            appUserId,
-            conversationId: response.body.conversations[0]._id,
-            socketSettings: response.body.settings.realtime
-          } // TODO - might need to eventually select a particular conversation - isDefault: true
-          resolve(this.activeConversation)
-        })
-      } else {
-        this.appUsers.create().then(response => {
-          storeAppUser({
-            appUserId: response.body.appUser._id,
-            sessionToken: response.body.sessionToken,
-            integrationId: this.integrationId
+        if (appUserId) {
+          this.appUsers.get(appUserId).then(response => {
+            this.activeConversation = {
+              appUserId,
+              conversationId: response.body.conversations[0]._id,
+              socketSettings: response.body.settings.realtime
+            } // TODO - might need to eventually select a particular conversation - isDefault: true
+            resolve(this.activeConversation)
           })
-          this.activeConversation = {
-            appUserId,
-            conversationId: response.body.conversations[0]._id,
-            socketSettings: response.body.settings.realtime
-          } // TODO - might need to eventually select a particular conversation - isDefault: true
-          resolve(this.activeConversation)
-        })
-      }
-    })
+        } else {
+          this.appUsers.create().then(response => {
+            storeAppUser({
+              appUserId: response.body.appUser._id,
+              sessionToken: response.body.sessionToken,
+              integrationId: this.integrationId
+            })
+            this.activeConversation = {
+              appUserId,
+              conversationId: response.body.conversations[0]._id,
+              socketSettings: response.body.settings.realtime
+            } // TODO - might need to eventually select a particular conversation - isDefault: true
+            resolve(this.activeConversation)
+          })
+        }
+      })
+    return this.conversationPromise
   }
 
   sendMessage(message) {
@@ -96,8 +99,8 @@ export default class Sunco {
     return this.activeConversation.sendFormResponse(fields, formId)
   }
 
-  listMessages() {
-    return this.activeConversation.listMessages()
+  listMessages(cursor) {
+    return this.activeConversation.listMessages(cursor)
   }
 
   subscribe(callback) {

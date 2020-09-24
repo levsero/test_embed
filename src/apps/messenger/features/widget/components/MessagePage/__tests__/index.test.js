@@ -4,6 +4,10 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import userEvent from '@testing-library/user-event'
+jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
+  fetchHistoryOnScrollTop: jest.fn(),
+  isFetchingHistory: false
+}))
 
 describe('MessagePage', () => {
   const renderComponent = () => render(<MessagePage />)

@@ -1,13 +1,25 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import MessageLog from 'src/apps/messenger/features/messageLog'
-import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
+import { messageReceived, messagesReceived } from 'src/apps/messenger/features/messageLog/store'
+jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
+  fetchHistoryOnScrollTop: jest.fn(),
+  isFetchingHistory: false
+}))
 
 describe('MessageLog', () => {
   const renderComponent = () => render(<MessageLog />)
 
+  it('renders the loading when hasFetchedConversation is false', () => {
+    const { getByRole, getByText } = renderComponent()
+
+    expect(getByText('loading')).toBeInTheDocument()
+    expect(getByRole('log').children).toHaveLength(1)
+  })
+
   it('renders the messages', () => {
     const { getByRole, store } = renderComponent()
+    store.dispatch(messagesReceived({ messages: [] }))
 
     store.dispatch(
       messageReceived({
@@ -40,6 +52,7 @@ describe('MessageLog', () => {
 
   it('does not render messages that have an unknown type', () => {
     const { getByRole, store } = renderComponent()
+    store.dispatch(messagesReceived({ messages: [] }))
 
     store.dispatch(
       messageReceived({
@@ -68,6 +81,7 @@ describe('MessageLog', () => {
   it('does not render form messages that have already been submitted', () => {
     const { getByRole, store } = renderComponent()
 
+    store.dispatch(messagesReceived({ messages: [] }))
     store.dispatch(
       messageReceived({
         message: {
