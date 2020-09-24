@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice, createSelector } from '@reduxjs/toolkit'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
+import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/slice'
 
 const messagesAdapter = createEntityAdapter({
   selectId: message => message._id,
@@ -25,9 +26,7 @@ const messagesSlice = createSlice({
   },
   extraReducers: {
     [submitForm.fulfilled](state, action) {
-      if (Array.isArray(action?.payload?.messages)) {
-        messagesAdapter.addMany(state, action.payload.messages)
-      }
+      messagesAdapter.addMany(state, action.payload.messages)
     }
   }
 })
@@ -52,20 +51,21 @@ const addMessagePositionsToGroups = messages =>
     }
   })
 
-const removeSubmittedForms = messages => {
+const removeSubmittedForms = (messages, formsState) => {
   return messages.filter(message => {
     if (message.type !== 'form') {
       return true
     }
 
-    return message.submitted !== true
+    return message.submitted !== true && formsState[message._id]?.status !== 'success'
   })
 }
 
 const getMessageLog = createSelector(
   selectors.selectAll,
-  messages => {
-    const withoutSubmittedForms = removeSubmittedForms(messages)
+  getFormsState,
+  (messages, formsState) => {
+    const withoutSubmittedForms = removeSubmittedForms(messages, formsState)
 
     return addMessagePositionsToGroups(withoutSubmittedForms)
   }

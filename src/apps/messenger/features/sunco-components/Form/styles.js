@@ -16,6 +16,7 @@ const Form = styled.form`
 
 const FormFooter = styled.div`
   display: flex;
+  margin-top: ${props => props.theme.messenger.space.sixteen};
 `
 const TextContainer = styled.div`
   display: flex;
@@ -29,5 +30,12 @@ const Steps = styled.div`
   line-height: ${props => props.theme.messenger.lineHeights.md};
   width: auto;
 `
+const Fields = styled.div``
 
-export { FormContainer, Form, FormFooter, TextContainer, Steps }
+const Field = styled.div`
+  & + & {
+    margin-top: ${props => props.theme.messenger.space.sixteen};
+  }
+`
+
+export { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field }

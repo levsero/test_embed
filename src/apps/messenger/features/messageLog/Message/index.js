@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
 import DummyStructuredMessage from './messages/DummyStructuredMessage'
-import FormMessage from './messages/FormMessage'
+import FormStructuredMessage from './messages/FormStructuredMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
@@ -11,9 +11,9 @@ import TextStructuredMessage from './messages/TextStructuredMessage'
 // https://docs.smooch.io/rest/#message-types
 const suncoMessageTypes = {
   carousel: CarouselStructuredMessage,
-  dummy: DummyStructuredMessage,
-  form: FormMessage,
+  form: FormStructuredMessage,
   formResponse: FormResponseMessage,
+  dummy: DummyStructuredMessage,
   image: ImageStructuredMessage,
   text: TextStructuredMessage
 }

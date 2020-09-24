@@ -78,7 +78,6 @@ describe('MessageLog', () => {
   it('does not render form messages that have been successfully submitted', () => {
     const { getByRole, store } = renderComponent()
 
-    store.dispatch(messagesReceived({ messages: [] }))
     store.dispatch(
       messagesReceived({
         messages: [
@@ -103,6 +102,21 @@ describe('MessageLog', () => {
             received: 2,
             isLocalMessageType: false,
             submitted: true,
+            fields: [
+              {
+                label: 'Your first name?',
+                name: 'first_name',
+                type: 'text',
+                _id: '5f669695c511asdsd9877'
+              }
+            ]
+          },
+          {
+            _id: 3,
+            type: 'form',
+            received: 3,
+            isLocalMessageType: false,
+            submitted: false,
             fields: [
               {
                 label: 'Your first name?',

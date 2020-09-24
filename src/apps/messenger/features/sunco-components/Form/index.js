@@ -1,76 +1,77 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import FormButton from './FormButton'
-
-import { FormContainer, Form, FormFooter, TextContainer, Steps } from './styles'
-import SubmissionError from './SubmissionError'
 import FormField from 'src/apps/messenger/features/sunco-components/Form/FormField'
+
+import FormButton from './FormButton'
+import SubmissionError from './SubmissionError'
+import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
 
 const SuncoFormMessage = ({
   fields,
   values,
-  handleSubmit,
+  onSubmit,
+  onStep,
   onChange,
   avatar,
   label,
   isFirstInGroup,
   status,
-  formStatus,
-  onStep
+  step,
+  errors,
+  lastSubmittedTimestamp
 }) => {
-  const [activeStep, setActiveStep] = useState(1)
-  const visibleFields = fields.slice(0, activeStep)
-  const numberOfFields = fields.length
-
-  const onSubmit = e => {
-    e.preventDefault()
-
-    if (activeStep !== numberOfFields) {
-      onStep()
-      return setActiveStep(activeStep + 1)
-    } else {
-      return handleSubmit()
-    }
-  }
+  const visibleFields = fields.slice(0, step)
 
   return (
     <>
       <OtherParticipantLayout isFirstInGroup={isFirstInGroup} avatar={avatar} label={label}>
         <FormContainer>
-          <Form onSubmit={onSubmit}>
-            {visibleFields.map(field => {
-              return (
-                <FormField
-                  key={field._id}
-                  value={values[field._id]}
-                  onChange={value => onChange(field._id, value)}
-                  field={field}
-                  error={undefined}
-                  lastSubmittedTimestamp={undefined}
-                />
-              )
-            })}
+          <Form
+            onSubmit={e => {
+              e.preventDefault()
+
+              if (step < fields.length) {
+                onStep()
+              } else {
+                onSubmit()
+              }
+            }}
+            noValidate={true}
+          >
+            <Fields>
+              {visibleFields.map(field => {
+                return (
+                  <Field key={field._id}>
+                    <FormField
+                      field={field}
+                      value={values[field._id]}
+                      error={errors[field._id]}
+                      onChange={value => onChange(field._id, value)}
+                      lastSubmittedTimestamp={lastSubmittedTimestamp}
+                    />
+                  </Field>
+                )
+              })}
+            </Fields>
 
             <FormFooter>
               <TextContainer>
                 <Steps>
-                  {activeStep} of {numberOfFields}
+                  {step} of {fields.length}
                 </Steps>
               </TextContainer>
 
               <FormButton
-                submitting={status === formStatus.pending}
-                label={activeStep === numberOfFields ? 'Submit' : 'Next'}
+                submitting={status === 'pending'}
+                label={step === fields.length ? 'Submit' : 'Next'}
               />
             </FormFooter>
           </Form>
         </FormContainer>
       </OtherParticipantLayout>
-      {status === formStatus.failure && (
-        <SubmissionError message={'Error submitting form. Try again.'} />
-      )}
+      {status === 'failed' && <SubmissionError message={'Error submitting form. Try again.'} />}
     </>
   )
 }
@@ -85,18 +86,17 @@ SuncoFormMessage.propTypes = {
     })
   ),
   values: PropTypes.object,
-  handleSubmit: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onStep: PropTypes.func,
   onChange: PropTypes.func,
   avatar: PropTypes.string,
   label: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOf(['not submitted', 'pending', 'success', 'failed']),
   isFirstInGroup: PropTypes.bool,
-  formStatus: PropTypes.shape({
-    failure: PropTypes.string,
-    success: PropTypes.string,
-    pending: PropTypes.string
-  }),
-  onStep: PropTypes.func
+
+  step: PropTypes.number,
+  errors: PropTypes.objectOf(PropTypes.string),
+  lastSubmittedTimestamp: PropTypes.number
 }
 
 export default SuncoFormMessage

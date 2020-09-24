@@ -16,6 +16,10 @@ const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, valu
   if (Array.isArray(response?.body?.messages)) {
     return { messages: response.body.messages }
   }
+
+  return {
+    messages: []
+  }
 })
 
 export { submitForm }

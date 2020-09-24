@@ -21,8 +21,9 @@ describe('Form', () => {
     values: {},
     onChange: () => {},
     isFirstInGroup: true,
-    status: '',
-    formStatus: { failure: 'failure', pending: 'pending', success: 'success' }
+    status: 'not submitted',
+    errors: {},
+    step: 2
   }
 
   const renderComponent = (props = {}) => render(<Form {...defaultProps} {...props} />)
@@ -33,7 +34,7 @@ describe('Form', () => {
   })
 
   it('does not render the second field when the user is on the first step of the form', () => {
-    const { queryByText } = renderComponent()
+    const { queryByText } = renderComponent({ step: 1 })
     expect(queryByText('I am the second test field')).not.toBeInTheDocument()
   })
 
@@ -44,13 +45,13 @@ describe('Form', () => {
   })
 
   it('renders the button with the text "Next" when not on the final step of the form', () => {
-    const { getByText } = renderComponent()
+    const { getByText } = renderComponent({ step: 1 })
     expect(getByText('Next')).toBeInTheDocument()
   })
 
-  it('focuses on the first field input when the form appears to the user', () => {
-    const { getByLabelText } = renderComponent()
+  it('focuses on the last step visible when the form appears to the user', () => {
+    const { getByLabelText } = renderComponent({ step: 2 })
 
-    expect(getByLabelText('I am a test field')).toHaveFocus()
+    expect(getByLabelText('I am the second test field')).toHaveFocus()
   })
 })

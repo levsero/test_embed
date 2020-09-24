@@ -4,6 +4,7 @@ import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store
 import header from 'src/apps/messenger/features/header/store'
 import theme from 'src/apps/messenger/features/themeProvider/store'
 import messages from 'src/apps/messenger/features/messageLog/store'
+import forms from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/slice'
 
 const createStore = () => {
   const store = configureStore({
@@ -17,7 +18,8 @@ const createStore = () => {
       responsiveDesign,
       theme,
       messages,
-      header
+      header,
+      forms
     })
   })
 
