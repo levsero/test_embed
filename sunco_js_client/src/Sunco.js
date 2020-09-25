@@ -41,11 +41,12 @@ export default class Sunco {
         sessionToken: sessionToken
       }),
       listMessages: cursor => this.messages.list(appUserId, conversationId, cursor),
-      sendMessage: message =>
+      sendMessage: (text, payload) =>
         this.messages.create(appUserId, conversationId, {
           type: 'text',
-          text: message,
-          role: 'appUser'
+          text,
+          role: 'appUser',
+          payload
         }),
       sendFormResponse: (fields, formId) =>
         this.messages.create(appUserId, conversationId, {
@@ -91,8 +92,8 @@ export default class Sunco {
     return this.conversationPromise
   }
 
-  sendMessage(message) {
-    return this.activeConversation.sendMessage(message)
+  sendMessage(text, payload) {
+    return this.activeConversation.sendMessage(text, payload)
   }
 
   sendFormResponse(fields, formId) {
