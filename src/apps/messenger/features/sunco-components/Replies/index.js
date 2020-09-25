@@ -5,8 +5,8 @@ import { Button, Container } from './styles'
 const Replies = ({ replies, submitReply }) => {
   return (
     <Container>
-      {replies.map(({ text, _id }) => (
-        <Button key={_id} onClick={() => submitReply(text)} isPill={true}>
+      {replies.map(({ text, payload, _id }) => (
+        <Button key={_id} onClick={() => submitReply({ text, payload })} isPill={true}>
           {text}
         </Button>
       ))}
