@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Dropdown, Menu, Item, Select, Label, Message } from '@zendeskgarden/react-dropdowns'
+import { Dropdown, Menu, Item, Select, Label } from '@zendeskgarden/react-dropdowns'
 import { rgba, rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
@@ -91,6 +91,5 @@ export {
   StyledSelect as Select,
   StyledItem as Item,
   StyledLabel as Label,
-  StyledMenu as Menu,
-  Message
+  StyledMenu as Menu
 }

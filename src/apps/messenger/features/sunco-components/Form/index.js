@@ -96,6 +96,13 @@ SuncoFormMessage.propTypes = {
 
   step: PropTypes.number,
   errors: PropTypes.objectOf(PropTypes.string),
+
+  // The purpose of this prop is to have some kind of trigger to get error messages
+  // to be read out loud by screen readers when the user attempts to submit a form
+  // but the error strings remain the same.
+  // The role="alert" will only read out the message if its new, or if the text changes
+  // so by passing key={lastSubmittedTimestamp} to error messages, new elements are created
+  // when the key changes.
   lastSubmittedTimestamp: PropTypes.number
 }
 

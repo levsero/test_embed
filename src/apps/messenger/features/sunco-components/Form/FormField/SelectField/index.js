@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Field } from '@zendeskgarden/react-dropdowns'
+import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import { Dropdown, Select, Item, Label, Menu, Message } from './styles'
+import { Dropdown, Select, Item, Label, Menu } from './styles'
+import Message from 'src/apps/messenger/features/sunco-components/Form/FormField/Message'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
   const frame = useCurrentFrame()
@@ -59,7 +60,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           ))}
         </Menu>
         {error && (
-          <Message key={lastSubmittedTimestamp} validation="error">
+          <Message key={lastSubmittedTimestamp} validation="error" as={GardenDropdownMessage}>
             {error}
           </Message>
         )}

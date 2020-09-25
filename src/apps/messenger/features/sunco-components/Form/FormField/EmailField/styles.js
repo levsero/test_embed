@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { rgba } from 'polished'
-import { Label, Input, Field, Message } from '@zendeskgarden/react-forms'
+import { Label, Input, Field } from '@zendeskgarden/react-forms'
 
 const StyledField = styled(Field)`
   display: flex;
@@ -40,4 +40,4 @@ const StyledInput = styled(Input)`
   }
 `
 
-export { StyledInput as Input, StyledLabel as Label, StyledField as Field, Message }
+export { StyledInput as Input, StyledLabel as Label, StyledField as Field }

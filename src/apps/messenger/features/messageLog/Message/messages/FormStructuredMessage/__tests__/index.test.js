@@ -11,6 +11,7 @@ jest.mock('src/apps/messenger/suncoClient')
 
 describe('FormMessage', () => {
   const defaultProps = {
+    scrollToBottomIfNeeded: jest.fn(),
     message: {
       _id: '123',
       isFirstInGroup: false,

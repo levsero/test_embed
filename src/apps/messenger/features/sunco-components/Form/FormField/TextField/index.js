@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { Input, Label, Field, Message } from './styles'
+import { Input, Label, Field } from './styles'
+import Message from 'src/apps/messenger/features/sunco-components/Form/FormField/Message'
 
 const TextField = ({ field, value = '', onChange, error, lastSubmittedTimestamp }) => {
   const inputRef = useRef(null)

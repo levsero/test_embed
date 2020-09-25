@@ -62,7 +62,8 @@ FormStructuredMessage.propTypes = {
     ),
     avatarUrl: PropTypes.string,
     name: PropTypes.string
-  })
+  }),
+  scrollToBottomIfNeeded: PropTypes.func
 }
 
 export default FormStructuredMessage
