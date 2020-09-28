@@ -35,9 +35,9 @@ const TextStructuredMessage = ({
       {replies && (
         <Replies
           replies={replies}
-          submitReply={message => {
+          onReply={reply => {
             const client = getClient()
-            client.sendMessage(message)
+            client.sendMessage(reply.text, reply.payload)
           }}
         />
       )}
