@@ -2,7 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { widgetToggled, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 
-import { Container, MessengerIcon, CloseIcon, Button } from './styles'
+import { Container, Button } from './styles'
+import LauncherIcon from 'src/apps/messenger/features/launcher/components/SquareLauncher/LauncherIcon'
 
 const SquareLauncher = React.forwardRef((_props, ref) => {
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const SquareLauncher = React.forwardRef((_props, ref) => {
         aria-label="Zendesk Messenger Launcher"
         isPill={false}
       >
-        {isWidgetOpen ? <CloseIcon /> : <MessengerIcon />}
+        <LauncherIcon isWidgetOpen={isWidgetOpen} />
       </Button>
     </Container>
   )

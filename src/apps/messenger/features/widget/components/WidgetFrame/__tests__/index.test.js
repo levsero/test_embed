@@ -5,7 +5,6 @@ import WidgetFrame from '../index'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import {
-  frameBoxShadow,
   frameMarginFromPage,
   launcherSize,
   marginBetweenFrames
@@ -21,44 +20,25 @@ describe('WidgetFrame', () => {
   })
 
   describe('styles', () => {
-    it('has a box shadow when not in fullscreen mode', () => {
-      const { store, getByTitle } = renderComponent()
-      store.dispatch(
-        screenDimensionsChanged({
-          isFullScreen: true
-        })
-      )
-
-      expect(getByTitle('Messenger')).toHaveStyle('box-shadow: none;')
-
-      store.dispatch(
-        screenDimensionsChanged({
-          isFullScreen: false
-        })
-      )
-
-      expect(getByTitle('Messenger')).toHaveStyle(`box-shadow: ${frameBoxShadow}`)
-    })
-
     it('is positioned on the right when config specifies it to be on the right', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(messengerConfigReceived({ position: 'right' }))
 
-      expect(getByTitle('Messenger')).toHaveStyle(`right: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`right: ${frameMarginFromPage}px`)
     })
 
     it('is positioned on the left when config specifies it to be on the left', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(messengerConfigReceived({ position: 'left' }))
 
-      expect(getByTitle('Messenger')).toHaveStyle(`left: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`left: ${frameMarginFromPage}px`)
     })
 
     it('is positioned high above the launcher when the launcher is visible', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(true)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('Messenger')).toHaveStyle(
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(
         `bottom: ${launcherSize + frameMarginFromPage + marginBetweenFrames}px`
       )
     })
@@ -67,7 +47,7 @@ describe('WidgetFrame', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(false)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('Messenger')).toHaveStyle(`bottom: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`bottom: ${frameMarginFromPage}px`)
     })
 
     it('takes up part of the screen when on a large screen', () => {
@@ -79,7 +59,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
         height: 500px
         width: 300px
         maxHeight: calc(100vh - 90px - 10px);
@@ -94,7 +74,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
         top: 0px;
         bottom: 0px;
         left: 0px;
@@ -112,7 +92,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger')).toHaveStyle(`
+      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
         max-height: calc(100vh - ${frameMarginFromPage * 2}px);
       `)
     })

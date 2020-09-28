@@ -29,16 +29,20 @@ describe('Messenger app', () => {
     expect(getByTitle('Launcher')).toBeInTheDocument()
   })
 
-  it('does not render the messenger when not messenger is open', () => {
-    const { queryByTitle } = renderComponent()
+  it('does not render the messenger when messenger is not open', async () => {
+    const { getByTitle } = renderComponent()
 
-    expect(queryByTitle('Messenger')).not.toBeInTheDocument()
+    await wait(() => expect(getByTitle('Messenger')).toBeInTheDocument())
+
+    expect(getByTitle('Messenger').style.display).toBe('none')
   })
 
-  it('renders the messenger when messenger is open', () => {
+  it('renders the messenger when messenger is open', async () => {
     const { getByTitle } = renderComponent([widgetOpened])
 
-    expect(getByTitle('Messenger')).toBeInTheDocument()
+    await wait(() => expect(getByTitle('Messenger')).toBeInTheDocument())
+
+    expect(getByTitle('Messenger').style.display).not.toBe('none')
   })
 
   it('focuses the launcher when the messenger frame is closed when pressing the escape key', async () => {
@@ -71,15 +75,11 @@ describe('Messenger app', () => {
 
     userEvent.click(widget.getByLabelText('Close messenger'))
 
-    await wait(() => expect(getByTitle('Launcher')).toBeInTheDocument())
+    await wait(() => expect(getByTitle('Launcher').style.display).not.toBe('none'))
 
     launcher = within(getByTitle('Launcher').contentDocument.body)
 
-    await wait(() =>
-      expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toBeInTheDocument()
-    )
-
-    expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus()
+    await wait(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
   })
 
   it('focuses the composer when the messenger frame is opened', async () => {
