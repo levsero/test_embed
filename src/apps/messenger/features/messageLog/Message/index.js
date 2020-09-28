@@ -22,7 +22,7 @@ const localMessageTypes = {
   dummy: TextStructuredMessage
 }
 
-const Message = ({ message }) => {
+const Message = ({ message, scrollToBottomIfNeeded }) => {
   const messageTypes = message.isLocalMessageType ? localMessageTypes : suncoMessageTypes
   const StructuredMessage = messageTypes[message.type]
 
@@ -30,13 +30,14 @@ const Message = ({ message }) => {
     return null
   }
 
-  return <StructuredMessage message={message} />
+  return <StructuredMessage message={message} scrollToBottomIfNeeded={scrollToBottomIfNeeded} />
 }
 
 Message.propTypes = {
   message: PropTypes.shape({
     type: PropTypes.string
-  })
+  }),
+  scrollToBottomIfNeeded: PropTypes.func
 }
 
 export default Message

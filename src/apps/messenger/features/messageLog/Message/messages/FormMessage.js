@@ -7,7 +7,8 @@ import Form from 'src/apps/messenger/features/sunco-components/Form'
 const formStatus = { failure: 'failure', pending: 'pending', success: 'success' }
 
 const FormMessage = ({
-  message: { _id, isFirstInGroup, isLastInGroup, fields, avatarUrl, name }
+  message: { _id, isFirstInGroup, isLastInGroup, fields, avatarUrl, name },
+  scrollToBottomIfNeeded
 }) => {
   const [values, setValues] = useState({})
   const [status, setStatus] = useState('')
@@ -50,6 +51,7 @@ const FormMessage = ({
       isFirstInGroup={isFirstInGroup}
       status={status}
       formStatus={formStatus}
+      onStep={scrollToBottomIfNeeded}
     />
   )
 }
@@ -70,7 +72,8 @@ FormMessage.propTypes = {
     ),
     avatarUrl: PropTypes.string,
     name: PropTypes.string
-  })
+  }),
+  scrollToBottomIfNeeded: PropTypes.func
 }
 
 export default FormMessage

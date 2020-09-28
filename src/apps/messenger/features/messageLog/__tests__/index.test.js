@@ -19,31 +19,26 @@ describe('MessageLog', () => {
 
   it('renders the messages', () => {
     const { getByRole, store } = renderComponent()
-    store.dispatch(messagesReceived({ messages: [] }))
-
     store.dispatch(
-      messageReceived({
-        message: {
-          _id: 1,
-          type: 'dummy',
-          isLocalMessageType: true,
-          received: 1,
-          text: 'One',
-          role: 'appUser'
-        }
-      })
-    )
-
-    store.dispatch(
-      messageReceived({
-        message: {
-          _id: 2,
-          type: 'dummy',
-          isLocalMessageType: true,
-          received: 2,
-          text: 'Two',
-          role: 'appUser'
-        }
+      messagesReceived({
+        messages: [
+          {
+            _id: 1,
+            type: 'dummy',
+            isLocalMessageType: true,
+            received: 1,
+            text: 'One',
+            role: 'appUser'
+          },
+          {
+            _id: 2,
+            type: 'dummy',
+            isLocalMessageType: true,
+            received: 2,
+            text: 'Two',
+            role: 'appUser'
+          }
+        ]
       })
     )
 

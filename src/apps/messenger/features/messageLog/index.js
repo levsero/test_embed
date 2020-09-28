@@ -13,22 +13,11 @@ const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
-  const { onScrollBottom } = useScrollBehaviour({ container, messages })
+  const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({ container, messages })
   const { onScrollTop, isFetchingHistory } = useFetchMessages({
     container,
     messages
   })
-
-  const messageLog = (
-    <>
-      {messages.map(message => (
-        <Message key={message._id} message={message} />
-      ))}
-    </>
-  )
-
-  const loading = <div>loading</div>
-  const fetchingHistory = <div>isFetchingHistory</div>
 
   return (
     <Container
@@ -40,8 +29,18 @@ const MessageLog = () => {
         onScrollTop(event)
       }}
     >
-      {isFetchingHistory && fetchingHistory}
-      {hasFetchedConversation ? messageLog : loading}
+      {isFetchingHistory && <div>isFetchingHistory</div>}
+
+      {!hasFetchedConversation && <div>loading</div>}
+
+      {hasFetchedConversation &&
+        messages.map(message => (
+          <Message
+            key={message._id}
+            message={message}
+            scrollToBottomIfNeeded={scrollToBottomIfNeeded}
+          />
+        ))}
     </Container>
   )
 }
