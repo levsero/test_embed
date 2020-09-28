@@ -1,6 +1,8 @@
 import { createEntityAdapter, createSlice, createSelector } from '@reduxjs/toolkit'
-import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
-import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/slice'
+import {
+  getFormsState,
+  submitForm
+} from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
 const messagesAdapter = createEntityAdapter({
   selectId: message => message._id,

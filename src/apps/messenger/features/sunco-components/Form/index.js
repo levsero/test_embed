@@ -18,11 +18,11 @@ const SuncoFormMessage = ({
   label,
   isFirstInGroup,
   status,
-  step,
+  activeStep,
   errors,
   lastSubmittedTimestamp
 }) => {
-  const visibleFields = fields.slice(0, step)
+  const visibleFields = fields.slice(0, activeStep)
 
   return (
     <>
@@ -32,7 +32,7 @@ const SuncoFormMessage = ({
             onSubmit={e => {
               e.preventDefault()
 
-              if (step < fields.length) {
+              if (activeStep < fields.length) {
                 onStep()
               } else {
                 onSubmit()
@@ -59,13 +59,13 @@ const SuncoFormMessage = ({
             <FormFooter>
               <TextContainer>
                 <Steps>
-                  {step} of {fields.length}
+                  {activeStep} of {fields.length}
                 </Steps>
               </TextContainer>
 
               <FormButton
                 submitting={status === 'pending'}
-                label={step === fields.length ? 'Submit' : 'Next'}
+                label={activeStep === fields.length ? 'Submit' : 'Next'}
               />
             </FormFooter>
           </Form>
@@ -91,10 +91,10 @@ SuncoFormMessage.propTypes = {
   onChange: PropTypes.func,
   avatar: PropTypes.string,
   label: PropTypes.string,
-  status: PropTypes.oneOf(['not submitted', 'pending', 'success', 'failed']),
+  status: PropTypes.oneOf(['unsubmitted', 'pending', 'success', 'failed']),
   isFirstInGroup: PropTypes.bool,
 
-  step: PropTypes.number,
+  activeStep: PropTypes.number,
   errors: PropTypes.objectOf(PropTypes.string),
 
   // The purpose of this prop is to have some kind of trigger to get error messages

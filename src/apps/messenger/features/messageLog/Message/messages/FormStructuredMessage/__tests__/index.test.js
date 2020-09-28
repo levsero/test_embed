@@ -5,7 +5,7 @@ import FormStructuredMessage from '../'
 import { waitFor } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/dom'
 import { getClient } from 'src/apps/messenger/suncoClient'
-import { getFormInfo } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/slice'
+import { getFormInfo } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
 jest.mock('src/apps/messenger/suncoClient')
 

@@ -1,12 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  formUpdated,
-  getFormInfo,
-  nextClicked
-} from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/slice'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import validate from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/validate'
-import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { formUpdated, getFormInfo, nextClicked, submitForm } from './store'
+import validate from './validate'
 
 const useForm = ({ formId, fields }) => {
   const { values: valuesFromState, status, step } = useSelector(state => getFormInfo(state, formId))

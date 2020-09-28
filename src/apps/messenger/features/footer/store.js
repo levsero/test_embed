@@ -7,7 +7,7 @@ const getIsComposerEnabled = createSelector(
     const lastMessage = messages[messages.length - 1]
 
     if (lastMessage?.type === 'form') {
-      return !lastMessage?.blockChatInput === true && lastMessage.submitted === false
+      return lastMessage?.blockChatInput !== true && lastMessage.submitted === false
     }
 
     return true

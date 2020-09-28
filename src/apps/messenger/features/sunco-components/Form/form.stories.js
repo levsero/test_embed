@@ -8,10 +8,9 @@ import Form from './'
 export default {
   title: 'Sunco/Form',
   component: Form,
-  argTypes: { handleSubmit: { action: 'form submitted' }, onChange: { action: 'user typed' } }
+  argTypes: { onSubmit: { action: 'form submitted' }, onChange: { action: 'user typed' } }
 }
 
-/* eslint-disable no-console */
 const Template = args => (
   <div
     style={{
@@ -82,8 +81,8 @@ TextFieldOnlyForm.args = {
   isFirstInGroup: true,
   avatar: 'https://lucashills.com/emu_avatar.jpg',
   label: 'I am a test user',
-  status: '',
-  step: 1,
+  status: 'unsubmitted',
+  activeStep: 1,
   errors: {}
 }
 /* eslint-enable no-console */

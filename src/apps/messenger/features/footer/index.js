@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { getClient } from 'src/apps/messenger/suncoClient'
-import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/selectors'
+import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/store'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
 
 const Footer = () => {

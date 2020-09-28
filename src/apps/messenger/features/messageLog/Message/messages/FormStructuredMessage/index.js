@@ -39,7 +39,7 @@ const FormStructuredMessage = ({
       label={isFirstInGroup ? name : undefined}
       isFirstInGroup={isFirstInGroup}
       status={status}
-      step={step}
+      activeStep={step}
       errors={errors}
       lastSubmittedTimestamp={lastSubmittedTimestamp}
     />

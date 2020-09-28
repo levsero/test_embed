@@ -1,10 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/actions'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { getClient } from 'src/apps/messenger/suncoClient'
+
+const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, values }) => {
+  const responseFields = fields.map(field => {
+    return {
+      type: field.type,
+      name: field.name,
+      label: field.label,
+      [field.type]: values[field._id]
+    }
+  })
+
+  const response = await getClient().sendFormResponse(responseFields, formId)
+
+  if (Array.isArray(response?.body?.messages)) {
+    return { messages: response.body.messages }
+  }
+
+  return {
+    messages: []
+  }
+})
 
 const getDefaultForm = () => ({
   step: 1,
   values: {},
-  status: 'not submitted'
+  status: 'unsubmitted'
 })
 
 const ensureFormInState = (state, formId) => {
@@ -51,6 +72,6 @@ const { formUpdated, nextClicked } = formSlice.actions
 const getFormsState = state => state.forms
 const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm()
 
-export { getFormsState, formUpdated, getFormInfo, nextClicked }
+export { getFormsState, formUpdated, getFormInfo, nextClicked, submitForm }
 
 export default formSlice.reducer
