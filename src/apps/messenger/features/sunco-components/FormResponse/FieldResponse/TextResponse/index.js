@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Label, Value } from '../styles'
 
-const TextResult = ({ field }) => {
+const TextResponse = ({ field }) => {
   return (
     <>
       <Label>{field.label}</Label>
@@ -11,11 +11,11 @@ const TextResult = ({ field }) => {
   )
 }
 
-TextResult.propTypes = {
+TextResponse.propTypes = {
   field: PropTypes.shape({
     label: PropTypes.string,
     text: PropTypes.string
   })
 }
 
-export default TextResult
+export default TextResponse

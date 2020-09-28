@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import Result from './Result'
+import FieldResponse from './FieldResponse'
 
 import { FormContainer, Field } from './styles'
 
@@ -11,7 +11,7 @@ const SuncoFormResponseMessage = ({ fields, isFirstInGroup, label, avatar }) => 
       <FormContainer>
         {fields.map(field => (
           <Field key={field._id}>
-            <Result field={field} />
+            <FieldResponse field={field} />
           </Field>
         ))}
       </FormContainer>

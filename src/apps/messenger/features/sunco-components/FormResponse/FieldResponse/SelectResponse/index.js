@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Label, Value } from '../styles'
 
-const SelectResult = ({ field }) => {
+const SelectResponse = ({ field }) => {
   return (
     <>
       <Label>{field.label}</Label>
@@ -14,7 +14,7 @@ const SelectResult = ({ field }) => {
   )
 }
 
-SelectResult.propTypes = {
+SelectResponse.propTypes = {
   field: PropTypes.shape({
     label: PropTypes.string,
     select: PropTypes.arrayOf(
@@ -26,4 +26,4 @@ SelectResult.propTypes = {
   })
 }
 
-export default SelectResult
+export default SelectResponse

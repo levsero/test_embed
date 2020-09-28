@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TextResult from './TextResult'
-import EmailResult from './EmailResult'
-import SelectResult from './SelectResult'
+import TextResponse from './TextResponse'
+import EmailResponse from './EmailResponse'
+import SelectResponse from './SelectResponse'
 
 const fields = {
-  text: TextResult,
-  email: EmailResult,
-  select: SelectResult
+  text: TextResponse,
+  email: EmailResponse,
+  select: SelectResponse
 }
 
-const Field = ({ field }) => {
+const FieldResponse = ({ field }) => {
   const FieldComponent = fields[field.type]
 
   if (!FieldComponent) {
@@ -20,10 +20,10 @@ const Field = ({ field }) => {
   return <FieldComponent field={field} />
 }
 
-Field.propTypes = {
+FieldResponse.propTypes = {
   field: PropTypes.shape({
     type: PropTypes.oneOf(Object.keys(fields))
   })
 }
 
-export default Field
+export default FieldResponse
