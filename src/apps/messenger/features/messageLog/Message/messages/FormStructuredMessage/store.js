@@ -1,13 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getClient } from 'src/apps/messenger/suncoClient'
 
+const getValue = (field, value) => {
+  switch (field.type) {
+    case 'text':
+    case 'email':
+      return value.trim()
+    default:
+      return value
+  }
+}
+
 const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, values }) => {
   const responseFields = fields.map(field => {
     return {
       type: field.type,
       name: field.name,
       label: field.label,
-      [field.type]: values[field._id]
+      [field.type]: getValue(field, values[field._id])
     }
   })
 
