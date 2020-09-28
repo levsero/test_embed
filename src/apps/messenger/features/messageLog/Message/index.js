@@ -5,7 +5,7 @@ import DummyStructuredMessage from './messages/DummyStructuredMessage'
 import FormMessage from './messages/FormMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
-import TextMessage from './messages/TextMessage'
+import TextStructuredMessage from './messages/TextStructuredMessage'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
@@ -15,11 +15,11 @@ const suncoMessageTypes = {
   form: FormMessage,
   formResponse: FormResponseMessage,
   image: ImageStructuredMessage,
-  text: TextMessage
+  text: TextStructuredMessage
 }
 
 const localMessageTypes = {
-  dummy: TextMessage
+  dummy: TextStructuredMessage
 }
 
 const Message = ({ message }) => {
