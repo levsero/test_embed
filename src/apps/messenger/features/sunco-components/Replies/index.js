@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Container } from './styles'
 
-const Replies = ({ replies, submitReply }) => {
+const Replies = ({ replies, onReply }) => {
   return (
     <Container>
-      {replies.map(({ text, payload, _id }) => (
-        <Button key={_id} onClick={() => submitReply({ text, payload })} isPill={true}>
-          {text}
+      {replies.map(reply => (
+        <Button key={reply._id} onClick={() => onReply(reply)} isPill={true}>
+          {reply.text}
         </Button>
       ))}
     </Container>
@@ -28,7 +28,7 @@ Replies.propTypes = {
   /**
     Function to call when a reply is clicked
   */
-  submitReply: PropTypes.func
+  onReply: PropTypes.func
 }
 
 export default Replies
