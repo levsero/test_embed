@@ -5,6 +5,7 @@ import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser } from './utils/context'
+import { getClientId, getSessionId } from './utils/device'
 
 const BASE_URL = 'https://api.smooch.io'
 
@@ -106,5 +107,17 @@ export default class Sunco {
 
   subscribe(callback) {
     return this.activeConversation.socketClient.subscribe(callback)
+  }
+
+  wasMessageSentFromThisTab(message) {
+    if (message.source.id !== getClientId(this.integrationId)) {
+      return false
+    }
+
+    if (message.source.sessionId !== getSessionId()) {
+      return false
+    }
+
+    return true
   }
 }

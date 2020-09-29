@@ -30,7 +30,13 @@ const run = ({ config }) => {
   client.startConversation().then(conversation => {
     // subscribe to socket events to listen for live changes
     conversation.socketClient.subscribe(event => {
-      store.dispatch(messageReceived({ message: event.message }))
+      if (event.message) {
+        if (client.wasMessageSentFromThisTab(event.message)) {
+          return
+        }
+
+        store.dispatch(messageReceived({ message: event.message }))
+      }
     })
   })
 

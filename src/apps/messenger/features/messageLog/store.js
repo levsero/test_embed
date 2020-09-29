@@ -1,8 +1,29 @@
-import { createEntityAdapter, createSlice, createSelector } from '@reduxjs/toolkit'
+import {
+  createEntityAdapter,
+  createSlice,
+  createSelector,
+  createAsyncThunk
+} from '@reduxjs/toolkit'
+import { getClient } from 'src/apps/messenger/suncoClient'
 import {
   getFormsState,
   submitForm
 } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
+
+// sendMessage sends a message optimistically via the Sunco JS client
+// If retrying sending a message, provide its id via messageId
+// If messageId not provided, the thunk requestId will be used as the messages optimistic id
+const sendMessage = createAsyncThunk('message/send', async ({ message, messageId: _ }) => {
+  const response = await getClient().sendMessage(message)
+
+  if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
+    return {
+      message: response.body.messages[0]
+    }
+  }
+
+  throw new Error('Message failed to send')
+})
 
 const messagesAdapter = createEntityAdapter({
   selectId: message => message._id,
@@ -29,6 +50,41 @@ const messagesSlice = createSlice({
   extraReducers: {
     [submitForm.fulfilled](state, action) {
       messagesAdapter.addMany(state, action.payload.messages)
+    },
+    [sendMessage.pending](state, action) {
+      const messageId = action.meta.arg.messageId ?? action.meta.requestId
+
+      // If message was already in store, just update its status
+      if (state.entities[messageId]) {
+        messagesAdapter.upsertOne(state, {
+          _id: action.meta.arg.messageId,
+          status: 'sending'
+        })
+        return
+      }
+
+      messagesAdapter.addOne(state, {
+        _id: action.meta.arg.messageId ?? action.meta.requestId,
+        type: 'text',
+        role: 'appUser',
+        received: Date.now() / 1000,
+        text: action.meta.arg.message,
+        isOptimistic: true,
+        status: 'sending'
+      })
+    },
+    [sendMessage.rejected](state, action) {
+      messagesAdapter.upsertOne(state, {
+        _id: action.meta.arg.messageId ?? action.meta.requestId,
+        status: 'failed'
+      })
+    },
+    [sendMessage.fulfilled](state, action) {
+      messagesAdapter.upsertOne(state, {
+        ...action.payload.message,
+        _id: action.meta.arg.messageId ?? action.meta.requestId,
+        status: 'sent'
+      })
     }
   }
 })
@@ -77,6 +133,7 @@ const getHasPrevious = state => state.messages.hasPrevious
 const getHasFetchedConversation = state => state.messages.hasFetchedConversation
 
 export const { messageReceived, messagesReceived } = messagesSlice.actions
-export { getMessageLog, getHasPrevious, getHasFetchedConversation }
+export const getMessage = selectors.selectById
+export { getMessageLog, getHasPrevious, getHasFetchedConversation, sendMessage }
 
 export default messagesSlice.reducer
