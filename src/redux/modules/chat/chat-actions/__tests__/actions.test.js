@@ -10,6 +10,7 @@ import * as formActionTypes from 'src/redux/modules/form/action-types'
 import * as baseActions from 'src/redux/modules/base/base-actions/routing-actions'
 import * as reselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 import * as connectedSelectors from 'src/redux/modules/selectors/selectors'
 import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
@@ -912,18 +913,36 @@ test('chatConnected', () => {
   expect(result).toEqual({ type: actionTypes.CHAT_CONNECTED })
 })
 
-test('chatStarted', () => {
-  jest.spyOn(callbacks, 'fireFor')
-  jest.spyOn(baseActions, 'updateBackButtonVisibility')
-  jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
+describe('chatStarted', () => {
+  describe('when chat is the active embed', () => {
+    jest.spyOn(callbacks, 'fireFor')
+    jest.spyOn(baseActions, 'updateBackButtonVisibility')
+    jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
+    jest.spyOn(baseSelectors, 'getActiveEmbed').mockReturnValue('chat')
 
-  const result = dispatchAction(actions.chatStarted())[0]
+    const result = dispatchAction(actions.chatStarted())[0]
 
-  expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_STARTED_EVENT)
-  expect(result).toEqual({ type: actionTypes.CHAT_STARTED })
-  expect(baseActions.updateBackButtonVisibility).toHaveBeenCalledWith(true)
+    expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_STARTED_EVENT)
+    expect(result).toEqual({ type: actionTypes.CHAT_STARTED })
+    expect(baseActions.updateBackButtonVisibility).toHaveBeenCalledWith(true)
 
-  baseActions.updateBackButtonVisibility.mockRestore()
+    baseActions.updateBackButtonVisibility.mockRestore()
+  })
+
+  describe('when chat is not the active embed', () => {
+    jest.spyOn(callbacks, 'fireFor')
+    jest.spyOn(baseActions, 'updateBackButtonVisibility')
+    jest.spyOn(helpCenterSelectors, 'getHelpCenterAvailable').mockReturnValue(true)
+    jest.spyOn(baseSelectors, 'getActiveEmbed').mockReturnValue('talk')
+
+    const result = dispatchAction(actions.chatStarted())[0]
+
+    expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_STARTED_EVENT)
+    expect(result).toEqual({ type: actionTypes.CHAT_STARTED })
+    expect(baseActions.updateBackButtonVisibility).not.toHaveBeenCalled()
+
+    baseActions.updateBackButtonVisibility.mockRestore()
+  })
 })
 
 test('newAgentMessageReceived', () => {
