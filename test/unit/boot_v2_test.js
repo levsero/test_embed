@@ -178,18 +178,6 @@ describe('framework boot', () => {
         expect(transportSpy.http.updateConfig).not.toHaveBeenCalled()
       })
 
-      it('calls beacon.sendPageView', async () => {
-        expect(beaconSpy.beacon.sendPageView).toHaveBeenCalled()
-      })
-
-      it('calls tracker.enable', () => {
-        expect(trackerSpy.enable).toHaveBeenCalled()
-      })
-
-      it('calls renderer.init with the config', () => {
-        expect(rendererSpy.init).toHaveBeenCalled()
-      })
-
       describe('when chat is not part of config', () => {
         beforeAll(() => {
           config = { embeds: { helpCenter: {} } }

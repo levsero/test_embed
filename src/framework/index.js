@@ -14,7 +14,6 @@ import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
-import webWidget from 'src/apps/webWidget'
 import logger from 'src/util/logger'
 
 const setupIframe = (iframe, doc) => {
@@ -102,7 +101,11 @@ const getConfig = (win, reduxStore) => {
           })
       }
 
-      return webWidget
+      return await import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget')
+        .then(webWidget => webWidget.default)
+        .catch(err => {
+          logger.error(err)
+        })
     }
 
     const renderCallback = async () => {

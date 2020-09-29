@@ -63,6 +63,7 @@ if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
           'preload',
           'talk-sdk',
           'vendors~lazy/talk',
+          'vendors~lazy/web_widget',
           'vendors~lazy/talk/click_to_call~snapcall',
           'vendors~messenger',
           'vendors~web_widget',
