@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTheme } from 'styled-components'
 import PropTypes from 'prop-types'
-import { Label, LoadingDots, Button } from './styles'
+import { Label, LoadingDots, Button, Loader } from './styles'
 
 const FormButton = ({
   submitting,
@@ -13,7 +13,11 @@ const FormButton = ({
   return (
     <Button isPrimary={true} isPill={true} type="submit" aria-label={label}>
       <Label showLabel={!submitting}>{label}</Label>
-      {submitting && <LoadingDots delayMS={125} size={fontSizes.xl} color={colors.actionText} />}
+      {submitting && (
+        <Loader>
+          <LoadingDots delayMS={125} size={fontSizes.xl} color={colors.actionText} />
+        </Loader>
+      )}
     </Button>
   )
 }

@@ -3,17 +3,8 @@ import PropTypes from 'prop-types'
 
 import FormResponse from 'src/apps/messenger/features/sunco-components/FormResponse'
 
-const FormResponseMessage = ({
-  message: { fields, avatarUrl, name, isFirstInGroup, isLastInGroup }
-}) => {
-  return (
-    <FormResponse
-      fields={fields}
-      avatar={isLastInGroup ? avatarUrl : undefined}
-      label={isFirstInGroup ? name : undefined}
-      isFirstInGroup={isFirstInGroup}
-    />
-  )
+const FormResponseMessage = ({ message: { fields, isFirstInGroup } }) => {
+  return <FormResponse fields={fields} isFirstInGroup={isFirstInGroup} />
 }
 
 FormResponseMessage.propTypes = {

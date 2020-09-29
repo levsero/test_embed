@@ -8,10 +8,9 @@ import Form from './'
 export default {
   title: 'Sunco/Form',
   component: Form,
-  argTypes: { handleSubmit: { action: 'form submitted' }, onChange: { action: 'user typed' } }
+  argTypes: { onSubmit: { action: 'form submitted' }, onChange: { action: 'user typed' } }
 }
 
-/* eslint-disable no-console */
 const Template = args => (
   <div
     style={{
@@ -28,7 +27,7 @@ export const TextFieldOnlyForm = Template.bind()
 TextFieldOnlyForm.args = {
   actions: [
     messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
+      color: { primary: 'orange', message: 'red', action: 'green' }
     })
   ],
   fields: [
@@ -43,13 +42,47 @@ TextFieldOnlyForm.args = {
       name: 'last_name',
       label: 'Last Name',
       type: 'text'
+    },
+    {
+      _id: '3',
+      name: 'meal_selection',
+      label: 'Your meal?',
+      type: 'select',
+      selectSize: 1,
+      options: [
+        {
+          _id: '3-1',
+          name: 'pizza',
+          label: 'Pizza'
+        },
+        {
+          _id: '3-2',
+          name: 'tacos',
+          label: 'Tacos'
+        },
+        {
+          _id: '3-3',
+          name: 'ramen',
+          label: 'Ramen'
+        }
+      ]
     }
   ],
-  values: { '1': 'asdf' },
+  values: {
+    '1': 'asdf',
+    '3': [
+      {
+        _id: '3-3',
+        name: 'ramen',
+        label: 'Ramen'
+      }
+    ]
+  },
   isFirstInGroup: true,
   avatar: 'https://lucashills.com/emu_avatar.jpg',
   label: 'I am a test user',
-  status: '',
-  formStatus: { failure: 'failure', pending: 'pending', success: 'success' }
+  status: 'unsubmitted',
+  activeStep: 1,
+  errors: {}
 }
 /* eslint-enable no-console */

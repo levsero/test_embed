@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
+import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 describe('Form', () => {
   const defaultProps = {
@@ -21,8 +22,9 @@ describe('Form', () => {
     values: {},
     onChange: () => {},
     isFirstInGroup: true,
-    status: '',
-    formStatus: { failure: 'failure', pending: 'pending', success: 'success' }
+    status: 'unsubmitted',
+    errors: {},
+    activeStep: 2
   }
 
   const renderComponent = (props = {}) => render(<Form {...defaultProps} {...props} />)
@@ -33,24 +35,24 @@ describe('Form', () => {
   })
 
   it('does not render the second field when the user is on the first step of the form', () => {
-    const { queryByText } = renderComponent()
+    const { queryByText } = renderComponent({ activeStep: 1 })
     expect(queryByText('I am the second test field')).not.toBeInTheDocument()
   })
 
   it('renders the button with the loading spinner when for status is pending', () => {
-    const { getByRole } = renderComponent({ status: 'pending' })
+    const { getByRole } = renderComponent({ status: FORM_MESSAGE_STATUS.pending })
 
     expect(getByRole('progressbar')).toBeInTheDocument()
   })
 
   it('renders the button with the text "Next" when not on the final step of the form', () => {
-    const { getByText } = renderComponent()
+    const { getByText } = renderComponent({ activeStep: 1 })
     expect(getByText('Next')).toBeInTheDocument()
   })
 
-  it('focuses on the first field input when the form appears to the user', () => {
-    const { getByLabelText } = renderComponent()
+  it('focuses on the last step visible when the form appears to the user', () => {
+    const { getByLabelText } = renderComponent({ activeStep: 2 })
 
-    expect(getByLabelText('I am a test field')).toHaveFocus()
+    expect(getByLabelText('I am the second test field')).toHaveFocus()
   })
 })

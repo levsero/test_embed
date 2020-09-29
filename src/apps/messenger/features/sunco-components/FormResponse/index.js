@@ -1,23 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
+import FieldResponse from './FieldResponse'
 
-import { FormContainer, Field, Label } from './styles'
+import { FormContainer, Field } from './styles'
 
 const SuncoFormResponseMessage = ({ fields, isFirstInGroup, label, avatar }) => {
   return (
     <OtherParticipantLayout isFirstInGroup={isFirstInGroup} avatar={avatar} label={label}>
       <FormContainer>
-        {fields.map((field, index) => {
-          const isLastField = index === fields.length - 1
-
-          return (
-            <Field key={field._id} isLastField={isLastField}>
-              <Label>{field.label}</Label>
-              {field.text}
-            </Field>
-          )
-        })}
+        {fields.map(field => (
+          <Field key={field._id}>
+            <FieldResponse field={field} />
+          </Field>
+        ))}
       </FormContainer>
     </OtherParticipantLayout>
   )
