@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
+import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 describe('Form', () => {
   const defaultProps = {
@@ -39,7 +40,7 @@ describe('Form', () => {
   })
 
   it('renders the button with the loading spinner when for status is pending', () => {
-    const { getByRole } = renderComponent({ status: 'pending' })
+    const { getByRole } = renderComponent({ status: FORM_MESSAGE_STATUS.pending })
 
     expect(getByRole('progressbar')).toBeInTheDocument()
   })

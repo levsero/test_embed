@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getClient } from 'src/apps/messenger/suncoClient'
+import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getValue = (field, value) => {
   switch (field.type) {
@@ -32,10 +33,11 @@ const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, valu
   }
 })
 
-const getDefaultForm = () => ({
+const getDefaultForm = formId => ({
+  _id: formId,
   step: 1,
   values: {},
-  status: 'unsubmitted'
+  status: FORM_MESSAGE_STATUS.unsubmitted
 })
 
 const ensureFormInState = (state, formId) => {
@@ -63,24 +65,24 @@ const formSlice = createSlice({
     [submitForm.pending]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = 'pending'
+      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.pending
     },
     [submitForm.fulfilled]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = 'success'
+      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.success
     },
     [submitForm.rejected]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = 'failed'
+      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.failed
     }
   }
 })
 
 const { formUpdated, nextClicked } = formSlice.actions
 const getFormsState = state => state.forms
-const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm()
+const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm(formId)
 
 export { getFormsState, formUpdated, getFormInfo, nextClicked, submitForm }
 

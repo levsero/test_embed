@@ -7,6 +7,7 @@ import FormField from 'src/apps/messenger/features/sunco-components/Form/FormFie
 import FormButton from './FormButton'
 import SubmissionError from './SubmissionError'
 import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
+import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const SuncoFormMessage = ({
   fields,
@@ -31,7 +32,6 @@ const SuncoFormMessage = ({
           <Form
             onSubmit={e => {
               e.preventDefault()
-
               if (activeStep < fields.length) {
                 onStep()
               } else {
@@ -64,14 +64,16 @@ const SuncoFormMessage = ({
               </TextContainer>
 
               <FormButton
-                submitting={status === 'pending'}
+                submitting={status === FORM_MESSAGE_STATUS.pending}
                 label={activeStep === fields.length ? 'Submit' : 'Next'}
               />
             </FormFooter>
           </Form>
         </FormContainer>
       </OtherParticipantLayout>
-      {status === 'failed' && <SubmissionError message={'Error submitting form. Try again.'} />}
+      {status === FORM_MESSAGE_STATUS.failed && (
+        <SubmissionError message={'Error submitting form. Try again.'} />
+      )}
     </>
   )
 }
@@ -91,7 +93,7 @@ SuncoFormMessage.propTypes = {
   onChange: PropTypes.func,
   avatar: PropTypes.string,
   label: PropTypes.string,
-  status: PropTypes.oneOf(['unsubmitted', 'pending', 'success', 'failed']),
+  status: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
   isFirstInGroup: PropTypes.bool,
 
   activeStep: PropTypes.number,
