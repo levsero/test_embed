@@ -24,8 +24,9 @@ const run = ({ config }) => {
   store.dispatch(watchForScreenChanges())
 
   // setup Sunco client
-  const { integrationId, appId, baseUrl } = config.messenger
-  const client = createClient({ integrationId, appId, baseUrl })
+  const { integrationId, appId, baseUrl, conversationHistory } = config.messenger
+  const storageType = conversationHistory === 'remember' ? 'localStorage' : 'sessionStorage'
+  const client = createClient({ integrationId, appId, baseUrl, storageType })
   client.startConversation().then(conversation => {
     // subscribe to socket events to listen for live changes
     conversation.socketClient.subscribe(event => {
