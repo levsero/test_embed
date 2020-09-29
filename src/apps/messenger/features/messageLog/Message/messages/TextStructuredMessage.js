@@ -6,6 +6,9 @@ import TextMessage from 'src/apps/messenger/features/sunco-components/TextMessag
 import Replies from 'src/apps/messenger/features/sunco-components/Replies'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { getClient } from 'src/apps/messenger/suncoClient'
+import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
+import { useDispatch } from 'react-redux'
+import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const extractReplies = (actions, isLastInLog) => {
   if (!isLastInLog || !actions) return null
@@ -13,11 +16,26 @@ const extractReplies = (actions, isLastInLog) => {
 }
 
 const TextStructuredMessage = ({
-  message: { role, text, isFirstInGroup, isLastInGroup, isLastInLog, actions, avatarUrl, name }
+  message: {
+    _id,
+    role,
+    text,
+    isFirstInGroup,
+    isLastInGroup,
+    isLastInLog,
+    actions,
+    avatarUrl,
+    name,
+    received,
+    status,
+    isLastMessageThatHasntFailed
+  }
 }) => {
+  const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const replies = extractReplies(actions, isLastInLog)
+  const messageStatus = status ?? MESSAGE_STATUS.sent
 
   return (
     <>
@@ -25,11 +43,23 @@ const TextStructuredMessage = ({
         isFirstInGroup={isFirstInGroup}
         avatar={isLastInGroup ? avatarUrl : undefined}
         label={isFirstInGroup ? name : undefined}
+        onRetry={() => {
+          dispatch(
+            sendMessage({
+              messageId: _id,
+              message: text
+            })
+          )
+        }}
+        timeReceived={received}
+        isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
+        status={messageStatus}
       >
         <TextMessage
           isPrimaryParticipant={isPrimaryParticipant}
           text={text}
           shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+          status={messageStatus}
         />
       </Layout>
       {replies && (
@@ -52,6 +82,7 @@ TextStructuredMessage.propTypes = {
     isFirstInGroup: PropTypes.bool,
     isLastInGroup: PropTypes.bool,
     isLastInLog: PropTypes.bool,
+    isLastMessageThatHasntFailed: PropTypes.bool,
     actions: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string,

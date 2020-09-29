@@ -5,6 +5,12 @@ const MESSAGE_BUBBLE_SHAPES = Object.freeze({
   last: 'last'
 })
 
+const MESSAGE_STATUS = Object.freeze({
+  sending: 'sending',
+  sent: 'sent',
+  failed: 'failed'
+})
+
 const FORM_MESSAGE_STATUS = Object.freeze({
   unsubmitted: 'unsubmitted',
   pending: 'pending',
@@ -12,4 +18,4 @@ const FORM_MESSAGE_STATUS = Object.freeze({
   failed: 'failed'
 })
 
-export { MESSAGE_BUBBLE_SHAPES, FORM_MESSAGE_STATUS }
+export { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, FORM_MESSAGE_STATUS }

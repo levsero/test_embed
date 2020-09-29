@@ -7,7 +7,17 @@ import ImageMessage from 'src/apps/messenger/features/sunco-components/ImageMess
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({
-  message: { role, text, mediaUrl, isFirstInGroup, isLastInGroup, avatarUrl, name },
+  message: {
+    role,
+    text,
+    mediaUrl,
+    isFirstInGroup,
+    isLastInGroup,
+    avatarUrl,
+    name,
+    received,
+    isLastMessageThatHasntFailed
+  },
   scrollToBottomIfNeeded
 }) => {
   const isPrimaryParticipant = role === 'appUser'
@@ -17,6 +27,8 @@ const ImageStructuredMessage = ({
       isFirstInGroup={isFirstInGroup}
       avatar={isLastInGroup ? avatarUrl : undefined}
       label={isFirstInGroup ? name : undefined}
+      isReceiptVisible={isLastMessageThatHasntFailed}
+      timeReceived={received}
     >
       <ImageMessage
         isPrimaryParticipant={isPrimaryParticipant}
@@ -35,7 +47,8 @@ ImageStructuredMessage.propTypes = {
     text: PropTypes.string,
     mediaUrl: PropTypes.string,
     isFirstInGroup: PropTypes.bool,
-    isLastInGroup: PropTypes.bool,
+    isLastMessageThatHasntFailed: PropTypes.bool,
+    isLastInLog: PropTypes.bool,
     avatarUrl: PropTypes.string,
     name: PropTypes.string
   }),
