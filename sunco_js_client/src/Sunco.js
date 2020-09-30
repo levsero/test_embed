@@ -3,6 +3,7 @@ import SDKConfigApi from './api/SDKConfigApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
+import ActivityAPI from './api/ActivityApi'
 import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser } from './utils/context'
 import { getClientId, getSessionId } from './utils/device'
@@ -32,6 +33,8 @@ export default class Sunco {
 
   set activeConversation({ conversationId, socketSettings }) {
     const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
+    this.activity = new ActivityAPI(this, appUserId, conversationId)
+
     this._activeConversation = {
       appUserId,
       conversationId,

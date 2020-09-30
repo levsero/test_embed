@@ -3,8 +3,10 @@ import userEvent from '@testing-library/user-event'
 import * as suncoClient from 'src/apps/messenger/suncoClient'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Footer from '../'
+import { startTyping, stopTyping } from '../typing'
 
 jest.mock('src/apps/messenger/suncoClient')
+jest.mock('../typing')
 
 describe('Footer', () => {
   const defaultProps = { isComposerEnabled: true }
@@ -42,5 +44,34 @@ describe('Footer', () => {
 
     expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user', undefined)
     expect(queryByText('message from user')).not.toBeInTheDocument()
+  })
+
+  it('calls startTyping on every key change', () => {
+    const { getByLabelText } = renderComponent()
+    const input = getByLabelText('Type a message')
+
+    userEvent.type(input, 'message from user')
+
+    expect(startTyping).toHaveBeenCalled()
+
+    startTyping.mockReset()
+
+    userEvent.type(input, '{backspace}')
+
+    expect(startTyping).toHaveBeenCalled()
+  })
+
+  it('calls stopTyping when the user sends a message', () => {
+    const { getByLabelText } = renderComponent()
+    const input = getByLabelText('Type a message')
+
+    userEvent.type(input, 'message from user')
+
+    expect(startTyping).toHaveBeenCalled()
+    expect(stopTyping).not.toHaveBeenCalled()
+
+    userEvent.type(input, '{enter}')
+
+    expect(stopTyping).toHaveBeenCalled()
   })
 })
