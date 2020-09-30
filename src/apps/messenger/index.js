@@ -28,6 +28,11 @@ const run = ({ config }) => {
   const storageType = conversationHistory === 'remember' ? 'localStorage' : 'sessionStorage'
   const client = createClient({ integrationId, appId, baseUrl, storageType })
   client.startConversation().then(conversation => {
+    if (__DEV__) {
+      /* eslint no-console:0 */
+      console.log(`appId: ${appId}  conversationId: ${conversation.conversationId}`)
+    }
+
     // subscribe to socket events to listen for live changes
     conversation.socketClient.subscribe(event => {
       store.dispatch(messageReceived({ message: event.message }))
