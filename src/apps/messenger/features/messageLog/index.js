@@ -13,7 +13,10 @@ const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
-  const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({ container, messages })
+  const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({
+    container,
+    messages
+  })
   const { onScrollTop, isFetchingHistory } = useFetchMessages({
     container,
     messages
