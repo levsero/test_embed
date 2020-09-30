@@ -7,6 +7,7 @@ import FormResponseMessage from './messages/FormResponseMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
 import FileStructuredMessage from './messages/FileStructuredMessage'
+import TypingIndicator from './messages/TypingIndicator'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
@@ -21,7 +22,8 @@ const suncoMessageTypes = {
 }
 
 const localMessageTypes = {
-  dummy: TextStructuredMessage
+  dummy: TextStructuredMessage,
+  typingIndicator: TypingIndicator
 }
 
 const Message = ({ message, scrollToBottomIfNeeded }) => {

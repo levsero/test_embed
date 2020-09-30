@@ -1,4 +1,5 @@
-import reducer, { getMessageLog, messageReceived, sendMessage } from '../store'
+import reducer, { messageReceived, sendMessage } from '../store'
+import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import * as suncoClient from 'src/apps/messenger/suncoClient'

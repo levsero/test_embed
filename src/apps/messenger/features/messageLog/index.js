@@ -1,9 +1,7 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  getMessageLog,
-  getHasFetchedConversation
-} from 'src/apps/messenger/features/messageLog/store'
+import { getHasFetchedConversation } from 'src/apps/messenger/features/messageLog/store'
+import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import Message from 'src/apps/messenger/features/messageLog/Message'
 import { Container, CenterSpinnerContainer, TopSpinnerContainer } from './styles'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'

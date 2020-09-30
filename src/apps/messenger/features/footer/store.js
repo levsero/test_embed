@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { getMessageLog } from 'src/apps/messenger/features/messageLog/store'
+import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 
 const getIsComposerEnabled = createSelector(
   getMessageLog,
