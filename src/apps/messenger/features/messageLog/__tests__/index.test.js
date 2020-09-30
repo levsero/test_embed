@@ -13,9 +13,9 @@ describe('MessageLog', () => {
   const renderComponent = () => render(<MessageLog />)
 
   it('renders the loading when hasFetchedConversation is false', () => {
-    const { getByRole, getByText } = renderComponent()
+    const { getByRole } = renderComponent()
 
-    expect(getByText('loading')).toBeInTheDocument()
+    expect(getByRole('progressbar')).toBeInTheDocument()
     expect(getByRole('log').children).toHaveLength(1)
   })
 
