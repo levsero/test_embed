@@ -8,6 +8,25 @@ const baseProperties = {
   version: __EMBEDDABLE_VERSION__
 }
 let api = {}
+let isMessengerWidgetUsed = false
+let errorDisplayed = false
+const displayError = (isMessengerWidgetUsed, errorMessage) => {
+  const messengerConsoleMessage = `\n
+  A note from Zendesk: API methods associated with the Web Widget (Classic) 
+  are still being executed on this page. This website is now using the new 
+  Web SDK (messaging experience) which no longer supports these APIs. If you 
+  don't intend to use the Web Widget (Classic), we recommend that you remove 
+  this code from your website.  Whilst not recommended, leaving them won't 
+  cause any issues. \n`
+
+  if (isMessengerWidgetUsed) {
+    if (errorDisplayed) return ''
+    errorDisplayed = true
+    return errorMessage + messengerConsoleMessage
+  } else {
+    return errorMessage
+  }
+}
 
 function zE(...params) {
   const [root, name, ...args] = params
@@ -30,7 +49,9 @@ function zE(...params) {
   }
 
   if (typeof api[root]?.[name] !== 'function') {
-    throw new Error(`Method ${root}.${name} does not exist`)
+    if (isMessengerWidgetUsed && errorDisplayed) return
+    const err = displayError(isMessengerWidgetUsed, `Method ${root}.${name} does not exist`)
+    throw new Error(err)
   }
 
   try {
@@ -64,7 +85,9 @@ const registerLegacyApi = newApis => {
   })
 }
 
-const run = () => {
+const run = ({ isMessengerWidget }) => {
+  isMessengerWidgetUsed = isMessengerWidget
+
   Object.keys(baseProperties).forEach(key => {
     zE[key] = baseProperties[key]
   })

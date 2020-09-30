@@ -17,9 +17,11 @@ const mockStore = {
   getState: jest.fn()
 }
 
+const isMessengerWidget = false
+
 publicApi.registerApi(getWebWidgetPublicApi(mockStore))
 publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(mockStore, {}))
-publicApi.run()
+publicApi.run(isMessengerWidget)
 
 describe('pre render methods', () => {
   describe('when that call is show', () => {
