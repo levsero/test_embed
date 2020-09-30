@@ -9,7 +9,7 @@ import { LayoutContainer, VerticalContainer } from './styles'
 const OtherParticipantLayout = ({
   children,
   isFirstInGroup,
-  isLastInLog,
+  isReceiptVisible,
   timeReceived,
   label,
   avatar
@@ -21,7 +21,7 @@ const OtherParticipantLayout = ({
         <Avatar src={avatar} />
         {children}
       </LayoutContainer>
-      {isLastInLog && <Receipt timeReceived={timeReceived} />}
+      {isReceiptVisible && <Receipt timeReceived={timeReceived} />}
     </VerticalContainer>
   )
 }
@@ -31,7 +31,7 @@ OtherParticipantLayout.propTypes = {
   isFirstInGroup: PropTypes.bool,
   label: PropTypes.string,
   avatar: PropTypes.string,
-  isLastInLog: PropTypes.bool,
+  isReceiptVisible: PropTypes.bool,
   timeReceived: PropTypes.number
 }
 

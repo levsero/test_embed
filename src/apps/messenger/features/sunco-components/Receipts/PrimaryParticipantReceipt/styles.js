@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import { Anchor } from '@zendeskgarden/react-buttons'
+import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
 
 const Layout = styled.div`
   display: flex;
@@ -20,6 +22,31 @@ const Tail = styled.div`
   border-top: ${props => props.theme.messenger.space.sm} solid
     ${props => props.theme.messenger.colors.message};
   border-left: ${props => props.theme.messenger.space.sm} solid transparent;
+
+  ${props =>
+    props.status === 'sending' &&
+    `
+    opacity: 0.5;
+  `}
 `
 
-export { Layout, Tail, Time }
+const FailedMessage = styled(Anchor)`
+  &&& {
+    border: 0;
+    color: ${props => props.theme.palette.red[400]};
+    font-size: ${props => props.theme.messenger.fontSizes.sm};
+    background-color: transparent;
+
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+`
+
+const AlertIcon = styled(AlertSVG)`
+  height: ${props => props.theme.messenger.iconSizes.sm};
+  width: ${props => props.theme.messenger.iconSizes.sm};
+  max-height: none;
+`
+
+export { Layout, Tail, Time, FailedMessage, AlertIcon }

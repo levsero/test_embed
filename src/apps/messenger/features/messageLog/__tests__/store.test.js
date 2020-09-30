@@ -1,6 +1,11 @@
-import reducer, { getMessageLog, messageReceived } from '../store'
+import reducer, { getMessageLog, messageReceived, sendMessage } from '../store'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
+import * as suncoClient from 'src/apps/messenger/suncoClient'
+import { messagesReceived } from 'src/apps/messenger/features/messageLog/store'
+import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
+
+jest.mock('src/apps/messenger/suncoClient')
 
 describe('messages store', () => {
   describe('reducer', () => {
@@ -405,6 +410,181 @@ describe('messages store', () => {
           expect(message3.isLastInGroup).toBe(true)
         })
       })
+
+      describe('isLastMessageThatHasntFailed', () => {
+        it('is true for the message when it is the last message in the log that has not failed', () => {
+          const store = createStore()
+
+          store.dispatch(
+            messagesReceived({
+              messages: [
+                {
+                  _id: 1,
+                  type: 'text',
+                  text: 'One',
+                  role: 'business',
+                  received: 1
+                },
+                {
+                  _id: 2,
+                  type: 'text',
+                  text: 'Two',
+                  role: 'appUser',
+                  received: 2,
+                  status: MESSAGE_STATUS.sending
+                },
+                {
+                  _id: 3,
+                  type: 'text',
+                  text: 'Three',
+                  role: 'appUser',
+                  received: 3,
+                  status: MESSAGE_STATUS.failed
+                }
+              ]
+            })
+          )
+
+          const [message1, message2, message3] = getMessageLog(store.getState())
+
+          expect(message1._id).toBe(1)
+          expect(message1.isLastMessageThatHasntFailed).toBe(false)
+
+          expect(message2._id).toBe(2)
+          expect(message2.isLastMessageThatHasntFailed).toBe(true)
+
+          expect(message3._id).toBe(3)
+          expect(message3.isLastMessageThatHasntFailed).toBe(false)
+        })
+      })
+    })
+  })
+
+  describe('sendMessage', () => {
+    it('adds an optimistic message into the message log when sent', () => {
+      const mockClient = {
+        sendMessage: async () => {}
+      }
+      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+      const store = createStore()
+
+      store.dispatch(sendMessage({ message: 'Some message' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'text',
+            status: 'sending',
+            text: 'Some message'
+          })
+        ])
+      )
+    })
+
+    it('updates the status of the message to failed when failed to send', async () => {
+      const mockClient = {
+        sendMessage: async () => {
+          throw new Error('stuff')
+        }
+      }
+      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+      const store = createStore()
+
+      const action = store.dispatch(sendMessage({ message: 'Some message' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'text',
+            status: 'sending',
+            text: 'Some message'
+          })
+        ])
+      )
+
+      await action
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'text',
+            status: 'failed',
+            text: 'Some message'
+          })
+        ])
+      )
+    })
+
+    it('updates the status of the message to sent when sent successfully', async () => {
+      const mockClient = {
+        sendMessage: async () => {
+          return {
+            body: {
+              messages: [{ someServerValue: 'something' }]
+            }
+          }
+        }
+      }
+      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+      const store = createStore()
+
+      const action = store.dispatch(sendMessage({ message: 'Some message' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'text',
+            status: 'sending',
+            text: 'Some message'
+          })
+        ])
+      )
+
+      await action
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: 'text',
+            status: 'sent',
+            text: 'Some message',
+            someServerValue: 'something'
+          })
+        ])
+      )
+    })
+
+    it('updates the status of the message to "sending" when retrying', async () => {
+      const mockClient = {
+        sendMessage: async () => {}
+      }
+      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+      const store = createStore()
+
+      store.dispatch(
+        messageReceived({
+          message: {
+            _id: 'some-message',
+            type: 'text',
+            text: 'Some message',
+            isOptimistic: true,
+            status: 'failed'
+          }
+        })
+      )
+
+      store.dispatch(sendMessage({ message: 'Some message', messageId: 'some-message' }))
+
+      expect(getMessageLog(store.getState())).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            _id: 'some-message',
+            type: 'text',
+            status: 'sending',
+            text: 'Some message'
+          })
+        ])
+      )
     })
   })
 })

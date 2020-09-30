@@ -1,6 +1,7 @@
 import React from 'react'
 import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
 import MessageBubble from './'
+
 export default {
   title: 'Sunco/Message Bubble',
   component: MessageBubble,

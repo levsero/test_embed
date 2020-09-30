@@ -1,5 +1,8 @@
 import styled from 'styled-components'
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import {
+  MESSAGE_BUBBLE_SHAPES,
+  MESSAGE_STATUS
+} from 'src/apps/messenger/features/sunco-components/constants'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
@@ -12,6 +15,7 @@ const Bubble = styled.div`
 const PrimaryParticipantBubble = styled(Bubble)`
   background-color: ${props => props.theme.messenger.colors.message};
   color: ${props => props.theme.messenger.colors.messageText};
+  border: 0;
 
   ${props => {
     const radius = getRadius(props)
@@ -26,6 +30,20 @@ const PrimaryParticipantBubble = styled(Bubble)`
         return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
   }}
+
+  ${props =>
+    props.status === MESSAGE_STATUS.sending &&
+    `
+      opacity: 0.5;
+  `}
+
+  ${props =>
+    props.status === MESSAGE_STATUS.failed &&
+    `
+      opacity: 0.5;
+      background-color: ${props.theme.palette.red[400]};
+      color: ${props.theme.palette.white};
+  `}
 `
 
 const OtherParticipantBubble = styled(Bubble)`

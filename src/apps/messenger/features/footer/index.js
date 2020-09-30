@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { useDispatch, useSelector } from 'react-redux'
 import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/store'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
+import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 
 const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
+  const dispatch = useDispatch()
   const [message, setMessage] = useState('')
 
-  const sendMessage = () => {
-    const client = getClient()
-    client.sendMessage(message)
+  const onSubmit = () => {
+    dispatch(sendMessage({ message }))
     setMessage('')
   }
 
@@ -27,7 +26,7 @@ const Footer = () => {
       maxRows={5}
       minRows={1}
       message={message}
-      onSubmit={sendMessage}
+      onSubmit={onSubmit}
       onChange={onChange}
     />
   )

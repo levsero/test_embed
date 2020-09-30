@@ -24,7 +24,7 @@ describe('Footer', () => {
     expect(queryByText('message from user')).toBeInTheDocument()
     userEvent.type(input, '{enter}')
 
-    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user')
+    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user', undefined)
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 
@@ -40,7 +40,7 @@ describe('Footer', () => {
 
     userEvent.click(getByLabelText('Send message'))
 
-    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user')
+    expect(mockClient.sendMessage).toHaveBeenCalledWith('message from user', undefined)
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 })
