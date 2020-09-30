@@ -9,7 +9,11 @@ describe('Header', () => {
   const renderComponent = () => {
     const store = createStore()
     store.dispatch(
-      messengerConfigReceived({ title: 'Zendesk', description: 'Elevate the conversation' })
+      messengerConfigReceived({
+        title: 'Zendesk',
+        description: 'Elevate the conversation',
+        avatar: 'dummyUrl'
+      })
     )
 
     return render(
