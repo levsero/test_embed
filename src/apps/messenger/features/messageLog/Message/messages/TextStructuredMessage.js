@@ -5,7 +5,6 @@ import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components
 import TextMessage from 'src/apps/messenger/features/sunco-components/TextMessage'
 import Replies from 'src/apps/messenger/features/sunco-components/Replies'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
-import { getClient } from 'src/apps/messenger/suncoClient'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { useDispatch } from 'react-redux'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
@@ -28,7 +27,8 @@ const TextStructuredMessage = ({
     name,
     received,
     status,
-    isLastMessageThatHasntFailed
+    isLastMessageThatHasntFailed,
+    payload
   }
 }) => {
   const dispatch = useDispatch()
@@ -47,7 +47,8 @@ const TextStructuredMessage = ({
           dispatch(
             sendMessage({
               messageId: _id,
-              message: text
+              message: text,
+              payload
             })
           )
         }}
@@ -66,8 +67,12 @@ const TextStructuredMessage = ({
         <Replies
           replies={replies}
           onReply={reply => {
-            const client = getClient()
-            client.sendMessage(reply.text, reply.payload)
+            dispatch(
+              sendMessage({
+                message: reply.text,
+                payload: reply.payload
+              })
+            )
           }}
         />
       )}

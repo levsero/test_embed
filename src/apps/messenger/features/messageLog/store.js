@@ -14,8 +14,8 @@ import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/con
 // sendMessage sends a message optimistically via the Sunco JS client
 // If retrying sending a message, provide its id via messageId
 // If messageId not provided, the thunk requestId will be used as the messages optimistic id
-const sendMessage = createAsyncThunk('message/send', async ({ message, messageId: _ }) => {
-  const response = await getClient().sendMessage(message)
+const sendMessage = createAsyncThunk('message/send', async ({ message, messageId: _, payload }) => {
+  const response = await getClient().sendMessage(message, payload)
 
   if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
     return {
@@ -59,6 +59,7 @@ const messagesSlice = createSlice({
       if (state.entities[messageId]) {
         messagesAdapter.upsertOne(state, {
           _id: action.meta.arg.messageId,
+          payload: action.meta.arg.payload,
           status: 'sending'
         })
         return
@@ -66,6 +67,7 @@ const messagesSlice = createSlice({
 
       messagesAdapter.addOne(state, {
         _id: action.meta.arg.messageId ?? action.meta.requestId,
+        payload: action.meta.arg.payload,
         type: 'text',
         role: 'appUser',
         received: Date.now() / 1000,
