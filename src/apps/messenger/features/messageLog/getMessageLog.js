@@ -2,6 +2,7 @@ import { getUserTyping } from 'src/apps/messenger/features/messageLog/Message/me
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import { getAllMessages } from 'src/apps/messenger/features/messageLog/store'
+import insertTimestampsInLog from './utils/insertTimestampsInLog'
 
 import { createSelector } from '@reduxjs/toolkit'
 
@@ -67,7 +68,9 @@ const getMessageLog = createSelector(
   (messages, formsState, userTyping) => {
     const withoutSubmittedForms = removeSubmittedForms(messages, formsState)
 
-    const logWithUserTyping = withUserTyping(withoutSubmittedForms, userTyping)
+    const logWithTimestamps = insertTimestampsInLog(withoutSubmittedForms)
+
+    const logWithUserTyping = withUserTyping(logWithTimestamps, userTyping)
 
     return addMessagePositionsToGroups(logWithUserTyping)
   }
