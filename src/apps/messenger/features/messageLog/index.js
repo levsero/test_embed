@@ -5,9 +5,10 @@ import {
   getHasFetchedConversation
 } from 'src/apps/messenger/features/messageLog/store'
 import Message from 'src/apps/messenger/features/messageLog/Message'
-import { Container } from './styles'
+import { Container, CenterSpinnerContainer, TopSpinnerContainer } from './styles'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
+import { Spinner } from '@zendeskgarden/react-loaders'
 
 const MessageLog = () => {
   const container = useRef(null)
@@ -32,10 +33,17 @@ const MessageLog = () => {
         onScrollTop(event)
       }}
     >
-      {isFetchingHistory && <div>isFetchingHistory</div>}
+      {isFetchingHistory && (
+        <TopSpinnerContainer>
+          <Spinner />
+        </TopSpinnerContainer>
+      )}
 
-      {!hasFetchedConversation && <div>loading</div>}
-
+      {!hasFetchedConversation && (
+        <CenterSpinnerContainer>
+          <Spinner />
+        </CenterSpinnerContainer>
+      )}
       {hasFetchedConversation &&
         messages.map(message => (
           <Message
