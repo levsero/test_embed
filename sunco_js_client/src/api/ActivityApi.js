@@ -38,6 +38,10 @@ class MessagesApi extends BaseApi {
   stopTyping() {
     return this.sendActivity({ type: 'typing:stop' })
   }
+
+  conversationRead() {
+    return this.sendActivity({ type: 'conversation:read' })
+  }
 }
 
 export default MessagesApi
