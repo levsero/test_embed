@@ -6,11 +6,13 @@ import FormStructuredMessage from './messages/FormStructuredMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
+import FileStructuredMessage from './messages/FileStructuredMessage'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
 const suncoMessageTypes = {
   carousel: CarouselStructuredMessage,
+  file: FileStructuredMessage,
   form: FormStructuredMessage,
   formResponse: FormResponseMessage,
   dummy: DummyStructuredMessage,
