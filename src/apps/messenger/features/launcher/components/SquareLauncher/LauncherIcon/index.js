@@ -5,12 +5,20 @@ import {
   CloseIcon,
   MessengerIcon
 } from 'src/apps/messenger/features/launcher/components/SquareLauncher/styles'
+import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import { useSelector } from 'react-redux'
 
 const LauncherIcon = ({ isWidgetOpen }) => {
+  const position = useSelector(getPosition)
+
   return (
     <>
       <AnimatedIcon isVisible={!isWidgetOpen} hiddenPosition="-100%">
-        <MessengerIcon />
+        <MessengerIcon
+          style={{
+            transform: position === 'left' ? 'scaleX(-1)' : undefined
+          }}
+        />
       </AnimatedIcon>
       <AnimatedIcon isVisible={isWidgetOpen} hiddenPosition="100%">
         <CloseIcon />
