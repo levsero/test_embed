@@ -157,6 +157,56 @@ describe('messages store', () => {
       expect(message3._id).toBe(3)
     })
 
+    describe('timestamps', () => {
+      it('inserts a timestamp when there is a fifteen minute gap between messages and at the start of the log', () => {
+        const store = createStore()
+
+        const message1TimeStamp = new Date('11:00 PM September 28, 2020')
+        const message2TimeStamp = new Date('11:05 PM September 28, 2020')
+        const message3TimeStamp = new Date('11:20:01 PM September 28, 2020')
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              role: 'appUser',
+              received: message1TimeStamp.getTime() / 1000
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: message2TimeStamp.getTime() / 1000
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'business',
+              received: message3TimeStamp.getTime() / 1000
+            }
+          })
+        )
+
+        const log = getMessageLog(store.getState())
+
+        expect(log[0].type).toEqual('timestamp')
+        expect(log[3].type).toEqual('timestamp')
+      })
+    })
+
     describe('position properties on each message', () => {
       it('has isLastInLog equal to true if the message is the last message in the array', () => {
         const store = createStore()
