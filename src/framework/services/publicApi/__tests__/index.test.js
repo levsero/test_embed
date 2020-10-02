@@ -97,7 +97,7 @@ describe('public api service', () => {
     it('logs an error only once if an unknown API was in the queue of the new Messenger widget', () => {
       /* eslint-disable no-console */
 
-      console.error = jest.fn()
+      console.warn = jest.fn()
 
       isMessengerWidget = true
       setupWithQueueAndMockApi()
@@ -106,7 +106,7 @@ describe('public api service', () => {
 
       publicApi.run({ isMessengerWidget })
 
-      expect(console.error).toHaveBeenCalledTimes(1)
+      expect(console.warn).toHaveBeenCalledTimes(1)
       /* eslint-enable no-console */
     })
   })
