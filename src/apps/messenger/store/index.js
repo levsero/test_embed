@@ -6,6 +6,7 @@ import theme from 'src/apps/messenger/features/themeProvider/store'
 import messages from 'src/apps/messenger/features/messageLog/store'
 import forms from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import unreadIndicator from 'src/apps/messenger/store/unreadIndicator'
+import typingIndicators from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 
 const createStore = () => {
   const store = configureStore({
@@ -21,6 +22,7 @@ const createStore = () => {
       messages,
       header,
       forms,
+      typingIndicators,
       unreadIndicator
     })
   })

@@ -11,6 +11,7 @@ import publicApi from 'src/framework/services/publicApi'
 import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
+import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 
 const run = ({ config }) => {
   const element = hostPageWindow.document.body.appendChild(
@@ -35,12 +36,16 @@ const run = ({ config }) => {
 
     // subscribe to socket events to listen for live changes
     conversation.socketClient.subscribe(event => {
-      if (event.message) {
-        if (client.wasMessageSentFromThisTab(event.message)) {
-          return
-        }
-
-        store.dispatch(messageReceived({ message: event.message }))
+      switch (event.type) {
+        case 'message':
+          if (client.wasMessageSentFromThisTab(event.message)) {
+            return
+          }
+          store.dispatch(messageReceived({ message: event.message }))
+          break
+        case 'activity':
+          store.dispatch(activityReceived({ activity: event.activity }))
+          break
       }
     })
   })

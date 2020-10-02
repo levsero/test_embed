@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
-import { getMessageLog } from 'src/apps/messenger/features/messageLog/store'
+import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import { getClient } from 'src/apps/messenger/suncoClient'
 
 const markAsRead = createAsyncThunk('markAsRead', async () => {

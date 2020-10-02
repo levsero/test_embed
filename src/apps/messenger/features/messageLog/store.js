@@ -1,15 +1,6 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  createSelector,
-  createAsyncThunk
-} from '@reduxjs/toolkit'
+import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getClient } from 'src/apps/messenger/suncoClient'
-import {
-  getFormsState,
-  submitForm
-} from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
+import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
 // sendMessage sends a message optimistically via the Sunco JS client
 // If retrying sending a message, provide its id via messageId
@@ -94,63 +85,12 @@ const messagesSlice = createSlice({
 
 const selectors = messagesAdapter.getSelectors(state => state.messages)
 
-const addMessagePositionsToGroups = messages => {
-  let lastMessageThatHasntFailed
-
-  const withPositions = messages.map((message, index) => {
-    const previousMessage = messages[index - 1]
-    const nextMessage = messages[index + 1]
-
-    const isFirstInGroup =
-      message.role !== previousMessage?.role || message.type !== previousMessage?.type
-    const isLastInGroup = message.role !== nextMessage?.role || message.type !== nextMessage?.type
-    const isLastInLog = index === messages.length - 1
-
-    if (message.status !== MESSAGE_STATUS.failed) {
-      lastMessageThatHasntFailed = index
-    }
-
-    return {
-      ...message,
-      isFirstInGroup,
-      isLastInGroup,
-      isLastInLog,
-      isLastMessageThatHasntFailed: false
-    }
-  })
-
-  if (lastMessageThatHasntFailed !== undefined) {
-    withPositions[lastMessageThatHasntFailed].isLastMessageThatHasntFailed = true
-  }
-
-  return withPositions
-}
-
-const removeSubmittedForms = (messages, formsState) => {
-  return messages.filter(message => {
-    if (message.type !== 'form') {
-      return true
-    }
-
-    return message.submitted !== true && formsState[message._id]?.status !== 'success'
-  })
-}
-
-const getMessageLog = createSelector(
-  selectors.selectAll,
-  getFormsState,
-  (messages, formsState) => {
-    const withoutSubmittedForms = removeSubmittedForms(messages, formsState)
-
-    return addMessagePositionsToGroups(withoutSubmittedForms)
-  }
-)
-
 const getHasPrevious = state => state.messages.hasPrevious
 const getHasFetchedConversation = state => state.messages.hasFetchedConversation
 
+export const getAllMessages = selectors.selectAll
 export const { messageReceived, messagesReceived } = messagesSlice.actions
 export const getMessage = selectors.selectById
-export { getMessageLog, getHasPrevious, getHasFetchedConversation, sendMessage }
+export { getHasPrevious, getHasFetchedConversation, sendMessage }
 
 export default messagesSlice.reducer
