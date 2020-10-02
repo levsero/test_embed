@@ -110,7 +110,7 @@ const run = ({ isMessengerWidget }) => {
       zE(...call)
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(err)
+      isMessengerWidgetUsed ? console.warn(err) : console.error(err)
     }
   })
 }
