@@ -35,10 +35,12 @@ export function getClientInfo(integrationId) {
 }
 
 let sessionId
-export function getSessionId() {
-  if (!sessionId) {
+export function getSessionId(integrationId) {
+  if (sessionId) return sessionId
+  if (storage.getItem(`${integrationId}.sessionToken`)) {
+    sessionId = storage.getItem(`${integrationId}.sessionToken`)
+  } else {
     sessionId = uuidv4()
   }
-
   return sessionId
 }

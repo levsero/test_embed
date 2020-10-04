@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { sendFormResponse } from 'src/apps/messenger/api/sunco'
 import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getValue = (field, value) => {
@@ -22,7 +22,7 @@ const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, valu
     }
   })
 
-  const response = await getClient().sendFormResponse(responseFields, formId)
+  const response = await sendFormResponse(responseFields, formId)
 
   if (Array.isArray(response?.body?.messages)) {
     return { messages: response.body.messages }

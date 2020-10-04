@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import { sendConversationRead } from 'src/apps/messenger/api/sunco'
 
 const markAsRead = createAsyncThunk('markAsRead', async () => {
-  await getClient()?.activity?.conversationRead()
+  await sendConversationRead()
 })
 
 const unreadIndicator = createSlice({
@@ -14,6 +15,9 @@ const unreadIndicator = createSlice({
   extraReducers: {
     [markAsRead.pending](state, action) {
       state.lastReadTimestamp = action.meta.arg.lastMessageTimestamp
+    },
+    [fetchExistingConversation.fulfilled](state, action) {
+      state.lastReadTimestamp = action.payload.lastRead
     }
   }
 })
@@ -24,12 +28,13 @@ const getUnreadMessages = createSelector(
   getMessageLog,
   getLastReadTimestamp,
   (messageLog, lastReadTimestamp) => {
-    return messageLog.filter(
-      message =>
+    return messageLog.filter(message => {
+      return (
         !message.isLocalMessageType &&
         message.received > lastReadTimestamp &&
         message.role !== 'appUser'
-    )
+      )
+    })
   }
 )
 

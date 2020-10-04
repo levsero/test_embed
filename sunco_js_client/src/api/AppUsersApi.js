@@ -9,7 +9,7 @@ class AppUsersApi extends BaseApi {
       path: `/v2/apps/${this.appId}/appusers`,
       data: {
         client: getClientInfo(this.integrationId),
-        userId: '', //must be an empty string for anonymous user
+        // userId: '', //  omit userId while all users are anonymous
         intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
         ...data
       }

@@ -4,14 +4,13 @@ import { Provider } from 'react-redux'
 
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import App from 'src/apps/messenger/features/app'
-import { createClient } from './suncoClient'
 import createStore from 'src/apps/messenger/store'
 import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDesign/store'
+import { hasExistingConversation, setupSuncoClient } from 'src/apps/messenger/api/sunco'
+import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import publicApi from 'src/framework/services/publicApi'
 import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
-import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 
 const run = ({ config }) => {
   const element = hostPageWindow.document.body.appendChild(
@@ -24,31 +23,11 @@ const run = ({ config }) => {
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
 
-  // setup Sunco client
-  const { integrationId, appId, baseUrl, conversationHistory } = config.messenger
-  const storageType = conversationHistory === 'remember' ? 'localStorage' : 'sessionStorage'
-  const client = createClient({ integrationId, appId, baseUrl, storageType })
-  client.startConversation().then(conversation => {
-    if (__DEV__) {
-      /* eslint no-console:0 */
-      console.log(`appId: ${appId}  conversationId: ${conversation.conversationId}`)
-    }
+  setupSuncoClient(config.messenger)
 
-    // subscribe to socket events to listen for live changes
-    conversation.socketClient.subscribe(event => {
-      switch (event.type) {
-        case 'message':
-          if (client.wasMessageSentFromThisTab(event.message)) {
-            return
-          }
-          store.dispatch(messageReceived({ message: event.message }))
-          break
-        case 'activity':
-          store.dispatch(activityReceived({ activity: event.activity }))
-          break
-      }
-    })
-  })
+  if (hasExistingConversation()) {
+    store.dispatch(fetchExistingConversation())
+  }
 
   ReactDOM.render(
     <Provider store={store}>

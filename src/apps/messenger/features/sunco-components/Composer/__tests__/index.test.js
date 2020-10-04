@@ -3,7 +3,7 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 
 import Composer from '../'
 
-jest.mock('src/apps/messenger/suncoClient')
+jest.mock('src/apps/messenger/api/sunco')
 
 describe('Composer', () => {
   const defaultProps = {

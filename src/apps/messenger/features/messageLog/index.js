@@ -6,12 +6,11 @@ import {
   getHasFetchedConversation,
   getIsFetchingHistory
 } from 'src/apps/messenger/features/messageLog/store'
-
 import Message from 'src/apps/messenger/features/messageLog/Message'
-import { Container } from './styles'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
 import HistoryLoader from './HistoryLoader'
+import { Container } from './styles'
 
 const MessageLog = () => {
   const container = useRef(null)

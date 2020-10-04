@@ -2,10 +2,10 @@ import reducer, { messageReceived, sendMessage } from '../store'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
-import * as suncoClient from 'src/apps/messenger/suncoClient'
+import * as suncoClient from 'src/apps/messenger/api/sunco'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
-jest.mock('src/apps/messenger/suncoClient')
+jest.mock('src/apps/messenger/api/sunco')
 
 describe('messages store', () => {
   describe('reducer', () => {
@@ -572,16 +572,16 @@ describe('messages store', () => {
     })
 
     it('updates the status of the message to sent when sent successfully', async () => {
-      const mockClient = {
-        sendMessage: async () => {
-          return {
-            body: {
-              messages: [{ someServerValue: 'something' }]
-            }
+      const mockSendMessage = async () => {
+        return {
+          body: {
+            messages: [{ someServerValue: 'something' }]
           }
         }
       }
-      jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
+
+      jest.spyOn(suncoClient, 'sendMessage').mockImplementation(mockSendMessage)
+
       const store = createStore()
 
       const action = store.dispatch(sendMessage({ message: 'Some message' }))
