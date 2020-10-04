@@ -6,18 +6,13 @@ import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messa
 
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
-  isFetchingHistory: false
+  isFetchingHistory: false,
+  errorFetchingHistory: false,
+  retryFetchMessages: jest.fn()
 }))
 
 describe('MessageLog', () => {
   const renderComponent = () => render(<MessageLog />)
-
-  it('renders the loading when hasFetchedConversation is false', () => {
-    const { getByRole } = renderComponent()
-
-    expect(getByRole('progressbar')).toBeInTheDocument()
-    expect(getByRole('log').children).toHaveLength(1)
-  })
 
   it('renders the messages', () => {
     const { getByRole, store } = renderComponent()

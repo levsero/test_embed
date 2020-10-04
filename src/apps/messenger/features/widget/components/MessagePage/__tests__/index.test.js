@@ -6,7 +6,9 @@ import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibili
 import userEvent from '@testing-library/user-event'
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
-  isFetchingHistory: false
+  isFetchingHistory: false,
+  errorFetchingHistory: false,
+  retryFetchMessages: jest.fn()
 }))
 
 describe('MessagePage', () => {

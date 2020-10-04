@@ -21,15 +21,13 @@ const useFetchMessages = ({ messages, container }) => {
     getClient()
       .listMessages(cursor)
       .then(response => {
-        setTimeout(() => {
-          if (cursor) {
-            setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
-          }
+        if (cursor) {
+          setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
+        }
 
-          setErrorFetchingHistory(false)
-          setIsFetchingHistory(false)
-          dispatch(messagesReceived({ ...response.body }))
-        }, 1500)
+        setErrorFetchingHistory(false)
+        setIsFetchingHistory(false)
+        dispatch(messagesReceived({ ...response.body }))
       })
       .catch(() => {
         setIsFetchingHistory(false)
