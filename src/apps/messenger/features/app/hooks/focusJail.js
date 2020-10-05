@@ -3,6 +3,7 @@ import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { useSelector } from 'react-redux'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
 
@@ -11,8 +12,10 @@ const lastNodes = elementsByContainer =>
 
 const useFocusJail = () => {
   const isOpen = useSelector(getIsWidgetOpen)
+  const isLauncherLabelVisible = useSelector(getIsLauncherLabelVisible)
   const refLauncher = useRef()
   const refWidget = useRef()
+  const refLauncherLabel = useRef()
   const hasRendered = useRef(false)
 
   useEffect(() => {
@@ -34,9 +37,16 @@ const useFocusJail = () => {
 
   const onKeyDownForContainer = event => {
     const { keyCode } = event
-    if (!keyCode === KEY_CODES.TAB || !isOpen) return
 
-    const containers = [refLauncher.current, refWidget.current].filter(el => el != null)
+    if (!isOpen && !isLauncherLabelVisible) {
+      return
+    }
+
+    if (!keyCode === KEY_CODES.TAB) return
+
+    const containers = [refLauncher.current, refLauncherLabel.current, refWidget.current].filter(
+      el => el != null
+    )
     const elementsByContainer = containers.map(container => tabbable(container))
 
     if (!event.shiftKey && keyCode === KEY_CODES.TAB) {
@@ -61,6 +71,7 @@ const useFocusJail = () => {
   return {
     refLauncher,
     refWidget,
+    refLauncherLabel,
     onKeyDownForContainer
   }
 }
