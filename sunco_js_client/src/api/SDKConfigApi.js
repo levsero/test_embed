@@ -14,7 +14,7 @@ class SDKConfigApi extends BaseApi {
   init() {
     return this.request({
       method: 'GET',
-      path: `/sdk/v2/integrations/${this.integrationId}/config`
+      path: `/v2/integrations/${this.integrationId}/config`
     })
   }
 }
