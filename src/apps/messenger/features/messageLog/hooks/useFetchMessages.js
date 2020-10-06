@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getClient } from 'src/apps/messenger/suncoClient'
 import {
-  messagesReceived,
   getHasPrevious,
-  getHasFetchedConversation
+  getHasFetchedConversation,
+  fetchPaginatedMessages,
+  getIsFetchingHistory
 } from 'src/apps/messenger/features/messageLog/store'
 import useSafeState from 'src/hooks/useSafeState'
 
@@ -13,40 +13,26 @@ const useFetchMessages = ({ messages, container }) => {
   const dispatch = useDispatch()
   const hasPrevious = useSelector(getHasPrevious)
   const hasFetchedConversations = useSelector(getHasFetchedConversation)
-  const [isFetchingHistory, setIsFetchingHistory] = useSafeState(false)
-  const [errorFetchingHistory, setErrorFetchingHistory] = useSafeState(false)
+  const isFetchingHistory = useSelector(getIsFetchingHistory)
   const [scrollHeightOnHistoryFetch, setScrollHeightOnHistoryFetch] = useSafeState(null)
-
-  const fetchPaginatedMessages = cursor => {
-    getClient()
-      .listMessages(cursor)
-      .then(response => {
-        if (cursor) {
-          setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
-        }
-
-        setErrorFetchingHistory(false)
-        setIsFetchingHistory(false)
-        dispatch(messagesReceived({ ...response.body }))
-      })
-      .catch(() => {
-        setIsFetchingHistory(false)
-        setErrorFetchingHistory(true)
-      })
-  }
 
   const retryFetchMessages = () => {
     if (isFetchingHistory) return
-    setIsFetchingHistory(true)
 
-    fetchPaginatedMessages(messages[0]?.received)
+    dispatch(
+      fetchPaginatedMessages({
+        cursor: messages[0]?.received,
+        callback: () => {
+          setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
+        }
+      })
+    )
   }
 
   // Fetch existing conversations on initial load
   useEffect(() => {
     if (hasFetchedConversations) return
-    setIsFetchingHistory(true)
-    fetchPaginatedMessages()
+    dispatch(fetchPaginatedMessages({}))
   }, [])
 
   // Maintain scroll position on conversation load
@@ -69,16 +55,20 @@ const useFetchMessages = ({ messages, container }) => {
 
   const onScrollTop = () => {
     if (container.current.scrollTop === 0 && hasPrevious && !isFetchingHistory) {
-      setIsFetchingHistory(true)
-      fetchPaginatedMessages(messages[0].received)
+      dispatch(
+        fetchPaginatedMessages({
+          cursor: messages[0].received,
+          callback: () => {
+            setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
+          }
+        })
+      )
     }
     lastScrollTop.current = container.current.scrollTop
   }
 
   return {
     onScrollTop,
-    isFetchingHistory,
-    errorFetchingHistory,
     retryFetchMessages
   }
 }

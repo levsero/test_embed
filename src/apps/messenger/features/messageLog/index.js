@@ -1,7 +1,12 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { getHasFetchedConversation } from 'src/apps/messenger/features/messageLog/store'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
+import {
+  getErrorFetchingHistory,
+  getHasFetchedConversation,
+  getIsFetchingHistory
+} from 'src/apps/messenger/features/messageLog/store'
+
 import Message from 'src/apps/messenger/features/messageLog/Message'
 import { Container } from './styles'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
@@ -12,13 +17,10 @@ const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
+  const errorFetchingHistory = useSelector(getErrorFetchingHistory)
+  const isFetchingHistory = useSelector(getIsFetchingHistory)
   const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({ container, messages })
-  const {
-    onScrollTop,
-    isFetchingHistory,
-    errorFetchingHistory,
-    retryFetchMessages
-  } = useFetchMessages({
+  const { onScrollTop, retryFetchMessages } = useFetchMessages({
     container,
     messages
   })

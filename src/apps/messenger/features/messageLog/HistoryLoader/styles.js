@@ -50,7 +50,6 @@ const CenterLoadingErrorTitle = styled.div`
   font-weight: ${props => props.theme.fontWeights.semibold};
   margin-bottom: ${props => props.theme.messenger.space.xxs};
 `
-const CenterLoadingErrorDescription = styled.div``
 
 export {
   CenterSpinnerContainer,
@@ -58,6 +57,5 @@ export {
   TopLoadingErrorContainer,
   CenterLoadingErrorContainer,
   CenterLoadingErrorTitle,
-  CenterLoadingErrorDescription,
   LoadingErrorButton
 }

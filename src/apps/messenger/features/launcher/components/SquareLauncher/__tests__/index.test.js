@@ -6,7 +6,7 @@ import { find } from 'styled-components/test-utils'
 import { MessengerIcon, CloseIcon } from '../styles'
 
 import SquareLauncher from '../'
-import { messageReceived, messagesReceived } from 'src/apps/messenger/features/messageLog/store'
+import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { markAsRead } from 'src/apps/messenger/store/unreadIndicator'
 
@@ -50,11 +50,12 @@ describe('SquareLauncher', () => {
       received: 1 + index
     }))
 
-    store.dispatch(
-      messagesReceived({
+    store.dispatch({
+      type: 'messageLog/fetchMessages/fulfilled',
+      payload: {
         messages: mockMessages
-      })
-    )
+      }
+    })
 
     expect(queryByText('37')).toBeInTheDocument()
 
@@ -75,11 +76,12 @@ describe('SquareLauncher', () => {
       received: 1 + index
     }))
 
-    store.dispatch(
-      messagesReceived({
+    store.dispatch({
+      type: 'messageLog/fetchMessages/fulfilled',
+      payload: {
         messages: mockMessages
-      })
-    )
+      }
+    })
 
     expect(getByText('99')).toBeInTheDocument()
 

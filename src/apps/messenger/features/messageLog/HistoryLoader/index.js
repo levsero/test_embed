@@ -5,7 +5,6 @@ import {
   TopSpinnerContainer,
   CenterLoadingErrorTitle,
   CenterLoadingErrorContainer,
-  CenterLoadingErrorDescription,
   TopLoadingErrorContainer,
   LoadingErrorButton
 } from './styles'
@@ -46,9 +45,7 @@ const HistoryLoader = ({
       <CenterLoadingErrorContainer>
         <CenterLoadingErrorTitle>Messages failed to load</CenterLoadingErrorTitle>
         <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          <CenterLoadingErrorDescription>
-            Click to retry <ReloadStroke />
-          </CenterLoadingErrorDescription>
+          Click to retry <ReloadStroke />
         </LoadingErrorButton>
       </CenterLoadingErrorContainer>
     )
