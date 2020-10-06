@@ -10,30 +10,35 @@ const Container = styled.div`
       ${props => props.theme.messenger.space.md} - ${props => replyButtonHorizontalMargin(props)}
     );
   display: flex;
-  flex-flow: row-reverse;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-bottom: ${props => props.theme.messenger.space.xxs};
 `
 
 const StyledButton = styled(Button)`
-  && {
+  &&& {
+    font-size: ${props => props.theme.messenger.fontSizes.md};
+    height: ${props => props.theme.messenger.space.xl};
+    line-height: ${props => props.theme.messenger.lineHeights.lg};
     border-color: ${props => props.theme.messenger.colors.action};
     color: ${props => props.theme.messenger.colors.action};
     margin: ${props => props.theme.messenger.space.xs}
       ${props => replyButtonHorizontalMargin(props)} 0;
-  }
 
-  &:hover {
-    background-color: ${props => rgba(props.theme.messenger.colors.action, 0.2)};
-  }
+    &:hover {
+      background-color: ${props => rgba(props.theme.messenger.colors.action, 0.2)};
+    }
 
-  &:active,
-  &[aria-pressed='true'],
-  &[aria-pressed='mixed'] {
-    background-color: ${props => rgba(props.theme.messenger.colors.action, 0.35)};
-  }
+    &:active,
+    &[aria-pressed='true'],
+    &[aria-pressed='mixed'] {
+      background-color: ${props => rgba(props.theme.messenger.colors.action, 0.35)};
+    }
 
-  &[data-garden-focus-visible] {
-    box-shadow: ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.2))};
+    &[data-garden-focus-visible] {
+      box-shadow: ${props =>
+        props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.2))};
+    }
   }
 `
 
