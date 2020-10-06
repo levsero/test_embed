@@ -21,7 +21,7 @@ export const parseTimestamp = (received, overrideDate = null) => {
     messageDate.getMonth() === currentDate.getMonth() &&
     messageDate.getFullYear() === currentDate.getFullYear()
 
-  const dateString = `${messageDate.toLocaleString('default', {
+  const dateString = `${messageDate.toLocaleString(undefined, {
     month: 'long'
   })} ${messageDate.getDate()}, `
 
