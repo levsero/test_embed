@@ -112,7 +112,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
   const subscribe = callback => {
     this.fayeClient.subscribe.call(
       this.fayeClient,
-      `/apps/${this.appId}/appusers/${this.appUserId}`,
+      `/sdk/apps/${this.appId}/appusers/${this.appUserId}`,
       ({ events }) => {
         for (const event of events) {
           callback(event)
