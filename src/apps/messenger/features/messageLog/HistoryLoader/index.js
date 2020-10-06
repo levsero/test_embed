@@ -18,40 +18,41 @@ const HistoryLoader = ({
   errorFetchingHistory,
   retryFetchMessages
 }) => {
-  return (
-    <>
-      {hasFetchedConversation && isFetchingHistory && (
-        <TopSpinnerContainer>
-          <Spinner />
-        </TopSpinnerContainer>
-      )}
+  if (hasFetchedConversation && isFetchingHistory)
+    return (
+      <TopSpinnerContainer>
+        <Spinner />
+      </TopSpinnerContainer>
+    )
 
-      {!hasFetchedConversation && isFetchingHistory && (
-        <CenterSpinnerContainer>
-          <Spinner />
-        </CenterSpinnerContainer>
-      )}
+  if (!hasFetchedConversation && isFetchingHistory)
+    return (
+      <CenterSpinnerContainer>
+        <Spinner />
+      </CenterSpinnerContainer>
+    )
 
-      {errorFetchingHistory && hasFetchedConversation && !isFetchingHistory && (
-        <TopLoadingErrorContainer>
-          <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
+  if (errorFetchingHistory && hasFetchedConversation && !isFetchingHistory)
+    return (
+      <TopLoadingErrorContainer>
+        <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
+          Click to retry <ReloadStroke />
+        </LoadingErrorButton>
+      </TopLoadingErrorContainer>
+    )
+
+  if (errorFetchingHistory && !hasFetchedConversation)
+    return (
+      <CenterLoadingErrorContainer>
+        <CenterLoadingErrorTitle>Messages failed to load</CenterLoadingErrorTitle>
+        <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
+          <CenterLoadingErrorDescription>
             Click to retry <ReloadStroke />
-          </LoadingErrorButton>
-        </TopLoadingErrorContainer>
-      )}
-
-      {errorFetchingHistory && !hasFetchedConversation && (
-        <CenterLoadingErrorContainer>
-          <CenterLoadingErrorTitle>Messages failed to load</CenterLoadingErrorTitle>
-          <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-            <CenterLoadingErrorDescription>
-              Click to retry <ReloadStroke />
-            </CenterLoadingErrorDescription>
-          </LoadingErrorButton>
-        </CenterLoadingErrorContainer>
-      )}
-    </>
-  )
+          </CenterLoadingErrorDescription>
+        </LoadingErrorButton>
+      </CenterLoadingErrorContainer>
+    )
+  return null
 }
 
 HistoryLoader.propTypes = {
