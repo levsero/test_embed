@@ -16,7 +16,6 @@ const maxHeightSmallScreens = `calc(100vh - ${frameMarginFromPage * 2}px)`
 const defaultStyles = {
   height: em(widgetFrameHeight, baseFontSize),
   width: em(widgetFrameWidth, baseFontSize),
-  minWidth: em(widgetFrameWidth, baseFontSize),
   maxHeight: `calc(100vh - ${launcherSize +
     frameMarginFromPage +
     frameMarginFromPage +
