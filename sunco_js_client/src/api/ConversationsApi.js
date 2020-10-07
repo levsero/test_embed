@@ -5,7 +5,7 @@ class ConversationsApi extends BaseApi {
   list(appUserId) {
     return this.request({
       method: 'GET',
-      path: `/sdk/v2/apps/${this.appId}/appusers/${appUserId}/conversations`,
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}/conversations`,
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
@@ -17,7 +17,7 @@ class ConversationsApi extends BaseApi {
   create(appUserId) {
     return this.request({
       method: 'POST',
-      path: `/sdk/v2/apps/${this.appId}/appusers/${appUserId}/conversations`,
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}/conversations`,
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`

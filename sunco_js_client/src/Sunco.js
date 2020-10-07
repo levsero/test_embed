@@ -12,7 +12,8 @@ const BASE_URL = 'https://api.smooch.io'
 
 export default class Sunco {
   constructor({ appId, integrationId, baseUrl = BASE_URL, storageType = DEFAULT_STORAGE_TYPE }) {
-    this.baseUrl = baseUrl
+    const sdkInBaseUrl = baseUrl.endsWith('/sdk')
+    this.baseUrl = sdkInBaseUrl ? baseUrl : `${baseUrl}/sdk`
     this.appId = appId
     this.integrationId = integrationId
     this._activeConversation = null

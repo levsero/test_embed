@@ -12,7 +12,7 @@ class MessagesApi extends BaseApi {
   sendActivity(activity) {
     return this.request({
       method: 'POST',
-      path: `/sdk/v2/apps/${this.appId}/conversations/${this.conversationId}/activity`,
+      path: `/v2/apps/${this.appId}/conversations/${this.conversationId}/activity`,
 
       headers: {
         Authorization: `Basic ${btoa(

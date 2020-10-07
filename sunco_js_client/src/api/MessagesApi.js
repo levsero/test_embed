@@ -7,7 +7,7 @@ class MessagesApi extends BaseApi {
     const cursorPagination = cursor ? `before=${cursor}` : ''
     return this.request({
       method: 'GET',
-      path: `/sdk/v2/apps/${this.appId}/conversations/${conversationId}/messages?${cursorPagination}`,
+      path: `/v2/apps/${this.appId}/conversations/${conversationId}/messages?${cursorPagination}`,
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
@@ -29,7 +29,7 @@ class MessagesApi extends BaseApi {
 
     return this.request({
       method: 'POST',
-      path: `/sdk/v2/apps/${this.appId}/conversations/${conversationId}/messages`,
+      path: `/v2/apps/${this.appId}/conversations/${conversationId}/messages`,
       data: messagePayload,
       headers: {
         Authorization: `Basic ${btoa(
