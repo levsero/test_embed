@@ -1,22 +1,26 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { getHasFetchedConversation } from 'src/apps/messenger/features/messageLog/store'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
+import {
+  getErrorFetchingHistory,
+  getHasFetchedConversation,
+  getIsFetchingHistory
+} from 'src/apps/messenger/features/messageLog/store'
+
 import Message from 'src/apps/messenger/features/messageLog/Message'
-import { Container, CenterSpinnerContainer, TopSpinnerContainer } from './styles'
+import { Container } from './styles'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
-import { Spinner } from '@zendeskgarden/react-loaders'
+import HistoryLoader from './HistoryLoader'
 
 const MessageLog = () => {
   const container = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
-  const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({
-    container,
-    messages
-  })
-  const { onScrollTop, isFetchingHistory } = useFetchMessages({
+  const errorFetchingHistory = useSelector(getErrorFetchingHistory)
+  const isFetchingHistory = useSelector(getIsFetchingHistory)
+  const { onScrollBottom, scrollToBottomIfNeeded } = useScrollBehaviour({ container, messages })
+  const { onScrollTop, retryFetchMessages } = useFetchMessages({
     container,
     messages
   })
@@ -31,17 +35,13 @@ const MessageLog = () => {
         onScrollTop(event)
       }}
     >
-      {isFetchingHistory && (
-        <TopSpinnerContainer>
-          <Spinner />
-        </TopSpinnerContainer>
-      )}
+      <HistoryLoader
+        isFetchingHistory={isFetchingHistory}
+        hasFetchedConversation={hasFetchedConversation}
+        errorFetchingHistory={errorFetchingHistory}
+        retryFetchMessages={retryFetchMessages}
+      />
 
-      {!hasFetchedConversation && (
-        <CenterSpinnerContainer>
-          <Spinner />
-        </CenterSpinnerContainer>
-      )}
       {hasFetchedConversation &&
         messages.map(message => (
           <Message

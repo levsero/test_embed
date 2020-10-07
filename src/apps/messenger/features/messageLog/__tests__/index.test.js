@@ -1,28 +1,23 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import MessageLog from 'src/apps/messenger/features/messageLog'
-import { messageReceived, messagesReceived } from 'src/apps/messenger/features/messageLog/store'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
-  isFetchingHistory: false
+  isFetchingHistory: false,
+  errorFetchingHistory: false,
+  retryFetchMessages: jest.fn()
 }))
 
 describe('MessageLog', () => {
   const renderComponent = () => render(<MessageLog />)
 
-  it('renders the loading when hasFetchedConversation is false', () => {
-    const { getByRole } = renderComponent()
-
-    expect(getByRole('progressbar')).toBeInTheDocument()
-    expect(getByRole('log').children).toHaveLength(1)
-  })
-
   it('renders the messages', () => {
     const { getByRole, store } = renderComponent()
-    store.dispatch(
-      messagesReceived({
+    store.dispatch({
+      type: 'messageLog/fetchMessages/fulfilled',
+      payload: {
         messages: [
           {
             _id: 1,
@@ -41,45 +36,43 @@ describe('MessageLog', () => {
             role: 'appUser'
           }
         ]
-      })
-    )
+      }
+    })
 
     expect(getByRole('log').children).toHaveLength(2)
   })
 
   it('does not render messages that have an unknown type', () => {
     const { getByRole, store } = renderComponent()
-    store.dispatch(messagesReceived({ messages: [] }))
-
-    store.dispatch(
-      messageReceived({
-        message: {
-          _id: 1,
-          type: 'dummy',
-          isLocalMessageType: true,
-          received: 1
-        }
-      })
-    )
-
-    store.dispatch(
-      messageReceived({
-        message: {
-          _id: 2,
-          type: 'unknown',
-          received: 2
-        }
-      })
-    )
+    store.dispatch({
+      type: 'messageLog/fetchMessages/fulfilled',
+      payload: {
+        messages: [
+          {
+            _id: 1,
+            type: 'dummy',
+            isLocalMessageType: true,
+            received: 1
+          },
+          {
+            message: {
+              _id: 2,
+              type: 'unknown',
+              received: 2
+            }
+          }
+        ]
+      }
+    })
 
     expect(getByRole('log').children).toHaveLength(1)
   })
 
   it('does not render form messages that have been successfully submitted', () => {
     const { getByRole, store } = renderComponent()
-
-    store.dispatch(
-      messagesReceived({
+    store.dispatch({
+      type: 'messageLog/fetchMessages/fulfilled',
+      payload: {
         messages: [
           {
             _id: 1,
@@ -127,8 +120,8 @@ describe('MessageLog', () => {
             ]
           }
         ]
-      })
-    )
+      }
+    })
 
     const fulfilledAction = submitForm.fulfilled({ messages: [] })
     fulfilledAction.meta = {

@@ -3,7 +3,6 @@ import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import createStore from 'src/apps/messenger/store'
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import * as suncoClient from 'src/apps/messenger/suncoClient'
-import { messagesReceived } from 'src/apps/messenger/features/messageLog/store'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 jest.mock('src/apps/messenger/suncoClient')
@@ -14,7 +13,14 @@ describe('messages store', () => {
       {
         extraDesc: 'initial state',
         action: { type: undefined },
-        expected: { ids: [], entities: {}, hasPrevious: false, hasFetchedConversation: false }
+        expected: {
+          ids: [],
+          entities: {},
+          hasPrevious: false,
+          hasFetchedConversation: false,
+          errorFetchingHistory: false,
+          isFetchingHistory: false
+        }
       },
       {
         extraDesc: 'receive a message',
@@ -29,6 +35,8 @@ describe('messages store', () => {
           ids: [1],
           hasPrevious: false,
           hasFetchedConversation: false,
+          errorFetchingHistory: false,
+          isFetchingHistory: false,
           entities: {
             1: {
               _id: 1,
@@ -465,36 +473,33 @@ describe('messages store', () => {
       describe('isLastMessageThatHasntFailed', () => {
         it('is true for the message when it is the last message in the log that has not failed', () => {
           const store = createStore()
-
-          store.dispatch(
-            messagesReceived({
-              messages: [
-                {
-                  _id: 1,
-                  type: 'text',
-                  text: 'One',
-                  role: 'business',
-                  received: 1
-                },
-                {
-                  _id: 2,
-                  type: 'text',
-                  text: 'Two',
-                  role: 'appUser',
-                  received: 2,
-                  status: MESSAGE_STATUS.sending
-                },
-                {
-                  _id: 3,
-                  type: 'text',
-                  text: 'Three',
-                  role: 'appUser',
-                  received: 3,
-                  status: MESSAGE_STATUS.failed
-                }
-              ]
-            })
-          )
+          ;[
+            {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              role: 'business',
+              received: 1
+            },
+            {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2,
+              status: MESSAGE_STATUS.sending
+            },
+            {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'appUser',
+              received: 3,
+              status: MESSAGE_STATUS.failed
+            }
+          ].forEach(message => {
+            store.dispatch(messageReceived({ message }))
+          })
 
           const [message1, message2, message3] = getMessageLog(store.getState())
 

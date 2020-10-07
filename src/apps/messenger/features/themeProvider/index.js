@@ -39,6 +39,7 @@ const ThemeProvider = ({ children }) => {
                 xs: rem(DEFAULT_THEME.fontSizes.xs, baseFontSize),
                 sm: rem(DEFAULT_THEME.fontSizes.sm, baseFontSize),
                 md: rem(DEFAULT_THEME.fontSizes.md, baseFontSize),
+                sixteen: rem('16px', baseFontSize),
                 lg: rem(DEFAULT_THEME.fontSizes.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.fontSizes.xl, baseFontSize),
                 xxl: rem(DEFAULT_THEME.fontSizes.xxl, baseFontSize),

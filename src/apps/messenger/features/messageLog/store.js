@@ -2,6 +2,15 @@ import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/too
 import { getClient } from 'src/apps/messenger/suncoClient'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
+const fetchPaginatedMessages = createAsyncThunk(
+  'messageLog/fetchMessages',
+  async ({ cursor, callback }) => {
+    const response = await getClient().listMessages(cursor)
+    if (callback) callback()
+    return response.body
+  }
+)
+
 // sendMessage sends a message optimistically via the Sunco JS client
 // If retrying sending a message, provide its id via messageId
 // If messageId not provided, the thunk requestId will be used as the messages optimistic id
@@ -26,20 +35,31 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState({
     hasPrevious: false,
-    hasFetchedConversation: false
+    hasFetchedConversation: false,
+    errorFetchingHistory: false,
+    isFetchingHistory: false
   }),
   reducers: {
     messageReceived(state, action) {
       messagesAdapter.addOne(state, action.payload.message)
-    },
-    messagesReceived(state, action) {
-      state.hasFetchedConversation = true
-      state.hasPrevious = Boolean(action.payload.hasPrevious)
-
-      messagesAdapter.addMany(state, action.payload.messages)
     }
   },
   extraReducers: {
+    [fetchPaginatedMessages.fulfilled](state, action) {
+      state.isFetchingHistory = false
+      state.errorFetchingHistory = false
+      state.hasFetchedConversation = true
+      state.hasPrevious = Boolean(action.payload.hasPrevious)
+      messagesAdapter.addMany(state, action.payload.messages)
+    },
+    [fetchPaginatedMessages.pending](state) {
+      state.isFetchingHistory = true
+      state.errorFetchingHistory = false
+    },
+    [fetchPaginatedMessages.rejected](state) {
+      state.isFetchingHistory = false
+      state.errorFetchingHistory = true
+    },
     [submitForm.fulfilled](state, action) {
       messagesAdapter.addMany(state, action.payload.messages)
     },
@@ -86,11 +106,22 @@ const messagesSlice = createSlice({
 const selectors = messagesAdapter.getSelectors(state => state.messages)
 
 const getHasPrevious = state => state.messages.hasPrevious
+const getErrorFetchingHistory = state => state.messages.errorFetchingHistory
+const getIsFetchingHistory = state => state.messages.isFetchingHistory
 const getHasFetchedConversation = state => state.messages.hasFetchedConversation
+const getAllMessages = selectors.selectAll
+const getMessage = selectors.selectById
 
-export const getAllMessages = selectors.selectAll
-export const { messageReceived, messagesReceived } = messagesSlice.actions
-export const getMessage = selectors.selectById
-export { getHasPrevious, getHasFetchedConversation, sendMessage }
+export const { messageReceived } = messagesSlice.actions
+export {
+  getHasPrevious,
+  getHasFetchedConversation,
+  sendMessage,
+  getErrorFetchingHistory,
+  getIsFetchingHistory,
+  fetchPaginatedMessages,
+  getAllMessages,
+  getMessage
+}
 
 export default messagesSlice.reducer
