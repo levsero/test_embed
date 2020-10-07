@@ -20,7 +20,7 @@ export const Container = styled.div`
 export const StyledTextarea = styled(Textarea)`
   ${isMobileBrowser() &&
     css`
-      padding: ${props => 8 / props.theme.fontSize}rem 0;
+      padding: ${props => 8 / props.theme.fontSize}rem;
       border: none !important;
       border-radius: 0;
       box-shadow: none !important;

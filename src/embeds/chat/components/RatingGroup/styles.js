@@ -26,8 +26,8 @@ const RatingButton = styled(IconButton)`
   }
 
   svg {
-    width: 40%;
-    height: 40%;
+    width: 42%;
+    height: 42%;
   }
 
   &:focus {
