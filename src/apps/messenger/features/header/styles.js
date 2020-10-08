@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { transparentize } from 'polished'
+import { rgba } from 'polished'
 import { Avatar } from '@zendeskgarden/react-avatars'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
@@ -27,6 +27,7 @@ const StyledAvatar = styled(Avatar)`
     height: ${props => props.theme.messenger.space.xxl};
     width: ${props => props.theme.messenger.space.xxl};
     flex-shrink: 0;
+    border-radius: 50%;
   }
 `
 
@@ -47,24 +48,26 @@ const StyledIconButton = styled(IconButton)`
   &&& {
     width: ${props => props.theme.messenger.space.xl};
     height: ${props => props.theme.messenger.space.xl};
-    color: ${props => props.theme.messenger.colors.primary};
+    color: ${props => props.theme.messenger.colors.primaryText};
 
-    :focus {
-      border: ${props =>
-        `${props.theme.borders.md} ${transparentize(
-          '0.65',
-          props.theme.messenger.colors.otherParticipantMessage
-        )}`};
+    &:hover {
+      background-color: ${props => rgba(props.theme.messenger.colors.primaryText, 0.2)};
     }
-    :active,
-    :hover {
-      background-color: ${props =>
-        transparentize('0.92', props.theme.messenger.colors.otherParticipantMessage)};
+
+    &:active,
+    &[aria-pressed='true'],
+    &[aria-pressed='mixed'] {
+      background-color: ${props => rgba(props.theme.messenger.colors.primaryText, 0.35)};
+    }
+
+    &[data-garden-focus-visible] {
+      box-shadow: ${props =>
+        props.theme.shadows.md(rgba(props.theme.messenger.colors.primaryText, 0.2))};
     }
 
     /* We have to style this as a child of the button in order to access the theme props */
     ${StyledCloseIcon} {
-      color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
+      color: ${props => props.theme.messenger.colors.primaryText};
       width: ${props => props.theme.messenger.iconSizes.md};
       height: ${props => props.theme.messenger.iconSizes.md};
     }
