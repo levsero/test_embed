@@ -5,6 +5,7 @@ const animatedDuration = 0.5
 
 const Icon = styled.div`
   position: absolute;
+  left: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
