@@ -1,12 +1,15 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { sendMessage as sendSuncoMessage, fetchMessages } from 'src/apps/messenger/api/sunco'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
+import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
 
 const fetchPaginatedMessages = createAsyncThunk(
   'messageLog/fetchMessages',
   async ({ cursor, callback }) => {
-    const response = await getClient().listMessages(cursor)
+    const response = await fetchMessages(cursor)
+
     if (callback) callback()
+
     return response.body
   }
 )
@@ -15,7 +18,7 @@ const fetchPaginatedMessages = createAsyncThunk(
 // If retrying sending a message, provide its id via messageId
 // If messageId not provided, the thunk requestId will be used as the messages optimistic id
 const sendMessage = createAsyncThunk('message/send', async ({ message, messageId: _, payload }) => {
-  const response = await getClient().sendMessage(message, payload)
+  const response = await sendSuncoMessage(message, payload)
 
   if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
     return {
@@ -61,6 +64,11 @@ const messagesSlice = createSlice({
       state.errorFetchingHistory = true
     },
     [submitForm.fulfilled](state, action) {
+      messagesAdapter.addMany(state, action.payload.messages)
+    },
+    [fetchExistingConversation.fulfilled](state, action) {
+      state.hasFetchedConversation = true
+      state.hasPrevious = Boolean(action.payload.hasPrevious)
       messagesAdapter.addMany(state, action.payload.messages)
     },
     [sendMessage.pending](state, action) {

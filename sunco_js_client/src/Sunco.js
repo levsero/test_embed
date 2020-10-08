@@ -1,5 +1,4 @@
 import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
-import SDKConfigApi from './api/SDKConfigApi'
 import AppUsersApi from './api/AppUsersApi'
 import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
@@ -17,12 +16,17 @@ export default class Sunco {
     this.appId = appId
     this.integrationId = integrationId
     this._activeConversation = null
-    storage.setStorageType({ type: storageType }) // TODO - allow value to be sent down in config
+    storage.setStorageType({ type: storageType })
 
-    this.SDKConfig = new SDKConfigApi(this) // TODO - Temp api - isn't needed
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
+    this.activity = new ActivityAPI(this)
+  }
+
+  get hasExistingAppUser() {
+    const { appUserId } = getCurrentUserIfAny(this.integrationId)
+    return Boolean(appUserId)
   }
 
   get activeConversation() {
@@ -32,20 +36,29 @@ export default class Sunco {
     return this._activeConversation
   }
 
-  set activeConversation({ conversationId, socketSettings }) {
+  set activeConversation({ conversationId, socketSettings, lastRead }) {
     const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
-    this.activity = new ActivityAPI(this, appUserId, conversationId)
+
+    if (__DEV__) {
+      /* eslint no-console:0 */
+      console.log(`appId: ${this.appId}  conversationId: ${conversationId}`)
+    }
 
     this._activeConversation = {
       appUserId,
       conversationId,
+      lastRead,
       socketClient: new SocketClient({
         ...socketSettings,
         appId: this.appId,
         appUserId: appUserId,
         sessionToken: sessionToken
       }),
-      listMessages: cursor => this.messages.list(appUserId, conversationId, cursor),
+      listMessages: cursor => {
+        const params = {}
+        if (cursor) params['before'] = cursor
+        return this.messages.list(appUserId, conversationId, params)
+      },
       sendMessage: (text, payload) =>
         this.messages.create(appUserId, conversationId, {
           type: 'text',
@@ -59,7 +72,11 @@ export default class Sunco {
           quotedMessageId: formId,
           type: 'formResponse',
           role: 'appUser'
-        })
+        }),
+      startTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:start' }),
+      stopTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:stop' }),
+      conversationRead: () =>
+        this.activity.create(appUserId, conversationId, { type: 'conversation:read' })
     }
   }
 
@@ -74,7 +91,8 @@ export default class Sunco {
             this.activeConversation = {
               appUserId,
               conversationId: response.body.conversations[0]._id,
-              socketSettings: response.body.settings.realtime
+              socketSettings: response.body.settings.realtime,
+              lastRead: response.body.conversations[0]?.participants[0]?.lastRead
             } // TODO - might need to eventually select a particular conversation - isDefault: true
             resolve(this.activeConversation)
           })
@@ -97,31 +115,8 @@ export default class Sunco {
     return this.conversationPromise
   }
 
-  sendMessage(text, payload) {
-    return this.activeConversation.sendMessage(text, payload)
-  }
-
-  sendFormResponse(fields, formId) {
-    return this.activeConversation.sendFormResponse(fields, formId)
-  }
-
-  listMessages(cursor) {
-    return this.activeConversation.listMessages(cursor)
-  }
-
-  subscribe(callback) {
-    return this.activeConversation.socketClient.subscribe(callback)
-  }
-
   wasMessageSentFromThisTab(message) {
-    if (message.source.id !== getClientId(this.integrationId)) {
-      return false
-    }
-
-    if (message.source.sessionId !== getSessionId()) {
-      return false
-    }
-
-    return true
+    if (message.source.id !== getClientId(this.integrationId)) return false
+    return message.source.sessionId === getSessionId(this.integrationId)
   }
 }

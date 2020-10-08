@@ -4,10 +4,10 @@ import { render } from 'src/apps/messenger/utils/testHelpers'
 import FormStructuredMessage from '../'
 import { waitFor } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/dom'
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { sendFormResponse } from 'src/apps/messenger/api/sunco'
 import { getFormInfo } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
-jest.mock('src/apps/messenger/suncoClient')
+jest.mock('src/apps/messenger/api/sunco')
 
 describe('FormMessage', () => {
   const defaultProps = {
@@ -147,18 +147,9 @@ describe('FormMessage', () => {
     // Select cheese
     userEvent.click(getByText('Cheese'))
 
-    const mockClient = {
-      sendFormResponse: jest.fn().mockReturnValue({
-        body: {
-          messages: []
-        }
-      })
-    }
-    getClient.mockReturnValue(mockClient)
-
     fireEvent.submit(document.querySelector('form'))
 
-    expect(mockClient.sendFormResponse).toHaveBeenCalledWith(
+    expect(sendFormResponse).toHaveBeenCalledWith(
       [
         {
           type: 'text',

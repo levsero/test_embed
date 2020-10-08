@@ -6,6 +6,7 @@ import {
   fetchPaginatedMessages,
   getIsFetchingHistory
 } from 'src/apps/messenger/features/messageLog/store'
+
 import useSafeState from 'src/hooks/useSafeState'
 
 const useFetchMessages = ({ messages, container }) => {

@@ -1,4 +1,4 @@
-import { getClient } from 'src/apps/messenger/suncoClient'
+import { sendStartTyping, sendStopTyping } from 'src/apps/messenger/api/sunco'
 
 const stopTypingBufferMillis = 10000
 
@@ -11,12 +11,12 @@ const stopTyping = () => {
 
   clearTimeout(timeout)
   timeout = null
-  getClient().activity.stopTyping()
+  sendStopTyping()
 }
 
 const startTyping = () => {
   if (!timeout) {
-    getClient().activity.startTyping()
+    sendStartTyping()
   }
 
   if (timeout) {
