@@ -22,7 +22,7 @@ const scrollToBottomUntilHeightSettled = async (container, isScrollAtBottom) => 
     await new Promise(res => {
       requestAnimationFrame(() => {
         if (!container.current || !isScrollAtBottom.current) {
-          return
+          res()
         }
 
         container.current.scrollTop = container.current.scrollHeight
