@@ -60,10 +60,8 @@ const OtherParticipantImage = styled(Image)`
 const Text = styled.p`
   white-space: pre-wrap;
   word-wrap: break-word;
-  max-width: ${props => props.theme.messenger.space.textMaxWidth};
   font-size: ${props => props.theme.messenger.fontSizes.md};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
-
   padding: ${props => `${props.theme.messenger.space.xs} ${props.theme.messenger.space.sm}`};
 `
 

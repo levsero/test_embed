@@ -55,9 +55,7 @@ const ThemeProvider = ({ children }) => {
                 lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
                 xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
-                xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize),
-                textMaxWidth: rem('200px', baseFontSize),
-                messageMaxWidth: rem('224px', baseFontSize)
+                xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize)
               },
               lineHeights: {
                 sm: rem(DEFAULT_THEME.lineHeights.sm, baseFontSize),
