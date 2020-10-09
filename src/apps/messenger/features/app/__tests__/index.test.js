@@ -14,6 +14,10 @@ jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', ()
   errorFetchingHistory: false,
   retryFetchMessages: jest.fn()
 }))
+jest.mock('src/apps/messenger/features/messageLog/hooks/useScrollBehaviour.js', () => () => ({
+  onScrollBottom: jest.fn(),
+  scrollToBottomIfNeeded: jest.fn()
+}))
 
 describe('Messenger app', () => {
   let store
