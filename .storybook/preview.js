@@ -7,6 +7,8 @@ import createStore from 'src/apps/messenger/store'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { i18n } from 'service/i18n'
 import { createGlobalStyle } from 'styled-components'
+import { rem } from 'polished'
+import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
 i18n.setLocale()
 const ScrollOverride = createGlobalStyle`
@@ -25,7 +27,15 @@ export const decorators = [
       <Provider store={reduxStore}>
         <ThemeProvider>
           <ScrollOverride />
-          <Story />
+          <div
+            style={{
+              width: rem('380px', baseFontSize),
+              height: rem('700px', baseFontSize),
+              border: '1px solid black'
+            }}
+          >
+            <Story />
+          </div>
         </ThemeProvider>
       </Provider>
     )

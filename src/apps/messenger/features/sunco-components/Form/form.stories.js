@@ -1,8 +1,5 @@
 import React from 'react'
-import { rem } from 'polished'
-
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import Form from './'
 
 export default {
@@ -11,17 +8,7 @@ export default {
   argTypes: { onSubmit: { action: 'form submitted' }, onChange: { action: 'user typed' } }
 }
 
-const Template = args => (
-  <div
-    style={{
-      width: rem('380px', baseFontSize),
-      height: rem('700px', baseFontSize),
-      border: '1px solid black'
-    }}
-  >
-    <Form {...args} />
-  </div>
-)
+const Template = args => <Form {...args} />
 
 export const TextFieldOnlyForm = Template.bind()
 TextFieldOnlyForm.args = {

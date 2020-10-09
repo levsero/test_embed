@@ -1,8 +1,4 @@
 import React from 'react'
-import { rem } from 'polished'
-
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
-
 import FormResponse from './'
 
 export default {
@@ -10,17 +6,7 @@ export default {
   component: FormResponse
 }
 
-const Template = args => (
-  <div
-    style={{
-      width: rem('380px', baseFontSize),
-      height: rem('700px', baseFontSize),
-      border: '1px solid black'
-    }}
-  >
-    <FormResponse {...args} />
-  </div>
-)
+const Template = args => <FormResponse {...args} />
 
 export const TextFieldOnlyFormResponse = Template.bind()
 TextFieldOnlyFormResponse.args = {
