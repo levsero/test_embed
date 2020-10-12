@@ -11,16 +11,16 @@ const parseFileNameFromUrl = url => {
 }
 
 const abbreviateFileName = fileName => {
-  if (fileName.length <= 20) return fileName
+  if (fileName.length <= 24) return fileName
 
-  return `${fileName.slice(0, 9)}...${fileName.slice(-10)}`
+  return `${fileName.slice(0, 11)}...${fileName.slice(-12)}`
 }
 
 const calculateMediaSize = bytes => {
   const minFileSize = 1000
   const size = isNaN(bytes) || bytes < minFileSize ? minFileSize : bytes
 
-  return size >= 1000000 ? `${Math.floor(size / 1000000)}mb` : `${Math.floor(size / 1000)}kb`
+  return size >= 1000000 ? `${Math.floor(size / 1000000)}MB` : `${Math.floor(size / 1000)}KB`
 }
 
 const File = ({ isPrimaryParticipant, mediaSize, mediaUrl, shape }) => {
@@ -33,12 +33,15 @@ const File = ({ isPrimaryParticipant, mediaSize, mediaUrl, shape }) => {
       <Container>
         <Icon />
         <Content>
-          <Name href={mediaUrl} target="_blank">
+          <Name
+            href={mediaUrl}
+            target="_blank"
+            isPill={false}
+            isPrimaryParticipant={isPrimaryParticipant}
+          >
             {abbreviatedName}
           </Name>
-          <Size href={mediaUrl} target="_blank">
-            {size}
-          </Size>
+          <Size>{size}</Size>
         </Content>
       </Container>
     </MessageBubble>
