@@ -1,21 +1,27 @@
 import styled from 'styled-components'
+import { rem } from 'polished'
+
 import {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS
 } from 'src/apps/messenger/features/sunco-components/constants'
+import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
+const primaryMessageExtraSpace = rem(80, baseFontSize)
+const otherMessageExtraSpace = rem(64, baseFontSize)
+const avatarSpace = rem(36, baseFontSize)
 
 const Bubble = styled.div`
-  width: fit-content;
   margin-top: ${props => props.theme.messenger.space.xxxs};
-  max-width: ${props => props.theme.messenger.space.messageMaxWidth};
+  min-width: ${props => props.theme.messenger.space.xl};
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
   background-color: ${props => props.theme.messenger.colors.message};
   color: ${props => props.theme.messenger.colors.messageText};
   border: 0;
+  max-width: calc(100% - ${primaryMessageExtraSpace});
 
   ${props => {
     const radius = getRadius(props)
@@ -50,6 +56,7 @@ const OtherParticipantBubble = styled(Bubble)`
   border-color: ${props => props.theme.messenger.colors.otherParticipantMessageBorder};
   background-color: ${props => props.theme.messenger.colors.otherParticipantMessage};
   color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
+  max-width: calc(100% - ${avatarSpace} - ${otherMessageExtraSpace});
 
   ${props => {
     const radius = getRadius(props)
