@@ -20,6 +20,8 @@ const TextStructuredMessage = ({
     role,
     text,
     isFirstInGroup,
+    isFirstMessageInAuthorGroup,
+    isLastMessageInAuthorGroup,
     isLastInGroup,
     isLastInLog,
     actions,
@@ -41,8 +43,8 @@ const TextStructuredMessage = ({
     <>
       <Layout
         isFirstInGroup={isFirstInGroup}
-        avatar={isLastInGroup ? avatarUrl : undefined}
-        label={isFirstInGroup ? name : undefined}
+        avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+        label={isFirstMessageInAuthorGroup ? name : undefined}
         onRetry={() => {
           dispatch(
             sendMessage({

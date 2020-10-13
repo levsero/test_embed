@@ -216,6 +216,169 @@ describe('messages store', () => {
     })
 
     describe('position properties on each message', () => {
+      it('groups together messages from the same author with compatible types', () => {
+        const store = createStore()
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'testText',
+              authorId: 'bus123',
+              received: 1
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'image',
+              authorId: 'bus123',
+              received: 2
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'file',
+              authorId: 'bus123',
+              received: 3
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 4,
+              type: 'text',
+              text: 'testText',
+              received: 4
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 5,
+              type: 'image',
+              received: 5
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 6,
+              type: 'file',
+              received: 6
+            }
+          })
+        )
+
+        const [message1, message2, message3, message4, message5, message6] = getMessageLog(
+          store.getState()
+        )
+
+        expect(message1._id).toEqual(1)
+        expect(message1.isFirstInGroup).toBe(true)
+
+        expect(message2._id).toEqual(2)
+        expect(message2.isFirstInGroup).toBe(false)
+        expect(message2.isLastInGroup).toBe(false)
+
+        expect(message3._id).toEqual(3)
+        expect(message3.isFirstInGroup).toBe(false)
+        expect(message3.isLastInGroup).toBe(true)
+
+        expect(message4._id).toEqual(4)
+        expect(message4.isFirstInGroup).toBe(true)
+        expect(message4.isLastInGroup).toBe(false)
+
+        expect(message5._id).toEqual(5)
+        expect(message5.isFirstInGroup).toBe(false)
+        expect(message5.isLastInGroup).toBe(false)
+
+        expect(message6._id).toEqual(6)
+        expect(message6.isFirstInGroup).toBe(false)
+        expect(message6.isLastInGroup).toBe(true)
+      })
+
+      it('applies isLastMessageInAuthorGroup to the last message from an author', () => {
+        const store = createStore()
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'testText',
+              authorId: 'bus123',
+              received: 1
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'image',
+              authorId: 'bus123',
+              received: 2
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'file',
+              authorId: 'bus123',
+              received: 3
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 4,
+              type: 'form',
+              authorId: 'bus123',
+              received: 4
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 5,
+              type: 'form',
+              authorId: 'bus456',
+              received: 5
+            }
+          })
+        )
+        const [message1, message2, message3, message4, message5] = getMessageLog(store.getState())
+
+        expect(message1.isLastMessageInAuthorGroup).toBe(false)
+        expect(message2.isLastMessageInAuthorGroup).toBe(false)
+        expect(message3.isLastMessageInAuthorGroup).toBe(false)
+        expect(message4.isLastMessageInAuthorGroup).toBe(true)
+        expect(message5.isLastMessageInAuthorGroup).toBe(true)
+      })
+
       it('has isLastInLog equal to true if the message is the last message in the array', () => {
         const store = createStore()
 
@@ -266,208 +429,204 @@ describe('messages store', () => {
         expect(message3.isLastInLog).toBe(true)
       })
 
-      describe('isFirstInGroup', () => {
-        it('is true for the message when previous message is from a different author', () => {
-          const store = createStore()
+      it('set isFirstInGroup when previous message is from a different author', () => {
+        const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'text',
-                text: 'One',
-                role: 'business',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              authorId: 'bus123',
+              role: 'business',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2
+            }
+          })
+        )
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'appUser',
+              received: 3
+            }
+          })
+        )
 
-          const [message1, message2, message3] = getMessageLog(store.getState())
+        const [message1, message2, message3] = getMessageLog(store.getState())
 
-          expect(message1._id).toBe(1)
-          expect(message1.isFirstInGroup).toBe(true)
+        expect(message1._id).toBe(1)
+        expect(message1.isFirstInGroup).toBe(true)
 
-          expect(message2._id).toBe(2)
-          expect(message2.isFirstInGroup).toBe(true)
+        expect(message2._id).toBe(2)
+        expect(message2.isFirstInGroup).toBe(true)
 
-          expect(message3._id).toBe(3)
-          expect(message3.isFirstInGroup).toBe(false)
-        })
-
-        it('is true for the message when the previous message has a different type', () => {
-          const store = createStore()
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'image',
-                src: 'cat image',
-                role: 'appUser',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
-
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
-
-          const [message1, message2, message3] = getMessageLog(store.getState())
-
-          expect(message1._id).toBe(1)
-          expect(message1.isFirstInGroup).toBe(true)
-
-          expect(message2._id).toBe(2)
-          expect(message2.isFirstInGroup).toBe(true)
-
-          expect(message3._id).toBe(3)
-          expect(message3.isFirstInGroup).toBe(false)
-        })
+        expect(message3._id).toBe(3)
+        expect(message3.isFirstInGroup).toBe(false)
       })
 
-      describe('isLastInGroup', () => {
-        it('is true for the message when the next message is from a different author', () => {
-          const store = createStore()
+      it('set isFirstInGroup when the previous message has a non-groupable different type', () => {
+        const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'text',
-                text: 'One',
-                role: 'business',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'form',
+              role: 'appUser',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2
+            }
+          })
+        )
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'appUser',
+              received: 3
+            }
+          })
+        )
 
-          const [message1, message2, message3] = getMessageLog(store.getState())
+        const [message1, message2, message3] = getMessageLog(store.getState())
 
-          expect(message1._id).toBe(1)
-          expect(message1.isLastInGroup).toBe(true)
+        expect(message1._id).toBe(1)
+        expect(message1.isFirstInGroup).toBe(true)
 
-          expect(message2._id).toBe(2)
-          expect(message2.isLastInGroup).toBe(false)
+        expect(message2._id).toBe(2)
+        expect(message2.isFirstInGroup).toBe(true)
 
-          expect(message3._id).toBe(3)
-          expect(message3.isLastInGroup).toBe(true)
-        })
+        expect(message3._id).toBe(3)
+        expect(message3.isFirstInGroup).toBe(false)
+      })
 
-        it('is true for the message when the next message has a different type', () => {
-          const store = createStore()
+      it('set isLastInGroup when the next message is from a different author', () => {
+        const store = createStore()
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 1,
-                type: 'image',
-                src: 'cat image',
-                role: 'appUser',
-                received: 1
-              }
-            })
-          )
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 2,
-                type: 'text',
-                text: 'Two',
-                role: 'appUser',
-                received: 2
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'text',
+              text: 'One',
+              role: 'business',
+              authorId: 'bus123',
+              received: 1
+            }
+          })
+        )
 
-          store.dispatch(
-            messageReceived({
-              message: {
-                _id: 3,
-                type: 'text',
-                text: 'Three',
-                role: 'appUser',
-                received: 3
-              }
-            })
-          )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              role: 'appUser',
+              received: 2
+            }
+          })
+        )
 
-          const [message1, message2, message3] = getMessageLog(store.getState())
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              role: 'appUser',
+              received: 3
+            }
+          })
+        )
 
-          expect(message1._id).toBe(1)
-          expect(message1.isLastInGroup).toBe(true)
+        const [message1, message2, message3] = getMessageLog(store.getState())
 
-          expect(message2._id).toBe(2)
-          expect(message2.isLastInGroup).toBe(false)
+        expect(message1._id).toBe(1)
+        expect(message1.isLastInGroup).toBe(true)
 
-          expect(message3._id).toBe(3)
-          expect(message3.isLastInGroup).toBe(true)
-        })
+        expect(message2._id).toBe(2)
+        expect(message2.isLastInGroup).toBe(false)
+
+        expect(message3._id).toBe(3)
+        expect(message3.isLastInGroup).toBe(true)
+      })
+
+      it('set isLastInGroup when the next message has a different author', () => {
+        const store = createStore()
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              type: 'image',
+              src: 'cat image',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              type: 'text',
+              text: 'Two',
+              received: 2
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              type: 'text',
+              text: 'Three',
+              authorId: 'bus123',
+              received: 3
+            }
+          })
+        )
+
+        const [message1, message2, message3] = getMessageLog(store.getState())
+
+        expect(message1._id).toBe(1)
+        expect(message1.isLastInGroup).toBe(false)
+
+        expect(message2._id).toBe(2)
+        expect(message2.isLastInGroup).toBe(true)
+
+        expect(message3._id).toBe(3)
+        expect(message3.isLastInGroup).toBe(true)
       })
 
       describe('isLastMessageThatHasntFailed', () => {

@@ -4,7 +4,15 @@ import Form from 'src/apps/messenger/features/sunco-components/Form'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 
 const FormStructuredMessage = ({
-  message: { _id, isFirstInGroup, isLastInGroup, fields, avatarUrl, name },
+  message: {
+    _id,
+    avatarUrl,
+    fields,
+    isFirstInGroup,
+    isLastMessageInAuthorGroup,
+    isFirstMessageInAuthorGroup,
+    name
+  },
   scrollToBottomIfNeeded
 }) => {
   const {
@@ -35,8 +43,8 @@ const FormStructuredMessage = ({
           [fieldId]: newValue
         })
       }}
-      avatar={isLastInGroup ? avatarUrl : undefined}
-      label={isFirstInGroup ? name : undefined}
+      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
       isFirstInGroup={isFirstInGroup}
       status={status}
       activeStep={step}

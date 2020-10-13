@@ -6,6 +6,8 @@ import insertTimestampsInLog from './utils/insertTimestampsInLog'
 
 import { createSelector } from '@reduxjs/toolkit'
 
+const GROUPABLE_TYPES = { text: true, image: true, file: true }
+
 const removeSubmittedForms = (messages, formsState) => {
   return messages.filter(message => {
     if (message.type !== 'form') {
@@ -29,6 +31,15 @@ const withUserTyping = (log, userTyping) => {
   return log
 }
 
+const areMessagesGroupable = (thisMessage, otherMessage) => {
+  if (!GROUPABLE_TYPES[thisMessage.type]) return false
+  if (!GROUPABLE_TYPES[(otherMessage?.type)]) return false
+
+  const hasOtherFailed = otherMessage?.status === MESSAGE_STATUS.failed
+
+  return !hasOtherFailed
+}
+
 const addMessagePositionsToGroups = messages => {
   let lastMessageThatHasntFailed
 
@@ -37,9 +48,14 @@ const addMessagePositionsToGroups = messages => {
     const nextMessage = messages[index + 1]
 
     const isFirstInGroup =
-      message.role !== previousMessage?.role || message.type !== previousMessage?.type
-    const isLastInGroup = message.role !== nextMessage?.role || message.type !== nextMessage?.type
+      message.authorId !== previousMessage?.authorId ||
+      !areMessagesGroupable(message, previousMessage)
+    const isLastInGroup =
+      message.authorId !== nextMessage?.authorId || !areMessagesGroupable(message, nextMessage)
     const isLastInLog = index === messages.length - 1
+
+    const isFirstMessageInAuthorGroup = message.authorId !== previousMessage?.authorId
+    const isLastMessageInAuthorGroup = message.authorId !== nextMessage?.authorId
 
     if (message.status !== MESSAGE_STATUS.failed) {
       lastMessageThatHasntFailed = index
@@ -50,6 +66,8 @@ const addMessagePositionsToGroups = messages => {
       isFirstInGroup,
       isLastInGroup,
       isLastInLog,
+      isLastMessageInAuthorGroup,
+      isFirstMessageInAuthorGroup,
       isLastMessageThatHasntFailed: false
     }
   })
