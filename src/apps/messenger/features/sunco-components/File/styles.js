@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
-import AttachmentIcon from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
+import AttachmentIcon from '@zendeskgarden/svg-icons/src/12/paperclip.svg'
 
 const Container = styled.div`
   display: inline-flex;
@@ -25,25 +25,30 @@ const Icon = styled(AttachmentIcon)`
   margin-bottom: ${props => props.theme.messenger.space.xs};
   margin-left: ${props => props.theme.messenger.space.xs};
   margin-right: ${props => props.theme.messenger.space.xxs};
-  transform: scale(-1, 1) rotate(-45deg);
 `
 
 const Name = styled.a`
   font-size: ${props => props.theme.messenger.fontSizes.sm};
-  color: ${props => props.theme.messenger.colors.action};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
   overflow-wrap: anywhere;
   font-weight: ${props => props.theme.fontWeights.semibold};
+  color: ${props =>
+    props.isPrimaryParticipant
+      ? props.theme.messenger.colors.messageText
+      : props.theme.messenger.colors.otherParticipantMessageText};
   &:hover,
   &:visited,
-  &:active {
-    color: ${props => props.theme.messenger.colors.action};
+  &:active,
+  &:focus {
+    color: ${props =>
+      props.isPrimaryParticipant
+        ? props.theme.messenger.colors.messageText
+        : props.theme.messenger.colors.otherParticipantMessageText};
   }
 `
 
-const Size = styled.p`
+const Size = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.sm};
-  color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
 `
 
