@@ -55,6 +55,8 @@ const ThemeProvider = ({ children }) => {
                 lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
                 xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
                 xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
+                imageHeight: rem('146px', baseFontSize),
+                imageWidth: rem('264px', baseFontSize),
                 xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize)
               },
               lineHeights: {
