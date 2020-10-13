@@ -1,6 +1,7 @@
 export const widgetFrameHeight = 700
 export const widgetFrameWidth = 380
 export const launcherSize = 64
+export const unreadIndicatorSize = 20
 export const frameMarginFromPage = 16
 export const marginBetweenFrames = 8
 export const frameBoxShadow =
