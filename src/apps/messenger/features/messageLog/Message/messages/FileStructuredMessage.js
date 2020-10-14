@@ -9,9 +9,11 @@ const FileStructuredMessage = ({
   message: {
     avatarUrl,
     isFirstInGroup,
+    isFirstMessageInAuthorGroup,
     isLastInGroup,
     isLastInLog,
     isPrimaryParticipant,
+    isLastMessageInAuthorGroup,
     mediaSize,
     mediaUrl,
     name,
@@ -22,8 +24,8 @@ const FileStructuredMessage = ({
 
   return (
     <Layout
-      avatar={isLastInGroup ? avatarUrl : undefined}
-      label={isFirstInGroup ? name : undefined}
+      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
       timeReceived={received}
       isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}

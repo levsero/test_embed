@@ -13,6 +13,8 @@ const ImageStructuredMessage = ({
     mediaUrl,
     isFirstInGroup,
     isLastInGroup,
+    isFirstMessageInAuthorGroup,
+    isLastMessageInAuthorGroup,
     avatarUrl,
     name,
     received,
@@ -25,8 +27,8 @@ const ImageStructuredMessage = ({
   return (
     <Layout
       isFirstInGroup={isFirstInGroup}
-      avatar={isLastInGroup ? avatarUrl : undefined}
-      label={isFirstInGroup ? name : undefined}
+      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
       isReceiptVisible={isLastMessageThatHasntFailed}
       timeReceived={received}
     >

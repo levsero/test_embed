@@ -6,8 +6,8 @@ const CarouselStructuredMessage = ({ message }) => {
   return (
     <Carousel
       items={message.items}
-      label={message.isFirstInGroup ? message.name : undefined}
-      avatar={message.isLastInGroup ? message.avatarUrl : undefined}
+      label={message.isFirstMessageInAuthorGroup ? message.name : undefined}
+      avatar={message.isLastMessageInAuthorGroup ? message.avatarUrl : undefined}
     />
   )
 }
