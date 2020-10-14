@@ -7,11 +7,7 @@ export default {
   argTypes: { onSubmit: { action: 'message sent' }, onChange: { action: 'user typed' } }
 }
 
-const Template = args => (
-  <div style={{ width: 380, height: 700, border: '1px solid black' }}>
-    <Composer {...args} />
-  </div>
-)
+const Template = args => <Composer {...args} />
 
 export const SingleRowComposer = Template.bind()
 SingleRowComposer.args = {

@@ -7,11 +7,7 @@ export default {
   argTypes: { submitReply: { action: 'reply submitted' } }
 }
 
-const Template = args => (
-  <div style={{ width: 360, height: 520, border: '1px solid black' }}>
-    <Replies {...args} />
-  </div>
-)
+const Template = args => <Replies {...args} />
 
 export const TwoReplies = Template.bind()
 TwoReplies.args = {
