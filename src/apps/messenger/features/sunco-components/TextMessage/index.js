@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Linkify from 'react-linkify'
 
 import {
   MESSAGE_BUBBLE_SHAPES,
@@ -12,7 +13,9 @@ const TextMessage = ({ isPrimaryParticipant, text, shape, status }) => {
   return (
     <MessageBubble shape={shape} isPrimaryParticipant={isPrimaryParticipant} status={status}>
       <Content>
-        <Text>{text}</Text>
+        <Linkify properties={{ target: '_blank' }}>
+          <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
+        </Linkify>
       </Content>
     </MessageBubble>
   )
