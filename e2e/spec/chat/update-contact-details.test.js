@@ -18,6 +18,7 @@ const setupTest = async () => {
   await waitForChatToBeReady()
   await clickChatOptions()
   await widget.clickText('Edit contact details')
+  await widget.waitForText('Save')
 
   const nameField = await queries.getByLabelText(await widget.getDocument(), 'Name (optional)')
   const emailField = await queries.getByLabelText(await widget.getDocument(), 'Email (optional)')
