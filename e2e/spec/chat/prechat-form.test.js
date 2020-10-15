@@ -33,6 +33,7 @@ describe('prechat form', () => {
     await chatMenu.click()
 
     await widget.clickText('Edit contact details')
+    await widget.waitForText('Save')
 
     await assertInputValue('Name (optional)', 'Some name')
     await assertInputValue('Email (optional)', 'example@example.com')
