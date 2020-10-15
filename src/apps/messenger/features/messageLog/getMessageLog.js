@@ -18,6 +18,24 @@ const removeSubmittedForms = (messages, formsState) => {
   })
 }
 
+const retrieveFormDataForFormResponse = messages => {
+  return messages.map(message => {
+    if (message.type === 'formResponse') {
+      const relatedForm = messages.find(
+        otherMessage => otherMessage._id === message.quotedMessageId
+      )
+
+      return {
+        ...message,
+        name: relatedForm?.name ?? message.name,
+        avatarUrl: relatedForm?.avatarUrl ?? message.avatarUrl,
+        authorId: relatedForm?.authorId ?? message.authorId
+      }
+    }
+    return message
+  })
+}
+
 const withUserTyping = (log, userTyping) => {
   if (userTyping) {
     log.push({
@@ -84,7 +102,8 @@ const getMessageLog = createSelector(
   getFormsState,
   getUserTyping,
   (messages, formsState, userTyping) => {
-    const withoutSubmittedForms = removeSubmittedForms(messages, formsState)
+    const updatedFormResponses = retrieveFormDataForFormResponse(messages, formsState)
+    const withoutSubmittedForms = removeSubmittedForms(updatedFormResponses, formsState)
 
     const logWithTimestamps = insertTimestampsInLog(withoutSubmittedForms)
 
