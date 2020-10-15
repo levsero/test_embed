@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 import { Avatar } from '@zendeskgarden/react-avatars'
 
-const Container = styled(Avatar)`
+const Container = styled(Avatar).attrs(props => ({
+  isSystem: props.isSquare
+}))`
   align-self: flex-end;
   flex-shrink: 0;
 

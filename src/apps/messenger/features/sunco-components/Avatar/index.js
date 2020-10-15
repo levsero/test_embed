@@ -4,7 +4,7 @@ import { Container, Image } from './styles'
 
 const Avatar = ({ src }) => {
   return src ? (
-    <Container>
+    <Container isSquare={true}>
       <Image src={src} />
     </Container>
   ) : (
