@@ -4,11 +4,9 @@ import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-compone
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
 const Image = styled.img`
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
+  width: ${props => props.theme.messenger.space.imageWidth};
+  height: ${props => props.theme.messenger.space.imageHeight};
+  object-fit: cover;
 `
 
 const PrimaryParticipantImage = styled(Image)`

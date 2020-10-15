@@ -19,8 +19,7 @@ const ImageStructuredMessage = ({
     name,
     received,
     isLastMessageThatHasntFailed
-  },
-  scrollToBottomIfNeeded
+  }
 }) => {
   const isPrimaryParticipant = role === 'appUser'
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -37,7 +36,6 @@ const ImageStructuredMessage = ({
         shape={getMessageShape(isFirstInGroup, isLastInGroup)}
         mediaUrl={mediaUrl}
         text={text}
-        onLoad={scrollToBottomIfNeeded}
       />
     </Layout>
   )
@@ -53,8 +51,7 @@ ImageStructuredMessage.propTypes = {
     isLastInLog: PropTypes.bool,
     avatarUrl: PropTypes.string,
     name: PropTypes.string
-  }),
-  scrollToBottomIfNeeded: PropTypes.func
+  })
 }
 
 export default ImageStructuredMessage
