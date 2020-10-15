@@ -63,6 +63,20 @@ const Text = styled.p`
   font-size: ${props => props.theme.messenger.fontSizes.md};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
   padding: ${props => `${props.theme.messenger.space.xs} ${props.theme.messenger.space.sm}`};
+
+  a {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: ${props => props.theme.messenger.fontSizes.md};
+    line-height: ${props => props.theme.messenger.lineHeights.sm};
+    color: ${props =>
+      props.isPrimaryParticipant
+        ? props.theme.messenger.colors.messageText
+        : props.theme.messenger.colors.otherParticipantMessageText};
+  }
+  a &hover {
+    text-decoration: underline;
+  }
 `
 
 export { PrimaryParticipantImage, OtherParticipantImage, Text }

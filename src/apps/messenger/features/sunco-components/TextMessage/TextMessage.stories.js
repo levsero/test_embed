@@ -44,6 +44,13 @@ LongMessage.args = {
     'The emu (Dromaius novaehollandiae) is the second-largest living bird by height, after its ratite relative, the ostrich. It is endemic to Australia where it is the largest native bird and the only extant member of the genus Dromaius.'
 }
 
+export const UrlMessage = Template.bind()
+UrlMessage.args = {
+  isPrimaryParticipant: true,
+  shape: 'standalone',
+  text: 'For more results, go to www.google.com'
+}
+
 export const MessageLogText = args => (
   <PrimaryParticipantLayout
     isFirstInGroup={false}

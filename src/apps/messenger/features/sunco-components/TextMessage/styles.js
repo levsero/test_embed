@@ -7,6 +7,20 @@ const Text = styled.span`
   font-size: ${props => props.theme.messenger.fontSizes.md};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
   width: auto;
+
+  a {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: ${props => props.theme.messenger.fontSizes.md};
+    line-height: ${props => props.theme.messenger.lineHeights.sm};
+    color: ${props =>
+      props.isPrimaryParticipant
+        ? props.theme.messenger.colors.messageText
+        : props.theme.messenger.colors.otherParticipantMessageText};
+  }
+  a &hover {
+    text-decoration: underline;
+  }
 `
 
 const Content = styled.div`
