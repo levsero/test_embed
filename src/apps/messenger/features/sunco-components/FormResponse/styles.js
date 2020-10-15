@@ -8,6 +8,7 @@ const FormContainer = styled.div`
   padding: ${props => props.theme.messenger.space.sixteen};
   width: 100%;
   margin-top: ${props => props.theme.messenger.space.xxs};
+  margin-right: ${props => props.theme.messenger.space.sixteen};
 `
 const Field = styled.div`
   & + & {
