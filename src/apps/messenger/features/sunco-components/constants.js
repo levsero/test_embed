@@ -1,3 +1,15 @@
+const BANNER_STATUS = Object.freeze({
+  success: 'success',
+  fatal: 'fatal'
+})
+
+const FORM_MESSAGE_STATUS = Object.freeze({
+  unsubmitted: 'unsubmitted',
+  pending: 'pending',
+  success: 'success',
+  failed: 'failed'
+})
+
 const MESSAGE_BUBBLE_SHAPES = Object.freeze({
   standalone: 'standalone',
   first: 'first',
@@ -11,11 +23,4 @@ const MESSAGE_STATUS = Object.freeze({
   failed: 'failed'
 })
 
-const FORM_MESSAGE_STATUS = Object.freeze({
-  unsubmitted: 'unsubmitted',
-  pending: 'pending',
-  success: 'success',
-  failed: 'failed'
-})
-
-export { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS, FORM_MESSAGE_STATUS }
+export { BANNER_STATUS, FORM_MESSAGE_STATUS, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS }
