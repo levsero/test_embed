@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Dropdown, Menu, Item, Select, Label } from '@zendeskgarden/react-dropdowns'
 import { rgba, rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
 const StyledDropdown = styled(Dropdown)`
   &&& {
@@ -19,7 +18,8 @@ const StyledSelect = styled(Select)`
     svg {
       height: ${props => props.theme.messenger.space.sixteen};
       width: ${props => props.theme.messenger.space.sixteen};
-      margin: ${`${rem(1, baseFontSize)} 0 auto ${rem(8, baseFontSize)}`};
+      margin: ${`${props => rem(1, props.theme.messenger.baseFontSize)} 0 auto ${props =>
+        rem(8, props.theme.messenger.baseFontSize)}`};
     }
 
     ${props =>
@@ -56,7 +56,8 @@ const StyledSelect = styled(Select)`
 
 const StyledItem = styled(Item)`
   &&& {
-    padding: ${props => props.theme.messenger.space.xs} ${rem(36, baseFontSize)};
+    padding: ${props => props.theme.messenger.space.xs}
+      ${props => rem(36, props.theme.messenger.baseFontSize)};
     line-height: ${props => props.theme.messenger.lineHeights.md};
     font-size: ${props => props.theme.messenger.fontSizes.md};
 

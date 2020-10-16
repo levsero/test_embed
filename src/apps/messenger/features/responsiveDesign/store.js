@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
+import { baseFontSize } from 'src/apps/messenger/constants'
 
 const fullScreenHeightBreakpoint = rem('825px', `${baseFontSize}px`)
 const fullScreenWidthBreakpoint = rem('415px', `${baseFontSize}px`)

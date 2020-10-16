@@ -8,7 +8,7 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { i18n } from 'service/i18n'
 import { createGlobalStyle } from 'styled-components'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
+import { baseFontSize } from 'src/apps/messenger/constants'
 
 i18n.setLocale()
 const ScrollOverride = createGlobalStyle`

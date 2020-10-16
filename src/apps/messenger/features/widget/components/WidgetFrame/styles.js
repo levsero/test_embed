@@ -1,6 +1,6 @@
 import { em } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import {
+  baseFontSize,
   frameBoxShadow,
   frameMarginFromPage,
   launcherSize,

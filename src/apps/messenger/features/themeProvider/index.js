@@ -9,6 +9,8 @@ import { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import useTranslate from 'src/hooks/useTranslate'
 import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
 import { rem } from 'polished'
+import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { baseFontSize, baseFontSizeFullScreen } from 'src/apps/messenger/constants'
 
 const GlobalStyles = createGlobalStyle`
   ${bedrockCSS}
@@ -19,11 +21,12 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
-export const baseFontSize = '16px'
-
 const ThemeProvider = ({ children }) => {
   useTranslate()
   const messengerColors = useSelector(getMessengerColors)
+  const isFullScreen = useSelector(getIsFullScreen)
+
+  const currentBaseFontSize = isFullScreen ? baseFontSizeFullScreen : baseFontSize
 
   return (
     <CurrentFrameConsumer>
@@ -34,46 +37,47 @@ const ThemeProvider = ({ children }) => {
             document: frame.document,
             rtl: i18n.isRTL(),
             messenger: {
+              baseFontSize: currentBaseFontSize,
               colors: messengerColors,
               fontSizes: {
-                xs: rem(DEFAULT_THEME.fontSizes.xs, baseFontSize),
-                sm: rem(DEFAULT_THEME.fontSizes.sm, baseFontSize),
-                md: rem(DEFAULT_THEME.fontSizes.md, baseFontSize),
-                sixteen: rem('16px', baseFontSize),
-                lg: rem(DEFAULT_THEME.fontSizes.lg, baseFontSize),
-                xl: rem(DEFAULT_THEME.fontSizes.xl, baseFontSize),
-                xxl: rem(DEFAULT_THEME.fontSizes.xxl, baseFontSize),
-                xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, baseFontSize)
+                xs: rem(DEFAULT_THEME.fontSizes.xs, currentBaseFontSize),
+                sm: rem(DEFAULT_THEME.fontSizes.sm, currentBaseFontSize),
+                md: rem(DEFAULT_THEME.fontSizes.md, currentBaseFontSize),
+                sixteen: rem('16px', currentBaseFontSize),
+                lg: rem(DEFAULT_THEME.fontSizes.lg, currentBaseFontSize),
+                xl: rem(DEFAULT_THEME.fontSizes.xl, currentBaseFontSize),
+                xxl: rem(DEFAULT_THEME.fontSizes.xxl, currentBaseFontSize),
+                xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, currentBaseFontSize)
               },
               space: {
-                xxxs: rem('2px', baseFontSize),
-                xxs: rem(DEFAULT_THEME.space.xxs, baseFontSize),
-                xs: rem(DEFAULT_THEME.space.xs, baseFontSize),
-                sm: rem(DEFAULT_THEME.space.sm, baseFontSize),
-                sixteen: rem('16px', baseFontSize),
-                md: rem(DEFAULT_THEME.space.md, baseFontSize),
-                lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
-                xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
-                xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
-                imageHeight: rem('146px', baseFontSize),
-                imageWidth: rem('264px', baseFontSize),
-                xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize)
+                xxxs: rem('2px', currentBaseFontSize),
+                xxs: rem(DEFAULT_THEME.space.xxs, currentBaseFontSize),
+                xs: rem(DEFAULT_THEME.space.xs, currentBaseFontSize),
+                sm: rem(DEFAULT_THEME.space.sm, currentBaseFontSize),
+                sixteen: rem('16px', currentBaseFontSize),
+                md: rem(DEFAULT_THEME.space.md, currentBaseFontSize),
+                lg: rem(DEFAULT_THEME.space.lg, currentBaseFontSize),
+                xl: rem(DEFAULT_THEME.space.xl, currentBaseFontSize),
+                xxl: rem(DEFAULT_THEME.space.xxl, currentBaseFontSize),
+                xxxl: rem(DEFAULT_THEME.space.xxxl, currentBaseFontSize),
+                imageHeight: rem('146px', currentBaseFontSize),
+                imageWidth: rem('264px', currentBaseFontSize)
               },
               lineHeights: {
-                sm: rem(DEFAULT_THEME.lineHeights.sm, baseFontSize),
-                md: rem(DEFAULT_THEME.lineHeights.md, baseFontSize),
-                lg: rem(DEFAULT_THEME.lineHeights.lg, baseFontSize),
-                xl: rem(DEFAULT_THEME.lineHeights.xl, baseFontSize),
-                xxl: rem(DEFAULT_THEME.lineHeights.xxl, baseFontSize)
+                sm: rem(DEFAULT_THEME.lineHeights.sm, currentBaseFontSize),
+                md: rem(DEFAULT_THEME.lineHeights.md, currentBaseFontSize),
+                lg: rem(DEFAULT_THEME.lineHeights.lg, currentBaseFontSize),
+                xl: rem(DEFAULT_THEME.lineHeights.xl, currentBaseFontSize),
+                xxl: rem(DEFAULT_THEME.lineHeights.xxl, currentBaseFontSize)
               },
               iconSizes: {
-                sm: rem(DEFAULT_THEME.iconSizes.sm, baseFontSize),
-                md: rem(DEFAULT_THEME.iconSizes.md, baseFontSize),
-                lg: rem(DEFAULT_THEME.iconSizes.lg, baseFontSize),
-                xl: rem('32px', baseFontSize)
+                sm: rem(DEFAULT_THEME.iconSizes.sm, currentBaseFontSize),
+                md: rem(DEFAULT_THEME.iconSizes.md, currentBaseFontSize),
+                lg: rem(DEFAULT_THEME.iconSizes.lg, currentBaseFontSize),
+                xl: rem('32px', currentBaseFontSize)
               },
               borderRadii: {
-                textMessage: rem('20px', baseFontSize)
+                textMessage: rem('20px', currentBaseFontSize)
               }
             }
           }}

@@ -1,6 +1,5 @@
-import { useRef, useLayoutEffect, useCallback } from 'react'
+import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { rem, stripUnit } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
@@ -8,6 +7,7 @@ import {
   markAsRead
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useDispatch, useSelector } from 'react-redux'
+import { ThemeContext } from 'styled-components'
 
 const scrollOffsetInRems = 3
 
@@ -40,6 +40,7 @@ const useScrollBehaviour = ({ messages, container }) => {
   const isScrollingToBottom = useRef(false)
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
+  const theme = useContext(ThemeContext)
 
   const scrollToBottomIfNeeded = useCallback(() => {
     if (isScrollAtBottom.current) {
@@ -62,7 +63,7 @@ const useScrollBehaviour = ({ messages, container }) => {
     event => {
       const pxFromBottom =
         event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
-      const remFromBottom = stripUnit(rem(pxFromBottom, baseFontSize))
+      const remFromBottom = stripUnit(rem(pxFromBottom, theme.messenger.baseFontSize))
 
       isScrollAtBottom.current = remFromBottom <= scrollOffsetInRems
 
