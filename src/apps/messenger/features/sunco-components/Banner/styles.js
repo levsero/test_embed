@@ -12,10 +12,11 @@ const Container = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  margin: 10px auto 0;
-  padding: ${props => props.theme.messenger.space.xs};
-  height: ${rem(32, baseFontSize)};
+  display: table;
+  overflow: hidden;
   width: 90%;
+  margin: 10px auto 0;
+  padding: ${rem(6, baseFontSize)} ${props => props.theme.messenger.space.xs};
   text-align: center;
   z-index: 10;
   background-color: ${props => statusColors[props.status] || statusColors[BANNER_STATUS.success]};
@@ -24,10 +25,11 @@ const Container = styled.div`
 `
 
 const Label = styled.label`
+  display: table-cell;
+  vertical-align: middle;
   color: #fff;
   height: ${rem(20, baseFontSize)};
   font-size: ${props => props.theme.messenger.fontSizes.md};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
 `
 
 export { Container, Label }
