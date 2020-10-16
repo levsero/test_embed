@@ -15,27 +15,30 @@ import {
   CloseIcon,
   CloseIconContainer
 } from './styles'
+import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 
 const Header = () => {
   const dispatch = useDispatch()
   const { avatar, name, description } = useSelector(getHeaderValues)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
+  const isFullScreen = useSelector(getIsFullScreen)
 
   return (
-    <Container>
+    <Container isFullScreen={isFullScreen}>
       {avatar && (
-        <Avatar isSystem={true}>
+        <Avatar isSystem={true} isFullScreen={isFullScreen}>
           <img src={avatar} alt={'company avatar'} />
         </Avatar>
       )}
       <Details>
-        {name && <Title>{name}</Title>}
-        {description && <Description>{description}</Description>}
+        {name && <Title isFullScreen={isFullScreen}>{name}</Title>}
+        {description && <Description isFullScreen={isFullScreen}>{description}</Description>}
       </Details>
 
       {!isLauncherVisible && (
-        <CloseIconContainer>
+        <CloseIconContainer isFullScreen={isFullScreen}>
           <IconButton
+            isFullScreen={isFullScreen}
             onClick={() => {
               dispatch(widgetClosed())
             }}
