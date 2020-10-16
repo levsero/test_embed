@@ -40,6 +40,12 @@ const areMessagesGroupable = (thisMessage, otherMessage) => {
   return !hasOtherFailed
 }
 
+const areSameAuthor = (first, second) =>
+  first.authorId === second?.authorId &&
+  first.name === second?.name &&
+  first.role === second?.role &&
+  first.avatarUrl === second?.avatarUrl
+
 const addMessagePositionsToGroups = messages => {
   let lastMessageThatHasntFailed
 
@@ -47,15 +53,12 @@ const addMessagePositionsToGroups = messages => {
     const previousMessage = messages[index - 1]
     const nextMessage = messages[index + 1]
 
-    const isFirstInGroup =
-      message.authorId !== previousMessage?.authorId ||
-      !areMessagesGroupable(message, previousMessage)
-    const isLastInGroup =
-      message.authorId !== nextMessage?.authorId || !areMessagesGroupable(message, nextMessage)
-    const isLastInLog = index === messages.length - 1
+    const isPreviousSameAuthor = areSameAuthor(message, previousMessage)
+    const isNextSameAuthor = areSameAuthor(message, nextMessage)
 
-    const isFirstMessageInAuthorGroup = message.authorId !== previousMessage?.authorId
-    const isLastMessageInAuthorGroup = message.authorId !== nextMessage?.authorId
+    const isFirstInGroup = !isPreviousSameAuthor || !areMessagesGroupable(message, previousMessage)
+    const isLastInGroup = !isNextSameAuthor || !areMessagesGroupable(message, nextMessage)
+    const isLastInLog = index === messages.length - 1
 
     if (message.status !== MESSAGE_STATUS.failed) {
       lastMessageThatHasntFailed = index
@@ -66,8 +69,8 @@ const addMessagePositionsToGroups = messages => {
       isFirstInGroup,
       isLastInGroup,
       isLastInLog,
-      isLastMessageInAuthorGroup,
-      isFirstMessageInAuthorGroup,
+      isFirstMessageInAuthorGroup: !isPreviousSameAuthor,
+      isLastMessageInAuthorGroup: !isNextSameAuthor,
       isLastMessageThatHasntFailed: false
     }
   })

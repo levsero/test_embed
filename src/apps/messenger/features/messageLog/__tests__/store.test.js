@@ -672,6 +672,106 @@ describe('messages store', () => {
           expect(message3.isLastMessageThatHasntFailed).toBe(false)
         })
       })
+
+      it('differentiates between sources from the same authorId', () => {
+        const store = createStore()
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 1,
+              authorId: 'bob',
+              avatarUrl: 'abc123',
+              name: 'bot bob',
+              role: 'appMaker',
+              type: 'image',
+              src: 'cat image',
+              received: 1
+            }
+          })
+        )
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 2,
+              authorId: 'bob',
+              avatarUrl: 'abc123',
+              name: 'agent bob',
+              role: 'appMaker',
+              type: 'text',
+              text: 'Two',
+              received: 2
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 3,
+              authorId: 'bob',
+              avatarUrl: 'abc1234',
+              name: 'agent bob',
+              role: 'appMaker',
+              type: 'text',
+              text: 'Three',
+              received: 3
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 4,
+              authorId: 'bob',
+              avatarUrl: 'abc1234',
+              name: 'agent bob',
+              role: 'otherAppMaker',
+              type: 'text',
+              text: 'Three',
+              received: 4
+            }
+          })
+        )
+
+        store.dispatch(
+          messageReceived({
+            message: {
+              _id: 5,
+              authorId: 'bob',
+              avatarUrl: 'abc1234',
+              name: 'agent bob',
+              role: 'otherAppMaker',
+              type: 'text',
+              text: 'Three',
+              received: 5
+            }
+          })
+        )
+
+        const [message1, message2, message3, message4, message5] = getMessageLog(store.getState())
+
+        expect(message1._id).toBe(1)
+        expect(message1.isFirstMessageInAuthorGroup).toBe(true)
+        expect(message1.isLastMessageInAuthorGroup).toBe(true)
+
+        expect(message2._id).toBe(2)
+        expect(message2.isFirstMessageInAuthorGroup).toBe(true)
+        expect(message2.isLastMessageInAuthorGroup).toBe(true)
+
+        expect(message3._id).toBe(3)
+        expect(message3.isFirstMessageInAuthorGroup).toBe(true)
+        expect(message3.isLastMessageInAuthorGroup).toBe(true)
+
+        expect(message4._id).toBe(4)
+        expect(message4.isFirstMessageInAuthorGroup).toBe(true)
+        expect(message4.isLastMessageInAuthorGroup).toBe(false)
+
+        expect(message5._id).toBe(5)
+        expect(message5.isFirstMessageInAuthorGroup).toBe(false)
+        expect(message5.isLastMessageInAuthorGroup).toBe(true)
+      })
     })
   })
 
