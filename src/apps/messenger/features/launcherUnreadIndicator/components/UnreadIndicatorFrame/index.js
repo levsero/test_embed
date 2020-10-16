@@ -5,7 +5,8 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import {
   frameMarginFromPage,
   unreadIndicatorSize,
-  launcherSize
+  launcherSize,
+  zIndex
 } from 'src/apps/messenger/constants'
 import { useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
@@ -25,6 +26,7 @@ const UnreadIndicatorFrame = ({ children }) => {
       title="LauncherUnreadIndicator"
       hidden={!isVisible}
       style={{
+        zIndex: zIndex,
         height: unreadIndicatorSize,
         width: unreadIndicatorSize + 20,
         position: 'fixed',

@@ -6,7 +6,8 @@ import {
   bezierCurve,
   frameBoxShadow,
   frameMarginFromPage,
-  launcherSize
+  launcherSize,
+  zIndex
 } from 'src/apps/messenger/constants'
 import { useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
@@ -49,7 +50,7 @@ const LauncherFrame = ({ children }) => {
           boxShadow: frameBoxShadow,
           animation:
             isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined,
-          zIndex: 999999
+          zIndex: zIndex
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>

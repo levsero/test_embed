@@ -3,6 +3,7 @@ import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 
+import { zIndex } from 'src/apps/messenger/constants'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
@@ -57,7 +58,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
         width: dimensions.width,
         [position]: 0,
         border: 0,
-        zIndex: 999999
+        zIndex: zIndex
       }}
     >
       <ThemeProvider>

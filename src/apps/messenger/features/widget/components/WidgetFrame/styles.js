@@ -6,7 +6,8 @@ import {
   launcherSize,
   marginBetweenFrames,
   widgetFrameHeight,
-  widgetFrameWidth
+  widgetFrameWidth,
+  zIndex
 } from 'src/apps/messenger/constants'
 
 export const openAnimationDuration = 0.7
@@ -93,7 +94,7 @@ const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen }) => {
     bottom: 0,
     right: 0,
     left: 0,
-    zIndex: 999999
+    zIndex: zIndex
   }
 
   if (isVerticallySmallScreen) {
