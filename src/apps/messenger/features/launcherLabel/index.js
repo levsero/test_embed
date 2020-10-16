@@ -56,7 +56,8 @@ const LauncherLabel = React.forwardRef((_, ref) => {
         height: dimensions.height,
         width: dimensions.width,
         [position]: 0,
-        border: 0
+        border: 0,
+        zIndex: 999999
       }}
     >
       <ThemeProvider>

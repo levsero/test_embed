@@ -48,7 +48,8 @@ const LauncherFrame = ({ children }) => {
           marginTop: 0,
           boxShadow: frameBoxShadow,
           animation:
-            isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined
+            isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined,
+          zIndex: 999999
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>
