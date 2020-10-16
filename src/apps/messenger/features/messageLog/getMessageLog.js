@@ -43,6 +43,7 @@ const areMessagesGroupable = (thisMessage, otherMessage) => {
 const areSameAuthor = (first, second) =>
   first.authorId === second?.authorId &&
   first.name === second?.name &&
+  first.role === second?.role &&
   first.avatarUrl === second?.avatarUrl
 
 const addMessagePositionsToGroups = messages => {
