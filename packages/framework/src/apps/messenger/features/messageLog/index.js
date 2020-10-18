@@ -28,6 +28,8 @@ const MessageLog = () => {
     messages
   })
 
+  const messageLogOpened = useRef(Date.now() / 1000)
+
   return (
     <Container>
       <Log
@@ -52,6 +54,7 @@ const MessageLog = () => {
               key={message._id}
               message={message}
               scrollToBottomIfNeeded={scrollToBottomIfNeeded}
+              isFreshMessage={message.received > messageLogOpened.current}
             />
           ))}
 

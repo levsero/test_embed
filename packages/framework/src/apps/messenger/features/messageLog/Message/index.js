@@ -28,7 +28,7 @@ const localMessageTypes = {
   typingIndicator: TypingIndicator
 }
 
-const Message = ({ message, scrollToBottomIfNeeded }) => {
+const Message = ({ message, scrollToBottomIfNeeded, isFreshMessage }) => {
   const messageTypes = message.isLocalMessageType ? localMessageTypes : suncoMessageTypes
   const StructuredMessage = messageTypes[message.type]
 
@@ -36,14 +36,21 @@ const Message = ({ message, scrollToBottomIfNeeded }) => {
     return null
   }
 
-  return <StructuredMessage message={message} scrollToBottomIfNeeded={scrollToBottomIfNeeded} />
+  return (
+    <StructuredMessage
+      message={message}
+      scrollToBottomIfNeeded={scrollToBottomIfNeeded}
+      isFreshMessage={isFreshMessage}
+    />
+  )
 }
 
 Message.propTypes = {
   message: PropTypes.shape({
     type: PropTypes.string
   }),
-  scrollToBottomIfNeeded: PropTypes.func
+  scrollToBottomIfNeeded: PropTypes.func,
+  isFreshMessage: PropTypes.bool
 }
 
 export default Message
