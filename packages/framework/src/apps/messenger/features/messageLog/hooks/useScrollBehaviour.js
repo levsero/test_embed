@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
+import { useRef, useLayoutEffect, useCallback, createContext, useContext } from 'react'
 import { rem, stripUnit } from 'polished'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import {
@@ -8,6 +8,9 @@ import {
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
+
+const ScrollContext = createContext({ scrollToBottomIfNeeded: () => null })
+const ScrollProvider = ScrollContext.Provider
 
 const scrollOffsetInRems = 3
 
@@ -23,6 +26,7 @@ const scrollToBottomUntilHeightSettled = async (container, isScrollAtBottom) => 
       requestAnimationFrame(() => {
         if (!container.current || !isScrollAtBottom.current) {
           res()
+          return
         }
 
         container.current.scrollTop = container.current.scrollHeight
@@ -122,4 +126,9 @@ const useScrollBehaviour = ({ messages, container }) => {
   }
 }
 
+const useScroll = () => {
+  return useContext(ScrollContext)
+}
+
 export default useScrollBehaviour
+export { useScroll, ScrollProvider }

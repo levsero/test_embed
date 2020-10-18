@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
+import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 
 const FormStructuredMessage = ({
   message: {
@@ -12,8 +13,7 @@ const FormStructuredMessage = ({
     isLastMessageInAuthorGroup,
     isFirstMessageInAuthorGroup,
     name
-  },
-  scrollToBottomIfNeeded
+  }
 }) => {
   const {
     onChange,
@@ -28,6 +28,7 @@ const FormStructuredMessage = ({
     formId: _id,
     fields
   })
+  const { scrollToBottomIfNeeded } = useScroll()
 
   return (
     <Form
@@ -70,8 +71,7 @@ FormStructuredMessage.propTypes = {
     ),
     avatarUrl: PropTypes.string,
     name: PropTypes.string
-  }),
-  scrollToBottomIfNeeded: PropTypes.func
+  })
 }
 
 export default FormStructuredMessage
