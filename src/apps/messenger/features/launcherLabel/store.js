@@ -1,26 +1,37 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAction, createSlice } from '@reduxjs/toolkit'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { store as persistence } from 'src/framework/services/persistence'
+
+export const launcherLabelStorageKey = 'launcherLabelRemoved'
+
+const initialiseLauncherLabel = createAction('initialiseLauncherLabel', () => ({
+  payload: {
+    hasBeenClosed: Boolean(persistence.get(launcherLabelStorageKey))
+  }
+}))
 
 const launcherLabel = createSlice({
   name: 'launcherLabel',
   initialState: {
     text: '',
     isVisibleOnMobile: false,
-    hasBeenClosed: Boolean(persistence.get('launcherHasBeenClosed'))
+    hasBeenClosed: true
   },
   reducers: {
     labelHidden(state) {
       state.hasBeenClosed = true
 
       try {
-        persistence.set('launcherHasBeenClosed', true)
+        persistence.set(launcherLabelStorageKey, true)
       } catch {}
     }
   },
   extraReducers: {
+    [initialiseLauncherLabel](state, action) {
+      state.hasBeenClosed = Boolean(action.payload.hasBeenClosed)
+    },
     [messengerConfigReceived](state, action) {
       if (action.payload?.launcher) {
         if (typeof action.payload.launcher.text === 'string') {
@@ -60,4 +71,10 @@ const getIsLauncherLabelVisible = state => {
 const { labelHidden } = launcherLabel.actions
 
 export default launcherLabel.reducer
-export { getLauncherLabelText, getIsVisibleOnSmallDevices, labelHidden, getIsLauncherLabelVisible }
+export {
+  getLauncherLabelText,
+  getIsVisibleOnSmallDevices,
+  labelHidden,
+  getIsLauncherLabelVisible,
+  initialiseLauncherLabel
+}
