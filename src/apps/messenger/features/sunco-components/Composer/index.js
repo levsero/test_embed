@@ -34,6 +34,10 @@ const Composer = ({ isEnabled, maxRows, minRows, label, onSubmit, onChange, mess
   }, [isEnabled, isFullScreen])
 
   const handleSubmit = () => {
+    if (message.trim() === 0) {
+      return
+    }
+
     onSubmit(message)
     inputRef.current.focus()
   }
@@ -53,7 +57,7 @@ const Composer = ({ isEnabled, maxRows, minRows, label, onSubmit, onChange, mess
           disabled={!isEnabled}
         />
         {message && isEnabled && (
-          <SendButton onClick={handleSubmit} aria-label="Send message">
+          <SendButton onClick={handleSubmit} aria-label="Send message" title="Send message">
             <SendIcon />
           </SendButton>
         )}
