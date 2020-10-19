@@ -15,6 +15,10 @@ const avatarSpace = rem(36, baseFontSize)
 const Bubble = styled.div`
   margin-top: ${props => props.theme.messenger.space.xxxs};
   min-width: ${props => props.theme.messenger.space.xl};
+  min-height: ${props => props.theme.messenger.space.xl};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`

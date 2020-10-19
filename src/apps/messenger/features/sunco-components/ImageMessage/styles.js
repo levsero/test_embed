@@ -59,7 +59,7 @@ const Text = styled.p`
   white-space: pre-wrap;
   word-wrap: break-word;
   font-size: ${props => props.theme.messenger.fontSizes.md};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  line-height: ${props => props.theme.messenger.lineHeights.md};
   padding: ${props => `${props.theme.messenger.space.xs} ${props.theme.messenger.space.sm}`};
 
   a {
