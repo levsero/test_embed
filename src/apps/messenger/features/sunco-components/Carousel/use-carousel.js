@@ -68,6 +68,12 @@ const useCarousel = ({ items }) => {
     }
   }
 
+  const onFocus = element => {
+    const newOffset = element.target?.offsetParent?.offsetLeft
+
+    scrollTo(newOffset - remToPx(scrollPadding))
+  }
+
   const goToNextPage = () => {
     const lastVisibleIndex = visibleItems[visibleItems.length - 1]
     const indexToScrollTo = lastVisibleIndex + 1
@@ -81,6 +87,7 @@ const useCarousel = ({ items }) => {
     if (!childToScrollTo) {
       return
     }
+
     scrollTo(childToScrollTo.offsetLeft - remToPx(scrollPadding))
   }
 
@@ -109,6 +116,7 @@ const useCarousel = ({ items }) => {
     containerRef,
     goToNextPage,
     goToPreviousPage,
+    onFocus,
     isFirstSlideVisible: visibleItems.indexOf(1) > -1,
     isLastSlideVisible: visibleItems.indexOf(items.length) > -1
   }

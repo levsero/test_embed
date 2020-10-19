@@ -26,7 +26,8 @@ const Carousel = ({ items, label, avatar }) => {
     isFirstSlideVisible,
     isLastSlideVisible,
     goToNextPage,
-    goToPreviousPage
+    goToPreviousPage,
+    onFocus
   } = useCarousel({ items })
 
   return (
@@ -43,7 +44,12 @@ const Carousel = ({ items, label, avatar }) => {
         </AvatarSlide>
 
         {items.map((item, index) => (
-          <Slide isFirstSlide={index === 0} isLastSlide={index === items.length - 1} key={item._id}>
+          <Slide
+            onFocus={onFocus}
+            isFirstSlide={index === 0}
+            isLastSlide={index === items.length - 1}
+            key={item._id}
+          >
             <Content>
               <Title>{item.title}</Title>
               <Description>{item.description}</Description>
