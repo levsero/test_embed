@@ -54,7 +54,7 @@ const sendAnalyticsBlip = data => {
   http.sendWithMeta(payload)
 }
 
-const sendPageViewWhenReady = () => {
+const sendPageViewWhenReady = (channel = 'web_widget') => {
   // We need to invoke `sendPageView` on `DOMContentLoaded` because
   // for help center host pages, the script that defines the `HelpCenter`
   // global object may not be executed yet.
@@ -63,16 +63,16 @@ const sendPageViewWhenReady = () => {
     doc.addEventListener(
       'DOMContentLoaded',
       () => {
-        sendPageView()
+        sendPageView(channel)
       },
       false
     )
   } else {
-    sendPageView()
+    sendPageView(channel)
   }
 }
 
-const sendPageView = () => {
+const sendPageView = (channel = 'web_widget') => {
   if (config.reduceBlipping) return
 
   const now = Date.now()
@@ -105,6 +105,7 @@ const sendPageView = () => {
     method: config.method,
     path: config.endpoint,
     params: {
+      channel,
       pageView: _.extend(pageViewParams, pageView)
     }
   }

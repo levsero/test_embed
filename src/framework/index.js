@@ -120,7 +120,7 @@ const getConfig = (win, reduxStore) => {
           reduxStore
         })
 
-        beacon.sendPageView()
+        beacon.sendPageView(isMessengerWidget ? 'web_messenger' : 'web_widget')
 
         if (Math.random() <= 0.1) {
           beacon.sendWidgetInitInterval()
