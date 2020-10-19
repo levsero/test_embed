@@ -19,10 +19,11 @@ const ReconnectedBanner = ({ onExit }) => {
     setIsVisible(false)
   }, [])
 
-  const duration = 2000
+  const duration = 3000
 
   const defaultStyle = {
     transition: `opacity ${duration}ms ease-in-out`,
+    zIndex: 10,
     opacity: 1
   }
 
