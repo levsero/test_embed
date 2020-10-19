@@ -8,15 +8,12 @@ const Container = styled.div`
   color: ${props => props.theme.palette.white};
   background-color: ${props => props.theme.palette.red[500]};
   border-radius: ${size}px;
-  position: absolute;
-  top: 12px;
-  right: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-size: 14px;
   padding: 0 6px;
+  margin-left: auto;
 `
 
 const Plus = styled.div`
