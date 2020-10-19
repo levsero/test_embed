@@ -25,11 +25,4 @@ export const listenForOnlineOfflineEvents = reduxStore => {
 
   hostPageWindow.addEventListener('online', updateOnlineStatus)
   hostPageWindow.addEventListener('offline', updateOnlineStatus)
-
-  // Temp adding the following function so that we can test in IE
-  hostPageWindow.toggleConnectionStatus = () => {
-    reduxStore.dispatch(
-      connectionStatusChanged({ isOnline: getIsOnline(reduxStore.getState()) ? false : true })
-    )
-  }
 }
