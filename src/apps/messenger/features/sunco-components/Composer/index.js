@@ -34,6 +34,10 @@ const Composer = ({ isEnabled, maxRows, minRows, label, onSubmit, onChange, mess
   }, [isEnabled, isFullScreen])
 
   const handleSubmit = () => {
+    if (message.trim() === 0) {
+      return
+    }
+
     onSubmit(message)
     inputRef.current.focus()
   }
