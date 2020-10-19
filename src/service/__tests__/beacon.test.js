@@ -169,6 +169,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith({
         method: 'GET',
         params: {
+          channel: 'web_widget',
           pageView: {
             helpCenterDedup: false,
             isMobile: false,
@@ -195,6 +196,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               time: 12
             })
@@ -220,6 +222,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).not.toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               referrer: expect.stringContaining('http://www.example.com')
             })
@@ -236,6 +239,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               referrer: 'http://www.example.com'
             })
@@ -260,6 +264,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               referrer: 'http://www.example.com/path'
             })
@@ -275,6 +280,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               time: 0
             })
@@ -298,6 +304,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               referrer: 'http://localhost/path'
             })
@@ -314,6 +321,7 @@ describe('sendPageView', () => {
       expect(http.sendWithMeta).toHaveBeenCalledWith(
         expect.objectContaining({
           params: {
+            channel: 'web_widget',
             pageView: expect.objectContaining({
               time: 22
             })
@@ -330,6 +338,22 @@ describe('sendPageView', () => {
     expect(http.sendWithMeta).toHaveBeenCalledWith(
       expect.objectContaining({
         params: {
+          channel: 'web_widget',
+          pageView: expect.objectContaining({
+            helpCenterDedup: true
+          })
+        }
+      })
+    )
+  })
+
+  it('sends the channel param in the blip', () => {
+    beacon.sendPageView('web_messenger')
+
+    expect(http.sendWithMeta).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: {
+          channel: 'web_messenger',
           pageView: expect.objectContaining({
             helpCenterDedup: true
           })
@@ -348,6 +372,7 @@ describe('sendPageView', () => {
     expect(http.sendWithMeta).toHaveBeenCalledWith(
       expect.objectContaining({
         params: {
+          channel: 'web_widget',
           pageView: expect.objectContaining({
             isMobile: true,
             isResponsive: true,
