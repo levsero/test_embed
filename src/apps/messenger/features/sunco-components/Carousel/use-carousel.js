@@ -1,6 +1,7 @@
 import { stripUnit } from 'polished'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { scrollPadding } from 'src/apps/messenger/features/sunco-components/Carousel/styles'
+import { ThemeContext } from 'styled-components'
 
 const remToPx = rem => {
   const fontSize = getComputedStyle(document.documentElement).fontSize
@@ -44,6 +45,7 @@ const getVisibleItems = container => {
 const useCarousel = ({ items }) => {
   const containerRef = useRef(null)
   const [visibleItems, setVisibleItems] = useState([])
+  const theme = useContext(ThemeContext)
 
   useEffect(() => {
     const onScroll = () => {
@@ -70,8 +72,9 @@ const useCarousel = ({ items }) => {
 
   const onFocus = element => {
     const newOffset = element.target?.offsetParent?.offsetLeft
+    const padding = remToPx(scrollPadding({ theme }))
 
-    scrollTo(newOffset - remToPx(scrollPadding))
+    scrollTo(newOffset - padding)
   }
 
   const goToNextPage = () => {
@@ -88,7 +91,7 @@ const useCarousel = ({ items }) => {
       return
     }
 
-    scrollTo(childToScrollTo.offsetLeft - remToPx(scrollPadding))
+    scrollTo(childToScrollTo.offsetLeft - remToPx(scrollPadding({ theme })))
   }
 
   const goToPreviousPage = () => {
@@ -107,7 +110,7 @@ const useCarousel = ({ items }) => {
       return
     }
 
-    const newOffsetLeft = childToScrollTo.offsetLeft - remToPx(scrollPadding)
+    const newOffsetLeft = childToScrollTo.offsetLeft - remToPx(scrollPadding({ theme }))
 
     scrollTo(newOffsetLeft)
   }
