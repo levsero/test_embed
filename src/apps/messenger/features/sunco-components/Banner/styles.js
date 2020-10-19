@@ -12,7 +12,7 @@ const Container = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  display: table;
+  display: table-cell;
   overflow: hidden;
   width: 90%;
   margin: 10px auto 0;
@@ -25,10 +25,9 @@ const Container = styled.div`
 `
 
 const Label = styled.label`
-  display: table-cell;
+  text-align: center;
   vertical-align: middle;
   color: #fff;
-  height: ${rem(20, baseFontSize)};
   font-size: ${props => props.theme.messenger.fontSizes.md};
 `
 
