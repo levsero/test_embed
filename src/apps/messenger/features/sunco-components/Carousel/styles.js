@@ -131,6 +131,12 @@ const ControlButton = styled(IconButton)`
       height: ${props => props.theme.messenger.iconSizes.md};
       width: ${props => props.theme.messenger.iconSizes.md};
     }
+
+    border: 3px solid transparent;
+
+    &[data-garden-focus-visible] {
+      border: 3px solid ${props => rgba(props.theme.messenger.colors.action, 0.35)};
+    }
   }
 `
 
