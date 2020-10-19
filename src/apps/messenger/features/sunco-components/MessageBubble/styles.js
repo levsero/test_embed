@@ -5,12 +5,11 @@ import {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS
 } from 'src/apps/messenger/features/sunco-components/constants'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
-const primaryMessageExtraSpace = rem(80, baseFontSize)
-const otherMessageExtraSpace = rem(64, baseFontSize)
-const avatarSpace = rem(36, baseFontSize)
+const primaryMessageExtraSpace = props => rem(80, props.theme.messenger.baseFontSize)
+const otherMessageExtraSpace = props => rem(64, props.theme.messenger.baseFontSize)
+const avatarSpace = props => rem(36, props.theme.messenger.baseFontSize)
 
 const Bubble = styled.div`
   margin-top: ${props => props.theme.messenger.space.xxxs};

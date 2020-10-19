@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import AttachmentIcon from '@zendeskgarden/svg-icons/src/12/paperclip.svg'
 
 const Container = styled.div`
@@ -18,8 +17,8 @@ const Content = styled.div`
 `
 
 const Icon = styled(AttachmentIcon)`
-  width: ${rem(20, baseFontSize)};
-  height: ${rem(20, baseFontSize)};
+  width: ${props => rem(20, props.theme.messenger.baseFontSize)};
+  height: ${props => rem(20, props.theme.messenger.baseFontSize)};
   align-self: center;
   margin-top: ${props => props.theme.messenger.space.xs};
   margin-bottom: ${props => props.theme.messenger.space.xs};

@@ -3,8 +3,6 @@ import { Dots } from '@zendeskgarden/react-loaders'
 import { Button } from '@zendeskgarden/react-buttons'
 import { rgba, rem } from 'polished'
 
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
-
 const Label = styled.div`
   opacity: ${props => (props.showLabel ? 1 : 0)};
 `
@@ -28,8 +26,8 @@ const StyledButton = styled(Button)`
     border-color: ${props => props.theme.messenger.colors.action};
     background-color: ${props => props.theme.messenger.colors.action};
     color: ${props => props.theme.messenger.colors.actionText};
-    height: ${rem('40px', baseFontSize)};
-    line-height: ${rem('38px', baseFontSize)};
+    height: ${props => rem('40px', props.theme.messenger.baseFontSize)};
+    line-height: ${props => rem('38px', props.theme.messenger.baseFontSize)};
     border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
     font-size: ${props => props.theme.messenger.fontSizes.md};
 

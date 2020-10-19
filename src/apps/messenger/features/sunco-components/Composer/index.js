@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 
 import { Container, Textarea, SendIcon, Field, SendButton } from './styles'
+import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { useSelector } from 'react-redux'
 
 const triggerOnEnter = callback => e => {
   if (e.keyCode === KEY_CODES.ENTER && !e.shiftKey) {
@@ -13,10 +15,23 @@ const triggerOnEnter = callback => e => {
 
 const Composer = ({ isEnabled, maxRows, minRows, label, onSubmit, onChange, message }) => {
   const inputRef = useRef(null)
+  const previouslyEnabled = useRef(false)
+  const isFullScreen = useSelector(getIsFullScreen)
 
   useEffect(() => {
-    if (isEnabled) inputRef.current?.focus()
-  }, [isEnabled])
+    if (isFullScreen) {
+      return
+    }
+
+    if (isEnabled && !previouslyEnabled.current) {
+      inputRef.current?.focus()
+      previouslyEnabled.current = true
+    }
+
+    if (previouslyEnabled.current && !isEnabled) {
+      previouslyEnabled.current = false
+    }
+  }, [isEnabled, isFullScreen])
 
   const handleSubmit = () => {
     onSubmit(message)

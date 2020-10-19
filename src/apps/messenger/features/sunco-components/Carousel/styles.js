@@ -1,12 +1,11 @@
 import styled from 'styled-components'
 import { rgba, rem, math } from 'polished'
 import { IconButton } from '@zendeskgarden/react-buttons'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 
 // This should be roughly the same width as the avatar slide
 // This means avatar left padding + avatar size + space before first slide
 // It is hard coded here, since this value is needed in JS for the scroll behaviour as well
-export const scrollPadding = rem(52, baseFontSize)
+export const scrollPadding = props => rem(52, props.theme.baseFontSize)
 
 const SlideMessage = styled.div`
   position: relative;
@@ -31,8 +30,8 @@ const Slides = styled.div`
 
 const Slide = styled.div`
   position: relative;
-  flex: 0 0 calc(100% - ${scrollPadding} - ${rem(64, baseFontSize)});
-  max-width: ${rem(280, baseFontSize)};
+  flex: 0 0 calc(100% - ${scrollPadding} - ${props => rem(64, props.theme.messenger.baseFontSize)});
+  max-width: ${props => rem(280, props.theme.messenger.baseFontSize)};
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;

@@ -1,8 +1,16 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { rgba } from 'polished'
 import { Avatar } from '@zendeskgarden/react-avatars'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
+
+const onFullScreen = styles => props => {
+  if (props.isFullScreen) {
+    return styles
+  }
+
+  return ''
+}
 
 const Container = styled.div`
   display: flex;
@@ -11,6 +19,12 @@ const Container = styled.div`
   padding: ${props => props.theme.messenger.space.sixteen};
   background-color: ${props => props.theme.messenger.colors.primary};
   color: ${props => props.theme.messenger.colors.primaryText};
+
+  ${onFullScreen(css`
+    padding: ${props => props.theme.messenger.space.sm}
+      ${props => props.theme.messenger.space.sixteen};
+    align-items: center;
+  `)}
 `
 
 const Details = styled.div`
@@ -19,7 +33,11 @@ const Details = styled.div`
   justify-content: center;
   flex: auto;
   color: ${props => props.theme.messenger.colors.primaryText};
-  padding-left: ${props => props.theme.messenger.space.sixteen};
+  min-width: 0;
+
+  &:not(:first-child) {
+    padding-left: ${props => props.theme.messenger.space.sixteen};
+  }
 `
 
 const StyledAvatar = styled(Avatar)`
@@ -28,6 +46,11 @@ const StyledAvatar = styled(Avatar)`
     width: ${props => props.theme.messenger.space.xxl};
     flex-shrink: 0;
     border-radius: 50%;
+
+    ${onFullScreen(css`
+      height: ${props => props.theme.messenger.space.xl};
+      width: ${props => props.theme.messenger.space.xl};
+    `)}
   }
 `
 
@@ -35,11 +58,25 @@ const Title = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.lg};
   line-height: ${props => props.theme.messenger.lineHeights.lg};
   font-weight: ${props => props.theme.fontWeights.semibold};
+
+  ${onFullScreen(css`
+    font-size: ${props => props.theme.messenger.fontSizes.lg};
+    line-height: ${props => props.theme.messenger.lineHeights.lg};
+  `)}
 `
 
 const Description = styled.div`
   font-size: ${props => props.theme.messenger.space.sixteen};
   line-height: ${props => props.theme.messenger.lineHeights.lg};
+
+  ${onFullScreen(css`
+    text-wrap: avoid;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: ${props => props.theme.messenger.fontSizes.md};
+    line-height: ${props => props.theme.messenger.lineHeights.md};
+  `)}
 `
 
 const StyledCloseIcon = styled(CloseIcon)``
@@ -49,6 +86,11 @@ const StyledIconButton = styled(IconButton)`
     width: ${props => props.theme.messenger.space.xl};
     height: ${props => props.theme.messenger.space.xl};
     color: ${props => props.theme.messenger.colors.primaryText};
+
+    ${onFullScreen(css`
+      width: ${props => props.theme.messenger.space.xl};
+      height: ${props => props.theme.messenger.space.xl};
+    `)}
 
     &:hover {
       background-color: ${props => rgba(props.theme.messenger.colors.primaryText, 0.2)};
@@ -70,6 +112,11 @@ const StyledIconButton = styled(IconButton)`
       color: ${props => props.theme.messenger.colors.primaryText};
       width: ${props => props.theme.messenger.iconSizes.md};
       height: ${props => props.theme.messenger.iconSizes.md};
+
+      ${onFullScreen(css`
+        width: ${props => props.theme.messenger.iconSizes.md};
+        height: ${props => props.theme.messenger.iconSizes.md};
+      `)}
     }
   }
 `
@@ -80,6 +127,10 @@ const CloseIconContainer = styled.div`
   padding-left: ${props => props.theme.messenger.space.sixteen};
   justify-content: center;
   height: ${props => props.theme.messenger.space.xxl};
+
+  ${onFullScreen(css`
+    height: ${props => props.theme.messenger.space.xl};
+  `)}
 `
 
 export {
