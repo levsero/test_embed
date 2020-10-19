@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/store'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
-import { startTyping, stopTyping } from 'src/apps/messenger/features/footer/typing'
+import { cancelTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 
 const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
@@ -12,7 +12,7 @@ const Footer = () => {
 
   const onSubmit = () => {
     dispatch(sendMessage({ message }))
-    stopTyping()
+    cancelTyping()
     setMessage('')
   }
 

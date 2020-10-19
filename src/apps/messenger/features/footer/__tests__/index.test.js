@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Footer from '../'
-import { startTyping, stopTyping } from '../typing'
+import { startTyping, cancelTyping } from '../typing'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('../typing')
@@ -57,17 +57,17 @@ describe('Footer', () => {
     expect(startTyping).toHaveBeenCalled()
   })
 
-  it('calls stopTyping when the user sends a message', () => {
+  it('calls cancelTyping when the user sends a message, since stop typing is implied when a message is sent', () => {
     const { getByLabelText } = renderComponent()
     const input = getByLabelText('Type a message')
 
     userEvent.type(input, 'message from user')
 
     expect(startTyping).toHaveBeenCalled()
-    expect(stopTyping).not.toHaveBeenCalled()
+    expect(cancelTyping).not.toHaveBeenCalled()
 
     userEvent.type(input, '{enter}')
 
-    expect(stopTyping).toHaveBeenCalled()
+    expect(cancelTyping).toHaveBeenCalled()
   })
 })

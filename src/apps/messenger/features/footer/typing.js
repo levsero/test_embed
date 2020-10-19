@@ -4,14 +4,20 @@ const stopTypingBufferMillis = 10000
 
 let timeout
 
-const stopTyping = () => {
+const cancelTyping = () => {
   if (!timeout) {
     return
   }
 
   clearTimeout(timeout)
   timeout = null
-  sendStopTyping()
+}
+
+const stopTyping = () => {
+  if (timeout) {
+    sendStopTyping()
+    cancelTyping()
+  }
 }
 
 const startTyping = () => {
@@ -25,4 +31,4 @@ const startTyping = () => {
   timeout = setTimeout(stopTyping, stopTypingBufferMillis)
 }
 
-export { startTyping, stopTyping }
+export { startTyping, stopTyping, cancelTyping }

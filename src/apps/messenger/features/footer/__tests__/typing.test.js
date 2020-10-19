@@ -1,4 +1,4 @@
-import { startTyping, stopTyping } from '../typing'
+import { startTyping, stopTyping, cancelTyping } from '../typing'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 jest.mock('src/apps/messenger/api/sunco')
 jest.useFakeTimers()
@@ -8,6 +8,18 @@ describe('typing activity events', () => {
     startTyping()
 
     expect(suncoClient.sendStartTyping).toHaveBeenCalled()
+
+    cancelTyping()
+  })
+
+  it('does not send a stop typing event when typing was cancelled', () => {
+    startTyping()
+    cancelTyping()
+
+    jest.advanceTimersByTime(4000)
+
+    expect(suncoClient.sendStartTyping).toHaveBeenCalled()
+    expect(suncoClient.sendStopTyping).not.toHaveBeenCalled()
   })
 
   it('sends a stop typing event 10 seconds after the user stopped typing', () => {
