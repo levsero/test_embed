@@ -5,7 +5,7 @@ const Text = styled.span`
   word-wrap: break-word;
   max-width: ${props => props.theme.messenger.space.textMaxWidth};
   font-size: ${props => props.theme.messenger.fontSizes.md};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  line-height: ${props => props.theme.messenger.lineHeights.md};
   width: auto;
 
   a {
