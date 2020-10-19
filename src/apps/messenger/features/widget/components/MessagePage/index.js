@@ -40,7 +40,7 @@ const MessagePage = React.forwardRef((_props, ref) => {
       role="presentation"
     >
       <Header />
-      <ConnectionStatusBanner message="what the frick" status="online" />
+      <ConnectionStatusBanner />
       <MessageLog />
       <Footer />
     </Container>
