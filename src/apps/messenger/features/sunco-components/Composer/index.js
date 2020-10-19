@@ -26,6 +26,12 @@ const Composer = ({ isEnabled, maxRows, minRows, label, onSubmit, onChange, mess
     if (isEnabled && !previouslyEnabled.current) {
       inputRef.current?.focus()
       previouslyEnabled.current = true
+
+      // Make sure the cursor is at the end of the input
+      if (typeof inputRef.current?.selectionStart == 'number') {
+        inputRef.current.selectionStart = inputRef.current.selectionEnd =
+          inputRef.current.value.length
+      }
     }
 
     if (previouslyEnabled.current && !isEnabled) {

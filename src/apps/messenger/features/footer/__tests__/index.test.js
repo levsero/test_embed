@@ -11,8 +11,8 @@ jest.mock('../typing')
 describe('Footer', () => {
   const defaultProps = { isComposerEnabled: true }
 
-  const renderComponent = (props = {}) => {
-    return render(<Footer {...defaultProps} {...props} />)
+  const renderComponent = (props = {}, options) => {
+    return render(<Footer {...defaultProps} {...props} />, options)
   }
 
   it('submits when the user hits enter', () => {
@@ -69,5 +69,19 @@ describe('Footer', () => {
     userEvent.type(input, '{enter}')
 
     expect(stopTyping).toHaveBeenCalled()
+  })
+
+  it('persists the text when you close and re-open the widget', () => {
+    const first = renderComponent()
+
+    userEvent.type(first.getByLabelText('Type a message'), 'message from user')
+
+    expect(first.getByLabelText('Type a message')).toHaveValue('message from user')
+
+    first.unmount()
+
+    const second = renderComponent(undefined, { store: first.store })
+
+    expect(second.getByLabelText('Type a message')).toHaveValue('message from user')
   })
 })
