@@ -23,6 +23,7 @@ const SendButton = styled(IconButton)`
     height: ${sendButtonSize};
     width: ${sendButtonSize};
     border-radius: ${props => rem(22, props.theme.messenger.baseFontSize)};
+    color: ${props => props.theme.messenger.primary};
 
     ${StyledSendIcon} {
       height: ${props => props.theme.messenger.iconSizes.md};
@@ -43,7 +44,7 @@ const SendButton = styled(IconButton)`
     &:focus,
     &:active {
       box-shadow: inset
-        ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primary, 0.35))};
+        ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
     }
   }
 `
@@ -68,12 +69,17 @@ const StyledTextarea = styled(Textarea)`
     }
 
     &:not(:disabled) {
-      :hover,
-      :focus,
-      :active {
-        border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
-        box-shadow: ${props =>
-          props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
+      :hover {
+        border: ${props => props.theme.borders.sm} ${props => props.theme.palette.grey[500]};
+      }
+
+    :focus,
+    :active,
+    &[data-garden-focus-visible] {
+      border: ${props => props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
+      box-shadow: ${props =>
+        props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
+    }
     }
 `
 
