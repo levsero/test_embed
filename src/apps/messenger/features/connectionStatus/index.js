@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { Transition } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 
 import Banner from 'src/apps/messenger/features/sunco-components/Banner'
 import { BANNER_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
@@ -33,7 +33,7 @@ const ReconnectedBanner = ({ onExit }) => {
   }
 
   return (
-    <Transition in={isVisible} timeout={duration} onExited={onExit}>
+    <CSSTransition in={isVisible} timeout={duration} onExited={onExit}>
       {state => (
         <div
           style={{
@@ -44,7 +44,7 @@ const ReconnectedBanner = ({ onExit }) => {
           <Banner message="You're back online!" status={BANNER_STATUS.success} />
         </div>
       )}
-    </Transition>
+    </CSSTransition>
   )
 }
 
