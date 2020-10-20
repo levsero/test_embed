@@ -1,9 +1,8 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
+import { waitFor, screen, fireEvent } from '@testing-library/dom'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import FormStructuredMessage from '../'
-import { waitFor } from '@testing-library/dom'
-import { fireEvent } from '@testing-library/dom'
 import { sendFormResponse } from 'src/apps/messenger/api/sunco'
 import { getFormInfo } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 
@@ -179,6 +178,46 @@ describe('FormMessage', () => {
     )
 
     await waitFor(() => expect(getFormInfo(store.getState(), '123').status).toBe('success'))
+  })
+
+  it('prevents emails from being sent with invalid length', async () => {
+    const { queryByLabelText } = renderComponent({
+      message: {
+        _id: '123',
+        isFirstInGroup: false,
+        isLastInGroup: false,
+        fields: [
+          {
+            _id: 'field-2',
+            type: 'email',
+            name: 'email',
+            label: 'Email'
+          }
+        ],
+        avatarUrl: 'www.example.com/cat.jpg',
+        name: 'Some user'
+      }
+    })
+
+    userEvent.type(
+      queryByLabelText('Email'),
+      'anEmailThatExceedsTheMaximumLength@WeCreateReallyLongEmailsLikeSuperSuperSuperfluousWhyWouldYouEvenUseAnEmailThisLong.PleaseStopNow'
+    )
+    userEvent.type(queryByLabelText('Email'), '{enter}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(screen.getByText('Enter 128 characters or less')).toBeInTheDocument()
+
+    expect(sendFormResponse).not.toHaveBeenCalled()
+
+    userEvent.type(queryByLabelText('Email'), '{backspace}{backspace}{backspace}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(screen.queryByText('Enter 128 characters or less')).toBeNull()
+
+    expect(sendFormResponse).toHaveBeenCalled()
   })
 
   it('persists the values after unmounting and re-mounting the form', () => {
