@@ -1,7 +1,10 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { sendMessage as sendSuncoMessage, fetchMessages } from 'src/apps/messenger/api/sunco'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
-import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
+import {
+  fetchExistingConversation,
+  startNewConversation
+} from 'src/apps/messenger/features/suncoConversation/store'
 
 const fetchPaginatedMessages = createAsyncThunk(
   'messageLog/fetchMessages',
@@ -48,6 +51,10 @@ const messagesSlice = createSlice({
     }
   },
   extraReducers: {
+    [startNewConversation.fulfilled](state, action) {
+      state.hasFetchedConversation = true
+      messagesAdapter.addMany(state, action.payload.messages)
+    },
     [fetchPaginatedMessages.fulfilled](state, action) {
       state.isFetchingHistory = false
       state.errorFetchingHistory = false

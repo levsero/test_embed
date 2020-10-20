@@ -8,7 +8,11 @@ export const startNewConversation = createAsyncThunk(
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
     dispatch(subscribeToSocketEvents())
+    const messagesResponse = await fetchMessages()
     return {
+      messages: Array.isArray(messagesResponse?.body?.messages)
+        ? messagesResponse?.body?.messages
+        : [],
       conversationId: activeConversation.conversationId,
       appUserId: activeConversation.appUserId
     }
@@ -19,8 +23,8 @@ export const fetchExistingConversation = createAsyncThunk(
   'fetchExistingConversation',
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
-    const messagesResponse = await fetchMessages()
     dispatch(subscribeToSocketEvents())
+    const messagesResponse = await fetchMessages()
     return {
       lastRead: activeConversation.lastRead,
       ...messagesResponse.body
