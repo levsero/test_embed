@@ -9,7 +9,7 @@ import { triggerOnEnter } from 'utility/keyboard'
 
 const statusLabels = {
   sending: 'Sending',
-  sent: 'Delivered',
+  sent: 'Sent',
   failed: 'Tap to retry'
 }
 

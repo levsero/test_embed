@@ -6,7 +6,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${props => props.theme.messenger.space.xxxs};
-  margin-right: ${props => props.theme.messenger.space.sm};
+  margin-right: ${props => props.theme.messenger.space.md};
   justify-content: flex-end;
 `
 
