@@ -3,24 +3,28 @@ import { getActiveConversation, fetchMessages, getClient } from 'src/apps/messen
 import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 
+const waitForSocketToConnect = async (activeConversation, dispatch) => {
+  const socketIsConnected = new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject('Timed out waiting for socket to connect'), 3000)
+    activeConversation.socketClient.on('connected', async () => {
+      clearTimeout(timeout)
+      resolve(true)
+    })
+  })
+
+  dispatch(subscribeToSocketEvents())
+  return await socketIsConnected
+}
+
 export const startNewConversation = createAsyncThunk(
   'startNewConversation',
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
-    const socketIsConnected = new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => reject('Failed to connect to socket'), 3000)
-      activeConversation.socketClient.on('connected', async () => {
-        clearTimeout(timeout)
-        resolve(true)
-      })
-    })
-
-    dispatch(subscribeToSocketEvents())
-    await socketIsConnected
-    const messagesCreatedBeforeSocket = await fetchMessages()
+    await waitForSocketToConnect(activeConversation, dispatch)
+    const messagesResponse = await fetchMessages()
     return {
-      messages: Array.isArray(messagesCreatedBeforeSocket?.body?.messages)
-        ? messagesCreatedBeforeSocket?.body?.messages
+      messages: Array.isArray(messagesResponse?.body?.messages)
+        ? messagesResponse?.body?.messages
         : [],
       conversationId: activeConversation.conversationId,
       appUserId: activeConversation.appUserId
@@ -32,7 +36,7 @@ export const fetchExistingConversation = createAsyncThunk(
   'fetchExistingConversation',
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
-    dispatch(subscribeToSocketEvents())
+    await waitForSocketToConnect(activeConversation, dispatch)
     const messagesResponse = await fetchMessages()
     return {
       lastRead: activeConversation.lastRead,
