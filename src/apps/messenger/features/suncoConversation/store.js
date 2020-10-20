@@ -7,11 +7,20 @@ export const startNewConversation = createAsyncThunk(
   'startNewConversation',
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
+    const socketIsConnected = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject('Failed to connect to socket'), 3000)
+      activeConversation.socketClient.on('connected', async () => {
+        clearTimeout(timeout)
+        resolve(true)
+      })
+    })
+
     dispatch(subscribeToSocketEvents())
-    const messagesResponse = await fetchMessages()
+    await socketIsConnected
+    const messagesCreatedBeforeSocket = await fetchMessages()
     return {
-      messages: Array.isArray(messagesResponse?.body?.messages)
-        ? messagesResponse?.body?.messages
+      messages: Array.isArray(messagesCreatedBeforeSocket?.body?.messages)
+        ? messagesCreatedBeforeSocket?.body?.messages
         : [],
       conversationId: activeConversation.conversationId,
       appUserId: activeConversation.appUserId
