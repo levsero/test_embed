@@ -5,7 +5,7 @@ const prefix = __EMBEDDABLE_FRAMEWORK_ENV__ === 'e2e' ? `ZD-${Date.now()}-` : 'Z
 
 let enabled = true
 
-const storage = win.localStorage
+let storage = win.localStorage
 
 const defaults = {
   suid: {
@@ -13,6 +13,29 @@ const defaults = {
     tabs: []
   },
   store: {}
+}
+
+const enableSessionStorage = () => {
+  try {
+    win.sessionStorage.setItem('ZD-testStorage', 'true')
+    win.sessionStorage.removeItem('ZD-testStorage')
+  } catch (err) {
+    return false
+  }
+  storage = win.sessionStorage
+  return true
+}
+
+const enableLocalStorage = () => {
+  try {
+    win.localStorage.setItem('ZD-testStorage', 'true')
+    win.localStorage.removeItem('ZD-testStorage')
+  } catch (err) {
+    return false
+  }
+
+  storage = win.localStorage
+  return true
 }
 
 function get(name) {
@@ -76,6 +99,8 @@ function deserialize(data) {
 }
 
 export const store = {
+  enableLocalStorage,
+  enableSessionStorage,
   get: get,
   set: set,
   remove: remove,

@@ -12,8 +12,21 @@ import { listenForOnlineOfflineEvents } from 'src/apps/messenger/features/connec
 import publicApi from 'src/framework/services/publicApi'
 import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { store as persistence } from 'src/framework/services/persistence'
+import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store'
 
 const run = ({ config }) => {
+  if (config?.messenger?.conversationHistory === 'remember') {
+    const success = persistence.enableLocalStorage()
+
+    if (!success) {
+      // Fallback to session storage if local storage isn't available
+      persistence.enableSessionStorage()
+    }
+  } else {
+    persistence.enableSessionStorage()
+  }
+
   const element = hostPageWindow.document.body.appendChild(
     hostPageWindow.document.createElement('div')
   )
@@ -23,6 +36,7 @@ const run = ({ config }) => {
 
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
+  store.dispatch(initialiseLauncherLabel())
 
   setupSuncoClient(config.messenger)
 

@@ -4,19 +4,30 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import LauncherLabel from '../index'
 import { launcherSize } from 'src/apps/messenger/constants'
 import { stripUnit } from 'polished'
-import { within } from '@testing-library/dom'
+import { waitFor, within } from '@testing-library/dom'
 import wait from 'utility/wait'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
-import { labelHidden } from 'src/apps/messenger/features/launcherLabel/store'
+import {
+  initialiseLauncherLabel,
+  labelHidden,
+  launcherLabelStorageKey
+} from 'src/apps/messenger/features/launcherLabel/store'
 import createStore from 'src/apps/messenger/store'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import { store as persistence } from 'src/framework/services/persistence'
 
 describe('launcher label', () => {
   const renderComponent = (props = {}, options = {}) =>
     render(<LauncherLabel {...props} />, options)
 
+  beforeEach(() => {
+    persistence.remove(launcherLabelStorageKey)
+  })
+
   it('appears above the launcher', async () => {
     const { getByTitle, store } = renderComponent()
+
+    store.dispatch(initialiseLauncherLabel())
 
     store.dispatch(
       messengerConfigReceived({
@@ -33,6 +44,8 @@ describe('launcher label', () => {
 
   it('displays the launcher label text', async () => {
     const { getByTitle, store } = renderComponent()
+
+    store.dispatch(initialiseLauncherLabel())
 
     store.dispatch(
       messengerConfigReceived({
@@ -51,6 +64,8 @@ describe('launcher label', () => {
 
   it('closes when the close button is clicked', async () => {
     const { getByTitle, store } = renderComponent()
+
+    store.dispatch(initialiseLauncherLabel())
 
     store.dispatch(
       messengerConfigReceived({
@@ -79,6 +94,8 @@ describe('launcher label', () => {
 
   it('opens the widget when clicked', async () => {
     const { getByTitle, store } = renderComponent()
+
+    store.dispatch(initialiseLauncherLabel())
 
     store.dispatch(
       messengerConfigReceived({
@@ -130,12 +147,20 @@ describe('launcher label', () => {
   it('does not display when the widget is full screen', async () => {
     const { getByTitle, store } = renderComponent()
 
+    localStorage.removeItem(launcherLabelStorageKey)
+
+    store.dispatch(initialiseLauncherLabel())
+
     store.dispatch(
       messengerConfigReceived({
         launcher: {
           text: 'Some text'
         }
       })
+    )
+
+    await waitFor(() =>
+      expect(getByTitle('Opens a widget where you can find more information')).toBeInTheDocument()
     )
 
     const frame = within(

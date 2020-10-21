@@ -98,4 +98,40 @@ describe('sessionStorage', () => {
 
     expect(store.get('cookies')).toBeNull()
   })
+
+  describe('enableLocalStorage', () => {
+    it('returns true if successfully switched to local storage', () => {
+      const success = store.enableLocalStorage()
+
+      expect(success).toBe(true)
+    })
+
+    it('returns false if failed to switch to local storage', () => {
+      const localStorage = win.localStorage
+      delete win.localStorage
+
+      const success = store.enableLocalStorage()
+
+      expect(success).toBe(false)
+      win.localStorage = localStorage
+    })
+  })
+
+  describe('enableSessionStorage', () => {
+    it('returns true if successfully switched to local storage', () => {
+      const success = store.enableSessionStorage()
+
+      expect(success).toBe(true)
+    })
+
+    it('returns false if failed to switch to local storage', () => {
+      const sessionStorage = win.sessionStorage
+      delete win.sessionStorage
+
+      const success = store.enableSessionStorage()
+
+      expect(success).toBe(false)
+      win.sessionStorage = sessionStorage
+    })
+  })
 })
