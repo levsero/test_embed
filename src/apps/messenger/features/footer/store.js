@@ -1,5 +1,17 @@
-import { createSelector } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
+
+const composer = createSlice({
+  name: 'composer',
+  initialState: {
+    draft: ''
+  },
+  reducers: {
+    saveDraft(state, action) {
+      state.draft = action.payload.message
+    }
+  }
+})
 
 const getIsComposerEnabled = createSelector(
   getMessageLog,
@@ -14,4 +26,10 @@ const getIsComposerEnabled = createSelector(
   }
 )
 
-export { getIsComposerEnabled }
+const getComposerDraft = state => state.composer.draft
+
+const { saveDraft } = composer.actions
+
+export default composer.reducer
+
+export { getIsComposerEnabled, saveDraft, getComposerDraft }

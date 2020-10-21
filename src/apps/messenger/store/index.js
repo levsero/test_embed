@@ -9,6 +9,7 @@ import forms from 'src/apps/messenger/features/messageLog/Message/messages/FormS
 import unreadIndicator from 'src/apps/messenger/store/unreadIndicator'
 import typingIndicators from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 import launcherLabel from 'src/apps/messenger/features/launcherLabel/store'
+import composer from 'src/apps/messenger/features/footer/store'
 
 const createStore = () => {
   const store = configureStore({
@@ -27,7 +28,8 @@ const createStore = () => {
       forms,
       launcherLabel,
       typingIndicators,
-      unreadIndicator
+      unreadIndicator,
+      composer
     })
   })
 

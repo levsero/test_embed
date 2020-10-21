@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIsComposerEnabled } from 'src/apps/messenger/features/footer/store'
+import {
+  getComposerDraft,
+  getIsComposerEnabled,
+  saveDraft
+} from 'src/apps/messenger/features/footer/store'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { cancelTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 
 const Footer = () => {
-  const isComposerEnabled = useSelector(getIsComposerEnabled)
   const dispatch = useDispatch()
-  const [message, setMessage] = useState('')
+  const isComposerEnabled = useSelector(getIsComposerEnabled)
+  const composerDraft = useSelector(getComposerDraft)
+  const [message, setMessage] = useState(composerDraft)
+  const lastMessage = useRef(message)
+  lastMessage.current = message
 
   const onSubmit = () => {
     dispatch(sendMessage({ message }))
@@ -21,6 +28,12 @@ const Footer = () => {
     startTyping()
     setMessage(value)
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(saveDraft({ message: lastMessage.current }))
+    }
+  }, [])
 
   return (
     <Composer
