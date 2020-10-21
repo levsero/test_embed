@@ -65,7 +65,7 @@ const SuncoFormMessage = ({
 
               <FormButton
                 submitting={status === FORM_MESSAGE_STATUS.pending}
-                label={activeStep === fields.length ? 'Submit' : 'Next'}
+                label={activeStep === fields.length ? 'Send' : 'Next'}
               />
             </FormFooter>
           </Form>
