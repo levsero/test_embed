@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import { BANNER_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const statusColors = {
@@ -16,7 +15,8 @@ const Container = styled.div`
   overflow: hidden;
   width: 90%;
   margin: 10px auto 0;
-  padding: ${rem(6, baseFontSize)} ${props => props.theme.messenger.space.xs};
+  padding: ${props => rem(6, props.theme.messenger.baseFontSize)}
+    ${props => props.theme.messenger.space.xs};
   text-align: center;
   z-index: 10;
   background-color: ${props => statusColors[props.status] || statusColors[BANNER_STATUS.success]};
