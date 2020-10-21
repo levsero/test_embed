@@ -15,6 +15,7 @@ export const openAnimationDuration = 0.7
 const maxHeightSmallScreens = `calc(100vh - ${frameMarginFromPage * 2}px)`
 
 const defaultStyles = {
+  zIndex,
   height: em(widgetFrameHeight, baseFontSize),
   width: em(widgetFrameWidth, baseFontSize),
   maxHeight: `calc(100vh - ${launcherSize +
@@ -93,8 +94,7 @@ const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen }) => {
     top: 0,
     bottom: 0,
     right: 0,
-    left: 0,
-    zIndex: zIndex
+    left: 0
   }
 
   if (isVerticallySmallScreen) {
