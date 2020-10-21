@@ -1,3 +1,5 @@
+const maxEmailSize = 128
+
 // Email regular expression from http://emailregex.com/
 export const EMAIL_PATTERN = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ // eslint-disable-line
 
@@ -18,6 +20,10 @@ const validateType = {
   email: ({ value }) => {
     if (!EMAIL_PATTERN.test(value)) {
       return 'Please enter a valid email address.'
+    }
+
+    if (value.length > maxEmailSize) {
+      return `Enter ${maxEmailSize} characters or less`
     }
   }
 }
