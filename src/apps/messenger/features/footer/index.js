@@ -18,6 +18,9 @@ const Footer = () => {
   lastMessage.current = message
 
   const onSubmit = () => {
+    if (message.trim().length === 0) {
+      return
+    }
     dispatch(sendMessage({ message }))
     cancelTyping()
     setMessage('')

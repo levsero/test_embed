@@ -28,6 +28,16 @@ describe('Footer', () => {
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 
+  it('does not submit an empty text message', () => {
+    const { getByLabelText } = renderComponent()
+    const input = getByLabelText('Type a message')
+
+    userEvent.type(input, '   ')
+    userEvent.type(input, '{enter}')
+
+    expect(suncoClient.sendMessage).not.toHaveBeenCalled()
+  })
+
   it('submits when the user clicks the Send button', () => {
     const { getByLabelText, queryByText } = renderComponent()
     const input = getByLabelText('Type a message')
