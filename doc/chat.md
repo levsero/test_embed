@@ -105,7 +105,9 @@ Boolean
 
 `zE('webWidget:get', 'chat:department', department<int|string>);`
 
-Returns an object containing information about the specified department, including its id, name, and status. Otherwise returns `undefined` if the department is not found or not enabled.
+Returns an object containing information about the specified department, including its `id`, `name`, and `status`. Otherwise returns `undefined` if the department is not found or not enabled.
+
+**Note**: This function should only be called after the widget is connected. See the examples.
 
 ##### Parameters
 
@@ -117,13 +119,19 @@ Any other input types will return `undefined`.
 
 ```html
 <script type="text/javascript">
-  zE('webWidget:get', 'chat:department', 'Accounting');
+  zE('webWidget:on', 'chat:connected', function() {
+    const department = zE('webWidget:get', 'chat:department', 'Accounting');
+    console.log(department);
+  });
 </script>
 ```
 
 ```html
 <script type="text/javascript">
-  zE('webWidget:get', 'chat:department', 5);
+  zE('webWidget:on', 'chat:connected', function() {
+    const department = zE('webWidget:get', 'chat:department', 5);
+    console.log(department);
+  });
 </script>
 ```
 
@@ -138,7 +146,7 @@ Any other input types will return `undefined`.
 
 Returns a list of all enabled departments containing information about each department including its `id`, `name`, and `status`. Returns `undefined` if chat is not connected.
 
-**Note:** This function should only be called after the widget is connected (see example).
+**Note**: This function should only be called after the widget is connected. See the example.
 
 ##### Parameters
 
