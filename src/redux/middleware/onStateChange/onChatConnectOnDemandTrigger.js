@@ -7,7 +7,8 @@ import {
   OPEN_RECEIVED,
   ACTIVATE_RECEIVED,
   TOGGLE_RECEIVED,
-  CHAT_BADGE_CLICKED
+  CHAT_BADGE_CLICKED,
+  WIDGET_SHOW_ANIMATION_COMPLETE
 } from 'src/redux/modules/base/base-action-types'
 import { getChatEmbed } from 'src/redux/modules/base/base-selectors'
 
@@ -21,7 +22,8 @@ export default function onChatConnectOnDemandTrigger(state, action, dispatch) {
     LAUNCHER_CLICKED,
     OPEN_RECEIVED,
     ACTIVATE_RECEIVED,
-    TOGGLE_RECEIVED
+    TOGGLE_RECEIVED,
+    WIDGET_SHOW_ANIMATION_COMPLETE
   ]
   const chatEnabled = getChatEmbed(state)
 
