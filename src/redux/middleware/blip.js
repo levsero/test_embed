@@ -39,6 +39,7 @@ import {
   getCurrentScreen
 } from 'src/embeds/answerBot/selectors/root'
 import { i18n } from 'service/i18n'
+import hcStats from 'service/hcStats'
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
@@ -115,10 +116,13 @@ const sendHelpCenterFirstSearchBlip = state => {
 
 const sendArticleClickedBlip = (state, latestArticle) => {
   if (latestArticle) {
+    const values = getArticleClickValues(state, latestArticle.id)
     beacon.trackUserAction('helpCenter', 'click', {
       label: 'helpCenterForm',
-      value: getArticleClickValues(state, latestArticle.id)
+      value: values
     })
+
+    hcStats.articleViewed(latestArticle.id, latestArticle.locale, values)
   }
 }
 
