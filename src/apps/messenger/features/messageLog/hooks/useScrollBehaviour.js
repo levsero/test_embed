@@ -59,6 +59,21 @@ const useScrollBehaviour = ({ messages, container }) => {
     }
   }, [])
 
+  const scrollToBottom = useCallback(() => {
+    if (isScrollingToBottom.current) {
+      return
+    }
+    isScrollAtBottom.current = true
+    isScrollingToBottom.current = true
+    scrollToBottomUntilHeightSettled(container, isScrollAtBottom)
+      .then(() => {
+        isScrollingToBottom.current = false
+      })
+      .catch(() => {
+        isScrollingToBottom.current = false
+      })
+  }, [])
+
   const onScrollBottom = useCallback(
     event => {
       const pxFromBottom =
@@ -102,7 +117,8 @@ const useScrollBehaviour = ({ messages, container }) => {
 
   return {
     onScrollBottom,
-    scrollToBottomIfNeeded
+    scrollToBottomIfNeeded,
+    scrollToBottom
   }
 }
 
