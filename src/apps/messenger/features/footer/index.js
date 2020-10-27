@@ -7,7 +7,7 @@ import {
 } from 'src/apps/messenger/features/footer/store'
 import Composer from 'src/apps/messenger/features/sunco-components/Composer'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
-import { cancelTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
+import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
 
 const Footer = () => {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ const Footer = () => {
       return
     }
     dispatch(sendMessage({ message }))
-    cancelTyping()
+    stopTyping()
     setMessage('')
   }
 
