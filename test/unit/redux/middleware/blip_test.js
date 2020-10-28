@@ -1,5 +1,5 @@
 describe('blip middleware', () => {
-  let sendBlips, beaconSpy, i18nSpy, hcStatsSpy
+  let sendBlips, beaconSpy, i18nSpy
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS'
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED'
   const ARTICLE_VIEWED = 'widget/helpCenter/ARTICLE_VIEWED'
@@ -19,7 +19,6 @@ describe('blip middleware', () => {
     beaconSpy = jasmine.createSpyObj('beacon', ['trackUserAction'])
     i18nSpy = jasmine.createSpyObj('i18n', ['getLocale'])
     i18nSpy.getLocale.and.callFake(() => 'US')
-    hcStatsSpy = jasmine.createSpyObj('hcStats', ['articleViewed'])
 
     mockery.enable()
     initMockRegistry({
@@ -90,8 +89,7 @@ describe('blip middleware', () => {
       },
       'src/redux/modules/chat/chat-action-types': {
         CHAT_STARTED
-      },
-      'service/hcStats': hcStatsSpy
+      }
     })
 
     sendBlips = requireUncached(blipPath).sendBlips
@@ -386,30 +384,26 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: ARTICLE_VIEWED,
-            payload: { id: 121212112, locale: 'US' }
+            payload: { id: 121212112 }
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
 
-        const expectedValue = {
-          query: 'i made a query...',
-          resultsCount: 3,
-          uniqueSearchResultClick: true,
-          articleId: 121212112,
-          locale: 'US',
-          contextualSearch: false,
-          answerBot: false
-        }
-
         it('calls trackUserAction with the correct params', () => {
+          const expectedValue = {
+            query: 'i made a query...',
+            resultsCount: 3,
+            uniqueSearchResultClick: true,
+            articleId: 121212112,
+            locale: 'US',
+            contextualSearch: false,
+            answerBot: false
+          }
+
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
             label: 'helpCenterForm',
             value: expectedValue
           })
-        })
-
-        it('calls hcStats with the correct params', () => {
-          expect(hcStatsSpy.articleViewed).toHaveBeenCalledWith(121212112, 'US', expectedValue)
         })
       })
 
