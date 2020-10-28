@@ -4,7 +4,6 @@ import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/sel
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled } from 'src/redux/modules/selectors'
 import { getAttachmentsForForm } from 'embeds/support/selectors'
-import hcStats from 'service/hcStats'
 
 const trackTicketSubmitted = (apiResponse, formValues, state) => {
   const searchTerm = getSearchTerm(state)
@@ -43,7 +42,6 @@ const trackTicketSubmitted = (apiResponse, formValues, state) => {
     label: 'ticketSubmissionForm',
     value: userActionPayload
   })
-  hcStats.ticketSubmitted(response.id, params.searchTerm)
 }
 
 export default trackTicketSubmitted
