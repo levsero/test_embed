@@ -77,7 +77,8 @@ const ThemeProvider = ({ children }) => {
                 xl: rem('32px', currentBaseFontSize)
               },
               borderRadii: {
-                textMessage: rem('20px', currentBaseFontSize)
+                textMessage: rem('20px', currentBaseFontSize),
+                menuItem: rem('14px', currentBaseFontSize)
               }
             }
           }}

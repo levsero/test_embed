@@ -56,10 +56,18 @@ const StyledSelect = styled(Select)`
 
 const StyledItem = styled(Item)`
   &&& {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
     padding: ${props => props.theme.messenger.space.xs}
       ${props => rem(36, props.theme.messenger.baseFontSize)};
     line-height: ${props => props.theme.messenger.lineHeights.md};
     font-size: ${props => props.theme.messenger.fontSizes.md};
+    height: ${props => props.theme.messenger.space.xxl};
+    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
+    margin-left: ${props => props.theme.messenger.space.xs};
+    margin-right: ${props => props.theme.messenger.space.xs};
 
     &:first-child {
       margin-top: ${props => props.theme.messenger.space.xxs};
@@ -83,10 +91,9 @@ const StyledLabel = styled(Label)`
 
 const StyledMenu = styled(Menu)`
   &&& {
-    border-radius: 0;
+    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
   }
 `
-
 export {
   StyledDropdown as Dropdown,
   StyledSelect as Select,
