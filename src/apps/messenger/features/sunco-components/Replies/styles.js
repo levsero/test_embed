@@ -22,8 +22,10 @@ const StyledButton = styled(Button)`
     line-height: ${props => props.theme.messenger.lineHeights.lg};
     border-color: ${props => props.theme.messenger.colors.action};
     color: ${props => props.theme.messenger.colors.action};
-    margin: ${props => props.theme.messenger.space.xs}
-      ${props => replyButtonHorizontalMargin(props)} 0;
+    margin-top: ${props => props.theme.messenger.space.xs};
+    margin-right: 0;
+    margin-left: calc(${props => replyButtonHorizontalMargin(props)} * 2);
+    margin-bottom: 0;
 
     &:hover {
       background-color: ${props => rgba(props.theme.messenger.colors.action, 0.2)};
