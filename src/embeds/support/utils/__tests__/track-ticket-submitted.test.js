@@ -4,6 +4,7 @@ import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/sel
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled } from 'src/redux/modules/selectors'
 import { getAttachmentsForForm } from 'embeds/support/selectors'
+import hcStats from 'service/hcStats'
 
 jest.mock('embeds/helpCenter/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
@@ -15,6 +16,10 @@ jest.mock('service/beacon', () => ({
     trackUserAction: jest.fn()
   }
 }))
+
+beforeEach(() => {
+  jest.spyOn(hcStats, 'ticketSubmitted')
+})
 
 describe('trackTicketSubmitted', () => {
   const getResponse = (responseParam = 'request') => ({
@@ -28,6 +33,29 @@ describe('trackTicketSubmitted', () => {
         contextualSearch: true
       }
     }
+  })
+
+  it('tracks ticket submitted in hcStats', () => {
+    const response = getResponse('request')
+    const formValues = {
+      attachments: {
+        ids: [1, 2, 3]
+      }
+    }
+    const attachments = [
+      { id: 1, fileType: 'png' },
+      { id: 2, fileType: 'jpg' },
+      { id: 3, fileType: 'pdf' }
+    ]
+
+    getSearchTerm.mockReturnValueOnce('search term')
+    getLocale.mockReturnValueOnce('locale')
+    getAttachmentsForForm.mockReturnValueOnce(attachments)
+    getHasContextuallySearched.mockReturnValueOnce(true)
+    getAttachmentsEnabled.mockReturnValueOnce(true)
+
+    trackTicketSubmitted(response, formValues, {})
+    expect(hcStats.ticketSubmitted).toHaveBeenCalledWith('response id', 'search term')
   })
 
   describe('when "request" exists in response body', () => {
