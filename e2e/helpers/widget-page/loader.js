@@ -1,5 +1,6 @@
 import { mockRollbarEndpoint, mockStaticAssets, goToTestPage, failOnConsoleError } from './../utils'
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
+import { mockHcStatsEndpoint } from './../hc-stats'
 import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import devices from 'puppeteer/DeviceDescriptors'
@@ -8,7 +9,8 @@ const defaultMocks = [
   mockRollbarEndpoint,
   mockStaticAssets,
   mockBlipEndpoint(),
-  mockIdentifyEndpoint()
+  mockIdentifyEndpoint(),
+  mockHcStatsEndpoint()
 ]
 
 /*
