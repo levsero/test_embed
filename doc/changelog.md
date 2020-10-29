@@ -8,6 +8,42 @@
 • Fixed - for any bug fixes.
 • Security - in case of vulnerabilities -->
 
+### 26 October 2020
+
+- Fixed an issue that prevented `connectOnDemand` from establishing a Chat connection when the Web Widget was opened via the API.
+
+### 7 October 2020
+
+- Fixed an issue where the thumbs-up and thumbs-down icons were not rendered correctly on iOS.
+
+### 29 September 2020
+
+- Fixed an issue where proactive chats couldn't be reached if they started while the Web Widget was open on the Contact Form.
+- Fixed an issue where end-users would lose their on-going chat session when Chat is suppressed via the API.
+
+### 24 September 2020
+
+- Fixed an issue where the Web Widget could not be positioned to the left on websites using right-to-left locales.
+
+### 21 September 2020
+
+- Changed the Chat offline form to clear the "message" text area after submission to help prevent end-users from re-submitting the same form multiple times.
+- Fixed an issue where quick reply buttons would appear over the Chat menu.
+
+### 14 September 2020
+
+- Fixed an isse where the Web Widget failed to load on Internet Explorer 11.
+
+### 4 September 2020
+
+- Fixed an issue where the Web Widget would crash if passed invalid ticket form IDs via the API.
+
+### 2 September 2020
+
+- Added the ability to hide the description hint for individual ticket fields on a per-field basis.
+- Added a [re-authentication API](https://developer.zendesk.com/embeddables/docs/widget/settings#authenticate) for authorizing access to restricted Help Center content.
+- Fixed an issue where the minimize button in the Chat Badge did not work correctly.
+
 ### 26 August 2020
 
 - Fixed an issue that caused an empty selection screen to appear when no ticket forms were available for a brand.
