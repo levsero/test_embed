@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+
 import { getActiveConversation, fetchMessages, getClient } from 'src/apps/messenger/api/sunco'
 import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
@@ -12,7 +13,7 @@ const waitForSocketToConnect = async (activeConversation, dispatch) => {
     })
   })
 
-  dispatch(subscribeToSocketEvents())
+  dispatch(subscribeToConversationEvents())
   return await socketIsConnected
 }
 
@@ -45,22 +46,22 @@ export const fetchExistingConversation = createAsyncThunk(
   }
 )
 
-export const subscribeToSocketEvents = createAsyncThunk(
-  'subscribeToSuncoEvents',
+const subscribeToConversationEvents = createAsyncThunk(
+  'subscribeToConversationEvents',
   async (_, { dispatch }) => {
-    const conversation = await getActiveConversation()
-    conversation.socketClient.subscribe(event => {
-      switch (event.type) {
-        case 'message':
-          if (getClient().wasMessageSentFromThisTab(event.message)) {
-            return
-          }
-          dispatch(messageReceived({ message: event.message }))
-          break
-        case 'activity':
-          dispatch(activityReceived({ activity: event.activity }))
-          break
+    const activeConversation = await getActiveConversation()
+
+    activeConversation.socketClient.on('message', message => {
+      if (getClient().wasMessageSentFromThisTab(message)) {
+        return
       }
+      dispatch(messageReceived({ message }))
     })
+
+    activeConversation.socketClient.on('activity', activity => {
+      dispatch(activityReceived({ activity }))
+    })
+
+    activeConversation.socketClient.subscribe()
   }
 )

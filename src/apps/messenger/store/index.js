@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import visibility from './visibility'
 import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store'
-import connectionStatus from 'src/apps/messenger/features/connectionStatus/store'
+import onlineStatus from 'src/apps/messenger/features/onlineStatus/store'
 import header from 'src/apps/messenger/features/header/store'
 import theme from 'src/apps/messenger/features/themeProvider/store'
 import messages from 'src/apps/messenger/features/messageLog/store'
@@ -21,7 +21,7 @@ const createStore = () => {
     reducer: combineReducers({
       visibility,
       responsiveDesign,
-      connectionStatus,
+      onlineStatus,
       theme,
       messages,
       header,

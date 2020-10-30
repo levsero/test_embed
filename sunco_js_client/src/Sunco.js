@@ -89,7 +89,6 @@ export default class Sunco {
         if (appUserId) {
           this.appUsers.get(appUserId).then(response => {
             this.activeConversation = {
-              appUserId,
               conversationId: response.body.conversations[0]._id,
               socketSettings: response.body.settings.realtime,
               lastRead: response.body.conversations[0]?.participants[0]?.lastRead
@@ -104,7 +103,6 @@ export default class Sunco {
               integrationId: this.integrationId
             })
             this.activeConversation = {
-              appUserId,
               conversationId: response.body.conversations[0]._id,
               socketSettings: response.body.settings.realtime
             } // TODO - might need to eventually select a particular conversation - isDefault: true

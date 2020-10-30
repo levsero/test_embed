@@ -52,7 +52,7 @@ ReconnectedBanner.propTypes = {
   onExit: PropTypes.func
 }
 
-const ConnectionStatusBanner = () => {
+const OnlineStatusBanner = () => {
   const isOnline = useSelector(getIsOnline)
   const [showReconnectedBanner, setShowReconnectedBanner] = useState(false)
 
@@ -73,4 +73,4 @@ const ConnectionStatusBanner = () => {
   )
 }
 
-export default ConnectionStatusBanner
+export default OnlineStatusBanner

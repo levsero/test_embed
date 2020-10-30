@@ -8,12 +8,12 @@ import createStore from 'src/apps/messenger/store'
 import { watchForScreenChanges } from 'src/apps/messenger/features/responsiveDesign/store'
 import { hasExistingConversation, setupSuncoClient } from 'src/apps/messenger/api/sunco'
 import { fetchExistingConversation } from 'src/apps/messenger/features/suncoConversation/store'
-import { listenForOnlineOfflineEvents } from 'src/apps/messenger/features/connectionStatus/store'
+import { listenForOnlineOfflineEvents } from 'src/apps/messenger/features/onlineStatus/store'
 import publicApi from 'src/framework/services/publicApi'
-import createMessengerApi from './public-api'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { store as persistence } from 'src/framework/services/persistence'
 import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store'
+import createMessengerApi from './public-api'
 
 const run = ({ config }) => {
   if (config?.messenger?.conversationHistory === 'remember') {
