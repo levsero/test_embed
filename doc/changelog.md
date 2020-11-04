@@ -32,7 +32,7 @@
 
 ### 14 September 2020
 
-- Fixed an isse where the Web Widget failed to load on Internet Explorer 11.
+- Fixed an issue where the Web Widget failed to load on Internet Explorer 11.
 
 ### 4 September 2020
 
