@@ -6,15 +6,20 @@ import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMes
 
 import { DotLoader } from './styles'
 
-const TypingIndicator = ({ message: { avatarUrl, name } }) => {
+const TypingIndicator = ({
+  message: { avatarUrl, name, isFirstInGroup, isLastInGroup, isFirstMessageInAuthorGroup, _id }
+}) => {
   return (
     <OtherParticipantLayout
       avatar={avatarUrl}
-      isFirstInGroup={true}
+      isFirstInGroup={isFirstInGroup}
       isReceiptVisible={false}
-      label={name}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
     >
-      <MessageBubble isPrimaryParticipant={false} shape={getMessageShape(true, true)}>
+      <MessageBubble
+        isPrimaryParticipant={false}
+        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      >
         <DotLoader />
       </MessageBubble>
     </OtherParticipantLayout>
