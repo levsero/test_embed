@@ -1,8 +1,14 @@
 import styled from 'styled-components'
 
 const Container = styled.div`
+  position: relative;
   flex: 1;
-  overflow-y: auto;
+  overflow: hidden;
 `
 
-export { Container }
+const Log = styled.div`
+  overflow-y: auto;
+  height: 100%;
+`
+
+export { Container, Log }
