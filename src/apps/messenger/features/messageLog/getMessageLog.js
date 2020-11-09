@@ -6,7 +6,7 @@ import insertTimestampsInLog from './utils/insertTimestampsInLog'
 
 import { createSelector } from '@reduxjs/toolkit'
 
-const GROUPABLE_TYPES = { text: true, image: true, file: true }
+const GROUPABLE_TYPES = { text: true, image: true, file: true, typingIndicator: true }
 
 const removeSubmittedForms = (messages, formsState) => {
   return messages.filter(message => {
@@ -58,11 +58,24 @@ const areMessagesGroupable = (thisMessage, otherMessage) => {
   return !hasOtherFailed
 }
 
-const areSameAuthor = (first, second) =>
-  first.authorId === second?.authorId &&
-  first.name === second?.name &&
-  first.role === second?.role &&
-  first.avatarUrl === second?.avatarUrl
+const areSameAuthor = (first, second) => {
+  if (first.type === 'typingIndicator' || second?.type === 'typingIndicator') {
+    if (first.name === second?.name && first.avatarUrl === second?.avatarUrl) {
+      return true
+    }
+  }
+
+  if (first.role === 'appUser' && second?.role === 'appUser') {
+    return true
+  }
+
+  return (
+    first.authorId === second?.authorId &&
+    first.name === second?.name &&
+    first.role === second?.role &&
+    first.avatarUrl === second?.avatarUrl
+  )
+}
 
 const addMessagePositionsToGroups = messages => {
   let lastMessageThatHasntFailed
