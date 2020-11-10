@@ -90,7 +90,7 @@ jobs:
       - uses: zendesk/setup-node@v2.0.0
         with:
           node-version: '10.18.0'
-      - uses: zendesk/setup-ruby@v1
+      - uses: zendesk/setup-ruby@v1.49.0
       - name: before_install
         run: |
           curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
