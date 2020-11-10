@@ -12,5 +12,8 @@ export default {
   web_widget_new_boot_sequence: {
     defaultValue: false,
     getArturoValue: config => config?.newBootSequence
+  },
+  digital_voice_enabled: {
+    defaultValue: false
   }
 }
