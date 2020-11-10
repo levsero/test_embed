@@ -6,8 +6,10 @@ const Label = styled.div`
   word-break: break-word;
 `
 
+// word-wrap: break-word is a fix for ie11
 const Value = styled.div`
   word-break: break-word;
+  word-wrap: break-word;
 `
 
 export { Label, Value }
