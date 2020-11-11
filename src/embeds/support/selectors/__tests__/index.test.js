@@ -434,12 +434,14 @@ describe('getCustomTicketFields', () => {
   })
 
   describe('description (hint) overrides', () => {
+    const defaultDescriptionHint = 'default description'
     const descriptionField = {
       id: '666',
       title_in_portal: 'Description',
       required_in_portal: false,
       visible_in_portal: true,
-      type: 'description'
+      type: 'description',
+      description: defaultDescriptionHint
     }
     const expectedDescriptionField = {
       id: 'description',
@@ -481,7 +483,7 @@ describe('getCustomTicketFields', () => {
       expect(result).toEqual([expectedEmailField, expectedDescriptionField])
     })
 
-    it('omits the hint altogether if passed an empty string for the catch-all', () => {
+    it('does not omit the hint if passed an empty string for the catch-all', () => {
       const state = getState({
         ticketFields: {
           123: descriptionField
@@ -492,9 +494,11 @@ describe('getCustomTicketFields', () => {
       })
 
       const result = selectors.getCustomTicketFields(state, '123456')
-      const emptyDescriptionField = { ...expectedDescriptionField, description: null }
 
-      expect(result).toEqual([expectedEmailField, emptyDescriptionField])
+      expect(result).toEqual([
+        expectedEmailField,
+        { ...expectedDescriptionField, description: defaultDescriptionHint }
+      ])
     })
   })
 })

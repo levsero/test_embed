@@ -345,7 +345,7 @@ const getDescriptionOverride = (override, original) => {
 
   const translation = i18n.getSettingTranslation(override)
 
-  return !!translation || override['*'] === '' ? translation : original
+  return translation ? translation : original
 }
 
 export const getFormTicketFields = (state, formId) => {
