@@ -12,6 +12,8 @@ import {
   CLICK_TO_CALL
 } from '../talk-capability-types'
 
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
+
 const capabilityMap = {
   '0': CALLBACK_ONLY,
   '1': PHONE_ONLY,
@@ -21,7 +23,7 @@ const capabilityMap = {
 
 const initialState = {
   averageWaitTimeSetting: null,
-  capability: CALLBACK_ONLY,
+  capability: isFeatureEnabled(null, 'digital_voice_enabled') ? CLICK_TO_CALL : CALLBACK_ONLY,
   enabled: false,
   nickname: '',
   phoneNumber: '',
@@ -41,7 +43,9 @@ const embeddableConfig = (state = initialState, action) => {
       return {
         ...payload,
         supportedCountries: _.pull(supportedCountries, '', null),
-        capability: capabilityMap[payload.capability],
+        capability: isFeatureEnabled(null, 'digital_voice_enabled')
+          ? CLICK_TO_CALL
+          : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
         connected: true,
         deferredStatusOnline: false
@@ -54,7 +58,9 @@ const embeddableConfig = (state = initialState, action) => {
     case RECEIVED_DEFERRED_TALK_STATUS:
       return {
         ...state,
-        capability: capabilityMap[payload.capability],
+        capability: isFeatureEnabled(null, 'digital_voice_enabled')
+          ? CLICK_TO_CALL
+          : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
         deferredStatusOnline: payload.availability
       }
