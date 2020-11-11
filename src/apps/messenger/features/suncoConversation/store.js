@@ -46,10 +46,23 @@ export const fetchExistingConversation = createAsyncThunk(
   }
 )
 
+let conversationSocketHasAborted = false
+
 const subscribeToConversationEvents = createAsyncThunk(
   'subscribeToConversationEvents',
   async (_, { dispatch }) => {
     const activeConversation = await getActiveConversation()
+
+    activeConversation.socketClient.on('aborted', () => {
+      conversationSocketHasAborted = true
+    })
+
+    activeConversation.socketClient.on('connected', async () => {
+      if (conversationSocketHasAborted) {
+        conversationSocketHasAborted = false
+        dispatch(fetchExistingConversation())
+      }
+    })
 
     activeConversation.socketClient.on('message', message => {
       if (getClient().wasMessageSentFromThisTab(message)) {
