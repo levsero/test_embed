@@ -4,7 +4,9 @@ class ObserverList {
   }
 
   addObserver(callback) {
-    this.observers.push(callback)
+    if (!this.observers.includes(callback)) {
+      this.observers.push(callback)
+    }
   }
 
   removeObserver(callback) {
