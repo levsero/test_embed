@@ -310,7 +310,7 @@ function getGardenOverrides(colors) {
       ${genericOverrides}
       ${borderOverrides}
       box-shadow: ${props =>
-        props.focused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
+        props.isFocused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
       border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`};
       ${bottomMargin}
       ${arrowOverrides}
