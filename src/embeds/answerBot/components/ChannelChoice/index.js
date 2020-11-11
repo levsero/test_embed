@@ -142,12 +142,12 @@ class ChannelChoice extends Component {
 
   talkOptionLabel = talkCapability => {
     if (talkCapability == CLICK_TO_CALL) {
-      return 'embeddable_framework.channelChoice.button.label.click_to_call'
+      return i18n.t('embeddable_framework.talk.embeddedVoice.channel.title')
     }
 
     return this.props.callbackAvailable
-      ? 'embeddable_framework.channelChoice.button.label.request_callback'
-      : 'embeddable_framework.channelChoice.button.label.call_us'
+      ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
+      : i18n.t('embeddable_framework.channelChoice.button.label.call_us')
   }
 
   renderTalkChoice = () => {
@@ -156,7 +156,7 @@ class ChannelChoice extends Component {
 
     const label = this.talkOptionLabel(talkCapability)
     const icon = talkCapability == CLICK_TO_CALL ? ICONS.CC_CLICK_TO_CALL : ICONS.CC_TALK
-    return this.renderChannel(icon, i18n.t(label), 'talk')
+    return this.renderChannel(icon, label, 'talk')
   }
 
   renderSubmitTicketChoice = () => {
@@ -172,8 +172,8 @@ class ChannelChoice extends Component {
   render = () => {
     return this.state.availableChannels.length > 0 ? (
       <MessageBubbleChoices leadingMessage={this.leadingMessage()}>
-        {this.renderChatChoice()}
         {this.renderTalkChoice()}
+        {this.renderChatChoice()}
         {this.renderSubmitTicketChoice()}
       </MessageBubbleChoices>
     ) : null

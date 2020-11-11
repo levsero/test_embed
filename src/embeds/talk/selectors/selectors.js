@@ -10,12 +10,13 @@ import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index
 export const getSnapcallButtonId = state => state.talk.snapcall.buttonId
 export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
 export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration
-export const getSnapcallSupported = state => state.talk.snapcall.snapcallSupported
+export const getDigitalVoiceSupported = state =>
+  isFeatureEnabled(null, 'digital_voice_enabled') || state.talk.snapcall.snapcallSupported
 
 export const getCapability = createSelector(
-  [getEmbeddableConfig, getSnapcallSupported],
-  talkConfig => {
-    return isFeatureEnabled(null, 'digital_voice_enabled') ? CLICK_TO_CALL : talkConfig.capability
+  [getEmbeddableConfig, getDigitalVoiceSupported],
+  (talkConfig, digitalVoiceSupported) => {
+    return digitalVoiceSupported ? CLICK_TO_CALL : talkConfig.capability
   }
 )
 

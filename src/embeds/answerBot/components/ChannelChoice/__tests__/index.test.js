@@ -4,6 +4,9 @@ import React from 'react'
 
 import { Component as ChannelChoice } from '../index'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+
+jest.mock('src/embeds/webWidget/selectors/feature-flags')
 
 const actions = Object.freeze({
   updateBackButtonVisibility: jest.fn(),
@@ -188,9 +191,10 @@ describe('channels', () => {
     })
 
     test('renders click to call channel when talk and click to call capability is available', () => {
+      isFeatureEnabled.mockReturnValue(true)
       assertRendered(
         { talkAvailable: true, talkCapability: CLICK_TO_CALL },
-        'Click to call',
+        'Call us',
         'Icon--channelChoice-clickToCall'
       )
     })
