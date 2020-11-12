@@ -1,6 +1,6 @@
 import { Client, Scheduler as FayeScheduler } from 'faye'
 import ObserverList from '../utils/ObserverList'
-import { onBrowserComingBackOnline, onBrowserTabFocus } from '../utils/browser'
+import { onBrowserComingBackOnline, onBrowserTabFocus, isBrowserOnline } from '../utils/browser'
 
 // See "Advanced customisations" section here: https://faye.jcoglan.com/browser/dispatch.html
 
@@ -117,7 +117,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
   this.fayeClient = setupFayeClient()
 
   this.refreshFayeSocketIfNeeded = () => {
-    if (this.hasSocketAborted) {
+    if (this.hasSocketAborted && isBrowserOnline()) {
       this.fayeClient.disconnect()
       this.fayeClient = setupFayeClient()
       this.hasSocketAborted = false
