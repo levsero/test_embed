@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import { useCurrentFrame } from 'src/framework/components/Frame'
-import { Dropdown, Select, Item, Label, Menu } from './styles'
+import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
 import Message from 'src/apps/messenger/features/sunco-components/Form/FormField/Message'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
@@ -20,7 +20,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
   }, [])
 
   return (
-    <div
+    <Container
       role="presentation"
       onKeyDown={e => {
         if (e.key === 'Escape' && isOpen) {
@@ -65,7 +65,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           </Message>
         )}
       </Dropdown>
-    </div>
+    </Container>
   )
 }
 
