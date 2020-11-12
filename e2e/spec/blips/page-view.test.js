@@ -13,7 +13,7 @@ export const assertPageViewPayload = url => {
       userAgent: expect.any(String),
       isMobile: false,
       isResponsive: true,
-      viewportMeta: 'width=device-width initial-scale=1',
+      viewportMeta: 'width=device-width,initial-scale=1',
       helpCenterDedup: false
     },
     ...blipMetadata

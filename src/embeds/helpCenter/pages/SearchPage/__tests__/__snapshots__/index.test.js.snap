@@ -108,7 +108,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 16px;
 }
 
-.c29 .c27 {
+.c28 .c27 {
   position: relative;
   margin-left: -1px;
   border-top-width: 0;
@@ -117,12 +117,12 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c29 .c27:hover,
-.c29 .c27:active {
+.c28 .c27:hover,
+.c28 .c27:active {
   z-index: 1;
 }
 
-.c29 .c27:disabled {
+.c28 .c27:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -130,20 +130,20 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c29 .c27:first-of-type:not(:last-of-type) {
+.c28 .c27:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-left-width: 0;
 }
 
-.c29 .c27:last-of-type:not(:first-of-type) {
+.c28 .c27:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-right-width: 0;
 }
 
-.c29 .c27:not(:first-of-type):not(:last-of-type) {
+.c28 .c27:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -252,17 +252,17 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 12px;
 }
 
-.c29 .c6 {
+.c28 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c29 .c6:hover,
-.c29 .c6:active {
+.c28 .c6:hover,
+.c28 .c6:active {
   z-index: 1;
 }
 
-.c29 .c6:disabled {
+.c28 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -270,18 +270,18 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   border-left-color: #fff;
 }
 
-.c29 .c6:first-of-type:not(:last-of-type) {
+.c28 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c29 .c6:last-of-type:not(:first-of-type) {
+.c28 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c29 .c6:not(:first-of-type):not(:last-of-type) {
+.c28 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -515,12 +515,6 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   height: 16px;
 }
 
-.c28 > .c14 {
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
 .c13 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -537,8 +531,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   min-height: 40px;
   line-height: 1.2857142857142858;
   font-size: 14px;
-  border-color: #1f73b7;
-  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+  border-color: #d8dcde;
   background-color: #fff;
   color: #2f3941;
   display: -webkit-inline-box;
@@ -639,7 +632,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin: -5px -7px;
 }
 
-.c30 + .c13,
+.c29 + .c13,
 .sc-gzVnrw + .c13,
 .sc-iwsKbI + .c13,
 .c13 + .sc-gzVnrw,
@@ -805,7 +798,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
   margin: -5px -7px;
 }
 
-.c30 + .c17,
+.c29 + .c17,
 .sc-gzVnrw + .c17,
 .sc-iwsKbI + .c17,
 .c17 + .sc-gzVnrw,
@@ -1186,7 +1179,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 16px;
 }
 
-.c29 .c27 {
+.c28 .c27 {
   position: relative;
   margin-left: -1px;
   border-top-width: 0;
@@ -1195,12 +1188,12 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c29 .c27:hover,
-.c29 .c27:active {
+.c28 .c27:hover,
+.c28 .c27:active {
   z-index: 1;
 }
 
-.c29 .c27:disabled {
+.c28 .c27:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1208,20 +1201,20 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c29 .c27:first-of-type:not(:last-of-type) {
+.c28 .c27:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-left-width: 0;
 }
 
-.c29 .c27:last-of-type:not(:first-of-type) {
+.c28 .c27:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-right-width: 0;
 }
 
-.c29 .c27:not(:first-of-type):not(:last-of-type) {
+.c28 .c27:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1330,17 +1323,17 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 12px;
 }
 
-.c29 .c6 {
+.c28 .c6 {
   position: relative;
   margin-left: -1px;
 }
 
-.c29 .c6:hover,
-.c29 .c6:active {
+.c28 .c6:hover,
+.c28 .c6:active {
   z-index: 1;
 }
 
-.c29 .c6:disabled {
+.c28 .c6:disabled {
   z-index: -1;
   border-top-width: 0;
   border-bottom-width: 0;
@@ -1348,18 +1341,18 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   border-left-color: #fff;
 }
 
-.c29 .c6:first-of-type:not(:last-of-type) {
+.c28 .c6:first-of-type:not(:last-of-type) {
   margin-left: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.c29 .c6:last-of-type:not(:first-of-type) {
+.c28 .c6:last-of-type:not(:first-of-type) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.c29 .c6:not(:first-of-type):not(:last-of-type) {
+.c28 .c6:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
 }
 
@@ -1593,12 +1586,6 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   height: 16px;
 }
 
-.c28 > .c14 {
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
 .c13 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1615,8 +1602,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   min-height: 40px;
   line-height: 1.2857142857142858;
   font-size: 14px;
-  border-color: #1f73b7;
-  box-shadow: 0 0 0 3px rgba(31,115,183,0.35);
+  border-color: #d8dcde;
   background-color: #fff;
   color: #2f3941;
   display: -webkit-inline-box;
@@ -1717,7 +1703,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin: -5px -7px;
 }
 
-.c30 + .c13,
+.c29 + .c13,
 .sc-gzVnrw + .c13,
 .sc-iwsKbI + .c13,
 .c13 + .sc-gzVnrw,
@@ -1883,7 +1869,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
   margin: -5px -7px;
 }
 
-.c30 + .c17,
+.c29 + .c17,
 .sc-gzVnrw + .c17,
 .sc-iwsKbI + .c17,
 .c17 + .sc-gzVnrw,

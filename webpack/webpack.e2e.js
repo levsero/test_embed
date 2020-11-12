@@ -17,7 +17,7 @@ module.exports = () => {
     optimization: {
       runtimeChunk: 'single'
     },
-    mode: 'development',
+    mode: 'production',
     output: {
       filename: '[name].js',
       publicPath: '/'

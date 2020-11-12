@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import React from 'react'
 
 import { Component as ConversationPage } from '../index'
+import { waitFor } from '@testing-library/dom'
 
 const actions = Object.freeze({
   conversationScreenClosed: jest.fn(),
@@ -28,10 +29,10 @@ test('renders messages', () => {
   expect(container.querySelector('div')).toBeInTheDocument()
 })
 
-test('calls updateBackButtonVisibility on mount', () => {
+test('calls updateBackButtonVisibility on mount', async () => {
   renderComponent()
 
-  expect(actions.updateBackButtonVisibility).toHaveBeenCalledWith(false)
+  await waitFor(() => expect(actions.updateBackButtonVisibility).toHaveBeenCalledWith(false))
 })
 
 test('calls conversationScreenClosed on unmount', () => {

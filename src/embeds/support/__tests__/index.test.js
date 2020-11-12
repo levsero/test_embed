@@ -224,7 +224,7 @@ describe('TicketFormPage', () => {
 
     const { queryByRole } = renderComponent(
       {
-        ticketForms: { ids: [1337], active: true },
+        ticketForms: { ids: [1337], active: true, showList: true },
         locale: 'en-US'
       },
       { store }

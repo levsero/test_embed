@@ -3,8 +3,6 @@ import { Component as ChatHistoryScreen } from '../'
 import snapshotDiff from 'snapshot-diff'
 import { render } from 'src/util/testHelpers'
 
-jest.mock('component/chat/chatting/HistoryLog')
-
 const renderChatHistoryScreen = (customProps = {}) => {
   const defaultProps = {
     historyLength: 2,

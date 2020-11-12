@@ -4,7 +4,7 @@ import createStore from 'src/apps/messenger/store'
 import { widgetOpened } from 'src/apps/messenger/store/visibility'
 import App from '../'
 import userEvent from '@testing-library/user-event'
-import { wait, within } from '@testing-library/dom'
+import { waitFor, within } from '@testing-library/dom'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 
 jest.mock('src/apps/messenger/api/sunco')
@@ -40,7 +40,7 @@ describe('Messenger app', () => {
   it('does not render the messenger when messenger is not open', async () => {
     const { getByTitle } = renderComponent()
 
-    await wait(() => expect(getByTitle('Messenger')).toBeInTheDocument())
+    await waitFor(() => expect(getByTitle('Messenger')).toBeInTheDocument())
 
     expect(getByTitle('Messenger').style.display).toBe('none')
   })
@@ -48,23 +48,27 @@ describe('Messenger app', () => {
   it('renders the messenger when messenger is open', async () => {
     const { getByTitle } = renderComponent([widgetOpened])
 
-    await wait(() => expect(getByTitle('Messenger')).toBeInTheDocument())
-
-    expect(getByTitle('Messenger').style.display).not.toBe('none')
+    await waitFor(() => expect(getByTitle('Messenger')).toBeInTheDocument())
+    await waitFor(() => expect(getByTitle('Messenger').style.display).not.toBe('none'))
   })
 
   it('focuses the launcher when the messenger frame is closed when pressing the escape key', async () => {
     const { getByTitle } = renderComponent()
 
     const launcher = within(getByTitle('Launcher').contentDocument.body)
+
+    await waitFor(() =>
+      expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toBeInTheDocument()
+    )
+
     userEvent.click(launcher.getByLabelText('Zendesk Messenger Launcher'))
 
     const widget = within(getByTitle('Messenger').contentDocument.body)
-    await wait(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
+    await waitFor(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
 
     userEvent.type(widget.getByPlaceholderText('Type a message'), '{esc}')
 
-    await wait(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
+    await waitFor(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
   })
 
   it('focuses the launcher when the messenger frame is closed when pressing the close button', async () => {
@@ -79,26 +83,31 @@ describe('Messenger app', () => {
     userEvent.click(launcher.getByLabelText('Zendesk Messenger Launcher'))
 
     const widget = within(getByTitle('Messenger').contentDocument.body)
-    await wait(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
+    await waitFor(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
 
     userEvent.click(widget.getByLabelText('Close messenger'))
 
-    await wait(() => expect(getByTitle('Launcher').style.display).not.toBe('none'))
+    await waitFor(() => expect(getByTitle('Launcher').style.display).not.toBe('none'))
 
     launcher = within(getByTitle('Launcher').contentDocument.body)
 
-    await wait(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
+    await waitFor(() => expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toHaveFocus())
   })
 
   it('focuses the composer when the messenger frame is opened', async () => {
     const { getByTitle } = renderComponent()
 
     const launcher = within(getByTitle('Launcher').contentDocument.body)
+
+    await waitFor(() =>
+      expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toBeInTheDocument()
+    )
+
     userEvent.click(launcher.getByLabelText('Zendesk Messenger Launcher'))
 
     const widget = within(getByTitle('Messenger').contentDocument.body)
-    await wait(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
+    await waitFor(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
 
-    expect(widget.getByPlaceholderText('Type a message')).toHaveFocus()
+    await waitFor(() => expect(widget.getByPlaceholderText('Type a message')).toHaveFocus())
   })
 })

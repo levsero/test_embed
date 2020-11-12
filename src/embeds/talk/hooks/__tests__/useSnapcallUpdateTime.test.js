@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'src/util/testHelpers'
 import useSnapcallUpdateTime from '../useSnapcallUpdateTime'
+import { waitFor } from '@testing-library/dom'
 
 jest.mock('src/embeds/talk/hooks/useTransformTime', () => input => input)
 
@@ -17,12 +18,14 @@ describe('useTransformTime', () => {
     return null
   }
 
-  it('attaches the callback to the snapcallEvent_callCurrentTimer window event', () => {
+  it('attaches the callback to the snapcallEvent_callCurrentTimer window event', async () => {
     render(<SomeComponent time={1} />)
 
-    expect(window.addEventListener).toHaveBeenCalledWith(
-      'snapcallEvent_callCurrentTimer',
-      expect.any(Function)
+    await waitFor(() =>
+      expect(window.addEventListener).toHaveBeenCalledWith(
+        'snapcallEvent_callCurrentTimer',
+        expect.any(Function)
+      )
     )
   })
 })

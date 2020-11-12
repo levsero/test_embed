@@ -36,6 +36,7 @@ export const useHistoryUpdate = (scrollContainer, scrollToBottom) => {
     if (historyRequestStatus !== HISTORY_REQUEST_STATUS.DONE) return
     if (!scrollContainer) return
     if (!scrollHeight) return scrollToBottom()
+
     const scrollTop = scrollContainer.scrollTop
     const scrollPosition = scrollContainer.scrollHeight
     const lengthDifference = scrollPosition - scrollHeight
@@ -46,6 +47,8 @@ export const useHistoryUpdate = (scrollContainer, scrollToBottom) => {
     }
     setScrollHeight(null)
   }, [historyRequestStatus])
+
+  return scrollHeight
 }
 
 export const useAgentTyping = (agentTypingRef, scrollContainer, scrollToBottom) => {

@@ -42,7 +42,7 @@ test('proactive chats show a notification on mobile', async () => {
   await sendMessageFromAgent(true)
 
   await widget.waitForText('message from agent')
-  await assertScreenshot('proactive-notification', { wait: 200 })
+  await assertScreenshot('proactive-notification', { wait: 500 })
 })
 
 test('proactive chat', async () => {

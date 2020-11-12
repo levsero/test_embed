@@ -39,15 +39,21 @@ describe('EmailTranscriptModal', () => {
 
     fireEvent.change(queryByLabelText('Email'), { target: { value: 'invalid email' } })
 
-    expect(queryByText('Please enter a valid email address.')).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(queryByText('Please enter a valid email address.')).not.toBeInTheDocument()
+    )
 
     fireEvent.click(queryByText('Send'))
 
-    expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+    )
 
     fireEvent.change(queryByLabelText('Email'), { target: { value: 'example@example.com' } })
 
-    expect(queryByText('Please enter a valid email address.')).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(queryByText('Please enter a valid email address.')).not.toBeInTheDocument()
+    )
   })
 
   it('calls onClose when the user closes the popup', async () => {

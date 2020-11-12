@@ -1,5 +1,5 @@
 import React from 'react'
-import { useForm, useFormState } from 'react-final-form'
+import { useForm } from 'react-final-form'
 import { render } from 'src/util/testHelpers'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'
 import getFields from 'embeds/support/utils/getFields'
@@ -21,16 +21,11 @@ describe('useConditionalFields', () => {
     field2: 'two'
   }
 
-  let onChange
   beforeEach(() => {
     useForm.mockReturnValue({
       getState: () => ({
         values: initialFormValues
       })
-    })
-
-    useFormState.mockImplementation(options => {
-      onChange = options.onChange
     })
   })
 
@@ -41,23 +36,6 @@ describe('useConditionalFields', () => {
 
     queryByTestId('button').click()
 
-    expect(getFields)
     expect(callback).toHaveBeenCalledWith('filtered fields')
-  })
-
-  it('updates the fields when the form changes', () => {
-    getFields.mockImplementation(values => values)
-    const callback = jest.fn()
-    const { queryByTestId } = renderComponent({ callback })
-    getFields.mockClear()
-
-    onChange({ values: { field1: 'new value', field2: 'two' } })
-
-    queryByTestId('button').click()
-
-    expect(callback).toHaveBeenCalledWith({
-      field1: 'new value',
-      field2: 'two'
-    })
   })
 })
