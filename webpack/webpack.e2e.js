@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
 const fs = require('fs')
