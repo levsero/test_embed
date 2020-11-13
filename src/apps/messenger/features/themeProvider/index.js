@@ -49,6 +49,9 @@ const ThemeProvider = ({ children }) => {
                 xxl: rem(DEFAULT_THEME.fontSizes.xxl, currentBaseFontSize),
                 xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, currentBaseFontSize)
               },
+              fontWeights: {
+                semibold: DEFAULT_THEME.fontWeights.semibold
+              },
               space: {
                 xxxs: rem('2px', currentBaseFontSize),
                 xxs: rem(DEFAULT_THEME.space.xxs, currentBaseFontSize),

@@ -47,7 +47,7 @@ const TopLoadingErrorContainer = styled.div`
 `
 
 const CenterLoadingErrorTitle = styled.div`
-  font-weight: ${props => props.theme.fontWeights.semibold};
+  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
   margin-bottom: ${props => props.theme.messenger.space.xxs};
 `
 

@@ -57,7 +57,7 @@ const StyledAvatar = styled(Avatar)`
 const Title = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.lg};
   line-height: ${props => props.theme.messenger.lineHeights.lg};
-  font-weight: ${props => props.theme.fontWeights.semibold};
+  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
 
   ${onCompactHeader(css`
     font-size: ${props => props.theme.messenger.fontSizes.lg};
