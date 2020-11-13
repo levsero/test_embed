@@ -2,6 +2,16 @@ import styled from 'styled-components'
 import { Dropdown, Menu, Item, Select, Label } from '@zendeskgarden/react-dropdowns'
 import { rgba, rem } from 'polished'
 
+// Garden currently has incorrect styles applying to the "hidden" input where it gives the input width 100%
+// This pushes the dropdown off page for us.
+// Forcing the width back to 1px is a temp fix until this can be fixed in Garden
+// Thead discussing this: https://zendesk.slack.com/archives/C0AANB3HS/p1605224561185300
+const Container = styled.div`
+  input {
+    width: 1px !important;
+  }
+`
+
 const StyledDropdown = styled(Dropdown)`
   &&& {
     border-color: ${props => props.theme.messenger.colors.action};
@@ -99,5 +109,6 @@ export {
   StyledSelect as Select,
   StyledItem as Item,
   StyledLabel as Label,
-  StyledMenu as Menu
+  StyledMenu as Menu,
+  Container
 }
