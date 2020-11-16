@@ -70,7 +70,7 @@ const renderWebWidgetPreview = options => {
 
   const renderComponent = () => {
     const frameParams = {
-      css: `${require('globalCSS')} ${webWidgetStyles}`,
+      rawCSS: `${require('globalCSS')} ${webWidgetStyles}`,
       name: 'webWidgetPreview',
       customFrameStyle: frameStyle,
       alwaysShow: true,

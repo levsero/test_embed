@@ -9,7 +9,7 @@ import { generateUserWidgetCSS } from 'utility/color/styles'
 const WebWidgetContainer = ({ store, frameStyle, containerStyle }) => {
   return (
     <Frame
-      css={`
+      rawCSS={`
         ${require('globalCSS')} ${webWidgetStyles}
       `}
       generateUserCSS={generateUserWidgetCSS}

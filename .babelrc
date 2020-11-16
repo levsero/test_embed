@@ -17,13 +17,21 @@
         ["@babel/preset-env", { "targets": { "node": "current" }, "useBuiltIns": false }],
         "@babel/preset-react"
       ],
-      "plugins": ["dynamic-import-node"]
+      "plugins": ["babel-plugin-styled-components", "dynamic-import-node"]
     },
     "development": {
-      "plugins": ["lodash"]
+      "plugins": ["babel-plugin-styled-components", "lodash"]
     },
     "production": {
-      "plugins": ["lodash"]
+      "plugins": [
+        [
+          "babel-plugin-styled-components",
+          {
+            "displayName": false
+          }
+        ],
+        "lodash"
+      ]
     },
     "e2e": {
       "presets": [
