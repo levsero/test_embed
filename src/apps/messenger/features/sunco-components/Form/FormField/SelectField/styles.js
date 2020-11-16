@@ -7,6 +7,8 @@ import { rgba, rem } from 'polished'
 // Forcing the width back to 1px is a temp fix until this can be fixed in Garden
 // Thead discussing this: https://zendesk.slack.com/archives/C0AANB3HS/p1605224561185300
 const Container = styled.div`
+  position: relative;
+
   input {
     width: 1px !important;
   }
