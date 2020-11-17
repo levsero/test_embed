@@ -9,9 +9,8 @@ import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { useDispatch } from 'react-redux'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
-const extractReplies = (actions, isLastInLog) => {
-  if (!isLastInLog || !actions) return null
-  return actions.filter(action => action.type === 'reply')
+const extractReplies = actions => {
+  return actions?.filter(action => action.type === 'reply') ?? []
 }
 
 const TextStructuredMessage = ({
@@ -32,7 +31,8 @@ const TextStructuredMessage = ({
     isLastMessageThatHasntFailed,
     payload,
     metadata
-  }
+  },
+                                 isFreshMessage
 }) => {
   const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'
@@ -67,20 +67,20 @@ const TextStructuredMessage = ({
           status={messageStatus}
         />
       </Layout>
-      {replies && (
-        <Replies
-          replies={replies}
-          onReply={reply => {
-            dispatch(
-              sendMessage({
-                message: reply.text,
-                payload: reply.payload,
-                metadata: reply.metadata
-              })
-            )
-          }}
-        />
-      )}
+      <Replies
+        isFreshMessage={isFreshMessage}
+        isVisible={isLastInLog}
+        replies={replies}
+        onReply={reply => {
+          dispatch(
+            sendMessage({
+              message: reply.text,
+              payload: reply.payload,
+              metadata: reply.metadata
+            })
+          )
+        }}
+      />
     </>
   )
 }
@@ -102,7 +102,8 @@ TextStructuredMessage.propTypes = {
     metadata: PropTypes.objectOf(PropTypes.any),
     avatarUrl: PropTypes.string,
     name: PropTypes.string
-  })
+  }),
+  isFreshMessage: PropTypes.bool
 }
 
 export default TextStructuredMessage
