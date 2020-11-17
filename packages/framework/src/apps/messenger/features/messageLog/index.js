@@ -17,13 +17,15 @@ import SeeLatestButton from 'src/apps/messenger/features/messageLog/SeeLatestBut
 
 const MessageLog = () => {
   const container = useRef(null)
+  const anchor = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
   const errorFetchingHistory = useSelector(getErrorFetchingHistory)
   const isFetchingHistory = useSelector(getIsFetchingHistory)
   const { onScrollBottom, scrollToBottomIfNeeded, scrollToBottom } = useScrollBehaviour({
+    messages,
     container,
-    messages
+    anchor
   })
   const { onScrollTop, retryFetchMessages } = useFetchMessages({
     container,
@@ -59,6 +61,8 @@ const MessageLog = () => {
                 isFreshMessage={message.received > messageLogOpened.current}
               />
             ))}
+
+          <div ref={anchor} style={{ height: 1 }} />
 
           <SeeLatestButton onClick={scrollToBottom} />
         </Log>

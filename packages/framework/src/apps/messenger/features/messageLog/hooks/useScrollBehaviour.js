@@ -14,69 +14,23 @@ const ScrollProvider = ScrollContext.Provider
 
 const scrollOffsetInRems = 3
 
-const scrollToBottomUntilHeightSettled = async (container, isScrollAtBottom) => {
-  let previousScrollHeight = null
-
-  while (container.current.scrollHeight !== previousScrollHeight) {
-    if (!container.current || !isScrollAtBottom.current) {
-      return
-    }
-
-    await new Promise(res => {
-      requestAnimationFrame(() => {
-        if (!container.current || !isScrollAtBottom.current) {
-          res()
-          return
-        }
-
-        container.current.scrollTop = container.current.scrollHeight
-        previousScrollHeight = container.current.scrollHeight
-
-        res()
-      })
-    })
-  }
-}
-
-const useScrollBehaviour = ({ messages, container }) => {
+const useScrollBehaviour = ({ messages, anchor, container }) => {
   const dispatch = useDispatch()
   const isScrollAtBottom = useRef(true)
-  const isScrollingToBottom = useRef(false)
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
   const theme = useContext(ThemeContext)
 
+  const scrollToBottom = useCallback(({ smooth = true } = {}) => {
+    anchor.current?.scrollIntoView({ behavior: smooth ? 'smooth' : undefined })
+    isScrollAtBottom.current = true
+  }, [])
+
   const scrollToBottomIfNeeded = useCallback(() => {
     if (isScrollAtBottom.current) {
-      if (isScrollingToBottom.current) {
-        return
-      }
-
-      isScrollingToBottom.current = true
-      scrollToBottomUntilHeightSettled(container, isScrollAtBottom)
-        .then(() => {
-          isScrollingToBottom.current = false
-        })
-        .catch(() => {
-          isScrollingToBottom.current = false
-        })
+      scrollToBottom()
     }
-  }, [])
-
-  const scrollToBottom = useCallback(() => {
-    if (isScrollingToBottom.current) {
-      return
-    }
-    isScrollAtBottom.current = true
-    isScrollingToBottom.current = true
-    scrollToBottomUntilHeightSettled(container, isScrollAtBottom)
-      .then(() => {
-        isScrollingToBottom.current = false
-      })
-      .catch(() => {
-        isScrollingToBottom.current = false
-      })
-  }, [])
+  }, [scrollToBottom])
 
   const onScrollBottom = useCallback(
     event => {
@@ -92,15 +46,6 @@ const useScrollBehaviour = ({ messages, container }) => {
     },
     [lastUnreadTimestamp]
   )
-
-  useLayoutEffect(() => {
-    scrollToBottomIfNeeded()
-    hostPageWindow.addEventListener('resize', scrollToBottomIfNeeded)
-
-    return () => {
-      hostPageWindow.removeEventListener('resize', scrollToBottomIfNeeded)
-    }
-  }, [])
 
   // When messages change, scroll to the bottom if the user was previously at the bottom
   useLayoutEffect(() => {
@@ -118,6 +63,16 @@ const useScrollBehaviour = ({ messages, container }) => {
       dispatch(markAsRead({ lastMessageTimestamp: messages[messages.length - 1].received }))
     }
   }, [messages, lastReadTimestamp])
+
+  useLayoutEffect(() => {
+    container.current.scrollTop = container.current.scrollHeight
+
+    hostPageWindow.addEventListener('resize', scrollToBottomIfNeeded)
+
+    return () => {
+      hostPageWindow.removeEventListener('resize', scrollToBottomIfNeeded)
+    }
+  }, [])
 
   return {
     onScrollBottom,

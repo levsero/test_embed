@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
@@ -30,15 +30,16 @@ const FormStructuredMessage = ({
   })
   const { scrollToBottomIfNeeded } = useScroll()
 
+  useEffect(() => {
+    scrollToBottomIfNeeded()
+  }, [step])
+
   return (
     <Form
       fields={fields}
       values={values}
       onSubmit={onSubmit}
-      onStep={() => {
-        onStep()
-        scrollToBottomIfNeeded()
-      }}
+      onStep={onStep}
       onChange={(fieldId, newValue) => {
         onChange({
           [fieldId]: newValue
