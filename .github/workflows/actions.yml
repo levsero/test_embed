@@ -87,7 +87,7 @@ jobs:
         with:
           token: ${{ secrets.ORG_GITHUB_TOKEN }}
           submodules: recursive
-      - uses: zendesk/setup-node@v2.0.0
+      - uses: zendesk/setup-node@v2.1.2
         with:
           node-version: '10.18.0'
       - uses: zendesk/setup-ruby@v1.49.0
