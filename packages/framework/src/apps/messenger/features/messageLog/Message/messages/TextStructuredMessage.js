@@ -59,12 +59,14 @@ const TextStructuredMessage = ({
         timeReceived={received}
         isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
         status={messageStatus}
+        isFreshMessage={isFreshMessage}
       >
         <TextMessage
           isPrimaryParticipant={isPrimaryParticipant}
           text={text}
           shape={getMessageShape(isFirstInGroup, isLastInGroup)}
           status={messageStatus}
+          isFreshMessage={isFreshMessage}
         />
       </Layout>
       <Replies

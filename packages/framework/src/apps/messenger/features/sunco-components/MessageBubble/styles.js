@@ -1,23 +1,38 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { rem } from 'polished'
 
 import {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS
 } from 'src/apps/messenger/features/sunco-components/constants'
+import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
+import messageSteps, {
+  animation,
+  transition
+} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
-const primaryMessageExtraSpace = props => rem(80, props.theme.messenger.baseFontSize)
-const otherMessageExtraSpace = props => rem(64, props.theme.messenger.baseFontSize)
-const avatarSpace = props => rem(36, props.theme.messenger.baseFontSize)
+const primaryMessageExtraSpace = rem(80, baseFontSize)
+const otherMessageExtraSpace = rem(64, baseFontSize)
+const avatarSpace = rem(36, baseFontSize)
+
+const messageEnter = keyframes`
+       0% { transform: translateY(0%) translateX(50%) scale(0); }
+      50% { transform: translateY(-4%) translateX(-1%) scale(1); }
+      100% { transform: translateY(0%) translateX(0%) scale(1); }
+    `
+const otherMessageEnter = keyframes`
+       0% { transform: translateY(0%) translateX(-50%) scale(0); }
+      50% { transform: translateY(-4%) translateX(1%) scale(1); }
+      100% { transform: translateY(0%) translateX(0%) scale(1); }
+    `
 
 const Bubble = styled.div`
   margin-top: ${props => props.theme.messenger.space.xxxs};
   min-width: ${props => props.theme.messenger.space.xl};
-  min-height: ${props => props.theme.messenger.space.xl};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+
+  transition: ${transition(messageSteps.messageBorder, 'border-radius')},
+    ${transition(messageSteps.messageStatusOpacity, 'opacity')};
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
@@ -39,6 +54,10 @@ const PrimaryParticipantBubble = styled(Bubble)`
         return `border-radius: ${radius} 0 ${radius} ${radius};`
     }
   }}
+
+
+  animation: ${props =>
+    props.isFreshMessage ? animation(messageSteps.messageEnter, messageEnter) : 'none'};
 
   ${props =>
     props.status === MESSAGE_STATUS.sending &&
@@ -74,6 +93,9 @@ const OtherParticipantBubble = styled(Bubble)`
         return `border-radius: 0 ${radius} ${radius} ${radius};`
     }
   }}
+
+  animation: ${props =>
+    props.isFreshMessage ? animation(messageSteps.messageEnter, otherMessageEnter) : 'none'};
 `
 
 export { PrimaryParticipantBubble, OtherParticipantBubble }
