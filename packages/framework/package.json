@@ -125,6 +125,7 @@
     "rollbar": "^2.18.0",
     "sanitize-html": "~1.11.4",
     "sha1": "^1.1.1",
+    "smoothscroll-polyfill": "^0.4.4",
     "snapcall": "^1.8.4",
     "snapshot-diff": "^0.6.1",
     "socket.io-client": "^2.0.4",
