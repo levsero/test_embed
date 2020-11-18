@@ -30,7 +30,11 @@ const Slides = styled.div`
 
 const Slide = styled.div`
   position: relative;
-  flex: 0 0 calc(100% - ${scrollPadding} - ${props => rem(64, props.theme.messenger.baseFontSize)});
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc(
+    100% - ${scrollPadding} - ${props => rem(64, props.theme.messenger.baseFontSize)}
+  );
   max-width: ${props => rem(280, props.theme.messenger.baseFontSize)};
   display: flex;
   flex-direction: column;
@@ -45,13 +49,17 @@ const Slide = styled.div`
 `
 
 const BufferSlide = styled(Slide)`
-  flex: 0 0 12.5%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 12.5%;
 `
 
 const AvatarSlide = styled(Slide)`
   padding-left: ${props => props.theme.messenger.space.sixteen}
   max-width: none;
-  flex: 0 0 auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -60,7 +68,9 @@ const AvatarSlide = styled(Slide)`
 `
 
 const Content = styled.div`
-  flex: 1 0 auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
   padding: ${props => props.theme.messenger.space.sixteen};
   border-radius: ${props =>
     `${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage} 0 0`};
@@ -82,7 +92,9 @@ const Description = styled.div`
 const Actions = styled.div``
 
 const Action = styled.a`
-  flex: 0 0 auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
   display: block;
   padding: ${props => props.theme.messenger.space.sm} 0;
   font-size: ${props => props.theme.messenger.fontSizes.md};
@@ -131,7 +143,9 @@ const ControlButton = styled(IconButton)`
       width: ${props => props.theme.messenger.iconSizes.md};
     }
 
-    border: 3px solid transparent;
+    border-width: 3px;
+    border-style: solid;
+    border-color: transparent;
 
     &[data-garden-focus-visible] {
       border: 3px solid ${props => rgba(props.theme.messenger.colors.action, 0.35)};
