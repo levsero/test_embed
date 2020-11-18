@@ -3,6 +3,8 @@ const { exec } = require('child_process')
 const rest = require('rest')
 const fs = require('fs')
 
+const chromeImage = 'docker.pkg.github.com/zendesk/dockerhub-images/alpine-chrome:latest'
+
 /* eslint-disable no-console */
 const fetchVersion = async mode => {
   try {
@@ -54,7 +56,7 @@ const dockerCommand = mode => {
   } else if (mode === 'dfm') {
     addHost = ''
   }
-  return `docker container run ${addHost} -d -p 9222:9222 zenika/alpine-chrome --no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222`
+  return `docker container run ${addHost} -d -p 9222:9222 ${chromeImage} --no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222`
 }
 
 const startContainer = mode => {
