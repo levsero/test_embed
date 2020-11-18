@@ -82,7 +82,7 @@
     },
     {
       "path": "dist/public/lazy/*.js",
-      "maxSize": "30 KB"
+      "maxSize": "120 KB"
     },
     {
       "path": "dist/public/talk-sdk.*.js",
