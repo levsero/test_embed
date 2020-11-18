@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import messageSteps, {
   transition
 } from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
+import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const enter = `
   .receipt-appear-active &,
@@ -50,6 +51,8 @@ const Time = styled.p`
 
     opacity: 0;
   }
+
+  ${disabledAnimationsCSS}
 `
 
 const Tail = styled.div`
@@ -90,6 +93,8 @@ const Tail = styled.div`
       `
     opacity: 0.5;
   `}
+
+  ${disabledAnimationsCSS}
 `
 
 export { Layout, Tail, Time }

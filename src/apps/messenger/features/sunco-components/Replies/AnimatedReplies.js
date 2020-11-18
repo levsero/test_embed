@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Animated from 'src/apps/messenger/features/sunco-components/Animated'
 import styled from 'styled-components'
+import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const StyledAnimated = styled(Animated)`
   overflow: hidden;
@@ -36,6 +37,8 @@ const StyledAnimated = styled(Animated)`
   ${Animated.exiting}, ${Animated.exited} {
     max-height: 0;
   }
+
+  ${disabledAnimationsCSS}
 `
 
 const AnimatedReplies = ({ isVisible, isFreshMessage, children }) => {

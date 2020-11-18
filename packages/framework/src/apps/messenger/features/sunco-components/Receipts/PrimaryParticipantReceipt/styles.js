@@ -7,6 +7,7 @@ import messageSteps, {
 import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
+import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const enter = `
   .receipt-appear-active &,
@@ -110,7 +111,7 @@ const TailContainer = styled.div`
 const Tail = styled.div`
   position:absolute;
   top: 0;
-  left: 0
+  left: 0;
 
   border-top: ${props => props.theme.messenger.space.sm} solid
     ${props => props.theme.messenger.colors.message};
@@ -161,6 +162,8 @@ const Tail = styled.div`
   ${wasJustSent(css`
     animation: ${sendingToSentAnimation};
   `)}
+
+  ${disabledAnimationsCSS}
 `
 
 const FailedMessage = styled(Anchor)`

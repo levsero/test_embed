@@ -10,6 +10,7 @@ import messageSteps, {
   animation,
   transition
 } from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
+import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 const primaryMessageExtraSpace = rem(80, baseFontSize)
@@ -72,6 +73,8 @@ const PrimaryParticipantBubble = styled(Bubble)`
       background-color: ${props.theme.palette.red[400]};
       color: ${props.theme.palette.white};
   `}
+
+  ${disabledAnimationsCSS}
 `
 
 const OtherParticipantBubble = styled(Bubble)`
@@ -96,6 +99,8 @@ const OtherParticipantBubble = styled(Bubble)`
 
   animation: ${props =>
     props.isFreshMessage ? animation(messageSteps.messageEnter, otherMessageEnter) : 'none'};
+
+  ${disabledAnimationsCSS}
 `
 
 export { PrimaryParticipantBubble, OtherParticipantBubble }

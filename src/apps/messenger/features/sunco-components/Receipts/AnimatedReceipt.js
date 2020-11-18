@@ -4,6 +4,7 @@ import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import Animated from 'src/apps/messenger/features/sunco-components/Animated'
 import styled from 'styled-components'
+import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const enterAnimations = {
   from: rem(20, baseFontSize),
@@ -59,6 +60,8 @@ const StyledAnimated = styled(Animated)`
     `
     transition: max-height ${props.exit.duration}s ${props.exit.delay}s;
   `}
+
+  ${disabledAnimationsCSS}
 `
 
 const AnimatedReceipt = ({ isReceiptVisible, isFreshMessage, children }) => {

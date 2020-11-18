@@ -15,5 +15,8 @@ export default {
   },
   digital_voice_enabled: {
     defaultValue: false
+  },
+  web_widget_messenger_animations_disabled: {
+    defaultValue: false
   }
 }

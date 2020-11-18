@@ -8,6 +8,7 @@ import {
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
+import { useShouldDisableAnimations } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
 
 const ScrollContext = createContext({ scrollToBottomIfNeeded: () => null })
 const ScrollProvider = ScrollContext.Provider
@@ -20,11 +21,17 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
   const theme = useContext(ThemeContext)
+  const animationsDisabled = useShouldDisableAnimations()
 
-  const scrollToBottom = useCallback(({ smooth = true } = {}) => {
-    anchor.current?.scrollIntoView({ behavior: smooth ? 'smooth' : undefined })
-    isScrollAtBottom.current = true
-  }, [])
+  const scrollToBottom = useCallback(
+    ({ smooth = true } = {}) => {
+      anchor.current?.scrollIntoView({
+        behavior: smooth && !animationsDisabled ? 'smooth' : undefined
+      })
+      isScrollAtBottom.current = true
+    },
+    [animationsDisabled]
+  )
 
   const scrollToBottomIfNeeded = useCallback(() => {
     if (isScrollAtBottom.current) {
