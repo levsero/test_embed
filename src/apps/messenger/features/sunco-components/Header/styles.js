@@ -5,7 +5,7 @@ import { IconButton } from '@zendeskgarden/react-buttons'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 
 const onCompactHeader = styles => props => {
-  if (props.compact) {
+  if (props.isCompact) {
     return styles
   }
 

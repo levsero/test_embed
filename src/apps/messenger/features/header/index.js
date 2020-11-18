@@ -20,7 +20,7 @@ const HeaderWrapper = () => {
       description={description}
       avatar={avatar}
       showCloseButton={!isLauncherVisible}
-      compact={isFullScreen}
+      isCompact={isFullScreen}
       onClose={() => {
         dispatch(widgetClosed())
       }}

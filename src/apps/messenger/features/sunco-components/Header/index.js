@@ -12,22 +12,22 @@ import {
   CloseIconContainer
 } from './styles'
 
-const Header = ({ title, description, avatar, showCloseButton, compact, onClose }) => {
+const Header = ({ title, description, avatar, showCloseButton, isCompact, onClose }) => {
   return (
-    <Container compact={compact}>
+    <Container isCompact={isCompact}>
       {avatar && (
-        <Avatar isSystem={true} compact={compact}>
+        <Avatar isSystem={true} isCompact={isCompact}>
           <img src={avatar} alt={'company avatar'} />
         </Avatar>
       )}
       <Details>
-        {title && <Title compact={compact}>{title}</Title>}
-        {description && <Description compact={compact}>{description}</Description>}
+        {title && <Title isCompact={isCompact}>{title}</Title>}
+        {description && <Description isCompact={isCompact}>{description}</Description>}
       </Details>
 
       {showCloseButton && (
-        <CloseIconContainer compact={compact}>
-          <IconButton compact={compact} onClick={onClose} aria-label="Close messenger">
+        <CloseIconContainer isCompact={isCompact}>
+          <IconButton isCompact={isCompact} onClick={onClose} aria-label="Close messenger">
             <CloseIcon />
           </IconButton>
         </CloseIconContainer>
@@ -41,7 +41,7 @@ Header.propTypes = {
   description: PropTypes.string,
   avatar: PropTypes.string,
   showCloseButton: PropTypes.bool,
-  compact: PropTypes.bool,
+  isCompact: PropTypes.bool,
   onClose: PropTypes.func
 }
 
@@ -49,7 +49,7 @@ Header.defaultProps = {
   description: '',
   avatar: '',
   showCloseButton: false,
-  compact: false,
+  isCompact: false,
   onClose: () => {}
 }
 
