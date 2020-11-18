@@ -1,24 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Animated from 'src/apps/messenger/features/sunco-components/Animated'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
+import messageSteps, {
+  transition
+} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
 
 const StyledAnimated = styled(Animated)`
   overflow: hidden;
 
-  ${props =>
-    props.isVisible &&
-    `
-    transition: max-height ${props.enter.duration}s ${props.enter.delay}s, opacity 0.3s 0.3s;
-  `}
+  transition: ${props => {
+    if (props.isVisible) {
+      const heightTransition = transition(
+        props.isFreshMessage ? messageSteps.freshRepliesEnter : messageSteps.existingRepliesEnter,
+        'max-height'
+      )
+      const opacityTransition = transition(messageSteps.repliesFadeIn, 'opacity')
 
-  ${props =>
-    !props.isVisible &&
-    `
-    transition: max-height ${props.exit.duration}s ${props.exit.delay}s;
-    max-height: 0;
-  `}
+      return css`
+        ${heightTransition}, ${opacityTransition}
+      `
+    }
+
+    return transition(messageSteps.repliesExit, 'max-height')
+  }}};
 
   ${Animated.beforeEnter}, ${Animated.entering} {
     max-height: 0;
@@ -47,24 +53,8 @@ const AnimatedReplies = ({ isVisible, isFreshMessage, children }) => {
       isVisible={isVisible}
       isFreshMessage={isFreshMessage}
       name="animate-replies"
-      style={{
-        overflow: 'hidden'
-      }}
-      enter={
-        isFreshMessage
-          ? {
-              delay: 0.7,
-              duration: 0
-            }
-          : {
-              duration: 0,
-              delay: 0
-            }
-      }
-      exit={{
-        duration: 0,
-        delay: 0
-      }}
+      enter={isFreshMessage ? messageSteps.freshRepliesEnter : messageSteps.existingRepliesEnter}
+      exit={messageSteps.repliesExit}
     >
       {children}
     </StyledAnimated>

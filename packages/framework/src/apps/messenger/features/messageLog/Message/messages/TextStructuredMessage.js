@@ -32,7 +32,7 @@ const TextStructuredMessage = ({
     payload,
     metadata
   },
-                                 isFreshMessage
+  isFreshMessage
 }) => {
   const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'

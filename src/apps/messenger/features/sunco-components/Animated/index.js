@@ -19,6 +19,7 @@ const Animated = ({
       classNames={name}
       in={Boolean(isVisible)}
       appear={isFreshMessage}
+      mountOnEnter={true}
       timeout={{
         appear: (enter.duration + enter.delay) * 1000,
         enter: (enter.duration + enter.delay) * 1000,

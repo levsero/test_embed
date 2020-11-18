@@ -5,12 +5,12 @@ import {
   MESSAGE_BUBBLE_SHAPES,
   MESSAGE_STATUS
 } from 'src/apps/messenger/features/sunco-components/constants'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import messageSteps, {
   animation,
   transition
 } from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
 import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
+import { baseFontSize } from 'src/apps/messenger/constants'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 const primaryMessageExtraSpace = rem(80, baseFontSize)

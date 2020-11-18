@@ -6,7 +6,7 @@ import AnimatedReplies from 'src/apps/messenger/features/sunco-components/Replie
 const Replies = ({ replies, onReply, isVisible, isFreshMessage }) => {
   return (
     <AnimatedReplies isVisible={isVisible} isFreshMessage={isFreshMessage}>
-      <Container isVisible={isVisible}>
+      <Container>
         {replies.map(reply => (
           <Button key={reply._id} onClick={() => onReply(reply)} isPill={true}>
             {reply.text}

@@ -5,9 +5,9 @@ import messageSteps, {
   transition
 } from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
+import { baseFontSize } from 'src/apps/messenger/constants'
 
 const enter = `
   .receipt-appear-active &,

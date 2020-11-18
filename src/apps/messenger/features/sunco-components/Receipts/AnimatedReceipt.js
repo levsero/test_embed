@@ -1,23 +1,22 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { rem } from 'polished'
-import { baseFontSize } from 'src/apps/messenger/features/themeProvider'
 import Animated from 'src/apps/messenger/features/sunco-components/Animated'
 import styled from 'styled-components'
 import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
+import messageSteps from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
+import { baseFontSize } from 'src/apps/messenger/constants'
 
 const enterAnimations = {
+  ...messageSteps.receiptEnter,
   from: rem(20, baseFontSize),
-  to: rem(20, baseFontSize),
-  duration: 0,
-  delay: 0
+  to: rem(20, baseFontSize)
 }
 
 const reappearAnimations = {
+  ...messageSteps.receiptReenter,
   from: 0,
-  to: rem(20, baseFontSize),
-  duration: 0.3,
-  delay: 0.3
+  to: rem(20, baseFontSize)
 }
 
 const StyledAnimated = styled(Animated)`
@@ -77,10 +76,7 @@ const AnimatedReceipt = ({ isReceiptVisible, isFreshMessage, children }) => {
       isFreshMessage={isFreshMessage}
       name="receipt"
       enter={!isFreshMessage || hasRendered.current ? reappearAnimations : enterAnimations}
-      exit={{
-        delay: 0.3,
-        duration: 0
-      }}
+      exit={messageSteps.receiptExit}
     >
       {children}
     </StyledAnimated>
