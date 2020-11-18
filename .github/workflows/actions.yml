@@ -118,10 +118,9 @@ jobs:
     needs:
       - main
     if: github.ref == 'refs/heads/master'
-    runs-on: [self-hosted, zendesk-stable]
+    runs-on: [ self-hosted, zendesk-general ]
     steps:
       - name: Notify Samson
-        uses: zendesk/ga/samson-create-release@v1
-        env:
-          WEBHOOK_URL: 'https://samson.zende.sk/integrations/generic/b127503546dbc459293e47fbae026af2'
-          COMMIT: ${{ github.sha }}
+        uses: zendesk/ga/samson-inbound-webhook@v2
+        with:
+          webhook-url: 'https://samson.zende.sk/integrations/generic/b127503546dbc459293e47fbae026af2'
