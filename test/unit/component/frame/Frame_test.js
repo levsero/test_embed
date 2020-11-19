@@ -674,7 +674,7 @@ describe('Frame', () => {
       mockLocaleValue = 'fr'
       mockIsRTLValue = true
 
-      frame = domRender(<Frame css="css-prop">{mockChild}</Frame>)
+      frame = domRender(<Frame rawCSS="css-prop">{mockChild}</Frame>)
       doc = frame.getContentWindow().document
 
       spyOn(frame, 'updateFrameLocale')

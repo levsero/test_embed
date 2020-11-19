@@ -135,10 +135,10 @@ exports[`renders 1`] = `
 }
 
 .c6 + .c1,
-.sc-dnqmqq + .c1,
-.sc-gqjmRU + .c1,
-.c1 + .sc-dnqmqq,
-.c1 + .sc-gqjmRU {
+.sc-gzVnrw + .c1,
+.sc-iwsKbI + .c1,
+.c1 + .sc-gzVnrw,
+.c1 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -301,10 +301,10 @@ exports[`renders 1`] = `
 }
 
 .c6 + .c5,
-.sc-dnqmqq + .c5,
-.sc-gqjmRU + .c5,
-.c5 + .sc-dnqmqq,
-.c5 + .sc-gqjmRU {
+.sc-gzVnrw + .c5,
+.sc-iwsKbI + .c5,
+.c5 + .sc-gzVnrw,
+.c5 + .sc-iwsKbI {
   margin-top: 8px;
 }
 

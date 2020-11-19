@@ -298,10 +298,10 @@ exports[`renders correctly on desktop 1`] = `
 }
 
 .c18 + .c12,
+.sc-gzVnrw + .c12,
 .sc-iwsKbI + .c12,
-.sc-VigVT + .c12,
-.c12 + .sc-iwsKbI,
-.c12 + .sc-VigVT {
+.c12 + .sc-gzVnrw,
+.c12 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -464,10 +464,10 @@ exports[`renders correctly on desktop 1`] = `
 }
 
 .c18 + .c16,
+.sc-gzVnrw + .c16,
 .sc-iwsKbI + .c16,
-.sc-VigVT + .c16,
-.c16 + .sc-iwsKbI,
-.c16 + .sc-VigVT {
+.c16 + .sc-gzVnrw,
+.c16 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -752,7 +752,7 @@ Snapshot Diff:
 -                   aria-labelledby="2val-field_1.3.4--label"
 +                   aria-labelledby="3val-field_1.3.4--label"
                     autocapitalize="off"
-                    class="sc-jTzLTM sc-kAzzGY dicmtd"
+                    class="sc-gZMcBi sc-fjdhpX kTrTzY"
 @@ -72,5 +72,5 @@
                     data-garden-version="8.20.0"
                     data-testid="search-field"

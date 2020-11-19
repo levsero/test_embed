@@ -68,7 +68,7 @@ class Frame extends Component {
         vertical: stringOrNumber
       })
     }).isRequired,
-    css: PropTypes.string,
+    rawCSS: PropTypes.string,
     frameStyleModifier: PropTypes.func,
     frameStyle: PropTypes.shape({
       height: PropTypes.string,
@@ -448,7 +448,7 @@ class Frame extends Component {
                 this.child = el
               }}
               document={this.getContentDocument()}
-              baseCSS={`${this.props.css} ${this.generateUserCSSWithColor(
+              baseCSS={`${this.props.rawCSS} ${this.generateUserCSSWithColor(
                 this.props.color
               )} ${baseFontCSS}`}
               customCSS={this.state.customCSS}

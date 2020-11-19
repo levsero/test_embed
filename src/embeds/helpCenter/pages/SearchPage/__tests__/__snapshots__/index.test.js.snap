@@ -640,10 +640,10 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c30 + .c13,
-.sc-kGXeez + .c13,
-.sc-ckVGcZ + .c13,
-.c13 + .sc-kGXeez,
-.c13 + .sc-ckVGcZ {
+.sc-gzVnrw + .c13,
+.sc-iwsKbI + .c13,
+.c13 + .sc-gzVnrw,
+.c13 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -806,10 +806,10 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c30 + .c17,
-.sc-kGXeez + .c17,
-.sc-ckVGcZ + .c17,
-.c17 + .sc-kGXeez,
-.c17 + .sc-ckVGcZ {
+.sc-gzVnrw + .c17,
+.sc-iwsKbI + .c17,
+.c17 + .sc-gzVnrw,
+.c17 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -1718,10 +1718,10 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 }
 
 .c30 + .c13,
-.sc-kGXeez + .c13,
-.sc-ckVGcZ + .c13,
-.c13 + .sc-kGXeez,
-.c13 + .sc-ckVGcZ {
+.sc-gzVnrw + .c13,
+.sc-iwsKbI + .c13,
+.c13 + .sc-gzVnrw,
+.c13 + .sc-iwsKbI {
   margin-top: 8px;
 }
 
@@ -1884,10 +1884,10 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 }
 
 .c30 + .c17,
-.sc-kGXeez + .c17,
-.sc-ckVGcZ + .c17,
-.c17 + .sc-kGXeez,
-.c17 + .sc-ckVGcZ {
+.sc-gzVnrw + .c17,
+.sc-iwsKbI + .c17,
+.c17 + .sc-gzVnrw,
+.c17 + .sc-iwsKbI {
   margin-top: 8px;
 }
 

@@ -184,6 +184,7 @@
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-react-remove-properties": "^0.3.0",
+    "babel-plugin-styled-components": "^1.11.1",
     "bundlesize": "^0.18.0",
     "chunkd": "^2.0.1",
     "ci-parallel-vars": "^1.0.0",
