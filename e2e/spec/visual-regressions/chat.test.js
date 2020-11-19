@@ -65,6 +65,7 @@ const populateField = async (fieldLabel, value) => {
 const loadPrechatForm = async (options = {}) => {
   await loadWidgetWithChatOnline(options)
   await zChat.setVisitorInfo()
+  await page.waitFor(500)
   await populateField('Name (optional)', 'Some name')
   await populateField('Email (optional)', 'example@example.com')
   await populateField('Message (optional)', 'Some message')
@@ -90,12 +91,14 @@ const chatOptions = async tag => {
 }
 
 const editContactDetails = async tag => {
+  await widget.waitForText('Edit contact details')
   await widget.clickText('Edit contact details')
   await widget.waitForText('Cancel')
   await assertScreenshot('chat-contact-details', { tag })
 }
 
 const emailTranscript = async tag => {
+  await widget.waitForText('Email transcript')
   await widget.clickText('Email transcript')
   await widget.waitForText('Cancel')
   await assertScreenshot('chat-email-transcript', { tag })
