@@ -1584,7 +1584,7 @@ To display a specific ticket form, use the form id.
 
 To display multiple ticket forms, enter form ids as a comma-separated list.
 
-Example
+#### Example
 
 ```html
 <script type="text/javascript">
@@ -1600,7 +1600,7 @@ Example
 
 To clear any filtering you have applied, use the [updateSettings API](https://developer.zendesk.com/embeddables/docs/widget/core#updatesettings) command and add an empty array “[]” to the `ticketForms` property.
 
-Example
+#### Example
 
 ```html
 <script type="text/javascript">
@@ -1614,10 +1614,52 @@ Example
 </script>
 ```
 
+To hide the title of one or more ticket forms, set the `title` property to false for each ticket form id.
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [
+          {
+            id: 426353,
+            title: false
+          }
+        ]
+      }
+    }
+  };
+</script>
+```
+
+To hide the subject field for one or more ticket forms, set the `subject` property to false for the ticket form id.
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [
+          {
+            id: 426353,
+            subject: false
+          }
+        ]
+      }
+    }
+  };
+</script>
+```
+
 You can change the text that prompts the end user with the [selectTicketForm](#selectticketform) object.
 You can include the fields object to pre-populate one or more fields in one or more ticket forms.
 
-Example
+#### Example
 
 ```html
 <script type="text/javascript">
@@ -1633,6 +1675,60 @@ Example
                 prefill: {
                   '*': 'My field text'
                 }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
+</script>
+```
+
+To update the field descriptions in one or more ticket forms, add the `hint` property with the field description for each field associated to the ticket form id.
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [
+          {
+            id: 426353,
+            fields: [
+              {
+                id: 'description',
+                hint: {
+                  '*': 'My new hint text'
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
+</script>
+```
+
+To hide the field description for one or more ticket forms, set the `hideHint` property to true for the field associated to the ticket form id.
+
+#### Example
+
+```html
+<script type="text/javascript">
+  window.zESettings = {
+    webWidget: {
+      contactForm: {
+        ticketForms: [
+          {
+            id: 426353,
+            fields: [
+              {
+                id: 'description',
+                hideHint: true
               }
             ]
           }
