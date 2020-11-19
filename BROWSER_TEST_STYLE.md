@@ -71,8 +71,34 @@ Similar to [integration and unit tests](TEST_STYLE.md#explicit-setup-function-in
 
 #### Running the tests
 
-Run `npm run e2e <test file>` to run a specific file. If you want to see the browser while
+There are two test suites in the e2e folder: normal browser tests and visual regression tests.
+They are run separately.
+
+##### Running browser tests
+
+For browser tests, run `npm run e2e` to run the browser test suite. To run a specific file, run
+`npm run e2e <test file>`. If you want to see the browser while
 the test runs, set `HEADLESS=false`, e.g. `HEADLESS=false npm run e2e <test file>`.
+
+##### Running visual regression browser tests
+
+Visual regression tests uses dockerized Chromium in order to produce consistent and reproducible
+image snapshots. The docker image is stored in GitHub Container Registry, so you'll need to
+[authenticate](https://docs.github.com/en/free-pro-team@latest/packages/managing-container-images-with-github-container-registry/pushing-and-pulling-docker-images#authenticating-to-github-container-registry) properly to be
+able to pull the image. A summarized version of the steps to authenticate is listed below, for convenience:
+
+- Create a [personal access token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+  - Select `write:packages` and `read:packages` as the required scopes
+  - Copy down the token
+  - Enable SSO
+- Save your token in an environment variable, like so `export CR_PAT=YOUR_TOKEN`
+- Run `echo $CR_PAT | docker login https://docker.pkg.github.com -u USERNAME --password-stdin`. Make sure to update it with your GitHub
+  username
+- To verify that you can pull the image, do `docker pull docker.pkg.github.com/zendesk/dockerhub-images/alpine-chrome:latest`
+
+To run the visual regression test suite, run `npm run e2e:visual-regressions`. To run a single visual regression
+test, run you can do `npm run e2e:visual-regressions -- <file>`. Note that
+the `HEADLESS` flag won't work in the visual regression test suite.
 
 #### Faster e2e development
 
