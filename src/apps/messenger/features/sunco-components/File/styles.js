@@ -30,7 +30,7 @@ const Name = styled.a`
   font-size: ${props => props.theme.messenger.fontSizes.sm};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
   overflow-wrap: anywhere;
-  font-weight: ${props => props.theme.fontWeights.semibold};
+  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
   color: ${props =>
     props.isPrimaryParticipant
       ? props.theme.messenger.colors.messageText

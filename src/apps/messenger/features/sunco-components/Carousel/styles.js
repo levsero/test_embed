@@ -80,7 +80,7 @@ const Content = styled.div`
 const Title = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.md};
   line-height: ${props => props.theme.messenger.lineHeights.md};
-  font-weight: ${props => props.theme.fontWeights.semibold};
+  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
 `
 
 const Description = styled.div`
