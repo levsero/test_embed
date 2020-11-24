@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 
 import Header from 'src/apps/messenger/features/header'
-import ConnectionStatusBanner from 'src/apps/messenger/features/connectionStatus'
+import ConnectionStatusBanner from 'src/apps/messenger/features/onlineStatus'
 import Footer from 'src/apps/messenger/features/footer'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
