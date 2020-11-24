@@ -1,5 +1,5 @@
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const common = require('./webpack.common.js')
 const chunks = require('./chunks')
@@ -11,7 +11,7 @@ module.exports = merge(common, {
     preload: path.join(CWD, '/src/preload.js')
   },
   optimization: {
-    namedChunks: true,
+    chunkIds: 'named',
     splitChunks: {
       chunks(chunk) {
         return !chunks.excludeFromVendoring(chunk.name)
