@@ -52,9 +52,20 @@ const Button = styled(IconButton)`
 
     &[data-garden-focus-visible],
     &:focus {
-      background-color: ${props => props.theme.messenger.colors.primary};
       box-shadow: inset
         ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primaryText, 0.35))};
+    }
+
+    @supports selector(: focus-visible) {
+      &:focus {
+        box-shadow: none;
+      }
+
+      &[data-garden-focus-visible],
+      &:focus-visible {
+        box-shadow: inset
+          ${props => props.theme.shadows.md(rgba(props.theme.messenger.colors.primaryText, 0.35))};
+      }
     }
   }
 `
