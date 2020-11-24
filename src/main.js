@@ -9,14 +9,11 @@ import 'core-js/modules/es.object.entries'
 import errorTracker from 'src/framework/services/errorTracker'
 import { isBlacklisted } from 'utility/devices'
 import { win, document as doc } from 'utility/globals'
+import framework from './framework'
 
 try {
   if (!isBlacklisted()) {
-    import(/* webpackChunkName: 'lazy/framework-boot' */ './framework').then(
-      ({ default: framework }) => {
-        framework.start(win, doc)
-      }
-    )
+    framework.start(win, doc)
   }
 } catch (err) {
   errorTracker.error(err)
