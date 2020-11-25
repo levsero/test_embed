@@ -24,7 +24,7 @@ describe('Footer', () => {
     expect(queryByText('message from user')).toBeInTheDocument()
     userEvent.type(input, '{enter}')
 
-    expect(suncoClient.sendMessage).toHaveBeenCalledWith('message from user', undefined)
+    expect(suncoClient.sendMessage).toHaveBeenCalledWith('message from user', undefined, undefined)
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 
@@ -48,7 +48,7 @@ describe('Footer', () => {
 
     userEvent.click(getByLabelText('Send message'))
 
-    expect(suncoClient.sendMessage).toHaveBeenCalledWith('message from user', undefined)
+    expect(suncoClient.sendMessage).toHaveBeenCalledWith('message from user', undefined, undefined)
     expect(queryByText('message from user')).not.toBeInTheDocument()
   })
 

@@ -30,7 +30,8 @@ const TextStructuredMessage = ({
     received,
     status,
     isLastMessageThatHasntFailed,
-    payload
+    payload,
+    metadata
   }
 }) => {
   const dispatch = useDispatch()
@@ -50,7 +51,8 @@ const TextStructuredMessage = ({
             sendMessage({
               messageId: _id,
               message: text,
-              payload
+              payload,
+              metadata
             })
           )
         }}
@@ -72,7 +74,8 @@ const TextStructuredMessage = ({
             dispatch(
               sendMessage({
                 message: reply.text,
-                payload: reply.payload
+                payload: reply.payload,
+                metadata: reply.metadata
               })
             )
           }}
@@ -96,6 +99,7 @@ TextStructuredMessage.propTypes = {
         type: PropTypes.string
       })
     ),
+    metadata: PropTypes.objectOf(PropTypes.any),
     avatarUrl: PropTypes.string,
     name: PropTypes.string
   })

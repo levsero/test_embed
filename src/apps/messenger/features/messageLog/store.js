@@ -20,17 +20,20 @@ const fetchPaginatedMessages = createAsyncThunk(
 // sendMessage sends a message optimistically via the Sunco JS client
 // If retrying sending a message, provide its id via messageId
 // If messageId not provided, the thunk requestId will be used as the messages optimistic id
-const sendMessage = createAsyncThunk('message/send', async ({ message, messageId: _, payload }) => {
-  const response = await sendSuncoMessage(message, payload)
+const sendMessage = createAsyncThunk(
+  'message/send',
+  async ({ message, messageId: _, payload, metadata }) => {
+    const response = await sendSuncoMessage(message, payload, metadata)
 
-  if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
-    return {
-      message: response.body.messages[0]
+    if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
+      return {
+        message: response.body.messages[0]
+      }
     }
-  }
 
-  throw new Error('Message failed to send')
-})
+    throw new Error('Message failed to send')
+  }
+)
 
 const messagesAdapter = createEntityAdapter({
   selectId: message => message._id,

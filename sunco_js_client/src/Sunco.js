@@ -59,12 +59,13 @@ export default class Sunco {
         if (cursor) params['before'] = cursor
         return this.messages.list(appUserId, conversationId, params)
       },
-      sendMessage: (text, payload) =>
+      sendMessage: (text, payload, metadata) =>
         this.messages.create(appUserId, conversationId, {
           type: 'text',
           text,
           role: 'appUser',
-          payload
+          payload,
+          metadata
         }),
       sendFormResponse: (fields, formId) =>
         this.messages.create(appUserId, conversationId, {
