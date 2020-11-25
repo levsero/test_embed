@@ -1,6 +1,5 @@
 import { testReducer } from 'src/apps/messenger/utils/testHelpers'
 import store, { getMessengerColors } from '../store'
-import { DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 
 testReducer(store, [
@@ -9,17 +8,7 @@ testReducer(store, [
       type: 'some_nonsense_action'
     },
     expected: {
-      colors: {
-        primary: DEFAULT_THEME.palette.kale[600],
-        primaryText: DEFAULT_THEME.palette.white,
-        message: DEFAULT_THEME.palette.kale[700],
-        messageText: DEFAULT_THEME.palette.white,
-        action: DEFAULT_THEME.palette.mint[400],
-        actionText: DEFAULT_THEME.palette.grey[800],
-        otherParticipantMessage: '#f4f6f8',
-        otherParticipantMessageText: DEFAULT_THEME.palette.grey[800],
-        otherParticipantMessageBorder: DEFAULT_THEME.palette.grey[200]
-      },
+      colors: {},
       position: 'right'
     }
   },
@@ -37,14 +26,8 @@ testReducer(store, [
     expected: {
       colors: {
         primary: 'red',
-        primaryText: DEFAULT_THEME.palette.grey[800],
         message: 'blue',
-        messageText: DEFAULT_THEME.palette.white,
-        action: 'green',
-        actionText: DEFAULT_THEME.palette.white,
-        otherParticipantMessage: '#f4f6f8',
-        otherParticipantMessageText: DEFAULT_THEME.palette.grey[800],
-        otherParticipantMessageBorder: DEFAULT_THEME.palette.grey[200]
+        action: 'green'
       },
       position: 'right'
     }
@@ -64,14 +47,7 @@ testReducer(store, [
     expected: {
       colors: {
         primary: 'red',
-        primaryText: DEFAULT_THEME.palette.grey[800],
-        message: 'blue',
-        messageText: DEFAULT_THEME.palette.white,
-        action: DEFAULT_THEME.palette.mint[400],
-        actionText: DEFAULT_THEME.palette.grey[800],
-        otherParticipantMessage: '#f4f6f8',
-        otherParticipantMessageText: DEFAULT_THEME.palette.grey[800],
-        otherParticipantMessageBorder: DEFAULT_THEME.palette.grey[200]
+        message: 'blue'
       },
       position: 'right'
     }
