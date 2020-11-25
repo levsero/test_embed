@@ -40,9 +40,9 @@ export const fetchMessages = async cursor => {
   return conversation.listMessages(cursor)
 }
 
-export const sendMessage = async (message, payload) => {
+export const sendMessage = async (message, payload, metadata) => {
   const conversation = await getActiveConversation()
-  return conversation.sendMessage(message, payload)
+  return conversation.sendMessage(message, payload, metadata)
 }
 
 export const sendFormResponse = async (fields, formId) => {
