@@ -4,7 +4,8 @@ import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-select
 import { i18n } from 'service/i18n'
 import { isCallbackEnabled, getEmbeddableConfig } from 'src/redux/modules/talk/talk-selectors'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
-import { CLICK_TO_CALL, PHONE_ONLY } from 'src/redux/modules/talk/talk-capability-types'
+import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
+import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
 export const getSnapcallButtonId = state => state.talk.snapcall.buttonId
 export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
@@ -13,15 +14,8 @@ export const getSnapcallSupported = state => state.talk.snapcall.snapcallSupport
 
 export const getCapability = createSelector(
   [getEmbeddableConfig, getSnapcallSupported],
-  (talkConfig, snapcallSupported) => {
-    switch (snapcallSupported) {
-      case false:
-        return PHONE_ONLY
-      case true:
-        return CLICK_TO_CALL
-      default:
-        return talkConfig.capability === CLICK_TO_CALL ? PHONE_ONLY : talkConfig.capability
-    }
+  talkConfig => {
+    return isFeatureEnabled(null, 'digital_voice_enabled') ? CLICK_TO_CALL : talkConfig.capability
   }
 )
 

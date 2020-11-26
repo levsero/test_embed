@@ -14,8 +14,8 @@ import PhoneOnlyPage from './pages/online/PhoneOnlyPage'
 import CallbackOnlyPage from './pages/online/CallbackOnlyPage'
 import CallbackAndPhonePage from './pages/online/CallbackAndPhonePage'
 import LoadingPage from 'components/LoadingPage'
-const ClickToCallPage = lazy(() =>
-  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/ClickToCallPage')
+const EmbeddedVoiceTestPage = lazy(() =>
+  import(/* webpackChunkName: 'lazy/talk/click_to_call' */ './pages/online/EmbeddedVoiceTestPage')
 )
 import {
   getAgentAvailability,
@@ -73,7 +73,7 @@ class Talk extends Component {
                 <Route path={routes.callbackOnly()} component={CallbackOnlyPage} />
                 <Route path={routes.phoneOnly()} component={PhoneOnlyPage} />
                 <Route path={routes.callbackAndPhone()} component={CallbackAndPhonePage} />
-                <Route path={routes.clickToCall()} component={ClickToCallPage} />
+                <Route path={routes.clickToCall()} component={EmbeddedVoiceTestPage} />
 
                 <Redirect to={onlineContactOptions[contactOption]} />
               </Switch>
