@@ -6,23 +6,23 @@ import {
   CALLBACK_AND_PHONE
 } from 'src/redux/modules/talk/talk-capability-types'
 
-import { getOfflineTitle, getTalkTitleKey, getSnapcallSupported, getCapability } from '../selectors'
+import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
     test.each([
       [CLICK_TO_CALL, true, CLICK_TO_CALL],
       [CLICK_TO_CALL, null, CLICK_TO_CALL],
-      [CALLBACK_ONLY, true, CALLBACK_ONLY],
+      [CALLBACK_ONLY, true, CLICK_TO_CALL],
       [CALLBACK_ONLY, null, CALLBACK_ONLY],
       [PHONE_ONLY, null, PHONE_ONLY],
       [CALLBACK_AND_PHONE, null, CALLBACK_AND_PHONE],
       [CALLBACK_AND_PHONE, false, CALLBACK_AND_PHONE]
     ])(
-      'When config state is %p, snapcallEnabled is %p, expect to return %p',
-      (state, snapcallSupported, expectedValue) => {
+      'When config state is %p, digitalVoiceSupported is %p, expect to return %p',
+      (state, digitalVoiceSupported, expectedValue) => {
         const config = { capability: state }
-        const result = getCapability.resultFunc(config, snapcallSupported)
+        const result = getCapability.resultFunc(config, digitalVoiceSupported)
         expect(result).toEqual(expectedValue)
       }
     )
@@ -75,13 +75,5 @@ describe('talk selectors', () => {
         expect(result).toEqual(expectedValue)
       }
     )
-  })
-
-  describe('getSnapcallSupported', () => {
-    it('returns the value within the snapcall object', () => {
-      expect(
-        getSnapcallSupported({ talk: { snapcall: { snapcallSupported: 'heebie jeebies' } } })
-      ).toEqual('heebie jeebies')
-    })
   })
 })

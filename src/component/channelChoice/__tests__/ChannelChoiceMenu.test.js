@@ -44,7 +44,7 @@ describe('rendering', () => {
           const props = { talkOnline: true, talkCapability: CLICK_TO_CALL }
           const { getByText } = renderComponent(props)
 
-          expect(getByText('Click to call')).toBeInTheDocument()
+          expect(getByText('Call us')).toBeInTheDocument()
         })
         it('when callbackEnabled is true', () => {
           const props = { talkOnline: true, callbackEnabled: true }

@@ -1537,3 +1537,10 @@ parts:
       title: 'Title for the call disconnected notification'
       value: 'Call disconnected'
       wip: true
+
+  # Talk: Embedded Voice
+  - translation:
+      key: 'embeddable_framework.talk.embeddedVoice.channel.title'
+      title: 'The title used for Embedded Voice in all channel choice pages.'
+      value: 'Call Us'
+      wip: true

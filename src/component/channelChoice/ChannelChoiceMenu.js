@@ -92,7 +92,7 @@ class ChannelChoiceMenu extends Component {
     const { callbackEnabled, talkCapability } = this.props
 
     if (talkCapability == CLICK_TO_CALL) {
-      return i18n.t('embeddable_framework.channelChoice.button.label.click_to_call')
+      return i18n.t('embeddable_framework.talk.embeddedVoice.channel.title')
     }
 
     return callbackEnabled

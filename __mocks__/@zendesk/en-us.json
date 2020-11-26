@@ -298,7 +298,8 @@
       "embeddable_framework.talk.clickToCall.message": "Call Customer Support directy from your browser. You'll need to allow microphone access on your device when prompted.",
       "embeddable_framework.talk.clickToCall.button.startCall": "Start call",
       "embeddable_framework.talk.clickToCall.callInProgress.button.endCall": "Hang up",
-      "embeddable_framework.chat.options.editContactDetailsSubmission.success": "Success"
+      "embeddable_framework.chat.options.editContactDetailsSubmission.success": "Success",
+      "embeddable_framework.talk.embeddedVoice.channel.title": "Call us"
     }
   }
 }
