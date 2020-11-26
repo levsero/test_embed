@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { render } from 'src/util/testHelpers'
 import useSafeState from 'src/hooks/useSafeState'
 import { fireEvent, waitFor } from '@testing-library/dom'
@@ -62,42 +62,5 @@ describe('useSafeState', () => {
     unmount()
 
     fireEvent.click(button)
-  })
-
-  describe('the reason for useSafeState', () => {
-    const mockedWarn = jest.fn()
-    beforeEach(() => {
-      // eslint-disable-next-line no-console
-      console.error = mockedWarn
-    })
-
-    it('throws an error when using useState and setting state on an unmount component', async () => {
-      let resolve
-
-      const { getByText, unmount } = renderComponent({
-        initialState: 'one',
-        stateHandler: async setState => {
-          await new Promise(res => {
-            resolve = res
-          })
-          setState('two')
-        },
-        useHook: useState
-      })
-
-      const button = getByText('one')
-
-      fireEvent.click(button)
-
-      unmount()
-
-      resolve()
-
-      await waitFor(() =>
-        expect(mockedWarn.mock.calls[1]?.[0]).toEqual(
-          expect.stringContaining("Can't perform a React state update on an unmounted component")
-        )
-      )
-    })
   })
 })

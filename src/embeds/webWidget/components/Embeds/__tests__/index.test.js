@@ -7,6 +7,7 @@ import { wait, getByTestId } from '@testing-library/react'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import { updateSettings } from 'src/redux/modules/settings'
 import * as globalUtilities from 'utility/globals'
+import { waitFor } from '@testing-library/dom'
 
 jest.mock('component/webWidget/WebWidget', () => {
   return {
@@ -73,12 +74,12 @@ describe('Embeds', () => {
     expect(container.querySelector('iframe')).toHaveAttribute('tabindex', '-1')
   })
 
-  it('renders the embeds for the web widget', () => {
+  it('renders the embeds for the web widget', async () => {
     renderComponent()
 
     const frameDocument = document.querySelector('iframe').contentDocument
 
-    expect(getByTestId(frameDocument, 'web widget')).toBeInTheDocument()
+    await waitFor(() => expect(getByTestId(frameDocument, 'web widget')).toBeInTheDocument())
   })
 
   it('respects zESettings for the zIndex css value', () => {

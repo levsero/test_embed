@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import styled from 'styled-components'
 import Frame, { useCurrentFrame } from '../index'
+import { waitFor } from '@testing-library/dom'
 
 describe('Frame', () => {
   const defaultProps = {
@@ -21,32 +22,36 @@ describe('Frame', () => {
     expect(queryByTitle('Frame test')).toBeInTheDocument()
   })
 
-  it('renders the provided children inside the iframe', () => {
+  it('renders the provided children inside the iframe', async () => {
     const { baseElement } = renderComponent()
 
-    expect(getIFrame(baseElement).querySelector('#child-component')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(getIFrame(baseElement).querySelector('#child-component')).toBeInTheDocument()
+    )
   })
 
-  it('renders into the provided rootElement if provided', () => {
+  it('renders into the provided rootElement if provided', async () => {
     const div = document.createElement('div')
     document.querySelector('body').appendChild(div)
 
     renderComponent({ rootElement: div })
 
-    expect(div.querySelector('#child-component')).toBeInTheDocument()
+    await waitFor(() => expect(div.querySelector('#child-component')).toBeInTheDocument())
   })
 
-  it('includes a StyleSheetManager so styled-components styles are kept in the iframe', () => {
+  it('includes a StyleSheetManager so styled-components styles are kept in the iframe', async () => {
     const ChildComponent = styled.div`
       color: blue;
     `
     const { baseElement } = renderComponent({ children: <ChildComponent /> })
 
-    expect(
-      getIFrame(baseElement)
-        .querySelector('head')
-        .querySelector('style')
-    ).toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        getIFrame(baseElement)
+          .querySelector('head')
+          .querySelector('style')
+      ).toBeInTheDocument()
+    )
   })
 
   it('forwards the provided ref onto the iframe', () => {
@@ -66,7 +71,7 @@ describe('Frame', () => {
     expect(current).toBe(baseElement.querySelector('#frame-test'))
   })
 
-  it('provides the document and window to its children by context', () => {
+  it('provides the document and window to its children by context', async () => {
     // eslint-disable-next-line react/prop-types
     const ExampleComponent = ({ onClick }) => {
       const frame = useCurrentFrame()
@@ -82,13 +87,19 @@ describe('Frame', () => {
 
     const { baseElement } = renderComponent({ children: <ExampleComponent onClick={onClick} /> })
 
+    await waitFor(() =>
+      expect(getIFrame(baseElement).querySelector('#exampleComponent')).toBeInTheDocument()
+    )
+
     getIFrame(baseElement)
       .querySelector('#exampleComponent')
       .click()
 
-    expect(onClick).toHaveBeenCalledWith({
-      document: document.querySelector('#frame-test').contentDocument,
-      window: document.querySelector('#frame-test').contentWindow
-    })
+    await waitFor(() =>
+      expect(onClick).toHaveBeenCalledWith({
+        document: document.querySelector('#frame-test').contentDocument,
+        window: document.querySelector('#frame-test').contentWindow
+      })
+    )
   })
 })

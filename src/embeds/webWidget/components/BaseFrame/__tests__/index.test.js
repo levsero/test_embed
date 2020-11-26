@@ -6,6 +6,7 @@ import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { i18n } from 'service/i18n'
 import { getGardenOverrides } from 'component/frame/gardenOverrides'
 import BaseFrame, { useFrameStyle } from '../'
+import { waitFor } from '@testing-library/dom'
 
 jest.mock('service/i18n')
 jest.mock('component/frame/gardenOverrides')
@@ -92,10 +93,10 @@ describe('BaseFrame', () => {
     )
   })
 
-  it('includes overrides for Garden components', () => {
+  it('includes overrides for Garden components', async () => {
     renderComponent({ color: { some: 'color' } })
 
-    expect(getGardenOverrides).toHaveBeenCalledWith({ some: 'color' })
+    await waitFor(() => expect(getGardenOverrides).toHaveBeenCalledWith({ some: 'color' }))
   })
 
   it("includes the web widget's base styling", () => {

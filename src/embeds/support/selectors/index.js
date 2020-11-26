@@ -158,7 +158,7 @@ export const getTicketForms = createSelector(
   (ids, active, availableForms) => {
     const returnedFormIds = Object.keys(availableForms).map(id => parseInt(id, 10))
     const anyFormsReturned = returnedFormIds.length > 0
-    const requestAll = active && ids.length == 0
+    const requestAll = Boolean(active && ids.length == 0)
     const showList = anyFormsReturned && (requestAll || (active && ids.length > 1))
     const validatedIds = ids?.filter(value => returnedFormIds.includes(value)) || []
 
