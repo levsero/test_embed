@@ -246,7 +246,7 @@ The `badge` setting customizes the Chat standalone badge. It has the following p
 
 #### Availability
 
-- [launcher](./core#launcher-settings)
+- [launcher](./core#launcher)
 
 #### badge.label
 
@@ -394,7 +394,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [launcher](./core#launcher-settings)
+- [launcher](./core#launcher)
 
 <a name="example-chatlabel"></a>
 
@@ -946,7 +946,7 @@ You can use different strings for different locales or use one string for all lo
 
 #### Availability
 
-- [launcher](./core#launcher-settings)
+- [launcher](./core#launcher)
 
 <a name="example-label"></a>
 
