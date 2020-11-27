@@ -8,6 +8,26 @@
 • Fixed - for any bug fixes.
 • Security - in case of vulnerabilities -->
 
+### 25 November 2020
+
+- Fixed an issue when responding to quick replies in the Web SDK.
+
+### 18 November 2020
+
+- Fixed an issue that resulted in the bottom of the Web SDK's message log being cut off in Safari.
+
+### 16 November 2020
+
+- Fixed an issue that resulted in the drop-down appearing as whitespace when opened in the Web SDK.
+
+### 13 November 2020
+
+- Fixed an issue in the Web SDK where the drop-down does not appear in the center if it has more than 7 items.
+
+### 11 November 2020
+
+- Fixed an issue where the drop-down in the pre-chat form was using the incorrect focus color.
+
 ### 26 October 2020
 
 - Fixed an issue that prevented `connectOnDemand` from establishing a Chat connection when the Web Widget was opened via the API.
