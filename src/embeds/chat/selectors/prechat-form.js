@@ -67,19 +67,19 @@ export const getPrechatFields = (state, options = {}) => {
       id: 'name',
       title: i18n.t('embeddable_framework.common.textLabel.name'),
       required: Boolean(prechatFormFields.name?.required || isDepartmentOffline),
-      visible: !isAuthenticated,
+      visible: loginSettings.enabled && !isAuthenticated,
       type: 'text'
     },
     {
       id: 'socialLogin',
       type: 'socialLogin',
-      visible: !isAuthenticated
+      visible: loginSettings.enabled && !isAuthenticated
     },
     {
       id: 'email',
       title: i18n.t('embeddable_framework.common.textLabel.email'),
       required: Boolean(prechatFormFields.email?.required || isDepartmentOffline),
-      visible: !isAuthenticated,
+      visible: loginSettings.enabled && !isAuthenticated,
       type: 'text'
     },
     {
@@ -98,7 +98,7 @@ export const getPrechatFields = (state, options = {}) => {
       id: 'phone',
       title: i18n.t('embeddable_framework.common.textLabel.phone_number'),
       required: Boolean(prechatFormFields.phone?.required),
-      visible: !isAuthenticated && loginSettings.phoneEnabled,
+      visible: loginSettings.enabled && !isAuthenticated && loginSettings.phoneEnabled,
       type: 'text'
     },
     {
