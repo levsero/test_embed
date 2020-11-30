@@ -6,7 +6,7 @@ import Timer from 'src/embeds/talk/components/ClickToCallTimer'
 
 import { Container, FlexContainer, PageContents } from './styles'
 
-const ClickToCallInProgress = ({ callDuration }) => {
+const ClickToCallInProgress = ({ onEndCallClicked, callDuration }) => {
   return (
     <Container>
       <FlexContainer>
@@ -15,13 +15,14 @@ const ClickToCallInProgress = ({ callDuration }) => {
           <Timer callDuration={callDuration} />
         </PageContents>
       </FlexContainer>
-      <EndCallButton />
+      <EndCallButton onClick={onEndCallClicked} />
     </Container>
   )
 }
 
 ClickToCallInProgress.propTypes = {
-  callDuration: PropTypes.string
+  callDuration: PropTypes.string,
+  onEndCallClicked: PropTypes.func
 }
 
 export default ClickToCallInProgress
