@@ -1,4 +1,3 @@
-import { snapcallAPI } from 'snapcall'
 import React from 'react'
 import { fireEvent } from '@testing-library/react'
 
@@ -7,7 +6,7 @@ import { render } from 'utility/testHelpers'
 import ClickToCallInProgress from '..'
 
 jest.mock('src/redux/modules/talk/talk-selectors')
-
+const endCallClickHandler = jest.fn()
 const renderComponent = props => render(<ClickToCallInProgress {...props} />)
 
 describe('render', () => {
@@ -29,11 +28,14 @@ describe('render', () => {
     expect(getByTestId(TEST_IDS.BUTTON_HANG_UP)).toBeInTheDocument()
   })
 
-  it('calls snapcallCallEnded on hang up button click', () => {
-    const { getByText } = renderComponent({ callDuration: '0:00' })
+  it('calls the end call click handler when the call is ended', () => {
+    const { getByText } = renderComponent({
+      callDuration: '0:00',
+      onEndCallClicked: endCallClickHandler
+    })
 
     fireEvent.click(getByText('Hang up'))
 
-    expect(snapcallAPI.endCall).toHaveBeenCalled()
+    expect(endCallClickHandler).toHaveBeenCalled()
   })
 })
