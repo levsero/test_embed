@@ -8,7 +8,8 @@ import { isOnHelpCenterPage } from 'utility/pages'
 import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
 import { getMetaTagsByName, isMobileBrowser } from 'utility/devices'
 
-let configLoadTime
+let configLoadTime,
+  previousTime = 0
 
 let config = {
   method: 'GET',
@@ -77,7 +78,6 @@ const sendPageView = (channel = 'web_widget') => {
 
   const now = Date.now()
   const referrer = parseUrl(doc.referrer)
-  const previousTime = store.get('currentTime') || 0
   const url = win.location.origin
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? now - previousTime : 0
@@ -147,9 +147,7 @@ function setConfig(_config) {
 }
 
 function init() {
-  const now = Date.now()
-
-  store.set('currentTime', now)
+  previousTime = Date.now()
 }
 
 function setConfigLoadTime(time) {
