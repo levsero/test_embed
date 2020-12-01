@@ -2,7 +2,7 @@ import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import { beacon } from 'service/beacon'
 import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { getAttachmentsEnabled } from 'src/redux/modules/selectors'
+import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 import { getAttachmentsForForm } from 'embeds/support/selectors'
 import hcStats from 'service/hcStats'
 
@@ -35,27 +35,50 @@ describe('trackTicketSubmitted', () => {
     }
   })
 
-  it('tracks ticket submitted in hcStats', () => {
-    const response = getResponse('request')
-    const formValues = {
-      attachments: {
-        ids: [1, 2, 3]
-      }
-    }
-    const attachments = [
-      { id: 1, fileType: 'png' },
-      { id: 2, fileType: 'jpg' },
-      { id: 3, fileType: 'pdf' }
-    ]
+  describe('hcStats', () => {
+    beforeEach(() => {
+      const attachments = [
+        { id: 1, fileType: 'png' },
+        { id: 2, fileType: 'jpg' },
+        { id: 3, fileType: 'pdf' }
+      ]
 
-    getSearchTerm.mockReturnValueOnce('search term')
-    getLocale.mockReturnValueOnce('locale')
-    getAttachmentsForForm.mockReturnValueOnce(attachments)
-    getHasContextuallySearched.mockReturnValueOnce(true)
-    getAttachmentsEnabled.mockReturnValueOnce(true)
+      getSearchTerm.mockReturnValueOnce('search term')
+      getLocale.mockReturnValueOnce('locale')
+      getAttachmentsForForm.mockReturnValueOnce(attachments)
+      getHasContextuallySearched.mockReturnValueOnce(true)
+      getAttachmentsEnabled.mockReturnValueOnce(true)
+    })
 
-    trackTicketSubmitted(response, formValues, {})
-    expect(hcStats.ticketSubmitted).toHaveBeenCalledWith('response id', 'search term')
+    describe('help center is available', () => {
+      it('tracks ticket submitted in hcStats', () => {
+        const response = getResponse('request')
+        const formValues = {
+          attachments: {
+            ids: [1, 2, 3]
+          }
+        }
+        getHelpCenterAvailable.mockReturnValueOnce(true)
+
+        trackTicketSubmitted(response, formValues, {})
+        expect(hcStats.ticketSubmitted).toHaveBeenCalledWith('response id', 'search term')
+      })
+    })
+
+    describe('help center is not available', () => {
+      it('does not track ticket submitted in hcStats', () => {
+        const response = getResponse('request')
+        const formValues = {
+          attachments: {
+            ids: [1, 2, 3]
+          }
+        }
+        getHelpCenterAvailable.mockReturnValueOnce(false)
+
+        trackTicketSubmitted(response, formValues, {})
+        expect(hcStats.ticketSubmitted).not.toHaveBeenCalled()
+      })
+    })
   })
 
   describe('when "request" exists in response body', () => {
