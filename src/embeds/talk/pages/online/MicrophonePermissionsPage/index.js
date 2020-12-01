@@ -3,7 +3,7 @@ import React from 'react'
 import { Widget, Header, Main } from 'src/components/Widget'
 import { Button, Container, Dot, DotContainer, Heading, Message, SectionContainer } from './styles'
 
-const SuccessNotificationPage = () => {
+const MicrophonePermissionsPage = () => {
   return (
     <Widget>
       <Header title={'Help'} showBackButton={false} />
@@ -28,6 +28,6 @@ const SuccessNotificationPage = () => {
   )
 }
 
-SuccessNotificationPage.propTypes = {}
+MicrophonePermissionsPage.propTypes = {}
 
-export default SuccessNotificationPage
+export default MicrophonePermissionsPage
