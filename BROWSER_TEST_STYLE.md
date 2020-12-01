@@ -76,9 +76,9 @@ They are run separately.
 
 ##### Running browser tests
 
-For browser tests, run `npm run e2e` to run the browser test suite. To run a specific file, run
-`npm run e2e <test file>`. If you want to see the browser while
-the test runs, set `HEADLESS=false`, e.g. `HEADLESS=false npm run e2e <test file>`.
+For browser tests, run `yarn e2e` to run the browser test suite. To run a specific file, run
+`yarn e2e <test file>`. If you want to see the browser while
+the test runs, set `HEADLESS=false`, e.g. `HEADLESS=false yarn e2e <test file>`.
 
 ##### Running visual regression browser tests
 
@@ -96,8 +96,8 @@ able to pull the image. A summarized version of the steps to authenticate is lis
   username
 - To verify that you can pull the image, do `docker pull docker.pkg.github.com/zendesk/dockerhub-images/alpine-chrome:latest`
 
-To run the visual regression test suite, run `npm run e2e:visual-regressions`. To run a single visual regression
-test, run you can do `npm run e2e:visual-regressions -- <file>`. Note that
+To run the visual regression test suite, run `yarn e2e:visual-regressions`. To run a single visual regression
+test, run you can do `yarn e2e:visual-regressions -- <file>`. Note that
 the `HEADLESS` flag won't work in the visual regression test suite.
 
 #### Faster e2e development
@@ -107,9 +107,9 @@ Restarting the whole e2e dev server each time you run a single test in developme
 Instead of doing that, you can just run the `e2e:server` in a concurrent process and then run individual e2e tests against the running process.
 
 ```bash
-npm run e2e:server
+yarn e2e:server
 #wait for the server to start
-HEADLESS=false npm run e2e ./e2e/spec/chat/launcher.test.js
+HEADLESS=false yarn e2e ./e2e/spec/chat/launcher.test.js
 ```
 
 #### Debugging tests

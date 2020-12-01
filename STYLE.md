@@ -17,7 +17,7 @@ This document contains guidelines for the Embeddable Framework's Javascript and 
 
 ESLint enforces the majority of the core Javascript and React styles, throwing lint errors on any line of code that breaks the rules defined in `.eslintrc`.
 
-To lint all the source and test files, use the command `npm run lint`.
+To lint all the source and test files, use the command `yarn lint`.
 
 Adhere to the following core rules:
 

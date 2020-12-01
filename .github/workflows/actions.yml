@@ -19,27 +19,26 @@ jobs:
         include:
           - task: lint
             run: |
-              npm run lint
+              yarn lint
           - task: test-ci
             run: |
               echo "Starting unit and integration tests"
               download_translations
-              npm run test:ci
+              yarn test:ci
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
               ./script/run_fossa.sh;
           - task: audit
             run: |
-              echo "Starting npm audit"
-              npm install -g audit-ci
-              audit-ci --critical
+              echo "Starting audit"
+              yarn audit-ci --critical
           - task: validate
             run: |
               echo "Validating prod builds";
               download_translations
               bundle exec ruby ./script/validate_i18n.rb
-              npm run build:validate
+              yarn build:validate
           - task: e2e0
             run: |
               export CI_NODE_TOTAL=4
@@ -47,8 +46,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
-              npm run e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn e2e --  --listTests --json)
+              yarn e2e:ci
           - task: e2e1
             run: |
               export CI_NODE_TOTAL=4
@@ -56,8 +55,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
-              npm run e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn e2e --  --listTests --json)
+              yarn e2e:ci
           - task: e2e2
             run: |
               export CI_NODE_TOTAL=4
@@ -65,8 +64,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
-              npm run e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn e2e --  --listTests --json)
+              yarn e2e:ci
           - task: e2e3
             run: |
               export CI_NODE_TOTAL=4
@@ -74,14 +73,14 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 npm run e2e --  --listTests --json)
-              npm run e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn e2e --  --listTests --json)
+              yarn e2e:ci
           - task: visual
             run: |
               echo "Starting visual regression testing";
               download_translations
               start_e2e_server
-              npm run e2e:visual-regressions:ci
+              yarn e2e:visual-regressions:ci
     steps:
       - uses: zendesk/checkout@v2
         with:
@@ -94,22 +93,21 @@ jobs:
       - name: before_install
         run: |
           curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
-          npm i -g npm@6.13.4
       - name: install
         run: |
           git config --global url."https://${{ secrets.ORG_GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
           mkdir dist
           sed -i 's/git+ssh:\/\/git@github.com\/zendesk\/chat-web-sdk/https:\/\/github.com\/zendesk\/chat-web-sdk/g' package.json
-          npm set progress=false && npm install
-          npm run build:version:generate
+          yarn install
+          yarn build:version:generate
       - name: ${{ matrix.task }}
         run: |
           download_translations() {
             bundle install --local --jobs=3 --retry=3 --path=vendor/bundle --without=deployment
-            npm run build-setup:prod
+            yarn build-setup:prod
           }
           start_e2e_server() {
-            npm run e2e:server &
+            yarn e2e:server &
             sleep 5
             curl localhost:5123/e2e.html
           }
