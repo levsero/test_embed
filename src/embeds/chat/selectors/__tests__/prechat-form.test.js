@@ -34,7 +34,9 @@ describe('prechat form selectors', () => {
         status: 'online'
       },
       formFields: {},
-      loginSettings: {},
+      loginSettings: {
+        enabled: true
+      },
       customerDefinedDepartments: undefined,
       prechatFormSettings: {},
       locale: 'en'
@@ -63,6 +65,17 @@ describe('prechat form selectors', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
           isAuthenticated: true
+        })
+
+        const field = result.find(field => field.id === 'name')
+        expect(field).toBeUndefined()
+      })
+
+      it('is not included when login is disabled via the chat admin', () => {
+        const result = run({
+          loginSettings: {
+            enabled: false
+          }
         })
 
         const field = result.find(field => field.id === 'name')
@@ -134,6 +147,17 @@ describe('prechat form selectors', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
           isAuthenticated: true
+        })
+
+        const field = result.find(field => field.id === 'email')
+        expect(field).toBeUndefined()
+      })
+
+      it('is not included when login is disabled via the chat admin', () => {
+        const result = run({
+          loginSettings: {
+            enabled: false
+          }
         })
 
         const field = result.find(field => field.id === 'email')
@@ -348,6 +372,17 @@ describe('prechat form selectors', () => {
         expect(field).toBeUndefined()
       })
 
+      it('is not included when login is disabled via the chat admin', () => {
+        const result = run({
+          loginSettings: {
+            enabled: false
+          }
+        })
+
+        const field = result.find(field => field.id === 'phone')
+        expect(field).toBeUndefined()
+      })
+
       it('is not included when login settings have phone disabled', () => {
         const result = run({
           isAuthenticated: false,
@@ -364,6 +399,7 @@ describe('prechat form selectors', () => {
         const result = run({
           isAuthenticated: false,
           loginSettings: {
+            enabled: true,
             phoneEnabled: true
           },
           formFields: {
