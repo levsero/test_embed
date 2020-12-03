@@ -6,7 +6,6 @@ pluck_version() {
 
 nvm_version="$(pluck_version 'nvm')"
 node_version="$(pluck_version 'node')"
-npm_version="$(pluck_version 'npm')"
 nvm_node_version="$(tr -d 'v' < .nvmrc)"
 restart_terminal_required=false
 
@@ -78,23 +77,21 @@ node_binary_file_path=$(nvm which "$nvm_node_version")
 npm_command="${node_binary_file_path%node}npm"
 installed_npm_version=$(command -v npm >/dev/null 2>&1 && $npm_command --version)
 
-if [ "$installed_npm_version" = "$npm_version" ]
+if ! command -v yarn &> /dev/null
 then
-  echo "npm version up to date ($npm_version)"
+  echo "Installing yarn"
+   npm install -g yarn
 else
-  echo "npm version needs updated to $npm_version (on $installed_npm_version)"
-  $npm_command install -g npm@"$npm_version"
+  echo "Yarn already installed"
 fi
-
-current_npm_user="$($npm_command whoami 2>/dev/null)"
 
 if [ "$installed_node_version" = "$nvm_node_version" ]
 then
   echo "Confirming application dependencies are up to date"
-  $npm_command ci
+  yarn install
 else
   echo "Node.js version has changed from $installed_node_version to $nvm_node_version, re-installing application dependencies"
-  $npm_command rm -rf node_modules && npm ci
+  rm -rf node_modules && yarn install
 fi
 
 echo "*** Setup complete! ***"

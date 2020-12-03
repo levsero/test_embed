@@ -178,7 +178,12 @@ describe('questionSubmitted', () => {
             },
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       }
     `)
   })

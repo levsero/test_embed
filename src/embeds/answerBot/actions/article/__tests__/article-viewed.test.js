@@ -73,7 +73,12 @@ describe('articleViewed', () => {
             },
           ],
         ],
-        "results": undefined,
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       }
     `)
   })

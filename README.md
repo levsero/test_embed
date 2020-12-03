@@ -35,13 +35,13 @@ Run the following commands inside this folder:
 
 The bootstrap file will do the following:
 
-- Run `./script/setup_node_env` to install the correct versions of nvm, node, and npm, as well as all npm dependencies.
+- Run `./script/setup_node_env` to install the correct versions of nvm, node, npm and yarn, as well as all npm dependencies.
 - Run `bundle install` to get ruby dependencies
-- Run `npm run build` to generate snippet, framework and example files
+- Run `yarn build` to generate snippet, framework and example files
 - Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
 - Download countries translation into `src/translation/ze_countries.js`
 
-To run the embeddables locally type `npm run dev` in this folder for it to kick off. This will build all the files required to load the Web Widget and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/live.html](http://localhost:1337/live.html) to test the Web Widget live.
+To run the embeddables locally type `yarn dev` in this folder for it to kick off. This will build all the files required to load the Web Widget and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/live.html](http://localhost:1337/live.html) to test the Web Widget live.
 
 We recommended installing the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) extension on your browser.
 
@@ -49,7 +49,7 @@ We recommended installing the [Redux DevTools](https://chrome.google.com/webstor
 
 You can safely run the `./script/setup_node_env` script at any time, even on top of an existing install.
 
-The `./script/setup_node_env` script will ensure that all Dev team members are using the exact same versions of node, npm and npm packages defined in our lock file. We would prefer people to use this script where possible to avoid local environment differences from updating our `package-lock.json` file unnecessarily.
+The `./script/setup_node_env` script will ensure that all Dev team members are using the exact same versions of node, npm, yarn and npm packages defined in our lock file.
 
 ```bash
 ./script/setup_node_env
@@ -72,7 +72,7 @@ cp dev/configs/example-template.js dev/configs/${yourUserConfigName}.js
 You can use this config in the dev task by running
 
 ```bash
-USER_CONFIG={yourConfigName} npm run dev
+USER_CONFIG={yourConfigName} yarn dev
 ```
 
 This will start the dev task using the values found in `dev/configs/${yourConfigName}.js`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.js` config which uses `dev.zd-dev.com`.
@@ -89,7 +89,7 @@ script/setup_html_templates.rb
 
 Instead of loading the dev task via the user config above, the [widget developer dashboard](https://github.com/zendesk/widget-developer-dashboard) provides UI controls to toggle widget settings and test it under different conditions for a better developer experience.
 
-To use the widget developer dashboard, follow the steps in the dashboard repo to clone and install the required dependencies. This repo and the dashboard repo need to be in your `Code/zendesk` folder. To setup, copy over the values used in your `dev/configs/${yourConfigName}.js` file into the `config/environments/` [folder](https://github.com/zendesk/widget-developer-dashboard/tree/master/config/environments) in the web widget dashboard. Then run `npm run dashboard` in this repo, the widget will be served up at `http://localhost:1338/`.
+To use the widget developer dashboard, follow the steps in the dashboard repo to clone and install the required dependencies. This repo and the dashboard repo need to be in your `Code/zendesk` folder. To setup, copy over the values used in your `dev/configs/${yourConfigName}.js` file into the `config/environments/` [folder](https://github.com/zendesk/widget-developer-dashboard/tree/master/config/environments) in the web widget dashboard. Then run `yarn dashboard` in this repo, the widget will be served up at `http://localhost:1338/`.
 
 ## Testing
 
@@ -102,12 +102,12 @@ To use the widget developer dashboard, follow the steps in the dashboard repo to
 
 (Note that this isn't part of Taipan's usual workflow.)
 
-- Follow above to get `npm run dev` running.
+- Follow above to get `yarn dev` running.
 - Run `zdi embeddable_framework -d restart` in parallel.
 
 ### Building Docker image
 
-- Run `npm run build` to build static assets inside `./dist/public`.
+- Run `yarn build` to build static assets inside `./dist/public`.
 - Run `zdi embeddable_framework build`.
 - Verify the built image with `zdi embeddable_framework restart -l`.
 - To push, run `zdi embeddable_framework release --official`.

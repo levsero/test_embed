@@ -2,12 +2,15 @@ require_relative '../package_size_reporter'
 require_relative '../deploy_helper'
 
 def prepare
-  sh 'npm set progress=false && npm ci'
-  sh 'npm dedupe'
+  yarn_command 'install'
 end
 
 def build_web_widget
-  sh 'npm run build'
+  yarn_command 'build'
+end
+
+def yarn_command(command)
+  sh "node .yarn/releases/yarn-1.22.10.js #{command}"
 end
 
 def report_web_widget
@@ -44,7 +47,7 @@ def upload_web_widget
 end
 
 def build_previewer
-  sh 'npm run build-previewer'
+  yarn_command 'build-previewer'
 end
 
 def upload_previewer

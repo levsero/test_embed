@@ -212,7 +212,6 @@
     "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax.git#v2.0.0.rc2",
     "jasmine-spec-reporter": "^4.2.1",
     "jest": "^24.9.0",
-    "jest-env-jsdom-silent": "^1.0.0",
     "jest-image-snapshot": "^4.0.2",
     "jest-prop-type-error": "^1.1.0",
     "jest-puppeteer": "^4.4.0",
