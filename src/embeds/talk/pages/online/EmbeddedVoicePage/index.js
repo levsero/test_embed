@@ -21,7 +21,7 @@ let device
 const getToken = async () => {
   try {
     const response = await fetch(
-      'http://2potatocakes-dv-twilio-app-twilio-app.ngrok.io/twilio/token',
+      'http://[replace-with-your-ngrok-subdomain].ngrok.io/twilio/token',
       {
         method: 'POST',
         headers: {
@@ -46,7 +46,7 @@ const EmbeddedVoicePage = () => {
     const token = await getToken()
 
     // kill any existing connections before attempting to start a call
-    device && device.destroy()
+    device?.destroy()
 
     device = new Device()
     device.setup(token)
@@ -84,20 +84,15 @@ const EmbeddedVoicePage = () => {
       />
       <Main>
         <Switch>
-          <Route
-            path={routes.clickToCallInProgress()}
-            component={() => (
-              <ClickToCallInProgress onEndCallClicked={endCall} callDuration={'0.00'} />
-            )}
-          />
-          <Route
-            path={routes.clickToCallPermissions()}
-            component={() => <MicrophonePermissions onStartCallClicked={startCall} />}
-          />
-          <Route
-            path={routes.clickToCallConsent()}
-            component={() => <ConsentToRecord onStartCallClicked={startCall} />}
-          />
+          <Route path={routes.clickToCallInProgress()}>
+            <ClickToCallInProgress onEndCallClicked={endCall} callDuration={'0.00'} />
+          </Route>
+          <Route path={routes.clickToCallPermissions()}>
+            <MicrophonePermissions onStartCallClicked={startCall} />
+          </Route>
+          <Route path={routes.clickToCallConsent()}>
+            <ConsentToRecord onStartCallClicked={startCall} />
+          </Route>
 
           <Redirect to={clickToCallPath()} />
         </Switch>
