@@ -1,3 +1,5 @@
-src/vendor/*
-src/translation/*
+packages/framework/src/vendor/*
+packages/framework/src/translation/*
 */__snapshots__/*
+*/node_modules/*
+node_modules

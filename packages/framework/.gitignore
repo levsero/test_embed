@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+src/vendor
+vendor/bundle
+
+# Logs
+npm-debug.log
+
+# Build
+dist/
+build/
+REVISION
+src/translation/*
+
+# Dev config
+dev/configs/*.json
+dev/configs/*.js
+!dev/configs/example-template.js
+!dev/configs/*-template.json
+!dev/templates/web_widget/*.example
+dev/templates/web_widget/*.html
+!dev/templates/web_widget/e2e.html
+dev/templates/dashboard/*.html
+!dev/templates/dashboard/example.html
+!dev/templates/dashboard/customLauncher.html
+
+# Editor specific things
+.vscode/*.*
+!.vscode/*.code-snippets
+.idea
+jsconfig.json
+
+# Other
+example/*
+!example/csp.js
+!example/*-template.html
+.DS_Store
+.bundle
+webdrivercss/
+**/*.csv
+docker-chromium
+!.keep

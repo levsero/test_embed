@@ -1,0 +1,59 @@
+// If this changes it also needs to change in javascript shared constants
+$font-size: 14;
+$font-size-lrg: #{15 / $font-size}rem;
+$font-size-mobile: #{15 / $font-size}rem;
+
+$font-size-lrg: #{15 / $font-size}rem;
+
+// because safari 8 rounds 1/12 to .083rem
+// which computes to 0.9999px & borders can't be sub pixel
+// we boost the calculation to do 1.1/12
+$thin-border-size: #{1.1 / $font-size}rem; /* 1 */
+
+@import '~@zendeskgarden/css-variables/dist/index';
+
+// Button colors
+$cta-color: $zd-color-zendesk-green;
+
+// Container colors
+$stroke-color: #dadada;
+$base-color: $zd-color-white;
+$base-shadow: $zd-color-black;
+$base-border-color: $zd-color-grey-200;
+
+// Text colors
+$neutral-link-color: #007fab;
+
+// Fields
+$field-margin-bottom: #{20 / $font-size}rem;
+
+// Errors
+$error-color: $zd-color-red-500;
+$error-text-color: $zd-color-red-700;
+$error-background-color: rgba($error-color, 0.1);
+
+// Spacing units and rem calculations
+$xl: 30;
+$lrg: 20;
+$med: 15;
+$sml: 10;
+$tny: 5;
+
+$spacing-xl: #{$xl/$font-size}rem;
+$spacing-lrg: #{$lrg/$font-size}rem;
+$spacing-med: #{$med/$font-size}rem;
+$spacing-sml: #{$sml/$font-size}rem;
+$spacing-tny: #{$tny/$font-size}rem;
+
+$container-height: #{384 / $font-size}rem;
+$container-width: #{342 / $font-size}rem;
+
+// Icon colors
+$facebook-blue: #3b5998;
+
+// Structured Message
+$structure-msg-card-width: 240;
+$structure-msg-card-margin: 12;
+
+// Chat
+$chat-header-zindex: 3;
