@@ -140,16 +140,6 @@ describe('trackUserAction', () => {
   })
 })
 
-describe('init', () => {
-  beforeEach(() => {
-    beacon.init()
-  })
-
-  it('stores the current time in session storage', () => {
-    expect(store.get('currentTime', 'session')).not.toBeNull()
-  })
-})
-
 describe('sendPageView', () => {
   describe('without referrer', () => {
     beforeEach(() => {
@@ -186,23 +176,6 @@ describe('sendPageView', () => {
         path: '/embeddable_blip',
         type: 'pageView'
       })
-    })
-
-    it('sends difference between current time and sessionStorage currentTime as time', () => {
-      dateNowMock.mockImplementation(() => 100)
-      store.set('currentTime', 88, 'session')
-      beacon.sendPageView()
-
-      expect(http.sendWithMeta).toHaveBeenCalledWith(
-        expect.objectContaining({
-          params: {
-            channel: 'web_widget',
-            pageView: expect.objectContaining({
-              time: 12
-            })
-          }
-        })
-      )
     })
   })
 
@@ -307,23 +280,6 @@ describe('sendPageView', () => {
             channel: 'web_widget',
             pageView: expect.objectContaining({
               referrer: 'http://localhost/path'
-            })
-          }
-        })
-      )
-    })
-
-    it('sets the time duration', () => {
-      store.set('currentTime', 78, 'session')
-      dateNowMock.mockImplementation(() => 100)
-      beacon.sendPageView()
-
-      expect(http.sendWithMeta).toHaveBeenCalledWith(
-        expect.objectContaining({
-          params: {
-            channel: 'web_widget',
-            pageView: expect.objectContaining({
-              time: 22
             })
           }
         })
