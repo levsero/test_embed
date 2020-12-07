@@ -20,6 +20,7 @@ const SectionContainer = styled.div`
   align-items: center;
   height: 50%;
   justify-content: center;
+  width: 100%;
 `
 
 const Heading = styled.h1`
@@ -34,6 +35,7 @@ const Message = styled.p`
   text-align: center;
   margin-top: ${props => 24 / props.theme.fontSize}rem !important;
   line-height: ${props => 20 / props.theme.fontSize}rem;
+  width: 100%;
 `
 
 const StyledButton = styled(Button)`
