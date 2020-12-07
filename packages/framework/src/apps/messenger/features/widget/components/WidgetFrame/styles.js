@@ -49,10 +49,9 @@ const getFrameWrapperStyles = ({
   }
 
   if (shouldAnimateHeight) {
-    styles.transition = `height ${openAnimationDuration}s ${
+    styles.transition = `height ${openAnimationDuration}s 0.2s ${
       isClosed ? closeBezierCurve : openBezierCurve
     }`
-    styles.transitionDelay = 0.2
     styles.overflow = 'hidden'
   }
 
@@ -75,8 +74,7 @@ const getFrameWrapperStyles = ({
       minWidth: 'auto',
       maxHeight: 'none',
       height: '100%',
-      transition: 'none',
-      transitionDelay: 'none'
+      transition: 'none'
     }
   }
 
