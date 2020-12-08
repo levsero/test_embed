@@ -65,6 +65,7 @@ const AvatarSlide = styled(Slide)`
   justify-content: flex-end;
   align-items: flex-end;
   margin-right: 0;
+  margin-left: ${props => props.theme.messenger.space.sixteen};
 `
 
 const Content = styled.div`
