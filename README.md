@@ -50,7 +50,7 @@ Since this project uses [yarn workspaces](https://classic.yarnpkg.com/en/docs/wo
 E.g. to run the embeddable framework with the developer dashboard you can run
 
 ```sh
-yarn workspace @zendesk/framework dashboard
+yarn workspace @zendesk/embeddable-framework dashboard
 ```
 
 This will allow you to access the developer dashboard on (http://localhost:1338)[http://localhost:1338]

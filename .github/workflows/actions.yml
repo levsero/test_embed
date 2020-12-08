@@ -24,7 +24,7 @@ jobs:
             run: |
               echo "Starting unit and integration tests"
               download_translations
-              yarn workspace @zendesk/framework test:ci
+              yarn workspace @zendesk/embeddable-framework test:ci
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
@@ -38,7 +38,7 @@ jobs:
               echo "Validating prod builds";
               download_translations
               bundle exec ruby ./packages/framework/script/validate_i18n.rb
-              yarn workspace @zendesk/framework build:validate
+              yarn workspace @zendesk/embeddable-framework build:validate
           - task: e2e0
             run: |
               export CI_NODE_TOTAL=4
@@ -46,8 +46,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/framework e2e --listTests --json)
-              yarn workspace @zendesk/framework e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/embeddable-framework e2e --listTests --json)
+              yarn workspace @zendesk/embeddable-framework e2e:ci
           - task: e2e1
             run: |
               export CI_NODE_TOTAL=4
@@ -55,8 +55,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/framework e2e --listTests --json)
-              yarn workspace @zendesk/framework e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/embeddable-framework e2e --listTests --json)
+              yarn workspace @zendesk/embeddable-framework e2e:ci
           - task: e2e2
             run: |
               export CI_NODE_TOTAL=4
@@ -64,8 +64,8 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/framework e2e --listTests --json)
-              yarn workspace @zendesk/framework e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/embeddable-framework e2e --listTests --json)
+              yarn workspace @zendesk/embeddable-framework e2e:ci
           - task: e2e3
             run: |
               export CI_NODE_TOTAL=4
@@ -73,14 +73,14 @@ jobs:
               echo "Starting end-to-end tests CI_NODE_INDEX = $CI_NODE_INDEX";
               download_translations
               start_e2e_server
-              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/framework e2e --listTests --json)
-              yarn workspace @zendesk/framework e2e:ci
+              export JEST_TESTS=$(SKIP_PARALLEL=1 yarn workspace @zendesk/embeddable-framework e2e --listTests --json)
+              yarn workspace @zendesk/embeddable-framework e2e:ci
           - task: visual
             run: |
               echo "Starting visual regression testing";
               download_translations
               start_e2e_server
-              yarn workspace @zendesk/framework e2e:visual-regressions:ci
+              yarn workspace @zendesk/embeddable-framework e2e:visual-regressions:ci
     steps:
       - uses: zendesk/checkout@v2
         with:
@@ -99,15 +99,15 @@ jobs:
           mkdir packages/framework/dist
           sed -i 's/git+ssh:\/\/git@github.com\/zendesk\/chat-web-sdk/https:\/\/github.com\/zendesk\/chat-web-sdk/g' packages/framework/package.json
           yarn install
-          yarn workspace @zendesk/framework build:version:generate
+          yarn workspace @zendesk/embeddable-framework build:version:generate
       - name: ${{ matrix.task }}
         run: |
           download_translations() {
             bundle install --local --jobs=3 --retry=3 --path=vendor/bundle --without=deployment
-            yarn workspace @zendesk/framework build-setup:prod
+            yarn workspace @zendesk/embeddable-framework build-setup:prod
           }
           start_e2e_server() {
-            yarn workspace @zendesk/framework e2e:server &
+            yarn workspace @zendesk/embeddable-framework e2e:server &
             sleep 5
             curl localhost:5123/e2e.html
           }

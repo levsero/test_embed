@@ -35,7 +35,7 @@ This repo and the dashboard repo need to be in your `Code/zendesk` folder.
 Once the developer dashboard repo is cloned and setup, run it from this project with the command
 
 ```sh
-yarn workspace @zendesk/framework dashboard
+yarn workspace @zendesk/embeddable-framework dashboard
 ```
 
 The developer dashboard will be available at (http://localhost:1338)[http://localhost:1338].

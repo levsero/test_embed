@@ -6,7 +6,7 @@ def prepare
 end
 
 def build_web_widget
-  yarn_command 'workspace @zendesk/framework build'
+  yarn_command 'workspace @zendesk/embeddable-framework build'
 end
 
 def yarn_command(command)
@@ -47,7 +47,7 @@ def upload_web_widget
 end
 
 def build_previewer
-  yarn_command 'workspace @zendesk/framework build-previewer'
+  yarn_command 'workspace @zendesk/embeddable-framework build-previewer'
 end
 
 def upload_previewer
