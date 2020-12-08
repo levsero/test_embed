@@ -2,7 +2,7 @@ import { beacon } from 'service/beacon'
 import _ from 'lodash'
 import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { getAttachmentsEnabled } from 'src/redux/modules/selectors'
+import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 import { getAttachmentsForForm } from 'embeds/support/selectors'
 import hcStats from 'service/hcStats'
 
@@ -12,6 +12,7 @@ const trackTicketSubmitted = (apiResponse, formValues, state) => {
   const hasContextuallySearched = getHasContextuallySearched(state)
   const attachmentsEnabled = getAttachmentsEnabled(state)
   const attachments = getAttachmentsForForm(state, formValues?.attachments?.ids || [])
+  const helpCenterAvailable = getHelpCenterAvailable(state)
 
   const params = {
     res: apiResponse,
@@ -43,7 +44,10 @@ const trackTicketSubmitted = (apiResponse, formValues, state) => {
     label: 'ticketSubmissionForm',
     value: userActionPayload
   })
-  hcStats.ticketSubmitted(response.id, params.searchTerm)
+
+  if (helpCenterAvailable) {
+    hcStats.ticketSubmitted(response.id, params.searchTerm)
+  }
 }
 
 export default trackTicketSubmitted
