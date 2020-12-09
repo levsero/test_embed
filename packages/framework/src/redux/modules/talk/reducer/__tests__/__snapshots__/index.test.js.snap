@@ -29,6 +29,7 @@ Object {
   },
   "isPolling": true,
   "microphoneMuted": false,
+  "recordingConsent": null,
   "vendor": Object {
     "io": null,
   },

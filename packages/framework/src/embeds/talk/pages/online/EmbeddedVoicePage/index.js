@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 import logger from 'src/util/logger'
@@ -11,6 +11,7 @@ import ConsentToRecord from './ConsentToRecord'
 import CallInProgress from './CallInProgress'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
+import { getUserRecordingConsentRequirement } from 'embeds/talk/selectors'
 
 const clickToCallPath = () => {
   return routes.clickToCallPermissions()
@@ -23,13 +24,17 @@ const EmbeddedVoicePage = () => {
   const translate = useTranslate()
   const history = useHistory()
 
+  const userRecordingConsentRequirement = useSelector(getUserRecordingConsentRequirement)
+
+  const skipConsent = userRecordingConsentRequirement === null
+
   const onConnect = () => {
     logger.log('Successfully established call!')
     history.push(routes.clickToCallInProgress())
   }
   const onDisconnect = () => {
     logger.log('Disconnected')
-    history.push(routes.clickToCallConsent())
+    history.goBack()
   }
 
   const onError = error => {
@@ -49,12 +54,17 @@ const EmbeddedVoicePage = () => {
     dispatch(talkDisconnect())
   }
 
+  const onAccept = event => {
+    logger.log('Twilio agent accepted:', event)
+  }
+
   const { startCall, muteClick, endCall } = useTwilioDevice({
     onConnect,
     onDisconnect,
     onError,
     onUnsupported,
-    onReady
+    onReady,
+    onAccept
   })
 
   return (
@@ -73,7 +83,10 @@ const EmbeddedVoicePage = () => {
             />
           </Route>
           <Route path={routes.clickToCallPermissions()}>
-            <MicrophonePermissions onStartCallClicked={() => startCall()} />
+            <MicrophonePermissions
+              onStartCallClicked={() => startCall()}
+              showStartCallButton={skipConsent}
+            />
           </Route>
           <Route path={routes.clickToCallConsent()}>
             <ConsentToRecord onStartCallClicked={() => startCall()} />
