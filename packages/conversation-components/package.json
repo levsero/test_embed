@@ -1,0 +1,30 @@
+{
+  "name": "@zendesk/conversation-components",
+  "version": "0.0.1",
+  "main": "dist/conversation-components.js",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch --mode development"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "webpack": "^4",
+    "webpack-bundle-analyzer": "^4.2.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2"
+  },
+  "peerDependencies": {
+    "@zendeskgarden/react-avatars": "^8.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "styled-components": "^4.3.2"
+  }
+}
