@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import Form from 'src/apps/messenger/features/sunco-components/Form'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
+import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const FormStructuredMessage = ({
   message: {
@@ -29,10 +30,21 @@ const FormStructuredMessage = ({
     fields
   })
   const { scrollToBottomIfNeeded } = useScroll()
+  const previousStep = useRef(step)
 
   useEffect(() => {
-    scrollToBottomIfNeeded()
-  }, [step])
+    if (previousStep.current !== step) {
+      scrollToBottomIfNeeded()
+    }
+
+    previousStep.current = step
+  }, [step, scrollToBottomIfNeeded, previousStep])
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 || status === FORM_MESSAGE_STATUS.failed) {
+      scrollToBottomIfNeeded()
+    }
+  }, [errors, status])
 
   return (
     <Form

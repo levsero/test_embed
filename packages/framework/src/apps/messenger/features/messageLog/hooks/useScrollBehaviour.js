@@ -18,6 +18,7 @@ const scrollOffsetInRems = 3
 const useScrollBehaviour = ({ messages, anchor, container }) => {
   const dispatch = useDispatch()
   const isScrollAtBottom = useRef(true)
+  const firstRender = useRef(true)
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
   const theme = useContext(ThemeContext)
@@ -35,7 +36,9 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   const scrollToBottomIfNeeded = useCallback(() => {
     if (isScrollAtBottom.current) {
-      scrollToBottom()
+      setTimeout(() => {
+        scrollToBottom()
+      }, 0)
     }
   }, [scrollToBottom])
 
@@ -56,7 +59,9 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   // When messages change, scroll to the bottom if the user was previously at the bottom
   useLayoutEffect(() => {
-    scrollToBottomIfNeeded()
+    if (!firstRender.current) {
+      scrollToBottomIfNeeded()
+    }
 
     if (!isScrollAtBottom.current) {
       return
@@ -72,7 +77,13 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   }, [messages, lastReadTimestamp])
 
   useLayoutEffect(() => {
-    container.current.scrollTop = container.current.scrollHeight
+    setTimeout(() => {
+      if (container.current) {
+        container.current.scrollTop =
+          container.current.scrollHeight - container.current.clientHeight
+      }
+    }, 0)
+    firstRender.current = false
 
     hostPageWindow.addEventListener('resize', scrollToBottomIfNeeded)
 
