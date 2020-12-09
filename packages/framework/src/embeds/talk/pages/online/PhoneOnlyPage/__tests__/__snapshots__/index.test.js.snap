@@ -67,15 +67,15 @@ Snapshot Diff:
 @@ -348,1 +353,1 @@
 - .c16 {
 + .c17 {
-@@ -415,1 +420,1 @@
+@@ -416,1 +421,1 @@
 - .c13 {
 + .c14 {
-@@ -420,2 +425,2 @@
+@@ -421,2 +426,2 @@
 - .c13 a,
 - .c13 a span {
 + .c14 a,
 + .c14 a span {
-@@ -425,1 +430,1 @@
+@@ -426,1 +431,1 @@
 - .c13 a:hover {
 + .c14 a:hover {
 `;
@@ -475,7 +475,6 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  overflow-y: auto;
 }
 
 .c10:not(:disabled) svg,
@@ -496,8 +495,10 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 }
 
 .c12 {
+  width: 100%;
   margin-top: 1.4285714285714286rem !important;
   margin-bottom: 0.7142857142857143rem !important;
+  text-align: center;
 }
 
 .c14 {
@@ -673,15 +674,15 @@ Snapshot Diff:
 @@ -353,1 +348,1 @@
 - .c17 {
 + .c16 {
-@@ -420,1 +415,1 @@
+@@ -421,1 +416,1 @@
 - .c14 {
 + .c13 {
-@@ -425,2 +420,2 @@
+@@ -426,2 +421,2 @@
 - .c14 a,
 - .c14 a span {
 + .c13 a,
 + .c13 a span {
-@@ -430,1 +425,1 @@
+@@ -431,1 +426,1 @@
 - .c14 a:hover {
 + .c13 a:hover {
 `;
