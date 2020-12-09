@@ -14,7 +14,7 @@ describe('MessageLog', () => {
   const renderComponent = () => render(<MessageLog />)
 
   it('renders the messages', () => {
-    const { getByRole, store } = renderComponent()
+    const { queryByText, store } = renderComponent()
     store.dispatch({
       type: 'messageLog/fetchMessages/fulfilled',
       payload: {
@@ -39,37 +39,12 @@ describe('MessageLog', () => {
       }
     })
 
-    expect(getByRole('log').children).toHaveLength(2)
-  })
-
-  it('does not render messages that have an unknown type', () => {
-    const { getByRole, store } = renderComponent()
-    store.dispatch({
-      type: 'messageLog/fetchMessages/fulfilled',
-      payload: {
-        messages: [
-          {
-            _id: 1,
-            type: 'dummy',
-            isLocalMessageType: true,
-            received: 1
-          },
-          {
-            message: {
-              _id: 2,
-              type: 'unknown',
-              received: 2
-            }
-          }
-        ]
-      }
-    })
-
-    expect(getByRole('log').children).toHaveLength(1)
+    expect(queryByText('One')).toBeInTheDocument()
+    expect(queryByText('Two')).toBeInTheDocument()
   })
 
   it('does not render form messages that have been successfully submitted', () => {
-    const { getByRole, store } = renderComponent()
+    const { queryByText, store } = renderComponent()
     store.dispatch({
       type: 'messageLog/fetchMessages/fulfilled',
       payload: {
@@ -82,7 +57,7 @@ describe('MessageLog', () => {
             submitted: false,
             fields: [
               {
-                label: 'Your first name?',
+                label: 'Form one',
                 name: 'first_name',
                 type: 'text',
                 _id: '5f669695c511asdsd9877'
@@ -97,7 +72,7 @@ describe('MessageLog', () => {
             submitted: true,
             fields: [
               {
-                label: 'Your first name?',
+                label: 'Form two',
                 name: 'first_name',
                 type: 'text',
                 _id: '5f669695c511asdsd9877'
@@ -112,7 +87,7 @@ describe('MessageLog', () => {
             submitted: false,
             fields: [
               {
-                label: 'Your first name?',
+                label: 'Form three',
                 name: 'first_name',
                 type: 'text',
                 _id: '5f669695c511asdsd9877'
@@ -132,6 +107,8 @@ describe('MessageLog', () => {
 
     store.dispatch(fulfilledAction)
 
-    expect(getByRole('log').children).toHaveLength(1)
+    expect(queryByText('Form one')).not.toBeInTheDocument()
+    expect(queryByText('Form two')).not.toBeInTheDocument()
+    expect(queryByText('Form three')).toBeInTheDocument()
   })
 })

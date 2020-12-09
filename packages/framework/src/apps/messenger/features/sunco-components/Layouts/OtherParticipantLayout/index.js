@@ -12,7 +12,8 @@ const OtherParticipantLayout = ({
   isReceiptVisible,
   timeReceived,
   label,
-  avatar
+  avatar,
+  isFreshMessage
 }) => {
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
@@ -21,7 +22,11 @@ const OtherParticipantLayout = ({
         <Avatar src={avatar} />
         {children}
       </LayoutContainer>
-      {isReceiptVisible && <Receipt timeReceived={timeReceived} />}
+      <Receipt
+        timeReceived={timeReceived}
+        isReceiptVisible={isReceiptVisible}
+        isFreshMessage={isFreshMessage}
+      />
     </VerticalContainer>
   )
 }
@@ -32,7 +37,8 @@ OtherParticipantLayout.propTypes = {
   label: PropTypes.string,
   avatar: PropTypes.string,
   isReceiptVisible: PropTypes.bool,
-  timeReceived: PropTypes.number
+  timeReceived: PropTypes.number,
+  isFreshMessage: PropTypes.bool
 }
 
 export default OtherParticipantLayout

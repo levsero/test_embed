@@ -12,15 +12,20 @@ const PrimaryParticipantLayout = ({
   timeReceived,
   status = MESSAGE_STATUS.sent,
   isReceiptVisible,
-  onRetry
+  onRetry,
+  isFreshMessage
 }) => {
   return (
     <VerticalLayout>
       <LayoutContainer isFirstInGroup={isFirstInGroup}>{children}</LayoutContainer>
 
-      {isReceiptVisible && (
-        <Receipt timeReceived={timeReceived} status={status} onRetry={onRetry} />
-      )}
+      <Receipt
+        timeReceived={timeReceived}
+        status={status}
+        onRetry={onRetry}
+        isReceiptVisible={isReceiptVisible}
+        isFreshMessage={isFreshMessage}
+      />
     </VerticalLayout>
   )
 }
@@ -31,7 +36,8 @@ PrimaryParticipantLayout.propTypes = {
   isReceiptVisible: PropTypes.bool,
   timeReceived: PropTypes.number,
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
+  isFreshMessage: PropTypes.bool
 }
 
 export default PrimaryParticipantLayout

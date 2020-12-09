@@ -7,7 +7,9 @@ import {
   getIsFetchingHistory
 } from 'src/apps/messenger/features/messageLog/store'
 import Message from 'src/apps/messenger/features/messageLog/Message'
-import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
+import useScrollBehaviour, {
+  ScrollProvider
+} from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
 import HistoryLoader from './HistoryLoader'
 import { Container, Log } from './styles'
@@ -15,49 +17,57 @@ import SeeLatestButton from 'src/apps/messenger/features/messageLog/SeeLatestBut
 
 const MessageLog = () => {
   const container = useRef(null)
+  const anchor = useRef(null)
   const messages = useSelector(getMessageLog)
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
   const errorFetchingHistory = useSelector(getErrorFetchingHistory)
   const isFetchingHistory = useSelector(getIsFetchingHistory)
   const { onScrollBottom, scrollToBottomIfNeeded, scrollToBottom } = useScrollBehaviour({
+    messages,
     container,
-    messages
+    anchor
   })
   const { onScrollTop, retryFetchMessages } = useFetchMessages({
     container,
     messages
   })
 
+  const messageLogOpened = useRef(Date.now() / 1000)
+
   return (
-    <Container>
-      <Log
-        ref={container}
-        role="log"
-        aria-live="polite"
-        onScroll={event => {
-          onScrollBottom(event)
-          onScrollTop(event)
-        }}
-      >
-        <HistoryLoader
-          isFetchingHistory={isFetchingHistory}
-          hasFetchedConversation={hasFetchedConversation}
-          errorFetchingHistory={errorFetchingHistory}
-          retryFetchMessages={retryFetchMessages}
-        />
+    <ScrollProvider value={{ scrollToBottomIfNeeded }}>
+      <Container>
+        <Log
+          ref={container}
+          role="log"
+          aria-live="polite"
+          onScroll={event => {
+            onScrollBottom(event)
+            onScrollTop(event)
+          }}
+        >
+          <HistoryLoader
+            isFetchingHistory={isFetchingHistory}
+            hasFetchedConversation={hasFetchedConversation}
+            errorFetchingHistory={errorFetchingHistory}
+            retryFetchMessages={retryFetchMessages}
+          />
 
-        {hasFetchedConversation &&
-          messages.map(message => (
-            <Message
-              key={message._id}
-              message={message}
-              scrollToBottomIfNeeded={scrollToBottomIfNeeded}
-            />
-          ))}
+          {hasFetchedConversation &&
+            messages.map(message => (
+              <Message
+                key={message._id}
+                message={message}
+                isFreshMessage={message.received > messageLogOpened.current}
+              />
+            ))}
 
-        <SeeLatestButton onClick={scrollToBottom} />
-      </Log>
-    </Container>
+          <div ref={anchor} style={{ height: 1 }} />
+
+          <SeeLatestButton onClick={scrollToBottom} />
+        </Log>
+      </Container>
+    </ScrollProvider>
   )
 }
 

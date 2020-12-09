@@ -60,10 +60,18 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
     const currentContainer = container.current
     const currentFrame = frame.current
 
-    currentFrame.contentDocument.body.appendChild(currentContainer)
+    const body = currentFrame.contentDocument.body
+
+    body.appendChild(currentContainer)
+
+    if (!('scrollBehavior' in currentFrame.contentDocument.documentElement.style)) {
+      const script = currentFrame.contentDocument.createElement('script')
+      script.innerHTML = require('smoothscroll-polyfill')
+      currentFrame.contentDocument.head.appendChild(script)
+    }
 
     setIsTargetReady(true)
-    return () => currentFrame.contentDocument.body.removeChild(currentContainer)
+    return () => body.removeChild(currentContainer)
   }, [frame, rootElement, loaded])
 
   const frameStyles = { ...props.style }

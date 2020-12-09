@@ -9,6 +9,7 @@ import TextStructuredMessage from './messages/TextStructuredMessage'
 import FileStructuredMessage from './messages/FileStructuredMessage'
 import TypingIndicator from './messages/TypingIndicator'
 import TimestampStructuredMessage from './messages/TimestampStructuredMessage'
+import _ from 'lodash'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
@@ -28,7 +29,11 @@ const localMessageTypes = {
   typingIndicator: TypingIndicator
 }
 
-const Message = ({ message, scrollToBottomIfNeeded }) => {
+function areEqual(prevProps, nextProps) {
+  return _.isEqual(prevProps.message, nextProps.message)
+}
+
+const Message = React.memo(({ message, isFreshMessage }) => {
   const messageTypes = message.isLocalMessageType ? localMessageTypes : suncoMessageTypes
   const StructuredMessage = messageTypes[message.type]
 
@@ -36,14 +41,14 @@ const Message = ({ message, scrollToBottomIfNeeded }) => {
     return null
   }
 
-  return <StructuredMessage message={message} scrollToBottomIfNeeded={scrollToBottomIfNeeded} />
-}
+  return <StructuredMessage message={message} isFreshMessage={isFreshMessage} />
+}, areEqual)
 
 Message.propTypes = {
   message: PropTypes.shape({
     type: PropTypes.string
   }),
-  scrollToBottomIfNeeded: PropTypes.func
+  isFreshMessage: PropTypes.bool
 }
 
 export default Message

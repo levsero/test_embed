@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { createGlobalStyle } from 'styled-components'
 import bedrockCSS from '@zendeskgarden/css-bedrock'
 import SuncoThemeProvider from 'src/apps/messenger/features/sunco-components/ThemeProvider'
 import { i18n } from 'service/i18n'
@@ -10,6 +9,7 @@ import useTranslate from 'src/hooks/useTranslate'
 import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { baseFontSize, baseFontSizeFullScreen } from 'src/apps/messenger/constants'
+import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
   ${bedrockCSS}
