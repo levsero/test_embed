@@ -9,7 +9,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  overflow-y: auto;
 `
 
 const StyledSuccessIcon = styled.div`

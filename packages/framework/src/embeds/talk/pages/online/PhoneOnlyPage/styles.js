@@ -11,7 +11,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  overflow-y: auto;
 
   ${isMobileBrowser() &&
     `
@@ -40,8 +39,10 @@ const StyledTalkIcon = styled(TalkIcon)`
 `
 
 const Message = styled.p`
+  width: 100%;
   margin-top: ${20 / FONT_SIZE}rem !important;
   margin-bottom: ${10 / FONT_SIZE}rem !important;
+  text-align: center;
 `
 
 const PhoneNumberContainer = styled.div`
