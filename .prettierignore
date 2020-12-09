@@ -1,5 +1,7 @@
-src/translation/
-config/locales/translations/
-vendor/
+packages/framework/src/translation/
+packages/framework/config/locales/translations/
+packages/framework/vendor/
 example/
 dist/
+node_modules
+*/node_modules/*

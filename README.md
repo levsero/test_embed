@@ -38,12 +38,22 @@ The bootstrap file will do the following:
 - Run `./script/setup_node_env` to install the correct versions of nvm, node, npm and yarn, as well as all npm dependencies.
 - Run `bundle install` to get ruby dependencies
 - Run `yarn build` to generate snippet, framework and example files
-- Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
-- Download countries translation into `src/translation/ze_countries.js`
+- Download rosetta translation and mappings into `packages/framework/src/translation/ze_translations.js` and `packages/framework/src/translation/ze_localeIdMap.js`
+- Download countries translation into `packages/framework/src/translation/ze_countries.js`
 
-To run the embeddables locally type `yarn dev` in this folder for it to kick off. This will build all the files required to load the Web Widget and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/live.html](http://localhost:1337/live.html) to test the Web Widget live.
+### Running packages
 
-We recommended installing the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) extension on your browser.
+Each package inside `src/packages` will have its own README.md with its own instructions for how to run the package.
+
+Since this project uses [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/), you can run a specific script for a package with the command `yarn workspace <package name> <script to run>`
+
+E.g. to run the embeddable framework with the developer dashboard you can run
+
+```sh
+yarn workspace @zendesk/embeddable-framework dashboard
+```
+
+This will allow you to access the developer dashboard on (http://localhost:1338)[http://localhost:1338]
 
 #### Keeping node and npm packages up to date
 
@@ -55,106 +65,9 @@ The `./script/setup_node_env` script will ensure that all Dev team members are u
 ./script/setup_node_env
 ```
 
-#### Setting up your own test values
-
-To use your own values in the dev task you can create a new user config with this script.
-
-```bash
-./script/create-dev-config
-```
-
-Or manually copy the example config
-
-```bash
-cp dev/configs/example-template.js dev/configs/${yourUserConfigName}.js
-```
-
-You can use this config in the dev task by running
-
-```bash
-USER_CONFIG={yourConfigName} yarn dev
-```
-
-This will start the dev task using the values found in `dev/configs/${yourConfigName}.js`. If no `USER_CONFIG` variable is passed, the dev task will default to using the `example-template.js` config which uses `dev.zd-dev.com`.
-
-This will allow you to make as many different configurations as you like to test different scenarios with. It is recommended to have one for your production account.
-
-If you encounter a `Cannot GET /live.html` error after loading, you may need to re-run the below script from the root directory:
-
-```bash
-script/setup_html_templates.rb
-```
-
-## Widget Developer Dashboard
-
-Instead of loading the dev task via the user config above, the [widget developer dashboard](https://github.com/zendesk/widget-developer-dashboard) provides UI controls to toggle widget settings and test it under different conditions for a better developer experience.
-
-To use the widget developer dashboard, follow the steps in the dashboard repo to clone and install the required dependencies. This repo and the dashboard repo need to be in your `Code/zendesk` folder. To setup, copy over the values used in your `dev/configs/${yourConfigName}.js` file into the `config/environments/` [folder](https://github.com/zendesk/widget-developer-dashboard/tree/master/config/environments) in the web widget dashboard. Then run `yarn dashboard` in this repo, the widget will be served up at `http://localhost:1338/`.
-
-## Testing
-
-- Unit and integration tests use React Testing Library and are run via Jest. For more information, please
-  read our [Test Style Guide](./TEST_STYLE.md).
-
-- We use puppeteer to run our E2E and visual regression tests. For more information, please read our [Browser Test Style Guide](./BROWSER_TEST_STYLE.md).
-
-## Running in Docker
-
-(Note that this isn't part of Taipan's usual workflow.)
-
-- Follow above to get `yarn dev` running.
-- Run `zdi embeddable_framework -d restart` in parallel.
-
-### Building Docker image
-
-- Run `yarn build` to build static assets inside `./dist/public`.
-- Run `zdi embeddable_framework build`.
-- Verify the built image with `zdi embeddable_framework restart -l`.
-- To push, run `zdi embeddable_framework release --official`.
-
-## Contribute
-
-If you would like to submit a PR to our repo, please read our [contribution guidelines](CONTRIBUTING.md) first.
-
-## Deploying
-
-Please see our [Deploy guidelines](https://github.com/zendesk/embeddable_framework/blob/master/DEPLOY.md) for more information.
-
 ## Bugs
 
 Please inform us of any bugs that you have to report in our #taipan-team Slack channel and tag your comment with @taipan-firefighter.
-
-## Refreshing Rosetta translations
-
-To download the latest translations, run the following command from the root of this project:
-
-```bash
-./script/fetch_i18n
-```
-
-## Refreshing countries translations from CLDR
-
-To download the latest translations, run the following command from the root of this project:
-
-```bash
-./script/fetch_countries
-```
-
-## Debugging customer issues
-
-Sometimes we have issues that only manifest on customers sites.
-
-### Viewing Redux logs
-
-To see redux logging information on their site we can add a value to localstorage to surface the debug logs.
-
-Go to the customer's site, open a browser console and run the following command:
-
-```js
-localStorage['ZD-debug'] = true
-```
-
-After that when you refresh the page you will start seeing redux logs in your console and redux devtools if you have the [browser extension](https://github.com/zalmoxisus/redux-devtools-extension) installed.
 
 ## Documenting ADRs
 
@@ -165,9 +78,3 @@ The standards followed are documented by Michael Nygard at:
 ### Tooling and ADR generation
 
 Please refer to [https://github.com/npryce/adr-tools](https://github.com/npryce/adr-tools)
-
-## Documenting APIs
-
-See <a href="https://zendesk.atlassian.net/wiki/spaces/DOC/pages/641704628/How+developer+docs+are+produced+at+Zendesk" target="_blank">How developer docs are produced at Zendesk</a> on the Docs team wiki.
-
-Please cc **@zendesk/documentation** on any PR that adds or updates documentation on the developer portal at [https://developer.zendesk.com](https://developer.zendesk.com).

@@ -36,9 +36,8 @@ try() {
 
 try "Preparing node, nvm and npm packages" "script/setup_node_env"
 try "Installing ruby gems" "bundle install --quiet"
-try "Downloading translations" "script/fetch_i18n"
-try "Building Engagement Framework" "npm run build"
-try "Preparing template files" "script/setup_html_templates.rb"
+try "Building Engagement Framework" "yarn workspace @zendesk/embeddable-framework build"
+try "Preparing template files" "cd ./packages/framework && ./script/setup_html_templates.rb"
 
 echo
 bold "All systems are go!"
