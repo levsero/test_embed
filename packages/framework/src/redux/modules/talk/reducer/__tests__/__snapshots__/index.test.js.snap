@@ -28,6 +28,7 @@ Object {
     "phone": "",
   },
   "isPolling": true,
+  "microphoneMuted": false,
   "snapcall": Object {
     "buttonId": "",
     "callDuration": "0:00",

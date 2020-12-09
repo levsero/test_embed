@@ -8,6 +8,7 @@ import averageWaitTime from './talk-average-wait-time'
 import vendor from './talk-vendor'
 import isPolling from './talk-is-polling'
 import snapcall from 'embeds/talk/reducers/snapcall'
+import microphoneMuted from 'embeds/talk/reducers/microphone-muted'
 
 export default combineReducers({
   agentAvailability,
@@ -17,5 +18,6 @@ export default combineReducers({
   formState,
   isPolling,
   vendor,
-  snapcall
+  snapcall,
+  microphoneMuted
 })

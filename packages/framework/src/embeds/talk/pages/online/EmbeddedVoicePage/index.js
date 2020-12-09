@@ -1,79 +1,50 @@
 import React from 'react'
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
-import { Device } from 'twilio-client'
+import { useSelector } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
-
+import logger from 'src/util/logger'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import routes from 'src/embeds/talk/routes'
 import MicrophonePermissions from './MicrophonePermissions'
 import ConsentToRecord from './ConsentToRecord'
-import ClickToCallInProgress from 'embeds/talk/components/ClickToCallInProgress'
-import logger from 'src/util/logger'
+import EmbeddedVoiceCallInProgressPage from 'src/embeds/talk/pages/online/EmbeddedVoiceCallInProgressPage'
+import { endCall, muteClick, startCall } from 'src/embeds/talk/utils/twilioDevice'
+import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
+import { getZendeskHost } from 'utility/globals'
 
 const clickToCallPath = () => {
   return routes.clickToCallPermissions()
 }
 
-let device
-
 // Temp hardcoded function to be replaced once Talk endpoints are ready
-const getToken = async () => {
-  try {
-    const response = await fetch(
-      'http://[replace-with-your-ngrok-subdomain].ngrok.io/twilio/token',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-
-    const json = await response.json()
-
-    return json.token
-  } catch (err) {
-    logger.error(err)
-  }
-}
 
 const EmbeddedVoicePage = () => {
   const translate = useTranslate()
   const history = useHistory()
+  const serviceUrl = useSelector(getTalkServiceUrl)
+  const nickname = useSelector(getTalkNickname)
+  const subdomain = getZendeskHost(document).split('.')[0]
 
-  const startCall = async () => {
-    const token = await getToken()
-
-    // kill any existing connections before attempting to start a call
-    device?.destroy()
-
-    device = new Device()
-    device.setup(token)
-
-    device.on('error', function(error) {
-      logger.error('Twilio Device error:', error.message)
-    })
-
-    device.on('connect', function() {
-      logger.log('Successfully established call!')
-      history.push(routes.clickToCallInProgress())
-    })
-
-    device.on('disconnect', function() {
-      logger.log('Disconnected')
-      history.push(routes.clickToCallConsent())
-    })
-
-    device.on('ready', function() {
-      logger.log('Twilio.Device is now ready for connections')
-      device.connect()
-    })
+  const onConnect = () => {
+    logger.log('Successfully established call!')
+    history.push(routes.clickToCallInProgress())
+  }
+  const onDisconnect = () => {
+    logger.log('Disconnected')
+    history.push(routes.clickToCallConsent())
   }
 
-  const endCall = async () => {
-    logger.log('Ending call..')
-    device.destroy()
+  const onError = error => {
+    logger.error('Twilio Device error:', error.message)
+  }
+
+  const onReady = () => {
+    logger.log('Twilio.Device is now ready for connections')
+  }
+
+  const onAccept = event => {
+    logger.log('Twilio agent accepted:', event)
   }
 
   return (
@@ -85,13 +56,43 @@ const EmbeddedVoicePage = () => {
       <Main>
         <Switch>
           <Route path={routes.clickToCallInProgress()}>
-            <ClickToCallInProgress onEndCallClicked={endCall} callDuration={'0.00'} />
+            <EmbeddedVoiceCallInProgressPage
+              onEndCallClicked={endCall}
+              callDuration={'0.00'}
+              onMuteClick={muteClick}
+            />
           </Route>
           <Route path={routes.clickToCallPermissions()}>
-            <MicrophonePermissions onStartCallClicked={startCall} />
+            <MicrophonePermissions
+              onStartCallClicked={() =>
+                startCall({
+                  onConnect,
+                  onDisconnect,
+                  onError,
+                  onReady,
+                  onAccept,
+                  subdomain,
+                  serviceUrl,
+                  nickname
+                })
+              }
+            />
           </Route>
           <Route path={routes.clickToCallConsent()}>
-            <ConsentToRecord onStartCallClicked={startCall} />
+            <ConsentToRecord
+              onStartCallClicked={() =>
+                startCall({
+                  onConnect,
+                  onDisconnect,
+                  onError,
+                  onReady,
+                  onAccept,
+                  subdomain,
+                  serviceUrl,
+                  nickname
+                })
+              }
+            />
           </Route>
 
           <Redirect to={clickToCallPath()} />
