@@ -1,9 +1,9 @@
 import React from 'react'
-import { BANNER_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
+import { BANNER_STATUS } from '../constants'
 import Banner from './'
 
 export default {
-  title: 'Sunco/Banner',
+  title: 'Banner',
   component: Banner,
   argTypes: {
     status: {
