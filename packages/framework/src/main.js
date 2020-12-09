@@ -5,7 +5,6 @@ import 'core-js/modules/es.array.find'
 import 'core-js/modules/es.string.starts-with'
 import 'core-js/modules/es.array.includes'
 import 'core-js/modules/es.object.entries'
-import 'core-js/modules/es6.object.assign'
 
 import errorTracker from 'src/framework/services/errorTracker'
 import { isBlacklisted } from 'utility/devices'
