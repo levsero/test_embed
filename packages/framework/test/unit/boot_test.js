@@ -95,6 +95,12 @@ describe('framework boot', () => {
       },
       'service/api/webWidgetApi/setupLegacyApi': {
         getWebWidgetLegacyPublicApi: () => ({})
+      },
+      'src/framework/utils/browser': {
+        onBrowserTabVisible: noop,
+        onBrowserTabHidden: noop,
+        onBrowserComingBackOnline: noop,
+        onBrowserGoingOffline: noop
       }
     })
 

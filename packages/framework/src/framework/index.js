@@ -12,6 +12,7 @@ import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
+import { onBrowserTabHidden } from 'src/framework/utils/browser'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import logger from 'src/util/logger'
@@ -180,7 +181,7 @@ const start = (win, doc) => {
   zopimApi.setupZopimQueue(win)
 
   beacon.init()
-  win.onunload = identity.unload
+  onBrowserTabHidden(identity.unload)
 
   framework.getConfig(win, reduxStore)
 
