@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { onBrowserComingBackOnline, onBrowserGoingOffline } from 'src/apps/messenger/utils/browser'
+import { onBrowserComingBackOnline, onBrowserGoingOffline } from 'src/framework/utils/browser'
 
 const onlineStatus = createSlice({
   name: 'onlineStatus',
