@@ -1502,49 +1502,129 @@ parts:
 
   # Talk: Click To Call
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.header.title'
-      title: 'The title used for all the click to call pages.'
-      value: 'Call Us'
+      key: "embeddable_framework.talk.clickToCall.header.title"
+      title: "The title used for all the click to call pages."
+      value: "Call Us"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.message'
-      title: 'Message shown on the Click To Call introduction screen. Warns the user that they will be asked for microphone access at the next step.'
+      key: "embeddable_framework.talk.clickToCall.message"
+      title: "Message shown on the Click To Call introduction screen. Warns the user that they will be asked for microphone access at the next step."
       value: "Call Customer Support directy from your browser. You'll need to allow microphone access on your device when prompted."
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.button.startCall'
-      title: 'A button on the Click To Call page that starts a call through the browser when clicked.'
-      value: 'Start call'
+      key: "embeddable_framework.talk.clickToCall.button.startCall"
+      title: "A button on the Click To Call page that starts a call through the browser when clicked."
+      value: "Start call"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.callInProgress.button.endCall'
-      title: 'Label on a button that ends a call.'
-      value: 'End call'
+      key: "embeddable_framework.talk.clickToCall.callInProgress.button.endCall"
+      title: "Label on a button that ends a call."
+      value: "End call"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.callDuration'
-      title: 'Message used for displaying call duration in the call ended notification'
+      key: "embeddable_framework.talk.clickToCall.callEndedNotification.callDuration"
+      title: "Message used for displaying call duration in the call ended notification"
       value: "Call duration: %(duration)s"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.callEndedNotification.title'
-      title: 'Title for the call ended notification'
-      value: 'Call ended'
+      key: "embeddable_framework.talk.clickToCall.callEndedNotification.title"
+      title: "Title for the call ended notification"
+      value: "Call ended"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.callDuration'
-      title: 'Message used for displaying call duration in the call disconnected notification.'
+      key: "embeddable_framework.talk.clickToCall.callDisconnectedNotification.callDuration"
+      title: "Message used for displaying call duration in the call disconnected notification."
       value: "Call duration: %(duration)s"
       wip: true
   - translation:
-      key: 'embeddable_framework.talk.clickToCall.callDisconnectedNotification.title'
-      title: 'Title for the call disconnected notification'
-      value: 'Call disconnected'
+      key: "embeddable_framework.talk.clickToCall.callDisconnectedNotification.title"
+      title: "Title for the call disconnected notification"
+      value: "Call disconnected"
       wip: true
 
-  # Talk: Embedded Voice
+  # Talk: Digital Voice
   - translation:
-      key: 'embeddable_framework.talk.embeddedVoice.channel.title'
-      title: 'The title used for Embedded Voice in all channel choice pages.'
-      value: 'Call Us'
+      key: "embeddable_framework.talk.digitalVoice.channel.title"
+      title: "The title used for Digital Voice in all channel choice pages."
+      value: "Call us"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.title"
+      title: "The title used for Digital Voice to inform the user that microphone access is required."
+      value: "Allow microphone access"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.description"
+      title: "The description used for Digital Voice to inform the user that microphone access is required."
+      value: "This app needs permission to use your microphone before you can start a call."
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.button.next"
+      title: "The button label used for Digital Voice to indicate to the user to proceed to the next page."
+      value: "Next"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.call.starting"
+      title: "The title page to show that a call is starting."
+      value: "Starting call..."
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.call.in.progress"
+      title: "The title page to show that a call is in progress."
+      value: "Call in progress"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.call.ended"
+      title: "The title page to show that a call has ended."
+      value: "Call ended"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.title"
+      title: "The title page to get customer consent to record the call."
+      value: "Allow call to be recorded?"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.message"
+      title: "The message to inform the customer that the call will be recorded for quality purposes"
+      value: "If you consent, the call will be recorded for quality purposes."
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.customer.confirmation"
+      title: "The message to indicate that the customer gives consent for the call to be recorded for quality purposes"
+      value: "I consent to this call being recorded."
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.button.startCall"
+      title: "The button label used for Digital Voice to indicate to the user to start the call."
+      value: "Start call"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.title"
+      title: "The title page for digital voice to indicate a network error while trying to connect the call"
+      value: "Call couldn't be connected"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.message"
+      title: "The message for digital voice to indicate a network error while trying to connect the call"
+      value: "Check your internet connection and try again."
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.button.reconnect"
+      title: "The button label to inform the customer to try connecting again."
+      value: "Reconnect"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.agentOffline.title"
+      title: "The title page for digital voice to indicate that the agent is offline"
+      value: "Couldn't connect to an agent"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.recordingConsent.agentOffline.button.back"
+      title: "The button label to indicate to the customer to go back to the previous page."
+      value: "Back"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.digitalVoice.callErrors.callFailed"
+      title: "The page title to indicate that the call failed to connect."
+      value: "Call failed"
       wip: true
