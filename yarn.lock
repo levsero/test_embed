@@ -19910,11 +19910,6 @@ smoothscroll-polyfill@^0.4.4:
   resolved "https://registry.yarnpkg.com/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
   integrity sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==
 
-snapcall@^1.8.4:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/snapcall/-/snapcall-1.8.4.tgz#de7c52d71ecd3a3958b622a57ef31482f5c34c8e"
-  integrity sha512-3JYZul00kaiMBP7cLLmSiiiYGTJuWCcX23Bf6COwoSHhayxcTIqMsdXTT4v5my5fzWicwwX0pNin3Ak5RQmPaw==
-
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"

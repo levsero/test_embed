@@ -29,12 +29,6 @@ Object {
   },
   "isPolling": true,
   "microphoneMuted": false,
-  "snapcall": Object {
-    "buttonId": "",
-    "callDuration": "0:00",
-    "callStatus": "inactive",
-    "snapcallSupported": null,
-  },
   "vendor": Object {
     "io": null,
   },

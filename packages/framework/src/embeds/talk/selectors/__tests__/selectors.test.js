@@ -31,7 +31,7 @@ describe('talk selectors', () => {
   describe('getOfflineTitle', () => {
     const createState = (title, capability) => ({
       settings: { talk: { title } },
-      talk: { snapcall: {}, embeddableConfig: { capability } }
+      talk: { embeddableConfig: { capability } }
     })
 
     describe('when no custom talk title set', () => {

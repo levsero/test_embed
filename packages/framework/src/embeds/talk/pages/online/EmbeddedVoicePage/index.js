@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 import logger from 'src/util/logger'
@@ -8,10 +8,9 @@ import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import routes from 'src/embeds/talk/routes'
 import MicrophonePermissions from './MicrophonePermissions'
 import ConsentToRecord from './ConsentToRecord'
-import EmbeddedVoiceCallInProgressPage from 'src/embeds/talk/pages/online/EmbeddedVoiceCallInProgressPage'
-import { endCall, muteClick, startCall } from 'src/embeds/talk/utils/twilioDevice'
-import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
-import { getZendeskHost } from 'utility/globals'
+import CallInProgress from './CallInProgress'
+import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
+import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 
 const clickToCallPath = () => {
   return routes.clickToCallPermissions()
@@ -20,11 +19,9 @@ const clickToCallPath = () => {
 // Temp hardcoded function to be replaced once Talk endpoints are ready
 
 const EmbeddedVoicePage = () => {
+  const dispatch = useDispatch()
   const translate = useTranslate()
   const history = useHistory()
-  const serviceUrl = useSelector(getTalkServiceUrl)
-  const nickname = useSelector(getTalkNickname)
-  const subdomain = getZendeskHost(document).split('.')[0]
 
   const onConnect = () => {
     logger.log('Successfully established call!')
@@ -36,16 +33,29 @@ const EmbeddedVoicePage = () => {
   }
 
   const onError = error => {
+    if (error?.code === microphoneErrorCode) {
+      dispatch(talkDisconnect())
+      return
+    }
     logger.error('Twilio Device error:', error.message)
   }
 
   const onReady = () => {
-    logger.log('Twilio.Device is now ready for connections')
+    logger.log('Ready')
   }
 
-  const onAccept = event => {
-    logger.log('Twilio agent accepted:', event)
+  const onUnsupported = () => {
+    logger.log('WebRTC unsupported, aborting')
+    dispatch(talkDisconnect())
   }
+
+  const { startCall, muteClick, endCall } = useTwilioDevice({
+    onConnect,
+    onDisconnect,
+    onError,
+    onUnsupported,
+    onReady
+  })
 
   return (
     <Widget>
@@ -56,43 +66,17 @@ const EmbeddedVoicePage = () => {
       <Main>
         <Switch>
           <Route path={routes.clickToCallInProgress()}>
-            <EmbeddedVoiceCallInProgressPage
+            <CallInProgress
               onEndCallClicked={endCall}
               callDuration={'0.00'}
               onMuteClick={muteClick}
             />
           </Route>
           <Route path={routes.clickToCallPermissions()}>
-            <MicrophonePermissions
-              onStartCallClicked={() =>
-                startCall({
-                  onConnect,
-                  onDisconnect,
-                  onError,
-                  onReady,
-                  onAccept,
-                  subdomain,
-                  serviceUrl,
-                  nickname
-                })
-              }
-            />
+            <MicrophonePermissions onStartCallClicked={() => startCall()} />
           </Route>
           <Route path={routes.clickToCallConsent()}>
-            <ConsentToRecord
-              onStartCallClicked={() =>
-                startCall({
-                  onConnect,
-                  onDisconnect,
-                  onError,
-                  onReady,
-                  onAccept,
-                  subdomain,
-                  serviceUrl,
-                  nickname
-                })
-              }
-            />
+            <ConsentToRecord onStartCallClicked={() => startCall()} />
           </Route>
 
           <Redirect to={clickToCallPath()} />

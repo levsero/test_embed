@@ -18,7 +18,7 @@ import {
   Timer
 } from './styles'
 
-const EmbeddedVoiceCallInProgressPage = ({
+const CallInProgress = ({
   callDuration = '30:00',
   onEndCallClicked = () => {},
   onMuteClick = () => {}
@@ -73,9 +73,10 @@ const EmbeddedVoiceCallInProgressPage = ({
   )
 }
 
-EmbeddedVoiceCallInProgressPage.propTypes = {
+CallInProgress.propTypes = {
   callDuration: PropTypes.string,
   onEndCallClicked: PropTypes.func,
   onMuteClick: PropTypes.func
 }
-export default EmbeddedVoiceCallInProgressPage
+
+export default CallInProgress
