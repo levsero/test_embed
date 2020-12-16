@@ -1,3 +1,7 @@
+# Note:
+# This file is referenced by Rosetta https://github.com/zendesk/rosetta/blob/ff5db24681a7fe0e18b590ae02e043f13177ccee/config/string_sweep.yml#L153
+# If you move this file, you will also need to update Rosetta to point to the new location
+
 title: "Embeddable Framework"
 packages:
   - embeddable_framework

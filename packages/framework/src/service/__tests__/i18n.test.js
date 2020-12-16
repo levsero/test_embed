@@ -5,7 +5,7 @@ import { getLocale } from 'src/redux/modules/base/base-selectors'
 import t from '@zendesk/client-i18n-tools'
 import * as globals from 'utility/globals'
 
-jest.mock('../../../config/locales/translations/embeddable_framework.yml', () => {
+jest.mock('../../../../../config/locales/translations/embeddable_framework.yml', () => {
   return {
     parts: [
       {
