@@ -14,7 +14,6 @@ let actions,
   mockOAuth,
   mockBaseIsAuthenticated,
   mockIsTokenValid,
-  mockExtractTokenId,
   mockPersistentStoreValue,
   mockHasContextuallySearched,
   mockGetArticleDisplayed,
@@ -70,7 +69,6 @@ describe('base redux actions', () => {
       },
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: () => mockIsTokenValid,
-        extractTokenId: () => mockExtractTokenId,
         isTokenRenewable: mockIsTokenRenewable,
         isTokenExpired: () => mockIsTokenExpired
       },
@@ -526,7 +524,6 @@ describe('base redux actions', () => {
     describe('when authentication is required', () => {
       beforeAll(() => {
         newToken = 'someNewToken'
-        mockExtractTokenId = 'notTheSameIdAszeoauth'
         mockBaseIsAuthenticated = false
       })
 
@@ -573,7 +570,6 @@ describe('base redux actions', () => {
       const body = { jwt }
 
       zeoauth = {
-        id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + 20 * 60,
         createdAt: Math.floor(Date.now() / 1000) - 1.6 * 60 * 60,
@@ -628,7 +624,6 @@ describe('base redux actions', () => {
 
         it('stores the token', () => {
           expect(persistentStoreSetSpy).toHaveBeenCalledWith('zE_oauth', {
-            id: zeoauth.id,
             token: 'abcde',
             expiry: 'someExpiry',
             createdAt: 'createdAt',

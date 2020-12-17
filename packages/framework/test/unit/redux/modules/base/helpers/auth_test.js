@@ -1,5 +1,5 @@
 describe('auth utils', () => {
-  let isTokenValid, extractTokenId, isTokenRenewable, mockSha1
+  let isTokenValid, isTokenRenewable, mockSha1
   const authPath = buildSrcPath('redux/modules/base/helpers/auth')
 
   beforeEach(() => {
@@ -15,7 +15,6 @@ describe('auth utils', () => {
     })
 
     isTokenValid = require(authPath).isTokenValid
-    extractTokenId = require(authPath).extractTokenId
     isTokenRenewable = require(authPath).isTokenRenewable
   })
 
@@ -79,47 +78,6 @@ describe('auth utils', () => {
 
       it('returns false', () => {
         expect(result).toEqual(false)
-      })
-    })
-  })
-
-  describe('extractTokenId', () => {
-    let result, jwt
-
-    beforeEach(() => {
-      result = extractTokenId(jwt)
-    })
-
-    describe('when there is an invalid jwt', () => {
-      beforeAll(() => {
-        jwt = 'sdfgyuioiuygfvbh'
-      })
-
-      it('returns null', () => {
-        expect(result).toEqual(null)
-      })
-    })
-
-    describe('when there is a valid jwt with email', () => {
-      beforeAll(() => {
-        jwt =
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20ifQ.bQcIku6h4lURPrw-gu_irjfYdbwZW8cVB9tCGA-crCA'
-        mockSha1 = 'a6ad00ac113a19d953efb91820d8788e2263b28a'
-      })
-
-      it('returns hash of the email payload', () => {
-        expect(result).toEqual('a6ad00ac113a19d953efb91820d8788e2263b28a')
-      })
-    })
-
-    describe('valid jwt with no email', () => {
-      beforeAll(() => {
-        jwt =
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJub19lbWFpbCI6InByZXNlbnRfaGVlcmUifQ.i_sFJE6tj9uwqXt5nn9owqlLuJRv_kOMUYHmoJDegzU'
-      })
-
-      it('returns null', () => {
-        expect(result).toEqual(null)
       })
     })
   })
