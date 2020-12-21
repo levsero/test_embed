@@ -8,6 +8,7 @@ const statusColors = {
 }
 
 const Container = styled.div`
+  font-family: ${props => props.theme.messenger.fontFamily};
   position: absolute;
   left: 0;
   right: 0;
