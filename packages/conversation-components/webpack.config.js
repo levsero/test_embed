@@ -21,12 +21,40 @@ module.exports = {
   externals: peerDependencies,
   devtool: 'source-map',
   mode: 'production',
+  resolve: {
+    alias: {
+      src: path.resolve(__dirname, 'src')
+    }
+  },
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
         include: path.resolve(__dirname, 'src')
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgo: true,
+              svgoConfig: {
+                plugins: [
+                  { removeTitle: true },
+                  { convertPathData: false },
+                  { convertStyleToAttrs: false },
+                  { removeViewBox: false },
+                  { prefixIds: false },
+                  { cleanupIDs: false },
+                  { inlineStyles: false }
+                ]
+              },
+              titleProp: true
+            }
+          }
+        ]
       }
     ]
   },
