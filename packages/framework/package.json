@@ -19,7 +19,7 @@
     "dev": "webpack-dev-server --config ./webpack/webpack.ac.dev.js --hot",
     "dashboard": "USE_DASHBOARD=true npm run dev",
     "dev-preview": "webpack-dev-server --config ./webpack/webpack.previewer.dev.js",
-    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && ./script/fetch_i18n",
+    "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && ./script/fetch_i18n && yarn workspace @zendesk/conversation-components build",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.ac.prod.js",
     "build:validate": "npm run build:prod && npm run size",
     "build:previewer": "NODE_ENV=production webpack --config ./webpack/webpack.previewer.prod.js",
@@ -83,6 +83,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@zendesk/client-i18n-tools": "^13.0.0",
+    "@zendesk/conversation-components": "*",
     "@zendeskgarden/container-focusjail": "^1.2.2",
     "@zendeskgarden/container-modal": "^0.8.2",
     "@zendeskgarden/css-bedrock": "^7.0.35",

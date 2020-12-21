@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
-import { BANNER_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
+import { BANNER_STATUS } from '../constants'
 
 const statusColors = {
   [BANNER_STATUS.success]: '#038153',

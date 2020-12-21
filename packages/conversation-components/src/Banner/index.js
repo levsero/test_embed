@@ -1,7 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import { BANNER_STATUS } from '../constants'
 import { Container, Label } from './styles'
-import { BANNER_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const Banner = ({ message, status }) => {
   return (

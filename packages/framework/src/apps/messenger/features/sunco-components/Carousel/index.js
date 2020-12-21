@@ -16,7 +16,7 @@ import {
   Heading
 } from './styles'
 import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
-import Avatar from 'src/apps/messenger/features/sunco-components/Avatar'
+import { Avatar } from '@zendesk/conversation-components'
 import useCarousel from './use-carousel'
 import Label from 'src/apps/messenger/features/sunco-components/Label'
 

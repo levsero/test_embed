@@ -2,7 +2,6 @@ import React from 'react'
 import { find } from 'styled-components/test-utils'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Carousel from 'src/apps/messenger/features/sunco-components/Carousel'
-import { Image } from 'src/apps/messenger/features/sunco-components/Avatar/styles'
 import { Heading } from 'src/apps/messenger/features/sunco-components/Carousel/styles'
 
 describe('Carousel', () => {
@@ -55,13 +54,13 @@ describe('Carousel', () => {
   it('renders an avatar if provided', () => {
     const { container } = renderComponent({ avatar: 'www.example.com/cat.jpg' })
 
-    expect(find(container, Image)).toBeInTheDocument()
+    expect(container.querySelector('img')).toBeInTheDocument()
   })
 
   it('does not render an avatar if not provided', () => {
     const { container } = renderComponent({ avatar: undefined })
 
-    expect(find(container, Image)).not.toBeInTheDocument()
+    expect(container.querySelector('img')).not.toBeInTheDocument()
   })
 
   it('renders each item as a slide', () => {
