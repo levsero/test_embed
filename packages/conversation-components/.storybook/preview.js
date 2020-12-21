@@ -1,4 +1,3 @@
-import React from 'react'
 import { rem } from 'polished'
 import ThemeProvider from '../src/ThemeProvider'
 import { baseFontSize } from '../src/constants'

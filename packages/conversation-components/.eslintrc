@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "../../config/eslint/eslint-defaults.js",
+    "../../config/eslint/eslint-es6.js",
+    "../../config/eslint/eslint-react.js",
+    "../../config/eslint/eslint-plugin-import.js",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended"
+  ],
+  "plugins": ["jest", "react-hooks", "jsx-a11y", "babel"],
+  "root": true,
+  "env": {
+    "browser": true,
+    "jest/globals": true
+  },
+  "globals": {},
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
+  },
+}

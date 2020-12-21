@@ -1,5 +1,8 @@
 packages/framework/src/vendor/*
 packages/framework/src/translation/*
+packages/framework/dev
+packages/framework/dist
+packages/conversation-components/dist
 */__snapshots__/*
 */node_modules/*
 node_modules

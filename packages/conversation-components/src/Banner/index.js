@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { BANNER_STATUS } from '../constants'
 import { Container, Label } from './styles'

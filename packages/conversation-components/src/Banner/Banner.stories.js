@@ -1,4 +1,3 @@
-import React from 'react'
 import { BANNER_STATUS } from '../constants'
 import Banner from './'
 
