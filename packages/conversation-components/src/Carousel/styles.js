@@ -8,6 +8,7 @@ import { IconButton } from '@zendeskgarden/react-buttons'
 export const scrollPadding = props => rem(52, props.theme.baseFontSize)
 
 const SlideMessage = styled.div`
+  font-family: ${props => props.theme.messenger.fontFamily};
   position: relative;
   margin-top: ${props => props.theme.messenger.space.sm};
 `
@@ -65,7 +66,6 @@ const AvatarSlide = styled(Slide)`
   justify-content: flex-end;
   align-items: flex-end;
   margin-right: 0;
-  margin-left: ${props => props.theme.messenger.space.sixteen};
 `
 
 const Content = styled.div`

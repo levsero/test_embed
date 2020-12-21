@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import {
   SlideMessage,
@@ -16,9 +15,9 @@ import {
   Heading
 } from './styles'
 import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
-import { Avatar } from '@zendesk/conversation-components'
+import Avatar from 'src/Avatar'
+import Label from 'src/Label'
 import useCarousel from './use-carousel'
-import Label from 'src/apps/messenger/features/sunco-components/Label'
 
 const Carousel = ({ items, label, avatar }) => {
   const {
@@ -91,6 +90,8 @@ const Carousel = ({ items, label, avatar }) => {
 }
 
 Carousel.propTypes = {
+  label: PropTypes.string,
+  avatar: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
@@ -104,9 +105,7 @@ Carousel.propTypes = {
         })
       )
     })
-  ),
-  label: PropTypes.string,
-  avatar: PropTypes.string
+  )
 }
 
 export default Carousel
