@@ -1,10 +1,17 @@
 {
   "name": "@zendesk/conversation-components",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "main": "dist/conversation-components.js",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "type": "module",
+  "publishConfig": {
+    "registry": "https://zdrepo.jfrog.io/artifactory/api/npm/npm/"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.js.map"
+  ],
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch --mode development",
