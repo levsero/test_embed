@@ -5,7 +5,7 @@ import Banner from './'
 export default {
   title: 'Components/Banner',
   component: Banner,
-  decorators: [Story => MessengerContainerDecorator(Story)],
+  decorators: [MessengerContainerDecorator],
   argTypes: {
     status: {
       defaultValue: BANNER_STATUS.success,

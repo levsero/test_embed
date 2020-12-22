@@ -4,7 +4,7 @@ import Carousel from './'
 export default {
   title: 'Components/Carousel',
   component: Carousel,
-  decorators: [Story => MessengerContainerDecorator(Story)]
+  decorators: [MessengerContainerDecorator]
 }
 
 const flatWhiteItem = {
