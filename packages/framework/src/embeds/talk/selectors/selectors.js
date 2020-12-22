@@ -13,6 +13,8 @@ export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration
 export const getDigitalVoiceSupported = state =>
   isFeatureEnabled(null, 'digital_voice_enabled') || state.talk.snapcall.snapcallSupported
 
+export const getMicrophoneMuted = state => state.talk.microphoneMuted
+
 export const getCapability = createSelector(
   [getEmbeddableConfig, getDigitalVoiceSupported],
   (talkConfig, digitalVoiceSupported) => {
