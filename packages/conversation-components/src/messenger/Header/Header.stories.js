@@ -1,10 +1,10 @@
-import React from 'react'
-
 import Header from './'
+import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 
 export default {
-  title: 'Sunco/Header',
-  component: Header
+  title: 'Messenger/Header',
+  component: Header,
+  decorators: [MessengerContainerDecorator]
 }
 
 const Template = args => <Header {...args} />
@@ -13,7 +13,8 @@ export const AllFields = Template.bind()
 AllFields.args = {
   title: 'My company title',
   description: 'a catchy little punchline',
-  avatar: 'https://lucashills.com/emu_avatar.jpg'
+  avatar: 'https://lucashills.com/emu_avatar.jpg',
+  showCloseButton: true
 }
 
 export const TitleOnly = Template.bind()
