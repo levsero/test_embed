@@ -34,13 +34,16 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     [animationsDisabled]
   )
 
-  const scrollToBottomIfNeeded = useCallback(() => {
-    if (isScrollAtBottom.current) {
-      setTimeout(() => {
-        scrollToBottom()
-      }, 0)
-    }
-  }, [scrollToBottom])
+  const scrollToBottomIfNeeded = useCallback(
+    options => {
+      if (isScrollAtBottom.current) {
+        setTimeout(() => {
+          scrollToBottom(options)
+        }, 0)
+      }
+    },
+    [scrollToBottom]
+  )
 
   const onScrollBottom = useCallback(
     event => {
@@ -85,10 +88,14 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     }, 0)
     firstRender.current = false
 
-    hostPageWindow.addEventListener('resize', scrollToBottomIfNeeded)
+    const onResize = () => {
+      scrollToBottomIfNeeded({ smooth: false })
+    }
+
+    hostPageWindow.addEventListener('resize', onResize)
 
     return () => {
-      hostPageWindow.removeEventListener('resize', scrollToBottomIfNeeded)
+      hostPageWindow.removeEventListener('resize', onResize)
     }
   }, [])
 
