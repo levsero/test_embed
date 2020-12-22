@@ -1,7 +1,7 @@
-import { stripUnit } from 'polished'
 import { useEffect, useRef, useState, useContext } from 'react'
-import { scrollPadding } from 'src/apps/messenger/features/sunco-components/Carousel/styles'
 import { ThemeContext } from 'styled-components'
+import { stripUnit } from 'polished'
+import { scrollPadding } from './styles'
 
 const remToPx = rem => {
   const fontSize = getComputedStyle(document.documentElement).fontSize
@@ -48,15 +48,16 @@ const useCarousel = ({ items }) => {
   const theme = useContext(ThemeContext)
 
   useEffect(() => {
+    let currentContainer = containerRef.current
     const onScroll = () => {
-      setVisibleItems(getVisibleItems(containerRef.current))
+      setVisibleItems(getVisibleItems(currentContainer))
     }
 
-    containerRef.current.addEventListener('scroll', onScroll)
+    currentContainer.addEventListener('scroll', onScroll)
     onScroll()
 
     return () => {
-      containerRef.current.removeEventListener('scroll', onScroll)
+      currentContainer.removeEventListener('scroll', onScroll)
     }
   }, [containerRef])
 

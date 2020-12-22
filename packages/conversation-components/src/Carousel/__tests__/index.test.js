@@ -1,8 +1,8 @@
-import React from 'react'
 import { find } from 'styled-components/test-utils'
-import { render } from 'src/apps/messenger/utils/testHelpers'
-import Carousel from 'src/apps/messenger/features/sunco-components/Carousel'
-import { Heading } from 'src/apps/messenger/features/sunco-components/Carousel/styles'
+import render from 'src/utils/test/render'
+import Carousel from 'src/Carousel'
+import { Heading } from 'src/Carousel/styles'
+import { Image } from 'src/Avatar/styles'
 
 describe('Carousel', () => {
   const defaultProps = {
@@ -54,13 +54,13 @@ describe('Carousel', () => {
   it('renders an avatar if provided', () => {
     const { container } = renderComponent({ avatar: 'www.example.com/cat.jpg' })
 
-    expect(container.querySelector('img')).toBeInTheDocument()
+    expect(find(container, Image)).toBeInTheDocument()
   })
 
   it('does not render an avatar if not provided', () => {
     const { container } = renderComponent({ avatar: undefined })
 
-    expect(container.querySelector('img')).not.toBeInTheDocument()
+    expect(find(container, Image)).not.toBeInTheDocument()
   })
 
   it('renders each item as a slide', () => {

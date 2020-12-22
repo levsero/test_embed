@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Carousel from 'src/apps/messenger/features/sunco-components/Carousel'
+import { Carousel } from '@zendesk/conversation-components'
 
 const CarouselStructuredMessage = ({ message }) => {
   return (

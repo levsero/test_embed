@@ -1,9 +1,11 @@
 import { BANNER_STATUS } from '../constants'
+import { MessengerContainerDecorator } from '../../.storybook/decorators'
 import Banner from './'
 
 export default {
-  title: 'Banner',
+  title: 'Components/Banner',
   component: Banner,
+  decorators: [MessengerContainerDecorator],
   argTypes: {
     status: {
       defaultValue: BANNER_STATUS.success,
