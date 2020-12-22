@@ -1,5 +1,5 @@
 import { find } from 'styled-components/test-utils'
-import { render } from 'src/utils/testHelpers'
+import render from 'src/utils/test/render'
 import Carousel from 'src/Carousel'
 import { Heading } from 'src/Carousel/styles'
 import { Image } from 'src/Avatar/styles'
