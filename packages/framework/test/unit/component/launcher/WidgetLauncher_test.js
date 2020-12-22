@@ -34,6 +34,7 @@ describe('WidgetLauncher component', () => {
           icon: 'iconClasses'
         }
       },
+      'component/launcher/WidgetLauncherTitle': noopReactComponent(),
       'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent()
       },

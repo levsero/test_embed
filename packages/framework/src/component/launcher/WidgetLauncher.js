@@ -24,6 +24,7 @@ import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-s
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { onNextTick } from 'utility/utils'
+import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
 
 const baseLauncherStyle = {
   width: 240
@@ -230,10 +231,6 @@ class WidgetLauncher extends Component {
     const shouldFlipX =
       (type === 'Icon' && isRTL && locale !== 'he') || (type === ICONS.CHAT && isRTL)
 
-    if (this.props.updateFrameTitle) {
-      this.props.updateFrameTitle(this.getTitle())
-    }
-
     return (
       <>
         <FrameStyle style={this.state.style} />
@@ -261,6 +258,12 @@ class WidgetLauncher extends Component {
             </span>
           </button>
         </div>
+        <WidgetLauncherTitle
+          title={this.getTitle()}
+          onTitleChange={title => {
+            this.props.updateFrameTitle?.(title)
+          }}
+        />
       </>
     )
   }
