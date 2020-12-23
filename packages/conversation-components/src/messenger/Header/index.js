@@ -10,12 +10,21 @@ import {
   CloseIconContainer
 } from './styles'
 
-const Header = ({ title, description, avatar, showCloseButton, isCompact, onClose }) => {
+const Header = ({
+  title,
+  description = '',
+  avatar = '',
+  avatarAltTag = 'Company avatar',
+  showCloseButton = false,
+  closeButtonAriaLabel = 'Close messenger',
+  isCompact = false,
+  onClose = () => {}
+}) => {
   return (
     <Container isCompact={isCompact}>
       {avatar && (
         <Avatar isSystem={true} isCompact={isCompact}>
-          <img src={avatar} alt={'company avatar'} />
+          <img src={avatar} alt={avatarAltTag} />
         </Avatar>
       )}
       <Details>
@@ -25,7 +34,7 @@ const Header = ({ title, description, avatar, showCloseButton, isCompact, onClos
 
       {showCloseButton && (
         <CloseIconContainer isCompact={isCompact}>
-          <IconButton isCompact={isCompact} onClick={onClose} aria-label="Close messenger">
+          <IconButton isCompact={isCompact} onClick={onClose} aria-label={closeButtonAriaLabel}>
             <CloseIcon />
           </IconButton>
         </CloseIconContainer>
@@ -38,17 +47,11 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   avatar: PropTypes.string,
+  avatarAltTag: PropTypes.string,
   showCloseButton: PropTypes.bool,
+  closeButtonAriaLabel: PropTypes.string,
   isCompact: PropTypes.bool,
   onClose: PropTypes.func
-}
-
-Header.defaultProps = {
-  description: '',
-  avatar: '',
-  showCloseButton: false,
-  isCompact: false,
-  onClose: () => {}
 }
 
 export default Header
