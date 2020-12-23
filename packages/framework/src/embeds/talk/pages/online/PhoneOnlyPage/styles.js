@@ -6,12 +6,11 @@ import TalkIcon from 'src/embeds/talk/icons/talk.svg'
 const Container = styled.div`
   text-align: center;
   font-size: ${14 / FONT_SIZE}rem !important;
-  min-height: 70%;
+  height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  overflow-y: auto;
 
   ${isMobileBrowser() &&
     `
@@ -40,8 +39,10 @@ const StyledTalkIcon = styled(TalkIcon)`
 `
 
 const Message = styled.p`
+  width: 100%;
   margin-top: ${20 / FONT_SIZE}rem !important;
   margin-bottom: ${10 / FONT_SIZE}rem !important;
+  text-align: center;
 `
 
 const PhoneNumberContainer = styled.div`
