@@ -6,7 +6,7 @@ import TalkIcon from 'src/embeds/talk/icons/talk.svg'
 const Container = styled.div`
   text-align: center;
   font-size: ${14 / FONT_SIZE}rem !important;
-  min-height: 70%;
+  height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;

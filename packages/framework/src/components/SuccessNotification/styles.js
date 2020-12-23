@@ -4,7 +4,7 @@ import { zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'constants/shared'
 
 const Container = styled.div`
-  min-height: 70%;
+  height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;

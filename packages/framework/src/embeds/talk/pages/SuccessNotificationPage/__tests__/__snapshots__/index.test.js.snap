@@ -475,7 +475,7 @@ exports[`SuccessNotificationPage renders 1`] = `
 }
 
 .c10 {
-  min-height: 70%;
+  height: 70%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
