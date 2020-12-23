@@ -6225,15 +6225,6 @@
   dependencies:
     polished "^3.5.1"
 
-"@zendeskgarden/react-buttons@^8.28.2":
-  version "8.28.2"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-buttons/-/react-buttons-8.28.2.tgz#68867a7d61b5e7d95d7bb6e4f6a0dfd7dcac24f9"
-  integrity sha512-ltJG8Bc88oa8XNdC9xQLuvEEcIA8vORft0A5bM1RvfMhFUSlAA4Yer2M3VxaZP99hWwnFOxeZC+A+6lxNuLnnw==
-  dependencies:
-    "@zendeskgarden/container-buttongroup" "^0.3.1"
-    "@zendeskgarden/container-keyboardfocus" "^0.4.1"
-    polished "^4.0.0"
-
 "@zendeskgarden/react-buttons@^8.9.0":
   version "8.13.0"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-buttons/-/react-buttons-8.13.0.tgz#a112c40b324088affd08401a866758657361a812"
@@ -17242,13 +17233,6 @@ polished@^3.4.4, polished@^3.5.1, polished@^3.6.5:
   integrity sha512-VwhC9MlhW7O5dg/z7k32dabcAFW1VI2+7fSe8cE/kXcfL7mVdoa5UxciYGW2sJU78ldDLT6+ROEKIZKFNTnUXQ==
   dependencies:
     "@babel/runtime" "^7.9.2"
-
-polished@^4.0.0:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-4.0.5.tgz#3f91873c8f72dec1723b3f892f57fbb22645b23d"
-  integrity sha512-BY2+LVtOHQWBQpGN4GPAKpCdsBePOdSdHTpZegRDRCrvGPkRPTx1DEC+vGjIDPhXS7W2qiBxschnwRWTFdMZag==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
 
 popper.js@^1.14.4, popper.js@^1.14.7:
   version "1.16.1"
