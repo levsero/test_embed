@@ -1,7 +1,3 @@
-import { base64decode, sha1 } from 'utility/utils'
-
-import _ from 'lodash'
-
 function isTokenValid(token) {
   if (token && token.expiry) {
     const now = Math.floor(Date.now() / 1000)
@@ -10,19 +6,6 @@ function isTokenValid(token) {
   }
   return false
 }
-
-const extractTokenId = _.memoize(function(jwt) {
-  const jwtBody = jwt.split('.')[1]
-
-  if (typeof jwtBody === 'undefined') {
-    return null
-  }
-
-  const decodedBody = base64decode(jwtBody)
-  const message = JSON.parse(decodedBody)
-
-  return message.email ? sha1(message.email) : null
-})
 
 function isTokenRenewable(token) {
   if (token && token.expiry) {
@@ -44,4 +27,4 @@ function isTokenExpired(token) {
   return false
 }
 
-export { isTokenValid, extractTokenId, isTokenRenewable, isTokenExpired }
+export { isTokenValid, isTokenRenewable, isTokenExpired }

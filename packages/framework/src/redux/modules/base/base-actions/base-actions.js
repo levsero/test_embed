@@ -10,11 +10,7 @@ import {
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
 import { contextualSearch } from 'embeds/helpCenter/actions'
-import {
-  extractTokenId,
-  isTokenRenewable,
-  isTokenExpired
-} from 'src/redux/modules/base/helpers/auth'
+import { isTokenRenewable, isTokenExpired } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import { store } from 'src/framework/services/persistence'
@@ -25,9 +21,8 @@ import { focusLauncher } from 'utility/globals'
 import { clearAttachments } from 'src/embeds/support/actions'
 import * as callbacks from 'service/api/callbacks'
 
-function onAuthRequestSuccess(res, id, dispatch, webToken) {
+function onAuthRequestSuccess(res, dispatch, webToken) {
   store.set('zE_oauth', {
-    id: id,
     token: res.body.oauth_token,
     expiry: res.body.oauth_expiry,
     createdAt: res.body.oauth_created_at,
@@ -52,19 +47,17 @@ export const authenticate = webToken => {
     })
 
     const oauth = getOAuth()
-    const webTokenId = extractTokenId(webToken)
-    const authenticationRequired = !getBaseIsAuthenticated() || (oauth && webTokenId !== oauth.id)
+    const authenticationRequired =
+      !getBaseIsAuthenticated() || (oauth && webToken !== oauth.webToken)
 
     if (authenticationRequired) {
-      store.remove('zE_oauth')
-
       const payload = {
         method: 'POST',
         path: '/embeddable/authenticate',
         params: { body: webToken },
         timeout: 10000,
         callbacks: {
-          done: res => onAuthRequestSuccess(res, webTokenId, dispatch, webToken),
+          done: res => onAuthRequestSuccess(res, dispatch, webToken),
           fail: res => onAuthRequestFailure(res, dispatch)
         }
       }
@@ -95,7 +88,7 @@ export const renewToken = () => {
         path: '/embeddable/authenticate/renew',
         params: params,
         callbacks: {
-          done: res => onAuthRequestSuccess(res, oauth.id, dispatch, oauth.webToken),
+          done: res => onAuthRequestSuccess(res, dispatch, oauth.webToken),
           fail: res => onAuthRequestFailure(res, dispatch)
         }
       }
