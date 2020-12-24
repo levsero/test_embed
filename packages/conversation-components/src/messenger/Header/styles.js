@@ -16,6 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
+  font-family: ${props => props.theme.messenger.fontFamily};
   padding: ${props => props.theme.messenger.space.sixteen};
   background-color: ${props => props.theme.messenger.colors.primary};
   color: ${props => props.theme.messenger.colors.primaryText};

@@ -1,5 +1,5 @@
 import { render as rtlRender } from '@testing-library/react'
-import ThemeProvider from '../../ThemeProvider'
+import ThemeProvider from 'src/ThemeProvider'
 
 const render = (ui, { render, themeProps = {} } = {}) => {
   const renderFn = render || rtlRender

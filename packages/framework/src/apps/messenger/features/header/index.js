@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Header from 'src/apps/messenger/features/sunco-components/Header'
+import { Header } from '@zendesk/conversation-components'
 import { getHeaderValues } from './store'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'

@@ -1,11 +1,11 @@
-import ThemeProvider from '../src/ThemeProvider'
+import ThemeProvider from 'src/ThemeProvider'
 
 export const decorators = [
-  Story => {
+  (Story) => {
     return (
       <ThemeProvider>
         <Story />
       </ThemeProvider>
     )
-  }
+  },
 ]
