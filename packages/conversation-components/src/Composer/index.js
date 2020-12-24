@@ -71,7 +71,7 @@ const Composer = React.forwardRef(
   }
 )
 
-Composer.propTypes = {
+const ComposerPropTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   inputAriaLabel: PropTypes.string,
@@ -83,5 +83,7 @@ Composer.propTypes = {
   onChange: PropTypes.func,
   onSendMessage: PropTypes.func
 }
+Composer.propTypes = ComposerPropTypes
 
+export { ComposerPropTypes }
 export default Composer
