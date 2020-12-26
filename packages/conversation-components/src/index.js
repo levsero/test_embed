@@ -1,10 +1,10 @@
 import Avatar from './Avatar'
 import Banner from './Banner'
 import Carousel from './Carousel'
-import Header from './messenger/Header'
 import Label from './Label'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
+import MessengerHeader from './messenger/MessengerHeader'
 import ThemeProvider from './ThemeProvider'
 import {
   FORM_MESSAGE_STATUS,
@@ -17,10 +17,10 @@ export {
   Avatar,
   Banner,
   Carousel,
-  Header,
   Label,
   MessengerContainer,
   MessengerFooter,
+  MessengerHeader,
   ThemeProvider
 }
 

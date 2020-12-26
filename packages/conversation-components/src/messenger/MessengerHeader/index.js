@@ -10,7 +10,7 @@ import {
   CloseIconContainer
 } from './styles'
 
-const Header = ({
+const MessengerHeader = ({
   title,
   description = '',
   avatar = '',
@@ -43,7 +43,7 @@ const Header = ({
   )
 }
 
-Header.propTypes = {
+MessengerHeader.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   avatar: PropTypes.string,
@@ -54,4 +54,4 @@ Header.propTypes = {
   onClose: PropTypes.func
 }
 
-export default Header
+export default MessengerHeader

@@ -1,14 +1,14 @@
 /* eslint no-console:0 */
-import Footer from './'
+import MessengerFooter from './'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 
 export default {
-  title: 'Messenger/Footer',
-  component: Footer,
+  title: 'Messenger/MessengerFooter',
+  component: MessengerFooter,
   decorators: [MessengerContainerDecorator]
 }
 
-const Template = args => <Footer {...args} />
+const Template = args => <MessengerFooter {...args} />
 
 export const EmptyFooter = Template.bind()
 EmptyFooter.args = {

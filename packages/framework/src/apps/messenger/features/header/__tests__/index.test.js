@@ -38,7 +38,7 @@ describe('Header', () => {
 
   it('renders the company avatar', () => {
     const { getByAltText } = renderComponent()
-    expect(getByAltText('company avatar')).toBeInTheDocument()
-    expect(getByAltText('company avatar').src).toEqual('https://example.com/dummyUrl.jpg')
+    expect(getByAltText('Company avatar')).toBeInTheDocument()
+    expect(getByAltText('Company avatar').src).toEqual('https://example.com/dummyUrl.jpg')
   })
 })

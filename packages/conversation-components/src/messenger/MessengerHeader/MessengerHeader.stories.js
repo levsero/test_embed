@@ -1,13 +1,13 @@
-import Header from './'
+import MessengerHeader from './'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 
 export default {
-  title: 'Messenger/Header',
-  component: Header,
+  title: 'Messenger/MessengerHeader',
+  component: MessengerHeader,
   decorators: [MessengerContainerDecorator]
 }
 
-const Template = args => <Header {...args} />
+const Template = args => <MessengerHeader {...args} />
 
 export const AllFields = Template.bind()
 AllFields.args = {
