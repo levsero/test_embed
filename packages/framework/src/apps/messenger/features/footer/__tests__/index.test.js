@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import Footer from '../'
-import { startTyping, cancelTyping } from '../typing'
+import { startTyping } from '../typing'
 import { waitFor } from '@testing-library/dom'
 
 jest.mock('src/apps/messenger/api/sunco')
@@ -77,22 +77,6 @@ describe('Footer', () => {
     userEvent.type(input, '{backspace}')
 
     expect(startTyping).toHaveBeenCalled()
-  })
-
-  // temporarily skipping test while we figure out what's happening over in this thread
-  // https://zendesk.slack.com/archives/C010A0HV1FY/p1603768352484000
-  it.skip('calls cancelTyping when the user sends a message, since stop typing is implied when a message is sent', () => {
-    const { getByLabelText } = renderComponent()
-    const input = getByLabelText('Type a message')
-
-    userEvent.type(input, 'message from user')
-
-    expect(startTyping).toHaveBeenCalled()
-    expect(cancelTyping).not.toHaveBeenCalled()
-
-    userEvent.type(input, '{enter}')
-
-    expect(cancelTyping).toHaveBeenCalled()
   })
 
   it('persists the text when you close and re-open the widget', async () => {
