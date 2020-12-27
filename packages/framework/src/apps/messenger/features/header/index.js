@@ -18,7 +18,9 @@ const Header = () => {
       title={name}
       description={description}
       avatar={avatar}
+      avatarAltTag="company avatar"
       showCloseButton={!isLauncherVisible}
+      closeButtonAriaLabel="close messenger"
       isCompact={isFullScreen}
       onClose={() => {
         dispatch(widgetClosed())

@@ -81,7 +81,7 @@ describe('Messenger app', () => {
     const widget = within(getByTitle('Messenger').contentDocument.body)
     await waitFor(() => expect(widget.getByPlaceholderText('Type a message')).toBeInTheDocument())
 
-    userEvent.click(widget.getByLabelText('Close messenger'))
+    userEvent.click(widget.getByLabelText('close messenger'))
 
     await waitFor(() => expect(getByTitle('Launcher').style.display).not.toBe('none'))
 
