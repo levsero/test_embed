@@ -19,7 +19,7 @@ import Avatar from 'src/Avatar'
 import Label from 'src/Label'
 import useCarousel from './use-carousel'
 
-const Carousel = ({ items, label, avatar }) => {
+const CarouselMessage = ({ items, label, avatar }) => {
   const {
     containerRef,
     isFirstSlideVisible,
@@ -89,7 +89,7 @@ const Carousel = ({ items, label, avatar }) => {
   )
 }
 
-Carousel.propTypes = {
+CarouselMessage.propTypes = {
   label: PropTypes.string,
   avatar: PropTypes.string,
   items: PropTypes.arrayOf(
@@ -108,4 +108,4 @@ Carousel.propTypes = {
   )
 }
 
-export default Carousel
+export default CarouselMessage

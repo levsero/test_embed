@@ -1,9 +1,9 @@
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
-import Carousel from './'
+import CarouselMessage from './'
 
 export default {
-  title: 'Messages/Carousel',
-  component: Carousel,
+  title: 'Messages/CarouselMessage',
+  component: CarouselMessage,
   decorators: [MessengerContainerDecorator]
 }
 
@@ -51,7 +51,7 @@ const frenchPressItem = {
   ]
 }
 
-const Template = args => <Carousel {...args} />
+const Template = args => <CarouselMessage {...args} />
 
 export const SingleItemCarousel = Template.bind()
 SingleItemCarousel.args = {

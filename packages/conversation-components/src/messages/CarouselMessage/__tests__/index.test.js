@@ -1,10 +1,10 @@
 import { find } from 'styled-components/test-utils'
 import render from 'src/utils/test/render'
-import Carousel from 'src/Carousel'
-import { Heading } from 'src/Carousel/styles'
+import CarouselMessage from 'src/CarouselMessage'
+import { Heading } from 'src/CarouselMessage/styles'
 import { Image } from 'src/Avatar/styles'
 
-describe('Carousel', () => {
+describe('CarouselMessage', () => {
   const defaultProps = {
     items: [
       {
@@ -36,7 +36,7 @@ describe('Carousel', () => {
     avatar: 'www.example.com/cat.jpg'
   }
 
-  const renderComponent = (props = {}) => render(<Carousel {...defaultProps} {...props} />)
+  const renderComponent = (props = {}) => render(<CarouselMessage {...defaultProps} {...props} />)
 
   it('renders the the label if provided', () => {
     const { getByText, container } = renderComponent({ label: 'Some name' })

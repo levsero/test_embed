@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Carousel } from '@zendesk/conversation-components'
+import { CarouselMessage } from '@zendesk/conversation-components'
 
 const CarouselStructuredMessage = ({ message }) => {
   return (
-    <Carousel
+    <CarouselMessage
       items={message.items}
       label={message.isFirstMessageInAuthorGroup ? message.name : undefined}
       avatar={message.isLastMessageInAuthorGroup ? message.avatarUrl : undefined}
@@ -14,9 +14,9 @@ const CarouselStructuredMessage = ({ message }) => {
 
 CarouselStructuredMessage.propTypes = {
   message: PropTypes.shape({
-    items: Carousel.propTypes.items,
-    label: Carousel.propTypes.label,
-    avatarUrl: Carousel.propTypes.avatar
+    items: CarouselMessage.propTypes.items,
+    label: CarouselMessage.propTypes.label,
+    avatarUrl: CarouselMessage.propTypes.avatar
   })
 }
 
