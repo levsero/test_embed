@@ -17,13 +17,13 @@ const Composer = React.forwardRef(
       disabled = false,
       placeholder = 'Type a message',
       inputAriaLabel = 'Type a message',
-      value = '',
       sendButtonTooltip = 'Send message',
       sendButtonAriaLabel = 'Send message',
       minRows = 1,
       maxRows = 5,
-      onSendMessage = _value => {},
-      onChange = _event => {}
+      value = '',
+      onChange = _event => {},
+      onSendMessage = _value => {}
     },
     ref
   ) => {
@@ -39,28 +39,27 @@ const Composer = React.forwardRef(
     const handleSubmit = () => {
       onSendMessage(composerValue)
       setComposerValue('')
-      // inputRef.current.focus()
     }
 
     return (
       <Container>
         <Field>
           <Textarea
-            maxRows={maxRows}
-            minRows={minRows}
-            onKeyDown={triggerOnEnter(handleSubmit)}
-            onChange={handleChange}
-            value={composerValue}
-            placeholder={placeholder}
-            aria-label={inputAriaLabel}
             ref={inputRef}
             disabled={disabled}
+            placeholder={placeholder}
+            aria-label={inputAriaLabel}
+            minRows={minRows}
+            maxRows={maxRows}
+            value={composerValue}
+            onKeyDown={triggerOnEnter(handleSubmit)}
+            onChange={handleChange}
           />
           {composerValue && !disabled && (
             <SendButton
-              onClick={handleSubmit}
-              aria-label={sendButtonAriaLabel}
               title={sendButtonTooltip}
+              aria-label={sendButtonAriaLabel}
+              onClick={handleSubmit}
             >
               <SendIcon />
             </SendButton>
