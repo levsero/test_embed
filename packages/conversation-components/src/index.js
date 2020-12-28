@@ -1,6 +1,6 @@
 import Avatar from './Avatar'
 import Banner from './Banner'
-import Carousel from './Carousel'
+import Carousel from './messages/Carousel'
 import Label from './Label'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'

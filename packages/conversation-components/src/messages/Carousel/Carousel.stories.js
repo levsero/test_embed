@@ -1,8 +1,8 @@
-import { MessengerContainerDecorator } from '../../.storybook/decorators'
+import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 import Carousel from './'
 
 export default {
-  title: 'Components/Carousel',
+  title: 'Messages/Carousel',
   component: Carousel,
   decorators: [MessengerContainerDecorator]
 }
