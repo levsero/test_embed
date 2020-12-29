@@ -7,5 +7,23 @@
         "runtime": "automatic"
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["babel-plugin-styled-components"]
+    },
+    "development": {
+      "plugins": ["babel-plugin-styled-components"]
+    },
+    "production": {
+      "plugins": [
+        [
+          "babel-plugin-styled-components",
+          {
+            "displayName": false
+          }
+        ]
+      ]
+    }
+  }
 }
