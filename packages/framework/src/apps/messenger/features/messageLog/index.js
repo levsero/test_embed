@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
+import { MessageLogList } from '@zendesk/conversation-components'
 import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import {
   getErrorFetchingHistory,
@@ -12,7 +13,6 @@ import useScrollBehaviour, {
 } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 import useFetchMessages from 'src/apps/messenger/features/messageLog/hooks/useFetchMessages'
 import HistoryLoader from './HistoryLoader'
-import { Container, Log } from './styles'
 import SeeLatestButton from 'src/apps/messenger/features/messageLog/SeeLatestButton'
 
 const MessageLog = () => {
@@ -36,37 +36,33 @@ const MessageLog = () => {
 
   return (
     <ScrollProvider value={{ scrollToBottomIfNeeded }}>
-      <Container>
-        <Log
-          ref={container}
-          role="log"
-          aria-live="polite"
-          onScroll={event => {
-            onScrollBottom(event)
-            onScrollTop(event)
-          }}
-        >
-          <HistoryLoader
-            isFetchingHistory={isFetchingHistory}
-            hasFetchedConversation={hasFetchedConversation}
-            errorFetchingHistory={errorFetchingHistory}
-            retryFetchMessages={retryFetchMessages}
-          />
+      <MessageLogList
+        ref={container}
+        onScroll={event => {
+          onScrollBottom(event)
+          onScrollTop(event)
+        }}
+      >
+        <HistoryLoader
+          isFetchingHistory={isFetchingHistory}
+          hasFetchedConversation={hasFetchedConversation}
+          errorFetchingHistory={errorFetchingHistory}
+          retryFetchMessages={retryFetchMessages}
+        />
 
-          {hasFetchedConversation &&
-            messages.map(message => (
-              <Message
-                key={message._id}
-                message={message}
-                isFreshMessage={message.received > messageLogOpened.current}
-              />
-            ))}
+        {hasFetchedConversation &&
+          messages.map(message => (
+            <Message
+              key={message._id}
+              message={message}
+              isFreshMessage={message.received > messageLogOpened.current}
+            />
+          ))}
 
-          <div ref={anchor} style={{ height: 1 }} />
+        <div ref={anchor} style={{ height: 1 }} />
 
-          <SeeLatestButton onClick={scrollToBottom} />
-        </Log>
-      </Container>
+        <SeeLatestButton onClick={scrollToBottom} />
+      </MessageLogList>
     </ScrollProvider>
   )
 }

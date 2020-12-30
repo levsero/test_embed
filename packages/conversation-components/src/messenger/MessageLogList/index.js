@@ -1,17 +1,20 @@
-import styled from 'styled-components'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Container, Log } from './styles'
 
-const MessageLogList = styled.div`
-  font-family: ${props => props.theme.messenger.fontFamily};
-  overflow-y: auto;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  flex-grow: 1;
-  flex-shrink: 1;
-  border: 1px solid #000;
-`
+const MessageLogList = React.forwardRef(({ children, onScroll = _event => {} }, ref) => {
+  return (
+    <Container>
+      <Log ref={ref} role="log" aria-live="polite" onScroll={onScroll}>
+        {children}
+      </Log>
+    </Container>
+  )
+})
+
+MessageLogList.propTypes = {
+  children: PropTypes.node,
+  onScroll: PropTypes.func
+}
 
 export default MessageLogList

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
+  font-family: ${props => props.theme.messenger.fontFamily};
   flex-grow: 1;
   flex-shrink: 1;
   overflow: hidden;
