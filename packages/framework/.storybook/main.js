@@ -4,12 +4,10 @@ const webpack = require('webpack')
 const i18nPlugin = require('../webpack/i18nPlugin')
 const prefix = process.cwd()
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
-const appSourceDir = path.join(__dirname, '..', 'src')
-const nodeSourceDir = path.join(__dirname, '..', 'node_modules')
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-controls'],
+  addons: ['@storybook/addon-links', '@storybook/addon-controls', '@storybook/addon-actions'],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
@@ -59,12 +57,21 @@ module.exports = {
       })
     ]
 
-    const svgRule = config.module.rules.find(rule => 'test.svg'.match(rule.test))
-    svgRule.exclude = [appSourceDir, nodeSourceDir]
+    // Don't use Storybook's default SVG Configuration
+    config.module.rules = config.module.rules.map(rule => {
+      if (rule.test.toString().includes('svg')) {
+        const test = rule.test
+          .toString()
+          .replace('svg|', '')
+          .replace(/\//g, '')
+        return { ...rule, test: new RegExp(test) }
+      } else {
+        return rule
+      }
+    })
 
     config.module.rules.push({
       test: /\.svg$/i,
-      include: [appSourceDir, nodeSourceDir],
       use: [
         {
           loader: '@svgr/webpack',
