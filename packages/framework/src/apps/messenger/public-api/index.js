@@ -1,9 +1,12 @@
 import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
-
+import { setLocale } from 'src/apps/messenger/store/locale'
 let id = 1
 
 export default store => ({
   messenger: {
+    setLocale: locale => {
+      store.dispatch(setLocale(locale))
+    },
     // Note: This is temporary API to assist with debugging until actual
     // messaging support is added
     send: (text, fromUser = true) => {
