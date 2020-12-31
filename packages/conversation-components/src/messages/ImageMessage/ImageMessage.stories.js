@@ -1,9 +1,14 @@
-import React from 'react'
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
 import ImageMessage from './'
+import {
+  MessageLogListDecorator,
+  MessengerContainerDecorator
+} from '../../../.storybook/decorators'
+
 export default {
-  title: 'Sunco/Image Message',
+  title: 'Messages/ImageMessage',
   component: ImageMessage,
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator],
   argTypes: {
     shape: {
       defaultValue: MESSAGE_BUBBLE_SHAPES.standalone,

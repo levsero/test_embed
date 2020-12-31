@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 

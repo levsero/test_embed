@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {
+  ImageMessage,
+  PrimaryParticipantLayout,
+  OtherParticipantLayout
+} from '@zendesk/conversation-components'
 
-import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import ImageMessage from 'src/apps/messenger/features/sunco-components/ImageMessage'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({
