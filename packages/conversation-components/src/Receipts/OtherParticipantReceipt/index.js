@@ -1,11 +1,14 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import useParseTime from 'src/apps/messenger/features/sunco-components/Receipts/hooks/useParseTime'
 
+import useParseTime from 'src/Receipts/hooks/useParseTime'
+import AnimatedReceipt from 'src/Receipts/AnimatedReceipt'
 import { Layout, Tail, Time } from './styles'
-import AnimatedReceipt from 'src/apps/messenger/features/sunco-components/Receipts/AnimatedReceipt'
 
-const OtherParticipantReceipt = ({ timeReceived, isReceiptVisible, isFreshMessage }) => {
+const OtherParticipantReceipt = ({
+  timeReceived,
+  isReceiptVisible = true,
+  isFreshMessage = true
+}) => {
   const parsedTime = useParseTime(timeReceived)
 
   return (

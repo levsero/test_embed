@@ -1,21 +1,25 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 
-import useParseTime from 'src/apps/messenger/features/sunco-components/Receipts/hooks/useParseTime'
-
-import { Layout, Tail, Time, FailedMessage, AlertIcon } from './styles'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
-import { triggerOnEnter } from 'utility/keyboard'
-import { TailContainer } from 'src/apps/messenger/features/sunco-components/Receipts/PrimaryParticipantReceipt/styles'
-import AnimatedReceipt from 'src/apps/messenger/features/sunco-components/Receipts/AnimatedReceipt'
+import useParseTime from 'src/Receipts/hooks/useParseTime'
+import { MESSAGE_STATUS } from 'src/constants'
+import { triggerOnEnter } from 'src/utils/keyboard'
+import AnimatedReceipt from 'src/Receipts/AnimatedReceipt'
+import { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer } from './styles'
 
 const statusLabels = {
-  sending: 'Sending',
-  sent: 'Delivered',
-  failed: 'Tap to retry'
+  [MESSAGE_STATUS.sending]: 'Sending',
+  [MESSAGE_STATUS.sent]: 'Delivered',
+  [MESSAGE_STATUS.failed]: 'Tap to retry'
 }
 
-const Receipt = ({ timeReceived, status, onRetry, isReceiptVisible, isFreshMessage }) => {
+const Receipt = ({
+  timeReceived,
+  status = MESSAGE_STATUS.sent,
+  isReceiptVisible = true,
+  isFreshMessage = true,
+  onRetry = () => {}
+}) => {
   const parsedTime = useParseTime(timeReceived)
   const previousStatus = useRef(null)
   const currentStatus = useRef(status)
@@ -58,9 +62,9 @@ const Receipt = ({ timeReceived, status, onRetry, isReceiptVisible, isFreshMessa
 Receipt.propTypes = {
   timeReceived: PropTypes.number,
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
-  onRetry: PropTypes.func,
   isReceiptVisible: PropTypes.bool,
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
+  onRetry: PropTypes.func
 }
 
 export default Receipt

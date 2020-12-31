@@ -1,8 +1,6 @@
 import styled from 'styled-components'
-import messageSteps, {
-  transition
-} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
-import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
+import messageSteps, { transition } from 'src/animations/messageSteps'
+import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 
 const enter = `
   .receipt-appear-active &,

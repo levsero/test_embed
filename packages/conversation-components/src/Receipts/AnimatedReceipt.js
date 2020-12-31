@@ -1,23 +1,23 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { rem } from 'polished'
-import Animated from 'src/apps/messenger/features/sunco-components/Animated'
-import styled from 'styled-components'
-import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
-import messageSteps from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
-import { baseFontSize } from 'src/apps/messenger/constants'
+import styled, { ThemeContext } from 'styled-components'
 
-const enterAnimations = {
+import Animated from 'src/Animated'
+import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
+import messageSteps from 'src/animations/messageSteps'
+
+const enterAnimations = theme => ({
   ...messageSteps.receiptEnter,
-  from: rem(20, baseFontSize),
-  to: rem(20, baseFontSize)
-}
+  from: rem(20, theme.messenger.baseFontSize),
+  to: rem(20, theme.messenger.baseFontSize)
+})
 
-const reappearAnimations = {
+const reappearAnimations = theme => ({
   ...messageSteps.receiptReenter,
   from: 0,
-  to: rem(20, baseFontSize)
-}
+  to: rem(20, theme.messenger.baseFontSize)
+})
 
 const StyledAnimated = styled(Animated)`
   max-height: 0;
@@ -65,6 +65,7 @@ const StyledAnimated = styled(Animated)`
 
 const AnimatedReceipt = ({ isReceiptVisible, isFreshMessage, children }) => {
   const hasRendered = useRef(false)
+  const theme = useContext(ThemeContext)
 
   useEffect(() => {
     hasRendered.current = true
@@ -75,7 +76,9 @@ const AnimatedReceipt = ({ isReceiptVisible, isFreshMessage, children }) => {
       isVisible={isReceiptVisible}
       isFreshMessage={isFreshMessage}
       name="receipt"
-      enter={!isFreshMessage || hasRendered.current ? reappearAnimations : enterAnimations}
+      enter={
+        !isFreshMessage || hasRendered.current ? reappearAnimations(theme) : enterAnimations(theme)
+      }
       exit={messageSteps.receiptExit}
     >
       {children}

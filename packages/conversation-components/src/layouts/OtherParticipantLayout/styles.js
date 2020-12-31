@@ -7,6 +7,7 @@ const LayoutContainer = styled.div`
 `
 
 const VerticalContainer = styled.div`
+  font-family: ${props => props.theme.messenger.fontFamily};
   align-self: flex-start;
   display: flex;
   flex-direction: column;

@@ -1,13 +1,10 @@
 import styled, { css, keyframes } from 'styled-components'
+import { rem } from 'polished'
 import { Anchor } from '@zendeskgarden/react-buttons'
 import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
-import messageSteps, {
-  transition
-} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
-import { rem } from 'polished'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
-import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
-import { baseFontSize } from 'src/apps/messenger/constants'
+import messageSteps, { transition } from 'src/animations/messageSteps'
+import { MESSAGE_STATUS } from 'src/constants'
+import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 
 const enter = `
   .receipt-appear-active &,
@@ -30,22 +27,22 @@ const wasJustSent = styles => props => {
 
 const sendingKeyframes = props => keyframes`
   0% {
-    border-top: ${rem('6px', baseFontSize)} solid
+    border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('6px', baseFontSize)} solid transparent;
+    border-left: ${rem('6px', props.theme.messenger.baseFontSize)} solid transparent;
   }
   100% {
-    border-top: ${rem('8px', baseFontSize)} solid
+    border-top: ${rem('8px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('8px', baseFontSize)} solid transparent;
+    border-left: ${rem('8px', props.theme.messenger.baseFontSize)} solid transparent;
   }
 `
 
 const sendingToSentKeyframes = props => keyframes`
   0% {
-    border-top: ${rem('6px', baseFontSize)} solid
+    border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('6px', baseFontSize)} solid transparent;
+    border-left: ${rem('6px', props.theme.messenger.baseFontSize)} solid transparent;
   }
   100% {
     border-top: ${props.theme.messenger.space.sm} solid

@@ -1,18 +1,18 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import Receipt from 'src/apps/messenger/features/sunco-components/Receipts/OtherParticipantReceipt'
-import { Avatar, Label } from '@zendesk/conversation-components'
+import Receipt from 'src/Receipts/OtherParticipantReceipt'
+import Avatar from 'src/Avatar'
+import Label from 'src/Label'
 
 import { LayoutContainer, VerticalContainer } from './styles'
 
 const OtherParticipantLayout = ({
-  children,
-  isFirstInGroup,
-  isReceiptVisible,
-  timeReceived,
-  label,
+  label = '',
   avatar,
-  isFreshMessage
+  isReceiptVisible = true,
+  timeReceived,
+  isFreshMessage,
+  children,
+  isFirstInGroup = true
 }) => {
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
@@ -31,13 +31,13 @@ const OtherParticipantLayout = ({
 }
 
 OtherParticipantLayout.propTypes = {
-  children: PropTypes.node,
-  isFirstInGroup: PropTypes.bool,
   label: PropTypes.string,
   avatar: PropTypes.string,
   isReceiptVisible: PropTypes.bool,
   timeReceived: PropTypes.number,
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
+  children: PropTypes.node,
+  isFirstInGroup: PropTypes.bool
 }
 
 export default OtherParticipantLayout
