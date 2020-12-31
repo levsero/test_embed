@@ -1,12 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 
-import {
-  MESSAGE_BUBBLE_SHAPES,
-  MESSAGE_STATUS
-} from 'src/apps/messenger/features/sunco-components/constants'
-import MessageBubble from 'src/apps/messenger/features/sunco-components/MessageBubble'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import MessageBubble from 'src/MessageBubble'
 import { Text, Content } from './styles'
 
 const TextMessage = ({ isPrimaryParticipant, text, shape, status, isFreshMessage }) => {

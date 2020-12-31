@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import TextMessage from 'src/apps/messenger/features/sunco-components/TextMessage'
-import Replies from 'src/apps/messenger/features/sunco-components/Replies'
+import { useDispatch } from 'react-redux'
+import {
+  TextMessage,
+  PrimaryParticipantLayout,
+  OtherParticipantLayout,
+  Replies,
+  MESSAGE_STATUS
+} from '@zendesk/conversation-components'
+
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
-import { useDispatch } from 'react-redux'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const extractReplies = actions => {
   return actions?.filter(action => action.type === 'reply') ?? []
