@@ -37,7 +37,7 @@ The bootstrap file will do the following:
 
 - Run `./script/setup_node_env` to install the correct versions of nvm, node, npm and yarn, as well as all npm dependencies.
 - Run `bundle install` to get ruby dependencies
-- Run `yarn build` to generate snippet, framework and example files
+- Run `yarn workspace @zendesk/embeddable-framework build` to generate snippet, framework and example files
 - Download rosetta translation and mappings into `packages/framework/src/translation/ze_translations.js` and `packages/framework/src/translation/ze_localeIdMap.js`
 - Download countries translation into `packages/framework/src/translation/ze_countries.js`
 
@@ -54,6 +54,11 @@ yarn workspace @zendesk/embeddable-framework dashboard
 ```
 
 This will allow you to access the developer dashboard on (http://localhost:1338)[http://localhost:1338]
+
+The packages contained are:
+
+- [Conversation components](/packages/conversation-components) - Shared components for the new sunco experience
+- [Framework](/packages/framework) - Code for the old and new widgets
 
 #### Keeping node and npm packages up to date
 

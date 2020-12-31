@@ -67,7 +67,7 @@ script/setup_html_templates.rb
 Then run the framework in dev mode with the config provided via the environment variable `USER_CONFIG`
 
 ```bash
-USER_CONFIG={yourConfigName} yarn dev
+USER_CONFIG={yourConfigName} yarn workspace @zendesk/embeddable-framework dev
 ```
 
 The templates written in `packages/framework/dev/templates/web_widget` will then be available at http://localhost:1337/templateName.html
@@ -85,7 +85,7 @@ If you encounter a `Cannot GET /live.html` error after loading, you may need to 
 
 (Note that this isn't part of Taipan's usual workflow.)
 
-- Follow above to get `yarn dev` running.
+- Follow above to get `yarn workspace @zendesk/embeddable-framework dev` running.
 - Run `zdi embeddable_framework -d restart` in parallel.
 
 ### Building Docker image

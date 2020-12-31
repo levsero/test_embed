@@ -96,8 +96,8 @@ able to pull the image. A summarized version of the steps to authenticate is lis
   username
 - To verify that you can pull the image, do `docker pull docker.pkg.github.com/zendesk/dockerhub-images/alpine-chrome:latest`
 
-To run the visual regression test suite, run `yarn e2e:visual-regressions`. To run a single visual regression
-test, run you can do `yarn e2e:visual-regressions -- <file>`. Note that
+To run the visual regression test suite, run `yarn workspace @zendesk/embeddable-framework e2e:visual-regressions`. To run a single visual regression
+test, run you can do `yarn workspace @zendesk/embeddable-framework e2e:visual-regressions -- <file>`. Note that
 the `HEADLESS` flag won't work in the visual regression test suite.
 
 #### Faster e2e development
