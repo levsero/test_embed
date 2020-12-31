@@ -34,11 +34,11 @@ TextFieldOnlyFormResponse.args = {
       type: 'email'
     },
     {
-      _id: 'asd87sd897s897ds8d79',
+      _id: 'asd87sd897s897ds8d792',
       label: 'favourite teams',
       select: [
-        { _id: 'asd87sd897s897ds8d70', label: 'taipan' },
-        { _id: 'asd87sd897s897ds8d70', label: 'emu' }
+        { _id: 'asd87sd897s897ds8d71', label: 'taipan' },
+        { _id: 'asd87sd897s897ds8d72', label: 'emu' }
       ],
       type: 'select'
     }

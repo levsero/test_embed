@@ -18,16 +18,14 @@ export default {
   }
 }
 
-export const Empty = args => <MessageBubble {...args} />
-
 export const WithText = args => (
   <MessageBubble {...args}>
-    <p>Some dummy text</p>
+    <p>Message bubble contains no inner styling by default</p>
   </MessageBubble>
 )
 
 export const WithPaddedText = args => (
   <MessageBubble {...args}>
-    <p style={{ padding: '8px 12px' }}>Some padded text</p>
+    <p style={{ padding: '8px 12px' }}>Custom styled padded text</p>
   </MessageBubble>
 )
