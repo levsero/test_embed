@@ -53,12 +53,5 @@ const useDisableAnimationProps = () => {
   }, [shouldDisableAnimations])
 }
 
-const disabledAnimationsCSS = `
-  [data-disable-animations] & {
-    transition-duration: 0s;
-    animation-duration: 0s;
-  }
-`
-
+export { useShouldDisableAnimations }
 export default useDisableAnimationProps
-export { disabledAnimationsCSS, useShouldDisableAnimations }

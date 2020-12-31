@@ -1,7 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
+
+// TODO - fix this
+// import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 
 const Animated = ({
   children,
@@ -10,9 +11,12 @@ const Animated = ({
   name = 'animate',
   isFreshMessage,
   isVisible,
-  className
+  className,
+  onEntering = () => {},
+  onEntered = () => {}
 }) => {
-  const { scrollToBottomIfNeeded } = useScroll()
+  //TODO - ensure this is replaced
+  // const { scrollToBottomIfNeeded } = useScroll()
 
   return (
     <CSSTransition
@@ -25,8 +29,8 @@ const Animated = ({
         enter: (enter.duration + enter.delay) * 1000,
         exit: (exit.duration + exit.delay) * 1000
       }}
-      onEntering={scrollToBottomIfNeeded}
-      onEntered={scrollToBottomIfNeeded}
+      onEntering={onEntering}
+      onEntered={onEntered}
     >
       <div>
         <div className={className}>{children}</div>
@@ -69,7 +73,9 @@ Animated.propTypes = {
   name: PropTypes.string,
   isVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onEntering: PropTypes.func,
+  onEntered: PropTypes.func
 }
 
 export default Animated

@@ -1,5 +1,7 @@
-import { bezierCurve } from 'src/apps/messenger/constants'
+// import { bezierCurve } from 'src/constants'
 import { css } from 'styled-components'
+
+const bezierCurve = 'cubic-bezier(0.66, 0, 0.12, 1)'
 
 const createStep = (propertyOptions = {}) => ({
   duration: 0.3,
