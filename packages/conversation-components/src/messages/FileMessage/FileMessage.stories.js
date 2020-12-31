@@ -1,11 +1,14 @@
-import React from 'react'
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
 import FileMessage from './'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import {
+  MessageLogListDecorator,
+  MessengerContainerDecorator
+} from '../../../.storybook/decorators'
 
 export default {
-  title: 'Sunco/File Message',
+  title: 'Messages/FileMessage',
   component: FileMessage,
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator],
   argTypes: {
     shape: {
       defaultValue: MESSAGE_BUBBLE_SHAPES.standalone,
@@ -21,11 +24,6 @@ const Template = args => <FileMessage {...args} />
 
 export const PrimaryParticipantFileMessage = Template.bind()
 PrimaryParticipantFileMessage.args = {
-  actions: [
-    messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
-    })
-  ],
   mediaSize: 1000,
   mediaUrl: 'this is a url.com',
   isPrimaryParticipant: true,
@@ -34,11 +32,6 @@ PrimaryParticipantFileMessage.args = {
 
 export const OtherParticipantFileMessage = Template.bind()
 OtherParticipantFileMessage.args = {
-  actions: [
-    messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
-    })
-  ],
   mediaSize: 1000,
   mediaUrl: 'this is a url.com',
   isPrimaryParticipant: false,
@@ -47,11 +40,6 @@ OtherParticipantFileMessage.args = {
 
 export const OtherParticipantFileMessageWithLongName = Template.bind()
 OtherParticipantFileMessageWithLongName.args = {
-  actions: [
-    messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
-    })
-  ],
   mediaSize: 1000,
   mediaUrl:
     'https://www.wildlife.vic.gov.au/__data/assets/pdf_file/0025/91384/Emus-are-big-and-have-long-necks-how-cool-are-they-so-cool.pdf',

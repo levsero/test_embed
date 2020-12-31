@@ -1,6 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import MessageBubble from 'src/apps/messenger/features/sunco-components/MessageBubble'
+import MessageBubble from 'src/MessageBubble'
 
 import { Container, Icon, Name, Size, Content } from './styles'
 
@@ -23,7 +22,7 @@ const calculateMediaSize = bytes => {
   return size >= 1000000 ? `${Math.floor(size / 1000000)}MB` : `${Math.floor(size / 1000)}KB`
 }
 
-const File = ({ isPrimaryParticipant, mediaSize, mediaUrl, shape }) => {
+const FileMessage = ({ isPrimaryParticipant, mediaSize, mediaUrl, shape }) => {
   const fileName = parseFileNameFromUrl(mediaUrl)
   const abbreviatedName = abbreviateFileName(fileName)
   const size = calculateMediaSize(mediaSize)
@@ -48,11 +47,11 @@ const File = ({ isPrimaryParticipant, mediaSize, mediaUrl, shape }) => {
   )
 }
 
-File.propTypes = {
+FileMessage.propTypes = {
   isPrimaryParticipant: PropTypes.bool,
   mediaSize: PropTypes.number,
   mediaUrl: PropTypes.string,
   shape: PropTypes.string
 }
 
-export default File
+export default FileMessage

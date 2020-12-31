@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import File from 'src/apps/messenger/features/sunco-components/File'
+import {
+  FileMessage,
+  PrimaryParticipantLayout,
+  OtherParticipantLayout
+} from '@zendesk/conversation-components'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
-import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
 
 const FileStructuredMessage = ({
   message: {
@@ -31,7 +33,7 @@ const FileStructuredMessage = ({
       isFirstInGroup={isFirstInGroup}
       isLastInLog={isLastInLog}
     >
-      <File
+      <FileMessage
         isPrimaryParticipant={isPrimaryParticipant}
         shape={getMessageShape(isFirstInGroup, isLastInGroup)}
         mediaSize={mediaSize}
