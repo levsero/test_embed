@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import Form from 'src/apps/messenger/features/sunco-components/Form'
+import { FormMessage, FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
-import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const FormStructuredMessage = ({
   message: {
@@ -47,7 +46,7 @@ const FormStructuredMessage = ({
   }, [errors, status])
 
   return (
-    <Form
+    <FormMessage
       fields={fields}
       values={values}
       onSubmit={onSubmit}

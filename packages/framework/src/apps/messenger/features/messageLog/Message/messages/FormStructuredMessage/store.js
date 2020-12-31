@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { sendFormResponse } from 'src/apps/messenger/api/sunco'
-import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getValue = (field, value) => {
   switch (field.type) {
