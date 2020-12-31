@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Timestamp from 'src/apps/messenger/features/sunco-components/Timestamp'
+import { Timestamp } from '@zendesk/conversation-components'
 
 function formatAMPM(date) {
   let hours = date.getHours()
