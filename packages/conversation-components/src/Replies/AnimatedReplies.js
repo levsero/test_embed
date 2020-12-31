@@ -1,11 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import Animated from 'src/apps/messenger/features/sunco-components/Animated'
 import styled, { css } from 'styled-components'
-import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
-import messageSteps, {
-  transition
-} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
+import Animated from 'src/Animated'
+import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
+import messageSteps, { transition } from 'src/animations/messageSteps'
 
 const StyledAnimated = styled(Animated)`
   overflow: hidden;

@@ -1,9 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import AnimatedReplies from './AnimatedReplies'
 import { Button, Container } from './styles'
-import AnimatedReplies from 'src/apps/messenger/features/sunco-components/Replies/AnimatedReplies'
 
-const Replies = ({ replies, onReply, isVisible, isFreshMessage }) => {
+const Replies = ({ replies, isVisible = true, isFreshMessage = true, onReply = () => {} }) => {
   return (
     <AnimatedReplies isVisible={isVisible} isFreshMessage={isFreshMessage}>
       <Container>
@@ -31,9 +30,9 @@ Replies.propTypes = {
   /**
     Function to call when a reply is clicked
   */
-  onReply: PropTypes.func,
   isVisible: PropTypes.bool,
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
+  onReply: PropTypes.func
 }
 
 export default Replies

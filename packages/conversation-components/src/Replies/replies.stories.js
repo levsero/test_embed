@@ -1,13 +1,14 @@
-import React from 'react'
+/* eslint no-console:0 */
 import Replies from './'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { MessageLogListDecorator, MessengerContainerDecorator } from '../../.storybook/decorators'
 export default {
-  title: 'Sunco/Replies',
+  title: 'Components/Replies',
   component: Replies,
-  argTypes: { submitReply: { action: 'reply submitted' } }
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator]
 }
 
 const Template = args => <Replies {...args} />
+const onReplyClickHandler = reply => console.log('onReply(reply) click handler. reply:', reply)
 
 export const TwoReplies = Template.bind()
 TwoReplies.args = {
@@ -27,20 +28,11 @@ TwoReplies.args = {
       payload: 'CRUMPETS'
     }
   ],
-  actions: [
-    messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
-    })
-  ]
+  onReply: onReplyClickHandler
 }
 
 export const MultipleReplies = Template.bind()
 MultipleReplies.args = {
-  actions: [
-    messengerConfigReceived({
-      color: { primary: 'green', message: 'purple', action: 'blue' }
-    })
-  ],
   replies: [
     {
       _id: 'r1',
@@ -84,5 +76,6 @@ MultipleReplies.args = {
       iconUrl: 'http://example.org/burrito.png',
       payload: 'Milk'
     }
-  ]
+  ],
+  onReply: onReplyClickHandler
 }
