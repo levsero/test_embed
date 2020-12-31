@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
 import DummyStructuredMessage from './messages/DummyStructuredMessage'
 import FormStructuredMessage from './messages/FormStructuredMessage'
-import FormResponseMessage from './messages/FormResponseMessage'
+import FormResponseStructuredMessage from './messages/FormResponseStructuredMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
 import FileStructuredMessage from './messages/FileStructuredMessage'
@@ -17,7 +17,7 @@ const suncoMessageTypes = {
   carousel: CarouselStructuredMessage,
   file: FileStructuredMessage,
   form: FormStructuredMessage,
-  formResponse: FormResponseMessage,
+  formResponse: FormResponseStructuredMessage,
   dummy: DummyStructuredMessage,
   image: ImageStructuredMessage,
   text: TextStructuredMessage

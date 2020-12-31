@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import { MESSAGE_BUBBLE_SHAPES } from '@zendesk/conversation-components'
 
 const { standalone, first, middle, last } = MESSAGE_BUBBLE_SHAPES
 

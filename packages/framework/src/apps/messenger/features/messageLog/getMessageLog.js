@@ -1,10 +1,10 @@
+import { createSelector } from '@reduxjs/toolkit'
+import { MESSAGE_STATUS } from '@zendesk/conversation-components'
+
 import { getUserTyping } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import { getAllMessages } from 'src/apps/messenger/features/messageLog/store'
 import insertTimestampsInLog from './utils/insertTimestampsInLog'
-
-import { createSelector } from '@reduxjs/toolkit'
 
 const GROUPABLE_TYPES = { text: true, image: true, file: true, typingIndicator: true }
 

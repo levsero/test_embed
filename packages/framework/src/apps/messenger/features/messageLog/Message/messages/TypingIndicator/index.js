@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import MessageBubble from 'src/apps/messenger/features/sunco-components/MessageBubble'
+import { MessageBubble, OtherParticipantLayout } from '@zendesk/conversation-components'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 import { DotLoader } from './styles'
