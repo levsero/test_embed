@@ -11,8 +11,11 @@ import {
 } from 'src/redux/modules/chat'
 import _ from 'lodash'
 
-const submitPrechatForm = ({ values, isDepartmentFieldVisible }) => async (dispatch, getState) => {
-  const department = getDepartment(getState(), values.department)
+const submitPrechatForm = ({ values, isDepartmentFieldVisible, allValues = {} }) => async (
+  dispatch,
+  getState
+) => {
+  const department = getDepartment(getState(), allValues.department)
 
   if (department && department.status === 'offline') {
     dispatch(

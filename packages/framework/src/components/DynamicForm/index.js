@@ -44,16 +44,14 @@ const DynamicForm = ({
 
     if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
-      if (values.department) {
-        valuesToSubmit.department = values.department
-      }
+
       fields.forEach(field => {
         valuesToSubmit[field.id] = values[field.id]
       })
 
       setTemporaryFieldsToShowWhileSubmitting(fields)
 
-      Promise.resolve(onSubmit(valuesToSubmit))
+      Promise.resolve(onSubmit(valuesToSubmit, values))
         .then(result => {
           if (!result || (result.success === false && !result.errorMessageKey)) {
             throw new Error()

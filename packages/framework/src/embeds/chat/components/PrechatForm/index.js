@@ -54,10 +54,11 @@ const PrechatForm = ({
 
       <DynamicForm
         formId={'prechat-form'}
-        onSubmit={values =>
+        onSubmit={(values, allValues) =>
           onSubmit({
             values,
-            isDepartmentFieldVisible: getFields(values).some(field => field.id === 'department')
+            allValues,
+            isDepartmentFieldVisible: getFields(allValues).some(field => field.id === 'department')
           }).then(() => {
             return { success: true }
           })
