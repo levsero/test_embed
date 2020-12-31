@@ -44,7 +44,9 @@ const DynamicForm = ({
 
     if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
-
+      if (values.department) {
+        valuesToSubmit.department = values.department
+      }
       fields.forEach(field => {
         valuesToSubmit[field.id] = values[field.id]
       })
