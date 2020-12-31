@@ -50,7 +50,7 @@ const PrechatForm = ({
   const isDepartmentFieldVisible = (options = {}) => {
     return getVisibleFields(options).some(field => field.id === 'department')
   }
-  const includeHiddenFormFieldValues = (valuesToSubmit, allValues = {}) => {
+  const includeHiddenDepartmentFieldValue = (valuesToSubmit, allValues = {}) => {
     const hiddenFieldValues = {}
     if (allValues.department) hiddenFieldValues.department = allValues.department
     return {
@@ -67,7 +67,7 @@ const PrechatForm = ({
         formId={'prechat-form'}
         onSubmit={(valuesToSubmit, allValues) =>
           onSubmit({
-            values: includeHiddenFormFieldValues(valuesToSubmit, allValues),
+            values: includeHiddenDepartmentFieldValue(valuesToSubmit, allValues),
             isDepartmentFieldVisible: isDepartmentFieldVisible(valuesToSubmit)
           }).then(() => {
             return { success: true }
