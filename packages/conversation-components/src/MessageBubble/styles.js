@@ -1,21 +1,10 @@
 import styled, { keyframes } from 'styled-components'
 import { rem } from 'polished'
 
-import {
-  MESSAGE_BUBBLE_SHAPES,
-  MESSAGE_STATUS
-} from 'src/apps/messenger/features/sunco-components/constants'
-import messageSteps, {
-  animation,
-  transition
-} from 'src/apps/messenger/features/sunco-components/Animated/messageSteps'
-import { disabledAnimationsCSS } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
-import { baseFontSize } from 'src/apps/messenger/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
+import messageSteps, { animation, transition } from 'src/animations/messageSteps'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
-const primaryMessageExtraSpace = rem(80, baseFontSize)
-const otherMessageExtraSpace = rem(64, baseFontSize)
-const avatarSpace = rem(36, baseFontSize)
 
 const messageEnter = keyframes`
        0% { transform: translateY(0%) translateX(50%) scale(0); }
@@ -37,10 +26,11 @@ const Bubble = styled.div`
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
+  font-family: ${props => props.theme.messenger.fontFamily};
   background-color: ${props => props.theme.messenger.colors.message};
   color: ${props => props.theme.messenger.colors.messageText};
   border: 0;
-  max-width: calc(100% - ${primaryMessageExtraSpace});
+  max-width: calc(100% - ${props => rem(80, props.theme.messenger.baseFontSize)});
 
   ${props => {
     const radius = getRadius(props)
@@ -73,15 +63,15 @@ const PrimaryParticipantBubble = styled(Bubble)`
       background-color: ${props.theme.palette.red[400]};
       color: ${props.theme.palette.white};
   `}
-
-  ${disabledAnimationsCSS}
 `
 
 const OtherParticipantBubble = styled(Bubble)`
+  font-family: ${props => props.theme.messenger.fontFamily};
   border-color: ${props => props.theme.messenger.colors.otherParticipantMessageBorder};
   background-color: ${props => props.theme.messenger.colors.otherParticipantMessage};
   color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
-  max-width: calc(100% - ${avatarSpace} - ${otherMessageExtraSpace});
+  max-width: calc(100% - ${props => rem(36, props.theme.messenger.baseFontSize)} - ${props =>
+  rem(64, props.theme.messenger.baseFontSize)});
 
   ${props => {
     const radius = getRadius(props)
@@ -99,8 +89,6 @@ const OtherParticipantBubble = styled(Bubble)`
 
   animation: ${props =>
     props.isFreshMessage ? animation(messageSteps.messageEnter, otherMessageEnter) : 'none'};
-
-  ${disabledAnimationsCSS}
 `
 
 export { PrimaryParticipantBubble, OtherParticipantBubble }

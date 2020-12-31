@@ -1,9 +1,8 @@
-import React from 'react'
-import { MESSAGE_BUBBLE_SHAPES } from 'src/apps/messenger/features/sunco-components/constants'
+import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
 import MessageBubble from './'
 
 export default {
-  title: 'Sunco/Message Bubble',
+  title: 'Components/MessageBubble',
   component: MessageBubble,
   argTypes: {
     isPrimaryParticipant: {
