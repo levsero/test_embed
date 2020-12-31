@@ -56,6 +56,7 @@ const BufferSlide = styled(Slide)`
 `
 
 const AvatarSlide = styled(Slide)`
+  margin-left: ${props => props.theme.messenger.space.sixteen};
   padding-left: ${props => props.theme.messenger.space.sixteen}
   max-width: none;
   flex-grow: 0;

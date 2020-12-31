@@ -1,10 +1,13 @@
-import { MessengerContainerDecorator } from '../../../.storybook/decorators'
+import {
+  MessengerContainerDecorator,
+  MessageLogListDecorator
+} from '../../../.storybook/decorators'
 import CarouselMessage from './'
 
 export default {
   title: 'Messages/CarouselMessage',
   component: CarouselMessage,
-  decorators: [MessengerContainerDecorator]
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator]
 }
 
 const flatWhiteItem = {
