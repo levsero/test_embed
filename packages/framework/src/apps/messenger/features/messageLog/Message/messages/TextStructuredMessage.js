@@ -1,13 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import {
-  TextMessage,
-  PrimaryParticipantLayout,
-  OtherParticipantLayout,
-  Replies,
-  MESSAGE_STATUS
-} from '@zendesk/conversation-components'
+import { TextMessage, Replies, MESSAGE_STATUS } from '@zendesk/conversation-components'
 
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
@@ -39,16 +33,22 @@ const TextStructuredMessage = ({
 }) => {
   const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'
-  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const replies = extractReplies(actions, isLastInLog)
   const messageStatus = status ?? MESSAGE_STATUS.sent
 
   return (
     <>
-      <Layout
+      <TextMessage
+        isPrimaryParticipant={isPrimaryParticipant}
         isFirstInGroup={isFirstInGroup}
         avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
         label={isFirstMessageInAuthorGroup ? name : undefined}
+        text={text}
+        timeReceived={received}
+        isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
+        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+        status={messageStatus}
+        isFreshMessage={isFreshMessage}
         onRetry={() => {
           dispatch(
             sendMessage({
@@ -59,19 +59,7 @@ const TextStructuredMessage = ({
             })
           )
         }}
-        timeReceived={received}
-        isReceiptVisible={isLastMessageThatHasntFailed || messageStatus === MESSAGE_STATUS.failed}
-        status={messageStatus}
-        isFreshMessage={isFreshMessage}
-      >
-        <TextMessage
-          isPrimaryParticipant={isPrimaryParticipant}
-          text={text}
-          shape={getMessageShape(isFirstInGroup, isLastInGroup)}
-          status={messageStatus}
-          isFreshMessage={isFreshMessage}
-        />
-      </Layout>
+      />
       <Replies
         isFreshMessage={isFreshMessage}
         isVisible={isLastInLog}

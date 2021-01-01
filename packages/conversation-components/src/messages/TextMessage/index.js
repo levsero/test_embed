@@ -3,31 +3,64 @@ import Linkify from 'react-linkify'
 
 import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import MessageBubble from 'src/MessageBubble'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import { Text, Content } from './styles'
 
-const TextMessage = ({ isPrimaryParticipant, text, shape, status, isFreshMessage }) => {
+const TextMessage = ({
+  avatar,
+  label,
+  text,
+  timeReceived,
+  shape = 'standalone',
+  status = 'sent',
+  isPrimaryParticipant = true,
+  isFirstInGroup = true,
+  isReceiptVisible = true,
+  isFreshMessage = true,
+  onRetry = () => {}
+}) => {
+  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
+
   return (
-    <MessageBubble
-      shape={shape}
-      isPrimaryParticipant={isPrimaryParticipant}
+    <Layout
+      isFirstInGroup={isFirstInGroup}
+      avatar={avatar}
+      label={label}
+      onRetry={onRetry}
+      timeReceived={timeReceived}
+      isReceiptVisible={isReceiptVisible}
       status={status}
       isFreshMessage={isFreshMessage}
     >
-      <Content>
-        <Linkify properties={{ target: '_blank' }}>
-          <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
-        </Linkify>
-      </Content>
-    </MessageBubble>
+      <MessageBubble
+        shape={shape}
+        isPrimaryParticipant={isPrimaryParticipant}
+        status={status}
+        isFreshMessage={isFreshMessage}
+      >
+        <Content>
+          <Linkify properties={{ target: '_blank' }}>
+            <Text isPrimaryParticipant={isPrimaryParticipant}>{text}</Text>
+          </Linkify>
+        </Content>
+      </MessageBubble>
+    </Layout>
   )
 }
 
 TextMessage.propTypes = {
+  avatar: PropTypes.string,
+  label: PropTypes.string,
   isPrimaryParticipant: PropTypes.bool,
   text: PropTypes.string,
+  timeReceived: PropTypes.number,
   shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES)),
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
-  isFreshMessage: PropTypes.bool
+  isFirstInGroup: PropTypes.bool,
+  isReceiptVisible: PropTypes.bool,
+  isFreshMessage: PropTypes.bool,
+  onRetry: PropTypes.func
 }
 
 export default TextMessage
