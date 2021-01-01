@@ -1,4 +1,4 @@
-import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
+import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import ImageMessage from './'
 import {
   MessageLogListDecorator,
@@ -16,16 +16,28 @@ export default {
         type: 'inline-radio',
         options: Object.values(MESSAGE_BUBBLE_SHAPES)
       }
+    },
+    status: {
+      defaultValue: MESSAGE_STATUS.sent,
+      control: {
+        type: 'inline-radio',
+        options: Object.values(MESSAGE_STATUS)
+      }
     }
   }
 }
 
 const Template = args => <ImageMessage {...args} />
+const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
+const defaultProps = {
+  label: 'Majestic Emus',
+  avatar: 'https://lucashills.com/emu_avatar.jpg',
+  timeReceived: timeNowInSeconds
+}
 
 export const StandaloneImageWithText = Template.bind()
 StandaloneImageWithText.args = {
-  isPrimaryParticipant: false,
-  shape: 'standalone',
+  ...defaultProps,
   mediaUrl:
     'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
   text: 'Emus are lovely'
@@ -33,8 +45,7 @@ StandaloneImageWithText.args = {
 
 export const StandaloneImageWithLink = Template.bind()
 StandaloneImageWithLink.args = {
-  isPrimaryParticipant: false,
-  shape: 'standalone',
+  ...defaultProps,
   mediaUrl:
     'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
   text:
@@ -43,9 +54,7 @@ StandaloneImageWithLink.args = {
 
 export const StandaloneImageWithNoText = Template.bind()
 StandaloneImageWithNoText.args = {
-  isPrimaryParticipant: false,
-  shape: 'standalone',
+  ...defaultProps,
   mediaUrl:
-    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
-  text: ''
+    'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg'
 }

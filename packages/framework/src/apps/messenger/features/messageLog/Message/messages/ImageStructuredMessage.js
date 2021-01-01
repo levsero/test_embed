@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  ImageMessage,
-  PrimaryParticipantLayout,
-  OtherParticipantLayout
-} from '@zendesk/conversation-components'
+import { ImageMessage } from '@zendesk/conversation-components'
 
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
@@ -24,22 +20,18 @@ const ImageStructuredMessage = ({
   }
 }) => {
   const isPrimaryParticipant = role === 'appUser'
-  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   return (
-    <Layout
+    <ImageMessage
+      isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
       isReceiptVisible={isLastMessageThatHasntFailed}
       timeReceived={received}
-    >
-      <ImageMessage
-        isPrimaryParticipant={isPrimaryParticipant}
-        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
-        mediaUrl={mediaUrl}
-        text={text}
-      />
-    </Layout>
+      shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      mediaUrl={mediaUrl}
+      text={text}
+    />
   )
 }
 
