@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import PropTypes from 'prop-types'
 
-import useParseTime from 'src/Receipts/hooks/useParseTime'
+import useParseTime from 'src/receipts/hooks/useParseTime'
 import { MESSAGE_STATUS } from 'src/constants'
 import { triggerOnEnter } from 'src/utils/keyboard'
-import AnimatedReceipt from 'src/Receipts/AnimatedReceipt'
+import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
 import { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer } from './styles'
 
 const statusLabels = {

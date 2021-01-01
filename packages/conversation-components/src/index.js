@@ -20,9 +20,9 @@ import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
 import MessengerHeader from './messenger/MessengerHeader'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout' //TODO - shouldn't need to export this
-import OtherParticipantReceipt from 'src/Receipts/OtherParticipantReceipt'
+import OtherParticipantReceipt from 'src/receipts/OtherParticipantReceipt'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout' //TODO - shouldn't need to export this
-import PrimaryParticipantReceipt from 'src/Receipts/PrimaryParticipantReceipt'
+import PrimaryParticipantReceipt from 'src/receipts/PrimaryParticipantReceipt'
 import Replies from 'src/Replies'
 import TextMessage from './messages/TextMessage'
 import Timestamp from './Timestamp' // TODO - should this be a 'message'?
