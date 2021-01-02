@@ -37,7 +37,7 @@ const getDefaultForm = formId => ({
   _id: formId,
   step: 1,
   values: {},
-  status: FORM_MESSAGE_STATUS.unsubmitted
+  formSubmissionStatus: FORM_MESSAGE_STATUS.unsubmitted
 })
 
 const ensureFormInState = (state, formId) => {
@@ -65,17 +65,17 @@ const formSlice = createSlice({
     [submitForm.pending]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.pending
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.pending
     },
     [submitForm.fulfilled]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.success
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.success
     },
     [submitForm.rejected]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.failed
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.failed
     }
   }
 })

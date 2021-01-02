@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { FORM_MESSAGE_STATUS } from 'src/constants'
+import { FORM_MESSAGE_STATUS, MESSAGE_STATUS } from 'src/constants'
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
-
 import FormField from './FormField'
 import FormButton from './FormButton'
 import SubmissionError from './SubmissionError'
@@ -13,28 +14,59 @@ const FormMessage = ({
   avatar,
   fields = [],
   values = {},
-  isFirstInGroup,
-  status,
-  activeStep,
-  errors,
+  formSubmissionStatus = 'unsubmitted',
+  status = 'sent',
+  activeStep = 1,
+  errors = {},
+  timeReceived,
   lastSubmittedTimestamp,
-  onStep = () => {},
-  onChange = () => {},
-  onSubmit = () => {}
+  isPrimaryParticipant = false,
+  isFirstInGroup = true,
+  isReceiptVisible = false,
+  isFreshMessage = true,
+  onStep = _currentStep => {},
+  onChange = (_fieldId, _value) => {},
+  onSubmit = _formValues => {},
+  onRetry = () => {}
 }) => {
-  const visibleFields = fields.slice(0, activeStep)
+  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
+  const [currentStep, setCurrentStep] = useState(activeStep)
+  const [formValues, setFormValues] = useState(values)
+  const totalSteps = fields.length
+  const visibleFields = fields.slice(0, currentStep)
+
+  const incrementCurrentStep = () => {
+    if (currentStep < totalSteps) setCurrentStep(currentStep + 1)
+  }
+
+  const handleOnChange = (fieldId, newValue) => {
+    const newFormValues = { ...formValues }
+    newFormValues[fieldId] = newValue
+    setFormValues(newFormValues)
+    onChange(fieldId, newValue)
+  }
 
   return (
     <>
-      <OtherParticipantLayout isFirstInGroup={isFirstInGroup} avatar={avatar} label={label}>
+      <Layout
+        isFirstInGroup={isFirstInGroup}
+        avatar={avatar}
+        label={label}
+        onRetry={onRetry}
+        timeReceived={timeReceived}
+        isReceiptVisible={isReceiptVisible}
+        status={status}
+        isFreshMessage={isFreshMessage}
+      >
         <FormContainer>
           <Form
             onSubmit={e => {
               e.preventDefault()
-              if (activeStep < fields.length) {
-                onStep()
+              if (currentStep < totalSteps) {
+                incrementCurrentStep()
+                onStep(currentStep)
               } else {
-                onSubmit()
+                onSubmit(formValues)
               }
             }}
             noValidate={true}
@@ -45,9 +77,9 @@ const FormMessage = ({
                   <Field key={field._id}>
                     <FormField
                       field={field}
-                      value={values[field._id]}
+                      value={formValues[field._id]}
                       error={errors[field._id]}
-                      onChange={value => onChange(field._id, value)}
+                      onChange={newValue => handleOnChange(field._id, newValue)}
                       lastSubmittedTimestamp={lastSubmittedTimestamp}
                     />
                   </Field>
@@ -58,19 +90,19 @@ const FormMessage = ({
             <FormFooter>
               <TextContainer>
                 <Steps>
-                  {activeStep} of {fields.length}
+                  {currentStep} of {totalSteps}
                 </Steps>
               </TextContainer>
 
               <FormButton
-                submitting={status === FORM_MESSAGE_STATUS.pending}
-                label={activeStep === fields.length ? 'Send' : 'Next'}
+                submitting={formSubmissionStatus === FORM_MESSAGE_STATUS.pending}
+                label={currentStep === totalSteps ? 'Send' : 'Next'}
               />
             </FormFooter>
           </Form>
         </FormContainer>
-      </OtherParticipantLayout>
-      {status === FORM_MESSAGE_STATUS.failed && (
+      </Layout>
+      {formSubmissionStatus === FORM_MESSAGE_STATUS.failed && (
         <SubmissionError message={'Error submitting form. Try again.'} />
       )}
     </>
@@ -78,6 +110,9 @@ const FormMessage = ({
 }
 
 FormMessage.propTypes = {
+  isPrimaryParticipant: PropTypes.bool,
+  avatar: PropTypes.string,
+  label: PropTypes.string,
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
@@ -87,14 +122,9 @@ FormMessage.propTypes = {
     })
   ),
   values: PropTypes.object,
-  onSubmit: PropTypes.func,
-  onStep: PropTypes.func,
-  onChange: PropTypes.func,
-  avatar: PropTypes.string,
-  label: PropTypes.string,
-  status: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
-  isFirstInGroup: PropTypes.bool,
-
+  formSubmissionStatus: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
+  status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
+  timeReceived: PropTypes.number,
   activeStep: PropTypes.number,
   errors: PropTypes.objectOf(PropTypes.string),
 
@@ -104,7 +134,14 @@ FormMessage.propTypes = {
   // The role="alert" will only read out the message if its new, or if the text changes
   // so by passing key={lastSubmittedTimestamp} to error messages, new elements are created
   // when the key changes.
-  lastSubmittedTimestamp: PropTypes.number
+  lastSubmittedTimestamp: PropTypes.number,
+  isFirstInGroup: PropTypes.bool,
+  isReceiptVisible: PropTypes.bool,
+  isFreshMessage: PropTypes.bool,
+  onChange: PropTypes.func,
+  onStep: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onRetry: PropTypes.func
 }
 
 export default FormMessage

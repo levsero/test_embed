@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { MESSAGE_STATUS } from '@zendesk/conversation-components'
+import { MESSAGE_STATUS, FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
 
 import { getUserTyping } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 import { getFormsState } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
@@ -14,7 +14,10 @@ const removeSubmittedForms = (messages, formsState) => {
       return true
     }
 
-    return message.submitted !== true && formsState[message._id]?.status !== 'success'
+    return (
+      message.submitted !== true &&
+      formsState[message._id]?.formSubmissionStatus !== FORM_MESSAGE_STATUS.success
+    )
   })
 }
 

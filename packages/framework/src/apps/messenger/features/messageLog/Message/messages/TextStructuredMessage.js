@@ -94,7 +94,9 @@ TextStructuredMessage.propTypes = {
     ),
     metadata: PropTypes.objectOf(PropTypes.any),
     avatarUrl: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    status: PropTypes.string,
+    received: PropTypes.number
   }),
   isFreshMessage: PropTypes.bool
 }

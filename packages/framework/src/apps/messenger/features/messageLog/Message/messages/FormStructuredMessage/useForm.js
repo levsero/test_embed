@@ -4,7 +4,9 @@ import { formUpdated, getFormInfo, nextClicked, submitForm } from './store'
 import validate from './validate'
 
 const useForm = ({ formId, fields }) => {
-  const { values: valuesFromState, status, step } = useSelector(state => getFormInfo(state, formId))
+  const { values: valuesFromState, formSubmissionStatus, step } = useSelector(state =>
+    getFormInfo(state, formId)
+  )
 
   const [values, setValues] = useState(valuesFromState)
   const [errors, setErrors] = useState({})
@@ -74,7 +76,7 @@ const useForm = ({ formId, fields }) => {
     fields: visibleFields,
     onChange,
     step,
-    status,
+    formSubmissionStatus,
     onStep,
     onSubmit,
     lastSubmittedTimestamp

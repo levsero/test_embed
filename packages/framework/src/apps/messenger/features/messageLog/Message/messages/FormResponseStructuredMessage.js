@@ -14,16 +14,19 @@ const FormResponseStructuredMessage = ({
 }) => {
   return (
     <FormResponseMessage
-      fields={fields}
+      isPrimaryParticipant={false}
+      isReceiptVisible={false}
       isFirstInGroup={isFirstInGroup}
-      avatar={isLastMessageInAuthorGroup ? avatarUrl : null}
-      label={isFirstMessageInAuthorGroup ? name : null}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
+      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+      fields={fields}
     />
   )
 }
 
 FormResponseStructuredMessage.propTypes = {
   message: PropTypes.shape({
+    role: PropTypes.string,
     avatarUrl: PropTypes.string,
     fields: PropTypes.array,
     isFirstInGroup: PropTypes.bool,

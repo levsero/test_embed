@@ -44,7 +44,8 @@ ImageStructuredMessage.propTypes = {
     isLastMessageThatHasntFailed: PropTypes.bool,
     isLastInLog: PropTypes.bool,
     avatarUrl: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    received: PropTypes.number
   })
 }
 

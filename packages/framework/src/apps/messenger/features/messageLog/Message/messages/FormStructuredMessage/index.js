@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { FormMessage, FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
+import { FormMessage, FORM_MESSAGE_STATUS, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
 import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 
@@ -9,18 +9,20 @@ const FormStructuredMessage = ({
     _id,
     avatarUrl,
     fields,
+    status,
     isFirstInGroup,
     isLastMessageInAuthorGroup,
     isFirstMessageInAuthorGroup,
     name
   }
 }) => {
+  const messageStatus = status ?? MESSAGE_STATUS.sent
   const {
     onChange,
     onSubmit,
     onStep,
     values,
-    status,
+    formSubmissionStatus,
     step,
     errors,
     lastSubmittedTimestamp
@@ -40,15 +42,24 @@ const FormStructuredMessage = ({
   }, [step, scrollToBottomIfNeeded, previousStep])
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0 || status === FORM_MESSAGE_STATUS.failed) {
+    if (Object.keys(errors).length > 0 || formSubmissionStatus === FORM_MESSAGE_STATUS.failed) {
       scrollToBottomIfNeeded()
     }
-  }, [errors, status])
+  }, [errors, formSubmissionStatus])
 
   return (
     <FormMessage
+      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
+      label={isFirstMessageInAuthorGroup ? name : undefined}
+      activeStep={step}
       fields={fields}
       values={values}
+      errors={errors}
+      status={messageStatus}
+      formSubmissionStatus={formSubmissionStatus}
+      isFirstInGroup={isFirstInGroup}
+      isReceiptVisible={false}
+      lastSubmittedTimestamp={lastSubmittedTimestamp}
       onSubmit={onSubmit}
       onStep={onStep}
       onChange={(fieldId, newValue) => {
@@ -56,13 +67,6 @@ const FormStructuredMessage = ({
           [fieldId]: newValue
         })
       }}
-      avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
-      label={isFirstMessageInAuthorGroup ? name : undefined}
-      isFirstInGroup={isFirstInGroup}
-      status={status}
-      activeStep={step}
-      errors={errors}
-      lastSubmittedTimestamp={lastSubmittedTimestamp}
     />
   )
 }
@@ -72,7 +76,6 @@ FormStructuredMessage.propTypes = {
     role: PropTypes.string,
     text: PropTypes.string,
     isFirstInGroup: PropTypes.bool,
-    isLastInGroup: PropTypes.bool,
     fields: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string,

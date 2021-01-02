@@ -3,17 +3,34 @@ import {
   MessageLogListDecorator,
   MessengerContainerDecorator
 } from '../../../.storybook/decorators'
+import { MESSAGE_STATUS } from 'src'
 
 export default {
   title: 'Messages/FormResponseMessage',
   component: FormResponseMessage,
-  decorators: [MessageLogListDecorator, MessengerContainerDecorator]
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator],
+  argTypes: {
+    status: {
+      defaultValue: MESSAGE_STATUS.sent,
+      control: {
+        type: 'inline-radio',
+        options: Object.values(MESSAGE_STATUS)
+      }
+    }
+  }
 }
 
 const Template = args => <FormResponseMessage {...args} />
+const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
+const defaultProps = {
+  label: 'Majestic Emus',
+  avatar: 'https://lucashills.com/emu_avatar.jpg',
+  timeReceived: timeNowInSeconds
+}
 
 export const TextFieldOnlyFormResponse = Template.bind()
 TextFieldOnlyFormResponse.args = {
+  ...defaultProps,
   fields: [
     {
       _id: 'asdf87asdf76as8d7f6ds7af876',
@@ -42,8 +59,5 @@ TextFieldOnlyFormResponse.args = {
       ],
       type: 'select'
     }
-  ],
-  isFirstInGroup: true,
-  avatar: 'https://lucashills.com/emu_avatar.jpg',
-  label: 'I am a test user'
+  ]
 }
