@@ -15,7 +15,7 @@ const ImageMessage = ({
   timeReceived,
   shape = 'standalone',
   status = 'sent',
-  isPrimaryParticipant = true,
+  isPrimaryParticipant = false,
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
