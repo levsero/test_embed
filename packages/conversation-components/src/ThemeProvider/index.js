@@ -12,6 +12,7 @@ const ThemeProvider = ({
   actionColor = DEFAULT_THEME.palette.mint[400],
   rtl = false,
   baseFontSize = '16px',
+  window = window,
   children
 }) => {
   return (
@@ -19,6 +20,7 @@ const ThemeProvider = ({
       theme={{
         ...DEFAULT_THEME,
         rtl: rtl,
+        window: window,
         messenger: {
           fontFamily: DEFAULT_THEME.fonts.system,
           baseFontSize: baseFontSize,
@@ -93,7 +95,8 @@ ThemeProvider.propTypes = {
   messageColor: PropTypes.string,
   actionColor: PropTypes.string,
   rtl: PropTypes.bool,
-  baseFontSize: PropTypes.string
+  baseFontSize: PropTypes.string,
+  window: PropTypes.object
 }
 
 export default ThemeProvider

@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { ThemeContext } from 'styled-components'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import Message from 'src/messages/FormMessage/FormField/Message'
-// import { useCurrentFrame } from 'src/framework/components/Frame' // TODO - fix this
 import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
-  // const frame = useCurrentFrame() //TODO - fix this
+  const { window } = useContext(ThemeContext)
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef(null)
 
@@ -41,7 +41,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           onChange([option])
         }}
         downshiftProps={{
-          // environment: frame.window,
+          environment: window,
           itemToString: item => item?.label
         }}
         name={field.name}
