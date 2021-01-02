@@ -21,28 +21,34 @@ export default {
 }
 
 const Template = args => <FileMessage {...args} />
+const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
+const defaultProps = {
+  label: 'Majestic Emus',
+  avatar: 'https://lucashills.com/emu_avatar.jpg',
+  timeReceived: timeNowInSeconds
+}
 
 export const PrimaryParticipantFileMessage = Template.bind()
 PrimaryParticipantFileMessage.args = {
-  mediaSize: 1000,
-  mediaUrl: 'this is a url.com',
+  ...defaultProps,
   isPrimaryParticipant: true,
-  shape: 'standalone'
+  mediaUrl: 'this is a url.com',
+  mediaSize: 1000
 }
 
 export const OtherParticipantFileMessage = Template.bind()
 OtherParticipantFileMessage.args = {
-  mediaSize: 1000,
-  mediaUrl: 'this is a url.com',
+  ...defaultProps,
   isPrimaryParticipant: false,
-  shape: 'standalone'
+  mediaUrl: 'this is a url.com',
+  mediaSize: 1000
 }
 
 export const OtherParticipantFileMessageWithLongName = Template.bind()
 OtherParticipantFileMessageWithLongName.args = {
-  mediaSize: 1000,
+  ...defaultProps,
+  isPrimaryParticipant: false,
   mediaUrl:
     'https://www.wildlife.vic.gov.au/__data/assets/pdf_file/0025/91384/Emus-are-big-and-have-long-necks-how-cool-are-they-so-cool.pdf',
-  isPrimaryParticipant: false,
-  shape: 'standalone'
+  mediaSize: 1000
 }

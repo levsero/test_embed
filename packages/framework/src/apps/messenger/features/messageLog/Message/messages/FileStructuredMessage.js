@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  FileMessage,
-  PrimaryParticipantLayout,
-  OtherParticipantLayout
-} from '@zendesk/conversation-components'
+import { FileMessage } from '@zendesk/conversation-components'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const FileStructuredMessage = ({
@@ -13,7 +9,6 @@ const FileStructuredMessage = ({
     isFirstInGroup,
     isFirstMessageInAuthorGroup,
     isLastInGroup,
-    isLastInLog,
     isPrimaryParticipant,
     isLastMessageInAuthorGroup,
     mediaSize,
@@ -22,24 +17,17 @@ const FileStructuredMessage = ({
     received
   }
 }) => {
-  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-
   return (
-    <Layout
+    <FileMessage
+      isPrimaryParticipant={isPrimaryParticipant}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
       timeReceived={received}
-      isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
-      isLastInLog={isLastInLog}
-    >
-      <FileMessage
-        isPrimaryParticipant={isPrimaryParticipant}
-        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
-        mediaSize={mediaSize}
-        mediaUrl={mediaUrl}
-      />
-    </Layout>
+      shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      mediaSize={mediaSize}
+      mediaUrl={mediaUrl}
+    />
   )
 }
 
