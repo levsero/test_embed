@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 
-import TimestampStructuredMessage, { parseTimestamp } from '../TimestampStructuredMessage'
+import TimestampStructuredMessage from '../TimestampStructuredMessage'
 
 const renderComponent = (props = {}) => {
   const mergedProps = {
@@ -12,26 +12,6 @@ const renderComponent = (props = {}) => {
   }
   return render(<TimestampStructuredMessage {...mergedProps} />)
 }
-
-describe('parseTimestamp', () => {
-  describe('if the timestamp is from the same day', () => {
-    it('does not render date', () => {
-      const date = new Date('11:59 PM September 28, 2020')
-      const parsedDate = parseTimestamp(date.getTime(), date.getTime())
-
-      expect(parsedDate).toEqual('11:59 PM')
-    })
-  })
-
-  describe('if timestamp is not from the same day', () => {
-    it('does render date', () => {
-      const date = new Date('11:59 PM September 28, 2020')
-      const parsedDate = parseTimestamp(date.getTime())
-
-      expect(parsedDate).toEqual('September 28, 11:59 PM')
-    })
-  })
-})
 
 describe('TimestampStructuredMessage', () => {
   it('matches snapshot', () => {
