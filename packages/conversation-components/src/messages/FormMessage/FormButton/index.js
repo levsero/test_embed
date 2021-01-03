@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { ThemeContext } from 'styled-components'
 import { Label, LoadingDots, Button, Loader } from './styles'
 
-const FormButton = ({ submitting, label }) => {
+const FormButton = ({ submitting = false, label }) => {
   const theme = useContext(ThemeContext)
   return (
     <Button isPrimary={true} isPill={true} type="submit" aria-label={label}>
@@ -22,7 +22,7 @@ const FormButton = ({ submitting, label }) => {
 }
 
 FormButton.propTypes = {
-  submitting: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool,
   label: PropTypes.string.isRequired,
   theme: PropTypes.shape({
     fontSize: PropTypes.number,

@@ -28,7 +28,7 @@ const validateType = {
   }
 }
 
-const validate = (fields, values) => {
+const validateFields = (fields, values) => {
   const errors = {}
 
   fields.forEach(field => {
@@ -53,4 +53,4 @@ const validate = (fields, values) => {
   return errors
 }
 
-export default validate
+export default validateFields

@@ -8,9 +8,9 @@ const LayoutContainer = styled.div`
 
 const VerticalContainer = styled.div`
   font-family: ${props => props.theme.messenger.fontFamily};
-  align-self: flex-start;
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
   margin-left: ${props => props.theme.messenger.space.sixteen};
   margin-top: ${props => (props.isFirstInGroup ? props.theme.messenger.space.sm : 0)};
 `

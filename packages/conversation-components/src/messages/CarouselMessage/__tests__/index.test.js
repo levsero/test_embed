@@ -1,8 +1,8 @@
 import { find } from 'styled-components/test-utils'
 import render from 'src/utils/test/render'
-import CarouselMessage from 'src/CarouselMessage'
-import { Heading } from 'src/CarouselMessage/styles'
 import { Image } from 'src/Avatar/styles'
+import CarouselMessage from '../'
+import { Heading } from '../styles'
 
 describe('CarouselMessage', () => {
   const defaultProps = {

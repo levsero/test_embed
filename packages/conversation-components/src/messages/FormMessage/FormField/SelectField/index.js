@@ -6,7 +6,9 @@ import Message from 'src/messages/FormMessage/FormField/Message'
 import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
-  const { window } = useContext(ThemeContext)
+  const {
+    messenger: { currentFrame }
+  } = useContext(ThemeContext)
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef(null)
 
@@ -41,7 +43,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           onChange([option])
         }}
         downshiftProps={{
-          environment: window,
+          environment: currentFrame?.window,
           itemToString: item => item?.label
         }}
         name={field.name}

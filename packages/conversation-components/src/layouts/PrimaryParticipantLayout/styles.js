@@ -8,9 +8,10 @@ const LayoutContainer = styled.div`
 `
 
 const VerticalLayout = styled.div`
-  align-self: flex-end;
+  font-family: ${props => props.theme.messenger.fontFamily};
   display: flex;
   flex-direction: column;
+  align-self: flex-end;
   margin-top: ${props => (props.isFirstInGroup ? props.theme.messenger.space.sm : 0)};
   margin-right: ${props => props.theme.messenger.space.sixteen};
 `

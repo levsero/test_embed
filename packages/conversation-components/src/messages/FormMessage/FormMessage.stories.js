@@ -34,7 +34,6 @@ const testProps = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
   timeReceived: timeNowInSeconds,
-  onStep: activeStep => console.log('onStep(activeStep) fired: ', activeStep),
   onChange: (fieldId, value) => console.log('onChange(fieldId, value) fired: ', fieldId, value),
   onSubmit: formValues => console.log('onSubmit(formValues) fired: ', formValues)
 }
@@ -147,4 +146,31 @@ WithPredefinedValues.args = {
       }
     ]
   }
+}
+
+export const ValidationFields = Template.bind()
+ValidationFields.args = {
+  ...testProps,
+  fields: [
+    {
+      _id: '1',
+      name: 'min_size',
+      label: 'Min size field (5)',
+      minSize: 5,
+      type: 'text'
+    },
+    {
+      _id: '2',
+      name: 'max_size',
+      label: 'Max size field (5)',
+      maxSize: 5,
+      type: 'text'
+    },
+    {
+      _id: '3',
+      name: 'email_field',
+      label: 'Email format',
+      type: 'email'
+    }
+  ]
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
+import { waitFor } from '@testing-library/dom'
+import { MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import TextStructuredMessage from 'src/apps/messenger/features/messageLog/Message/messages/TextStructuredMessage'
 import { sendMessage } from 'src/apps/messenger/api/sunco'
-import { MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
-import { waitFor } from '@testing-library/dom'
 
 jest.mock('src/apps/messenger/api/sunco')
 

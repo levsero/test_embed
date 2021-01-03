@@ -9,9 +9,6 @@
     ]
   ],
   "env": {
-    "test": {
-      "plugins": ["babel-plugin-styled-components"]
-    },
     "development": {
       "plugins": ["babel-plugin-styled-components"]
     },

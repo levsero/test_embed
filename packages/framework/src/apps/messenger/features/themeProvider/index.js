@@ -30,8 +30,7 @@ const ThemeProvider = ({ children }) => {
     <CurrentFrameConsumer>
       {frame => (
         <SuncoThemeProvider
-          window={frame.window}
-          document={frame.document}
+          currentFrame={frame}
           primaryColor={messengerColors.primary}
           messageColor={messengerColors.message}
           actionColor={messengerColors.action}
