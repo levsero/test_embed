@@ -33,7 +33,7 @@ describe('Composer', () => {
     expect(getByLabelText('Type a message')).toHaveFocus()
   })
 
-  it('shows the send icon is not present before the user starts typing', () => {
+  it('does not show the send icon before the user starts typing', () => {
     const { queryByLabelText } = renderComponent()
 
     expect(queryByLabelText('Send message')).not.toBeInTheDocument()

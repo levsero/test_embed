@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 
@@ -27,8 +27,6 @@ const Composer = React.forwardRef(
     },
     ref
   ) => {
-    const localRef = useRef(null)
-    const inputRef = ref || localRef
     const [composerValue, setComposerValue] = useState(value)
 
     const handleChange = event => {
@@ -45,7 +43,7 @@ const Composer = React.forwardRef(
       <Container>
         <Field>
           <Textarea
-            ref={inputRef}
+            ref={ref}
             disabled={disabled}
             placeholder={placeholder}
             aria-label={inputAriaLabel}

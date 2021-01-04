@@ -9,9 +9,8 @@ import Header from '../'
 const closeButtonAriaLabel = 'close messenger'
 
 describe('Header', () => {
-  const renderComponent = (actions = []) => {
+  const renderComponent = () => {
     const store = createStore()
-
     store.dispatch(
       messengerConfigReceived({
         title: 'Zendesk',
@@ -19,9 +18,6 @@ describe('Header', () => {
         avatar: 'https://example.com/dummyUrl.jpg'
       })
     )
-    actions.forEach(([callback, callbackArgs]) => {
-      store.dispatch(callback(callbackArgs))
-    })
 
     return render(<Header />, { store })
   }
@@ -43,25 +39,26 @@ describe('Header', () => {
   })
 
   it('does not display the close button when the widget is open and launcher is visible', () => {
-    const { queryByLabelText } = renderComponent([[widgetOpened]])
+    const { queryByLabelText, store } = renderComponent()
+    store.dispatch(widgetOpened())
     expect(queryByLabelText(closeButtonAriaLabel)).not.toBeInTheDocument()
   })
 
   it('displays the close button when the widget is open and launcher is not visible', () => {
-    const { getByLabelText } = renderComponent([
-      [widgetOpened],
-      [screenDimensionsChanged, { isFullScreen: true }]
-    ])
+    const { getByLabelText, store } = renderComponent()
+    store.dispatch(widgetOpened())
+    store.dispatch(screenDimensionsChanged({ isFullScreen: true }))
+
     expect(getByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
   })
 
   it('dispatches widgetClosed when the close button is clicked', async () => {
-    const { getByLabelText, store } = renderComponent([
-      [widgetOpened],
-      [screenDimensionsChanged, { isFullScreen: true }]
-    ])
-    getByLabelText(closeButtonAriaLabel).click()
+    const { getByLabelText, store } = renderComponent()
+    store.dispatch(widgetOpened())
+    store.dispatch(screenDimensionsChanged({ isFullScreen: true }))
 
+    expect(getIsWidgetOpen(store.getState())).toEqual(true)
+    getByLabelText(closeButtonAriaLabel).click()
     expect(getIsWidgetOpen(store.getState())).toEqual(false)
   })
 })
