@@ -1,6 +1,6 @@
 import {
   getDefaultSelectedDepartment,
-  getPrechatFields,
+  getVisiblePrechatFields,
   getPrechatGreeting
 } from 'embeds/chat/selectors/prechat-form'
 import {
@@ -27,7 +27,7 @@ jest.mock('src/redux/modules/chat/chat-selectors')
 jest.mock('src/redux/modules/settings/settings-selectors')
 
 describe('prechat form selectors', () => {
-  describe('getPrechatFields', () => {
+  describe('getVisiblePrechatFields', () => {
     const defaultOptions = {
       isAuthenticated: false,
       department: {
@@ -58,7 +58,7 @@ describe('prechat form selectors', () => {
       getSettingsChatDepartmentsEnabled.mockReturnValue(options.customerDefinedDepartments)
       getSettingsChatPrechatForm.mockReturnValue(options.prechatFormSettings)
 
-      return getPrechatFields({}, {})
+      return getVisiblePrechatFields({}, {})
     }
 
     describe('name', () => {

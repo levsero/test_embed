@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 import validate from './validate'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
-import { getPrechatFields, getPrechatGreeting } from 'embeds/chat/selectors/prechat-form'
+import { getVisiblePrechatFields, getPrechatGreeting } from 'embeds/chat/selectors/prechat-form'
 import {
   getAuthUrls,
   getChatVisitor,
@@ -29,7 +29,7 @@ import { Footer } from 'src/components/Widget'
 
 const PrechatForm = ({
   title,
-  getFields,
+  getVisibleFields,
   isAuthenticated,
   onSubmit,
   greetingMessage,
@@ -47,6 +47,17 @@ const PrechatForm = ({
   const isDepartmentOffline = departmentId => {
     return departments[departmentId]?.status === 'offline'
   }
+  const isDepartmentFieldVisible = (options = {}) => {
+    return getVisibleFields(options).some(field => field.id === 'department')
+  }
+  const includeHiddenDepartmentFieldValue = (valuesToSubmit, allValues = {}) => {
+    const hiddenFieldValues = {}
+    if (allValues.department) hiddenFieldValues.department = allValues.department
+    return {
+      ...hiddenFieldValues,
+      ...valuesToSubmit
+    }
+  }
 
   return (
     <Widget>
@@ -54,20 +65,25 @@ const PrechatForm = ({
 
       <DynamicForm
         formId={'prechat-form'}
-        onSubmit={values =>
+        onSubmit={(valuesToSubmit, allValues) =>
           onSubmit({
-            values,
-            isDepartmentFieldVisible: getFields(values).some(field => field.id === 'department')
+            values: includeHiddenDepartmentFieldValue(valuesToSubmit, allValues),
+            isDepartmentFieldVisible: isDepartmentFieldVisible(valuesToSubmit)
           }).then(() => {
             return { success: true }
           })
         }
         initialValues={{ message: initialValues?.message }}
-        getFields={getFields}
+        getFields={getVisibleFields}
         controls={<PrechatFormControls />}
         isPreview={isPreview}
         validate={values =>
-          validate({ values, isAuthenticated, fields: getFields(values), isOfflineFormEnabled })
+          validate({
+            values,
+            isAuthenticated,
+            fields: getVisibleFields(values),
+            isOfflineFormEnabled
+          })
         }
         footer={({ isSubmitting, formValues }) => (
           <Footer>
@@ -105,7 +121,7 @@ const PrechatForm = ({
 PrechatForm.propTypes = {
   title: PropTypes.string,
   onSubmit: PropTypes.func,
-  getFields: PropTypes.func,
+  getVisibleFields: PropTypes.func,
   isAuthenticated: PropTypes.bool,
   greetingMessage: PropTypes.string,
   visitor: AuthenticatedProfile.propTypes.visitor,
@@ -128,7 +144,7 @@ PrechatForm.propTypes = {
 const mapStateToProps = state => ({
   title: getChatTitle(state),
   customerDefinedDepartmentsEnabled: getSettingsChatDepartmentsEnabled(state),
-  getFields: options => getPrechatFields(state, options),
+  getVisibleFields: options => getVisiblePrechatFields(state, options),
   isAuthenticated: getIsAuthenticated(state),
   greetingMessage: getPrechatGreeting(state),
   visitor: getChatVisitor(state),

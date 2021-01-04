@@ -51,7 +51,7 @@ const DynamicForm = ({
 
       setTemporaryFieldsToShowWhileSubmitting(fields)
 
-      Promise.resolve(onSubmit(valuesToSubmit))
+      Promise.resolve(onSubmit(valuesToSubmit, values))
         .then(result => {
           if (!result || (result.success === false && !result.errorMessageKey)) {
             throw new Error()

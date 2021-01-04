@@ -22,7 +22,7 @@ describe('PrechatForm', () => {
   const defaultProps = {
     title: 'Chat',
     greetingMessage: 'Greeting message',
-    getFields: jest.fn().mockReturnValue([]),
+    getVisibleFields: jest.fn().mockReturnValue([]),
     departments: {},
     socialLogin: {
       authenticated: false
@@ -115,7 +115,7 @@ describe('PrechatForm', () => {
       const onSubmit = jest.fn(() => new Promise(() => {}))
 
       const { getByText } = renderComponent({
-        getFields: () => [
+        getVisibleFields: () => [
           {
             id: 'department',
             options: [{ id: 1, value: 'dep 1' }]
@@ -136,7 +136,7 @@ describe('PrechatForm', () => {
       const onSubmit = jest.fn(() => new Promise(() => {}))
 
       const { getByText } = renderComponent({
-        getFields: () => [],
+        getVisibleFields: () => [],
         onSubmit
       })
 
@@ -150,7 +150,7 @@ describe('PrechatForm', () => {
 
     it('displays a start chat message in the submit button when contacting an online department', () => {
       const { getByText } = renderComponent({
-        getFields: () => [
+        getVisibleFields: () => [
           {
             id: 'department',
             title: 'Departments',
@@ -171,7 +171,7 @@ describe('PrechatForm', () => {
 
     it('displays a send message in the submit button when contacting an offline department', async () => {
       const { getByText, store } = renderComponent({
-        getFields: () => [
+        getVisibleFields: () => [
           {
             id: 'department',
             title: 'Departments',
@@ -196,7 +196,7 @@ describe('PrechatForm', () => {
 
     it('only respects the initialValue for message', async () => {
       const { getByLabelText } = renderComponent({
-        getFields: () => allFields
+        getVisibleFields: () => allFields
       })
 
       const name = getByLabelText('Name')
@@ -210,7 +210,7 @@ describe('PrechatForm', () => {
 
     it('respects the prefill read only values', () => {
       const { getByLabelText } = renderComponent({
-        getFields: () => allFields,
+        getVisibleFields: () => allFields,
         readOnlyValues: {
           name: true,
           email: false,
@@ -225,7 +225,7 @@ describe('PrechatForm', () => {
 
     it('updates when department.select zESetting changes', async () => {
       const { getByText, queryByText, store } = renderComponent({
-        getFields: () => [
+        getVisibleFields: () => [
           {
             id: 'department',
             title: 'Departments',
@@ -254,7 +254,7 @@ describe('PrechatForm', () => {
         departments: {
           1: { id: 1, name: 'Department 1', status: 'online' }
         },
-        getFields: () => allFields
+        getVisibleFields: () => allFields
       })
 
       store.dispatch({
@@ -272,7 +272,7 @@ describe('PrechatForm', () => {
 
     it('updates when the prefill command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getFields: () => allFields
+        getVisibleFields: () => allFields
       })
 
       const name = getByLabelText('Name')
@@ -302,7 +302,7 @@ describe('PrechatForm', () => {
 
     it('updates when the identify command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getFields: () => allFields
+        getVisibleFields: () => allFields
       })
 
       const name = getByLabelText('Name')

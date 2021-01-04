@@ -52,7 +52,7 @@ const getDepartmentLabel = state => {
   return i18n.getSettingTranslation(labelFromSettings) || labelFromChat || fallbackLabel
 }
 
-export const getPrechatFields = (state, options = {}) => {
+export const getVisiblePrechatFields = (state, options = {}) => {
   const prechatFormFields = getPrechatFormFields(state)
   const loginSettings = getLoginSettings(state)
   const isAuthenticated = getIsAuthenticated(state)

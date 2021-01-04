@@ -118,10 +118,51 @@ describe('DynamicForm', () => {
 
       await wait()
 
-      expect(onSubmit).toHaveBeenCalledWith({
-        [field1.id]: 'One',
-        [field2.id]: 'Two'
+      expect(onSubmit).toHaveBeenCalledWith(
+        {
+          [field1.id]: 'One',
+          [field2.id]: 'Two'
+        },
+        {
+          [field1.id]: 'One',
+          [field2.id]: 'Two'
+        }
+      )
+    })
+
+    it('calls onSubmit and includes all values that were submitted (even hidden field values - ie department)', async () => {
+      const onSubmit = jest.fn()
+      const { getByText, getByLabelText } = run({
+        onSubmit,
+        getFields: () => [
+          field1,
+          field2,
+          {
+            ...field3,
+            visible: false
+          }
+        ],
+        validate: () => undefined
       })
+
+      fireEvent.change(getByLabelText(`${field1.title} (optional)`), { target: { value: 'One' } })
+      fireEvent.change(getByLabelText(`${field2.title} (optional)`), { target: { value: 'Two' } })
+
+      fireEvent.click(getByText('Send'))
+
+      await wait()
+
+      expect(onSubmit).toHaveBeenCalledWith(
+        {
+          [field1.id]: 'One',
+          [field2.id]: 'Two'
+        },
+        {
+          [field1.id]: 'One',
+          [field2.id]: 'Two',
+          [field3.id]: undefined
+        }
+      )
     })
 
     it('renders error messages if the form is not valid', async () => {
