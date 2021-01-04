@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { setLocale as suncoUpdateLocale } from 'src/apps/messenger/api/sunco'
 
 const locale = createSlice({
   name: 'locale',
@@ -8,8 +7,6 @@ const locale = createSlice({
   },
   reducers: {
     setLocale: (state, action) => {
-      suncoUpdateLocale(action.payload)
-
       state.locale = action.payload
     }
   }

@@ -1,10 +1,12 @@
 import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 import { setLocale } from 'src/apps/messenger/store/locale'
+import { setLocale as suncoUpdateLocale } from 'src/apps/messenger/api/sunco'
 let id = 1
 
 export default store => ({
   messenger: {
     setLocale: locale => {
+      suncoUpdateLocale(locale)
       store.dispatch(setLocale(locale))
     },
     // Note: This is temporary API to assist with debugging until actual
