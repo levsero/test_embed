@@ -127,7 +127,7 @@ describe('FormMessage', () => {
     await waitFor(() => expect(queryByText('This field is required.')).toBeInTheDocument())
   })
 
-  it.skip('submits the form when all fields pass', async () => {
+  it('submits the form when all fields pass', async () => {
     const { queryByLabelText, getByText, store } = renderComponent()
 
     expect(queryByLabelText('First name')).toBeInTheDocument()
@@ -142,6 +142,7 @@ describe('FormMessage', () => {
     // Dropdown defaults to first, so click it to open dropdown
     userEvent.click(getByText('Tacos'))
     // Select cheese
+    await waitFor(() => expect(getByText('Cheese')).toBeInTheDocument())
     userEvent.click(getByText('Cheese'))
 
     fireEvent.submit(document.querySelector('form'))
@@ -175,7 +176,9 @@ describe('FormMessage', () => {
       '123'
     )
 
-    await waitFor(() => expect(getFormInfo(store.getState(), '123').status).toBe('success'))
+    await waitFor(() =>
+      expect(getFormInfo(store.getState(), '123').formSubmissionStatus).toBe('success')
+    )
   })
 
   it('prevents emails from being sent with invalid length', async () => {
