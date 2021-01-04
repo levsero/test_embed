@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
-import { useScroll } from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
 
 const FormStructuredMessage = ({
   message: {
@@ -21,7 +20,6 @@ const FormStructuredMessage = ({
     formId: _id,
     fields
   })
-  const { scrollToBottomIfNeeded } = useScroll()
 
   return (
     <FormMessage
@@ -39,7 +37,6 @@ const FormStructuredMessage = ({
           [fieldId]: newValue
         })
       }}
-      onRender={scrollToBottomIfNeeded}
     />
   )
 }

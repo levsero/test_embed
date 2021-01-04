@@ -8,6 +8,7 @@ import FormField from './FormField'
 import FormButton from './FormButton'
 import SubmissionError from './SubmissionError'
 import validateFields from './validateFields'
+import { useScroll } from 'src/hooks/useScrollBehaviour'
 import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
 
 const initialStepNumFromValues = (fields = [], values = {}) => {
@@ -35,7 +36,6 @@ const FormMessage = ({
   onValidate = undefined,
   onChange = (_fieldId, _value) => {},
   onSubmit = _formValues => {},
-  onRender = () => {},
   onRetry = () => {}
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -58,9 +58,10 @@ const FormMessage = ({
     if (validationStep === 0) return []
     return fields.slice(0, validationStep)
   }
+  const { scrollToBottomIfNeeded } = useScroll()
 
   useLayoutEffect(() => {
-    onRender()
+    scrollToBottomIfNeeded()
   })
 
   const incrementActiveStep = () => {
@@ -167,7 +168,6 @@ FormMessage.propTypes = {
   onChange: PropTypes.func,
   onValidate: PropTypes.func,
   onSubmit: PropTypes.func,
-  onRender: PropTypes.func,
   onRetry: PropTypes.func
 }
 

@@ -24,6 +24,7 @@ import OtherParticipantReceipt from 'src/receipts/OtherParticipantReceipt'
 import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout' //TODO - shouldn't need to export this
 import PrimaryParticipantReceipt from 'src/receipts/PrimaryParticipantReceipt'
 import Replies from 'src/Replies'
+import { ScrollProvider, useScroll } from 'src/hooks/useScrollBehaviour'
 import TextMessage from './messages/TextMessage'
 import Timestamp from './Timestamp' // TODO - should this be a 'message'?
 import ThemeProvider from './ThemeProvider'
@@ -48,9 +49,11 @@ export {
   PrimaryParticipantLayout,
   PrimaryParticipantReceipt,
   Replies,
+  ScrollProvider,
   TextMessage,
   Timestamp,
-  ThemeProvider
+  ThemeProvider,
+  useScroll
 }
 
 export { FORM_MESSAGE_STATUS, BANNER_STATUS, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS }

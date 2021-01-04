@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useCallback, createContext, useContext } from 'react'
+import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { rem, stripUnit } from 'polished'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
@@ -10,9 +10,6 @@ import {
   markAsRead
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
-
-const ScrollContext = createContext({ scrollToBottomIfNeeded: () => null })
-const ScrollProvider = ScrollContext.Provider
 
 const scrollOffsetInRems = 3
 
@@ -107,9 +104,4 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   }
 }
 
-const useScroll = () => {
-  return useContext(ScrollContext)
-}
-
 export default useScrollBehaviour
-export { useScroll, ScrollProvider }
