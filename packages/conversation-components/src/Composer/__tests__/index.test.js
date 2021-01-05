@@ -40,7 +40,7 @@ describe('Composer', () => {
   })
 
   it('shows the send icon once the user starts typing', () => {
-    const { getByLabelText } = renderComponent({ value: 'hello I am a user' })
+    const { getByLabelText } = renderComponent({ initialValue: 'hello I am a user' })
 
     expect(getByLabelText('Send message')).toBeInTheDocument()
   })
@@ -48,7 +48,7 @@ describe('Composer', () => {
   it('fires the onSendMessage when the send button is clicked', () => {
     const { getByLabelText } = renderComponent({
       sendButtonAriaLabel: 'Send',
-      value: 'Fig and ginger crispbread',
+      initialValue: 'Fig and ginger crispbread',
       onSendMessage: mockOnSendMessageFn
     })
 

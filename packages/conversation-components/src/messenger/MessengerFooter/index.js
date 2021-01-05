@@ -17,7 +17,7 @@ MessengerFooter.propTypes = {
   inputAriaLabel: PropTypes.string,
   sendButtonAriaLabel: PropTypes.string,
   sendButtonTooltip: PropTypes.string,
-  value: PropTypes.string,
+  initialValue: PropTypes.string,
   onChange: PropTypes.func,
   onSendMessage: PropTypes.func
 }

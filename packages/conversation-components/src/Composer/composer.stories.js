@@ -17,7 +17,7 @@ DefaultProps.args = {
 
 export const MultiRowComposer = Template.bind()
 MultiRowComposer.args = {
-  value:
+  initialValue:
     'user types this really long message \n hello \n sdhfjkhsdkfh \n sdkjfkshdfk \n skdjhfkjhsdkfh \n sdfgsf dsgdfgsf sdfg sdfg \n \n dfgfdsg dsfg fdgs \n sdfg df',
   onSendMessage: value => console.log('Send message: ', value)
 }

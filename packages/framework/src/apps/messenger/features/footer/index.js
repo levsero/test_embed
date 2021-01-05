@@ -58,7 +58,7 @@ const Footer = () => {
       inputAriaLabel="Type a message"
       sendButtonTooltip="Send message"
       sendButtonAriaLabel="Send message"
-      value={initialValue}
+      initialValue={initialValue}
       onChange={onChange}
       onSendMessage={onSendMessage}
     />

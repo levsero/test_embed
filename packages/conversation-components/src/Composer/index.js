@@ -21,13 +21,13 @@ const Composer = React.forwardRef(
       sendButtonAriaLabel = 'Send message',
       minRows = 1,
       maxRows = 5,
-      value = '',
+      initialValue = '',
       onChange = _event => {},
       onSendMessage = _value => {}
     },
     ref
   ) => {
-    const [composerValue, setComposerValue] = useState(value)
+    const [composerValue, setComposerValue] = useState(initialValue)
 
     const handleChange = event => {
       setComposerValue(event.target.value)
@@ -76,7 +76,7 @@ Composer.propTypes = {
   sendButtonTooltip: PropTypes.string,
   minRows: PropTypes.number,
   maxRows: PropTypes.number,
-  value: PropTypes.string,
+  initialValue: PropTypes.string,
   onChange: PropTypes.func,
   onSendMessage: PropTypes.func
 }
