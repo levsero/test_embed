@@ -83,12 +83,12 @@ describe('analytics', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
+        talk: { embeddableConfig: { capability: 'talk' } }
       }
       const state2 = {
         base: { webWidgetOpen: true, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
+        talk: { embeddableConfig: { capability: 'talk' } }
       }
       const action = {
         type: UPDATE_ACTIVE_EMBED
@@ -168,7 +168,7 @@ describe('analytics', () => {
     // - is breaking now that we've started moving across
     it.skip('tracks talk with capability', () => {
       const state = {
-        talk: { embeddableConfig: { capability: 'talk' }, snapcall: { snapcallSupported: false } }
+        talk: { embeddableConfig: { capability: 'talk' } }
       }
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',

@@ -4,7 +4,6 @@ import {
   talkAverageWaitTimeEventToAction
 } from '../events'
 import * as actions from 'src/redux/modules/talk'
-import * as embedActions from 'src/embeds/talk/actions'
 
 jest.mock('src/redux/modules/talk')
 
@@ -53,32 +52,6 @@ describe('talkEmbeddableConfigEventToAction', () => {
         enabled: false,
         nickname: '',
         phoneNumber: ''
-      })
-    })
-
-    describe('when __DEV__ is true', () => {
-      describe('and capability is 3', () => {
-        it('dispatches loadSnapcall', () => {
-          global.__DEV__ = true
-          jest.spyOn(embedActions, 'loadSnapcall')
-          const callback = getConnectionCallback()
-          callback(getConfig({ capability: 3 }))
-
-          expect(embedActions.loadSnapcall).toHaveBeenCalled()
-          global.__DEV__ = false
-        })
-      })
-
-      describe('and capability is not 3', () => {
-        it('does not dispatch loadSnapcall', () => {
-          global.__DEV__ = true
-          jest.spyOn(embedActions, 'loadSnapcall')
-          const callback = getConnectionCallback()
-          callback(getConfig())
-
-          expect(embedActions.loadSnapcall).not.toHaveBeenCalled()
-          global.__DEV__ = false
-        })
       })
     })
   })

@@ -7,11 +7,7 @@ import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
-export const getSnapcallButtonId = state => state.talk.snapcall.buttonId
-export const getSnapcallCallStatus = state => state.talk.snapcall.callStatus
-export const getSnapcallCallDuration = state => state.talk.snapcall.callDuration
-export const getDigitalVoiceSupported = state =>
-  isFeatureEnabled(null, 'digital_voice_enabled') || state.talk.snapcall.snapcallSupported
+export const getDigitalVoiceSupported = _state => isFeatureEnabled(null, 'digital_voice_enabled')
 
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
 

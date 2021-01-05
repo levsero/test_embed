@@ -8,7 +8,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 70%;
-  overflow-y: auto;
   width: 100%;
   height: 100%;
   min-height: ${props => 300 / props.theme.fontSize}rem;
@@ -20,6 +19,7 @@ const SectionContainer = styled.div`
   align-items: center;
   height: 50%;
   justify-content: center;
+  width: 100%;
 `
 
 const CheckboxContainer = styled.div`
@@ -46,6 +46,7 @@ const Message = styled.p`
   text-align: center;
   margin-top: ${props => 24 / props.theme.fontSize}rem !important;
   line-height: ${props => 20 / props.theme.fontSize}rem;
+  width: 100%;
 `
 
 const StyledButton = styled(Button)`

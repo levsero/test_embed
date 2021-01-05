@@ -4,14 +4,9 @@ import {
   updateTalkAverageWaitTime,
   talkDisconnect
 } from 'src/redux/modules/talk'
-import { loadSnapcall } from 'src/embeds/talk/actions'
-import { CAPABILITY_TYPE_CODES } from 'src/redux/modules/talk/talk-capability-types'
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', config => {
-    if (config.capability === CAPABILITY_TYPE_CODES.CLICK_TO_CALL) {
-      reduxStore.dispatch(loadSnapcall())
-    }
     reduxStore.dispatch(updateTalkEmbeddableConfig(config))
   })
 
