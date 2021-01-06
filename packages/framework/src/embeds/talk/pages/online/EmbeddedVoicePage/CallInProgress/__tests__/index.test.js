@@ -32,12 +32,6 @@ describe('render', () => {
     expect(screen.getByLabelText('mute microphone')).toBeInTheDocument()
   })
 
-  it('renders the current call duration', () => {
-    renderComponent({ callDuration: '12:34' })
-
-    expect(screen.getByText('12:34')).toBeInTheDocument()
-  })
-
   describe('on mute button click', () => {
     it('mutes the microphone if unmuted', () => {
       jest.spyOn(talkSelectors, 'getMicrophoneMuted').mockReturnValue(false)
@@ -87,6 +81,22 @@ describe('render', () => {
       userEvent.click(screen.getByLabelText('end call'))
 
       expect(onEndCallClicked).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('timeInCall parsing', () => {
+    it('renders one second accurately', () => {
+      jest.spyOn(talkSelectors, 'getTimeInCall').mockReturnValue(1)
+      renderComponent()
+
+      expect(screen.getByText('00:01')).toBeInTheDocument()
+    })
+
+    it('parses multiple hours and minutes correctly', () => {
+      jest.spyOn(talkSelectors, 'getTimeInCall').mockReturnValue(12601)
+      renderComponent()
+
+      expect(screen.getByText('3:30:01')).toBeInTheDocument()
     })
   })
 })

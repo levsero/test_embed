@@ -11,7 +11,7 @@ import CallInProgress from './CallInProgress'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import { getUserRecordingConsentRequirement } from 'embeds/talk/selectors'
-import { unmuteMicrophone } from 'src/embeds/talk/actions'
+import { unmuteMicrophone, startCallCounter, stopCallCounter } from 'src/embeds/talk/actions'
 
 const clickToCallPath = () => {
   return routes.clickToCallPermissions()
@@ -31,16 +31,19 @@ const EmbeddedVoicePage = () => {
 
   const onConnect = () => {
     history.replace(routes.clickToCallInProgress())
+    dispatch(startCallCounter())
   }
 
   const onDisconnect = () => {
     dispatch(unmuteMicrophone())
+    dispatch(stopCallCounter())
     disconnectTimeout.current = setTimeout(() => {
       history.replace(clickToCallPath())
     }, 3000)
   }
 
   const onError = error => {
+    dispatch(stopCallCounter())
     dispatch(unmuteMicrophone())
     if (error?.code === microphoneErrorCode) {
       dispatch(talkDisconnect())
@@ -63,6 +66,12 @@ const EmbeddedVoicePage = () => {
     onUnsupported
   })
 
+  const handleCallStart = () => {
+    if (!isInCall()) {
+      startCall()
+    }
+  }
+
   return (
     <Widget>
       <Header
@@ -75,20 +84,19 @@ const EmbeddedVoicePage = () => {
           <Route path={routes.clickToCallInProgress()}>
             <CallInProgress
               onEndCallClicked={endCall}
-              callDuration={'0.00'}
               onMuteClick={muteClick}
               isCallActive={isInCall()}
             />
           </Route>
           <Route path={routes.clickToCallPermissions()}>
             <MicrophonePermissions
-              onStartCallClicked={() => startCall()}
+              onStartCallClicked={handleCallStart}
               showStartCallButton={skipConsent}
               onPermissionsGiven={onPermissionsGiven}
             />
           </Route>
           <Route path={routes.clickToCallConsent()}>
-            <ConsentToRecord onStartCallClicked={() => startCall()} />
+            <ConsentToRecord onStartCallClicked={handleCallStart} />
           </Route>
 
           <Redirect to={clickToCallPath()} />

@@ -30,6 +30,7 @@ Object {
   "isPolling": true,
   "microphoneMuted": false,
   "recordingConsent": null,
+  "timeInCall": 0,
   "vendor": Object {
     "io": null,
   },
