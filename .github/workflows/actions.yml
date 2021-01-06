@@ -151,3 +151,28 @@ jobs:
         uses: zendesk/ga/samson-inbound-webhook@v2
         with:
           webhook-url: 'https://samson.zende.sk/integrations/generic/b127503546dbc459293e47fbae026af2'
+  sonarqube:
+    name: sonarqube
+    runs-on: [ self-hosted,zendesk-stable ]
+    steps:
+      - uses: zendesk/checkout@v2
+      - name: SonarQube scan PR
+        if: github.event_name == 'pull_request'
+        run: |
+          sonar-scanner \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.pullrequest.base="${{ github.base_ref }}" \
+          -Dsonar.pullrequest.branch="${{ github.head_ref }}" \
+          -Dsonar.pullrequest.key="${{ github.event.number }}" \
+          -Dsonar.pullrequest.github.repository="zendesk/${{ github.event.repository.name }}" \
+          -Dsonar.scm.revision="${{ github.event.pull_request.head.sha }}"
+      - name: SonarQube scan master
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          sonar-scanner \
+          -Dsonar.host.url="${{ secrets.SONARQUBE_HOST }}" \
+          -Dsonar.login="${{ secrets.SONARQUBE_TOKEN }}" \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.branch.name=master
