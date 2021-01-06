@@ -14,4 +14,5 @@ t.dateTimeFormat = options => {
 t.load = (_locale, cb) => cb()
 t.locale = 'en-US'
 t.dir = 'ltr'
+t.getLocale = () => 'en-US'
 module.exports = t
