@@ -3,6 +3,7 @@ import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+import { LauncherLabel as SuncoLauncherLabel } from '@zendesk/conversation-components'
 
 import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import Frame from 'src/framework/components/Frame'
@@ -13,16 +14,8 @@ import {
   labelHidden,
 } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import { getLauncherLabelText } from 'src/apps/messenger/features/launcherLabel/store/config'
-import { Container } from 'src/apps/messenger/features/launcherLabel/styles'
-import {
-  Content,
-  Label,
-  CloseButton,
-  Tail,
-  CloseIcon,
-  GlobalStyles,
-  TriangleShadow,
-} from './styles'
+
+import { Container, GlobalStyles } from './styles'
 
 const roughSizeForBoxShadows = 20
 
@@ -39,6 +32,20 @@ const LauncherLabel = forwardRef((_, ref) => {
 
   if (isLauncherLabelVisible) {
     wasVisible.current = true
+  }
+
+  const refCallback = (element) => {
+    if (!element || dimensions?.updated) {
+      return ref
+    }
+
+    setDimensions?.({
+      height: element.clientHeight + roughSizeForBoxShadows * 2,
+      width: element.clientWidth + roughSizeForBoxShadows * 2,
+      updated: true,
+    })
+
+    if (ref) ref.current = element
   }
 
   useLayoutEffect(() => {
@@ -68,46 +75,27 @@ const LauncherLabel = forwardRef((_, ref) => {
         <>
           <GlobalStyles />
           <Container
-            ref={ref}
+            ref={refCallback}
             onKeyDown={() => {
               // The focus jail does not pick up onKeyDown if not used at least once.
             }}
+            position={position}
           >
-            <Content
-              ref={(ref) => {
-                if (!ref || dimensions.updated) {
-                  return
-                }
-
-                setDimensions({
-                  height: ref.clientHeight + roughSizeForBoxShadows * 2,
-                  width: ref.clientWidth + roughSizeForBoxShadows * 2,
-                  updated: true,
-                })
-              }}
+            <SuncoLauncherLabel
               position={position}
-            >
-              <CloseButton
-                onClick={() => {
-                  dispatch(labelHidden())
-                }}
-                tabIndex={position === 'right' ? 1 : 2}
-                position={position}
-                aria-label={translate('embeddable_framework.messenger.launcher_label.close')}
-              >
-                <CloseIcon />
-              </CloseButton>
-              <Label
-                onClick={() => {
-                  dispatch(widgetOpened())
-                }}
-                tabIndex={position === 'left' ? 1 : 2}
-              >
-                {text}
-                <TriangleShadow position={position} />
-                <Tail position={position} />
-              </Label>
-            </Content>
+              closeButtonAriaLabel={translate(
+                'embeddable_framework.messenger.launcher_label.close'
+              )}
+              onCloseClick={() => {
+                dispatch(labelHidden())
+              }}
+              onLabelClick={() => {
+                dispatch(widgetOpened())
+              }}
+              setDimensions={setDimensions}
+              dimensions={dimensions}
+              text={text}
+            />
           </Container>
         </>
       </ThemeProvider>

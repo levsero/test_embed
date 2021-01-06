@@ -42,6 +42,9 @@ const defaultLabels = {
   launcher: {
     ariaLabel: 'Open messaging window',
   },
+  launcherLabel: {
+    ariaLabel: 'Close',
+  },
 }
 
 export default defaultLabels
