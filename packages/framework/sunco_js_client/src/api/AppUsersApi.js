@@ -16,6 +16,21 @@ class AppUsersApi extends BaseApi {
     })
   }
 
+  update(appUserId, data = {}) {
+    return this.request({
+      method: 'PUT',
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}`,
+      data: {
+        ...data
+      },
+      headers: {
+        Authorization: `Basic ${btoa(
+          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
+        )}`
+      }
+    })
+  }
+
   get(appUserId) {
     return this.request({
       method: 'GET',

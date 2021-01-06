@@ -49,3 +49,7 @@ export const sendFormResponse = async (fields, formId) => {
   const conversation = await getActiveConversation()
   return conversation.sendFormResponse(fields, formId)
 }
+
+export const setLocale = async locale => {
+  getClient().setLocale(locale)
+}

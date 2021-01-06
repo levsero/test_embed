@@ -17,6 +17,7 @@ export default class Sunco {
     this.integrationId = integrationId
     this._activeConversation = null
     storage.setStorageType({ type: storageType })
+    this.locale = null
 
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
@@ -97,7 +98,7 @@ export default class Sunco {
             resolve(this.activeConversation)
           })
         } else {
-          this.appUsers.create().then(response => {
+          this.appUsers.create({ locale: this.locale }).then(response => {
             storeAppUser({
               appUserId: response.body.appUser._id,
               sessionToken: response.body.sessionToken,
@@ -112,6 +113,20 @@ export default class Sunco {
         }
       })
     return this.conversationPromise
+  }
+
+  setLocale(locale) {
+    this.locale = locale
+
+    const { appUserId } = getCurrentUserIfAny(this.integrationId)
+    if (appUserId) {
+      this.startConversation()
+    }
+    if (this.conversationPromise) {
+      this.conversationPromise.then(response => {
+        this.appUsers.update(response.appUserId, { locale })
+      })
+    }
   }
 
   wasMessageSentFromThisTab(message) {
