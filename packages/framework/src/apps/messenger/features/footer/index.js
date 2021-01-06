@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
 import {
@@ -16,7 +16,6 @@ const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
-  const [initialValue, setInitialValue] = useState(composerDraft)
 
   const onSendMessage = message => {
     if (message.trim().length === 0) {
@@ -24,7 +23,6 @@ const Footer = () => {
     }
     dispatch(sendMessage({ message }))
     stopTyping()
-    setInitialValue('')
   }
 
   const onChange = _e => {
@@ -44,7 +42,7 @@ const Footer = () => {
     }
 
     return () => {
-      if (composerRef.current?.value) {
+      if (composerRef.current) {
         dispatch(saveDraft({ message: composerRef.current.value }))
       }
     }
@@ -58,7 +56,7 @@ const Footer = () => {
       inputAriaLabel="Type a message"
       sendButtonTooltip="Send message"
       sendButtonAriaLabel="Send message"
-      initialValue={initialValue}
+      initialValue={composerDraft}
       onChange={onChange}
       onSendMessage={onSendMessage}
     />
