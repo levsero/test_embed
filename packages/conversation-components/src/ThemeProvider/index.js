@@ -57,6 +57,7 @@ const ThemeProvider = ({
             xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
             xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
             xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize),
+            messageBubbleWidth: rem(52, baseFontSize),
             imageHeight: rem('146px', baseFontSize),
             imageWidth: rem('264px', baseFontSize)
           },

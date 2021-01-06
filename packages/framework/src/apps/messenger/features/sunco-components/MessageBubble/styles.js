@@ -30,7 +30,7 @@ const otherMessageEnter = keyframes`
 
 const Bubble = styled.div`
   margin-top: ${props => props.theme.messenger.space.xxxs};
-  min-width: ${props => props.theme.messenger.space.xl};
+  min-width: ${props => props.theme.messenger.space.messageBubbleWidth};
 
   transition: ${transition(messageSteps.messageBorder, 'border-radius')},
     ${transition(messageSteps.messageStatusOpacity, 'opacity')};
