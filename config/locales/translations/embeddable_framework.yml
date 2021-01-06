@@ -1318,7 +1318,7 @@ parts:
       screenshot: "https://drive.google.com/open?id=1ZV3Rn-TE4Zgvr25VFvIJ7z8au986DRKM"
       value: "Web Widget Live Chat"
 
-# Attachments
+  # Attachments
   - translation:
       key: "embeddable_framework.submitTicket.attachments.title"
       title: "The label on the form above the attached files. Will wrap as needed. (https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1)"
@@ -1542,89 +1542,100 @@ parts:
       value: "Call disconnected"
       wip: true
 
-  # Talk: Digital Voice
+  # Talk: Embedded Voice
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.channel.title"
+      key: "embeddable_framework.talk.embeddedVoice.channel.title"
       title: "The title used for Digital Voice in all channel choice pages."
+      value: "Call us"
+      screenshot: "https://drive.google.com/file/d/1ZQiKUsS79jfHEG4lAuH9VvVVhG2tT-Eq/view?usp=sharing"
+      wip: true
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.header.title"
+      title: "The title used for Digital Voice in all of its pages."
+      screenshot: "https://drive.google.com/file/d/1BBjqg6WewrKUtpYf4wbnN4ec_IjA0hC8/view?usp=sharing"
       value: "Call us"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.title"
+      key: "embeddable_framework.talk.embeddedVoice.microphoneAccess.title"
       title: "The title used for Digital Voice to inform the user that microphone access is required."
-      value: "Allow microphone access"
+      screenshot: "https://drive.google.com/file/d/1rRAqNmO1pDMRe2LgvyHJ9Oi3zQerPVcK/view?usp=sharing"
+      value: "Allow microphone"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.description"
+      key: "embeddable_framework.talk.embeddedVoice.microphoneAccess.description"
       title: "The description used for Digital Voice to inform the user that microphone access is required."
+      screenshot: "https://drive.google.com/file/d/1XgdjJRuSWNMTSxq1Jn0MZ-rgLAjcTRp7/view?usp=sharing"
       value: "This app needs permission to use your microphone before you can start a call."
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.microphoneAccess.button.next"
+      key: "embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next"
       title: "The button label used for Digital Voice to indicate to the user to proceed to the next page."
+      screenshot: "https://drive.google.com/file/d/171kEja-A5J8aDnZusu1ZCl_pWZPPOBGl/view?usp=sharing"
       value: "Next"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.call.starting"
+      key: "embeddable_framework.talk.embeddedVoice.call.starting"
       title: "The title page to show that a call is starting."
+      screenshot: "https://drive.google.com/file/d/141f2KjL1lxwDnEb1KjZnBf3GTffDcqHI/view?usp=sharing"
       value: "Starting call..."
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.call.in.progress"
+      key: "embeddable_framework.talk.embeddedVoice.call_in_progress"
       title: "The title page to show that a call is in progress."
+      screenshot: "https://drive.google.com/file/d/1tWWMVY-0RCWm_9kXV0jf4PrjJHRjwIuF/view?usp=sharing"
       value: "Call in progress"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.call.ended"
+      key: "embeddable_framework.talk.embeddedVoice.call.ended"
       title: "The title page to show that a call has ended."
+      screenshot: "https://drive.google.com/file/d/1mBZNftLgzT4Ezo7MThBzji0Mmb7gdVS3/view?usp=sharing"
       value: "Call ended"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.title"
+      key: "embeddable_framework.talk.embeddedVoice.recordingConsent.title"
       title: "The title page to get customer consent to record the call."
+      screenshot: "https://drive.google.com/file/d/17unB4-k_2mls5N4yORVsjVLuZ3SZilYg/view?usp=sharing"
       value: "Allow call to be recorded?"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.message"
+      key: "embeddable_framework.talk.embeddedVoice.recordingConsent.message"
       title: "The message to inform the customer that the call will be recorded for quality purposes"
       value: "If you consent, the call will be recorded for quality purposes."
+      screenshot: "https://drive.google.com/file/d/1aouCyFhA7hiMsNm69cBg1g1cqEmYf1ua/view?usp=sharing"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.customer.confirmation"
+      key: "embeddable_framework.talk.embeddedVoice.recordingConsent.customer.confirmation"
       title: "The message to indicate that the customer gives consent for the call to be recorded for quality purposes"
+      screenshot: "https://drive.google.com/file/d/1OjoKCDfbfzEY27OfJKjcXw8gzvt1oF59/view?usp=sharing"
       value: "I consent to this call being recorded."
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.button.startCall"
+      key: "embeddable_framework.talk.embeddedVoice.button.startCall"
       title: "The button label used for Digital Voice to indicate to the user to start the call."
+      screenshot: "https://drive.google.com/file/d/1F6dX5_ljM6mjB--agwImNVlRHO286JmZ/view?usp=sharing"
       value: "Start call"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.title"
+      key: "embeddable_framework.talk.embeddedVoice.networkError.title"
       title: "The title page for digital voice to indicate a network error while trying to connect the call"
+      screenshot: "https://drive.google.com/file/d/1WJOtbVdZHpQGALlrf2ue4cjxuwJWxYD-/view?usp=sharing"
       value: "Call couldn't be connected"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.message"
+      key: "embeddable_framework.talk.embeddedVoice.networkError.message"
       title: "The message for digital voice to indicate a network error while trying to connect the call"
+      screenshot: "https://drive.google.com/file/d/1HnICpntXopZlRetHAcZPDHJKPEW8jrb2/view?usp=sharing"
       value: "Check your internet connection and try again."
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.networkError.button.reconnect"
+      key: "embeddable_framework.talk.embeddedVoice.networkError.button.reconnect"
       title: "The button label to inform the customer to try connecting again."
+      screenshot: "https://drive.google.com/file/d/1G2pl32Luw2YJ7ZzYvQVPYzKqSHmNOn8E/view?usp=sharing"
       value: "Reconnect"
       wip: true
   - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.agentOffline.title"
-      title: "The title page for digital voice to indicate that the agent is offline"
-      value: "Couldn't connect to an agent"
-      wip: true
-  - translation:
-      key: "embeddable_framework.talk.digitalVoice.recordingConsent.agentOffline.button.back"
-      title: "The button label to indicate to the customer to go back to the previous page."
-      value: "Back"
-      wip: true
-  - translation:
-      key: "embeddable_framework.talk.digitalVoice.callErrors.callFailed"
+      key: "embeddable_framework.talk.embeddedVoice.callErrors.callFailed"
       title: "The page title to indicate that the call failed to connect."
+      screenshot: "https://drive.google.com/file/d/1D-UzJdBGNnQmRCbpRQQtfR-o5JTbk3rL/view?usp=sharing"
       value: "Call failed"
       wip: true
