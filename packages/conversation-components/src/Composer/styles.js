@@ -53,6 +53,7 @@ const StyledTextarea = styled(Textarea)`
   &&& {
     border-radius: ${props => rem(22, props.theme.messenger.baseFontSize)};
     border: ${props => props.theme.borders.sm} rgb(216, 220, 222);
+    background: transparent;
     min-height: auto;
     padding: ${props => props.theme.messenger.space.sm}
       ${props => props.theme.messenger.space.sixteen};
@@ -86,6 +87,7 @@ const StyledTextarea = styled(Textarea)`
 const Container = styled.div`
   display: flex;
   align-items: center;
+  font-family: ${props => props.theme.messenger.fontFamily};
   padding: ${props => props.theme.messenger.space.sm}
     ${props => props.theme.messenger.space.sixteen};
   flex-shrink: 0;

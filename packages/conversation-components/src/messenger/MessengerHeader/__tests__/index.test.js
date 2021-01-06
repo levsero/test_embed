@@ -1,14 +1,14 @@
 import render from 'src/utils/test/render'
-import Header from '../'
+import MessengerHeader from '../'
 
 const mockOnCloseFn = jest.fn()
 
-describe('Header', () => {
+describe('MessengerHeader', () => {
   const defaultProps = {
     title: 'Test company'
   }
 
-  const renderComponent = (props = {}) => render(<Header {...defaultProps} {...props} />)
+  const renderComponent = (props = {}) => render(<MessengerHeader {...defaultProps} {...props} />)
 
   it('renders the title and description', () => {
     const { getByText } = renderComponent({
