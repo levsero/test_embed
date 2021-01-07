@@ -136,7 +136,7 @@ WithPredefinedValues.args = {
     }
   ],
   initialStep: 3,
-  values: {
+  initialValues: {
     '1': 'Fred likes Ramen',
     '3': [
       {

@@ -15,7 +15,7 @@ const FormMessage = ({
   label,
   avatar,
   fields = [],
-  values = {},
+  initialValues = {},
   initialStep = 1,
   formSubmissionStatus = 'unsubmitted',
   status = 'sent',
@@ -34,7 +34,7 @@ const FormMessage = ({
   const [activeStep, setActiveStep] = useState(initialStep)
   const totalSteps = fields.length
   const visibleFields = fields.slice(0, activeStep)
-  const [formValues, setFormValues] = useState(values)
+  const [formValues, setFormValues] = useState(initialValues)
   // The purpose of lastSubmittedTimestamp is to have some kind of trigger to get error messages
   // to be read out loud by screen readers when the user attempts to submit a form
   // but the error strings remain the same.
@@ -151,7 +151,7 @@ FormMessage.propTypes = {
     })
   ),
   initialStep: PropTypes.number,
-  values: PropTypes.object,
+  initialValues: PropTypes.object,
   formSubmissionStatus: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
   timeReceived: PropTypes.number,
