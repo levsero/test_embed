@@ -517,19 +517,29 @@ describe('getTalkEnabled', () => {
 
 describe('getTalkAvailable', () => {
   test.each([
-    [true, true, '123456', false, true],
-    [true, true, '', true, true],
-    [true, false, '123456', false, false],
-    [false, false, '123456', false, false],
-    [false, true, '123456', false, false],
-    [true, true, '', false, false],
-    [true, true, undefined, false, false],
-    [true, true, null, false, false]
+    [true, true, '123456', false, false, true],
+    [true, true, '', true, false, true],
+    [true, false, '123456', false, false, false],
+    [false, false, '123456', false, false, false],
+    [false, true, '123456', false, false, false],
+    [true, true, '', false, false, false],
+    [true, true, undefined, false, false, false],
+    [true, true, null, false, false, false],
+    [true, true, false, false, true, true],
+    [false, false, false, false, true, false],
+    [true, false, false, false, true, false],
+    [false, true, false, false, true, false]
   ])(
-    'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, && deferredTalk is %p, it returns %p',
-    (talkEnabled, configEnabled, phoneNumber, deferredTalk, expected) => {
+    'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, && deferredTalk is %p, && isEmbeddedVoiceEnabled is %p it returns %p',
+    (talkEnabled, configEnabled, phoneNumber, deferredTalk, isEmbeddedVoiceEnabled, expected) => {
       expect(
-        selectors.getTalkAvailable.resultFunc(talkEnabled, configEnabled, phoneNumber, deferredTalk)
+        selectors.getTalkAvailable.resultFunc(
+          talkEnabled,
+          configEnabled,
+          phoneNumber,
+          deferredTalk,
+          isEmbeddedVoiceEnabled
+        )
       ).toEqual(expected)
     }
   )

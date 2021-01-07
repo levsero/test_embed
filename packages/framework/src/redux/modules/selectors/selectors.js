@@ -61,7 +61,8 @@ import {
   getEmbeddableConfigConnected as getTalkEmbeddableConfigConnected,
   isCallbackEnabled,
   getPhoneNumber,
-  getDeferredStatusOnline
+  getDeferredStatusOnline,
+  getIsEmbeddedVoiceEnabled
 } from '../talk/talk-selectors'
 import {
   getActiveEmbed,
@@ -308,9 +309,17 @@ export const getTalkEnabled = createSelector(
 )
 
 export const getTalkAvailable = createSelector(
-  [getTalkEnabled, getTalkEmbeddableConfigEnabled, getPhoneNumber, getDeferredStatusOnline],
-  (talkEnabled, configEnabled, phoneNumber, deferredTalkOnline) =>
-    talkEnabled && configEnabled && (!_.isEmpty(phoneNumber) || deferredTalkOnline)
+  [
+    getTalkEnabled,
+    getTalkEmbeddableConfigEnabled,
+    getPhoneNumber,
+    getDeferredStatusOnline,
+    getIsEmbeddedVoiceEnabled
+  ],
+  (talkEnabled, configEnabled, phoneNumber, deferredTalkOnline, isEmbeddedVoiceEnabled) =>
+    talkEnabled &&
+    configEnabled &&
+    (!_.isEmpty(phoneNumber) || deferredTalkOnline || isEmbeddedVoiceEnabled)
 )
 
 export const getTalkOnline = createSelector(

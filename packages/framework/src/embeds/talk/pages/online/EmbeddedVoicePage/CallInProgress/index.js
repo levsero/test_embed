@@ -21,12 +21,17 @@ import {
 const CallInProgress = ({
   callDuration = '30:00',
   onEndCallClicked = () => {},
-  onMuteClick = () => {}
+  onMuteClick = () => {},
+  isCallActive
 }) => {
   const dispatch = useDispatch()
   const isMuted = useSelector(getMicrophoneMuted)
 
   const handleMuteClick = () => {
+    if (!isCallActive) {
+      return
+    }
+
     if (isMuted) {
       dispatch(unmuteMicrophone())
       onMuteClick(false)
@@ -36,12 +41,20 @@ const CallInProgress = ({
     }
   }
 
+  const handleEndCallClicked = () => {
+    if (!isCallActive) {
+      return
+    }
+
+    onEndCallClicked()
+  }
+
   const MicIcon = isMuted ? MutedMicrophoneIcon : MicrophoneIcon
 
   return (
     <Container>
       <Section>
-        <Label>Call in progress</Label>
+        <Label>{isCallActive ? 'Call in progress' : 'Call ended'}</Label>
         <Timer>{callDuration}</Timer>
       </Section>
       <Section>
@@ -61,7 +74,7 @@ const CallInProgress = ({
               isPrimary={true}
               ignoreThemeOverride={true}
               isDanger={true}
-              onClick={onEndCallClicked}
+              onClick={handleEndCallClicked}
             >
               <PhoneIcon />
             </CallButton>
@@ -75,8 +88,9 @@ const CallInProgress = ({
 
 CallInProgress.propTypes = {
   callDuration: PropTypes.string,
-  onEndCallClicked: PropTypes.func,
-  onMuteClick: PropTypes.func
+  onEndCallClicked: PropTypes.func.isRequired,
+  onMuteClick: PropTypes.func,
+  isCallActive: PropTypes.bool
 }
 
 export default CallInProgress

@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
-import routes from 'src/embeds/talk/routes'
 
 import LoadingButton from 'embeds/talk/components/LoadingButton'
 
 import { Button, Container, Dot, DotContainer, Heading, Message, SectionContainer } from './styles'
 
-const MicrophonePermissions = ({ onStartCallClicked, showStartCallButton = false }) => {
+const MicrophonePermissions = ({
+  onStartCallClicked,
+  showStartCallButton = false,
+  onPermissionsGiven
+}) => {
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
-  const history = useHistory()
-
-  const onPermissionsGiven = () => {
-    history.push(routes.clickToCallConsent())
-  }
 
   return (
     <Container>
@@ -50,7 +47,8 @@ const MicrophonePermissions = ({ onStartCallClicked, showStartCallButton = false
 
 MicrophonePermissions.propTypes = {
   onStartCallClicked: PropTypes.func.isRequired,
-  showStartCallButton: PropTypes.bool
+  showStartCallButton: PropTypes.bool,
+  onPermissionsGiven: PropTypes.func.isRequired
 }
 
 MicrophonePermissions.defaultProps = {
