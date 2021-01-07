@@ -3959,10 +3959,10 @@
   dependencies:
     "@babel/runtime" "^7.8.4"
 
-"@zendeskgarden/css-bedrock@^7.0.35":
-  version "7.0.35"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/css-bedrock/-/css-bedrock-7.0.35.tgz#2059150d2c8a6ab24fa1469f3b3326ad04a2aa33"
-  integrity sha512-vB73g+ww4Mz/x2w46SygacATBd818C9/HVv5dhrpZRh4m+CEcooDV4bcs0/MTMx1LFXkVOAfBkgM/kPJe1rhdw==
+"@zendeskgarden/css-bedrock@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/css-bedrock/-/css-bedrock-8.0.1.tgz#3810ed52b0542b8976c27e766b57b48720a25d97"
+  integrity sha512-VbtJHzwdTjlpxqexzZTiaNTYQ5/xdQkALp01fDudC9NgL5KueehTi8VW64cYCi1NoCJvGrKXzaey9aSRBYPepA==
   dependencies:
     "@zendeskgarden/css-variables" "^6.4.5"
     normalize.css "^8.0.0"
