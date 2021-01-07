@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useMemo } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { FORM_MESSAGE_STATUS, MESSAGE_STATUS } from 'src/constants'
@@ -11,21 +11,12 @@ import validateFields from './validateFields'
 import { useScroll } from 'src/hooks/useScrollBehaviour'
 import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
 
-const initialStepNumFromValues = (fields = [], values = {}) => {
-  if (Object.keys(values).length === 0) return 1
-  const valueKeys = Object.keys(values).map(key => key.toString())
-  const fieldsWithValues = []
-  fields.forEach((field, index) => {
-    if (valueKeys.some(key => key === field._id.toString())) fieldsWithValues.push(index)
-  })
-  return Math.max(...fieldsWithValues) + 1
-}
-
 const FormMessage = ({
   label,
   avatar,
   fields = [],
   values = {},
+  initialStep = 1,
   formSubmissionStatus = 'unsubmitted',
   status = 'sent',
   timeReceived,
@@ -34,17 +25,16 @@ const FormMessage = ({
   isReceiptVisible = false,
   isFreshMessage = true,
   onValidate = undefined,
+  onStepChange = (_oldStep, _newStep) => {},
   onChange = (_fieldId, _value) => {},
   onSubmit = _formValues => {},
   onRetry = () => {}
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-  const initialStepNum = useMemo(() => initialStepNumFromValues(fields, values), [])
-  const [activeStep, setActiveStep] = useState(initialStepNum)
+  const [activeStep, setActiveStep] = useState(initialStep)
   const totalSteps = fields.length
-  const [formValues, setFormValues] = useState(values)
   const visibleFields = fields.slice(0, activeStep)
-  const validate = onValidate || validateFields
+  const [formValues, setFormValues] = useState(values)
   // The purpose of lastSubmittedTimestamp is to have some kind of trigger to get error messages
   // to be read out loud by screen readers when the user attempts to submit a form
   // but the error strings remain the same.
@@ -52,7 +42,8 @@ const FormMessage = ({
   // so by passing key={lastSubmittedTimestamp} to error messages, new elements are created
   // when the key changes.
   const [lastSubmittedTimestamp, setLastSubmittedTimestamp] = useState(Date.now())
-  const [validationStep, setValidationStep] = useState(initialStepNum === 1 ? 0 : initialStepNum)
+  const validate = onValidate || validateFields
+  const [validationStep, setValidationStep] = useState(activeStep === 1 ? 0 : activeStep)
   const [validationErrors, setValidationErrors] = useState({})
   const fieldsToValidate = () => {
     if (validationStep === 0) return []
@@ -67,6 +58,7 @@ const FormMessage = ({
   const incrementActiveStep = () => {
     if (activeStep < totalSteps) {
       setActiveStep(activeStep + 1)
+      onStepChange(activeStep, activeStep + 1)
     }
   }
 
@@ -158,6 +150,7 @@ FormMessage.propTypes = {
       type: PropTypes.string
     })
   ),
+  initialStep: PropTypes.number,
   values: PropTypes.object,
   formSubmissionStatus: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
@@ -165,6 +158,7 @@ FormMessage.propTypes = {
   isFirstInGroup: PropTypes.bool,
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
+  onStepChange: PropTypes.func,
   onChange: PropTypes.func,
   onValidate: PropTypes.func,
   onSubmit: PropTypes.func,

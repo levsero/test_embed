@@ -45,7 +45,7 @@ describe('FormMessage', () => {
   })
 
   it('focuses on the last step visible when the form appears to the user', () => {
-    const { getByLabelText } = renderComponent({ values: { id1: 'fred', id2: '' } })
+    const { getByLabelText } = renderComponent({ initialStep: 2, values: { id1: 'fred', id2: '' } })
 
     expect(getByLabelText('I am the second test field')).toHaveFocus()
   })

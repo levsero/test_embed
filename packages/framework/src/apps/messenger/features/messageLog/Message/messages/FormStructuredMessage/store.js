@@ -35,6 +35,7 @@ const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, valu
 
 const getDefaultForm = formId => ({
   _id: formId,
+  step: 1,
   values: {},
   formSubmissionStatus: FORM_MESSAGE_STATUS.unsubmitted
 })
@@ -53,6 +54,11 @@ const formSlice = createSlice({
       ensureFormInState(state, action.payload.formId)
 
       state[action.payload.formId].values = action.payload.values
+    },
+    stepChanged: (state, action) => {
+      ensureFormInState(state, action.payload.formId)
+
+      state[action.payload.formId].step = action.payload.step
     }
   },
   extraReducers: {
@@ -74,10 +80,10 @@ const formSlice = createSlice({
   }
 })
 
-const { formUpdated } = formSlice.actions
+const { formUpdated, stepChanged } = formSlice.actions
 const getFormsState = state => state.forms
 const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm(formId)
 
-export { getFormsState, formUpdated, getFormInfo, submitForm }
+export { getFormsState, formUpdated, getFormInfo, submitForm, stepChanged }
 
 export default formSlice.reducer

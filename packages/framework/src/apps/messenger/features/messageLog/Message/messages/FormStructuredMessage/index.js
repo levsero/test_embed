@@ -16,7 +16,7 @@ const FormStructuredMessage = ({
   }
 }) => {
   const messageStatus = status ?? MESSAGE_STATUS.sent
-  const { onChange, onSubmit, values, formSubmissionStatus } = useForm({
+  const { onChange, onSubmit, values, formSubmissionStatus, step, onStepChange } = useForm({
     formId: _id,
     fields
   })
@@ -26,11 +26,13 @@ const FormStructuredMessage = ({
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
       fields={fields}
+      initialStep={step}
       values={values}
       status={messageStatus}
       formSubmissionStatus={formSubmissionStatus}
       isFirstInGroup={isFirstInGroup}
       isReceiptVisible={false}
+      onStepChange={onStepChange}
       onSubmit={onSubmit}
       onChange={(fieldId, newValue) => {
         onChange({
