@@ -24,10 +24,10 @@ describe('talk selectors', () => {
       [CALLBACK_AND_PHONE, null, CALLBACK_AND_PHONE],
       [CALLBACK_AND_PHONE, false, CALLBACK_AND_PHONE]
     ])(
-      'When config state is %p, digitalVoiceSupported is %p, expect to return %p',
-      (state, digitalVoiceSupported, expectedValue) => {
+      'When config state is %p, embeddedVoiceSupported is %p, expect to return %p',
+      (state, embeddedVoiceSupported, expectedValue) => {
         const config = { capability: state }
-        const result = getCapability.resultFunc(config, digitalVoiceSupported)
+        const result = getCapability.resultFunc(config, embeddedVoiceSupported)
         expect(result).toEqual(expectedValue)
       }
     )
@@ -68,8 +68,8 @@ describe('talk selectors', () => {
 
   describe('getTalkTitleKey', () => {
     test.each([
-      [CLICK_TO_CALL, true, 'embeddable_framework.talk.clickToCall.header.title'],
-      [CLICK_TO_CALL, false, 'embeddable_framework.talk.clickToCall.header.title'],
+      [CLICK_TO_CALL, true, 'embeddable_framework.talk.embeddedVoice.channel.title'],
+      [CLICK_TO_CALL, false, 'embeddable_framework.talk.embeddedVoice.channel.title'],
       ['something else', true, 'embeddable_framework.launcher.label.talk.request_callback'],
       ['something else', false, 'embeddable_framework.launcher.label.talk.call_us']
     ])(

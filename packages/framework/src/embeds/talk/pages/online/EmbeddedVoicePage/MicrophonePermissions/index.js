@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import useTranslate from 'src/hooks/useTranslate'
 import LoadingButton from 'embeds/talk/components/LoadingButton'
 
 import { Button, Container, Dot, DotContainer, Heading, Message, SectionContainer } from './styles'
@@ -10,14 +11,17 @@ const MicrophonePermissions = ({
   showStartCallButton = false,
   onPermissionsGiven
 }) => {
+  const translate = useTranslate()
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
 
   return (
     <Container>
       <SectionContainer>
-        <Heading>Allow microphone</Heading>
+        <Heading>
+          {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.title')}
+        </Heading>
         <Message>
-          This app needs permission to use your microphone before you can start a call.
+          {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.description')}
         </Message>
       </SectionContainer>
       <SectionContainer>
@@ -29,11 +33,11 @@ const MicrophonePermissions = ({
               onStartCallClicked(...args)
             }}
             isLoading={isEstablishingCall}
-            label="Start Call"
+            label={translate('embeddable_framework.talk.embeddedVoice.button.startCall')}
           />
         ) : (
           <Button isPrimary={true} onClick={onPermissionsGiven}>
-            Next
+            {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next')}
           </Button>
         )}
         <DotContainer>

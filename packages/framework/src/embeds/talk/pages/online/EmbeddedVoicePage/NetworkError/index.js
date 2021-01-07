@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import useTranslate from 'src/hooks/useTranslate'
 import LoadingButton from 'embeds/talk/components/LoadingButton'
 
 import { Container, Heading, Message, SectionContainer } from './styles'
 
 const NetworkError = ({ onClick }) => {
+  const translate = useTranslate()
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
 
   return (
     <Container>
       <SectionContainer>
-        <Heading>Call couldn't be connected</Heading>
-        <Message>Check your internet connection and try again.</Message>
+        <Heading>{translate('embeddable_framework.talk.embeddedVoice.networkError.title')}</Heading>
+        <Message>
+          {translate('embeddable_framework.talk.embeddedVoice.networkError.message')}
+        </Message>
       </SectionContainer>
       <SectionContainer>
         <LoadingButton
@@ -22,7 +26,7 @@ const NetworkError = ({ onClick }) => {
           }}
           isLoading={isEstablishingCall}
           isPrimary={true}
-          label="Reconnect"
+          label={translate('embeddable_framework.talk.embeddedVoice.networkError.button.reconnect')}
         />
       </SectionContainer>
     </Container>

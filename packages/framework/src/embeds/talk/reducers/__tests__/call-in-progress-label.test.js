@@ -6,22 +6,22 @@ import callInProgressLabel from '../call-in-progress-label'
 testReducer(callInProgressLabel, [
   {
     action: { type: 'something unrelated' },
-    initialState: 'Call in progress',
-    expected: 'Call in progress'
+    initialState: 'embeddable_framework.talk.embeddedVoice.call_in_progress',
+    expected: 'embeddable_framework.talk.embeddedVoice.call_in_progress'
   },
   {
     action: { type: END_CALL },
-    initialState: 'Call in progress',
-    expected: 'Call ended'
+    initialState: 'embeddable_framework.talk.embeddedVoice.call_in_progress',
+    expected: 'embeddable_framework.talk.embeddedVoice.call.ended'
   },
   {
     action: { type: CALL_FAILED },
-    initialState: 'Call in progress',
-    expected: 'Call failed'
+    initialState: 'embeddable_framework.talk.embeddedVoice.call_in_progress',
+    expected: 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed'
   },
   {
     action: { type: START_CALL },
-    initialState: 'Call failed',
-    expected: 'Call in progress'
+    initialState: 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed',
+    expected: 'embeddable_framework.talk.embeddedVoice.call_in_progress'
   }
 ])

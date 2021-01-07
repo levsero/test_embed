@@ -110,7 +110,7 @@ const EmbeddedVoicePage = () => {
   return (
     <Widget>
       <Header
-        title={translate('embeddable_framework.talk.clickToCall.header.title')}
+        title={translate('embeddable_framework.talk.embeddedVoice.header.title')}
         useReactRouter={history.length > 1}
         showBackButton={history.location.pathname !== routes.clickToCallInProgress()}
       />

@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Field, Label, Checkbox } from '@zendeskgarden/react-forms'
+
+import useTranslate from 'src/hooks/useTranslate'
 import { getRecordingConsent } from 'embeds/talk/selectors'
 import LoadingButton from 'src/embeds/talk/components/LoadingButton'
 import { acceptRecordingConsent, declineRecordingConsent } from 'embeds/talk/actions'
@@ -18,6 +20,7 @@ import {
 } from './styles'
 
 const ConsentToRecord = ({ onStartCallClicked }) => {
+  const translate = useTranslate()
   const dispatch = useDispatch()
   const userConsentedToRecord = useSelector(getRecordingConsent)
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
@@ -33,13 +36,21 @@ const ConsentToRecord = ({ onStartCallClicked }) => {
   return (
     <Container>
       <SectionContainer>
-        <Heading>Allow call to be recorded?</Heading>
-        <Message>If you consent, the call will be recorded for quality purposes.</Message>
+        <Heading>
+          {translate('embeddable_framework.talk.embeddedVoice.recordingConsent.title')}
+        </Heading>
+        <Message>
+          {translate('embeddable_framework.talk.embeddedVoice.recordingConsent.message')}
+        </Message>
       </SectionContainer>
       <CheckboxContainer>
         <Field>
           <Checkbox checked={userConsentedToRecord === OPT_IN} onChange={handleCheck}>
-            <Label>I consent to this call being recorded</Label>
+            <Label>
+              {translate(
+                'embeddable_framework.talk.embeddedVoice.recordingConsent.customer.confirmation'
+              )}
+            </Label>
           </Checkbox>
         </Field>
       </CheckboxContainer>
@@ -51,7 +62,7 @@ const ConsentToRecord = ({ onStartCallClicked }) => {
             onStartCallClicked(...args)
           }}
           isLoading={isEstablishingCall}
-          label="Start Call"
+          label={translate('embeddable_framework.talk.embeddedVoice.button.startCall')}
         />
         <DotContainer>
           <Dot />
