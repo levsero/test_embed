@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Field, Label, Checkbox } from '@zendeskgarden/react-forms'
+import { getRecordingConsent } from 'embeds/talk/selectors'
+import LoadingButton from 'src/embeds/talk/components/LoadingButton'
+import { acceptRecordingConsent, declineRecordingConsent } from 'embeds/talk/actions'
+import { OPT_IN } from 'embeds/talk/reducers/recording-consent'
 
 import {
   Container,
@@ -11,11 +16,19 @@ import {
   SectionContainer,
   CheckboxContainer
 } from './styles'
-import LoadingButton from 'src/embeds/talk/components/LoadingButton'
 
 const ConsentToRecord = ({ onStartCallClicked }) => {
-  const [isConsentSelected, setIsConsentSelected] = useState(true)
+  const dispatch = useDispatch()
+  const userConsentedToRecord = useSelector(getRecordingConsent)
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
+
+  const handleCheck = e => {
+    if (e?.target?.checked) {
+      dispatch(acceptRecordingConsent())
+    } else {
+      dispatch(declineRecordingConsent())
+    }
+  }
 
   return (
     <Container>
@@ -25,10 +38,7 @@ const ConsentToRecord = ({ onStartCallClicked }) => {
       </SectionContainer>
       <CheckboxContainer>
         <Field>
-          <Checkbox
-            checked={isConsentSelected}
-            onChange={() => setIsConsentSelected(!isConsentSelected)}
-          >
+          <Checkbox checked={userConsentedToRecord === OPT_IN} onChange={handleCheck}>
             <Label>I consent to this call being recorded</Label>
           </Checkbox>
         </Field>

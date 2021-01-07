@@ -9,6 +9,10 @@ import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index
 
 export const getDigitalVoiceSupported = _state => isFeatureEnabled(null, 'digital_voice_enabled')
 
+export const getRecordingConsent = state => state.talk.recordingConsent
+export const getUserRecordingConsentRequirement = state =>
+  state.talk.embeddableConfig.recordingConsent
+
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
 
 export const getCapability = createSelector(

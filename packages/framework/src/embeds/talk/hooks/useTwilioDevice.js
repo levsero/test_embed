@@ -5,6 +5,7 @@ import logger from 'src/util/logger'
 import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
 import { getZendeskHost } from 'utility/globals'
 import superagent from 'superagent'
+import { getRecordingConsent } from 'embeds/talk/selectors'
 
 export const microphoneErrorCode = 31208
 
@@ -24,8 +25,19 @@ const getToken = async (subdomain, serviceUrl, nickname) => {
   }
 }
 
-export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnect, onReady }) => {
+export const useTwilioDevice = ({
+  onError,
+  onUnsupported,
+  onConnect,
+  onDisconnect,
+  onReady,
+  onAccept
+}) => {
   const data = useRef({ device: null, connection: null, hasSetUp: false })
+  const serviceUrl = useSelector(getTalkServiceUrl)
+  const nickname = useSelector(getTalkNickname)
+  const userRecordingConsent = useSelector(getRecordingConsent)
+  const subdomain = getZendeskHost(document).split('.')[0]
 
   useEffect(() => {
     data.current.device = new Device()
@@ -42,11 +54,15 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
       onDisconnect?.()
     })
 
-    data.current.device.on('ready', () => {
-      data.current.connection = data.current.device.connect({
+    data.current.device.on('ready', async () => {
+      data.current.connection = await data.current.device.connect({
         source: 'web-widget',
-        recording_consent: 'opted-in',
-        user_agent: navigator.userAgent
+        user_agent: navigator.userAgent,
+        ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
+      })
+
+      data.current.connection.on('accept', event => {
+        onAccept?.(event)
       })
       onReady?.()
     })
@@ -55,10 +71,6 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
       data.current.device?.destroy()
     }
   }, [])
-
-  const serviceUrl = useSelector(getTalkServiceUrl)
-  const nickname = useSelector(getTalkNickname)
-  const subdomain = getZendeskHost(document).split('.')[0]
 
   const startCall = async () => {
     const token = await getToken(subdomain, serviceUrl, nickname)
@@ -69,8 +81,8 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
     } else {
       data.current.connection = data.current.device.connect({
         source: 'web-widget',
-        recording_consent: 'opted-in',
-        user_agent: navigator.userAgent
+        user_agent: navigator.userAgent,
+        ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
       })
     }
   }

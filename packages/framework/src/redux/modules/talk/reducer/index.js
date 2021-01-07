@@ -7,6 +7,7 @@ import callback from './talk-callback'
 import averageWaitTime from './talk-average-wait-time'
 import vendor from './talk-vendor'
 import isPolling from './talk-is-polling'
+import recordingConsent from 'embeds/talk/reducers/recording-consent'
 import microphoneMuted from 'embeds/talk/reducers/microphone-muted'
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   formState,
   isPolling,
   vendor,
-  microphoneMuted
+  microphoneMuted,
+  recordingConsent
 })
