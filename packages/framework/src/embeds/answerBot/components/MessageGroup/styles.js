@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { zdColorAluminum } from '@zendeskgarden/css-variables'
 import { Avatar as AvatarComponent } from 'src/component/Avatar'
 
 const Container = styled.div`
@@ -29,7 +28,7 @@ const Name = styled.div`
     return `
       margin-top: ${5 / props.theme.fontSize}rem !important;
       margin-bottom: ${5 / props.theme.fontSize}rem !important;
-      color: ${zdColorAluminum} !important;
+      color: #999 !important;
 
       ${props.theme.rtl ? `margin-right: ${40 / props.theme.fontSize}rem;` : ''}
       ${!props.theme.rtl ? `margin-left: ${50 / props.theme.fontSize}rem;` : ''}

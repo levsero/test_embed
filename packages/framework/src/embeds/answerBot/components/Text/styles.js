@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { zdColorWhite, zdColorOil, zdColorAntiFlashWhite } from '@zendeskgarden/css-variables'
+import { zdColorWhite } from '@zendeskgarden/css-variables'
 import { MessageBubble } from 'component/shared/MessageBubble'
 
 const Container = styled.div`
@@ -19,7 +19,7 @@ const userMessage = props => `
 
 const botMessage = props => `
   float: ${props.theme.rtl ? 'right' : 'left'};
-  color: ${zdColorOil};
+  color: #333;
 `
 
 const Bubble = styled(MessageBubble)`
@@ -43,7 +43,7 @@ const userBackground = props => `
 `
 
 const botBackground = props => `
-  background: ${zdColorAntiFlashWhite};
+  background: #f3f3f3;
   max-width: ${219 / props.theme.fontSize}rem !important;
 `
 

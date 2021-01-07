@@ -3967,11 +3967,6 @@
     "@zendeskgarden/css-variables" "^6.4.5"
     normalize.css "^8.0.0"
 
-"@zendeskgarden/css-variables@^5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/css-variables/-/css-variables-5.2.3.tgz#2a2edfd5db9801001622537b30b219429f1c07fd"
-  integrity sha512-/QJ3aAiuj0yMJxZrSQywgHRSMJ554NqiTAyX91ydEbpeRZP0hbfBmQRZ6EJTJ2mBJoVX5VKqMe09SJBBvsLsHQ==
-
 "@zendeskgarden/css-variables@^6.4.5":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/css-variables/-/css-variables-6.4.5.tgz#b51a50046f42a11b8d1bfec46e100b02fd6fc1d9"

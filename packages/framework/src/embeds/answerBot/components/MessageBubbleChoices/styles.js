@@ -1,10 +1,4 @@
 import styled from 'styled-components'
-import {
-  zdColorOil,
-  zdColorAntiFlashWhite,
-  zdColorWhiteSmoke,
-  zdColorPlatinum
-} from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'src/constants/shared'
 
 const maxWidth = props => {
@@ -23,8 +17,8 @@ const Container = styled.div`
   display: inline-block;
   white-space: pre-wrap;
   border-radius: ${16 / FONT_SIZE}rem;
-  border-left: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
-  border-right: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
+  border-left: ${1 / FONT_SIZE}rem #eee solid;
+  border-right: ${1 / FONT_SIZE}rem #eee solid;
   margin-bottom: ${7 / FONT_SIZE}rem;
   max-width: ${maxWidth};
 
@@ -34,9 +28,9 @@ const Container = styled.div`
 const Item = styled.div`
   cursor: pointer;
   &:hover {
-    background-color: ${zdColorWhiteSmoke};
+    background-color: #f8f8f8;
   }
-  border-bottom: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
+  border-bottom: ${1 / FONT_SIZE}rem #eee solid;
   ${props => props.top && topBorder}
   ${props => props.bottom && bottomBorder}
 `
@@ -47,15 +41,15 @@ const bottomBorder = `
 `
 
 const topBorder = `
-  border-top: ${1 / FONT_SIZE}rem ${zdColorPlatinum} solid;
+  border-top: ${1 / FONT_SIZE}rem #eee solid;
   border-top-left-radius: ${16 / FONT_SIZE}rem;
   border-top-right-radius: ${16 / FONT_SIZE}rem;
 `
 
 const Header = styled.div`
   ${topBorder}
-  background: ${zdColorAntiFlashWhite};
-  color: ${zdColorOil};
+  background: #f3f3f3;
+  color: #333;
   padding: ${9 / FONT_SIZE}rem ${10 / FONT_SIZE}rem ${8 / FONT_SIZE}rem;
   line-height: ${15 / FONT_SIZE}rem;
 `
