@@ -14,19 +14,19 @@ import FormMessage from './messages/FormMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
 import ImageMessage from './messages/ImageMessage'
 import Label from './Label'
-import MessageBubble from './MessageBubble' //TODO - shouldn't need to export this
-import MessageLogList from './messenger/MessageLogList' //TODO - shouldn't need to export this
+import MessageBubble from './MessageBubble'
+import MessageLogList from './messenger/MessageLogList'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
 import MessengerHeader from './messenger/MessengerHeader'
-import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout' //TODO - shouldn't need to export this
+import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import OtherParticipantReceipt from 'src/receipts/OtherParticipantReceipt'
-import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout' //TODO - shouldn't need to export this
+import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import PrimaryParticipantReceipt from 'src/receipts/PrimaryParticipantReceipt'
 import Replies from 'src/Replies'
 import { ScrollProvider, useScroll } from 'src/hooks/useScrollBehaviour'
 import TextMessage from './messages/TextMessage'
-import Timestamp from './Timestamp' // TODO - should this be a 'message'?
+import Timestamp from './Timestamp'
 import ThemeProvider from './ThemeProvider'
 
 export {
