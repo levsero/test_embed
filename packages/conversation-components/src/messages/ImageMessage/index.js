@@ -71,18 +71,4 @@ ImageMessage.propTypes = {
   onRetry: PropTypes.func
 }
 
-// {
-//   avatar: PropTypes.string,
-//     label: PropTypes.string,
-//   isPrimaryParticipant: PropTypes.bool,
-//   text: PropTypes.string,
-//   timeReceived: PropTypes.number,
-//   shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES)),
-//   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
-//   isFirstInGroup: PropTypes.bool,
-//   isReceiptVisible: PropTypes.bool,
-//   isFreshMessage: PropTypes.bool,
-//   onRetry: PropTypes.func
-// }
-
 export default ImageMessage
