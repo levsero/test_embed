@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 const Label = styled.p`
+  text-align: left;
   margin-left: ${props => props.theme.messenger.space.xxl};
   font-size: ${props => props.theme.messenger.fontSizes.sm};
   font-weight: normal;
