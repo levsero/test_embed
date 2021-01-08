@@ -8,8 +8,8 @@ const Container = styled(Avatar).attrs(props => ({
   flex-shrink: 0;
 
   && {
-    width: ${props => props.theme.messenger.iconSizes.xl};
-    height: ${props => props.theme.messenger.iconSizes.xl};
+    width: ${props => props.theme.messenger.iconSizes.xl} !important;
+    height: ${props => props.theme.messenger.iconSizes.xl} !important;
     margin-right: ${props => props.theme.messenger.space.xxs};
   }
 `

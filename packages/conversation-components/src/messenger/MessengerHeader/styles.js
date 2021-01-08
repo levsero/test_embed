@@ -32,6 +32,7 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: left;
   flex: auto;
   color: ${props => props.theme.messenger.colors.primaryText};
   min-width: 0;
@@ -43,14 +44,14 @@ const Details = styled.div`
 
 const StyledAvatar = styled(Avatar)`
   && {
-    height: ${props => props.theme.messenger.space.xxl};
-    width: ${props => props.theme.messenger.space.xxl};
+    height: ${props => props.theme.messenger.space.xxl} !important;
+    width: ${props => props.theme.messenger.space.xxl} !important;
     flex-shrink: 0;
     border-radius: 50%;
 
     ${onCompactHeader(css`
-      height: ${props => props.theme.messenger.space.xl};
-      width: ${props => props.theme.messenger.space.xl};
+      height: ${props => props.theme.messenger.space.xl} !important;
+      width: ${props => props.theme.messenger.space.xl} !important;
     `)}
   }
 `

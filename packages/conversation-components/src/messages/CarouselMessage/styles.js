@@ -73,6 +73,7 @@ const Content = styled.div`
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: auto;
+  text-align: left;
   padding: ${props => props.theme.messenger.space.sixteen};
   border-radius: ${props =>
     `${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage} 0 0`};

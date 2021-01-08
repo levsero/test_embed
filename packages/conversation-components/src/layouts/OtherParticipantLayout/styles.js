@@ -4,6 +4,9 @@ const LayoutContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: flex-start;
+  align-self: flex-start;
+  text-align: left;
 `
 
 const VerticalContainer = styled.div`
