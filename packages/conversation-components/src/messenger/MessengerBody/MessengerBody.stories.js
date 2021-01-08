@@ -1,14 +1,19 @@
-import CarouselMessage from 'src/messages/CarouselMessage'
-import MessengerContainer from 'src/messenger/MessengerContainer'
-import MessengerHeader from 'src/messenger/MessengerHeader'
-import MessengerBody from './'
-import MessageLogList from 'src/messenger/MessageLogList'
-import MessengerFooter from 'src/messenger/MessengerFooter'
+import {
+  CarouselMessage,
+  MessengerContainer,
+  MessengerHeader,
+  MessengerBody,
+  MessageLogList,
+  MessengerFooter,
+  Replies,
+  TextMessage
+} from 'src/'
 
 export default {
   title: 'Messenger/MessengerBody',
   component: MessengerBody
 }
+
 const flatWhiteItem = {
   _id: '1',
   title: 'A simple Flat White',
@@ -59,6 +64,21 @@ const carouselMessage = {
   items: [flatWhiteItem, aeroPressItem, frenchPressItem]
 }
 
+const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
+const textmessageProps = {
+  isPrimaryParticipant: true,
+  isFirstInGroup: false,
+  timeReceived: timeNowInSeconds,
+  isReceiptVisible: false
+}
+
+const quickReplies = [
+  { _id: 'r1', type: 'reply', text: 'Pizza' },
+  { _id: 'r2', type: 'reply', text: 'Crumpets' },
+  { _id: 'r3', type: 'reply', text: 'Chocolate' },
+  { _id: 'r4', type: 'reply', text: 'Cake' }
+]
+
 const Template = _args => (
   <MessengerContainer>
     <MessengerHeader
@@ -69,11 +89,42 @@ const Template = _args => (
     />
     <MessengerBody>
       <MessageLogList>
+        <TextMessage
+          isFirstInGroup={true}
+          label="Answer Bot"
+          shape="first"
+          text="Hi there. Ask me a question and I'll try to help."
+          isReceiptVisible={false}
+        />
+        <TextMessage
+          isFirstInGroup={false}
+          avatar="https://accounts.zendesk.com/flow_director/assets/default_avatar.png"
+          shape="last"
+          text="Or talk to a human."
+          isReceiptVisible={true}
+          timeReceived={timeNowInSeconds}
+        />
         <CarouselMessage
           label={carouselMessage.label}
           avatar={carouselMessage.avatar}
           items={carouselMessage.items}
         />
+        <TextMessage
+          {...textmessageProps}
+          isFirstInGroup={true}
+          label="Majestic Emus"
+          shape="first"
+          text="Emus are lovely"
+        />
+        <TextMessage {...textmessageProps} shape="middle" text="Clifton baby made up Collins" />
+        <TextMessage
+          {...textmessageProps}
+          shape="last"
+          text="Have you ever tried that fool"
+          avatar="https://lucashills.com/emu_avatar.jpg"
+          isReceiptVisible={true}
+        />
+        <Replies isVisible={true} replies={quickReplies} />
       </MessageLogList>
     </MessengerBody>
     <MessengerFooter />

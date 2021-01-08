@@ -16,6 +16,7 @@ import ImageMessage from './messages/ImageMessage'
 import Label from './Label'
 import MessageBubble from './MessageBubble'
 import MessageLogList from './messenger/MessageLogList'
+import MessengerBody from './messenger/MessengerBody'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
 import MessengerHeader from './messenger/MessengerHeader'
@@ -41,6 +42,7 @@ export {
   Label,
   MessageBubble,
   MessageLogList,
+  MessengerBody,
   MessengerContainer,
   MessengerFooter,
   MessengerHeader,
