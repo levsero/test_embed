@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { ThemeContext } from 'styled-components'
 import { Label, LoadingDots, Button, Loader } from './styles'
 
-const FormButton = ({ submitting = false, label }) => {
+const FormButton = ({ isSubmitting = false, label }) => {
   const theme = useContext(ThemeContext)
   return (
     <Button isPrimary={true} isPill={true} type="submit" aria-label={label}>
-      <Label showLabel={!submitting}>{label}</Label>
-      {submitting && (
+      <Label showLabel={!isSubmitting}>{label}</Label>
+      {isSubmitting && (
         <Loader>
           <LoadingDots
             delayMS={125}
@@ -22,7 +22,7 @@ const FormButton = ({ submitting = false, label }) => {
 }
 
 FormButton.propTypes = {
-  submitting: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   label: PropTypes.string.isRequired,
   theme: PropTypes.shape({
     fontSize: PropTypes.number,

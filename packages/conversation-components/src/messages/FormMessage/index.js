@@ -124,7 +124,7 @@ const FormMessage = ({
               </TextContainer>
 
               <FormButton
-                submitting={formSubmissionStatus === FORM_MESSAGE_STATUS.pending}
+                isSubmitting={formSubmissionStatus === FORM_MESSAGE_STATUS.pending}
                 label={activeStep === totalSteps ? 'Send' : 'Next'}
               />
             </FormFooter>
