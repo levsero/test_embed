@@ -20,6 +20,7 @@ const ThemeProvider = ({
       theme={{
         ...DEFAULT_THEME,
         rtl: rtl,
+        document: currentFrame?.document,
         messenger: {
           currentFrame: currentFrame,
           fontFamily: DEFAULT_THEME.fonts.system,
