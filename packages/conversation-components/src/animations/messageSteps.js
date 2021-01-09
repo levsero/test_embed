@@ -1,6 +1,4 @@
-// import { bezierCurve } from 'src/constants'
 import { css } from 'styled-components'
-
 const bezierCurve = 'cubic-bezier(0.66, 0, 0.12, 1)'
 
 const createStep = (propertyOptions = {}) => ({

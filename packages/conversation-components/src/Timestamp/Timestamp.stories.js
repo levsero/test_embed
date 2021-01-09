@@ -11,10 +11,10 @@ const Template = args => <Timestamp {...args} />
 
 export const TimeNowish = Template.bind()
 TimeNowish.args = {
-  millisecondsSinceEpoch: new Date().getTime()
+  timestamp: new Date().getTime()
 }
 
 export const FiveDaysAgo = Template.bind()
 FiveDaysAgo.args = {
-  millisecondsSinceEpoch: new Date().getTime() - 1000 * 60 * 60 * 24 * 5
+  timestamp: new Date().getTime() - 1000 * 60 * 60 * 24 * 5
 }
