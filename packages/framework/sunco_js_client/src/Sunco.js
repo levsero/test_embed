@@ -98,18 +98,20 @@ export default class Sunco {
             resolve(this.activeConversation)
           })
         } else {
-          this.appUsers.create({ locale: this.locale }).then(response => {
-            storeAppUser({
-              appUserId: response.body.appUser._id,
-              sessionToken: response.body.sessionToken,
-              integrationId: this.integrationId
+          this.appUsers
+            .create({ ...(this.locale ? { locale: this.locale } : {}) })
+            .then(response => {
+              storeAppUser({
+                appUserId: response.body.appUser._id,
+                sessionToken: response.body.sessionToken,
+                integrationId: this.integrationId
+              })
+              this.activeConversation = {
+                conversationId: response.body.conversations[0]._id,
+                socketSettings: response.body.settings.realtime
+              } // TODO - might need to eventually select a particular conversation - isDefault: true
+              resolve(this.activeConversation)
             })
-            this.activeConversation = {
-              conversationId: response.body.conversations[0]._id,
-              socketSettings: response.body.settings.realtime
-            } // TODO - might need to eventually select a particular conversation - isDefault: true
-            resolve(this.activeConversation)
-          })
         }
       })
     return this.conversationPromise
