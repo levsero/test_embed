@@ -1504,7 +1504,7 @@ parts:
   - translation:
       key: "embeddable_framework.talk.clickToCall.header.title"
       title: "The title used for all the click to call pages."
-      value: "Call Us"
+      value: "Call us"
       wip: true
   - translation:
       key: "embeddable_framework.talk.clickToCall.message"
