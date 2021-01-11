@@ -8,16 +8,13 @@ import routes from 'src/embeds/talk/routes'
 import MicrophonePermissions from './MicrophonePermissions'
 import ConsentToRecord from './ConsentToRecord'
 import CallInProgress from './CallInProgress'
+import NetworkError from './NetworkError'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import { getUserRecordingConsentRequirement } from 'embeds/talk/selectors'
 import { unmuteMicrophone, startCallCounter, stopCallCounter } from 'src/embeds/talk/actions'
 
-const clickToCallPath = () => {
-  return routes.clickToCallPermissions()
-}
-
-// Temp hardcoded function to be replaced once Talk endpoints are ready
+const clickToCallHome = () => routes.clickToCallPermissions()
 
 const EmbeddedVoicePage = () => {
   const dispatch = useDispatch()
@@ -38,16 +35,19 @@ const EmbeddedVoicePage = () => {
     dispatch(unmuteMicrophone())
     dispatch(stopCallCounter())
     disconnectTimeout.current = setTimeout(() => {
-      history.replace(clickToCallPath())
+      history.replace(clickToCallHome())
     }, 3000)
   }
 
   const onError = error => {
     dispatch(stopCallCounter())
     dispatch(unmuteMicrophone())
-    if (error?.code === microphoneErrorCode) {
-      dispatch(talkDisconnect())
-      return
+    switch (error.code) {
+      case microphoneErrorCode:
+        dispatch(talkDisconnect())
+        break
+      default:
+        history.replace(routes.clickToCallNetworkError())
     }
   }
 
@@ -88,7 +88,7 @@ const EmbeddedVoicePage = () => {
               isCallActive={isInCall()}
             />
           </Route>
-          <Route path={routes.clickToCallPermissions()}>
+          <Route path={clickToCallHome()}>
             <MicrophonePermissions
               onStartCallClicked={handleCallStart}
               showStartCallButton={skipConsent}
@@ -98,8 +98,11 @@ const EmbeddedVoicePage = () => {
           <Route path={routes.clickToCallConsent()}>
             <ConsentToRecord onStartCallClicked={handleCallStart} />
           </Route>
+          <Route path={routes.clickToCallNetworkError()}>
+            <NetworkError onClick={startCall} />
+          </Route>
 
-          <Redirect to={clickToCallPath()} />
+          <Redirect to={clickToCallHome()} />
         </Switch>
       </Main>
       <Footer />
