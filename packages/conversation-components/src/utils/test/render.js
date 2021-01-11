@@ -1,8 +1,8 @@
-import { render as rtlRender } from '@testing-library/react'
+import { render as tlRender } from '@testing-library/react'
 import ThemeProvider from 'src/ThemeProvider'
 
 const render = (ui, { render, themeProps = {} } = {}) => {
-  const renderFn = render || rtlRender
+  const renderFn = render || tlRender
 
   return renderFn(<ThemeProvider {...themeProps}>{ui}</ThemeProvider>)
 }

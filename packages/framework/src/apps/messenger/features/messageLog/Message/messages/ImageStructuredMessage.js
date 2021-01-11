@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ImageMessage } from '@zendesk/conversation-components'
 
-import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
-import ImageMessage from 'src/apps/messenger/features/sunco-components/ImageMessage'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 
 const ImageStructuredMessage = ({
@@ -22,22 +20,18 @@ const ImageStructuredMessage = ({
   }
 }) => {
   const isPrimaryParticipant = role === 'appUser'
-  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   return (
-    <Layout
+    <ImageMessage
+      isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
       isReceiptVisible={isLastMessageThatHasntFailed}
       timeReceived={received}
-    >
-      <ImageMessage
-        isPrimaryParticipant={isPrimaryParticipant}
-        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
-        mediaUrl={mediaUrl}
-        text={text}
-      />
-    </Layout>
+      shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      mediaUrl={mediaUrl}
+      text={text}
+    />
   )
 }
 
@@ -50,7 +44,8 @@ ImageStructuredMessage.propTypes = {
     isLastMessageThatHasntFailed: PropTypes.bool,
     isLastInLog: PropTypes.bool,
     avatarUrl: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    received: PropTypes.number
   })
 }
 

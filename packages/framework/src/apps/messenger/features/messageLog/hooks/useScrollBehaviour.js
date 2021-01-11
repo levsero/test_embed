@@ -1,17 +1,15 @@
-import { useRef, useLayoutEffect, useCallback, createContext, useContext } from 'react'
+import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { rem, stripUnit } from 'polished'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThemeContext } from 'styled-components'
+
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
   getLastUnreadTimestamp,
   markAsRead
 } from 'src/apps/messenger/store/unreadIndicator'
-import { useDispatch, useSelector } from 'react-redux'
-import { ThemeContext } from 'styled-components'
-import { useShouldDisableAnimations } from 'src/apps/messenger/features/sunco-components/Animated/useDisableAnimationProps'
-
-const ScrollContext = createContext({ scrollToBottomIfNeeded: () => null })
-const ScrollProvider = ScrollContext.Provider
+import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
 
 const scrollOffsetInRems = 3
 
@@ -106,9 +104,4 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   }
 }
 
-const useScroll = () => {
-  return useContext(ScrollContext)
-}
-
 export default useScrollBehaviour
-export { useScroll, ScrollProvider }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { FORM_MESSAGE_STATUS } from '@zendesk/conversation-components'
 import { sendFormResponse } from 'src/apps/messenger/api/sunco'
-import { FORM_MESSAGE_STATUS } from 'src/apps/messenger/features/sunco-components/constants'
 
 const getValue = (field, value) => {
   switch (field.type) {
@@ -37,7 +37,7 @@ const getDefaultForm = formId => ({
   _id: formId,
   step: 1,
   values: {},
-  status: FORM_MESSAGE_STATUS.unsubmitted
+  formSubmissionStatus: FORM_MESSAGE_STATUS.unsubmitted
 })
 
 const ensureFormInState = (state, formId) => {
@@ -55,35 +55,35 @@ const formSlice = createSlice({
 
       state[action.payload.formId].values = action.payload.values
     },
-    nextClicked: (state, action) => {
+    stepChanged: (state, action) => {
       ensureFormInState(state, action.payload.formId)
 
-      state[action.payload.formId].step += 1
+      state[action.payload.formId].step = action.payload.step
     }
   },
   extraReducers: {
     [submitForm.pending]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.pending
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.pending
     },
     [submitForm.fulfilled]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.success
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.success
     },
     [submitForm.rejected]: (state, action) => {
       ensureFormInState(state, action.meta.arg.formId)
 
-      state[action.meta.arg.formId].status = FORM_MESSAGE_STATUS.failed
+      state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.failed
     }
   }
 })
 
-const { formUpdated, nextClicked } = formSlice.actions
+const { formUpdated, stepChanged } = formSlice.actions
 const getFormsState = state => state.forms
 const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm(formId)
 
-export { getFormsState, formUpdated, getFormInfo, nextClicked, submitForm }
+export { getFormsState, formUpdated, getFormInfo, submitForm, stepChanged }
 
 export default formSlice.reducer

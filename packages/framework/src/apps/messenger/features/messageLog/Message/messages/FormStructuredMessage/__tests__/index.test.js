@@ -13,7 +13,6 @@ describe('FormMessage', () => {
     message: {
       _id: '123',
       isFirstInGroup: false,
-      isLastInGroup: false,
       fields: [
         {
           _id: 'field-1',
@@ -143,6 +142,7 @@ describe('FormMessage', () => {
     // Dropdown defaults to first, so click it to open dropdown
     userEvent.click(getByText('Tacos'))
     // Select cheese
+    await waitFor(() => expect(getByText('Cheese')).toBeInTheDocument())
     userEvent.click(getByText('Cheese'))
 
     fireEvent.submit(document.querySelector('form'))
@@ -176,7 +176,9 @@ describe('FormMessage', () => {
       '123'
     )
 
-    await waitFor(() => expect(getFormInfo(store.getState(), '123').status).toBe('success'))
+    await waitFor(() =>
+      expect(getFormInfo(store.getState(), '123').formSubmissionStatus).toBe('success')
+    )
   })
 
   it('prevents emails from being sent with invalid length', async () => {

@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _isEqual from 'lodash/isEqual'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
 import DummyStructuredMessage from './messages/DummyStructuredMessage'
 import FormStructuredMessage from './messages/FormStructuredMessage'
-import FormResponseMessage from './messages/FormResponseMessage'
+import FormResponseStructuredMessage from './messages/FormResponseStructuredMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
 import TextStructuredMessage from './messages/TextStructuredMessage'
 import FileStructuredMessage from './messages/FileStructuredMessage'
 import TypingIndicator from './messages/TypingIndicator'
 import TimestampStructuredMessage from './messages/TimestampStructuredMessage'
-import _ from 'lodash'
 
 // Sunco components match with message type (e.g. text, image)
 // https://docs.smooch.io/rest/#message-types
@@ -17,7 +17,7 @@ const suncoMessageTypes = {
   carousel: CarouselStructuredMessage,
   file: FileStructuredMessage,
   form: FormStructuredMessage,
-  formResponse: FormResponseMessage,
+  formResponse: FormResponseStructuredMessage,
   dummy: DummyStructuredMessage,
   image: ImageStructuredMessage,
   text: TextStructuredMessage
@@ -30,7 +30,7 @@ const localMessageTypes = {
 }
 
 function areEqual(prevProps, nextProps) {
-  return _.isEqual(prevProps.message, nextProps.message)
+  return _isEqual(prevProps.message, nextProps.message)
 }
 
 const Message = React.memo(({ message, isFreshMessage }) => {

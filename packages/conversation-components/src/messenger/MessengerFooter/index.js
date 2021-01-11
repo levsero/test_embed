@@ -10,4 +10,6 @@ const MessengerFooter = React.forwardRef((props, ref) => {
   )
 })
 
+MessengerFooter.propTypes = Composer.propTypes
+
 export default MessengerFooter

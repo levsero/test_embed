@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import File from 'src/apps/messenger/features/sunco-components/File'
+import { FileMessage } from '@zendesk/conversation-components'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
-import PrimaryParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/PrimaryParticipantLayout'
-import OtherParticipantLayout from 'src/apps/messenger/features/sunco-components/Layouts/OtherParticipantLayout'
 
 const FileStructuredMessage = ({
   message: {
@@ -11,7 +9,6 @@ const FileStructuredMessage = ({
     isFirstInGroup,
     isFirstMessageInAuthorGroup,
     isLastInGroup,
-    isLastInLog,
     isPrimaryParticipant,
     isLastMessageInAuthorGroup,
     mediaSize,
@@ -20,24 +17,17 @@ const FileStructuredMessage = ({
     received
   }
 }) => {
-  const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-
   return (
-    <Layout
+    <FileMessage
+      isPrimaryParticipant={isPrimaryParticipant}
       avatar={isLastMessageInAuthorGroup ? avatarUrl : undefined}
       label={isFirstMessageInAuthorGroup ? name : undefined}
       timeReceived={received}
-      isPrimaryParticipant={isPrimaryParticipant}
       isFirstInGroup={isFirstInGroup}
-      isLastInLog={isLastInLog}
-    >
-      <File
-        isPrimaryParticipant={isPrimaryParticipant}
-        shape={getMessageShape(isFirstInGroup, isLastInGroup)}
-        mediaSize={mediaSize}
-        mediaUrl={mediaUrl}
-      />
-    </Layout>
+      shape={getMessageShape(isFirstInGroup, isLastInGroup)}
+      mediaSize={mediaSize}
+      mediaUrl={mediaUrl}
+    />
   )
 }
 
