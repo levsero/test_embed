@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { locals as styles } from './ChatLog.scss'
 
 import ChatGroup from 'component/chat/chatting/log/messages/ConnectedChatGroup'

@@ -4,7 +4,7 @@ import {
   getPrechatFormFields,
   getPrechatFormSettings
 } from 'src/redux/modules/selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getSettingsChatDepartment,
   getSettingsChatDepartmentsEnabled,

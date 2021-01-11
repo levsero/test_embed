@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { store } from 'src/framework/services/persistence'
 import { http } from 'service/transport'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'

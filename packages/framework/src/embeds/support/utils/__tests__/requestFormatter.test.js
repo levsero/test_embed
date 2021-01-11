@@ -1,9 +1,9 @@
 import formatRequestData from '../requestFormatter'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as globals from 'utility/globals'
 import routes from 'embeds/support/routes'
 
-jest.mock('service/i18n')
+jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('utility/globals')
 
 const mockTicketField = {

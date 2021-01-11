@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'

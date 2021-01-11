@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import { getByText, wait } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getGardenOverrides } from 'component/frame/gardenOverrides'
 import BaseFrame, { useFrameStyle } from '../'
 import { waitFor } from '@testing-library/dom'
 
-jest.mock('service/i18n')
+jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('component/frame/gardenOverrides')
 
 jest.mock('components/Widget/WidgetThemeProvider', () => {

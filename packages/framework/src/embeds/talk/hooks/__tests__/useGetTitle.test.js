@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 import useGetTitle from '../useGetTitle'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 describe('useGetTitle', () => {
   const SomeComponent = () => {

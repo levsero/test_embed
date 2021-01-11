@@ -45,7 +45,7 @@ describe('EmbedWrapper', () => {
       },
       'service/history': createMemoryHistory(),
       lodash: _,
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL'])
       },
       './gardenOverrides': {

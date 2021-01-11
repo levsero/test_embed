@@ -114,7 +114,7 @@ import {
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 /*
  * Terms:

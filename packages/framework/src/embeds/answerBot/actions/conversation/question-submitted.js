@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { settings } from 'service/settings'
 import { identity } from 'service/identity'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { http } from 'service/transport'
 
 import { isOnHostMappedDomain } from 'utility/pages'

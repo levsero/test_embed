@@ -18,7 +18,7 @@ import { UserProfile } from 'component/chat/UserProfile'
 import { Widget, Header, Main } from 'src/components/Widget'
 import ChatFooter from 'src/embeds/chat/components/Footer'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 import { locals as styles } from './PrechatForm.scss'
 import { shouldRenderErrorMessage, renderLabel } from 'src/util/fields'

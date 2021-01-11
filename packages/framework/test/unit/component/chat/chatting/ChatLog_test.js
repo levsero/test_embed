@@ -41,7 +41,7 @@ describe('ChatLog component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatLog: noop
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n
       },
       'types/chat': {

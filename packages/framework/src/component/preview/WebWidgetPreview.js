@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Chat from 'src/component/chat/Chat'
 import { Container } from 'src/component/container/Container'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const noop = () => {}
 

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getChatScreen,
   getWindowSettings,

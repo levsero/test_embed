@@ -5,7 +5,7 @@ import createStore from 'src/redux/createStore'
 
 import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import { i18n } from 'src/service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import thunk from 'redux-thunk'
 import reducer from 'src/redux/modules/reducer'
 import configureStore from 'redux-mock-store'

@@ -20,7 +20,7 @@ import {
   getSettingsChatDepartmentsEnabled,
   getSettingsChatPrechatForm
 } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'src/service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/chat/chat-selectors')

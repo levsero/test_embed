@@ -62,7 +62,7 @@ describe('PrechatForm component', () => {
         Button: noopReactComponent()
       },
       'component/chat/UserProfile': { UserProfile },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: noop,
           isRTL: () => {}

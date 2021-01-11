@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { getOfflineTitle } from 'src/embeds/talk/selectors'
 import { Container } from './styles'

@@ -12,7 +12,7 @@ import {
 } from 'src/embeds/answerBot/selectors/conversation'
 import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Container, Name, Avatar, IconContainer } from './styles'
 
 const makeMapStateToProps = () => {

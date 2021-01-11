@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { settings } from 'service/settings'
 import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
@@ -42,12 +42,17 @@ function registerEmbedsInRedux(config, reduxStore) {
   })
 }
 
-function init({ config, reduxStore = dummyStore }) {
+async function init({ config, reduxStore = dummyStore }) {
   if (initialised) {
     return
   }
 
   initialised = true
+
+  i18n.init(reduxStore)
+  await new Promise(res => {
+    i18n.setLocale(undefined, res, config.locale)
+  })
 
   publicApi.registerApi(getWebWidgetPublicApi(reduxStore))
   publicApi.registerLegacyApi(getWebWidgetLegacyPublicApi(reduxStore, config))

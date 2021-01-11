@@ -1,6 +1,6 @@
 import '../webWidgetPreview'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import t from '@zendesk/client-i18n-tools'
 import { waitFor } from '@testing-library/dom'
 

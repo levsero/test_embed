@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { getSessions } from 'src/embeds/answerBot/selectors/sessions'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const getState = state => state.answerBot
 const getConversation = state => state.answerBot.conversation

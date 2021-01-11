@@ -15,7 +15,7 @@ import {
   getTokensRevokedAt
 } from 'embeds/helpCenter/selectors'
 import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import {
   SEARCH_REQUEST_SENT,

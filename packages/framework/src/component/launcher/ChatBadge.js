@@ -12,7 +12,7 @@ import { getLauncherBadgeSettings } from 'src/redux/modules/selectors'
 import { Field, Input } from '@zendeskgarden/react-forms'
 import { Icon } from 'component/Icon'
 import { ICONS, TEST_IDS } from 'constants/shared'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 import { locals as styles } from './ChatBadge.scss'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'

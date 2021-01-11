@@ -26,7 +26,7 @@ describe('blip middleware', () => {
       'service/beacon': {
         beacon: beaconSpy
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: i18nSpy
       },
       'src/redux/modules/talk/talk-selectors': {

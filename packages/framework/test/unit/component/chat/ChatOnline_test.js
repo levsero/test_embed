@@ -83,7 +83,7 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/actions/email-transcript': {
         sendEmailTranscript: noop
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           isRTL: () => {}

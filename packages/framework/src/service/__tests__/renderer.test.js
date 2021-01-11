@@ -9,7 +9,7 @@ jest.mock('src/redux/modules/base', () => ({
   updateEmbedAccessible: jest.fn().mockReturnValue({ type: 'embed accessible' }),
   widgetInitialised: jest.fn().mockReturnValue({ type: 'widget init' })
 }))
-jest.mock('service/i18n')
+jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/talk')
@@ -54,7 +54,7 @@ beforeEach(() => {
   talkfeature.mockImplementation(() => false)
   baseActions = require('src/redux/modules/base')
   setLocaleApi = require('src/service/api/apis').setLocaleApi
-  i18n = require('service/i18n').i18n
+  i18n = require('src/apps/webWidget/services/i18n').i18n
   renderWebWidget = require('src/embeds/webWidget').render
 
   chatActions = require('src/redux/modules/chat')

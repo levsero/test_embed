@@ -5,12 +5,12 @@ import { http } from 'service/transport'
 import { settings } from 'service/settings'
 import { identity } from 'service/identity'
 import { store } from 'src/framework/services/persistence'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import _ from 'lodash'
 
 jest.mock('service/transport')
 jest.mock('service/identity')
-jest.mock('service/i18n')
+jest.mock('src/apps/webWidget/services/i18n')
 
 jest.useFakeTimers()
 

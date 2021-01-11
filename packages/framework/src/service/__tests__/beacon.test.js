@@ -1,7 +1,7 @@
 import { beacon } from '../beacon'
 import { store } from 'src/framework/services/persistence'
 import { http } from 'service/transport'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as pages from 'utility/pages'
 import * as globals from 'utility/globals'
 import { appendMetaTag } from 'utility/devices'

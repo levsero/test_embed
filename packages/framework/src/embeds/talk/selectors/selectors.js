@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 
 import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { isCallbackEnabled, getEmbeddableConfig } from 'src/redux/modules/talk/talk-selectors'
 import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'

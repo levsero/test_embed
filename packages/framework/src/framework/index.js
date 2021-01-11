@@ -8,7 +8,6 @@ import { http } from 'service/transport'
 import { GA } from 'service/analytics/googleAnalytics'
 import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import { i18n } from 'service/i18n'
 import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
 import { setReferrerMetas } from 'utility/globals'
@@ -63,7 +62,7 @@ const getConfig = (win, reduxStore) => {
   if (win.zESkipWebWidget) return
 
   const configLoadStart = Date.now()
-  const done = res => {
+  const done = async res => {
     const config = filterEmbeds(res.body)
 
     beacon.trackLocaleDiff(config.locale)
@@ -105,36 +104,32 @@ const getConfig = (win, reduxStore) => {
         })
     }
 
-    const renderCallback = async () => {
-      try {
-        const embeddable = await getEmbeddable()
+    try {
+      const embeddable = await getEmbeddable()
 
-        embeddable.init?.({
-          config,
-          reduxStore
-        })
+      await embeddable.init?.({
+        config,
+        reduxStore
+      })
 
-        publicApi.run?.({ isMessengerWidget })
+      publicApi.run?.({ isMessengerWidget })
 
-        embeddable.run?.({
-          config,
-          reduxStore
-        })
+      embeddable.run?.({
+        config,
+        reduxStore
+      })
 
-        beacon.sendPageView(isMessengerWidget ? 'web_messenger' : 'web_widget')
+      beacon.sendPageView(isMessengerWidget ? 'web_messenger' : 'web_widget')
 
-        if (Math.random() <= 0.1) {
-          beacon.sendWidgetInitInterval()
-        }
-      } catch (err) {
-        errorTracker.error(err, {
-          rollbarFingerprint: 'Failed to render embeddable',
-          rollbarTitle: 'Failed to render embeddable'
-        })
+      if (Math.random() <= 0.1) {
+        beacon.sendWidgetInitInterval()
       }
+    } catch (err) {
+      errorTracker.error(err, {
+        rollbarFingerprint: 'Failed to render embeddable',
+        rollbarTitle: 'Failed to render embeddable'
+      })
     }
-
-    i18n.setLocale(undefined, renderCallback, config.locale)
   }
 
   const fetchEmbeddableConfig = () => {
@@ -175,7 +170,6 @@ const shouldSendZeDiffBlip = win => {
 const start = (win, doc) => {
   const reduxStore = createStore()
 
-  i18n.init(reduxStore)
   framework.setupIframe(window.frameElement, doc)
   framework.setupServices(reduxStore)
   zopimApi.setupZopimQueue(win)
