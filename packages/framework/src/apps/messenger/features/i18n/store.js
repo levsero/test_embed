@@ -20,7 +20,7 @@ const subscribeToI18n = () => dispatch => {
     dispatch(setLocale({ locale: i18n.getLocale() }))
   })
 
-  return i18n.setLocale('en-US')
+  return i18n.setLocale(i18n.getBrowserLocale())
 }
 
 const getLocale = state => state.i18n.locale
