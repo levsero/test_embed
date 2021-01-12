@@ -14,8 +14,9 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { store as persistence } from 'src/framework/services/persistence'
 import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store'
 import createMessengerApi from './public-api'
+import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 
-const run = ({ config }) => {
+const run = async ({ config }) => {
   if (config?.messenger?.conversationHistory === 'remember') {
     const success = persistence.enableLocalStorage()
 
@@ -34,6 +35,7 @@ const run = ({ config }) => {
   const store = createStore()
   publicApi.registerApi(createMessengerApi(store))
 
+  const i18n = store.dispatch(subscribeToI18n())
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
   store.dispatch(initialiseLauncherLabel())
@@ -47,6 +49,8 @@ const run = ({ config }) => {
       store.dispatch(fetchExistingConversation())
     }
   }
+
+  await i18n
 
   ReactDOM.render(
     <Provider store={store}>
