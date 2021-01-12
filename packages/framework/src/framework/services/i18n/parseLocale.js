@@ -13,9 +13,9 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
 }
 
-function parseLocale(str) {
+function parseLocale(str, fallback) {
   if (!str) {
-    return 'en-US'
+    return fallback
   }
 
   const locale = regulateLocaleStringCase(regulateDash(str))
@@ -43,7 +43,7 @@ function parseLocale(str) {
     return parseZhLocale(str)
   }
 
-  return 'en-US'
+  return fallback
 }
 
 // logic taken from https://www.drupal.org/project/drupal/issues/365615

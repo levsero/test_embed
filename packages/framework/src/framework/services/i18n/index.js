@@ -1,15 +1,21 @@
 import t from '@zendesk/client-i18n-tools'
 import errorTracker from 'src/framework/services/errorTracker'
-import fetchLocale from './fetchLocale'
 import listeners from 'src/framework/services/i18n/listeners'
 import parseLocale from 'src/framework/services/i18n/parseLocale'
 import { navigator } from 'utility/globals'
 import zELocaleIdMap from 'translation/ze_localeIdMap'
+import fetchLocale from './fetchLocale'
 
 let currentLocale
 
+const getBrowserLocale = () => {
+  const nav = navigator
+
+  return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
+}
+
 const setLocale = (newLocale = 'en-US') => {
-  const nextLocale = parseLocale(newLocale)
+  const nextLocale = parseLocale(newLocale, getBrowserLocale())
 
   if (!nextLocale) {
     return
@@ -49,12 +55,6 @@ const translate = (key, ...options) => {
   }
 
   return translation
-}
-
-function getBrowserLocale() {
-  const nav = navigator
-
-  return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
 }
 
 const getLocaleId = () => {
