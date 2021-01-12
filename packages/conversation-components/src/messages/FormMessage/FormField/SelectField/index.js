@@ -47,9 +47,10 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           itemToString: item => item?.label
         }}
         name={field.name}
+        data-id={field._id}
       >
         <Field>
-          <Label>{field.label}</Label>
+          <Label data-label-id={field._id}>{field.label}</Label>
           <Select ref={inputRef} isOpen={isOpen} validation={error ? 'error' : undefined}>
             {value?.[0]?.label ?? ''}
           </Select>

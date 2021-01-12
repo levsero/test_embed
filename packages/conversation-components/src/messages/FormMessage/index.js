@@ -52,6 +52,7 @@ const FormMessage = ({
   const { scrollToBottomIfNeeded } = useScroll()
 
   useLayoutEffect(() => {
+    if (validationStep == activeStep && validationErrors) return
     scrollToBottomIfNeeded()
   })
 
@@ -82,6 +83,10 @@ const FormMessage = ({
         incrementActiveStep()
       } else {
         onSubmit(formValues)
+      }
+    } else {
+      if (activeStep === totalSteps) {
+        onSubmit(visibleFields, formValues, errors)
       }
     }
   }
