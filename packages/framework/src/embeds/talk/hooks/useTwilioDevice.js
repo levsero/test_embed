@@ -29,7 +29,7 @@ const muteClick = muted => {
   connection?.mute(muted)
 }
 
-const endCall = async () => {
+const endTwilioConnection = async () => {
   await connection?.disconnect()
   connection = null
 }
@@ -49,45 +49,56 @@ export const useTwilioDevice = ({
   const userRecordingConsent = useSelector(getRecordingConsent)
   const subdomain = getZendeskHost(document).split('.')[0]
 
-  const startCall = async () => {
-    device = new Device()
+  const startTwilioConnection = async () => {
+    try {
+      device = new Device()
 
-    device.on('error', error => {
-      onError?.(error)
-    })
-
-    device.on('connect', () => {
-      onConnect?.()
-    })
-
-    device.on('disconnect', async () => {
-      onDisconnect?.()
-      connection = null
-      await device?.destroy()
-      device = null
-    })
-
-    device.on('ready', async () => {
-      connection = await device?.connect({
-        source: 'web-widget',
-        user_agent: navigator.userAgent,
-        ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
+      device.on('error', error => {
+        endTwilioConnection()
+        onError?.(error)
       })
 
-      connection.on('accept', event => {
-        onAccept?.(event)
+      device.on('connect', () => {
+        onConnect?.()
       })
-      onReady?.()
-    })
 
-    const token = await getToken(subdomain, serviceUrl, nickname)
+      device.on('disconnect', async connection => {
+        onDisconnect?.(connection)
+        connection = null
+        await device?.destroy()
+        device = null
+      })
 
-    device.setup(token)
+      device.on('ready', async () => {
+        connection = await device?.connect({
+          source: 'web-widget',
+          user_agent: navigator.userAgent,
+          ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
+        })
+
+        connection.on('accept', event => {
+          onAccept?.(event)
+        })
+
+        onReady?.()
+      })
+
+      const token = await getToken(subdomain, serviceUrl, nickname)
+
+      device.setup(token)
+    } catch (e) {
+      onError(e)
+    }
   }
 
   if (!Device.isSupported) {
     onUnsupported?.()
   }
 
-  return { startCall, muteClick, endCall, isInCall }
+  return {
+    startTwilioConnection,
+    muteClick,
+    endTwilioConnection,
+    isInCall
+  }
 }

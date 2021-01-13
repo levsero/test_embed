@@ -26,6 +26,13 @@ describe('render', () => {
     expect(screen.getByLabelText('end call')).toBeInTheDocument()
   })
 
+  it('renders the given label from state', () => {
+    jest.spyOn(talkSelectors, 'getCallInProgressLabel').mockReturnValue('Bob the Builder')
+    renderComponent()
+
+    expect(screen.getByText('Bob the Builder')).toBeInTheDocument()
+  })
+
   it('renders the mute microphone button', () => {
     renderComponent({ callStatus: 'active' })
 

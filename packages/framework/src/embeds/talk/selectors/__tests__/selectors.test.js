@@ -6,7 +6,12 @@ import {
   CALLBACK_AND_PHONE
 } from 'src/redux/modules/talk/talk-capability-types'
 
-import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
+import {
+  getOfflineTitle,
+  getTalkTitleKey,
+  getCapability,
+  getCallInProgressLabel
+} from '../selectors'
 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
@@ -75,5 +80,9 @@ describe('talk selectors', () => {
         expect(result).toEqual(expectedValue)
       }
     )
+  })
+
+  describe('getCallInProgressLabel returns the callInProgressLabel from state', () => {
+    expect(getCallInProgressLabel({ talk: { callInProgressLabel: 'Bob' } })).toEqual('Bob')
   })
 })

@@ -10,6 +10,7 @@ import isPolling from './talk-is-polling'
 import recordingConsent from 'embeds/talk/reducers/recording-consent'
 import microphoneMuted from 'embeds/talk/reducers/microphone-muted'
 import timeInCall from 'embeds/talk/reducers/time-in-call'
+import callInProgressLabel from 'embeds/talk/reducers/call-in-progress-label'
 
 export default combineReducers({
   agentAvailability,
@@ -21,5 +22,6 @@ export default combineReducers({
   vendor,
   microphoneMuted,
   recordingConsent,
-  timeInCall
+  timeInCall,
+  callInProgressLabel
 })

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Button } from '@zendeskgarden/react-buttons'
 
 const Container = styled.div`
   display: flex;
@@ -37,8 +36,4 @@ const Message = styled.p`
   width: 100%;
 `
 
-const StyledButton = styled(Button)`
-  width: ${props => 160 / props.theme.fontSize}rem;
-`
-
-export { StyledButton as Button, Container, Heading, Message, SectionContainer }
+export { Container, Heading, Message, SectionContainer }
