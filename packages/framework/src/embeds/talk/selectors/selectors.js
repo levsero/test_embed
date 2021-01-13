@@ -14,6 +14,7 @@ export const getUserRecordingConsentRequirement = state =>
   state.talk.embeddableConfig.recordingConsent
 
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
+export const getTimeInCall = state => state.talk.timeInCall
 
 export const getCapability = createSelector(
   [getEmbeddableConfig, getDigitalVoiceSupported],
