@@ -48,6 +48,15 @@ function zE(...params) {
     return
   }
 
+  if (typeof name === 'object') {
+    Object.keys(name).forEach(subName => {
+      if (!api[root].__isSettingsApi) return
+      const args = name[subName]
+      zE(root, subName, args)
+    })
+    return
+  }
+
   if (typeof api[root]?.[name] !== 'function') {
     if (isMessengerWidgetUsed && errorDisplayed) return
     const err = displayError(isMessengerWidgetUsed, `Method ${root}.${name} does not exist`)

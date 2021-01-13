@@ -16,7 +16,8 @@ describe('public api service', () => {
       mock: {
         example: jest.fn(),
         example2: jest.fn()
-      }
+      },
+      mock2: { __isSettingsApi: true, example3: jest.fn(), example4: jest.fn() }
     }
     mockLegacyApi = {
       example: jest.fn(),
@@ -116,11 +117,41 @@ describe('public api service', () => {
       it('calls the callback function', () => {
         setupWithQueueAndMockApi()
         const callback = jest.fn()
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ isMessengerWidget: true })
 
         zE(callback)
 
         expect(callback).toHaveBeenCalled()
+      })
+    })
+
+    describe('when called with an object', () => {
+      it('calls the nested functions with provided argument', () => {
+        setupWithQueueAndMockApi()
+        zE('mock2', { example3: 'argument 1', example4: 'argument 2' })
+
+        publicApi.run({ isMessengerWidget })
+
+        expect(mockApi.mock2.example3).toHaveBeenCalledWith('argument 1')
+        expect(mockApi.mock2.example4).toHaveBeenCalledWith('argument 2')
+      })
+
+      it('does not call the nested functions if they are not settings', () => {
+        setupWithQueueAndMockApi()
+        zE('mock', { example: 'argument 1' })
+
+        publicApi.run({ isMessengerWidget })
+
+        expect(mockApi.mock.example).not.toHaveBeenCalled()
+      })
+
+      it('tracks the api calls', () => {
+        setupWithQueueAndMockApi()
+        zE('mock2', { example3: 'argument 1', example4: 'argument 2' })
+        publicApi.run({ isMessengerWidget })
+
+        expect(tracker.track).toHaveBeenCalledWith('mock2.example3', 'argument 1')
+        expect(tracker.track).toHaveBeenCalledWith('mock2.example4', 'argument 2')
       })
     })
 
