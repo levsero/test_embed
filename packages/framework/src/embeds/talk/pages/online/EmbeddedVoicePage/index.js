@@ -14,7 +14,7 @@ import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import { getUserRecordingConsentRequirement } from 'embeds/talk/selectors'
 import { unmuteMicrophone, startCallCounter, stopCallCounter } from 'src/embeds/talk/actions'
 
-const clickToCallHome = () => routes.clickToCallPermissions()
+const clickToCallPath = () => routes.clickToCallPermissions()
 
 const EmbeddedVoicePage = () => {
   const dispatch = useDispatch()
@@ -35,7 +35,7 @@ const EmbeddedVoicePage = () => {
     dispatch(unmuteMicrophone())
     dispatch(stopCallCounter())
     disconnectTimeout.current = setTimeout(() => {
-      history.replace(clickToCallHome())
+      history.replace(clickToCallPath())
     }, 3000)
   }
 
@@ -88,7 +88,7 @@ const EmbeddedVoicePage = () => {
               isCallActive={isInCall()}
             />
           </Route>
-          <Route path={clickToCallHome()}>
+          <Route path={routes.clickToCallPermissions()}>
             <MicrophonePermissions
               onStartCallClicked={handleCallStart}
               showStartCallButton={skipConsent}
@@ -102,7 +102,7 @@ const EmbeddedVoicePage = () => {
             <NetworkError onClick={startCall} />
           </Route>
 
-          <Redirect to={clickToCallHome()} />
+          <Redirect to={clickToCallPath()} />
         </Switch>
       </Main>
       <Footer />
