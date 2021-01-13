@@ -4,6 +4,7 @@ import {
   cappedTimeoutCall,
   splitPath,
   base64encode,
+  base64UrlDecode,
   objectDifference,
   cssTimeToMs,
   nowInSeconds,
@@ -268,6 +269,32 @@ describe('base64encode()', () => {
       expect(base64encode('Я карандаш')).toEqual('0K8g0LrQsNGA0LDQvdC00LDRiA==')
 
       expect(base64encode('😂😓😥😭💩')).toEqual('8J+YgvCfmJPwn5il8J+YrfCfkqk=')
+    })
+  })
+})
+
+describe('base64UrlDecode()', () => {
+  describe('with extended utf-8 characters', () => {
+    it('decodes the string properly', () => {
+      expect(base64UrlDecode('4pyTIMOgIGxhIG1vZGU=')).toEqual('✓ à la mode')
+
+      expect(base64UrlDecode('5oiR5piv5LiA5pSv6Ymb562G')).toEqual('我是一支鉛筆')
+
+      expect(base64UrlDecode('0K8g0LrQsNGA0LDQvdC00LDRiA==')).toEqual('Я карандаш')
+
+      expect(base64UrlDecode('8J+YgvCfmJPwn5il8J+YrfCfkqk=')).toEqual('😂😓😥😭💩')
+    })
+  })
+
+  describe('with an unpadded string that is not divisible by four', () => {
+    it('also decodes the string properly', () => {
+      expect(base64UrlDecode('4pyTIMOgIGxhIG1vZGU')).toEqual('✓ à la mode')
+
+      expect(base64UrlDecode('5bSO5YGl5aSq6YOOIQ')).toEqual('崎健太郎!')
+
+      expect(base64UrlDecode('0K8g0LrQsNGA0LDQvdC00LDRiA')).toEqual('Я карандаш')
+
+      expect(base64UrlDecode('8J+YgvCfmJPwn5il8J+YrfCfkqk')).toEqual('😂😓😥😭💩')
     })
   })
 })
