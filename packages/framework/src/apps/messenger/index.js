@@ -16,7 +16,7 @@ import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLab
 import createMessengerApi from './public-api'
 import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 
-const run = async ({ config }) => {
+const init = async ({ config }) => {
   if (config?.messenger?.conversationHistory === 'remember') {
     const success = persistence.enableLocalStorage()
 
@@ -28,19 +28,28 @@ const run = async ({ config }) => {
     persistence.enableSessionStorage()
   }
 
-  const element = hostPageWindow.document.body.appendChild(
-    hostPageWindow.document.createElement('div')
-  )
-
   const store = createStore()
+
+  await store.dispatch(subscribeToI18n())
   publicApi.registerApi(createMessengerApi(store))
 
-  const i18n = store.dispatch(subscribeToI18n())
   store.dispatch(messengerConfigReceived(config?.messenger))
   store.dispatch(watchForScreenChanges())
   store.dispatch(initialiseLauncherLabel())
 
   setupSuncoClient(config.messenger)
+
+  return {
+    store
+  }
+}
+
+const run = async ({ embeddableData }) => {
+  const { store } = embeddableData
+
+  const element = hostPageWindow.document.body.appendChild(
+    hostPageWindow.document.createElement('div')
+  )
 
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)
@@ -49,8 +58,6 @@ const run = async ({ config }) => {
       store.dispatch(fetchExistingConversation())
     }
   }
-
-  await i18n
 
   ReactDOM.render(
     <Provider store={store}>
@@ -62,5 +69,6 @@ const run = async ({ config }) => {
 }
 
 export default {
+  init,
   run
 }

@@ -107,7 +107,7 @@ const getConfig = (win, reduxStore) => {
     try {
       const embeddable = await getEmbeddable()
 
-      await embeddable.init?.({
+      const embeddableData = await embeddable.init?.({
         config,
         reduxStore
       })
@@ -116,7 +116,8 @@ const getConfig = (win, reduxStore) => {
 
       embeddable.run?.({
         config,
-        reduxStore
+        reduxStore,
+        embeddableData
       })
 
       beacon.sendPageView(isMessengerWidget ? 'web_messenger' : 'web_widget')
