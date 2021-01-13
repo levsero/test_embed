@@ -9,13 +9,15 @@ import * as talkSelectors from 'src/embeds/talk/selectors'
 
 jest.mock('src/embeds/talk/selectors')
 
-const defaultProps = {
-  callDuration: '0:00',
-  onEndCallClicked: jest.fn()
-}
+const renderComponent = props => {
+  const defaultProps = {
+    callDuration: '0:00',
+    onEndCallClicked: jest.fn(),
+    isCallActive: true
+  }
 
-const renderComponent = props =>
-  render(<EmbeddedVoiceallInProgressPage {...defaultProps} {...props} />)
+  return render(<EmbeddedVoiceallInProgressPage {...defaultProps} {...props} />)
+}
 
 describe('render', () => {
   it('renders the end call button', () => {
@@ -56,6 +58,16 @@ describe('render', () => {
 
       expect(talkActions.unmuteMicrophone).toHaveBeenCalled()
     })
+
+    it('does not toggle the microphone if isCallActive is false', () => {
+      jest.spyOn(talkSelectors, 'getMicrophoneMuted').mockReturnValue(true)
+      jest.spyOn(talkActions, 'unmuteMicrophone')
+      renderComponent({ isCallActive: false })
+
+      userEvent.click(screen.getByLabelText('mute microphone'))
+
+      expect(talkActions.unmuteMicrophone).not.toHaveBeenCalled()
+    })
   })
 
   describe('on end call click', () => {
@@ -66,6 +78,15 @@ describe('render', () => {
       userEvent.click(screen.getByLabelText('end call'))
 
       expect(onEndCallClicked).toHaveBeenCalled()
+    })
+
+    it('does not end the call when isCallActive is false', () => {
+      const onEndCallClicked = jest.fn()
+      renderComponent({ onEndCallClicked, isCallActive: false })
+
+      userEvent.click(screen.getByLabelText('end call'))
+
+      expect(onEndCallClicked).not.toHaveBeenCalled()
     })
   })
 })

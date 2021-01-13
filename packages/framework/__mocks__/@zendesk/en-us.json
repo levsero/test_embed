@@ -299,7 +299,9 @@
       "embeddable_framework.talk.clickToCall.button.startCall": "Start call",
       "embeddable_framework.talk.clickToCall.callInProgress.button.endCall": "Hang up",
       "embeddable_framework.chat.options.editContactDetailsSubmission.success": "Success",
-      "embeddable_framework.talk.embeddedVoice.channel.title": "Call us"
+      "embeddable_framework.talk.embeddedVoice.channel.title": "Call us",
+      "embeddable_framework.talk.digitalVoice.call.ended": "Call ended",
+      "embeddable_framework.talk.digitalVoice.button.back": "Back"
     }
   }
 }

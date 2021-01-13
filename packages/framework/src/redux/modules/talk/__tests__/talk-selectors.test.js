@@ -1,5 +1,10 @@
 import * as selectors from '../talk-selectors'
-import { PHONE_ONLY, CALLBACK_ONLY, CALLBACK_AND_PHONE } from '../talk-capability-types'
+import {
+  PHONE_ONLY,
+  CALLBACK_ONLY,
+  CALLBACK_AND_PHONE,
+  CLICK_TO_CALL
+} from '../talk-capability-types'
 
 const embeddableConfig = state => ({
   talk: {
@@ -118,5 +123,20 @@ describe('getAverageWaitTimeString', () => {
     )
 
     expect(result).toEqual(expectedValue)
+  })
+})
+
+describe('getIsEmbeddedVoiceEnabled', () => {
+  test.each([
+    [CLICK_TO_CALL, true],
+    [PHONE_ONLY, false],
+    [CALLBACK_ONLY, false],
+    [CALLBACK_AND_PHONE, false]
+  ])('when talk capability is %p the return value is %p', (capability, expectedValue) => {
+    expect(
+      selectors.getIsEmbeddedVoiceEnabled({
+        talk: { embeddableConfig: { capability } }
+      })
+    ).toEqual(expectedValue)
   })
 })
