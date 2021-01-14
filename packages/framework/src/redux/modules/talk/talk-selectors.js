@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { CALLBACK_ONLY, CALLBACK_AND_PHONE } from './talk-capability-types'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 

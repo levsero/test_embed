@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import { Container } from 'component/container/Container'
 import Frame from 'component/frame/Frame'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Provider } from 'react-redux'
 
 import createStore from 'src/redux/createStore'

@@ -3,7 +3,7 @@ import {
   getSettingsContactFormTags,
   getSettingsContactFormSubject
 } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { location, getReferrerPolicy } from 'utility/globals'
 import routes from 'embeds/support/routes'
 

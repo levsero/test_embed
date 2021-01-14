@@ -11,7 +11,7 @@ import {
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
 import { TEST_IDS } from 'constants/shared'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import countriesByIso from 'translation/ze_countries'
 import CountryDropdown from 'src/embeds/talk/components/CountryDropdown'
 import { getStyledLabelText } from 'utility/fields'

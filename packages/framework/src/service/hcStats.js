@@ -1,7 +1,7 @@
 import { http } from 'service/transport'
 import { isOnHostMappedDomain } from 'utility/pages'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const articleViewed = (articleId, locale, params) => {
   const token = getAuthToken()

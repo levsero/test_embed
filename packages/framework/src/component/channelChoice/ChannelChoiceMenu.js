@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ButtonIcon } from 'component/button/ButtonIcon'
 import {
   getContactOptionsChatLabelOnline,

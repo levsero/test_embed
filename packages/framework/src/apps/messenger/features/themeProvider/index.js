@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import bedrockCSS from '@zendeskgarden/css-bedrock'
 import { ThemeProvider as SuncoThemeProvider } from '@zendesk/conversation-components'
-import { i18n } from 'service/i18n'
 import { CurrentFrameConsumer } from 'src/framework/components/Frame'
-import useTranslate from 'src/hooks/useTranslate'
 import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { baseFontSize, baseFontSizeFullScreen } from 'src/apps/messenger/constants'
 import { createGlobalStyle } from 'styled-components'
+import i18n from 'src/framework/services/i18n'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const GlobalStyles = createGlobalStyle`
   ${bedrockCSS}

@@ -13,7 +13,7 @@ import {
   getTicketFormsEnabled
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import routes from 'embeds/support/routes'
 

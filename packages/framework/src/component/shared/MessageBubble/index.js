@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 
 import { MessageOptions } from 'component/shared/MessageOptions'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { TEST_IDS } from 'src/constants/shared'
 
 import { locals as styles } from './MessageBubble.scss'

@@ -17,7 +17,7 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
 import { getCapability } from 'src/embeds/talk/selectors'
 import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { triggerOnEnter } from 'utility/keyboard'
 import { ICONS, TEST_IDS } from 'src/constants/shared'
 

@@ -74,7 +74,7 @@ describe('PrechatScreen component', () => {
         LOADING_SCREEN: loadingScreen,
         OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           isRTL: () => {}

@@ -23,7 +23,7 @@ jest.mock('src/redux/modules/base', () => ({
   badgeShowReceived: jest.fn(),
   updateActiveEmbed: jest.fn()
 }))
-jest.mock('service/i18n', () => ({
+jest.mock('src/apps/webWidget/services/i18n', () => ({
   i18n: {
     setCustomTranslations: jest.fn()
   }

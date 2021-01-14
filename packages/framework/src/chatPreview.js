@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Provider } from 'react-redux'
 import createStore from 'src/redux/createStore'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import {

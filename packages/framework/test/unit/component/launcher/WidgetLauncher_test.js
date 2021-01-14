@@ -38,7 +38,7 @@ describe('WidgetLauncher component', () => {
       'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent()
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           getLocale: () => mockLocale,

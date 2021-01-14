@@ -1,5 +1,5 @@
 import { dateTime } from '../formatters'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 i18n.getLocale = jest.fn(() => 'en-US')
 i18n.t = jest.fn()

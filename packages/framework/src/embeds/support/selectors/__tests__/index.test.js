@@ -4,7 +4,7 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import * as selectors from '..'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getCanDisplayForm,
   getContactFormFields,

@@ -11,7 +11,7 @@ import {
   TICKET_FORM_UPDATE
 } from '../action-types'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
-jest.mock('service/i18n')
+jest.mock('src/apps/webWidget/services/i18n')
 
 describe('fetchTicketForms', () => {
   const createStore = configureMockStore([thunk])

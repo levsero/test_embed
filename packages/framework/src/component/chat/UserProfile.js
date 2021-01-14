@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon'
 import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { Avatar } from 'component/Avatar'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { locals as styles } from './UserProfile.scss'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 

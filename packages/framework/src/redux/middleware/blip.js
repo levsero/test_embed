@@ -38,7 +38,7 @@ import {
   getCurrentDeflection,
   getCurrentScreen
 } from 'src/embeds/answerBot/selectors/root'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import hcStats from 'service/hcStats'
 
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'

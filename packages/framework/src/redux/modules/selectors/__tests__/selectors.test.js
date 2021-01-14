@@ -8,7 +8,7 @@ import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 
 // Cannot mock base-selectors due to reimports.
-import { i18n } from 'src/service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import { LAUNCHER } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'

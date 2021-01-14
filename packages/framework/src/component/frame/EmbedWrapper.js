@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 
 import { WidgetThemeProvider } from 'src/components/Widget'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getGardenOverrides } from './gardenOverrides'
 import { getColor } from 'src/redux/modules/selectors'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'

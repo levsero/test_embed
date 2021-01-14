@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { locals as styles } from './WidgetLauncher.scss'
 
 import { Icon } from 'component/Icon'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getChatAvailable,
   getTalkOnline,

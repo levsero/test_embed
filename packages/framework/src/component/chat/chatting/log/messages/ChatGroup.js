@@ -14,7 +14,7 @@ import {
   CHAT_MESSAGE_TYPES,
   CHAT_STRUCTURED_CONTENT_TYPE
 } from 'constants/chat'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { locals as styles } from './ChatGroup.scss'
 import { Icon } from 'component/Icon'
 import StructuredMessage from 'component/chat/chatting/StructuredMessage'

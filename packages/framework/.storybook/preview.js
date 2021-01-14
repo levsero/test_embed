@@ -5,7 +5,7 @@ export const parameters = {
 import { Provider } from 'react-redux'
 import createStore from 'src/apps/messenger/store'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { createGlobalStyle } from 'styled-components'
 import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/constants'

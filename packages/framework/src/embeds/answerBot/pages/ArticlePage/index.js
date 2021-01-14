@@ -25,7 +25,7 @@ import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/se
 
 import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { appendParams } from 'utility/utils'
 import { originalArticleClicked } from 'src/embeds/answerBot/actions/article/article-viewed'
 import { Widget, Header, Main, Footer } from 'components/Widget'

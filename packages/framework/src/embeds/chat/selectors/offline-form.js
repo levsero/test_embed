@@ -4,7 +4,7 @@ import {
   getLoginSettings,
   getSocialLogin
 } from 'src/redux/modules/chat/chat-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 export const getFields = state => {
   const { phoneEnabled } = getLoginSettings(state)

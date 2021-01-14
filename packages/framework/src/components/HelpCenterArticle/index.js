@@ -5,7 +5,7 @@ import _ from 'lodash'
 import sanitizeHtml from 'sanitize-html'
 
 import { Icon } from 'component/Icon'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { parseUrl } from 'utility/utils'
 import { http } from 'service/transport'
 

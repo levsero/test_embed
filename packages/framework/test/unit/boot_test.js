@@ -60,7 +60,7 @@ describe('framework boot', () => {
           getErrorReportingEnabled: () => mockGetErrorReportingEnabled
         }
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           init: initSpy,
           setLocale: (_, cb) => {

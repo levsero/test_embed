@@ -76,6 +76,9 @@ describe('Messenger app', () => {
     )
 
     let launcher = within(getByTitle('Launcher').contentDocument.body)
+    await waitFor(() =>
+      expect(launcher.getByLabelText('Zendesk Messenger Launcher')).toBeInTheDocument()
+    )
     userEvent.click(launcher.getByLabelText('Zendesk Messenger Launcher'))
 
     const widget = within(getByTitle('Messenger').contentDocument.body)

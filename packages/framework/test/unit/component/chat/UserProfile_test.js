@@ -27,7 +27,7 @@ describe('UserProfile component', () => {
       'component/loading/LoadingSpinner': { LoadingSpinner },
       'src/embeds/chat/components/SocialLogin': SocialLoginGroup,
       'component/Avatar': { Avatar },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity
         }

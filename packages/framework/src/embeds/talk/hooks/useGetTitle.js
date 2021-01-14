@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-selectors'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const useGetTitle = () =>
   useSelector(state => fallback =>

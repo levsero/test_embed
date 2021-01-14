@@ -57,7 +57,7 @@ import { updateSettings } from 'src/redux/modules/settings'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
 
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { identity } from 'service/identity'
 import { beacon } from 'service/beacon'
 import { createChatPopoutWindow } from 'src/util/chat'

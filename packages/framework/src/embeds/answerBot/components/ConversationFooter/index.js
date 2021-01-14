@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import InputBox from 'src/embeds/answerBot/components/InputBox'
 import MobileInputBox from 'src/embeds/answerBot/components/MobileInputBox'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   questionSubmitted,
   questionValueChanged,

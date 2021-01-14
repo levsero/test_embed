@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import visibility from './visibility'
-import locale from './locale'
+import i18n from 'src/apps/messenger/features/i18n/store'
 import responsiveDesign from 'src/apps/messenger/features/responsiveDesign/store'
 import onlineStatus from 'src/apps/messenger/features/onlineStatus/store'
 import header from 'src/apps/messenger/features/header/store'
@@ -21,7 +21,7 @@ const createStore = () => {
       : undefined,
     reducer: combineReducers({
       visibility,
-      locale,
+      i18n,
       responsiveDesign,
       onlineStatus,
       theme,

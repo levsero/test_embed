@@ -1,6 +1,6 @@
 import { getZopimId, getLocale } from 'src/redux/modules/base/base-selectors'
 import { document, getZendeskHost } from 'utility/globals'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 
 export const getZendeskLogoLink = (state, linkToChat) => {
   const zopimId = getZopimId(state)

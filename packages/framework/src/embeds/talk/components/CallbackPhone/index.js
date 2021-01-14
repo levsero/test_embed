@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { i18n } from 'src/service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { getPhoneNumber } from 'src/embeds/talk/selectors'
 

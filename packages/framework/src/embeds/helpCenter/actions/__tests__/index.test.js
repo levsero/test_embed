@@ -10,7 +10,7 @@ import * as settingsSelectors from 'src/redux/modules/settings/settings-selector
 import * as pages from 'utility/pages'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { wait } from '@testing-library/react'
 jest.mock('service/transport')
 jest.mock('src/redux/modules/base/base-selectors')

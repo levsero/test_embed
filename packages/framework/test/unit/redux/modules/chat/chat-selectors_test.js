@@ -66,7 +66,7 @@ describe('chat selectors', () => {
         getSettingsChatProfileCard: _.identity,
         getSettingsLauncherBadge: () => mockBadgeSettings
       },
-      'service/i18n': {
+      'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           getSettingTranslation: () => mockTranslation

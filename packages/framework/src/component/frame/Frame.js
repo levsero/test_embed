@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { locals as styles } from './Frame.scss'
 
 import EmbedWrapper from 'component/frame/EmbedWrapper'
-import { i18n } from 'service/i18n'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getZoomSizingRatio } from 'utility/devices'
 import Transition from 'react-transition-group/Transition'
 import { widgetShowAnimationComplete } from 'src/redux/modules/base/base-actions'

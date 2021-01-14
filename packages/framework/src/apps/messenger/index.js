@@ -14,8 +14,9 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { store as persistence } from 'src/framework/services/persistence'
 import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store'
 import createMessengerApi from './public-api'
+import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 
-const run = ({ config }) => {
+const init = async ({ config }) => {
   if (config?.messenger?.conversationHistory === 'remember') {
     const success = persistence.enableLocalStorage()
 
@@ -27,11 +28,9 @@ const run = ({ config }) => {
     persistence.enableSessionStorage()
   }
 
-  const element = hostPageWindow.document.body.appendChild(
-    hostPageWindow.document.createElement('div')
-  )
-
   const store = createStore()
+
+  await store.dispatch(subscribeToI18n())
   publicApi.registerApi(createMessengerApi(store))
 
   store.dispatch(messengerConfigReceived(config?.messenger))
@@ -39,6 +38,18 @@ const run = ({ config }) => {
   store.dispatch(initialiseLauncherLabel())
 
   setupSuncoClient(config.messenger)
+
+  return {
+    store
+  }
+}
+
+const run = async ({ embeddableData }) => {
+  const { store } = embeddableData
+
+  const element = hostPageWindow.document.body.appendChild(
+    hostPageWindow.document.createElement('div')
+  )
 
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)
@@ -58,5 +69,6 @@ const run = ({ config }) => {
 }
 
 export default {
+  init,
   run
 }
