@@ -8,6 +8,8 @@ const FormContainer = styled.div`
   width: 100%;
   margin-top: ${props => props.theme.messenger.space.xxs};
   margin-right: ${props => props.theme.messenger.space.sixteen};
+  flex-grow: 1;
+  min-width: 0;
 `
 
 const Form = styled.form`
