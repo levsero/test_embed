@@ -1639,3 +1639,190 @@ parts:
       screenshot: "https://drive.google.com/file/d/1D-UzJdBGNnQmRCbpRQQtfR-o5JTbk3rL/view?usp=sharing"
       value: "Call failed"
       wip: true
+
+  # Messenger
+  - translation:
+      key: "embeddable_framework.messenger.frame.title"
+      title: "[A11Y] iframe title for messaging window (ie Web SDK/Web Widget). Readable by screen readers to describe what’s in the frame."
+      screenshot: "https://drive.google.com/file/d/1fM-9OqYwdmaSmj-UpuyddSRAaIWDAUwo/view?usp=sharing"
+      value: "Messaging window"
+  - translation:
+      key: "embeddable_framework.messenger.launcher_label.frame.title"
+      title: "[A11Y] iframe title for label that appears next to the launcher for the messaging window. Label includes text supplied by the customer."
+      screenshot: "https://drive.google.com/file/d/1lTw750ZrzwEqiSipWM-qKnIgNp5hvuAV/view?usp=sharing"
+      value: "Message from company"
+  - translation:
+      key: "embeddable_framework.messenger.launcher.frame.title"
+      title: "[A11Y] iframe title for launcher button"
+      screenshot: "https://drive.google.com/file/d/1TN4KcupLEnRPP5k_FHfkyo4yKz52XEjQ/view?usp=sharing"
+      value: "Button to launch messaging window"
+  - translation:
+      key: "embeddable_framework.messenger.unread_indicator.frame.title"
+      title: "[A11Y] iframe title for unread messages counter on launcher"
+      screenshot: "https://drive.google.com/file/d/18HiiMY2Kdvl6AAdAIE3N_jwhZptpVQvR/view?usp=sharing"
+      value: "Number of unread messages"
+  - translation:
+      key: "embeddable_framework.messenger.header.close"
+      title: "[A11Y] Aria label for Close button in header of messaging window"
+      screenshot: "https://drive.google.com/file/d/1RLKU1jdj0_onAPSmPX-O4OsRVzJxPBM4/view?usp=sharing"
+      value: "Close"
+  - translation:
+      key: "embeddable_framework.messenger.launcher_label.close"
+      title: "[A11Y] Aria label for Close button for label that appears next to the launcher for the messaging window."
+      screenshot: "https://drive.google.com/file/d/1G1VKgd2U-G6_9ZmC8m1mlQcHIE7agt5N/view?usp=sharing"
+      value: "Close"
+  - translation:
+      key: "embeddable_framework.messenger.launcher.button"
+      title: "[A11Y] Aria label for launcher button"
+      screenshot: "https://drive.google.com/file/d/1U2aXx_BjU5pq8C1fjU8fpJAVOtM31uwF/view?usp=sharing"
+      value: "Open messaging window"
+  - translation:
+      key: "embeddable_framework.messenger.composer.label"
+      title: "[A11Y] Aria label for the field where the user enters text"
+      screenshot: "https://drive.google.com/file/d/14jaFsThbHiVpmo0IjGSMeioKWvX2ipAk/view?usp=sharing"
+      value: "Type a message"
+  - translation:
+      key: "embeddable_framework.messenger.composer.send_button_label"
+      title: "[A11Y] Aria label for the icon button to send the message the user has typed"
+      screenshot: "https://drive.google.com/file/d/1hd-3L-8r878NA4n0BY9i8YESbOY6LiOz/view?usp=sharing"
+      value: "Send message"
+  - translation:
+      key: "embeddable_framework.messenger.previous_messages_spinner"
+      title: "[A11Y] Aria label on the spinner that signifies that previous messages are loading"
+      screenshot: "https://drive.google.com/file/d/1TFAnDpYuz1mWEJWtYdB6gZeKe5W6inid/view?usp=sharing"
+      value: "Loading previous messages"
+  - translation:
+      key: "embeddable_framework.messenger.initial_conversation_spinner"
+      title: "[A11Y] Aria label for spinner that appears when first loading messages in the conversation"
+      screenshot: "https://drive.google.com/file/d/1dFDwuv1B15DfpDqgrx9YwtvzI30D_Oml/view?usp=sharing"
+      value: "Loading conversation"
+  - translation:
+      key: "embeddable_framework.messenger.typing_indicator.single"
+      title: "[A11Y] Aria label for typing indicator when a bot or agent is typing"
+      screenshot: "https://drive.google.com/file/d/18HiiMY2Kdvl6AAdAIE3N_jwhZptpVQvR/view?usp=sharing"
+      value: "{{name}} is typing..."
+  - translation:
+      key: "embeddable_framework.messenger.message.file.download"
+      title: "[A11Y] Aria label for action user can take with file. Will be read by screen readers as <file name>, then <file size>, then 'Open in a new tab'"
+      screenshot: "https://drive.google.com/file/d/1AOQq2K6IKxBAfL82MkKCoFoHX36IZd0b/view?usp=sharing"
+      value: "Open in a new tab"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.submitting"
+      title: "[A11Y] Aria label for dots shown to indicate the form is currently submitting"
+      screenshot: "https://drive.google.com/file/d/1GGryuHQZfW2Cj-Yf-8W3wt9aNVK_q_Vn/view?usp=sharing"
+      value: "Sending form"
+  - translation:
+      key: "embeddable_framework.messenger.header.company_logo"
+      title: "[A11Y] Alt tag for company logo in header of messaging window"
+      screenshot: "https://drive.google.com/file/d/1HqjYMnvy64G9XURD-3f77oESTSg1TrgF/view?usp=sharing"
+      value: "Company logo"
+  - translation:
+      key: "embeddable_framework.messenger.connection_status.offline"
+      title: "Message displayed on interface to let the user know their network connection has gone offline"
+      screenshot: "https://drive.google.com/file/d/11rm3TT-nZfHqttDo7HjsNLsahIb1fhN-/view?usp=sharing"
+      value: "Offline. You won’t receive messages."
+  - translation:
+      key: "embeddable_framework.messenger.connection_status.now_online"
+      title: "Message displayed after an offline user has come back online"
+      screenshot: "https://drive.google.com/file/d/1vZIeeb0iIRo0FD-UBY4PkMUb6M2JVs3c/view?usp=sharing"
+      value: "You’re now online"
+  - translation:
+      key: "embeddable_framework.messenger.composer.placeholder"
+      title: "Placeholder that appears in text field before user has entered anything"
+      screenshot: "https://drive.google.com/file/d/1iUkKWDNmAR7UJLM8lzZZ8D68UZ4RsYnh/view?usp=sharing"
+      value: "Type a message"
+  - translation:
+      key: "embeddable_framework.messenger.composer.send_button_tooltip"
+      title: "Tooltip for the icon button that sends the message the user has typed"
+      screenshot: "https://drive.google.com/file/d/1LKU9pEveMfYKAOaPLL5AANhMo8kGHjvy/view?usp=sharing"
+      value: "Send message"
+  - translation:
+      key: "embeddable_framework.messenger.previous_messages_retry"
+      title: "Button allowing user to retry loading previous messages after the last attempt failed"
+      screenshot: "https://drive.google.com/file/d/16E5d2zP21LgyeoXPbdRxRHWg0ITlXyZ3/view?usp=sharing"
+      value: "Tap to retry"
+  - translation:
+      key: "embeddable_framework.messenger.initial_conversation_request_failed"
+      title: "Message to let the user know the first request to load messages has failed"
+      screenshot: "https://drive.google.com/file/d/1OvdAzptmNv8FTUTLm3Ogu4KVXkMP_yzf/view?usp=sharing"
+      value: "Couldn’t load messages"
+  - translation:
+      key: "embeddable_framework.messenger.initial_conversation_retry"
+      title: "Button allowing user to retry loading initial messages"
+      screenshot: "https://drive.google.com/file/d/12TNKFvYF9oCnaIJd8PIuCNAL61FalPSj/view?usp=sharing"
+      value: "Tap to retry"
+  - translation:
+      key: "embeddable_framework.messenger.see_latest"
+      title: "Button that appears when messages have been received while the user has scrolled up to an earlier part of the conversation. Clicking it scrolls to the most recent messages."
+      screenshot: "https://drive.google.com/file/d/1jtfx4XiLCK8lBOEWjuQbDKlcMXiNwITP/view?usp=sharing"
+      value: "See latest"
+  - translation:
+      key: "embeddable_framework.messenger.message.file.size_in_kb"
+      title: "File size in kilobytes of the file sent to the user"
+      screenshot: "https://drive.google.com/file/d/1qxonx24f4uOmTk7zWK6adljMtljTJWSw/view?usp=sharing"
+      value: "{{size}} KB"
+  - translation:
+      key: "embeddable_framework.messenger.message.file.size_in_mb"
+      title: "File size in megabytes of the file sent to the user"
+      screenshot: "https://drive.google.com/file/d/1I0M1MViTPIvGBB_JV3Mz978N-4Zadki0/view?usp=sharing"
+      value: "{{size}} MB"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.step_status"
+      title: "Shows user the current step they’re up to in the form"
+      screenshot: "https://drive.google.com/file/d/1z1MbzMEI0qtWw9brBPyq8L-NCrYsnb5G/view?usp=sharing"
+      value: "{{step}} of {{totalSteps}}"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.next_step"
+      title: "Button that will progress the user to the next step of the form"
+      screenshot: "https://drive.google.com/file/d/1-KRnHksWalgKYyUkTAla8JzwXlGvifhf/view?usp=sharing"
+      value: "Next"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.submit"
+      title: "Button to submit the form"
+      screenshot: "https://drive.google.com/file/d/1nhvnpa4PQ4bFSDpyZbgVm2qNDRDWGxAL/view?usp=sharing"
+      value: "Send"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.failed_to_submit"
+      title: "Error message to let the user know the form could not be submitted, most likely due to a poor internet connection."
+      screenshot: "https://drive.google.com/file/d/1dONeh6RCK1fM89UxZHMis9zPv_vcb288/view?usp=sharing"
+      value: "Details couldn’t be sent. Try again."
+  - translation:
+      key: "embeddable_framework.messenger.message.form.field_is_required"
+      title: "Error message shown after the user has attempted to submit a field without entering a value"
+      screenshot: "https://drive.google.com/file/d/1cfvSpenZ_HyI-8NkTDnimQLUDs6-oHTq/view?usp=sharing"
+      value: "This field is required"
+  - translation:
+      key: "embeddable_framework.messenger.receipt.retry"
+      title: "Clickable text that lets the user retry sending a failed message (most likely due to going offline)"
+      screenshot: "https://drive.google.com/file/d/1OZ6MtIf5xZtoxMhg04MLj2QKMXYnfDvx/view?usp=sharing"
+      value: "Tap to retry"
+  - translation:
+      key: "embeddable_framework.messenger.receipt.sending"
+      title: "Text that lets the user know the message they sent is currently sending"
+      screenshot: "https://drive.google.com/file/d/1oWs3VohlN5AUwNwUCIiq6vxi8F1PxbKf/view?usp=sharing"
+      value: "Sending"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.invalid_min_characters"
+      title: "Error text that appears when user has not entered enough characters"
+      screenshot: "https://drive.google.com/file/d/1afSjwEfU-1Y2lSSPRXcC9pYAuHQ-t0pz/view?usp=sharing"
+      value: "Enter {{count}} characters or more"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.invalid_max_characters.one"
+      title: "Error text that appears when user has entered too many characters"
+      screenshot: "https://drive.google.com/file/d/1en_8gI8GpebwszoK3oezCffGTw7c_-Ba/view?usp=sharing"
+      value: "Enter {{count}} character"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.invalid_max_characters.other"
+      title: "Error text that appears when user has entered too many characters"
+      screenshot: "https://drive.google.com/file/d/1seImK67E_YB5OewHUuqzKygUlSp3isI3/view?usp=sharing"
+      value: "Enter {{count}} characters or less"
+  - translation:
+      key: "embeddable_framework.messenger.message.form.invalid_email"
+      title: "Error text that appears when user enters an invalid email address"
+      screenshot: "https://drive.google.com/file/d/12JgqN4PGH5npnp6d8Rp8k5buqDTipTps/view?usp=sharing"
+      value: "Enter a valid email address"
+  - translation:
+      key: "embeddable_framework.messenger.message.receipt.received_recently"
+      title: "Message that appears to tell user a message was received just now"
+      screenshot: "https://drive.google.com/file/d/1wWizeCDAcTUte6qVaYyMJp8lQmnH-2bq/view?usp=sharing"
+      value: "Just now"
