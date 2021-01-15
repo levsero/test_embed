@@ -60,6 +60,40 @@ function base64decode(string) {
   return window.atob(string)
 }
 
+// b64DecodeUnicode and base64UrlDecode adapted from the jwt-decode library
+// https://github.com/auth0/jwt-decode
+function b64DecodeUnicode(str) {
+  return decodeURIComponent(
+    window.atob(str).replace(/(.)/g, function(_match, captureGroup) {
+      let code = captureGroup
+        .charCodeAt(0)
+        .toString(16)
+        .toUpperCase()
+
+      if (code.length < 2) {
+        code = '0' + code
+      }
+      return '%' + code
+    })
+  )
+}
+
+function base64UrlDecode(str) {
+  let output = str.replace(/-/g, '+').replace(/_/g, '/')
+  switch (output.length % 4) {
+    case 0:
+      break
+    case 2:
+      output += '=='
+      break
+    case 3:
+      output += '='
+      break
+  }
+
+  return b64DecodeUnicode(output)
+}
+
 // As per this post on MDN https://goo.gl/XzjooY:
 // > Since DOMStrings are 16-bit-encoded strings, in most browsers calling window.btoa
 // > on a Unicode string will cause a Character Out Of Range exception if a character
@@ -184,6 +218,7 @@ export {
   cappedTimeoutCall,
   splitPath,
   base64decode,
+  base64UrlDecode,
   base64encode,
   objectDifference,
   cssTimeToMs,

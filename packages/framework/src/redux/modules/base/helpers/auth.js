@@ -1,4 +1,4 @@
-import { base64decode, sha1 } from 'utility/utils'
+import { base64UrlDecode, sha1 } from 'utility/utils'
 
 import _ from 'lodash'
 
@@ -18,7 +18,7 @@ const extractTokenId = _.memoize(function(jwt) {
     return null
   }
 
-  const decodedBody = base64decode(jwtBody)
+  const decodedBody = base64UrlDecode(jwtBody)
   const message = JSON.parse(decodedBody)
 
   return message.email ? sha1(message.email) : null

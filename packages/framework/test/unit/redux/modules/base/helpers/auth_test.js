@@ -9,7 +9,7 @@ describe('auth utils', () => {
 
     initMockRegistry({
       'utility/utils': {
-        base64decode: window.atob,
+        base64UrlDecode: window.atob,
         sha1: () => mockSha1
       }
     })
