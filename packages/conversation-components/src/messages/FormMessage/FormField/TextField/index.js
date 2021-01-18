@@ -13,9 +13,10 @@ const TextField = ({ field, value = '', onChange, error, lastSubmittedTimestamp 
 
   return (
     <Field>
-      <Label>{field.label}</Label>
+      <Label data-label-id={field._id}>{field.label}</Label>
       <Input
         name={field.name}
+        data-id={field._id}
         ref={inputRef}
         placeholder={field.placeholder}
         value={value}

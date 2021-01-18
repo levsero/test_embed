@@ -13,9 +13,10 @@ const EmailField = ({ field, value = '', onChange, error, lastSubmittedTimestamp
 
   return (
     <Field>
-      <Label>{field.label}</Label>
+      <Label data-label-id={field._id}>{field.label}</Label>
       <Input
         type="email"
+        data-id={field._id}
         name={field.name}
         ref={inputRef}
         placeholder={field.placeholder}
