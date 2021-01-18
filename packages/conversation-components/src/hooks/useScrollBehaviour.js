@@ -1,6 +1,9 @@
 import { createContext, useContext } from 'react'
 
-const ScrollContext = createContext({ scrollToBottomIfNeeded: () => null })
+const ScrollContext = createContext({
+  scrollToBottomIfNeeded: () => null,
+  scrollToFirstError: () => null
+})
 const ScrollProvider = ScrollContext.Provider
 
 const useScroll = () => {

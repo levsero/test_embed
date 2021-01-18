@@ -20,7 +20,12 @@ const MessageLog = () => {
   const hasFetchedConversation = useSelector(getHasFetchedConversation)
   const errorFetchingHistory = useSelector(getErrorFetchingHistory)
   const isFetchingHistory = useSelector(getIsFetchingHistory)
-  const { onScrollBottom, scrollToBottomIfNeeded, scrollToBottom } = useScrollBehaviour({
+  const {
+    onScrollBottom,
+    scrollToBottomIfNeeded,
+    scrollToBottom,
+    scrollToFirstError
+  } = useScrollBehaviour({
     messages,
     container,
     anchor
@@ -33,7 +38,7 @@ const MessageLog = () => {
   const messageLogOpened = useRef(Date.now() / 1000)
 
   return (
-    <ScrollProvider value={{ scrollToBottomIfNeeded }}>
+    <ScrollProvider value={{ scrollToBottomIfNeeded, scrollToFirstError }}>
       <MessageLogList
         ref={container}
         onScroll={event => {

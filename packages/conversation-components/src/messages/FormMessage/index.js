@@ -49,7 +49,7 @@ const FormMessage = ({
     if (validationStep === 0) return []
     return fields.slice(0, validationStep)
   }
-  const { scrollToBottomIfNeeded } = useScroll()
+  const { scrollToBottomIfNeeded, scrollToFirstError } = useScroll()
 
   useLayoutEffect(() => {
     if (totalSteps == activeStep && validationErrors) return
@@ -86,7 +86,7 @@ const FormMessage = ({
       }
     } else {
       if (activeStep === totalSteps) {
-        onSubmit(visibleFields, formValues, errors)
+        scrollToFirstError(visibleFields, errors)
       }
     }
   }

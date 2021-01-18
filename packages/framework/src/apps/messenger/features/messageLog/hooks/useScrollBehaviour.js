@@ -2,6 +2,8 @@ import { useRef, useLayoutEffect, useCallback, useContext } from 'react'
 import { rem, stripUnit } from 'polished'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThemeContext } from 'styled-components'
+import { useCurrentFrame } from 'src/framework/components/Frame'
+import { FORM_ERROR } from 'final-form'
 
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import {
@@ -21,6 +23,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
   const theme = useContext(ThemeContext)
   const animationsDisabled = useShouldDisableAnimations()
+  const frame = useCurrentFrame()
 
   const scrollToBottom = useCallback(
     ({ smooth = true } = {}) => {
@@ -57,6 +60,26 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     },
     [lastUnreadTimestamp]
   )
+
+  // scrollToFirstErroredField will scroll to the first field that has errored
+  const scrollToFirstError = useCallback((fields, errors) => {
+    const firstFieldToError = fields.concat({ id: FORM_ERROR }).find(field => errors[field._id])
+    if (!firstFieldToError) {
+      return
+    }
+    let input = frame.document.querySelector(`[data-id="${firstFieldToError._id}"]`)
+    if (input) {
+      input.focus()
+    }
+    scrollToBottomIfNeeded()
+    const label = frame.document.querySelector(`[data-label-id="${firstFieldToError._id}"]`)
+
+    if (label) {
+      setTimeout(() => {
+        label.scrollIntoView()
+      }, 0)
+    }
+  })
 
   // When messages change, scroll to the bottom if the user was previously at the bottom
   useLayoutEffect(() => {
@@ -100,7 +123,8 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   return {
     onScrollBottom,
     scrollToBottomIfNeeded,
-    scrollToBottom
+    scrollToBottom,
+    scrollToFirstError
   }
 }
 

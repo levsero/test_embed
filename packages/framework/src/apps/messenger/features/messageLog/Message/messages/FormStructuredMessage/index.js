@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
-import useScrollToFirstError from './hooks/useScrollToFirstError'
 
 const FormStructuredMessage = ({
   message: {
@@ -21,7 +20,6 @@ const FormStructuredMessage = ({
     formId: _id,
     fields
   })
-  const scrollToFirstError = useScrollToFirstError()
 
   return (
     <FormMessage
@@ -35,13 +33,7 @@ const FormStructuredMessage = ({
       isFirstInGroup={isFirstInGroup}
       isReceiptVisible={false}
       onStepChange={onStepChange}
-      onSubmit={(fields, values, formErrors) => {
-        if (formErrors) {
-          scrollToFirstError(fields, formErrors)
-        } else {
-          onSubmit()
-        }
-      }}
+      onSubmit={onSubmit}
       onChange={(fieldId, newValue) => {
         onChange({
           [fieldId]: newValue
