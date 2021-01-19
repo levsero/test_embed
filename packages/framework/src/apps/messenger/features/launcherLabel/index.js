@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import Frame from 'src/framework/components/Frame'
@@ -34,6 +35,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
   const isLauncherLabelVisible = useSelector(getIsLauncherLabelVisible)
   const text = useSelector(getLauncherLabelText)
   const wasVisible = useRef(isLauncherLabelVisible)
+  const translate = useTranslate()
 
   if (isLauncherLabelVisible) {
     wasVisible.current = true
@@ -51,7 +53,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
 
   return (
     <Frame
-      title="Opens a widget where you can find more information"
+      title={translate('embeddable_framework.messenger.launcher_label.frame.title')}
       style={{
         position: 'fixed',
         bottom: launcherSize + frameMarginFromPage - 12,
@@ -91,7 +93,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
                 }}
                 tabIndex={position === 'right' ? 1 : 2}
                 position={position}
-                aria-label="Close"
+                aria-label={translate('embeddable_framework.messenger.launcher_label.close')}
               >
                 <CloseIcon />
               </CloseButton>

@@ -10,6 +10,7 @@ import {
 } from 'src/apps/messenger/constants'
 import { useSelector } from 'react-redux'
 import { getPosition, getZIndex } from 'src/apps/messenger/features/themeProvider/store'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import {
@@ -26,6 +27,8 @@ const LauncherFrame = ({ children }) => {
   const position = useSelector(getPosition)
   const isVisible = useSelector(getIsLauncherVisible)
   const zIndex = useSelector(getZIndex)
+  const translate = useTranslate()
+
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
   return (
     <>
@@ -35,7 +38,7 @@ const LauncherFrame = ({ children }) => {
         }}
       />
       <Frame
-        title="Launcher"
+        title={translate('embeddable_framework.messenger.launcher.frame.title')}
         hidden={!isVisible}
         style={{
           height: launcherSize,

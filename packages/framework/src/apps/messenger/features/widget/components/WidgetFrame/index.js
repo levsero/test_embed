@@ -3,12 +3,18 @@ import PropTypes from 'prop-types'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import FrameAnimation from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const MessengerFrame = ({ children }) => {
+  const translate = useTranslate()
   return (
     <FrameAnimation>
       {(state, styles) => (
-        <Frame title="Messenger" hidden={state === 'exited'} style={styles}>
+        <Frame
+          title={translate('embeddable_framework.messenger.frame.title')}
+          hidden={state === 'exited'}
+          style={styles}
+        >
           <ThemeProvider>{children}</ThemeProvider>
         </Frame>
       )}

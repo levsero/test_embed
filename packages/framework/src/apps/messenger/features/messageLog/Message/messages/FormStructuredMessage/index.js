@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const FormStructuredMessage = ({
   message: {
@@ -20,6 +21,25 @@ const FormStructuredMessage = ({
     formId: _id,
     fields
   })
+  const translate = useTranslate()
+
+  const errorLabels = {
+    requiredField: translate('embeddable_framework.messenger.message.form.field_is_required'),
+    invalidEmail: translate('embeddable_framework.messenger.message.form.invalid_email'),
+    fieldMinSize: min =>
+      translate('embeddable_framework.messenger.message.form.invalid_min_characters', {
+        count: min
+      }),
+    fieldMaxSize: max => {
+      return max === 1
+        ? translate('embeddable_framework.messenger.message.form.invalid_max_characters.one', {
+            count: max
+          })
+        : translate('embeddable_framework.messenger.message.form.invalid_max_characters.other', {
+            count: max
+          })
+    }
+  }
 
   return (
     <FormMessage
@@ -28,6 +48,16 @@ const FormStructuredMessage = ({
       fields={fields}
       initialStep={step}
       initialValues={values}
+      errorLabels={errorLabels}
+      stepStatusLabel={(step, totalSteps) =>
+        translate('embeddable_framework.messenger.message.form.step_status', { step, totalSteps })
+      }
+      nextStepLabel={translate('embeddable_framework.messenger.message.form.next_step')}
+      sendLabel={translate('embeddable_framework.messenger.message.form.submit')}
+      submittingLabel={translate('embeddable_framework.messenger.message.form.submitting')}
+      submissionErrorLabel={translate(
+        'embeddable_framework.messenger.message.form.failed_to_submit'
+      )}
       status={messageStatus}
       formSubmissionStatus={formSubmissionStatus}
       isFirstInGroup={isFirstInGroup}

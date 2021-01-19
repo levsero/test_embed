@@ -18,6 +18,17 @@ const FormMessage = ({
   initialValues = {},
   initialStep = 1,
   formSubmissionStatus = 'unsubmitted',
+  nextStepLabel = 'next',
+  sendLabel = 'send',
+  submittingLabel = 'Sending form',
+  submissionErrorLabel = 'Error submitting form. Try again.',
+  stepStatusLabel = (activeStep, totalSteps) => `${activeStep} of ${totalSteps}`,
+  errorLabels = {
+    requiredField: 'This field is required',
+    invalidEmail: 'Enter a valid email address',
+    fieldMinSize: min => `Must be more than ${min} character${min === 1 ? '' : 's'}`,
+    fieldMaxSize: max => `Must be less than ${max} character${max === 1 ? '' : 's'}`
+  },
   status = 'sent',
   timeReceived,
   isPrimaryParticipant = false,
@@ -67,7 +78,7 @@ const FormMessage = ({
     const newFormValues = { ...formValues }
     newFormValues[fieldId] = newValue
     setFormValues(newFormValues)
-    setValidationErrors(validate(fieldsToValidate(), newFormValues))
+    setValidationErrors(validate(fieldsToValidate(), newFormValues, errorLabels))
     onChange(fieldId, newValue)
   }
 
@@ -75,7 +86,7 @@ const FormMessage = ({
     event.preventDefault()
     setValidationStep(activeStep)
     setLastSubmittedTimestamp(Date.now())
-    const errors = validate(visibleFields, formValues)
+    const errors = validate(visibleFields, formValues, errorLabels)
     const isValid = Object.keys(errors).length === 0
     setValidationErrors(errors)
     if (isValid) {
@@ -123,23 +134,25 @@ const FormMessage = ({
 
             <FormFooter>
               <TextContainer>
-                <Steps>
-                  {activeStep}
-                  <bdi> of </bdi>
-                  {totalSteps}
-                </Steps>
+                <Steps>{stepStatusLabel(activeStep, totalSteps)}</Steps>
               </TextContainer>
 
               <FormButton
                 isSubmitting={formSubmissionStatus === FORM_MESSAGE_STATUS.pending}
-                label={activeStep === totalSteps ? 'Send' : 'Next'}
+                label={
+                  formSubmissionStatus === FORM_MESSAGE_STATUS.pending
+                    ? submittingLabel
+                    : activeStep === totalSteps
+                    ? sendLabel
+                    : nextStepLabel
+                }
               />
             </FormFooter>
           </Form>
         </FormContainer>
       </Layout>
       {formSubmissionStatus === FORM_MESSAGE_STATUS.failed && (
-        <SubmissionError message={'Error submitting form. Try again.'} />
+        <SubmissionError message={submissionErrorLabel} />
       )}
     </>
   )
@@ -157,6 +170,12 @@ FormMessage.propTypes = {
       type: PropTypes.string
     })
   ),
+  stepStatusLabel: PropTypes.string,
+  nextStepLabel: PropTypes.string,
+  sendLabel: PropTypes.string,
+  submittingLabel: PropTypes.string,
+  submissionErrorLabel: PropTypes.string,
+  errorLabels: PropTypes.object,
   initialStep: PropTypes.number,
   initialValues: PropTypes.object,
   formSubmissionStatus: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
