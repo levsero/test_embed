@@ -100,6 +100,7 @@
     "@zendeskgarden/react-tooltips": "^8.21.0",
     "@zendeskgarden/svg-icons": "~5.0.0",
     "async": "^2.6.1",
+    "bcp47-validate": "^1.0.0",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v27.0.0",
     "classnames": "^2.2.5",
     "color": "~3.0.0",
