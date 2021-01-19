@@ -5,9 +5,9 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import {
   frameMarginFromPage,
   unreadIndicatorSize,
-  launcherSize,
-  zIndex
+  launcherSize
 } from 'src/apps/messenger/constants'
+import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import { useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
@@ -17,6 +17,7 @@ import { GlobalStyles } from './styles'
 const UnreadIndicatorFrame = ({ children }) => {
   const isVisible = useSelector(getIsLauncherVisible)
   const position = useSelector(getPosition)
+  const zIndex = useSelector(getZIndex)
 
   const indicatorOffset = 4
 
@@ -26,7 +27,7 @@ const UnreadIndicatorFrame = ({ children }) => {
       title="LauncherUnreadIndicator"
       hidden={!isVisible}
       style={{
-        zIndex: zIndex,
+        zIndex,
         height: unreadIndicatorSize,
         width: unreadIndicatorSize + 20,
         position: 'fixed',

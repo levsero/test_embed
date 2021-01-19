@@ -1,10 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
+import { messengerConfigReceived, zIndexUpdated } from 'src/apps/messenger/store/actions'
 
 const store = createReducer(
   {
     colors: {},
-    position: 'right'
+    position: 'right',
+    zIndex: 999999
   },
   {
     [messengerConfigReceived]: (state, action) => {
@@ -25,11 +26,15 @@ const store = createReducer(
       if (action.payload?.position === 'left' || action.payload?.position === 'right') {
         state.position = action.payload?.position
       }
+    },
+    [zIndexUpdated]: (state, action) => {
+      state.zIndex = action.payload
     }
   }
 )
 
 export const getMessengerColors = state => state.theme.colors
 export const getPosition = state => state.theme.position
+export const getZIndex = state => state.theme.zIndex
 
 export default store

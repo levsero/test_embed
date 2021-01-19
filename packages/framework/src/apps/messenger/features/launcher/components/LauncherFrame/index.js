@@ -6,11 +6,10 @@ import {
   bezierCurve,
   frameBoxShadow,
   frameMarginFromPage,
-  launcherSize,
-  zIndex
+  launcherSize
 } from 'src/apps/messenger/constants'
 import { useSelector } from 'react-redux'
-import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
+import { getPosition, getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import {
@@ -26,9 +25,8 @@ const LauncherFrame = ({ children }) => {
   const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)
   const position = useSelector(getPosition)
   const isVisible = useSelector(getIsLauncherVisible)
-
+  const zIndex = useSelector(getZIndex)
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
-
   return (
     <>
       <style
@@ -50,7 +48,7 @@ const LauncherFrame = ({ children }) => {
           boxShadow: frameBoxShadow,
           animation:
             isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined,
-          zIndex: zIndex
+          zIndex
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>
