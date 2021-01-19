@@ -55,8 +55,18 @@ class Talk extends Component {
     this.props.history.replace(routes.home())
   }
 
+  pickRouteWithFallback = () => {
+    const { agentsAreAvailable, contactOption } = this.props
+    if (agentsAreAvailable) {
+      return routes.online()
+    } else if (contactOption === CONTACT_OPTIONS.CLICK_TO_CALL) {
+      return onlineContactOptions[CONTACT_OPTIONS.CLICK_TO_CALL]
+    }
+    return routes.offline()
+  }
+
   render() {
-    const { agentsAreAvailable, contactOption, talkIsDeferred } = this.props
+    const { contactOption, talkIsDeferred } = this.props
 
     if (talkIsDeferred) {
       return <LoadingPage />
@@ -83,7 +93,7 @@ class Talk extends Component {
               <Route component={OfflinePage} />
             </Route>
 
-            <Redirect to={agentsAreAvailable ? routes.online() : routes.offline()} />
+            <Redirect to={this.pickRouteWithFallback()} />
           </Switch>
         </SuspensePage>
       </WidgetThemeProvider>

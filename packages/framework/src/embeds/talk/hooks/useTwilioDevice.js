@@ -68,7 +68,7 @@ export const useTwilioDevice = ({
     })
 
     device.on('ready', async () => {
-      connection = await device.connect({
+      connection = await device?.connect({
         source: 'web-widget',
         user_agent: navigator.userAgent,
         ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
