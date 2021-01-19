@@ -76,7 +76,6 @@ const StyledItem = styled(Item)`
       ${props => rem(36, props.theme.messenger.baseFontSize)};
     line-height: ${props => props.theme.messenger.lineHeights.md};
     font-size: ${props => props.theme.messenger.fontSizes.md};
-    height: ${props => props.theme.messenger.space.xxl};
     border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
     margin-left: ${props => props.theme.messenger.space.xs};
     margin-right: ${props => props.theme.messenger.space.xs};
