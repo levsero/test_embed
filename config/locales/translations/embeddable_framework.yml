@@ -1801,6 +1801,11 @@ parts:
       screenshot: "https://drive.google.com/file/d/1oWs3VohlN5AUwNwUCIiq6vxi8F1PxbKf/view?usp=sharing"
       value: "Sending"
   - translation:
+      key: "embeddable_framework.messenger.receipt.sent"
+      title: "Text that lets the user know the message they sent has been successfully delivered"
+      screenshot: "https://drive.google.com/file/d/1I2af3NTpcYJv641G3JCA5qAqIOTpeu_h/view?usp=sharing"
+      value: "Sent"
+  - translation:
       key: "embeddable_framework.messenger.message.form.invalid_min_characters"
       title: "Error text that appears when user has not entered enough characters"
       screenshot: "https://drive.google.com/file/d/1afSjwEfU-1Y2lSSPRXcC9pYAuHQ-t0pz/view?usp=sharing"
