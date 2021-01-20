@@ -6,8 +6,7 @@ import {
   launcherSize,
   marginBetweenFrames,
   widgetFrameHeight,
-  widgetFrameWidth,
-  zIndex
+  widgetFrameWidth
 } from 'src/apps/messenger/constants'
 
 export const openAnimationDuration = 0.7
@@ -15,7 +14,6 @@ export const openAnimationDuration = 0.7
 const maxHeightSmallScreens = `calc(100vh - ${frameMarginFromPage * 2}px)`
 
 const defaultStyles = {
-  zIndex,
   height: em(widgetFrameHeight, baseFontSize),
   width: em(widgetFrameWidth, baseFontSize),
   maxHeight: `calc(100vh - ${launcherSize +
@@ -35,7 +33,8 @@ const getFrameWrapperStyles = ({
   isVerticallySmallScreen,
   isLauncherVisible,
   position,
-  isClosed
+  isClosed,
+  zIndex
 }) => {
   const shouldAnimateHeight = !isVerticallySmallScreen && !isFullScreen
 
@@ -45,7 +44,8 @@ const getFrameWrapperStyles = ({
     [position]: frameMarginFromPage,
     bottom: launcherSize + frameMarginFromPage + marginBetweenFrames,
     overflow: 'visible',
-    boxShadow: frameBoxShadow
+    boxShadow: frameBoxShadow,
+    zIndex
   }
 
   if (shouldAnimateHeight) {
@@ -85,14 +85,15 @@ const getFrameWrapperStyles = ({
   return styles
 }
 
-const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen }) => {
+const getFrameStyles = ({ isFullScreen, isVerticallySmallScreen, zIndex }) => {
   const styles = {
     ...defaultStyles,
     position: 'absolute',
     top: 0,
     bottom: 0,
     right: 0,
-    left: 0
+    left: 0,
+    zIndex
   }
 
   if (isVerticallySmallScreen) {

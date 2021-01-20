@@ -9,7 +9,8 @@ testReducer(store, [
     },
     expected: {
       colors: {},
-      position: 'right'
+      position: 'right',
+      zIndex: 999999
     }
   },
   {
@@ -29,7 +30,8 @@ testReducer(store, [
         message: 'blue',
         action: 'green'
       },
-      position: 'right'
+      position: 'right',
+      zIndex: 999999
     }
   },
   {
@@ -49,7 +51,8 @@ testReducer(store, [
         primary: 'red',
         message: 'blue'
       },
-      position: 'right'
+      position: 'right',
+      zIndex: 999999
     }
   }
 ])

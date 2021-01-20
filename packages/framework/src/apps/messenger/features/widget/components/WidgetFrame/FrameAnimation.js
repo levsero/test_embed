@@ -14,6 +14,7 @@ import {
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
+import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 
 const FrameAnimation = ({ children }) => {
   const isLauncherVisible = useSelector(getIsLauncherVisible)
@@ -21,6 +22,7 @@ const FrameAnimation = ({ children }) => {
   const isFullScreen = useSelector(getIsFullScreen)
   const position = useSelector(getPosition)
   const isWidgetOpen = useSelector(getIsWidgetOpen)
+  const zIndex = useSelector(getZIndex)
 
   const shouldAnimate = !isFullScreen && !isVerticallySmallScreen
 
@@ -33,7 +35,8 @@ const FrameAnimation = ({ children }) => {
             isLauncherVisible,
             isFullScreen,
             position,
-            isClosed: status === 'exiting' || status === 'exited'
+            isClosed: status === 'exiting' || status === 'exited',
+            zIndex
           })}
         >
           {children(

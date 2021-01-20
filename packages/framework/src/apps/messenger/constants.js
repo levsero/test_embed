@@ -9,4 +9,3 @@ export const frameBoxShadow =
 export const bezierCurve = 'cubic-bezier(0.66, 0, 0.12, 1)'
 export const baseFontSize = '16px'
 export const baseFontSizeFullScreen = '14px'
-export const zIndex = 999999

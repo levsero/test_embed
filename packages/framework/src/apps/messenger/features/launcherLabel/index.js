@@ -3,7 +3,7 @@ import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 
-import { zIndex } from 'src/apps/messenger/constants'
+import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
@@ -28,6 +28,7 @@ const roughSizeForBoxShadows = 20
 const LauncherLabel = React.forwardRef((_, ref) => {
   const dispatch = useDispatch()
   const position = useSelector(getPosition)
+  const zIndex = useSelector(getZIndex)
   const [dimensions, setDimensions] = useState({ width: 100, height: 100 })
   const isWidgetOpen = useSelector(getIsWidgetOpen)
   const isLauncherLabelVisible = useSelector(getIsLauncherLabelVisible)
@@ -58,7 +59,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
         width: dimensions.width,
         [position]: 0,
         border: 0,
-        zIndex: zIndex
+        zIndex
       }}
     >
       <ThemeProvider>
