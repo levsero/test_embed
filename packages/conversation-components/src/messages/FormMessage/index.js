@@ -170,7 +170,7 @@ FormMessage.propTypes = {
       type: PropTypes.string
     })
   ),
-  stepStatusLabel: PropTypes.string,
+  stepStatusLabel: PropTypes.func,
   nextStepLabel: PropTypes.string,
   sendLabel: PropTypes.string,
   submittingLabel: PropTypes.string,

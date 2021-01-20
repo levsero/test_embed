@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import bedrockCSS from '@zendeskgarden/css-bedrock'
-import { ThemeProvider as SuncoThemeProvider } from '@zendesk/conversation-components'
+import {
+  ThemeProvider as SuncoThemeProvider,
+  MESSAGE_STATUS
+} from '@zendesk/conversation-components'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import { getMessengerColors } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
@@ -21,11 +24,11 @@ const GlobalStyles = createGlobalStyle`
 `
 
 const ThemeProvider = ({ children }) => {
-  useTranslate()
   const messengerColors = useSelector(getMessengerColors)
   const isFullScreen = useSelector(getIsFullScreen)
   const currentBaseFontSize = isFullScreen ? baseFontSizeFullScreen : baseFontSize
   const frame = useCurrentFrame()
+  const translate = useTranslate()
 
   useEffect(() => {
     frame.document.documentElement.setAttribute('dir', i18n.isRTL() ? 'rtl' : 'ltr')
@@ -40,6 +43,23 @@ const ThemeProvider = ({ children }) => {
       actionColor={messengerColors.action}
       baseFontSize={currentBaseFontSize}
       rtl={i18n.isRTL()}
+      labels={{
+        receiptStatus: {
+          [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
+          [MESSAGE_STATUS.sent]: 'Delivered',
+          [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
+        },
+        receiptReceivedRecently: translate(
+          'embeddable_framework.messenger.message.receipt.received_recently'
+        ),
+        fileMessage: {
+          sizeInKB: size =>
+            translate('embeddable_framework.messenger.message.file.size_in_kb', { size }),
+          sizeInMB: size =>
+            translate('embeddable_framework.messenger.message.file.size_in_mb', { size }),
+          downloadAriaLabel: translate('embeddable_framework.messenger.message.file.download')
+        }
+      }}
     >
       <>
         <GlobalStyles />

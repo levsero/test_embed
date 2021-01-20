@@ -5,6 +5,7 @@ import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import MessageBubble from 'src/MessageBubble'
 import { Container, Icon, Name, Size, Content } from './styles'
+import useLabels from 'src/hooks/uselabels'
 
 const parseFileNameFromUrl = url => {
   const split = url.split('/')
@@ -18,11 +19,13 @@ const abbreviateFileName = fileName => {
   return `${fileName.slice(0, 11)}...${fileName.slice(-12)}`
 }
 
-const calculateMediaSize = bytes => {
+const calculateMediaSize = (bytes, labels) => {
   const minFileSize = 1000
   const size = isNaN(bytes) || bytes < minFileSize ? minFileSize : bytes
 
-  return size >= 1000000 ? `${Math.floor(size / 1000000)}MB` : `${Math.floor(size / 1000)}KB`
+  return size >= 1000000
+    ? labels.sizeInMB(Math.floor(size / 1000000))
+    : labels.sizeInMB(Math.floor(size / 1000))
 }
 
 const FileMessage = ({
@@ -39,10 +42,11 @@ const FileMessage = ({
   isFreshMessage = true,
   onRetry = () => {}
 }) => {
+  const labels = useLabels()
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const fileName = parseFileNameFromUrl(mediaUrl)
   const abbreviatedName = abbreviateFileName(fileName)
-  const size = calculateMediaSize(mediaSize)
+  const size = calculateMediaSize(mediaSize, labels.fileMessage)
 
   return (
     <Layout
@@ -60,6 +64,7 @@ const FileMessage = ({
           <Icon />
           <Content>
             <Name
+              aria-label={labels.fileMessage.downloadAriaLabel}
               href={mediaUrl}
               target="_blank"
               isPill={false}

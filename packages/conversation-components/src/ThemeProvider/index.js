@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { DEFAULT_THEME, ThemeProvider as GardenThemeProvider } from '@zendeskgarden/react-theming'
 import { rem, readableColor } from 'polished'
+import { MESSAGE_STATUS } from 'src/constants'
 
 export const getReadableMessengerColor = color => {
   return readableColor(color, DEFAULT_THEME.palette.grey[800], DEFAULT_THEME.palette.white, false)
@@ -13,6 +14,19 @@ const ThemeProvider = ({
   rtl = false,
   baseFontSize = '16px',
   currentFrame = undefined,
+  labels = {
+    receiptStatus: {
+      [MESSAGE_STATUS.sending]: 'Sending',
+      [MESSAGE_STATUS.sent]: 'Delivered',
+      [MESSAGE_STATUS.failed]: 'Tap to retry'
+    },
+    receiptReceivedRecently: 'Just now',
+    fileMessage: {
+      sizeInMB: size => `${size} MB`,
+      sizeInKB: size => `${size} KB`,
+      downloadAriaLabel: 'Open in a new tab'
+    }
+  },
   children
 }) => {
   return (
@@ -81,7 +95,8 @@ const ThemeProvider = ({
             textMessage: rem('20px', baseFontSize),
             menuItem: rem('14px', baseFontSize),
             lg: rem('24px', baseFontSize)
-          }
+          },
+          labels
         }
       }}
     >
@@ -97,7 +112,8 @@ ThemeProvider.propTypes = {
   actionColor: PropTypes.string,
   rtl: PropTypes.bool,
   baseFontSize: PropTypes.string,
-  currentFrame: PropTypes.object
+  currentFrame: PropTypes.object,
+  labels: PropTypes.object
 }
 
 export default ThemeProvider

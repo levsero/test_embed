@@ -6,12 +6,7 @@ import { MESSAGE_STATUS } from 'src/constants'
 import { triggerOnEnter } from 'src/utils/keyboard'
 import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
 import { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer } from './styles'
-
-const statusLabels = {
-  [MESSAGE_STATUS.sending]: 'Sending',
-  [MESSAGE_STATUS.sent]: 'Delivered',
-  [MESSAGE_STATUS.failed]: 'Tap to retry'
-}
+import useLabel from 'src/hooks/useLabels'
 
 const Receipt = ({
   timeReceived,
@@ -23,7 +18,7 @@ const Receipt = ({
   const parsedTime = useParseTime(timeReceived)
   const previousStatus = useRef(null)
   const currentStatus = useRef(status)
-
+  const labels = useLabel()
   if (status !== currentStatus.current) {
     previousStatus.current = currentStatus.current
     currentStatus.current = status
@@ -35,7 +30,7 @@ const Receipt = ({
         {status !== MESSAGE_STATUS.failed && (
           <>
             <Time isFreshMessage={isFreshMessage}>
-              {statusLabels[status]}
+              {labels.receiptStatus[status]}
               {status !== MESSAGE_STATUS.sending && ` · ${parsedTime}`}
             </Time>
             <TailContainer>
@@ -49,7 +44,7 @@ const Receipt = ({
         )}
         {status === MESSAGE_STATUS.failed && (
           <FailedMessage onClick={onRetry} tabIndex="0" onKeyDown={triggerOnEnter(onRetry)}>
-            {statusLabels.failed}
+            {labels.receiptStatus[status]}
             {` `}
             <AlertIcon />
           </FailedMessage>

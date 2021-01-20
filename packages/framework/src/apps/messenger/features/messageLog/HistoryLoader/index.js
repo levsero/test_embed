@@ -41,7 +41,7 @@ const HistoryLoader = ({
     return (
       <TopLoadingErrorContainer>
         <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          Click to retry <ReloadStroke />
+          {translate('embeddable_framework.messenger.previous_messages_retry')} <ReloadStroke />
         </LoadingErrorButton>
       </TopLoadingErrorContainer>
     )
@@ -49,9 +49,11 @@ const HistoryLoader = ({
   if (errorFetchingHistory && !hasFetchedConversation)
     return (
       <CenterLoadingErrorContainer>
-        <CenterLoadingErrorTitle>Messages failed to load</CenterLoadingErrorTitle>
+        <CenterLoadingErrorTitle>
+          {translate('embeddable_framework.messenger.initial_conversation_request_failed')}
+        </CenterLoadingErrorTitle>
         <LoadingErrorButton isLink={true} onClick={retryFetchMessages}>
-          Click to retry <ReloadStroke />
+          {translate('embeddable_framework.messenger.initial_conversation_retry')} <ReloadStroke />
         </LoadingErrorButton>
       </CenterLoadingErrorContainer>
     )
