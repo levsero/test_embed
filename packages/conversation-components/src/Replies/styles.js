@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
 import { rgba } from 'polished'
+import dirStyles from 'src/utils/dirStyles'
 
 const replyButtonHorizontalMargin = props => props.theme.messenger.space.xxs
 
@@ -23,8 +24,8 @@ const StyledButton = styled(Button)`
     border-color: ${props => props.theme.messenger.colors.action};
     color: ${props => props.theme.messenger.colors.action};
     margin-top: ${props => props.theme.messenger.space.xs};
-    margin-right: 0;
-    margin-left: calc(${props => replyButtonHorizontalMargin(props)} * 2);
+    margin-${dirStyles.right}: 0;
+    margin-${dirStyles.left}: calc(${props => replyButtonHorizontalMargin(props)} * 2);
     margin-bottom: 0;
 
     &:hover {

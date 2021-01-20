@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import dirStyles from 'src/utils/dirStyles'
 
 const FormContainer = styled.div`
   border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
@@ -7,7 +8,7 @@ const FormContainer = styled.div`
   padding: ${props => props.theme.messenger.space.sixteen};
   width: 100%;
   margin-top: ${props => props.theme.messenger.space.xxs};
-  margin-right: ${props => props.theme.messenger.space.sixteen};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.sixteen};
   flex-grow: 1;
   min-width: 0;
 `
@@ -25,7 +26,7 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: auto;
+  margin-${dirStyles.right}: auto;
 `
 
 const Steps = styled.div`

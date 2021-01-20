@@ -3,15 +3,16 @@ import { rem } from 'polished'
 
 import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import messageSteps, { animation, transition } from 'src/animations/messageSteps'
+import dirStyles from 'src/utils/dirStyles'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
-const messageEnter = keyframes`
+const enterFromRight = keyframes`
        0% { transform: translateY(0%) translateX(50%) scale(0); }
       50% { transform: translateY(-4%) translateX(-1%) scale(1); }
       100% { transform: translateY(0%) translateX(0%) scale(1); }
     `
-const otherMessageEnter = keyframes`
+const enterFromLeft = keyframes`
        0% { transform: translateY(0%) translateX(-50%) scale(0); }
       50% { transform: translateY(-4%) translateX(1%) scale(1); }
       100% { transform: translateY(0%) translateX(0%) scale(1); }
@@ -38,17 +39,19 @@ const PrimaryParticipantBubble = styled(Bubble)`
       case MESSAGE_BUBBLE_SHAPES.standalone:
         return `border-radius: ${radius};`
       case MESSAGE_BUBBLE_SHAPES.first:
-        return `border-radius: ${radius} ${radius} 0;`
+        return dirStyles.borderRadius(radius, radius, 0, radius)
       case MESSAGE_BUBBLE_SHAPES.middle:
-        return `border-radius: ${radius} 0 0 ${radius};`
+        return dirStyles.borderRadius(radius, 0, 0, radius)
       case MESSAGE_BUBBLE_SHAPES.last:
-        return `border-radius: ${radius} 0 ${radius} ${radius};`
+        return dirStyles.borderRadius(radius, 0, radius, radius)
     }
   }}
 
 
   animation: ${props =>
-    props.isFreshMessage ? animation(messageSteps.messageEnter, messageEnter) : 'none'};
+    props.isFreshMessage
+      ? animation(messageSteps.messageEnter, dirStyles.swap(enterFromRight, enterFromLeft)(props))
+      : 'none'};
 
   ${props =>
     props.status === MESSAGE_STATUS.sending &&
@@ -79,16 +82,18 @@ const OtherParticipantBubble = styled(Bubble)`
       case MESSAGE_BUBBLE_SHAPES.standalone:
         return `border-radius: ${radius};`
       case MESSAGE_BUBBLE_SHAPES.first:
-        return `border-radius: ${radius} ${radius} ${radius} 0;`
+        return dirStyles.borderRadius(radius, radius, radius, 0)
       case MESSAGE_BUBBLE_SHAPES.middle:
-        return `border-radius: 0 ${radius} ${radius} 0;`
+        return dirStyles.borderRadius(0, radius, radius, 0)
       case MESSAGE_BUBBLE_SHAPES.last:
-        return `border-radius: 0 ${radius} ${radius} ${radius};`
+        return dirStyles.borderRadius(0, radius, radius, radius)
     }
   }}
 
   animation: ${props =>
-    props.isFreshMessage ? animation(messageSteps.messageEnter, otherMessageEnter) : 'none'};
+    props.isFreshMessage
+      ? animation(messageSteps.messageEnter, dirStyles.swap(enterFromLeft, enterFromRight)(props))
+      : 'none'};
 `
 
 export { PrimaryParticipantBubble, OtherParticipantBubble }

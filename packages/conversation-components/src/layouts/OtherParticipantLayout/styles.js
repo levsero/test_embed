@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import dirStyles from 'src/utils/dirStyles'
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -6,7 +7,6 @@ const LayoutContainer = styled.div`
   width: 100%;
   justify-content: flex-start;
   align-self: flex-start;
-  text-align: left;
 `
 
 const VerticalContainer = styled.div`
@@ -14,12 +14,12 @@ const VerticalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
-  margin-left: ${props => props.theme.messenger.space.sixteen};
+  margin-${dirStyles.left}: ${props => props.theme.messenger.space.sixteen};
   margin-top: ${props => (props.isFirstInGroup ? props.theme.messenger.space.sm : 0)};
 `
 
 const OtherParticipantName = styled.p`
-  margin-left: ${props => props.theme.messenger.space.xxl};
+  margin-${dirStyles.left}: ${props => props.theme.messenger.space.xxl};
   font-size: ${props => props.theme.messenger.fontSizes.sm};
   font-weight: normal;
   line-height: ${props => props.theme.messenger.lineHeights.sm};

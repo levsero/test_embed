@@ -3,6 +3,7 @@ import { rgba } from 'polished'
 import { Avatar } from '@zendeskgarden/react-avatars'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
+import dirStyles from 'src/utils/dirStyles'
 
 const onCompactHeader = styles => props => {
   if (props.isCompact) {
@@ -32,13 +33,12 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: left;
   flex: auto;
   color: ${props => props.theme.messenger.colors.primaryText};
   min-width: 0;
 
   &:not(:first-child) {
-    padding-left: ${props => props.theme.messenger.space.sixteen};
+    padding-${dirStyles.left}: ${props => props.theme.messenger.space.sixteen};
   }
 `
 
@@ -126,7 +126,7 @@ const StyledIconButton = styled(IconButton)`
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: ${props => props.theme.messenger.space.sixteen};
+  padding-${dirStyles.left}: ${props => props.theme.messenger.space.sixteen};
   justify-content: center;
   height: ${props => props.theme.messenger.space.xxl};
 

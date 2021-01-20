@@ -19,7 +19,7 @@ const ThemeProvider = ({
     <GardenThemeProvider
       theme={{
         ...DEFAULT_THEME,
-        rtl: rtl,
+        rtl,
         document: currentFrame?.document,
         messenger: {
           currentFrame: currentFrame,

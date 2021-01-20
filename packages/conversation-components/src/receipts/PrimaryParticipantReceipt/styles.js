@@ -5,6 +5,7 @@ import AlertSVG from '@zendeskgarden/svg-icons/src/12/alert-error-stroke.svg'
 import messageSteps, { transition } from 'src/animations/messageSteps'
 import { MESSAGE_STATUS } from 'src/constants'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
+import dirStyles from 'src/utils/dirStyles'
 
 const enter = `
   .receipt-appear-active &,
@@ -29,12 +30,18 @@ const sendingKeyframes = props => keyframes`
   0% {
     border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('6px', props.theme.messenger.baseFontSize)} solid transparent;
+    border-${dirStyles.left(props)}: ${rem(
+  '6px',
+  props.theme.messenger.baseFontSize
+)} solid transparent;
   }
   100% {
     border-top: ${rem('8px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('8px', props.theme.messenger.baseFontSize)} solid transparent;
+    border-${dirStyles.left(props)}: ${rem(
+  '8px',
+  props.theme.messenger.baseFontSize
+)} solid transparent;
   }
 `
 
@@ -42,12 +49,15 @@ const sendingToSentKeyframes = props => keyframes`
   0% {
     border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${rem('6px', props.theme.messenger.baseFontSize)} solid transparent;
+    border-${dirStyles.left(props)}: ${rem(
+  '6px',
+  props.theme.messenger.baseFontSize
+)} solid transparent;
   }
   100% {
     border-top: ${props.theme.messenger.space.sm} solid
       ${props.theme.messenger.colors.message};
-    border-left: ${props.theme.messenger.space.sm} solid transparent;
+    border-${dirStyles.left(props)}: ${props.theme.messenger.space.sm} solid transparent;
   }
 `
 
@@ -67,7 +77,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${props => props.theme.messenger.space.xxxs};
-  margin-right: ${props => props.theme.messenger.space.sm};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.sm};
   justify-content: flex-end;
 `
 
@@ -75,8 +85,9 @@ const Time = styled.p`
   color: ${props => props.theme.palette.grey[600]};
   font-size: ${props => props.theme.messenger.fontSizes.sm};
   line-height: ${props => props.theme.messenger.lineHeights.sm};
-  margin-right: ${props => props.theme.messenger.space.xs};
-  text-align: right;
+  margin: 0;
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.xs};
+  text-align: ${dirStyles.right};
 
   opacity: 0;
 
@@ -108,11 +119,11 @@ const TailContainer = styled.div`
 const Tail = styled.div`
   position:absolute;
   top: 0;
-  left: 0;
+  ${dirStyles.left}: 0;
 
   border-top: ${props => props.theme.messenger.space.sm} solid
     ${props => props.theme.messenger.colors.message};
-  border-left: ${props => props.theme.messenger.space.sm} solid transparent;
+  border-${dirStyles.left}: ${props => props.theme.messenger.space.sm} solid transparent;
   opacity: 1;
 
   transform: translateY(-105%) scale(0);

@@ -4,6 +4,7 @@ import { Textarea, Field } from '@zendeskgarden/react-forms'
 import { IconButton } from '@zendeskgarden/react-buttons'
 
 import SendIcon from './send-icon.svg'
+import dirStyles from 'src/utils/dirStyles'
 
 const StyledSendIcon = styled(SendIcon)``
 
@@ -18,17 +19,19 @@ const sendButtonSize = css`
 const SendButton = styled(IconButton)`
   &&& {
     position: absolute;
-    right: 0;
+    ${dirStyles.right}: 0;
     bottom: 0;
     height: ${sendButtonSize};
     width: ${sendButtonSize};
     border-radius: ${props => rem(22, props.theme.messenger.baseFontSize)};
     color: ${props => props.theme.messenger.primary};
 
+    ${dirStyles.rtlOnly('transform: scaleX(-1);')}
+
     ${StyledSendIcon} {
       height: ${props => props.theme.messenger.iconSizes.md};
       width: ${props => props.theme.messenger.iconSizes.md};
-      margin-left: ${props => props.theme.messenger.space.xxs};
+      margin-${dirStyles.left}: ${props => props.theme.messenger.space.xxs};
 
       g {
         fill: ${props => props.theme.messenger.colors.primary};
@@ -57,7 +60,7 @@ const StyledTextarea = styled(Textarea)`
     min-height: auto;
     padding: ${props => props.theme.messenger.space.sm}
       ${props => props.theme.messenger.space.sixteen};
-    padding-right: ${sendButtonSize};
+    padding-${dirStyles.right}: ${sendButtonSize};
 
     box-shadow: none;
     line-height: ${props => props.theme.messenger.lineHeights.md};
