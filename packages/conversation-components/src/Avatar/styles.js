@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Avatar } from '@zendeskgarden/react-avatars'
+import dirStyles from 'src/utils/dirStyles'
 
 const Container = styled(Avatar).attrs(props => ({
   isSystem: props.isSquare
@@ -10,7 +11,7 @@ const Container = styled(Avatar).attrs(props => ({
   && {
     width: ${props => props.theme.messenger.iconSizes.xl} !important;
     height: ${props => props.theme.messenger.iconSizes.xl} !important;
-    margin-right: ${props => props.theme.messenger.space.xxs};
+    margin-${dirStyles.right}: ${props => props.theme.messenger.space.xxs};
   }
 `
 

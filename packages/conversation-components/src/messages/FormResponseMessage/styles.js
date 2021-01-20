@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import dirStyles from 'src/utils/dirStyles'
 
 const FormContainer = styled.div`
   font-size: ${props => props.theme.messenger.fontSizes.md};
@@ -8,7 +9,7 @@ const FormContainer = styled.div`
   padding: ${props => props.theme.messenger.space.sixteen};
   width: 100%;
   margin-top: ${props => props.theme.messenger.space.xxs};
-  margin-right: ${props => props.theme.messenger.space.sixteen};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.sixteen};
 `
 const Field = styled.div`
   & + & {

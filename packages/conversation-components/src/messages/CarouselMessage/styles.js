@@ -1,6 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { rgba, rem, math } from 'polished'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import dirStyles from 'src/utils/dirStyles'
 
 // This should be roughly the same width as the avatar slide
 // This means avatar left padding + avatar size + space before first slide
@@ -40,12 +41,12 @@ const Slide = styled.div`
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  margin-right: ${props => props.theme.messenger.space.xs};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.xs};
 
   ${props =>
     props.isLastSlide &&
-    `
-    margin-right: ${props => props.theme.messenger.space.md};
+    css`
+    margin-${dirStyles.right}: ${props => props.theme.messenger.space.md};
   `}
 `
 
@@ -56,8 +57,8 @@ const BufferSlide = styled(Slide)`
 `
 
 const AvatarSlide = styled(Slide)`
-  margin-left: ${props => props.theme.messenger.space.sixteen};
-  padding-left: ${props => props.theme.messenger.space.sixteen}
+  margin-${dirStyles.left}: ${props => props.theme.messenger.space.sixteen};
+  padding-${dirStyles.left}: ${props => props.theme.messenger.space.sixteen}
   max-width: none;
   flex-grow: 0;
   flex-shrink: 0;
@@ -66,14 +67,13 @@ const AvatarSlide = styled(Slide)`
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
-  margin-right: 0;
+  margin-${dirStyles.right}: 0;
 `
 
 const Content = styled.div`
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: auto;
-  text-align: left;
   padding: ${props => props.theme.messenger.space.sixteen};
   border-radius: ${props =>
     `${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage} 0 0`};
@@ -102,16 +102,16 @@ const Action = styled.a`
   padding: ${props => props.theme.messenger.space.sm} 0;
   font-size: ${props => props.theme.messenger.fontSizes.md};
   text-align: center;
-  border-radius: 0;
 
   border: ${props => `${props.theme.borders.sm} ${props.theme.palette.grey[300]}`};
   border-top: 0;
 
   border-radius: ${props =>
-    props.isLastAction &&
-    `
+    props.isLastAction
+      ? `
     0 0 ${props.theme.messenger.borderRadii.textMessage} ${props.theme.messenger.borderRadii.textMessage}
-  `};
+  `
+      : 0};
 
   &,
   &:hover,
@@ -158,20 +158,22 @@ const ControlButton = styled(IconButton)`
 
 const NextButton = styled(ControlButton)`
   &&& {
-    right: ${props => props.theme.messenger.space.sixteen};
-    transform: translateY(-50%) scaleX(-1);
+    ${dirStyles.right}: ${props => props.theme.messenger.space.sixteen};
+
+    ${dirStyles.ltrOnly('transform: translateY(-50%) scaleX(-1);')}
   }
 `
 
 const PreviousButton = styled(ControlButton)`
   &&& {
-    left: ${props => props.theme.messenger.space.sixteen};
-  }
+    ${dirStyles.left}: ${props => props.theme.messenger.space.sixteen};
+
+    ${dirStyles.rtlOnly('transform: translateY(-50%) scaleX(-1);')}
 `
 
 const Heading = styled.div`
-  margin-left: ${props =>
-    math(`${props.theme.messenger.space.sixteen} + ${props.theme.messenger.space.xxs}`)};
+  margin-${dirStyles.left}: ${props =>
+  math(`${props.theme.messenger.space.sixteen} + ${props.theme.messenger.space.xxs}`)};
 `
 
 export {

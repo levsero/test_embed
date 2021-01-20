@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
 import AttachmentIcon from '@zendeskgarden/svg-icons/src/12/paperclip.svg'
+import dirStyles from 'src/utils/dirStyles'
 
 const Container = styled.div`
   display: inline-flex;
@@ -10,7 +11,7 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: ${props => props.theme.messenger.space.md};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.md};
   justify-content: center;
   margin-top: ${props => props.theme.messenger.space.xs};
   margin-bottom: ${props => props.theme.messenger.space.xs};
@@ -22,8 +23,8 @@ const Icon = styled(AttachmentIcon)`
   align-self: center;
   margin-top: ${props => props.theme.messenger.space.xs};
   margin-bottom: ${props => props.theme.messenger.space.xs};
-  margin-left: ${props => props.theme.messenger.space.xs};
-  margin-right: ${props => props.theme.messenger.space.xxs};
+  margin-${dirStyles.left}: ${props => props.theme.messenger.space.xs};
+  margin-${dirStyles.right}: ${props => props.theme.messenger.space.xxs};
 `
 
 const Name = styled.a`

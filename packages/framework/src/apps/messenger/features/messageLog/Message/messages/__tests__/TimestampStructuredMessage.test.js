@@ -20,9 +20,6 @@ describe('TimestampStructuredMessage', () => {
     expect(container).toMatchInlineSnapshot(`
       .c0 {
         width: 100%;
-        height: -webkit-wrap-content;
-        height: -moz-wrap-content;
-        height: wrap-content;
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;

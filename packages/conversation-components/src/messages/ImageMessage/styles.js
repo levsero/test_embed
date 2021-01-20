@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
+import dirStyles from 'src/utils/dirStyles'
 
 const getRadius = props => props.theme.messenger.borderRadii.textMessage
 
@@ -14,20 +15,31 @@ const PrimaryParticipantImage = styled(Image)`
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
-        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, radius, 0, 0)
+        }
+
         return `border-radius: ${radius};`
 
       case MESSAGE_BUBBLE_SHAPES.first:
-        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
-        return `border-radius: ${radius} ${radius} 0;`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, radius, 0, 0)
+        }
+
+        return dirStyles.borderRadius(radius, 0, radius, 0)
 
       case MESSAGE_BUBBLE_SHAPES.middle:
-        if (props.hasText) return `border-radius: ${radius} 0 0 0;`
-        return `border-radius: ${radius} 0 0 ${radius};`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, 0, 0, 0)
+        }
+
+        return dirStyles.borderRadius(radius, 0, 0, radius)
 
       case MESSAGE_BUBBLE_SHAPES.last:
-        if (props.hasText) return `border-radius: ${radius} 0 0 0;`
-        return `border-radius: ${radius} 0 ${radius} ${radius};`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, 0, 0, 0)
+        }
+        return dirStyles.borderRadius(radius, 0, radius, radius)
     }
   }}
 `
@@ -37,20 +49,30 @@ const OtherParticipantImage = styled(Image)`
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
-        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, radius, 0, 0)
+        }
         return `border-radius: ${radius};`
 
       case MESSAGE_BUBBLE_SHAPES.first:
-        if (props.hasText) return `border-radius: ${radius} ${radius} 0 0;`
-        return `border-radius: ${radius} ${radius} ${radius} 0;`
+        if (props.hasText) {
+          return dirStyles.borderRadius(radius, radius, 0, 0)
+        }
+
+        return dirStyles.borderRadius(radius, radius, radius, 0)
 
       case MESSAGE_BUBBLE_SHAPES.middle:
-        if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
-        return `border-radius: 0 ${radius} ${radius} 0;`
+        if (props.hasText) {
+          return dirStyles.borderRadius(0, radius, 0, 0)
+        }
+        return dirStyles.borderRadius(0, radius, radius, 0)
 
       case MESSAGE_BUBBLE_SHAPES.last:
-        if (props.hasText) return `border-radius: 0 ${radius} 0 0;`
-        return `border-radius: 0 ${radius} ${radius} ${radius};`
+        if (props.hasText) {
+          return dirStyles.borderRadius(0, radius, 0, 0)
+        }
+
+        return dirStyles.borderRadius(0, radius, radius, radius)
     }
   }}
 `

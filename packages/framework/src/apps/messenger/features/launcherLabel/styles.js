@@ -1,7 +1,8 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle, css } from 'styled-components'
 import CloseSVG from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 import { frameMarginFromPage } from 'src/apps/messenger/constants'
 import TailSVG from './label-tail.svg'
+import { dirStyles } from '@zendesk/conversation-components'
 
 const LauncherLabelButton = styled.button`
   border: 0;
@@ -11,7 +12,7 @@ const LauncherLabelButton = styled.button`
   box-shadow: 0 4px 10px 0 rgba(36, 36, 36, 0.2);
   display: flex;
   align-items: center;
-  text-align: left;
+  text-align: initial;
 
   &:hover {
     cursor: pointer;
@@ -64,7 +65,7 @@ const Container = styled.div`
   // This just needs to be some number larger than what the launcher label can be
   width: 1000px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${dirStyles.swap('flex-end', 'flex-start')};
 `
 
 const Content = styled.div`
@@ -72,12 +73,13 @@ const Content = styled.div`
   margin: 0 ${frameMarginFromPage};
   justify-content: flex-end;
   display: inline-flex;
+  flex-direction: ${dirStyles.swap('row', 'row-reverse')};
 
   ${props =>
     props.position === 'left' &&
-    `
-    flex-direction: row-reverse;
-  `}
+    css`
+      flex-direction: ${dirStyles.swap('row-reverse', 'row')};
+    `}
 `
 
 const Label = styled(LauncherLabelButton)`

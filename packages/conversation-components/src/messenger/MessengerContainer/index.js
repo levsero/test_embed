@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
 
-const MessengerContainer = styled.div`
+const MessengerContainer = styled.div.attrs(props => {
+  if (props.theme?.rtl !== undefined) {
+    return { dir: props.theme.rtl ? 'rtl' : 'ltr' }
+  }
+})`
   display: flex;
   flex-direction: column;
   position: relative;

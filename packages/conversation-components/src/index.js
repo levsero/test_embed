@@ -30,6 +30,8 @@ import TextMessage from './messages/TextMessage'
 import Timestamp from './Timestamp'
 import ThemeProvider from './ThemeProvider'
 
+import dirStyles from 'src/utils/dirStyles'
+
 export {
   Animated,
   Avatar,
@@ -55,7 +57,8 @@ export {
   TextMessage,
   Timestamp,
   ThemeProvider,
-  useScroll
+  useScroll,
+  dirStyles
 }
 
 export { FORM_MESSAGE_STATUS, BANNER_STATUS, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS }

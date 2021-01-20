@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  height: wrap-content;
   display: flex;
   flex-direction: column;
   margin-top: ${props => props.theme.messenger.space.sm};

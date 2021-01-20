@@ -124,7 +124,9 @@ const FormMessage = ({
             <FormFooter>
               <TextContainer>
                 <Steps>
-                  {activeStep} of {totalSteps}
+                  {activeStep}
+                  <bdi> of </bdi>
+                  {totalSteps}
                 </Steps>
               </TextContainer>
 
