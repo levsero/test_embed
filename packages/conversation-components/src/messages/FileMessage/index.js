@@ -9,7 +9,7 @@ import { Container, Icon, Name, Size, Content } from './styles'
 const parseFileNameFromUrl = url => {
   const split = url.split('/')
 
-  return split[split.length - 1] ?? 'unable to parse name'
+  return split[split.length - 1] ?? url
 }
 
 const abbreviateFileName = fileName => {
