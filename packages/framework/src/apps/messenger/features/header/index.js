@@ -21,9 +21,7 @@ const Header = () => {
       avatar={avatar}
       avatarAltTag={translate('embeddable_framework.messenger.header.company_logo')}
       showCloseButton={!isLauncherVisible}
-      closeButtonAriaLabel={translate(
-        'embeddable_framework.messenger.unread_indicator.frame.title'
-      )}
+      closeButtonAriaLabel={translate('embeddable_framework.messenger.header.close')}
       isCompact={isFullScreen}
       onClose={() => {
         dispatch(widgetClosed())

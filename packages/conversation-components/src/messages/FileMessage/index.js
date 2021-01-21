@@ -5,7 +5,7 @@ import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import OtherParticipantLayout from 'src/layouts/OtherParticipantLayout'
 import MessageBubble from 'src/MessageBubble'
 import { Container, Icon, Name, Size, Content } from './styles'
-import useLabels from 'src/hooks/uselabels'
+import useLabels from 'src/hooks/useLabels'
 
 const parseFileNameFromUrl = url => {
   const split = url.split('/')

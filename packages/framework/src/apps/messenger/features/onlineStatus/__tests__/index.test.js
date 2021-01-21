@@ -6,8 +6,8 @@ import { onlineStatusChanged } from '../store'
 
 jest.useFakeTimers()
 
-const offlineMsg = 'Offline. You will not receive messages.'
-const reconnectedMsg = "You're back online!"
+const offlineMsg = 'Offline. You won’t receive messages.'
+const reconnectedMsg = 'You’re now online'
 
 describe('ConnectionStatusBanner', () => {
   const renderComponent = () => {

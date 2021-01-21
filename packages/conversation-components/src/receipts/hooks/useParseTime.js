@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import useLabel from 'src/hooks/useLabels'
+import useLabels from 'src/hooks/useLabels'
 
 const useParseTime = timeReceived => {
-  const labels = useLabel()
+  const labels = useLabels()
   const [output, setOutput] = useState(labels.receiptReceivedRecently)
   const correctReceived = timeReceived * 1000
 

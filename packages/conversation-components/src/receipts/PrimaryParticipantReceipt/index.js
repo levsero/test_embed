@@ -6,7 +6,7 @@ import { MESSAGE_STATUS } from 'src/constants'
 import { triggerOnEnter } from 'src/utils/keyboard'
 import AnimatedReceipt from 'src/receipts/AnimatedReceipt'
 import { Layout, Tail, Time, FailedMessage, AlertIcon, TailContainer } from './styles'
-import useLabel from 'src/hooks/useLabels'
+import useLabels from 'src/hooks/useLabels'
 
 const Receipt = ({
   timeReceived,
@@ -18,7 +18,7 @@ const Receipt = ({
   const parsedTime = useParseTime(timeReceived)
   const previousStatus = useRef(null)
   const currentStatus = useRef(status)
-  const labels = useLabel()
+  const labels = useLabels()
   if (status !== currentStatus.current) {
     previousStatus.current = currentStatus.current
     currentStatus.current = status

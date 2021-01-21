@@ -46,7 +46,7 @@ const ThemeProvider = ({ children }) => {
       labels={{
         receiptStatus: {
           [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
-          [MESSAGE_STATUS.sent]: 'Delivered',
+          [MESSAGE_STATUS.sent]: 'sent',
           [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
         },
         receiptReceivedRecently: translate(

@@ -17,7 +17,7 @@ const ThemeProvider = ({
   labels = {
     receiptStatus: {
       [MESSAGE_STATUS.sending]: 'Sending',
-      [MESSAGE_STATUS.sent]: 'Delivered',
+      [MESSAGE_STATUS.sent]: 'Sent',
       [MESSAGE_STATUS.failed]: 'Tap to retry'
     },
     receiptReceivedRecently: 'Just now',

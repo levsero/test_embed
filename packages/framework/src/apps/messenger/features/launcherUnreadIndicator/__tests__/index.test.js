@@ -27,11 +27,11 @@ describe('LauncherUnreadIndicator', () => {
         }
       })
 
-      expect(queryByTitle('LauncherUnreadIndicator')).toBeInTheDocument()
+      expect(queryByTitle('Number of unread messages')).toBeInTheDocument()
 
       store.dispatch(markAsRead({ lastMessageTimestamp: 38 }))
 
-      expect(queryByTitle('LauncherUnreadIndicator')).not.toBeInTheDocument()
+      expect(queryByTitle('Number of unread messages')).not.toBeInTheDocument()
     })
   })
 
@@ -40,7 +40,7 @@ describe('LauncherUnreadIndicator', () => {
       const { queryByTitle, store } = renderComponent()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: true }))
 
-      expect(queryByTitle('LauncherUnreadIndicator')).not.toBeInTheDocument()
+      expect(queryByTitle('Number of unread messages')).not.toBeInTheDocument()
     })
   })
 })

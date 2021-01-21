@@ -4,6 +4,7 @@ import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { useSelector } from 'react-redux'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
 
@@ -13,6 +14,7 @@ const lastNodes = elementsByContainer =>
 const useFocusJail = () => {
   const isOpen = useSelector(getIsWidgetOpen)
   const isLauncherLabelVisible = useSelector(getIsLauncherLabelVisible)
+  const translate = useTranslate()
   const refLauncher = useRef()
   const refWidget = useRef()
   const refLauncherLabel = useRef()
@@ -30,7 +32,11 @@ const useFocusJail = () => {
           return
         }
 
-        refLauncher.current.querySelector('[aria-label="Zendesk Messenger Launcher"]')?.focus()
+        refLauncher.current
+          .querySelector(
+            `[aria-label="${translate('embeddable_framework.messenger.launcher.button')}"]`
+          )
+          ?.focus()
       }, 0)
     }
   }, [isOpen])

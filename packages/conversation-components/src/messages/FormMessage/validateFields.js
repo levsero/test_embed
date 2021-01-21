@@ -23,7 +23,7 @@ const validateType = {
     }
 
     if (value.length > maxEmailSize) {
-      return errorLabels.invalidEmail
+      return errorLabels.fieldMaxSize(maxEmailSize)
     }
   }
 }

@@ -81,7 +81,7 @@ describe('FormMessage', () => {
     userEvent.type(queryByLabelText('First name'), '{enter}')
 
     expect(queryByLabelText('Email')).not.toBeInTheDocument()
-    expect(queryByText('This field is required.')).toBeInTheDocument()
+    expect(queryByText('This field is required')).toBeInTheDocument()
   })
 
   it('displays an error when the user tries to go to the next step after entering an invalid email', () => {
@@ -96,7 +96,7 @@ describe('FormMessage', () => {
     userEvent.type(queryByLabelText('Email'), 'invalid email')
     userEvent.type(queryByLabelText('Email'), '{enter}')
 
-    expect(queryByText('Please enter a valid email address.')).toBeInTheDocument()
+    expect(queryByText('Enter a valid email address')).toBeInTheDocument()
   })
 
   it('does not validate a field until the user tries to go to the next step', () => {
@@ -107,24 +107,24 @@ describe('FormMessage', () => {
     userEvent.type(queryByLabelText('First name'), 'Bobby')
     userEvent.clear(queryByLabelText('First name'))
 
-    expect(queryByText('This field is required.')).not.toBeInTheDocument()
+    expect(queryByText('This field is required')).not.toBeInTheDocument()
 
     userEvent.type(queryByLabelText('First name'), '{enter}')
 
-    expect(queryByText('This field is required.')).toBeInTheDocument()
+    expect(queryByText('This field is required')).toBeInTheDocument()
   })
 
   it('validates fields on change after the user has tried to go to the next step', async () => {
     const { queryByLabelText, queryByText } = renderComponent()
 
     userEvent.type(queryByLabelText('First name'), '{enter}')
-    expect(queryByText('This field is required.')).toBeInTheDocument()
+    expect(queryByText('This field is required')).toBeInTheDocument()
 
     userEvent.type(queryByLabelText('First name'), 'Bobby')
-    expect(queryByText('This field is required.')).not.toBeInTheDocument()
+    expect(queryByText('This field is required')).not.toBeInTheDocument()
 
     userEvent.clear(queryByLabelText('First name'))
-    await waitFor(() => expect(queryByText('This field is required.')).toBeInTheDocument())
+    await waitFor(() => expect(queryByText('This field is required')).toBeInTheDocument())
   })
 
   it('submits the form when all fields pass', async () => {
@@ -208,7 +208,7 @@ describe('FormMessage', () => {
 
     fireEvent.submit(document.querySelector('form'))
 
-    expect(screen.getByText('Enter 128 characters or less')).toBeInTheDocument()
+    expect(screen.getByText('Enter {{count}} characters or less')).toBeInTheDocument()
 
     expect(sendFormResponse).not.toHaveBeenCalled()
 
@@ -216,7 +216,7 @@ describe('FormMessage', () => {
 
     fireEvent.submit(document.querySelector('form'))
 
-    expect(screen.queryByText('Enter 128 characters or less')).toBeNull()
+    expect(screen.queryByText('Enter {{count}} characters or less')).toBeNull()
 
     expect(sendFormResponse).toHaveBeenCalled()
   })
