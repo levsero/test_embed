@@ -6,6 +6,7 @@ import App from '../'
 import userEvent from '@testing-library/user-event'
 import { waitFor, within } from '@testing-library/dom'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
+import { cookiesDisabled } from 'src/apps/messenger/store/cookies'
 
 jest.mock('src/apps/messenger/api/sunco')
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
@@ -26,6 +27,15 @@ describe('Messenger app', () => {
 
     return render(<App />, { store })
   }
+
+  it('does not render anything when cookies are disabled', async () => {
+    const { queryByTitle, store } = renderComponent()
+
+    await store.dispatch(cookiesDisabled())
+
+    expect(queryByTitle('Launcher')).not.toBeInTheDocument()
+    expect(queryByTitle('Messenger')).not.toBeInTheDocument()
+  })
 
   it('renders the launcher', () => {
     const { getByTitle } = renderComponent()

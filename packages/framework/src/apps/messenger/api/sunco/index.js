@@ -9,7 +9,13 @@ export const setupSuncoClient = ({ integrationId, appId, baseUrl, conversationHi
   const url = isFeatureEnabled({}, 'use_production_sunco') ? PROD_URL : baseUrl
 
   client = new Sunco({ integrationId, appId, baseUrl: url, storageType })
+
   return client
+}
+
+export const forgetUserAndDisconnect = () => {
+  client?.activeConversation?.forgetUser()
+  client?.activeConversation?.stopConversation()
 }
 
 export const getClient = () => client

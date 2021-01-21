@@ -3,6 +3,7 @@ import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import i18n from 'src/framework/services/i18n'
 import * as suncoApi from 'src/apps/messenger/api/sunco'
 import api from '../'
+import * as cookies from 'src/apps/messenger/store/cookies'
 
 describe('open', () => {
   it('opens the widget', () => {
@@ -30,5 +31,25 @@ describe('messenger:set locale', () => {
     await api(store)['messenger:set'].locale('fr')
     expect(i18n.setLocale).toHaveBeenCalledWith('fr')
     expect(suncoApi.setLocale).toHaveBeenCalledWith('fr')
+  })
+})
+
+describe('cookies', () => {
+  it('disables cookies when called with a falsy value', async () => {
+    jest.spyOn(cookies, 'cookiesDisabled').mockReturnValue({ type: 'cookies disabled' })
+
+    const store = createStore()
+    store.dispatch = jest.fn()
+    api(store)['messenger:set']['cookies'](false)
+
+    expect(store.dispatch).toHaveBeenCalledWith(cookies.cookiesDisabled())
+  })
+
+  it('enables cookies when called with a truthy value', () => {
+    const store = createStore()
+    store.dispatch = jest.fn()
+    api(store)['messenger:set']['cookies'](true)
+
+    expect(store.dispatch).toHaveBeenCalledWith(cookies.cookiesEnabled())
   })
 })
