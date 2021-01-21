@@ -4,7 +4,7 @@ import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
 import ActivityAPI from './api/ActivityApi'
 import SocketClient from './socket/SocketClient'
-import { getCurrentUserIfAny, storeAppUser } from './utils/context'
+import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
 import { getClientId, getSessionId } from './utils/device'
 
 const BASE_URL = 'https://api.smooch.io'
@@ -45,16 +45,18 @@ export default class Sunco {
       console.log(`appId: ${this.appId}  conversationId: ${conversationId}`)
     }
 
+    const socketClient = new SocketClient({
+      ...socketSettings,
+      appId: this.appId,
+      appUserId: appUserId,
+      sessionToken: sessionToken
+    })
+
     this._activeConversation = {
       appUserId,
       conversationId,
       lastRead,
-      socketClient: new SocketClient({
-        ...socketSettings,
-        appId: this.appId,
-        appUserId: appUserId,
-        sessionToken: sessionToken
-      }),
+      socketClient,
       listMessages: cursor => {
         const params = {}
         if (cursor) params['before'] = cursor
@@ -78,7 +80,15 @@ export default class Sunco {
       startTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:start' }),
       stopTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:stop' }),
       conversationRead: () =>
-        this.activity.create(appUserId, conversationId, { type: 'conversation:read' })
+        this.activity.create(appUserId, conversationId, { type: 'conversation:read' }),
+      stopConversation: () => {
+        socketClient.unsubscribe()
+        this._activeConversation = null
+        this.conversationPromise = null
+      },
+      forgetUser: () => {
+        removeAppUser({ integrationId: this.integrationId })
+      }
     }
   }
 

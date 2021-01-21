@@ -18,3 +18,8 @@ export const storeAppUser = ({ appUserId, sessionToken, integrationId }) => {
   if (appUserId) storage.setItem(`${integrationId}.appUserId`, appUserId)
   if (sessionToken) storage.setItem(`${integrationId}.sessionToken`, sessionToken)
 }
+
+export const removeAppUser = ({ integrationId }) => {
+  storage.removeItem(`${integrationId}.appUserId`)
+  storage.removeItem(`${integrationId}.sessionToken`)
+}

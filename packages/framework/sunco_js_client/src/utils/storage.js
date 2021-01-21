@@ -14,6 +14,10 @@ class Store {
   setItem(key, value) {
     this.store[key] = value
   }
+
+  removeItem(key) {
+    delete this.store[key]
+  }
 }
 
 class LocalStore extends Store {
@@ -85,5 +89,6 @@ const setStorageType = ({ type }) => {
 export default {
   setStorageType,
   getItem: key => webStorage().getItem(key),
-  setItem: (key, value) => webStorage().setItem(key, value)
+  setItem: (key, value) => webStorage().setItem(key, value),
+  removeItem: key => webStorage().removeItem(key)
 }

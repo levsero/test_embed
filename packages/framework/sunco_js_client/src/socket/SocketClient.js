@@ -146,7 +146,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
   }
 
   const subscribe = () => {
-    this.fayeClient.subscribe.call(
+    this.subscription = this.fayeClient.subscribe.call(
       this.fayeClient,
       `/sdk/apps/${this.appId}/appusers/${this.appUserId}`,
       ({ events }) => {
@@ -164,9 +164,14 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
     )
   }
 
+  const unsubscribe = () => {
+    this.subscription?.cancel()
+  }
+
   return {
     on: addObserver,
-    subscribe: () => subscribe.call(this)
+    subscribe: () => subscribe.call(this),
+    unsubscribe: () => unsubscribe.call(this)
   }
 }
 
