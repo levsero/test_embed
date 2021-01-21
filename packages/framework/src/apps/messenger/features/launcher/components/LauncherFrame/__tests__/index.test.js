@@ -8,6 +8,6 @@ describe('LauncherFrame', () => {
   it('renders an iframe', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('Launcher')).toBeInTheDocument()
+    expect(getByTitle('Button to launch messaging window')).toBeInTheDocument()
   })
 })

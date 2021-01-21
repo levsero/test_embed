@@ -41,7 +41,7 @@ describe('FormMessage', () => {
 
   it('renders the button with the text "Next" when not on the final step of the form', () => {
     const { getByText } = renderComponent()
-    expect(getByText('Next')).toBeInTheDocument()
+    expect(getByText('next')).toBeInTheDocument()
   })
 
   it('focuses on the last step visible when the form appears to the user', () => {

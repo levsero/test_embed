@@ -3,16 +3,24 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { Banner, BANNER_STATUS } from '@zendesk/conversation-components'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 import { getIsOnline } from './store'
 import { Container } from './styles'
 
-const OfflineBanner = () => (
-  <Banner message="Offline. You will not receive messages." status={BANNER_STATUS.fatal} />
-)
+const OfflineBanner = () => {
+  const translate = useTranslate()
+  return (
+    <Banner
+      message={translate('embeddable_framework.messenger.connection_status.offline')}
+      status={BANNER_STATUS.fatal}
+    />
+  )
+}
 
 const ReconnectedBanner = ({ onExit }) => {
   const [isVisible, setIsVisible] = useState(true)
+  const translate = useTranslate()
 
   useEffect(() => {
     setIsVisible(false)
@@ -40,7 +48,10 @@ const ReconnectedBanner = ({ onExit }) => {
             ...transitionStyles[state]
           }}
         >
-          <Banner message="You're back online!" status={BANNER_STATUS.success} />
+          <Banner
+            message={translate('embeddable_framework.messenger.connection_status.now_online')}
+            status={BANNER_STATUS.success}
+          />
         </div>
       )}
     </CSSTransition>

@@ -16,7 +16,7 @@ describe('WidgetFrame', () => {
   it('renders an iframe', () => {
     const { getByTitle } = renderComponent()
 
-    expect(getByTitle('Messenger')).toBeInTheDocument()
+    expect(getByTitle('Messaging window')).toBeInTheDocument()
   })
 
   describe('styles', () => {
@@ -24,21 +24,25 @@ describe('WidgetFrame', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(messengerConfigReceived({ position: 'right' }))
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`right: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(
+        `right: ${frameMarginFromPage}px`
+      )
     })
 
     it('is positioned on the left when config specifies it to be on the left', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(messengerConfigReceived({ position: 'left' }))
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`left: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(
+        `left: ${frameMarginFromPage}px`
+      )
     })
 
     it('is positioned high above the launcher when the launcher is visible', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(true)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(
         `bottom: ${launcherSize + frameMarginFromPage + marginBetweenFrames}px`
       )
     })
@@ -47,7 +51,9 @@ describe('WidgetFrame', () => {
       jest.spyOn(launcherStore, 'getIsLauncherVisible').mockReturnValue(false)
       const { getByTitle } = renderComponent()
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`bottom: ${frameMarginFromPage}px`)
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(
+        `bottom: ${frameMarginFromPage}px`
+      )
     })
 
     it('takes up part of the screen when on a large screen', () => {
@@ -59,7 +65,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(`
         height: 500px
         width: 300px
         maxHeight: calc(100vh - 90px - 10px);
@@ -74,7 +80,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(`
         top: 0px;
         bottom: 0px;
         left: 0px;
@@ -92,7 +98,7 @@ describe('WidgetFrame', () => {
         })
       )
 
-      expect(getByTitle('Messenger').parentNode).toHaveStyle(`
+      expect(getByTitle('Messaging window').parentNode).toHaveStyle(`
         max-height: calc(100vh - ${frameMarginFromPage * 2}px);
       `)
     })

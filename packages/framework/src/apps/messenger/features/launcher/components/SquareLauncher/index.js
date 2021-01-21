@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { widgetToggled, getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import LauncherIcon from 'src/apps/messenger/features/launcher/components/SquareLauncher/LauncherIcon'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 import { Container, Button } from './styles'
 
 const SquareLauncher = React.forwardRef((_props, ref) => {
   const dispatch = useDispatch()
   const isWidgetOpen = useSelector(getIsWidgetOpen)
+  const translate = useTranslate()
 
   return (
     <Container
@@ -21,7 +23,7 @@ const SquareLauncher = React.forwardRef((_props, ref) => {
         onClick={() => {
           dispatch(widgetToggled())
         }}
-        aria-label="Zendesk Messenger Launcher"
+        aria-label={translate('embeddable_framework.messenger.launcher.button')}
         isPill={false}
       >
         <>

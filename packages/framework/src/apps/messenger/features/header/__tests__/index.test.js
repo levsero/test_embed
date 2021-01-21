@@ -6,7 +6,7 @@ import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveD
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import Header from '../'
 
-const closeButtonAriaLabel = 'close messenger'
+const closeButtonAriaLabel = 'Close'
 
 describe('Header', () => {
   const renderComponent = () => {
@@ -34,8 +34,8 @@ describe('Header', () => {
 
   it('renders the company avatar', () => {
     const { getByAltText } = renderComponent()
-    expect(getByAltText('company avatar')).toBeInTheDocument()
-    expect(getByAltText('company avatar').src).toEqual('https://example.com/dummyUrl.jpg')
+    expect(getByAltText('Company logo')).toBeInTheDocument()
+    expect(getByAltText('Company logo').src).toEqual('https://example.com/dummyUrl.jpg')
   })
 
   it('does not display the close button when the widget is open and launcher is visible', () => {

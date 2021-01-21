@@ -14,9 +14,9 @@ const MessengerHeader = ({
   title,
   description = '',
   avatar = '',
-  avatarAltTag = 'company avatar',
+  avatarAltTag = 'Company logo',
   showCloseButton = false,
-  closeButtonAriaLabel = 'close messenger',
+  closeButtonAriaLabel = 'Close',
   isCompact = false,
   onClose = () => {}
 }) => {

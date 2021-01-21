@@ -55,9 +55,7 @@ describe('launcher label', () => {
       })
     )
 
-    const frame = within(
-      getByTitle('Opens a widget where you can find more information').contentDocument.body
-    )
+    const frame = within(getByTitle('Message from company').contentDocument.body)
 
     await wait(() => expect(frame.getByText('Some text')).toBeInTheDocument())
   })
@@ -75,21 +73,15 @@ describe('launcher label', () => {
       })
     )
 
-    expect(getByTitle('Opens a widget where you can find more information')).toBeInTheDocument()
+    expect(getByTitle('Message from company')).toBeInTheDocument()
 
-    const frame = within(
-      getByTitle('Opens a widget where you can find more information').contentDocument.body
-    )
+    const frame = within(getByTitle('Message from company').contentDocument.body)
 
     await wait(() => expect(frame.getByLabelText('Close')).toBeInTheDocument())
 
     frame.getByLabelText('Close').click()
 
-    await wait(() =>
-      expect(
-        getByTitle('Opens a widget where you can find more information')
-      ).not.toBeInTheDocument()
-    )
+    await wait(() => expect(getByTitle('Message from company')).not.toBeInTheDocument())
   })
 
   it('opens the widget when clicked', async () => {
@@ -107,22 +99,16 @@ describe('launcher label', () => {
 
     expect(getIsWidgetOpen(store.getState())).toBe(false)
 
-    expect(getByTitle('Opens a widget where you can find more information')).toBeInTheDocument()
+    expect(getByTitle('Message from company')).toBeInTheDocument()
 
-    const frame = within(
-      getByTitle('Opens a widget where you can find more information').contentDocument.body
-    )
+    const frame = within(getByTitle('Message from company').contentDocument.body)
 
     await wait(() => expect(frame.getByLabelText('Some text')).toBeInTheDocument())
 
     frame.getByText('Some text').click()
 
     await wait(() => expect(getIsWidgetOpen(store.getState())).toBe(true))
-    await wait(() =>
-      expect(
-        getByTitle('Opens a widget where you can find more information')
-      ).not.toBeInTheDocument()
-    )
+    await wait(() => expect(getByTitle('Message from company')).not.toBeInTheDocument())
   })
 
   it('does not show if it has been previously closed', () => {
@@ -139,9 +125,7 @@ describe('launcher label', () => {
       })
     )
 
-    expect(
-      queryByTitle('Opens a widget where you can find more information')
-    ).not.toBeInTheDocument()
+    expect(queryByTitle('Message from company')).not.toBeInTheDocument()
   })
 
   it('does not display when the widget is full screen', async () => {
@@ -159,13 +143,9 @@ describe('launcher label', () => {
       })
     )
 
-    await waitFor(() =>
-      expect(getByTitle('Opens a widget where you can find more information')).toBeInTheDocument()
-    )
+    await waitFor(() => expect(getByTitle('Message from company')).toBeInTheDocument())
 
-    const frame = within(
-      getByTitle('Opens a widget where you can find more information').contentDocument.body
-    )
+    const frame = within(getByTitle('Message from company').contentDocument.body)
 
     await wait(() => expect(frame.getByText('Some text')).toBeInTheDocument())
 

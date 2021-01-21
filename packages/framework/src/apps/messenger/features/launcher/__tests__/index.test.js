@@ -13,14 +13,14 @@ describe('Launcher', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: false }))
 
-      expect(getByTitle('Launcher')).toBeInTheDocument()
+      expect(getByTitle('Button to launch messaging window')).toBeInTheDocument()
     })
 
     it('is positioned in the bottom right of the screen', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: false }))
 
-      expect(getByTitle('Launcher')).toHaveStyle(`
+      expect(getByTitle('Button to launch messaging window')).toHaveStyle(`
       bottom: ${frameMarginFromPage}px;
       right: ${frameMarginFromPage}px;
     `)
@@ -34,7 +34,7 @@ describe('Launcher', () => {
       store.dispatch(screenDimensionsChanged({ isVerticallySmallScreen: true }))
       store.dispatch(widgetOpened())
 
-      expect(queryByTitle('Launcher').style.display).toBe('none')
+      expect(queryByTitle('Button to launch messaging window').style.display).toBe('none')
     })
   })
 })

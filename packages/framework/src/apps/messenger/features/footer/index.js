@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerFooter } from '@zendesk/conversation-components'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
+
 import {
   getComposerDraft,
   getIsComposerEnabled,
@@ -16,6 +18,7 @@ const Footer = () => {
   const isComposerEnabled = useSelector(getIsComposerEnabled)
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
+  const translate = useTranslate()
 
   const onSendMessage = message => {
     if (message.trim().length === 0) {
@@ -52,10 +55,10 @@ const Footer = () => {
     <MessengerFooter
       ref={composerRef}
       disabled={!isComposerEnabled}
-      placeholder="Type a message"
-      inputAriaLabel="Type a message"
-      sendButtonTooltip="Send message"
-      sendButtonAriaLabel="Send message"
+      placeholder={translate('embeddable_framework.messenger.composer.placeholder')}
+      inputAriaLabel={translate('embeddable_framework.messenger.composer.label')}
+      sendButtonTooltip={translate('embeddable_framework.messenger.composer.send_button_tooltip')}
+      sendButtonAriaLabel={translate('embeddable_framework.messenger.composer.send_button_label')}
       initialValue={composerDraft}
       onChange={onChange}
       onSendMessage={onSendMessage}

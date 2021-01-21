@@ -7,10 +7,10 @@ import {
   unreadIndicatorSize,
   launcherSize
 } from 'src/apps/messenger/constants'
-import { getZIndex } from 'src/apps/messenger/features/themeProvider/store'
+import { getZIndex, getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { useSelector } from 'react-redux'
-import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
+import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 import { GlobalStyles } from './styles'
 
@@ -18,13 +18,14 @@ const UnreadIndicatorFrame = ({ children }) => {
   const isVisible = useSelector(getIsLauncherVisible)
   const position = useSelector(getPosition)
   const zIndex = useSelector(getZIndex)
+  const translate = useTranslate()
 
   const indicatorOffset = 4
 
   return (
     <Frame
       tabIndex="-1"
-      title="LauncherUnreadIndicator"
+      title={translate('embeddable_framework.messenger.unread_indicator.frame.title')}
       hidden={!isVisible}
       style={{
         zIndex,
