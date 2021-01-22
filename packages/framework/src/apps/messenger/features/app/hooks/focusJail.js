@@ -3,7 +3,7 @@ import tabbable from 'tabbable'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { useSelector } from 'react-redux'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
-import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store'
+import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])

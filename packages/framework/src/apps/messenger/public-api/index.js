@@ -4,6 +4,7 @@ import { setLocale as suncoUpdateLocale } from 'src/apps/messenger/api/sunco'
 import { widgetOpened, widgetClosed } from 'src/apps/messenger/store/visibility'
 import logger from 'src/util/logger'
 import { zIndexUpdated } from 'src/apps/messenger/store/actions'
+import { cookiesEnabled, cookiesDisabled } from 'src/apps/messenger/store/cookies'
 
 export default store => ({
   messenger: {
@@ -33,6 +34,17 @@ export default store => ({
       }
       suncoUpdateLocale(locale)
       i18n.setLocale(locale).catch(() => {})
+    },
+    cookies: enable => {
+      if (typeof enable !== 'boolean') {
+        logger.error("Invalid argument provided. Needs to be of type 'boolean'.")
+      }
+
+      if (enable) {
+        store.dispatch(cookiesEnabled())
+      } else {
+        store.dispatch(cookiesDisabled())
+      }
     }
   }
 })

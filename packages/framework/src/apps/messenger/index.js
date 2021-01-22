@@ -12,7 +12,7 @@ import { listenForOnlineOfflineEvents } from 'src/apps/messenger/features/online
 import publicApi from 'src/framework/services/publicApi'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { store as persistence } from 'src/framework/services/persistence'
-import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store'
+import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import createMessengerApi from './public-api'
 import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 

@@ -11,7 +11,7 @@ import {
   initialiseLauncherLabel,
   labelHidden,
   launcherLabelStorageKey
-} from 'src/apps/messenger/features/launcherLabel/store'
+} from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import createStore from 'src/apps/messenger/store'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
 import { store as persistence } from 'src/framework/services/persistence'

@@ -9,8 +9,11 @@ import messages from 'src/apps/messenger/features/messageLog/store'
 import forms from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import unreadIndicator from 'src/apps/messenger/store/unreadIndicator'
 import typingIndicators from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
-import launcherLabel from 'src/apps/messenger/features/launcherLabel/store'
 import composer from 'src/apps/messenger/features/footer/store'
+import cookies from './cookies'
+import launcherLabelConfig from 'src/apps/messenger/features/launcherLabel/store/config'
+import launcherLabelVisibility from 'src/apps/messenger/features/launcherLabel/store/visibility'
+import createResettableReducer from 'src/apps/messenger/utils/createResettableReducer'
 
 const createStore = () => {
   const store = configureStore({
@@ -20,18 +23,22 @@ const createStore = () => {
         }
       : undefined,
     reducer: combineReducers({
-      visibility,
+      visibility: createResettableReducer(visibility),
       i18n,
       responsiveDesign,
       onlineStatus,
       theme,
-      messages,
+      messages: createResettableReducer(messages),
       header,
-      forms,
-      launcherLabel,
-      typingIndicators,
-      unreadIndicator,
-      composer
+      forms: createResettableReducer(forms),
+      launcherLabel: combineReducers({
+        config: launcherLabelConfig,
+        visibility: createResettableReducer(launcherLabelVisibility)
+      }),
+      typingIndicators: createResettableReducer(typingIndicators),
+      unreadIndicator: createResettableReducer(unreadIndicator),
+      composer: createResettableReducer(composer),
+      cookies
     })
   })
 

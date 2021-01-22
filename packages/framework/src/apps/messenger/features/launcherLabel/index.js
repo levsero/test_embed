@@ -10,9 +10,9 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import {
   getIsLauncherLabelVisible,
-  getLauncherLabelText,
   labelHidden
-} from 'src/apps/messenger/features/launcherLabel/store'
+} from 'src/apps/messenger/features/launcherLabel/store/visibility'
+import { getLauncherLabelText } from 'src/apps/messenger/features/launcherLabel/store/config'
 import { Container } from 'src/apps/messenger/features/launcherLabel/styles'
 import {
   Content,
