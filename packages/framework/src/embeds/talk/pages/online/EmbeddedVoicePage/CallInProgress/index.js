@@ -2,7 +2,11 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { getMicrophoneMuted, getTimeInCall } from 'src/embeds/talk/selectors'
+import {
+  getMicrophoneMuted,
+  getTimeInCall,
+  getCallInProgressLabel
+} from 'src/embeds/talk/selectors'
 import { muteMicrophone, unmuteMicrophone } from 'src/embeds/talk/actions'
 import {
   CallButton,
@@ -31,6 +35,7 @@ const parseTime = time => {
 const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, isCallActive }) => {
   const dispatch = useDispatch()
   const isMuted = useSelector(getMicrophoneMuted)
+  const label = useSelector(getCallInProgressLabel)
   const timeInCall = useSelector(getTimeInCall)
   const timeLabel = parseTime(timeInCall)
 
@@ -61,7 +66,7 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
   return (
     <Container>
       <Section>
-        <Label>{isCallActive ? 'Call in progress' : 'Call ended'}</Label>
+        <Label>{label}</Label>
         <Timer>{timeLabel}</Timer>
       </Section>
       <Section>

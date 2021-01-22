@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, Container, Heading, Message, SectionContainer } from './styles'
+import LoadingButton from 'embeds/talk/components/LoadingButton'
+
+import { Container, Heading, Message, SectionContainer } from './styles'
 
 const NetworkError = ({ onClick }) => {
+  const [isEstablishingCall, setIsEstablishingCall] = useState(false)
+
   return (
     <Container>
       <SectionContainer>
@@ -11,9 +15,15 @@ const NetworkError = ({ onClick }) => {
         <Message>Check your internet connection and try again.</Message>
       </SectionContainer>
       <SectionContainer>
-        <Button onClick={onClick} isPrimary={true}>
-          Reconnect
-        </Button>
+        <LoadingButton
+          onClick={() => {
+            onClick()
+            setIsEstablishingCall(true)
+          }}
+          isLoading={isEstablishingCall}
+          isPrimary={true}
+          label="Reconnect"
+        />
       </SectionContainer>
     </Container>
   )

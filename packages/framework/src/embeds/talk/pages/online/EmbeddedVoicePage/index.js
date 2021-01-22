@@ -12,7 +12,7 @@ import NetworkError from './NetworkError'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import { getUserRecordingConsentRequirement } from 'embeds/talk/selectors'
-import { unmuteMicrophone, startCallCounter, stopCallCounter } from 'src/embeds/talk/actions'
+import { unmuteMicrophone, startCall, endCall, failCall } from 'src/embeds/talk/actions'
 
 const clickToCallPath = () => routes.clickToCallPermissions()
 
@@ -21,33 +21,61 @@ const EmbeddedVoicePage = () => {
   const translate = useTranslate()
   const history = useHistory()
   const disconnectTimeout = useRef(null)
+  const hasCallFailed = useRef(false)
 
   const userRecordingConsentRequirement = useSelector(getUserRecordingConsentRequirement)
 
   const skipConsent = userRecordingConsentRequirement === null
 
+  const createTimeout = () => {
+    if (!disconnectTimeout.current) {
+      disconnectTimeout.current = setTimeout(() => {
+        history.replace(clickToCallPath())
+      }, 3000)
+    }
+  }
+
+  const createErrorTimeout = () => {
+    if (!disconnectTimeout.current) {
+      disconnectTimeout.current = setTimeout(() => {
+        history.replace(routes.clickToCallNetworkError())
+      }, 3000)
+    }
+  }
+
   const onConnect = () => {
     history.replace(routes.clickToCallInProgress())
-    dispatch(startCallCounter())
+    hasCallFailed.current = false
+    dispatch(startCall())
   }
 
   const onDisconnect = () => {
     dispatch(unmuteMicrophone())
-    dispatch(stopCallCounter())
-    disconnectTimeout.current = setTimeout(() => {
-      history.replace(clickToCallPath())
-    }, 3000)
+
+    if (!hasCallFailed.current) {
+      createTimeout()
+      dispatch(endCall())
+    }
+  }
+
+  const handleCallError = () => {
+    dispatch(failCall())
+    hasCallFailed.current = true
+    if (history.location.pathname === routes.clickToCallInProgress()) {
+      createErrorTimeout()
+    } else {
+      history.replace(routes.clickToCallNetworkError())
+    }
   }
 
   const onError = error => {
-    dispatch(stopCallCounter())
     dispatch(unmuteMicrophone())
     switch (error.code) {
       case microphoneErrorCode:
         dispatch(talkDisconnect())
         break
       default:
-        history.replace(routes.clickToCallNetworkError())
+        handleCallError()
     }
   }
 
@@ -59,7 +87,7 @@ const EmbeddedVoicePage = () => {
     history.replace(routes.clickToCallConsent())
   }
 
-  const { startCall, muteClick, endCall, isInCall } = useTwilioDevice({
+  const { startTwilioConnection, muteClick, endTwilioConnection, isInCall } = useTwilioDevice({
     onConnect,
     onDisconnect,
     onError,
@@ -68,8 +96,15 @@ const EmbeddedVoicePage = () => {
 
   const handleCallStart = () => {
     if (!isInCall()) {
-      startCall()
+      startTwilioConnection()
     }
+  }
+
+  const getPathWithRedirect = () => {
+    if (hasCallFailed.current) {
+      return routes.clickToCallNetworkError()
+    }
+    return clickToCallPath()
   }
 
   return (
@@ -83,7 +118,7 @@ const EmbeddedVoicePage = () => {
         <Switch>
           <Route path={routes.clickToCallInProgress()}>
             <CallInProgress
-              onEndCallClicked={endCall}
+              onEndCallClicked={endTwilioConnection}
               onMuteClick={muteClick}
               isCallActive={isInCall()}
             />
@@ -99,17 +134,15 @@ const EmbeddedVoicePage = () => {
             <ConsentToRecord onStartCallClicked={handleCallStart} />
           </Route>
           <Route path={routes.clickToCallNetworkError()}>
-            <NetworkError onClick={startCall} />
+            <NetworkError onClick={handleCallStart} />
           </Route>
 
-          <Redirect to={clickToCallPath()} />
+          <Redirect to={getPathWithRedirect()} />
         </Switch>
       </Main>
       <Footer />
     </Widget>
   )
 }
-
-EmbeddedVoicePage.propTypes = {}
 
 export default EmbeddedVoicePage

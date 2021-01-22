@@ -13,6 +13,8 @@ export const getRecordingConsent = state => state.talk.recordingConsent
 export const getUserRecordingConsentRequirement = state =>
   state.talk.embeddableConfig.recordingConsent
 
+export const getCallInProgressLabel = state => state.talk.callInProgressLabel
+
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
 export const getTimeInCall = state => state.talk.timeInCall
 
