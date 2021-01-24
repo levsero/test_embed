@@ -26,7 +26,7 @@ const useParseTime = timeReceived => {
     const intervalId = setInterval(() => calculate(), 60000)
 
     return () => clearInterval(intervalId)
-  }, [timeReceived])
+  }, [timeReceived, labels.receiptReceivedRecently])
 
   return output
 }
