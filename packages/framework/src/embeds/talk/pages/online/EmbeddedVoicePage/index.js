@@ -18,9 +18,9 @@ import {
 } from 'embeds/talk/selectors'
 import {
   unmuteMicrophone,
-  startCall,
-  endCall,
-  failCall,
+  callStarted,
+  callEnded,
+  callFailed,
   resetCallFailed
 } from 'src/embeds/talk/actions'
 
@@ -37,11 +37,11 @@ const EmbeddedVoicePage = () => {
   const onConnect = () => {
     dispatch(unmuteMicrophone())
     history.replace(routes.clickToCallInProgress())
-    dispatch(startCall())
+    dispatch(callStarted())
   }
 
   const onDisconnect = () => {
-    dispatch(endCall())
+    dispatch(callEnded())
     if (!callEndedTimeout.current) {
       callEndedTimeout.current = setTimeout(() => {
         history.replace(routes.home())
@@ -54,8 +54,7 @@ const EmbeddedVoicePage = () => {
       dispatch(talkDisconnect())
       return
     }
-
-    dispatch(failCall())
+    dispatch(callFailed())
     endTwilioConnection()
   }
 

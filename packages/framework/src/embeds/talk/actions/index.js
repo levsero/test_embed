@@ -40,17 +40,17 @@ export const declineRecordingConsent = () => ({
   type: RECORDING_CONSENT_DENIED
 })
 
-export const startCall = () => dispatch => {
+export const callStarted = () => dispatch => {
   dispatch({ type: CALL_STARTED })
   dispatch(startCallCounter())
 }
 
-export const endCall = () => dispatch => {
+export const callEnded = () => dispatch => {
   dispatch({ type: CALL_ENDED })
   stopCallCounter()
 }
 
-export const failCall = () => dispatch => {
+export const callFailed = () => dispatch => {
   dispatch({ type: CALL_FAILED })
   stopCallCounter()
 }
