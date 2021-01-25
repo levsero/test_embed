@@ -25,6 +25,10 @@ const fieldValidation = {
     }
 
     const selectedOption = field.options.find(option => option.value === value)
+    if (!selectedOption && field.required) {
+      return 'embeddable_framework.validation.error.department'
+    }
+
     if (!selectedOption) {
       return
     }
