@@ -14,7 +14,10 @@ const ThemeProvider = ({
   rtl = false,
   baseFontSize = '16px',
   currentFrame = undefined,
-  labels = {
+  labels = {},
+  children
+}) => {
+  const combinedLabels = {
     receiptStatus: {
       [MESSAGE_STATUS.sending]: 'Sending',
       [MESSAGE_STATUS.sent]: 'Sent',
@@ -25,10 +28,22 @@ const ThemeProvider = ({
       sizeInMB: size => `${size} MB`,
       sizeInKB: size => `${size} KB`,
       downloadAriaLabel: 'Open in a new tab'
-    }
-  },
-  children
-}) => {
+    },
+    formMessage: {
+      nextStep: 'next',
+      send: 'send',
+      submitting: 'Sending form',
+      submissionError: 'Error submitting form. Try again.',
+      stepStatus: (activeStep, totalSteps) => `${activeStep} of ${totalSteps}`,
+      errors: {
+        requiredField: 'This field is required',
+        invalidEmail: 'Enter a valid email address',
+        fieldMinSize: min => `Must be more than ${min} character${min === 1 ? '' : 's'}`,
+        fieldMaxSize: max => `Must be less than ${max} character${max === 1 ? '' : 's'}`
+      }
+    },
+    ...labels
+  }
   return (
     <GardenThemeProvider
       theme={{
@@ -96,7 +111,7 @@ const ThemeProvider = ({
             menuItem: rem('14px', baseFontSize),
             lg: rem('24px', baseFontSize)
           },
-          labels
+          labels: combinedLabels
         }
       }}
     >

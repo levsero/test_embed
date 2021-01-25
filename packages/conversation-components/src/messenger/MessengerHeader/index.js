@@ -1,3 +1,4 @@
+import useLabels from 'src/hooks/useLabels'
 import PropTypes from 'prop-types'
 import {
   Title,
@@ -14,17 +15,16 @@ const MessengerHeader = ({
   title,
   description = '',
   avatar = '',
-  avatarAltTag = 'Company logo',
   showCloseButton = false,
-  closeButtonAriaLabel = 'Close',
   isCompact = false,
   onClose = () => {}
 }) => {
+  const labels = useLabels().MessengerHeader
   return (
     <Container isCompact={isCompact}>
       {avatar && (
         <Avatar isSystem={true} isCompact={isCompact}>
-          <img src={avatar} alt={avatarAltTag} />
+          <img src={avatar} alt={labels.avatarAltTag} />
         </Avatar>
       )}
       <Details>
@@ -34,7 +34,11 @@ const MessengerHeader = ({
 
       {showCloseButton && (
         <CloseIconContainer isCompact={isCompact}>
-          <IconButton isCompact={isCompact} onClick={onClose} aria-label={closeButtonAriaLabel}>
+          <IconButton
+            isCompact={isCompact}
+            onClick={onClose}
+            aria-label={labels.closeButtonAriaLabel}
+          >
             <CloseIcon />
           </IconButton>
         </CloseIconContainer>
@@ -47,9 +51,7 @@ MessengerHeader.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   avatar: PropTypes.string,
-  avatarAltTag: PropTypes.string,
   showCloseButton: PropTypes.bool,
-  closeButtonAriaLabel: PropTypes.string,
   isCompact: PropTypes.bool,
   onClose: PropTypes.func
 }

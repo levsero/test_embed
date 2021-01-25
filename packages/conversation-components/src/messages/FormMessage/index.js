@@ -9,6 +9,7 @@ import FormButton from './FormButton'
 import SubmissionError from './SubmissionError'
 import validateFields from './validateFields'
 import { useScroll } from 'src/hooks/useScrollBehaviour'
+import useLabels from 'src/hooks/useLabels'
 import { FormContainer, Form, FormFooter, TextContainer, Steps, Fields, Field } from './styles'
 
 const FormMessage = ({
@@ -18,17 +19,6 @@ const FormMessage = ({
   initialValues = {},
   initialStep = 1,
   formSubmissionStatus = 'unsubmitted',
-  nextStepLabel = 'next',
-  sendLabel = 'send',
-  submittingLabel = 'Sending form',
-  submissionErrorLabel = 'Error submitting form. Try again.',
-  stepStatusLabel = (activeStep, totalSteps) => `${activeStep} of ${totalSteps}`,
-  errorLabels = {
-    requiredField: 'This field is required',
-    invalidEmail: 'Enter a valid email address',
-    fieldMinSize: min => `Must be more than ${min} character${min === 1 ? '' : 's'}`,
-    fieldMaxSize: max => `Must be less than ${max} character${max === 1 ? '' : 's'}`
-  },
   status = 'sent',
   timeReceived,
   isPrimaryParticipant = false,
@@ -61,7 +51,7 @@ const FormMessage = ({
     return fields.slice(0, validationStep)
   }
   const { scrollToBottomIfNeeded, scrollToFirstError } = useScroll()
-
+  const labels = useLabels().formMessage
   useLayoutEffect(() => {
     if (totalSteps == activeStep && validationErrors) return
     scrollToBottomIfNeeded()
@@ -78,7 +68,7 @@ const FormMessage = ({
     const newFormValues = { ...formValues }
     newFormValues[fieldId] = newValue
     setFormValues(newFormValues)
-    setValidationErrors(validate(fieldsToValidate(), newFormValues, errorLabels))
+    setValidationErrors(validate(fieldsToValidate(), newFormValues, labels.errors))
     onChange(fieldId, newValue)
   }
 
@@ -86,7 +76,7 @@ const FormMessage = ({
     event.preventDefault()
     setValidationStep(activeStep)
     setLastSubmittedTimestamp(Date.now())
-    const errors = validate(visibleFields, formValues, errorLabels)
+    const errors = validate(visibleFields, formValues, labels.errors)
     const isValid = Object.keys(errors).length === 0
     setValidationErrors(errors)
     if (isValid) {
@@ -134,17 +124,17 @@ const FormMessage = ({
 
             <FormFooter>
               <TextContainer>
-                <Steps>{stepStatusLabel(activeStep, totalSteps)}</Steps>
+                <Steps>{labels.stepStatus(activeStep, totalSteps)}</Steps>
               </TextContainer>
 
               <FormButton
                 isSubmitting={formSubmissionStatus === FORM_MESSAGE_STATUS.pending}
                 label={
                   formSubmissionStatus === FORM_MESSAGE_STATUS.pending
-                    ? submittingLabel
+                    ? labels.submitting
                     : activeStep === totalSteps
-                    ? sendLabel
-                    : nextStepLabel
+                    ? labels.send
+                    : labels.nextStep
                 }
               />
             </FormFooter>
@@ -152,7 +142,7 @@ const FormMessage = ({
         </FormContainer>
       </Layout>
       {formSubmissionStatus === FORM_MESSAGE_STATUS.failed && (
-        <SubmissionError message={submissionErrorLabel} />
+        <SubmissionError message={labels.submissionError} />
       )}
     </>
   )
@@ -170,12 +160,6 @@ FormMessage.propTypes = {
       type: PropTypes.string
     })
   ),
-  stepStatusLabel: PropTypes.func,
-  nextStepLabel: PropTypes.string,
-  sendLabel: PropTypes.string,
-  submittingLabel: PropTypes.string,
-  submissionErrorLabel: PropTypes.string,
-  errorLabels: PropTypes.object,
   initialStep: PropTypes.number,
   initialValues: PropTypes.object,
   formSubmissionStatus: PropTypes.oneOf(Object.values(FORM_MESSAGE_STATUS)),
