@@ -1,5 +1,5 @@
 import { testReducer } from 'utility/testHelpers'
-import { CALL_FAILED, END_CALL, START_CALL } from 'embeds/talk/actions/action-types'
+import { CALL_FAILED, CALL_ENDED, CALL_STARTED } from 'embeds/talk/actions/action-types'
 
 import callInProgressLabel from '../call-in-progress-label'
 
@@ -10,7 +10,7 @@ testReducer(callInProgressLabel, [
     expected: 'embeddable_framework.talk.embeddedVoice.call_in_progress'
   },
   {
-    action: { type: END_CALL },
+    action: { type: CALL_ENDED },
     initialState: 'embeddable_framework.talk.embeddedVoice.call_in_progress',
     expected: 'embeddable_framework.talk.embeddedVoice.call.ended'
   },
@@ -20,7 +20,7 @@ testReducer(callInProgressLabel, [
     expected: 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed'
   },
   {
-    action: { type: START_CALL },
+    action: { type: CALL_STARTED },
     initialState: 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed',
     expected: 'embeddable_framework.talk.embeddedVoice.call_in_progress'
   }

@@ -3,9 +3,10 @@ import {
   MICROPHONE_UNMUTED,
   RECORDING_CONSENT_ACCEPTED,
   RECORDING_CONSENT_DENIED,
-  END_CALL,
+  CALL_ENDED,
   CALL_FAILED,
-  START_CALL,
+  CALL_STARTED,
+  RESET_CALL_FAILED,
   INCREMENT_CALL_TIMER
 } from './action-types'
 
@@ -40,12 +41,12 @@ export const declineRecordingConsent = () => ({
 })
 
 export const startCall = () => dispatch => {
-  dispatch({ type: START_CALL })
+  dispatch({ type: CALL_STARTED })
   dispatch(startCallCounter())
 }
 
 export const endCall = () => dispatch => {
-  dispatch({ type: END_CALL })
+  dispatch({ type: CALL_ENDED })
   stopCallCounter()
 }
 
@@ -53,3 +54,7 @@ export const failCall = () => dispatch => {
   dispatch({ type: CALL_FAILED })
   stopCallCounter()
 }
+
+export const resetCallFailed = () => ({
+  type: RESET_CALL_FAILED
+})

@@ -24,6 +24,10 @@ Object {
     "phoneNumber": "",
     "supportedCountries": Array [],
   },
+  "embeddedVoiceCallStatus": Object {
+    "hasLastCallFailed": false,
+    "isCallInProgress": false,
+  },
   "formState": Object {
     "name": "",
     "phone": "",

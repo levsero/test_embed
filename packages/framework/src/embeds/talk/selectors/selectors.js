@@ -9,6 +9,8 @@ import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index
 
 export const getEmbeddedVoiceSupported = _state => isFeatureEnabled(null, 'embedded_voice_enabled')
 
+export const getIsCallInProgress = state => state.talk.embeddedVoiceCallStatus.isCallInProgress
+export const getHasLastCallFailed = state => state.talk.embeddedVoiceCallStatus.hasLastCallFailed
 export const getRecordingConsent = state => state.talk.recordingConsent
 export const getUserRecordingConsentRequirement = state =>
   state.talk.embeddableConfig.recordingConsent
@@ -48,9 +50,7 @@ export const getOfflineTitle = state => {
 export const getTalkTitleKey = createSelector(
   [getCapability, isCallbackEnabled],
   (capability, callbackEnabled) => {
-    if (capability === CLICK_TO_CALL) {
-      return 'embeddable_framework.talk.embeddedVoice.channel.title'
-    }
+    if (capability === CLICK_TO_CALL) return 'embeddable_framework.talk.clickToCall.header.title'
     if (callbackEnabled) {
       return 'embeddable_framework.launcher.label.talk.request_callback'
     } else {

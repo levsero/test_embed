@@ -34,8 +34,6 @@ const endTwilioConnection = async () => {
   connection = null
 }
 
-const isInCall = () => Boolean(connection)
-
 export const useTwilioDevice = ({
   onError,
   onUnsupported,
@@ -98,7 +96,6 @@ export const useTwilioDevice = ({
   return {
     startTwilioConnection,
     muteClick,
-    endTwilioConnection,
-    isInCall
+    endTwilioConnection
   }
 }
