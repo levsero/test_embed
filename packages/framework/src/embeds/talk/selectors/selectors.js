@@ -36,6 +36,8 @@ export const getOfflineTitle = state => {
   switch (capability) {
     case CONTACT_OPTIONS.PHONE_ONLY:
       return i18n.t('embeddable_framework.talk.phoneOnly.title')
+    case CONTACT_OPTIONS.CLICK_TO_CALL:
+      return i18n.t('embeddable_framework.talk.clickToCall.header.title')
     case CONTACT_OPTIONS.CALLBACK_AND_PHONE:
     case CONTACT_OPTIONS.CALLBACK_ONLY:
     default:
