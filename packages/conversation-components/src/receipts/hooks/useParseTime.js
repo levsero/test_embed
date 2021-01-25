@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import useLabels from 'src/hooks/useLabels'
 
 const useParseTime = timeReceived => {
-  const labels = useLabels()
-  const [output, setOutput] = useState(labels.receiptReceivedRecently)
+  const labels = useLabels().receipts
+  const [output, setOutput] = useState(labels.receivedRecently)
   const correctReceived = timeReceived * 1000
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const useParseTime = timeReceived => {
       const diffMs = currentTime - correctReceived
 
       if (diffMs < 60000) {
-        setOutput(labels.receiptReceivedRecently)
+        setOutput(labels.receivedRecently)
         return
       }
 
@@ -26,7 +26,7 @@ const useParseTime = timeReceived => {
     const intervalId = setInterval(() => calculate(), 60000)
 
     return () => clearInterval(intervalId)
-  }, [timeReceived, labels.receiptReceivedRecently])
+  }, [timeReceived, labels.receivedRecently])
 
   return output
 }

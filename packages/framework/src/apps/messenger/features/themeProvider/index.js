@@ -44,14 +44,26 @@ const ThemeProvider = ({ children }) => {
       baseFontSize={currentBaseFontSize}
       rtl={i18n.isRTL()}
       labels={{
-        receiptStatus: {
-          [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
-          [MESSAGE_STATUS.sent]: translate('embeddable_framework.messenger.receipt.sent'),
-          [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
+        receipts: {
+          receivedRecently: translate(
+            'embeddable_framework.messenger.message.receipt.received_recently'
+          ),
+          status: {
+            [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
+            [MESSAGE_STATUS.sent]: translate('embeddable_framework.messenger.receipt.sent'),
+            [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
+          }
         },
-        receiptReceivedRecently: translate(
-          'embeddable_framework.messenger.message.receipt.received_recently'
-        ),
+        composer: {
+          placeholder: translate('embeddable_framework.messenger.composer.placeholder'),
+          inputAriaLabel: translate('embeddable_framework.messenger.composer.label'),
+          sendButtonTooltip: translate(
+            'embeddable_framework.messenger.composer.send_button_tooltip'
+          ),
+          sendButtonAriaLabel: translate(
+            'embeddable_framework.messenger.composer.send_button_label'
+          )
+        },
         fileMessage: {
           sizeInKB: size =>
             translate('embeddable_framework.messenger.message.file.size_in_kb', { size }),

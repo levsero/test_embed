@@ -19,7 +19,7 @@ const MessengerHeader = ({
   isCompact = false,
   onClose = () => {}
 }) => {
-  const labels = useLabels().MessengerHeader
+  const labels = useLabels().messengerHeader
   return (
     <Container isCompact={isCompact}>
       {avatar && (

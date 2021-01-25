@@ -18,16 +18,28 @@ const ThemeProvider = ({
   children
 }) => {
   const combinedLabels = {
-    receiptStatus: {
-      [MESSAGE_STATUS.sending]: 'Sending',
-      [MESSAGE_STATUS.sent]: 'Sent',
-      [MESSAGE_STATUS.failed]: 'Tap to retry'
+    receipts: {
+      status: {
+        [MESSAGE_STATUS.sending]: 'Sending',
+        [MESSAGE_STATUS.sent]: 'Sent',
+        [MESSAGE_STATUS.failed]: 'Tap to retry'
+      },
+      receivedRecently: 'Just now'
     },
-    receiptReceivedRecently: 'Just now',
     fileMessage: {
       sizeInMB: size => `${size} MB`,
       sizeInKB: size => `${size} KB`,
       downloadAriaLabel: 'Open in a new tab'
+    },
+    messengerHeader: {
+      avatarAltTag: 'Company logo',
+      closeButtonAriaLabel: 'Close'
+    },
+    composer: {
+      placeholder: 'Type a message',
+      inputAriaLabel: 'Type a message',
+      sendButtonTooltip: 'Send a message',
+      sendButtonAriaLabel: 'Send a message'
     },
     formMessage: {
       nextStep: 'next',
