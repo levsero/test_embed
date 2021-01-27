@@ -98,7 +98,7 @@ describe('Embedded Voice scenarios', () => {
       await waitFor(() => expect(getByText('Call in progress')).toBeInTheDocument())
 
       Device.__triggerError(new Error('Something went kaboom'))
-      await waitFor(() => expect(getByText('Call ended')).toBeInTheDocument())
+      await waitFor(() => expect(getByText('Call failed')).toBeInTheDocument())
       jest.advanceTimersByTime(4000)
 
       expect(getByText("Call couldn't be connected")).toBeInTheDocument()

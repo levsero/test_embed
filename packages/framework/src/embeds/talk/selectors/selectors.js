@@ -15,8 +15,6 @@ export const getRecordingConsent = state => state.talk.recordingConsent
 export const getUserRecordingConsentRequirement = state =>
   state.talk.embeddableConfig.recordingConsent
 
-export const getCallInProgressLabel = state => state.talk.callInProgressLabel
-
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
 export const getTimeInCall = state => state.talk.timeInCall
 
@@ -56,5 +54,16 @@ export const getTalkTitleKey = createSelector(
     } else {
       return 'embeddable_framework.launcher.label.talk.call_us'
     }
+  }
+)
+
+export const getCallInProgressLabel = createSelector(
+  [getIsCallInProgress, getHasLastCallFailed],
+  (isCallInProgress, hasLastCallFailed) => {
+    if (hasLastCallFailed)
+      return i18n.t('embeddable_framework.talk.embeddedVoice.callErrors.callFailed')
+    return isCallInProgress
+      ? i18n.t('embeddable_framework.talk.embeddedVoice.call_in_progress')
+      : i18n.t('embeddable_framework.talk.embeddedVoice.call.ended')
   }
 )

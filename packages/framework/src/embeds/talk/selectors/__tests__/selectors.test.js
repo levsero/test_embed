@@ -82,7 +82,31 @@ describe('talk selectors', () => {
     )
   })
 
-  describe('getCallInProgressLabel returns the callInProgressLabel from state', () => {
-    expect(getCallInProgressLabel({ talk: { callInProgressLabel: 'Bob' } })).toEqual('Bob')
+  describe('getCallInProgressLabel', () => {
+    it('returns call in progress when call is in progress', () => {
+      expect(
+        getCallInProgressLabel({ talk: { embeddedVoiceCallStatus: { isCallInProgress: true } } })
+      ).toEqual('Call in progress')
+    })
+
+    it('returns call ended when a call is not in progress', () => {
+      expect(
+        getCallInProgressLabel({ talk: { embeddedVoiceCallStatus: { isCallInProgress: false } } })
+      ).toEqual('Call ended')
+    })
+
+    it('returns call failed whenever an error has occurred', () => {
+      expect(
+        getCallInProgressLabel({
+          talk: { embeddedVoiceCallStatus: { isCallInProgress: false, hasLastCallFailed: true } }
+        })
+      ).toEqual('Call failed')
+
+      expect(
+        getCallInProgressLabel({
+          talk: { embeddedVoiceCallStatus: { isCallInProgress: true, hasLastCallFailed: true } }
+        })
+      ).toEqual('Call failed')
+    })
   })
 })

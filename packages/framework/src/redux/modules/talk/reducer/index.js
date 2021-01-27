@@ -3,7 +3,6 @@ import { combineReducers } from 'redux'
 import agentAvailability from './talk-agent-availability'
 import averageWaitTime from './talk-average-wait-time'
 import callback from './talk-callback'
-import callInProgressLabel from 'embeds/talk/reducers/call-in-progress-label'
 import embeddableConfig from './talk-embeddable-config'
 import embeddedVoiceCallStatus from 'embeds/talk/reducers/embedded-voice-call-status'
 import formState from './talk-form-state'
@@ -17,7 +16,6 @@ export default combineReducers({
   agentAvailability,
   averageWaitTime,
   callback,
-  callInProgressLabel,
   embeddableConfig,
   embeddedVoiceCallStatus,
   formState,
