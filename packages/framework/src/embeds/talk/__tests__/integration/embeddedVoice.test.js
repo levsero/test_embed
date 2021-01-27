@@ -3,12 +3,13 @@ import userEvent from '@testing-library/user-event'
 import { waitFor } from '@testing-library/dom'
 import { Device } from 'twilio-client'
 import superagent from 'superagent'
-import Talk from 'src/embeds/talk'
 
 import createStore from 'src/redux/createStore'
+import { updateTalkAgentAvailability } from 'src/redux/modules/talk/talk-actions'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 import { OPT_IN, OPT_OUT } from 'src/embeds/talk/reducers/recording-consent'
+import Talk from 'src/embeds/talk'
 
 jest.useFakeTimers()
 
@@ -108,6 +109,33 @@ describe('Embedded Voice scenarios', () => {
       expect(queryByText('Call us')).toBeInTheDocument()
       expect(queryByText('Allow microphone')).toBeInTheDocument()
       expect(getByLabelText('Start Call')).toBeInTheDocument()
+    })
+
+    it('does not drop the call when agents go offline while a call is in progress', async () => {
+      const { getByText, getByLabelText, queryByText, store } = renderComponent({
+        talkConfig
+      })
+
+      userEvent.click(getByLabelText('Start Call'))
+      await waitFor(() => expect(getByText('Call in progress')).toBeInTheDocument())
+
+      store.dispatch(updateTalkAgentAvailability({ agentAvailability: false }))
+
+      jest.advanceTimersByTime(1000)
+      expect(queryByText('Call in progress')).toBeInTheDocument()
+    })
+
+    it('displays agents offline when agents go offline and a call is not in progress', async () => {
+      const { queryByText, store } = renderComponent({ talkConfig })
+
+      expect(queryByText('Call us')).toBeInTheDocument()
+      expect(queryByText('Allow microphone')).toBeInTheDocument()
+
+      store.dispatch(updateTalkAgentAvailability({ agentAvailability: false }))
+      jest.advanceTimersByTime(1000)
+
+      expect(queryByText('Call us')).toBeInTheDocument()
+      expect(queryByText('All agents are currently offline. Try again later.')).toBeInTheDocument()
     })
   })
 
