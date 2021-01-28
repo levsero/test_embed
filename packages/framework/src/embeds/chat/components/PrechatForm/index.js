@@ -48,12 +48,32 @@ const PrechatForm = ({
     isFeatureEnabled(state, 'web_widget_prechat_form_visible_departments')
   )
   const translate = useTranslate()
-  const isDepartmentOffline = departmentId => {
-    return departments[departmentId]?.status === 'offline'
-  }
+
   const isDepartmentFieldVisible = (options = {}) => {
     return getVisibleFields(options).some(field => field.id === 'department')
   }
+
+  const isDepartmentOffline = (fields, departmentId) => {
+    if (isVisibleDepartmentsFeatureEnabled) {
+      const isAnyDepartmentVisibleToEndUsers = fields.some(field => field.id === 'department')
+
+      const isSelectedDepartmentVisibleToEndUsers = Boolean(
+        fields
+          .find(field => field.id === 'department')
+          ?.options.some(option => option.value === departmentId)
+      )
+
+      // If the selected department isn't available in the list of options that is visible to the end user, exclude it
+      const isSelectedDepartmentValid =
+        !isAnyDepartmentVisibleToEndUsers ||
+        (isAnyDepartmentVisibleToEndUsers && isSelectedDepartmentVisibleToEndUsers)
+
+      return isSelectedDepartmentValid && departments[departmentId]?.status === 'offline'
+    }
+
+    return departments[departmentId]?.status === 'offline'
+  }
+
   const includeHiddenDepartmentFieldValue = (valuesToSubmit, allValues = {}) => {
     const hiddenFieldValues = {}
     if (allValues.department) hiddenFieldValues.department = allValues.department
@@ -90,12 +110,12 @@ const PrechatForm = ({
             isVisibleDepartmentsFeatureEnabled
           })
         }
-        footer={({ isSubmitting, formValues }) => (
+        footer={({ isSubmitting, formValues, fields }) => (
           <Footer>
             <SubmitButton
               submitting={isSubmitting}
               label={
-                isDepartmentOffline(formValues?.department)
+                isDepartmentOffline(fields, formValues?.department)
                   ? translate('embeddable_framework.chat.preChat.offline.button.sendMessage')
                   : translate('embeddable_framework.chat.preChat.online.button.startChat')
               }

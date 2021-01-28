@@ -73,7 +73,9 @@ const Form = ({
         </div>
         {controls && controls}
       </Main>
-      {FooterComponent && <FooterComponent isSubmitting={isSubmitting} formValues={values} />}
+      {FooterComponent && (
+        <FooterComponent isSubmitting={isSubmitting} formValues={values} fields={fields} />
+      )}
     </FormContainer>
   )
 }
