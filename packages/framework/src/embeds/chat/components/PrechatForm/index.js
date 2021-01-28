@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Header, Widget } from 'components/Widget'
 import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 import validate from './validate'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
@@ -26,6 +26,7 @@ import { getReadOnlyState } from 'embeds/support/selectors'
 import useTranslate from 'src/hooks/useTranslate'
 import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 import { Footer } from 'src/components/Widget'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const PrechatForm = ({
   title,
@@ -43,6 +44,9 @@ const PrechatForm = ({
   isPreview,
   initialValues
 }) => {
+  const isVisibleDepartmentsFeatureEnabled = useSelector(state =>
+    isFeatureEnabled(state, 'web_widget_prechat_form_visible_departments')
+  )
   const translate = useTranslate()
   const isDepartmentOffline = departmentId => {
     return departments[departmentId]?.status === 'offline'
@@ -82,7 +86,8 @@ const PrechatForm = ({
             values,
             isAuthenticated,
             fields: getVisibleFields(values),
-            isOfflineFormEnabled
+            isOfflineFormEnabled,
+            isVisibleDepartmentsFeatureEnabled
           })
         }
         footer={({ isSubmitting, formValues }) => (

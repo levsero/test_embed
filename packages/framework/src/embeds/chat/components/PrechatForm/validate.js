@@ -19,14 +19,16 @@ const fieldValidation = {
       return 'embeddable_framework.validation.error.email'
     }
   },
-  department: ({ field, value, isOfflineFormEnabled }) => {
+  department: ({ field, value, isOfflineFormEnabled, isVisibleDepartmentsFeatureEnabled }) => {
     if (field.required && !value) {
       return 'embeddable_framework.validation.error.department'
     }
 
     const selectedOption = field.options.find(option => option.value === value)
-    if (!selectedOption && field.required) {
-      return 'embeddable_framework.validation.error.department'
+    if (isVisibleDepartmentsFeatureEnabled) {
+      if (!selectedOption && field.required) {
+        return 'embeddable_framework.validation.error.department'
+      }
     }
 
     if (!selectedOption) {
@@ -57,14 +59,15 @@ const fieldValidation = {
   }
 }
 
-const validate = ({ values, fields, isOfflineFormEnabled }) => {
+const validate = ({ values, fields, isOfflineFormEnabled, isVisibleDepartmentsFeatureEnabled }) => {
   const errors = {}
 
   fields.forEach(field => {
     const errorMessage = fieldValidation[field.id]?.({
       value: values[field.id],
       field,
-      isOfflineFormEnabled
+      isOfflineFormEnabled,
+      isVisibleDepartmentsFeatureEnabled
     })
 
     if (errorMessage) {
