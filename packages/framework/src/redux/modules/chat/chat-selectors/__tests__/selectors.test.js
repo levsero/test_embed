@@ -248,7 +248,11 @@ test('getChatAccountSettingsPrechatForm', () => {
 test('getDepartments', () => {
   const result = selectors.getDepartments(testState)
 
-  expect(result).toEqual({ one: 'blah', two: 'heh', three: 'oh' })
+  expect(result).toEqual({
+    one: 'blah',
+    two: 'heh',
+    three: 'oh'
+  })
 })
 
 test('getAccountSettingsLauncherBadge', () => {
@@ -395,24 +399,115 @@ describe('getChatOnline', () => {
     ).toBe(false)
   })
 
-  it('returns true if an agent is online', () => {
-    expect(
-      getChatOnline({
-        chat: {
-          account_status: 'online'
+  describe('when an agent is online', () => {
+    const createState = ({ status, filter, departments, isDepartmentVisibleFeatureEnabled }) => ({
+      base: {
+        embeddableConfig: {
+          embeds: {
+            chat: {
+              props: {
+                webWidgetPrechatFormVisibleDepartments: isDepartmentVisibleFeatureEnabled
+              }
+            }
+          }
         }
-      })
-    ).toBe(true)
-  })
+      },
+      chat: {
+        account_status: status,
+        departments
+      },
+      settings: {
+        chat: {
+          departments: {
+            enabled: filter
+          }
+        }
+      }
+    })
 
-  it('returns true if an agent is away', () => {
-    expect(
-      getChatOnline({
-        chat: {
-          account_status: 'away'
-        }
+    it('returns true when the status is online', () => {
+      expect(
+        getChatOnline(
+          createState({
+            status: 'online'
+          })
+        )
+      ).toBe(true)
+    })
+
+    it('returns true when the status is away', () => {
+      expect(
+        getChatOnline(
+          createState({
+            status: 'away'
+          })
+        )
+      ).toBe(true)
+    })
+
+    describe('when arturo web_widget_prechat_form_visible_departments is enabled', () => {
+      it('returns true when no departments have been filtered', () => {
+        expect(
+          getChatOnline(
+            createState({
+              status: 'online',
+              isDepartmentVisibleFeatureEnabled: true,
+              filter: undefined
+            })
+          )
+        ).toBe(true)
       })
-    ).toBe(true)
+
+      it('returns true when all departments have been filtered', () => {
+        expect(
+          getChatOnline(
+            createState({
+              status: 'online',
+              isDepartmentVisibleFeatureEnabled: true,
+              filter: []
+            })
+          )
+        ).toBe(true)
+      })
+
+      it('returns true when at least one filtered department is online', () => {
+        expect(
+          getChatOnline(
+            createState({
+              status: 'online',
+              isDepartmentVisibleFeatureEnabled: true,
+              filter: ['Something'],
+              departments: {
+                1: {
+                  id: 1,
+                  name: 'Something',
+                  status: 'online'
+                }
+              }
+            })
+          )
+        ).toBe(true)
+      })
+
+      it('returns false when no departments that have been filtered are online', () => {
+        expect(
+          getChatOnline(
+            createState({
+              status: 'online',
+              isDepartmentVisibleFeatureEnabled: true,
+              filter: ['Something'],
+              departments: {
+                1: {
+                  id: 1,
+                  name: 'Something',
+                  status: 'offline'
+                }
+              }
+            })
+          )
+        ).toBe(false)
+      })
+    })
   })
 
   it('returns false if an agent is not online or away', () => {

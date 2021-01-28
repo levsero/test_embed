@@ -1,5 +1,8 @@
 import _ from 'lodash'
 import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
+import { createSelector } from 'reselect'
+import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const chatState = state => state.chat
 
@@ -73,6 +76,33 @@ export const getCanShowOnlineChat = state => {
   return isChatting || isOnline
 }
 
+const getAreAllEnabledDepartmentsOffline = createSelector(
+  [getSettingsChatDepartmentsEnabled, getDepartmentsList],
+  (settingsDepartmentsEnabled, departmentsList) => {
+    if (!Array.isArray(settingsDepartmentsEnabled)) {
+      // Customer hasn't filtered anything
+      return false
+    }
+
+    if (settingsDepartmentsEnabled.length === 0) {
+      // Customer has filtered all departments - but this means to not show
+      // them in prechat form, rather than filter them.
+      // Chat should still be considered as online
+      return false
+    }
+
+    const enabledAndOnlineDepartments = departmentsList
+      .filter(
+        department =>
+          _.includes(settingsDepartmentsEnabled, department.id) ||
+          _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())
+      )
+      .filter(department => department.status === 'online')
+
+    return enabledAndOnlineDepartments.length === 0
+  }
+)
+
 export const getChatOnline = state => {
   const forcedStatus = getForcedStatus(state)
 
@@ -82,7 +112,19 @@ export const getChatOnline = state => {
     return false
   }
 
-  return _.includes(['online', 'away'], getChatStatus(state))
+  const isOnline = _.includes(['online', 'away'], getChatStatus(state))
+  const isDepartmentsVisibleFeatureEnabled = isFeatureEnabled(
+    state,
+    'web_widget_prechat_form_visible_departments'
+  )
+
+  if (isOnline && isDepartmentsVisibleFeatureEnabled) {
+    if (getAreAllEnabledDepartmentsOffline(state)) {
+      return false
+    }
+  }
+
+  return isOnline
 }
 
 export const getThemePosition = state => {
