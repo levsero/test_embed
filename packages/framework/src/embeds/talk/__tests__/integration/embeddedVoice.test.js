@@ -61,10 +61,10 @@ describe('Embedded Voice scenarios', () => {
   })
 
   const expectStartAndStopCallToWork = async ({ getByLabelText, getByText, queryByText }) => {
-    userEvent.click(getByLabelText('Start Call'))
+    userEvent.click(getByLabelText('Start call'))
     await waitFor(() => expect(getByText('Call in progress')).toBeInTheDocument())
 
-    userEvent.click(getByLabelText('end call'))
+    userEvent.click(getByLabelText('End call'))
     jest.advanceTimersByTime(1000)
     await waitFor(() => expect(getByText('Call ended')).toBeInTheDocument())
     jest.advanceTimersByTime(3000)
@@ -77,25 +77,25 @@ describe('Embedded Voice scenarios', () => {
     const talkConfig = {
       recordingConsent: null
     }
-    it('renders the "Start Call" button on the Allow microphone page', async () => {
+    it('renders the "Start call" button on the Allow microphone page', async () => {
       const { queryByText, getByLabelText } = renderComponent({ talkConfig })
 
       expect(queryByText('Call us')).toBeInTheDocument()
       expect(queryByText('Allow microphone')).toBeInTheDocument()
-      expect(getByLabelText('Start Call')).toBeInTheDocument()
+      expect(getByLabelText('Start call')).toBeInTheDocument()
     })
 
     it('can start and stop a call without the consent page', async () => {
       const { getByText, getByLabelText, queryByText } = renderComponent({ talkConfig })
 
       await expectStartAndStopCallToWork({ getByText, getByLabelText, queryByText })
-      expect(getByLabelText('Start Call')).toBeInTheDocument()
+      expect(getByLabelText('Start call')).toBeInTheDocument()
     })
 
     it('can handle errors when they occur during a call', async () => {
       const { getByText, getByLabelText, queryByText } = renderComponent({ talkConfig })
 
-      userEvent.click(getByLabelText('Start Call'))
+      userEvent.click(getByLabelText('Start call'))
       await waitFor(() => expect(getByText('Call in progress')).toBeInTheDocument())
 
       Device.__triggerError(new Error('Something went kaboom'))
@@ -108,7 +108,7 @@ describe('Embedded Voice scenarios', () => {
 
       expect(queryByText('Call us')).toBeInTheDocument()
       expect(queryByText('Allow microphone')).toBeInTheDocument()
-      expect(getByLabelText('Start Call')).toBeInTheDocument()
+      expect(getByLabelText('Start call')).toBeInTheDocument()
     })
 
     it('does not drop the call when agents go offline while a call is in progress', async () => {
@@ -116,7 +116,7 @@ describe('Embedded Voice scenarios', () => {
         talkConfig
       })
 
-      userEvent.click(getByLabelText('Start Call'))
+      userEvent.click(getByLabelText('Start call'))
       await waitFor(() => expect(getByText('Call in progress')).toBeInTheDocument())
 
       store.dispatch(updateTalkAgentAvailability({ agentAvailability: false }))
@@ -156,7 +156,7 @@ describe('Embedded Voice scenarios', () => {
 
       userEvent.click(getByText('Next'))
       await waitFor(() => expect(queryByText('Allow call to be recorded?')).toBeInTheDocument())
-      expect(getByLabelText('I consent to this call being recorded').checked).toEqual(false)
+      expect(getByLabelText('I consent to this call being recorded.').checked).toEqual(false)
       await expectStartAndStopCallToWork({ getByText, getByLabelText, queryByText })
       expect(getByText('Next')).toBeInTheDocument()
     })
@@ -179,7 +179,7 @@ describe('Embedded Voice scenarios', () => {
 
       userEvent.click(getByText('Next'))
       await waitFor(() => expect(queryByText('Allow call to be recorded?')).toBeInTheDocument())
-      expect(getByLabelText('I consent to this call being recorded').checked).toEqual(true)
+      expect(getByLabelText('I consent to this call being recorded.').checked).toEqual(true)
       await expectStartAndStopCallToWork({ getByText, getByLabelText, queryByText })
       expect(getByText('Next')).toBeInTheDocument()
     })

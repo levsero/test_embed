@@ -68,7 +68,7 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
   return (
     <Container>
       <Section>
-        <Label>{translate(label)}</Label>
+        <Label>{label}</Label>
         <Timer>{timeLabel}</Timer>
       </Section>
       <Section>
