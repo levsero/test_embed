@@ -7,7 +7,7 @@ Object {
     "enabled": false,
     "waitTime": "0",
   },
-  "callInProgressLabel": "Call in progress",
+  "callInProgressLabel": "embeddable_framework.talk.embeddedVoice.call_in_progress",
   "callback": Object {
     "error": Object {},
     "isSending": false,

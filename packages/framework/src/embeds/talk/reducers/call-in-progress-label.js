@@ -1,15 +1,18 @@
 import { CALL_FAILED, END_CALL, START_CALL } from 'embeds/talk/actions/action-types'
 
-const callInProgressLabel = (state = 'Call in progress', action = {}) => {
+const callInProgressLabel = (
+  state = 'embeddable_framework.talk.embeddedVoice.call_in_progress',
+  action = {}
+) => {
   const { type } = action
 
   switch (type) {
     case START_CALL:
-      return 'Call in progress'
+      return 'embeddable_framework.talk.embeddedVoice.call_in_progress'
     case END_CALL:
-      return 'Call ended'
+      return 'embeddable_framework.talk.embeddedVoice.call.ended'
     case CALL_FAILED:
-      return 'Call failed'
+      return 'embeddable_framework.talk.embeddedVoice.callErrors.callFailed'
     default:
       return state
   }

@@ -7,7 +7,7 @@ import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
-export const getDigitalVoiceSupported = _state => isFeatureEnabled(null, 'digital_voice_enabled')
+export const getEmbeddedVoiceSupported = _state => isFeatureEnabled(null, 'embedded_voice_enabled')
 
 export const getRecordingConsent = state => state.talk.recordingConsent
 export const getUserRecordingConsentRequirement = state =>
@@ -19,9 +19,9 @@ export const getMicrophoneMuted = state => state.talk.microphoneMuted
 export const getTimeInCall = state => state.talk.timeInCall
 
 export const getCapability = createSelector(
-  [getEmbeddableConfig, getDigitalVoiceSupported],
-  (talkConfig, digitalVoiceSupported) => {
-    return digitalVoiceSupported ? CLICK_TO_CALL : talkConfig.capability
+  [getEmbeddableConfig, getEmbeddedVoiceSupported],
+  (talkConfig, embeddedVoiceSupported) => {
+    return embeddedVoiceSupported ? CLICK_TO_CALL : talkConfig.capability
   }
 )
 
@@ -47,7 +47,7 @@ export const getTalkTitleKey = createSelector(
   [getCapability, isCallbackEnabled],
   (capability, callbackEnabled) => {
     if (capability === CLICK_TO_CALL) {
-      return 'embeddable_framework.talk.clickToCall.header.title'
+      return 'embeddable_framework.talk.embeddedVoice.channel.title'
     }
     if (callbackEnabled) {
       return 'embeddable_framework.launcher.label.talk.request_callback'

@@ -3,11 +3,9 @@ import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 import { render } from 'utility/testHelpers'
-import EmbeddedVoiceallInProgressPage from '..'
+import EmbeddedVoiceCallInProgressPage from '..'
 import * as talkActions from 'src/embeds/talk/actions'
-import * as talkSelectors from 'src/embeds/talk/selectors'
-
-jest.mock('src/embeds/talk/selectors')
+import * as talkSelectors from 'src/embeds/talk/selectors/selectors'
 
 const renderComponent = props => {
   const defaultProps = {
@@ -16,27 +14,26 @@ const renderComponent = props => {
     isCallActive: true
   }
 
-  return render(<EmbeddedVoiceallInProgressPage {...defaultProps} {...props} />)
+  return render(<EmbeddedVoiceCallInProgressPage {...defaultProps} {...props} />)
 }
 
 describe('render', () => {
   it('renders the end call button', () => {
     renderComponent({ callStatus: 'active' })
 
-    expect(screen.getByLabelText('end call')).toBeInTheDocument()
+    expect(screen.getByLabelText('End call')).toBeInTheDocument()
   })
 
   it('renders the given label from state', () => {
-    jest.spyOn(talkSelectors, 'getCallInProgressLabel').mockReturnValue('Bob the Builder')
     renderComponent()
 
-    expect(screen.getByText('Bob the Builder')).toBeInTheDocument()
+    expect(screen.getByText('Call in progress')).toBeInTheDocument()
   })
 
   it('renders the mute microphone button', () => {
     renderComponent({ callStatus: 'active' })
 
-    expect(screen.getByLabelText('mute microphone')).toBeInTheDocument()
+    expect(screen.getByLabelText('Mute microphone')).toBeInTheDocument()
   })
 
   describe('on mute button click', () => {
@@ -45,7 +42,7 @@ describe('render', () => {
       jest.spyOn(talkActions, 'muteMicrophone')
       renderComponent()
 
-      userEvent.click(screen.getByLabelText('mute microphone'))
+      userEvent.click(screen.getByLabelText('Mute microphone'))
 
       expect(talkActions.muteMicrophone).toHaveBeenCalled()
     })
@@ -55,7 +52,7 @@ describe('render', () => {
       jest.spyOn(talkActions, 'unmuteMicrophone')
       renderComponent()
 
-      userEvent.click(screen.getByLabelText('mute microphone'))
+      userEvent.click(screen.getByLabelText('Mute microphone'))
 
       expect(talkActions.unmuteMicrophone).toHaveBeenCalled()
     })
@@ -65,7 +62,7 @@ describe('render', () => {
       jest.spyOn(talkActions, 'unmuteMicrophone')
       renderComponent({ isCallActive: false })
 
-      userEvent.click(screen.getByLabelText('mute microphone'))
+      userEvent.click(screen.getByLabelText('Mute microphone'))
 
       expect(talkActions.unmuteMicrophone).not.toHaveBeenCalled()
     })
@@ -76,7 +73,7 @@ describe('render', () => {
       const onEndCallClicked = jest.fn()
       renderComponent({ onEndCallClicked })
 
-      userEvent.click(screen.getByLabelText('end call'))
+      userEvent.click(screen.getByLabelText('End call'))
 
       expect(onEndCallClicked).toHaveBeenCalled()
     })
@@ -85,7 +82,7 @@ describe('render', () => {
       const onEndCallClicked = jest.fn()
       renderComponent({ onEndCallClicked, isCallActive: false })
 
-      userEvent.click(screen.getByLabelText('end call'))
+      userEvent.click(screen.getByLabelText('End call'))
 
       expect(onEndCallClicked).not.toHaveBeenCalled()
     })

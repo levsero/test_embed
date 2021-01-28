@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import useTranslate from 'src/hooks/useTranslate'
 import {
   getMicrophoneMuted,
   getTimeInCall,
@@ -34,6 +35,7 @@ const parseTime = time => {
 
 const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, isCallActive }) => {
   const dispatch = useDispatch()
+  const translate = useTranslate()
   const isMuted = useSelector(getMicrophoneMuted)
   const label = useSelector(getCallInProgressLabel)
   const timeInCall = useSelector(getTimeInCall)
@@ -66,14 +68,16 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
   return (
     <Container>
       <Section>
-        <Label>{label}</Label>
+        <Label>{translate(label)}</Label>
         <Timer>{timeLabel}</Timer>
       </Section>
       <Section>
         <CallControls>
           <Control>
             <MuteButton
-              aria-label="mute microphone"
+              aria-label={translate(
+                'embeddable_framework.talk.embeddedVoice.callInProgress.button.muteMicrophone'
+              )}
               onClick={handleMuteClick}
               ignoreThemeOverride={true}
             >
@@ -82,7 +86,9 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
           </Control>
           <Control>
             <CallButton
-              aria-label="end call"
+              aria-label={translate(
+                'embeddable_framework.talk.clickToCall.callInProgress.button.endCall'
+              )}
               isPrimary={true}
               ignoreThemeOverride={true}
               isDanger={true}
