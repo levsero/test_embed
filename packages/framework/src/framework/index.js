@@ -14,7 +14,6 @@ import { setReferrerMetas } from 'utility/globals'
 import { onBrowserTabHidden } from 'src/framework/utils/browser'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
-import logger from 'src/util/logger'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -90,18 +89,14 @@ const getConfig = (win, reduxStore) => {
     const isMessengerWidget = Boolean(config?.messenger)
     const getEmbeddable = async () => {
       if (isMessengerWidget) {
-        return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger')
-          .then(messenger => messenger.default)
-          .catch(err => {
-            logger.error(err)
-          })
+        return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then(
+          messenger => messenger.default
+        )
       }
 
-      return await import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget')
-        .then(webWidget => webWidget.default)
-        .catch(err => {
-          logger.error(err)
-        })
+      return await import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget').then(
+        webWidget => webWidget.default
+      )
     }
 
     try {
