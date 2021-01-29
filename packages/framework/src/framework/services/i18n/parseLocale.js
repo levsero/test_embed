@@ -1,4 +1,4 @@
-import zELocaleIdMap from 'translation/ze_localeIdMap'
+import zELocaleIdMap from 'src/translation/ze_localeIdMap'
 
 function regulateDash(locale) {
   return locale.replace('_', '-')
@@ -13,25 +13,26 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
 }
 
-function parseLocale(str, fallback) {
-  if (!str) {
-    return fallback
-  }
+const localeKeyExists = locale => {
+  return zELocaleIdMap[locale] !== undefined
+}
+
+function parseLocale(str, desiredFallback) {
+  const fallback = localeKeyExists(desiredFallback) ? desiredFallback : 'en-US'
+  if (!str) return fallback
 
   const locale = regulateLocaleStringCase(regulateDash(str))
-
-  if (zELocaleIdMap[locale] !== undefined) {
+  if (localeKeyExists(locale)) {
     return locale
   }
 
   const lowercaseLocale = locale.toLowerCase()
-  if (zELocaleIdMap[lowercaseLocale] !== undefined) {
+  if (localeKeyExists(lowercaseLocale)) {
     return lowercaseLocale
   }
 
   const extractedLang = locale.substring(0, locale.indexOf('-'))
-
-  if (zELocaleIdMap[extractedLang] !== undefined) {
+  if (localeKeyExists(extractedLang)) {
     return extractedLang
   }
 
