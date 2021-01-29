@@ -1,9 +1,11 @@
 let i18n
+let clientI18NTools
 
 beforeEach(() => {
   jest.resetModules()
   jest.unmock('@zendesk/client-i18n-tools')
   i18n = require('../').default
+  clientI18NTools = require('@zendesk/client-i18n-tools')
 })
 
 describe('setLocale', () => {
@@ -11,6 +13,22 @@ describe('setLocale', () => {
     await i18n.setLocale('ko')
 
     expect(i18n.getLocale()).toBe('ko')
+  })
+
+  it('returns an object with success: true when successful', async () => {
+    const result = await i18n.setLocale('ko')
+
+    expect(result).toEqual({ success: true })
+  })
+
+  it('returns an object with success: false when it failed', async () => {
+    jest.spyOn(clientI18NTools, 'set').mockImplementation(() => {
+      throw new Error('something failed')
+    })
+
+    const result = await i18n.setLocale('ko')
+
+    expect(result).toEqual({ success: false })
   })
 
   it('defaults to American English when setLocale is called with an invalid locale', async () => {

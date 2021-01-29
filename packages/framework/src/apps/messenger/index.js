@@ -30,7 +30,12 @@ const init = async ({ config }) => {
 
   const store = createStore()
 
-  await store.dispatch(subscribeToI18n())
+  const i18nResult = await store.dispatch(subscribeToI18n())
+
+  if (i18nResult?.success !== true) {
+    throw new Error('Failed to setup i18n')
+  }
+
   publicApi.registerApi(createMessengerApi(store))
 
   store.dispatch(messengerConfigReceived(config?.messenger))

@@ -27,5 +27,13 @@ describe('i18n store', () => {
 
       expect(i18n.getLocale()).toBe('ko')
     })
+
+    it('returns the result object of setting the locale', async () => {
+      const store = createStore()
+
+      const result = await store.dispatch(subscribeToI18n())
+
+      expect(result).toEqual({ success: true })
+    })
   })
 })
