@@ -103,7 +103,8 @@ const EmbeddedVoicePage = () => {
             <CallInProgress
               onEndCallClicked={endTwilioConnection}
               onMuteClick={muteClick}
-              isCallActive={isCallInProgress}
+              isCallInProgress={isCallInProgress}
+              hasLastCallFailed={hasLastCallFailed}
             />
           </Route>
           <Route path={routes.clickToCallPermissions()}>

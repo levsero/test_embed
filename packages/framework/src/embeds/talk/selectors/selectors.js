@@ -37,7 +37,7 @@ export const getOfflineTitle = state => {
     case CONTACT_OPTIONS.PHONE_ONLY:
       return i18n.t('embeddable_framework.talk.phoneOnly.title')
     case CONTACT_OPTIONS.CLICK_TO_CALL:
-      return i18n.t('embeddable_framework.talk.clickToCall.header.title')
+      return i18n.t('embeddable_framework.talk.embeddedVoice.channel.title')
     case CONTACT_OPTIONS.CALLBACK_AND_PHONE:
     case CONTACT_OPTIONS.CALLBACK_ONLY:
     default:
@@ -48,22 +48,11 @@ export const getOfflineTitle = state => {
 export const getTalkTitleKey = createSelector(
   [getCapability, isCallbackEnabled],
   (capability, callbackEnabled) => {
-    if (capability === CLICK_TO_CALL) return 'embeddable_framework.talk.clickToCall.header.title'
+    if (capability === CLICK_TO_CALL) return 'embeddable_framework.talk.embeddedVoice.channel.title'
     if (callbackEnabled) {
       return 'embeddable_framework.launcher.label.talk.request_callback'
     } else {
       return 'embeddable_framework.launcher.label.talk.call_us'
     }
-  }
-)
-
-export const getCallInProgressLabel = createSelector(
-  [getIsCallInProgress, getHasLastCallFailed],
-  (isCallInProgress, hasLastCallFailed) => {
-    if (hasLastCallFailed)
-      return i18n.t('embeddable_framework.talk.embeddedVoice.callErrors.callFailed')
-    return isCallInProgress
-      ? i18n.t('embeddable_framework.talk.embeddedVoice.call_in_progress')
-      : i18n.t('embeddable_framework.talk.embeddedVoice.call.ended')
   }
 )

@@ -56,7 +56,7 @@ describe('Embedded Voice scenarios', () => {
     const { queryByRole } = renderComponent()
 
     expect(queryByRole('progressbar')).toBeInTheDocument()
-    jest.advanceTimersByTime(1000)
+    jest.advanceTimersByTime(2000)
     await waitFor(() => expect(queryByRole('progressbar')).not.toBeInTheDocument())
   })
 

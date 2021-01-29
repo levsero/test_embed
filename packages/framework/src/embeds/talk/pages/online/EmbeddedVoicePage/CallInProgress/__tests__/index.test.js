@@ -11,7 +11,8 @@ const renderComponent = props => {
   const defaultProps = {
     callDuration: '0:00',
     onEndCallClicked: jest.fn(),
-    isCallActive: true
+    isCallInProgress: true,
+    hasLastCallFailed: false
   }
 
   return render(<EmbeddedVoiceCallInProgressPage {...defaultProps} {...props} />)
@@ -19,21 +20,33 @@ const renderComponent = props => {
 
 describe('render', () => {
   it('renders the end call button', () => {
-    renderComponent({ callStatus: 'active' })
+    renderComponent({ isCallInProgress: true })
 
     expect(screen.getByLabelText('End call')).toBeInTheDocument()
   })
 
-  it('renders the given label from state', () => {
+  it('renders the Call in progress label', () => {
     renderComponent()
 
     expect(screen.getByText('Call in progress')).toBeInTheDocument()
   })
 
   it('renders the mute microphone button', () => {
-    renderComponent({ callStatus: 'active' })
+    renderComponent({ isCallInProgress: true })
 
     expect(screen.getByLabelText('Mute microphone')).toBeInTheDocument()
+  })
+
+  it('renders Call failed', () => {
+    renderComponent({ isCallInProgress: false, hasLastCallFailed: true })
+
+    expect(screen.getByText('Call failed')).toBeInTheDocument()
+  })
+
+  it('renders Call ended', () => {
+    renderComponent({ isCallInProgress: false, hasLastCallFailed: false })
+
+    expect(screen.getByText('Call ended')).toBeInTheDocument()
   })
 
   describe('on mute button click', () => {
@@ -57,10 +70,10 @@ describe('render', () => {
       expect(talkActions.unmuteMicrophone).toHaveBeenCalled()
     })
 
-    it('does not toggle the microphone if isCallActive is false', () => {
+    it('does not toggle the microphone if isCallInProgress is false', () => {
       jest.spyOn(talkSelectors, 'getMicrophoneMuted').mockReturnValue(true)
       jest.spyOn(talkActions, 'unmuteMicrophone')
-      renderComponent({ isCallActive: false })
+      renderComponent({ isCallInProgress: false })
 
       userEvent.click(screen.getByLabelText('Mute microphone'))
 
@@ -78,9 +91,9 @@ describe('render', () => {
       expect(onEndCallClicked).toHaveBeenCalled()
     })
 
-    it('does not end the call when isCallActive is false', () => {
+    it('does not end the call when isCallInProgress is false', () => {
       const onEndCallClicked = jest.fn()
-      renderComponent({ onEndCallClicked, isCallActive: false })
+      renderComponent({ onEndCallClicked, isCallInProgress: false })
 
       userEvent.click(screen.getByLabelText('End call'))
 

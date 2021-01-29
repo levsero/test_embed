@@ -6,12 +6,7 @@ import {
   CALLBACK_AND_PHONE
 } from 'src/redux/modules/talk/talk-capability-types'
 
-import {
-  getOfflineTitle,
-  getTalkTitleKey,
-  getCapability,
-  getCallInProgressLabel
-} from '../selectors'
+import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
 
 describe('talk selectors', () => {
   describe('getCapability returns the capability', () => {
@@ -80,33 +75,5 @@ describe('talk selectors', () => {
         expect(result).toEqual(expectedValue)
       }
     )
-  })
-
-  describe('getCallInProgressLabel', () => {
-    it('returns call in progress when call is in progress', () => {
-      expect(
-        getCallInProgressLabel({ talk: { embeddedVoiceCallStatus: { isCallInProgress: true } } })
-      ).toEqual('Call in progress')
-    })
-
-    it('returns call ended when a call is not in progress', () => {
-      expect(
-        getCallInProgressLabel({ talk: { embeddedVoiceCallStatus: { isCallInProgress: false } } })
-      ).toEqual('Call ended')
-    })
-
-    it('returns call failed whenever an error has occurred', () => {
-      expect(
-        getCallInProgressLabel({
-          talk: { embeddedVoiceCallStatus: { isCallInProgress: false, hasLastCallFailed: true } }
-        })
-      ).toEqual('Call failed')
-
-      expect(
-        getCallInProgressLabel({
-          talk: { embeddedVoiceCallStatus: { isCallInProgress: true, hasLastCallFailed: true } }
-        })
-      ).toEqual('Call failed')
-    })
   })
 })
