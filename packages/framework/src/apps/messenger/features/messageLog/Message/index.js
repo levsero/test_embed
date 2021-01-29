@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _isEqual from 'lodash/isEqual'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
-import DummyStructuredMessage from './messages/DummyStructuredMessage'
 import FormStructuredMessage from './messages/FormStructuredMessage'
 import FormResponseStructuredMessage from './messages/FormResponseStructuredMessage'
 import ImageStructuredMessage from './messages/ImageStructuredMessage'
@@ -18,7 +17,6 @@ const suncoMessageTypes = {
   file: FileStructuredMessage,
   form: FormStructuredMessage,
   formResponse: FormResponseStructuredMessage,
-  dummy: DummyStructuredMessage,
   image: ImageStructuredMessage,
   text: TextStructuredMessage
 }
