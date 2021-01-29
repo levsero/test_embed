@@ -34,16 +34,7 @@ const endTwilioConnection = async () => {
   connection = null
 }
 
-const isInCall = () => Boolean(connection)
-
-export const useTwilioDevice = ({
-  onError,
-  onUnsupported,
-  onConnect,
-  onDisconnect,
-  onReady,
-  onAccept
-}) => {
+export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnect }) => {
   const serviceUrl = useSelector(getTalkServiceUrl)
   const nickname = useSelector(getTalkNickname)
   const userRecordingConsent = useSelector(getRecordingConsent)
@@ -75,12 +66,6 @@ export const useTwilioDevice = ({
           user_agent: navigator.userAgent,
           ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
         })
-
-        connection.on('accept', event => {
-          onAccept?.(event)
-        })
-
-        onReady?.()
       })
 
       const token = await getToken(subdomain, serviceUrl, nickname)
@@ -98,7 +83,6 @@ export const useTwilioDevice = ({
   return {
     startTwilioConnection,
     muteClick,
-    endTwilioConnection,
-    isInCall
+    endTwilioConnection
   }
 }

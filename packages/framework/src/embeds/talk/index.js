@@ -22,7 +22,7 @@ import {
   getSocketIoVendor,
   getDeferredStatusOnline
 } from 'src/redux/modules/talk/talk-selectors'
-import { getCapability } from 'src/embeds/talk/selectors'
+import { getCapability, getIsCallInProgress } from 'src/embeds/talk/selectors'
 import { loadTalkVendors } from 'src/redux/modules/talk'
 
 const onlineContactOptions = {
@@ -45,7 +45,7 @@ class Talk extends Component {
     if (this.props.talkIsDeferred || prevProps.talkIsDeferred) return
     if (
       prevProps.contactOption != this.props.contactOption ||
-      prevProps.agentsAreAvailable != this.props.agentsAreAvailable
+      prevProps.hasAvailableAgents != this.props.hasAvailableAgents
     ) {
       this.resetRoutes()
     }
@@ -55,18 +55,13 @@ class Talk extends Component {
     this.props.history.replace(routes.home())
   }
 
-  pickRouteWithFallback = () => {
-    const { agentsAreAvailable, contactOption } = this.props
-    if (agentsAreAvailable) {
-      return routes.online()
-    } else if (contactOption === CONTACT_OPTIONS.CLICK_TO_CALL) {
-      return onlineContactOptions[CONTACT_OPTIONS.CLICK_TO_CALL]
-    }
-    return routes.offline()
-  }
-
   render() {
-    const { contactOption, talkIsDeferred } = this.props
+    const {
+      hasAvailableAgents,
+      contactOption,
+      talkIsDeferred,
+      isEmbeddedVoiceCallInProgress
+    } = this.props
 
     if (talkIsDeferred) {
       return <LoadingPage />
@@ -93,7 +88,13 @@ class Talk extends Component {
               <Route component={OfflinePage} />
             </Route>
 
-            <Redirect to={this.pickRouteWithFallback()} />
+            <Redirect
+              to={
+                hasAvailableAgents || isEmbeddedVoiceCallInProgress
+                  ? routes.online()
+                  : routes.offline()
+              }
+            />
           </Switch>
         </SuspensePage>
       </WidgetThemeProvider>
@@ -102,7 +103,8 @@ class Talk extends Component {
 }
 
 Talk.propTypes = {
-  agentsAreAvailable: PropTypes.bool.isRequired,
+  hasAvailableAgents: PropTypes.bool.isRequired,
+  isEmbeddedVoiceCallInProgress: PropTypes.bool.isRequired,
   contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired,
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired
@@ -113,7 +115,8 @@ Talk.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  agentsAreAvailable: getAgentAvailability(state),
+  hasAvailableAgents: getAgentAvailability(state),
+  isEmbeddedVoiceCallInProgress: getIsCallInProgress(state),
   contactOption: getCapability(state),
   talkVendorLoaded: !!getSocketIoVendor(state),
   talkIsDeferred: getDeferredStatusOnline(state)

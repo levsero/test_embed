@@ -9,11 +9,11 @@ import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index
 
 export const getEmbeddedVoiceSupported = _state => isFeatureEnabled(null, 'embedded_voice_enabled')
 
+export const getIsCallInProgress = state => state.talk.embeddedVoiceCallStatus.isCallInProgress
+export const getHasLastCallFailed = state => state.talk.embeddedVoiceCallStatus.hasLastCallFailed
 export const getRecordingConsent = state => state.talk.recordingConsent
 export const getUserRecordingConsentRequirement = state =>
   state.talk.embeddableConfig.recordingConsent
-
-export const getCallInProgressLabel = state => state.talk.callInProgressLabel
 
 export const getMicrophoneMuted = state => state.talk.microphoneMuted
 export const getTimeInCall = state => state.talk.timeInCall
@@ -36,6 +36,8 @@ export const getOfflineTitle = state => {
   switch (capability) {
     case CONTACT_OPTIONS.PHONE_ONLY:
       return i18n.t('embeddable_framework.talk.phoneOnly.title')
+    case CONTACT_OPTIONS.CLICK_TO_CALL:
+      return i18n.t('embeddable_framework.talk.embeddedVoice.channel.title')
     case CONTACT_OPTIONS.CALLBACK_AND_PHONE:
     case CONTACT_OPTIONS.CALLBACK_ONLY:
     default:
@@ -46,9 +48,7 @@ export const getOfflineTitle = state => {
 export const getTalkTitleKey = createSelector(
   [getCapability, isCallbackEnabled],
   (capability, callbackEnabled) => {
-    if (capability === CLICK_TO_CALL) {
-      return 'embeddable_framework.talk.embeddedVoice.channel.title'
-    }
+    if (capability === CLICK_TO_CALL) return 'embeddable_framework.talk.embeddedVoice.channel.title'
     if (callbackEnabled) {
       return 'embeddable_framework.launcher.label.talk.request_callback'
     } else {

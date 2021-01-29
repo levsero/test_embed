@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import useTranslate from 'src/hooks/useTranslate'
@@ -6,9 +6,8 @@ import LoadingButton from 'embeds/talk/components/LoadingButton'
 
 import { Container, Heading, Message, SectionContainer } from './styles'
 
-const NetworkError = ({ onClick }) => {
+const NetworkError = ({ onClick, isLoading = false }) => {
   const translate = useTranslate()
-  const [isEstablishingCall, setIsEstablishingCall] = useState(false)
 
   return (
     <Container>
@@ -20,11 +19,8 @@ const NetworkError = ({ onClick }) => {
       </SectionContainer>
       <SectionContainer>
         <LoadingButton
-          onClick={() => {
-            onClick()
-            setIsEstablishingCall(true)
-          }}
-          isLoading={isEstablishingCall}
+          onClick={onClick}
+          isLoading={isLoading}
           isPrimary={true}
           label={translate('embeddable_framework.talk.embeddedVoice.networkError.button.reconnect')}
         />
@@ -34,7 +30,8 @@ const NetworkError = ({ onClick }) => {
 }
 
 NetworkError.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 }
 
 export default NetworkError

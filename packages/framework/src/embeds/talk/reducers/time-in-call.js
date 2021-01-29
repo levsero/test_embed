@@ -1,4 +1,4 @@
-import { INCREMENT_CALL_TIMER, START_CALL } from 'embeds/talk/actions/action-types'
+import { INCREMENT_CALL_TIMER, CALL_STARTED } from 'embeds/talk/actions/action-types'
 
 const timeInCall = (state = 0, action = {}) => {
   const { type } = action
@@ -6,7 +6,7 @@ const timeInCall = (state = 0, action = {}) => {
   switch (type) {
     case INCREMENT_CALL_TIMER:
       return state + 1
-    case START_CALL:
+    case CALL_STARTED:
       return 0
     default:
       return state

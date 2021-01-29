@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import useTranslate from 'src/hooks/useTranslate'
-import {
-  getMicrophoneMuted,
-  getTimeInCall,
-  getCallInProgressLabel
-} from 'src/embeds/talk/selectors'
+import { getMicrophoneMuted, getTimeInCall } from 'src/embeds/talk/selectors'
 import { muteMicrophone, unmuteMicrophone } from 'src/embeds/talk/actions'
 import {
   CallButton,
@@ -33,16 +29,29 @@ const parseTime = time => {
   }:${seconds >= 10 ? seconds : `0${seconds}`}`
 }
 
-const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, isCallActive }) => {
+const translatedCallLabel = (translate, isCallInProgress, hasLastCallFailed) => {
+  if (hasLastCallFailed)
+    return translate('embeddable_framework.talk.embeddedVoice.callErrors.callFailed')
+  return isCallInProgress
+    ? translate('embeddable_framework.talk.embeddedVoice.call_in_progress')
+    : translate('embeddable_framework.talk.embeddedVoice.call.ended')
+}
+
+const CallInProgress = ({
+  onEndCallClicked = () => {},
+  onMuteClick = () => {},
+  isCallInProgress = true,
+  hasLastCallFailed = false
+}) => {
   const dispatch = useDispatch()
   const translate = useTranslate()
   const isMuted = useSelector(getMicrophoneMuted)
-  const label = useSelector(getCallInProgressLabel)
+  const label = translatedCallLabel(translate, isCallInProgress, hasLastCallFailed)
   const timeInCall = useSelector(getTimeInCall)
   const timeLabel = parseTime(timeInCall)
 
   const handleMuteClick = () => {
-    if (!isCallActive) {
+    if (!isCallInProgress) {
       return
     }
 
@@ -56,7 +65,7 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
   }
 
   const handleEndCallClicked = () => {
-    if (!isCallActive) {
+    if (!isCallInProgress) {
       return
     }
 
@@ -68,7 +77,7 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
   return (
     <Container>
       <Section>
-        <Label>{translate(label)}</Label>
+        <Label>{label}</Label>
         <Timer>{timeLabel}</Timer>
       </Section>
       <Section>
@@ -107,7 +116,8 @@ const CallInProgress = ({ onEndCallClicked = () => {}, onMuteClick = () => {}, i
 CallInProgress.propTypes = {
   onEndCallClicked: PropTypes.func.isRequired,
   onMuteClick: PropTypes.func,
-  isCallActive: PropTypes.bool
+  isCallInProgress: PropTypes.bool,
+  hasLastCallFailed: PropTypes.bool
 }
 
 export default CallInProgress
