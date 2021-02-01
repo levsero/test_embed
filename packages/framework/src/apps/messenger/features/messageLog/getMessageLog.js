@@ -39,8 +39,16 @@ const retrieveFormDataForFormResponse = messages => {
   })
 }
 
+const isLastMessageAQuickReply = (log = []) => {
+  const [lastMessage] = log.slice(-1)
+  return (
+    lastMessage?.type === 'text' &&
+    lastMessage.actions?.filter(action => action.type === 'reply')?.length > 0
+  )
+}
+
 const withUserTyping = (log, userTyping) => {
-  if (userTyping) {
+  if (userTyping && !isLastMessageAQuickReply(log)) {
     log.push({
       ...userTyping,
       _id: 'typingIndicator',
