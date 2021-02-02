@@ -4,6 +4,7 @@ import { win } from 'utility/globals'
 describe('localStorage', () => {
   beforeEach(() => {
     store.clear()
+    store.enableLocalStorage()
   })
 
   test('get returns defaults when nothing is set', () => {
@@ -12,6 +13,7 @@ describe('localStorage', () => {
 
   test('can set then get', () => {
     store.set('here', 1234)
+    expect(win.localStorage.getItem('ZD-here')).toEqual('1234')
 
     expect(store.get('here')).toEqual(1234)
   })
@@ -20,6 +22,7 @@ describe('localStorage', () => {
     store.set('objects', { x: 1, y: 1 })
 
     expect(store.get('objects')).toEqual({ x: 1, y: 1 })
+    expect(win.localStorage.getItem('ZD-objects')).toEqual('{"x":1,"y":1}')
   })
 
   test('returns null for non-existent keys', () => {
@@ -30,10 +33,12 @@ describe('localStorage', () => {
     store.set('val', 123)
 
     expect(store.get('val')).toEqual(123)
+    expect(win.localStorage.getItem('ZD-val')).toEqual('123')
 
     store.remove('val')
 
     expect(store.get('val')).toBeNull()
+    expect(win.localStorage.getItem('ZD-val')).toBeNull()
   })
 
   test('clear only removes zd keys', () => {
@@ -52,44 +57,49 @@ describe('localStorage', () => {
 describe('sessionStorage', () => {
   beforeEach(() => {
     store.clear('session')
+    store.enableSessionStorage()
   })
 
   test('can set then get', () => {
-    store.set('here', 1234, 'session')
+    store.set('here', 1234)
 
-    expect(store.get('here', 'session')).toEqual(1234)
+    expect(store.get('here')).toEqual(1234)
+    expect(win.sessionStorage.getItem('ZD-here')).toEqual('1234')
   })
 
   test('can set then get objects', () => {
-    store.set('objects', { x: 1, y: 1 }, 'session')
+    store.set('objects', { x: 1, y: 1 })
 
-    expect(store.get('objects', 'session')).toEqual({ x: 1, y: 1 })
+    expect(store.get('objects')).toEqual({ x: 1, y: 1 })
+    expect(win.sessionStorage.getItem('ZD-objects')).toEqual('{"x":1,"y":1}')
   })
 
   test('returns null for non-existent keys', () => {
-    expect(store.get('objects', 'session')).toBeNull()
+    expect(store.get('objects')).toBeNull()
   })
 
   test('can remove keys', () => {
-    store.set('val', 123, 'session')
+    store.set('val', 123)
 
-    expect(store.get('val', 'session')).toEqual(123)
+    expect(win.sessionStorage.getItem('ZD-val')).toEqual('123')
+    expect(store.get('val')).toEqual(123)
 
-    store.remove('val', 'session')
+    store.remove('val')
 
-    expect(store.get('val', 'session')).toBeNull()
+    expect(store.get('val')).toBeNull()
+    expect(win.sessionStorage.getItem('ZD-val')).toBeNull()
   })
 
   test('clear only removes zd keys', () => {
     win.sessionStorage.setItem('hello', 1234)
 
-    store.set('world', 5678, 'session')
+    store.set('world', 5678)
 
     store.clear('session')
 
-    expect(win.localStorage.getItem('hello', 'session')).toEqual('1234')
+    expect(win.localStorage.getItem('hello')).toEqual('1234')
 
-    expect(store.get('world', 'session')).toBeNull()
+    expect(store.get('world')).toBeNull()
   })
 
   test('cannot set when cookies setting is false', () => {

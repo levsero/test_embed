@@ -5,7 +5,7 @@ const prefix = __EMBEDDABLE_FRAMEWORK_ENV__ === 'e2e' ? `ZD-${Date.now()}-` : 'Z
 
 let enabled = true
 
-let storage = win.localStorage
+let defaultStorage = win.localStorage
 
 const defaults = {
   suid: {
@@ -22,7 +22,7 @@ const enableSessionStorage = () => {
   } catch (err) {
     return false
   }
-  storage = win.sessionStorage
+  defaultStorage = win.sessionStorage
   return true
 }
 
@@ -34,11 +34,13 @@ const enableLocalStorage = () => {
     return false
   }
 
-  storage = win.localStorage
+  defaultStorage = win.localStorage
   return true
 }
 
-function get(name) {
+function get(name, storageType) {
+  const storage = storageType || defaultStorage
+
   try {
     const data = deserialize(storage.getItem(prefix + name))
 
@@ -48,8 +50,9 @@ function get(name) {
   return defaults[name]
 }
 
-function set(name, data) {
+function set(name, data, storageType) {
   if (!enabled) return data
+  const storage = storageType || defaultStorage
 
   try {
     storage.setItem(prefix + name, serialize(data))
@@ -58,18 +61,26 @@ function set(name, data) {
   return data
 }
 
+function sessionStorageSet(name, data) {
+  return set(name, data, win.sessionStorage)
+}
+
+function sessionStorageGet(name) {
+  return get(name, win.sessionStorage)
+}
+
 function remove(name) {
   try {
-    storage.removeItem(prefix + name)
+    defaultStorage.removeItem(prefix + name)
   } catch (e) {}
 }
 
 function clear() {
   try {
-    const keys = _.keys(storage).filter(key => _.includes(key, prefix))
+    const keys = _.keys(defaultStorage).filter(key => _.includes(key, prefix))
 
     keys.forEach(key => {
-      storage.removeItem(key)
+      defaultStorage.removeItem(key)
     })
   } catch (e) {}
 }
@@ -101,6 +112,8 @@ function deserialize(data) {
 export const store = {
   enableLocalStorage,
   enableSessionStorage,
+  sessionStorageSet,
+  sessionStorageGet,
   get: get,
   set: set,
   remove: remove,
