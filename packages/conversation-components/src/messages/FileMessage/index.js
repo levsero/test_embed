@@ -25,7 +25,7 @@ const calculateMediaSize = (bytes, labels) => {
 
   return size >= 1000000
     ? labels.sizeInMB(Math.floor(size / 1000000))
-    : labels.sizeInMB(Math.floor(size / 1000))
+    : labels.sizeInKB(Math.floor(size / 1000))
 }
 
 const FileMessage = ({
