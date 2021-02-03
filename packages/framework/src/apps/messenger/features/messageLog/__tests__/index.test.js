@@ -1,7 +1,9 @@
 import React from 'react'
+import { waitFor } from '@testing-library/dom'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import MessageLog from 'src/apps/messenger/features/messageLog'
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
+import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
 
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
@@ -21,16 +23,14 @@ describe('MessageLog', () => {
         messages: [
           {
             _id: 1,
-            type: 'dummy',
-            isLocalMessageType: true,
+            type: 'text',
             received: 1,
             text: 'One',
             role: 'appUser'
           },
           {
             _id: 2,
-            type: 'dummy',
-            isLocalMessageType: true,
+            type: 'text',
             received: 2,
             text: 'Two',
             role: 'appUser'
@@ -52,7 +52,6 @@ describe('MessageLog', () => {
           {
             _id: 1,
             type: 'form',
-            isLocalMessageType: false,
             received: 1,
             submitted: false,
             fields: [
@@ -68,7 +67,6 @@ describe('MessageLog', () => {
             _id: 2,
             type: 'form',
             received: 2,
-            isLocalMessageType: false,
             submitted: true,
             fields: [
               {
@@ -83,7 +81,6 @@ describe('MessageLog', () => {
             _id: 3,
             type: 'form',
             received: 3,
-            isLocalMessageType: false,
             submitted: false,
             fields: [
               {
@@ -110,5 +107,97 @@ describe('MessageLog', () => {
     expect(queryByText('Form one')).not.toBeInTheDocument()
     expect(queryByText('Form two')).not.toBeInTheDocument()
     expect(queryByText('Form three')).toBeInTheDocument()
+  })
+
+  describe('Activity Indicators', () => {
+    const typingStarted = {
+      data: { name: 'ABot' },
+      role: 'appMaker',
+      type: 'typing:start'
+    }
+
+    const typingStop = {
+      data: { name: 'ABot' },
+      role: 'appMaker',
+      type: 'typing:stop'
+    }
+
+    const setupMessageLog = store => {
+      store.dispatch({
+        type: 'messageLog/fetchMessages/fulfilled',
+        payload: {
+          messages: [
+            {
+              _id: 1,
+              type: 'text',
+              received: 1,
+              text: 'One',
+              role: 'appUser'
+            }
+          ]
+        }
+      })
+    }
+    const quickReplies = [
+      {
+        type: 'reply',
+        _id: '1',
+        payload: 'one-payload',
+        text: 'First quick reply',
+        metadata: {
+          one: 'metadata'
+        }
+      },
+      {
+        type: 'reply',
+        _id: '2',
+        payload: 'two-payload',
+        text: 'Second quick reply',
+        metadata: {
+          two: 'metadata'
+        }
+      }
+    ]
+
+    it('renders the typing indicator on typing:start', async () => {
+      const { getByLabelText, store } = renderComponent()
+      setupMessageLog(store)
+      store.dispatch(activityReceived({ activity: typingStarted }))
+
+      await waitFor(() => expect(getByLabelText('{{name}} is typing...')).toBeInTheDocument()) // how to interpolate properly?
+    })
+
+    it('removes the typing indicator on typing:stop', async () => {
+      const { queryByLabelText, store } = renderComponent()
+      setupMessageLog(store)
+      store.dispatch(activityReceived({ activity: typingStarted }))
+      store.dispatch(activityReceived({ activity: typingStop }))
+
+      expect(queryByLabelText('{{name}} is typing...')).not.toBeInTheDocument() // how to interpolate properly?
+    })
+
+    it('does not render a typing indicator when the last message is a Quick Reply', async () => {
+      const { queryByLabelText, getByText, store } = renderComponent()
+      setupMessageLog(store)
+      store.dispatch({
+        type: 'messageLog/fetchMessages/fulfilled',
+        payload: {
+          messages: [
+            {
+              _id: 2,
+              type: 'text',
+              received: 2,
+              text: 'Quick Reply',
+              role: 'appUser',
+              actions: quickReplies
+            }
+          ]
+        }
+      })
+      store.dispatch(activityReceived({ activity: typingStarted }))
+
+      expect(getByText('First quick reply')).toBeInTheDocument()
+      expect(queryByLabelText('{{name}} is typing...')).not.toBeInTheDocument() // how to interpolate properly?
+    })
   })
 })
