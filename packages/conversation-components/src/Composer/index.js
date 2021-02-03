@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
+import useLabels from 'src/hooks/useLabels'
 
 import { Container, Textarea, SendIcon, Field, SendButton } from './styles'
 
@@ -15,10 +16,6 @@ const Composer = React.forwardRef(
   (
     {
       disabled = false,
-      placeholder = 'Type a message',
-      inputAriaLabel = 'Type a message',
-      sendButtonTooltip = 'Send message',
-      sendButtonAriaLabel = 'Send message',
       minRows = 1,
       maxRows = 5,
       initialValue = '',
@@ -28,7 +25,7 @@ const Composer = React.forwardRef(
     ref
   ) => {
     const [composerValue, setComposerValue] = useState(initialValue)
-
+    const labels = useLabels().composer
     const handleChange = event => {
       setComposerValue(event.target.value)
       onChange(event)
@@ -45,8 +42,8 @@ const Composer = React.forwardRef(
           <Textarea
             ref={ref}
             disabled={disabled}
-            placeholder={placeholder}
-            aria-label={inputAriaLabel}
+            placeholder={labels.placeholder}
+            aria-label={labels.inputAriaLabel}
             minRows={minRows}
             maxRows={maxRows}
             value={composerValue}
@@ -55,8 +52,8 @@ const Composer = React.forwardRef(
           />
           {composerValue && !disabled && (
             <SendButton
-              title={sendButtonTooltip}
-              aria-label={sendButtonAriaLabel}
+              title={labels.sendButtonTooltip}
+              aria-label={labels.sendButtonAriaLabel}
               onClick={handleSubmit}
             >
               <SendIcon />
@@ -70,10 +67,6 @@ const Composer = React.forwardRef(
 
 Composer.propTypes = {
   disabled: PropTypes.bool,
-  placeholder: PropTypes.string,
-  inputAriaLabel: PropTypes.string,
-  sendButtonAriaLabel: PropTypes.string,
-  sendButtonTooltip: PropTypes.string,
   minRows: PropTypes.number,
   maxRows: PropTypes.number,
   initialValue: PropTypes.string,

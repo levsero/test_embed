@@ -44,20 +44,74 @@ const ThemeProvider = ({ children }) => {
       baseFontSize={currentBaseFontSize}
       rtl={i18n.isRTL()}
       labels={{
-        receiptStatus: {
-          [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
-          [MESSAGE_STATUS.sent]: translate('embeddable_framework.messenger.receipt.sent'),
-          [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
+        receipts: {
+          receivedRecently: translate(
+            'embeddable_framework.messenger.message.receipt.received_recently'
+          ),
+          status: {
+            [MESSAGE_STATUS.sending]: translate('embeddable_framework.messenger.receipt.sending'),
+            [MESSAGE_STATUS.sent]: translate('embeddable_framework.messenger.receipt.sent'),
+            [MESSAGE_STATUS.failed]: translate('embeddable_framework.messenger.receipt.retry')
+          }
         },
-        receiptReceivedRecently: translate(
-          'embeddable_framework.messenger.message.receipt.received_recently'
-        ),
+        composer: {
+          placeholder: translate('embeddable_framework.messenger.composer.placeholder'),
+          inputAriaLabel: translate('embeddable_framework.messenger.composer.label'),
+          sendButtonTooltip: translate(
+            'embeddable_framework.messenger.composer.send_button_tooltip'
+          ),
+          sendButtonAriaLabel: translate(
+            'embeddable_framework.messenger.composer.send_button_label'
+          )
+        },
         fileMessage: {
           sizeInKB: size =>
             translate('embeddable_framework.messenger.message.file.size_in_kb', { size }),
           sizeInMB: size =>
             translate('embeddable_framework.messenger.message.file.size_in_mb', { size }),
           downloadAriaLabel: translate('embeddable_framework.messenger.message.file.download')
+        },
+        messengerHeader: {
+          avatarAltTag: translate('embeddable_framework.messenger.header.company_logo'),
+          closeButtonAriaLabel: translate('embeddable_framework.messenger.header.close')
+        },
+        formMessage: {
+          nextStep: translate('embeddable_framework.messenger.message.form.next_step'),
+          send: translate('embeddable_framework.messenger.message.form.submit'),
+          submitting: translate('embeddable_framework.messenger.message.form.submitting'),
+          submissionError: translate(
+            'embeddable_framework.messenger.message.form.failed_to_submit'
+          ),
+          stepStatus: (step, totalSteps) =>
+            translate('embeddable_framework.messenger.message.form.step_status', {
+              step,
+              totalSteps
+            }),
+          errors: {
+            requiredField: translate(
+              'embeddable_framework.messenger.message.form.field_is_required'
+            ),
+            invalidEmail: translate('embeddable_framework.messenger.message.form.invalid_email'),
+            fieldMinSize: min =>
+              translate('embeddable_framework.messenger.message.form.invalid_min_characters', {
+                count: min
+              }),
+            fieldMaxSize: max => {
+              return max === 1
+                ? translate(
+                    'embeddable_framework.messenger.message.form.invalid_max_characters.one',
+                    {
+                      count: max
+                    }
+                  )
+                : translate(
+                    'embeddable_framework.messenger.message.form.invalid_max_characters.other',
+                    {
+                      count: max
+                    }
+                  )
+            }
+          }
         }
       }}
     >

@@ -42,11 +42,11 @@ const FileMessage = ({
   isFreshMessage = true,
   onRetry = () => {}
 }) => {
-  const labels = useLabels()
+  const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const fileName = parseFileNameFromUrl(mediaUrl)
   const abbreviatedName = abbreviateFileName(fileName)
-  const size = calculateMediaSize(mediaSize, labels.fileMessage)
+  const size = calculateMediaSize(mediaSize, labels)
 
   return (
     <Layout
@@ -64,7 +64,7 @@ const FileMessage = ({
           <Icon />
           <Content>
             <Name
-              aria-label={labels.fileMessage.downloadAriaLabel}
+              aria-label={labels.downloadAriaLabel}
               href={mediaUrl}
               target="_blank"
               isPill={false}

@@ -11,7 +11,6 @@ const PrimaryParticipantLayout = ({
   isFirstInGroup,
   isFreshMessage,
   children,
-  receiptLabels,
   onRetry
 }) => {
   return (
@@ -24,7 +23,6 @@ const PrimaryParticipantLayout = ({
         onRetry={onRetry}
         isReceiptVisible={isReceiptVisible}
         isFreshMessage={isFreshMessage}
-        labels={receiptLabels}
       />
     </VerticalLayout>
   )
@@ -37,8 +35,7 @@ PrimaryParticipantLayout.propTypes = {
   isFirstInGroup: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   children: PropTypes.node,
-  onRetry: PropTypes.func,
-  receiptLabels: PropTypes.object
+  onRetry: PropTypes.func
 }
 
 export default PrimaryParticipantLayout
