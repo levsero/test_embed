@@ -112,6 +112,9 @@ const ThemeProvider = ({ children }) => {
                   )
             }
           }
+        },
+        launcher: {
+          ariaLabel: translate('embeddable_framework.messenger.launcher.button')
         }
       }}
     >
