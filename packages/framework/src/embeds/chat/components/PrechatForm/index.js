@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Header, Widget } from 'components/Widget'
 import { getChatTitle, getOfflineFormSettings } from 'src/redux/modules/selectors'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 import validate from './validate'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
@@ -26,6 +26,7 @@ import { getReadOnlyState } from 'embeds/support/selectors'
 import useTranslate from 'src/hooks/useTranslate'
 import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 import { Footer } from 'src/components/Widget'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const PrechatForm = ({
   title,
@@ -43,13 +44,36 @@ const PrechatForm = ({
   isPreview,
   initialValues
 }) => {
+  const isVisibleDepartmentsFeatureEnabled = useSelector(state =>
+    isFeatureEnabled(state, 'web_widget_prechat_form_visible_departments')
+  )
   const translate = useTranslate()
-  const isDepartmentOffline = departmentId => {
-    return departments[departmentId]?.status === 'offline'
-  }
+
   const isDepartmentFieldVisible = (options = {}) => {
     return getVisibleFields(options).some(field => field.id === 'department')
   }
+
+  const isDepartmentOffline = (fields, departmentId) => {
+    if (isVisibleDepartmentsFeatureEnabled) {
+      const isAnyDepartmentVisibleToEndUsers = fields.some(field => field.id === 'department')
+
+      const isSelectedDepartmentVisibleToEndUsers = Boolean(
+        fields
+          .find(field => field.id === 'department')
+          ?.options.some(option => option.value === departmentId)
+      )
+
+      // If the selected department isn't available in the list of options that is visible to the end user, exclude it
+      const isSelectedDepartmentValid =
+        !isAnyDepartmentVisibleToEndUsers ||
+        (isAnyDepartmentVisibleToEndUsers && isSelectedDepartmentVisibleToEndUsers)
+
+      return isSelectedDepartmentValid && departments[departmentId]?.status === 'offline'
+    }
+
+    return departments[departmentId]?.status === 'offline'
+  }
+
   const includeHiddenDepartmentFieldValue = (valuesToSubmit, allValues = {}) => {
     const hiddenFieldValues = {}
     if (allValues.department) hiddenFieldValues.department = allValues.department
@@ -82,15 +106,16 @@ const PrechatForm = ({
             values,
             isAuthenticated,
             fields: getVisibleFields(values),
-            isOfflineFormEnabled
+            isOfflineFormEnabled,
+            isVisibleDepartmentsFeatureEnabled
           })
         }
-        footer={({ isSubmitting, formValues }) => (
+        footer={({ isSubmitting, formValues, fields }) => (
           <Footer>
             <SubmitButton
               submitting={isSubmitting}
               label={
-                isDepartmentOffline(formValues?.department)
+                isDepartmentOffline(fields, formValues?.department)
                   ? translate('embeddable_framework.chat.preChat.offline.button.sendMessage')
                   : translate('embeddable_framework.chat.preChat.online.button.startChat')
               }

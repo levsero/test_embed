@@ -103,6 +103,26 @@ describe('PrechatForm validate', () => {
       expect(result).toEqual({ department: 'embeddable_framework.validation.error.department' })
     })
 
+    describe('when arturo web_widget_prechat_form_visible_departments is enabled', () => {
+      it('returns an error if the field is required, but the value is not a valid option', () => {
+        const result = validate({
+          isVisibleDepartmentsFeatureEnabled: true,
+          values: {
+            department: 4
+          },
+          fields: [
+            {
+              id: 'department',
+              required: true,
+              options: [{ value: 1 }, { value: 2 }, { value: 3 }]
+            }
+          ]
+        })
+
+        expect(result).toEqual({ department: 'embeddable_framework.validation.error.department' })
+      })
+    })
+
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {

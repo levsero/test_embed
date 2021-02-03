@@ -6,6 +6,11 @@ export default {
     defaultValue: false,
     getArturoValue: state => state.base.embeddableConfig.embeds?.chat?.props?.webWidgetPrechatFormV2
   },
+  web_widget_prechat_form_visible_departments: {
+    defaultValue: false,
+    getArturoValue: state =>
+      state.base?.embeddableConfig?.embeds?.chat?.props?.webWidgetPrechatFormVisibleDepartments
+  },
   use_production_sunco: {
     defaultValue: false
   },

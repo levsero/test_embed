@@ -72,6 +72,7 @@ describe('chat selectors', () => {
           getSettingTranslation: () => mockTranslation
         }
       },
+      'embeds/webWidget/selectors/feature-flags': () => false,
       'utility/chat': {
         isDefaultNickname: () => mockIsDefaultNickname
       },
