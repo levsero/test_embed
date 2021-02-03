@@ -10,7 +10,8 @@ import useLabels from 'src/hooks/useLabels'
 const parseFileNameFromUrl = url => {
   const split = url.split('/')
 
-  return split[split.length - 1] ?? url
+  const name = split[split.length - 1] ?? url
+  return name.split('?')[0]
 }
 
 const abbreviateFileName = fileName => {
@@ -25,12 +26,13 @@ const calculateMediaSize = (bytes, labels) => {
 
   return size >= 1000000
     ? labels.sizeInMB(Math.floor(size / 1000000))
-    : labels.sizeInMB(Math.floor(size / 1000))
+    : labels.sizeInKB(Math.floor(size / 1000))
 }
 
 const FileMessage = ({
   avatar,
   label,
+  altText,
   mediaUrl,
   mediaSize,
   timeReceived,
@@ -65,6 +67,7 @@ const FileMessage = ({
           <Content>
             <Name
               aria-label={labels.downloadAriaLabel}
+              title={altText}
               href={mediaUrl}
               target="_blank"
               isPill={false}
@@ -83,6 +86,7 @@ const FileMessage = ({
 FileMessage.propTypes = {
   avatar: PropTypes.string,
   label: PropTypes.string,
+  altText: PropTypes.string,
   isPrimaryParticipant: PropTypes.bool,
   mediaUrl: PropTypes.string,
   mediaSize: PropTypes.number,

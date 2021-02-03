@@ -13,6 +13,7 @@ const FileStructuredMessage = ({
     isLastMessageInAuthorGroup,
     mediaSize,
     mediaUrl,
+    altText,
     name,
     received
   }
@@ -27,6 +28,7 @@ const FileStructuredMessage = ({
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       mediaSize={mediaSize}
       mediaUrl={mediaUrl}
+      altText={altText}
     />
   )
 }
@@ -41,7 +43,8 @@ FileStructuredMessage.propTypes = {
     mediaSize: PropTypes.number,
     mediaUrl: PropTypes.string,
     name: PropTypes.string,
-    received: PropTypes.number
+    received: PropTypes.number,
+    altText: PropTypes.string
   })
 }
 
