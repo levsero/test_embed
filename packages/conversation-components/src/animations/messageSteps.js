@@ -65,4 +65,4 @@ const messageSteps = {
 }
 
 export default messageSteps
-export { transition, createStep, animation }
+export { transition, createStep, animation, bezierCurve }

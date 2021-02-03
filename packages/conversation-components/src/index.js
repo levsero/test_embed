@@ -26,6 +26,7 @@ import PrimaryParticipantLayout from 'src/layouts/PrimaryParticipantLayout'
 import PrimaryParticipantReceipt from 'src/receipts/PrimaryParticipantReceipt'
 import Replies from 'src/Replies'
 import { ScrollProvider, useScroll } from 'src/hooks/useScrollBehaviour'
+import SquareLauncher from './messenger/Launcher/SquareLauncher'
 import TextMessage from './messages/TextMessage'
 import Timestamp from './Timestamp'
 import ThemeProvider from './ThemeProvider'
@@ -54,6 +55,7 @@ export {
   PrimaryParticipantReceipt,
   Replies,
   ScrollProvider,
+  SquareLauncher,
   TextMessage,
   Timestamp,
   ThemeProvider,
