@@ -48,7 +48,7 @@ const waitForComponent = callback => {
   }
 }
 
-i18n.initFetchLocale()
+global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
 const renderPreview = options => {
   options = _.defaultsDeep({}, options, defaultOptions)

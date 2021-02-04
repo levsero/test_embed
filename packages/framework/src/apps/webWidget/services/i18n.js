@@ -6,6 +6,7 @@ import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
 import { getLocale as getLocaleState } from 'src/redux/modules/base/base-selectors'
 import { navigator } from 'utility/globals'
 import errorTracker from 'src/framework/services/errorTracker'
+import fetchLocale from 'src/framework/services/i18n/fetchLocale'
 
 let store
 let currentLocale
@@ -28,8 +29,7 @@ function setLocale(apiLocale, callback, configLocale = 'en-US') {
 
   currentLocale = parseLocale(apiLocale || currentLocale || configLocale)
 
-  global
-    .fetchLocale(currentLocale)
+  fetchLocale(currentLocale)
     .then(res => {
       const translations = res.default.locale
 
@@ -194,14 +194,6 @@ const getSettingTranslation = translations => {
   )
 }
 
-const initFetchLocale = () => {
-  global.fetchLocale = locale =>
-    import(
-      /* webpackChunkName: "locales/[request]" */ `src/translation/locales/${locale.toLowerCase()}.json`
-    ).catch(() => {})
-  global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
-}
-
 export const i18n = {
   t: translate,
   dateTimeFormat: dateTimeFormat,
@@ -214,6 +206,5 @@ export const i18n = {
   init: init,
   reset,
   parseLocale,
-  getClientLocale,
-  initFetchLocale
+  getClientLocale
 }

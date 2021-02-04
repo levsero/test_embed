@@ -1,5 +1,6 @@
 import { store } from 'src/framework/services/persistence'
 import _ from 'lodash'
+import { onBrowserTabHidden } from 'src/framework/utils/browser'
 
 const timeToExpire = 1000 * 60 * 15 // 15 Minutes
 const tabTimeToExpire = 1000 * 30 // 30 Seconds
@@ -43,6 +44,8 @@ function init() {
   checkSuid(suid)
     ? setSuid(suid.id, expiry, suid.tabs.count + 1, 0)
     : setSuid(generateUid(), expiry, 1, 0)
+
+  onBrowserTabHidden(identity.unload)
 }
 
 function getBuid() {

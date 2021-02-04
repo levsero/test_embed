@@ -1,11 +1,8 @@
 import 'core-js/modules/es.promise'
 import 'core-js/modules/es.array.iterator'
 import 'core-js/modules/es.object.assign'
+import fetchLocale from 'src/framework/services/i18n/fetchLocale'
 
-global.fetchLocale = locale =>
-  import(
-    /* webpackChunkName: "locales/[request]" */ `./translation/locales/${locale.toLowerCase()}.json`
-  )
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
 let localeFetched = false
@@ -14,7 +11,7 @@ if (document.zEQueue) {
   for (let i = 0; i < document.zEQueue.length; i++) {
     const args = document.zEQueue[i]
     if (args[1] === 'setLocale' && args[2]) {
-      global.fetchLocale(args[2]).catch(() => {})
+      fetchLocale(args[2]).catch(() => {})
       localeFetched = true
     }
   }
@@ -25,7 +22,7 @@ if (window.ACFetch) {
     .ACFetch(`https://${window.document.zendesk.web_widget.id}/embeddable/config`)
     .then(config => {
       if (!localeFetched) {
-        global.fetchLocale(config.locale ?? 'en-US').catch(() => {})
+        fetchLocale(config.locale ?? 'en-US').catch(() => {})
       }
 
       return {
@@ -38,4 +35,6 @@ if (window.ACFetch) {
     }))
 }
 
-import(/* webpackChunkName: "web_widget" */ './main')
+import(/* webpackChunkName: "framework" */ './index').then(res => {
+  return res.default.start()
+})

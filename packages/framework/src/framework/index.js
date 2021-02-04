@@ -1,19 +1,11 @@
-import _ from 'lodash'
-
+import './polyfills'
 import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
-import zopimApi from 'service/api/zopimApi'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
-import { GA } from 'service/analytics/googleAnalytics'
-import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
-import { updateEmbeddableConfig } from 'src/redux/modules/base'
-import createStore from 'src/redux/createStore'
 import tracker from 'service/tracker'
-import { setReferrerMetas } from 'utility/globals'
-import { onBrowserTabHidden } from 'src/framework/utils/browser'
+import { setReferrerMetas, win, document as doc } from 'utility/globals'
 import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
+import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
+import { isBlacklisted } from 'utility/devices'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -35,152 +27,58 @@ const setupIframe = (iframe, doc) => {
   }
 }
 
-const setupServices = reduxStore => {
-  settings.init(reduxStore)
-  identity.init()
-
-  GA.init()
-}
-
-const filterEmbeds = config => {
-  const features = _.get(document.zendesk, 'web_widget.features')
-
-  // If there are no features available to read, do not do filtering
-  if (!features) return config
-  // If talk feature isn't available, act as if talk isn't in the config
-  if (!_.includes(features, 'talk') && _.has(config.embeds, 'talk')) delete config.embeds.talk
-  // If chat feature isn't available, act as if chat isn't in the config
-  if (!_.includes(features, 'chat') && _.has(config.embeds, 'chat')) {
-    delete config.embeds.chat
-  }
-
-  return config
-}
-
-const getConfig = (win, reduxStore) => {
-  if (win.zESkipWebWidget) return
-
-  const configLoadStart = Date.now()
-  const done = async res => {
-    const config = filterEmbeds(res.body)
-
-    beacon.trackLocaleDiff(config.locale)
-
-    if (config.hostMapping) {
-      http.updateConfig({ hostMapping: config.hostMapping })
-    }
-
-    tracker.enable()
-
-    reduxStore.dispatch(updateEmbeddableConfig(res.body))
-
-    beacon.setConfig(config)
-
-    beacon.setConfigLoadTime(Date.now() - configLoadStart)
-
-    if (win.zESettings) {
-      beacon.trackSettings(settings.getTrackSettings())
-    }
-
-    if (_.get(config, 'embeds.chat')) {
-      zopimApi.setUpZopimApiMethods(win, reduxStore)
-    }
-
-    const isMessengerWidget = Boolean(config?.messenger)
-    const getEmbeddable = async () => {
-      if (isMessengerWidget) {
-        return await import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then(
-          messenger => messenger.default
-        )
-      }
-
-      return await import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget').then(
-        webWidget => webWidget.default
-      )
-    }
-
-    try {
-      const embeddable = await getEmbeddable()
-
-      const embeddableData = await embeddable.init?.({
-        config,
-        reduxStore
-      })
-
-      publicApi.run?.({ isMessengerWidget })
-
-      embeddable.run?.({
-        config,
-        reduxStore,
-        embeddableData
-      })
-
-      beacon.sendPageView(isMessengerWidget ? 'web_messenger' : 'web_widget')
-
-      if (Math.random() <= 0.1) {
-        beacon.sendWidgetInitInterval()
-      }
-    } catch (err) {
-      errorTracker.error(err, {
-        rollbarFingerprint: 'Failed to render embeddable',
-        rollbarTitle: 'Failed to render embeddable'
-      })
-    }
-  }
-
-  const fetchEmbeddableConfig = () => {
-    http.send(
-      {
-        method: 'get',
-        path: '/embeddable/config',
-        callbacks: {
-          done
-        }
-      },
-      false
+const embeddables = {
+  messenger: () =>
+    import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then(
+      messenger => messenger.default
+    ),
+  webWidget: () =>
+    import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget').then(
+      webWidget => webWidget.default
     )
-  }
-
-  if (global.configRequest) {
-    global.configRequest
-      .then(res => {
-        if (res.success) {
-          done({ body: res.config })
-        } else {
-          fetchEmbeddableConfig()
-        }
-      })
-      .catch(() => {
-        fetchEmbeddableConfig()
-      })
-    return
-  }
-
-  fetchEmbeddableConfig()
 }
 
-const shouldSendZeDiffBlip = win => {
-  return win.zE !== win.zEmbed
-}
+const frameworkServices = [beacon, publicApi, tracker]
 
-const start = (win, doc) => {
-  const reduxStore = createStore()
+const start = async () => {
+  try {
+    if (isBlacklisted()) {
+      return
+    }
 
-  framework.setupIframe(window.frameElement, doc)
-  framework.setupServices(reduxStore)
-  zopimApi.setupZopimQueue(win)
+    if (win.zESkipWebWidget) {
+      return
+    }
 
-  beacon.init()
-  onBrowserTabHidden(identity.unload)
+    framework.setupIframe(window.frameElement, doc)
 
-  framework.getConfig(win, reduxStore)
+    const configLoadStart = Date.now()
+    const config = await fetchEmbeddableConfig()
 
-  if (shouldSendZeDiffBlip(win)) {
-    beacon.trackUserAction('zEmbedFallback', 'warning')
-  }
+    // Load the embeddable
+    const embeddableName = config.messenger ? 'messenger' : 'webWidget'
+    const embeddable = await embeddables[embeddableName]()
 
-  if (isMobileBrowser()) {
-    win.addEventListener('click', clickBusterHandler, true)
+    const serviceData = { config, configLoadStart, embeddableName }
+
+    // Initialise all framework services and then initialise the embeddable
+    frameworkServices.forEach(service => service.init?.(serviceData))
+    const embeddableData = await embeddable.init?.(serviceData)
+
+    // Start running all framework services and then start running the embeddable
+    frameworkServices.forEach(service => service.run?.(serviceData))
+    embeddable.run?.({ ...serviceData, embeddableData })
+
+    beacon.sendPageView(embeddableName === 'messenger' ? 'web_messenger' : 'web_widget')
+
+    if (Math.random() <= 0.1) {
+      beacon.sendWidgetInitInterval()
+    }
+  } catch (err) {
+    errorTracker.error(err, {
+      rollbarFingerprint: 'Failed to render embeddable',
+      rollbarTitle: 'Failed to render embeddable'
+    })
   }
 }
 
@@ -188,9 +86,7 @@ const framework = {
   start,
 
   // Exported for testing only.
-  setupIframe,
-  setupServices,
-  getConfig
+  setupIframe
 }
 
 export default framework
