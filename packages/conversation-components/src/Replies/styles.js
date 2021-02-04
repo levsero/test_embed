@@ -19,7 +19,9 @@ const Container = styled.div`
 const StyledButton = styled(Button)`
   &&& {
     font-size: ${props => props.theme.messenger.fontSizes.md};
-    height: ${props => props.theme.messenger.space.xl};
+    min-height: ${props => props.theme.messenger.space.xl};
+    height: 100%;
+    white-space: normal;
     line-height: ${props => props.theme.messenger.lineHeights.lg};
     border-color: ${props => props.theme.messenger.colors.action};
     color: ${props => props.theme.messenger.colors.action};
@@ -27,6 +29,7 @@ const StyledButton = styled(Button)`
     margin-${dirStyles.right}: 0;
     margin-${dirStyles.left}: calc(${props => replyButtonHorizontalMargin(props)} * 2);
     margin-bottom: 0;
+    text-align: start;
 
     &:hover {
       background-color: ${props => rgba(props.theme.messenger.colors.action, 0.2)};
