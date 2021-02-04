@@ -21,10 +21,9 @@ describe('MessengerHeader', () => {
   })
 
   it('renders the avatar image with a custom alt tag', () => {
-    const avatarAltTag = 'Image of my cat'
+    const avatarAltTag = 'Company logo'
     const avatar = 'https://example.com/cat.jpg'
     const { getByAltText } = renderComponent({
-      avatarAltTag,
       avatar
     })
 
@@ -33,21 +32,21 @@ describe('MessengerHeader', () => {
   })
 
   it('does not render a close button by default', () => {
-    const closeButtonAriaLabel = 'Close the widget'
-    const { queryByLabelText } = renderComponent({ closeButtonAriaLabel })
+    const closeButtonAriaLabel = 'Close'
+    const { queryByLabelText } = renderComponent()
 
     expect(queryByLabelText(closeButtonAriaLabel)).not.toBeInTheDocument()
   })
 
   it('renders the close button with a custom aria-label when it is shown', () => {
-    const closeButtonAriaLabel = 'Close the widget'
-    const { getByLabelText } = renderComponent({ closeButtonAriaLabel, showCloseButton: true })
+    const closeButtonAriaLabel = 'Close'
+    const { getByLabelText } = renderComponent({ showCloseButton: true })
 
     expect(getByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
   })
 
   it('fires the onClose event when close is clicked', () => {
-    const closeButtonAriaLabel = 'Close the widget'
+    const closeButtonAriaLabel = 'Close'
     const { getByLabelText } = renderComponent({
       closeButtonAriaLabel,
       showCloseButton: true,

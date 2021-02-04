@@ -8,7 +8,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     isAuthenticated: false,
     isRequired: false,
-    label: 'testLabel',
+    label: 'embeddable_framework.common.textLabel.name',
     name: 'name',
     testId: 'TEMP_TESTID'
   }
@@ -28,7 +28,8 @@ describe('Contact Detail Field', () => {
   it('renders the label', () => {
     const { getByText } = renderComponent()
 
-    expect(getByText('Missing translation (): testLabel')).toBeInTheDocument()
+    expect(getByText('Name')).toBeInTheDocument()
+    expect(getByText('(optional)')).toBeInTheDocument()
   })
 
   it('contains the value of the element', () => {

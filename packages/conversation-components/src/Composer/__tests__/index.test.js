@@ -36,23 +36,22 @@ describe('Composer', () => {
   it('does not show the send icon before the user starts typing', () => {
     const { queryByLabelText } = renderComponent()
 
-    expect(queryByLabelText('Send message')).not.toBeInTheDocument()
+    expect(queryByLabelText('Send a message')).not.toBeInTheDocument()
   })
 
   it('shows the send icon once the user starts typing', () => {
     const { getByLabelText } = renderComponent({ initialValue: 'hello I am a user' })
 
-    expect(getByLabelText('Send message')).toBeInTheDocument()
+    expect(getByLabelText('Send a message')).toBeInTheDocument()
   })
 
   it('fires the onSendMessage when the send button is clicked', () => {
     const { getByLabelText } = renderComponent({
-      sendButtonAriaLabel: 'Send',
       initialValue: 'Fig and ginger crispbread',
       onSendMessage: mockOnSendMessageFn
     })
 
-    getByLabelText('Send').click()
+    getByLabelText('Send a message').click()
     expect(mockOnSendMessageFn).toHaveBeenCalledWith('Fig and ginger crispbread')
   })
 })

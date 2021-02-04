@@ -32,7 +32,6 @@ const setLocale = (newLocale = 'en-US') => {
       }
 
       window[global.__ZENDESK_CLIENT_I18N_GLOBAL] = undefined
-
       t.set(translations)
 
       listeners.notifyAll()
