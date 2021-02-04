@@ -1558,16 +1558,34 @@ parts:
       title: "The title used for Digital Voice to inform the user that microphone access is required."
       screenshot: "https://drive.google.com/file/d/1rRAqNmO1pDMRe2LgvyHJ9Oi3zQerPVcK/view?usp=sharing"
       value: "Allow microphone"
+      obsolete: "2021-04-30"
   - translation:
       key: "embeddable_framework.talk.embeddedVoice.microphoneAccess.description"
       title: "The description used for Digital Voice to inform the user that microphone access is required."
       screenshot: "https://drive.google.com/file/d/1XgdjJRuSWNMTSxq1Jn0MZ-rgLAjcTRp7/view?usp=sharing"
       value: "This app needs permission to use your microphone before you can start a call."
+      obsolete: "2021-04-30"
   - translation:
       key: "embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next"
       title: "The button label used for Digital Voice to indicate to the user to proceed to the next page."
       screenshot: "https://drive.google.com/file/d/171kEja-A5J8aDnZusu1ZCl_pWZPPOBGl/view?usp=sharing"
       value: "Next"
+      obsolete: "2021-04-30"
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.landingPage.description"
+      title: "The description used to set the expectation for the end user who is about to make a call"
+      screenshot: "https://drive.google.com/file/d/1cRa1CTiV5GWWhIQtVwWMsnF5aDagEHLf/view?usp=sharing"
+      value: "Call us directly from your browser. You'll need to allow microphone access when prompted."
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.microphoneAccessDenied.title"
+      title: "The title used for Digital Voice to inform the user that microphone access is required."
+      screenshot: "https://drive.google.com/file/d/1rRAqNmO1pDMRe2LgvyHJ9Oi3zQerPVcK/view?usp=sharing"
+      value: "Microphone access needed"
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.microphoneAccessDenied.description"
+      title: "The description used for Digital Voice to inform the user that microphone access is required."
+      screenshot: "https://drive.google.com/file/d/1XgdjJRuSWNMTSxq1Jn0MZ-rgLAjcTRp7/view?usp=sharing"
+      value: "This permission may have been denied. Check browser settings to grant this permission."
   - translation:
       key: "embeddable_framework.talk.embeddedVoice.call.starting"
       title: "The title page to show that a call is starting."
@@ -1603,6 +1621,16 @@ parts:
       title: "The button label used for Digital Voice to indicate to the user to start the call."
       screenshot: "https://drive.google.com/file/d/1F6dX5_ljM6mjB--agwImNVlRHO286JmZ/view?usp=sharing"
       value: "Start call"
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.button.next"
+      title: "The button label used for Digital Voice to indicate to the user to proceed to the next page."
+      screenshot: "https://drive.google.com/file/d/171kEja-A5J8aDnZusu1ZCl_pWZPPOBGl/view?usp=sharing"
+      value: "Next"
+  - translation:
+      key: "embeddable_framework.talk.embeddedVoice.button.tryAgain"
+      title: "The button label used for Digital Voice to ask the user to try again when a call has failed"
+      screenshot: "https://drive.google.com/file/d/1ipD0rCfXzLMFsGoFC1sZziM7XXXqB36M/view?usp=sharing"
+      value: "Try again"
   - translation:
       key: "embeddable_framework.talk.embeddedVoice.networkError.title"
       title: "The title page for digital voice to indicate a network error while trying to connect the call"
