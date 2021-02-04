@@ -1,4 +1,4 @@
-import { http } from 'service/transport'
+import { send } from 'service/transport/http-base'
 
 const fetchEmbeddableConfig = async () => {
   // attempt to use the config that was preloaded
@@ -14,7 +14,7 @@ const fetchEmbeddableConfig = async () => {
   }
 
   return new Promise((resolve, reject) => {
-    http.send(
+    send(
       {
         method: 'get',
         path: '/embeddable/config',

@@ -204,7 +204,7 @@ describe('identify', () => {
     it('calls identify and chat setUser', () => {
       const params = callIdentify()
 
-      expect(beacon.identify).toHaveBeenCalledWith(params)
+      expect(beacon.identify).toHaveBeenCalledWith(params, undefined)
       expect(identity.setUserIdentity).toHaveBeenCalledWith(params)
     })
 
@@ -223,7 +223,7 @@ describe('identify', () => {
       it('calls identify and chat setUser', () => {
         const params = callIdentify(true)
 
-        expect(beacon.identify).toHaveBeenCalledWith(params)
+        expect(beacon.identify).toHaveBeenCalledWith(params, undefined)
         expect(identity.setUserIdentity).toHaveBeenCalledWith(params)
       })
 

@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import i18n from 'src/framework/services/i18n'
 import { store } from 'src/framework/services/persistence'
-import { http } from 'service/transport'
+import { sendWithMeta } from 'service/transport/http-base'
 import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
 import { isOnHelpCenterPage } from 'utility/pages'
 import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
@@ -20,7 +20,7 @@ let config = {
 }
 
 const trackLocaleDiff = rawServerLocale => {
-  const rawClientLocale = i18n.getClientLocale()
+  const rawClientLocale = i18n.getBrowserLocale()
   const clientLocale = i18n.parseLocale(rawClientLocale)
   const serverLocale = i18n.parseLocale(rawServerLocale)
 
@@ -52,7 +52,7 @@ const sendAnalyticsBlip = data => {
     }
   }
 
-  http.sendWithMeta(payload)
+  sendWithMeta(payload)
 }
 
 const sendPageViewWhenReady = (channel = 'web_widget') => {
@@ -110,7 +110,7 @@ const sendPageView = (channel = 'web_widget') => {
     }
   }
 
-  http.sendWithMeta(payload)
+  sendWithMeta(payload)
 }
 
 function sendWidgetInitInterval() {
@@ -136,7 +136,7 @@ function sendWidgetInitInterval() {
     params: params
   }
 
-  http.sendWithMeta(payload)
+  sendWithMeta(payload)
 }
 
 function setConfig(_config) {
@@ -187,7 +187,7 @@ function trackUserAction(category, action, options) {
     }
   }
 
-  http.sendWithMeta(payload)
+  sendWithMeta(payload)
 }
 
 function trackSettings(settings) {
@@ -212,7 +212,7 @@ function trackSettings(settings) {
   }
 
   if (!_.find(validSettings, s => s[0] === encoded)) {
-    http.sendWithMeta(payload)
+    sendWithMeta(payload)
   } else {
     // Clear any expired settings that exist from other pages
     // on the customers domain.
@@ -220,7 +220,7 @@ function trackSettings(settings) {
   }
 }
 
-function identify(user) {
+function identify(user, localeId) {
   if (config.throttleIdentify) return
 
   const { method, identifyEndpoint } = config
@@ -229,12 +229,12 @@ function identify(user) {
     method: method,
     path: identifyEndpoint,
     params: {
-      user: { ...user, localeId: i18n.getLocaleId() },
+      user: { ...user, localeId },
       userAgent: navigator.userAgent
     }
   }
 
-  http.sendWithMeta(payload)
+  sendWithMeta(payload)
 }
 
 function isEntryTrackedScript(entry) {

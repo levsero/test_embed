@@ -133,7 +133,7 @@ async function init({ config }) {
 }
 
 function run({ config, embeddableData }) {
-  if (hasRendered) {
+  if (hasRendered || !embeddableData) {
     return
   }
 
