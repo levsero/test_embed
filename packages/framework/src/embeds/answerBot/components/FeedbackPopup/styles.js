@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { zdColorWhite } from '@zendeskgarden/css-variables'
+import { zdColorWhite, zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`
@@ -12,7 +12,7 @@ const Title = styled.h3`
   margin-bottom: ${10 / FONT_SIZE}rem;
   font-size: ${13 / FONT_SIZE}rem;
   font-weight: normal;
-  color: #333;
+  color: ${zdColorGrey800};
 `
 
 export { Container, Title }

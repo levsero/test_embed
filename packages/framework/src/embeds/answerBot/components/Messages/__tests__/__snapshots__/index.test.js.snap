@@ -145,12 +145,12 @@ Snapshot Diff:
 + .c10 {
 +   margin-bottom: 0.5rem;
 +   float: left;
-+   color: #333;
++   color: #2f3941;
 + }
 + 
 + .c11 {
 +   margin-left: 2.857142857142857rem;
-+   background: #f3f3f3;
++   background: #f8f9f9;
 +   max-width: 15.642857142857142rem !important;
 + }
 + 
@@ -158,8 +158,8 @@ Snapshot Diff:
 +   display: inline-block;
 +   white-space: pre-wrap;
 +   border-radius: 1.1428571428571428rem;
-+   border-left: 0.07142857142857142rem #eee solid;
-+   border-right: 0.07142857142857142rem #eee solid;
++   border-left: 0.07142857142857142rem #e9ebed solid;
++   border-right: 0.07142857142857142rem #e9ebed solid;
 +   margin-bottom: 0.5rem;
 +   max-width: 18.428571428571427rem;
 +   margin-left: 2.857142857142857rem;
@@ -167,8 +167,8 @@ Snapshot Diff:
 + 
 + .c4 {
 +   cursor: pointer;
-+   border-bottom: 0.07142857142857142rem #eee solid;
-+   border-top: 0.07142857142857142rem #eee solid;
++   border-bottom: 0.07142857142857142rem #e9ebed solid;
++   border-top: 0.07142857142857142rem #e9ebed solid;
 +   border-top-left-radius: 1.1428571428571428rem;
 +   border-top-right-radius: 1.1428571428571428rem;
 +   border-bottom-left-radius: 1.1428571428571428rem;
@@ -176,7 +176,7 @@ Snapshot Diff:
 + }
 + 
 + .c4:hover {
-+   background-color: #f8f8f8;
++   background-color: #f8f9f9;
 + }
 + 
 + .c6 {
@@ -197,13 +197,13 @@ Snapshot Diff:
 +   display: -webkit-flex !important;
 +   display: -ms-flexbox !important;
 +   display: flex !important;
-+   color: #777;
++   color: #68737d;
 +   overflow: hidden;
 +   max-height: 2.5rem;
 + }
 + 
 + .c8 {
-+   color: #007fab;
++   color: #1f73b7;
 + }
 + 
 + .c8:hover {
@@ -222,10 +222,6 @@ Snapshot Diff:
 +   flex-direction: column;
 + }
 + 
-+ .c5:hover .icon svg path {
-+   stroke: #555 !important;
-+ }
-+ 
 + .c7 {
 +   margin-right: 0.7142857142857143rem;
 +   min-width: 1rem !important;
@@ -234,7 +230,7 @@ Snapshot Diff:
 + }
 + 
 + .c7 path {
-+   stroke: #999 !important;
++   stroke: #68737d !important;
 + }
 + 
 + .c13.c13.c13 {
@@ -275,7 +271,7 @@ Snapshot Diff:
 +   display: inline-block;
 +   max-width: 100%;
 +   float: left;
-+   background: #f3f3f3;
++   background: #f8f9f9;
 +   border-radius: 1.1428571428571428rem;
 +   padding: 0.5714285714285714rem 0.8571428571428571rem;
 +   margin-left: 2.857142857142857rem;
