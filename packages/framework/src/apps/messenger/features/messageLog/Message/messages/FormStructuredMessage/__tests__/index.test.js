@@ -208,7 +208,7 @@ describe('FormMessage', () => {
 
     fireEvent.submit(document.querySelector('form'))
 
-    expect(screen.getByText('Enter {{count}} characters or less')).toBeInTheDocument()
+    expect(screen.getByText('Enter 128 characters or less')).toBeInTheDocument()
 
     expect(sendFormResponse).not.toHaveBeenCalled()
 
@@ -216,7 +216,7 @@ describe('FormMessage', () => {
 
     fireEvent.submit(document.querySelector('form'))
 
-    expect(screen.queryByText('Enter {{count}} characters or less')).toBeNull()
+    expect(screen.queryByText('Enter 128 characters or less')).toBeNull()
 
     expect(sendFormResponse).toHaveBeenCalled()
   })

@@ -3,11 +3,8 @@ import { waitFor } from '@testing-library/dom'
 import '../chatPreview'
 import * as constants from 'src/redux/modules/chat/chat-screen-types'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
-import t from '@zendesk/client-i18n-tools'
 
 import { i18n } from 'src/apps/webWidget/services/i18n'
-
-t.set = jest.fn()
 
 beforeEach(() => {
   const div = document.createElement('div')

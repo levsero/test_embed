@@ -164,7 +164,7 @@ describe('MessageLog', () => {
       setupMessageLog(store)
       store.dispatch(activityReceived({ activity: typingStarted }))
 
-      await waitFor(() => expect(getByLabelText('{{name}} is typing...')).toBeInTheDocument()) // how to interpolate properly?
+      await waitFor(() => expect(getByLabelText('ABot is typing...')).toBeInTheDocument()) // how to interpolate properly?
     })
 
     it('removes the typing indicator on typing:stop', async () => {

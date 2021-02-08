@@ -1,13 +1,9 @@
 import { dateTime } from '../formatters'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-
-i18n.getLocale = jest.fn(() => 'en-US')
-i18n.t = jest.fn()
 
 describe('dateTime', () => {
   describe('when passed a timestamp', () => {
     it('attempts to pass timestamp to client-i18n-tools', () => {
-      expect(dateTime(1525654192982)).toEqual('1525654192982')
+      expect(dateTime(1525654192982)).toEqual('May 7, 2018, 12:49 AM')
     })
   })
 
@@ -33,20 +29,8 @@ describe('dateTime', () => {
       global.Date.now = originalNow
     })
 
-    it('attempts to translate Today string', () => {
-      dateTime(123, { showToday: true })
-      expect(i18n.t).toHaveBeenCalledWith(
-        'embeddable_framework.common.today',
-        expect.objectContaining({
-          time: expect.any(String)
-        })
-      )
+    it('translates Today string', () => {
+      expect(dateTime(123, { showToday: true })).toEqual('Today 12:00 AM')
     })
-  })
-
-  it('does not throw error when locale is not supported', () => {
-    i18n.getLocale = jest.fn(() => 'gibberish')
-
-    expect(dateTime(1525654192982)).toEqual('1525654192982')
   })
 })
