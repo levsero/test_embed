@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { zdColorDarkGray, zdColorAluminum } from '@zendeskgarden/css-variables'
 import { Icon } from 'component/Icon'
+import { zdColorGrey700, zdColorGrey600 } from '@zendeskgarden/css-variables'
 
 const Item = styled.div`
   ${props => {
@@ -11,7 +11,7 @@ const Item = styled.div`
 
       &:hover {
         svg path {
-          stroke: ${zdColorDarkGray};
+          stroke: ${zdColorGrey700};
         }
       }
       ${props.single ? singleChannelOnly() : ''}
@@ -47,7 +47,7 @@ const ChannelIcon = styled(Icon)`
         height: ${14 / props.theme.fontSize}rem;
 
         path {
-          stroke: ${zdColorAluminum};
+          stroke: ${zdColorGrey600};
           stroke-width: 1.5px;
         }
       }

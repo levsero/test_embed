@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { zdColorMonsoon, zdColorDarkGray, zdColorAluminum } from '@zendeskgarden/css-variables'
+import { zdColorGrey600, zdColorBlue600 } from '@zendeskgarden/css-variables'
 import Icon from 'src/embeds/answerBot/icons/article.svg'
 
 const Header = styled.div`
@@ -17,7 +17,7 @@ const Snippet = styled.div`
   ${props => {
     return `
       display: flex !important;
-      color: ${zdColorMonsoon};
+      color: ${zdColorGrey600};
       overflow: hidden;
       max-height: ${35 / props.theme.fontSize}rem;
     `
@@ -25,7 +25,7 @@ const Snippet = styled.div`
 `
 
 const Title = styled.div`
-  color: #007fab;
+  color: ${zdColorBlue600};
 
   &:hover {
     text-decoration: underline;
@@ -38,12 +38,6 @@ const Container = styled.div`
       display: flex !important;
       padding: ${12 / props.theme.fontSize}rem ${14 / props.theme.fontSize}rem;
       flex-direction: column;
-
-      &:hover {
-        .icon svg path {
-          stroke: ${zdColorDarkGray} !important;
-        }
-      }
     `
   }}
 `
@@ -58,7 +52,7 @@ const ArticleIcon = styled(Icon)`
       height: ${14 / props.theme.fontSize}rem !important;
 
       path {
-        stroke: ${zdColorAluminum} !important;
+        stroke: ${zdColorGrey600} !important;
       }
     `
   }}

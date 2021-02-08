@@ -30,7 +30,7 @@ module.exports = () => {
       chatPreview: path.join(projectRoot, '/src/chatPreview.js')
     },
     devServer: {
-      host: '0.0.0.0',
+      host: 'localhost',
       hot: false,
       inline: false,
       port: 5123,
