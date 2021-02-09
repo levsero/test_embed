@@ -17,24 +17,24 @@ const getVisibleItems = container => {
 
   for (let i = 1; i < children.length - 1; i++) {
     const child = children[i]
-    const rect = child.getBoundingClientRect()
+    const childRect = child.getBoundingClientRect()
 
     // If the start of the slide is off screen to the left
-    if (rect.left < 0) {
+    if (childRect.left < containerRect.left) {
       // If the element at least three quarters visible
-      if (rect.right >= rect.width * 0.75) {
+      if (childRect.right >= containerRect.left + childRect.width * 0.75) {
         items.push(i)
       }
 
       // If the end of the slide is off screen to the right
-    } else if (rect.left < containerRect.width && rect.right > containerRect.width) {
+    } else if (childRect.left < containerRect.right && childRect.right > containerRect.right) {
       // If the element is at least three quarters visible
-      if (rect.width - (rect.right - containerRect.width) >= rect.width * 0.75) {
+      if (containerRect.right - childRect.left >= childRect.width * 0.75) {
         items.push(i)
       }
 
       // If the slide is completely visible
-    } else if (rect.left >= 0 && rect.right <= containerRect.width) {
+    } else if (childRect.left >= containerRect.left && childRect.right <= containerRect.right) {
       items.push(i)
     }
   }
