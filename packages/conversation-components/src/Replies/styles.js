@@ -11,6 +11,7 @@ const Container = styled.div`
       ${props => props.theme.messenger.space.md} - ${props => replyButtonHorizontalMargin(props)}
     );
   display: flex;
+  height: fit-content;
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-bottom: ${props => props.theme.messenger.space.xxs};
