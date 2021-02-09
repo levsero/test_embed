@@ -91,11 +91,13 @@ describe('public api service', () => {
       publicApi.run({ isMessengerWidget })
 
       expect(mockApi.mock.example).toHaveBeenCalled()
-      expect(console.error).toHaveBeenCalledWith(new Error('Method mock.invalid does not exist'))
-      /* eslint-enable no-console */
+      const checkDocsMessage = `\nCheck out the Developer API docs to make sure you're implementing it correctly, https://developer.zendesk.com/embeddables/docs/widget/introduction\n`
+      expect(console.error).toHaveBeenCalledWith(
+        new Error(`\nMethod mock.invalid does not exist.\n${checkDocsMessage}`)
+      )
     })
 
-    it('logs an error only once if an unknown API was in the queue of the new Messenger widget', () => {
+    it('logs an error if an unknown API was in the queue of the new Messenger widget', () => {
       /* eslint-disable no-console */
 
       console.warn = jest.fn()
@@ -107,7 +109,7 @@ describe('public api service', () => {
 
       publicApi.run({ isMessengerWidget })
 
-      expect(console.warn).toHaveBeenCalledTimes(1)
+      expect(console.warn).toHaveBeenCalledTimes(2)
       /* eslint-enable no-console */
     })
   })

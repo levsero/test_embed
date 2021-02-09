@@ -10,21 +10,26 @@ const baseProperties = {
 let api = {}
 let isMessengerWidgetUsed = false
 let errorDisplayed = false
-const displayError = (isMessengerWidgetUsed, errorMessage) => {
-  const messengerConsoleMessage = `\n
-  A note from Zendesk: API methods associated with the Web Widget (Classic) 
-  are still being executed on this page. This website is now using the new 
-  Web SDK (messaging experience) which no longer supports these APIs. If you 
-  don't intend to use the Web Widget (Classic), we recommend that you remove 
-  this code from your website.  Whilst not recommended, leaving them won't 
-  cause any issues. \n`
+const displayError = (isMessengerWidgetUsed, errorMessage, isWebWidgetRoot) => {
+  const messengerConsoleMessage =
+    `\nA note from Zendesk: API methods associated with the Web Widget (Classic)` +
+    ` are still being executed on this page. This website is now using the new` +
+    ` Web SDK (messaging experience) which no longer supports these APIs. If you` +
+    ` don't intend to use the Web Widget (Classic), we recommend that you remove` +
+    ` this code from your website.  Whilst not recommended, leaving them won't` +
+    ` cause any issues. \n`
 
-  if (isMessengerWidgetUsed) {
-    if (errorDisplayed) return ''
+  const linkToDocs = isMessengerWidgetUsed
+    ? `https://developer.zendesk.com/embeddables/docs/zendesk-sdk-for-web/getting_started`
+    : `https://developer.zendesk.com/embeddables/docs/widget/introduction`
+
+  const checkDocsMessage = `\nCheck out the Developer API docs to make sure you're implementing it correctly, ${linkToDocs}\n`
+
+  if (isMessengerWidgetUsed && !errorDisplayed && isWebWidgetRoot) {
     errorDisplayed = true
     return errorMessage + messengerConsoleMessage
   } else {
-    return errorMessage
+    return errorMessage + checkDocsMessage
   }
 }
 
@@ -58,8 +63,11 @@ function zE(...params) {
   }
 
   if (typeof api[root]?.[name] !== 'function') {
-    if (isMessengerWidgetUsed && errorDisplayed) return
-    const err = displayError(isMessengerWidgetUsed, `Method ${root}.${name} does not exist`)
+    const err = displayError(
+      isMessengerWidgetUsed,
+      `\nMethod ${root}.${name} does not exist.\n`,
+      root === 'webWidget'
+    )
     throw new Error(err)
   }
 
