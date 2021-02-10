@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import Message from 'src/messages/FormMessage/FormField/Message'
 import { Input, Label, Field } from './styles'
 
@@ -8,7 +9,9 @@ const EmailField = ({ field, value = '', onChange, error, lastSubmittedTimestamp
   const inputRef = useRef(null)
 
   useEffect(() => {
-    inputRef.current?.focus()
+    restoreHostPageScrollPositionIfSafari(() => {
+      inputRef.current?.focus()
+    })
   }, [])
 
   return (

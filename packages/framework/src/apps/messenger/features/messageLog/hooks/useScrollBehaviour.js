@@ -5,7 +5,10 @@ import { ThemeContext } from 'styled-components'
 import { useCurrentFrame } from 'src/framework/components/Frame'
 import { FORM_ERROR } from 'final-form'
 
-import hostPageWindow from 'src/framework/utils/hostPageWindow'
+import hostPageWindow, {
+  restoreHostPageScrollPositionIfSafari,
+  isSafari
+} from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
   getLastUnreadTimestamp,
@@ -27,9 +30,15 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   const scrollToBottom = useCallback(
     ({ smooth = true } = {}) => {
-      anchor.current?.scrollIntoView({
-        behavior: smooth && !animationsDisabled ? 'smooth' : undefined
-      })
+      if (isSafari) {
+        if (anchor.current)
+          container.scrollTop = container.scrollHeight + anchor.current.scrollHeight
+      } else {
+        anchor.current?.scrollIntoView({
+          behavior: smooth && !animationsDisabled ? 'smooth' : undefined
+        })
+      }
+
       isScrollAtBottom.current = true
     },
     [animationsDisabled]
@@ -69,7 +78,9 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     }
     let input = frame.document.querySelector(`[data-id="${firstFieldToError._id}"]`)
     if (input) {
-      input.focus()
+      restoreHostPageScrollPositionIfSafari(() => {
+        input.focus()
+      })
     }
     scrollToBottomIfNeeded()
     const label = frame.document.querySelector(`[data-label-id="${firstFieldToError._id}"]`)

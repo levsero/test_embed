@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { ThemeContext } from 'styled-components'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import Message from 'src/messages/FormMessage/FormField/Message'
+import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
 import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
@@ -13,7 +14,9 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
   const inputRef = useRef(null)
 
   useEffect(() => {
-    inputRef.current?.focus()
+    restoreHostPageScrollPositionIfSafari(() => {
+      inputRef.current?.focus()
+    })
 
     // Default to the first option if none already selected
     if (!value) {

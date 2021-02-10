@@ -10,6 +10,7 @@ import {
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { stopTyping, startTyping } from 'src/apps/messenger/features/footer/typing'
+import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 
 const Footer = () => {
   const dispatch = useDispatch()
@@ -33,7 +34,9 @@ const Footer = () => {
   useEffect(() => {
     if (isFullScreen) return
     if (isComposerEnabled && composerRef.current) {
-      composerRef.current.focus()
+      restoreHostPageScrollPositionIfSafari(() => {
+        composerRef.current.focus()
+      })
 
       // Make sure the cursor is at the end of the input
       if (typeof composerRef.current?.selectionStart == 'number') {
