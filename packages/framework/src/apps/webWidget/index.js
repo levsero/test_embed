@@ -16,7 +16,6 @@ import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import { getWebWidgetPublicApi } from './public-api/setupApi'
 import { getWebWidgetLegacyPublicApi } from './public-api/setupLegacyApi'
-import { identity } from 'service/identity'
 import { GA } from 'service/analytics/googleAnalytics'
 import zopimApi from 'service/api/zopimApi'
 import { win } from 'utility/globals'
@@ -81,7 +80,6 @@ async function init({ config }) {
   const filteredConfig = filterEmbeds(config)
 
   settings.init(reduxStore)
-  identity.init()
   GA.init()
   zopimApi.setupZopimQueue(win)
   if (win.zE !== win.zEmbed) {

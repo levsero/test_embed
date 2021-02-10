@@ -6,6 +6,7 @@ import publicApi from 'src/framework/services/publicApi'
 import errorTracker from 'src/framework/services/errorTracker'
 import { fetchEmbeddableConfig } from 'src/framework/api/embeddableConfig'
 import { isBlacklisted } from 'utility/devices'
+import { identity } from 'src/service/identity'
 
 const setupIframe = (iframe, doc) => {
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -38,7 +39,7 @@ const embeddables = {
     )
 }
 
-const frameworkServices = [beacon, publicApi, tracker]
+const frameworkServices = [identity, beacon, publicApi, tracker]
 
 const start = async () => {
   try {
