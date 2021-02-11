@@ -4,7 +4,6 @@
   "main": "dist/conversation-components.js",
   "license": "MIT",
   "private": false,
-  "type": "module",
   "publishConfig": {
     "registry": "https://zdrepo.jfrog.io/artifactory/api/npm/npm/"
   },
