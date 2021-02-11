@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { bezierCurve } from 'src/apps/messenger/constants'
+import { bezierCurve } from 'src/animations/messageSteps'
 
 const animatedDuration = 0.5
 

@@ -54,6 +54,9 @@ const ThemeProvider = ({
       },
       receivedRecently: 'Just now'
     },
+    launcher: {
+      ariaLabel: 'Open messaging window'
+    },
     ...labels
   }
   return (
@@ -177,6 +180,9 @@ ThemeProvider.propTypes = {
       }),
       receivedRecently: PropTypes.string
     })
+  }),
+  launcher: PropTypes.shape({
+    ariaLabel: PropTypes.string
   })
 }
 

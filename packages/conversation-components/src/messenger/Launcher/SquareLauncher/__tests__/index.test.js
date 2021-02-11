@@ -1,18 +1,17 @@
-import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/dom'
-import { render } from 'src/apps/messenger/utils/testHelpers'
+import render from 'src/utils/test/render'
 import { find } from 'styled-components/test-utils'
-import { MessengerIcon, CloseIcon } from '../styles'
+import { MessengerIcon, CloseIcon } from '../LauncherIcon/styles'
 
-import SquareLauncher from '../'
+import SquareLauncher from '../index'
 
 const renderComponent = (props = {}) => {
   return render(<SquareLauncher {...props} />)
 }
 
 describe('SquareLauncher', () => {
-  it('initally renders the Open icon', () => {
+  it('initially renders the Open icon', () => {
     const { container } = renderComponent()
 
     expect(find(container, MessengerIcon)).toBeInTheDocument()
