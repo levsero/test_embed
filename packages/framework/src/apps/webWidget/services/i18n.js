@@ -115,6 +115,13 @@ function getClientLocale() {
   return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
 }
 
+function lowercaseSettingsKey(settings) {
+  return Object.keys(settings).reduce((lowerCaseSettings, key) => {
+    lowerCaseSettings[key.toLowerCase()] = settings[key]
+    return lowerCaseSettings
+  }, {})
+}
+
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(regulateDash(str))
   const lowercaseLocale = locale.toLowerCase()
@@ -173,9 +180,18 @@ function parseZhLocale(str) {
 
 // Retrieves the correct translation from the passed map of settings translations.
 const getSettingTranslation = translations => {
+  const locale = regulateLocaleStringCase(regulateDash(i18n.getLocale()))
+  const lowercaseLocale = locale.toLowerCase()
+
   if (_.isEmpty(translations)) return
 
-  return translations[i18n.getLocale()] || translations['*'] || null
+  return (
+    translations[locale] ||
+    translations[lowercaseLocale] ||
+    lowercaseSettingsKey(translations)[lowercaseLocale] ||
+    translations['*'] ||
+    null
+  )
 }
 
 const initFetchLocale = () => {

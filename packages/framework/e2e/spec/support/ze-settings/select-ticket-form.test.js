@@ -38,7 +38,10 @@ beforeEach(async () => {
           contactForm: {
             selectTicketForm: {
               '*': 'Please choose:',
-              fr: 'Please choose, but in French:'
+              fr: 'Please choose, but in French:',
+              'en-us': 'Please choose, but in en-us:',
+              'pt-BR': 'Please choose, but in pt-BR:',
+              'eS-pA': 'Please choose, but in es-PA:'
             }
           }
         }
@@ -63,5 +66,38 @@ test('selects the proper locale', async () => {
   const doc = await widget.getDocument()
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Please choose, but in French:')).not.toBeNull()
+  })
+})
+
+test('sets locale to en-us should display the correct title', async () => {
+  await page.evaluate(() => {
+    zE('webWidget', 'setLocale', 'en-us')
+  })
+  await widget.openByKeyboard()
+  const doc = await widget.getDocument()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Please choose, but in en-us:')).not.toBeNull()
+  })
+})
+
+test('sets locale to pt-BR should display the correct title', async () => {
+  await page.evaluate(() => {
+    zE('webWidget', 'setLocale', 'pt-BR')
+  })
+  await widget.openByKeyboard()
+  const doc = await widget.getDocument()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Please choose, but in pt-BR:')).not.toBeNull()
+  })
+})
+
+test('sets locale to es-pa should be case-insensitive and display the correct title', async () => {
+  await page.evaluate(() => {
+    zE('webWidget', 'setLocale', 'es-pa')
+  })
+  await widget.openByKeyboard()
+  const doc = await widget.getDocument()
+  await wait(async () => {
+    expect(await queries.queryByText(doc, 'Please choose, but in es-PA:')).not.toBeNull()
   })
 })
