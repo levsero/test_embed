@@ -22,7 +22,7 @@ const NetworkError = ({ onClick, isLoading = false }) => {
           onClick={onClick}
           isLoading={isLoading}
           isPrimary={true}
-          label={translate('embeddable_framework.talk.embeddedVoice.networkError.button.reconnect')}
+          label={translate('embeddable_framework.talk.embeddedVoice.button.tryAgain')}
         />
       </SectionContainer>
     </Container>

@@ -39,6 +39,7 @@ const Heading = styled.h1`
   font-size: ${props => 22 / props.theme.fontSize}rem;
   letter-spacing: ${props => 0.35 / props.theme.fontSize}rem;
   line-height: ${props => 28 / props.theme.fontSize}rem;
+  text-align: center;
 `
 
 const Message = styled.p`

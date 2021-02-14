@@ -28,8 +28,7 @@ const MicrophonePermissions = ({
       <TopSectionContainer>
         <EmbeddedVoiceIcon />
         <Message>
-          {/*{translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.description')}*/}
-          Call us directly from your browser. You'll need to allow microphone access when prompted.
+          {translate('embeddable_framework.talk.embeddedVoice.landingPage.description')}
         </Message>
       </TopSectionContainer>
       <BottomSectionContainer>
@@ -45,7 +44,7 @@ const MicrophonePermissions = ({
           />
         ) : (
           <Button isPrimary={true} onClick={onPermissionsGiven}>
-            {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next')}
+            {translate('embeddable_framework.talk.embeddedVoice.button.next')}
           </Button>
         )}
         <DotContainer>
