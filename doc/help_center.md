@@ -39,7 +39,7 @@ The `helpCenter` object has the following settings:
 
 The Help Center component has the following command:
 
-- [helpCenter:setSuggestions](#helpcenter-setsuggestions)
+- [helpCenter:setSuggestions](#helpcentersetsuggestions)
 
 #### helpCenter:setSuggestions
 
