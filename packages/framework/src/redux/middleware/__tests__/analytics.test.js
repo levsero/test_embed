@@ -13,6 +13,7 @@ import {
   ORIGINAL_ARTICLE_CLICKED
 } from 'embeds/helpCenter/actions/action-types'
 import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
+import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { TICKET_SUBMISSION_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import { GA } from 'service/analytics/googleAnalytics'
@@ -77,18 +78,16 @@ describe('analytics', () => {
       expect(track).toHaveBeenCalledWith('Chat Shown', undefined, 'Zendesk Web Widget')
     })
 
-    // need to update this in a separate Digital Voice story
-    // - is breaking now that we've started moving across
-    it.skip('tracks talk with capabitlity on open', () => {
+    it('tracks talk with capability on open', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: 'talk' } }
+        talk: { embeddableConfig: { capability: CLICK_TO_CALL } }
       }
       const state2 = {
         base: { webWidgetOpen: true, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: 'talk' } }
+        talk: { embeddableConfig: { capability: CLICK_TO_CALL } }
       }
       const action = {
         type: UPDATE_ACTIVE_EMBED
@@ -101,14 +100,12 @@ describe('analytics', () => {
       callMiddleware(action, state, getState)
       expect(track).toHaveBeenCalledWith(
         'Talk Shown',
-        { contactOption: 'Call us' },
+        { contactOption: 'Click to call' },
         'Zendesk Web Widget'
       )
     })
 
-    // need to update this in a separate Digital Voice story
-    // - is breaking now that we've started moving across
-    it.skip('tracks talk with capabitlity on open', () => {
+    it('tracks help center on open', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'helpCenterForm' },
         settings: { analytics: {} }
@@ -164,11 +161,9 @@ describe('analytics', () => {
       expect(track).toHaveBeenCalledWith('Chat Shown', undefined, 'Zendesk Web Widget')
     })
 
-    // need to update this in a separate Digital Voice story
-    // - is breaking now that we've started moving across
-    it.skip('tracks talk with capability', () => {
+    it('tracks talk with capability', () => {
       const state = {
-        talk: { embeddableConfig: { capability: 'talk' } }
+        talk: { embeddableConfig: { capability: PHONE_ONLY } }
       }
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',
