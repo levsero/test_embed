@@ -8,6 +8,7 @@ describe('onStateChange middleware', () => {
     mockIsProactiveSession,
     mockChatScreen,
     mockSubmitTicketAvailable,
+    mockIsLoggingOut = false,
     mockIsChatting,
     mockHasSearched,
     mockAnswerBotAvailable = false,
@@ -122,7 +123,8 @@ describe('onStateChange middleware', () => {
         getActiveAgents: getActiveAgentsSpy,
         getNotificationCount: array => _.get(_.last(array), 'notificationCount'),
         getLastReadTimestamp: state => _.get(state, 'lastReadTimestamp'),
-        hasUnseenAgentMessage: () => mockHasUnseenAgentMessage
+        hasUnseenAgentMessage: () => mockHasUnseenAgentMessage,
+        getIsLoggingOut: () => mockIsLoggingOut
       },
       'src/redux/modules/selectors': {
         getOfflineFormSettings: () => mockOfflineFormSettings,
@@ -699,11 +701,26 @@ describe('onStateChange middleware', () => {
           })
 
           describe('when not chatting', () => {
+            describe('when user is logging out', () => {
+              beforeEach(() => {
+                mockSubmitTicketAvailable = true
+                mockIsChatting = false
+                mockActiveEmbed = 'chat'
+                mockIsLoggingOut = true
+                stateChangeFn('online', 'offline')
+              })
+
+              it('does not update active embed', () => {
+                expect(updateActiveEmbedSpy).not.toHaveBeenCalled()
+              })
+            })
+
             describe('when active embed is chat', () => {
               beforeEach(() => {
                 mockSubmitTicketAvailable = true
                 mockIsChatting = false
                 mockActiveEmbed = 'chat'
+                mockIsLoggingOut = false
                 stateChangeFn('online', 'offline')
               })
 
@@ -745,6 +762,7 @@ describe('onStateChange middleware', () => {
                 mockIsChatting = false
                 mockActiveEmbed = 'chat'
                 mockIsPopout = false
+                mockIsLoggingOut = false
                 stateChangeFn('online', 'offline')
               })
 

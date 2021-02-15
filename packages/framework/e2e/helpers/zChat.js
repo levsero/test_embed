@@ -31,6 +31,12 @@ const isChatting = async (val = false) => {
   }, val)
 }
 
+const endChat = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('endChat', cb => cb())
+  })
+}
+
 const fireData = async (type, detail) => {
   await page.evaluate(
     (type, detail) => {
@@ -44,6 +50,12 @@ const fireData = async (type, detail) => {
 const connectionUpdate = async val => await fireData('connection_update', val)
 const accountStatus = async val => await fireData('account_status', val)
 const visitorUpdate = async val => await fireData('visitor_update', val)
+
+const onConnectionUpdate = async status => {
+  await page.evaluate(status => {
+    window.zChat.__fire__('connection_update', status)
+  }, status)
+}
 
 const chat = async detail => {
   await fireData('chat', {
@@ -92,6 +104,7 @@ const online = async () => {
   await getOperatingHours()
   await clearVisitorDefaultDepartment()
   await isChatting()
+  await endChat()
   await connectionUpdate('connecting')
   await accountStatus('online')
   await visitorUpdate({ email: '', display_name: 'Visitor 1' })
@@ -129,6 +142,84 @@ const setVisitorDefaultDepartment = async () => {
   })
 }
 
+const mockChatHistory = async () => {
+  await page.evaluate(() => {
+    window.zChat.__mock__('fetchChatHistory', cb => {
+      const fireHistoryEvent = detail => {
+        window.zChat.__fire__('data', { type: 'history', detail })
+      }
+
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        first: true,
+        nick: 'visitor',
+        timestamp: 1586825289167,
+        type: 'chat.memberjoin'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        msg: 'help',
+        nick: 'visitor',
+        options: [],
+        timestamp: 1586825289457,
+        type: 'chat.msg'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        msg: 'this is a message from visitor',
+        nick: 'visitor',
+        options: [],
+        timestamp: 1586825293248,
+        type: 'chat.msg'
+      })
+      fireHistoryEvent({
+        display_name: 'Wayner',
+        nick: 'agent:115806148031',
+        timestamp: 1586825302265,
+        type: 'chat.memberjoin'
+      })
+      fireHistoryEvent({
+        display_name: 'Wayner',
+        msg: 'this is a message from agent',
+        nick: 'agent:115806148031',
+        options: [],
+        timestamp: 1586825326042,
+        type: 'chat.msg'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        nick: 'visitor',
+        reason: 'user_not_alive',
+        timestamp: 1586825769415,
+        type: 'chat.memberleave'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        first: true,
+        nick: 'visitor',
+        timestamp: 1586825809367,
+        type: 'chat.memberjoin'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        msg: 'second message from visitor',
+        nick: 'visitor',
+        options: [],
+        timestamp: 1586825809657,
+        type: 'chat.msg'
+      })
+      fireHistoryEvent({
+        display_name: 'Alice Bob',
+        nick: 'visitor',
+        reason: 'user_not_alive',
+        timestamp: 1586826494816,
+        type: 'chat.memberleave'
+      })
+      cb(null, { count: 9, has_more: false })
+    })
+  })
+}
+
 const expectCurrentDepartmentToBe = async expectedDepartmentId => {
   const currentDepartmentId = await page.evaluate(() => {
     return document.departmentId
@@ -159,6 +250,7 @@ export default {
   getOperatingHours,
   isChatting,
   connectionUpdate,
+  onConnectionUpdate,
   accountStatus,
   visitorUpdate,
   chat,
@@ -174,5 +266,6 @@ export default {
   setVisitorDefaultDepartment,
   expectCurrentDepartmentToBe,
   sendOfflineMsg,
-  expectOfflineFormSubmissionToBe
+  expectOfflineFormSubmissionToBe,
+  mockChatHistory
 }

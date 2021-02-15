@@ -22,7 +22,8 @@ import {
   logoutApi,
   popoutApi,
   addTagsApi,
-  removeTagsApi
+  removeTagsApi,
+  reauthenticateApi
 } from 'src/service/api/apis'
 import {
   API_GET_IS_CHATTING_NAME,
@@ -65,7 +66,8 @@ export const chatApiObj = () => {
     addTags: (store, ...args) => addTagsApi(store)(...args),
     removeTags: (store, ...args) => removeTagsApi(store)(...args),
     end: endChatApi,
-    send: sendChatMsgApi
+    send: sendChatMsgApi,
+    reauthenticate: reauthenticateApi
   }
 }
 

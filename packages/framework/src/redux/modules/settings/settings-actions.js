@@ -6,6 +6,7 @@ import { getConnection, getZChatVendor } from 'src/redux/modules/chat/chat-selec
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 import { setDepartment } from 'src/redux/modules/chat'
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors'
+import { settings as legacySettings } from 'service/settings'
 
 const handleTagsChange = (zChat, tags = [], oldTags = []) => {
   if (_.isEqual(tags, oldTags) || !_.isArray(tags) || !_.isArray(oldTags)) {
@@ -27,6 +28,10 @@ export function updateSettings(settings) {
           ...settings
         }
       }
+    }
+
+    if (settings?.webWidget?.authenticate?.chat?.jwtFn) {
+      legacySettings.storeChatAuth(settings.webWidget.authenticate.chat.jwtFn)
     }
 
     const oldTags = getSettingsChatTags(getState())

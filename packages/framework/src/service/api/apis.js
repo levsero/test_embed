@@ -36,7 +36,7 @@ import {
   USER_EVENT
 } from 'constants/event'
 import {
-  chatLogout,
+  reinitialiseChat,
   sendVisitorPath,
   endChat,
   sendMsg,
@@ -113,6 +113,10 @@ export const sendChatMsgApi = (reduxStore, msg) => {
   reduxStore.dispatch(sendMsg(message))
 }
 
+export const reauthenticateApi = reduxStore => {
+  reduxStore.dispatch(reinitialiseChat(true))
+}
+
 export const identifyApi = (reduxStore, user) => {
   const isEmailValid = user.email && emailValid(user.email)
   const isNameValid = user.name && nameValid(user.name)
@@ -176,7 +180,7 @@ export const updateSettingsApi = (reduxStore, newSettings) => {
 export const logoutApi = reduxStore => {
   reduxStore.dispatch(logout())
   reduxStore.dispatch(closeReceived())
-  reduxStore.dispatch(chatLogout())
+  reduxStore.dispatch(reinitialiseChat(false))
   reduxStore.dispatch(apiResetWidget())
 }
 

@@ -2,8 +2,53 @@ import { mockZChatVendor, initialState, createMockStore } from 'utility/testHelp
 import { CONNECTION_STATUSES } from 'constants/chat'
 import * as actions from '../settings-actions'
 import * as actionTypes from '../settings-action-types'
+import { settings as legacySettings } from 'service/settings'
 
 describe('updateSettings', () => {
+  describe('when chat jwtFn provided', () => {
+    test('store chat jwtFn', () => {
+      const jwtFn = jest.fn()
+      const storeChatAuth = jest.fn()
+      const store = createMockStore()
+      jest.spyOn(legacySettings, 'storeChatAuth').mockImplementation(storeChatAuth)
+
+      store.dispatch(
+        actions.updateSettings({
+          webWidget: {
+            authenticate: {
+              chat: { jwtFn }
+            },
+            chat: {
+              suppress: true
+            }
+          }
+        })
+      )
+
+      expect(storeChatAuth).toHaveBeenCalledWith(jwtFn)
+    })
+  })
+
+  describe('when chat jwtFn not provided', () => {
+    test('does not store chat jwtFn', () => {
+      const storeChatAuth = jest.fn()
+      const store = createMockStore()
+      jest.spyOn(legacySettings, 'storeChatAuth').mockImplementation(storeChatAuth)
+
+      store.dispatch(
+        actions.updateSettings({
+          webWidget: {
+            chat: {
+              suppress: true
+            }
+          }
+        })
+      )
+
+      expect(storeChatAuth).not.toHaveBeenCalled()
+    })
+  })
+
   test('wraps settings appropriately if not already wrapped', () => {
     const store = createMockStore()
     store.dispatch(actions.updateSettings({ chat: { suppress: true } }))

@@ -124,12 +124,11 @@ export function setUpChat(canBeDeferred = true) {
         // Can be used for setup that requires zChat to be ready and connected
         ready: () => {
           if (brandName) zChat.addTags([brandName])
+          zopimApi.handleChatSDKInitialized()
         }
       })
 
       zChat.getFirehose().on('data', firehoseListener(zChat, dispatch, getState))
-
-      zopimApi.handleChatSDKInitialized()
     }
     const onFailure = err => {
       errorTracker.error(err)
