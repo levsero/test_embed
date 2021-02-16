@@ -1,4 +1,5 @@
 import { win, document as doc } from 'utility/globals'
+import { setScaleLock } from 'utility/devices'
 
 let oldHostBodyPosition
 let oldWindowScrollY = null
@@ -31,7 +32,7 @@ function setScrollKiller(active) {
       oldPositionRight = doc.body.style.right
       oldMargin = doc.body.style.margin
 
-      // position is set to fixed to prevent host page from scolling when user scrolls within the widget
+      // position is set to fixed to prevent host page from scrolling when user scrolls within the widget
       doc.body.style.position = 'fixed'
 
       // on safari mobile, fixed position elements are affected by their fixed position parents. If the doc body has
@@ -57,4 +58,16 @@ function setScrollKiller(active) {
   }
 }
 
-export { setScrollKiller, setWindowScroll, revertWindowScroll }
+function scrollLockHostPage(lockIt) {
+  if (lockIt) {
+    setScaleLock(true)
+    setWindowScroll(0)
+    setScrollKiller(true)
+  } else {
+    setScaleLock(false)
+    setScrollKiller(false)
+    revertWindowScroll()
+  }
+}
+
+export { setScrollKiller, setWindowScroll, revertWindowScroll, scrollLockHostPage }

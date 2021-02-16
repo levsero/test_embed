@@ -9,6 +9,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   background-color: #fff;
+  overscroll-behavior: none;
 `
 
 export { Container }
