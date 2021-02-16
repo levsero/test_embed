@@ -444,7 +444,7 @@ Updates the visitor path by setting the title to the current user's page title a
 
 `zE('webWidget', 'updateSettings', data<object>);`
 
-Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once. However, it cannot update the [authenticate](./settings#authenticate) setting since authentication occurs during page load, not during Web Widget runtime.
+Updates the Web Widget's [zESettings](./settings). It can update multiple settings at once.
 
 ##### Parameters
 
