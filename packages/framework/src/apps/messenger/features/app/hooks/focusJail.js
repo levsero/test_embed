@@ -4,6 +4,7 @@ import { KEY_CODES } from '@zendeskgarden/react-selection'
 import { useSelector } from 'react-redux'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherLabel/store/visibility'
+import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
 const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
@@ -31,12 +32,13 @@ const useFocusJail = () => {
         if (!refLauncher.current) {
           return
         }
-
-        refLauncher.current
-          .querySelector(
-            `[aria-label="${translate('embeddable_framework.messenger.launcher.button')}"]`
-          )
-          ?.focus()
+        restoreHostPageScrollPositionIfSafari(() => {
+          refLauncher.current
+            .querySelector(
+              `[aria-label="${translate('embeddable_framework.messenger.launcher.button')}"]`
+            )
+            ?.focus()
+        })
       }, 0)
     }
   }, [isOpen])
@@ -59,7 +61,9 @@ const useFocusJail = () => {
       const lastNodeIndex = lastNodes(elementsByContainer).indexOf(event.target)
       if (lastNodeIndex > -1) {
         const nextIndex = lastNodeIndex === elementsByContainer.length - 1 ? 0 : lastNodeIndex + 1
-        firstNodes(elementsByContainer)[nextIndex].focus()
+        restoreHostPageScrollPositionIfSafari(() => {
+          firstNodes(elementsByContainer)[nextIndex].focus()
+        })
         event.preventDefault()
       }
     }
@@ -68,7 +72,9 @@ const useFocusJail = () => {
       const firstNodeIndex = firstNodes(elementsByContainer).indexOf(event.target)
       if (firstNodeIndex > -1) {
         const prevIndex = firstNodeIndex === 0 ? elementsByContainer.length - 1 : firstNodeIndex - 1
-        lastNodes(elementsByContainer)[prevIndex].focus()
+        restoreHostPageScrollPositionIfSafari(() => {
+          lastNodes(elementsByContainer)[prevIndex].focus()
+        })
         event.preventDefault()
       }
     }
