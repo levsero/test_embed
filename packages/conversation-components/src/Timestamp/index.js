@@ -1,25 +1,10 @@
 import PropTypes from 'prop-types'
 import { Container, Text } from './styles'
-
-export const parseTimestamp = (timestamp, overrideDate = null) => {
-  const currentDate = overrideDate ? new Date(overrideDate) : new Date()
-  const messageDate = new Date(timestamp)
-
-  const isToday =
-    messageDate.getDate() === currentDate.getDate() &&
-    messageDate.getMonth() === currentDate.getMonth() &&
-    messageDate.getFullYear() === currentDate.getFullYear()
-
-  return `${messageDate.toLocaleString('en-US', {
-    ...(isToday ? {} : { month: 'long', day: 'numeric' }),
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  })}`
-}
+import useLabels from 'src/hooks/useLabels'
 
 const Timestamp = ({ timestamp }) => {
-  const text = parseTimestamp(timestamp)
+  const { formatTimestamp } = useLabels()
+  const text = formatTimestamp(timestamp)
   return (
     <Container>
       <Text>{text}</Text>

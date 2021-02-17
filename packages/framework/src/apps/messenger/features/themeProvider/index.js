@@ -35,6 +35,22 @@ const ThemeProvider = ({ children }) => {
     frame.document.documentElement.setAttribute('lang', i18n.getLocale())
   }, [i18n.getLocale()])
 
+  const parseTimestamp = (timestamp) => {
+    const currentDate = new Date()
+    const messageDate = new Date(timestamp)
+
+    const isToday =
+      messageDate.getDate() === currentDate.getDate() &&
+      messageDate.getMonth() === currentDate.getMonth() &&
+      messageDate.getFullYear() === currentDate.getFullYear()
+
+    return `${messageDate.toLocaleString(i18n.getLocale(), {
+      ...(isToday ? {} : { month: 'long', day: 'numeric' }),
+      hour: 'numeric',
+      minute: 'numeric',
+    })}`
+  }
+
   return (
     <SuncoThemeProvider
       currentFrame={frame}
@@ -116,6 +132,7 @@ const ThemeProvider = ({ children }) => {
         launcher: {
           ariaLabel: translate('embeddable_framework.messenger.launcher.button'),
         },
+        formatTimestamp: parseTimestamp,
       }}
     >
       <>

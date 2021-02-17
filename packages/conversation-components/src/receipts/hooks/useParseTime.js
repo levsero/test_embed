@@ -1,25 +1,8 @@
 import { useEffect, useState } from 'react'
 import useLabels from 'src/hooks/useLabels'
 
-export const parseTimestamp = (timestamp, overrideDate = null) => {
-  const currentDate = overrideDate ? new Date(overrideDate) : new Date()
-  const messageDate = new Date(timestamp)
-
-  const isToday =
-    messageDate.getDate() === currentDate.getDate() &&
-    messageDate.getMonth() === currentDate.getMonth() &&
-    messageDate.getFullYear() === currentDate.getFullYear()
-
-  return `${messageDate.toLocaleString('en-US', {
-    ...(isToday ? {} : { month: 'long', day: 'numeric' }),
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true
-  })}`
-}
-
-const useParseTime = timeReceived => {
-  const labels = useLabels().receipts
+const useParseTime = (timeReceived) => {
+  const { labels, formatTimestamp } = useLabels()
   const [output, setOutput] = useState(labels.receivedRecently)
   const correctReceived = timeReceived * 1000
 
@@ -33,7 +16,7 @@ const useParseTime = timeReceived => {
         return
       }
 
-      setOutput(parseTimestamp(correctReceived))
+      setOutput(formatTimestamp(correctReceived))
     }
 
     calculate()

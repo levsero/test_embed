@@ -7,6 +7,22 @@ export const getReadableMessengerColor = (color) => {
   return readableColor(color, DEFAULT_THEME.palette.grey[800], DEFAULT_THEME.palette.white, false)
 }
 
+const parseTimestamp = (timestamp) => {
+  const currentDate = new Date()
+  const messageDate = new Date(timestamp)
+
+  const isToday =
+    messageDate.getDate() === currentDate.getDate() &&
+    messageDate.getMonth() === currentDate.getMonth() &&
+    messageDate.getFullYear() === currentDate.getFullYear()
+
+  return `${messageDate.toLocaleString('en-US', {
+    ...(isToday ? {} : { month: 'long', day: 'numeric' }),
+    hour: 'numeric',
+    minute: 'numeric',
+  })}`
+}
+
 const ThemeProvider = ({
   primaryColor = DEFAULT_THEME.palette.kale[600],
   messageColor = DEFAULT_THEME.palette.kale[700],
@@ -54,6 +70,7 @@ const ThemeProvider = ({
       },
       receivedRecently: 'Just now',
     },
+    formatTimestamp: parseTimestamp,
     launcher: {
       ariaLabel: 'Open messaging window',
     },
