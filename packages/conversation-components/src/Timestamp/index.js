@@ -10,7 +10,7 @@ export const parseTimestamp = (timestamp, overrideDate = null) => {
     messageDate.getMonth() === currentDate.getMonth() &&
     messageDate.getFullYear() === currentDate.getFullYear()
 
-  return `${messageDate.toLocaleString(undefined, {
+  return `${messageDate.toLocaleString('en-US', {
     ...(isToday ? {} : { month: 'long', day: 'numeric' }),
     hour: 'numeric',
     minute: 'numeric',
