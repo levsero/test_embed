@@ -9,7 +9,7 @@ const LauncherLabelButton = styled.button`
   background: ${props => props.theme.messenger.colors.otherParticipantMessage};
   color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
   border-radius: 20px;
-  box-shadow: 0 4px 10px 0 rgba(36, 36, 36, 0.2);
+  box-shadow: rgba(36, 36, 36, 0.1) 0px 8px 16px 0px, rgba(36, 36, 36, 0.04) 0px 1px 4px 0px;
   display: flex;
   align-items: center;
   text-align: initial;

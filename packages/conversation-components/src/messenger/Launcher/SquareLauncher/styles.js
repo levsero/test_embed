@@ -5,7 +5,7 @@ import { rgba } from 'polished'
 const Container = styled.div`
   width: ${props => props.size ?? '100%'};
   height: ${props => props.size ?? '100%'};
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(36, 36, 36, 0.1) 0px 8px 16px 0px, rgba(36, 36, 36, 0.04) 0px 1px 4px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
