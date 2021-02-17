@@ -71,7 +71,7 @@ tracker.flush = function() {
   this.queue = []
 }
 
-tracker.enable = function() {
+tracker.init = function() {
   this.send = true
   this.flush()
 }

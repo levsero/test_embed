@@ -148,7 +148,7 @@ export const identifyApi = (reduxStore, user) => {
   }
 
   if (isNameValid && isEmailValid && (!isPhoneProvided || isPhoneValid)) {
-    beacon.identify(validUser)
+    beacon.identify(validUser, i18n.getLocaleId())
     identity.setUserIdentity(validUser)
   }
 }

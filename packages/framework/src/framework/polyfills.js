@@ -1,0 +1,7 @@
+import 'core-js/modules/es.promise'
+import 'core-js/modules/es.set'
+import 'core-js/modules/es.array.iterator'
+import 'core-js/modules/es.array.find'
+import 'core-js/modules/es.string.starts-with'
+import 'core-js/modules/es.array.includes'
+import 'core-js/modules/es.object.entries'

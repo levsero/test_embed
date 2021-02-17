@@ -17,11 +17,6 @@ jest.mock('../../../../../../../config/locales/translations/embeddable_framework
   }
 })
 
-global.fetchLocale = locale =>
-  import(
-    /* webpackChunkName: "locales/[request]" */ `src/translation/locales/${locale.toLowerCase()}.json`
-  ).catch(() => {})
-
 let store
 
 describe('i18n', () => {

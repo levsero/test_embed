@@ -102,8 +102,8 @@ const registerLegacyApi = newApis => {
   })
 }
 
-const run = ({ isMessengerWidget }) => {
-  isMessengerWidgetUsed = isMessengerWidget
+const run = ({ embeddableName }) => {
+  isMessengerWidgetUsed = embeddableName === 'messenger'
 
   Object.keys(baseProperties).forEach(key => {
     zE[key] = baseProperties[key]

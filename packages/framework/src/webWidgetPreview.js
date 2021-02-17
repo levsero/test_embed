@@ -34,7 +34,7 @@ const defaultOptions = {
   }
 }
 
-i18n.initFetchLocale()
+global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
 let frame
 

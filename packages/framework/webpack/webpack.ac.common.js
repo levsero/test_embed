@@ -8,7 +8,7 @@ const projectRoot = path.resolve(__dirname, '../')
 
 module.exports = merge(common, {
   entry: {
-    preload: path.join(projectRoot, '/src/preload.js')
+    preload: path.join(projectRoot, '/src/framework/preload.js')
   },
   optimization: {
     chunkIds: 'named',

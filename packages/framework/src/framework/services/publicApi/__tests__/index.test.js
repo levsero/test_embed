@@ -9,7 +9,7 @@ jest.mock('service/api/errorHandlers')
 describe('public api service', () => {
   let mockApi
   let mockLegacyApi
-  let isMessengerWidget = false
+  let embeddableName = 'webWidget'
 
   const setupWithQueueAndMockApi = api => {
     mockApi = api || {
@@ -32,7 +32,7 @@ describe('public api service', () => {
   }
 
   beforeEach(() => {
-    isMessengerWidget = false
+    embeddableName = 'webWidget'
   })
 
   it('supports a legacy and undocumented way of changing the locale', () => {
@@ -45,7 +45,7 @@ describe('public api service', () => {
     })
     zE({ locale: 'ko' })
 
-    publicApi.run({ isMessengerWidget })
+    publicApi.run({ embeddableName })
 
     expect(mockSetLocale).toHaveBeenCalledWith('ko')
   })
@@ -57,7 +57,7 @@ describe('public api service', () => {
 
       expect(mockApi.mock.example).not.toHaveBeenCalled()
 
-      publicApi.run({ isMessengerWidget })
+      publicApi.run({ embeddableName })
 
       mockApi.mock.example.mockClear()
       expect(mockApi.mock.example).not.toHaveBeenCalled()
@@ -73,7 +73,7 @@ describe('public api service', () => {
       zE('mock', 'example2')
       zE('mock', 'example')
 
-      publicApi.run({ isMessengerWidget })
+      publicApi.run({ embeddableName })
 
       expect(mockApi.mock.example).toHaveBeenCalledTimes(2)
       expect(mockApi.mock.example2).toHaveBeenCalledTimes(1)
@@ -88,7 +88,7 @@ describe('public api service', () => {
       zE('mock', 'invalid')
       zE('mock', 'example')
 
-      publicApi.run({ isMessengerWidget })
+      publicApi.run({ embeddableName })
 
       expect(mockApi.mock.example).toHaveBeenCalled()
       const checkDocsMessage = `\nCheck out the Developer API docs to make sure you're implementing it correctly, https://developer.zendesk.com/embeddables/docs/widget/introduction\n`
@@ -102,12 +102,12 @@ describe('public api service', () => {
 
       console.warn = jest.fn()
 
-      isMessengerWidget = true
+      embeddableName = 'messenger'
       setupWithQueueAndMockApi()
       zE('mock', 'invalid')
       zE('mock', 'invalid')
 
-      publicApi.run({ isMessengerWidget })
+      publicApi.run({ embeddableName })
 
       expect(console.warn).toHaveBeenCalledTimes(2)
       /* eslint-enable no-console */
@@ -119,7 +119,7 @@ describe('public api service', () => {
       it('calls the callback function', () => {
         setupWithQueueAndMockApi()
         const callback = jest.fn()
-        publicApi.run({ isMessengerWidget: true })
+        publicApi.run({ embeddableName: true })
 
         zE(callback)
 
@@ -132,7 +132,7 @@ describe('public api service', () => {
         setupWithQueueAndMockApi()
         zE('mock2', { example3: 'argument 1', example4: 'argument 2' })
 
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ embeddableName })
 
         expect(mockApi.mock2.example3).toHaveBeenCalledWith('argument 1')
         expect(mockApi.mock2.example4).toHaveBeenCalledWith('argument 2')
@@ -142,7 +142,7 @@ describe('public api service', () => {
         setupWithQueueAndMockApi()
         zE('mock', { example: 'argument 1' })
 
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ embeddableName })
 
         expect(mockApi.mock.example).not.toHaveBeenCalled()
       })
@@ -150,7 +150,7 @@ describe('public api service', () => {
       it('tracks the api calls', () => {
         setupWithQueueAndMockApi()
         zE('mock2', { example3: 'argument 1', example4: 'argument 2' })
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ embeddableName })
 
         expect(tracker.track).toHaveBeenCalledWith('mock2.example3', 'argument 1')
         expect(tracker.track).toHaveBeenCalledWith('mock2.example4', 'argument 2')
@@ -163,7 +163,7 @@ describe('public api service', () => {
           setupWithQueueAndMockApi()
           zE('mock', 'example', 'argument 1', 'argument 2')
 
-          publicApi.run({ isMessengerWidget })
+          publicApi.run({ embeddableName })
 
           expect(mockApi.mock.example).toHaveBeenCalledWith('argument 1', 'argument 2')
         })
@@ -171,7 +171,7 @@ describe('public api service', () => {
         it('tracks the api call', () => {
           setupWithQueueAndMockApi()
           zE('mock', 'example', 'argument 1', 'argument 2')
-          publicApi.run({ isMessengerWidget })
+          publicApi.run({ embeddableName })
 
           expect(tracker.track).toHaveBeenCalledWith('mock.example', 'argument 1', 'argument 2')
         })
@@ -180,7 +180,7 @@ describe('public api service', () => {
       describe('when the string does not match a valid api', () => {
         it('throws an error', () => {
           setupWithQueueAndMockApi()
-          publicApi.run({ isMessengerWidget })
+          publicApi.run({ embeddableName })
 
           expect(() => {
             zE('does not', 'match')
@@ -194,7 +194,7 @@ describe('public api service', () => {
     describe('when a valid call is made', () => {
       it('calls the api', () => {
         setupWithQueueAndMockApi()
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ embeddableName })
 
         zE.example('argument 1', 'argument 2')
 
@@ -211,7 +211,7 @@ describe('public api service', () => {
         publicApi.registerLegacyApi({
           mockApiThatFails
         })
-        publicApi.run({ isMessengerWidget })
+        publicApi.run({ embeddableName })
 
         zE.mockApiThatFails()
 
@@ -228,7 +228,7 @@ describe('public api service', () => {
       const customersOwnzEFunction = jest.fn()
       window.zE = customersOwnzEFunction
 
-      publicApi.run({ isMessengerWidget })
+      publicApi.run({ embeddableName })
       expect(window.zE).toBe(customersOwnzEFunction)
 
       window.zEmbed('mock', 'example')
@@ -241,7 +241,7 @@ describe('public api service', () => {
     setupWithQueueAndMockApi()
     zE.someCustomProperty = 'custom value'
 
-    publicApi.run({ isMessengerWidget })
+    publicApi.run({ embeddableName })
 
     expect(zE.someCustomProperty).toBe('custom value')
   })

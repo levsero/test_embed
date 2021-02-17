@@ -55,7 +55,7 @@ module.exports = () => {
 
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
-      preload: path.join(projectRoot, '/src/preload.js'),
+      preload: path.join(projectRoot, '/src/framework/preload.js'),
       webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
       chatPreview: path.join(projectRoot, '/src/chatPreview.js')
     }

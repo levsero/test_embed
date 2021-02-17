@@ -182,7 +182,7 @@ describe('enabled', () => {
     })
 
     it('tracks everything once enabled', () => {
-      tracker.enable()
+      tracker.init()
       expect(beacon.trackUserAction).toHaveBeenNthCalledWith(1, 'api', 'api1', {
         value: { args: [1, 2, 3] }
       })

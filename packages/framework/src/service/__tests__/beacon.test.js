@@ -1,7 +1,7 @@
 import { beacon } from '../beacon'
 import { store } from 'src/framework/services/persistence'
-import { http } from 'service/transport'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+import * as http from 'service/transport/http-base'
+import i18n from 'src/framework/services/i18n'
 import * as pages from 'utility/pages'
 import * as globals from 'utility/globals'
 import { appendMetaTag } from 'utility/devices'
@@ -11,7 +11,7 @@ globals.navigator = {
   language: 'th'
 }
 
-jest.mock('service/transport')
+jest.mock('service/transport/http-base')
 
 let dateNowMock
 
@@ -36,7 +36,7 @@ describe('trackLocaleDiff', () => {
     it('sends the correct blip', () => {
       const mockSendWithMeta = jest.spyOn(http, 'sendWithMeta')
 
-      i18n.getClientLocale = jest.fn(() => 'ar')
+      i18n.getBrowserLocale = jest.fn(() => 'ar')
       beacon.trackLocaleDiff('en-GB')
 
       expect(mockSendWithMeta).toHaveBeenCalledWith({
@@ -64,7 +64,7 @@ describe('trackLocaleDiff', () => {
       it('does not send blip', () => {
         const mockSendWithMeta = jest.spyOn(http, 'sendWithMeta')
 
-        i18n.getClientLocale = jest.fn(() => 'ar')
+        i18n.getBrowserLocale = jest.fn(() => 'ar')
         beacon.trackLocaleDiff('ar')
 
         expect(mockSendWithMeta).not.toHaveBeenCalled()
@@ -74,11 +74,13 @@ describe('trackLocaleDiff', () => {
 })
 
 test('identify', () => {
-  i18n.getLocaleId = jest.fn(() => 12345)
-  beacon.identify({
-    name: 'hello',
-    email: 'a@a.com'
-  })
+  beacon.identify(
+    {
+      name: 'hello',
+      email: 'a@a.com'
+    },
+    12345
+  )
 
   expect(http.sendWithMeta).toHaveBeenCalledWith({
     method: 'GET',
