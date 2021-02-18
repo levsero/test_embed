@@ -124,6 +124,21 @@ jobs:
             curl localhost:5123/e2e.html
           }
           ${{ matrix.run }}
+  slack:
+    name: Slack
+    runs-on: [self-hosted,zendesk-stable]
+    needs:
+      - main
+    if: always()
+    steps:
+      - name: Send slack notification when GH actions fails to build after merge to master
+        if: github.ref == 'refs/heads/master' && contains(needs.*.result,'failure')
+        uses: zendesk/ga/slack-post-msg@v2
+        with:
+          # taipan-notifications channel
+          channel: C256EMVLJ
+          slack-auth-token: ${{ secrets.ORG_SLACK_TOKEN }}
+          status: failure
   release:
     needs:
       - main
