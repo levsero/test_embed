@@ -12,7 +12,7 @@ const Banner = ({ message, status }) => {
 
 Banner.propTypes = {
   message: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(Object.values(BANNER_STATUS))
+  status: PropTypes.oneOf(Object.values(BANNER_STATUS)),
 }
 
 export default Banner

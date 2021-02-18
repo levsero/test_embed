@@ -8,11 +8,11 @@ describe('Checkbox', () => {
       id: '123',
       required: false,
       title: 'Some title',
-      description: 'Some description'
+      description: 'Some description',
     },
     value: 1,
     onChange: jest.fn(),
-    errorMessage: null
+    errorMessage: null,
   }
 
   const renderComponent = (props = {}) => render(<Checkbox {...defaultProps} {...props} />)
@@ -23,8 +23,8 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
-        }
+          required: true,
+        },
       })
 
       expect(queryByLabelText('Some title')).toBeInTheDocument()
@@ -35,8 +35,8 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: false
-        }
+          required: false,
+        },
       })
 
       expect(queryByLabelText('Some title (optional)')).toBeInTheDocument()
@@ -47,8 +47,8 @@ describe('Checkbox', () => {
     const { container } = renderComponent({
       field: {
         ...defaultProps.field,
-        title: null
-      }
+        title: null,
+      },
     })
 
     expect(container.querySelector('label')).toBeNull()
@@ -58,8 +58,8 @@ describe('Checkbox', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
-        description: 'Some description'
-      }
+        description: 'Some description',
+      },
     })
 
     expect(queryByText('Some description')).toBeInTheDocument()
@@ -67,7 +67,7 @@ describe('Checkbox', () => {
 
   it('displays the error message when provided', () => {
     const { queryByText } = renderComponent({
-      errorMessage: 'Something is wrong with the input'
+      errorMessage: 'Something is wrong with the input',
     })
 
     expect(queryByText('Something is wrong with the input')).toBeInTheDocument()
@@ -79,9 +79,9 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
+          required: true,
         },
-        value: 1
+        value: 1,
       })
 
       expect(queryByLabelText('Some title').checked).toBe(true)
@@ -94,10 +94,10 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
+          required: true,
         },
         value: 0,
-        onChange
+        onChange,
       })
 
       const checkbox = queryByLabelText('Some title')
@@ -113,9 +113,9 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
+          required: true,
         },
-        value: 0
+        value: 0,
       })
 
       expect(queryByLabelText('Some title').checked).toBe(false)
@@ -128,10 +128,10 @@ describe('Checkbox', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
+          required: true,
         },
         value: 0,
-        onChange
+        onChange,
       })
 
       const checkbox = queryByLabelText('Some title')

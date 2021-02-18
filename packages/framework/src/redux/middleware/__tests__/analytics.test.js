@@ -5,12 +5,12 @@ import {
   OFFLINE_FORM_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
-  PRE_CHAT_FORM_SUBMIT
+  PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
 import {
   SEARCH_REQUEST_SUCCESS,
   ARTICLE_VIEWED,
-  ORIGINAL_ARTICLE_CLICKED
+  ORIGINAL_ARTICLE_CLICKED,
 } from 'embeds/helpCenter/actions/action-types'
 import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
 import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
@@ -27,7 +27,7 @@ describe('analytics', () => {
   const callMiddleware = (action, state = {}, getStateOverride = undefined) => {
     const defaultState = {
       base: { webWidgetOpen: true, activeEmbed: '' },
-      settings: { analytics: true }
+      settings: { analytics: true },
     }
     const mergedState = _.merge(defaultState, state)
     const next = jest.fn()
@@ -45,10 +45,10 @@ describe('analytics', () => {
   it('does not track when analytics disabled', () => {
     const action = {
       type: UPDATE_WIDGET_SHOWN,
-      payload: false
+      payload: false,
     }
     const state = {
-      settings: { analytics: false }
+      settings: { analytics: false },
     }
     callMiddleware(action, state)
     expect(track).not.toHaveBeenCalled()
@@ -59,19 +59,16 @@ describe('analytics', () => {
     it('tracks chat on open', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'chat' },
-        settings: { analytics: true }
+        settings: { analytics: true },
       }
       const state2 = {
         base: { webWidgetOpen: true, activeEmbed: 'chat' },
-        settings: { analytics: true }
+        settings: { analytics: true },
       }
       const action = {
-        type: UPDATE_ACTIVE_EMBED
+        type: UPDATE_ACTIVE_EMBED,
       }
-      const getState = jest
-        .fn()
-        .mockReturnValueOnce(state)
-        .mockReturnValueOnce(state2)
+      const getState = jest.fn().mockReturnValueOnce(state).mockReturnValueOnce(state2)
 
       callMiddleware(action, state, getState)
       expect(track).toHaveBeenCalledWith('Chat Opened', undefined, 'Zendesk Web Widget')
@@ -82,20 +79,17 @@ describe('analytics', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: CLICK_TO_CALL } }
+        talk: { embeddableConfig: { capability: CLICK_TO_CALL } },
       }
       const state2 = {
         base: { webWidgetOpen: true, activeEmbed: 'talk' },
         settings: { analytics: {} },
-        talk: { embeddableConfig: { capability: CLICK_TO_CALL } }
+        talk: { embeddableConfig: { capability: CLICK_TO_CALL } },
       }
       const action = {
-        type: UPDATE_ACTIVE_EMBED
+        type: UPDATE_ACTIVE_EMBED,
       }
-      const getState = jest
-        .fn()
-        .mockReturnValueOnce(state)
-        .mockReturnValueOnce(state2)
+      const getState = jest.fn().mockReturnValueOnce(state).mockReturnValueOnce(state2)
 
       callMiddleware(action, state, getState)
       expect(track).toHaveBeenCalledWith(
@@ -108,19 +102,16 @@ describe('analytics', () => {
     it('tracks help center on open', () => {
       const state = {
         base: { webWidgetOpen: false, activeEmbed: 'helpCenterForm' },
-        settings: { analytics: {} }
+        settings: { analytics: {} },
       }
       const state2 = {
         base: { webWidgetOpen: true, activeEmbed: 'helpCenterForm' },
-        settings: { analytics: {} }
+        settings: { analytics: {} },
       }
       const action = {
-        type: UPDATE_ACTIVE_EMBED
+        type: UPDATE_ACTIVE_EMBED,
       }
-      const getState = jest
-        .fn()
-        .mockReturnValueOnce(state)
-        .mockReturnValueOnce(state2)
+      const getState = jest.fn().mockReturnValueOnce(state).mockReturnValueOnce(state2)
 
       callMiddleware(action, state, getState)
       expect(track).toHaveBeenCalledWith('Help Center Shown', undefined, 'Zendesk Web Widget')
@@ -132,7 +123,7 @@ describe('analytics', () => {
       const state = { base: { webWidgetOpen: false } }
       const action = {
         type: UPDATE_ACTIVE_EMBED,
-        payload: 'chat'
+        payload: 'chat',
       }
       callMiddleware(action, state)
       expect(track).not.toHaveBeenCalled()
@@ -142,7 +133,7 @@ describe('analytics', () => {
       const state = { base: { activeEmbed: 'chat' } }
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',
-        payload: 'chat'
+        payload: 'chat',
       }
 
       callMiddleware(action, state)
@@ -153,7 +144,7 @@ describe('analytics', () => {
     it('tracks chat shown and opened', () => {
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',
-        payload: 'chat'
+        payload: 'chat',
       }
       callMiddleware(action)
 
@@ -163,11 +154,11 @@ describe('analytics', () => {
 
     it('tracks talk with capability', () => {
       const state = {
-        talk: { embeddableConfig: { capability: PHONE_ONLY } }
+        talk: { embeddableConfig: { capability: PHONE_ONLY } },
       }
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',
-        payload: 'talk'
+        payload: 'talk',
       }
       callMiddleware(action, state)
 
@@ -180,11 +171,11 @@ describe('analytics', () => {
 
     it('tracks helpCenter', () => {
       const state = {
-        settings: { analytics: {} }
+        settings: { analytics: {} },
       }
       const action = {
         type: 'widget/base/UPDATE_ACTIVE_EMBED',
-        payload: 'helpCenterForm'
+        payload: 'helpCenterForm',
       }
       callMiddleware(action, state)
 
@@ -196,7 +187,7 @@ describe('analytics', () => {
     it('tracks when is an agent and new event', () => {
       const action = {
         type: SDK_CHAT_MEMBER_JOIN,
-        payload: { detail: { nick: 'agent:is', timestamp: Date.now() + 100 } }
+        payload: { detail: { nick: 'agent:is', timestamp: Date.now() + 100 } },
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalled()
@@ -205,7 +196,7 @@ describe('analytics', () => {
     it('does not track old events', () => {
       const action = {
         type: SDK_CHAT_MEMBER_JOIN,
-        payload: { detail: { nick: 'agent:is', timestamp: Date.now() - 1000 } }
+        payload: { detail: { nick: 'agent:is', timestamp: Date.now() - 1000 } },
       }
       callMiddleware(action)
       expect(track).not.toHaveBeenCalled()
@@ -214,7 +205,7 @@ describe('analytics', () => {
     it('does not track if not an agent', () => {
       const action = {
         type: SDK_CHAT_MEMBER_JOIN,
-        payload: { detail: { nick: 'visitor', timestamp: Date.now() + 100 } }
+        payload: { detail: { nick: 'visitor', timestamp: Date.now() + 100 } },
       }
       callMiddleware(action)
       expect(track).not.toHaveBeenCalled()
@@ -226,7 +217,7 @@ describe('analytics', () => {
       const state = { chat: { departments: { 123: { name: 'snakes' } } } }
       const action = {
         type: OFFLINE_FORM_REQUEST_SUCCESS,
-        payload: { department: 123 }
+        payload: { department: 123 },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -242,7 +233,7 @@ describe('analytics', () => {
       const state = { support: { forms: { 1: { id: 1, name: 'snakes' } } } }
       const action = {
         type: FORM_OPENED,
-        payload: { id: 1 }
+        payload: { id: 1 },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -256,7 +247,7 @@ describe('analytics', () => {
       const state = { support: { forms: {} } }
       const action = {
         type: FORM_OPENED,
-        payload: { id: 'contact-form' }
+        payload: { id: 'contact-form' },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -271,7 +262,7 @@ describe('analytics', () => {
     it('tracks with details when new and has a rating', () => {
       const action = {
         type: SDK_CHAT_RATING,
-        payload: { detail: { new_rating: 'good', timestamp: Date.now() + 100 } }
+        payload: { detail: { new_rating: 'good', timestamp: Date.now() + 100 } },
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith('Chat Rating Good', undefined, 'Zendesk Web Widget')
@@ -280,7 +271,7 @@ describe('analytics', () => {
     it('tracks rating removal when no rating', () => {
       const action = {
         type: SDK_CHAT_RATING,
-        payload: { detail: { timestamp: Date.now() + 100 } }
+        payload: { detail: { timestamp: Date.now() + 100 } },
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith('Chat Rating Removed', undefined, 'Zendesk Web Widget')
@@ -289,7 +280,7 @@ describe('analytics', () => {
     it('does not track if old event', () => {
       const action = {
         type: SDK_CHAT_RATING,
-        payload: { detail: { timestamp: Date.now() - 1000 } }
+        payload: { detail: { timestamp: Date.now() - 1000 } },
       }
       callMiddleware(action)
       expect(track).not.toHaveBeenCalled()
@@ -300,7 +291,7 @@ describe('analytics', () => {
     it('tracks comment when new', () => {
       const action = {
         type: SDK_CHAT_COMMENT,
-        payload: { detail: { timestamp: Date.now() + 100 } }
+        payload: { detail: { timestamp: Date.now() + 100 } },
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith('Chat Comment Submitted', undefined, 'Zendesk Web Widget')
@@ -309,7 +300,7 @@ describe('analytics', () => {
     it('does not track if old event', () => {
       const action = {
         type: SDK_CHAT_COMMENT,
-        payload: { detail: { timestamp: Date.now() - 1000 } }
+        payload: { detail: { timestamp: Date.now() - 1000 } },
       }
       callMiddleware(action)
       expect(track).not.toHaveBeenCalled()
@@ -321,7 +312,7 @@ describe('analytics', () => {
       const state = { chat: { departments: { 123: { name: 'snakes' } } } }
       const action = {
         type: PRE_CHAT_FORM_SUBMIT,
-        payload: { department: 123 }
+        payload: { department: 123 },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -336,7 +327,7 @@ describe('analytics', () => {
     it('tracks widget showing', () => {
       const action = {
         type: UPDATE_WIDGET_SHOWN,
-        payload: true
+        payload: true,
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith('Web Widget Opened', undefined, 'Zendesk Web Widget')
@@ -345,7 +336,7 @@ describe('analytics', () => {
     it('tracks widget minimizing', () => {
       const action = {
         type: UPDATE_WIDGET_SHOWN,
-        payload: false
+        payload: false,
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith('Web Widget Minimised', undefined, 'Zendesk Web Widget')
@@ -357,7 +348,7 @@ describe('analytics', () => {
       const state = { helpCenter: { searchTerm: { current: 'hide body' } } }
       const action = {
         type: SEARCH_REQUEST_SUCCESS,
-        payload: { isFallback: false }
+        payload: { isFallback: false },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -371,7 +362,7 @@ describe('analytics', () => {
       const state = { helpCenter: { searchTerm: { current: 'hide body' } } }
       const action = {
         type: SEARCH_REQUEST_SUCCESS,
-        payload: { isFallback: true }
+        payload: { isFallback: true },
       }
       callMiddleware(action, state)
       expect(track).not.toHaveBeenCalled()
@@ -382,7 +373,7 @@ describe('analytics', () => {
     it('tracks search with search term', () => {
       const action = {
         type: ARTICLE_VIEWED,
-        payload: { id: 123, name: 'snakes' }
+        payload: { id: 123, name: 'snakes' },
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith(
@@ -398,18 +389,18 @@ describe('analytics', () => {
       const state = {
         helpCenter: {
           clickedArticles: { current: 12 },
-          articles: { 12: { name: 'bitten by snake', id: 12 } }
-        }
+          articles: { 12: { name: 'bitten by snake', id: 12 } },
+        },
       }
       const action = {
-        type: ORIGINAL_ARTICLE_CLICKED
+        type: ORIGINAL_ARTICLE_CLICKED,
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
         'Help Center View Original Article Clicked',
         {
           id: 12,
-          name: 'bitten by snake'
+          name: 'bitten by snake',
         },
         'Zendesk Web Widget'
       )
@@ -420,19 +411,19 @@ describe('analytics', () => {
     it('tracks ticket submission with form name', () => {
       const state = {
         support: {
-          forms: { 12: { id: 12, name: 'bitten' } }
-        }
+          forms: { 12: { id: 12, name: 'bitten' } },
+        },
       }
       const action = {
         type: TICKET_SUBMISSION_REQUEST_SUCCESS,
-        payload: { name: '12' }
+        payload: { name: '12' },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
         'Contact Form Submitted',
         {
           id: 12,
-          name: 'bitten'
+          name: 'bitten',
         },
         'Zendesk Web Widget'
       )
@@ -441,12 +432,12 @@ describe('analytics', () => {
     it('tracks ticket submission for default form', () => {
       const state = {
         support: {
-          forms: {}
-        }
+          forms: {},
+        },
       }
       const action = {
         type: TICKET_SUBMISSION_REQUEST_SUCCESS,
-        payload: { name: 'contact-form' }
+        payload: { name: 'contact-form' },
       }
       callMiddleware(action, state)
       expect(track).toHaveBeenCalledWith(
@@ -460,7 +451,7 @@ describe('analytics', () => {
   describe('TALK_CALLBACK_SUCCESS', () => {
     it('tracks search with search term', () => {
       const action = {
-        type: TALK_CALLBACK_SUCCESS
+        type: TALK_CALLBACK_SUCCESS,
       }
       callMiddleware(action)
       expect(track).toHaveBeenCalledWith(

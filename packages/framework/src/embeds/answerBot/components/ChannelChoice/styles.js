@@ -3,7 +3,7 @@ import { Icon } from 'component/Icon'
 import { zdColorGrey700, zdColorGrey600 } from '@zendeskgarden/css-variables'
 
 const Item = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: flex !important;
       align-items: center !important;
@@ -37,7 +37,7 @@ const Label = styled.div`
 `
 
 const ChannelIcon = styled(Icon)`
-  ${props => {
+  ${(props) => {
     return `
       ${props.theme.rtl ? 'margin-left' : 'margin-right'}: ${10 / props.theme.fontSize}rem;
 

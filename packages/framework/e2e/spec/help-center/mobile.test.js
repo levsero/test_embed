@@ -5,15 +5,11 @@ import widget from 'e2e/helpers/widget'
 import {
   mockSearchEndpoint,
   waitForHelpCenter,
-  clickClearInputIcon
+  clickClearInputIcon,
 } from 'e2e/helpers/help-center-embed'
 
 beforeEach(async () => {
-  await loadWidget()
-    .withPresets('helpCenter')
-    .intercept(mockSearchEndpoint())
-    .useMobile()
-    .load()
+  await loadWidget().withPresets('helpCenter').intercept(mockSearchEndpoint()).useMobile().load()
 
   await launcher.click()
   await waitForHelpCenter()

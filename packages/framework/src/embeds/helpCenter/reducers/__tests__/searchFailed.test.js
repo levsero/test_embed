@@ -6,30 +6,30 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(searchFailed, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actionTypes.SEARCH_REQUEST_FAILURE
+      type: actionTypes.SEARCH_REQUEST_FAILURE,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actionTypes.SEARCH_REQUEST_SENT
+      type: actionTypes.SEARCH_REQUEST_SENT,
     },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

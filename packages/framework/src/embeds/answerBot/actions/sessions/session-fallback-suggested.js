@@ -7,8 +7,8 @@ export const sessionFallback = () => {
     dispatch({
       type: SESSION_FALLBACK,
       payload: {
-        sessionID: getCurrentSessionID(getState())
-      }
+        sessionID: getCurrentSessionID(getState()),
+      },
     })
   }
 }

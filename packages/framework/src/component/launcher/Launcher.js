@@ -8,10 +8,10 @@ import { getShowChatBadgeLauncher, getHideZendeskLogo } from 'src/redux/modules/
 
 import { launcherClicked } from 'src/redux/modules/base'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     showChatBadgeLauncher: getShowChatBadgeLauncher(state),
-    hideBranding: getHideZendeskLogo(state)
+    hideBranding: getHideZendeskLogo(state),
   }
 }
 
@@ -23,11 +23,11 @@ class Launcher extends Component {
     labelKey: PropTypes.string,
     launcherClicked: PropTypes.func,
     hideBranding: PropTypes.bool,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
   }
 
   static defaultProps = {
-    labelKey: 'help'
+    labelKey: 'help',
   }
 
   constructor(props, context) {
@@ -37,7 +37,7 @@ class Launcher extends Component {
     this.chatBadge = null
   }
 
-  handleBadgeClick = e => {
+  handleBadgeClick = (e) => {
     this.props.onClickHandler(e)
     this.props.launcherClicked(e)
   }
@@ -54,13 +54,13 @@ class Launcher extends Component {
   render = () => {
     return this.props.showChatBadgeLauncher ? (
       <ChatBadge
-        ref={el => (this.chatBadge = el)}
+        ref={(el) => (this.chatBadge = el)}
         onSend={this.handleBadgeClick}
         hideBranding={this.props.hideBranding}
       />
     ) : (
       <WidgetLauncher
-        ref={el => (this.launcher = el)}
+        ref={(el) => (this.launcher = el)}
         onClick={this.props.onClickHandler}
         updateFrameTitle={this.props.updateFrameTitle}
         label={`embeddable_framework.launcher.label.${this.props.labelKey}`}
@@ -71,12 +71,7 @@ class Launcher extends Component {
 }
 
 const actionCreators = {
-  launcherClicked
+  launcherClicked,
 }
 
-export default connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(Launcher)
+export default connect(mapStateToProps, actionCreators, null, { forwardRef: true })(Launcher)

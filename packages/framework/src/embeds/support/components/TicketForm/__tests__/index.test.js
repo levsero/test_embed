@@ -16,7 +16,7 @@ describe('TicketForm', () => {
     title: 'testInputA',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
   const field2 = {
     id: createKeyID(1),
@@ -24,7 +24,7 @@ describe('TicketForm', () => {
     title: 'testInputB',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
   const field3 = {
     id: createKeyID(2),
@@ -32,7 +32,7 @@ describe('TicketForm', () => {
     title: 'testInputC',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
 
   const defaultProps = {
@@ -43,7 +43,7 @@ describe('TicketForm', () => {
     readOnlyState: {},
     conditions: [],
     ticketFormTitle: 'form title',
-    isPreview: false
+    isPreview: false,
   }
 
   const renderComponent = (props = {}) => render(<TicketForm {...defaultProps} {...props} />)
@@ -69,7 +69,7 @@ describe('TicketForm', () => {
             title: 'testInputA',
             type: 'text',
             required: ticketFieldsRequired,
-            visible: true
+            visible: true,
           },
           {
             id: createKeyID(1),
@@ -77,8 +77,8 @@ describe('TicketForm', () => {
             title: 'testInputB',
             type: 'text',
             required: true,
-            visible: true
-          }
+            visible: true,
+          },
         ],
         conditions: [
           {
@@ -87,11 +87,11 @@ describe('TicketForm', () => {
             child_fields: [
               {
                 id: 0,
-                is_required: conditionRequired
-              }
-            ]
-          }
-        ]
+                is_required: conditionRequired,
+              },
+            ],
+          },
+        ],
       })
 
       const parentField = result.queryByLabelText('testInputB')
@@ -103,7 +103,7 @@ describe('TicketForm', () => {
         getField: () => {
           return result.queryByLabelText(isRequired ? 'testInputA' : 'testInputA (optional)')
         },
-        parentField
+        parentField,
       }
     }
 
@@ -131,7 +131,7 @@ describe('TicketForm', () => {
     it('makes the field required if the condition specifies it is required', () => {
       const { getField, parentField } = run({
         conditionRequired: true,
-        ticketFieldsRequired: false
+        ticketFieldsRequired: false,
       })
 
       expect(getField()).not.toBeInTheDocument()
@@ -144,7 +144,7 @@ describe('TicketForm', () => {
     it('makes the field required if the field specifies it is required', () => {
       const { getField, parentField } = run({
         conditionRequired: false,
-        ticketFieldsRequired: true
+        ticketFieldsRequired: true,
       })
 
       expect(getField()).not.toBeInTheDocument()
@@ -157,7 +157,7 @@ describe('TicketForm', () => {
     it('makes the field not required if both field and condition specify not required', () => {
       const { getField, parentField } = run({
         conditionRequired: false,
-        ticketFieldsRequired: false
+        ticketFieldsRequired: false,
       })
 
       expect(getField()).not.toBeInTheDocument()
@@ -175,14 +175,14 @@ describe('TicketForm', () => {
           field1,
           {
             ...field2,
-            required: !isValid
-          }
+            required: !isValid,
+          },
         ],
         formState: {
           [createKeyID(0)]: 'a',
-          [createKeyID(1)]: ''
+          [createKeyID(1)]: '',
         },
-        ...props
+        ...props,
       })
     }
 
@@ -190,7 +190,7 @@ describe('TicketForm', () => {
       const submitTicket = jest.fn()
       const { getByText } = run({
         submitTicket,
-        isValid: true
+        isValid: true,
       })
 
       fireEvent.click(getByText('Send'))
@@ -237,7 +237,7 @@ describe('TicketForm', () => {
       const submitTicket = jest.fn()
       const { getByTestId } = run({
         submitTicket,
-        isValid: false
+        isValid: false,
       })
 
       fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
@@ -250,7 +250,7 @@ describe('TicketForm', () => {
       const { getByTestId } = run({
         submitTicket,
         initialValues: {
-          [field1.id]: 'dog'
+          [field1.id]: 'dog',
         },
         ticketFields: [field1, field2],
         conditions: [
@@ -260,18 +260,18 @@ describe('TicketForm', () => {
             child_fields: [
               {
                 id: field2.originalId,
-                is_required: false
-              }
-            ]
-          }
-        ]
+                is_required: false,
+              },
+            ],
+          },
+        ],
       })
 
       await fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
 
       expect(submitTicket).toHaveBeenCalledWith(
         {
-          [field1.originalId]: 'dog'
+          [field1.originalId]: 'dog',
         },
         defaultProps.formId,
         [field1]
@@ -285,7 +285,7 @@ describe('TicketForm', () => {
         ticketFields: [field1, field2],
         initialValues: {
           [field1.id]: 'cat',
-          [field2.id]: 'fish'
+          [field2.id]: 'fish',
         },
         conditions: [
           {
@@ -294,11 +294,11 @@ describe('TicketForm', () => {
             child_fields: [
               {
                 id: field2.originalId,
-                is_required: false
-              }
-            ]
-          }
-        ]
+                is_required: false,
+              },
+            ],
+          },
+        ],
       })
 
       fireEvent.click(getByTestId(TEST_IDS.BUTTON_OK))
@@ -306,7 +306,7 @@ describe('TicketForm', () => {
       expect(submitTicket).toHaveBeenCalledWith(
         {
           [field1.originalId]: 'cat',
-          [field2.originalId]: 'fish'
+          [field2.originalId]: 'fish',
         },
         defaultProps.formId,
         [field1, field2]
@@ -377,7 +377,7 @@ describe('TicketForm', () => {
     it('does not submit', () => {
       const submitTicket = jest.fn(
         () =>
-          new Promise(res => {
+          new Promise((res) => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
@@ -391,7 +391,7 @@ describe('TicketForm', () => {
     it('renders all inputs as read only', () => {
       const submitTicket = jest.fn(
         () =>
-          new Promise(res => {
+          new Promise((res) => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
@@ -399,7 +399,7 @@ describe('TicketForm', () => {
         submitTicket,
         isPreview: true,
         fields: [field1, field2, field3],
-        readOnlyState: {}
+        readOnlyState: {},
       })
 
       expect(queryByLabelText(`${field1.title} (optional)`)).toHaveAttribute('readonly')

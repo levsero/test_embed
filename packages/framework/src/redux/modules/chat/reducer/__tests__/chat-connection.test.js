@@ -7,20 +7,20 @@ testReducer(chatConnection, [
   {
     action: {
       type: actions.SDK_CONNECTION_UPDATE,
-      payload: { detail: 'connected' }
+      payload: { detail: 'connected' },
     },
-    expected: 'connected'
+    expected: 'connected',
   },
   {
     action: {
-      type: actions.CHAT_CONNECTION_ERROR
+      type: actions.CHAT_CONNECTION_ERROR,
     },
-    expected: 'closed'
+    expected: 'closed',
   },
   {
     action: {
-      type: actions.CHAT_BANNED
+      type: actions.CHAT_BANNED,
     },
-    expected: 'closed'
-  }
+    expected: 'closed',
+  },
 ])

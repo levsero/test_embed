@@ -9,7 +9,7 @@ describe('FrameFocusJail', () => {
   const defaultProps = {
     name: 'webWidget',
     handleEscapeKeyPressed: jest.fn(),
-    children: <div data-testid="test">children</div>
+    children: <div data-testid="test">children</div>,
   }
 
   const renderComponent = (props = {}) =>

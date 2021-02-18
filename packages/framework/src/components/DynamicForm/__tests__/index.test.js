@@ -14,21 +14,21 @@ describe('DynamicForm', () => {
     title: 'testInputA',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
   const field2 = {
     id: 'id:1',
     title: 'testInputB',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
   const field3 = {
     id: 'id:2',
     title: 'testInputC',
     type: 'text',
     required: false,
-    visible: true
+    visible: true,
   }
 
   const defaultProps = {
@@ -37,7 +37,7 @@ describe('DynamicForm', () => {
     getFields: () => [field1, field2, field3],
     isPreview: false,
     footer: () => <button type="submit">Send</button>,
-    validate: () => true
+    validate: () => true,
   }
 
   const renderComponent = (props = {}, options) =>
@@ -53,13 +53,13 @@ describe('DynamicForm', () => {
       getFields: () => [
         {
           ...field1,
-          required: true
+          required: true,
         },
         {
           ...field2,
-          required: true
-        }
-      ]
+          required: true,
+        },
+      ],
     })
 
     fireEvent.change(getByLabelText(field1.title), { target: { value: 'One' } })
@@ -79,17 +79,17 @@ describe('DynamicForm', () => {
       getFields: () => [
         {
           ...field1,
-          required: true
+          required: true,
         },
         {
           ...field2,
-          required: true
-        }
+          required: true,
+        },
       ],
       readOnlyValues: {
         [field1.id]: true,
-        [field2.id]: false
-      }
+        [field2.id]: false,
+      },
     })
 
     expect(queryByLabelText(field1.title)).toHaveAttribute('readonly')
@@ -100,7 +100,7 @@ describe('DynamicForm', () => {
     const run = ({ ...props } = {}) => {
       return renderComponent({
         getFields: () => [field1, field2],
-        ...props
+        ...props,
       })
     }
 
@@ -108,7 +108,7 @@ describe('DynamicForm', () => {
       const onSubmit = jest.fn()
       const { getByText, getByLabelText } = run({
         onSubmit,
-        validate: () => undefined
+        validate: () => undefined,
       })
 
       fireEvent.change(getByLabelText(`${field1.title} (optional)`), { target: { value: 'One' } })
@@ -121,11 +121,11 @@ describe('DynamicForm', () => {
       expect(onSubmit).toHaveBeenCalledWith(
         {
           [field1.id]: 'One',
-          [field2.id]: 'Two'
+          [field2.id]: 'Two',
         },
         {
           [field1.id]: 'One',
-          [field2.id]: 'Two'
+          [field2.id]: 'Two',
         }
       )
     })
@@ -139,10 +139,10 @@ describe('DynamicForm', () => {
           field2,
           {
             ...field3,
-            visible: false
-          }
+            visible: false,
+          },
         ],
-        validate: () => undefined
+        validate: () => undefined,
       })
 
       fireEvent.change(getByLabelText(`${field1.title} (optional)`), { target: { value: 'One' } })
@@ -155,12 +155,12 @@ describe('DynamicForm', () => {
       expect(onSubmit).toHaveBeenCalledWith(
         {
           [field1.id]: 'One',
-          [field2.id]: 'Two'
+          [field2.id]: 'Two',
         },
         {
           [field1.id]: 'One',
           [field2.id]: 'Two',
-          [field3.id]: undefined
+          [field3.id]: undefined,
         }
       )
     })
@@ -168,8 +168,8 @@ describe('DynamicForm', () => {
     it('renders error messages if the form is not valid', async () => {
       const { getByText } = run({
         validate: () => ({
-          [field2.id]: 'embeddable_framework.validation.error.input'
-        })
+          [field2.id]: 'embeddable_framework.validation.error.input',
+        }),
       })
 
       fireEvent.click(getByText('Send'))
@@ -185,18 +185,18 @@ describe('DynamicForm', () => {
           field1,
           {
             ...field2,
-            required: true
-          }
+            required: true,
+          },
         ],
-        validate: values => {
+        validate: (values) => {
           if (values[field2.id]) {
             return
           }
 
           return {
-            [field2.id]: 'embeddable_framework.validation.error.input'
+            [field2.id]: 'embeddable_framework.validation.error.input',
           }
-        }
+        },
       })
 
       const getErrorMessage = () => queryByText('Please enter a value.')
@@ -223,7 +223,7 @@ describe('DynamicForm', () => {
       const onSubmit = jest.fn()
       const { getByText } = run({
         onSubmit,
-        validate: () => ({ [field1.id]: 'some error' })
+        validate: () => ({ [field1.id]: 'some error' }),
       })
 
       fireEvent.click(getByText('Send'))
@@ -235,7 +235,7 @@ describe('DynamicForm', () => {
       let resolveSubmit
       const onSubmit = jest.fn(
         () =>
-          new Promise(res => {
+          new Promise((res) => {
             resolveSubmit = res
           })
       )
@@ -250,7 +250,7 @@ describe('DynamicForm', () => {
       renderComponent(
         { onSubmit, getFields: () => [field1] },
         {
-          render: result.rerender
+          render: result.rerender,
         }
       )
 
@@ -288,7 +288,7 @@ describe('DynamicForm', () => {
     it('does not submit', () => {
       const onSubmit = jest.fn(
         () =>
-          new Promise(res => {
+          new Promise((res) => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
@@ -302,14 +302,14 @@ describe('DynamicForm', () => {
     it('renders all inputs as read only', () => {
       const onSubmit = jest.fn(
         () =>
-          new Promise(res => {
+          new Promise((res) => {
             res('embeddable_framework.submitTicket.notify.message.error')
           })
       )
       const { queryByLabelText } = renderComponent({
         onSubmit,
         isPreview: true,
-        getFields: () => [field1, field2, field3]
+        getFields: () => [field1, field2, field3],
       })
 
       expect(queryByLabelText(`${field1.title} (optional)`)).toHaveAttribute('readonly')
@@ -348,7 +348,7 @@ describe('DynamicForm', () => {
 
       const { getByText, getByLabelText } = renderComponent({
         footer: Footer,
-        getFields: () => [field1, field2]
+        getFields: () => [field1, field2],
       })
 
       fireEvent.change(getByLabelText(`${field1.title} (optional)`), { target: { value: 'One' } })
@@ -356,7 +356,7 @@ describe('DynamicForm', () => {
 
       const expectedValues = {
         [field1.id]: 'One',
-        [field2.id]: 'Two'
+        [field2.id]: 'Two',
       }
 
       expect(getByText(JSON.stringify(expectedValues))).toBeInTheDocument()

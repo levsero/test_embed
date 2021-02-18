@@ -14,12 +14,12 @@ describe('Container component', () => {
         locals: {
           desktop: 'desktopClasses',
           mobile: 'mobileClasses',
-          card: 'cardClasses'
-        }
+          card: 'cardClasses',
+        },
       },
       'src/constants/shared': {
-        TEST_IDS
-      }
+        TEST_IDS,
+      },
     })
 
     mockery.registerAllowable(containerPath)

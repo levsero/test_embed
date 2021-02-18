@@ -10,7 +10,7 @@ const formValues = (state = initialState, action = {}) => {
     case SET_FORM_STATE:
       return {
         ...state,
-        [payload.formId]: payload.newFormState
+        [payload.formId]: payload.newFormState,
       }
     case ALL_FORMS_CLEARED:
       return initialState

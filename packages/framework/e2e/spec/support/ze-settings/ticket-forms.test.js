@@ -4,7 +4,7 @@ import {
   mockTicketFormsEndpoint,
   createField,
   createForm,
-  waitForContactForm
+  waitForContactForm,
 } from 'e2e/helpers/support-embed'
 import { queries, wait } from 'pptr-testing-library'
 import { DEFAULT_CORS_HEADERS, assertInputValue } from 'e2e/helpers/utils'
@@ -17,27 +17,27 @@ const setup = async () => {
   const form1 = createForm({
     name: 'Example form 1',
     id: 123,
-    fields: [createField({ type: 'checkbox' }, description)]
+    fields: [createField({ type: 'checkbox' }, description)],
   })
   const form2 = createForm({
     name: 'Example form 2',
     id: 456,
-    fields: [description, text, textarea, integer]
+    fields: [description, text, textarea, integer],
   })
   const mockConfigWithForms = {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
   const mockFormsResponse = {
     ticket_forms: form1.mockFormsResponse.ticket_forms.concat(form2.mockFormsResponse.ticket_forms),
     ticket_fields: form1.mockFormsResponse.ticket_fields.concat(
       form2.mockFormsResponse.ticket_fields
-    )
+    ),
   }
   await loadWidget()
     .withPresets('contactForm', mockConfigWithForms)
@@ -55,10 +55,10 @@ const setup = async () => {
                       id: 'description',
                       prefill: {
                         '*': 'hello world',
-                        fr: 'Bonjour le monde'
-                      }
-                    }
-                  ]
+                        fr: 'Bonjour le monde',
+                      },
+                    },
+                  ],
                 },
                 {
                   id: form2Id,
@@ -67,21 +67,21 @@ const setup = async () => {
                       id: 'description',
                       prefill: {
                         '*': 'My field text',
-                        fr: 'My french field text'
-                      }
+                        fr: 'My french field text',
+                      },
                     },
                     {
                       id: textId,
                       prefill: {
                         '*': 'random',
-                        fr: 'fischer random'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
+                        fr: 'fischer random',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         }
       },
       form1.form.id,
@@ -131,14 +131,14 @@ test('filters the ticket forms', async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
 
   const ticketForms = jest.fn()
-  const mockTicketFormsEndpoint = request => {
+  const mockTicketFormsEndpoint = (request) => {
     if (!request.url().includes('ticket_forms')) {
       return false
     }
@@ -149,25 +149,25 @@ test('filters the ticket forms', async () => {
       contentType: 'application/json',
       body: JSON.stringify({
         ticket_forms: form.mockFormsResponse.ticket_forms,
-        ticket_fields: form.mockFormsResponse.ticket_fields
-      })
+        ticket_fields: form.mockFormsResponse.ticket_fields,
+      }),
     })
   }
 
   await loadWidget()
     .withPresets('contactForm', mockConfigWithForms)
     .intercept(mockTicketFormsEndpoint)
-    .evaluateOnNewDocument(formId => {
+    .evaluateOnNewDocument((formId) => {
       window.zESettings = {
         webWidget: {
           contactForm: {
             ticketForms: [
               {
-                id: formId
-              }
-            ]
-          }
-        }
+                id: formId,
+              },
+            ],
+          },
+        },
       }
     }, form.form.id)
     .load()
@@ -188,39 +188,39 @@ describe('disable ticket form title', () => {
     const form = createForm({
       name: 'Example form',
       id: 123,
-      fields: [createField({ type: 'checkbox' }, description)]
+      fields: [createField({ type: 'checkbox' }, description)],
     })
     const mockConfigWithForms = {
       embeds: {
         ticketSubmissionForm: {
           props: {
-            ticketFormsEnabled: true
-          }
-        }
-      }
+            ticketFormsEnabled: true,
+          },
+        },
+      },
     }
     const mockFormsResponse = {
       ticket_forms: form.mockFormsResponse.ticket_forms,
-      ticket_fields: form.mockFormsResponse.ticket_fields
+      ticket_fields: form.mockFormsResponse.ticket_fields,
     }
     return {
       loader: loadWidget()
         .withPresets('contactForm', mockConfigWithForms)
         .intercept(mockTicketFormsEndpoint(mockFormsResponse)),
-      form
+      form,
     }
   }
 
   test('hides the ticket form title on prerender', async () => {
     const { loader, form } = setup()
     await loader
-      .evaluateOnNewDocument(formId => {
+      .evaluateOnNewDocument((formId) => {
         window.zESettings = {
           webWidget: {
             contactForm: {
-              ticketForms: [{ id: formId, title: false }]
-            }
-          }
+              ticketForms: [{ id: formId, title: false }],
+            },
+          },
         }
       }, form.form.id)
       .load()
@@ -235,13 +235,13 @@ describe('disable ticket form title', () => {
     await widget.openByKeyboard()
     await waitForContactForm()
     await widget.expectToSeeText('Example form')
-    await page.evaluate(formId => {
+    await page.evaluate((formId) => {
       zE('webWidget', 'updateSettings', {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: formId, title: false }]
-          }
-        }
+            ticketForms: [{ id: formId, title: false }],
+          },
+        },
       })
     }, form.form.id)
     await widget.expectNotToSeeText('Example form')
@@ -257,32 +257,32 @@ test('suppresses the subject field if specified via API', async () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
 
   const mockFormsResponse = {
     ticket_forms: theForm.mockFormsResponse.ticket_forms,
-    ticket_fields: theForm.mockFormsResponse.ticket_fields
+    ticket_fields: theForm.mockFormsResponse.ticket_fields,
   }
 
   await loadWidget()
     .withPresets('contactForm', mockConfigWithForms)
     .intercept(mockTicketFormsEndpoint(mockFormsResponse))
-    .evaluateOnNewDocument(form => {
+    .evaluateOnNewDocument((form) => {
       window.zESettings = {
         webWidget: {
           contactForm: {
             ticketForms: [
               {
                 id: form.form.id,
-                subject: false
-              }
-            ]
-          }
-        }
+                subject: false,
+              },
+            ],
+          },
+        },
       }
     }, theForm)
     .load()
@@ -298,7 +298,7 @@ describe('field descriptions (or hints)', () => {
     id: 4,
     type: 'textarea',
     title_in_portal: 'Description, yo',
-    description: 'this description is lukewarm'
+    description: 'this description is lukewarm',
   })
   const theForm = createForm({ name: 'Superfantastic form', id: 123, fields: [textarea] })
 
@@ -306,22 +306,22 @@ describe('field descriptions (or hints)', () => {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
 
   const mockFormsResponse = {
     ticket_forms: theForm.mockFormsResponse.ticket_forms,
-    ticket_fields: theForm.mockFormsResponse.ticket_fields
+    ticket_fields: theForm.mockFormsResponse.ticket_fields,
   }
 
   test('it overrides the hint if passed a proper one', async () => {
     await loadWidget()
       .withPresets('contactForm', mockConfigWithForms)
       .intercept(mockTicketFormsEndpoint(mockFormsResponse))
-      .evaluateOnNewDocument(form => {
+      .evaluateOnNewDocument((form) => {
         window.zESettings = {
           webWidget: {
             contactForm: {
@@ -332,13 +332,13 @@ describe('field descriptions (or hints)', () => {
                     {
                       id: 4,
                       prefill: { '*': 'sas' },
-                      hint: { '*': 'this description is more à propos' }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
+                      hint: { '*': 'this description is more à propos' },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         }
       }, theForm)
       .load()
@@ -352,7 +352,7 @@ describe('field descriptions (or hints)', () => {
     await loadWidget()
       .withPresets('contactForm', mockConfigWithForms)
       .intercept(mockTicketFormsEndpoint(mockFormsResponse))
-      .evaluateOnNewDocument(form => {
+      .evaluateOnNewDocument((form) => {
         window.zESettings = {
           webWidget: {
             contactForm: {
@@ -363,13 +363,13 @@ describe('field descriptions (or hints)', () => {
                     {
                       id: 4,
                       prefill: { '*': 'sas' },
-                      hideHint: true
-                    }
-                  ]
-                }
-              ]
-            }
-          }
+                      hideHint: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         }
       }, theForm)
       .load()

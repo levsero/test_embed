@@ -10,7 +10,7 @@ const Animated = ({
   name = 'animate',
   isFreshMessage,
   isVisible,
-  className
+  className,
 }) => {
   const { scrollToBottomIfNeeded } = useScroll()
 
@@ -23,7 +23,7 @@ const Animated = ({
       timeout={{
         appear: (enter.duration + enter.delay) * 1000,
         enter: (enter.duration + enter.delay) * 1000,
-        exit: (exit.duration + exit.delay) * 1000
+        exit: (exit.duration + exit.delay) * 1000,
       }}
       onEntering={scrollToBottomIfNeeded}
       onEntered={scrollToBottomIfNeeded}
@@ -35,41 +35,41 @@ const Animated = ({
   )
 }
 
-Animated.beforeEnter = props => `
+Animated.beforeEnter = (props) => `
   .${props.name}-appear &,
   .${props.name}-enter &
 `
 
-Animated.entering = props => `
+Animated.entering = (props) => `
   .${props.name}-appear-active &,
   .${props.name}-enter-active &
 `
 
-Animated.entered = props => `
+Animated.entered = (props) => `
   .${props.name}-appear-done &,
   .${props.name}-enter-done &
 `
 
-Animated.beforeExit = props => `.${props.name}-exit &`
+Animated.beforeExit = (props) => `.${props.name}-exit &`
 
-Animated.exiting = props => `.${props.name}-exit-active &`
+Animated.exiting = (props) => `.${props.name}-exit-active &`
 
-Animated.exited = props => `.${props.name}-exit-done &`
+Animated.exited = (props) => `.${props.name}-exit-done &`
 
 Animated.propTypes = {
   children: PropTypes.node,
   enter: PropTypes.shape({
     duration: PropTypes.number,
-    delay: PropTypes.number
+    delay: PropTypes.number,
   }),
   exit: PropTypes.shape({
     duration: PropTypes.number,
-    delay: PropTypes.number
+    delay: PropTypes.number,
   }),
   name: PropTypes.string,
   isVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 export default Animated

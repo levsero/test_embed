@@ -9,7 +9,7 @@ import {
   getLatestAgentLeaveEvent,
   getActiveAgentCount,
   getRatingSettings,
-  getChatRating
+  getChatRating,
 } from 'src/redux/modules/chat/chat-selectors'
 import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
 
@@ -57,7 +57,7 @@ const RequestRatingButton = ({
   chatRating,
   latestRating,
   latestRatingRequest,
-  latestAgentLeaveEvent
+  latestAgentLeaveEvent,
 }) => {
   const translate = useTranslate()
 
@@ -89,22 +89,18 @@ RequestRatingButton.propTypes = {
   latestRatingRequest: PropTypes.number.isRequired,
   latestAgentLeaveEvent: PropTypes.number.isRequired,
   activeAgentCount: PropTypes.number.isRequired,
-  chatRating: ChatPropTypes.chatRating.isRequired
+  chatRating: ChatPropTypes.chatRating.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   latestRating: getLatestRating(state),
   latestRatingRequest: getLatestRatingRequest(state),
   latestAgentLeaveEvent: getLatestAgentLeaveEvent(state),
   activeAgentCount: getActiveAgentCount(state),
   canRateChat: getRatingSettings(state).enabled,
-  chatRating: getChatRating(state)
+  chatRating: getChatRating(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  {},
-  null
-)(RequestRatingButton)
+const connectedComponent = connect(mapStateToProps, {}, null)(RequestRatingButton)
 
 export { connectedComponent as default, RequestRatingButton as Component }

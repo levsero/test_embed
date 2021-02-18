@@ -5,21 +5,19 @@ const user = {
   name: 'Akira Kogane',
   email: 'akira@voltron.com',
   phone: '0430999212',
-  organization: 'Voltron, Inc.'
+  organization: 'Voltron, Inc.',
 }
 
 const buildWidget = () => {
   const identify = jest.fn()
-  const builder = loadWidget()
-    .withPresets('helpCenter')
-    .intercept(mockIdentifyEndpoint(identify))
+  const builder = loadWidget().withPresets('helpCenter').intercept(mockIdentifyEndpoint(identify))
   return [builder, identify]
 }
 
 test('calls identify endpoint', async () => {
   const [builder, identify] = buildWidget()
   await builder.load()
-  await page.evaluate(user => {
+  await page.evaluate((user) => {
     zE('webWidget', 'identify', user)
   }, user)
   assertIdentifyPayload(identify, { ...user, localeId: 1176 })
@@ -28,7 +26,7 @@ test('calls identify endpoint', async () => {
 test('calls identify endpoint even on prerender', async () => {
   const [builder, identify] = buildWidget()
   await builder
-    .evaluateAfterSnippetLoads(user => {
+    .evaluateAfterSnippetLoads((user) => {
       zE('webWidget', 'identify', user)
     }, user)
     .load()

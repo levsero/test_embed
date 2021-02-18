@@ -25,5 +25,5 @@ export default combineReducers({
   initialFallbackSuggested,
   contextualSearchFinished,
   currentContextualArticle,
-  questionValueChangedTime
+  questionValueChangedTime,
 })

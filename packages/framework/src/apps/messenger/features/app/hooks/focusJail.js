@@ -7,10 +7,10 @@ import { getIsLauncherLabelVisible } from 'src/apps/messenger/features/launcherL
 import { restoreHostPageScrollPositionIfSafari } from 'src/framework/utils/hostPageWindow'
 import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 
-const firstNodes = elementsByContainer => elementsByContainer.map(container => container[0])
+const firstNodes = (elementsByContainer) => elementsByContainer.map((container) => container[0])
 
-const lastNodes = elementsByContainer =>
-  elementsByContainer.map(container => container[container.length - 1])
+const lastNodes = (elementsByContainer) =>
+  elementsByContainer.map((container) => container[container.length - 1])
 
 const useFocusJail = () => {
   const isOpen = useSelector(getIsWidgetOpen)
@@ -43,7 +43,7 @@ const useFocusJail = () => {
     }
   }, [isOpen])
 
-  const onKeyDownForContainer = event => {
+  const onKeyDownForContainer = (event) => {
     const { keyCode } = event
 
     if (!isOpen && !isLauncherLabelVisible) {
@@ -53,9 +53,9 @@ const useFocusJail = () => {
     if (!keyCode === KEY_CODES.TAB) return
 
     const containers = [refLauncher.current, refLauncherLabel.current, refWidget.current].filter(
-      el => el != null
+      (el) => el != null
     )
-    const elementsByContainer = containers.map(container => tabbable(container))
+    const elementsByContainer = containers.map((container) => tabbable(container))
 
     if (!event.shiftKey && keyCode === KEY_CODES.TAB) {
       const lastNodeIndex = lastNodes(elementsByContainer).indexOf(event.target)
@@ -84,7 +84,7 @@ const useFocusJail = () => {
     refLauncher,
     refWidget,
     refLauncherLabel,
-    onKeyDownForContainer
+    onKeyDownForContainer,
   }
 }
 

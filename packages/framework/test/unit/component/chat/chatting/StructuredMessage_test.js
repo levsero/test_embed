@@ -24,16 +24,16 @@ describe('StructuredMessage component', () => {
       './structuredMessage/ListCard': { ListCard },
       'constants/chat': {
         CHAT_STRUCTURED_CONTENT_TYPE,
-        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
+        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },
       'src/redux/modules/chat': {
-        sendMsg: sendMsgSpy
+        sendMsg: sendMsgSpy,
       },
       'utility/globals': {
         win: {
-          open: openSpy
-        }
-      }
+          open: openSpy,
+        },
+      },
     })
 
     mockery.registerAllowable(structuredMessagePath)
@@ -58,7 +58,7 @@ describe('StructuredMessage component', () => {
     it('returns a function that calls sendMsg when action type is quick reply', () => {
       const actionSchema = {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.QUICK_REPLY_ACTION,
-        value: 'replied'
+        value: 'replied',
       }
       const result = component.createAction(actionSchema)
 
@@ -70,7 +70,7 @@ describe('StructuredMessage component', () => {
     it('returns a function that calls win.open when action type is link', () => {
       const actionSchema = {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.LINK_ACTION,
-        value: 'https://sample.com'
+        value: 'https://sample.com',
       }
       const result = component.createAction(actionSchema)
 
@@ -82,7 +82,7 @@ describe('StructuredMessage component', () => {
     it('returns undefined when action type is unknown', () => {
       const actionSchema = {
         type: 'UnknowAnction',
-        value: 'oh no'
+        value: 'oh no',
       }
 
       const result = component.createAction(actionSchema)
@@ -104,7 +104,7 @@ describe('StructuredMessage component', () => {
         schema = {
           type: CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE.BUTTON_TEMPLATE,
           buttons: [],
-          msg: 'Hello!'
+          msg: 'Hello!',
         }
       })
 
@@ -132,8 +132,8 @@ describe('StructuredMessage component', () => {
           buttons: [],
           panel: {
             heading: 'header 1',
-            paragraph: 'this is a paragraph'
-          }
+            paragraph: 'this is a paragraph',
+          },
         }
       })
 
@@ -165,8 +165,8 @@ describe('StructuredMessage component', () => {
               image_url: 'https://nsync.com/banner.png',
               action: {
                 type: 'LINK_ACTION',
-                value: 'https://nsync.com'
-              }
+                value: 'https://nsync.com',
+              },
             },
             {
               heading: "Destiny's Child",
@@ -174,19 +174,19 @@ describe('StructuredMessage component', () => {
               image_url: 'https://destiny.com/banner.png',
               action: {
                 type: 'LINK_ACTION',
-                value: 'https://destiny.com'
-              }
-            }
+                value: 'https://destiny.com',
+              },
+            },
           ],
           buttons: [
             {
               text: 'View more',
               action: {
                 type: 'QUICK_REPLY_ACTION',
-                value: 'view more'
-              }
-            }
-          ]
+                value: 'view more',
+              },
+            },
+          ],
         }
       })
 

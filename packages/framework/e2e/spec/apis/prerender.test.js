@@ -14,8 +14,8 @@ test('prerender queue is used', async () => {
 
   expect(queue.length).toEqual(2)
   expect(queue[0]).toEqual({
-    '0': 'webWidget',
-    '1': 'open'
+    0: 'webWidget',
+    1: 'open',
   })
 })
 

@@ -14,7 +14,7 @@ const AttachmentOption = ({
   isPreview = false,
   isMobile = false,
   handleAttachmentDrop = () => {},
-  theme: { rtl }
+  theme: { rtl },
 }) => {
   const translate = useTranslate()
 
@@ -50,7 +50,7 @@ AttachmentOption.propTypes = {
   isPreview: PropTypes.bool,
   isMobile: PropTypes.bool,
   handleAttachmentDrop: PropTypes.func,
-  theme: PropTypes.shape({ rtl: PropTypes.bool })
+  theme: PropTypes.shape({ rtl: PropTypes.bool }),
 }
 
 export default withTheme(AttachmentOption)

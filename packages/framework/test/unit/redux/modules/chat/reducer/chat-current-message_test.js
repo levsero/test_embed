@@ -35,7 +35,7 @@ describe('chat reducer currentMessage', () => {
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_BOX_CHANGED,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -52,7 +52,7 @@ describe('chat reducer currentMessage', () => {
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_BADGE_MESSAGE_CHANGED,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -68,12 +68,12 @@ describe('chat reducer currentMessage', () => {
         payload = {
           message: 'im typing here',
           name: 'some_name',
-          email: 'yeah@yeah.com'
+          email: 'yeah@yeah.com',
         }
 
         state = reducer(initialState, {
           type: actionTypes.PRE_CHAT_FORM_ON_CHANGE,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -88,7 +88,7 @@ describe('chat reducer currentMessage', () => {
       beforeEach(() => {
         state = reducer('yolo', {
           type: actionTypes.RESET_CURRENT_MESSAGE,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -103,7 +103,7 @@ describe('chat reducer currentMessage', () => {
       beforeEach(() => {
         state = reducer('yolo', {
           type: actionTypes.CHAT_BANNED,
-          payload: payload
+          payload: payload,
         })
       })
 

@@ -10,7 +10,7 @@ import { sendChatRating } from 'src/redux/modules/chat'
 import {
   getProfileConfig,
   getShowRatingButtons,
-  getCurrentConcierges
+  getCurrentConcierges,
 } from 'src/redux/modules/selectors'
 import { getChatRating } from 'src/redux/modules/chat/chat-selectors'
 import {
@@ -23,7 +23,7 @@ import {
   Text,
   Title,
   Avatar,
-  TooltipWrapper
+  TooltipWrapper,
 } from './styles'
 
 const ChatHeader = ({
@@ -34,7 +34,7 @@ const ChatHeader = ({
   agentsActive,
   concierges,
   updateRating,
-  rating
+  rating,
 }) => {
   const translate = useTranslate()
   if (!showAvatar && !showTitle && !showRating) {
@@ -107,7 +107,7 @@ ChatHeader.propTypes = {
       displayName: PropTypes.string,
       title: PropTypes.string,
       avatarPath: PropTypes.string,
-      avatarData: PropTypes.string
+      avatarData: PropTypes.string,
     })
   ),
   updateRating: PropTypes.func,
@@ -116,7 +116,7 @@ ChatHeader.propTypes = {
   showAvatar: PropTypes.bool,
   showTitle: PropTypes.bool,
   onAgentDetailsClick: PropTypes.func,
-  agentsActive: PropTypes.bool
+  agentsActive: PropTypes.bool,
 }
 
 ChatHeader.defaultProps = {
@@ -126,24 +126,21 @@ ChatHeader.defaultProps = {
   showRating: false,
   showAvatar: true,
   showTitle: true,
-  agentsActive: false
+  agentsActive: false,
 }
 
 const actionCreators = {
-  updateRating: sendChatRating
+  updateRating: sendChatRating,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showRating: getShowRatingButtons(state),
   showTitle: getProfileConfig(state).title,
   showAvatar: getProfileConfig(state).avatar,
   rating: getChatRating(state).value,
-  concierges: getCurrentConcierges(state)
+  concierges: getCurrentConcierges(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(ChatHeader)
+const connectedComponent = connect(mapStateToProps, actionCreators)(ChatHeader)
 
 export { connectedComponent as default, ChatHeader as Component }

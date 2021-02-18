@@ -9,10 +9,10 @@ let mockResponse = {
   },
   body: {},
   get: jest.fn(),
-  toError: jest.fn()
+  toError: jest.fn(),
 }
 
-const createRequestStub = obj => jest.fn(() => obj)
+const createRequestStub = (obj) => jest.fn(() => obj)
 let instances = []
 
 function Request() {
@@ -35,13 +35,13 @@ function Request() {
   self.accept = createRequestStub(self)
   self.timeout = createRequestStub(self)
   self.retry = createRequestStub(self)
-  self.then = cb => {
+  self.then = (cb) => {
     if (superagent.mockError) {
       return self
     }
     return cb(self.mockResponse)
   }
-  self.end = jest.fn().mockImplementation(function(callback) {
+  self.end = jest.fn().mockImplementation(function (callback) {
     if (self.mockDelay) {
       this.delayTimer = setTimeout(callback, 0, self.mockError, self.mockResponse)
 
@@ -50,7 +50,7 @@ function Request() {
 
     callback(self.mockError, self.mockResponse)
   })
-  self.catch = cb => {
+  self.catch = (cb) => {
     if (superagent.mockError) {
       cb(superagent.mockError)
     }
@@ -59,7 +59,7 @@ function Request() {
   instances.push(this)
 }
 
-const superagent = jest.fn(function(method, url) {
+const superagent = jest.fn(function (method, url) {
   // callback
   if (typeof url === 'function') {
     return new Request('GET', method).end(url)
@@ -79,7 +79,7 @@ superagent.__clearInstances = () => {
 }
 superagent.__getInstances = () => instances
 superagent.__mostRecent = () => instances[instances.length - 1]
-superagent.__setMockError = mockErr => {
+superagent.__setMockError = (mockErr) => {
   superagent.mockError = mockErr
 }
 

@@ -9,7 +9,7 @@ import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 const initialState = {
   query: '',
   labels: [],
-  url: false
+  url: false,
 }
 
 const manualContextualSuggestions = (state = initialState, action) => {
@@ -23,17 +23,17 @@ const manualContextualSuggestions = (state = initialState, action) => {
       if (_.isString(options.search) && options.search.length > 0) {
         return {
           ...initialState,
-          query: options.search
+          query: options.search,
         }
       } else if (_.isArray(options.labels) && options.labels.length > 0) {
         return {
           ...initialState,
-          labels: options.labels
+          labels: options.labels,
         }
       } else if ('url' in options) {
         return {
           ...initialState,
-          url: options.url
+          url: options.url,
         }
       }
       return state

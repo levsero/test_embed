@@ -13,7 +13,7 @@ const GreetingMessage = ({ message }) => {
 }
 
 GreetingMessage.propTypes = {
-  message: PropTypes.string
+  message: PropTypes.string,
 }
 
 export default GreetingMessage

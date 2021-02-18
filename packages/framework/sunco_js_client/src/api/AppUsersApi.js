@@ -11,8 +11,8 @@ class AppUsersApi extends BaseApi {
         client: getClientInfo(this.integrationId),
         // userId: '', //  omit userId while all users are anonymous
         intent: 'conversation:start', //this will trigger a conversation:start webhook needed by AB
-        ...data
-      }
+        ...data,
+      },
     })
   }
 
@@ -21,13 +21,13 @@ class AppUsersApi extends BaseApi {
       method: 'PUT',
       path: `/v2/apps/${this.appId}/appusers/${appUserId}`,
       data: {
-        ...data
+        ...data,
       },
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 
@@ -38,8 +38,8 @@ class AppUsersApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 }

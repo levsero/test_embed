@@ -6,7 +6,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 import {
   mockTicketSubmissionEndpoint,
   waitForContactForm,
-  waitForSubmissionSuccess
+  waitForSubmissionSuccess,
 } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import { assertScreenshot } from 'e2e/helpers/visual-regressions'
@@ -21,17 +21,17 @@ const completeForm = async () => {
   await fillForm({
     'Your name (optional)': 'test name',
     'Email address': 'test@email.com',
-    'How can we help you?': 'test description'
+    'How can we help you?': 'test description',
   })
 }
 
-const inputError = async tag => {
+const inputError = async (tag) => {
   await widget.clickText('Send')
   await widget.waitForText('Please enter a valid email address.')
   await assertScreenshot('contact-form-input-error', { tag })
 }
 
-const submissionSuccess = async tag => {
+const submissionSuccess = async (tag) => {
   await completeForm()
   await assertScreenshot('contact-form-filled', { tag })
   await widget.clickText('Send')
@@ -39,7 +39,7 @@ const submissionSuccess = async tag => {
   await assertScreenshot('contact-form-success', { tag })
 }
 
-const show = async tag => {
+const show = async (tag) => {
   await assertScreenshot('default-contact-form', { tag })
 }
 
@@ -65,9 +65,7 @@ describe('desktop', () => {
 
 describe('mobile', () => {
   beforeEach(async () => {
-    await buildWidget()
-      .useMobile()
-      .load()
+    await buildWidget().useMobile().load()
     await widget.openByKeyboard()
     await waitForContactForm()
   })

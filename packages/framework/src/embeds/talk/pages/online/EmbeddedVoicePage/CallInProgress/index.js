@@ -16,10 +16,10 @@ import {
   MutedMicrophoneIcon,
   PhoneIcon,
   Section,
-  Timer
+  Timer,
 } from './styles'
 
-const parseTime = time => {
+const parseTime = (time) => {
   const hours = Math.floor(time / 3600) || ''
   const minutes = Math.floor((time - hours * 3600) / 60)
   const seconds = time % 60
@@ -41,7 +41,7 @@ const CallInProgress = ({
   onEndCallClicked = () => {},
   onMuteClick = () => {},
   isCallInProgress = true,
-  hasLastCallFailed = false
+  hasLastCallFailed = false,
 }) => {
   const dispatch = useDispatch()
   const translate = useTranslate()
@@ -117,7 +117,7 @@ CallInProgress.propTypes = {
   onEndCallClicked: PropTypes.func.isRequired,
   onMuteClick: PropTypes.func,
   isCallInProgress: PropTypes.bool,
-  hasLastCallFailed: PropTypes.bool
+  hasLastCallFailed: PropTypes.bool,
 }
 
 export default CallInProgress

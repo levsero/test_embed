@@ -6,7 +6,7 @@ import {
   mockInteractionEndpoint,
   mockViewedEndpoint,
   mockResolutionEndpoint,
-  mockRejectionEndpoint
+  mockRejectionEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 import { getJsonPayload } from 'e2e/helpers/utils'
 import { queries, wait } from 'pptr-testing-library'
@@ -19,7 +19,7 @@ const buildWidget = () =>
     .intercept(mockInteractionEndpoint())
     .intercept(mockViewedEndpoint())
 
-const goToArticle = async title => {
+const goToArticle = async (title) => {
   await launcher.click()
   await waitForAnswerBot()
   await search('Help')
@@ -28,7 +28,7 @@ const goToArticle = async title => {
   await widget.waitForText('Does this article answer your question?')
 }
 
-const answerFeedback = async answer => {
+const answerFeedback = async (answer) => {
   await widget.clickText(answer, { exact: false })
   const doc = await widget.getDocument()
   await wait(async () => {
@@ -39,24 +39,20 @@ const answerFeedback = async answer => {
 describe('clicking yes', () => {
   it('sends request to answer bot with expected parameters', async () => {
     const endpoint = jest.fn()
-    await buildWidget()
-      .intercept(mockResolutionEndpoint(endpoint))
-      .load()
+    await buildWidget().intercept(mockResolutionEndpoint(endpoint)).load()
     await goToArticle('The second article')
     await answerFeedback('Yes')
     expect(getJsonPayload(endpoint)).toEqual({
       article_id: 360002874213,
       deflection_id: 360060729351,
       interaction_access_token: 'eyJ0eXAi',
-      resolution_channel_id: 67
+      resolution_channel_id: 67,
     })
   })
 
   describe('after resolution', () => {
     beforeEach(async () => {
-      await buildWidget()
-        .intercept(mockResolutionEndpoint())
-        .load()
+      await buildWidget().intercept(mockResolutionEndpoint()).load()
       await goToArticle('The second article')
       await answerFeedback('Yes')
     })
@@ -78,9 +74,7 @@ describe('clicking yes', () => {
 describe('clicking no', () => {
   it('sends request to answer bot with expected parameters', async () => {
     const endpoint = jest.fn()
-    await buildWidget()
-      .intercept(mockRejectionEndpoint(endpoint))
-      .load()
+    await buildWidget().intercept(mockRejectionEndpoint(endpoint)).load()
     await goToArticle('The second article')
     await answerFeedback('No')
     await widget.waitForText('Please tell us why.')
@@ -91,16 +85,14 @@ describe('clicking no', () => {
         deflection_id: 360060729351,
         interaction_access_token: 'eyJ0eXAi',
         resolution_channel_id: 67,
-        reason_id: 1
+        reason_id: 1,
       })
     })
   })
 
   describe('after rejection', () => {
     beforeEach(async () => {
-      await buildWidget()
-        .intercept(mockRejectionEndpoint())
-        .load()
+      await buildWidget().intercept(mockRejectionEndpoint()).load()
       await goToArticle('The second article')
       await answerFeedback('No')
       await widget.waitForText('Please tell us why.')

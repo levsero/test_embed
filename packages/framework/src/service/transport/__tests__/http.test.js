@@ -8,13 +8,13 @@ jest.mock('superagent')
 jest.mock('service/settings', () => {
   return {
     settings: {
-      get: () => 48
-    }
+      get: () => 48,
+    },
   }
 })
 
 jest.mock('src/framework/services/errorTracker', () => ({
-  error: jest.fn()
+  error: jest.fn(),
 }))
 
 beforeEach(() => {
@@ -29,7 +29,7 @@ describe('#updateConfig', () => {
     expect(http.getConfig()).toEqual(
       expect.objectContaining({
         test: 'config2',
-        scheme: 'https'
+        scheme: 'https',
       })
     )
   })
@@ -43,13 +43,13 @@ describe('#send', () => {
       method: 'get',
       path: '/test/path',
       params: {
-        name: 'John Doe'
+        name: 'John Doe',
       },
       callbacks: {
         done: jest.fn(),
         fail: jest.fn(),
-        always: jest.fn()
-      }
+        always: jest.fn(),
+      },
     }
   })
 
@@ -262,7 +262,7 @@ describe('#get', () => {
   beforeEach(() => {
     http.clearCache()
     payload = {
-      path: '/test/path'
+      path: '/test/path',
     }
   })
 
@@ -276,7 +276,7 @@ describe('#get', () => {
     expect(superagent.__mostRecent().responseType).not.toHaveBeenCalled()
     expect(superagent.__mostRecent().timeout).toHaveBeenCalledWith({
       response: 5000,
-      deadline: 60000
+      deadline: 60000,
     })
   })
 
@@ -335,7 +335,7 @@ describe('#get', () => {
     const error = new Error('there was an error')
     superagent.__setMockError(error)
 
-    await http.get({ path: '/test/path' }).catch(err => {
+    await http.get({ path: '/test/path' }).catch((err) => {
       expect(err).toEqual(error)
     })
 
@@ -391,12 +391,12 @@ describe('#sendWithMeta', () => {
   const payload = {
     method: 'get',
     path: 'https://www.example.com/test',
-    params: {}
+    params: {},
   }
   const userInfo = {
     name: 'Bob',
     email: 'bob@example.com',
-    phone: '0430999777'
+    phone: '0430999777',
   }
 
   describe('when identity is not set', () => {
@@ -438,13 +438,13 @@ describe('#sendFile', () => {
       method: 'post',
       path: '/test/path',
       file: {
-        name: 'fakeFile'
+        name: 'fakeFile',
       },
       callbacks: {
         done: jest.fn(),
         fail: jest.fn(),
-        progress: jest.fn()
-      }
+        progress: jest.fn(),
+      },
     }
   })
 
@@ -486,14 +486,14 @@ describe('#sendFile', () => {
 
     it('adds a query string with the filename', () => {
       expect(superagent.__mostRecent().query).toHaveBeenCalledWith({
-        filename: 'fakeFile'
+        filename: 'fakeFile',
       })
     })
 
     it('adds a query string with the web_widget via_id', () => {
       /* eslint camelcase:0 */
       expect(superagent.__mostRecent().query).toHaveBeenCalledWith({
-        via_id: 48
+        via_id: 48,
       })
     })
 
@@ -589,12 +589,12 @@ describe('#callMeRequest', () => {
       params: {
         phoneNumber: '+61412345678',
         subdomain: 'bob',
-        keyword: 'Support'
+        keyword: 'Support',
       },
       callbacks: {
         done: jest.fn(),
-        fail: jest.fn()
-      }
+        fail: jest.fn(),
+      },
     }
 
     http.callMeRequest('http://talk_service.com', payload)
@@ -646,7 +646,7 @@ describe('#getDynamicHostname', () => {
       beforeEach(() => {
         mockConfig = {
           hostMapping: 'super.mofo.io',
-          zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+          zendeskHost: 'dbradfordstaging999.zendesk-staging.com',
         }
         http.updateConfig(mockConfig)
         result = http.getDynamicHostname(true)
@@ -660,7 +660,7 @@ describe('#getDynamicHostname', () => {
     describe('when config.hostMapping does not exist', () => {
       beforeEach(() => {
         mockConfig = {
-          zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+          zendeskHost: 'dbradfordstaging999.zendesk-staging.com',
         }
         http.updateConfig(mockConfig)
         result = http.getDynamicHostname(true)
@@ -676,7 +676,7 @@ describe('#getDynamicHostname', () => {
     beforeEach(() => {
       mockConfig = {
         hostMapping: 'super.mofo.io',
-        zendeskHost: 'dbradfordstaging999.zendesk-staging.com'
+        zendeskHost: 'dbradfordstaging999.zendesk-staging.com',
       }
       http.updateConfig(mockConfig)
       result = http.getDynamicHostname(false)
@@ -691,11 +691,11 @@ describe('#getDynamicHostname', () => {
 describe('#logFailure', () => {
   const baseError = {
     status: 500,
-    message: 'whatcha want'
+    message: 'whatcha want',
   }
   const basePayload = {
     method: 'get',
-    path: '/beastie/boys.json'
+    path: '/beastie/boys.json',
   }
 
   let error, payload
@@ -744,7 +744,7 @@ describe('#logFailure', () => {
         hostname: 'localhost',
         method: 'GET',
         path: '/beastie/boys.json',
-        status: 500
+        status: 500,
       })
     })
   })

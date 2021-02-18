@@ -25,7 +25,7 @@ export const Title = styled.p`
 export const Paragraph = styled.p`
   color: ${zdColorGrey600};
   ${!isMobileBrowser() &&
-    `
+  `
     margin-bottom: ${20 / FONT_SIZE} !important;
 `}
 `

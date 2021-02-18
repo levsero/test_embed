@@ -12,15 +12,15 @@ const mockFormProp = {
     name: 'phone',
     label: 'Phone Number',
     required: false,
-    hidden: false
+    hidden: false,
   },
   message: { name: 'message', label: 'Message', required: false },
   department: {
     name: 'department',
     label: 'Choose Department',
-    required: false
+    required: false,
   },
-  departments: [{ name: 'dept', id: 1234, isDefault: false }]
+  departments: [{ name: 'dept', id: 1234, isDefault: false }],
 }
 
 const renderPrechatForm = (inProps = {}) => {
@@ -32,12 +32,12 @@ const renderPrechatForm = (inProps = {}) => {
     initiateSocialLogout: () => {},
     isAuthenticated: false,
     openedChatHistory: () => {},
-    chatHistoryLabel: 'Chat History here!'
+    chatHistoryLabel: 'Chat History here!',
   }
 
   const combinedProps = {
     ...defaultProps,
-    ...inProps
+    ...inProps,
   }
 
   const result = render(<PrechatForm {...combinedProps} />)
@@ -47,7 +47,7 @@ const renderPrechatForm = (inProps = {}) => {
 
   return {
     ...result,
-    rerender
+    rerender,
   }
 }
 
@@ -72,11 +72,11 @@ describe('Departments', () => {
     it('does not show the department dropdown', () => {
       const formProp = {
         ...mockFormProp,
-        departments: []
+        departments: [],
       }
 
       const { queryByLabelText } = renderPrechatForm({
-        form: formProp
+        form: formProp,
       })
 
       expect(queryByLabelText(/Choose Department/)).not.toBeInTheDocument()
@@ -88,12 +88,12 @@ describe('Departments', () => {
       it('does not show the department dropdown', () => {
         const formProp = {
           ...mockFormProp,
-          departments: [{ id: 1, status: 'online', isDefault: true }]
+          departments: [{ id: 1, status: 'online', isDefault: true }],
         }
 
         const { queryByLabelText } = renderPrechatForm({
           form: formProp,
-          settingsDepartmentsEnabled: []
+          settingsDepartmentsEnabled: [],
         })
 
         expect(queryByLabelText(/Choose Department/)).not.toBeInTheDocument()
@@ -104,11 +104,11 @@ describe('Departments', () => {
       it('shows the department dropdown', () => {
         const formProp = {
           ...mockFormProp,
-          departments: [{ id: 1, status: 'online', isDefault: false }]
+          departments: [{ id: 1, status: 'online', isDefault: false }],
         }
 
         const { queryByLabelText } = renderPrechatForm({
-          form: formProp
+          form: formProp,
         })
 
         expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
@@ -122,12 +122,12 @@ describe('Departments', () => {
         ...mockFormProp,
         departments: [
           { id: 1, status: 'online', isDefault: false },
-          { id: 2, status: 'offline', isDefault: true }
-        ]
+          { id: 2, status: 'offline', isDefault: true },
+        ],
       }
 
       const { queryByLabelText } = renderPrechatForm({
-        form: formProp
+        form: formProp,
       })
 
       expect(queryByLabelText(/Choose Department/)).toBeInTheDocument()
@@ -142,7 +142,7 @@ describe('Departments', () => {
     const render = () => {
       const formProp = {
         ...mockFormProp,
-        departments
+        departments,
       }
       form = renderPrechatForm({
         form: formProp,
@@ -150,9 +150,9 @@ describe('Departments', () => {
           id: 1,
           status: defaultDeptStatus,
           isDefault: true,
-          name: 'defaultDept'
+          name: 'defaultDept',
         },
-        formState: { department: 1 }
+        formState: { department: 1 },
       })
     }
 
@@ -160,7 +160,7 @@ describe('Departments', () => {
       beforeEach(() => {
         departments = [
           { id: 1, status: 'online', isDefault: true, name: 'defaultDept' },
-          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' },
         ]
         defaultDeptStatus = 'online'
       })
@@ -197,7 +197,7 @@ describe('Departments', () => {
         beforeEach(() => {
           departments = [
             { id: 1, status: 'online', isDefault: true, name: 'defaultDept' },
-            { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+            { id: 2, status: 'online', isDefault: false, name: 'enabledDept' },
           ]
           render()
         })
@@ -218,7 +218,7 @@ describe('Departments', () => {
       beforeEach(() => {
         departments = [
           { id: 1, status: 'offline', isDefault: true, name: 'defaultDept' },
-          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' }
+          { id: 2, status: 'online', isDefault: false, name: 'enabledDept' },
         ]
         defaultDeptStatus = 'offline'
         render()
@@ -243,7 +243,7 @@ it('does not render the phone number field for authenticated users', () => {
   const { queryByLabelText } = renderPrechatForm({
     loginEnabled: true,
     phoneEnabled: true,
-    isAuthenticated: true
+    isAuthenticated: true,
   })
 
   expect(queryByLabelText('Phone Number (optional)')).not.toBeInTheDocument()
@@ -253,7 +253,7 @@ it('renders the phone number field for unauthenticated users', () => {
   const { queryByLabelText } = renderPrechatForm({
     loginEnabled: true,
     phoneEnabled: true,
-    isAuthenticated: false
+    isAuthenticated: false,
   })
 
   expect(queryByLabelText('Phone Number (optional)')).toBeInTheDocument()
@@ -267,12 +267,12 @@ test('renders fields as optional if required is false', () => {
       name: 'phone',
       label: 'Phone Number',
       required: false,
-      hidden: false
+      hidden: false,
     },
-    message: { name: 'message', required: false }
+    message: { name: 'message', required: false },
   }
   const { queryByLabelText } = renderPrechatForm({
-    form: formProp
+    form: formProp,
   })
 
   expect(queryByLabelText('Name (optional)')).toBeInTheDocument()
@@ -288,7 +288,7 @@ describe('loginEnabled', () => {
         loginEnabled: false,
         name: { required: true },
         email: { required: true },
-        phone: { required: true }
+        phone: { required: true },
       })
 
       expect(queryByTestId(TEST_IDS.NAME_FIELD)).toBeNull()
@@ -303,7 +303,7 @@ describe('loginEnabled', () => {
         loginEnabled: true,
         name: { required: true },
         email: { required: true },
-        phone: { required: true }
+        phone: { required: true },
       })
 
       expect(queryByTestId(TEST_IDS.NAME_FIELD)).toBeInTheDocument()
@@ -316,11 +316,11 @@ describe('loginEnabled', () => {
 test('does not render phoneEnabled is true', () => {
   let formProp = {
     ...mockFormProp,
-    phone: { name: 'phone', required: false, hidden: true }
+    phone: { name: 'phone', required: false, hidden: true },
   }
   const { queryByTestId } = renderPrechatForm({
     phoneEnabled: false,
-    form: formProp
+    form: formProp,
   })
 
   expect(queryByTestId(TEST_IDS.PHONE_FIELD)).not.toBeInTheDocument()
@@ -330,12 +330,12 @@ describe('submit button', () => {
   it('has the `Start chat` string when an online department is selected', () => {
     let formProp = {
       ...mockFormProp,
-      departments: [{ name: 'department', id: 123, status: 'online' }]
+      departments: [{ name: 'department', id: 123, status: 'online' }],
     }
 
     const { queryByText } = renderPrechatForm({
       form: formProp,
-      formState: { department: 123 }
+      formState: { department: 123 },
     })
 
     expect(queryByText('Start chat')).toBeInTheDocument()
@@ -344,12 +344,12 @@ describe('submit button', () => {
   it('has the `Send message` string when an offline department is selected', () => {
     let formProp = {
       ...mockFormProp,
-      departments: [{ name: 'department', id: 123, status: 'offline' }]
+      departments: [{ name: 'department', id: 123, status: 'offline' }],
     }
 
     const { queryByText } = renderPrechatForm({
       form: formProp,
-      formState: { department: 123 }
+      formState: { department: 123 },
     })
 
     expect(queryByText('Send message')).toBeInTheDocument()
@@ -366,12 +366,12 @@ describe('validation', () => {
       department: {
         name: 'department',
         label: 'Choose Department',
-        required: true
+        required: true,
       },
-      departments: [{ name: 'dept', id: 1234, isDefault: false }]
+      departments: [{ name: 'dept', id: 1234, isDefault: false }],
     }
     const { getByText, queryByText } = renderPrechatForm({
-      form: formProp
+      form: formProp,
     })
 
     fireEvent.click(getByText('Start chat'))
@@ -388,11 +388,11 @@ describe('validation', () => {
       name: { name: 'name', required: true },
       email: { name: 'email', required: false },
       phone: { name: 'phone', required: false },
-      message: { name: 'message', required: false }
+      message: { name: 'message', required: false },
     }
     const { getByText, queryByText } = renderPrechatForm({
       form: formProp,
-      formState: { email: 'sadfasdfsfd' }
+      formState: { email: 'sadfasdfsfd' },
     })
 
     fireEvent.click(getByText('Start chat'))
@@ -402,7 +402,7 @@ describe('validation', () => {
 
   it('validates phone number value is a valid phone number', () => {
     const { getByText, queryByText } = renderPrechatForm({
-      formState: { phone: 'sadfasdfsfd' }
+      formState: { phone: 'sadfasdfsfd' },
     })
 
     fireEvent.click(getByText('Start chat'))
@@ -421,14 +421,14 @@ test('submits expected form data', () => {
     department: {
       name: 'department',
       label: 'Choose Department',
-      required: false
+      required: false,
     },
-    departments: [{ name: 'dept', id: 1234, isDefault: false }]
+    departments: [{ name: 'dept', id: 1234, isDefault: false }],
   }
   const formHandler = jest.fn()
   const { getByText } = renderPrechatForm({
     formState: formData,
-    onFormCompleted: formHandler
+    onFormCompleted: formHandler,
   })
 
   jest.runAllTimers()
@@ -445,8 +445,8 @@ describe('social logins', () => {
         form: mockFormProp,
         authUrls: {
           google:
-            'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-        }
+            'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
+        },
       })
 
       expect(getByText('Or social sign in:')).toBeInTheDocument()
@@ -459,8 +459,8 @@ describe('social logins', () => {
           google:
             'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
           facebook:
-            'https://www.zopim.com/auth/facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-        }
+            'https://www.zopim.com/auth/facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
+        },
       })
 
       expect(queryByTestId(TEST_IDS.ICON_GOOGLE)).toBeInTheDocument()
@@ -472,7 +472,7 @@ describe('social logins', () => {
     it('does not render the social login section', () => {
       const { queryByText } = renderPrechatForm({
         form: mockFormProp,
-        authUrls: {}
+        authUrls: {},
       })
 
       expect(queryByText('Or social sign in:')).not.toBeInTheDocument()

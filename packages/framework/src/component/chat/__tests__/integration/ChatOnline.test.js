@@ -32,10 +32,10 @@ const timestamp = () => {
   return 1544788677868 + counter
 }
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const mergedProps = {
     updateChatBackButtonVisibility,
-    ...props
+    ...props,
   }
 
   return render(<ChatOnline {...mergedProps} />, { store })
@@ -45,7 +45,7 @@ describe('chat log', () => {
   const assertChatLog = (...actions) => {
     const { queryByTestId } = renderComponent()
 
-    actions.forEach(action => {
+    actions.forEach((action) => {
       store.dispatch(action)
     })
     jest.runAllTimers()
@@ -62,9 +62,9 @@ describe('chat log', () => {
           display_name: 'Visitor 123',
           nick: 'visitor',
           timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
+          type: 'chat.memberjoin',
+        },
+      },
     })
   })
 
@@ -72,7 +72,7 @@ describe('chat log', () => {
     describe('account settings login enabled', () => {
       beforeEach(() => {
         dispatchChatAccountSettings(store, {
-          login: { enabled: true }
+          login: { enabled: true },
         })
       })
 
@@ -86,9 +86,9 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg'
-            }
-          }
+              type: 'chat.msg',
+            },
+          },
         })
       })
 
@@ -99,9 +99,9 @@ describe('chat log', () => {
             payload: {
               type: 'visitor_update',
               detail: {
-                email: 'hello@me.com'
-              }
-            }
+                email: 'hello@me.com',
+              },
+            },
           },
           {
             type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
@@ -112,9 +112,9 @@ describe('chat log', () => {
                 msg: 'Hi',
                 nick: 'visitor',
                 display_name: 'Visitor 123',
-                type: 'chat.msg'
-              }
-            }
+                type: 'chat.msg',
+              },
+            },
           }
         )
       })
@@ -126,9 +126,9 @@ describe('chat log', () => {
             payload: {
               type: 'visitor_update',
               detail: {
-                display_name: 'Jill'
-              }
-            }
+                display_name: 'Jill',
+              },
+            },
           },
           {
             type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
@@ -139,9 +139,9 @@ describe('chat log', () => {
                 msg: 'Hi',
                 nick: 'visitor',
                 display_name: 'Jill',
-                type: 'chat.msg'
-              }
-            }
+                type: 'chat.msg',
+              },
+            },
           }
         )
       })
@@ -153,9 +153,9 @@ describe('chat log', () => {
             payload: {
               type: 'visitor_update',
               detail: {
-                display_name: 'Visitor 123'
-              }
-            }
+                display_name: 'Visitor 123',
+              },
+            },
           },
           {
             type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
@@ -166,9 +166,9 @@ describe('chat log', () => {
                 msg: 'Hi',
                 nick: 'visitor',
                 display_name: 'Visitor 123',
-                type: 'chat.msg'
-              }
-            }
+                type: 'chat.msg',
+              },
+            },
           }
         )
       })
@@ -187,9 +187,9 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg'
-            }
-          }
+              type: 'chat.msg',
+            },
+          },
         },
         {
           type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
@@ -200,9 +200,9 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg'
-            }
-          }
+              type: 'chat.msg',
+            },
+          },
         }
       )
     })
@@ -220,9 +220,9 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg'
-            }
-          }
+              type: 'chat.msg',
+            },
+          },
         },
         {
           type: chatActionTypes.CHAT_MSG_REQUEST_FAILURE,
@@ -233,9 +233,9 @@ describe('chat log', () => {
               msg: 'Hi',
               nick: 'visitor',
               display_name: 'Visitor 123',
-              type: 'chat.msg'
-            }
-          }
+              type: 'chat.msg',
+            },
+          },
         }
       )
     })
@@ -250,9 +250,9 @@ describe('chat log', () => {
           timestamp: timestamp(),
           queue_position: 3,
           nick: 'system.queue',
-          type: 'chat.queue_position'
-        }
-      }
+          type: 'chat.queue_position',
+        },
+      },
     })
   })
 
@@ -265,9 +265,9 @@ describe('chat log', () => {
           display_name: 'Agent McAgent',
           nick: 'agent:123',
           timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
+          type: 'chat.memberjoin',
+        },
+      },
     })
   })
 
@@ -286,10 +286,10 @@ describe('chat log', () => {
             name: 'pic.png',
             size: 23392,
             url: 'http://a.png',
-            metadata: { width: 429, height: 723 }
-          }
-        }
-      }
+            metadata: { width: 429, height: 723 },
+          },
+        },
+      },
     })
   })
 
@@ -302,9 +302,9 @@ describe('chat log', () => {
             display_name: 'Mr F',
             nick: 'agent:456',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_AGENT_UPDATE,
@@ -314,9 +314,9 @@ describe('chat log', () => {
             display_name: 'Mr F',
             nick: 'agent:456',
             title: 'Mistah J',
-            type: 'agent_update'
-          }
-        }
+            type: 'agent_update',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_TYPING,
@@ -326,9 +326,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             typing: true,
             nick: 'agent:456',
-            type: 'typing'
-          }
-        }
+            type: 'typing',
+          },
+        },
       }
     )
   })
@@ -342,9 +342,9 @@ describe('chat log', () => {
             display_name: 'Mr F',
             nick: 'agent:456',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_AGENT_UPDATE,
@@ -353,9 +353,9 @@ describe('chat log', () => {
             display_name: 'Mr F',
             nick: 'agent:456',
             title: 'Mistah J',
-            type: 'agent_update'
-          }
-        }
+            type: 'agent_update',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_TYPING,
@@ -365,9 +365,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             typing: true,
             nick: 'agent:456',
-            type: 'typing'
-          }
-        }
+            type: 'typing',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_TYPING,
@@ -377,9 +377,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             typing: false,
             nick: 'agent:456',
-            type: 'typing'
-          }
-        }
+            type: 'typing',
+          },
+        },
       }
     )
   })
@@ -395,9 +395,9 @@ describe('chat log', () => {
           nick: 'agent:123',
           options: [],
           timestamp: timestamp(),
-          type: 'chat.msg'
-        }
-      }
+          type: 'chat.msg',
+        },
+      },
     })
   })
 
@@ -412,9 +412,9 @@ describe('chat log', () => {
           nick: 'visitor',
           timestamp: timestamp(),
           type: 'chat.rating',
-          new_rating: 'good'
-        }
-      }
+          new_rating: 'good',
+        },
+      },
     })
   })
 
@@ -429,9 +429,9 @@ describe('chat log', () => {
           new_comment: 'asdf',
           nick: 'visitor',
           timestamp: timestamp(),
-          type: 'chat.comment'
-        }
-      }
+          type: 'chat.comment',
+        },
+      },
     })
   })
 
@@ -445,9 +445,9 @@ describe('chat log', () => {
             display_name: 'Mugen',
             nick: 'agent:123',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
@@ -457,9 +457,9 @@ describe('chat log', () => {
             display_name: 'Mugen',
             nick: 'agent:123',
             timestamp: timestamp(),
-            type: 'chat.memberleave'
-          }
-        }
+            type: 'chat.memberleave',
+          },
+        },
       }
     )
   })
@@ -474,9 +474,9 @@ describe('chat log', () => {
             display_name: 'Mugen',
             nick: 'agent:123',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
@@ -487,9 +487,9 @@ describe('chat log', () => {
             nick: 'agent:123',
             reason: 'disconnect_user',
             timestamp: timestamp(),
-            type: 'chat.memberleave'
-          }
-        }
+            type: 'chat.memberleave',
+          },
+        },
       }
     )
   })
@@ -504,9 +504,9 @@ describe('chat log', () => {
             display_name: 'Mugen',
             nick: 'agent:123',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
@@ -517,9 +517,9 @@ describe('chat log', () => {
             nick: 'agent:123',
             reason: 'arbitrary_unknown_reason',
             timestamp: timestamp(),
-            type: 'chat.memberleave'
-          }
-        }
+            type: 'chat.memberleave',
+          },
+        },
       }
     )
   })
@@ -533,16 +533,16 @@ describe('chat log', () => {
           detail: {
             timestamp: timestamp(),
             display_name: 'Spike',
-            email: ''
-          }
-        }
+            email: '',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CONNECTION_UPDATE,
         payload: {
           type: 'connection_update',
-          detail: 'connected'
-        }
+          detail: 'connected',
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -552,9 +552,9 @@ describe('chat log', () => {
             display_name: 'Spike',
             nick: 'visitor',
             timestamp: timestamp(),
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.CHAT_MSG_REQUEST_SENT,
@@ -565,9 +565,9 @@ describe('chat log', () => {
             msg: 'Hi',
             nick: 'visitor',
             display_name: 'Spike',
-            type: 'chat.msg'
-          }
-        }
+            type: 'chat.msg',
+          },
+        },
       },
       {
         type: chatActionTypes.CHAT_MSG_REQUEST_SUCCESS,
@@ -578,9 +578,9 @@ describe('chat log', () => {
             msg: 'Hi',
             nick: 'visitor',
             display_name: 'Spike',
-            type: 'chat.msg'
-          }
-        }
+            type: 'chat.msg',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_QUEUE_POSITION,
@@ -590,9 +590,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             queue_position: 1,
             nick: 'system.queue',
-            type: 'chat.queue_position'
-          }
-        }
+            type: 'chat.queue_position',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_QUEUE_POSITION,
@@ -602,9 +602,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             queue_position: 0,
             nick: 'system.queue',
-            type: 'chat.queue_position'
-          }
-        }
+            type: 'chat.queue_position',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -614,9 +614,9 @@ describe('chat log', () => {
             timestamp: timestamp(),
             display_name: 'Jet',
             nick: 'agent:4567',
-            type: 'chat.memberjoin'
-          }
-        }
+            type: 'chat.memberjoin',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_AGENT_UPDATE,
@@ -625,9 +625,9 @@ describe('chat log', () => {
             display_name: 'Jet',
             nick: 'agent:4567',
             title: 'Black',
-            type: 'agent_update'
-          }
-        }
+            type: 'agent_update',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_FILE,
@@ -643,10 +643,10 @@ describe('chat log', () => {
               name: 'pic.png',
               size: 23392,
               url: 'http://a.png',
-              metadata: { width: 429, height: 723 }
-            }
-          }
-        }
+              metadata: { width: 429, height: 723 },
+            },
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MSG,
@@ -658,9 +658,9 @@ describe('chat log', () => {
             nick: 'agent:4567',
             options: [],
             timestamp: timestamp(),
-            type: 'chat.msg'
-          }
-        }
+            type: 'chat.msg',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_RATING,
@@ -672,9 +672,9 @@ describe('chat log', () => {
             nick: 'visitor',
             timestamp: timestamp(),
             type: 'chat.rating',
-            new_rating: 'good'
-          }
-        }
+            new_rating: 'good',
+          },
+        },
       },
       {
         type: chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
@@ -684,9 +684,9 @@ describe('chat log', () => {
             display_name: 'Jet',
             nick: 'agent:4567',
             timestamp: timestamp(),
-            type: 'chat.memberleave'
-          }
-        }
+            type: 'chat.memberleave',
+          },
+        },
       }
     )
   })
@@ -702,9 +702,9 @@ test('update chat header', () => {
         display_name: 'Mr F',
         nick: 'agent:456',
         timestamp: timestamp(),
-        type: 'chat.memberjoin'
-      }
-    }
+        type: 'chat.memberjoin',
+      },
+    },
   })
   store.dispatch({
     type: chatActionTypes.SDK_AGENT_UPDATE,
@@ -713,9 +713,9 @@ test('update chat header', () => {
         display_name: 'Mr F',
         nick: 'agent:456',
         title: 'Mistah J',
-        type: 'agent_update'
-      }
-    }
+        type: 'agent_update',
+      },
+    },
   })
 
   expect(getByTestId(TEST_IDS.CHAT_HEADER_TEXT_CONTAINER)).toMatchSnapshot()
@@ -724,7 +724,7 @@ test('update chat header', () => {
 describe('rating', () => {
   it('does not show rating on agent join if rating settings are disabled', () => {
     dispatchChatAccountSettings(store, {
-      rating: { enabled: false }
+      rating: { enabled: false },
     })
 
     const { queryByTestId } = renderComponent()
@@ -737,9 +737,9 @@ describe('rating', () => {
           display_name: 'Agent G',
           nick: 'agent:1234',
           timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
+          type: 'chat.memberjoin',
+        },
+      },
     })
 
     expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).not.toBeInTheDocument()
@@ -748,7 +748,7 @@ describe('rating', () => {
 
   it('shows rating on agent join if rating settings are enabled', () => {
     dispatchChatAccountSettings(store, {
-      rating: { enabled: true }
+      rating: { enabled: true },
     })
 
     const { queryByTestId } = renderComponent()
@@ -761,9 +761,9 @@ describe('rating', () => {
           display_name: 'Agent G',
           nick: 'agent:1234',
           timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
+          type: 'chat.memberjoin',
+        },
+      },
     })
 
     expect(queryByTestId(TEST_IDS.ICON_THUMB_UP)).toBeInTheDocument()
@@ -784,9 +784,9 @@ describe('end chat', () => {
           display_name: 'Visitor 123',
           nick: 'visitor',
           timestamp: timestamp(),
-          type: 'chat.memberjoin'
-        }
-      }
+          type: 'chat.memberjoin',
+        },
+      },
     })
 
     expect(endChatButtonNode.classList).not.toEqual('iconDisabled')
@@ -804,8 +804,8 @@ it('opens edit contact details popout', () => {
   store.dispatch({
     type: chatActionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     payload: {
-      enabled: true
-    }
+      enabled: true,
+    },
   })
 
   const { getByTestId, getByText } = renderComponent()
@@ -825,8 +825,8 @@ describe('connection', () => {
       type: chatActionTypes.SDK_CONNECTION_UPDATE,
       payload: {
         type: 'connection_update',
-        detail: 'closed'
-      }
+        detail: 'closed',
+      },
     })
 
     expect(getByText('Click to reconnect')).toBeInTheDocument()
@@ -839,8 +839,8 @@ describe('connection', () => {
       type: chatActionTypes.SDK_CONNECTION_UPDATE,
       payload: {
         type: 'connection_update',
-        detail: 'connecting'
-      }
+        detail: 'connecting',
+      },
     })
 
     expect(getByText('Reconnecting...')).toBeInTheDocument()

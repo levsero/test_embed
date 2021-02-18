@@ -6,7 +6,7 @@ export default (apiCall, payload, name, _errorCallback) => {
 
   if (isRateLimited(name, timestamp)) {
     beacon.trackUserAction('api', 'rateLimited', {
-      label: name
+      label: name,
     })
   }
 

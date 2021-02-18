@@ -3,7 +3,7 @@ import { getDisplayName } from 'src/util/chat'
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const chatVisitor = (state = initialState, action) => {
@@ -15,8 +15,8 @@ const chatVisitor = (state = initialState, action) => {
           ...state.values,
           name: getDisplayName(action.payload.detail?.display_name, state.name),
           email: action.payload.detail?.email,
-          phone: action.payload.detail?.phone
-        }
+          phone: action.payload.detail?.phone,
+        },
       }
     default:
       return state

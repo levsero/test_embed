@@ -9,17 +9,17 @@ const StyledField = styled(Field)`
 
 const StyledLabel = styled(Label)`
   &&& {
-    font-size: ${props => props.theme.messenger.fontSizes.md};
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
   }
 `
 
 const StyledInput = styled(Input)`
   &&& {
-    font-size: ${props => props.theme.messenger.fontSizes.md};
-    line-height: ${props => props.theme.messenger.lineHeights.md};
-    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
+    line-height: ${(props) => props.theme.messenger.lineHeights.md};
+    border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
 
-    ${props =>
+    ${(props) =>
       props.validation === undefined &&
       `
     :hover {
@@ -27,13 +27,13 @@ const StyledInput = styled(Input)`
     }
 
     :active {
-      border: ${props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
+      border: ${props.theme.borders.sm} ${(props) => props.theme.messenger.colors.action};
       box-shadow: ${props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.4))};
     }
 
     :focus,
     &[data-garden-focus-visible] {
-      border: ${props.theme.borders.sm} ${props => props.theme.messenger.colors.action};
+      border: ${props.theme.borders.sm} ${(props) => props.theme.messenger.colors.action};
       box-shadow: ${props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.45))};
     }
   `}

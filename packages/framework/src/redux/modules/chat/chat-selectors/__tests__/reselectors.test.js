@@ -49,7 +49,7 @@ describe('getIsProactiveSession', () => {
   it('returns false when no chats exist', () => {
     const result = selectors.getIsProactiveSession(
       getModifiedState({
-        chat: { chats: new Map() }
+        chat: { chats: new Map() },
       })
     )
 
@@ -65,18 +65,18 @@ describe('getIsProactiveSession', () => {
               1,
               {
                 type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
-                nick: 'visitor:steve'
-              }
+                nick: 'visitor:steve',
+              },
             ],
             [
               2,
               {
                 type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-                nick: 'agent:bob'
-              }
-            ]
-          ])
-        }
+                nick: 'agent:bob',
+              },
+            ],
+          ]),
+        },
       })
     )
 
@@ -92,25 +92,25 @@ describe('getIsProactiveSession', () => {
               1,
               {
                 type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
-                nick: 'visitor:steve'
-              }
+                nick: 'visitor:steve',
+              },
             ],
             [
               2,
               {
                 type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
-                nick: 'visitor:steve'
-              }
+                nick: 'visitor:steve',
+              },
             ],
             [
               3,
               {
                 type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-                nick: 'agent:bob'
-              }
-            ]
-          ])
-        }
+                nick: 'agent:bob',
+              },
+            ],
+          ]),
+        },
       })
     )
 
@@ -131,10 +131,10 @@ describe('getThemeShowAvatar', () => {
         chat: {
           accountSettings: {
             theme: {
-              message_type: 'bubble_avatar'
-            }
-          }
-        }
+              message_type: 'bubble_avatar',
+            },
+          },
+        },
       })
     )
 
@@ -147,10 +147,10 @@ describe('getThemeShowAvatar', () => {
         chat: {
           accountSettings: {
             theme: {
-              message_type: ''
-            }
-          }
-        }
+              message_type: '',
+            },
+          },
+        },
       })
     )
 
@@ -164,7 +164,7 @@ describe('getAuthUrls', () => {
 
     expect(result).toEqual({
       facebook: 'www.foo.com/facebook/bar-baz',
-      google: 'www.foo.com/google/bar-baz'
+      google: 'www.foo.com/google/bar-baz',
     })
   })
 
@@ -172,8 +172,8 @@ describe('getAuthUrls', () => {
     const result = selectors.getAuthUrls(
       getModifiedState({
         chat: {
-          isAuthenticated: true
-        }
+          isAuthenticated: true,
+        },
       })
     )
 
@@ -186,10 +186,10 @@ describe('getAuthUrls', () => {
         chat: {
           vendor: {
             zChat: {
-              getAuthLoginUrl: null
-            }
-          }
-        }
+              getAuthLoginUrl: null,
+            },
+          },
+        },
       })
     )
 
@@ -217,9 +217,9 @@ describe('getShowRatingScreen', () => {
       getModifiedState({
         chat: {
           rating: {
-            value: 5
-          }
-        }
+            value: 5,
+          },
+        },
       })
     )
 
@@ -232,10 +232,10 @@ describe('getShowRatingScreen', () => {
         chat: {
           accountSettings: {
             rating: {
-              enabled: false
-            }
-          }
-        }
+              enabled: false,
+            },
+          },
+        },
       })
     )
 
@@ -246,8 +246,8 @@ describe('getShowRatingScreen', () => {
     const result = selectors.getShowRatingScreen(
       getModifiedState({
         chat: {
-          activeAgents: new Map()
-        }
+          activeAgents: new Map(),
+        },
       })
     )
 
@@ -259,9 +259,9 @@ describe('getShowRatingScreen', () => {
       getModifiedState({
         chat: {
           rating: {
-            disableEndScreen: true
-          }
-        }
+            disableEndScreen: true,
+          },
+        },
       })
     )
 
@@ -276,11 +276,11 @@ describe('getShowOfflineChat', () => {
         chat: {
           forcedStatus: 'offline',
           rating: {
-            disableEndScreen: true
+            disableEndScreen: true,
           },
           is_chatting: false,
-          isLoggingOut: false
-        }
+          isLoggingOut: false,
+        },
       })
     )
 
@@ -293,11 +293,11 @@ describe('getShowOfflineChat', () => {
         chat: {
           forcedStatus: 'online',
           rating: {
-            disableEndScreen: true
+            disableEndScreen: true,
           },
           isChatting: false,
-          isLoggingOut: false
-        }
+          isLoggingOut: false,
+        },
       })
     )
 
@@ -311,10 +311,10 @@ describe('getShowOfflineChat', () => {
           forcedStatus: 'offline',
           is_chatting: true,
           rating: {
-            disableEndScreen: true
+            disableEndScreen: true,
           },
-          isLoggingOut: 'false'
-        }
+          isLoggingOut: 'false',
+        },
       })
     )
 
@@ -327,8 +327,8 @@ describe('getShowOfflineChat', () => {
         chat: {
           forcedStatus: 'online',
           isLoggingOut: false,
-          is_chatting: false
-        }
+          is_chatting: false,
+        },
       })
     )
 
@@ -342,10 +342,10 @@ describe('getShowOfflineChat', () => {
           forcedStatus: 'offline',
           isLoggingOut: true,
           rating: {
-            disableEndScreen: true
+            disableEndScreen: true,
           },
-          is_chatting: false
-        }
+          is_chatting: false,
+        },
       })
     )
 
@@ -358,8 +358,8 @@ describe('getChatConnectionMade', () => {
     const result = selectors.getChatConnectionMade(
       getModifiedState({
         chat: {
-          connection: 'connected'
-        }
+          connection: 'connected',
+        },
       })
     )
 
@@ -370,8 +370,8 @@ describe('getChatConnectionMade', () => {
     const result = selectors.getChatConnectionMade(
       getModifiedState({
         chat: {
-          connection: 'closed'
-        }
+          connection: 'closed',
+        },
       })
     )
 
@@ -382,8 +382,8 @@ describe('getChatConnectionMade', () => {
     const result = selectors.getChatConnectionMade(
       getModifiedState({
         chat: {
-          connection: 'connecting'
-        }
+          connection: 'connecting',
+        },
       })
     )
 
@@ -404,45 +404,45 @@ describe('getChatMessagesFromAgents', () => {
             1,
             {
               type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-              nick: 'agent:bob'
-            }
+              nick: 'agent:bob',
+            },
           ],
           [
             2,
             {
               type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
-              nick: 'visitor:steve'
-            }
+              nick: 'visitor:steve',
+            },
           ],
           [
             3,
             {
               type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_COMMENT,
-              nick: 'visitor:steve'
-            }
+              nick: 'visitor:steve',
+            },
           ],
           [
             4,
             {
               type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
-              nick: 'agent:marley'
-            }
+              nick: 'agent:marley',
+            },
           ],
           [
             5,
             {
               type: 'chat.typing',
-              nick: 'agent:blah'
-            }
-          ]
-        ])
-      }
+              nick: 'agent:blah',
+            },
+          ],
+        ]),
+      },
     })
     const result = selectors.getChatMessagesFromAgents(state)
 
     expect(result).toEqual([
       { type: 'chat.msg', nick: 'agent:bob' },
-      { type: 'chat.msg', nick: 'agent:marley' }
+      { type: 'chat.msg', nick: 'agent:marley' },
     ])
   })
 })
@@ -451,11 +451,11 @@ describe('getActiveAgentCount', () => {
   const selector = selectors.getActiveAgentCount.resultFunc
   const activeAgents = {
     'agent:1234': {
-      name: 'Johnson'
+      name: 'Johnson',
     },
     'agent:5678': {
-      name: 'Smith'
-    }
+      name: 'Smith',
+    },
   }
 
   it('returns the number of active agents passed', () => {

@@ -5,7 +5,7 @@ import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 import {
   getErrorFetchingHistory,
   getHasFetchedConversation,
-  getIsFetchingHistory
+  getIsFetchingHistory,
 } from 'src/apps/messenger/features/messageLog/store'
 import Message from 'src/apps/messenger/features/messageLog/Message'
 import useScrollBehaviour from 'src/apps/messenger/features/messageLog/hooks/useScrollBehaviour'
@@ -24,15 +24,15 @@ const MessageLog = () => {
     onScrollBottom,
     scrollToBottomIfNeeded,
     scrollToBottom,
-    scrollToFirstError
+    scrollToFirstError,
   } = useScrollBehaviour({
     messages,
     container,
-    anchor
+    anchor,
   })
   const { onScrollTop, retryFetchMessages } = useFetchMessages({
     container,
-    messages
+    messages,
   })
 
   const messageLogOpened = useRef(Date.now() / 1000)
@@ -41,7 +41,7 @@ const MessageLog = () => {
     <ScrollProvider value={{ scrollToBottomIfNeeded, scrollToFirstError }}>
       <MessageLogList
         ref={container}
-        onScroll={event => {
+        onScroll={(event) => {
           onScrollBottom(event)
           onScrollTop(event)
         }}
@@ -54,7 +54,7 @@ const MessageLog = () => {
         />
 
         {hasFetchedConversation &&
-          messages.map(message => (
+          messages.map((message) => (
             <Message
               key={message._id}
               message={message}

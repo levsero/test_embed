@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const FrameStyleContext = createContext({
   style: {},
-  setStyle: () => undefined
+  setStyle: () => undefined,
 })
 
 const FrameStyleProvider = ({ children }) => {
@@ -15,10 +15,10 @@ const FrameStyleProvider = ({ children }) => {
 }
 
 FrameStyleProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
-const useFrameStyle = style => {
+const useFrameStyle = (style) => {
   const context = useContext(FrameStyleContext)
 
   useEffect(() => {

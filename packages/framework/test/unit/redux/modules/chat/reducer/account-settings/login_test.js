@@ -26,7 +26,7 @@ describe('chat reducer accountSettings login', () => {
         const expected = {
           enabled: false,
           phoneEnabled: false,
-          loginTypes: {}
+          loginTypes: {},
         }
 
         expect(initialState).toEqual(expected)
@@ -43,13 +43,13 @@ describe('chat reducer accountSettings login', () => {
           login: {
             restrict_profile: restrictProfile,
             phone_display: phoneDisplay,
-            allowed_types: allowedTypes
-          }
+            allowed_types: allowedTypes,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: mockSettings
+          payload: mockSettings,
         })
       })
 
@@ -57,7 +57,7 @@ describe('chat reducer accountSettings login', () => {
         const expected = {
           enabled: !restrictProfile,
           phoneEnabled: phoneDisplay,
-          loginTypes: allowedTypes
+          loginTypes: allowedTypes,
         }
 
         expect(state).toEqual(expected)
@@ -74,13 +74,13 @@ describe('chat reducer accountSettings login', () => {
           login: {
             restrict_profile: restrictProfile,
             phone_display: phoneDisplay,
-            allowed_types: allowedTypes
-          }
+            allowed_types: allowedTypes,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: mockSettings
+          payload: mockSettings,
         })
       })
 
@@ -88,7 +88,7 @@ describe('chat reducer accountSettings login', () => {
         const expected = {
           enabled: !restrictProfile,
           phoneEnabled: phoneDisplay,
-          loginTypes: allowedTypes
+          loginTypes: allowedTypes,
         }
 
         expect(state).toEqual(expected)

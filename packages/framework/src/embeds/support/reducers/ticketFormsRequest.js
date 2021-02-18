@@ -1,12 +1,12 @@
 import {
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORMS_REQUEST_SENT,
-  TICKET_FORMS_REQUEST_SUCCESS
+  TICKET_FORMS_REQUEST_SUCCESS,
 } from 'embeds/support/actions/action-types'
 
 const initialState = {
   isLoading: false,
-  fetchKey: null
+  fetchKey: null,
 }
 
 const ticketFormsRequest = (state = initialState, action) => {
@@ -14,7 +14,7 @@ const ticketFormsRequest = (state = initialState, action) => {
     case TICKET_FORMS_REQUEST_SENT:
       return {
         isLoading: true,
-        fetchKey: action.payload.fetchKey
+        fetchKey: action.payload.fetchKey,
       }
     case TICKET_FORMS_REQUEST_SUCCESS:
     case TICKET_FORMS_REQUEST_FAILURE:
@@ -23,7 +23,7 @@ const ticketFormsRequest = (state = initialState, action) => {
       }
       return {
         isLoading: false,
-        fetchKey: action.payload.fetchKey
+        fetchKey: action.payload.fetchKey,
       }
     default:
       return state

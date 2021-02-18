@@ -19,7 +19,7 @@ const StyledIconButton = styled(IconButton)`
     height: 1rem !important;
   }
 
-  ${props => {
+  ${(props) => {
     if (!props.theme.headerTextColorStr) {
       return ''
     }
@@ -27,8 +27,8 @@ const StyledIconButton = styled(IconButton)`
     return css`
       svg,
       path {
-        fill: ${props => props.theme.headerTextColorStr} !important;
-        color: ${props => props.theme.headerTextColorStr} !important;
+        fill: ${(props) => props.theme.headerTextColorStr} !important;
+        color: ${(props) => props.theme.headerTextColorStr} !important;
       }
     `
   }}
@@ -39,7 +39,7 @@ const StyledIconButton = styled(IconButton)`
   }
 
   &:hover {
-    background: ${props => props.theme.headerBackgroundColorStr} !important;
+    background: ${(props) => props.theme.headerBackgroundColorStr} !important;
   }
 `
 

@@ -10,13 +10,13 @@ const initialState = {
   button: '',
   resultLists: '',
   header: '',
-  articleLinks: ''
+  articleLinks: '',
 }
 
 const colorSettings = (state = initialState, action) => {
   const { type, payload } = action
 
-  const getColor = setting => {
+  const getColor = (setting) => {
     const color = validatedColor(_.get(payload, `webWidget.color.${setting}`))
 
     return color ? color : state[setting]
@@ -31,7 +31,7 @@ const colorSettings = (state = initialState, action) => {
         launcher: getColor('launcher'),
         launcherText: getColor('launcherText'),
         resultLists: getColor('resultLists'),
-        theme: getColor('theme')
+        theme: getColor('theme'),
       }
     default:
       return state

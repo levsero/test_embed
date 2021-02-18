@@ -10,16 +10,16 @@ testReducer(clearFormTimestamp, [
   {
     initialState: undefined,
     action: { type: 'some action' },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
     action: { type: API_CLEAR_FORM, payload: { timestamp } },
-    expected: timestamp
+    expected: timestamp,
   },
   {
     initialState: timestamp,
     action: { type: 'some action' },
-    expected: timestamp
-  }
+    expected: timestamp,
+  },
 ])

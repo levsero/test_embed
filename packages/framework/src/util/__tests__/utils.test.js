@@ -14,7 +14,7 @@ import {
   isValidUrl,
   onNextTick,
   appendParams,
-  phoneValid
+  phoneValid,
 } from '../utils'
 import * as globals from 'utility/globals'
 
@@ -29,10 +29,10 @@ describe('isValidUrl', () => {
       'http://www.example.com/bat?appliance=bee&berry=amusement',
       'http://example.edu/',
       'http://example.net/?brother=aftermath',
-      'ftp://google.com'
+      'ftp://google.com',
     ]
 
-    validUrls.forEach(url => {
+    validUrls.forEach((url) => {
       expect(isValidUrl(url)).toEqual(true)
     })
   })
@@ -48,10 +48,10 @@ describe('isValidUrl', () => {
       'hello.com',
       'localhost',
       'http//google',
-      '255.255.255.255'
+      '255.255.255.255',
     ]
 
-    invalidUrls.forEach(url => {
+    invalidUrls.forEach((url) => {
       expect(isValidUrl(url)).toEqual(false)
     })
   })
@@ -102,7 +102,7 @@ describe('getPageKeywords()', () => {
     globals.location = {
       href: 'http://foo.com/anthony/is/awesome',
       pathname: '/anthony/is/awesome',
-      hash: ''
+      hash: '',
     }
     location = globals.location
   })
@@ -160,11 +160,11 @@ describe('objectDifference', () => {
     a = {
       list: [],
       hello: 'world',
-      bob: 'the builder'
+      bob: 'the builder',
     }
     b = {
       list: [],
-      bob: 'the builder'
+      bob: 'the builder',
     }
   })
 
@@ -183,7 +183,7 @@ describe('objectDifference', () => {
       expect(objectDifference(a, b)).toEqual({
         hello: 'world',
         foo: { baz: 2 },
-        extra: { a: 0, b: 1 }
+        extra: { a: 0, b: 1 },
       })
     })
   })
@@ -313,16 +313,16 @@ describe('emailValid()', () => {
     undefined,
     {},
     [],
-    10000
+    10000,
   ]
 
-  validEmails.forEach(email =>
+  validEmails.forEach((email) =>
     it(`returns true for ${email}`, () => {
       expect(emailValid(email)).toEqual(true)
     })
   )
 
-  invalidEmails.forEach(email =>
+  invalidEmails.forEach((email) =>
     it(`returns false for ${email}`, () => {
       expect(emailValid(email)).toEqual(false)
     })
@@ -339,13 +339,13 @@ describe('phoneValid()', () => {
   const validPhones = ['+12342412312412412414123', '+1', '1', '312342412312412412414123']
   const invalidPhones = ['a', 'abc', '31234241231241241241412312']
 
-  validPhones.forEach(phone => {
+  validPhones.forEach((phone) => {
     it(`returns true for '$phone'`, () => {
       expect(phoneValid(phone)).toEqual(true)
     })
   })
 
-  invalidPhones.forEach(phone => {
+  invalidPhones.forEach((phone) => {
     it(`returns false for '$phone'`, () => {
       expect(phoneValid(phone)).toEqual(false)
     })
@@ -362,13 +362,13 @@ describe('nameValid()', () => {
   const validNames = ['a'.repeat(255), 'b', 'xyz']
   const invalidNames = ['a'.repeat(256), '', 123, undefined, null, {}, []]
 
-  validNames.forEach(name =>
+  validNames.forEach((name) =>
     it(`returns true for ${name}`, () => {
       expect(nameValid(name)).toEqual(true)
     })
   )
 
-  invalidNames.forEach(name =>
+  invalidNames.forEach((name) =>
     it(`returns false for ${name}`, () => {
       expect(nameValid(name)).toEqual(false)
     })

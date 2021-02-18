@@ -14,8 +14,8 @@
     "packages/*"
   ],
   "scripts": {
-    "lint:js": "eslint *.js config script packages",
-    "lint:other": "prettier --check \"**/*.{css,scss,json,md}\"",
+    "lint:js": "eslint *.js config script packages --fix",
+    "lint:other": "prettier --check \"**/*.{css,scss,json,md}\" --write",
     "lint": "npm run lint:js && npm run lint:other"
   },
   "husky": {

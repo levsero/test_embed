@@ -11,7 +11,7 @@ import {
   getChatOfflineAvailable,
   getChatEnabled,
   getTalkOnline,
-  getSubmitTicketAvailable
+  getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
 import { onChannelChoiceNextClick } from 'src/redux/modules/base'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
@@ -25,7 +25,7 @@ const ChannelChoicePage = ({
   talkOnline,
   onChannelChoiceNextClick,
   chatOfflineAvailable,
-  chatAvailable
+  chatAvailable,
 }) => {
   const translate = useTranslate()
 
@@ -59,26 +59,23 @@ ChannelChoicePage.propTypes = {
   talkOnline: PropTypes.bool.isRequired,
   onChannelChoiceNextClick: PropTypes.func.isRequired,
   chatOfflineAvailable: PropTypes.bool.isRequired,
-  chatAvailable: PropTypes.bool.isRequired
+  chatAvailable: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isMobile: isMobileBrowser(),
   submitTicketAvailable: getSubmitTicketAvailable(state),
   chatEnabled: getChatEnabled(state),
   callbackEnabled: isCallbackEnabled(state),
   talkOnline: getTalkOnline(state),
   chatOfflineAvailable: getChatOfflineAvailable(state),
-  chatAvailable: getChatAvailable(state)
+  chatAvailable: getChatAvailable(state),
 })
 
 const mapDispatchToProps = {
-  onChannelChoiceNextClick
+  onChannelChoiceNextClick,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelChoicePage)
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(ChannelChoicePage)
 
 export { connectedComponent as default, ChannelChoicePage as Component }

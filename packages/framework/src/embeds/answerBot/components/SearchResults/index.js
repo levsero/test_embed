@@ -14,7 +14,7 @@ const SearchResults = ({ articles, sessionID }) => {
   const translate = useTranslate()
   const dispatch = useDispatch()
 
-  const getLeadingMessage = resultsLength => {
+  const getLeadingMessage = (resultsLength) => {
     switch (resultsLength) {
       case 0:
         return translate('embeddable_framework.answerBot.results.no_article')
@@ -35,14 +35,14 @@ const SearchResults = ({ articles, sessionID }) => {
     <Results
       articles={articles}
       leadingMessage={getLeadingMessage(articles.length)}
-      onArticleClick={article => handleArticleClicked(article, sessionID)}
+      onArticleClick={(article) => handleArticleClicked(article, sessionID)}
     />
   )
 }
 
 SearchResults.propTypes = {
   articles: PropTypes.array.isRequired,
-  sessionID: PropTypes.number.isRequired
+  sessionID: PropTypes.number.isRequired,
 }
 
 export default SearchResults

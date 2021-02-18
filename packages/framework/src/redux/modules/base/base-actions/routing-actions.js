@@ -8,28 +8,28 @@ import {
   getAnswerBotAvailable,
   getHelpCenterAvailable,
   getChatAvailable,
-  getTalkOnline
+  getTalkOnline,
 } from 'src/redux/modules/selectors'
 import history from 'service/history'
 import supportRoutes from 'embeds/support/routes'
 import { getFormsToDisplay } from 'embeds/support/selectors'
 
-export const updateActiveEmbed = embedName => {
+export const updateActiveEmbed = (embedName) => {
   return {
     type: actions.UPDATE_ACTIVE_EMBED,
-    payload: embedName
+    payload: embedName,
   }
 }
 
 export const updateBackButtonVisibility = (visible = true) => {
   return {
     type: actions.UPDATE_BACK_BUTTON_VISIBILITY,
-    payload: visible
+    payload: visible,
   }
 }
 
 export const showChat = (options = { proactive: false }) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(updateActiveEmbed('chat'))
     if (options.proactive) {
       dispatch(updateChatScreen(CHATTING_SCREEN))
@@ -37,8 +37,8 @@ export const showChat = (options = { proactive: false }) => {
   }
 }
 
-export const onChannelChoiceNextClick = newEmbed => {
-  return dispatch => {
+export const onChannelChoiceNextClick = (newEmbed) => {
+  return (dispatch) => {
     dispatch(updateBackButtonVisibility(true))
 
     if (newEmbed === 'chat') {
@@ -116,7 +116,7 @@ export const onHelpCenterNextClick = () => {
     }
 
     dispatch({
-      type: actions.NEXT_BUTTON_CLICKED
+      type: actions.NEXT_BUTTON_CLICKED,
     })
   }
 }

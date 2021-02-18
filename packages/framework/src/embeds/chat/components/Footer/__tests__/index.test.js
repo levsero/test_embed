@@ -7,11 +7,11 @@ import { getByTestId } from '@testing-library/dom'
 
 const onClickSpy = jest.fn()
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     label: 'testLabel',
     onClick: onClickSpy,
-    ...inProps
+    ...inProps,
   }
   return render(<Footer {...props} />)
 }

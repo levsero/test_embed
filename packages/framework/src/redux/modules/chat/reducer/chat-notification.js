@@ -4,7 +4,7 @@ import {
   NEW_AGENT_MESSAGE_RECEIVED,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
   CHAT_OPENED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from '../chat-action-types'
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
   msg: '',
   show: false,
   count: 0,
-  proactive: false
+  proactive: false,
 }
 
 const notification = (state = initialState, action) => {
@@ -32,7 +32,7 @@ const notification = (state = initialState, action) => {
         proactive,
         msg,
         show: true,
-        count: state.count + 1
+        count: state.count + 1,
       }
     case CHAT_OPENED:
     case CHAT_NOTIFICATION_RESET:

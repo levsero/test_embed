@@ -24,7 +24,7 @@ describe('#getSupportedAudioType', () => {
       describe('probably supported', () => {
         beforeEach(() => {
           params = { 'audio/mpeg': 'probably' }
-          audioElement.canPlayType = jest.fn(param => params[param])
+          audioElement.canPlayType = jest.fn((param) => params[param])
         })
 
         it('returns mp3', () => {
@@ -35,7 +35,7 @@ describe('#getSupportedAudioType', () => {
       describe('maybe supported', () => {
         beforeEach(() => {
           params = { 'audio/mpeg': 'maybe' }
-          audioElement.canPlayType = jest.fn(param => params[param])
+          audioElement.canPlayType = jest.fn((param) => params[param])
         })
 
         it('returns mp3', () => {
@@ -49,9 +49,9 @@ describe('#getSupportedAudioType', () => {
             beforeEach(() => {
               params = {
                 'audio/mpeg': '',
-                'audio/ogg; codecs="vorbis"': 'probably'
+                'audio/ogg; codecs="vorbis"': 'probably',
               }
-              audioElement.canPlayType = jest.fn(param => params[param])
+              audioElement.canPlayType = jest.fn((param) => params[param])
             })
 
             it('returns ogg', () => {
@@ -63,9 +63,9 @@ describe('#getSupportedAudioType', () => {
             beforeEach(() => {
               params = {
                 'audio/mpeg': '',
-                'audio/ogg; codecs="vorbis"': 'maybe'
+                'audio/ogg; codecs="vorbis"': 'maybe',
               }
-              audioElement.canPlayType = jest.fn(param => params[param])
+              audioElement.canPlayType = jest.fn((param) => params[param])
             })
 
             it('returns ogg', () => {
@@ -80,9 +80,9 @@ describe('#getSupportedAudioType', () => {
                   params = {
                     'audio/mpeg': '',
                     'audio/ogg; codecs="vorbis"': '',
-                    'audio/wav': 'probably'
+                    'audio/wav': 'probably',
                   }
-                  audioElement.canPlayType = jest.fn(param => params[param])
+                  audioElement.canPlayType = jest.fn((param) => params[param])
                 })
 
                 it('returns wav', () => {
@@ -95,9 +95,9 @@ describe('#getSupportedAudioType', () => {
                   params = {
                     'audio/mpeg': '',
                     'audio/ogg; codecs="vorbis"': '',
-                    'audio/wav': 'maybe'
+                    'audio/wav': 'maybe',
                   }
-                  audioElement.canPlayType = jest.fn(param => params[param])
+                  audioElement.canPlayType = jest.fn((param) => params[param])
                 })
 
                 it('returns wav', () => {
@@ -110,9 +110,9 @@ describe('#getSupportedAudioType', () => {
                   params = {
                     'audio/mpeg': '',
                     'audio/ogg; codecs="vorbis"': '',
-                    'audio/wav': ''
+                    'audio/wav': '',
                   }
-                  audioElement.canPlayType = jest.fn(param => params[param])
+                  audioElement.canPlayType = jest.fn((param) => params[param])
                 })
 
                 it('returns undefined', () => {

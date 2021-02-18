@@ -7,16 +7,16 @@ import Animated from 'src/Animated'
 import disabledAnimationsCSS from 'src/animations/disabledAnimationsCSS'
 import messageSteps from 'src/animations/messageSteps'
 
-const enterAnimations = theme => ({
+const enterAnimations = (theme) => ({
   ...messageSteps.receiptEnter,
   from: rem(20, theme.messenger.baseFontSize),
-  to: rem(20, theme.messenger.baseFontSize)
+  to: rem(20, theme.messenger.baseFontSize),
 })
 
-const reappearAnimations = theme => ({
+const reappearAnimations = (theme) => ({
   ...messageSteps.receiptReenter,
   from: 0,
-  to: rem(20, theme.messenger.baseFontSize)
+  to: rem(20, theme.messenger.baseFontSize),
 })
 
 const StyledAnimated = styled(Animated)`
@@ -24,11 +24,11 @@ const StyledAnimated = styled(Animated)`
   overflow: hidden;
 
   ${Animated.beforeEnter} {
-    max-height: ${props => props.enter.from};
+    max-height: ${(props) => props.enter.from};
   }
 
   ${Animated.entering} {
-    max-height: ${props => props.enter.to};
+    max-height: ${(props) => props.enter.to};
   }
 
   ${Animated.entered} {
@@ -48,13 +48,13 @@ const StyledAnimated = styled(Animated)`
     max-height: 0;
   }
 
-  ${props =>
+  ${(props) =>
     props.isVisible &&
     `
     transition: max-height ${props.enter.duration}s ${props.enter.delay}s;
   `}
 
-  ${props =>
+  ${(props) =>
     !props.isVisible &&
     `
     transition: max-height ${props.exit.duration}s ${props.exit.delay}s;
@@ -89,7 +89,7 @@ const AnimatedReceipt = ({ isReceiptVisible, isFreshMessage, children }) => {
 AnimatedReceipt.propTypes = {
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default AnimatedReceipt

@@ -3,14 +3,14 @@ import { settings } from 'service/settings'
 import {
   ARTICLE_DISMISSED_PENDING,
   ARTICLE_DISMISSED_FULFILLED,
-  ARTICLE_DISMISSED_REJECTED
+  ARTICLE_DISMISSED_REJECTED,
 } from './action-types'
 
 import {
   getCurrentSessionID,
   getCurrentArticleID,
   getCurrentDeflection,
-  getCurrentInteractionToken
+  getCurrentInteractionToken,
 } from 'src/embeds/answerBot/selectors/root'
 
 import { http } from 'service/transport'
@@ -21,8 +21,8 @@ function articleDismissedPending(sessionID, articleID, reasonID) {
     payload: {
       sessionID,
       articleID,
-      reasonID
-    }
+      reasonID,
+    },
   }
 }
 
@@ -32,8 +32,8 @@ function articleDismissedFulfilled(sessionID, articleID, reasonID) {
     payload: {
       sessionID,
       articleID,
-      reasonID
-    }
+      reasonID,
+    },
   }
 }
 
@@ -44,12 +44,12 @@ function articleDismissedRejected(error, sessionID, articleID, reasonID) {
       error,
       sessionID,
       articleID,
-      reasonID
-    }
+      reasonID,
+    },
   }
 }
 
-export const articleDismissed = reasonID => {
+export const articleDismissed = (reasonID) => {
   return (dispatch, getState) => {
     const state = getState()
     const sessionID = getCurrentSessionID(state)
@@ -63,9 +63,9 @@ export const articleDismissed = reasonID => {
       done: () => {
         dispatch(articleDismissedFulfilled(sessionID, articleID, reasonID))
       },
-      fail: err => {
+      fail: (err) => {
         dispatch(articleDismissedRejected(err, sessionID, articleID, reasonID))
-      }
+      },
     }
 
     const params = {
@@ -73,14 +73,14 @@ export const articleDismissed = reasonID => {
       deflection_id: deflection.id,
       interaction_access_token: interactionToken,
       article_id: articleID,
-      resolution_channel_id: settings.get('viaIdAnswerBot')
+      resolution_channel_id: settings.get('viaIdAnswerBot'),
     }
 
     http.send({
       callbacks,
       method: 'post',
       path: '/api/v2/answer_bot/rejection',
-      params
+      params,
     })
   }
 }

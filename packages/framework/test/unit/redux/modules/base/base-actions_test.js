@@ -59,72 +59,72 @@ describe('base redux actions', () => {
       'constants/event': {
         WIDGET_CLOSED_EVENT,
         WIDGET_OPENED_EVENT,
-        CHAT_POPOUT_EVENT
+        CHAT_POPOUT_EVENT,
       },
       'service/api/callbacks': {
-        fireFor: fireEventsForSpy
+        fireFor: fireEventsForSpy,
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: chatNotificationDismissedSpy,
-        chatOpened: chatOpenedSpy
+        chatOpened: chatOpenedSpy,
       },
       'src/redux/modules/base/helpers/auth': {
         isTokenValid: () => mockIsTokenValid,
         extractTokenId: () => mockExtractTokenId,
         isTokenRenewable: mockIsTokenRenewable,
-        isTokenExpired: () => mockIsTokenExpired
+        isTokenExpired: () => mockIsTokenExpired,
       },
       'src/util/utils': {
         nameValid: () => mockNameValidValue,
         emailValid: () => mockEmailValidValue,
-        phoneValid: () => mockPhoneValidValue
+        phoneValid: () => mockPhoneValidValue,
       },
       'service/settings': {
         settings: {
-          getAuthSettingsJwtFn: () => mockJwtFn
-        }
+          getAuthSettingsJwtFn: () => mockJwtFn,
+        },
       },
       'src/redux/modules/base/base-selectors': {
         getOAuth: () => mockOAuth,
         getBaseIsAuthenticated: () => mockBaseIsAuthenticated,
         getActiveEmbed: () => mockActiveEmbed,
         getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
-        getWebWidgetOpen: () => mockWebWidgetOpen
+        getWebWidgetOpen: () => mockWebWidgetOpen,
       },
       'embeds/helpCenter/selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched,
-        getArticleDisplayed: () => mockGetArticleDisplayed
+        getArticleDisplayed: () => mockGetArticleDisplayed,
       },
       'src/redux/modules/chat/chat-selectors': {
-        getPrechatFormRequired: () => false
+        getPrechatFormRequired: () => false,
       },
       'src/redux/modules/chat/chat-screen-types': {
-        PRECHAT_SCREEN: 'PRECHAT_SCREEN'
+        PRECHAT_SCREEN: 'PRECHAT_SCREEN',
       },
       'embeds/helpCenter/actions': {
-        contextualSearch: contextualSearchSpy
+        contextualSearch: contextualSearchSpy,
       },
       'src/constants/shared': {
-        PHONE_PATTERN: /^[0-9]+$/
+        PHONE_PATTERN: /^[0-9]+$/,
       },
       'src/framework/services/persistence': {
         store: {
           get: () => mockPersistentStoreValue,
           remove: persistentStoreRemoveSpy,
-          set: persistentStoreSetSpy
-        }
+          set: persistentStoreSetSpy,
+        },
       },
       'service/transport': {
         http: {
-          send: httpPostSpy
-        }
+          send: httpPostSpy,
+        },
       },
       'utility/globals': {
-        focusLauncher: focusLauncherSpy
+        focusLauncher: focusLauncherSpy,
       },
       'src/embeds/support/actions': {
-        clearAttachments: () => {}
-      }
+        clearAttachments: () => {},
+      },
     })
 
     const actionsPath = buildSrcPath('redux/modules/base/base-actions/base-actions')
@@ -197,10 +197,10 @@ describe('base redux actions', () => {
         embeds: {
           helpCenterForm: {
             props: {
-              signInRequired: true
-            }
-          }
-        }
+              signInRequired: true,
+            },
+          },
+        },
       }
 
       mockStore.dispatch(actions.updateEmbeddableConfig(mockConfig))
@@ -239,7 +239,7 @@ describe('base redux actions', () => {
 
     beforeEach(() => {
       mockPayload = {
-        some: 'payload'
+        some: 'payload',
       }
       mockStore.dispatch(actions.updateQueue(mockPayload))
       action = mockStore.getActions()[0]
@@ -251,7 +251,7 @@ describe('base redux actions', () => {
 
     it('dispatches the correct payload', () => {
       expect(action.payload).toEqual({
-        some: 'payload'
+        some: 'payload',
       })
     })
   })
@@ -261,7 +261,7 @@ describe('base redux actions', () => {
 
     beforeEach(() => {
       arturos = {
-        newChat: true
+        newChat: true,
       }
 
       mockStore.dispatch(actions.updateArturos(arturos))
@@ -399,7 +399,7 @@ describe('base redux actions', () => {
         payload = {
           name: { value: 'Harry Potter', readOnly: true },
           email: { value: 'hpotter@hogwarts.edu.uk', readOnly: false },
-          phone: { value: '12345678' }
+          phone: { value: '12345678' },
         }
 
         spyOn(Date, 'now').and.returnValue(currentTime)
@@ -417,13 +417,13 @@ describe('base redux actions', () => {
           prefillValues: {
             name: 'Harry Potter',
             email: 'hpotter@hogwarts.edu.uk',
-            phone: '12345678'
+            phone: '12345678',
           },
           isReadOnly: {
             name: true,
-            email: false
+            email: false,
           },
-          timestamp: currentTime
+          timestamp: currentTime,
         }
 
         expect(action.payload).toEqual(expected)
@@ -434,7 +434,7 @@ describe('base redux actions', () => {
       beforeEach(() => {
         payload = {
           email: { value: 'hpotter@hogwarts' },
-          name: { value: 'Harry Potter' }
+          name: { value: 'Harry Potter' },
         }
 
         mockEmailValidValue = false
@@ -455,7 +455,7 @@ describe('base redux actions', () => {
       beforeEach(() => {
         payload = {
           phone: { value: 'number' },
-          name: { value: 'Harry Potter' }
+          name: { value: 'Harry Potter' },
         }
         mockPhoneValidValue = false
         mockStore.dispatch(actions.handlePrefillReceived(payload))
@@ -475,7 +475,7 @@ describe('base redux actions', () => {
       beforeEach(() => {
         payload = {
           name: { value: 1 },
-          phone: { value: '12345678' }
+          phone: { value: '12345678' },
         }
 
         mockNameValidValue = false
@@ -493,7 +493,7 @@ describe('base redux actions', () => {
     })
   })
 
-  describe('logout', function() {
+  describe('logout', function () {
     let action
 
     beforeEach(() => {
@@ -541,7 +541,7 @@ describe('base redux actions', () => {
         expect(payload.path).toBe('/embeddable/authenticate')
 
         expect(params).toEqual({
-          body: newToken
+          body: newToken,
         })
       })
     })
@@ -566,7 +566,7 @@ describe('base redux actions', () => {
         iat: 1458011438,
         jti: '1234567890',
         name: 'Jim Bob',
-        email: 'jbob@zendesk.com'
+        email: 'jbob@zendesk.com',
       }
 
       jwt = jsonwebtoken.sign(jwtPayload, 'pencil')
@@ -577,14 +577,14 @@ describe('base redux actions', () => {
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + 20 * 60,
         createdAt: Math.floor(Date.now() / 1000) - 1.6 * 60 * 60,
-        webToken: jwt
+        webToken: jwt,
       }
       renewPayload = {
         body: body.jwt,
         token: {
           oauth_token: zeoauth.token,
-          oauth_expiry: zeoauth.expiry
-        }
+          oauth_expiry: zeoauth.expiry,
+        },
       }
 
       mockOAuth = zeoauth
@@ -619,8 +619,8 @@ describe('base redux actions', () => {
             body: {
               oauth_token: 'abcde',
               oauth_expiry: 'someExpiry',
-              oauth_created_at: 'createdAt'
-            }
+              oauth_created_at: 'createdAt',
+            },
           })
 
           action = mockStore.getActions()[0]
@@ -632,7 +632,7 @@ describe('base redux actions', () => {
             token: 'abcde',
             expiry: 'someExpiry',
             createdAt: 'createdAt',
-            webToken: jwt
+            webToken: jwt,
           })
         })
 
@@ -689,7 +689,7 @@ describe('base redux actions', () => {
 
       describe('and there is a jwtFn', () => {
         beforeEach(() => {
-          mockJwtFn = jasmine.createSpy('mockJwtFn', callback => {
+          mockJwtFn = jasmine.createSpy('mockJwtFn', (callback) => {
             callback()
           })
         })
@@ -740,7 +740,7 @@ describe('base redux actions', () => {
     describe('when token is not revoked', () => {
       beforeAll(() => {
         mockOAuth = {
-          createdAt: 10
+          createdAt: 10,
         }
         revokedAt = 8
       })
@@ -753,7 +753,7 @@ describe('base redux actions', () => {
     describe('when token is revoked and oauth is stored', () => {
       beforeAll(() => {
         mockOAuth = {
-          createdAt: 7
+          createdAt: 7,
         }
         revokedAt = 8
       })
@@ -929,7 +929,7 @@ describe('base redux actions', () => {
     describe('with parameter', () => {
       beforeEach(() => {
         mockOptions = {
-          value: true
+          value: true,
         }
         mockStore.dispatch(actions.activateReceived(mockOptions))
         action = mockStore.getActions()[0]

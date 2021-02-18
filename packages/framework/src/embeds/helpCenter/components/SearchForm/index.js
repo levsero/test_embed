@@ -8,7 +8,7 @@ import { Form } from './styles'
 
 const useSearchForm = (callback, handleOnChangeValue) => {
   const [searchValue, setSearchValue] = useState('')
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (searchValue) {
       callback(searchValue)
@@ -16,11 +16,11 @@ const useSearchForm = (callback, handleOnChangeValue) => {
   }
 
   return {
-    handleOnChange: text => {
+    handleOnChange: (text) => {
       setSearchValue(text)
       handleOnChangeValue(text)
     },
-    handleSubmit
+    handleSubmit,
   }
 }
 
@@ -41,17 +41,14 @@ const SearchForm = ({ performSearch, handleSearchFieldChange, inputRef }) => {
 SearchForm.propTypes = {
   performSearch: PropTypes.func.isRequired,
   handleSearchFieldChange: PropTypes.func,
-  inputRef: PropTypes.object
+  inputRef: PropTypes.object,
 }
 
 const mapDispatchToProps = {
   performSearch,
-  handleSearchFieldChange
+  handleSearchFieldChange,
 }
 
-const connectedComponent = connect(
-  null,
-  mapDispatchToProps
-)(SearchForm)
+const connectedComponent = connect(null, mapDispatchToProps)(SearchForm)
 
 export { connectedComponent as default, SearchForm as Component }

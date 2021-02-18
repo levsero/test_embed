@@ -6,28 +6,28 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(articleDisplayed, [
   {
     action: { type: undefined },
-    expected: null
+    expected: null,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: 123,
-    expected: 123
+    expected: 123,
   },
   {
     action: { type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS, payload: { id: 123 } },
-    expected: 123
+    expected: 123,
   },
   {
     action: { type: actionTypes.GET_ARTICLE_REQUEST_SENT },
-    expected: null
+    expected: null,
   },
   {
     action: { type: actionTypes.GET_ARTICLE_REQUEST_FAILURE },
-    expected: null
+    expected: null,
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: 123,
-    expected: null
-  }
+    expected: null,
+  },
 ])

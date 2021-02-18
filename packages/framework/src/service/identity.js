@@ -8,7 +8,7 @@ const tabTimeToExpire = 1000 * 30 // 30 Seconds
 let userIdentity = {
   name: null,
   email: null,
-  phone: null
+  phone: null,
 }
 
 const hex = () =>
@@ -24,12 +24,12 @@ const setSuid = (id, expiry, tabCount, tabExpiry) => {
     expiry: expiry,
     tabs: {
       count: tabCount,
-      expiry: tabExpiry
-    }
+      expiry: tabExpiry,
+    },
   })
 }
 
-const checkSuid = suid => {
+const checkSuid = (suid) => {
   const now = Date.now()
 
   // If the session hasn't expired
@@ -89,5 +89,5 @@ export const identity = {
   setUserIdentity: setUserIdentity,
   getUserIdentity: getUserIdentity,
   init: init,
-  unload: unload
+  unload: unload,
 }

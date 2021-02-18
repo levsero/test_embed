@@ -38,8 +38,8 @@ describe('chat reducer lastReadTimestamp', () => {
         lastReadTimestamp = Date.now() + 100
         payload = {
           detail: {
-            timestamp: lastReadTimestamp
-          }
+            timestamp: lastReadTimestamp,
+          },
         }
 
         const action = { type: actionTypes.SDK_CHAT_LAST_READ, payload }

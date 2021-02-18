@@ -1,7 +1,7 @@
 import * as httpRequest from 'superagent'
 import Response from '../http/Response'
 
-const isEmpty = object => Object.entries(object).length === 0
+const isEmpty = (object) => Object.entries(object).length === 0
 
 class Request {
   constructor({ method = 'GET', url = '', data = {}, params = {}, headers = {} }) {
@@ -15,7 +15,7 @@ class Request {
 
   response() {
     if (this._response) return this._response
-    return this._request.then(response => {
+    return this._request.then((response) => {
       this._response = new Response(response)
       return this._response
     })

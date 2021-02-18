@@ -23,22 +23,22 @@ describe('settings selectors', () => {
           suppress: true,
           departments: {
             enabled: ['bin tapi'],
-            select: 'yolo'
+            select: 'yolo',
           },
           concierge: {
             avatarPath: 'https://www.example.com/myPic.jpg',
             title: 'Some title',
-            name: 'Mr McGee'
+            name: 'Mr McGee',
           },
           prechatForm: {
             departmentLabel: 'the guild of calamitous intent',
-            greeting: 'wazzup?!'
+            greeting: 'wazzup?!',
           },
           offlineForm: {
-            greeting: 'no admittance except on party business'
-          }
-        }
-      }
+            greeting: 'no admittance except on party business',
+          },
+        },
+      },
     }
   })
 
@@ -132,7 +132,7 @@ describe('settings selectors', () => {
       expect(result).toEqual({
         avatarPath: 'https://www.example.com/myPic.jpg',
         title: 'Some title',
-        name: 'Mr McGee'
+        name: 'Mr McGee',
       })
     })
   })
@@ -144,7 +144,7 @@ describe('settings selectors', () => {
 
     it('returns the the chat offline form settings', () => {
       expect(result).toEqual({
-        greeting: 'no admittance except on party business'
+        greeting: 'no admittance except on party business',
       })
     })
   })
@@ -157,7 +157,7 @@ describe('settings selectors', () => {
     it('returns the prechat form settings', () => {
       expect(result).toEqual({
         departmentLabel: 'the guild of calamitous intent',
-        greeting: 'wazzup?!'
+        greeting: 'wazzup?!',
       })
     })
   })

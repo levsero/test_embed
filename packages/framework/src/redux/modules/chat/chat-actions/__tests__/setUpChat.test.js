@@ -20,8 +20,8 @@ jest.mock('service/api/zopimApi')
 jest.mock('src/redux/modules/chat/helpers/firehoseListener')
 
 zChat.getFirehose.mockImplementation(() => ({ on: jest.fn() }))
-zChat.setOnFirstReady.mockImplementation(readyObj => {
-  _.forEach(readyObj, val => val())
+zChat.setOnFirstReady.mockImplementation((readyObj) => {
+  _.forEach(readyObj, (val) => val())
 })
 
 const dispatchAction = (customState = {}) => {
@@ -51,8 +51,8 @@ describe('setupChat', () => {
           type: 'widget/chat/CHAT_VENDOR_LOADED',
           payload: {
             zChat,
-            slider
-          }
+            slider,
+          },
         })
       })
     })
@@ -65,7 +65,7 @@ describe('setupChat', () => {
           account_key: '123abc',
           activity_window: win,
           popout: false,
-          suppress_console_error: true
+          suppress_console_error: true,
         })
       })
     })
@@ -78,12 +78,12 @@ describe('setupChat', () => {
               chat: {
                 props: {
                   overrideProxy: 'staging.example.com',
-                  overrideAuthServerHost: 'staging.auth.example.com'
-                }
-              }
-            }
-          }
-        }
+                  overrideAuthServerHost: 'staging.auth.example.com',
+                },
+              },
+            },
+          },
+        },
       }
 
       dispatchAction(stagingState)
@@ -95,7 +95,7 @@ describe('setupChat', () => {
           override_proxy: 'staging.example.com',
           override_auth_server_host: 'staging.auth.example.com',
           popout: false,
-          suppress_console_error: true
+          suppress_console_error: true,
         })
       })
     })
@@ -106,7 +106,7 @@ describe('setupChat', () => {
       await wait(() => {
         expect(zChat.setOnFirstReady).toHaveBeenCalledWith({
           fetchHistory: expect.any(Function),
-          ready: expect.any(Function)
+          ready: expect.any(Function),
         })
       })
     })
@@ -128,9 +128,9 @@ describe('setupChat', () => {
             base: {
               embeddableConfig: {
                 brandCount: 1,
-                brand: undefined
-              }
-            }
+                brand: undefined,
+              },
+            },
           })
 
           await wait(() => {
@@ -170,9 +170,9 @@ describe('setupChat', () => {
             base: {
               embeddableConfig: {
                 brandCount: 2,
-                brand: 'brand 1'
-              }
-            }
+                brand: 'brand 1',
+              },
+            },
           })
 
           await wait(() => {
@@ -191,9 +191,9 @@ describe('setupChat', () => {
             base: {
               embeddableConfig: {
                 brandCount: 2,
-                brand: 'brand 1'
-              }
-            }
+                brand: 'brand 1',
+              },
+            },
           })
 
           await wait(() => {
@@ -212,9 +212,9 @@ describe('setupChat', () => {
         getModifiedState({
           settings: {
             chat: {
-              connectOnDemand: true
-            }
-          }
+              connectOnDemand: true,
+            },
+          },
         })
       )
 

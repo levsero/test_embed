@@ -21,7 +21,7 @@ import {
   getActiveAgentCount,
   getEmbeddableConfigBadgeSettings,
   getEmbeddableConfigOfflineEnabled,
-  getConnection
+  getConnection,
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatProfileCard,
@@ -34,13 +34,13 @@ import {
   getSettingsChatDepartment,
   getSettingsNavigationPopoutButtonEnabled,
   getSettingsChatConnectOnDemand,
-  getSettingsChatConnectOnPageLoad
+  getSettingsChatConnectOnPageLoad,
 } from 'src/redux/modules/settings/settings-selectors'
 import { DEPARTMENT_STATUSES } from 'constants/chat'
 import { getActiveEmbed, getLocale, getWidgetShown } from 'src/redux/modules/base/base-selectors'
 import { isPopout } from 'utility/globals'
 
-export const getShowMenu = state =>
+export const getShowMenu = (state) =>
   getActiveEmbed(state) === 'chat' &&
   getChatScreen(state) === CHATTING_SCREEN &&
   !isPopout() &&
@@ -51,7 +51,7 @@ export const getProfileConfig = createSelector(
   (settingsChatProfileCard, ratingSettings) => ({
     avatar: settingsChatProfileCard.avatar,
     title: settingsChatProfileCard.title,
-    rating: ratingSettings.enabled && settingsChatProfileCard.rating
+    rating: ratingSettings.enabled && settingsChatProfileCard.rating,
   })
 )
 
@@ -66,9 +66,8 @@ export const getChatTitle = createSelector(
     i18n.getSettingTranslation(settingsChatTitle) || chatAccountSettingsTitle
 )
 
-export const getChatHistoryLabel = createSelector(
-  [getLocale],
-  __ => i18n.t('embeddable_framework.chat.historyLink.label')
+export const getChatHistoryLabel = createSelector([getLocale], (__) =>
+  i18n.t('embeddable_framework.chat.historyLink.label')
 )
 
 export const getLauncherBadgeSettings = createSelector(
@@ -76,7 +75,7 @@ export const getLauncherBadgeSettings = createSelector(
     getSettingsLauncherBadge,
     getAccountSettingsLauncherBadge,
     getEmbeddableConfigBadgeSettings,
-    getLocale
+    getLocale,
   ],
   (settingsBadge, accountSettingsBadge, embeddableConfigBadge, _locale) => {
     let badgeSettings = {}
@@ -94,7 +93,7 @@ export const getLauncherBadgeSettings = createSelector(
       i18n.t('embeddable_framework.chat.badge.label')
     const label = _.truncate(fullLabel, {
       length: maxLabelLength,
-      omission: '…'
+      omission: '…',
     })
 
     return _.mergeWith({}, badgeSettings, settingsBadge, { label: label }, (a, b) => {
@@ -135,12 +134,12 @@ export const getOfflineFormSettings = createSelector(
       message:
         i18n.getSettingTranslation(greeting) ||
         _.get(accountSettingsOfflineForm, 'message', null) ||
-        i18n.t('embeddable_framework.chat.preChat.offline.greeting')
+        i18n.t('embeddable_framework.chat.preChat.offline.greeting'),
     }
   }
 )
 
-export const getIsPopoutButtonVisible = state => {
+export const getIsPopoutButtonVisible = (state) => {
   return (
     getSettingsNavigationPopoutButtonEnabled(state) &&
     getIsPopoutAvailable(state) &&
@@ -160,17 +159,14 @@ export const getPrechatFormSettings = createSelector(
         i18n.getSettingTranslation(greeting) || _.get(accountSettingsPrechatForm, 'message', ''),
       departmentLabel:
         i18n.getSettingTranslation(departmentLabel) ||
-        _.get(accountSettingsPrechatForm, 'departmentLabel', '')
+        _.get(accountSettingsPrechatForm, 'departmentLabel', ''),
     }
   }
 )
 
-const extractFormFields = settings => _.keyBy(_.values(settings.form), 'name')
+const extractFormFields = (settings) => _.keyBy(_.values(settings.form), 'name')
 
-export const getDefaultFormFields = createSelector(
-  getPrechatFormSettings,
-  extractFormFields
-)
+export const getDefaultFormFields = createSelector(getPrechatFormSettings, extractFormFields)
 
 const getFormFields = createSelector(
   [getDefaultFormFields, getSettingsChatPrechatForm, getLocale],
@@ -184,8 +180,8 @@ const getFormFields = createSelector(
         label:
           i18n.getSettingTranslation(departmentLabel) ||
           _.get(defaultFields, 'department.label', null) ||
-          i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment')
-      }
+          i18n.t('embeddable_framework.chat.form.common.dropdown.chooseDepartment'),
+      },
     }
   }
 )
@@ -195,7 +191,10 @@ export const getDefaultSelectedDepartment = createSelector(
   (settingsDefault, accountDefault, departments) => {
     const selector = settingsDefault || accountDefault
 
-    return _.find(departments, dept => dept.name.toLowerCase() === selector || dept.id === selector)
+    return _.find(
+      departments,
+      (dept) => dept.name.toLowerCase() === selector || dept.id === selector
+    )
   }
 )
 
@@ -204,7 +203,7 @@ export const getEnabledDepartments = createSelector(
   (settingsDepartmentsEnabled, departmentsList) => {
     if (Array.isArray(settingsDepartmentsEnabled)) {
       return departmentsList.filter(
-        department =>
+        (department) =>
           _.includes(settingsDepartmentsEnabled, department.id) ||
           _.includes(settingsDepartmentsEnabled, department.name.toLowerCase())
       )
@@ -220,20 +219,20 @@ export const getPrechatFormFields = createSelector(
     getOfflineFormSettings,
     getDefaultSelectedDepartment,
     getEnabledDepartments,
-    getLocale
+    getLocale,
   ],
   (formFields, offlineFormSettings, selectedDepartment, enabledDepartments, _locale) => {
     let firstOnlineDepartment = true
     const sortedDepartments = _.orderBy(
       enabledDepartments,
-      [dep => dep.name.toLowerCase()],
+      [(dep) => dep.name.toLowerCase()],
       ['asc']
     )
-    const departmentOptions = sortedDepartments.map(department => {
+    const departmentOptions = sortedDepartments.map((department) => {
       let departmentOption = {
         ...department,
         value: department.id,
-        isDefault: selectedDepartment && selectedDepartment.id === department.id
+        isDefault: selectedDepartment && selectedDepartment.id === department.id,
       }
 
       if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
@@ -241,7 +240,7 @@ export const getPrechatFormFields = createSelector(
           departmentOption.disabled = true
         }
         departmentOption.name = i18n.t('embeddable_framework.chat.department.offline.label', {
-          department: department.name
+          department: department.name,
         })
       } else {
         if (
@@ -257,7 +256,7 @@ export const getPrechatFormFields = createSelector(
     })
 
     return _.extend({}, formFields, {
-      departments: departmentOptions
+      departments: departmentOptions,
     })
   }
 )
@@ -269,11 +268,11 @@ export const getCurrentConcierges = createSelector(
       return [conciergeSettings]
     }
 
-    return _.map(agents, agent => {
+    return _.map(agents, (agent) => {
       if (!agent.avatar_path) {
         return {
           ...agent,
-          avatar_path: conciergeSettings.avatar_path
+          avatar_path: conciergeSettings.avatar_path,
         }
       }
       return agent
@@ -281,10 +280,7 @@ export const getCurrentConcierges = createSelector(
   }
 )
 
-export const getOfflineFormFields = createSelector(
-  getOfflineFormSettings,
-  extractFormFields
-)
+export const getOfflineFormFields = createSelector(getOfflineFormSettings, extractFormFields)
 
 export const getChatNotification = createSelector(
   [getNotification, getActiveAgents, getConciergeSettings],
@@ -296,7 +292,7 @@ export const getChatNotification = createSelector(
     return {
       ...notification,
       ...currentAgent,
-      avatar_path
+      avatar_path,
     }
   }
 )

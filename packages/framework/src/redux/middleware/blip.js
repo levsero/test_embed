@@ -2,32 +2,32 @@ import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_WIDGET_SHOWN,
-  LAUNCHER_CLICKED
+  LAUNCHER_CLICKED,
 } from 'src/redux/modules/base/base-action-types'
 import {
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
   SEARCH_REQUEST_SUCCESS,
-  SEARCH_REQUEST_FAILURE
+  SEARCH_REQUEST_FAILURE,
 } from 'src/embeds/helpCenter/actions/action-types'
 import {
   CONTEXTUAL_ARTICLE_SHOWN,
   ARTICLE_SHOWN,
-  SCREEN_CHANGED
+  SCREEN_CHANGED,
 } from 'src/embeds/answerBot/actions/root/action-types'
 import { beacon } from 'service/beacon'
 import {
   getEmbeddableConfig,
   getAgentAvailability,
   getFormState,
-  getAverageWaitTime
+  getAverageWaitTime,
 } from 'src/redux/modules/talk/talk-selectors'
 import {
   getTotalUserSearches,
   getResultsCount,
   getSearchTerm,
   getCurrentActiveArticle,
-  getHasContextuallySearched
+  getHasContextuallySearched,
 } from 'embeds/helpCenter/selectors'
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors'
 import { getWebWidgetOpen, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
@@ -36,7 +36,7 @@ import {
   getCurrentArticleID,
   getCurrentQuery,
   getCurrentDeflection,
-  getCurrentScreen
+  getCurrentScreen,
 } from 'src/embeds/answerBot/selectors/root'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import hcStats from 'service/hcStats'
@@ -58,7 +58,7 @@ const createTalkBlipData = (state, phone) => {
     phoneNumber: phone,
     averageWaitTime: getAverageWaitTime(state),
     agentAvailability: getAgentAvailability(state),
-    locale: i18n.getLocale()
+    locale: i18n.getLocale(),
   }
 }
 
@@ -71,33 +71,33 @@ const getArticleClickValues = (state, articleId, answerBot) => {
     articleId,
     locale: i18n.getLocale(),
     contextualSearch: getHasContextuallySearched(state),
-    answerBot: Boolean(answerBot)
+    answerBot: Boolean(answerBot),
   }
 
   return trackPayload
 }
 
-const sendTalkCallbackRequestBlip = state => {
+const sendTalkCallbackRequestBlip = (state) => {
   const { phone, name, email, description } = getFormState(state)
   let value = createTalkBlipData(state, phone)
 
   value.user = {
     description: description,
     name: name,
-    email: email
+    email: email,
   }
   beacon.trackUserAction('talk', 'request', {
     label: 'callbackForm',
-    value: value
+    value: value,
   })
 }
 
-const sendTalkOpenedBlip = state => {
+const sendTalkOpenedBlip = (state) => {
   const value = createTalkBlipData(state, getEmbeddableConfig(state).phoneNumber)
 
   beacon.trackUserAction('talk', 'opened', {
     label: 'phoneNumber',
-    value: value
+    value: value,
   })
 }
 
@@ -105,11 +105,11 @@ const sendChatOpenedBlip = () => {
   beacon.trackUserAction('chat', 'opened', { label: 'newChat' })
 }
 
-const sendHelpCenterFirstSearchBlip = state => {
+const sendHelpCenterFirstSearchBlip = (state) => {
   if (getTotalUserSearches(state) === 0) {
     beacon.trackUserAction('helpCenter', 'search', {
       label: 'helpCenterForm',
-      value: getSearchTerm(state)
+      value: getSearchTerm(state),
     })
   }
 }
@@ -119,14 +119,14 @@ const sendArticleClickedBlip = (state, latestArticle) => {
     const values = getArticleClickValues(state, latestArticle.id)
     beacon.trackUserAction('helpCenter', 'click', {
       label: 'helpCenterForm',
-      value: values
+      value: values,
     })
 
     hcStats.articleViewed(latestArticle.id, latestArticle.locale, values)
   }
 }
 
-const sendHelpCenterOriginalArticleClickedBlip = state => {
+const sendHelpCenterOriginalArticleClickedBlip = (state) => {
   const article = getCurrentActiveArticle(state)
 
   sendOriginalArticleClickedBlip(state, article)
@@ -137,7 +137,7 @@ const sendOriginalArticleClickedBlip = (state, articleId, answerBot) => {
 
   beacon.trackUserAction('helpCenter', 'viewOriginalArticle', {
     label: 'helpCenterForm',
-    value: value
+    value: value,
   })
 }
 
@@ -147,12 +147,12 @@ const sendAnswerBotUserNavigation = (prevState, payload) => {
   if (prevAnswerBotScreen === ARTICLE_SCREEN && payload === CONVERSATION_SCREEN) {
     const blipValue = {
       from: ARTICLE_SCREEN,
-      to: CONVERSATION_SCREEN
+      to: CONVERSATION_SCREEN,
     }
 
     beacon.trackUserAction('answerBot', 'userNavigation', {
       label: 'journey',
-      value: blipValue
+      value: blipValue,
     })
   }
 }
@@ -166,12 +166,12 @@ const sendAnswerBotContextualArticleClickedBlip = (state, payload) => {
     articleId: articleID,
     locale: i18n.getLocale(),
     uniqueSearchResultClick: false,
-    answerBot: true
+    answerBot: true,
   }
 
   beacon.trackUserAction('helpCenter', 'click', {
     label: 'helpCenterForm',
-    value: trackPayload
+    value: trackPayload,
   })
 }
 
@@ -185,12 +185,12 @@ const sendAnswerBotArticleClickedBlip = (state, payload) => {
     articleId: articleID,
     locale: i18n.getLocale(),
     uniqueSearchResultClick: false,
-    answerBot: true
+    answerBot: true,
   }
 
   beacon.trackUserAction('helpCenter', 'click', {
     label: 'helpCenterForm',
-    value: trackPayload
+    value: trackPayload,
   })
 }
 
@@ -203,48 +203,48 @@ const sendChannelChoiceBlip = (state, payload) => {
       value: {
         query: getCurrentQuery(state),
         deflectionId: deflection && deflection.id,
-        channel: payload
-      }
+        channel: payload,
+      },
     })
   }
 }
 
-const sendArticleClosedBlip = state => {
+const sendArticleClosedBlip = (state) => {
   const screen = getCurrentScreen(state)
 
   if (screen === ARTICLE_SCREEN) {
     beacon.trackUserAction('answerBot', 'articleClosed', {
       label: 'helpCenterForm',
       value: {
-        articleId: getCurrentArticleID(state)
-      }
+        articleId: getCurrentArticleID(state),
+      },
     })
   }
 }
 
-const sendLauncherClickBlip = state => {
+const sendLauncherClickBlip = (state) => {
   const activeEmbed = getActiveEmbed(state)
 
   beacon.trackUserAction('launcher', 'click', {
     label: 'launcher',
-    value: { embedOpen: activeEmbed }
+    value: { embedOpen: activeEmbed },
   })
 }
 
-const sendChatStartedBlip = state => {
+const sendChatStartedBlip = (state) => {
   const department = getDefaultSelectedDepartment(state)
 
   beacon.trackUserAction('chat', 'chatStarted', {
     label: 'newChat',
     value: {
       departmentName: department ? department.name : null,
-      departmentId: department ? department.id : null
-    }
+      departmentId: department ? department.id : null,
+    },
   })
 }
 
 export function sendBlips({ getState }) {
-  return next => action => {
+  return (next) => (action) => {
     const { type, payload } = action
     const prevState = getState()
 

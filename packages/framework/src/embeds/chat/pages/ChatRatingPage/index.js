@@ -11,10 +11,10 @@ import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main, Footer } from 'components/Widget'
 import useTranslate from 'src/hooks/useTranslate'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isChatting: getIsChatting(state),
-    rating: getChatRating(state)
+    rating: getChatRating(state),
   }
 }
 
@@ -53,21 +53,18 @@ const actionCreators = {
   sendChatRating,
   sendChatComment,
   endChat,
-  updateChatScreen
+  updateChatScreen,
 }
 
 ChatRatingPage.propTypes = {
   rating: PropTypes.object.isRequired,
   sendChatRating: PropTypes.func.isRequired,
   sendChatComment: PropTypes.func.isRequired,
-  updateChatScreen: PropTypes.func.isRequired
+  updateChatScreen: PropTypes.func.isRequired,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ChatRatingPage)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  ChatRatingPage
+)
 
 export { connectedComponent as default, ChatRatingPage as Component }

@@ -10,7 +10,7 @@ import {
   AttachmentDetails,
   Preview,
   Container,
-  StyledIcon
+  StyledIcon,
 } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { formatNameString, secondaryText } from 'src/embeds/support/utils/attachmentStringFormatter'
@@ -47,9 +47,9 @@ Attachment.propTypes = {
     fileName: PropTypes.string.isRequired,
     fileSize: PropTypes.number.isRequired,
     uploading: PropTypes.bool.isRequired,
-    uploadProgress: PropTypes.number.isRequired
+    uploadProgress: PropTypes.number.isRequired,
   }),
   handleRemoveAttachment: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
 }
 export default Attachment

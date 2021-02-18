@@ -32,7 +32,7 @@ describe('chat reducer mobile notifications disabled', () => {
     beforeEach(() => {
       state = reducer(initialState, {
         type: actionTypes.UPDATE_SETTINGS,
-        payload: someSettings
+        payload: someSettings,
       })
     })
 
@@ -43,11 +43,11 @@ describe('chat reducer mobile notifications disabled', () => {
             chat: {
               notifications: {
                 mobile: {
-                  disable: true
-                }
-              }
-            }
-          }
+                  disable: true,
+                },
+              },
+            },
+          },
         }
       })
 
@@ -63,11 +63,11 @@ describe('chat reducer mobile notifications disabled', () => {
             chat: {
               notifications: {
                 mobile: {
-                  disable: false
-                }
-              }
-            }
-          }
+                  disable: false,
+                },
+              },
+            },
+          },
         }
       })
 

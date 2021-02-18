@@ -26,7 +26,7 @@ const SeeLatestButton = ({ onClick }) => {
 }
 
 SeeLatestButton.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default SeeLatestButton

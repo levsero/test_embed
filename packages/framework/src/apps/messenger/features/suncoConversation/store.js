@@ -28,7 +28,7 @@ export const startNewConversation = createAsyncThunk(
         ? messagesResponse?.body?.messages
         : [],
       conversationId: activeConversation.conversationId,
-      appUserId: activeConversation.appUserId
+      appUserId: activeConversation.appUserId,
     }
   }
 )
@@ -41,7 +41,7 @@ export const fetchExistingConversation = createAsyncThunk(
     const messagesResponse = await fetchMessages()
     return {
       lastRead: activeConversation.lastRead,
-      ...messagesResponse.body
+      ...messagesResponse.body,
     }
   }
 )
@@ -64,14 +64,14 @@ const subscribeToConversationEvents = createAsyncThunk(
       }
     })
 
-    activeConversation.socketClient.on('message', message => {
+    activeConversation.socketClient.on('message', (message) => {
       if (getClient().wasMessageSentFromThisTab(message)) {
         return
       }
       dispatch(messageReceived({ message }))
     })
 
-    activeConversation.socketClient.on('activity', activity => {
+    activeConversation.socketClient.on('activity', (activity) => {
       dispatch(activityReceived({ activity }))
     })
 

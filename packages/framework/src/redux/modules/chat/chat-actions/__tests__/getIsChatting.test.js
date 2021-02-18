@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import {
   IS_CHATTING,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
-  CHAT_DROPPED
+  CHAT_DROPPED,
 } from 'src/redux/modules/chat/chat-action-types'
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types'
 import { store } from 'src/framework/services/persistence'
@@ -28,10 +28,10 @@ const callAction = (isChatting = true) => {
     chat: {
       vendor: {
         zChat: {
-          isChatting: isChattingSpy
-        }
-      }
-    }
+          isChatting: isChattingSpy,
+        },
+      },
+    },
   }
   const reduxStore = mockStore(mockZChatState)
 
@@ -58,7 +58,7 @@ describe('getIsChatting', () => {
 
       expect(reduxStore.getActions()[1]).toEqual({
         type: UPDATE_ACTIVE_EMBED,
-        payload: 'helpCenter'
+        payload: 'helpCenter',
       })
     })
 
@@ -69,7 +69,7 @@ describe('getIsChatting', () => {
       const reduxStore = callAction()
 
       expect(reduxStore.getActions()[1]).toEqual({
-        type: CHAT_WINDOW_OPEN_ON_NAVIGATE
+        type: CHAT_WINDOW_OPEN_ON_NAVIGATE,
       })
     })
 
@@ -80,7 +80,7 @@ describe('getIsChatting', () => {
       const reduxStore = callAction()
 
       expect(reduxStore.getActions()[1]).not.toEqual({
-        type: CHAT_WINDOW_OPEN_ON_NAVIGATE
+        type: CHAT_WINDOW_OPEN_ON_NAVIGATE,
       })
     })
 
@@ -92,7 +92,7 @@ describe('getIsChatting', () => {
       const reduxStore = callAction()
 
       expect(reduxStore.getActions()[1]).not.toEqual({
-        type: CHAT_WINDOW_OPEN_ON_NAVIGATE
+        type: CHAT_WINDOW_OPEN_ON_NAVIGATE,
       })
     })
   })
@@ -104,7 +104,7 @@ describe('getIsChatting', () => {
       const reduxStore = callAction(false)
 
       expect(reduxStore.getActions()[1]).toEqual({
-        type: CHAT_DROPPED
+        type: CHAT_DROPPED,
       })
     })
 

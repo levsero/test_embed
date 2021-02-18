@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import NonFatalError from 'errors/NonFatalError'
 
-const truncateCodeBlock = zopimCodeBlock => {
+const truncateCodeBlock = (zopimCodeBlock) => {
   if (_.isString(zopimCodeBlock)) {
     return zopimCodeBlock.length > 200
       ? `${zopimCodeBlock.slice(0, 200)} \n\t...\n}`
@@ -17,7 +17,7 @@ export default class ZopimApiError extends NonFatalError {
       truncateCodeBlock(zopimCodeBlock),
       "Check out the Developer API docs to make sure you're using it correctly",
       'https://api.zopim.com/files/meshim/widget/controllers/LiveChatAPI-js.html',
-      realError.stack
+      realError.stack,
     ]).join('\n\n')
 
     super(message, 'ZopimApiError')

@@ -6,7 +6,7 @@ const generateSessionData = () => ({
   resolved: false,
   fallbackSuggested: false,
   requestStatus: null,
-  articles: []
+  articles: [],
 })
 
 export const sessionStarted = () => {
@@ -14,7 +14,7 @@ export const sessionStarted = () => {
     type: SESSION_STARTED,
     payload: {
       sessionID: generateSessionID(),
-      sessionData: generateSessionData()
-    }
+      sessionData: generateSessionData(),
+    },
   }
 }

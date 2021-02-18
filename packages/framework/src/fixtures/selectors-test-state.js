@@ -10,51 +10,51 @@ const defaultState = {
           props: {
             standalone: true,
             zopimId: '123abc',
-            overrideProxy: null
-          }
+            overrideProxy: null,
+          },
         },
         helpCenterForm: {
           props: {
-            contextualHelpEnabled: true
-          }
+            contextualHelpEnabled: true,
+          },
         },
         submitTicket: {
           ticketSubmissionForm: {
-            props: {}
-          }
-        }
+            props: {},
+          },
+        },
       },
       color: 'testColor',
       textColor: 'testTextColor',
       brandCount: 2,
-      brand: 'ACME'
+      brand: 'ACME',
     },
     embeds: {
       ipmWidget: {},
       chat: {},
-      ticketSubmissionForm: undefined
-    }
+      ticketSubmissionForm: undefined,
+    },
   },
   chat: {
     forcedStatus: 'offline',
     accountSettings: {
       banner: {
-        enabled: true
+        enabled: true,
       },
       offlineForm: {
-        enabled: true
+        enabled: true,
       },
       theme: {
         color: {
-          primary: 'primaryThemeColor'
-        }
-      }
+          primary: 'primaryThemeColor',
+        },
+      },
     },
     rating: {
-      value: 5
+      value: 5,
     },
     config: {
-      defaultToChatWidgetLite: false
+      defaultToChatWidgetLite: false,
     },
     activeAgents: new Map([]),
     chatting: false,
@@ -62,32 +62,32 @@ const defaultState = {
     status: 'offline',
     vendor: {
       zChat: {
-        isBanned: () => false
-      }
+        isBanned: () => false,
+      },
     },
     chats: new Map([]),
-    is_chatting: false
+    is_chatting: false,
   },
   helpCenter: {
     contextualSearch: true,
-    manualContextualSuggestions: {}
+    manualContextualSuggestions: {},
   },
   settings: {
     cookies: true,
     styling: {
-      zIndex: -10
+      zIndex: -10,
     },
     helpCenter: {
-      suppress: false
+      suppress: false,
     },
     chat: {
       suppress: false,
       connectionSuppress: false,
       enabled: true,
       connectOnDemand: false,
-      connectOnPageLoad: true
-    }
-  }
+      connectOnPageLoad: true,
+    },
+  },
 }
 
 export const getModifiedState = (modifier = {}) => _.merge({}, defaultState, modifier)

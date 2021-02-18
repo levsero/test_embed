@@ -16,8 +16,8 @@ CarouselStructuredMessage.propTypes = {
   message: PropTypes.shape({
     items: CarouselMessage.propTypes.items,
     label: CarouselMessage.propTypes.label,
-    avatarUrl: CarouselMessage.propTypes.avatar
-  })
+    avatarUrl: CarouselMessage.propTypes.avatar,
+  }),
 }
 
 export default CarouselStructuredMessage

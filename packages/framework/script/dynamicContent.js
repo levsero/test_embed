@@ -16,7 +16,7 @@ const options = {
   auth: 'admin@zendesk.com:123456',
   json: true,
   headers: { 'content-type': 'application/json' },
-  timeout: 0 // For Staging and Prod we need to add a slight timeout so it doesn't think it's being DoS attacked
+  timeout: 0, // For Staging and Prod we need to add a slight timeout so it doesn't think it's being DoS attacked
 }
 
 function createDynamicContent() {
@@ -26,9 +26,9 @@ function createDynamicContent() {
 
   for (let i = 0; i < numberToCreate; i++) {
     const dcFn = () => {
-      const dynamicContentReq = https.request(options, res => {
+      const dynamicContentReq = https.request(options, (res) => {
         res.setEncoding('utf8')
-        res.on('data', data => {
+        res.on('data', (data) => {
           if (!data.err) {
             console.log(`STATUS: ${res.statusCode}, number: ${i} of ${numberToCreate}`)
           } else {
@@ -37,7 +37,7 @@ function createDynamicContent() {
         })
       })
 
-      dynamicContentReq.on('error', e => {
+      dynamicContentReq.on('error', (e) => {
         console.log(`problem with dynamic content request: ${e.message}`)
       })
 

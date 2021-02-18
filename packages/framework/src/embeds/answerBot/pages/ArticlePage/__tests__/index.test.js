@@ -18,26 +18,26 @@ const actions = Object.freeze({
   botFallbackMessage: jest.fn(),
   originalArticleClicked: jest.fn(),
   addRestrictedImage: jest.fn(),
-  performImageSearch: jest.fn()
+  performImageSearch: jest.fn(),
 })
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
     article: {
-      html_url: 'https://example.com'
+      html_url: 'https://example.com',
     },
     isFeedbackRequired: false,
     locale: 'en-US',
     actions,
     storedImages: {},
-    originalArticleButton: true
+    originalArticleButton: true,
   }
   const componentProps = _.merge({}, defaultProps, props)
   return render(<ArticlePage {...componentProps} />)
 }
 test('renders the expected title', () => {
   const { queryByText } = renderComponent({
-    articleTitleKey: 'support'
+    articleTitleKey: 'support',
   })
 
   expect(queryByText('Support')).toBeInTheDocument()
@@ -49,8 +49,8 @@ test('renders the help center article', () => {
       id: 123,
       markedAsIrrelevant: false,
       title: 'article title is this',
-      body: '<p>this is the body</p>'
-    }
+      body: '<p>this is the body</p>',
+    },
   })
 
   expect(queryByText('article title is this')).toBeInTheDocument()
@@ -59,7 +59,7 @@ test('renders the help center article', () => {
 
 test('renders the feedback popup after a certain time has passed', () => {
   const { queryByText } = renderComponent({
-    isFeedbackRequired: true
+    isFeedbackRequired: true,
   })
 
   jest.runAllTimers()
@@ -68,7 +68,7 @@ test('renders the feedback popup after a certain time has passed', () => {
 
 test('does not render the feedback popup if feedback is not required', () => {
   const { queryByText } = renderComponent({
-    isFeedbackRequired: false
+    isFeedbackRequired: false,
   })
 
   jest.runAllTimers()
@@ -79,7 +79,7 @@ describe('feedback actions', () => {
   describe('on yes click', () => {
     it('hides the feedback popup', () => {
       const { queryByText, getByText } = renderComponent({
-        isFeedbackRequired: true
+        isFeedbackRequired: true,
       })
 
       jest.runAllTimers()
@@ -92,7 +92,7 @@ describe('feedback actions', () => {
       const saveConversationScroll = jest.fn()
       const { getByText } = renderComponent({
         isFeedbackRequired: true,
-        saveConversationScroll
+        saveConversationScroll,
       })
 
       jest.runAllTimers()
@@ -114,7 +114,7 @@ describe('feedback actions', () => {
   describe('on no click', () => {
     it('asks for the reason', () => {
       const { queryByText, getByText } = renderComponent({
-        isFeedbackRequired: true
+        isFeedbackRequired: true,
       })
 
       jest.runAllTimers()
@@ -128,7 +128,7 @@ describe('feedback actions', () => {
         const saveConversationScroll = jest.fn()
         const { getByText } = renderComponent({
           isFeedbackRequired: true,
-          saveConversationScroll
+          saveConversationScroll,
         })
 
         jest.runAllTimers()
@@ -161,7 +161,7 @@ describe('original article button', () => {
     const authToken = 'token'
     const article = {
       id: 'article123',
-      html_url: 'https://example.com/'
+      html_url: 'https://example.com/',
     }
 
     const { queryByTitle } = renderComponent({ authToken, article })
@@ -174,12 +174,12 @@ describe('original article button', () => {
     const originalArticleClicked = jest.fn()
     const article = {
       id: 'article123',
-      html_url: 'https://example.com'
+      html_url: 'https://example.com',
     }
 
     const { queryByTitle } = renderComponent({
       actions: { ...actions, originalArticleClicked },
-      article
+      article,
     })
     const link = queryByTitle('View original article')
 

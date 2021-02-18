@@ -12,9 +12,9 @@ const renderComponent = (props = {}) => {
     concierges: [
       {
         displayName: 'Agent',
-        title: 'person who does things'
-      }
-    ]
+        title: 'person who does things',
+      },
+    ],
   }
 
   return render(<ChatRatingPage {...defaultProps} {...props} />)

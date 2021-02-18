@@ -13,7 +13,7 @@ const Receipt = ({
   status = MESSAGE_STATUS.sent,
   isReceiptVisible = true,
   isFreshMessage = true,
-  onRetry = () => {}
+  onRetry = () => {},
 }) => {
   const parsedTime = useParseTime(timeReceived)
   const previousStatus = useRef(null)
@@ -59,7 +59,7 @@ Receipt.propTypes = {
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
 }
 
 export default Receipt

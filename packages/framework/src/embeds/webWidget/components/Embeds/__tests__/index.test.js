@@ -14,7 +14,7 @@ jest.mock('component/webWidget/WebWidget', () => {
     __esModule: true,
     default: () => {
       return <div data-testid="web widget" />
-    }
+    },
   }
 })
 
@@ -46,14 +46,14 @@ describe('Embeds', () => {
     jest.spyOn(baseActions, 'widgetShowAnimationComplete')
 
     baseActions.widgetShowAnimationComplete.mockReturnValue({
-      type: actions.WIDGET_SHOW_ANIMATION_COMPLETE
+      type: actions.WIDGET_SHOW_ANIMATION_COMPLETE,
     })
 
     store.dispatch(openReceived())
 
     await wait(() =>
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: actions.WIDGET_SHOW_ANIMATION_COMPLETE
+        type: actions.WIDGET_SHOW_ANIMATION_COMPLETE,
       })
     )
   })
@@ -88,8 +88,8 @@ describe('Embeds', () => {
     store.dispatch(
       updateSettings({
         webWidget: {
-          zIndex: 100
-        }
+          zIndex: 100,
+        },
       })
     )
 
@@ -98,8 +98,8 @@ describe('Embeds', () => {
     store.dispatch(
       updateSettings({
         webWidget: {
-          zIndex: 200
-        }
+          zIndex: 200,
+        },
       })
     )
 

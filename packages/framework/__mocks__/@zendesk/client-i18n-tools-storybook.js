@@ -1,13 +1,13 @@
 import enTranslation from './en-us.json'
 
-const t = key => {
+const t = (key) => {
   return enTranslation.locale.translations[key]
 }
 
-t.dateTimeFormat = options => {
+t.dateTimeFormat = (options) => {
   return {
     options,
-    format: input => String(input)
+    format: (input) => String(input),
   }
 }
 

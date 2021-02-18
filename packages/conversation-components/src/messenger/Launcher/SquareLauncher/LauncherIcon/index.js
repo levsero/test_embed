@@ -17,7 +17,7 @@ const LauncherIcon = ({ isOpen, position }) => {
 
 LauncherIcon.propTypes = {
   isOpen: PropTypes.bool,
-  position: PropTypes.oneOf(['left', 'right'])
+  position: PropTypes.oneOf(['left', 'right']),
 }
 
 export default LauncherIcon

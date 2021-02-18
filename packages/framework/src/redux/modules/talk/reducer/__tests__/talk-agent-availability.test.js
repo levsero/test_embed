@@ -5,41 +5,41 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(agentAvailability, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: {
       type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-      payload: { agentAvailability: true }
+      payload: { agentAvailability: true },
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
       type: actionTypes.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-      payload: { agentAvailability: true }
+      payload: { agentAvailability: true },
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
       type: actionTypes.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-      payload: { something: true }
+      payload: { something: true },
     },
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: actionTypes.TALK_DISCONNECT_SOCKET_EVENT
+      type: actionTypes.TALK_DISCONNECT_SOCKET_EVENT,
     },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

@@ -14,7 +14,7 @@ describe('BackButton', () => {
   const renderComponent = (props = {}) => {
     const defaultProps = {
       useReactRouter: true,
-      history: {}
+      history: {},
     }
 
     return render(<BackButton {...defaultProps} {...props} />)
@@ -23,7 +23,7 @@ describe('BackButton', () => {
   describe('when using React Router', () => {
     const history = {
       goBack: goBackSpy,
-      length: 2
+      length: 2,
     }
 
     it('uses the history goBack method', () => {
@@ -44,7 +44,7 @@ describe('BackButton', () => {
       })
 
       describe('when history is < 2 layers deep', () => {
-        ;[0, 1].forEach(length => {
+        ;[0, 1].forEach((length) => {
           it('does not render', () => {
             const { queryByTestId } = renderComponent({ history: { ...history, length } })
 

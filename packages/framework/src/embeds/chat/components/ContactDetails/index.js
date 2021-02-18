@@ -11,15 +11,15 @@ const ContactDetailsModal = ({ onClose }) => {
   const [updatedValues, setUpdatedValues] = useState(false)
 
   return (
-    <div ref={ref => setContainer(ref)}>
+    <div ref={(ref) => setContainer(ref)}>
       {container && (
         <StyledModal
           backdropProps={{
             style: {
-              position: 'absolute'
-            }
+              position: 'absolute',
+            },
           }}
-          onClose={e => {
+          onClose={(e) => {
             e.stopPropagation()
             onClose()
           }}
@@ -38,7 +38,7 @@ const ContactDetailsModal = ({ onClose }) => {
 }
 
 ContactDetailsModal.propTypes = {
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 }
 
 const themedComponent = withTheme(ContactDetailsModal)

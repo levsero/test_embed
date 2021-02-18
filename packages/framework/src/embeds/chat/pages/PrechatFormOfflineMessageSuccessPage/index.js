@@ -35,15 +35,15 @@ const PrechatFormOfflineMessageSuccessPage = ({ title, updateChatScreen }) => {
 
 PrechatFormOfflineMessageSuccessPage.propTypes = {
   title: PropTypes.string,
-  updateChatScreen: PropTypes.func
+  updateChatScreen: PropTypes.func,
 }
 
 const actionCreators = {
-  updateChatScreen
+  updateChatScreen,
 }
 
-const mapStateToProps = state => ({
-  title: getChatTitle(state)
+const mapStateToProps = (state) => ({
+  title: getChatTitle(state),
 })
 
 const connectedComponent = connect(

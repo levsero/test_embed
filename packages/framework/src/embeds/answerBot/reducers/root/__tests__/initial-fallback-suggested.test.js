@@ -8,7 +8,7 @@ test('initial state is null', () => {
 test('updates to expected state', () => {
   const state = reducer(undefined, {
     type: actionTypes.BOT_INITIAL_FALLBACK,
-    payload: true
+    payload: true,
   })
 
   expect(state).toMatchInlineSnapshot(`true`)

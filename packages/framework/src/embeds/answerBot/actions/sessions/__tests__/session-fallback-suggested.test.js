@@ -8,8 +8,8 @@ it('sessionFallbackSuggested dispatches the expected actions', () => {
   const state = {
     answerBot: {
       currentSessionID: 1234,
-      sessions: new Map([[1234, {}]])
-    }
+      sessions: new Map([[1234, {}]]),
+    },
   }
 
   const store = mockStore(state)

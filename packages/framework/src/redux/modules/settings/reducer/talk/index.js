@@ -4,7 +4,7 @@ import _ from 'lodash'
 const initialState = {
   title: {},
   suppress: false,
-  nickname: null
+  nickname: null,
 }
 
 const talkSettings = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const talkSettings = (state = initialState, action) => {
       return {
         nickname: _.get(payload, 'webWidget.talk.nickname', state.nickname),
         suppress: _.get(payload, 'webWidget.talk.suppress', state.suppress),
-        title: _.get(payload, 'webWidget.talk.title', state.title)
+        title: _.get(payload, 'webWidget.talk.title', state.title),
       }
     default:
       return state

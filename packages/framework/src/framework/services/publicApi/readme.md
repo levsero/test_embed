@@ -42,10 +42,10 @@ const publicApi = {
     open: () => {
       /* function to open cat embeddable */
     },
-    showCat: id => {
+    showCat: (id) => {
       /* function to show a specific cat in the embeddable */
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -86,9 +86,9 @@ const publicApi = {
   open: () => {
     /* function to open an embeddable */
   },
-  log: message => {
+  log: (message) => {
     /* function to log the provided message */
-  }
+  },
 }
 ```
 
@@ -107,19 +107,19 @@ const bootEmbeddable = () => {
       open: () => {
         /* function to open cat embeddable */
       },
-      showCat: id => {
+      showCat: (id) => {
         /* function to show a specific cat in the embeddable */
-      }
-    }
+      },
+    },
   }
 
   const legacyApi = {
     open: () => {
       /* function to open an embeddable */
     },
-    log: message => {
+    log: (message) => {
       /* function to log the provided message */
-    }
+    },
   }
 
   publicApi.registerApi(publicApi)

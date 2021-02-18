@@ -3,7 +3,7 @@ import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-typ
 import _ from 'lodash'
 
 const initialState = {
-  defaultToChatWidgetLite: false
+  defaultToChatWidgetLite: false,
 }
 
 const config = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const config = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ..._.get(payload, 'embeds.chat.props', {})
+        ..._.get(payload, 'embeds.chat.props', {}),
       }
     default:
       return state

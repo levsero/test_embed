@@ -1,6 +1,6 @@
 const hostPageWindow = window.top
 
-export const onBrowserTabFocus = callback => {
+export const onBrowserTabFocus = (callback) => {
   // https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 
   let hidden, visibilityChange
@@ -34,10 +34,10 @@ export const onBrowserTabFocus = callback => {
 //https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
 export const isBrowserOnline = () => Boolean(hostPageWindow.navigator.onLine)
 
-export const onBrowserComingBackOnline = callback => {
+export const onBrowserComingBackOnline = (callback) => {
   hostPageWindow.addEventListener('online', callback)
 }
 
-export const onBrowserGoingOffline = callback => {
+export const onBrowserGoingOffline = (callback) => {
   hostPageWindow.addEventListener('offline', callback)
 }

@@ -15,7 +15,7 @@ const getToken = async (subdomain, serviceUrl, nickname) => {
       .post(`${serviceUrl}/api/v2/channels/talk_embeddables/web/access_token`)
       .send({
         nickname,
-        subdomain
+        subdomain,
       })
       .set({ 'Content-Type': 'application/json' })
 
@@ -25,7 +25,7 @@ const getToken = async (subdomain, serviceUrl, nickname) => {
   }
 }
 
-const muteClick = muted => {
+const muteClick = (muted) => {
   connection?.mute(muted)
 }
 
@@ -44,7 +44,7 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
     try {
       device = new Device()
 
-      device.on('error', error => {
+      device.on('error', (error) => {
         endTwilioConnection()
         onError?.(error)
       })
@@ -53,7 +53,7 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
         onConnect?.()
       })
 
-      device.on('disconnect', async connection => {
+      device.on('disconnect', async (connection) => {
         onDisconnect?.(connection)
         connection = null
         await device?.destroy()
@@ -64,7 +64,7 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
         connection = await device?.connect({
           source: 'web-widget',
           user_agent: navigator.userAgent,
-          ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {})
+          ...(userRecordingConsent ? { recording_consent: userRecordingConsent } : {}),
         })
       })
 
@@ -83,6 +83,6 @@ export const useTwilioDevice = ({ onError, onUnsupported, onConnect, onDisconnec
   return {
     startTwilioConnection,
     muteClick,
-    endTwilioConnection
+    endTwilioConnection,
   }
 }

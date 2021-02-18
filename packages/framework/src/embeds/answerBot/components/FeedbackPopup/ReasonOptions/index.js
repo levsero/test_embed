@@ -20,7 +20,7 @@ const ReasonOptions = ({ onReasonClick }) => {
 }
 
 ReasonOptions.propTypes = {
-  onReasonClick: PropTypes.func
+  onReasonClick: PropTypes.func,
 }
 
 export default ReasonOptions

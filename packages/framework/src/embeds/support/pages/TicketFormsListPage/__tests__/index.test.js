@@ -10,7 +10,7 @@ const renderComponent = (
     selectTicketFormLabel = '',
     formTitle = '',
     ticketForms = [],
-    isLoading = false
+    isLoading = false,
   },
   options
 ) => {
@@ -30,18 +30,18 @@ describe('TicketFormsListPage', () => {
   const ticketForms = [
     { id: 1, display_name: 'Form One' },
     { id: 2, display_name: 'Form Two' },
-    { id: 3, display_name: 'Form Three' }
+    { id: 3, display_name: 'Form Three' },
   ]
 
   it('renders the list of ticket forms', () => {
     const { queryByText } = renderComponent({
       ticketForms,
       selectTicketFormLabel: 'select me',
-      formTitle: 'theTitle'
+      formTitle: 'theTitle',
     })
     const texts = ['theTitle', 'select me', 'Form One', 'Form Two', 'Form Three']
 
-    texts.forEach(text => {
+    texts.forEach((text) => {
       expect(queryByText(text)).toBeInTheDocument()
     })
   })
@@ -51,7 +51,7 @@ describe('TicketFormsListPage', () => {
       const handleFormOptionClick = jest.fn()
       const { getByText } = renderComponent({
         ticketForms,
-        handleFormOptionClick
+        handleFormOptionClick,
       })
 
       fireEvent.click(getByText('Form Three'))

@@ -4,13 +4,13 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_FAILURE,
-  SEARCH_REQUEST_SENT
+  SEARCH_REQUEST_SENT,
 } from 'embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {
   current: '',
-  previous: '' // Used to display the correct term in noResults when you enter a new search term
+  previous: '', // Used to display the correct term in noResults when you enter a new search term
 }
 
 const searchTerm = (state = initialState, action) => {
@@ -23,13 +23,13 @@ const searchTerm = (state = initialState, action) => {
     case CONTEXTUAL_SEARCH_REQUEST_FAILURE:
       return {
         ...state,
-        previous: state.current
+        previous: state.current,
       }
     case SEARCH_REQUEST_SENT:
     case CONTEXTUAL_SEARCH_REQUEST_SENT:
       return {
         ...state,
-        current: payload.searchTerm
+        current: payload.searchTerm,
       }
     case API_CLEAR_FORM:
     case API_RESET_WIDGET:

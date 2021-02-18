@@ -17,7 +17,7 @@ const ConversationPage = ({
   messageGroups,
   scrollToBottom,
   agentAvatarName,
-  agentAvatarUrl
+  agentAvatarUrl,
 }) => {
   useEffect(() => {
     actions.updateBackButtonVisibility(false)
@@ -47,41 +47,38 @@ ConversationPage.propTypes = {
   scrollToBottom: PropTypes.func,
   actions: PropTypes.shape({
     conversationScreenClosed: PropTypes.func.isRequired,
-    updateBackButtonVisibility: PropTypes.func.isRequired
+    updateBackButtonVisibility: PropTypes.func.isRequired,
   }),
   agentAvatarUrl: PropTypes.string,
-  agentAvatarName: PropTypes.string
+  agentAvatarName: PropTypes.string,
 }
 
 ConversationPage.defaultProps = {
   scrollToBottom: () => {},
   agentAvatarName: '',
-  agentAvatarUrl: ''
+  agentAvatarUrl: '',
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     messageGroups: getMessageGroupKeys(state),
     agentAvatarName: getSettingsAnswerBotAvatarName(state),
-    agentAvatarUrl: getSettingsAnswerBotAvatarUrl(state)
+    agentAvatarUrl: getSettingsAnswerBotAvatarUrl(state),
   }
 }
 
-const actionCreators = dispatch => ({
+const actionCreators = (dispatch) => ({
   actions: bindActionCreators(
     {
       conversationScreenClosed,
-      updateBackButtonVisibility
+      updateBackButtonVisibility,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ConversationPage)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  ConversationPage
+)
 
 export { connectedComponent as default, ConversationPage as Component }

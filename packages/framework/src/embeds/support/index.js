@@ -16,7 +16,7 @@ const Support = ({
   fetchTicketForms,
   getTicketFields,
   locale,
-  customFieldsAvailable
+  customFieldsAvailable,
 }) => {
   const [isFetchingForms, setIsFetchingForms] = useState(true)
   const formId = (ticketForms.validatedIds && ticketForms.validatedIds[0]) || routes.defaultFormId
@@ -57,23 +57,20 @@ Support.propTypes = {
     validatedIds: PropTypes.array,
     showList: PropTypes.bool,
     requestAll: PropTypes.bool,
-    active: PropTypes.bool
+    active: PropTypes.bool,
   }),
   fetchTicketForms: PropTypes.func,
   getTicketFields: PropTypes.func,
   locale: PropTypes.string,
-  customFieldsAvailable: PropTypes.bool
+  customFieldsAvailable: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ticketForms: getTicketForms(state),
   locale: getLocale(state),
-  customFieldsAvailable: getCustomFieldsAvailable(state)
+  customFieldsAvailable: getCustomFieldsAvailable(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  { fetchTicketForms, getTicketFields }
-)(Support)
+const connectedComponent = connect(mapStateToProps, { fetchTicketForms, getTicketFields })(Support)
 
 export { connectedComponent as default, Support as Component }

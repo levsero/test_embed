@@ -11,7 +11,7 @@ import createStore from 'src/redux/createStore'
 describe('Footer', () => {
   const defaultProps = {
     hideZendeskLogo: false,
-    children: <div>children</div>
+    children: <div>children</div>,
   }
 
   const renderComponent = (props = {}) =>

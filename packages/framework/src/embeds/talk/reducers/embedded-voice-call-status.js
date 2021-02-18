@@ -2,12 +2,12 @@ import {
   CALL_STARTED,
   CALL_ENDED,
   CALL_FAILED,
-  RESET_CALL_FAILED
+  RESET_CALL_FAILED,
 } from 'embeds/talk/actions/action-types'
 
 const initialState = {
   isCallInProgress: false,
-  hasLastCallFailed: false
+  hasLastCallFailed: false,
 }
 
 const embeddedVoiceCallStatus = (state = initialState, action = {}) => {
@@ -17,22 +17,22 @@ const embeddedVoiceCallStatus = (state = initialState, action = {}) => {
     case CALL_STARTED:
       return {
         isCallInProgress: true,
-        hasLastCallFailed: false
+        hasLastCallFailed: false,
       }
     case CALL_ENDED:
       return {
         ...state,
-        isCallInProgress: false
+        isCallInProgress: false,
       }
     case CALL_FAILED:
       return {
         ...state,
-        hasLastCallFailed: true
+        hasLastCallFailed: true,
       }
     case RESET_CALL_FAILED:
       return {
         ...state,
-        hasLastCallFailed: false
+        hasLastCallFailed: false,
       }
     default:
       return state

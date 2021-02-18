@@ -9,7 +9,7 @@ import { getSelectTicketFormLabel } from 'src/redux/modules/selectors'
 import {
   getContactFormTitle,
   getFormIdsToDisplay,
-  getFormsToDisplay
+  getFormsToDisplay,
 } from 'src/embeds/support/selectors'
 import { TicketFormsMain } from 'embeds/support/pages/TicketFormsListPage/styles'
 import routes from 'embeds/support/routes'
@@ -17,13 +17,13 @@ import { getLocale } from 'src/redux/modules/base/base-selectors'
 import LoadingPage from 'components/LoadingPage'
 import { getIsAnyTicketFormLoading } from 'embeds/support/selectors'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ticketForms: getFormsToDisplay(state),
   selectTicketFormLabel: getSelectTicketFormLabel(state),
   formTitle: getContactFormTitle(state),
   formIds: getFormIdsToDisplay(state),
   locale: getLocale(state),
-  isLoading: getIsAnyTicketFormLoading(state)
+  isLoading: getIsAnyTicketFormLoading(state),
 })
 
 const TicketFormsListPage = ({
@@ -32,11 +32,11 @@ const TicketFormsListPage = ({
   ticketForms,
   handleFormOptionClick,
   history,
-  isLoading
+  isLoading,
 }) => {
   const onFormOptionClick = handleFormOptionClick
     ? handleFormOptionClick
-    : formId => {
+    : (formId) => {
         history.push(routes.form(formId))
       }
 
@@ -62,9 +62,9 @@ TicketFormsListPage.propTypes = {
   handleFormOptionClick: PropTypes.func,
   formTitle: PropTypes.string.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func
+    push: PropTypes.func,
   }),
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
 }
 
 const ConnectedComponent = connect(mapStateToProps)(TicketFormsListPage)

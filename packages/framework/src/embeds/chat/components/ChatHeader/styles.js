@@ -6,9 +6,9 @@ import { Avatar } from 'component/Avatar'
 const Container = styled.div`
   display: flex;
   align-items: center;
-  box-shadow: 0 ${props => 4 / props.theme.fontSize}rem ${props => 8 / props.theme.fontSize}rem 0
-    rgba(0, 0, 0, 0.1);
-  padding: ${props => `${12 / props.theme.fontSize}rem ${16 / props.theme.fontSize}rem`};
+  box-shadow: 0 ${(props) => 4 / props.theme.fontSize}rem ${(props) => 8 / props.theme.fontSize}rem
+    0 rgba(0, 0, 0, 0.1);
+  padding: ${(props) => `${12 / props.theme.fontSize}rem ${16 / props.theme.fontSize}rem`};
   z-index: 3;
   flex-shrink: 0;
 `
@@ -20,8 +20,8 @@ const AgentInfo = styled.div`
   text-align: left;
   background: none;
   min-width: 0;
-  ${props => props.clickable && `cursor: pointer`};
-  ${props => props.theme.rtl && `text-align: right;`}
+  ${(props) => props.clickable && `cursor: pointer`};
+  ${(props) => props.theme.rtl && `text-align: right;`}
 `
 
 const Overflow = styled.div`
@@ -29,9 +29,9 @@ const Overflow = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  height: ${props => 34 / props.theme.fontSize}rem;
-  width: ${props => 34 / props.theme.fontSize}rem;
-  border: ${zdColorGrey400} ${props => 2 / props.theme.fontSize}rem solid;
+  height: ${(props) => 34 / props.theme.fontSize}rem;
+  width: ${(props) => 34 / props.theme.fontSize}rem;
+  border: ${zdColorGrey400} ${(props) => 2 / props.theme.fontSize}rem solid;
 `
 
 const OverflowText = styled.div`
@@ -44,7 +44,7 @@ const Text = styled.div`
   padding-top: ${1 / FONT_SIZE}rem;
   flex: 1;
   min-width: 0;
-  ${props => {
+  ${(props) => {
     if (!props.showTitle) return { visibility: 'hidden' }
 
     if (!props.showAvatar) {
@@ -95,11 +95,11 @@ const AvatarContainer = styled.div`
   align-items: center;
   ${StyledAvatar}, ${Overflow} {
     box-sizing: border-box;
-    box-shadow: 0 0 0 ${props => 2 / props.theme.fontSize}rem white;
+    box-shadow: 0 0 0 ${(props) => 2 / props.theme.fontSize}rem white;
     max-width: none;
 
     svg {
-      padding-left: ${props => 0.5 / props.theme.fontSize}rem;
+      padding-left: ${(props) => 0.5 / props.theme.fontSize}rem;
     }
   }
 `
@@ -114,5 +114,5 @@ export {
   Text,
   Title,
   StyledAvatar as Avatar,
-  TooltipWrapper
+  TooltipWrapper,
 }

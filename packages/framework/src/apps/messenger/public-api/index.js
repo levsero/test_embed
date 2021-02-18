@@ -6,18 +6,18 @@ import logger from 'src/util/logger'
 import { zIndexUpdated } from 'src/apps/messenger/store/actions'
 import { cookiesEnabled, cookiesDisabled } from 'src/apps/messenger/store/cookies'
 
-export default store => ({
+export default (store) => ({
   messenger: {
     open: () => {
       store.dispatch(widgetOpened())
     },
     close: () => {
       store.dispatch(widgetClosed())
-    }
+    },
   },
   ['messenger:set']: {
     __isSettingsApi: true,
-    zIndex: zIndex => {
+    zIndex: (zIndex) => {
       if (typeof zIndex !== 'number') {
         logger.error("Invalid zIndex provided. Needs to be of type 'number'.")
         return
@@ -25,7 +25,7 @@ export default store => ({
 
       store.dispatch(zIndexUpdated(zIndex))
     },
-    locale: locale => {
+    locale: (locale) => {
       if (!validate(locale)) {
         logger.error(
           'Invalid locale information provided. The locale format should be a BCP 47 language tag.'
@@ -35,7 +35,7 @@ export default store => ({
       suncoUpdateLocale(locale)
       i18n.setLocale(locale).catch(() => {})
     },
-    cookies: enable => {
+    cookies: (enable) => {
       if (typeof enable !== 'boolean') {
         logger.error("Invalid argument provided. Needs to be of type 'boolean'.")
       }
@@ -45,6 +45,6 @@ export default store => ({
       } else {
         store.dispatch(cookiesDisabled())
       }
-    }
-  }
+    },
+  },
 })

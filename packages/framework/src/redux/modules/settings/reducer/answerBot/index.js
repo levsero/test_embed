@@ -11,5 +11,5 @@ export default combineReducers({
   title,
   search,
   suppress,
-  delayChannelChoice
+  delayChannelChoice,
 })

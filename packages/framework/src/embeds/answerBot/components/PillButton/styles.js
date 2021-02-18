@@ -5,8 +5,8 @@ import { Button as GardenButton } from '@zendeskgarden/react-buttons'
 const Button = styled(GardenButton)`
   &&& {
     background-color: transparent !important;
-    color: ${props => props.theme.buttonColorStr} !important;
-    border-color: ${props => props.theme.buttonColorStr} !important;
+    color: ${(props) => props.theme.buttonColorStr} !important;
+    border-color: ${(props) => props.theme.buttonColorStr} !important;
     font-size: ${15 / FONT_SIZE}rem !important;
     padding-right: ${24 / FONT_SIZE}rem !important;
     padding-left: ${24 / FONT_SIZE}rem !important;
@@ -21,9 +21,9 @@ const Button = styled(GardenButton)`
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
-      color: ${props => props.theme.buttonTextColorStr} !important;
-      background-color: ${props => props.theme.buttonColorStr} !important;
-      border-color: ${props => props.theme.buttonColorStr} !important;
+      color: ${(props) => props.theme.buttonTextColorStr} !important;
+      background-color: ${(props) => props.theme.buttonColorStr} !important;
+      border-color: ${(props) => props.theme.buttonColorStr} !important;
     }
   }
 `

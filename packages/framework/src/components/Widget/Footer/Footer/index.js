@@ -27,11 +27,11 @@ const Footer = ({ hideZendeskLogo, children, shadow = true }) => {
 Footer.propTypes = {
   hideZendeskLogo: PropTypes.bool,
   shadow: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
-const mapStateToProps = state => ({
-  hideZendeskLogo: getHideZendeskLogo(state)
+const mapStateToProps = (state) => ({
+  hideZendeskLogo: getHideZendeskLogo(state),
 })
 
 const connectedComponent = connect(mapStateToProps)(Footer)

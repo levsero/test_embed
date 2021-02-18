@@ -10,7 +10,7 @@ const Decimal = ({
   errorMessageKey,
   onChange,
   isReadOnly,
-  isPreview
+  isPreview,
 }) => {
   return (
     <Field>
@@ -30,7 +30,7 @@ const Decimal = ({
         name={field.id}
         value={value || ''}
         readOnly={isReadOnly}
-        onChange={e => {
+        onChange={(e) => {
           onChange(e.target.value)
         }}
         type="number"
@@ -53,14 +53,14 @@ Decimal.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     description: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
   }),
   value: PropTypes.string,
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
   isPreview: PropTypes.bool,
-  errorMessageKey: PropTypes.number
+  errorMessageKey: PropTypes.number,
 }
 
 export default Decimal

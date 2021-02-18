@@ -4,14 +4,14 @@ import { SDK_VISITOR_UPDATE } from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = {
   values: {},
-  timestamp: 0
+  timestamp: 0,
 }
 
 testReducer(chatVisitor, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState: undefined,
@@ -20,17 +20,17 @@ testReducer(chatVisitor, [
       payload: {
         type: 'vistor_update',
         detail: { display_name: 'someone', email: 'someone@example.com', phone: '123456' },
-        timestamp: 123
-      }
+        timestamp: 123,
+      },
     },
     expected: {
       timestamp: 123,
       values: {
         name: 'someone',
         email: 'someone@example.com',
-        phone: '123456'
-      }
-    }
+        phone: '123456',
+      },
+    },
   },
   {
     initialState: { timestamp: 100, values: { name: 'someone' } },
@@ -39,17 +39,17 @@ testReducer(chatVisitor, [
       payload: {
         type: 'vistor_update',
         detail: { display_name: '', email: 'someone@example.com', phone: '123456' },
-        timestamp: 123
-      }
+        timestamp: 123,
+      },
     },
     expected: {
       timestamp: 123,
       values: {
         name: '',
         email: 'someone@example.com',
-        phone: '123456'
-      }
-    }
+        phone: '123456',
+      },
+    },
   },
   {
     initialState: { timestamp: 100, values: { name: 'someone' } },
@@ -58,15 +58,15 @@ testReducer(chatVisitor, [
       payload: {
         type: 'vistor_update',
         detail: { display_name: 'someone else', email: 'someone@example.com' },
-        timestamp: 123
-      }
+        timestamp: 123,
+      },
     },
     expected: {
       timestamp: 123,
       values: {
         name: 'someone else',
-        email: 'someone@example.com'
-      }
-    }
-  }
+        email: 'someone@example.com',
+      },
+    },
+  },
 ])

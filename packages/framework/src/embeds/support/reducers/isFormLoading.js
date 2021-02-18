@@ -1,7 +1,7 @@
 import {
   TICKET_FORMS_REQUEST_SENT,
   TICKET_FORMS_REQUEST_SUCCESS,
-  TICKET_FORMS_REQUEST_FAILURE
+  TICKET_FORMS_REQUEST_FAILURE,
 } from 'src/embeds/support/actions/action-types'
 
 const initialState = {}
@@ -12,7 +12,7 @@ const isFormLoading = (state = initialState, action) => {
   switch (type) {
     case TICKET_FORMS_REQUEST_SENT: {
       const newState = { ...state }
-      action.payload.formIds.forEach(formId => {
+      action.payload.formIds.forEach((formId) => {
         newState[formId] = action.payload.fetchKey
       })
       return newState
@@ -20,7 +20,7 @@ const isFormLoading = (state = initialState, action) => {
     case TICKET_FORMS_REQUEST_SUCCESS:
     case TICKET_FORMS_REQUEST_FAILURE: {
       const newState = { ...state }
-      action.payload.formIds.forEach(formId => {
+      action.payload.formIds.forEach((formId) => {
         if (newState[formId] === action.payload.fetchKey) {
           newState[formId] = false
         }

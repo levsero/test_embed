@@ -4,13 +4,13 @@ import frame from './frame'
 
 const goToTestPage = async () =>
   await page.goto(`http://${hostWithPort}/webWidgetPreview.html`, {
-    waitUntil: ['domcontentloaded', 'load', 'networkidle0']
+    waitUntil: ['domcontentloaded', 'load', 'networkidle0'],
   })
 
 const renderPreview = () =>
   page.evaluate(() => {
     window.preview = window.zE.renderWebWidgetPreview({
-      element: document.querySelector('#container')
+      element: document.querySelector('#container'),
     })
   })
 
@@ -32,5 +32,5 @@ const evaluate = (script, ...arg) => {
 export default {
   getDocument,
   getFrame,
-  evaluate
+  evaluate,
 }

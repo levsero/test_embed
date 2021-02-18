@@ -9,7 +9,7 @@ const arturos = (state = initialState, action) => {
     case UPDATE_ARTUROS:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     default:
       return state

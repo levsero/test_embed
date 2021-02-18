@@ -15,7 +15,7 @@ describe('Header', () => {
       messengerConfigReceived({
         title: 'Zendesk',
         description: 'Elevate the conversation',
-        avatar: 'https://example.com/dummyUrl.jpg'
+        avatar: 'https://example.com/dummyUrl.jpg',
       })
     )
 

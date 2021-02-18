@@ -31,7 +31,7 @@ describe('user calls zopim api', () => {
       const callbackSpies = [jest.fn(), jest.fn()]
 
       beforeEach(() => {
-        callbackSpies.forEach(callbackSpy => {
+        callbackSpies.forEach((callbackSpy) => {
           callbacks.onChatSDKInitialized(callbackSpy)
         })
 
@@ -39,7 +39,7 @@ describe('user calls zopim api', () => {
       })
 
       it('executes stored callback', () => {
-        callbackSpies.forEach(callbackSpy => {
+        callbackSpies.forEach((callbackSpy) => {
           expect(callbackSpy).toHaveBeenCalled()
         })
       })
@@ -72,7 +72,7 @@ describe('user calls zopim api', () => {
       const callbackSpies = [jest.fn(), jest.fn()]
 
       beforeEach(() => {
-        callbackSpies.forEach(callbackSpy => {
+        callbackSpies.forEach((callbackSpy) => {
           callbacks.onChatConnected(callbackSpy)
         })
 
@@ -80,7 +80,7 @@ describe('user calls zopim api', () => {
       })
 
       it('execute stored callbacks', () => {
-        callbackSpies.forEach(callbackSpy => {
+        callbackSpies.forEach((callbackSpy) => {
           expect(callbackSpy).toHaveBeenCalled()
         })
       })

@@ -17,7 +17,7 @@ function renderWithRedux(ui, { initialState } = {}) {
   )
 }
 
-const generateTestID = variableName => `${variableName}Id`
+const generateTestID = (variableName) => `${variableName}Id`
 
 const TestButton = ({ className, themeVariableName }) => (
   <button className={className} data-testid={generateTestID(themeVariableName)} />
@@ -25,11 +25,11 @@ const TestButton = ({ className, themeVariableName }) => (
 
 TestButton.propTypes = {
   className: PropTypes.string,
-  themeVariableName: PropTypes.string.isRequired
+  themeVariableName: PropTypes.string.isRequired,
 }
 
 const StyledTestButton = styled(TestButton)`
-  color: ${props => props.theme[props.themeVariableName]};
+  color: ${(props) => props.theme[props.themeVariableName]};
 `
 
 const TestParagraph = ({ className }) => (
@@ -39,11 +39,11 @@ const TestParagraph = ({ className }) => (
 )
 
 TestParagraph.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 const StyledTestParagraph = styled(TestParagraph)`
-  font-size: ${props => 2 * props.theme.fontSize}px;
+  font-size: ${(props) => 2 * props.theme.fontSize}px;
 `
 
 describe('connected WidgetThemeProvider', () => {
@@ -62,7 +62,7 @@ describe('connected WidgetThemeProvider', () => {
       headerTextColorStr: '#FFFFFF',
       headerFocusRingColorStr: 'rgba(31,115,183,0.4)',
       headerBackgroundColorStr: '#227EC9',
-      iconColor: '#1F73B7'
+      iconColor: '#1F73B7',
     }
 
     for (let colorVariableName in expectedDefaultColours) {
@@ -93,7 +93,7 @@ describe('connected WidgetThemeProvider', () => {
       headerTextColorStr: '#28320A',
       headerFocusRingColorStr: 'rgba(120,163,0,0.4)',
       headerBackgroundColorStr: '#84B300',
-      iconColor: '#78A300'
+      iconColor: '#78A300',
     }
 
     for (let colorVariableName in expectedThemedColours) {
@@ -101,7 +101,7 @@ describe('connected WidgetThemeProvider', () => {
         const { getByTestId } = renderWithRedux(
           <StyledTestButton themeVariableName={colorVariableName} />,
           {
-            initialState: { settings: { color: { theme: '#78a300' } } }
+            initialState: { settings: { color: { theme: '#78a300' } } },
           }
         )
         expect(getByTestId(generateTestID(colorVariableName))).toHaveStyleRule(

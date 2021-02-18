@@ -22,7 +22,7 @@ describe('chat reducer readOnlyState', () => {
       const expected = {
         name: false,
         email: false,
-        phone: false
+        phone: false,
       }
 
       expect(initialState).toEqual(jasmine.objectContaining(expected))
@@ -34,12 +34,12 @@ describe('chat reducer readOnlyState', () => {
 
     beforeEach(() => {
       const payload = {
-        isReadOnly: { name: false, email: true }
+        isReadOnly: { name: false, email: true },
       }
 
       state = reducer(initialState, {
         type: baseActionTypes.PREFILL_RECEIVED,
-        payload
+        payload,
       })
     })
 
@@ -47,7 +47,7 @@ describe('chat reducer readOnlyState', () => {
       const expected = {
         name: false,
         email: true,
-        phone: false
+        phone: false,
       }
 
       expect(state).toEqual(expected)

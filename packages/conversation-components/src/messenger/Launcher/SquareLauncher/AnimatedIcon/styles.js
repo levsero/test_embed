@@ -13,7 +13,7 @@ const Icon = styled.div`
   width: 100%;
   transition: top ${animatedDuration}s ${bezierCurve};
 
-  ${props => {
+  ${(props) => {
     if (props.state === 'entering' || props.state === 'entered') {
       return css`
         top: 0;

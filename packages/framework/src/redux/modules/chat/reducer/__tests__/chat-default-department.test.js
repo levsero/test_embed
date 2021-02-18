@@ -3,7 +3,7 @@ import * as actions from 'src/redux/modules/chat/chat-action-types'
 
 describe('chatDefaultDepartment', () => {
   const initialState = chatDefaultDepartment(undefined, { type: '' })
-  const reduce = action => chatDefaultDepartment(undefined, action)
+  const reduce = (action) => chatDefaultDepartment(undefined, action)
 
   test('initialState', () => {
     expect(initialState).toEqual({ id: null })
@@ -29,7 +29,7 @@ describe('chatDefaultDepartment', () => {
         expect(
           reduce({
             type: actions.SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
-            payload: { foo: 'bar' }
+            payload: { foo: 'bar' },
           })
         ).toEqual(initialState)
       })
@@ -41,8 +41,8 @@ describe('chatDefaultDepartment', () => {
           reduce({
             type: actions.SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
             payload: {
-              detail: { id: 123456 }
-            }
+              detail: { id: 123456 },
+            },
           })
         ).toEqual({ id: 123456 })
       })

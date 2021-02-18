@@ -1,7 +1,7 @@
 import {
   clickStartChat,
   loadWidgetWithChatOnline,
-  waitForChatToBeReady
+  waitForChatToBeReady,
 } from '../../helpers/chat-embed'
 import { queries } from 'pptr-testing-library'
 import widget from '../../helpers/widget'
@@ -77,10 +77,10 @@ describe('prechat form', () => {
         webWidget: {
           chat: {
             departments: {
-              enabled: []
-            }
-          }
-        }
+              enabled: [],
+            },
+          },
+        },
       })
     })
 
@@ -107,10 +107,10 @@ describe('prechat form', () => {
         webWidget: {
           chat: {
             departments: {
-              select: ['offline department']
-            }
-          }
-        }
+              select: ['offline department'],
+            },
+          },
+        },
       })
     })
 
@@ -127,7 +127,7 @@ describe('prechat form', () => {
         name: 'Some name',
         email: 'example@example.com',
         message: 'Some message',
-        department: 1
+        department: 1,
       })
     )
   })
@@ -144,10 +144,10 @@ describe('prechat form', () => {
         webWidget: {
           chat: {
             departments: {
-              select: ['Offline department']
-            }
-          }
-        }
+              select: ['Offline department'],
+            },
+          },
+        },
       })
     })
 
@@ -172,10 +172,10 @@ describe('prechat form', () => {
         webWidget: {
           chat: {
             departments: {
-              select: ['Offline department']
-            }
-          }
-        }
+              select: ['Offline department'],
+            },
+          },
+        },
       })
     })
 

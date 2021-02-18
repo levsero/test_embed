@@ -10,13 +10,13 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
-  ESCAPE_KEY_PRESSED
+  ESCAPE_KEY_PRESSED,
 } from '../base-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from '../../chat/chat-action-types'
 import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'

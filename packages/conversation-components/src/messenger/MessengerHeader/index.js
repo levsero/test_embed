@@ -8,7 +8,7 @@ import {
   Avatar,
   IconButton,
   CloseIcon,
-  CloseIconContainer
+  CloseIconContainer,
 } from './styles'
 
 const MessengerHeader = ({
@@ -17,7 +17,7 @@ const MessengerHeader = ({
   avatar = '',
   showCloseButton = false,
   isCompact = false,
-  onClose = () => {}
+  onClose = () => {},
 }) => {
   const labels = useLabels().messengerHeader
   return (
@@ -53,7 +53,7 @@ MessengerHeader.propTypes = {
   avatar: PropTypes.string,
   showCloseButton: PropTypes.bool,
   isCompact: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 export default MessengerHeader

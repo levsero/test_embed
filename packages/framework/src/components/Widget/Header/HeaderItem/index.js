@@ -11,7 +11,7 @@ const HeaderItem = React.forwardRef(({ children, ...props }, ref) => {
 })
 
 HeaderItem.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default HeaderItem

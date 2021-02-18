@@ -4,7 +4,7 @@ import { settings } from 'service/settings'
 
 let mockSettingsValue
 
-settings.get = name => _.get(mockSettingsValue, name, null)
+settings.get = (name) => _.get(mockSettingsValue, name, null)
 
 describe('themeColor', () => {
   describe('without settings', () => {

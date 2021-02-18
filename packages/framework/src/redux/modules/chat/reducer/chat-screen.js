@@ -3,7 +3,7 @@ import {
   CHAT_NOTIFICATION_RESPONDED,
   SDK_CHAT_MEMBER_JOIN,
   UPDATE_PREVIEWER_SCREEN,
-  PRE_CHAT_FORM_SUBMIT
+  PRE_CHAT_FORM_SUBMIT,
 } from '../chat-action-types'
 import { CHATTING_SCREEN } from '../chat-screen-types'
 

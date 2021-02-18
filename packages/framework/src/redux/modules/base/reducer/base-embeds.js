@@ -11,8 +11,8 @@ const embeds = (state = initialState, action) => {
         [payload.name]: {
           accessible: false,
           ...state[payload.name],
-          ...payload.params
-        }
+          ...payload.params,
+        },
       }
     default:
       return state

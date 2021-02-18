@@ -2,13 +2,13 @@ import _ from 'lodash'
 import {
   generateUserWidgetCSS,
   generateUserLauncherCSS,
-  generateWebWidgetPreviewCSS
+  generateWebWidgetPreviewCSS,
 } from '../styles'
 import { settings } from 'service/settings'
 
 let mockSettingsValue
 
-settings.get = name => _.get(mockSettingsValue, name, null)
+settings.get = (name) => _.get(mockSettingsValue, name, null)
 
 describe('generateUserWidgetCSS', () => {
   describe('when the color is light', () => {
@@ -62,7 +62,7 @@ describe('generateUserWidgetCSS', () => {
         header: '#203D9D',
         articleLinks: '#F00',
         base: '#283646',
-        color: '#FF9900'
+        color: '#FF9900',
       })
     })
 

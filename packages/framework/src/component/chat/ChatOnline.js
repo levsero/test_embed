@@ -13,7 +13,7 @@ import {
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
@@ -27,7 +27,7 @@ import { locals as styles } from './ChatOnline.scss'
 import ReconnectionBubble from 'embeds/chat/components/ReconnectionBubble'
 import ReconnectButton from 'embeds/chat/components/ReconnectButton'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
     screen: selectors.getChatScreen(state),
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
     menuVisible: getMenuVisible(state),
     connection: selectors.getConnection(state),
     departments: selectors.getDepartments(state),
-    isLoggingOut: selectors.getIsLoggingOut(state)
+    isLoggingOut: selectors.getIsLoggingOut(state),
   }
 }
 
@@ -55,7 +55,7 @@ class Chat extends Component {
     hideZendeskLogo: PropTypes.bool,
     isLoggingOut: PropTypes.bool.isRequired,
     updateEndChatModalVisibility: PropTypes.func,
-    isPreview: PropTypes.bool
+    isPreview: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -72,14 +72,14 @@ class Chat extends Component {
     clearDepartment: () => {},
     hideZendeskLogo: false,
     isLoggingOut: false,
-    isPreview: false
+    isPreview: false,
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      endChatFromFeedbackForm: false
+      endChatFromFeedbackForm: false,
     }
 
     this.menu = null
@@ -93,14 +93,14 @@ class Chat extends Component {
     this.props.updateMenuVisibility(!this.props.menuVisible)
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (e.keyCode === KEY_CODES.ESCAPE && this.props.menuVisible) {
       e.stopPropagation()
       this.props.updateMenuVisibility(false)
     }
   }
 
-  showContactDetailsFn = e => {
+  showContactDetailsFn = (e) => {
     e.stopPropagation()
     this.props.updateContactDetailsVisibility(true)
   }
@@ -125,7 +125,7 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.props.screen !== screens.CHATTING_SCREEN) return
 
-    const showChatEndFn = e => {
+    const showChatEndFn = (e) => {
       e.stopPropagation()
       this.props.updateMenuVisibility(false)
       this.props.updateEndChatModalVisibility(true)
@@ -145,7 +145,7 @@ class Chat extends Component {
     )
   }
 
-  handleDragDrop = attachments => {
+  handleDragDrop = (attachments) => {
     return this.props.sendAttachments(attachments)
   }
 
@@ -217,14 +217,9 @@ const actionCreators = {
   handleReconnect,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 }
 
-const connected = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(Chat)
+const connected = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(Chat)
 
 export { connected as default, Chat as Component }

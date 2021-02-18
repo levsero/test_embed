@@ -24,7 +24,7 @@ const HoursForApplicableDays = ({ periods, locale }) => {
           ? translate('embeddable_framework.chat.operatingHours.label.openAllDay')
           : translate('embeddable_framework.chat.operatingHours.label.timeRange', {
               openingTime: i18nTimeFromMinutes(hours.start, locale),
-              closingTime: i18nTimeFromMinutes(hours.end, locale)
+              closingTime: i18nTimeFromMinutes(hours.end, locale),
             })}
       </Hours>
     )
@@ -35,10 +35,10 @@ HoursForApplicableDays.propTypes = {
   periods: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.number,
-      end: PropTypes.number
+      end: PropTypes.number,
     })
   ),
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
 }
 
 export default HoursForApplicableDays

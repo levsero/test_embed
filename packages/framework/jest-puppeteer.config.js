@@ -8,5 +8,5 @@ module.exports = {
   globalSetup: './puppeteer.setup.js',
   globalTeardown: './puppeteer.teardown.js',
   setupFilesAfterEnv: ['expect-puppeteer', './setup.js'],
-  ...jestConfig()
+  ...jestConfig(),
 }

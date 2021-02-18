@@ -8,7 +8,7 @@ testReducer(reducer, [
   {
     initialState: [],
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     extraDesc: 'it collects the IDs of the forms to display specified via the API',
@@ -18,12 +18,12 @@ testReducer(reducer, [
       payload: {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: 123 }, { id: 666 }]
-          }
-        }
-      }
+            ticketForms: [{ id: 123 }, { id: 666 }],
+          },
+        },
+      },
     },
-    expected: [123, 666]
+    expected: [123, 666],
   },
   {
     extraDesc: 'it coerces IDs to integers if given a single ID that is a string',
@@ -33,12 +33,12 @@ testReducer(reducer, [
       payload: {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: '123' }]
-          }
-        }
-      }
+            ticketForms: [{ id: '123' }],
+          },
+        },
+      },
     },
-    expected: [123]
+    expected: [123],
   },
   {
     extraDesc: 'it coerces all IDs to integers if given a mix of integers and strings',
@@ -48,11 +48,11 @@ testReducer(reducer, [
       payload: {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: '123' }, { id: 666 }, { id: '2749314' }]
-          }
-        }
-      }
+            ticketForms: [{ id: '123' }, { id: 666 }, { id: '2749314' }],
+          },
+        },
+      },
     },
-    expected: [123, 666, 2749314]
-  }
+    expected: [123, 666, 2749314],
+  },
 ])

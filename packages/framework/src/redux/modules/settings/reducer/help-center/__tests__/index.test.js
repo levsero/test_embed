@@ -12,14 +12,14 @@ const defaultState = () => {
     labelFilter: null,
     messageButton: null,
     searchPlaceholder: null,
-    title: null
+    title: null,
   }
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(defaultState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -39,13 +39,13 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           filter: {
             section: 'section',
             category: 'category',
-            label_names: 'label' // eslint-disable-line camelcase
+            label_names: 'label', // eslint-disable-line camelcase
           },
           messageButton: { '*': 'messageButton text' },
           searchPlaceholder: { '*': 'searchPlaceholder text' },
-          title: { '*': 'title text' }
-        }
-      }
+          title: { '*': 'title text' },
+        },
+      },
     }
 
     expect(reduce(payload)).toMatchSnapshot()
@@ -55,9 +55,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
     const payload = {
       webWidget: {
         helpCenter: {
-          title: { '*': 'title text' }
-        }
-      }
+          title: { '*': 'title text' },
+        },
+      },
     }
 
     expect(reduce(payload)).toMatchSnapshot()
@@ -67,9 +67,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
     const payload = {
       webWidget: {
         helpCenter: {
-          localeFallbacks: ['fr', 'ger', 'sp', 'rus']
-        }
-      }
+          localeFallbacks: ['fr', 'ger', 'sp', 'rus'],
+        },
+      },
     }
 
     expect(reduce(payload).localeFallbacks).toEqual(['fr', 'ger', 'sp'])

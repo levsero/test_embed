@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import {
   SDK_CHAT_MEMBER_LEAVE,
-  CHAT_AGENT_INACTIVE
+  CHAT_AGENT_INACTIVE,
 } from 'src/redux/modules/chat/chat-action-types'
 import { getChatOnline, getActiveAgents } from 'src/redux/modules/chat/chat-selectors'
 import { endChat } from 'src/redux/modules/chat'
@@ -24,7 +24,7 @@ export default (prevState, nextState, { type, payload }, dispatch) => {
     } else {
       dispatch({
         type: CHAT_AGENT_INACTIVE,
-        payload: prevAgents[payload.detail.nick]
+        payload: prevAgents[payload.detail.nick],
       })
     }
   }

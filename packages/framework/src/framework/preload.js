@@ -20,21 +20,21 @@ if (document.zEQueue) {
 if (window.ACFetch) {
   global.configRequest = window
     .ACFetch(`https://${window.document.zendesk.web_widget.id}/embeddable/config`)
-    .then(config => {
+    .then((config) => {
       if (!localeFetched) {
         fetchLocale(config.locale ?? 'en-US').catch(() => {})
       }
 
       return {
         success: true,
-        config
+        config,
       }
     })
     .catch(() => ({
-      success: false
+      success: false,
     }))
 }
 
-import(/* webpackChunkName: "framework" */ './index').then(res => {
+import(/* webpackChunkName: "framework" */ './index').then((res) => {
   return res.default.start()
 })

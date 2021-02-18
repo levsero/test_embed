@@ -6,50 +6,50 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(loading, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actionTypes.SEARCH_REQUEST_SENT
+      type: actionTypes.SEARCH_REQUEST_SENT,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT
+      type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: { type: actionTypes.SEARCH_REQUEST_SUCCESS },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: { type: actionTypes.SEARCH_REQUEST_FAILURE },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

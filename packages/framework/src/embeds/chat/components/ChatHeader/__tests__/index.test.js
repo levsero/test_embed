@@ -5,7 +5,7 @@ import { Component as ChatHeader } from '..'
 import { Container } from '../styles'
 import { TEST_IDS, ICONS } from 'constants/shared'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   return render(<ChatHeader {...props} />)
 }
 
@@ -15,9 +15,9 @@ it('renders the avatar', () => {
       {
         avatar: 'https://example.com/snake',
         display_name: 'Luke Skywalker',
-        title: 'Jedi Knight'
-      }
-    ]
+        title: 'Jedi Knight',
+      },
+    ],
   })
 
   expect(queryByTestId(ICONS.AVATAR)).toBeInTheDocument()
@@ -29,9 +29,9 @@ it('renders the agent name and title', () => {
       {
         avatar: 'https://example.com/snake',
         display_name: 'Luke Skywalker',
-        title: 'Jedi Knight'
-      }
-    ]
+        title: 'Jedi Knight',
+      },
+    ],
   })
 
   expect(queryAllByText('Jedi Knight').length).toEqual(2)
@@ -42,9 +42,9 @@ it('renders the default concierge name and title', () => {
   const { queryByText, queryAllByText } = renderComponent({
     concierges: [
       {
-        avatar: 'https://example.com/snake'
-      }
-    ]
+        avatar: 'https://example.com/snake',
+      },
+    ],
   })
 
   expect(queryByText('Live Support')).toBeInTheDocument()
@@ -75,9 +75,9 @@ describe('showTitle', () => {
         {
           avatar: 'https://example.com/snake',
           display_name: 'Luke Skywalker',
-          title: 'Jedi Knight'
-        }
-      ]
+          title: 'Jedi Knight',
+        },
+      ],
     })
     expect(queryByText('Luke Skywalker')).not.toBeInTheDocument()
     expect(queryByText('Jedi Knight')).not.toBeInTheDocument()
@@ -91,10 +91,10 @@ describe('showAvatar', () => {
         {
           avatar: 'https://example.com/snake',
           display_name: 'Luke Skywalker',
-          title: 'Jedi Knight'
-        }
+          title: 'Jedi Knight',
+        },
       ],
-      showAvatar: false
+      showAvatar: false,
     })
 
     expect(container.querySelector('.Icon--avatar')).not.toBeInTheDocument()
@@ -110,9 +110,9 @@ test('it renders nothing when avatar, title and rating are false', () => {
       {
         avatar: 'https://example.com/snake',
         display_name: 'Luke Skywalker',
-        title: 'Jedi Knight'
-      }
-    ]
+        title: 'Jedi Knight',
+      },
+    ],
   })
 
   expect(find(container, Container)).toBeNull()

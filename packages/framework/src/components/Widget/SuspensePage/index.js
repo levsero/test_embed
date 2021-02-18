@@ -13,7 +13,7 @@ const SuspensePage = ({ children }) => {
 }
 
 SuspensePage.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default SuspensePage

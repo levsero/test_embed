@@ -5,6 +5,6 @@ export const updateAcknowledged = (type, id, timestamp) => ({
   payload: {
     type,
     id,
-    timestamp
-  }
+    timestamp,
+  },
 })

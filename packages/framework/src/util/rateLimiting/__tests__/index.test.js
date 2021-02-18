@@ -22,7 +22,7 @@ describe('rateLimiting', () => {
 
     it('calls out to beacon', () => {
       expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'rateLimited', {
-        label: 'queue'
+        label: 'queue',
       })
     })
 

@@ -20,26 +20,26 @@ test('UPDATE_EMBEDDABLE_CONFIG', () => {
         helpCenterForm: {
           props: {
             contextualHelpEnabled: true,
-            answerBotEnabled: true
-          }
+            answerBotEnabled: true,
+          },
         },
         chat: {
           props: {
-            zopimId: 'yoloId'
-          }
+            zopimId: 'yoloId',
+          },
         },
         talk: {
           props: {
             nickname: 'bluey',
             color: '#123123',
-            serviceUrl: 'https://example.com'
-          }
+            serviceUrl: 'https://example.com',
+          },
         },
         ticketSubmissionForm: {
           props: {
-            attachmentsEnabled: true
-          }
-        }
+            attachmentsEnabled: true,
+          },
+        },
       },
       cp4: true,
       position: 'left',
@@ -49,8 +49,8 @@ test('UPDATE_EMBEDDABLE_CONFIG', () => {
       brand: 'hello',
       brandCount: 2,
       brandLogoUrl: 'helloworld',
-      disableStatusPolling: true
-    }
+      disableStatusPolling: true,
+    },
   }
 
   const state = embeddableConfig(undefined, action)

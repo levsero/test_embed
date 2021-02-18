@@ -37,7 +37,7 @@ describe('resetActiveEmbed middleware', () => {
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
-        getActiveEmbed: () => mockActiveEmbed
+        getActiveEmbed: () => mockActiveEmbed,
       },
       'src/redux/modules/selectors': {
         getChatAvailable: () => mockChatAvailable,
@@ -47,57 +47,57 @@ describe('resetActiveEmbed middleware', () => {
         getIpmHelpCenterAllowed: () => mockIpmHelpCenterAllowed,
         getWebWidgetVisibleOpenAndReady: () => mockWidgetVisible,
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
-        getAnswerBotAvailable: () => mockAnswerBotAvailable
+        getAnswerBotAvailable: () => mockAnswerBotAvailable,
       },
       'embeds/helpCenter/selectors': {
-        getArticleViewActive: () => mockArticleViewActive
+        getArticleViewActive: () => mockArticleViewActive,
       },
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: () => mockIsChatting,
-        getChatBanned: () => mockChatBanned
+        getChatBanned: () => mockChatBanned,
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
-        updateBackButtonVisibility: updateBackButtonVisibilitySpy
+        updateBackButtonVisibility: updateBackButtonVisibilitySpy,
       },
       'src/redux/modules/base/base-action-types': {
         WIDGET_INITIALISED,
         ACTIVATE_RECEIVED,
         AUTHENTICATION_SUCCESS,
-        API_RESET_WIDGET
+        API_RESET_WIDGET,
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CONNECTION_UPDATE,
         SDK_ACCOUNT_STATUS,
-        GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
+        GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
       },
       'src/redux/modules/settings/settings-action-types': {
-        UPDATE_SETTINGS
+        UPDATE_SETTINGS,
       },
       'src/redux/modules/talk/talk-action-types': {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-        TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT
+        TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       },
       'service/history': history,
       'embeds/helpCenter/routes': {
-        home: () => 'helpCenter/home'
+        home: () => 'helpCenter/home',
       },
       'embeds/support/routes': {
-        home: () => 'support/home'
+        home: () => 'support/home',
       },
       'utility/globals': {
-        isPopout: () => mockIsPopout
+        isPopout: () => mockIsPopout,
       },
       'utility/chat': {},
       'constants/chat': {},
       'constants/shared': {
         EMBED_MAP: {
           helpCenterForm: 'helpCenter',
-          submitTicketForm: 'contactForm'
+          submitTicketForm: 'contactForm',
         },
-        NIL_EMBED
+        NIL_EMBED,
       },
-      'embeds/chat/actions/action-types': {}
+      'embeds/chat/actions/action-types': {},
     })
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed')
@@ -122,7 +122,7 @@ describe('resetActiveEmbed middleware', () => {
       ACTIVATE_RECEIVED,
       AUTHENTICATION_SUCCESS,
       API_RESET_WIDGET,
-      GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS
+      GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
     ]
     const chatActions = [SDK_CONNECTION_UPDATE, SDK_ACCOUNT_STATUS]
     let prevState, nextState, action
@@ -136,7 +136,7 @@ describe('resetActiveEmbed middleware', () => {
         mockWidgetVisible = true
       })
 
-      _.forEach(updateActions, actionToTest => {
+      _.forEach(updateActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
             action = { type: actionToTest }
@@ -157,19 +157,19 @@ describe('resetActiveEmbed middleware', () => {
       describe('when action type is UPDATE_SETTINGS', () => {
         const suppressActions = {
           'contactForm.suppress': {
-            webWidget: { contactForm: { suppress: true } }
+            webWidget: { contactForm: { suppress: true } },
           },
           'helpCenter.suppress': {
-            webWidget: { helpCenter: { suppress: true } }
+            webWidget: { helpCenter: { suppress: true } },
           },
           'chat.hideWhenOffline': {
-            webWidget: { chat: { hideWhenOffline: true } }
-          }
+            webWidget: { chat: { hideWhenOffline: true } },
+          },
         }
         const otherSettingsActions = {
           'contactForm.blah': { webWidget: { contactForm: { blah: 111 } } },
           'helpCenter.blah': { webWidget: { helpCenter: { blah: 222 } } },
-          'chat.blah': { webWidget: { chat: { blah: 333 } } }
+          'chat.blah': { webWidget: { chat: { blah: 333 } } },
         }
 
         describe('when action payload contains suppress settings', () => {
@@ -201,7 +201,7 @@ describe('resetActiveEmbed middleware', () => {
         })
       })
 
-      _.forEach(updateActions, actionToTest => {
+      _.forEach(updateActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
             action = { type: actionToTest }
@@ -231,7 +231,7 @@ describe('resetActiveEmbed middleware', () => {
         })
       })
 
-      _.forEach(chatActions, actionToTest => {
+      _.forEach(chatActions, (actionToTest) => {
         describe(`when action type is ${actionToTest}`, () => {
           beforeAll(() => {
             action = { type: actionToTest }

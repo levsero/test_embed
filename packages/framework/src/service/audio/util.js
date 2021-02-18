@@ -7,7 +7,7 @@ export function getSupportedAudioType(audio) {
     return
   }
 
-  const canPlayType = type => includes(canPlayTypeResultWhitelist, audio.canPlayType(type))
+  const canPlayType = (type) => includes(canPlayTypeResultWhitelist, audio.canPlayType(type))
 
   if (canPlayType('audio/mpeg')) {
     return 'mp3'

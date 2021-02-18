@@ -14,7 +14,7 @@ const NameField = ({ label, defaultValue }) => {
 
 NameField.propTypes = {
   label: PropTypes.string.isRequired,
-  defaultValue: PropTypes.string
+  defaultValue: PropTypes.string,
 }
 
 export default NameField

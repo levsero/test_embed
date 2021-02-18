@@ -2,13 +2,13 @@ import {
   CHAT_SOCIAL_LOGIN_SUCCESS,
   CHAT_SOCIAL_LOGOUT_SUCCESS,
   CHAT_SOCIAL_LOGOUT_PENDING,
-  CHAT_SOCIAL_LOGOUT_FAILURE
+  CHAT_SOCIAL_LOGOUT_FAILURE,
 } from '../chat-action-types'
 
 const initialState = {
   authenticated: false,
   screen: '',
-  avatarPath: ''
+  avatarPath: '',
 }
 
 const socialLogin = (state = initialState, action = {}) => {
@@ -19,14 +19,14 @@ const socialLogin = (state = initialState, action = {}) => {
       return {
         ...state,
         avatarPath: payload,
-        authenticated: true
+        authenticated: true,
       }
     case CHAT_SOCIAL_LOGOUT_SUCCESS:
       return {
         ...state,
         screen: type,
         avatarPath: '',
-        authenticated: false
+        authenticated: false,
       }
     case CHAT_SOCIAL_LOGOUT_PENDING:
     case CHAT_SOCIAL_LOGOUT_FAILURE:

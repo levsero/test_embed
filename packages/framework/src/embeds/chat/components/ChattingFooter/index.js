@@ -19,7 +19,7 @@ const ChattingFooter = ({
   isChatting,
   theme,
   isPreview,
-  sendChat
+  sendChat,
 }) => {
   return theme.isMobile ? (
     <MobileFooter
@@ -56,24 +56,21 @@ ChattingFooter.propTypes = {
   isPreview: PropTypes.bool,
   sendChat: PropTypes.func,
   theme: PropTypes.shape({
-    isMobile: PropTypes.bool.isRequired
-  })
+    isMobile: PropTypes.bool.isRequired,
+  }),
 }
 
 const actionCreators = {
-  sendAttachments
+  sendAttachments,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
   menuVisible: getMenuVisible(state),
   isChatting: chatSelectors.getIsChatting(state),
-  hideZendeskLogo: getHideZendeskLogo(state)
+  hideZendeskLogo: getHideZendeskLogo(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(withTheme(ChattingFooter))
+const connectedComponent = connect(mapStateToProps, actionCreators)(withTheme(ChattingFooter))
 
 export { connectedComponent as default, ChattingFooter as Component }

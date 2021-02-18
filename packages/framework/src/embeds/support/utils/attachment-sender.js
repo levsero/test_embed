@@ -8,8 +8,8 @@ const attachmentSender = (file, doneFn, failFn, progressFn) => {
     callbacks: {
       done: doneFn,
       fail: failFn,
-      progress: progressFn
-    }
+      progress: progressFn,
+    },
   }
 
   return http.sendFile(payload)

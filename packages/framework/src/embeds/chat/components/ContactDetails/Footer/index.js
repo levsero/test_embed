@@ -15,7 +15,7 @@ const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibilit
         <Button
           onClick={() => updateContactDetailsVisibility(false)}
           data-testid={TEST_IDS.BUTTON_CANCEL}
-          ref={ref => {
+          ref={(ref) => {
             if (isAuthenticated) ref?.focus()
           }}
         >
@@ -37,7 +37,7 @@ const FormFooter = ({ isAuthenticated, submitting, updateContactDetailsVisibilit
 FormFooter.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  updateContactDetailsVisibility: PropTypes.func.isRequired
+  updateContactDetailsVisibility: PropTypes.func.isRequired,
 }
 
 export default FormFooter

@@ -6,7 +6,7 @@ jest.mock('src/embeds/helpCenter/components/NotificationPopup', () => {
   return () => <div>NotificationPopup</div>
 })
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     title: 'pageTitle',
     isMobile: false,
@@ -14,7 +14,7 @@ const renderComponent = inProps => {
     hideZendeskLogo: false,
     showNextButton: true,
     articles: [],
-    ...inProps
+    ...inProps,
   }
 
   return render(<SearchPage {...props} />)

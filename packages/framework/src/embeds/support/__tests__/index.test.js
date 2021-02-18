@@ -14,7 +14,7 @@ describe('TicketFormPage', () => {
       fetchTicketForms: jest.fn(async () => undefined),
       getTicketFields: jest.fn(async () => undefined),
       locale: 'en-US',
-      customFieldsAvailable: false
+      customFieldsAvailable: false,
     }
 
     return render(<Support {...defaultProps} {...props} />, options)
@@ -37,16 +37,16 @@ describe('TicketFormPage', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
+              ticketFormsEnabled: true,
+            },
+          },
+        },
       })
     )
 
     store.dispatch({
       type: ALL_FORMS_REQUESTED,
-      payload: false
+      payload: false,
     })
 
     store.dispatch({
@@ -56,12 +56,12 @@ describe('TicketFormPage', () => {
           {
             id: 666,
             active: true,
-            ticket_field_ids: []
-          }
+            ticket_field_ids: [],
+          },
         ],
         ticket_fields: [],
-        formIds: []
-      }
+        formIds: [],
+      },
     })
 
     const ticketForms = { ids: [1337], validatedIds: [], enabled: true, showList: false }
@@ -82,7 +82,7 @@ describe('TicketFormPage', () => {
       getTicketFields,
       fetchTicketForms,
       ticketForms: { enabled: false, ids: [] },
-      locale: 'en-US'
+      locale: 'en-US',
     })
 
     expect(getTicketFields).not.toHaveBeenCalled()
@@ -96,16 +96,16 @@ describe('TicketFormPage', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
+              ticketFormsEnabled: true,
+            },
+          },
+        },
       })
     )
 
     store.dispatch({
       type: ALL_FORMS_REQUESTED,
-      payload: true
+      payload: true,
     })
 
     store.dispatch({
@@ -115,12 +115,12 @@ describe('TicketFormPage', () => {
           {
             id: 1337,
             active: true,
-            ticket_field_ids: []
-          }
+            ticket_field_ids: [],
+          },
         ],
         ticket_fields: [],
-        formIds: []
-      }
+        formIds: [],
+      },
     })
 
     const ticketForms = { ids: [1337], validatedIds: [1337], enabled: true, showList: false }
@@ -151,7 +151,7 @@ describe('TicketFormPage', () => {
       getTicketFields,
       ticketForms: { ids: [] },
       locale: 'en-US',
-      customFieldsAvailable: true
+      customFieldsAvailable: true,
     })
 
     expect(getTicketFields).toHaveBeenCalledWith('en-US')
@@ -172,7 +172,7 @@ describe('TicketFormPage', () => {
     const { rerender } = renderComponent({
       fetchTicketForms,
       ticketForms: { ids: [123, 456], active: true },
-      locale: 'en-US'
+      locale: 'en-US',
     })
 
     expect(fetchTicketForms).toHaveBeenCalledWith({ ids: [123, 456], active: true }, 'en-US')
@@ -195,16 +195,16 @@ describe('TicketFormPage', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
+              ticketFormsEnabled: true,
+            },
+          },
+        },
       })
     )
 
     store.dispatch({
       type: ALL_FORMS_REQUESTED,
-      payload: true
+      payload: true,
     })
 
     store.dispatch({
@@ -214,18 +214,18 @@ describe('TicketFormPage', () => {
           {
             id: 1337,
             active: true,
-            ticket_field_ids: []
-          }
+            ticket_field_ids: [],
+          },
         ],
         ticket_fields: [],
-        formIds: []
-      }
+        formIds: [],
+      },
     })
 
     const { queryByRole } = renderComponent(
       {
         ticketForms: { ids: [1337], active: true, showList: true },
-        locale: 'en-US'
+        locale: 'en-US',
       },
       { store }
     )

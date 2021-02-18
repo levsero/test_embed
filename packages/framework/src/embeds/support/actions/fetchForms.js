@@ -6,7 +6,7 @@ import {
   TICKET_FORM_UPDATE,
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORMS_REQUEST_SENT,
-  TICKET_FORMS_REQUEST_SUCCESS
+  TICKET_FORMS_REQUEST_SUCCESS,
 } from './action-types'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 import { http } from 'service/transport'
@@ -16,7 +16,7 @@ import errorTracker from 'src/framework/services/errorTracker'
 
 export function fetchTicketForms(ticketForms = {}, locale) {
   return async (dispatch, getState) => {
-    const ticketFormIdsToLoad = ticketForms.ids.filter(id => {
+    const ticketFormIdsToLoad = ticketForms.ids.filter((id) => {
       const form = getForm(getState(), id)
 
       if (!form) {
@@ -43,8 +43,8 @@ export function fetchTicketForms(ticketForms = {}, locale) {
       type: TICKET_FORMS_REQUEST_SENT,
       payload: {
         fetchKey,
-        formIds: ticketFormIdsToLoad
-      }
+        formIds: ticketFormIdsToLoad,
+      },
     })
 
     const idParams = !ticketForms.requestAll ? `ids=${_.toString(ticketFormIdsToLoad)}&` : ''
@@ -55,30 +55,30 @@ export function fetchTicketForms(ticketForms = {}, locale) {
       `&locale=${locale}`,
       associatedToBrandParam,
       '&end_user_visible=true',
-      '&active=true'
+      '&active=true',
     ].join('')
 
     return http
       .get(
         {
           path,
-          locale
+          locale,
         },
         false
       )
-      .then(res => {
+      .then((res) => {
         const forms = res.body
 
         if (Array.isArray(forms.ticket_forms)) {
-          forms.ticket_forms = forms.ticket_forms.map(form => ({
+          forms.ticket_forms = forms.ticket_forms.map((form) => ({
             ...form,
-            locale
+            locale,
           }))
         }
 
         dispatch({
           type: ALL_FORMS_REQUESTED,
-          payload: keyIds === 'all'
+          payload: keyIds === 'all',
         })
 
         dispatch({
@@ -86,24 +86,24 @@ export function fetchTicketForms(ticketForms = {}, locale) {
           payload: {
             ...forms,
             fetchKey,
-            formIds: ticketFormIdsToLoad
-          }
+            formIds: ticketFormIdsToLoad,
+          },
         })
 
         if (forms.ticket_forms.length === 1) {
           dispatch({
             type: TICKET_FORM_UPDATE,
-            payload: forms.ticket_forms[0]
+            payload: forms.ticket_forms[0],
           })
         }
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: TICKET_FORMS_REQUEST_FAILURE,
           payload: {
             fetchKey,
-            formIds: ticketFormIdsToLoad
-          }
+            formIds: ticketFormIdsToLoad,
+          },
         })
 
         errorTracker.error('ticket form request failure', err.message)
@@ -118,26 +118,26 @@ export function getTicketFields(locale) {
     const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`
 
     dispatch({
-      type: TICKET_FIELDS_REQUEST_SENT
+      type: TICKET_FIELDS_REQUEST_SENT,
     })
 
     return http
       .get(
         {
           path,
-          locale
+          locale,
         },
         false
       )
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: TICKET_FIELDS_REQUEST_SUCCESS,
-          payload: res.body
+          payload: res.body,
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
-          type: TICKET_FIELDS_REQUEST_FAILURE
+          type: TICKET_FIELDS_REQUEST_FAILURE,
         })
 
         errorTracker.error('ticket fields request failure', err.message)

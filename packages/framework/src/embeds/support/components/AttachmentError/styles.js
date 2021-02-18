@@ -12,5 +12,5 @@ export const FileSize = styled.div`
 `
 
 export const ErrorBody = styled.div`
-  font-size: ${props => 14 / props.theme.fontSize}rem;
+  font-size: ${(props) => 14 / props.theme.fontSize}rem;
 `

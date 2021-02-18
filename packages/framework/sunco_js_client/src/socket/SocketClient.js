@@ -74,7 +74,7 @@ const getSchedulerClass = ({ socketClient, retryInterval = 15, maxConnectionAtte
   }
 }
 
-const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) {
+const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {}) {
   this.appId = appId
   this.appUserId = appUserId
   this.sessionToken = sessionToken
@@ -82,7 +82,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
 
   const setupFayeClient = () => {
     const fayeClient = new Client(baseUrl, {
-      scheduler: getSchedulerClass({ socketClient: this })
+      scheduler: getSchedulerClass({ socketClient: this }),
     })
 
     fayeClient.addExtension({
@@ -90,7 +90,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
         if (message.channel === '/meta/subscribe') {
           message.ext = {
             appUserId: this.appUserId,
-            appId: this.appId
+            appId: this.appId,
           }
           // if (auth.jwt) {
           //   message.ext.jwt = auth.jwt;
@@ -100,7 +100,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
         }
 
         callback(message)
-      }
+      },
     })
 
     fayeClient.on('transport:down', () => {
@@ -133,7 +133,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
     disconnected: new ObserverList(),
     aborted: new ObserverList(),
     message: new ObserverList(),
-    activity: new ObserverList()
+    activity: new ObserverList(),
   }
 
   this.triggerSocketAborted = () => {
@@ -171,7 +171,7 @@ const SocketClient = function({ baseUrl, appId, appUserId, sessionToken } = {}) 
   return {
     on: addObserver,
     subscribe: () => subscribe.call(this),
-    unsubscribe: () => unsubscribe.call(this)
+    unsubscribe: () => unsubscribe.call(this),
   }
 }
 

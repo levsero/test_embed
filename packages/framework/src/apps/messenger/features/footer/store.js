@@ -4,29 +4,26 @@ import getMessageLog from 'src/apps/messenger/features/messageLog/getMessageLog'
 const composer = createSlice({
   name: 'composer',
   initialState: {
-    draft: ''
+    draft: '',
   },
   reducers: {
     saveDraft(state, action) {
       state.draft = action.payload.message
-    }
-  }
+    },
+  },
 })
 
-const getIsComposerEnabled = createSelector(
-  getMessageLog,
-  messages => {
-    const lastMessage = messages[messages.length - 1]
+const getIsComposerEnabled = createSelector(getMessageLog, (messages) => {
+  const lastMessage = messages[messages.length - 1]
 
-    if (lastMessage?.type === 'form') {
-      return lastMessage?.blockChatInput !== true && lastMessage.submitted === false
-    }
-
-    return true
+  if (lastMessage?.type === 'form') {
+    return lastMessage?.blockChatInput !== true && lastMessage.submitted === false
   }
-)
 
-const getComposerDraft = state => state.composer.draft
+  return true
+})
+
+const getComposerDraft = (state) => state.composer.draft
 
 const { saveDraft } = composer.actions
 

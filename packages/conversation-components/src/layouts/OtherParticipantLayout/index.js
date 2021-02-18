@@ -12,7 +12,7 @@ const OtherParticipantLayout = ({
   timeReceived,
   isFreshMessage,
   children,
-  isFirstInGroup = true
+  isFirstInGroup = true,
 }) => {
   return (
     <VerticalContainer isFirstInGroup={isFirstInGroup}>
@@ -37,7 +37,7 @@ OtherParticipantLayout.propTypes = {
   timeReceived: PropTypes.number,
   isFreshMessage: PropTypes.bool,
   children: PropTypes.node,
-  isFirstInGroup: PropTypes.bool
+  isFirstInGroup: PropTypes.bool,
 }
 
 export default OtherParticipantLayout

@@ -8,7 +8,7 @@ import { getLoginSettings, getIsChatting } from 'src/redux/modules/chat/chat-sel
 import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 } from 'src/redux/modules/chat'
 
 import { isMobileBrowser } from 'utility/devices'
@@ -16,7 +16,7 @@ import useTranslate from 'src/hooks/useTranslate'
 import {
   getChannelAvailable,
   getChatEmailTranscriptEnabled,
-  getHelpCenterAvailable
+  getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
 import { TEST_IDS } from 'constants/shared'
 import {
@@ -26,7 +26,7 @@ import {
   Menu,
   MENU_PADDING,
   Container,
-  EllipsisIcon
+  EllipsisIcon,
 } from './styles'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { onNextTick } from 'utility/utils'
@@ -48,7 +48,7 @@ const ChatMenu = ({
   updateEmailTranscriptVisibility,
   updateContactDetailsVisibility,
   updateEndChatModalVisibility,
-  onBackClick
+  onBackClick,
 }) => {
   const [highlightedIndex, setHighlightedIndex] = useState(null)
   const translate = useTranslate()
@@ -59,10 +59,10 @@ const ChatMenu = ({
     email: () => updateEmailTranscriptVisibility(true),
     contact: () => updateContactDetailsVisibility(true),
     endChat: () => updateEndChatModalVisibility(true),
-    back: onBackClick
+    back: onBackClick,
   }
 
-  const onStateChange = state => {
+  const onStateChange = (state) => {
     if (state.selectedItem === 'sound') {
       // if the sound item has been selected, prevent the dropdown from closing
       // or losing focus on the sound item
@@ -84,7 +84,7 @@ const ChatMenu = ({
     }
   }
 
-  const onSelect = item => {
+  const onSelect = (item) => {
     if (actions[item]) {
       onNextTick(() => {
         actions[item]()
@@ -99,7 +99,7 @@ const ChatMenu = ({
       highlightedIndex={highlightedIndex}
       onStateChange={onStateChange}
       downshiftProps={{
-        environment: frame.window
+        environment: frame.window,
       }}
     >
       <Trigger>
@@ -118,8 +118,8 @@ const ChatMenu = ({
         data-testid={TEST_IDS.CHAT_MENU_LIST}
         popperModifiers={{
           preventOverflow: {
-            padding: isMobileBrowser() ? 0 : MENU_PADDING
-          }
+            padding: isMobileBrowser() ? 0 : MENU_PADDING,
+          },
         }}
       >
         {goBackIsVisible && (
@@ -164,7 +164,7 @@ const ChatMenu = ({
     <Tooltip content={translate('embeddable_framework.chat.icon.menu.hover.label')}>
       <Container
         role="presentation"
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           if (e.key === 'Escape' && isOpen) {
             e.stopPropagation()
           }
@@ -190,7 +190,7 @@ ChatMenu.propTypes = {
   updateEmailTranscriptVisibility: PropTypes.func,
   updateContactDetailsVisibility: PropTypes.func,
   updateEndChatModalVisibility: PropTypes.func,
-  onBackClick: PropTypes.func
+  onBackClick: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => ({
@@ -204,7 +204,7 @@ const mapStateToProps = (state, props) => ({
     props.onBackClick &&
     getHelpCenterAvailable(state) &&
     getChannelAvailable(state),
-  soundIsVisible: !isMobileBrowser()
+  soundIsVisible: !isMobileBrowser(),
 })
 
 const mapDispatchToProps = {
@@ -212,12 +212,9 @@ const mapDispatchToProps = {
   handleSoundIconClick,
   updateEmailTranscriptVisibility,
   updateContactDetailsVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 }
 
 export { ChatMenu as Component }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatMenu)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatMenu)

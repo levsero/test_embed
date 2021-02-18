@@ -11,7 +11,7 @@ import {
   useMessagesOnMount,
   useHistoryUpdate,
   useAgentTyping,
-  useNewMessages
+  useNewMessages,
 } from '../chattingScreenHooks'
 import * as chatHistorySelectors from 'src/redux/modules/chat/chat-history-selectors'
 import { waitFor } from '@testing-library/dom'
@@ -42,7 +42,7 @@ const renderHookComponent = (Component, props, options) => {
     scrollToBottom: jest.fn(),
     isScrollCloseToBottom: true,
     scrollContainer: {},
-    agentTypingRef: {}
+    agentTypingRef: {},
   }
   return render(<Component {...defaultProps} {...props} />, options)
 }
@@ -75,19 +75,19 @@ describe('useMessagesOnMount', () => {
 })
 
 describe('useHistoryUpdate', () => {
-  const setHistoryRequestStatus = status => {
+  const setHistoryRequestStatus = (status) => {
     jest.spyOn(chatHistorySelectors, 'getHistoryRequestStatus').mockReturnValue(status)
   }
   it('adjusts the scroll height when historyRequestStatus changes it', async () => {
     const scrollContainer = {
       scrollTop: 10,
-      scrollHeight: 50
+      scrollHeight: 50,
     }
     const scrollToBottom = jest.fn()
     setHistoryRequestStatus(HISTORY_REQUEST_STATUS.PENDING)
     const { rerender, getByText } = renderHookComponent(UseHistoryUpdate, {
       scrollContainer,
-      scrollToBottom
+      scrollToBottom,
     })
 
     await waitFor(() => expect(getByText('Scroll height: 50')).toBeInTheDocument())
@@ -103,7 +103,7 @@ describe('useHistoryUpdate', () => {
   it('calls scrollToBottom when request completes without first having pending', async () => {
     const scrollContainer = {
       scrollTop: 10,
-      scrollHeight: 50
+      scrollHeight: 50,
     }
     const scrollToBottom = jest.fn()
     setHistoryRequestStatus(HISTORY_REQUEST_STATUS.DONE)
@@ -133,7 +133,7 @@ describe('useAgentTyping', () => {
     const { rerender } = renderHookComponent(UseAgentTyping, {
       agentTypingRef,
       scrollContainer,
-      scrollToBottom
+      scrollToBottom,
     })
     renderHookComponent(
       UseAgentTyping,
@@ -190,7 +190,7 @@ describe('useNewMessages', () => {
     let scrollContainer = {
       scrollTop: 0,
       scrollHeight: 400,
-      offsetHeight: 30
+      offsetHeight: 30,
     }
     jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('agent:name')
     const scrollToBottom = jest.fn()
@@ -204,7 +204,7 @@ describe('useNewMessages', () => {
     scrollContainer = {
       scrollTop: 0,
       scrollHeight: 420,
-      offsetHeight: 30
+      offsetHeight: 30,
     }
     jest.spyOn(chatReselectors, 'getChatsLength').mockReturnValue(3)
     renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer }, { render: rerender })
@@ -212,7 +212,7 @@ describe('useNewMessages', () => {
     scrollContainer = {
       scrollTop: 0,
       scrollHeight: 440,
-      offsetHeight: 30
+      offsetHeight: 30,
     }
     jest.spyOn(chatSelectors, 'getLastMessageAuthor').mockReturnValue('visitor')
     renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer }, { render: rerender })
@@ -228,7 +228,7 @@ describe('useNewMessages', () => {
       const scrollContainer = {
         scrollTop: 10,
         scrollHeight: 400,
-        offsetHeight: 30
+        offsetHeight: 30,
       }
       const scrollToBottom = jest.fn()
       renderHookComponent(
@@ -246,7 +246,7 @@ describe('useNewMessages', () => {
       const scrollContainer = {
         scrollTop: 10,
         scrollHeight: 400,
-        offsetHeight: 30
+        offsetHeight: 30,
       }
       const scrollToBottom = jest.fn()
       renderHookComponent(UseNewMessages, { scrollToBottom, scrollContainer })
@@ -282,7 +282,7 @@ describe('useNewMessages', () => {
       const scrollContainer = {
         scrollTop: 200,
         scrollHeight: 400,
-        offsetHeight: 0
+        offsetHeight: 0,
       }
       const scrollToBottom = jest.fn()
       renderHookComponent(UseNewMessages, { scrollContainer, scrollToBottom })

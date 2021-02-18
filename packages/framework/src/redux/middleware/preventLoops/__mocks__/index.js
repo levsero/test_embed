@@ -1,3 +1,3 @@
-export default _store => next => action => {
+export default (_store) => (next) => (action) => {
   return next(action)
 }

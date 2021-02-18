@@ -4,13 +4,13 @@ import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
-  mockViewedEndpoint
+  mockViewedEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 
 test('hides the logo in answer bot when requested', async () => {
   await loadWidget()
     .withPresets('answerBot', {
-      hideZendeskLogo: true
+      hideZendeskLogo: true,
     })
     .intercept(mockInteractionEndpoint())
     .intercept(mockViewedEndpoint())

@@ -4,7 +4,7 @@ import GreetingMessage from 'embeds/chat/components/PrechatForm/GreetingMessage'
 
 describe('GreetingMessage', () => {
   const defaultProps = {
-    message: 'Some message'
+    message: 'Some message',
   }
 
   const renderComponent = (props = {}) => render(<GreetingMessage {...defaultProps} {...props} />)
@@ -17,7 +17,7 @@ describe('GreetingMessage', () => {
 
   it('renders all links as external anchor tags', () => {
     const { container } = renderComponent({
-      message: 'Text1 www.example.com/one Text2 www.example.com/two'
+      message: 'Text1 www.example.com/one Text2 www.example.com/two',
     })
 
     const children = container.querySelector('.Linkify').childNodes

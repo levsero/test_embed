@@ -5,20 +5,20 @@ import { isIE } from 'utility/devices'
 
 const Form = styled.form`
   ${Alert} {
-    margin-top: ${props => 16 / props.theme.fontSize}rem;
+    margin-top: ${(props) => 16 / props.theme.fontSize}rem;
     margin-bottom: 0 !important;
   }
 `
 const StyledBody = styled(Body)`
   ${isIE() &&
-    `
+  `
     &&& {
       height: 50% !important;
     }
     `}
 `
 const StyledModal = styled(Modal)`
-  ${props =>
+  ${(props) =>
     isIE() &&
     `{
       right: ${200 / props.theme.fontSize}rem !important;

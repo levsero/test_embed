@@ -1,5 +1,5 @@
 const wait = (time = 0) => {
-  return new Promise(res => {
+  return new Promise((res) => {
     setTimeout(() => {
       res()
     }, time)

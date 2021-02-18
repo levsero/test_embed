@@ -8,7 +8,7 @@ test('initial state is null', () => {
 test('updates to expected state', () => {
   const state = reducer(undefined, {
     type: actionTypes.CONVERSATION_SCROLL_CHANGED,
-    payload: 88
+    payload: 88,
   })
 
   expect(state).toMatchInlineSnapshot(`88`)

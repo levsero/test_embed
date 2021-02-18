@@ -9,17 +9,17 @@ describe('getZendeskLogoLink', () => {
       embeds: {
         chat: {
           props: {
-            zopimId: 'randomZopimId'
-          }
-        }
-      }
+            zopimId: 'randomZopimId',
+          },
+        },
+      },
     }
 
     const store = createStore()
 
     store.dispatch({
       type: LOCALE_SET,
-      payload: 'en-US'
+      payload: 'en-US',
     })
     store.dispatch(updateEmbeddableConfig(mockEmbeddableConfig))
     const url = getZendeskLogoLink(store.getState(), true)
@@ -32,7 +32,7 @@ describe('getZendeskLogoLink', () => {
 
     store.dispatch({
       type: LOCALE_SET,
-      payload: 'en-US'
+      payload: 'en-US',
     })
     const url = getZendeskLogoLink(store.getState(), false)
 

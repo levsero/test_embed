@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: UPDATE_PREVIEWER_SETTINGS,
-    payload
+    payload,
   })
 }
 
@@ -17,7 +17,7 @@ test('initial state', () => {
     enabled: false,
     layout: 'image_only',
     image: '',
-    text: 'Chat with us'
+    text: 'Chat with us',
   })
 })
 
@@ -28,15 +28,15 @@ describe('when UPDATE_PREVIEWER_SETTINGS is dispatched', () => {
         layout: 'image_left',
         image_path: 'http://img.com/img.png',
         text: 'chat it up',
-        enabled: true
-      }
+        enabled: true,
+      },
     }
 
     expect(reduce(payload)).toEqual({
       layout: 'image_left',
       image: 'http://img.com/img.png',
       text: 'chat it up',
-      enabled: true
+      enabled: true,
     })
   })
 })

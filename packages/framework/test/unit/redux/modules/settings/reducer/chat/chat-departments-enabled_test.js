@@ -30,7 +30,7 @@ describe('chat reducer departments enabled', () => {
     beforeEach(() => {
       state = reducer(initialState, {
         type: actionTypes.UPDATE_SETTINGS,
-        payload: someSettings
+        payload: someSettings,
       })
     })
 
@@ -39,9 +39,9 @@ describe('chat reducer departments enabled', () => {
         someSettings = {
           webWidget: {
             chat: {
-              suppress: true
-            }
-          }
+              suppress: true,
+            },
+          },
         }
       })
 
@@ -56,10 +56,10 @@ describe('chat reducer departments enabled', () => {
           webWidget: {
             chat: {
               departments: {
-                enabled: ['Dep']
-              }
-            }
-          }
+                enabled: ['Dep'],
+              },
+            },
+          },
         }
       })
 

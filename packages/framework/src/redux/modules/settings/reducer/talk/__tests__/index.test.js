@@ -9,9 +9,9 @@ describe('talk settings reducer', () => {
       talk: {
         title: { '*': 'Party Business' },
         suppress: true,
-        nickname: 'Bilbo Baggins'
-      }
-    }
+        nickname: 'Bilbo Baggins',
+      },
+    },
   }
 
   describe('when a nonsense action is passed', () => {

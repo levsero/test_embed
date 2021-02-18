@@ -19,13 +19,13 @@ const trackTicketSubmitted = (apiResponse, formValues, state) => {
     email: formValues?.email,
     searchTerm: searchTerm,
     searchLocale: locale,
-    contextualSearch: hasContextuallySearched
+    contextualSearch: hasContextuallySearched,
   }
 
   if (attachmentsEnabled) {
     _.extend(params, {
       attachmentsCount: attachments.length,
-      attachmentTypes: attachments.map(attachment => attachment.fileType)
+      attachmentTypes: attachments.map((attachment) => attachment.fileType),
     })
   }
 
@@ -37,12 +37,12 @@ const trackTicketSubmitted = (apiResponse, formValues, state) => {
     ticketId: response.id,
     attachmentsCount: params.attachmentsCount,
     attachmentTypes: params.attachmentTypes,
-    contextualSearch: params.contextualSearch
+    contextualSearch: params.contextualSearch,
   }
 
   beacon.trackUserAction('submitTicket', 'send', {
     label: 'ticketSubmissionForm',
-    value: userActionPayload
+    value: userActionPayload,
   })
 
   if (helpCenterAvailable) {

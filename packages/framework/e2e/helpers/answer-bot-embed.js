@@ -5,7 +5,7 @@ import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import { TEST_IDS } from 'src/constants/shared'
 
 export const mockInteractionEndpoint = (results = searchResults, callback) => {
-  return mockCorsRequest('/api/v2/answer_bot/interaction', request => {
+  return mockCorsRequest('/api/v2/answer_bot/interaction', (request) => {
     if (callback) {
       callback(request.postData())
     }
@@ -13,46 +13,46 @@ export const mockInteractionEndpoint = (results = searchResults, callback) => {
       status: 200,
       headers: DEFAULT_CORS_HEADERS,
       contentType: 'application/json',
-      body: JSON.stringify(results)
+      body: JSON.stringify(results),
     })
   })
 }
 
-export const mockViewedEndpoint = callback => {
-  return mockCorsRequest('/api/v2/answer_bot/viewed', request => {
+export const mockViewedEndpoint = (callback) => {
+  return mockCorsRequest('/api/v2/answer_bot/viewed', (request) => {
     if (callback) {
       callback(request.postData())
     }
     request.respond({
       status: 200,
       headers: DEFAULT_CORS_HEADERS,
-      contentType: 'application/json'
+      contentType: 'application/json',
     })
   })
 }
 
-export const mockResolutionEndpoint = callback => {
-  return mockCorsRequest('/api/v2/answer_bot/resolution', request => {
+export const mockResolutionEndpoint = (callback) => {
+  return mockCorsRequest('/api/v2/answer_bot/resolution', (request) => {
     if (callback) {
       callback(request.postData())
     }
     request.respond({
       status: 200,
       headers: DEFAULT_CORS_HEADERS,
-      contentType: 'application/json'
+      contentType: 'application/json',
     })
   })
 }
 
-export const mockRejectionEndpoint = callback => {
-  return mockCorsRequest('/api/v2/answer_bot/rejection', request => {
+export const mockRejectionEndpoint = (callback) => {
+  return mockCorsRequest('/api/v2/answer_bot/rejection', (request) => {
     if (callback) {
       callback(request.postData())
     }
     request.respond({
       status: 200,
       headers: DEFAULT_CORS_HEADERS,
-      contentType: 'application/json'
+      contentType: 'application/json',
     })
   })
 }
@@ -66,7 +66,7 @@ export const waitForGetInTouchButton = async () => {
   await widget.waitForText('Get in touch')
 }
 
-export const search = async query => {
+export const search = async (query) => {
   const doc = await widget.getDocument()
   const input = await queries.getByPlaceholderText(doc, 'Type your question here...')
   await input.focus()

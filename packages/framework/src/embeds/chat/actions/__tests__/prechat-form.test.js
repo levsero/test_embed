@@ -6,7 +6,7 @@ import {
   sendOfflineMessage,
   setDepartment,
   setVisitorInfo,
-  updateChatScreen
+  updateChatScreen,
 } from 'src/redux/modules/chat'
 import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
 import { createMockStore } from 'utility/testHelpers'
@@ -20,19 +20,19 @@ describe('submitPrechatForm', () => {
     // Since most chat actions are either thunks or interact with the chat sdk,
     // here they are all mocked out to return simple actions to test against
 
-    handlePrechatFormSubmit.mockImplementation(values => ({
+    handlePrechatFormSubmit.mockImplementation((values) => ({
       type: 'handle prechat form submit',
-      values
+      values,
     }))
-    setVisitorInfo.mockImplementation(values => ({ type: 'set visitor info', values }))
-    sendOfflineMessage.mockImplementation(values => ({
+    setVisitorInfo.mockImplementation((values) => ({ type: 'set visitor info', values }))
+    sendOfflineMessage.mockImplementation((values) => ({
       type: 'offline message',
-      payload: { values }
+      payload: { values },
     }))
-    updateChatScreen.mockImplementation(screen => ({ type: 'update screen', screen }))
-    setDepartment.mockImplementation(departmentId => ({ type: 'set department', departmentId }))
+    updateChatScreen.mockImplementation((screen) => ({ type: 'update screen', screen }))
+    setDepartment.mockImplementation((departmentId) => ({ type: 'set department', departmentId }))
     clearDepartment.mockReturnValue({ type: 'clear department' })
-    sendMsg.mockImplementation(message => ({ type: 'send message', message }))
+    sendMsg.mockImplementation((message) => ({ type: 'send message', message }))
   })
 
   describe('when the selected department is offline', () => {
@@ -41,7 +41,7 @@ describe('submitPrechatForm', () => {
     beforeEach(() => {
       getDepartment.mockReturnValue({
         id: 123,
-        status: 'offline'
+        status: 'offline',
       })
 
       store = createMockStore()
@@ -50,8 +50,8 @@ describe('submitPrechatForm', () => {
         submitPrechatForm({
           values: {
             name: 'Some name',
-            department: 123
-          }
+            department: 123,
+          },
         })
       )
     })
@@ -64,9 +64,9 @@ describe('submitPrechatForm', () => {
         payload: {
           values: {
             name: 'Some name',
-            department: 123
-          }
-        }
+            department: 123,
+          },
+        },
       })
     })
 
@@ -94,7 +94,7 @@ describe('submitPrechatForm', () => {
   describe('when the department field is visible to the user', () => {
     it('sets the department if one was selected and it exists', () => {
       getDepartment.mockReturnValue({
-        id: 123
+        id: 123,
       })
 
       const store = createMockStore()
@@ -102,9 +102,9 @@ describe('submitPrechatForm', () => {
       store.dispatch(
         submitPrechatForm({
           values: {
-            department: 123
+            department: 123,
           },
-          isDepartmentFieldVisible: true
+          isDepartmentFieldVisible: true,
         })
       )
 
@@ -121,9 +121,9 @@ describe('submitPrechatForm', () => {
       store.dispatch(
         submitPrechatForm({
           values: {
-            department: null
+            department: null,
           },
-          isDepartmentFieldVisible: true
+          isDepartmentFieldVisible: true,
         })
       )
 
@@ -140,9 +140,9 @@ describe('submitPrechatForm', () => {
       store.dispatch(
         submitPrechatForm({
           values: {
-            department: 123
+            department: 123,
           },
-          isDepartmentFieldVisible: true
+          isDepartmentFieldVisible: true,
         })
       )
 
@@ -158,8 +158,8 @@ describe('submitPrechatForm', () => {
     store.dispatch(
       submitPrechatForm({
         values: {
-          message: 'This is a message'
-        }
+          message: 'This is a message',
+        },
       })
     )
 
@@ -176,8 +176,8 @@ describe('submitPrechatForm', () => {
         values: {
           name: 'Someone',
           email: null,
-          phone: 123
-        }
+          phone: 123,
+        },
       })
     )
 
@@ -186,7 +186,7 @@ describe('submitPrechatForm', () => {
     expect(dispatchedActions).toContainEqual(
       setVisitorInfo({
         display_name: 'Someone',
-        phone: 123
+        phone: 123,
       })
     )
   })
@@ -197,12 +197,12 @@ describe('submitPrechatForm', () => {
     const values = {
       name: 'Someone',
       email: null,
-      phone: 123
+      phone: 123,
     }
 
     await store.dispatch(
       submitPrechatForm({
-        values
+        values,
       })
     )
 

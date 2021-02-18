@@ -4,7 +4,7 @@ import {
   zdColorGrey100,
   zdColorGrey200,
   zdColorGrey800,
-  zdColorWhite
+  zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import { Button } from '@zendeskgarden/react-buttons'
 
@@ -29,7 +29,7 @@ const StyledButton = styled(Button)`
       background: ${zdColorGrey100} !important;
     }
 
-    ${props =>
+    ${(props) =>
       props.isMobile &&
       `
         bottom: ${60 / FONT_SIZE}rem;
@@ -37,7 +37,7 @@ const StyledButton = styled(Button)`
         display: block !important;
       `}
 
-    ${props =>
+    ${(props) =>
       props.theme.rtl &&
       `
         padding-left: ${9 / FONT_SIZE}rem !important;

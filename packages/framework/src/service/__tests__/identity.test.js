@@ -31,7 +31,7 @@ describe('init', () => {
       expect.objectContaining({
         id: expect.any(String),
         expiry: expect.any(Number),
-        tabs: { count: 1, expiry: 0 }
+        tabs: { count: 1, expiry: 0 },
       })
     )
   })
@@ -45,7 +45,7 @@ describe('init', () => {
       expect.objectContaining({
         id,
         expiry: expect.any(Number),
-        tabs: { count: 2, expiry: 0 }
+        tabs: { count: 2, expiry: 0 },
       })
     )
   })
@@ -53,7 +53,7 @@ describe('init', () => {
   it('generates a new suid if the current one is expired', () => {
     store.set('suid', {
       id: 1234,
-      expiry: 12345
+      expiry: 12345,
     })
 
     identity.init()
@@ -66,7 +66,7 @@ describe('init', () => {
       expect.objectContaining({
         id: expect.any(String),
         expiry: expect.any(Number),
-        tabs: { count: 1, expiry: 0 }
+        tabs: { count: 1, expiry: 0 },
       })
     )
   })
@@ -92,7 +92,7 @@ describe('getSuid', () => {
       expect.objectContaining({
         id: expect.any(String),
         expiry: expect.any(Number),
-        tabs: { count: 1, expiry: 0 }
+        tabs: { count: 1, expiry: 0 },
       })
     )
   })
@@ -107,7 +107,7 @@ describe('getSuid', () => {
   it('generates a new suid if the current one is expired', () => {
     store.set('suid', {
       id: 1234,
-      expiry: 12345
+      expiry: 12345,
     })
 
     const suid = identity.getSuid()
@@ -118,7 +118,7 @@ describe('getSuid', () => {
       expect.objectContaining({
         id: expect.any(String),
         expiry: expect.any(Number),
-        tabs: { count: 1, expiry: 0 }
+        tabs: { count: 1, expiry: 0 },
       })
     )
   })
@@ -135,7 +135,7 @@ describe('unload', () => {
     store.set('suid', {
       id: 1,
       expiry: 1234,
-      tabs: { count: 4, expiry: 5 }
+      tabs: { count: 4, expiry: 5 },
     })
     identity.unload()
 
@@ -146,7 +146,7 @@ describe('unload', () => {
       expect.objectContaining({
         id: 1,
         expiry: 1234,
-        tabs: { count: 3, expiry: expect.any(Number) }
+        tabs: { count: 3, expiry: expect.any(Number) },
       })
     )
   })

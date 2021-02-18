@@ -5,34 +5,34 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(embeds, [
   {
     action: { type: undefined },
-    expected: {}
+    expected: {},
   },
   {
     action: {
       type: UPDATE_EMBED,
       payload: {
         name: 'chat',
-        params: { accessible: true }
-      }
+        params: { accessible: true },
+      },
     },
     expected: {
       chat: {
-        accessible: true
-      }
-    }
+        accessible: true,
+      },
+    },
   },
   {
     action: {
       type: UPDATE_EMBED,
       payload: {
         name: 'helpCenterForm',
-        params: {}
-      }
+        params: {},
+      },
     },
     expected: {
       helpCenterForm: {
-        accessible: false
-      }
-    }
-  }
+        accessible: false,
+      },
+    },
+  },
 ])

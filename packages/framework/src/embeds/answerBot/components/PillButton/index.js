@@ -14,7 +14,7 @@ const PillButton = ({ className, label, onClick }) => {
 PillButton.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 export default PillButton

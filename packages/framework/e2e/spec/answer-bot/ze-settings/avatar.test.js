@@ -14,11 +14,11 @@ test('uses the supplied avatar values', async () => {
               url: '/e2e/fixtures/files/large-attachment.jpg',
               name: {
                 '*': 'Wildcard name',
-                fr: 'French name'
-              }
-            }
-          }
-        }
+                fr: 'French name',
+              },
+            },
+          },
+        },
       }
     })
     .load()

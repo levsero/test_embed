@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import PillButton from 'src/embeds/answerBot/components/PillButton'
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       height: ${32 / props.theme.fontSize}rem;
       margin-bottom: ${10 / props.theme.fontSize}rem;
@@ -11,7 +11,7 @@ const Container = styled.div`
 `
 
 const Button = styled(PillButton)`
-  ${props => {
+  ${(props) => {
     return `
       &&&& {
         height: ${32 / props.theme.fontSize}rem !important;

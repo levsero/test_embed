@@ -10,8 +10,8 @@ describe('Pure PanelCard Component', () => {
   const expectedDefaultProps = {
     children: [],
     panel: {
-      roundedTop: true
-    }
+      roundedTop: true,
+    },
   }
 
   beforeEach(() => {
@@ -19,14 +19,14 @@ describe('Pure PanelCard Component', () => {
 
     initMockRegistry({
       './pure/Card': {
-        Card
+        Card,
       },
       './pure/ButtonList': {
-        ButtonList
+        ButtonList,
       },
       './pure/Panel': {
-        Panel
-      }
+        Panel,
+      },
     })
 
     mockery.registerAllowable(panelCardPath)
@@ -86,7 +86,7 @@ describe('Pure PanelCard Component', () => {
 
         expect(panel.props.panel).toEqual({
           roundedTop: true,
-          roundedBottom: true
+          roundedBottom: true,
         })
       })
     })
@@ -99,7 +99,7 @@ describe('Pure PanelCard Component', () => {
 
         expect(panel.props.panel).toEqual({
           roundedTop: true,
-          roundedBottom: false
+          roundedBottom: false,
         })
       })
     })

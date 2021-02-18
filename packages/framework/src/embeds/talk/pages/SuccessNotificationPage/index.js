@@ -39,15 +39,12 @@ const SuccessNotificationPage = ({ onClick, history }) => {
 SuccessNotificationPage.propTypes = {
   onClick: PropTypes.func.isRequired,
   history: PropTypes.shape({
-    replace: PropTypes.func
-  })
+    replace: PropTypes.func,
+  }),
 }
 
 const actionCreators = {
-  onClick: successDoneButtonClicked
+  onClick: successDoneButtonClicked,
 }
 
-export default connect(
-  null,
-  actionCreators
-)(SuccessNotificationPage)
+export default connect(null, actionCreators)(SuccessNotificationPage)

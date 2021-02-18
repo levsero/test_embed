@@ -13,7 +13,7 @@ export class Dropzone extends Component {
     onDrop: PropTypes.func.isRequired,
     style: PropTypes.object,
     containerStyle: PropTypes.object,
-    dropzoneId: PropTypes.string
+    dropzoneId: PropTypes.string,
   }
 
   static defaultProps = {
@@ -24,7 +24,7 @@ export class Dropzone extends Component {
     onDragLeave: () => {},
     style: {},
     containerStyle: {},
-    dropzoneId: ''
+    dropzoneId: '',
   }
 
   constructor(props, context) {
@@ -37,7 +37,7 @@ export class Dropzone extends Component {
     this.enterCounter = 0
   }
 
-  onDragEnter = e => {
+  onDragEnter = (e) => {
     e.preventDefault()
 
     // Count the dropzone and any children that are entered.
@@ -46,13 +46,13 @@ export class Dropzone extends Component {
     this.props.onDragEnter(e)
   }
 
-  onDragOver = e => {
+  onDragOver = (e) => {
     e.preventDefault()
     e.stopPropagation()
     return false
   }
 
-  onDragLeave = e => {
+  onDragLeave = (e) => {
     e.preventDefault()
 
     // Only deactivate once the dropzone and all children have left.
@@ -62,7 +62,7 @@ export class Dropzone extends Component {
     this.props.onDragLeave(e)
   }
 
-  onDrop = e => {
+  onDrop = (e) => {
     e.preventDefault()
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files
@@ -103,7 +103,7 @@ export class Dropzone extends Component {
             type="file"
             style={inputStyle}
             multiple={true}
-            ref={el => (this.fileInputEl = el)}
+            ref={(el) => (this.fileInputEl = el)}
             onChange={this.onDrop}
             id={this.props.dropzoneId}
             data-testid={this.props.dropzoneId}

@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
 import createResettableReducer, {
-  resettableActions
+  resettableActions,
 } from 'src/apps/messenger/utils/createResettableReducer'
 
 describe('createResettableReducer', () => {
@@ -14,7 +14,7 @@ describe('createResettableReducer', () => {
 
   const createExampleStore = () => createStore(createResettableReducer(exampleReducer))
 
-  Object.keys(resettableActions).forEach(actionType => {
+  Object.keys(resettableActions).forEach((actionType) => {
     it(`resets state when action ${actionType} is dispatched`, () => {
       const store = createExampleStore()
 

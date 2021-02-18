@@ -5,14 +5,14 @@ import { isAgent } from 'utility/chat'
 import {
   getChatsLength,
   getLastMessageAuthor,
-  getAgentsTyping
+  getAgentsTyping,
 } from 'src/redux/modules/chat/chat-selectors'
 import { getHistoryRequestStatus } from 'src/redux/modules/chat/chat-history-selectors'
 import { markAsRead } from 'src/redux/modules/chat'
 import getScrollBottom from 'utility/get-scroll-bottom'
 import { SCROLL_BOTTOM_THRESHOLD } from 'constants/chat'
 
-export const useMessagesOnMount = scrollToBottom => {
+export const useMessagesOnMount = (scrollToBottom) => {
   const dispatch = useDispatch()
 
   useEffect(() => {

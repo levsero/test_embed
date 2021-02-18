@@ -6,7 +6,7 @@ import {
   bezierCurve,
   frameBoxShadow,
   frameMarginFromPage,
-  launcherSize
+  launcherSize,
 } from 'src/apps/messenger/constants'
 import { useSelector } from 'react-redux'
 import { getPosition, getZIndex } from 'src/apps/messenger/features/themeProvider/store'
@@ -15,7 +15,7 @@ import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import {
   getIsFullScreen,
-  getIsVerticallySmallScreen
+  getIsVerticallySmallScreen,
 } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import { launcherAnimation } from './styles'
@@ -34,7 +34,7 @@ const LauncherFrame = ({ children }) => {
     <>
       <style
         dangerouslySetInnerHTML={{
-          __html: launcherAnimation
+          __html: launcherAnimation,
         }}
       />
       <Frame
@@ -51,7 +51,7 @@ const LauncherFrame = ({ children }) => {
           boxShadow: frameBoxShadow,
           animation:
             isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined,
-          zIndex
+          zIndex,
         }}
       >
         <ThemeProvider>{children}</ThemeProvider>
@@ -61,7 +61,7 @@ const LauncherFrame = ({ children }) => {
 }
 
 LauncherFrame.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default LauncherFrame

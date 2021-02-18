@@ -22,7 +22,7 @@ import {
   popoutApi,
   addTagsApi,
   removeTagsApi,
-  reauthenticateApi
+  reauthenticateApi,
 } from 'service/api/apis'
 import {
   API_GET_IS_CHATTING_NAME,
@@ -37,7 +37,7 @@ import {
   API_ON_CHAT_STATUS_NAME,
   API_ON_CHAT_POPOUT,
   API_ON_OPEN_NAME,
-  API_ON_CLOSE_NAME
+  API_ON_CLOSE_NAME,
 } from 'constants/api'
 import { getLauncherVisible } from 'src/redux/modules/base/base-selectors'
 import { apiResetWidget } from 'src/redux/modules/base'
@@ -54,12 +54,12 @@ import {
   CHAT_UNREAD_MESSAGES_EVENT,
   USER_EVENT,
   WIDGET_CLOSED_EVENT,
-  WIDGET_OPENED_EVENT
+  WIDGET_OPENED_EVENT,
 } from 'constants/event'
 import {
   getChatStatus,
   getHasBackfillCompleted,
-  getNotificationCount
+  getNotificationCount,
 } from 'src/redux/modules/chat/chat-selectors'
 
 export const getApiObj = () => {
@@ -67,13 +67,13 @@ export const getApiObj = () => {
     chat: {
       [API_GET_IS_CHATTING_NAME]: isChattingApi,
       [API_GET_DEPARTMENTS_ALL_NAME]: getAllDepartmentsApi,
-      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartmentApi
+      [API_GET_DEPARTMENTS_DEPARTMENT_NAME]: getDepartmentApi,
     },
-    [API_GET_DISPLAY_NAME]: displayApi
+    [API_GET_DISPLAY_NAME]: displayApi,
   }
 }
 
-export const resetWidget = reduxStore => {
+export const resetWidget = (reduxStore) => {
   const state = reduxStore.getState()
 
   if (getLauncherVisible(state)) {
@@ -82,9 +82,9 @@ export const resetWidget = reduxStore => {
 }
 
 export const apiExecute = (apiStructure, reduxStore, args) => {
-  const getApiFunction = methodAccessors => {
+  const getApiFunction = (methodAccessors) => {
     const keys = _.flatten(
-      methodAccessors.map(accessor => {
+      methodAccessors.map((accessor) => {
         return accessor.split(':')
       })
     ).join('.')
@@ -113,7 +113,7 @@ export const apiExecute = (apiStructure, reduxStore, args) => {
 }
 
 const wrapAllFunctionsWithRedux = (reduxStore, group) => {
-  Object.keys(group).forEach(key => {
+  Object.keys(group).forEach((key) => {
     const value = group[key]
 
     if (typeof value === 'function') {
@@ -126,7 +126,7 @@ const wrapAllFunctionsWithRedux = (reduxStore, group) => {
   return group
 }
 
-export const getWebWidgetPublicApi = reduxStore => {
+export const getWebWidgetPublicApi = (reduxStore) => {
   return wrapAllFunctionsWithRedux(reduxStore, {
     webWidget: {
       hide: hideApi,
@@ -149,7 +149,7 @@ export const getWebWidgetPublicApi = reduxStore => {
       reset: resetWidget,
       popout: popoutApi,
       'helpCenter:reauthenticate': reauthenticateHelpCenter,
-      'helpCenter:setSuggestions': setHelpCenterSuggestionsApi
+      'helpCenter:setSuggestions': setHelpCenterSuggestionsApi,
     },
     'webWidget:on': {
       userEvent: (_reduxStore, cb) => {
@@ -181,13 +181,13 @@ export const getWebWidgetPublicApi = reduxStore => {
       },
       [`chat:${API_ON_CHAT_POPOUT}`]: (store, cb) => {
         callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_POPOUT_EVENT)
-      }
+      },
     },
     'webWidget:get': {
       [API_GET_DISPLAY_NAME]: displayApi,
       [`chat:${API_GET_IS_CHATTING_NAME}`]: isChattingApi,
       [`chat:${API_GET_DEPARTMENTS_ALL_NAME}`]: getAllDepartmentsApi,
-      [`chat:${API_GET_DEPARTMENTS_DEPARTMENT_NAME}`]: getDepartmentApi
-    }
+      [`chat:${API_GET_DEPARTMENTS_DEPARTMENT_NAME}`]: getDepartmentApi,
+    },
   })
 }

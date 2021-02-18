@@ -5,13 +5,13 @@ import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'utility/testHelpers'
 import { keyCodes } from 'utility/keyboard'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     currentMessage: '',
     sendChat: jest.fn(),
     handleChatBoxChange: jest.fn(),
     isMobile: false,
-    ...inProps
+    ...inProps,
   }
   return render(<InputBox {...props} />)
 }
@@ -32,7 +32,7 @@ describe('InputBox', () => {
     expect(sendChat).not.toHaveBeenCalled()
     fireEvent.keyDown(queryByTestId(TEST_IDS.MESSAGE_FIELD), {
       key: 'Enter',
-      keyCode: keyCodes.ENTER
+      keyCode: keyCodes.ENTER,
     })
 
     expect(sendChat).toHaveBeenCalled()

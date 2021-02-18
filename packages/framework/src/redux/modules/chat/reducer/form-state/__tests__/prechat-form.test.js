@@ -9,7 +9,7 @@ describe('prechat-form', () => {
     phone: '123456789',
     email: 'foo@bar',
     department: 'Sales',
-    message: 'message text'
+    message: 'message text',
   }
   const reduce = (action, state = undefined) => prechatForm(state, action)
 
@@ -19,7 +19,7 @@ describe('prechat-form', () => {
       email: '',
       phone: '',
       department: '',
-      message: ''
+      message: '',
     })
   })
 
@@ -28,7 +28,7 @@ describe('prechat-form', () => {
       expect(
         reduce({
           type: actions.PRE_CHAT_FORM_ON_CHANGE,
-          payload: mockFormState
+          payload: mockFormState,
         })
       ).toEqual(mockFormState)
     })
@@ -39,7 +39,7 @@ describe('prechat-form', () => {
       expect(
         reduce({
           type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
-          payload: mockFormState
+          payload: mockFormState,
         })
       ).toEqual(mockFormState)
     })
@@ -49,25 +49,25 @@ describe('prechat-form', () => {
     it('sets the action payload as the state', () => {
       expect(reduce({ type: actions.CHAT_BADGE_MESSAGE_CHANGED, payload: 'yeet' })).toEqual({
         ...initialState,
-        message: 'yeet'
+        message: 'yeet',
       })
     })
   })
 
   describe('when a PREFILL_RECEIVED action is dispatched', () => {
     const newFormState = {
-      email: 'new@email.com'
+      email: 'new@email.com',
     }
 
     it('adds the action payload to the state', () => {
       expect(
         reduce({
           type: baseActions.PREFILL_RECEIVED,
-          payload: { prefillValues: newFormState }
+          payload: { prefillValues: newFormState },
         })
       ).toEqual({
         ...initialState,
-        ...newFormState
+        ...newFormState,
       })
     })
   })
@@ -79,7 +79,7 @@ describe('prechat-form', () => {
       newFormState = {
         display_name: 'Not Terence',
         email: 'foo@baz',
-        phone: '87654321'
+        phone: '87654321',
       }
     })
 
@@ -87,13 +87,13 @@ describe('prechat-form', () => {
       expect(
         reduce({
           type: actions.SDK_VISITOR_UPDATE,
-          payload: { detail: newFormState }
+          payload: { detail: newFormState },
         })
       ).toEqual({
         ...initialState,
         name: 'Not Terence',
         email: 'foo@baz',
-        phone: '87654321'
+        phone: '87654321',
       })
     })
 
@@ -106,12 +106,12 @@ describe('prechat-form', () => {
         expect(
           reduce({
             type: actions.SDK_VISITOR_UPDATE,
-            payload: { detail: newFormState }
+            payload: { detail: newFormState },
           })
         ).toEqual({
           ...initialState,
           email: 'foo@baz',
-          phone: '87654321'
+          phone: '87654321',
         })
       })
     })
@@ -120,7 +120,7 @@ describe('prechat-form', () => {
       beforeEach(() => {
         newFormState = {
           display_name: 'Visitor 2131231',
-          email: ''
+          email: '',
         }
       })
 
@@ -129,13 +129,13 @@ describe('prechat-form', () => {
           reduce(
             {
               type: actions.SDK_VISITOR_UPDATE,
-              payload: { detail: newFormState }
+              payload: { detail: newFormState },
             },
             { ...initialState, email: 'prefilled@example.com' }
           )
         ).toEqual({
           ...initialState,
-          email: 'prefilled@example.com'
+          email: 'prefilled@example.com',
         })
       })
     })
@@ -152,11 +152,11 @@ describe('prechat-form', () => {
       expect(
         reduce({
           type: actions.SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
-          payload: { detail: { id: 123 } }
+          payload: { detail: { id: 123 } },
         })
       ).toEqual({
         ...initialState,
-        department: 123
+        department: 123,
       })
     })
   })

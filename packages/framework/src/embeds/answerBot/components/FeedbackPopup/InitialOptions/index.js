@@ -25,7 +25,7 @@ const InitialOptions = ({ onYesClick, onNoClick }) => {
 
 InitialOptions.propTypes = {
   onNoClick: PropTypes.func,
-  onYesClick: PropTypes.func
+  onYesClick: PropTypes.func,
 }
 
 export default InitialOptions

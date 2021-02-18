@@ -24,7 +24,7 @@ const EmailField = ({ field, value = '', onChange, error, lastSubmittedTimestamp
         ref={inputRef}
         placeholder={field.placeholder}
         value={value}
-        onChange={e => {
+        onChange={(e) => {
           onChange(e.target.value)
         }}
         validation={error ? 'error' : undefined}
@@ -42,12 +42,12 @@ EmailField.propTypes = {
   field: PropTypes.shape({
     label: PropTypes.string,
     name: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
   }),
   value: PropTypes.string,
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 export default EmailField

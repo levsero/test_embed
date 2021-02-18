@@ -13,7 +13,7 @@ import {
   CHAT_FILE_REQUEST_SENT,
   CHAT_BANNED,
   CHAT_DROPPED,
-  END_CHAT_REQUEST_SUCCESS
+  END_CHAT_REQUEST_SUCCESS,
 } from '../chat-action-types'
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
@@ -27,7 +27,7 @@ const initialState = {
   latestQuickReply: UNSET_TIMESTAMP,
   latestAgentLeaveEvent: UNSET_TIMESTAMP,
   lastMessageAuthor: '',
-  groups: []
+  groups: [],
 }
 
 const firstVisitorMessage = (state = initialState.firstVisitorMessage, action) => {
@@ -132,7 +132,7 @@ const lastMessageAuthor = (state = initialState.lastMessageAuthor, action) => {
 const newGroup = (message, type) => ({
   type,
   author: message.nick || 'system',
-  messages: [message.timestamp]
+  messages: [message.timestamp],
 })
 
 const groups = (state = initialState.groups, action) => {
@@ -175,7 +175,7 @@ const chatLogReducer = combineReducers({
   latestQuickReply,
   latestAgentLeaveEvent,
   lastMessageAuthor,
-  groups
+  groups,
 })
 
 export default chatLogReducer

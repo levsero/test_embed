@@ -48,7 +48,7 @@ describe('enabled', () => {
     tracker.track('webWidget.prefill', { x: 1 })
 
     expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'webWidget.prefill', {
-      value: { args: { x: 1 } }
+      value: { args: { x: 1 } },
     })
   })
 
@@ -56,7 +56,7 @@ describe('enabled', () => {
     tracker.track('webWidget.prefill', [1, 2])
 
     expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'webWidget.prefill', {
-      value: { args: [1, 2] }
+      value: { args: [1, 2] },
     })
   })
 
@@ -64,7 +64,7 @@ describe('enabled', () => {
     tracker.track('webWidget.prefill', () => {})
 
     expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'webWidget.prefill', {
-      value: { args: '<callback function>' }
+      value: { args: '<callback function>' },
     })
   })
 
@@ -72,7 +72,7 @@ describe('enabled', () => {
     tracker.track('webWidget.blah')
 
     expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'webWidget.blah', {
-      value: { args: null }
+      value: { args: null },
     })
   })
 
@@ -81,7 +81,7 @@ describe('enabled', () => {
 
     beforeEach(() => {
       subject = {
-        add: (x, y) => x + y
+        add: (x, y) => x + y,
       }
       tracker.addTo(subject, 'test')
     })
@@ -94,7 +94,7 @@ describe('enabled', () => {
       subject.add(5, 9)
 
       expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'test.add', {
-        value: { args: [5, 9] }
+        value: { args: [5, 9] },
       })
     })
   })
@@ -105,7 +105,7 @@ describe('enabled', () => {
     beforeEach(() => {
       subject = {
         add: (x, y) => x + y,
-        minus: 123
+        minus: 123,
       }
       tracker.addToMethod(subject, 'add', 'testing')
     })
@@ -118,7 +118,7 @@ describe('enabled', () => {
       subject.add(5, 9)
 
       expect(beacon.trackUserAction).toHaveBeenCalledWith('api', 'testing', {
-        value: { args: [5, 9] }
+        value: { args: [5, 9] },
       })
     })
 
@@ -158,13 +158,13 @@ describe('enabled', () => {
         expect(beacon.trackUserAction).toHaveBeenCalledTimes(3)
 
         expect(beacon.trackUserAction).toHaveBeenNthCalledWith(1, 'api', 'method1', {
-          value: { args: [1, 2, 3] }
+          value: { args: [1, 2, 3] },
         })
         expect(beacon.trackUserAction).toHaveBeenNthCalledWith(2, 'api', 'method2', {
-          value: { args: null }
+          value: { args: null },
         })
         expect(beacon.trackUserAction).toHaveBeenNthCalledWith(3, 'api', 'method3', {
-          value: { args: '<callback function>' }
+          value: { args: '<callback function>' },
         })
       })
     })
@@ -184,10 +184,10 @@ describe('enabled', () => {
     it('tracks everything once enabled', () => {
       tracker.init()
       expect(beacon.trackUserAction).toHaveBeenNthCalledWith(1, 'api', 'api1', {
-        value: { args: [1, 2, 3] }
+        value: { args: [1, 2, 3] },
       })
       expect(beacon.trackUserAction).toHaveBeenNthCalledWith(2, 'api', 'api2', {
-        value: { args: null }
+        value: { args: null },
       })
     })
   })

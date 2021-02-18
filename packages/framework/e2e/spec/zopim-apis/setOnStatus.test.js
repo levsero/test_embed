@@ -8,7 +8,7 @@ beforeEach(async () => {
 
 test('setOnStatus executes a callback when the status changes to online', async () => {
   await page.evaluate(() => {
-    $zopim.livechat.setOnStatus(status => (window.zopimStatus = status))
+    $zopim.livechat.setOnStatus((status) => (window.zopimStatus = status))
   })
 
   await zChat.online()
@@ -20,7 +20,7 @@ test('setOnStatus executes a callback when the status changes to online', async 
 
 test('setOnStatus executes a callback when the status changes to offline', async () => {
   await page.evaluate(() => {
-    $zopim.livechat.setOnStatus(status => (window.zopimStatus = status))
+    $zopim.livechat.setOnStatus((status) => (window.zopimStatus = status))
   })
 
   await zChat.offline()

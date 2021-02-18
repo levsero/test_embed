@@ -13,7 +13,7 @@ const ButtonPill = ({ onClick = () => {}, children }) => {
 
 ButtonPill.propTypes = {
   children: PropTypes.node,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default ButtonPill

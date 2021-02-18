@@ -12,7 +12,7 @@ const Avatar = ({ src }) => {
 }
 
 Avatar.propTypes = {
-  src: PropTypes.string
+  src: PropTypes.string,
 }
 
 export default Avatar

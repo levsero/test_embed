@@ -9,8 +9,8 @@ describe('chat reducer agentJoined', () => {
 
     initMockRegistry({
       'constants/chat': {
-        AGENT_BOT: 'agent:trigger'
-      }
+        AGENT_BOT: 'agent:trigger',
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -40,13 +40,13 @@ describe('chat reducer agentJoined', () => {
         beforeEach(() => {
           payload = {
             detail: {
-              nick: 'visitor:xxx'
-            }
+              nick: 'visitor:xxx',
+            },
           }
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -59,13 +59,13 @@ describe('chat reducer agentJoined', () => {
         beforeEach(() => {
           payload = {
             detail: {
-              nick: 'agent:xxx'
-            }
+              nick: 'agent:xxx',
+            },
           }
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -78,13 +78,13 @@ describe('chat reducer agentJoined', () => {
         beforeEach(() => {
           payload = {
             detail: {
-              nick: 'agent:trigger'
-            }
+              nick: 'agent:trigger',
+            },
           }
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -97,13 +97,13 @@ describe('chat reducer agentJoined', () => {
     describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
       let payload
       const randomState = {
-        yolo: 'yolo'
+        yolo: 'yolo',
       }
 
       beforeEach(() => {
         state = reducer(randomState, {
           type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-          payload
+          payload,
         })
       })
 
@@ -111,8 +111,8 @@ describe('chat reducer agentJoined', () => {
         beforeAll(() => {
           payload = {
             detail: {
-              nick: 'agent:123'
-            }
+              nick: 'agent:123',
+            },
           }
         })
 
@@ -125,8 +125,8 @@ describe('chat reducer agentJoined', () => {
         beforeAll(() => {
           payload = {
             detail: {
-              nick: 'visitor'
-            }
+              nick: 'visitor',
+            },
           }
         })
 
@@ -140,7 +140,7 @@ describe('chat reducer agentJoined', () => {
       describe('when the member is an agent', () => {
         beforeEach(() => {
           state = reducer(initialState, {
-            type: actionTypes.END_CHAT_REQUEST_SUCCESS
+            type: actionTypes.END_CHAT_REQUEST_SUCCESS,
           })
         })
 

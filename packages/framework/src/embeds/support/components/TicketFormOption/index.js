@@ -12,9 +12,9 @@ const TicketFormOption = ({ form, onClick }) => (
 TicketFormOption.propTypes = {
   form: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    display_name: PropTypes.string.isRequired
+    display_name: PropTypes.string.isRequired,
   }).isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 export default TicketFormOption

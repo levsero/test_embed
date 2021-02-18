@@ -7,7 +7,7 @@ const zopimApi = {
   handleZopimQueue,
   setUpZopimApiMethods,
   handleChatSDKInitialized,
-  handleChatConnected
+  handleChatConnected,
 }
 
 export default zopimApi

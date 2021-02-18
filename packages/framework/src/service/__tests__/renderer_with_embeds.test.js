@@ -14,9 +14,9 @@ store.dispatch = jest.fn()
 
 beforeEach(() => {
   mockSettings = {
-    contactOptions: { enabled: false }
+    contactOptions: { enabled: false },
   }
-  settings.get = value => _.get(mockSettings, value, null)
+  settings.get = (value) => _.get(mockSettings, value, null)
 })
 
 test('renders expected embeds from config', async () => {
@@ -24,30 +24,30 @@ test('renders expected embeds from config', async () => {
     embeds: {
       helpCenterForm: {
         embed: 'helpCenter',
-        props: {}
+        props: {},
       },
       launcher: {
         embed: 'launcher',
         props: {
-          position: 'right'
-        }
+          position: 'right',
+        },
       },
       ticketSubmissionForm: {
-        embed: 'submitTicket'
+        embed: 'submitTicket',
       },
       chat: {
         embed: 'chat',
         props: {
           zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-          position: 'br'
-        }
-      }
-    }
+          position: 'br',
+        },
+      },
+    },
   }
 
   await renderer.run({
     config: configJSON,
-    reduxStore: store
+    reduxStore: store,
   })
 
   expect(document.body.innerHTML).toMatchSnapshot()

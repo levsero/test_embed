@@ -7,7 +7,7 @@ describe('Contact Details Modal', () => {
 
   const renderComponent = (props = {}) => {
     const defaultProps = {
-      onClose
+      onClose,
     }
 
     return render(<Component {...defaultProps} {...props} />)

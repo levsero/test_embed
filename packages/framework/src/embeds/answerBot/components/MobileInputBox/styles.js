@@ -3,7 +3,7 @@ import {
   zdColorGrey200,
   zdColorGrey300,
   zdColorGrey500,
-  zdColorGrey700
+  zdColorGrey700,
 } from '@zendeskgarden/css-variables'
 import { IconButton } from '@zendeskgarden/react-buttons'
 
@@ -12,7 +12,7 @@ const InputBoxContainer = styled.div`
 `
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: flex;
       align-items: center;
@@ -22,15 +22,16 @@ const Container = styled.div`
 `
 
 const FooterIconButton = styled(IconButton)`
-  ${props => {
+  ${(props) => {
     return `
       height: ${43 / props.theme.fontSize}rem !important;
       border-radius: 50% !important;
       margin: 0 ${4 / props.theme.fontSize}rem !important;
 
       svg {
-        padding: ${8 / props.theme.fontSize}rem ${7 / props.theme.fontSize}rem ${8 /
-      props.theme.fontSize}rem ${9 / props.theme.fontSize}rem;
+        padding: ${8 / props.theme.fontSize}rem ${7 / props.theme.fontSize}rem ${
+      8 / props.theme.fontSize
+    }rem ${9 / props.theme.fontSize}rem;
 
         box-sizing: content-box;
         min-width: ${14 / props.theme.fontSize}rem;

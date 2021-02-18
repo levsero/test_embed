@@ -9,16 +9,16 @@ describe('FormMessage', () => {
         _id: 'id1',
         name: 'first_field',
         label: 'I am a test field',
-        type: 'text'
+        type: 'text',
       },
       {
         _id: 'id2',
         name: 'second_field',
         label: 'I am the second test field',
-        type: 'text'
-      }
+        type: 'text',
+      },
     ],
-    values: {}
+    values: {},
   }
 
   const renderComponent = (props = {}) => render(<FormMessage {...defaultProps} {...props} />)

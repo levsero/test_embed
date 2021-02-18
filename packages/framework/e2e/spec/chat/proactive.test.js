@@ -5,19 +5,16 @@ import zChat from 'e2e/helpers/zChat'
 import { agentJoinsChat, waitForChatToBeReady } from 'e2e/helpers/chat-embed'
 import { wait } from 'pptr-testing-library'
 
-const sendMessageFromAgent = async proactive => {
+const sendMessageFromAgent = async (proactive) => {
   const detail = {
     nick: 'agent:12345',
     msg: 'message from agent',
     display_name: 'An agent',
-    proactive
+    proactive,
   }
   await zChat.chat(detail)
 }
-const buildWidget = () =>
-  loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+const buildWidget = () => loadWidget().withPresets('chat').hiddenInitially()
 const expectWidgetToBeOpen = () => widget.expectToSeeText('Chat with us')
 const expectWidgetNotToBeOpen = () => widget.expectNotToSeeText('Chat with us')
 
@@ -47,9 +44,7 @@ test('first proactive chat message opens the widget', async () => {
 })
 
 test('proactive chats show a notification on mobile', async () => {
-  await buildWidget()
-    .useMobile()
-    .load()
+  await buildWidget().useMobile().load()
   await zChat.online()
 
   await launcher.waitForLauncherPill()
@@ -70,9 +65,7 @@ test('proactive chats show a notification on mobile', async () => {
 })
 
 test('proactive chat notifications can be closed on mobile', async () => {
-  await buildWidget()
-    .useMobile()
-    .load()
+  await buildWidget().useMobile().load()
   await zChat.online()
   await launcher.waitForLauncherPill()
 

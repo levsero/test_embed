@@ -15,11 +15,11 @@ export class QuickReply extends Component {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseDown: PropTypes.func,
-    onMouseUp: PropTypes.func
+    onMouseUp: PropTypes.func,
   }
 
   static defaultProps = {
-    onClick: () => {}
+    onClick: () => {},
   }
 
   render = () => {
@@ -44,14 +44,14 @@ export class QuickReply extends Component {
 export class QuickReplies extends Component {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      useCarousel: false
+      useCarousel: false,
     }
   }
 
@@ -61,7 +61,7 @@ export class QuickReplies extends Component {
     if (this.container.scrollWidth > this.container.clientWidth) {
       /* eslint-disable react/no-did-mount-set-state */
       this.setState({
-        useCarousel: true
+        useCarousel: true,
       })
     }
   }
@@ -83,20 +83,20 @@ export class QuickReplies extends Component {
       return React.cloneElement(child, {
         className: classNames({
           [styles.separator]: idx !== lastChildIndex,
-          [styles.lastSeparator]: idx === lastChildIndex
-        })
+          [styles.lastSeparator]: idx === lastChildIndex,
+        }),
       })
     })
 
     const containerStyle = classNames({
       [styles.container]: true,
       structuredMessageSlider: true,
-      [styles.mobile]: this.props.isMobile
+      [styles.mobile]: this.props.isMobile,
     })
 
     const sliderSettings = {
       variableWidth: true,
-      speed: 300
+      speed: 300,
     }
 
     if (this.state.useCarousel) {
@@ -109,7 +109,7 @@ export class QuickReplies extends Component {
       return (
         <div
           className={containerStyle}
-          ref={el => {
+          ref={(el) => {
             this.container = el
           }}
           onScroll={this.stopScrollingPropagation}

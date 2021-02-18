@@ -2,14 +2,14 @@ import { Component as NoResults } from '../'
 import React from 'react'
 import { render } from 'src/util/testHelpers'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     isMobile: false,
     searchFailed: false,
     previousSearchTerm: 'whoopsies',
     showNextButton: false,
     shouldShowContextualResults: false,
-    ...inProps
+    ...inProps,
   }
 
   return render(<NoResults {...props} />)
@@ -27,7 +27,7 @@ describe('render', () => {
   describe('when has  contextual searched', () => {
     it('renders ContextualNoResultsMessage', () => {
       const { getByText } = renderComponent({
-        shouldShowContextualResults: true
+        shouldShowContextualResults: true,
       })
 
       expect(

@@ -17,7 +17,7 @@ const ReconnectButton = ({ onClick }) => {
 }
 
 ReconnectButton.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default ReconnectButton

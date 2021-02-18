@@ -25,7 +25,7 @@ describe('ChatBadge component', () => {
 
     initMockRegistry({
       'component/Icon': {
-        Icon
+        Icon,
       },
       './ChatBadge.scss': {
         locals: {
@@ -39,48 +39,48 @@ describe('ChatBadge component', () => {
           customImgOnly: 'customImgOnly',
           imgOnly: 'imgOnly',
           imgRight: 'imgRight',
-          imgLeft: 'imgLeft'
-        }
+          imgLeft: 'imgLeft',
+        },
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           getLocale: () => mockLocale,
-          isRTL: () => mockIsRTL
-        }
+          isRTL: () => mockIsRTL,
+        },
       },
       '@zendeskgarden/react-forms': {
-        Input: noopReactComponent()
+        Input: noopReactComponent(),
       },
       'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
-        FrameStyle: noopReactComponent()
+        FrameStyle: noopReactComponent(),
       },
       '@zendeskgarden/svg-icons/src/16/dash-fill.svg': noopReactComponent(),
       'icons/widget-icon_sendChat.svg': noopReactComponent(),
       'src/redux/modules/selectors': {
-        getChatOnline: noop
+        getChatOnline: noop,
       },
       'src/redux/modules/chat/chat-selectors': {
         getCurrentMessage: noop,
-        getBannerSettings: noop
+        getBannerSettings: noop,
       },
       'src/redux/modules/base/': {
-        launcherClicked: noop
+        launcherClicked: noop,
       },
       'utility/keyboard': {
-        triggerOnEnter: noop
+        triggerOnEnter: noop,
       },
       'constants/shared': {
         ICONS,
-        TEST_IDS
+        TEST_IDS,
       },
       'src/redux/modules/chat': {
         sendMsg: sendMsgSpy,
-        handleChatBadgeMessageChange: noop
+        handleChatBadgeMessageChange: noop,
       },
       'src/redux/modules/base': {
-        handleChatBadgeMinimize: noop
-      }
+        handleChatBadgeMinimize: noop,
+      },
     })
 
     ChatBadge = requireUncached(chatBadgePath).default.WrappedComponent
@@ -307,7 +307,7 @@ describe('ChatBadge component', () => {
   describe('sendChatMsg', () => {
     let mockMessage,
       mockEvent = {
-        preventDefault: () => {}
+        preventDefault: () => {},
       }
 
     beforeEach(() => {

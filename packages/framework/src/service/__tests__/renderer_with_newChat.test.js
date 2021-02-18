@@ -14,9 +14,9 @@ store.dispatch = jest.fn()
 
 beforeEach(() => {
   mockSettings = {
-    contactOptions: { enabled: false }
+    contactOptions: { enabled: false },
   }
-  settings.get = value => _.get(mockSettings, value, null)
+  settings.get = (value) => _.get(mockSettings, value, null)
 })
 
 test('new chat', async () => {
@@ -27,23 +27,23 @@ test('new chat', async () => {
         props: {
           zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
           position: 'br',
-          standalone: true
-        }
+          standalone: true,
+        },
       },
       launcher: {
         embed: 'launcher',
-        props: {}
-      }
-    }
+        props: {},
+      },
+    },
   }
 
   await renderer.init({
     config: configJSON,
-    reduxStore: store
+    reduxStore: store,
   })
   await renderer.run({
     config: configJSON,
-    reduxStore: store
+    reduxStore: store,
   })
 
   expect(document.body.innerHTML).toMatchSnapshot()

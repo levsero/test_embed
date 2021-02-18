@@ -14,7 +14,7 @@ const UserProfileDetails = ({ isSociallyAuthenticated, displayName, email }) => 
 UserProfileDetails.propTypes = {
   isSociallyAuthenticated: PropTypes.bool.isRequired,
   displayName: PropTypes.string,
-  email: PropTypes.string
+  email: PropTypes.string,
 }
 
 export default UserProfileDetails

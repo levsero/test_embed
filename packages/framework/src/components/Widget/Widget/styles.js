@@ -14,8 +14,8 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
   background-color: ${zdColorWhite};
-  box-shadow: 0 0 ${props => 6 / props.theme.fontSize}rem 0 rgba(0, 0, 0, 0.2);
-  border-radius: ${props =>
+  box-shadow: 0 0 ${(props) => 6 / props.theme.fontSize}rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: ${(props) =>
     isMobileBrowser() || isPopout() ? 'none' : `${8 / props.theme.fontSize}rem`};
 `
 

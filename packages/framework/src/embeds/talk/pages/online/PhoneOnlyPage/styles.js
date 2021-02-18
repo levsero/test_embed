@@ -13,7 +13,7 @@ const Container = styled.div`
   flex-direction: column;
 
   ${isMobileBrowser() &&
-    `
+  `
       line-height: ${20 / FONT_SIZE}rem;
       font-size: ${15 / FONT_SIZE}rem};
     `}
@@ -21,7 +21,7 @@ const Container = styled.div`
   &:not(:disabled) {
     svg,
     svg path {
-      fill: ${props => props.theme.listColorStr} !important;
+      fill: ${(props) => props.theme.listColorStr} !important;
     }
   }
 `
@@ -34,7 +34,7 @@ const StyledTalkIcon = styled(TalkIcon)`
 
   path.customColor,
   rect.customColor {
-    fill: ${props => props.theme.listColorStr} !important;
+    fill: ${(props) => props.theme.listColorStr} !important;
   }
 `
 
@@ -51,10 +51,10 @@ const PhoneNumberContainer = styled.div`
 
   a,
   a span {
-    color: ${props => props.theme.linkColorStr} !important;
+    color: ${(props) => props.theme.linkColorStr} !important;
   }
   a:hover {
-    color: ${props => props.theme.linkTextColorStr} !important;
+    color: ${(props) => props.theme.linkTextColorStr} !important;
   }
 `
 

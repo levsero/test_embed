@@ -8,15 +8,15 @@ import ChatOnline from 'component/chat/ChatOnline'
 import {
   getShowOfflineChat,
   getShowChatHistory,
-  getHasChatSdkConnected
+  getHasChatSdkConnected,
 } from 'src/redux/modules/chat/chat-selectors'
 import ChatHistoryScreen from 'src/component/chat/chatting/chatHistoryScreen'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     showOfflineChat: getShowOfflineChat(state),
     showChatHistory: getShowChatHistory(state),
-    hasSdkConnected: getHasChatSdkConnected(state)
+    hasSdkConnected: getHasChatSdkConnected(state),
   }
 }
 
@@ -29,14 +29,14 @@ class Chat extends Component {
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
     showChatHistory: PropTypes.bool.isRequired,
-    isPreview: PropTypes.bool
+    isPreview: PropTypes.bool,
   }
 
   static defaultProps = {
     isMobile: false,
     hideZendeskLogo: false,
 
-    isPreview: false
+    isPreview: false,
   }
 
   handleDragEnter = () => {
@@ -56,7 +56,7 @@ class Chat extends Component {
 
     return (
       <ChatOnline
-        ref={el => {
+        ref={(el) => {
           this.online = el
         }}
         isMobile={this.props.isMobile}
@@ -86,9 +86,4 @@ class Chat extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-  null,
-  { forwardRef: true }
-)(Chat)
+export default connect(mapStateToProps, null, null, { forwardRef: true })(Chat)

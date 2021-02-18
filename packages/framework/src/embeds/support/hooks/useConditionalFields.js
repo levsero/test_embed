@@ -9,9 +9,9 @@ const useConditionalFields = (fields, conditions) => {
   )
 
   useFormState({
-    onChange: state => {
+    onChange: (state) => {
       setConditionalFields(getFields(state.values, conditions, fields))
-    }
+    },
   })
 
   useEffect(() => {

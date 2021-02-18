@@ -19,7 +19,7 @@ function fatal(error) {
 }
 
 function filterLocales(locales) {
-  return _.reject(locales, function(locale) {
+  return _.reject(locales, function (locale) {
     return locale.name === 'Deutsch (informell)'
   })
 }
@@ -34,7 +34,7 @@ function generateLocaleIdMap(locales) {
 function writeJsonToGlobalFile(globalName, path, json) {
   var contents = 'window.' + globalName + ' = ' + JSON.stringify(json, null, 2)
 
-  fs.writeFile(path, contents, err => {
+  fs.writeFile(path, contents, (err) => {
     if (err) {
       fatal(err)
     }
@@ -44,7 +44,7 @@ function writeJsonToGlobalFile(globalName, path, json) {
 function writeJsonToModuleFile(path, json) {
   var contents = 'module.exports = ' + JSON.stringify(json, null, 2)
 
-  fs.writeFile(path, contents, err => {
+  fs.writeFile(path, contents, (err) => {
     if (err) {
       fatal(err)
     }
@@ -62,7 +62,7 @@ function writeJson(path, json, globalName) {
 console.log('Downloading ' + localesEndpoint)
 
 rest(localesEndpoint)
-  .then(function(res) {
+  .then(function (res) {
     if (res.status.code !== 200) {
       fatal(localesEndpoint + ' did not respond with 200')
     }
@@ -72,14 +72,18 @@ rest(localesEndpoint)
 
     writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal)
 
-    var codes = JSON.stringify(locales.map(obj => obj.locale), null, 2)
+    var codes = JSON.stringify(
+      locales.map((obj) => obj.locale),
+      null,
+      2
+    )
     console.log('\nWriting to ' + localesPath)
-    fs.writeFile(localesPath, codes, { flag: 'w' }, err => {
+    fs.writeFile(localesPath, codes, { flag: 'w' }, (err) => {
       if (err) {
         console.error(err)
       }
     })
   })
-  .catch(function(e) {
+  .catch(function (e) {
     fatal(e.message)
   })

@@ -31,7 +31,7 @@ const TitleRow = styled(HeaderRow)`
 `
 
 TitleRow.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default TitleRow

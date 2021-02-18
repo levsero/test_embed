@@ -5,7 +5,7 @@ export const articleShown = (sessionID, articleID) => {
     type: ARTICLE_SHOWN,
     payload: {
       sessionID,
-      articleID
-    }
+      articleID,
+    },
   }
 }

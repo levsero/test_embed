@@ -12,13 +12,13 @@ import {
   Message,
   TopSectionContainer,
   BottomSectionContainer,
-  EmbeddedVoiceIcon
+  EmbeddedVoiceIcon,
 } from './styles'
 
 const MicrophonePermissions = ({
   onStartCallClicked,
   showStartCallButton = false,
-  onPermissionsGiven
+  onPermissionsGiven,
 }) => {
   const translate = useTranslate()
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
@@ -59,11 +59,11 @@ const MicrophonePermissions = ({
 MicrophonePermissions.propTypes = {
   onStartCallClicked: PropTypes.func.isRequired,
   showStartCallButton: PropTypes.bool,
-  onPermissionsGiven: PropTypes.func.isRequired
+  onPermissionsGiven: PropTypes.func.isRequired,
 }
 
 MicrophonePermissions.defaultProps = {
-  showStartCallButton: false
+  showStartCallButton: false,
 }
 
 export default MicrophonePermissions

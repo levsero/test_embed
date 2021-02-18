@@ -11,30 +11,25 @@ import {
   clickStartChat,
   agentJoinsChat,
   loadWidgetWithChatOnline,
-  clickChatOptions
+  clickChatOptions,
 } from 'e2e/helpers/chat-embed'
 import { allowsInputTextEditing } from '../shared-examples'
 import { clearInputField } from 'e2e/helpers/utils'
 import { assertScreenshot } from 'e2e/helpers/visual-regressions'
 
-const sendMessageFromAgent = async proactive => {
+const sendMessageFromAgent = async (proactive) => {
   const detail = {
     nick: 'agent:12345',
     msg: 'message from agent',
     display_name: 'An agent',
-    proactive
+    proactive,
   }
   await zChat.chat(detail)
 }
-const buildWidget = () =>
-  loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+const buildWidget = () => loadWidget().withPresets('chat').hiddenInitially()
 
 test('proactive chats show a notification on mobile', async () => {
-  await buildWidget()
-    .useMobile()
-    .load()
+  await buildWidget().useMobile().load()
   await zChat.online()
   await launcher.waitForLauncherPill()
   await agentJoinsChat('An agent')
@@ -46,10 +41,7 @@ test('proactive chats show a notification on mobile', async () => {
 })
 
 test('proactive chat', async () => {
-  await loadWidget()
-    .withPresets('chatStandalone')
-    .hiddenInitially()
-    .load()
+  await loadWidget().withPresets('chatStandalone').hiddenInitially().load()
   await zChat.online()
   await launcher.waitForChatBadge()
   await assertScreenshot('chat-badge')
@@ -78,26 +70,26 @@ const loadOptions = async (options = {}) => {
   await clickChatOptions()
 }
 
-const chatOnline = async tag => {
+const chatOnline = async (tag) => {
   await assertScreenshot('prechat-form', { tag })
   await clickStartChat()
   await waitForChatToBeReady()
   await assertScreenshot('chat-log', { tag })
 }
 
-const chatOptions = async tag => {
+const chatOptions = async (tag) => {
   await widget.waitForText('Edit contact details')
   await assertScreenshot('chat-options', { tag })
 }
 
-const editContactDetails = async tag => {
+const editContactDetails = async (tag) => {
   await widget.waitForText('Edit contact details')
   await widget.clickText('Edit contact details')
   await widget.waitForText('Cancel')
   await assertScreenshot('chat-contact-details', { tag })
 }
 
-const emailTranscript = async tag => {
+const emailTranscript = async (tag) => {
   await widget.waitForText('Email transcript')
   await widget.clickText('Email transcript')
   await widget.waitForText('Cancel')

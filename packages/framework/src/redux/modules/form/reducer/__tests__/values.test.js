@@ -9,38 +9,38 @@ testReducer(formValues, [
   {
     initialState,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
     action: setFormState('Boop', { fieldA: 'a' }),
     expected: {
       ...initialState,
-      Boop: { fieldA: 'a' }
-    }
+      Boop: { fieldA: 'a' },
+    },
   },
   {
     initialState: {
       ...initialState,
       Beep: { fieldB: 'b' },
-      Boop: { fieldA: 'a' }
+      Boop: { fieldA: 'a' },
     },
     action: clearFormState('Boop'),
-    expected: { ...initialState, Beep: { fieldB: 'b' } }
+    expected: { ...initialState, Beep: { fieldB: 'b' } },
   },
   {
     initialState,
     action: clearAllForms(),
-    expected: {}
+    expected: {},
   },
   {
     initialState,
     action: { type: API_CLEAR_FORM },
-    expected: {}
+    expected: {},
   },
   {
     initialState,
     action: { type: API_RESET_WIDGET },
-    expected: {}
-  }
+    expected: {},
+  },
 ])

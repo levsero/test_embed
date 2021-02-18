@@ -23,30 +23,27 @@ ChannelButton.propTypes = {
   buttonLabel: PropTypes.string,
   isRTL: PropTypes.bool,
   loading: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 ChannelButton.defaultProps = {
   buttonLabel: '',
   isRTL: false,
-  loading: false
+  loading: false,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     buttonLabel: getHelpCenterButtonLabel(state),
     isRTL: i18n.isRTL(),
-    loading: getChatConnectionConnecting(state)
+    loading: getChatConnectionConnecting(state),
   }
 }
 
 const actionCreators = {
-  onClick: onHelpCenterNextClick
+  onClick: onHelpCenterNextClick,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(ChannelButton)
+const connectedComponent = connect(mapStateToProps, actionCreators)(ChannelButton)
 
 export { connectedComponent as default, ChannelButton as Component }

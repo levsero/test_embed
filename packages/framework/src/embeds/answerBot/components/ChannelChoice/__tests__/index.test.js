@@ -10,7 +10,7 @@ jest.mock('src/embeds/webWidget/selectors/feature-flags')
 
 const actions = Object.freeze({
   updateBackButtonVisibility: jest.fn(),
-  updateActiveEmbed: jest.fn()
+  updateActiveEmbed: jest.fn(),
 })
 
 const renderComponent = (props = {}) => {
@@ -23,12 +23,12 @@ const renderComponent = (props = {}) => {
     chatOnlineAvailableLabel: 'Live chat',
     chatOfflineAvailableLabel: 'Live chat is offline',
     submitTicketLabel: 'Leave a message',
-    actions
+    actions,
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<ChannelChoice {...componentProps} />)
@@ -40,7 +40,7 @@ describe('leading message', () => {
       callbackAvailable: true,
       talkAvailable: true,
       submitTicketAvailable: true,
-      chatAvailable: true
+      chatAvailable: true,
     })
 
     expect(queryByText('Choose a way to get in touch:')).toBeInTheDocument()
@@ -53,7 +53,7 @@ describe('leading message', () => {
       submitTicketAvailable: true,
       chatAvailable: true,
       leadingMessage: 'here here',
-      useLeadingMessageAsFallback: true
+      useLeadingMessageAsFallback: true,
     })
 
     expect(queryByText('here here')).toBeInTheDocument()
@@ -62,7 +62,7 @@ describe('leading message', () => {
   test('renders the leading message when specified', () => {
     const { queryByText } = renderComponent({
       leadingMessage: 'hello world',
-      submitTicketAvailable: true
+      submitTicketAvailable: true,
     })
 
     expect(queryByText('hello world')).toBeInTheDocument()
@@ -70,7 +70,7 @@ describe('leading message', () => {
 
   test('renders generic chat leading message when only chat is available', () => {
     const { queryByText } = renderComponent({
-      chatAvailable: true
+      chatAvailable: true,
     })
 
     expect(queryByText('Would you like to chat with someone who can help?')).toBeInTheDocument()
@@ -79,7 +79,7 @@ describe('leading message', () => {
   test('renders generic request callback leading message when only request callback is available', () => {
     const { queryByText } = renderComponent({
       talkAvailable: true,
-      callbackAvailable: true
+      callbackAvailable: true,
     })
 
     expect(
@@ -89,7 +89,7 @@ describe('leading message', () => {
 
   test('renders generic call us leading message when only talk is available', () => {
     const { queryByText } = renderComponent({
-      talkAvailable: true
+      talkAvailable: true,
     })
 
     expect(queryByText('Would you like to contact us regarding your question?')).toBeInTheDocument()
@@ -98,7 +98,7 @@ describe('leading message', () => {
   test('renders generic call us leading message when only click to call is available', () => {
     const { queryByText } = renderComponent({
       talkAvailable: true,
-      talkCapability: CLICK_TO_CALL
+      talkCapability: CLICK_TO_CALL,
     })
 
     expect(queryByText('Would you like to contact us regarding your question?')).toBeInTheDocument()
@@ -106,7 +106,7 @@ describe('leading message', () => {
 
   test('renders generic submit ticket leading message when only submit ticket is available', () => {
     const { queryByText } = renderComponent({
-      submitTicketAvailable: true
+      submitTicketAvailable: true,
     })
 
     expect(
@@ -119,7 +119,7 @@ describe('channels', () => {
   const assertNotRendered = (options, ...labels) => {
     const { queryByText } = renderComponent(options)
 
-    labels.forEach(text => {
+    labels.forEach((text) => {
       expect(queryByText(text)).not.toBeInTheDocument()
     })
   }
@@ -229,7 +229,7 @@ describe('actions', () => {
   test('clicking on Request a callback', () => {
     const { getByText } = renderComponent({
       callbackAvailable: true,
-      talkAvailable: true
+      talkAvailable: true,
     })
 
     fireEvent.click(getByText('Request a callback'))

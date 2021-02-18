@@ -20,7 +20,7 @@ helpCenterSelectors.getLastSearchTimestamp = jest.fn()
 
 beforeEach(() => {
   http.get = jest.fn(() => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve()
     })
   })
@@ -30,7 +30,7 @@ const mockStore = configureMockStore([thunk])
 
 test('handleOriginalArticleClicked dispatches expected action', () => {
   const expected = {
-    type: types.ORIGINAL_ARTICLE_CLICKED
+    type: types.ORIGINAL_ARTICLE_CLICKED,
   }
 
   expect(actions.handleOriginalArticleClicked()).toEqual(expected)
@@ -39,7 +39,7 @@ test('handleOriginalArticleClicked dispatches expected action', () => {
 test('handleArticleClick dispatches expected action', () => {
   const expected = {
     type: types.ARTICLE_VIEWED,
-    payload: { x: 123 }
+    payload: { x: 123 },
   }
 
   expect(actions.handleArticleView({ x: 123 })).toEqual(expected)
@@ -47,7 +47,7 @@ test('handleArticleClick dispatches expected action', () => {
 
 test('closeCurrentArticle dispatches expected action', () => {
   const expected = {
-    type: types.ARTICLE_CLOSED
+    type: types.ARTICLE_CLOSED,
   }
 
   expect(actions.closeCurrentArticle()).toEqual(expected)
@@ -56,7 +56,7 @@ test('closeCurrentArticle dispatches expected action', () => {
 test('addRestrictedImage dispatches expected action', () => {
   const expected = {
     type: types.ADD_RESTRICTED_IMAGE,
-    payload: { x: 123 }
+    payload: { x: 123 },
   }
 
   expect(actions.addRestrictedImage({ x: 123 })).toEqual(expected)
@@ -65,7 +65,7 @@ test('addRestrictedImage dispatches expected action', () => {
 test('handleSearchFieldChange dispatches expected action', () => {
   const expected = {
     type: types.SEARCH_FIELD_CHANGED,
-    payload: { y: 1234 }
+    payload: { y: 1234 },
   }
 
   expect(actions.handleSearchFieldChange({ y: 1234 })).toEqual(expected)
@@ -76,7 +76,7 @@ describe('performImageSearch', () => {
 
   it('returns expected action', () => {
     expect(actions.performImageSearch('/this/is/path', doneFn)).toEqual({
-      type: ''
+      type: '',
     })
   })
 
@@ -86,7 +86,7 @@ describe('performImageSearch', () => {
       expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
           path: '/this/is/path',
-          authorization: ''
+          authorization: '',
         })
       )
     })
@@ -96,7 +96,7 @@ describe('performImageSearch', () => {
       actions.performImageSearch('/this/is/path', doneFn)
       expect(http.getImage).toHaveBeenCalledWith(
         expect.objectContaining({
-          authorization: 'Bearer blah'
+          authorization: 'Bearer blah',
         })
       )
     })
@@ -104,7 +104,7 @@ describe('performImageSearch', () => {
 })
 
 describe('displayArticle', () => {
-  const dispatchAction = articleId => {
+  const dispatchAction = (articleId) => {
     const store = mockStore()
 
     store.dispatch(actions.displayArticle(articleId))
@@ -116,8 +116,8 @@ describe('displayArticle', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: types.GET_ARTICLE_REQUEST_SENT
-      }
+        type: types.GET_ARTICLE_REQUEST_SENT,
+      },
     ])
   })
 
@@ -127,7 +127,7 @@ describe('displayArticle', () => {
     expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
-        path: '/api/v2/help_center/articles/123.json'
+        path: '/api/v2/help_center/articles/123.json',
       }),
       false
     )
@@ -140,7 +140,7 @@ describe('displayArticle', () => {
     expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: false,
-        useHostMappingIfAvailable: false
+        useHostMappingIfAvailable: false,
       }),
       false
     )
@@ -153,13 +153,13 @@ describe('displayArticle', () => {
     expect(http.get).toHaveBeenCalledWith(
       expect.objectContaining({
         forceHttp: true,
-        useHostMappingIfAvailable: true
+        useHostMappingIfAvailable: true,
       }),
       false
     )
   })
 
-  const asyncDispatchAction = async articleId => {
+  const asyncDispatchAction = async (articleId) => {
     const store = mockStore()
 
     await store.dispatch(actions.displayArticle(articleId))
@@ -177,13 +177,13 @@ describe('displayArticle', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: types.GET_ARTICLE_REQUEST_FAILURE,
-      payload: 'something bad happened'
+      payload: 'something bad happened',
     })
   })
 
   it('dispatches expected action on successful request', async () => {
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve({ body: { article: 'blah' } })
       })
     })
@@ -191,7 +191,7 @@ describe('displayArticle', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: types.GET_ARTICLE_REQUEST_SUCCESS,
-      payload: 'blah'
+      payload: 'blah',
     })
   })
 })
@@ -205,8 +205,8 @@ describe('setContextualSuggestionsManually', () => {
     expect(store.getActions()).toEqual([
       {
         payload: options,
-        type: types.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
-      }
+        type: types.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
+      },
     ])
   })
 
@@ -220,7 +220,7 @@ describe('setContextualSuggestionsManually', () => {
       jest.spyOn(helpCenterSelectors, 'getContextualHelpRequestNeeded').mockReturnValue(true)
       jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
       jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
-        query: 'help'
+        query: 'help',
       })
       jest.spyOn(settingsSelectors, 'getSettingsHelpCenterFilter').mockReturnValue(null)
       jest.spyOn(helpCenterSelectors, 'getLastSearchTimestamp').mockReturnValue(1)
@@ -234,11 +234,11 @@ describe('setContextualSuggestionsManually', () => {
 
       expect(dispatchedActions[0]).toEqual({
         payload: options,
-        type: types.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
+        type: types.CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
       })
       expect(dispatchedActions[1]).toEqual(
         expect.objectContaining({
-          type: types.CONTEXTUAL_SEARCH_REQUEST_SENT
+          type: types.CONTEXTUAL_SEARCH_REQUEST_SENT,
         })
       )
     })
@@ -247,7 +247,7 @@ describe('setContextualSuggestionsManually', () => {
       store.dispatch(actions.setContextualSuggestionsManually(options, callback))
       expect(http.get).toHaveBeenCalledWith(
         expect.objectContaining({
-          path: '/api/v2/help_center/articles/embeddable_search.json'
+          path: '/api/v2/help_center/articles/embeddable_search.json',
         })
       )
     })
@@ -276,10 +276,10 @@ describe('performSearch', () => {
       {
         payload: {
           searchTerm: 'help',
-          timestamp: 1234
+          timestamp: 1234,
         },
-        type: types.SEARCH_REQUEST_SENT
-      }
+        type: types.SEARCH_REQUEST_SENT,
+      },
     ])
   })
 
@@ -296,8 +296,8 @@ describe('performSearch', () => {
           x: 123,
           locale: '',
           origin: 'web_widget',
-          per_page: 9
-        }
+          per_page: 9,
+        },
       })
     )
   })
@@ -309,14 +309,14 @@ describe('performSearch', () => {
           results: [
             {
               locale: 'fr',
-              text: 'blah'
-            }
+              text: 'blah',
+            },
           ],
-          count: 1
-        }
+          count: 1,
+        },
       }
       http.get = jest.fn(() => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(response)
         })
       })
@@ -330,9 +330,9 @@ describe('performSearch', () => {
           articles: [{ locale: 'fr', text: 'blah' }],
           locale: 'fr',
           resultsCount: 1,
-          isFallback: false
+          isFallback: false,
         },
-        type: types.SEARCH_REQUEST_SUCCESS
+        type: types.SEARCH_REQUEST_SUCCESS,
       })
 
       expect(doneFn).toHaveBeenCalled()
@@ -345,14 +345,14 @@ describe('performSearch', () => {
           results: [
             {
               locale: 'fr',
-              text: 'blah'
-            }
+              text: 'blah',
+            },
           ],
-          count: 1
-        }
+          count: 1,
+        },
       }
       http.get = jest.fn(() => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(response)
         })
       })
@@ -368,11 +368,11 @@ describe('performSearch', () => {
       const response = {
         body: {
           results: [],
-          count: 0
-        }
+          count: 0,
+        },
       }
       http.get = jest.fn(() => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(response)
         })
       })
@@ -475,10 +475,10 @@ describe('performContextualSearch', () => {
       {
         payload: {
           searchTerm: 'help',
-          timestamp: 1234
+          timestamp: 1234,
         },
-        type: types.CONTEXTUAL_SEARCH_REQUEST_SENT
-      }
+        type: types.CONTEXTUAL_SEARCH_REQUEST_SENT,
+      },
     ])
   })
 
@@ -494,8 +494,8 @@ describe('performContextualSearch', () => {
           query: 'help',
           x: 123,
           per_page: 3, // eslint-disable-line camelcase
-          locale: 'fil'
-        }
+          locale: 'fil',
+        },
       })
     )
   })
@@ -507,14 +507,14 @@ describe('performContextualSearch', () => {
           results: [
             {
               locale: 'fr',
-              text: 'blah'
-            }
+              text: 'blah',
+            },
           ],
-          count: 1
-        }
+          count: 1,
+        },
       }
       http.get = jest.fn(() => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(response)
         })
       })
@@ -528,9 +528,9 @@ describe('performContextualSearch', () => {
         payload: {
           articles: [{ locale: 'fr', text: 'blah' }],
           locale: 'fr',
-          resultsCount: 1
+          resultsCount: 1,
         },
-        type: types.CONTEXTUAL_SEARCH_REQUEST_SUCCESS
+        type: types.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
       })
 
       expect(doneFn).toHaveBeenCalled()
@@ -543,14 +543,14 @@ describe('performContextualSearch', () => {
           results: [
             {
               locale: 'fr',
-              text: 'blah'
-            }
+              text: 'blah',
+            },
           ],
-          count: 1
-        }
+          count: 1,
+        },
       }
       http.get = jest.fn(() => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(response)
         })
       })
@@ -576,7 +576,7 @@ describe('performContextualSearch', () => {
 
       wait(await store.dispatch(actions.performContextualSearch(doneFn, failFn)))
       expect(store.getActions()[1]).toEqual({
-        type: 'widget/helpCenter/CONTEXTUAL_SEARCH_REQUEST_FAILURE'
+        type: 'widget/helpCenter/CONTEXTUAL_SEARCH_REQUEST_FAILURE',
       })
 
       expect(failFn).toHaveBeenCalled()
@@ -628,14 +628,14 @@ describe('contextualSearch', () => {
       it('performs contextual search if auth passed', () => {
         jest.spyOn(helpCenterLinkedSelectors, 'getHasPassedAuth').mockReturnValue(true)
         jest.spyOn(helpCenterSelectors, 'getSearchQuery').mockReturnValue({
-          query: 'help'
+          query: 'help',
         })
         const store = dispatchAction()
 
         expect(store.getActions()).toEqual([
           expect.objectContaining({
-            type: types.CONTEXTUAL_SEARCH_REQUEST_SENT
-          })
+            type: types.CONTEXTUAL_SEARCH_REQUEST_SENT,
+          }),
         ])
       })
     })
@@ -649,10 +649,10 @@ describe('contextualSearch', () => {
         expect(store.getActions()).toEqual([
           {
             payload: {
-              performContextualSearch: {}
+              performContextualSearch: {},
             },
-            type: baseActionTypes.UPDATE_QUEUE
-          }
+            type: baseActionTypes.UPDATE_QUEUE,
+          },
         ])
       })
     })
@@ -675,7 +675,7 @@ describe('setUpHelpCenterAuth', () => {
     const store = dispatchAction()
 
     expect(store.getActions()[0]).toEqual({
-      type: baseActionTypes.AUTHENTICATION_TOKEN_NOT_REVOKED
+      type: baseActionTypes.AUTHENTICATION_TOKEN_NOT_REVOKED,
     })
   })
 
@@ -688,7 +688,7 @@ describe('setUpHelpCenterAuth', () => {
 
   it('dispatches an authentication event if a jwtFn exists in settings', () => {
     jest.spyOn(settings, 'getAuthSettingsJwt').mockReturnValue(null)
-    jest.spyOn(settings, 'getAuthSettingsJwtFn').mockReturnValue(cb => cb('123'))
+    jest.spyOn(settings, 'getAuthSettingsJwtFn').mockReturnValue((cb) => cb('123'))
     jest.spyOn(helpCenterSelectors, 'getTokensRevokedAt').mockReturnValue(null)
     const store = dispatchAction()
 

@@ -1,12 +1,12 @@
 import {
   CHAT_BADGE_MINIMIZED,
   BADGE_SHOW_RECEIVED,
-  BADGE_HIDE_RECEIVED
+  BADGE_HIDE_RECEIVED,
 } from '../base-action-types'
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
-  SDK_CHAT_REQUEST_RATING
+  SDK_CHAT_REQUEST_RATING,
 } from 'src/redux/modules/chat/chat-action-types'
 
 import { CHAT_MSG_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'

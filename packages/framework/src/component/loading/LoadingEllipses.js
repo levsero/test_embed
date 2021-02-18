@@ -10,13 +10,13 @@ export class LoadingEllipses extends Component {
   static propTypes = {
     className: PropTypes.string,
     itemClassName: PropTypes.string,
-    useUserColor: PropTypes.bool
+    useUserColor: PropTypes.bool,
   }
 
   static defaultProps = {
     className: '',
     itemClassName: '',
-    useUserColor: true
+    useUserColor: true,
   }
 
   render = () => {

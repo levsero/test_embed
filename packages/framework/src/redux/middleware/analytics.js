@@ -4,14 +4,14 @@ import { UPDATE_WIDGET_SHOWN, UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base
 import {
   SEARCH_REQUEST_SUCCESS,
   ARTICLE_VIEWED,
-  ORIGINAL_ARTICLE_CLICKED
+  ORIGINAL_ARTICLE_CLICKED,
 } from 'embeds/helpCenter/actions/action-types'
 import {
   SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
-  PRE_CHAT_FORM_SUBMIT
+  PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
 import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
@@ -21,7 +21,7 @@ import { getActiveEmbed, getWebWidgetOpen } from 'src/redux/modules/base/base-se
 import { isAgent } from 'src/util/chat'
 import {
   TICKET_SUBMISSION_REQUEST_SUCCESS,
-  FORM_OPENED
+  FORM_OPENED,
 } from 'src/embeds/support/actions/action-types'
 import { CAPABILTY_NAMES } from 'src/embeds/talk/constants'
 import { USER_EVENT } from 'constants/event'
@@ -47,7 +47,7 @@ const track = (action, label, category = GA_CATEGORY) => {
   GA.track(action, label, category)
 }
 
-const trackChatShown = embed => {
+const trackChatShown = (embed) => {
   track('Chat Opened')
   track(embedAction[embed])
 }
@@ -58,20 +58,20 @@ const trackTalkShown = (embed, state) => {
   track(embedAction[embed], { contactOption: capability })
 }
 
-const defaultTracker = embed => {
+const defaultTracker = (embed) => {
   track(embedAction[embed])
 }
 
 const embedTracker = {
   chat: trackChatShown,
   helpCenterForm: defaultTracker,
-  talk: trackTalkShown
+  talk: trackTalkShown,
 }
 
 const embedAction = {
   chat: 'Chat Shown',
   helpCenterForm: 'Help Center Shown',
-  talk: 'Talk Shown'
+  talk: 'Talk Shown',
 }
 
 const trackEmbedShownOnUpdateEmbed = ({ payload, prevState }) => {
@@ -84,7 +84,7 @@ const trackEmbedShownOnUpdateEmbed = ({ payload, prevState }) => {
   }
 }
 
-const trackEmbedOnOpen = state => {
+const trackEmbedOnOpen = (state) => {
   const embed = getActiveEmbed(state)
   const tracker = embedTracker[embed]
   if (tracker) tracker(embed, state)
@@ -178,11 +178,11 @@ const events = {
   [ARTICLE_VIEWED]: trackArticleViewed,
   [ORIGINAL_ARTICLE_CLICKED]: trackViewOriginalArticleClicked,
   [TICKET_SUBMISSION_REQUEST_SUCCESS]: trackTicketSubmitted,
-  [TALK_CALLBACK_SUCCESS]: trackTalkCallbackRequest
+  [TALK_CALLBACK_SUCCESS]: trackTalkCallbackRequest,
 }
 
 export function trackAnalytics({ getState }) {
-  return next => action => {
+  return (next) => (action) => {
     const { type, payload } = action
     const prevState = getState()
     analyticsDisabled = getAnalyticsDisabled(prevState)

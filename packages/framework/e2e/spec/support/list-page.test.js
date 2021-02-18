@@ -5,7 +5,7 @@ import {
   mockTicketFormsEndpoint,
   createField,
   createForm,
-  waitForContactForm
+  waitForContactForm,
 } from 'e2e/helpers/support-embed'
 import { queryAllByText } from 'e2e/helpers/queries'
 
@@ -16,42 +16,42 @@ describe('support list page', () => {
         name: 'Example form 1',
         id: 123,
         fields: [createField({ type: 'checkbox' })],
-        active: true
+        active: true,
       })
       const form2 = createForm({
         name: 'Example form 2',
         id: 456,
         fields: [createField({ type: 'text' })],
-        active: false
+        active: false,
       })
       const form3 = createForm({
         name: 'Example form 3',
         id: 789,
         fields: [createField({ type: 'text' })],
-        active: true
+        active: true,
       })
 
       const mockConfigWithForms = {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
+              ticketFormsEnabled: true,
+            },
+          },
+        },
       }
 
       const mockFormsResponse = {
         ticket_forms: [
           ...form1.mockFormsResponse.ticket_forms,
           ...form2.mockFormsResponse.ticket_forms,
-          ...form3.mockFormsResponse.ticket_forms
+          ...form3.mockFormsResponse.ticket_forms,
         ],
         ticket_fields: [
           ...form1.mockFormsResponse.ticket_fields,
           ...form2.mockFormsResponse.ticket_fields,
-          ...form3.mockFormsResponse.ticket_fields
-        ]
+          ...form3.mockFormsResponse.ticket_fields,
+        ],
       }
 
       await loadWidget()

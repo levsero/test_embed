@@ -17,7 +17,7 @@ const getEventText = (event, translate) => {
     case 'chat.memberjoin':
       return isAgent
         ? translate('embeddable_framework.chat.chatLog.agentJoined', {
-            agent: event.display_name
+            agent: event.display_name,
           })
         : translate('embeddable_framework.chat.chatLog.chatStarted')
 
@@ -73,23 +73,19 @@ EventMessage.propTypes = {
     timestamp: PropTypes.number,
     nick: PropTypes.string,
     type: PropTypes.string,
-    display_name: PropTypes.string
+    display_name: PropTypes.string,
   }),
   children: PropTypes.node,
   divider: PropTypes.node,
-  chatLogCreatedAt: PropTypes.number
+  chatLogCreatedAt: PropTypes.number,
 }
 
 const mapStateToProps = (state, props) => ({
   event: props.isHistory
     ? getHistoryEventMessage(state, props.eventKey)
-    : getEventMessage(state, props.eventKey)
+    : getEventMessage(state, props.eventKey),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  {},
-  null
-)(EventMessage)
+const connectedComponent = connect(mapStateToProps, {}, null)(EventMessage)
 
 export { connectedComponent as default, EventMessage as Component }

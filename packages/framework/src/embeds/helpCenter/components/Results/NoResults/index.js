@@ -8,7 +8,7 @@ import { getShowNextButton } from 'src/redux/modules/selectors'
 import {
   getSearchFailed,
   getPreviousSearchTerm,
-  shouldShowContextualResults
+  shouldShowContextualResults,
 } from 'embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 
@@ -18,7 +18,7 @@ const NoResults = ({
   previousSearchTerm,
   showNextButton,
   locale,
-  shouldShowContextualResults
+  shouldShowContextualResults,
 }) => {
   return shouldShowContextualResults ? (
     <ContextualNoResultsMessage locale={locale} isMobile={isMobile} />
@@ -39,7 +39,7 @@ NoResults.propTypes = {
   previousSearchTerm: PropTypes.string,
   showNextButton: PropTypes.bool,
   locale: PropTypes.string,
-  shouldShowContextualResults: PropTypes.bool
+  shouldShowContextualResults: PropTypes.bool,
 }
 
 NoResults.defaultProps = {
@@ -47,17 +47,17 @@ NoResults.defaultProps = {
   searchFailed: false,
   previousSearchTerm: '',
   showNextButton: false,
-  locale: ''
+  locale: '',
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isMobile: isMobileBrowser(),
     searchFailed: getSearchFailed(state),
     previousSearchTerm: getPreviousSearchTerm(state),
     showNextButton: getShowNextButton(state),
     locale: getLocale(state),
-    shouldShowContextualResults: shouldShowContextualResults(state)
+    shouldShowContextualResults: shouldShowContextualResults(state),
   }
 }
 

@@ -12,7 +12,7 @@ const SubmissionError = ({ message }) => {
 }
 
 SubmissionError.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
 }
 
 export default SubmissionError

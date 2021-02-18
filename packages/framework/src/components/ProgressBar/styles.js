@@ -3,8 +3,8 @@ import { zdColorGrey300, zdColorGreen500 } from '@zendeskgarden/css-variables'
 
 const Container = styled.div`
   background-color: ${zdColorGrey300};
-  border-radius: ${props => 4 / props.theme.fontSize}rem;
-  margin-top: ${props => 5 / props.theme.fontSize}rem;
+  border-radius: ${(props) => 4 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 5 / props.theme.fontSize}rem;
 `
 
 const growWidth = keyframes`
@@ -17,12 +17,12 @@ const growWidth = keyframes`
 `
 
 const Progress = styled.div`
-  height: ${props => 5 / props.theme.fontSize}rem;
+  height: ${(props) => 5 / props.theme.fontSize}rem;
   background-color: ${zdColorGreen500};
-  border-radius: ${props => 4 / props.theme.fontSize}rem;
-  width: ${props => props.percentLoaded};
+  border-radius: ${(props) => 4 / props.theme.fontSize}rem;
+  width: ${(props) => props.percentLoaded};
 
-  ${props =>
+  ${(props) =>
     props.fakeProgress &&
     css`
       animation: ${growWidth} 7s ease-out;

@@ -10,7 +10,7 @@ import RemoveIcon from '@zendeskgarden/svg-icons/src/14/remove.svg'
 export const CtaContainer = styled.div`
   padding-bottom: ${20 / FONT_SIZE}rem !important;
 
-  ${showOnlyLeftCta =>
+  ${(showOnlyLeftCta) =>
     showOnlyLeftCta
       ? `justify-content: center !important;
     display: flex !important;`
@@ -62,7 +62,7 @@ export const CtaButtonLeft = styled(Button)`
     margin-left: ${12 / FONT_SIZE}rem !important;
   }`}
   ${isMobileBrowser() &&
-    `
+  `
     height: ${35 / FONT_SIZE}rem;
     border-radius: ${4 / FONT_SIZE}rem;`}
 `
@@ -73,7 +73,7 @@ export const CtaButtonRight = styled(Button)`
   text-overflow: ellipsis;
   max-width: calc(50% - ${26 / FONT_SIZE}rem);
   ${isMobileBrowser() &&
-    `
+  `
   height: ${35 / FONT_SIZE}rem;
   border-radius: ${4 / FONT_SIZE}rem;`}
 `
@@ -81,7 +81,7 @@ export const CtaButtonRight = styled(Button)`
 export const CloseIcon = styled(RemoveIcon)`
   cursor: pointer !important;
   position: absolute !important;
-  color: ${props => props.theme.baseColor};
+  color: ${(props) => props.theme.baseColor};
   top: ${10 / FONT_SIZE}rem;
 
   [dir='ltr'] & {

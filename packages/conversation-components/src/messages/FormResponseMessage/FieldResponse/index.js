@@ -6,7 +6,7 @@ import SelectResponse from './SelectResponse'
 const fields = {
   text: TextResponse,
   email: EmailResponse,
-  select: SelectResponse
+  select: SelectResponse,
 }
 
 const FieldResponse = ({ field }) => {
@@ -21,8 +21,8 @@ const FieldResponse = ({ field }) => {
 
 FieldResponse.propTypes = {
   field: PropTypes.shape({
-    type: PropTypes.oneOf(Object.keys(fields))
-  })
+    type: PropTypes.oneOf(Object.keys(fields)),
+  }),
 }
 
 export default FieldResponse

@@ -11,7 +11,7 @@ const FormField = ({
   isReadOnly,
   isPreview,
   errorMessageKey,
-  extraFieldOptions
+  extraFieldOptions,
 }) => {
   const Field = getField(field.type, extraFieldOptions)
 
@@ -36,11 +36,11 @@ FormField.propTypes = {
   isReadOnly: PropTypes.bool,
   isPreview: PropTypes.bool,
   errorMessageKey: PropTypes.number,
-  extraFieldOptions: PropTypes.objectOf(PropTypes.elementType)
+  extraFieldOptions: PropTypes.objectOf(PropTypes.elementType),
 }
 
 FormField.defaultProps = {
-  isReadOnly: false
+  isReadOnly: false,
 }
 
 export default FormField

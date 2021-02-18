@@ -9,12 +9,12 @@ describe('chat ratings', () => {
         ratings: {
           GOOD: 'good',
           BAD: 'bad',
-          NOT_SET: null
-        }
+          NOT_SET: null,
+        },
       },
       'src/util/chat': {
-        isAgent: () => mockIsAgent
-      }
+        isAgent: () => mockIsAgent,
+      },
     })
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-rating')
@@ -39,7 +39,7 @@ describe('chat ratings', () => {
         expect(initialState).toEqual({
           value: null,
           disableEndScreen: false,
-          comment: null
+          comment: null,
         })
       })
     })
@@ -49,14 +49,14 @@ describe('chat ratings', () => {
       const expectedState = {
         value: payload,
         comment: null,
-        disableEndScreen: false
+        disableEndScreen: false,
       }
 
       describe('when the initial state is empty', () => {
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -69,13 +69,13 @@ describe('chat ratings', () => {
         const initialState = {
           value: 'good',
           comment: 'a previous ratings comment',
-          disableEndScreen: false
+          disableEndScreen: false,
         }
 
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -88,20 +88,20 @@ describe('chat ratings', () => {
     describe('when a SDK_CHAT_RATING action is dispatched', () => {
       const payload = {
         detail: {
-          new_rating: 'bad'
-        }
+          new_rating: 'bad',
+        },
       }
       const expectedState = {
         value: 'bad',
         comment: null,
-        disableEndScreen: false
+        disableEndScreen: false,
       }
 
       describe('when the initial state is empty', () => {
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_RATING,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -114,13 +114,13 @@ describe('chat ratings', () => {
         const initialState = {
           value: 'good',
           comment: 'a previous ratings comment',
-          disableEndScreen: false
+          disableEndScreen: false,
         }
 
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_RATING,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -136,13 +136,13 @@ describe('chat ratings', () => {
       const expectedState = {
         comment: payload,
         value: null,
-        disableEndScreen: false
+        disableEndScreen: false,
       }
 
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -154,20 +154,20 @@ describe('chat ratings', () => {
     describe('when a SDK_CHAT_COMMENT action is dispatched', () => {
       const payload = {
         detail: {
-          new_comment: 'Great work!'
-        }
+          new_comment: 'Great work!',
+        },
       }
 
       const expectedState = {
         comment: 'Great work!',
         value: null,
-        disableEndScreen: false
+        disableEndScreen: false,
       }
 
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.SDK_CHAT_COMMENT,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -181,7 +181,7 @@ describe('chat ratings', () => {
         state = reducer(
           {},
           {
-            type: actionTypes.END_CHAT_REQUEST_SUCCESS
+            type: actionTypes.END_CHAT_REQUEST_SUCCESS,
           }
         )
       })
@@ -194,13 +194,13 @@ describe('chat ratings', () => {
     describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
       let payload
       const randomState = {
-        yolo: 'yolo'
+        yolo: 'yolo',
       }
 
       beforeEach(() => {
         state = reducer(randomState, {
           type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-          payload
+          payload,
         })
       })
 
@@ -209,8 +209,8 @@ describe('chat ratings', () => {
           mockIsAgent = true
           payload = {
             detail: {
-              nick: 'agent:123'
-            }
+              nick: 'agent:123',
+            },
           }
         })
 
@@ -224,8 +224,8 @@ describe('chat ratings', () => {
           mockIsAgent = false
           payload = {
             detail: {
-              nick: 'visitor'
-            }
+              nick: 'visitor',
+            },
           }
         })
 
@@ -240,7 +240,7 @@ describe('chat ratings', () => {
         state = reducer(
           {},
           {
-            type: actionTypes.CHAT_RECONNECT
+            type: actionTypes.CHAT_RECONNECT,
           }
         )
       })
@@ -253,7 +253,7 @@ describe('chat ratings', () => {
     describe('when a UPDATE_PREVIEWER_SCREEN action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_PREVIEWER_SCREEN
+          type: actionTypes.UPDATE_PREVIEWER_SCREEN,
         })
       })
 

@@ -18,12 +18,12 @@ export class LauncherContainer extends Component {
       marginTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       marginRight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       width: PropTypes.string,
-      height: PropTypes.string
-    })
+      height: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
-    webWidgetVisible: false
+    webWidgetVisible: false,
   }
 
   constructor(props) {
@@ -39,7 +39,7 @@ export class LauncherContainer extends Component {
 
     return (
       <Frame
-        ref={el => {
+        ref={(el) => {
           if (el) this.frame = el
         }}
         rawCSS={`

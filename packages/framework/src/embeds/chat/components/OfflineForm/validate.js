@@ -36,16 +36,16 @@ const fieldValidation = {
     if (field.required && !value) {
       return 'embeddable_framework.validation.error.message'
     }
-  }
+  },
 }
 
 const validate = ({ values, fields }) => {
   const errors = {}
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     const errorMessage = fieldValidation[field.id]?.({
       value: values[field.id],
-      field
+      field,
     })
 
     if (errorMessage) {

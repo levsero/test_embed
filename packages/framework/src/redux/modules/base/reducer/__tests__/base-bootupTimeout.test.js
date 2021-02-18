@@ -5,15 +5,15 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(bootupTimeout, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: BOOT_UP_TIMER_COMPLETE },
-    expected: true
-  }
+    expected: true,
+  },
 ])

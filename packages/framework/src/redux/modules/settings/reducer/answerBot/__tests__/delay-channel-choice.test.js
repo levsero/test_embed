@@ -10,7 +10,7 @@ const reduce = (payload, customState) => {
 
   return reducer(state, {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -24,9 +24,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       const payload = {
         webWidget: {
           answerBot: {
-            contactOnlyAfterQuery: true
-          }
-        }
+            contactOnlyAfterQuery: true,
+          },
+        },
       }
 
       expect(reduce(payload)).toEqual(true)
@@ -38,9 +38,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       const payload = {
         webWidget: {
           answerBot: {
-            contactOnlyAfterQuery: false
-          }
-        }
+            contactOnlyAfterQuery: false,
+          },
+        },
       }
 
       expect(reduce(payload, true)).toEqual(false)
@@ -51,9 +51,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
         const payload = {
           webWidget: {
             answerBot: {
-              title: 'false'
-            }
-          }
+              title: 'false',
+            },
+          },
         }
 
         expect(reduce(payload, true)).toEqual(true)

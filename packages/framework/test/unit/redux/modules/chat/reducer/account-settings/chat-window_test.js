@@ -37,24 +37,24 @@ describe('chat reducer accountSettings chatWindow', () => {
           mockTitle = 'My custom title'
 
           const mockTitleBar = {
-            title: { toString: () => mockTitle }
+            title: { toString: () => mockTitle },
           }
 
           settings = {
             chat_window: {
-              title_bar: mockTitleBar
-            }
+              title_bar: mockTitleBar,
+            },
           }
 
           state = reducer(initialState, {
             type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-            payload: settings
+            payload: settings,
           })
         })
 
         it('sets the action payload as the state', () => {
           const expected = {
-            title: mockTitle
+            title: mockTitle,
           }
 
           expect(state).toEqual(expected)
@@ -66,24 +66,24 @@ describe('chat reducer accountSettings chatWindow', () => {
           mockTitle = null
 
           const mockTitleBar = {
-            title: mockTitle
+            title: mockTitle,
           }
 
           settings = {
             chat_window: {
-              title_bar: mockTitleBar
-            }
+              title_bar: mockTitleBar,
+            },
           }
 
           state = reducer(initialState, {
             type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-            payload: settings
+            payload: settings,
           })
         })
 
         it('sets the title to empty string in the state', () => {
           const expected = {
-            title: ''
+            title: '',
           }
 
           expect(state).toEqual(expected)
@@ -98,24 +98,24 @@ describe('chat reducer accountSettings chatWindow', () => {
         mockTitle = 'My custom title'
 
         const mockTitleBar = {
-          title: { toString: () => mockTitle }
+          title: { toString: () => mockTitle },
         }
 
         settings = {
           chat_window: {
-            title_bar: mockTitleBar
-          }
+            title_bar: mockTitleBar,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
 
       it('sets the action payload as the state', () => {
         const expected = {
-          title: mockTitle
+          title: mockTitle,
         }
 
         expect(state).toEqual(expected)

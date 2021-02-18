@@ -3,7 +3,7 @@ import React from 'react'
 
 import { ButtonNav } from '../ButtonNav'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const label = <span>this is a label</span>
 
   return render(<ButtonNav aria-label="blah" label={label} isMobile={false} {...props} />)

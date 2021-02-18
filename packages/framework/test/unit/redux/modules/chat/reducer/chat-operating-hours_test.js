@@ -28,7 +28,7 @@ describe('chat reducer: operatingHours', () => {
 
         state = reducer(initialState, {
           type: actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS,
-          payload: payload
+          payload: payload,
         })
       })
 

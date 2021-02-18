@@ -11,7 +11,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     isAuthenticated: false,
     submitting: false,
-    updateContactDetailsVisibility
+    updateContactDetailsVisibility,
   }
   return render(
     <Modal>

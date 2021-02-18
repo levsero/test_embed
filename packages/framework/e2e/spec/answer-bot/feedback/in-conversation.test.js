@@ -6,7 +6,7 @@ import {
   mockInteractionEndpoint,
   mockViewedEndpoint,
   mockResolutionEndpoint,
-  mockRejectionEndpoint
+  mockRejectionEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 
 const resolutionEndpoint = jest.fn(),
@@ -20,7 +20,7 @@ const buildWidget = () =>
     .intercept(mockResolutionEndpoint(resolutionEndpoint))
     .intercept(mockRejectionEndpoint(rejectionEndpoint))
 
-const goToArticle = async title => {
+const goToArticle = async (title) => {
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')

@@ -7,11 +7,11 @@ import StructuredMessage from './StructuredMessage'
 export default class Carousel extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
   }
 
   static defaultProps = {
-    isMobile: false
+    isMobile: false,
   }
 
   render() {

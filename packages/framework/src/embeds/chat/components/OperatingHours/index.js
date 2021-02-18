@@ -21,13 +21,13 @@ const OperatingHours = ({ operatingHours, handleOfflineFormBack, locale }) => {
 
   const getSelectedDepartmentSchedule = () => {
     const { department_schedule: schedule } = operatingHours
-    return _.find(schedule, department => {
+    return _.find(schedule, (department) => {
       return department.id.toString() === selectedDepartment
     }).schedule
   }
 
   const title = translate('embeddable_framework.chat.operatingHours.label.title', {
-    timezone: `<span>(${operatingHours.timezone})</span>`
+    timezone: `<span>(${operatingHours.timezone})</span>`,
   })
 
   const schedule = selectedDepartment
@@ -55,7 +55,7 @@ const OperatingHours = ({ operatingHours, handleOfflineFormBack, locale }) => {
 OperatingHours.propTypes = {
   operatingHours: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-  handleOfflineFormBack: PropTypes.func.isRequired
+  handleOfflineFormBack: PropTypes.func.isRequired,
 }
 
 export default OperatingHours

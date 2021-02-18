@@ -9,7 +9,7 @@ import { articleDismissed } from 'src/embeds/answerBot/actions/article'
 import {
   botFeedbackMessage,
   botUserMessage,
-  botFallbackMessage
+  botFallbackMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
 import { sessionFallback } from 'src/embeds/answerBot/actions/sessions'
 import { Container, Option } from './styles'

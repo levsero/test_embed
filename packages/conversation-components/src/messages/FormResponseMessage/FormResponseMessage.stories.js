@@ -1,7 +1,7 @@
 import FormResponseMessage from './'
 import {
   MessageLogListDecorator,
-  MessengerContainerDecorator
+  MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
 import { MESSAGE_STATUS } from 'src'
 
@@ -14,18 +14,18 @@ export default {
       defaultValue: MESSAGE_STATUS.sent,
       control: {
         type: 'inline-radio',
-        options: Object.values(MESSAGE_STATUS)
-      }
-    }
-  }
+        options: Object.values(MESSAGE_STATUS),
+      },
+    },
+  },
 }
 
-const Template = args => <FormResponseMessage {...args} />
+const Template = (args) => <FormResponseMessage {...args} />
 const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
 const defaultProps = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
-  timeReceived: timeNowInSeconds
+  timeReceived: timeNowInSeconds,
 }
 
 export const TextFieldOnlyFormResponse = Template.bind()
@@ -36,28 +36,28 @@ TextFieldOnlyFormResponse.args = {
       _id: 'asdf87asdf76as8d7f6ds7af876',
       label: 'Your first name',
       text: 'Cordelia',
-      type: 'text'
+      type: 'text',
     },
     {
       _id: 'asd87sd897s897ds8d79',
       label: 'Your last name',
       text: 'the greyhound',
-      type: 'text'
+      type: 'text',
     },
     {
       _id: 'asd87sd897s897ds8d89',
       label: 'email address',
       email: 'greyhounds@zendesk.com',
-      type: 'email'
+      type: 'email',
     },
     {
       _id: 'asd87sd897s897ds8d792',
       label: 'favourite teams',
       select: [
         { _id: 'asd87sd897s897ds8d71', label: 'taipan' },
-        { _id: 'asd87sd897s897ds8d72', label: 'emu' }
+        { _id: 'asd87sd897s897ds8d72', label: 'emu' },
       ],
-      type: 'select'
-    }
-  ]
+      type: 'select',
+    },
+  ],
 }

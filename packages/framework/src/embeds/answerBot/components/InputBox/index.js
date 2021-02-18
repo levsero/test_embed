@@ -12,16 +12,16 @@ const InputBox = ({
   placeholder,
   handleSendInputValue,
   updateInputValue,
-  isMobile
+  isMobile,
 }) => {
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault()
       handleSendInputValue()
     }
   }
 
-  const handleInputValueChanged = e => {
+  const handleInputValueChanged = (e) => {
     const { value } = e.target
     updateInputValue(value)
   }
@@ -50,7 +50,7 @@ InputBox.propTypes = {
   placeholder: PropTypes.string.isRequired,
   handleSendInputValue: PropTypes.func.isRequired,
   updateInputValue: PropTypes.func,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
 }
 
 export default InputBox

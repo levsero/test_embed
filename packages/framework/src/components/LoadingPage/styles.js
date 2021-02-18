@@ -9,5 +9,5 @@ export const CenteredDiv = styled.div`
 `
 
 export const LoadingSpinner = styled(Spinner)`
-  color: ${props => props.theme.baseColor} !important;
+  color: ${(props) => props.theme.baseColor} !important;
 `

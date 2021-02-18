@@ -9,10 +9,10 @@ test('sets the ticket form title based on config', async () => {
       embeds: {
         ticketSubmissionForm: {
           props: {
-            formTitleKey: 'contact'
-          }
-        }
-      }
+            formTitleKey: 'contact',
+          },
+        },
+      },
     })
     .load()
   await launcher.click()

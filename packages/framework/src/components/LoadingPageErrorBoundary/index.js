@@ -28,9 +28,9 @@ export default class LoadingPageErrorBoundary extends Component {
 }
 
 LoadingPageErrorBoundary.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 LoadingPageErrorBoundary.defaultProps = {
-  children: []
+  children: [],
 }

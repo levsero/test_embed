@@ -1,12 +1,12 @@
 import { css } from 'styled-components'
 
 const swap = (ltrValue = '', rtlValue = '') => {
-  return props => (props.theme.rtl ? rtlValue : ltrValue)
+  return (props) => (props.theme.rtl ? rtlValue : ltrValue)
 }
 
-const left = props => swap('left', 'right')(props)
+const left = (props) => swap('left', 'right')(props)
 
-const right = props => swap('right', 'left')(props)
+const right = (props) => swap('right', 'left')(props)
 
 const borderRadius = (topLeft, topRight, bottomRight, bottomLeft) => {
   return css`
@@ -17,9 +17,9 @@ const borderRadius = (topLeft, topRight, bottomRight, bottomLeft) => {
   `
 }
 
-const ltrOnly = styles => props => (!props.theme.rtl ? styles : '')
+const ltrOnly = (styles) => (props) => (!props.theme.rtl ? styles : '')
 
-const rtlOnly = styles => props => (props.theme.rtl ? styles : '')
+const rtlOnly = (styles) => (props) => (props.theme.rtl ? styles : '')
 
 const dirStyles = {
   borderRadius,
@@ -27,7 +27,7 @@ const dirStyles = {
   right,
   swap,
   ltrOnly,
-  rtlOnly
+  rtlOnly,
 }
 
 export default dirStyles

@@ -43,7 +43,7 @@ const EndChatModal = ({ endChatViaPostChatScreen, onClose }) => {
 
 EndChatModal.propTypes = {
   endChatViaPostChatScreen: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 }
 
 export default EndChatModal

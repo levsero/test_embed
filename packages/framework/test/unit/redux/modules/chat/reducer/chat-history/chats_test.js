@@ -9,8 +9,8 @@ describe('chat reducer chatHistory chats', () => {
   beforeEach(() => {
     initMockRegistry({
       'constants/chat': {
-        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS
-      }
+        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS,
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -32,12 +32,12 @@ describe('chat reducer chatHistory chats', () => {
           detail = {
             timestamp: Date.now(),
             nick: 'visitor 136248723',
-            display_name: 'Mr Abc'
+            display_name: 'Mr Abc',
           }
 
           state = reducer(initialState, {
             type: chatActionTypes.SDK_HISTORY_CHAT_MSG,
-            payload: { detail }
+            payload: { detail },
           })
         })
 
@@ -58,13 +58,13 @@ describe('chat reducer chatHistory chats', () => {
               attachment: {
                 name: 'file',
                 size: 1,
-                mime_type: 'some/file'
-              }
+                mime_type: 'some/file',
+              },
             }
 
             state = reducer(initialState, {
               type: 'websdk/history/chat.file',
-              payload: { detail }
+              payload: { detail },
             })
           })
 
@@ -84,13 +84,13 @@ describe('chat reducer chatHistory chats', () => {
               attachment: {
                 name: 'file',
                 size: 1,
-                mime_type: 'some/file'
-              }
+                mime_type: 'some/file',
+              },
             }
 
             state = reducer(initialState, {
               type: 'websdk/history/chat.file',
-              payload: { detail }
+              payload: { detail },
             })
           })
 

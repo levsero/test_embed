@@ -6,7 +6,7 @@ const webWidgetApi = {
   apisExecutePostRenderQueue,
   legacyApiSetup,
   setupLegacyApiQueue,
-  apiSetup
+  apiSetup,
 }
 
 export default webWidgetApi

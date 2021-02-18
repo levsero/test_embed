@@ -2,13 +2,13 @@ import _ from 'lodash'
 import {
   getDefaultFormFields,
   getPrechatFormFields,
-  getPrechatFormSettings
+  getPrechatFormSettings,
 } from 'src/redux/modules/selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getSettingsChatDepartment,
   getSettingsChatDepartmentsEnabled,
-  getSettingsChatPrechatForm
+  getSettingsChatPrechatForm,
 } from 'src/redux/modules/settings/settings-selectors'
 import { createSelector } from 'reselect'
 import {
@@ -16,10 +16,10 @@ import {
   getDepartment,
   getDepartmentsList,
   getIsAuthenticated,
-  getLoginSettings
+  getLoginSettings,
 } from 'src/redux/modules/chat/chat-selectors'
 
-const getCanViewDepartmentSelect = state => {
+const getCanViewDepartmentSelect = (state) => {
   const customerDefinedDepartmentsEnabled = getSettingsChatDepartmentsEnabled(state)
   const { departments = [] } = getPrechatFormFields(state)
 
@@ -41,7 +41,7 @@ const getCanViewDepartmentSelect = state => {
   return true
 }
 
-const getDepartmentLabel = state => {
+const getDepartmentLabel = (state) => {
   const prechatFormSettings = getSettingsChatPrechatForm(state)
   const defaultFields = getDefaultFormFields(state)
 
@@ -68,19 +68,19 @@ export const getVisiblePrechatFields = (state, options = {}) => {
       title: i18n.t('embeddable_framework.common.textLabel.name'),
       required: Boolean(prechatFormFields.name?.required || isDepartmentOffline),
       visible: loginSettings.enabled && !isAuthenticated,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'socialLogin',
       type: 'socialLogin',
-      visible: loginSettings.enabled && !isAuthenticated
+      visible: loginSettings.enabled && !isAuthenticated,
     },
     {
       id: 'email',
       title: i18n.t('embeddable_framework.common.textLabel.email'),
       required: Boolean(prechatFormFields.email?.required || isDepartmentOffline),
       visible: loginSettings.enabled && !isAuthenticated,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'department',
@@ -88,30 +88,30 @@ export const getVisiblePrechatFields = (state, options = {}) => {
       required: Boolean(prechatFormFields.department?.required),
       visible: getCanViewDepartmentSelect(state),
       type: 'dropdown',
-      options: prechatFormFields.departments?.map(department => ({
+      options: prechatFormFields.departments?.map((department) => ({
         name: department.name,
         value: department.id,
-        disabled: department.disabled
-      }))
+        disabled: department.disabled,
+      })),
     },
     {
       id: 'phone',
       title: i18n.t('embeddable_framework.common.textLabel.phone_number'),
       required: Boolean(prechatFormFields.phone?.required),
       visible: loginSettings.enabled && !isAuthenticated && loginSettings.phoneEnabled,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'message',
       title: i18n.t('embeddable_framework.common.textLabel.message'),
       required: Boolean(prechatFormFields.message?.required || isDepartmentOffline),
       visible: true,
-      type: 'textarea'
-    }
-  ].filter(field => field.visible)
+      type: 'textarea',
+    },
+  ].filter((field) => field.visible)
 }
 
-export const getPrechatGreeting = state => getPrechatFormSettings(state).message
+export const getPrechatGreeting = (state) => getPrechatFormSettings(state).message
 
 export const getDefaultSelectedDepartment = createSelector(
   [getSettingsChatDepartment, getAccountDefaultDepartmentId, getDepartmentsList],
@@ -120,7 +120,7 @@ export const getDefaultSelectedDepartment = createSelector(
 
     return _.find(
       departments,
-      dept => dept.name.toLowerCase() === departmentNameOrId || dept.id === departmentNameOrId
+      (dept) => dept.name.toLowerCase() === departmentNameOrId || dept.id === departmentNameOrId
     )
   }
 )

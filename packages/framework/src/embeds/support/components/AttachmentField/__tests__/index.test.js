@@ -16,7 +16,7 @@ const defaultProps = {
   onChange: jest.fn(),
   value: {},
   displayDropzone: false,
-  dragEnded: jest.fn()
+  dragEnded: jest.fn(),
 }
 
 const renderComponent = (props = {}, renderFn) => {
@@ -41,7 +41,7 @@ describe('AttachmentField', () => {
 
   it('renders limit error when displayAttachmentLimitError is true', () => {
     const { queryByText, queryByTestId } = renderComponent({
-      displayAttachmentLimitError: true
+      displayAttachmentLimitError: true,
     })
     expect(queryByTestId('error-message')).toBeInTheDocument()
     expect(queryByText('Attachment limit reached')).toBeInTheDocument()
@@ -49,7 +49,7 @@ describe('AttachmentField', () => {
 
   it('renders limit error when limitExceeded is true', () => {
     const { queryByText, queryByTestId } = renderComponent({
-      value: { limitExceeded: true }
+      value: { limitExceeded: true },
     })
     expect(queryByTestId('error-message')).toBeInTheDocument()
     expect(queryByText('Attachment limit reached')).toBeInTheDocument()
@@ -64,8 +64,8 @@ describe('AttachmentField', () => {
     await wait(() => expect(queryByText('Drop to attach')).toBeInTheDocument())
     fireEvent.drop(queryByText('Drop to attach'), {
       target: {
-        files
-      }
+        files,
+      },
     })
 
     expect(uploadAttachedFiles).toHaveBeenCalledWith(
@@ -77,7 +77,7 @@ describe('AttachmentField', () => {
 
   it('renders the error message when given', () => {
     const { queryByText } = renderComponent({
-      errorMessage: 'invalid files'
+      errorMessage: 'invalid files',
     })
 
     expect(queryByText('invalid files')).toBeInTheDocument()

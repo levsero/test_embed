@@ -5,11 +5,11 @@ import { render } from 'src/util/testHelpers'
 
 let originalError
 
-const renderComponent = updatedProps => {
+const renderComponent = (updatedProps) => {
   const defaultProps = {
     submitTicketAvailable: true,
     activeEmbed: 'ticketSubmissionForm',
-    webWidgetReactRouterSupport: true
+    webWidgetReactRouterSupport: true,
   }
 
   const props = { ...defaultProps, ...updatedProps }

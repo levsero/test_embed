@@ -12,7 +12,7 @@ describe('FooterIconButton', () => {
       <svg>
         <path />
       </svg>
-    )
+    ),
   }
 
   const renderComponent = (props = {}) => render(<FooterIconButton {...defaultProps} {...props} />)

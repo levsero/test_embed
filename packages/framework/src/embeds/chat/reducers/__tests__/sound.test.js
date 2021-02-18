@@ -9,17 +9,17 @@ describe('soundEnabled reducer', () => {
       extraDesc: 'initial state',
       initialState: undefined,
       action: { type: 'some action' },
-      expected: true
+      expected: true,
     },
     {
       initialState: true,
       action: handleSoundIconClick({ sound: false }),
-      expected: false
+      expected: false,
     },
     {
       initialState: false,
       action: handleSoundIconClick({ sound: true }),
-      expected: true
+      expected: true,
     },
     {
       initialState: false,
@@ -27,11 +27,11 @@ describe('soundEnabled reducer', () => {
         type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
         payload: {
           sound: {
-            disabled: false
-          }
-        }
+            disabled: false,
+          },
+        },
       },
-      expected: true
+      expected: true,
     },
     {
       initialState: true,
@@ -39,21 +39,21 @@ describe('soundEnabled reducer', () => {
         type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
         payload: {
           sound: {
-            disabled: true
-          }
-        }
+            disabled: true,
+          },
+        },
       },
-      expected: false
+      expected: false,
     },
     {
       initialState: true,
       action: {
         type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
         payload: {
-          sound: {}
-        }
+          sound: {},
+        },
       },
-      expected: true
-    }
+      expected: true,
+    },
   ])
 })

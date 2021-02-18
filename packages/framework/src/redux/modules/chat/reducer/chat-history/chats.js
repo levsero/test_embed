@@ -6,12 +6,12 @@ import {
   SDK_HISTORY_CHAT_MEMBER_LEAVE,
   SDK_HISTORY_CHAT_REQUEST_RATING,
   SDK_HISTORY_CHAT_RATING,
-  SDK_HISTORY_CHAT_COMMENT
+  SDK_HISTORY_CHAT_COMMENT,
 } from '../../chat-action-types'
 
 const initialState = new Map()
 
-const newEntry = message => {
+const newEntry = (message) => {
   const timestamp = message.timestamp || Date.now()
   const map = new Map().set(timestamp, { ...message, timestamp })
 

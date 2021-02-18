@@ -7,7 +7,7 @@ describe('exponentialBackoffTime', () => {
     ['two values', [1, 2], 2000],
     ['three values', [1, 2, 3], 4000],
     ['four values', [1, 2, 3, 4], 8000],
-    ['ten values', [1, 2, 4, 5, 6, 7, 8, 9, 10], 256000]
+    ['ten values', [1, 2, 4, 5, 6, 7, 8, 9, 10], 256000],
   ])('exponentialBackoffTime(%s)', (_, times, expected) => {
     expect(exponentialBackoffTime(times)).toEqual(expected)
   })
@@ -25,7 +25,7 @@ describe('isRateLimited', () => {
     ['third request before 4 seconds', 6000, true],
     ['resets after 2 hours', 7300000, false],
     ['must wait 1 second', 7300050, true],
-    ['works after 1 second', 7301000, false]
+    ['works after 1 second', 7301000, false],
   ])('exponentialBackoffTime %s', (_, time, expected) => {
     expect(isRateLimited('times', timestamp + time)).toEqual(expected)
   })

@@ -8,11 +8,11 @@ jest.mock('src/embeds/chat/pages/OfflineFormPage', () => () => <div>ChatOfflineF
 
 jest.mock('src/embeds/chat/pages/OperatingHoursPage', () => () => <div>OperatingHoursPage</div>)
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     formSettings: { enabled: false },
     offlineMessage: { screen: OFFLINE_FORM_SCREENS.MAIN },
-    ...inProps
+    ...inProps,
   }
   return render(<ChatOffline {...props} />)
 }
@@ -21,7 +21,7 @@ describe('render', () => {
   describe('when screen is the OPERATING_HOURS screen', () => {
     it('renders the operating hours screen', () => {
       const { getByText } = renderComponent({
-        offlineMessage: { screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS }
+        offlineMessage: { screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS },
       })
 
       expect(getByText('OperatingHoursPage')).toBeInTheDocument()

@@ -2,10 +2,10 @@ import { nameValid, emailValid } from 'src/util/utils'
 
 export default (values, requiredFormData) => {
   const nameError = !nameValid(values.display_name ?? '', {
-    allowEmpty: !requiredFormData?.name?.required
+    allowEmpty: !requiredFormData?.name?.required,
   })
   const emailError = !emailValid(values.email ?? '', {
-    allowEmpty: !requiredFormData?.email?.required
+    allowEmpty: !requiredFormData?.email?.required,
   })
 
   if (nameError || emailError) {

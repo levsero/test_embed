@@ -5,9 +5,9 @@ import { getTalkTitleKey } from 'src/embeds/talk/selectors/selectors'
 
 const getLabel = (_, label) => label
 
-export const getSettingsLauncherLabel = state => state.settings.launcher.settings.label
-export const getSettingsLauncherChatLabel = state => state.settings.launcher.settings.chatLabel
-export const getSettingsLauncherTalkLabel = state => state.settings.launcher.settings.talkLabel
+export const getSettingsLauncherLabel = (state) => state.settings.launcher.settings.label
+export const getSettingsLauncherChatLabel = (state) => state.settings.launcher.settings.chatLabel
+export const getSettingsLauncherTalkLabel = (state) => state.settings.launcher.settings.talkLabel
 
 export const getLauncherTalkLabel = createSelector(
   [getSettingsLauncherTalkLabel, getTalkTitleKey, getLocale],

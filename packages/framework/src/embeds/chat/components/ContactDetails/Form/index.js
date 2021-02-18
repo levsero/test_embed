@@ -12,7 +12,7 @@ import {
   getIsAuthenticated,
   getAuthUrls,
   getChatVisitor,
-  getSocialLogin
+  getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 import { getEditContactDetails } from 'embeds/chat/selectors'
 import { updateContactDetailsVisibility, editContactDetailsSubmitted } from 'src/redux/modules/chat'
@@ -34,7 +34,7 @@ const ChatContactDetailsModalForm = ({
   requiredFormData,
   socialLogin,
   updateContactDetailsVisibility,
-  visitor
+  visitor,
 }) => {
   const [showErrors, setShowErrors] = useState(false)
   const translate = useTranslate()
@@ -51,7 +51,7 @@ const ChatContactDetailsModalForm = ({
     Promise.resolve(
       editContactDetailsSubmitted({
         display_name: values.display_name ?? '',
-        email: values.email ?? ''
+        email: values.email ?? '',
       })
     )
       .then(() => {
@@ -61,14 +61,14 @@ const ChatContactDetailsModalForm = ({
       })
       .catch(() =>
         callback({
-          [FORM_ERROR]: 'embeddable_framework.chat.options.editContactDetailsSubmission.error'
+          [FORM_ERROR]: 'embeddable_framework.chat.options.editContactDetailsSubmission.error',
         })
       )
   }
 
   return (
     <ReactFinalForm
-      validate={values => {
+      validate={(values) => {
         if (!showErrors) {
           return
         }
@@ -79,7 +79,7 @@ const ChatContactDetailsModalForm = ({
       render={({ handleSubmit, submitting, submitError }) => (
         <Form
           noValidate={true}
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault()
             handleSubmit()
           }}
@@ -122,35 +122,32 @@ ChatContactDetailsModalForm.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   requiredFormData: PropTypes.shape({
     name: PropTypes.shape({
-      required: PropTypes.bool
+      required: PropTypes.bool,
     }),
     email: PropTypes.shape({
-      required: PropTypes.bool
-    })
+      required: PropTypes.bool,
+    }),
   }),
   socialLogin: PropTypes.object.isRequired,
   updateContactDetailsVisibility: PropTypes.func,
-  visitor: PropTypes.object.isRequired
+  visitor: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authUrls: getAuthUrls(state),
   contactDetails: getEditContactDetails(state),
   isAuthenticated: getIsAuthenticated(state),
   requiredFormData: getDefaultFormFields(state),
   socialLogin: getSocialLogin(state),
-  visitor: getChatVisitor(state)
+  visitor: getChatVisitor(state),
 })
 
 const actionCreators = {
   updateContactDetailsVisibility,
   editContactDetailsSubmitted,
-  initiateSocialLogout
+  initiateSocialLogout,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(ChatContactDetailsModalForm)
+const connectedComponent = connect(mapStateToProps, actionCreators)(ChatContactDetailsModalForm)
 
 export { connectedComponent as default, ChatContactDetailsModalForm as Component }

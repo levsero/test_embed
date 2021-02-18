@@ -14,7 +14,7 @@ export const parseTimestamp = (timestamp, overrideDate = null) => {
     ...(isToday ? {} : { month: 'long', day: 'numeric' }),
     hour: 'numeric',
     minute: 'numeric',
-    hour12: true
+    hour12: true,
   })}`
 }
 
@@ -28,7 +28,7 @@ const Timestamp = ({ timestamp }) => {
 }
 
 Timestamp.propTypes = {
-  timestamp: PropTypes.number
+  timestamp: PropTypes.number,
 }
 
 export default Timestamp

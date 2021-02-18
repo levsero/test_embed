@@ -9,12 +9,12 @@ import { Container, RatingButton } from './styles'
 const ratings = {
   GOOD: 'good',
   BAD: 'bad',
-  NOT_SET: null
+  NOT_SET: null,
 }
 
 const RatingGroup = ({ rating = ratings.NOT_SET, updateRating }) => {
   const translate = useTranslate()
-  const onRatingClicked = value => {
+  const onRatingClicked = (value) => {
     const newRating = rating === value ? ratings.NOT_SET : value
     updateRating(newRating)
   }
@@ -48,7 +48,7 @@ const RatingGroup = ({ rating = ratings.NOT_SET, updateRating }) => {
 
 RatingGroup.propTypes = {
   updateRating: PropTypes.func.isRequired,
-  rating: PropTypes.string
+  rating: PropTypes.string,
 }
 
 export default RatingGroup

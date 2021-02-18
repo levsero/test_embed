@@ -5,7 +5,7 @@ import { TEST_IDS } from 'src/constants/shared'
 
 const DIRECTION_MAP = {
   UP: 'bottom',
-  DOWN: 'top'
+  DOWN: 'top',
 }
 
 export class SlideAppear extends Component {
@@ -20,7 +20,7 @@ export class SlideAppear extends Component {
     endPosHeight: PropTypes.string,
     onClick: PropTypes.func,
     onExited: PropTypes.func,
-    onEntered: PropTypes.func
+    onEntered: PropTypes.func,
   }
 
   static defaultProps = {
@@ -33,7 +33,7 @@ export class SlideAppear extends Component {
     onClick: () => {},
     onExited: () => {},
     onEntered: () => {},
-    transitionOnMount: false
+    transitionOnMount: false,
   }
 
   render = () => {
@@ -42,21 +42,21 @@ export class SlideAppear extends Component {
     const position = DIRECTION_MAP[direction] || DIRECTION_MAP.UP
     const style = {
       transition: `all ${duration}ms ease-in-out`,
-      opacity: 0
+      opacity: 0,
     }
     const transitionStyles = {
       entering: {
         opacity: 0,
-        [position]: this.props.startPosHeight
+        [position]: this.props.startPosHeight,
       },
       entered: {
         opacity: 1,
-        [position]: this.props.endPosHeight
+        [position]: this.props.endPosHeight,
       },
       exiting: {
         opacity: 0,
-        [position]: this.props.startPosHeight
-      }
+        [position]: this.props.startPosHeight,
+      },
     }
 
     return (
@@ -69,7 +69,7 @@ export class SlideAppear extends Component {
         onExited={this.props.onExited}
         onEntered={this.props.onEntered}
       >
-        {status => {
+        {(status) => {
           return (
             <div
               role="presentation"

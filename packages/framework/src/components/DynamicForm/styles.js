@@ -9,18 +9,18 @@ const FormContainer = styled.form`
   overflow-y: hidden;
 
   > *:first-child {
-    padding-bottom: ${props => 30 / props.theme.fontSize}rem;
+    padding-bottom: ${(props) => 30 / props.theme.fontSize}rem;
   }
 `
 
 const Fields = styled.div`
   > *:not(:first-child) {
-    margin-top: ${props => 16 / props.theme.fontSize}rem;
+    margin-top: ${(props) => 16 / props.theme.fontSize}rem;
   }
 `
 
 const StyledAlert = styled(Alert)`
-  margin-top: ${props => 16 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 16 / props.theme.fontSize}rem;
   margin-bottom: 0 !important;
 `
 

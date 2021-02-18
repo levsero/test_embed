@@ -6,7 +6,7 @@ import { QuickReplies } from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    isMobile: false
+    isMobile: false,
   }
 
   return render(

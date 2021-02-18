@@ -4,14 +4,14 @@ import widget from 'e2e/helpers/widget'
 import {
   mockTicketSubmissionEndpoint,
   waitForContactForm,
-  waitForSubmissionSuccess
+  waitForSubmissionSuccess,
 } from 'e2e/helpers/support-embed'
 import { fillForm } from 'e2e/helpers/utils'
 
 test('hides the zendesk logo in the ticket form when requested in config', async () => {
   await loadWidget()
     .withPresets('contactForm', {
-      hideZendeskLogo: true
+      hideZendeskLogo: true,
     })
     .intercept(mockTicketSubmissionEndpoint({ request: { id: 123 } }))
     .load()
@@ -23,7 +23,7 @@ test('hides the zendesk logo in the ticket form when requested in config', async
   await fillForm({
     'Your name (optional)': 'test name',
     'Email address': 'test@email.com',
-    'How can we help you?': 'test description'
+    'How can we help you?': 'test description',
   })
 
   await expect(frame).toClick('button', { text: 'Send' })

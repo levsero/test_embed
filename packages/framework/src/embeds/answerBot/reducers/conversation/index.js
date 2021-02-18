@@ -7,5 +7,5 @@ import getInTouchVisible from './get-in-touch-visible'
 export default combineReducers({
   lastScroll,
   lastScreenClosed,
-  getInTouchVisible
+  getInTouchVisible,
 })

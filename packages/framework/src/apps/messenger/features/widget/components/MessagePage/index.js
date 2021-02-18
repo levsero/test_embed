@@ -33,7 +33,7 @@ const MessagePage = React.forwardRef((_props, ref) => {
       isFullScreen={isFullScreen}
       isLauncherVisible={isLauncherVisible}
       ref={ref}
-      onKeyDown={event => {
+      onKeyDown={(event) => {
         // The focus jail does not pick up onKeyDown if not used at least once.
 
         if (event.keyCode === KEY_CODES.ESCAPE) {

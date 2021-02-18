@@ -10,7 +10,7 @@ import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 import {
   UPDATE_PREVIEWER_SCREEN,
   UPDATE_PREVIEWER_SETTINGS,
-  PREVIEWER_LOADED
+  PREVIEWER_LOADED,
 } from 'src/redux/modules/chat/chat-action-types'
 import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
@@ -36,11 +36,11 @@ const defaultOptions = {
     marginRight: `${WIDGET_MARGIN}px`,
     marginTop: `${WIDGET_MARGIN}px`,
     width: `${FRAME_WIDTH}px`,
-    height: `${FRAME_HEIGHT}px`
-  }
+    height: `${FRAME_HEIGHT}px`,
+  },
 }
 
-const waitForComponent = callback => {
+const waitForComponent = (callback) => {
   if (previewContainer) {
     callback()
   } else {
@@ -50,14 +50,14 @@ const waitForComponent = callback => {
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
-const renderPreview = options => {
+const renderPreview = (options) => {
   options = _.defaultsDeep({}, options, defaultOptions)
 
   if (!options.element) {
     throw new Error('A DOM element is required to render the Preview into.')
   }
 
-  const allowThrottleActions = type => {
+  const allowThrottleActions = (type) => {
     const allowedActions = [
       UPDATE_PREVIEWER_SETTINGS,
       UPDATE_PREVIEWER_SCREEN,
@@ -65,7 +65,7 @@ const renderPreview = options => {
       LOCALE_SET,
       UPDATE_SETTINGS,
       PREVIEW_CHOICE_SELECTED,
-      CHAT_CONNECTED
+      CHAT_CONNECTED,
     ]
 
     const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0
@@ -74,7 +74,7 @@ const renderPreview = options => {
   }
   const store = createStore('chatpreview', {
     throttleEvents: true,
-    allowedActionsFn: allowThrottleActions
+    allowedActionsFn: allowThrottleActions,
   })
   store.dispatch({ type: CHAT_CONNECTED })
 
@@ -82,11 +82,11 @@ const renderPreview = options => {
     store.dispatch(updateColor({ color: { theme: color, button: color } }))
   }
 
-  const updateScreen = screen => {
+  const updateScreen = (screen) => {
     store.dispatch(
       updatePreviewerScreen({
         screen,
-        status: screen !== OFFLINE_FORM_SCREENS.MAIN
+        status: screen !== OFFLINE_FORM_SCREENS.MAIN,
       })
     )
 
@@ -97,15 +97,15 @@ const renderPreview = options => {
     }
   }
 
-  const updateSettings = settings => {
+  const updateSettings = (settings) => {
     store.dispatch(updatePreviewerSettings(settings))
   }
 
-  const updateLocale = locale => {
+  const updateLocale = (locale) => {
     i18n.setLocale(locale)
   }
 
-  const updateChatState = data => {
+  const updateChatState = (data) => {
     const actionType = data.detail.type
       ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
       : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`
@@ -119,11 +119,11 @@ const renderPreview = options => {
     const { width } = options.styles
     const frameStyle = _.extend({}, options.styles, {
       position: 'relative',
-      width: `${parseInt(width) + BOX_SHADOW_SIZE * 2}px`
+      width: `${parseInt(width) + BOX_SHADOW_SIZE * 2}px`,
     })
     const containerStyle = {
       width,
-      margin: `${BOX_SHADOW_SIZE}px`
+      margin: `${BOX_SHADOW_SIZE}px`,
     }
 
     const component = (
@@ -132,7 +132,7 @@ const renderPreview = options => {
           store={store}
           frameStyle={frameStyle}
           containerStyle={containerStyle}
-          ref={el => {
+          ref={(el) => {
             if (el) previewContainer = el
           }}
         />
@@ -157,7 +157,7 @@ const renderPreview = options => {
     updateChatState,
     setColor,
     updateLocale,
-    waitForComponent
+    waitForComponent,
   }
 }
 

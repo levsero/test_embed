@@ -18,18 +18,18 @@ describe('articleDismissed', () => {
       answerBot: {
         currentSessionID: 1234,
         currentArticle: {
-          articleID: 4567
+          articleID: 4567,
         },
         sessions: new Map([
           [
             1234,
             {
               deflection: { id: 888 },
-              interactionToken: { y: 2 }
-            }
-          ]
-        ])
-      }
+              interactionToken: { y: 2 },
+            },
+          ],
+        ]),
+      },
     }
 
     store = mockStore(state)

@@ -16,8 +16,8 @@ const ImageStructuredMessage = ({
     avatarUrl,
     name,
     received,
-    isLastMessageThatHasntFailed
-  }
+    isLastMessageThatHasntFailed,
+  },
 }) => {
   const isPrimaryParticipant = role === 'appUser'
   return (
@@ -45,8 +45,8 @@ ImageStructuredMessage.propTypes = {
     isLastInLog: PropTypes.bool,
     avatarUrl: PropTypes.string,
     name: PropTypes.string,
-    received: PropTypes.number
-  })
+    received: PropTypes.number,
+  }),
 }
 
 export default ImageStructuredMessage

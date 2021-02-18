@@ -15,16 +15,16 @@
 //      2142225: 'French text
 //    }
 // }
-const normaliseFieldPrefillValues = fields => {
+const normaliseFieldPrefillValues = (fields) => {
   const values = {}
 
   if (!Array.isArray(fields)) {
     return values
   }
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     field.prefill &&
-      Object.keys(field.prefill).forEach(locale => {
+      Object.keys(field.prefill).forEach((locale) => {
         if (!values[locale]) {
           values[locale] = {}
         }

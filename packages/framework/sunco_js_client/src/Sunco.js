@@ -49,7 +49,7 @@ export default class Sunco {
       ...socketSettings,
       appId: this.appId,
       appUserId: appUserId,
-      sessionToken: sessionToken
+      sessionToken: sessionToken,
     })
 
     this._activeConversation = {
@@ -57,7 +57,7 @@ export default class Sunco {
       conversationId,
       lastRead,
       socketClient,
-      listMessages: cursor => {
+      listMessages: (cursor) => {
         const params = {}
         if (cursor) params['before'] = cursor
         return this.messages.list(appUserId, conversationId, params)
@@ -68,14 +68,14 @@ export default class Sunco {
           text,
           role: 'appUser',
           payload,
-          metadata
+          metadata,
         }),
       sendFormResponse: (fields, formId) =>
         this.messages.create(appUserId, conversationId, {
           fields: fields,
           quotedMessageId: formId,
           type: 'formResponse',
-          role: 'appUser'
+          role: 'appUser',
         }),
       startTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:start' }),
       stopTyping: () => this.activity.create(appUserId, conversationId, { type: 'typing:stop' }),
@@ -88,7 +88,7 @@ export default class Sunco {
       },
       forgetUser: () => {
         removeAppUser({ integrationId: this.integrationId })
-      }
+      },
     }
   }
 
@@ -99,26 +99,26 @@ export default class Sunco {
         const { appUserId } = getCurrentUserIfAny(this.integrationId)
 
         if (appUserId) {
-          this.appUsers.get(appUserId).then(response => {
+          this.appUsers.get(appUserId).then((response) => {
             this.activeConversation = {
               conversationId: response.body.conversations[0]._id,
               socketSettings: response.body.settings.realtime,
-              lastRead: response.body.conversations[0]?.participants[0]?.lastRead
+              lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
             } // TODO - might need to eventually select a particular conversation - isDefault: true
             resolve(this.activeConversation)
           })
         } else {
           this.appUsers
             .create({ ...(this.locale ? { locale: this.locale } : {}) })
-            .then(response => {
+            .then((response) => {
               storeAppUser({
                 appUserId: response.body.appUser._id,
                 sessionToken: response.body.sessionToken,
-                integrationId: this.integrationId
+                integrationId: this.integrationId,
               })
               this.activeConversation = {
                 conversationId: response.body.conversations[0]._id,
-                socketSettings: response.body.settings.realtime
+                socketSettings: response.body.settings.realtime,
               } // TODO - might need to eventually select a particular conversation - isDefault: true
               resolve(this.activeConversation)
             })
@@ -135,7 +135,7 @@ export default class Sunco {
       this.startConversation()
     }
     if (this.conversationPromise) {
-      this.conversationPromise.then(response => {
+      this.conversationPromise.then((response) => {
         this.appUsers.update(response.appUserId, { locale })
       })
     }

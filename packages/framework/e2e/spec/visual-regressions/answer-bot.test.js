@@ -8,7 +8,7 @@ import {
   waitForAnswerBot,
   mockInteractionEndpoint,
   mockViewedEndpoint,
-  mockRejectionEndpoint
+  mockRejectionEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 import { assertScreenshot } from 'e2e/helpers/visual-regressions'
 
@@ -19,7 +19,7 @@ const buildWidget = () =>
     .intercept(mockViewedEndpoint())
     .intercept(mockRejectionEndpoint())
 
-const searchAndViewArticle = async tag => {
+const searchAndViewArticle = async (tag) => {
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')
@@ -44,9 +44,7 @@ describe('desktop', () => {
 
 describe('mobile', () => {
   test('search and view article', async () => {
-    await buildWidget()
-      .useMobile()
-      .load()
+    await buildWidget().useMobile().load()
     await searchAndViewArticle('mobile')
   })
 })

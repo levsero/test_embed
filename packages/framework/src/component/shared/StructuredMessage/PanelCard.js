@@ -9,14 +9,14 @@ export class PanelCard extends Component {
   static propTypes = {
     panel: PanelPropType,
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
     children: [],
     panel: {
-      roundedTop: true
-    }
+      roundedTop: true,
+    },
   }
 
   render() {

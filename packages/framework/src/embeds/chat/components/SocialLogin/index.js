@@ -40,9 +40,9 @@ const SocialLogin = ({ authUrls = {}, shouldSpace = false }) => {
 SocialLogin.propTypes = {
   authUrls: PropTypes.shape({
     google: PropTypes.string,
-    facebook: PropTypes.string
+    facebook: PropTypes.string,
   }),
-  shouldSpace: PropTypes.bool
+  shouldSpace: PropTypes.bool,
 }
 
 export default SocialLogin

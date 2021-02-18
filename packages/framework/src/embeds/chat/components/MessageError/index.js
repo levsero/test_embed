@@ -16,7 +16,7 @@ const MessageError = ({ errorMessage, onClick }) => {
 
 MessageError.propTypes = {
   errorMessage: PropTypes.string.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default MessageError

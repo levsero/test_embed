@@ -14,10 +14,10 @@ test('includes labels in query', async () => {
         webWidget: {
           answerBot: {
             search: {
-              labels: ['testing', 'I would like help.']
-            }
-          }
-        }
+              labels: ['testing', 'I would like help.'],
+            },
+          },
+        },
       }
     })
     .load()
@@ -28,7 +28,7 @@ test('includes labels in query', async () => {
   expect(getJsonPayload(endpoint)).toEqual(
     expect.objectContaining({
       enquiry: 'help',
-      labels: ['testing', 'I would like help.']
+      labels: ['testing', 'I would like help.'],
     })
   )
 })

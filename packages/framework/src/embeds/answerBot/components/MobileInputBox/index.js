@@ -8,7 +8,7 @@ import { Container, InputBoxContainer, FooterIconButton } from './styles'
 import { Icon } from 'component/Icon'
 import { ICONS } from 'constants/shared'
 
-const renderSend = handleSendInputValue => {
+const renderSend = (handleSendInputValue) => {
   return (
     <FooterIconButton
       size="large"
@@ -25,7 +25,7 @@ const MobileInputBox = ({
   placeholder,
   updateInputValue,
   handleSendInputValue,
-  name
+  name,
 }) => {
   return (
     <Container>
@@ -49,7 +49,7 @@ MobileInputBox.propTypes = {
   inputValue: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   updateInputValue: PropTypes.func.isRequired,
-  handleSendInputValue: PropTypes.func.isRequired
+  handleSendInputValue: PropTypes.func.isRequired,
 }
 
 export default MobileInputBox

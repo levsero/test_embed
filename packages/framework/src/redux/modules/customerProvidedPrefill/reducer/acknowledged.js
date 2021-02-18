@@ -9,8 +9,8 @@ const acknowledged = (state = initialState, action) => {
         ...state,
         [action.payload.type]: {
           ...(state[action.payload.type] || {}),
-          [action.payload.id]: action.payload.timestamp
-        }
+          [action.payload.id]: action.payload.timestamp,
+        },
       }
     default:
       return state

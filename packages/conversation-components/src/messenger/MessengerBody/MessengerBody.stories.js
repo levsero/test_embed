@@ -6,12 +6,12 @@ import {
   MessageLogList,
   MessengerFooter,
   Replies,
-  TextMessage
+  TextMessage,
 } from 'src/'
 
 export default {
   title: 'Messenger/MessengerBody',
-  component: MessengerBody
+  component: MessengerBody,
 }
 
 const flatWhiteItem = {
@@ -23,9 +23,9 @@ const flatWhiteItem = {
     {
       _id: '1',
       uri: 'https://z3n-lhills-nm.zendesk.com/hc/en-us/articles/360056140754-A-simple-Flat-White',
-      text: 'View article'
-    }
-  ]
+      text: 'View article',
+    },
+  ],
 }
 
 const aeroPressItem = {
@@ -38,9 +38,9 @@ const aeroPressItem = {
       _id: '2',
       uri:
         'https://z3n-lhills-nm.zendesk.com/hc/en-us/articles/360057988733-Making-coffee-with-an-AeroPress',
-      text: 'View article'
-    }
-  ]
+      text: 'View article',
+    },
+  ],
 }
 
 const frenchPressItem = {
@@ -53,15 +53,15 @@ const frenchPressItem = {
       _id: '3',
       uri:
         'https://z3n-lhills-nm.zendesk.com/hc/en-us/articles/360056140694-What-is-a-French-Press-',
-      text: 'View article'
-    }
-  ]
+      text: 'View article',
+    },
+  ],
 }
 
 const carouselMessage = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
-  items: [flatWhiteItem, aeroPressItem, frenchPressItem]
+  items: [flatWhiteItem, aeroPressItem, frenchPressItem],
 }
 
 const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
@@ -69,17 +69,17 @@ const textmessageProps = {
   isPrimaryParticipant: true,
   isFirstInGroup: false,
   timeReceived: timeNowInSeconds,
-  isReceiptVisible: false
+  isReceiptVisible: false,
 }
 
 const quickReplies = [
   { _id: 'r1', type: 'reply', text: 'Pizza' },
   { _id: 'r2', type: 'reply', text: 'Crumpets' },
   { _id: 'r3', type: 'reply', text: 'Chocolate' },
-  { _id: 'r4', type: 'reply', text: 'Cake' }
+  { _id: 'r4', type: 'reply', text: 'Cake' },
 ]
 
-const Template = _args => (
+const Template = (_args) => (
   <MessengerContainer>
     <MessengerHeader
       title="Augustine"

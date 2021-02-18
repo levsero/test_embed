@@ -5,12 +5,7 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const mapStateToProps = (state, props) => ({
   messages: getGroupMessages(state, props.messageKeys),
-  locale: i18n.getLocale()
+  locale: i18n.getLocale(),
 })
 
-export default connect(
-  mapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(ChatGroup)
+export default connect(mapStateToProps, {}, null, { forwardRef: true })(ChatGroup)

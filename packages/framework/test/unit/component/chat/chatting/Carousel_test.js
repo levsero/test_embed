@@ -11,7 +11,7 @@ describe('Carousel Component', () => {
 
     initMockRegistry({
       'embeds/chat/components/Carousel': PureCarousel,
-      './StructuredMessage': StructuredMessage
+      './StructuredMessage': StructuredMessage,
     })
 
     mockery.registerAllowable(carouselPath)
@@ -27,14 +27,14 @@ describe('Carousel Component', () => {
     let component, result
 
     const mockItem1 = {
-      name: 'mockName1'
+      name: 'mockName1',
     }
     const mockItem2 = {
-      name: 'mockName2'
+      name: 'mockName2',
     }
 
     let mockProps = {
-      items: [mockItem1, mockItem2]
+      items: [mockItem1, mockItem2],
     }
 
     describe('Default Props', () => {
@@ -61,13 +61,13 @@ describe('Carousel Component', () => {
           {
             schema: mockItem1,
             isMobile: false,
-            inCarousel: true
+            inCarousel: true,
           },
           {
             schema: mockItem2,
             isMobile: false,
-            inCarousel: true
-          }
+            inCarousel: true,
+          },
         ]
 
         scenarios.forEach((scenario, index) => {

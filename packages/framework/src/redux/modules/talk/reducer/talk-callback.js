@@ -2,14 +2,14 @@ import {
   TALK_CALLBACK_REQUEST,
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE,
-  TALK_SUCCESS_DONE_BUTTON_CLICKED
+  TALK_SUCCESS_DONE_BUTTON_CLICKED,
 } from '../talk-action-types'
 
 const initialState = {
   isSending: false,
   success: false,
   error: {},
-  phoneNumber: ''
+  phoneNumber: '',
 }
 
 const callback = (state = initialState, action) => {
@@ -19,28 +19,28 @@ const callback = (state = initialState, action) => {
     case TALK_SUCCESS_DONE_BUTTON_CLICKED:
       return {
         ...state,
-        success: initialState.success
+        success: initialState.success,
       }
     case TALK_CALLBACK_REQUEST:
       return {
         error: {},
         phoneNumber: payload.phone,
         isSending: true,
-        success: false
+        success: false,
       }
     case TALK_CALLBACK_SUCCESS:
       return {
         error: {},
         phoneNumber: payload.phone,
         isSending: false,
-        success: true
+        success: true,
       }
     case TALK_CALLBACK_FAILURE:
       return {
         ...state,
         error: payload,
         isSending: false,
-        success: false
+        success: false,
       }
     default:
       return state

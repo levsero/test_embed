@@ -14,10 +14,10 @@ test('override contact form label', async () => {
           contactOptions: {
             contactFormLabel: {
               '*': 'submit tix',
-              fr: 'the french'
-            }
-          }
-        }
+              fr: 'the french',
+            },
+          },
+        },
       }
     })
     .load()
@@ -40,10 +40,10 @@ test('override chat online label', async () => {
           contactOptions: {
             chatLabelOnline: {
               '*': 'start chat',
-              fr: 'french start chat'
-            }
-          }
-        }
+              fr: 'french start chat',
+            },
+          },
+        },
       }
     })
     .load()

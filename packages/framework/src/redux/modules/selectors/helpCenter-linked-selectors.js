@@ -4,7 +4,7 @@ import { isMobileBrowser } from 'utility/devices'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,
-  getBaseIsAuthenticated
+  getBaseIsAuthenticated,
 } from 'src/redux/modules/base/base-selectors'
 import { getSettingsHelpCenterSuppress } from 'src/redux/modules/settings/settings-selectors'
 import { isOnHelpCenterPage } from 'utility/pages'
@@ -42,4 +42,4 @@ export const getCanShowHelpCenterIntroState = createSelector(
   }
 )
 
-export const getHelpCenterReady = state => !getHelpCenterEmbed(state) || getHasPassedAuth(state)
+export const getHelpCenterReady = (state) => !getHelpCenterEmbed(state) || getHasPassedAuth(state)

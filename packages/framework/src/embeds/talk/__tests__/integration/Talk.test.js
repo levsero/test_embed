@@ -24,7 +24,7 @@ const setUpComponent = (config = {}) => {
     supportedCountries: 'US,AU',
     connected: true,
     agentAvailability: true,
-    ...config
+    ...config,
   })
   http.callMeRequest = (__, options) => {
     options.callbacks.done()
@@ -35,7 +35,7 @@ const setUpComponent = (config = {}) => {
 
   return {
     ...result,
-    store
+    store,
   }
 }
 
@@ -43,27 +43,27 @@ const getSelectedCountry = (utils, value) => {
   return queryByAltText(utils.queryByTestId(TEST_IDS.DROPDOWN_FIELD), value)
 }
 
-const submitForm = utils => fireEvent.click(utils.getByText('Send'))
+const submitForm = (utils) => fireEvent.click(utils.getByText('Send'))
 const updatePhonefield = (utils, number) => {
   const phoneField = utils.getByLabelText('Phone Number')
 
   fireEvent.change(phoneField, { target: { value: number } })
 }
 
-const checkForForm = utils => {
+const checkForForm = (utils) => {
   expect(utils.queryByText("Enter your phone number and we'll call you back.")).toBeInTheDocument()
 }
-const checkForErrorMessage = utils => {
+const checkForErrorMessage = (utils) => {
   expect(utils.queryByText('Please enter a valid phone number.')).toBeInTheDocument()
 }
-const checkForNoErrorMessage = utils => {
+const checkForNoErrorMessage = (utils) => {
   expect(utils.queryByText('Please enter a valid phone number.')).not.toBeInTheDocument()
 }
-const checkForFlag = utils => {
+const checkForFlag = (utils) => {
   expect(getSelectedCountry(utils, 'US')).toBeInTheDocument()
   expect(getSelectedCountry(utils, 'AU')).not.toBeInTheDocument()
 }
-const checkForSuccessMesage = utils => {
+const checkForSuccessMesage = (utils) => {
   expect(utils.queryByText('Thanks for reaching out')).toBeInTheDocument()
   expect(utils.queryByText('Someone will get back to you soon')).toBeInTheDocument()
 }
@@ -135,13 +135,13 @@ test('phone only page', () => {
     averageWaitTime,
     capability: '1',
     averageWaitTimeSetting: true,
-    averageWaitTimeEnabled: true
+    averageWaitTimeEnabled: true,
   })
 
   checkForPhoneOnlyPage(utils, {
     phoneNumber,
     formattedPhoneNumber,
-    averageWaitTime
+    averageWaitTime,
   })
 })
 
@@ -155,13 +155,13 @@ test('callback and phone only', () => {
     averageWaitTime,
     capability: '2',
     averageWaitTimeSetting: true,
-    averageWaitTimeEnabled: true
+    averageWaitTimeEnabled: true,
   })
 
   checkForPhoneNumber(utils, {
     phoneNumber,
     formattedPhoneNumber,
-    averageWaitTime
+    averageWaitTime,
   })
 
   checkForForm(utils)
@@ -182,7 +182,7 @@ test('callback and phone only', () => {
 test('talk offline page', () => {
   const { queryByText } = setUpComponent({
     agentAvailability: false,
-    capability: '0'
+    capability: '0',
   })
 
   expect(queryByText('All agents are currently offline. Try again later.')).toBeInTheDocument()

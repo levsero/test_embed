@@ -7,7 +7,7 @@ import {
   sendOfflineMessage,
   setDepartment,
   setVisitorInfo,
-  updateChatScreen
+  updateChatScreen,
 } from 'src/redux/modules/chat'
 import _ from 'lodash'
 
@@ -32,7 +32,7 @@ const submitPrechatForm = ({ values, isDepartmentFieldVisible }) => async (dispa
           {
             display_name: values.display_name || values.name,
             email: values.email,
-            phone: values.phone
+            phone: values.phone,
           },
           _.isNil
         )
@@ -42,11 +42,11 @@ const submitPrechatForm = ({ values, isDepartmentFieldVisible }) => async (dispa
 
   if (isDepartmentFieldVisible) {
     if (department) {
-      await new Promise(res => {
+      await new Promise((res) => {
         dispatch(setDepartment(department.id, res, res))
       })
     } else {
-      await new Promise(res => {
+      await new Promise((res) => {
         dispatch(clearDepartment(res))
       })
     }

@@ -4,7 +4,7 @@ import {
   createField,
   mockTicketFieldsEndpoint,
   testForm,
-  waitForContactForm
+  waitForContactForm,
 } from 'e2e/helpers/support-embed'
 import widget from 'e2e/helpers/widget'
 import { queryAllByText } from 'e2e/helpers/queries'
@@ -24,9 +24,9 @@ const testDefaultForm = async ({ config }) => {
     expectSuccess: (values = {}) => {
       return form.expectSuccess(null, {
         description: 'Some message',
-        ...values
+        ...values,
       })
-    }
+    },
   }
 }
 
@@ -36,8 +36,8 @@ describe('support default form', () => {
       const { expectSuccess } = await testDefaultForm({
         config: {
           nameFieldEnabled: false,
-          attachmentsEnabled: false
-        }
+          attachmentsEnabled: false,
+        },
       })
 
       await expect(
@@ -47,7 +47,7 @@ describe('support default form', () => {
       await expect(await queries.queryByText(await widget.getDocument(), 'Your name')).toBeNull()
 
       await expectSuccess({
-        name: 'Fake'
+        name: 'Fake',
       })
     })
 
@@ -56,8 +56,8 @@ describe('support default form', () => {
         config: {
           nameFieldEnabled: true,
           nameFieldRequired: false,
-          attachmentsEnabled: false
-        }
+          attachmentsEnabled: false,
+        },
       })
 
       await expect(
@@ -67,7 +67,7 @@ describe('support default form', () => {
       await expect(await queries.queryByText(await widget.getDocument(), 'Your name')).toBeTruthy()
 
       await expectSuccess({
-        name: 'Fake'
+        name: 'Fake',
       })
     })
 
@@ -76,8 +76,8 @@ describe('support default form', () => {
         config: {
           nameFieldEnabled: true,
           nameFieldRequired: true,
-          attachmentsEnabled: false
-        }
+          attachmentsEnabled: false,
+        },
       })
 
       const nameElement = await queries.queryByLabelText(await widget.getDocument(), 'Your name')
@@ -95,7 +95,7 @@ describe('support default form', () => {
       ).toAppearInOrder()
 
       await expectSuccess({
-        name: 'Some person'
+        name: 'Some person',
       })
     })
   })
@@ -105,8 +105,8 @@ describe('support default form', () => {
       await testDefaultForm({
         config: {
           nameFieldEnabled: false,
-          attachmentsEnabled: true
-        }
+          attachmentsEnabled: true,
+        },
       })
 
       await expect(
@@ -118,8 +118,8 @@ describe('support default form', () => {
       await testDefaultForm({
         config: {
           nameFieldEnabled: false,
-          attachmentsEnabled: false
-        }
+          attachmentsEnabled: false,
+        },
       })
 
       await expect(
@@ -142,10 +142,10 @@ describe('support default form', () => {
           embeds: {
             ticketSubmissionForm: {
               props: {
-                customFields: { ids: ticketFields.map(form => form.id) }
-              }
-            }
-          }
+                customFields: { ids: ticketFields.map((form) => form.id) },
+              },
+            },
+          },
         })
         .load()
 
@@ -159,7 +159,7 @@ describe('support default form', () => {
           'How can we help you?',
           checkbox1.title_in_portal,
           checkbox2.title_in_portal,
-          'Attachments'
+          'Attachments',
         ])
       ).toAppearInOrder()
     })

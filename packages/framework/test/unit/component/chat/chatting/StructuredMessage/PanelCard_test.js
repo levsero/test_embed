@@ -18,21 +18,21 @@ describe('PanelCard Component', () => {
 
     initMockRegistry({
       'component/shared/StructuredMessage/PanelCard': {
-        PanelCard: PurePanelCard
+        PanelCard: PurePanelCard,
       },
       './Button': {
         Button,
-        ButtonSchemaPropType
+        ButtonSchemaPropType,
       },
       'constants/chat': {
-        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
+        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
       },
       './PanelCard.scss': {
         locals: {
           mobileInCarousel: 'mobileInCarousel',
-          mobile: 'mobile'
-        }
-      }
+          mobile: 'mobile',
+        },
+      },
     })
 
     mockery.registerAllowable(panelCardPath)
@@ -52,32 +52,32 @@ describe('PanelCard Component', () => {
     const mockProps = {
       panel: {
         heading: 'header 1',
-        paragraph: 'this is a paragraph'
+        paragraph: 'this is a paragraph',
       },
       buttons: [
         {
           text: 'Hey!',
           action: {
             type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.QUICK_REPLY_ACTION,
-            value: 'replied'
-          }
+            value: 'replied',
+          },
         },
         {
           text: 'Hello!',
           action: {
             type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.LINK_ACTION,
-            value: 'https://sample.com'
-          }
-        }
-      ]
+            value: 'https://sample.com',
+          },
+        },
+      ],
     }
 
     const additionalPanelProps = {
       image_url: 'https://google.com',
       action: {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.LINK_ACTION,
-        value: 'https://yahoo.com'
-      }
+        value: 'https://yahoo.com',
+      },
     }
 
     describe('default props', () => {
@@ -88,7 +88,7 @@ describe('PanelCard Component', () => {
 
         const fullPanelProps = {
           ...mockProps.panel,
-          ...additionalPanelProps
+          ...additionalPanelProps,
         }
 
         component = instanceRender(
@@ -108,7 +108,7 @@ describe('PanelCard Component', () => {
         expect(result.props.panel).toEqual({
           ...mockProps.panel,
           imageUrl: undefined,
-          onClick: null
+          onClick: null,
         })
       })
 
@@ -124,14 +124,14 @@ describe('PanelCard Component', () => {
         expect(result.props.panel).toEqual({
           ...mockProps.panel,
           imageUrl: additionalPanelProps.image_url,
-          onClick: mockActionSpy
+          onClick: mockActionSpy,
         })
       })
 
       it('renders correct number of Button components', () => {
         expect(result.props.children.length).toEqual(mockProps.buttons.length)
 
-        result.props.children.forEach(child => {
+        result.props.children.forEach((child) => {
           expect(TestUtils.isElementOfType(child, Button)).toEqual(true)
         })
       })

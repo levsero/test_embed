@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 const initialState = {
   departmentLabel: null,
-  greeting: null
+  greeting: null,
 }
 
 const prechatForm = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const prechatForm = (state = initialState, action) => {
           'webWidget.chat.prechatForm.departmentLabel',
           state.departmentLabel
         ),
-        greeting: _.get(payload, 'webWidget.chat.prechatForm.greeting', state.greeting)
+        greeting: _.get(payload, 'webWidget.chat.prechatForm.greeting', state.greeting),
       }
     default:
       return state

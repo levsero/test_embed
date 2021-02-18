@@ -18,26 +18,26 @@ export const ItemPropType = PropTypes.shape({
   align: PropTypes.oneOf(['left', 'right']),
   roundedTop: PropTypes.bool,
   roundedBottom: PropTypes.bool,
-  withBorderBottom: PropTypes.bool
+  withBorderBottom: PropTypes.bool,
 })
 
 export class ListCard extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(ItemPropType).isRequired,
     buttons: PropTypes.node,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     buttons: [],
-    isMobile: false
+    isMobile: false,
   }
 
   render() {
     const { items, buttons } = this.props
 
     const cardClass = classnames(styles.cardContainer, {
-      [styles.mobile]: this.props.isMobile
+      [styles.mobile]: this.props.isMobile,
     })
 
     return (

@@ -36,7 +36,7 @@ describe('chat reducer forcedStatus', () => {
 
           state = reducer(initialState, {
             type: actionTypes.API_FORCE_STATUS_CALLED,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -51,7 +51,7 @@ describe('chat reducer forcedStatus', () => {
 
           state = reducer(initialState, {
             type: actionTypes.API_FORCE_STATUS_CALLED,
-            payload: payload
+            payload: payload,
           })
         })
 

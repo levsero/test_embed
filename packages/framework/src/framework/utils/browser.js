@@ -29,21 +29,21 @@ const onBrowserVisibilityEvent = (isBrowserTabVisible, callback) => {
   }
 }
 
-export const onBrowserTabVisible = callback => {
+export const onBrowserTabVisible = (callback) => {
   onBrowserVisibilityEvent(true, callback)
 }
 
-export const onBrowserTabHidden = callback => {
+export const onBrowserTabHidden = (callback) => {
   onBrowserVisibilityEvent(false, callback)
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
 export const isBrowserOnline = () => Boolean(hostPageWindow.navigator.onLine)
 
-export const onBrowserComingBackOnline = callback => {
+export const onBrowserComingBackOnline = (callback) => {
   hostPageWindow.addEventListener('online', callback)
 }
 
-export const onBrowserGoingOffline = callback => {
+export const onBrowserGoingOffline = (callback) => {
   hostPageWindow.addEventListener('offline', callback)
 }

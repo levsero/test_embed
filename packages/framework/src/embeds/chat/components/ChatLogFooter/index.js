@@ -22,7 +22,7 @@ const ChatLogFooter = React.forwardRef(
 ChatLogFooter.propTypes = {
   agentsTyping: PropTypes.array,
   hideZendeskLogo: PropTypes.bool,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
 }
 
 export default ChatLogFooter

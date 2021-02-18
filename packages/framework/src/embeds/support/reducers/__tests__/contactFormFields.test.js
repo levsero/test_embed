@@ -8,7 +8,7 @@ testReducer(contactFormFields, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
@@ -17,35 +17,35 @@ testReducer(contactFormFields, [
       payload: [
         {
           id: 1,
-          name: 'One'
+          name: 'One',
         },
         {
           id: 2,
-          name: 'Two'
-        }
-      ]
+          name: 'Two',
+        },
+      ],
     },
     expected: [
       {
         id: 1,
-        name: 'One'
+        name: 'One',
       },
       {
         id: 2,
-        name: 'Two'
-      }
-    ]
+        name: 'Two',
+      },
+    ],
   },
   {
     initialState: [
       {
         id: 1,
-        name: 'One'
+        name: 'One',
       },
       {
         id: 2,
-        name: 'Two'
-      }
+        name: 'Two',
+      },
     ],
 
     action: {
@@ -53,23 +53,23 @@ testReducer(contactFormFields, [
       payload: [
         {
           id: 3,
-          name: 'Three'
+          name: 'Three',
         },
         {
           id: 4,
-          name: 'Four'
-        }
-      ]
+          name: 'Four',
+        },
+      ],
     },
     expected: [
       {
         id: 3,
-        name: 'Three'
+        name: 'Three',
       },
       {
         id: 4,
-        name: 'Four'
-      }
-    ]
-  }
+        name: 'Four',
+      },
+    ],
+  },
 ])

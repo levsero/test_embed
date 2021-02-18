@@ -17,7 +17,7 @@ const ChattingFooterDesktop = ({
   hideZendeskLogo,
   isChatting,
   isMobile,
-  isPreview
+  isPreview,
 }) => {
   return (
     <Footer data-testid={TEST_IDS.CHAT_FOOTER_DESKTOP}>
@@ -49,7 +49,7 @@ ChattingFooterDesktop.propTypes = {
   hideZendeskLogo: PropTypes.bool,
   isChatting: PropTypes.bool,
   isMobile: PropTypes.bool,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
 }
 
 export default ChattingFooterDesktop

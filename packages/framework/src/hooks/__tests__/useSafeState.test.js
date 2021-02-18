@@ -23,7 +23,7 @@ describe('useSafeState', () => {
 
   it('matches setState functionality for initial state', () => {
     const { getByText } = renderComponent({
-      initialState: 'initial value'
+      initialState: 'initial value',
     })
 
     expect(getByText('initial value')).toBeInTheDocument()
@@ -32,7 +32,7 @@ describe('useSafeState', () => {
   it('matches setState functionality when passing in a value to set state', () => {
     const { getByText } = renderComponent({
       initialState: 'initial value',
-      stateHandler: setState => setState('new value')
+      stateHandler: (setState) => setState('new value'),
     })
 
     fireEvent.click(getByText('initial value'))
@@ -43,7 +43,7 @@ describe('useSafeState', () => {
   it('matches setState functionality when passing in a callback to set state', async () => {
     const { getByText } = renderComponent({
       initialState: 'one',
-      stateHandler: setState => setState(oldValue => `${oldValue} - two`)
+      stateHandler: (setState) => setState((oldValue) => `${oldValue} - two`),
     })
 
     fireEvent.click(getByText('one'))
@@ -54,7 +54,7 @@ describe('useSafeState', () => {
   it('does not throw an error when setting state on an unmounted component', () => {
     const { getByText, unmount } = renderComponent({
       initialState: 'one',
-      stateHandler: setState => setState('two')
+      stateHandler: (setState) => setState('two'),
     })
 
     const button = getByText('one')

@@ -1,13 +1,13 @@
 import {
   DEFER_CHAT_SETUP,
   BEGIN_CHAT_SETUP,
-  RECEIVE_DEFERRED_CHAT_STATUS
+  RECEIVE_DEFERRED_CHAT_STATUS,
 } from 'embeds/chat/actions/action-types'
 import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
 import {
   BASE_CHAT_POLL_INTERVAL,
   MAX_CHAT_POLL_INTERVAL,
-  REQUESTS_BEFORE_BACKOFF
+  REQUESTS_BEFORE_BACKOFF,
 } from 'constants/chat'
 import wait from 'utility/wait'
 import { getIsPollingChat } from 'embeds/chat/selectors'
@@ -15,7 +15,7 @@ import { fetchDeferredChatStatus } from 'embeds/chat/apis/deferred-chat-api'
 import errorTracker from 'src/framework/services/errorTracker'
 import { document } from 'utility/globals'
 export const beginChatSetup = () => ({
-  type: BEGIN_CHAT_SETUP
+  type: BEGIN_CHAT_SETUP,
 })
 
 let requests = 0
@@ -35,7 +35,7 @@ export const deferChatSetup = () => async (dispatch, getState) => {
   }
 
   dispatch({
-    type: DEFER_CHAT_SETUP
+    type: DEFER_CHAT_SETUP,
   })
   while (getIsPollingChat(getState())) {
     const skip = document.hidden && requests > 1
@@ -51,13 +51,13 @@ export const deferChatSetup = () => async (dispatch, getState) => {
           type: RECEIVE_DEFERRED_CHAT_STATUS,
           payload: {
             status,
-            departments
-          }
+            departments,
+          },
         })
       } catch (err) {
         errorTracker.warn(err, {
           rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
-          rollbarTitle: 'Failed to connect to chat ODVR endpoint'
+          rollbarTitle: 'Failed to connect to chat ODVR endpoint',
         })
       }
     }

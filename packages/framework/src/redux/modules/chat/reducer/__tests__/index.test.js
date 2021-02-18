@@ -8,7 +8,7 @@ jest.mock('src/redux/modules/chat/reducer/chat-last-read-timestamp', () => {
   })
 })
 
-const reduceWithLoggingOut = prevState => {
+const reduceWithLoggingOut = (prevState) => {
   return reducer(prevState, { type: 'widget/chat/CHAT_USER_LOGGING_OUT' })
 }
 
@@ -26,8 +26,8 @@ describe('when a CHAT_USER_LOGGING_OUT action is dispatched', () => {
     isLoggingOut: true,
     screen: 'MOST_GREATEST_CHAT_SCREEN',
     accountSettings: {
-      login: 'YAS'
-    }
+      login: 'YAS',
+    },
   }
 
   it('retains the vendor sub state', () => {

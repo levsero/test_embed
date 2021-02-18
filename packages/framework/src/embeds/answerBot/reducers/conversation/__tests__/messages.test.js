@@ -9,12 +9,12 @@ test('initial state is empty map', () => {
 test('QUESTION_VALUE_SUBMITTED updates to expected state', () => {
   const payload = {
     timestamp: 123456,
-    message: 'Surely not EVERYONE was kung fu fighting.'
+    message: 'Surely not EVERYONE was kung fu fighting.',
   }
 
   const state = reducer(undefined, {
     type: actionTypes.QUESTION_VALUE_SUBMITTED,
-    payload
+    payload,
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`
@@ -34,13 +34,13 @@ test('QUESTION_SUBMITTED_FULFILLED updates to expected state', () => {
     message: [
       { id: 1, title: 'article1' },
       { id: 2, title: 'article2' },
-      { id: 3, title: 'article3' }
-    ]
+      { id: 3, title: 'article3' },
+    ],
   }
 
   const state = reducer(undefined, {
     type: actionTypes.QUESTION_SUBMITTED_FULFILLED,
-    payload
+    payload,
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`
@@ -55,7 +55,7 @@ test('QUESTION_SUBMITTED_FULFILLED updates to expected state', () => {
 
 test('BOT_FEEDBACK_REQUESTED updates to expected state', () => {
   const state = reducer(undefined, {
-    type: rootActionTypes.BOT_FEEDBACK_REQUESTED
+    type: rootActionTypes.BOT_FEEDBACK_REQUESTED,
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`
@@ -69,12 +69,12 @@ test('BOT_FEEDBACK_REQUESTED updates to expected state', () => {
 
 test('BOT_FEEDBACK updates to expected state', () => {
   const payload = {
-    timestamp: 123456
+    timestamp: 123456,
   }
 
   const state = reducer(undefined, {
     type: rootActionTypes.BOT_FEEDBACK,
-    payload
+    payload,
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`
@@ -90,7 +90,7 @@ test('BOT_FEEDBACK updates to expected state', () => {
 
 test('BOT_CHANNEL_CHOICE updates to expected state', () => {
   const state = reducer(undefined, {
-    type: rootActionTypes.BOT_CHANNEL_CHOICE
+    type: rootActionTypes.BOT_CHANNEL_CHOICE,
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`
@@ -106,8 +106,8 @@ test('BOT_TYPING updates to expected state', () => {
   const state = reducer(undefined, {
     type: rootActionTypes.BOT_TYPING,
     payload: {
-      timestamp: 123456
-    }
+      timestamp: 123456,
+    },
   })
 
   expect(Array.from(state.values())).toMatchInlineSnapshot(`

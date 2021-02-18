@@ -19,7 +19,7 @@ const MessageOptions = ({ options = [], onSelect }) => {
 
 MessageOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string),
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
 }
 
 export default MessageOptions

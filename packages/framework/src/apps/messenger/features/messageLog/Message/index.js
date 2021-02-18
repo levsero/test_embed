@@ -18,13 +18,13 @@ const suncoMessageTypes = {
   form: FormStructuredMessage,
   formResponse: FormResponseStructuredMessage,
   image: ImageStructuredMessage,
-  text: TextStructuredMessage
+  text: TextStructuredMessage,
 }
 
 const localMessageTypes = {
   dummy: TextStructuredMessage,
   timestamp: TimestampStructuredMessage,
-  typingIndicator: TypingIndicator
+  typingIndicator: TypingIndicator,
 }
 
 function areEqual(prevProps, nextProps) {
@@ -44,9 +44,9 @@ const Message = React.memo(({ message, isFreshMessage }) => {
 
 Message.propTypes = {
   message: PropTypes.shape({
-    type: PropTypes.string
+    type: PropTypes.string,
   }),
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
 }
 
 export default Message

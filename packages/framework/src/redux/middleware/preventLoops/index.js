@@ -6,14 +6,14 @@ import {
   SDK_CHAT_MSG,
   CHAT_BOX_CHANGED,
   SDK_HISTORY_CHAT_MSG,
-  CHAT_NOTIFICATION_RESET
+  CHAT_NOTIFICATION_RESET,
 } from 'src/redux/modules/chat/chat-action-types'
 
 const actionsToSkip = [
   SDK_HISTORY_CHAT_MSG,
   SDK_CHAT_MSG,
   CHAT_BOX_CHANGED,
-  CHAT_NOTIFICATION_RESET
+  CHAT_NOTIFICATION_RESET,
 ]
 let actionTimes = []
 let actions = []
@@ -24,7 +24,7 @@ const NUMBER_OF_ACTIONS_TO_SEND = 20
 
 let loggedToRollbarAndBlips = false
 
-export default _store => next => action => {
+export default (_store) => (next) => (action) => {
   const { type } = action
 
   if (_.includes(actionsToSkip, type)) return next(action)
@@ -39,11 +39,11 @@ export default _store => next => action => {
     if (!loggedToRollbarAndBlips) {
       errorTracker.error(new InfiniteLoopError('infiniteLoopDetected'), {
         action: type,
-        prevActions: actions
+        prevActions: actions,
       })
       beacon.trackUserAction('infiniteLoopDetected', 'warning', {
         label: type,
-        value: actions
+        value: actions,
       })
       loggedToRollbarAndBlips = true
     }

@@ -8,7 +8,7 @@ import { sessionResolved } from 'src/embeds/answerBot/actions/sessions'
 import {
   botFeedback,
   botFeedbackMessage,
-  botUserMessage
+  botUserMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
 
 import { Container } from './styles'

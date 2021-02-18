@@ -22,8 +22,8 @@ const waitForTestId = async (testId, options = { visible: true }) => {
 const waitForLauncherPill = async () => await waitForTestId(TEST_IDS.LAUNCHER, { visible: true })
 const waitForChatBadge = async () => await waitForTestId(TEST_IDS.CHAT_BADGE, { visible: true })
 
-const expectIconToBeVisible = async iconType => {
-  const iconTestid = (icon => {
+const expectIconToBeVisible = async (iconType) => {
+  const iconTestid = ((icon) => {
     switch (icon) {
       case 'chat':
         return 'Icon--chat'
@@ -37,14 +37,14 @@ const expectIconToBeVisible = async iconType => {
   await expect(async () => queries.getByTestId(await getDocument(), iconTestid)).toBeTruthy()
 }
 
-const expectLabelToEqual = async label => {
+const expectLabelToEqual = async (label) => {
   expect(await getLabelText()).toEqual(label)
 }
 
 const click = async () => {
   await waitForTestId(launcherId)
   await evaluate(
-    launcherId => document.querySelector(`[data-testid="${launcherId}"]`).click(),
+    (launcherId) => document.querySelector(`[data-testid="${launcherId}"]`).click(),
     launcherId
   )
 }
@@ -62,5 +62,5 @@ export default {
   expectLabelToEqual,
   getFrame,
   getButton,
-  evaluate
+  evaluate,
 }

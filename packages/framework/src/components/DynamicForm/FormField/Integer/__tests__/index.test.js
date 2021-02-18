@@ -9,11 +9,11 @@ describe('Integer', () => {
       id: '123',
       required: false,
       title: 'Some title',
-      description: 'Some description'
+      description: 'Some description',
     },
     value: '123',
     onChange: jest.fn(),
-    errorMessage: null
+    errorMessage: null,
   }
 
   const renderComponent = (props = {}) => render(<Integer {...defaultProps} {...props} />)
@@ -24,8 +24,8 @@ describe('Integer', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
-        }
+          required: true,
+        },
       })
 
       expect(queryByLabelText('Some title')).toBeInTheDocument()
@@ -36,8 +36,8 @@ describe('Integer', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: false
-        }
+          required: false,
+        },
       })
 
       expect(queryByLabelText('Some title (optional)')).toBeInTheDocument()
@@ -48,8 +48,8 @@ describe('Integer', () => {
     const { container } = renderComponent({
       field: {
         ...defaultProps.field,
-        title: null
-      }
+        title: null,
+      },
     })
 
     expect(container.querySelector('label')).toBeNull()
@@ -59,8 +59,8 @@ describe('Integer', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
-        description: 'Some description'
-      }
+        description: 'Some description',
+      },
     })
 
     expect(queryByText('Some description')).toBeInTheDocument()
@@ -68,7 +68,7 @@ describe('Integer', () => {
 
   it('displays the error message when provided', () => {
     const { queryByRole } = renderComponent({
-      errorMessage: 'Something is wrong with the input'
+      errorMessage: 'Something is wrong with the input',
     })
 
     expect(queryByRole('alert')).toHaveTextContent('Something is wrong with the input')
@@ -79,9 +79,9 @@ describe('Integer', () => {
       field: {
         ...defaultProps.field,
         title: 'Some title',
-        required: true
+        required: true,
       },
-      value: '123'
+      value: '123',
     })
 
     expect(queryByLabelText('Some title').value).toBe('123')
@@ -94,10 +94,10 @@ describe('Integer', () => {
       field: {
         ...defaultProps.field,
         title: 'Some title',
-        required: true
+        required: true,
       },
       value: '123',
-      onChange
+      onChange,
     })
 
     const input = queryByLabelText('Some title')
@@ -113,10 +113,10 @@ describe('Integer', () => {
       field: {
         ...defaultProps.field,
         title: 'Some title',
-        required: true
+        required: true,
       },
       value: '123',
-      onChange
+      onChange,
     })
 
     const input = queryByLabelText('Some title')

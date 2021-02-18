@@ -15,7 +15,7 @@ describe('useFormBackup', () => {
   }
 
   const defaultProps = {
-    formName: 'form name'
+    formName: 'form name',
   }
 
   const renderComponent = (props = {}, options) =>
@@ -25,9 +25,9 @@ describe('useFormBackup', () => {
     const thing = {
       getState: () => ({
         values: {
-          name: 'Some name'
-        }
-      })
+          name: 'Some name',
+        },
+      }),
     }
 
     useForm.mockReturnValue(thing)

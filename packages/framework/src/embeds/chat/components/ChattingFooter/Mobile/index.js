@@ -13,7 +13,7 @@ const ChattingFooterMobile = ({
   handleAttachmentDrop,
   isMobile,
   isPreview,
-  sendChat
+  sendChat,
 }) => {
   return (
     <Container data-testid={TEST_IDS.CHAT_FOOTER_MOBILE}>
@@ -36,6 +36,6 @@ ChattingFooterMobile.propTypes = {
   handleAttachmentDrop: PropTypes.func,
   isMobile: PropTypes.bool,
   isPreview: PropTypes.bool,
-  sendChat: PropTypes.func
+  sendChat: PropTypes.func,
 }
 export default ChattingFooterMobile

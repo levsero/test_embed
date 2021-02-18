@@ -5,17 +5,17 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
 test('initial state', () => {
   expect(initialState()).toEqual({
     url: '',
-    name: {}
+    name: {},
   })
 })
 
@@ -26,15 +26,15 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
         answerBot: {
           avatar: {
             name: { '*': 'blah' },
-            url: 'url'
-          }
-        }
-      }
+            url: 'url',
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({
       name: { '*': 'blah' },
-      url: 'url'
+      url: 'url',
     })
   })
 })

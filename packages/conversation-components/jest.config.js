@@ -72,7 +72,7 @@ module.exports = {
   resolver: 'jest-webpack-resolver',
 
   jestWebpackResolver: {
-    webpackConfig: './webpack.config.js'
+    webpackConfig: './webpack.config.js',
   },
 
   // Automatically restore mock state between every test
@@ -127,11 +127,11 @@ module.exports = {
   transform: {
     // '^.+\\.jsx$': 'babel-jest',
     '^.+\\.js$': 'babel-jest',
-    '^.+\\.svg$': '<rootDir>/src/utils/test/mocks/svgrMock.js'
+    '^.+\\.svg$': '<rootDir>/src/utils/test/mocks/svgrMock.js',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: ['node_modules/(?!(@zendeskgarden)/)']
+  transformIgnorePatterns: ['node_modules/(?!(@zendeskgarden)/)'],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

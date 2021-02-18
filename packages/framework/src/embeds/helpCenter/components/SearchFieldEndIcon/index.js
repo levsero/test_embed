@@ -45,7 +45,7 @@ const SearchFieldEndIcon = ({ isLoading, onClick, isVisible }) => {
 SearchFieldEndIcon.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  isVisible: PropTypes.bool.isRequired
+  isVisible: PropTypes.bool.isRequired,
 }
 
 export default SearchFieldEndIcon

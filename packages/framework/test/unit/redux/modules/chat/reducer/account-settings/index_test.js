@@ -24,9 +24,9 @@ describe('chat accountSettings reducer', () => {
       'theme',
       'chatWindow',
       'banner',
-      'branding'
+      'branding',
     ]
-    const assertPropertySpec = property => {
+    const assertPropertySpec = (property) => {
       it(`it has ${property} sub-state`, () => {
         expect(state[property]).toBeDefined()
       })
@@ -40,7 +40,7 @@ describe('chat accountSettings reducer', () => {
       expect(propertyList.length > 0).toBe(true)
     })
 
-    propertyList.forEach(property => {
+    propertyList.forEach((property) => {
       assertPropertySpec(property)
     })
   })

@@ -5,7 +5,7 @@ import { GA_CATEGORY } from 'constants/shared'
 let ga = null
 
 const trackNewGAEvent = (action, label, category, value) => {
-  ga(function() {
+  ga(function () {
     const trackers = ga.getAll() || []
 
     const payload = {
@@ -13,11 +13,11 @@ const trackNewGAEvent = (action, label, category, value) => {
       eventCategory: category,
       eventAction: action,
       eventLabel: label,
-      eventValue: value
+      eventValue: value,
     }
 
     if (trackers.length > 0) {
-      _.forEach(trackers, tracker => {
+      _.forEach(trackers, (tracker) => {
         tracker.send('event', payload)
       })
     } else {
@@ -31,7 +31,7 @@ const trackOldGAEvent = (action, label, category, value) => {
     const gat = ga.gat
     const trackers = gat._getTrackers() || [gat._getTrackerByName()]
 
-    _.forEach(trackers, tracker => {
+    _.forEach(trackers, (tracker) => {
       tracker._trackEvent(category, action, label, value)
     })
   })
@@ -50,7 +50,7 @@ function init() {
   if (win._gaq && win._gat) {
     ga = {
       gaq: win._gaq,
-      gat: win._gat
+      gat: win._gat,
     }
   }
 }
@@ -78,5 +78,5 @@ export const GA = {
   track,
 
   // used for testing
-  get
+  get,
 }

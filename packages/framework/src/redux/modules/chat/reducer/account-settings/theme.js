@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import {
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  UPDATE_PREVIEWER_SETTINGS
+  UPDATE_PREVIEWER_SETTINGS,
 } from '../../chat-action-types'
 
 const initialState = {
@@ -9,8 +9,8 @@ const initialState = {
   position: '',
   color: {
     primary: '',
-    banner: ''
-  }
+    banner: '',
+  },
 }
 
 const theme = (state = initialState, action) => {
@@ -22,8 +22,8 @@ const theme = (state = initialState, action) => {
         position: _.get(action.payload, 'theme.chat_window.position', state.position),
         color: {
           primary: _.get(action.payload, 'theme.colors.primary', state.color.primary),
-          banner: _.get(action.payload, 'theme.colors.banner', state.color.banner)
-        }
+          banner: _.get(action.payload, 'theme.colors.banner', state.color.banner),
+        },
       }
     default:
       return state

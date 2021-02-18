@@ -3,7 +3,7 @@ import { render } from 'src/util/testHelpers'
 import ChattingFooter from '../'
 import { TEST_IDS } from 'src/constants/shared'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     attachmentsEnabled: true,
     children: [],
@@ -13,7 +13,7 @@ const renderComponent = inProps => {
     isChatting: false,
     theme: { isMobile: false },
     isPreview: false,
-    sendChat: jest.fn()
+    sendChat: jest.fn(),
   }
 
   return render(<ChattingFooter {...props} {...inProps} />)

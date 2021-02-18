@@ -3,12 +3,7 @@ import ChatGroup from './ChatGroup'
 import { getGroupMessages } from 'src/redux/modules/chat/chat-selectors'
 
 const mapStateToProps = (state, props) => ({
-  messages: getGroupMessages(state, props.messageKeys)
+  messages: getGroupMessages(state, props.messageKeys),
 })
 
-export default connect(
-  mapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(ChatGroup)
+export default connect(mapStateToProps, {}, null, { forwardRef: true })(ChatGroup)

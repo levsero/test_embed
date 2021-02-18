@@ -14,9 +14,9 @@ const setup = async (extraProducts = []) => {
       window.zESettings = {
         webWidget: {
           contactOptions: {
-            enabled: true
-          }
-        }
+            enabled: true,
+          },
+        },
       }
     })
     .load()

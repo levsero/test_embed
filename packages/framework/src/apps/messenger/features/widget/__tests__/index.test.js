@@ -4,13 +4,13 @@ import Messenger from '../'
 import {
   frameMarginFromPage,
   launcherSize,
-  marginBetweenFrames
+  marginBetweenFrames,
 } from 'src/apps/messenger/constants'
 jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', () => () => ({
   fetchHistoryOnScrollTop: jest.fn(),
   isFetchingHistory: false,
   errorFetchingHistory: false,
-  retryFetchMessages: jest.fn()
+  retryFetchMessages: jest.fn(),
 }))
 
 describe('Messenger', () => {

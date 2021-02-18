@@ -11,7 +11,7 @@ import {
   handlePreChatFormChange,
   resetCurrentMessage,
   initiateSocialLogout,
-  openedChatHistory
+  openedChatHistory,
 } from 'src/redux/modules/chat'
 import {
   getDepartments,
@@ -23,18 +23,18 @@ import {
   getSocialLogin,
   getChatVisitor,
   getIsAuthenticated,
-  getReadOnlyState
+  getReadOnlyState,
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getChatTitle,
   getPrechatFormSettings,
   getPrechatFormFields,
   getChatHistoryLabel,
-  getDefaultSelectedDepartment
+  getDefaultSelectedDepartment,
 } from 'src/redux/modules/selectors'
 import {
   getSettingsChatDepartmentsEmpty,
-  getSettingsChatDepartmentsEnabled
+  getSettingsChatDepartmentsEnabled,
 } from 'src/redux/modules/settings/settings-selectors'
 import { locals as styles } from './PrechatScreen.scss'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'
@@ -46,7 +46,7 @@ const NewPrechatForm = React.lazy(() =>
   import(/* webpackChunkName: 'lazy/prechat-form' */ 'embeds/chat/components/PrechatForm')
 )
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state)
   const prechatFormFields = getPrechatFormFields(state)
   const preChatFormState = getPreChatFormState(state)
@@ -73,7 +73,7 @@ const mapStateToProps = state => {
     hasChatHistory: getHasChatHistory(state),
     chatHistoryLabel: getChatHistoryLabel(state),
     defaultDepartment: getDefaultSelectedDepartment(state),
-    isNewPrechatFormEnabled: isFeatureEnabled(state, 'web_widget_prechat_form_v2')
+    isNewPrechatFormEnabled: isFeatureEnabled(state, 'web_widget_prechat_form_v2'),
   }
 }
 
@@ -102,11 +102,11 @@ class PrechatScreen extends Component {
     defaultDepartment: PropTypes.object,
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
-      status: PropTypes.string
+      status: PropTypes.string,
     }),
     isNewPrechatFormEnabled: PropTypes.bool,
     submitPrechatForm: PropTypes.func,
-    isPreview: PropTypes.bool
+    isPreview: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -116,13 +116,13 @@ class PrechatScreen extends Component {
     preChatFormSettings: {},
     loginSettings: {},
     departmentFieldHidden: false,
-    settingsDepartmentsEnabled: []
+    settingsDepartmentsEnabled: [],
   }
 
-  onPrechatFormComplete = values => {
+  onPrechatFormComplete = (values) => {
     this.props.submitPrechatForm({
       values,
-      isDepartmentFieldVisible: !this.props.departmentFieldHidden
+      isDepartmentFieldVisible: !this.props.departmentFieldHidden,
     })
 
     this.props.resetCurrentMessage()
@@ -199,14 +199,11 @@ const actionCreators = {
   handlePreChatFormChange,
   initiateSocialLogout,
   openedChatHistory,
-  submitPrechatForm
+  submitPrechatForm,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(PrechatScreen)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  PrechatScreen
+)
 
 export { connectedComponent as default, PrechatScreen as Component }

@@ -3,22 +3,22 @@ import { beacon } from 'service/beacon'
 const preventLoops = jest.requireActual('../').default
 
 jest.mock('src/framework/services/errorTracker', () => ({
-  error: jest.fn()
+  error: jest.fn(),
 }))
 jest.mock('service/beacon', () => ({
   beacon: {
-    trackUserAction: jest.fn()
-  }
+    trackUserAction: jest.fn(),
+  },
 }))
 import {
   SDK_CHAT_MSG,
   CHAT_BOX_CHANGED,
-  SDK_HISTORY_CHAT_MSG
+  SDK_HISTORY_CHAT_MSG,
 } from 'src/redux/modules/chat/chat-action-types'
 
 const getAction = (actionType = 'fake_action') => {
   return {
-    type: actionType
+    type: actionType,
   }
 }
 
@@ -53,7 +53,7 @@ describe('preventLoops', () => {
     beforeEach(() => {
       const actionsToSkip = [SDK_HISTORY_CHAT_MSG, SDK_CHAT_MSG, CHAT_BOX_CHANGED]
 
-      actionsToSkip.forEach(actionName => {
+      actionsToSkip.forEach((actionName) => {
         preventLoops({ getState: noop })(jest.fn())(getAction(actionName))
       })
     })

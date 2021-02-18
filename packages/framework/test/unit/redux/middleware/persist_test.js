@@ -15,18 +15,18 @@ describe('persist middleware', () => {
     initMockRegistry({
       'src/framework/services/persistence': {
         store: {
-          set: storeSetSpy
-        }
+          set: storeSetSpy,
+        },
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED,
-        UPDATE_WIDGET_SHOWN
+        UPDATE_WIDGET_SHOWN,
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CHAT_MEMBER_JOIN,
         SDK_CHAT_MEMBER_LEAVE,
-        END_CHAT_REQUEST_SUCCESS
-      }
+        END_CHAT_REQUEST_SUCCESS,
+      },
     })
 
     persist = requireUncached(persistPath).default
@@ -43,13 +43,13 @@ describe('persist middleware', () => {
     const flatState = {
       chat: {
         chats: {},
-        is_chatting: true // eslint-disable-line camelcase
+        is_chatting: true, // eslint-disable-line camelcase
       },
       base: {
         activeEmbed: 'chat',
         widgetShown: true,
-        somethingElse: 'test'
-      }
+        somethingElse: 'test',
+      },
     }
 
     describe('next', () => {
@@ -69,10 +69,10 @@ describe('persist middleware', () => {
         UPDATE_WIDGET_SHOWN,
         SDK_CHAT_MEMBER_JOIN,
         SDK_CHAT_MEMBER_LEAVE,
-        END_CHAT_REQUEST_SUCCESS
+        END_CHAT_REQUEST_SUCCESS,
       ]
 
-      actionsToStoreOn.forEach(actionType => {
+      actionsToStoreOn.forEach((actionType) => {
         beforeEach(() => {
           action = { type: actionType }
 
@@ -83,7 +83,7 @@ describe('persist middleware', () => {
           const expected = {
             activeEmbed: 'chat',
             widgetShown: true,
-            is_chatting: true // eslint-disable-line camelcase
+            is_chatting: true, // eslint-disable-line camelcase
           }
 
           expect(storeSetSpy).toHaveBeenCalledWith('store', expected)

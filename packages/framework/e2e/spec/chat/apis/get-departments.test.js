@@ -11,6 +11,6 @@ test('chat:departments returns all departments for an account', async () => {
 
   expect(departments).toEqual([
     { status: 'online', id: 3, name: 'Pier 56' },
-    { status: 'online', id: 58, name: 'Riptide' }
+    { status: 'online', id: 58, name: 'Riptide' },
   ])
 })

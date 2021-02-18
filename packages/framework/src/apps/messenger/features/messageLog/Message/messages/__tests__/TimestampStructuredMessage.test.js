@@ -7,8 +7,8 @@ const renderComponent = (props = {}) => {
   const mergedProps = {
     message: {
       received: new Date('11:59 PM September 28, 2020').getTime(),
-      ...props
-    }
+      ...props,
+    },
   }
   return render(<TimestampStructuredMessage {...mergedProps} />)
 }

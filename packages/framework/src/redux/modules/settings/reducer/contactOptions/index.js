@@ -9,5 +9,5 @@ export default combineReducers({
   enabled,
   chat,
   contactButton,
-  contactFormLabel
+  contactFormLabel,
 })

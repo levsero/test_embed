@@ -6,24 +6,21 @@ import {
   getHasContextuallySearched,
   getSearchLoading,
   getResultsCount,
-  getArticles
+  getArticles,
 } from 'embeds/helpCenter/selectors'
 import {
   getLastMessageType,
-  getGetInTouchVisible
+  getGetInTouchVisible,
 } from 'src/embeds/answerBot/selectors/conversation'
 import { getChannelAvailable } from 'src/redux/modules/selectors'
 
-const getState = state => state.answerBot
+const getState = (state) => state.answerBot
 
-export const getCurrentSessionID = createSelector(
-  [getState],
-  state => state.currentSessionID
-)
+export const getCurrentSessionID = createSelector([getState], (state) => state.currentSessionID)
 
 export const getQuestionValueChangedTime = createSelector(
   [getState],
-  state => state.questionValueChangedTime
+  (state) => state.questionValueChangedTime
 )
 
 export const getCurrentRequestStatus = createSelector(
@@ -71,19 +68,16 @@ export const isCurrentSessionResolved = createSelector(
   }
 )
 
-export const getCurrentArticleID = createSelector(
-  getState,
-  state => _.get(state, 'currentArticle.articleID', null)
+export const getCurrentArticleID = createSelector(getState, (state) =>
+  _.get(state, 'currentArticle.articleID', null)
 )
 
-const getCurrentContextualArticleID = createSelector(
-  getState,
-  state => _.get(state, 'currentContextualArticle.articleID', null)
+const getCurrentContextualArticleID = createSelector(getState, (state) =>
+  _.get(state, 'currentContextualArticle.articleID', null)
 )
 
-export const getCurrentArticleSessionID = createSelector(
-  [getState],
-  state => (state.currentArticle ? state.currentArticle.sessionID : null)
+export const getCurrentArticleSessionID = createSelector([getState], (state) =>
+  state.currentArticle ? state.currentArticle.sessionID : null
 )
 
 const getCurrentContextualArticle = createSelector(
@@ -108,7 +102,7 @@ export const isFeedbackRequired = createSelector(
     getCurrentArticle,
     getCurrentArticleSessionID,
     getCurrentSessionID,
-    isCurrentSessionResolved
+    isCurrentSessionResolved,
   ],
   (contextual, article, sessionID, currentSessionID, currentSessionResolved) => {
     return (
@@ -120,29 +114,20 @@ export const isFeedbackRequired = createSelector(
   }
 )
 
-export const getCurrentScreen = createSelector(
-  [getState],
-  state => state.currentScreen
-)
+export const getCurrentScreen = createSelector([getState], (state) => state.currentScreen)
 
-export const getCurrentMessage = createSelector(
-  [getState],
-  state => state.currentMessage
-)
+export const getCurrentMessage = createSelector([getState], (state) => state.currentMessage)
 
-export const getGreeted = createSelector(
-  [getState],
-  state => !!state.greeted
-)
+export const getGreeted = createSelector([getState], (state) => !!state.greeted)
 
 export const getInitialFallbackSuggested = createSelector(
   [getState],
-  state => !!state.initialFallbackSuggested
+  (state) => !!state.initialFallbackSuggested
 )
 
 export const getContextualSearchFinished = createSelector(
   getState,
-  state => !!state.contextualSearchFinished
+  (state) => !!state.contextualSearchFinished
 )
 
 export const getContextualSearchStatus = createSelector(
@@ -161,7 +146,7 @@ export const getContactButtonVisible = createSelector(
   (getInTouchVisible, channelAvailable) => channelAvailable && getInTouchVisible
 )
 
-export const getAuthToken = state => {
+export const getAuthToken = (state) => {
   const sessionId = getCurrentArticleSessionID(state)
 
   if (!sessionId) {

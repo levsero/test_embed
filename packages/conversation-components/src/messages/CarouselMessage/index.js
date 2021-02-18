@@ -12,7 +12,7 @@ import {
   AvatarSlide,
   NextButton,
   PreviousButton,
-  Heading
+  Heading,
 } from './styles'
 import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
 import Avatar from 'src/Avatar'
@@ -26,7 +26,7 @@ const CarouselMessage = ({ items, label, avatar }) => {
     isLastSlideVisible,
     goToNextPage,
     goToPreviousPage,
-    onFocus
+    onFocus,
   } = useCarousel({ items })
 
   return (
@@ -101,11 +101,11 @@ CarouselMessage.propTypes = {
         PropTypes.shape({
           _id: PropTypes.string,
           uri: PropTypes.string,
-          text: PropTypes.string
+          text: PropTypes.string,
         })
-      )
+      ),
     })
-  )
+  ),
 }
 
 export default CarouselMessage

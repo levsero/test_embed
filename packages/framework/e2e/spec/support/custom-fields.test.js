@@ -11,7 +11,7 @@ const testCustomForm = async ({ field, queryElement = true, ...other }) => {
   const { mockFormsResponse, embedConfig, form } = createForm({
     name: 'Example form',
     id: 123,
-    fields: [field, descriptionField]
+    fields: [field, descriptionField],
   })
 
   const result = await testForm({
@@ -21,8 +21,8 @@ const testCustomForm = async ({ field, queryElement = true, ...other }) => {
       attachmentsEnabled: false,
       ticketFormsEnabled: true,
       nameEnabled: false,
-      ...embedConfig
-    }
+      ...embedConfig,
+    },
   })
 
   const descriptionElement = await queries.queryByLabelText(
@@ -45,9 +45,9 @@ const testCustomForm = async ({ field, queryElement = true, ...other }) => {
     expectSuccess: (values = {}) => {
       return result.expectSuccess(form.id, {
         description: 'Some message',
-        ...values
+        ...values,
       })
-    }
+    },
   }
 }
 
@@ -57,13 +57,13 @@ describe('support custom fields', () => {
       const checkbox = createField({ type: 'checkbox' })
 
       const { expectSuccess, element } = await testCustomForm({
-        field: checkbox
+        field: checkbox,
       })
 
       await element.click()
 
       await expectSuccess({
-        [checkbox.id]: 1
+        [checkbox.id]: 1,
       })
     })
 
@@ -71,11 +71,11 @@ describe('support custom fields', () => {
       const checkbox = createField({ type: 'checkbox', required_in_portal: false })
 
       const { expectSuccess } = await testCustomForm({
-        field: checkbox
+        field: checkbox,
       })
 
       await expectSuccess({
-        [checkbox.id]: 0
+        [checkbox.id]: 0,
       })
     })
 
@@ -83,7 +83,7 @@ describe('support custom fields', () => {
       const checkbox = createField({ type: 'checkbox', required_in_portal: true })
 
       const { submit, expectSuccess, element } = await testCustomForm({
-        field: checkbox
+        field: checkbox,
       })
 
       await submit()
@@ -93,7 +93,7 @@ describe('support custom fields', () => {
 
       await element.click()
       await expectSuccess({
-        [checkbox.id]: 1
+        [checkbox.id]: 1,
       })
     })
   })
@@ -106,7 +106,7 @@ describe('support custom fields', () => {
 
       await allowsInputTextEditing(element, 'Some text')
       await expectSuccess({
-        [field.id]: 'Some text'
+        [field.id]: 'Some text',
       })
     })
 
@@ -116,7 +116,7 @@ describe('support custom fields', () => {
       const { expectSuccess } = await testCustomForm({ field })
 
       await expectSuccess({
-        [field.id]: ''
+        [field.id]: '',
       })
     })
 
@@ -132,7 +132,7 @@ describe('support custom fields', () => {
 
       await allowsInputTextEditing(element, 'Some text')
       await expectSuccess({
-        [field.id]: 'Some text'
+        [field.id]: 'Some text',
       })
     })
   })
@@ -149,7 +149,7 @@ describe('support custom fields', () => {
       await page.keyboard.type('More text')
 
       await expectSuccess({
-        [field.id]: 'Some text\n\nMore text'
+        [field.id]: 'Some text\n\nMore text',
       })
     })
 
@@ -159,7 +159,7 @@ describe('support custom fields', () => {
       const { expectSuccess } = await testCustomForm({ field })
 
       await expectSuccess({
-        [field.id]: ''
+        [field.id]: '',
       })
     })
 
@@ -179,7 +179,7 @@ describe('support custom fields', () => {
       await page.keyboard.type('More text')
 
       await expectSuccess({
-        [field.id]: 'Some text\n\nMore text'
+        [field.id]: 'Some text\n\nMore text',
       })
     })
   })
@@ -194,7 +194,7 @@ describe('support custom fields', () => {
       await page.keyboard.type('123')
 
       await expectSuccess({
-        [field.id]: '123'
+        [field.id]: '123',
       })
     })
 
@@ -204,7 +204,7 @@ describe('support custom fields', () => {
       const { expectSuccess } = await testCustomForm({ field })
 
       await expectSuccess({
-        [field.id]: ''
+        [field.id]: '',
       })
     })
 
@@ -221,7 +221,7 @@ describe('support custom fields', () => {
       await element.focus()
       await page.keyboard.type('123')
       await expectSuccess({
-        [field.id]: '123'
+        [field.id]: '123',
       })
     })
   })
@@ -236,27 +236,27 @@ describe('support custom fields', () => {
       await page.keyboard.type('123.456')
 
       await expectSuccess({
-        [field.id]: '123.456'
+        [field.id]: '123.456',
       })
     })
 
     test('decimal not entered but not required', async () => {
       const field = createField({
         type: 'decimal',
-        required_in_portal: false
+        required_in_portal: false,
       })
 
       const { expectSuccess } = await testCustomForm({ field })
 
       await expectSuccess({
-        [field.id]: ''
+        [field.id]: '',
       })
     })
 
     test('decimal not entered required', async () => {
       const field = createField({
         type: 'decimal',
-        required_in_portal: true
+        required_in_portal: true,
       })
 
       const { submit, expectSuccess, element } = await testCustomForm({ field })
@@ -269,7 +269,7 @@ describe('support custom fields', () => {
       await element.focus()
       await page.keyboard.type('123.456')
       await expectSuccess({
-        [field.id]: '123.456'
+        [field.id]: '123.456',
       })
     })
   })
@@ -281,7 +281,7 @@ describe('support custom fields', () => {
       await dropdown.click()
     }
 
-    const select = async option => {
+    const select = async (option) => {
       const doc = await widget.getDocument()
       const item = await queries.getByText(doc, option)
       await item.click()
@@ -294,47 +294,47 @@ describe('support custom fields', () => {
           name: 'Sales',
           raw_name: 'Sales',
           value: 'one',
-          default: false
+          default: false,
         },
         {
           id: 64426154,
           name: 'support',
           raw_name: 'support',
           value: 'two',
-          default: true
+          default: true,
         },
         {
           id: 63810110,
           name: 'Test',
           raw_name: 'Test',
           value: 'test',
-          default: false
-        }
+          default: false,
+        },
       ]
 
       test('option selected', async () => {
         const field = createField({
           type: 'tagger',
-          custom_field_options: customFieldOptions
+          custom_field_options: customFieldOptions,
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
         await select('Sales')
         await expectSuccess({
-          [field.id]: 'one'
+          [field.id]: 'one',
         })
       })
 
       test('default', async () => {
         const field = createField({
           type: 'tagger',
-          custom_field_options: customFieldOptions
+          custom_field_options: customFieldOptions,
         })
 
         const { expectSuccess } = await testCustomForm({ field })
 
         await expectSuccess({
-          [field.id]: 'two'
+          [field.id]: 'two',
         })
       })
 
@@ -342,16 +342,16 @@ describe('support custom fields', () => {
         const field = createField({
           type: 'tagger',
           required_in_portal: false,
-          custom_field_options: customFieldOptions
+          custom_field_options: customFieldOptions,
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
 
         await widget.clickText('-', {
-          selector: 'li'
+          selector: 'li',
         })
         await expectSuccess({
-          [field.id]: ''
+          [field.id]: '',
         })
       })
 
@@ -359,7 +359,7 @@ describe('support custom fields', () => {
         const field = createField({
           type: 'tagger',
           required_in_portal: true,
-          custom_field_options: [customFieldOptions[0], customFieldOptions[2]]
+          custom_field_options: [customFieldOptions[0], customFieldOptions[2]],
         })
         const { expectSuccess, submit } = await testCustomForm({ field })
         await submit()
@@ -369,7 +369,7 @@ describe('support custom fields', () => {
         await openDropdown()
         await select('Sales')
         await expectSuccess({
-          [field.id]: 'one'
+          [field.id]: 'one',
         })
       })
     })
@@ -381,14 +381,14 @@ describe('support custom fields', () => {
           name: 'what::happens::when::I::do::something::stupid::like::this',
           raw_name: 'what::happens::when::I::do::something::stupid::like::this',
           value: 'what__happens__when__i__do__something__stupid__like__this',
-          default: false
-        }
+          default: false,
+        },
       ]
 
       test('selects nested option', async () => {
         const field = createField({
           type: 'tagger',
-          custom_field_options: customFieldOptions
+          custom_field_options: customFieldOptions,
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
@@ -402,7 +402,7 @@ describe('support custom fields', () => {
         await select('like')
         await select('this')
         await expectSuccess({
-          [field.id]: 'what__happens__when__i__do__something__stupid__like__this'
+          [field.id]: 'what__happens__when__i__do__something__stupid__like__this',
         })
       })
 
@@ -410,7 +410,7 @@ describe('support custom fields', () => {
         const field = createField({
           type: 'tagger',
           custom_field_options: customFieldOptions,
-          required_in_portal: false
+          required_in_portal: false,
         })
         const { expectSuccess } = await testCustomForm({ field })
         await openDropdown()
@@ -421,7 +421,7 @@ describe('support custom fields', () => {
         await select('happens')
         await select('what')
         await expectSuccess({
-          [field.id]: ''
+          [field.id]: '',
         })
       })
     })
@@ -433,7 +433,7 @@ test('does not break when an unsupported field is in the form', async () => {
 
   const { expectSuccess } = await testCustomForm({
     field: unsupportedField,
-    queryElement: false
+    queryElement: false,
   })
 
   await expectSuccess()

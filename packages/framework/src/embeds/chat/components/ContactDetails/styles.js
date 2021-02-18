@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { isIE } from 'utility/devices'
 
 const StyledModal = styled(Modal)`
-  ${props =>
+  ${(props) =>
     isIE() &&
     `{
       right: ${200 / props.theme.fontSize}rem !important;

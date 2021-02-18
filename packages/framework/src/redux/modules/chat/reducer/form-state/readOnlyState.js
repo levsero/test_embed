@@ -3,7 +3,7 @@ import { PREFILL_RECEIVED } from '../../../base/base-action-types'
 const initialState = {
   name: false,
   email: false,
-  phone: false
+  phone: false,
 }
 
 const readOnlyState = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const readOnlyState = (state = initialState, action) => {
     case PREFILL_RECEIVED:
       return {
         ...state,
-        ...payload.isReadOnly
+        ...payload.isReadOnly,
       }
     default:
       return state

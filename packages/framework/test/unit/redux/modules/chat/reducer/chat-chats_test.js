@@ -29,11 +29,11 @@ describe('chat reducer chats', () => {
         CHAT_MESSAGE_TYPES,
         CHAT_CUSTOM_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
-        CHAT_STRUCTURED_CONTENT_TYPE
+        CHAT_STRUCTURED_CONTENT_TYPE,
       },
       'src/redux/modules/base/base-action-types': {
-        API_RESET_WIDGET
-      }
+        API_RESET_WIDGET,
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -64,16 +64,16 @@ describe('chat reducer chats', () => {
             timestamp,
             nick: 'visitor',
             display_name: 'Visitor 123',
-            msg: 'Hi'
-          }
+            msg: 'Hi',
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_MSG_REQUEST_SENT,
           payload: {
             ...payload,
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
-          }
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+          },
         })
       })
 
@@ -81,7 +81,7 @@ describe('chat reducer chats', () => {
         const expectedPayload = {
           ...payload.detail,
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
-          numFailedTries: 0
+          numFailedTries: 0,
         }
 
         expect(state.size).toEqual(1)
@@ -100,8 +100,8 @@ describe('chat reducer chats', () => {
             timestamp,
             msg: 'Hi',
             nick: 'visitor',
-            display_name: 'Visitor 123'
-          }
+            display_name: 'Visitor 123',
+          },
         }
       })
 
@@ -111,8 +111,8 @@ describe('chat reducer chats', () => {
             type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
             payload: {
               ...payload,
-              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
-            }
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
+            },
           })
         })
 
@@ -120,7 +120,7 @@ describe('chat reducer chats', () => {
           const expectedPayload = {
             ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
-            numFailedTries: 0
+            numFailedTries: 0,
           }
 
           expect(state.size).toEqual(1)
@@ -135,21 +135,21 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           pendingChatPayload = {
             ...payload,
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
           }
           successfulChatPayload = {
             ...payload,
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
           }
 
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SENT,
-            payload: pendingChatPayload
+            payload: pendingChatPayload,
           })
 
           state = reducer(state, {
             type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
-            payload: successfulChatPayload
+            payload: successfulChatPayload,
           })
         })
 
@@ -161,7 +161,7 @@ describe('chat reducer chats', () => {
           const expectedPayload = {
             ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
-            numFailedTries: 0
+            numFailedTries: 0,
           }
 
           expect(state.size).toEqual(1)
@@ -181,8 +181,8 @@ describe('chat reducer chats', () => {
             timestamp,
             msg: 'Hi',
             nick: 'visitor',
-            display_name: 'Visitor 123'
-          }
+            display_name: 'Visitor 123',
+          },
         }
       })
 
@@ -192,8 +192,8 @@ describe('chat reducer chats', () => {
             type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
             payload: {
               ...payload,
-              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
-            }
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
+            },
           })
         })
 
@@ -201,7 +201,7 @@ describe('chat reducer chats', () => {
           const expectedPayload = {
             ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
-            numFailedTries: 1
+            numFailedTries: 1,
           }
 
           expect(state.size).toEqual(1)
@@ -216,21 +216,21 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           pendingChatPayload = {
             ...payload,
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
           }
           failureChatPayload = {
             ...payload,
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
           }
 
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SENT,
-            payload: pendingChatPayload
+            payload: pendingChatPayload,
           })
 
           state = reducer(state, {
             type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
-            payload: failureChatPayload
+            payload: failureChatPayload,
           })
         })
 
@@ -242,7 +242,7 @@ describe('chat reducer chats', () => {
           const expectedPayload = {
             ...payload.detail,
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
-            numFailedTries: 1
+            numFailedTries: 1,
           }
 
           expect(state.size).toEqual(1)
@@ -254,11 +254,11 @@ describe('chat reducer chats', () => {
           beforeEach(() => {
             state = reducer(state, {
               type: actionTypes.CHAT_MSG_REQUEST_SENT,
-              payload: pendingChatPayload
+              payload: pendingChatPayload,
             })
             state = reducer(state, {
               type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
-              payload: failureChatPayload
+              payload: failureChatPayload,
             })
           })
 
@@ -266,7 +266,7 @@ describe('chat reducer chats', () => {
             const expectedPayload = {
               ...payload.detail,
               status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
-              numFailedTries: 2
+              numFailedTries: 2,
             }
 
             expect(state.size).toEqual(1)
@@ -290,14 +290,14 @@ describe('chat reducer chats', () => {
             nick: 'visitor',
             display_name: 'Visitor 123',
             file: {
-              uploading: true
-            }
-          }
+              uploading: true,
+            },
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.CHAT_FILE_REQUEST_SENT,
-          payload: sendPayload
+          payload: sendPayload,
         })
       })
 
@@ -317,9 +317,9 @@ describe('chat reducer chats', () => {
               display_name: 'Visitor 123',
               file: {
                 url: 'http://path/to/file',
-                uploading: false
-              }
-            }
+                uploading: false,
+              },
+            },
           }
         })
 
@@ -330,7 +330,7 @@ describe('chat reducer chats', () => {
 
           state = reducer(state, {
             type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
-            payload: successPayload
+            payload: successPayload,
           })
 
           expect(state.get(timestamp)).toEqual(successPayload.detail)
@@ -349,9 +349,9 @@ describe('chat reducer chats', () => {
               display_name: 'Visitor 123',
               file: {
                 error: { message: 'EXCEED_SIZE_LIMIT' },
-                uploading: false
-              }
-            }
+                uploading: false,
+              },
+            },
           }
         })
 
@@ -362,7 +362,7 @@ describe('chat reducer chats', () => {
 
           state = reducer(state, {
             type: actionTypes.CHAT_FILE_REQUEST_FAILURE,
-            payload: failurePayload
+            payload: failurePayload,
           })
 
           expect(state.get(timestamp)).toEqual(failurePayload.detail)
@@ -377,7 +377,7 @@ describe('chat reducer chats', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
-          payload: { timestamp }
+          payload: { timestamp },
         })
       })
 
@@ -388,7 +388,7 @@ describe('chat reducer chats', () => {
       it('updates the existing chat in the chats collection', () => {
         const expectedPayload = {
           timestamp,
-          type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
+          type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED,
         }
 
         expect(state.size).toEqual(1)
@@ -403,7 +403,7 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         state = reducer(mockState, {
-          type: API_RESET_WIDGET
+          type: API_RESET_WIDGET,
         })
       })
 
@@ -422,7 +422,7 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         state = reducer(mockState, {
-          type: chatActionTypes.CHAT_BANNED
+          type: chatActionTypes.CHAT_BANNED,
         })
       })
 
@@ -441,7 +441,7 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         state = reducer(mockState, {
-          type: chatActionTypes.CHAT_DROPPED
+          type: chatActionTypes.CHAT_DROPPED,
         })
       })
 
@@ -463,21 +463,21 @@ describe('chat reducer chats', () => {
         chatActionTypes.SDK_CHAT_RATING,
         chatActionTypes.SDK_CHAT_COMMENT,
         chatActionTypes.SDK_CHAT_MEMBER_JOIN,
-        chatActionTypes.SDK_CHAT_MEMBER_LEAVE
+        chatActionTypes.SDK_CHAT_MEMBER_LEAVE,
       ]
 
-      sdkActionTypes.forEach(actionType => {
+      sdkActionTypes.forEach((actionType) => {
         describe(`when a ${actionType} action is dispatched`, () => {
           beforeEach(() => {
             detail = {
               timestamp: Date.now(),
               nick: 'visitor:x',
-              display_name: 'Mr X'
+              display_name: 'Mr X',
             }
 
             state = reducer(initialState, {
               type: actionType,
-              payload: { detail }
+              payload: { detail },
             })
           })
 
@@ -494,12 +494,12 @@ describe('chat reducer chats', () => {
           detail = {
             timestamp: Date.now(),
             nick: 'agent:smith',
-            display_name: 'Agent Smith'
+            display_name: 'Agent Smith',
           }
 
           state = reducer(initialState, {
             type: chatActionTypes.SDK_CHAT_MSG,
-            payload: { detail }
+            payload: { detail },
           })
         })
 
@@ -520,13 +520,13 @@ describe('chat reducer chats', () => {
               structured_msg: {
                 type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
                 msg: 'structured msg text',
-                quick_replies: [1, 2, 3]
-              }
+                quick_replies: [1, 2, 3],
+              },
             }
 
             state = reducer(initialState, {
               type: chatActionTypes.SDK_CHAT_MSG,
-              payload: { detail }
+              payload: { detail },
             })
           })
 
@@ -539,7 +539,7 @@ describe('chat reducer chats', () => {
               type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
               nick: 'agent:smith',
               items: detail.structured_msg.quick_replies,
-              timestamp: detail.timestamp + 1
+              timestamp: detail.timestamp + 1,
             }
 
             expect(state.get(detail.timestamp + 1)).toEqual(jasmine.objectContaining(expectedItem))
@@ -557,13 +557,13 @@ describe('chat reducer chats', () => {
               attachment: {
                 name: 'file',
                 size: 1,
-                mime_type: 'some/file'
-              }
+                mime_type: 'some/file',
+              },
             }
 
             state = reducer(initialState, {
               type: 'websdk/chat.file',
-              payload: { detail }
+              payload: { detail },
             })
           })
 
@@ -583,13 +583,13 @@ describe('chat reducer chats', () => {
               attachment: {
                 name: 'file',
                 size: 1,
-                mime_type: 'some/file'
-              }
+                mime_type: 'some/file',
+              },
             }
 
             state = reducer(initialState, {
               type: 'websdk/chat.file',
-              payload: { detail }
+              payload: { detail },
             })
           })
 

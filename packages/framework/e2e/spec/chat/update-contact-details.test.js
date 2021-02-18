@@ -5,7 +5,7 @@ import {
   loadWidgetWithChatOnline,
   clickStartChat,
   waitForChatToBeReady,
-  clickChatOptions
+  clickChatOptions,
 } from 'e2e/helpers/chat-embed'
 import zChat from 'e2e/helpers/zChat'
 import { allowsInputTextEditing } from 'e2e/spec/shared-examples'

@@ -9,7 +9,7 @@ export class LoadingSpinner extends Component {
     circleClasses: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number,
-    viewBox: PropTypes.string
+    viewBox: PropTypes.string,
   }
 
   static defaultProps = {
@@ -17,7 +17,7 @@ export class LoadingSpinner extends Component {
     circleClasses: '',
     height: 100,
     width: 100,
-    viewBox: '0 0 180 180'
+    viewBox: '0 0 180 180',
   }
 
   render = () => {

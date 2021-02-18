@@ -30,7 +30,7 @@ describe('chat reducer departments select', () => {
     beforeEach(() => {
       state = reducer(initialState, {
         type: actionTypes.UPDATE_SETTINGS,
-        payload: someSettings
+        payload: someSettings,
       })
     })
 
@@ -38,8 +38,8 @@ describe('chat reducer departments select', () => {
       beforeAll(() => {
         someSettings = {
           chat: {
-            suppress: true
-          }
+            suppress: true,
+          },
         }
       })
 
@@ -54,10 +54,10 @@ describe('chat reducer departments select', () => {
           webWidget: {
             chat: {
               departments: {
-                select: 'Dep'
-              }
-            }
-          }
+                select: 'Dep',
+              },
+            },
+          },
         }
       })
 

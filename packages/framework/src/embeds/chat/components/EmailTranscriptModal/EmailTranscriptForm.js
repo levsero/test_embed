@@ -15,10 +15,10 @@ import EmailTranscriptFormValues from 'embeds/chat/components/EmailTranscriptMod
 import { StyledBody } from './styles'
 import SubmitButton from 'src/components/DynamicForm/SubmitButton'
 
-const validate = values => {
+const validate = (values) => {
   if (!EMAIL_PATTERN.test(values.email)) {
     return {
-      email: 'not valid'
+      email: 'not valid',
     }
   }
 
@@ -48,7 +48,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
       })
       .catch(() => {
         callback({
-          [FORM_ERROR]: 'submit failed'
+          [FORM_ERROR]: 'submit failed',
         })
       })
   }
@@ -56,7 +56,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
   return (
     <ReactFinalForm
       onSubmit={onSubmit}
-      validate={values => {
+      validate={(values) => {
         if (!hasSubmitted) {
           return undefined
         }
@@ -64,7 +64,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
         return validate(values)
       }}
       initialValues={{
-        email: initialEmail
+        email: initialEmail,
       }}
     >
       {({ handleSubmit, submitError, submitting }) => (
@@ -108,7 +108,7 @@ const EmailTranscriptForm = ({ onClose, onSuccess }) => {
 
 EmailTranscriptForm.propTypes = {
   onClose: PropTypes.func,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
 }
 
 export default EmailTranscriptForm

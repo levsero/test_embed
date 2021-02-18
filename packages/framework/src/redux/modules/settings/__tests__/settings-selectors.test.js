@@ -2,27 +2,27 @@ import _ from 'lodash'
 
 import * as selectors from '../settings-selectors'
 
-const settings = newSettings => {
+const settings = (newSettings) => {
   return { settings: newSettings }
 }
 
-const chatSettings = newSettings => {
+const chatSettings = (newSettings) => {
   return settings({ chat: newSettings })
 }
 
-const talkSettings = newSettings => settings({ talk: newSettings })
+const talkSettings = (newSettings) => settings({ talk: newSettings })
 
-const launcherSettings = newSettings => {
+const launcherSettings = (newSettings) => {
   return settings({ launcher: newSettings })
 }
 
-const colorSettings = newSettings => {
+const colorSettings = (newSettings) => {
   return settings({ color: newSettings })
 }
 
-const contactOptionsSettings = newSettings => settings({ contactOptions: newSettings })
+const contactOptionsSettings = (newSettings) => settings({ contactOptions: newSettings })
 
-const contactFormSettings = newSettings => settings({ contactForm: { settings: newSettings } })
+const contactFormSettings = (newSettings) => settings({ contactForm: { settings: newSettings } })
 
 test('getSettingsChatSuppress', () => {
   const result = selectors.getSettingsChatSuppress(chatSettings({ suppress: true }))
@@ -33,7 +33,7 @@ test('getSettingsChatSuppress', () => {
 test('getRawSettingsChatDepartment', () => {
   const result = selectors.getRawSettingsChatDepartment(
     chatSettings({
-      departments: { select: 'Sales' }
+      departments: { select: 'Sales' },
     })
   )
 
@@ -41,10 +41,10 @@ test('getRawSettingsChatDepartment', () => {
 })
 
 describe('getSettingsChatDepartment', () => {
-  const callSelector = testData =>
+  const callSelector = (testData) =>
     selectors.getSettingsChatDepartment(
       chatSettings({
-        departments: { select: testData }
+        departments: { select: testData },
       })
     )
 
@@ -57,7 +57,7 @@ describe('getSettingsChatDepartment', () => {
     [undefined, ''],
     [null, ''],
     [true, 'true'],
-    [1.5, '1.5']
+    [1.5, '1.5'],
   ])('when the input is %p, the output is %p', (value, expected) => {
     expect(callSelector(value)).toEqual(expected)
   })
@@ -66,7 +66,7 @@ describe('getSettingsChatDepartment', () => {
 test('getRawSettingsChatDepartmentsEnabled', () => {
   const result = selectors.getRawSettingsChatDepartmentsEnabled(
     chatSettings({
-      departments: { enabled: ['Police', 'Fire'] }
+      departments: { enabled: ['Police', 'Fire'] },
     })
   )
 
@@ -74,20 +74,32 @@ test('getRawSettingsChatDepartmentsEnabled', () => {
 })
 
 describe('getSettingsChatDepartmentsEnabled', () => {
-  const callSelector = data => selectors.getSettingsChatDepartmentsEnabled.resultFunc(data)
+  const callSelector = (data) => selectors.getSettingsChatDepartmentsEnabled.resultFunc(data)
 
   test.each([
     [['FIRE'], ['fire']],
     [[12345], [12345]],
-    [['Police', 12345], ['police', 12345]],
+    [
+      ['Police', 12345],
+      ['police', 12345],
+    ],
     [[], []],
     [1, undefined],
     ['string', undefined],
     [{ foo: 'bar' }, undefined],
-    [[[1], 2], ['1', 2]],
-    [[{ a: 'b' }, 1], ['[object object]', 1]],
-    [[true, false], ['true', 'false']],
-    [[undefined, null], []]
+    [
+      [[1], 2],
+      ['1', 2],
+    ],
+    [
+      [{ a: 'b' }, 1],
+      ['[object object]', 1],
+    ],
+    [
+      [true, false],
+      ['true', 'false'],
+    ],
+    [[undefined, null], []],
   ])('when the input is %p, the output is %p', (value, expected) => {
     expect(callSelector(value)).toEqual(expected)
   })
@@ -104,7 +116,7 @@ test('getSettingsMobileNotificationsDisabled', () => {
 test('getSettingsChatTags', () => {
   const result = selectors.getSettingsChatTags(
     chatSettings({
-      tags: [1, 2]
+      tags: [1, 2],
     })
   )
 
@@ -114,7 +126,7 @@ test('getSettingsChatTags', () => {
 test('getAnalyticsDisabled', () => {
   const result = selectors.getAnalyticsDisabled(
     settings({
-      analytics: false
+      analytics: false,
     })
   )
 
@@ -124,7 +136,7 @@ test('getAnalyticsDisabled', () => {
 test('getSettingsChatConcierge', () => {
   const result = selectors.getSettingsChatConcierge(
     chatSettings({
-      concierge: { x: 1 }
+      concierge: { x: 1 },
     })
   )
 
@@ -134,7 +146,7 @@ test('getSettingsChatConcierge', () => {
 test('getSettingsChatTitle', () => {
   const result = selectors.getSettingsChatTitle(
     chatSettings({
-      title: { x: 1 }
+      title: { x: 1 },
     })
   )
 
@@ -144,7 +156,7 @@ test('getSettingsChatTitle', () => {
 test('getSettingsChatPrechatForm', () => {
   const result = selectors.getSettingsChatPrechatForm(
     chatSettings({
-      prechatForm: { x: 1 }
+      prechatForm: { x: 1 },
     })
   )
 
@@ -154,7 +166,7 @@ test('getSettingsChatPrechatForm', () => {
 test('getSettingsChatOfflineForm', () => {
   const result = selectors.getSettingsChatOfflineForm(
     chatSettings({
-      offlineForm: { x: 1 }
+      offlineForm: { x: 1 },
     })
   )
 
@@ -164,7 +176,7 @@ test('getSettingsChatOfflineForm', () => {
 test('getSettingsChatProfileCard', () => {
   const result = selectors.getSettingsChatProfileCard(
     chatSettings({
-      profileCard: { x: 1 }
+      profileCard: { x: 1 },
     })
   )
 
@@ -174,7 +186,7 @@ test('getSettingsChatProfileCard', () => {
 test('getSettingsChatHideWhenOffline', () => {
   const result = selectors.getSettingsChatHideWhenOffline(
     chatSettings({
-      hideWhenOffline: true
+      hideWhenOffline: true,
     })
   )
 
@@ -184,7 +196,7 @@ test('getSettingsChatHideWhenOffline', () => {
 test('getSettingsColorLauncher', () => {
   const result = selectors.getSettingsColorLauncher(
     colorSettings({
-      launcher: 'blue'
+      launcher: 'blue',
     })
   )
 
@@ -194,7 +206,7 @@ test('getSettingsColorLauncher', () => {
 test('getSettingsColorLauncherText', () => {
   const result = selectors.getSettingsColorLauncherText(
     colorSettings({
-      launcherText: 'green'
+      launcherText: 'green',
     })
   )
 
@@ -206,8 +218,8 @@ test('getSettingsLauncherBadge', () => {
     layout: 'image_left',
     image: 'https://img.example.com/qwerty.png',
     label: {
-      '*': 'cool label'
-    }
+      '*': 'cool label',
+    },
   }
   const result = selectors.getSettingsLauncherBadge(launcherSettings({ badge }))
 
@@ -218,8 +230,8 @@ test('getSettingsColor', () => {
   const mockColor = {
     color: {
       theme: '#123456',
-      launcher: '#ffffff'
-    }
+      launcher: '#ffffff',
+    },
   }
   const result = selectors.getSettingsColor(settings(mockColor))
 
@@ -232,8 +244,8 @@ test('getStylingOffset', () => {
       offsetVertical: 10,
       offsetHorizontal: 20,
       offsetMobileVertical: 30,
-      offsetMobileHorizontal: 40
-    }
+      offsetMobileHorizontal: 40,
+    },
   }
   const result = selectors.getStylingOffset(settings(mockSettings))
 
@@ -241,17 +253,17 @@ test('getStylingOffset', () => {
     horizontal: 20,
     mobile: {
       horizontal: 40,
-      vertical: 30
+      vertical: 30,
     },
-    vertical: 10
+    vertical: 10,
   })
 })
 
 test('getStylingZIndex', () => {
   const mockSettings = {
     styling: {
-      zIndex: 10000
-    }
+      zIndex: 10000,
+    },
   }
   const result = selectors.getStylingZIndex(settings(mockSettings))
 
@@ -276,29 +288,29 @@ test('getSettingsChatPopout', () => {
   const mockSettings = {
     chat: {
       title: {
-        '*': 'cool chat title'
+        '*': 'cool chat title',
       },
       departments: {
-        enabled: ['fire', 'police']
+        enabled: ['fire', 'police'],
       },
       prechatForm: {
         label: {
-          '*': 'prechatForm label'
-        }
+          '*': 'prechatForm label',
+        },
       },
       offlineForm: {
         label: {
-          '*': 'offlineForm label'
-        }
+          '*': 'offlineForm label',
+        },
       },
       concierge: {
-        avatarPath: 'http://example.com'
+        avatarPath: 'http://example.com',
       },
-      emailTranscriptEnabled: true
+      emailTranscriptEnabled: true,
     },
     color: {
-      theme: '#555555'
-    }
+      theme: '#555555',
+    },
   }
   const result = selectors.getSettingsChatPopout(settings(mockSettings))
   const expected = {
@@ -307,10 +319,10 @@ test('getSettingsChatPopout', () => {
       chat: {
         ..._.omit(mockSettings.chat, 'emailTranscriptEnabled'),
         menuOptions: {
-          emailTranscript: true
-        }
-      }
-    }
+          emailTranscript: true,
+        },
+      },
+    },
   }
 
   expect(result).toEqual(expected)
@@ -322,9 +334,9 @@ describe('getSettingsChatDepartmentsEmpty', () => {
       settings({
         chat: {
           departments: {
-            enabled: []
-          }
-        }
+            enabled: [],
+          },
+        },
       })
     )
 
@@ -336,9 +348,9 @@ describe('getSettingsChatDepartmentsEmpty', () => {
       settings({
         chat: {
           departments: {
-            enabled: [1, 2, 3]
-          }
-        }
+            enabled: [1, 2, 3],
+          },
+        },
       })
     )
 
@@ -350,9 +362,9 @@ describe('getSettingsChatDepartmentsEmpty', () => {
       settings({
         chat: {
           departments: {
-            enabled: null
-          }
-        }
+            enabled: null,
+          },
+        },
       })
     )
 
@@ -367,15 +379,15 @@ describe('getSettingsChatDepartmentsEmpty', () => {
             helpCenter: {
               sectionFilter: 'section',
               categoryFilter: 'category',
-              labelFilter: 'label'
-            }
+              labelFilter: 'label',
+            },
           })
         )
 
         expect(result).toEqual({
           category: 'category',
           label_names: 'label',
-          section: 'section'
+          section: 'section',
         })
       })
     })
@@ -387,8 +399,8 @@ describe('getSettingsChatDepartmentsEmpty', () => {
             helpCenter: {
               sectionFilter: '',
               categoryFilter: null,
-              labelFilter: undefined
-            }
+              labelFilter: undefined,
+            },
           })
         )
 
@@ -425,8 +437,8 @@ describe('contactOptions selectors', () => {
     contactButton: { '*': 'button' },
     chat: {
       chatLabelOnline: { '*': 'online label' },
-      chatLabelOffline: { '*': 'offline label' }
-    }
+      chatLabelOffline: { '*': 'offline label' },
+    },
   })
 
   test('getSettingsContactOptionsEnabled', () => {
@@ -435,25 +447,25 @@ describe('contactOptions selectors', () => {
 
   test('getSettingsContactOptionsContactFormLabel', () => {
     expect(selectors.getSettingsContactOptionsContactFormLabel(settings)).toEqual({
-      '*': 'form label'
+      '*': 'form label',
     })
   })
 
   test('getSettingsContactOptionsButton', () => {
     expect(selectors.getSettingsContactOptionsButton(settings)).toEqual({
-      '*': 'button'
+      '*': 'button',
     })
   })
 
   test('getSettingsContactOptionsChatLabelOnline', () => {
     expect(selectors.getSettingsContactOptionsChatLabelOnline(settings)).toEqual({
-      '*': 'online label'
+      '*': 'online label',
     })
   })
 
   test('getSettingsContactOptionsChatLabelOffline', () => {
     expect(selectors.getSettingsContactOptionsChatLabelOffline(settings)).toEqual({
-      '*': 'offline label'
+      '*': 'offline label',
     })
   })
 })
@@ -463,8 +475,8 @@ test('getAnswerBotTitle', () => {
   const result = selectors.getAnswerBotTitle(
     settings({
       answerBot: {
-        title
-      }
+        title,
+      },
     })
   )
 
@@ -477,9 +489,9 @@ test('getAnswerBotAvatarName', () => {
     settings({
       answerBot: {
         avatar: {
-          name
-        }
-      }
+          name,
+        },
+      },
     })
   )
 
@@ -492,9 +504,9 @@ test('getSettingsAnswerBotAvatarUrl', () => {
     settings({
       answerBot: {
         avatar: {
-          url
-        }
-      }
+          url,
+        },
+      },
     })
   )
 
@@ -506,9 +518,9 @@ test('getAnswerBotSearchLabels', () => {
     settings({
       answerBot: {
         search: {
-          labels: ['here', 'blah']
-        }
-      }
+          labels: ['here', 'blah'],
+        },
+      },
     })
   )
 
@@ -519,8 +531,8 @@ test('getSettingsAnswerBotSuppress', () => {
   const result = selectors.getSettingsAnswerBotSuppress(
     settings({
       answerBot: {
-        suppress: true
-      }
+        suppress: true,
+      },
     })
   )
 
@@ -532,9 +544,9 @@ test('getSettingsLauncherMobile', () => {
     settings({
       launcher: {
         mobile: {
-          labelVisible: true
-        }
-      }
+          labelVisible: true,
+        },
+      },
     })
   )
 

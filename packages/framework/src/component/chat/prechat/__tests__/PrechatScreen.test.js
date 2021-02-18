@@ -8,13 +8,13 @@ import { TEST_IDS } from 'src/constants/shared'
 
 const updateChatScreenSpy = jest.fn()
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     title: 'mockTitle',
     screen: screens.PRECHAT_SCREEN,
     prechatFormSettings: {
       form: { name: {}, email: {}, phone: {}, message: {} },
-      message: 'hello friend, intro message'
+      message: 'hello friend, intro message',
     },
     updateChatScreen: updateChatScreenSpy,
     setDepartment: () => {},
@@ -37,11 +37,11 @@ const renderComponent = inProps => {
         name: 'testName',
         email: 'testEmail@test.com',
         phone: '0400000000',
-        message: 'Hello Message'
-      }
+        message: 'Hello Message',
+      },
     },
 
-    ...inProps
+    ...inProps,
   }
 
   return render(<Component {...props} />)

@@ -12,7 +12,7 @@ import {
   getMaxFileCount,
   getMaxFileSize,
   getAttachmentTitle,
-  getAttachmentLimitExceeded
+  getAttachmentLimitExceeded,
 } from 'src/embeds/support/selectors'
 const INPUT_ID = 'dropzone-input'
 import { Container, StyledLabel, StyledMessage } from './styles'
@@ -29,7 +29,7 @@ const AttachmentField = ({
   errorMessage,
   value = {},
   field = {},
-  errorMessageKey
+  errorMessageKey,
 }) => {
   const alert = useRef()
 
@@ -44,7 +44,7 @@ const AttachmentField = ({
   }, [value.limitExceeded, displayAttachmentLimitError])
 
   const handleFileUpload = useCallback(
-    files => {
+    (files) => {
       uploadAttachedFiles(files, onChange, value)
     },
     [onChange, value, uploadAttachedFiles]
@@ -95,26 +95,23 @@ AttachmentField.propTypes = {
   clearLimitExceededError: PropTypes.func,
   field: SupportPropTypes.ticketField,
   errorMessage: PropTypes.string,
-  errorMessageKey: PropTypes.number
+  errorMessageKey: PropTypes.number,
 }
 
 const actionCreators = {
   clearLimitExceededError,
-  uploadAttachedFiles
+  uploadAttachedFiles,
 }
 
 const mapStateToProps = (state, props) => ({
   maxFileCount: getMaxFileCount(state),
   maxFileSize: getMaxFileSize(state),
   title: getAttachmentTitle(state, props.value && props.value.ids),
-  displayAttachmentLimitError: getAttachmentLimitExceeded(state)
+  displayAttachmentLimitError: getAttachmentLimitExceeded(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(AttachmentField)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  AttachmentField
+)
 
 export { connectedComponent as default, AttachmentField as Component }

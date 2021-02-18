@@ -5,7 +5,7 @@ import { Component as SuccessPage } from '..'
 describe('SuccessPage', () => {
   const defaultProps = {
     onCancelClick: jest.fn(),
-    history: { replace: jest.fn() }
+    history: { replace: jest.fn() },
   }
 
   const renderComponent = (props = {}) => render(<SuccessPage {...defaultProps} {...props} />)

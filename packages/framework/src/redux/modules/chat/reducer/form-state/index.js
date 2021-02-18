@@ -7,5 +7,5 @@ import readOnlyState from './readOnlyState'
 export default combineReducers({
   offlineForm,
   preChatForm,
-  readOnlyState
+  readOnlyState,
 })

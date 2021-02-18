@@ -13,16 +13,16 @@ describe('getMessages', () => {
               message: {
                 key: 'embeddable_framework.chat.chatLog.loadingImage',
                 interpolation: {
-                  attachmentSize: 'someAttachmentSize'
-                }
-              }
-            }
-          ]
-        ])
+                  attachmentSize: 'someAttachmentSize',
+                },
+              },
+            },
+          ],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const result = selectors.getMessages(mockState)
 
@@ -46,11 +46,14 @@ describe('getLastMessage', () => {
   it('returns the messages', () => {
     const mockState = {
       answerBot: {
-        messages: new Map([['1', { message: 'Thing 1' }], ['2', { message: 'Thing 2' }]])
+        messages: new Map([
+          ['1', { message: 'Thing 1' }],
+          ['2', { message: 'Thing 2' }],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const result = selectors.getLastMessage(mockState)
 
@@ -64,12 +67,12 @@ describe('getLastMessageType', () => {
       answerBot: {
         messages: new Map([
           ['1', { message: 'Thing 1', type: 'wah' }],
-          ['2', { message: 'Thing 2', type: 'blah' }]
-        ])
+          ['2', { message: 'Thing 2', type: 'blah' }],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const result = selectors.getLastMessageType(mockState)
 
@@ -81,14 +84,18 @@ describe('getGroupMessages', () => {
   it('returns messages according to passed in keys', () => {
     const mockState = {
       answerBot: {
-        messages: new Map([[0, 'zero'], [1, 'one'], [2, 'two']])
+        messages: new Map([
+          [0, 'zero'],
+          [1, 'one'],
+          [2, 'two'],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const mockProps = {
-      messageKeys: [1, 2]
+      messageKeys: [1, 2],
     }
     const results = selectors.makeGetGroupMessages(mockState, mockProps)
 
@@ -122,14 +129,14 @@ describe('makeGetGroupMessages', () => {
     const mockState = {
       answerBot: {
         messages: new Map([['message1', { type: 'results', sessionID: '123' }]]),
-        sessions: new Map([['123', { resolved: true, articles: [{ id: 1 }, { id: 2 }] }]])
+        sessions: new Map([['123', { resolved: true, articles: [{ id: 1 }, { id: 2 }] }]]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const mockProps = {
-      messageKeys: ['message1']
+      messageKeys: ['message1'],
     }
     const results = selectors.makeGetGroupMessages(mockState, mockProps)
 
@@ -156,11 +163,16 @@ describe('getGroupMessageKeys', () => {
   it('groups message keys by isVisitor', () => {
     const mockState = {
       answerBot: {
-        messages: new Map([[0, {}], [1, {}], [2, { isVisitor: true }], [3, {}]])
+        messages: new Map([
+          [0, {}],
+          [1, {}],
+          [2, { isVisitor: true }],
+          [3, {}],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
@@ -195,12 +207,12 @@ describe('getGroupMessageKeys', () => {
         messages: new Map([
           ['1', { message: 'Hello', isVisitor: false }],
           ['2', { type: 'botTyping', isVisitor: false }],
-          ['3', { type: 'botTyping', isVisitor: false }]
-        ])
+          ['3', { type: 'botTyping', isVisitor: false }],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
@@ -224,12 +236,12 @@ describe('getGroupMessageKeys', () => {
           ['1', { message: 'Hello', isVisitor: false }],
           ['2', { type: 'botTyping', isVisitor: false }],
           ['3', { type: 'botTyping', isVisitor: false }],
-          ['4', { message: 'hi', isVisitor: true }]
-        ])
+          ['4', { message: 'hi', isVisitor: true }],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
@@ -258,12 +270,12 @@ describe('getGroupMessageKeys', () => {
           [0, { type: 'feedbackRequested' }],
           [1, { feedbackRelated: true }],
           [2, { type: 'feedbackRequested' }],
-          [3, { feedbackRelated: true }]
-        ])
+          [3, { feedbackRelated: true }],
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const results = selectors.getMessageGroupKeys(mockState)
 
@@ -292,12 +304,12 @@ describe('getGroupMessageKeys', () => {
           [6, { feedbackRelated: true }],
           [7, { type: 'feedbackRequested' }], // new feedback session, discard previous ones
           [8, { feedbackRelated: true }],
-          [9, { isVisitor: true }] // non-feedback related message, record current feedback
-        ])
+          [9, { isVisitor: true }], // non-feedback related message, record current feedback
+        ]),
       },
       base: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     }
     const results = selectors.getMessageGroupKeys(mockState)
 

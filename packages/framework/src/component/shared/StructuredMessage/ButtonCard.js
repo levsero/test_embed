@@ -10,11 +10,11 @@ export class ButtonCard extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     message: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
-    message: ''
+    message: '',
   }
 
   render() {

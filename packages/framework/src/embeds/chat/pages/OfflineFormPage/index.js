@@ -20,16 +20,13 @@ const ChatOfflineFormPage = ({ title }) => {
 }
 
 ChatOfflineFormPage.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
-  title: getChatTitle(state)
+const mapStateToProps = (state) => ({
+  title: getChatTitle(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  { handleOfflineFormBack }
-)(ChatOfflineFormPage)
+const connectedComponent = connect(mapStateToProps, { handleOfflineFormBack })(ChatOfflineFormPage)
 
 export { connectedComponent as default, ChatOfflineFormPage as Component }

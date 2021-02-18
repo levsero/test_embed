@@ -13,7 +13,7 @@ jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', ()
   fetchHistoryOnScrollTop: jest.fn(),
   isFetchingHistory: false,
   errorFetchingHistory: false,
-  retryFetchMessages: jest.fn()
+  retryFetchMessages: jest.fn(),
 }))
 
 describe('Messenger app', () => {
@@ -21,7 +21,7 @@ describe('Messenger app', () => {
   const renderComponent = (actions = []) => {
     store = createStore()
 
-    actions.forEach(action => {
+    actions.forEach((action) => {
       store.dispatch(action())
     })
 
@@ -81,7 +81,7 @@ describe('Messenger app', () => {
     const { getByTitle, store } = renderComponent()
     store.dispatch(
       screenDimensionsChanged({
-        isVerticallySmallScreen: true
+        isVerticallySmallScreen: true,
       })
     )
 

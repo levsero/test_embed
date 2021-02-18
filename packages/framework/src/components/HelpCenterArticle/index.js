@@ -20,7 +20,7 @@ const allowedIframeAttribs = [
   'webkitallowfullscreen',
   'oallowfullscreen',
   'msallowfullscreen',
-  'name'
+  'name',
 ]
 
 export default class HelpCenterArticle extends Component {
@@ -32,7 +32,7 @@ export default class HelpCenterArticle extends Component {
     handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.objectOf(PropTypes.string).isRequired,
     updateStoredImages: PropTypes.func.isRequired,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -40,7 +40,7 @@ export default class HelpCenterArticle extends Component {
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},
     storedImages: {},
-    updateStoredImages: () => {}
+    updateStoredImages: () => {},
   }
 
   constructor(props, context) {
@@ -48,7 +48,7 @@ export default class HelpCenterArticle extends Component {
 
     this.state = {
       lastActiveArticleId: null,
-      queuedImages: {}
+      queuedImages: {},
     }
   }
 
@@ -100,13 +100,13 @@ export default class HelpCenterArticle extends Component {
         'td',
         'pre',
         'video',
-        'source'
+        'source',
       ],
       transformTags: { iframe: this.filterVideoEmbed },
       allowedSchemes: ['http', 'https', 'mailto', 'blob', 'tel'],
       allowedSchemesByTag: {
         iframe: ['https'],
-        img: ['data', 'http', 'https', 'blob']
+        img: ['data', 'http', 'https', 'blob'],
       },
       allowedAttributes: {
         a: ['id', 'href', 'target', 'title', 'name'],
@@ -126,11 +126,11 @@ export default class HelpCenterArticle extends Component {
         li: ['id'],
         p: ['id'],
         video: ['src', 'height', 'width', 'controls'],
-        source: ['src', 'type']
+        source: ['src', 'type'],
       },
       allowedClasses: {
-        span: ['wysiwyg-font-size-x-large', 'wysiwyg-font-size-large', 'wysiwyg-font-size-small']
-      }
+        span: ['wysiwyg-font-size-x-large', 'wysiwyg-font-size-large', 'wysiwyg-font-size-small'],
+      },
     }
 
     if (activeArticle.body) {
@@ -174,7 +174,7 @@ export default class HelpCenterArticle extends Component {
       .replace(/ href="\/(?!\/)/g, ` href="https://${domain}/`)
   }
 
-  handleClick = e => {
+  handleClick = (e) => {
     let target = e.target
     let href = target.getAttribute('href')
     const doc = target.ownerDocument
@@ -228,9 +228,9 @@ export default class HelpCenterArticle extends Component {
       'fast.wistia',
       'content.jwplatform',
       'screencast',
-      'loom'
+      'loom',
     ]
-    const hasMatched = _.some(allowedDomains, domain => {
+    const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`
 
       return allowedAttribs.src.search(validDomainTest) >= 0
@@ -244,7 +244,7 @@ export default class HelpCenterArticle extends Component {
     const { storedImages } = this.props
     const { locale, url, body } = activeArticle
     const domain = parseUrl(url).hostname
-    const parseHtmlString = htmlStr => {
+    const parseHtmlString = (htmlStr) => {
       const el = document.createElement('html')
 
       el.innerHTML = htmlStr
@@ -273,14 +273,14 @@ export default class HelpCenterArticle extends Component {
       return urls
     }, [])
 
-    imgEls.forEach(imgEl => {
+    imgEls.forEach((imgEl) => {
       // '//:0' ensures that the img src is blank on all browsers.
       // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
       imgEl.src = storedImages[imgEl.src] || '//:0'
     })
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
-      const reqUrls = pendingImageUrls.filter(url => !this.state.queuedImages.hasOwnProperty(url))
+      const reqUrls = pendingImageUrls.filter((url) => !this.state.queuedImages.hasOwnProperty(url))
 
       this.queueImageRequests(reqUrls)
     }
@@ -293,7 +293,7 @@ export default class HelpCenterArticle extends Component {
       const url = window.URL.createObjectURL(res.xhr.response)
 
       this.setState({
-        queuedImages: _.omit(this.state.queuedImages, src)
+        queuedImages: _.omit(this.state.queuedImages, src),
       })
       this.props.updateStoredImages({ [src]: url })
     }
@@ -303,14 +303,14 @@ export default class HelpCenterArticle extends Component {
       (result, url) => {
         // TODO: When we have more stable error reporting setup with Rollbar,
         // we could push this error out.
-        this.props.imagesSender(url, res => handleSuccess(url, res))
+        this.props.imagesSender(url, (res) => handleSuccess(url, res))
         result[url] = ''
       },
       {}
     )
 
     this.setState({
-      queuedImages: _.extend({}, this.state.queuedImages, imagesQueued)
+      queuedImages: _.extend({}, this.state.queuedImages, imagesQueued),
     })
   }
 

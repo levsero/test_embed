@@ -12,35 +12,35 @@ const breakpoints = {
   isFullScreen: `
     (orientation: portrait) and (max-height: ${fullScreenHeightBreakpoint}) and (max-width: ${fullScreenWidthBreakpoint}),
     (orientation: landscape) and (max-height: ${fullScreenWidthBreakpoint}) and (max-width: ${fullScreenHeightBreakpoint}),
-  `
+  `,
 }
 const slice = createSlice({
   name: 'responsiveDesign',
   initialState: {
     isVerticallySmallScreen: hostPageWindow.matchMedia(breakpoints.isVerticallySmallScreen).matches,
-    isFullScreen: hostPageWindow.matchMedia(breakpoints.isFullScreen).matches
+    isFullScreen: hostPageWindow.matchMedia(breakpoints.isFullScreen).matches,
   },
   reducers: {
     screenDimensionsChanged(state, action) {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
-    }
-  }
+    },
+  },
 })
 
 // Actions
 const { screenDimensionsChanged } = slice.actions
-const watchForScreenChanges = () => dispatch => {
+const watchForScreenChanges = () => (dispatch) => {
   const verticalMatchMedia = hostPageWindow.matchMedia(breakpoints.isVerticallySmallScreen)
   const fullscreenMatchMedia = hostPageWindow.matchMedia(breakpoints.isFullScreen)
 
-  const onVerticalChange = event => {
+  const onVerticalChange = (event) => {
     dispatch(screenDimensionsChanged({ isVerticallySmallScreen: event.matches }))
   }
 
-  const onFullscreenChange = event => {
+  const onFullscreenChange = (event) => {
     dispatch(screenDimensionsChanged({ isFullScreen: event.matches }))
   }
 
@@ -56,14 +56,14 @@ const watchForScreenChanges = () => dispatch => {
 }
 
 // Selectors
-const getIsVerticallySmallScreen = state => state.responsiveDesign.isVerticallySmallScreen
-const getIsFullScreen = state => state.responsiveDesign.isFullScreen
+const getIsVerticallySmallScreen = (state) => state.responsiveDesign.isVerticallySmallScreen
+const getIsFullScreen = (state) => state.responsiveDesign.isFullScreen
 
 export {
   watchForScreenChanges,
   getIsVerticallySmallScreen,
   getIsFullScreen,
   breakpoints,
-  screenDimensionsChanged
+  screenDimensionsChanged,
 }
 export default slice.reducer

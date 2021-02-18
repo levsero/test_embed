@@ -18,8 +18,8 @@ describe('chat history selectors', () => {
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
-        CHAT_SYSTEM_EVENTS
-      }
+        CHAT_SYSTEM_EVENTS,
+      },
     })
 
     const chatHistorySelectorsPath = buildSrcPath('redux/modules/chat/chat-history-selectors')
@@ -46,9 +46,9 @@ describe('chat history selectors', () => {
       result = getHasMoreHistory({
         chat: {
           chatHistory: {
-            hasMore: true
-          }
-        }
+            hasMore: true,
+          },
+        },
       })
     })
 
@@ -64,9 +64,9 @@ describe('chat history selectors', () => {
       result = getHistoryRequestStatus({
         chat: {
           chatHistory: {
-            requestStatus: 'pending'
-          }
-        }
+            requestStatus: 'pending',
+          },
+        },
       })
     })
 
@@ -86,10 +86,10 @@ describe('chat history selectors', () => {
               [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
               [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
               [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-            ])
-          }
-        }
+              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }],
+            ]),
+          },
+        },
       }
 
       result = getHistoryLength(mockState)
@@ -111,10 +111,10 @@ describe('chat history selectors', () => {
               [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
               [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
               [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-            ])
-          }
-        }
+              [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }],
+            ]),
+          },
+        },
       }
 
       result = getGroupMessages(mockState, [5, 7])
@@ -123,7 +123,7 @@ describe('chat history selectors', () => {
     it('returns the messages in the group', () => {
       expect(result).toEqual([
         { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
-        { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+        { nick: 'agent:123', type: 'chat.msg', timestamp: 7 },
       ])
     })
   })
@@ -131,13 +131,13 @@ describe('chat history selectors', () => {
   describe('getHasChatHistory', () => {
     let result
 
-    const getResult = entries => {
+    const getResult = (entries) => {
       return getHasChatHistory({
         chat: {
           chatHistory: {
-            chats: new Map(entries)
-          }
-        }
+            chats: new Map(entries),
+          },
+        },
       })
     }
 

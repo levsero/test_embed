@@ -2,7 +2,7 @@ import {
   ATTACHMENT_REMOVED,
   ATTACHMENTS_CLEARED,
   ATTACHMENT_LIMIT_EXCEEDED,
-  CLEAR_LIMIT_EXCEEDED_ERROR
+  CLEAR_LIMIT_EXCEEDED_ERROR,
 } from 'src/embeds/support/actions/action-types'
 
 const initialState = false

@@ -18,7 +18,7 @@ const TextMessage = ({
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
-  onRetry = () => {}
+  onRetry = () => {},
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
 
@@ -60,7 +60,7 @@ TextMessage.propTypes = {
   isFirstInGroup: PropTypes.bool,
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
 }
 
 export default TextMessage

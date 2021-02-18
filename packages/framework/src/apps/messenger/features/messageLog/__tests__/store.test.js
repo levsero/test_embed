@@ -19,8 +19,8 @@ describe('messages store', () => {
           hasPrevious: false,
           hasFetchedConversation: false,
           errorFetchingHistory: false,
-          isFetchingHistory: false
-        }
+          isFetchingHistory: false,
+        },
       },
       {
         extraDesc: 'receive a message',
@@ -28,8 +28,8 @@ describe('messages store', () => {
           message: {
             _id: 1,
             type: 'text',
-            received: 5
-          }
+            received: 5,
+          },
         }),
         expected: {
           ids: [1],
@@ -41,10 +41,10 @@ describe('messages store', () => {
             1: {
               _id: 1,
               type: 'text',
-              received: 5
-            }
-          }
-        }
+              received: 5,
+            },
+          },
+        },
       },
       {
         extraDesc: 'receive an older message',
@@ -54,16 +54,16 @@ describe('messages store', () => {
             2: {
               _id: 2,
               type: 'text',
-              received: 10
-            }
-          }
+              received: 10,
+            },
+          },
         },
         action: messageReceived({
           message: {
             _id: 1,
             type: 'text',
-            received: 5
-          }
+            received: 5,
+          },
         }),
         expected: {
           ids: [1, 2],
@@ -71,15 +71,15 @@ describe('messages store', () => {
             1: {
               _id: 1,
               type: 'text',
-              received: 5
+              received: 5,
             },
             2: {
               _id: 2,
               type: 'text',
-              received: 10
-            }
-          }
-        }
+              received: 10,
+            },
+          },
+        },
       },
       {
         extraDesc: 'receive a newer message',
@@ -89,16 +89,16 @@ describe('messages store', () => {
             2: {
               _id: 2,
               type: 'text',
-              received: 10
-            }
-          }
+              received: 10,
+            },
+          },
         },
         action: messageReceived({
           message: {
             _id: 3,
             type: 'text',
-            received: 15
-          }
+            received: 15,
+          },
         }),
         expected: {
           ids: [2, 3],
@@ -106,16 +106,16 @@ describe('messages store', () => {
             2: {
               _id: 2,
               type: 'text',
-              received: 10
+              received: 10,
             },
             3: {
               _id: 3,
               type: 'text',
-              received: 15
-            }
-          }
-        }
-      }
+              received: 15,
+            },
+          },
+        },
+      },
     ])
   })
 
@@ -130,8 +130,8 @@ describe('messages store', () => {
             type: 'text',
             text: 'One',
             role: 'appUser',
-            received: 100
-          }
+            received: 100,
+          },
         })
       )
       store.dispatch(
@@ -141,8 +141,8 @@ describe('messages store', () => {
             type: 'text',
             text: 'Two',
             role: 'appUser',
-            received: 50
-          }
+            received: 50,
+          },
         })
       )
 
@@ -153,8 +153,8 @@ describe('messages store', () => {
             type: 'text',
             text: 'Three',
             role: 'business',
-            received: 150
-          }
+            received: 150,
+          },
         })
       )
 
@@ -180,8 +180,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'One',
               role: 'appUser',
-              received: message1TimeStamp.getTime() / 1000
-            }
+              received: message1TimeStamp.getTime() / 1000,
+            },
           })
         )
         store.dispatch(
@@ -191,8 +191,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Two',
               role: 'appUser',
-              received: message2TimeStamp.getTime() / 1000
-            }
+              received: message2TimeStamp.getTime() / 1000,
+            },
           })
         )
 
@@ -203,8 +203,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               role: 'business',
-              received: message3TimeStamp.getTime() / 1000
-            }
+              received: message3TimeStamp.getTime() / 1000,
+            },
           })
         )
 
@@ -226,8 +226,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'testText',
               authorId: 'bus123',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
 
@@ -237,8 +237,8 @@ describe('messages store', () => {
               _id: 2,
               type: 'image',
               authorId: 'bus123',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -248,8 +248,8 @@ describe('messages store', () => {
               _id: 3,
               type: 'file',
               authorId: 'bus123',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -259,8 +259,8 @@ describe('messages store', () => {
               _id: 4,
               type: 'text',
               text: 'testText',
-              received: 4
-            }
+              received: 4,
+            },
           })
         )
 
@@ -269,8 +269,8 @@ describe('messages store', () => {
             message: {
               _id: 5,
               type: 'image',
-              received: 5
-            }
+              received: 5,
+            },
           })
         )
 
@@ -279,8 +279,8 @@ describe('messages store', () => {
             message: {
               _id: 6,
               type: 'file',
-              received: 6
-            }
+              received: 6,
+            },
           })
         )
 
@@ -322,8 +322,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'testText',
               authorId: 'bus123',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
 
@@ -333,8 +333,8 @@ describe('messages store', () => {
               _id: 2,
               type: 'image',
               authorId: 'bus123',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -344,8 +344,8 @@ describe('messages store', () => {
               _id: 3,
               type: 'file',
               authorId: 'bus123',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -355,8 +355,8 @@ describe('messages store', () => {
               _id: 4,
               type: 'form',
               authorId: 'bus123',
-              received: 4
-            }
+              received: 4,
+            },
           })
         )
 
@@ -366,8 +366,8 @@ describe('messages store', () => {
               _id: 5,
               type: 'form',
               authorId: 'bus456',
-              received: 5
-            }
+              received: 5,
+            },
           })
         )
         const [message1, message2, message3, message4, message5] = getMessageLog(store.getState())
@@ -389,8 +389,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'One',
               role: 'appUser',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
         store.dispatch(
@@ -400,8 +400,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Two',
               role: 'appUser',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -412,8 +412,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               role: 'business',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -440,8 +440,8 @@ describe('messages store', () => {
               text: 'One',
               authorId: 'bus123',
               role: 'business',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
         store.dispatch(
@@ -451,8 +451,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Two',
               role: 'appUser',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -463,8 +463,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               role: 'appUser',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -489,8 +489,8 @@ describe('messages store', () => {
               _id: 1,
               type: 'form',
               role: 'appUser',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
         store.dispatch(
@@ -500,8 +500,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Two',
               role: 'appUser',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -512,8 +512,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               role: 'appUser',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -540,8 +540,8 @@ describe('messages store', () => {
               text: 'One',
               role: 'business',
               authorId: 'bus123',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
 
@@ -552,8 +552,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Two',
               role: 'appUser',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -564,8 +564,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               role: 'appUser',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -590,8 +590,8 @@ describe('messages store', () => {
               _id: 1,
               type: 'image',
               src: 'cat image',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
         store.dispatch(
@@ -600,8 +600,8 @@ describe('messages store', () => {
               _id: 2,
               type: 'text',
               text: 'Two',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -612,8 +612,8 @@ describe('messages store', () => {
               type: 'text',
               text: 'Three',
               authorId: 'bus123',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -638,7 +638,7 @@ describe('messages store', () => {
               type: 'text',
               text: 'One',
               role: 'business',
-              received: 1
+              received: 1,
             },
             {
               _id: 2,
@@ -646,7 +646,7 @@ describe('messages store', () => {
               text: 'Two',
               role: 'appUser',
               received: 2,
-              status: MESSAGE_STATUS.sending
+              status: MESSAGE_STATUS.sending,
             },
             {
               _id: 3,
@@ -654,9 +654,9 @@ describe('messages store', () => {
               text: 'Three',
               role: 'appUser',
               received: 3,
-              status: MESSAGE_STATUS.failed
-            }
-          ].forEach(message => {
+              status: MESSAGE_STATUS.failed,
+            },
+          ].forEach((message) => {
             store.dispatch(messageReceived({ message }))
           })
 
@@ -686,8 +686,8 @@ describe('messages store', () => {
               role: 'appMaker',
               type: 'image',
               src: 'cat image',
-              received: 1
-            }
+              received: 1,
+            },
           })
         )
         store.dispatch(
@@ -700,8 +700,8 @@ describe('messages store', () => {
               role: 'appMaker',
               type: 'text',
               text: 'Two',
-              received: 2
-            }
+              received: 2,
+            },
           })
         )
 
@@ -715,8 +715,8 @@ describe('messages store', () => {
               role: 'appMaker',
               type: 'text',
               text: 'Three',
-              received: 3
-            }
+              received: 3,
+            },
           })
         )
 
@@ -730,8 +730,8 @@ describe('messages store', () => {
               role: 'otherAppMaker',
               type: 'text',
               text: 'Three',
-              received: 4
-            }
+              received: 4,
+            },
           })
         )
 
@@ -745,8 +745,8 @@ describe('messages store', () => {
               role: 'otherAppMaker',
               type: 'text',
               text: 'Three',
-              received: 5
-            }
+              received: 5,
+            },
           })
         )
 
@@ -778,7 +778,7 @@ describe('messages store', () => {
   describe('sendMessage', () => {
     it('adds an optimistic message into the message log when sent', () => {
       const mockClient = {
-        sendMessage: async () => {}
+        sendMessage: async () => {},
       }
       jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
       const store = createStore()
@@ -790,8 +790,8 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'text',
             status: 'sending',
-            text: 'Some message'
-          })
+            text: 'Some message',
+          }),
         ])
       )
     })
@@ -800,7 +800,7 @@ describe('messages store', () => {
       const mockClient = {
         sendMessage: async () => {
           throw new Error('stuff')
-        }
+        },
       }
       jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
       const store = createStore()
@@ -812,8 +812,8 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'text',
             status: 'sending',
-            text: 'Some message'
-          })
+            text: 'Some message',
+          }),
         ])
       )
 
@@ -824,8 +824,8 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'text',
             status: 'failed',
-            text: 'Some message'
-          })
+            text: 'Some message',
+          }),
         ])
       )
     })
@@ -834,8 +834,8 @@ describe('messages store', () => {
       const mockSendMessage = async () => {
         return {
           body: {
-            messages: [{ someServerValue: 'something' }]
-          }
+            messages: [{ someServerValue: 'something' }],
+          },
         }
       }
 
@@ -850,8 +850,8 @@ describe('messages store', () => {
           expect.objectContaining({
             type: 'text',
             status: 'sending',
-            text: 'Some message'
-          })
+            text: 'Some message',
+          }),
         ])
       )
 
@@ -863,15 +863,15 @@ describe('messages store', () => {
             type: 'text',
             status: 'sent',
             text: 'Some message',
-            someServerValue: 'something'
-          })
+            someServerValue: 'something',
+          }),
         ])
       )
     })
 
     it('updates the status of the message to "sending" when retrying', async () => {
       const mockClient = {
-        sendMessage: async () => {}
+        sendMessage: async () => {},
       }
       jest.spyOn(suncoClient, 'getClient').mockReturnValue(mockClient)
       const store = createStore()
@@ -883,8 +883,8 @@ describe('messages store', () => {
             type: 'text',
             text: 'Some message',
             isOptimistic: true,
-            status: 'failed'
-          }
+            status: 'failed',
+          },
         })
       )
 
@@ -896,8 +896,8 @@ describe('messages store', () => {
             _id: 'some-message',
             type: 'text',
             status: 'sending',
-            text: 'Some message'
-          })
+            text: 'Some message',
+          }),
         ])
       )
     })

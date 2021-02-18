@@ -23,17 +23,14 @@ const Results = ({ articles, onArticleClick, leadingMessage }) => {
   )
 }
 
-const renderLeadingMessage = message =>
+const renderLeadingMessage = (message) =>
   message ? <Text isVisitor={false} message={message} /> : null
 
-const cleanHtml = body => {
+const cleanHtml = (body) => {
   return {
-    __html: _.truncate(
-      sanitizeHtml(body, { allowedTags: [] })
-        .replace(/\s+/g, ' ')
-        .trim(),
-      { length: 100 }
-    )
+    __html: _.truncate(sanitizeHtml(body, { allowedTags: [] }).replace(/\s+/g, ' ').trim(), {
+      length: 100,
+    }),
   }
 }
 
@@ -62,7 +59,7 @@ const renderResult = (article, index, onClick) => {
 Results.propTypes = {
   articles: PropTypes.array.isRequired,
   onArticleClick: PropTypes.func.isRequired,
-  leadingMessage: PropTypes.string
+  leadingMessage: PropTypes.string,
 }
 
 export default Results

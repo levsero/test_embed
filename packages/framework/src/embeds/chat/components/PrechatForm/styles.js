@@ -9,7 +9,7 @@ const Form = styled.form`
 `
 
 const FieldSpace = styled.div`
-  margin-bottom: ${props => 10 / props.theme.fontSize}rem;
+  margin-bottom: ${(props) => 10 / props.theme.fontSize}rem;
 `
 
 export { Form, FieldSpace }

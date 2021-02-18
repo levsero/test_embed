@@ -9,14 +9,14 @@ import {
   loadWidgetWithChatOnline,
   clickStartChat,
   clickEndChat,
-  clickToConfirmEndChat
+  clickToConfirmEndChat,
 } from 'e2e/helpers/chat-embed'
 
 const agentRequestsRating = async () => {
   const detail = {
     nick: 'agent:12345',
     display_name: 'Cordy the agent',
-    proactive: false
+    proactive: false,
   }
 
   await zChat.agentRequestRating(detail)
@@ -24,7 +24,7 @@ const agentRequestsRating = async () => {
   expect(await queries.queryByLabelText(await widget.getDocument(), 'Rate this chat')).toBeTruthy()
 }
 
-const userClicksRatingButton = async rating => {
+const userClicksRatingButton = async (rating) => {
   const ratingButton = await queries.queryByLabelText(
     await widget.getDocument(),
     `Rate this chat as ${rating}`

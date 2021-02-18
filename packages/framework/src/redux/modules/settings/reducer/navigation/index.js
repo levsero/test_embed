@@ -3,8 +3,8 @@ import _ from 'lodash'
 
 const initialState = {
   popoutButton: {
-    enabled: true
-  }
+    enabled: true,
+  },
 }
 
 const navigation = (state = initialState, action) => {
@@ -18,8 +18,8 @@ const navigation = (state = initialState, action) => {
             payload,
             'webWidget.navigation.popoutButton.enabled',
             state.popoutButton.enabled
-          )
-        }
+          ),
+        },
       }
     default:
       return state

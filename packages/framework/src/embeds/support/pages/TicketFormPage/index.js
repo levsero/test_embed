@@ -6,7 +6,7 @@ import {
   getFormsToDisplay,
   getCanDisplayForm,
   getIsFormLoading,
-  getIsAnyTicketFormLoading
+  getIsAnyTicketFormLoading,
 } from 'embeds/support/selectors'
 import { dragStarted } from 'src/embeds/support/actions'
 import { connect } from 'react-redux'
@@ -23,7 +23,7 @@ const TicketFormPage = ({
   formExists,
   isLoading,
   isPreview,
-  isAnyTicketFormLoading
+  isAnyTicketFormLoading,
 }) => {
   const history = useHistory()
   const canRedirect = useRef(true)
@@ -77,7 +77,7 @@ TicketFormPage.propTypes = {
   formExists: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
   isPreview: PropTypes.bool,
-  isAnyTicketFormLoading: PropTypes.bool.isRequired
+  isAnyTicketFormLoading: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -90,17 +90,14 @@ const mapStateToProps = (state, ownProps) => {
     amountOfCustomForms: getFormsToDisplay(state).length,
     formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
     isLoading: getIsFormLoading(state, id),
-    isAnyTicketFormLoading: getIsAnyTicketFormLoading(state)
+    isAnyTicketFormLoading: getIsAnyTicketFormLoading(state),
   }
 }
 
 const actionCreators = {
-  dragStarted
+  dragStarted,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(TicketFormPage)
+const connectedComponent = connect(mapStateToProps, actionCreators)(TicketFormPage)
 
 export { connectedComponent as default, TicketFormPage as Component }

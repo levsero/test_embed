@@ -24,13 +24,13 @@ export const supportedFields = {
   dropdown: Dropdown,
   select: Dropdown,
   tagger: Dropdown,
-  attachments: AttachmentField
+  attachments: AttachmentField,
 }
 
 const getField = (type, extraFieldOptions = {}) => {
   const options = {
     ...supportedFields,
-    ...extraFieldOptions
+    ...extraFieldOptions,
   }
   return options[type] || FallbackField
 }

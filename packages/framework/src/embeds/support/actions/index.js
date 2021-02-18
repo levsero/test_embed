@@ -6,7 +6,7 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getMaxFileSize,
   getMaxFileCount,
-  getAttachmentsForForm
+  getAttachmentsForForm,
 } from 'src/embeds/support/selectors'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
 import { http } from 'service/transport'
@@ -20,44 +20,44 @@ import { clearFormState } from 'src/redux/modules/form/actions'
 
 let attachmentUploaders = {}
 
-export const submitForm = state => ({
+export const submitForm = (state) => ({
   type: actionTypes.SUBMITTED_FORM,
-  payload: { state }
+  payload: { state },
 })
 
 export const attachmentLimitExceeded = () => ({
-  type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+  type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED,
 })
 
 export const clearLimitExceededError = () => ({
-  type: actionTypes.CLEAR_LIMIT_EXCEEDED_ERROR
+  type: actionTypes.CLEAR_LIMIT_EXCEEDED_ERROR,
 })
 
 export const dragStarted = () => ({
-  type: actionTypes.DRAG_START
+  type: actionTypes.DRAG_START,
 })
 
-export const formOpened = id => ({
+export const formOpened = (id) => ({
   type: actionTypes.FORM_OPENED,
-  payload: { id }
+  payload: { id },
 })
 
 export const dragEnded = () => ({
-  type: actionTypes.DRAG_END
+  type: actionTypes.DRAG_END,
 })
 
-export const setActiveFormName = name => ({
+export const setActiveFormName = (name) => ({
   type: actionTypes.SET_ACTIVE_FORM_NAME,
-  payload: { name }
+  payload: { name },
 })
 
 export const clearActiveFormName = () => ({
-  type: actionTypes.CLEARED_ACTIVE_FORM_NAME
+  type: actionTypes.CLEARED_ACTIVE_FORM_NAME,
 })
 
-const uploadAttachmentRequest = attachment => ({
+const uploadAttachmentRequest = (attachment) => ({
   type: actionTypes.ATTACHMENT_UPLOAD_REQUESTED,
-  payload: attachment
+  payload: attachment,
 })
 
 const uploadAttachmentSuccess = (id, response) => {
@@ -74,36 +74,36 @@ const uploadAttachmentSuccess = (id, response) => {
   } catch {
     payload = {
       ...payload,
-      errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
+      errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR,
     }
   }
 
   return {
     type: actionTypes.ATTACHMENT_UPLOAD_SUCCEEDED,
-    payload
+    payload,
   }
 }
 
-const uploadAttachmentFailure = id => ({
+const uploadAttachmentFailure = (id) => ({
   type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
   payload: {
     id,
     uploading: false,
-    errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
-  }
+    errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR,
+  },
 })
 
 const uploadAttachmentUpdate = (id, progress) => ({
   type: actionTypes.ATTACHMENT_UPLOAD_UPDATED,
   payload: {
     id,
-    uploadProgress: progress.percent || 100
-  }
+    uploadProgress: progress.percent || 100,
+  },
 })
 
-const removeAttachment = id => ({
+const removeAttachment = (id) => ({
   type: actionTypes.ATTACHMENT_REMOVED,
-  payload: { id }
+  payload: { id },
 })
 
 export const clearAttachments = () => (dispatch, _getState) => {
@@ -112,7 +112,7 @@ export const clearAttachments = () => (dispatch, _getState) => {
   dispatch({ type: actionTypes.ATTACHMENTS_CLEARED })
 }
 
-export const deleteAttachment = id => (dispatch, _getState) => {
+export const deleteAttachment = (id) => (dispatch, _getState) => {
   try {
     attachmentUploaders[id].abort()
     delete attachmentUploaders[id]
@@ -126,9 +126,9 @@ export const uploadAttachment = (file, id) => (dispatch, getState) => {
   const fileOversize = file.size >= maxFileSize
   const errorMessage = fileOversize ? ATTACHMENT_ERRORS.TOO_LARGE : null
   const fileType = file.type || 'application/octet-stream'
-  const onUploadComplete = response => dispatch(uploadAttachmentSuccess(id, response))
-  const onUploadFailure = error => dispatch(uploadAttachmentFailure(id, error))
-  const onUploadUpdate = progress => dispatch(uploadAttachmentUpdate(id, progress))
+  const onUploadComplete = (response) => dispatch(uploadAttachmentSuccess(id, response))
+  const onUploadFailure = (error) => dispatch(uploadAttachmentFailure(id, error))
+  const onUploadUpdate = (progress) => dispatch(uploadAttachmentUpdate(id, progress))
   const attachment = {
     id,
     fileName: file.name,
@@ -138,7 +138,7 @@ export const uploadAttachment = (file, id) => (dispatch, getState) => {
     fileUrl: null,
     uploading: !fileOversize,
     uploadProgress: 0,
-    uploadToken: null
+    uploadToken: null,
   }
 
   dispatch(uploadAttachmentRequest(attachment))
@@ -158,7 +158,7 @@ const uploadTokensForForm = (formAttachments = {}, state) => {
   if (!ids) return []
 
   const attachments = getAttachmentsForForm(state, ids)
-  return attachments.map(attachment => attachment.uploadToken)
+  return attachments.map((attachment) => attachment.uploadToken)
 }
 
 export function submitTicket(formState, formId, fields) {
@@ -177,7 +177,7 @@ export function submitTicket(formState, formId, fields) {
             history.replace(routes.success())
             dispatch({
               type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-              payload: { name: formId }
+              payload: { name: formId },
             })
             dispatch(clearFormState(`support-${formId}`))
             resolve()
@@ -189,21 +189,21 @@ export function submitTicket(formState, formId, fields) {
               type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
               payload: err.timeout
                 ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
-                : i18n.t('embeddable_framework.submitTicket.notify.message.error')
+                : i18n.t('embeddable_framework.submitTicket.notify.message.error'),
             })
             reject()
-          }
-        }
+          },
+        },
       }
 
       dispatch({
-        type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT
+        type: actionTypes.TICKET_SUBMISSION_REQUEST_SENT,
       })
 
       withRateLimiting(http.send, payload, 'TICKET_SUBMISSION_REQUEST', () => {
         dispatch({
           type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
-          payload: i18n.t('embeddable_framework.common.error.form_submission_disabled')
+          payload: i18n.t('embeddable_framework.common.error.form_submission_disabled'),
         })
       })
     })
@@ -211,7 +211,7 @@ export function submitTicket(formState, formId, fields) {
 }
 
 export const uploadAttachedFiles = (files, updateFinalForm, value) => (dispatch, getState) => {
-  const filesArray = Array.from(files).map(file => {
+  const filesArray = Array.from(files).map((file) => {
     const id = _.uniqueId()
     return { file, id }
   })
@@ -223,7 +223,7 @@ export const uploadAttachedFiles = (files, updateFinalForm, value) => (dispatch,
   const numAttachments = attachments.length
   const numFilesToAdd = maxFileCount - numAttachments
   let uploadedFileIds = []
-  _.slice(filesArray, 0, numFilesToAdd).forEach(file => {
+  _.slice(filesArray, 0, numFilesToAdd).forEach((file) => {
     dispatch(uploadAttachment(file.file, file.id))
     uploadedFileIds.push(file.id)
   })
@@ -245,6 +245,6 @@ export const formPrefilled = (formId, prefillId) => ({
   type: FORM_PREFILLED,
   payload: {
     formId,
-    prefillId
-  }
+    prefillId,
+  },
 })

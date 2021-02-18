@@ -4,7 +4,7 @@ import {
   mockInteractionEndpoint,
   waitForAnswerBot,
   search,
-  waitForGetInTouchButton
+  waitForGetInTouchButton,
 } from 'e2e/helpers/answer-bot-embed'
 
 test('only show get in touch button after query', async () => {
@@ -15,9 +15,9 @@ test('only show get in touch button after query', async () => {
       window.zESettings = {
         webWidget: {
           answerBot: {
-            contactOnlyAfterQuery: true
-          }
-        }
+            contactOnlyAfterQuery: true,
+          },
+        },
       }
     })
     .load()

@@ -7,27 +7,27 @@ beforeEach(async () => {
   const form1 = createForm({
     name: 'Example form 1',
     id: 123,
-    fields: [createField({ type: 'checkbox' })]
+    fields: [createField({ type: 'checkbox' })],
   })
   const form2 = createForm({
     name: 'Example form 2',
     id: 456,
-    fields: [createField({ type: 'text' })]
+    fields: [createField({ type: 'text' })],
   })
   const mockConfigWithForms = {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
   const mockFormsResponse = {
     ticket_forms: form1.mockFormsResponse.ticket_forms.concat(form2.mockFormsResponse.ticket_forms),
     ticket_fields: form1.mockFormsResponse.ticket_fields.concat(
       form2.mockFormsResponse.ticket_fields
-    )
+    ),
   }
   await loadWidget()
     .withPresets('contactForm', mockConfigWithForms)
@@ -41,10 +41,10 @@ beforeEach(async () => {
               fr: 'Please choose, but in French:',
               'en-us': 'Please choose, but in en-us:',
               'pt-BR': 'Please choose, but in pt-BR:',
-              'eS-pA': 'Please choose, but in es-PA:'
-            }
-          }
-        }
+              'eS-pA': 'Please choose, but in es-PA:',
+            },
+          },
+        },
       }
     })
     .load()

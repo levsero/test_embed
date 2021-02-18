@@ -15,28 +15,28 @@ function mockZChat(zChat) {
         return fireEvent(subscribers, this)
       }
       return mocks[prop] || noop
-    }
+    },
   })
 }
 
 function mockAuthentication(config) {
   const jwtFn = config.authentication.jwt_fn
-  jwtFn(token => {
+  jwtFn((token) => {
     fetch('https://id.zopim.com/authenticated/web/jwt', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         account_key: config.account_key,
-        token: token
-      })
+        token: token,
+      }),
     })
   })
 }
 
 function mockInit() {
-  return config => {
+  return (config) => {
     if (config.authentication) {
       mockAuthentication(config)
     }
@@ -44,7 +44,7 @@ function mockInit() {
 }
 
 function mockSetOnFirstReady(target) {
-  return obj => (target.setOnFirstReady = obj)
+  return (obj) => (target.setOnFirstReady = obj)
 }
 
 function noop() {}
@@ -61,7 +61,7 @@ function mockFirehose(subscribers) {
       } else {
         subscribers[event] = [cb]
       }
-    }
+    },
   })
 }
 
@@ -87,15 +87,15 @@ function fireEvent(subscribers, target) {
       payload.detail === 'connected'
     ) {
       const detail = initialSettings(target.setOnFirstReady)
-      subscribers['data'].forEach(cb => {
+      subscribers['data'].forEach((cb) => {
         cb({
           type: 'initialSettings',
-          detail
+          detail,
         })
       })
     }
     if (subscribers[event]) {
-      subscribers[event].forEach(cb => {
+      subscribers[event].forEach((cb) => {
         cb(payload)
       })
     }

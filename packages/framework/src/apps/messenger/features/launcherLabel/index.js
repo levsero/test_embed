@@ -10,7 +10,7 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import { getIsWidgetOpen, widgetOpened } from 'src/apps/messenger/store/visibility'
 import {
   getIsLauncherLabelVisible,
-  labelHidden
+  labelHidden,
 } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import { getLauncherLabelText } from 'src/apps/messenger/features/launcherLabel/store/config'
 import { Container } from 'src/apps/messenger/features/launcherLabel/styles'
@@ -21,7 +21,7 @@ import {
   Tail,
   CloseIcon,
   GlobalStyles,
-  TriangleShadow
+  TriangleShadow,
 } from './styles'
 
 const roughSizeForBoxShadows = 20
@@ -61,7 +61,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
         width: dimensions.width,
         [position]: 0,
         border: 0,
-        zIndex
+        zIndex,
       }}
     >
       <ThemeProvider>
@@ -74,7 +74,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
             }}
           >
             <Content
-              ref={ref => {
+              ref={(ref) => {
                 if (!ref || dimensions.updated) {
                   return
                 }
@@ -82,7 +82,7 @@ const LauncherLabel = React.forwardRef((_, ref) => {
                 setDimensions({
                   height: ref.clientHeight + roughSizeForBoxShadows * 2,
                   width: ref.clientWidth + roughSizeForBoxShadows * 2,
-                  updated: true
+                  updated: true,
                 })
               }}
               position={position}

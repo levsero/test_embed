@@ -3,13 +3,13 @@ import { ThemeContext } from 'styled-components'
 import { stripUnit } from 'polished'
 import { scrollPadding } from './styles'
 
-const remToPx = rem => {
+const remToPx = (rem) => {
   const fontSize = getComputedStyle(document.documentElement).fontSize
 
   return stripUnit(rem) * stripUnit(fontSize)
 }
 
-const getVisibleItems = container => {
+const getVisibleItems = (container) => {
   const containerRect = container.getBoundingClientRect()
   const children = Array.from(container.children)
 
@@ -63,7 +63,7 @@ const useCarousel = ({ items }) => {
 
   // The scrollTo function on elements for modern browsers will smoothly scroll to the position
   // For browsers that don't support scrollTo we will manually set the scrollLeft of the element
-  const scrollTo = position => {
+  const scrollTo = (position) => {
     if (containerRef.current.scrollTo) {
       containerRef.current.scrollTo({ left: position })
     } else {
@@ -71,7 +71,7 @@ const useCarousel = ({ items }) => {
     }
   }
 
-  const onFocus = element => {
+  const onFocus = (element) => {
     const newOffset = element.target?.offsetParent?.offsetLeft
     const padding = remToPx(scrollPadding({ theme }))
 
@@ -122,7 +122,7 @@ const useCarousel = ({ items }) => {
     goToPreviousPage,
     onFocus,
     isFirstSlideVisible: visibleItems.indexOf(1) > -1,
-    isLastSlideVisible: visibleItems.indexOf(items.length) > -1
+    isLastSlideVisible: visibleItems.indexOf(items.length) > -1,
   }
 }
 

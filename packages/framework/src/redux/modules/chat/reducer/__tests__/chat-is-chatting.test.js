@@ -25,72 +25,72 @@ testReducer(chatIsChatting, [
   {
     action: {
       type: actions.IS_CHATTING,
-      payload: true
+      payload: true,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
       type: actions.SDK_CONNECTION_UPDATE,
-      payload: { type: 'connection_update', detail: 'closed' }
+      payload: { type: 'connection_update', detail: 'closed' },
     },
     initialState: true,
     expected: false,
-    extraDesc: 'sets to false on connection close'
+    extraDesc: 'sets to false on connection close',
   },
   {
     action: {
       type: actions.SDK_CONNECTION_UPDATE,
-      payload: { type: 'connection_update', detail: 'open' }
+      payload: { type: 'connection_update', detail: 'open' },
     },
     extraDesc: 'does not set to false if not connection close',
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actions.CHAT_MSG_REQUEST_SUCCESS
+      type: actions.CHAT_MSG_REQUEST_SUCCESS,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actions.SDK_CHAT_MEMBER_JOIN
+      type: actions.SDK_CHAT_MEMBER_JOIN,
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: actions.CHAT_USER_LOGGING_OUT
+      type: actions.CHAT_USER_LOGGING_OUT,
     },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: actions.END_CHAT_REQUEST_SUCCESS
+      type: actions.END_CHAT_REQUEST_SUCCESS,
     },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: actions.CHAT_BANNED
+      type: actions.CHAT_BANNED,
     },
     initialState: true,
-    expected: false
+    expected: false,
   },
   {
     action: {
       type: actions.UPDATE_PREVIEWER_SCREEN,
       payload: {
-        status: false
-      }
+        status: false,
+      },
     },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import {
   MessageLogListDecorator,
-  MessengerContainerDecorator
+  MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
 import OtherParticipantLayout from './'
 
 export default {
   title: 'Components/OtherParticipantLayout',
   component: OtherParticipantLayout,
-  decorators: [MessageLogListDecorator, MessengerContainerDecorator]
+  decorators: [MessageLogListDecorator, MessengerContainerDecorator],
 }
 
 const DummyMessageContainer = styled.div`
@@ -20,7 +20,7 @@ const DummyMessageContainer = styled.div`
   border: 1px solid #000;
 `
 
-const Template = args => (
+const Template = (args) => (
   <OtherParticipantLayout {...args}>
     <DummyMessageContainer>Component children get inserted here</DummyMessageContainer>
   </OtherParticipantLayout>
@@ -31,5 +31,5 @@ export const EmptyLayout = Template.bind()
 EmptyLayout.args = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
-  timeReceived: timeNowInSeconds
+  timeReceived: timeNowInSeconds,
 }

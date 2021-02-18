@@ -5,10 +5,10 @@ const chatEmbed = (props = {}) => ({
       props: {
         color: '#1F73B7',
         zopimId: 'P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA',
-        ...props
-      }
-    }
-  }
+        ...props,
+      },
+    },
+  },
 })
 
 const helpCenterEmbed = (props = {}) => ({
@@ -18,10 +18,10 @@ const helpCenterEmbed = (props = {}) => ({
       props: {
         color: '#1F73B7',
         contextualHelpEnabled: false,
-        ...props
-      }
-    }
-  }
+        ...props,
+      },
+    },
+  },
 })
 
 // These presets can be used when creating a mock embeddable config with the createEmbeddableConfig function
@@ -36,10 +36,10 @@ const presets = {
           nameFieldRequired: false,
           ticketFormsEnabled: false,
           color: '#1F73B7',
-          maxFileSize: 20971520
-        }
-      }
-    }
+          maxFileSize: 20971520,
+        },
+      },
+    },
   },
   chat: chatEmbed(),
   chatStandalone: chatEmbed({
@@ -49,8 +49,8 @@ const presets = {
       enabled: true,
       imagePath: '',
       layout: 'image_right',
-      text: 'Chat with us'
-    }
+      text: 'Chat with us',
+    },
   }),
   chatWithChatBadge: chatEmbed({
     badge: {
@@ -58,15 +58,15 @@ const presets = {
       enabled: true,
       imagePath: '',
       layout: 'image_right',
-      text: 'Chat with us'
-    }
+      text: 'Chat with us',
+    },
   }),
   helpCenterWithContextualHelp: helpCenterEmbed({ contextualHelpEnabled: true }),
   answerBot: helpCenterEmbed({ answerBotEnabled: true }),
   answerBotWithContextualHelp: helpCenterEmbed({
     contextualHelpEnabled: true,
-    answerBotEnabled: true
-  })
+    answerBotEnabled: true,
+  }),
 }
 
 export default presets

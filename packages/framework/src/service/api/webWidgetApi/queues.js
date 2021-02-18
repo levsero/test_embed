@@ -13,11 +13,11 @@ const apiAddToPostRenderQueue = (...args) => {
   newAPIPostRenderQueue.push(args)
 }
 
-const legacyApiFunctionNameSignature = apiFunctionName => {
+const legacyApiFunctionNameSignature = (apiFunctionName) => {
   return `zE.${apiFunctionName}()`
 }
 
-const apiFunctionNameSignature = apiFunctionArray => {
+const apiFunctionNameSignature = (apiFunctionArray) => {
   return `zE('${apiFunctionArray[0]}', '${apiFunctionArray[1]}', ...)`
 }
 
@@ -42,7 +42,7 @@ export function apisExecutePostRenderQueue(win, legacyPostRenderQueue, reduxStor
   }
 
   try {
-    newAPIPostRenderQueue.forEach(item => {
+    newAPIPostRenderQueue.forEach((item) => {
       apiFunctionArray = item
       apiExecute(apiStructurePostRenderSetup(), reduxStore, ...item)
     })
@@ -68,7 +68,7 @@ export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
     }
   }
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
-  const postRenderQueueCallback = function(...args) {
+  const postRenderQueueCallback = function (...args) {
     // "this" is bound to the method name
     legacyPostRenderQueue.push([this, args])
   }
@@ -87,12 +87,12 @@ export function setupLegacyApiQueue(win, legacyPostRenderQueue, reduxStore) {
   })
 
   return {
-    publicApi
+    publicApi,
   }
 }
 
 export function apisExecuteQueue(reduxStore, queue) {
-  _.forEach(queue, method => {
+  _.forEach(queue, (method) => {
     if (method[0].locale) {
       // Backwards compat with zE({locale: 'zh-CN'}) calls
       setLocaleApi(reduxStore, method[0].locale)

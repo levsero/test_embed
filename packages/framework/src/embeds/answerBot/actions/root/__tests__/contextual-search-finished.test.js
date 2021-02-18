@@ -3,6 +3,6 @@ import * as actions from '../contextual-search-finished'
 
 test('contextualSearchFinished dispatches expected payload', () => {
   expect(actions.contextualSearchFinished()).toEqual({
-    type: CONTEXTUAL_SEARCH_FINISHED
+    type: CONTEXTUAL_SEARCH_FINISHED,
   })
 })

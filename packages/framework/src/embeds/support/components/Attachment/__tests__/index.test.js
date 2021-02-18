@@ -12,12 +12,12 @@ describe('Attachment', () => {
       fileSize: 20000,
       uploading: false,
       uploadProgress: 100,
-      ...props.attachment
+      ...props.attachment,
     }
     const defaultProps = {
       handleRemoveAttachment: jest.fn(),
       icon: 'Icon--preview-document',
-      ...props
+      ...props,
     }
 
     return render(<Attachment {...defaultProps} attachment={attachment} />)
@@ -41,7 +41,7 @@ describe('Attachment', () => {
   it('when uploading renders the uploading state', () => {
     const finishedUploading = renderComponent().container
     const uploading = renderComponent({
-      attachment: { uploading: true, uploadProgress: 50 }
+      attachment: { uploading: true, uploadProgress: 50 },
     }).container
 
     expect(snapshotDiff(finishedUploading, uploading, { contextLines: 0 })).toMatchInlineSnapshot(`

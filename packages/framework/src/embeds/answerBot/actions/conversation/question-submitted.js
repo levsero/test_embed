@@ -12,14 +12,14 @@ import {
   QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,
   QUESTION_SUBMITTED_FULFILLED,
-  QUESTION_SUBMITTED_REJECTED
+  QUESTION_SUBMITTED_REJECTED,
 } from './action-types'
 
 import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
 import {
   getCurrentSessionID,
   getCurrentRequestStatus,
-  getQuestionValueChangedTime
+  getQuestionValueChangedTime,
 } from 'src/embeds/answerBot/selectors/root'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
@@ -33,21 +33,21 @@ function messagePayload(message, sessionID) {
   return {
     message,
     sessionID,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   }
 }
 
 function questionSubmittedPending(message, sessionID) {
   return {
     type: QUESTION_SUBMITTED_PENDING,
-    payload: messagePayload(message, sessionID)
+    payload: messagePayload(message, sessionID),
   }
 }
 
 function questionValueSubmitted(message) {
   return {
     type: QUESTION_VALUE_SUBMITTED,
-    payload: messagePayload(message)
+    payload: messagePayload(message),
   }
 }
 
@@ -60,8 +60,8 @@ function questionSubmittedFulfilled(data, sessionID) {
     payload: {
       ...messagePayload(deflection_articles, sessionID),
       deflection,
-      interaction_access_token
-    }
+      interaction_access_token,
+    },
   }
 }
 
@@ -70,8 +70,8 @@ function questionSubmittedRejected(error, sessionID) {
     type: QUESTION_SUBMITTED_REJECTED,
     payload: {
       error,
-      sessionID
-    }
+      sessionID,
+    },
   }
 }
 
@@ -92,16 +92,16 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
   const token = getAuthToken()
 
   const callbacks = {
-    done: res => {
+    done: (res) => {
       if (res.body.deflection_articles.length || !locale) {
         dispatch(questionSubmittedFulfilled(res.body, sessionID))
       } else if (locale) {
         sendQuery(enquiry, labels, null, dispatch, sessionID)
       }
     },
-    fail: err => {
+    fail: (err) => {
       dispatch(questionSubmittedRejected(err, sessionID))
-    }
+    },
   }
 
   http.send({
@@ -117,9 +117,9 @@ function sendQuery(enquiry, labels, locale, dispatch, sessionID) {
       interaction_reference_type: WEB_WIDGET_SUID,
       locale,
       enquiry,
-      labels
+      labels,
     },
-    authorization: token ? `Bearer ${token}` : ''
+    authorization: token ? `Bearer ${token}` : '',
   })
 }
 
@@ -148,7 +148,7 @@ const submitMessagesOnTypingCompleted = (dispatch, getState) => {
   if (waitingToSubmit) return
   waitingToSubmit = true
   ;(function submitMessageLoop() {
-    setTimeout(function() {
+    setTimeout(function () {
       const timeSinceValueChange = Date.now() - getQuestionValueChangedTime(getState())
 
       if (timeSinceValueChange < BOT_THINKING_DELAY) return submitMessageLoop()
@@ -159,7 +159,7 @@ const submitMessagesOnTypingCompleted = (dispatch, getState) => {
   })()
 }
 
-export const questionSubmitted = message => {
+export const questionSubmitted = (message) => {
   return (dispatch, getState) => {
     dispatch(questionValueSubmitted(message))
     dispatch(botTyping())

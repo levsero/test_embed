@@ -12,8 +12,8 @@ beforeEach(() => {
 const createStore = () => {
   const state = {
     answerBot: {
-      currentSessionID: 1234
-    }
+      currentSessionID: 1234,
+    },
   }
 
   return mockStore(state)
@@ -179,7 +179,7 @@ describe('botFeedbackMessage', () => {
 
 describe('botFallbackMessage', () => {
   describe('when feedbackRelated is not passed in', () => {
-    const doAction = channelAvailable => {
+    const doAction = (channelAvailable) => {
       const store = createStore()
       jest.spyOn(selectors, 'getChannelAvailable').mockReturnValue(channelAvailable)
       store.dispatch(actions.botFallbackMessage())

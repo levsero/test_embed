@@ -6,8 +6,8 @@ describe('ChatLog component', () => {
       display_name: 'Agent123',
       nick: 'agent:123',
       typing: false,
-      avatar_path: '/path/to/avatar'
-    }
+      avatar_path: '/path/to/avatar',
+    },
   }
 
   const chatLogPath = buildSrcPath('component/chat/chatting/ChatLog')
@@ -24,7 +24,7 @@ describe('ChatLog component', () => {
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS
 
     i18n = {
-      t: jasmine.createSpy()
+      t: jasmine.createSpy(),
     }
 
     initMockRegistry({
@@ -33,20 +33,20 @@ describe('ChatLog component', () => {
       'src/embeds/chat/components/RequestRatingButton': RequestRatingButton,
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
-        CHAT_SYSTEM_EVENTS
+        CHAT_SYSTEM_EVENTS,
       },
       './ChatLog.scss': {
-        locals: {}
+        locals: {},
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatLog: noop
+        getChatLog: noop,
       },
       'src/apps/webWidget/services/i18n': {
-        i18n
+        i18n,
       },
       'types/chat': {
-        chatLogEntry: 'chatLogEntry'
-      }
+        chatLogEntry: 'chatLogEntry',
+      },
     })
 
     mockery.registerAllowable(chatLogPath)
@@ -64,17 +64,17 @@ describe('ChatLog component', () => {
     const agentMessageGroup = {
       type: 'message',
       author: 'agent:123',
-      messages: [1, 2, 3]
+      messages: [1, 2, 3],
     }
     const visitorMessageGroup = {
       type: 'message',
       author: 'visitor',
-      messages: [4, 5, 6]
+      messages: [4, 5, 6],
     }
     const eventGroup = {
       type: 'event',
       author: 'system',
-      messages: [7, 8]
+      messages: [7, 8],
     }
 
     describe('when the group is a message group from an visitor', () => {
@@ -92,7 +92,7 @@ describe('ChatLog component', () => {
         expect(result.props).toEqual(
           jasmine.objectContaining({
             isAgent: false,
-            messageKeys: [4, 5, 6]
+            messageKeys: [4, 5, 6],
           })
         )
       })
@@ -120,7 +120,7 @@ describe('ChatLog component', () => {
         expect(result.props).toEqual(
           jasmine.objectContaining({
             isAgent: true,
-            messageKeys: [1, 2, 3]
+            messageKeys: [1, 2, 3],
           })
         )
       })
@@ -133,7 +133,7 @@ describe('ChatLog component', () => {
         it('is passed through to the child', () => {
           expect(result.props).toEqual(
             jasmine.objectContaining({
-              avatarPath: '/path/to/avatar'
+              avatarPath: '/path/to/avatar',
             })
           )
         })
@@ -147,7 +147,7 @@ describe('ChatLog component', () => {
         it('passed the concierge avatar to the child', () => {
           expect(result.props).toEqual(
             jasmine.objectContaining({
-              avatarPath: '/path/to/concierge'
+              avatarPath: '/path/to/concierge',
             })
           )
         })
@@ -168,7 +168,7 @@ describe('ChatLog component', () => {
       it('is passed the expected props', () => {
         expect(result.props).toEqual(
           jasmine.objectContaining({
-            eventKey: 7
+            eventKey: 7,
           })
         )
       })
@@ -184,10 +184,10 @@ describe('ChatLog component', () => {
 
     beforeEach(() => {
       mockStringValues = {
-        'embeddable_framework.chat.chatLog.login.updateInfo': 'Please update your info'
+        'embeddable_framework.chat.chatLog.login.updateInfo': 'Please update your info',
       }
 
-      i18n.t.and.callFake(key => {
+      i18n.t.and.callFake((key) => {
         return mockStringValues[key]
       })
     })
@@ -238,7 +238,7 @@ describe('ChatLog component', () => {
         it('returns an element containing the correct text as a child', () => {
           expect(result.props).toEqual(
             jasmine.objectContaining({
-              children: mockStringValues['embeddable_framework.chat.chatLog.login.updateInfo']
+              children: mockStringValues['embeddable_framework.chat.chatLog.login.updateInfo'],
             })
           )
         })

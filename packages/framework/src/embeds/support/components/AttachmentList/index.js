@@ -9,9 +9,9 @@ import { deleteAttachment } from 'src/embeds/support/actions/index'
 import { getAttachmentsForForm, getMaxFileSize } from 'src/embeds/support/selectors'
 
 const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment, maxFileSize }) => {
-  return allAttachments.map(attachment => {
+  return allAttachments.map((attachment) => {
     const { id, fileName } = attachment
-    const removeAttachment = id => {
+    const removeAttachment = (id) => {
       deleteAttachment(id)
       onRemoveAttachment()
     }
@@ -28,10 +28,7 @@ const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment, 
       )
     }
 
-    const extension = fileName
-      .split('.')
-      .pop()
-      .toUpperCase()
+    const extension = fileName.split('.').pop().toUpperCase()
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
     return (
       <Attachment
@@ -46,23 +43,20 @@ const AttachmentList = ({ allAttachments, deleteAttachment, onRemoveAttachment, 
 
 AttachmentList.propTypes = {
   allAttachments: PropTypes.array.isRequired,
-  deleteAttachment: PropTypes.func.isRequired
+  deleteAttachment: PropTypes.func.isRequired,
 }
 
 const actionCreators = {
-  deleteAttachment
+  deleteAttachment,
 }
 
 const mapStateToProps = (state, props) => ({
   allAttachments: getAttachmentsForForm(state, props.value.ids),
-  maxFileSize: getMaxFileSize(state)
+  maxFileSize: getMaxFileSize(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(AttachmentList)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  AttachmentList
+)
 
 export { connectedComponent as default, AttachmentList as Component }

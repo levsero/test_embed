@@ -17,14 +17,14 @@ describe('LauncherUnreadIndicator', () => {
         _id: index,
         type: 'text',
         text: `Message ${index}`,
-        received: 1 + index
+        received: 1 + index,
       }))
 
       store.dispatch({
         type: 'messageLog/fetchMessages/fulfilled',
         payload: {
-          messages: mockMessages
-        }
+          messages: mockMessages,
+        },
       })
 
       expect(queryByTitle('Number of unread messages')).toBeInTheDocument()

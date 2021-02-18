@@ -1,7 +1,7 @@
 import { EMAIL_PATTERN } from 'constants/shared'
 import getFields from 'embeds/support/utils/getFields'
 
-const getFieldValidationError = type => {
+const getFieldValidationError = (type) => {
   switch (type) {
     case 'select':
     case 'tagger':
@@ -34,14 +34,14 @@ const getFieldValidationError = type => {
 }
 
 const fieldRuleTypes = {
-  email: value => {
+  email: (value) => {
     return !EMAIL_PATTERN.test(value) ? getFieldValidationError('email') : undefined
   },
   attachments: (value, attachments) => {
     if (!value) return
-    const attachmentsForForm = attachments.filter(attachment => value.ids.includes(attachment.id))
-    const errorCount = attachmentsForForm.filter(attachment => attachment.errorMessage).length
-    const stillUploading = attachmentsForForm.filter(attachment => attachment.uploading).length
+    const attachmentsForForm = attachments.filter((attachment) => value.ids.includes(attachment.id))
+    const errorCount = attachmentsForForm.filter((attachment) => attachment.errorMessage).length
+    const stillUploading = attachmentsForForm.filter((attachment) => attachment.uploading).length
     if (errorCount === 0 && stillUploading === 0) return undefined
     if (errorCount) {
       return errorCount === 1
@@ -49,13 +49,13 @@ const fieldRuleTypes = {
         : getFieldValidationError('attachments')
     }
     return getFieldValidationError('attachment_uploading')
-  }
+  },
 }
 
 const validateTicketForm = (ticketFields, values, attachments, conditions) => {
   const errors = {}
 
-  getFields(values, conditions, ticketFields).forEach(field => {
+  getFields(values, conditions, ticketFields).forEach((field) => {
     if (field.required && !values[field.id]) {
       errors[field.id] = getFieldValidationError(field.validation || field.type)
       return

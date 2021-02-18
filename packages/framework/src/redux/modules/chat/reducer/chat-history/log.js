@@ -7,7 +7,7 @@ import {
   SDK_HISTORY_CHAT_REQUEST_RATING,
   SDK_HISTORY_CHAT_RATING,
   SDK_HISTORY_CHAT_COMMENT,
-  HISTORY_REQUEST_SUCCESS
+  HISTORY_REQUEST_SUCCESS,
 } from '../../chat-action-types'
 
 // History messages are appended to this log in batches to avoid janky re-rendering.
@@ -18,14 +18,14 @@ import {
 
 const initialState = {
   entries: [],
-  buffer: []
+  buffer: [],
 }
 
 const newGroup = (message, type) => ({
   type,
   author: message.nick || 'system',
   first: !!message.first,
-  messages: [message.timestamp]
+  messages: [message.timestamp],
 })
 
 const log = (state = initialState, action) => {
@@ -40,13 +40,13 @@ const log = (state = initialState, action) => {
         lastGroup.messages.push(message.timestamp)
         return {
           ...state,
-          buffer: bufferCopy
+          buffer: bufferCopy,
         }
       }
 
       return {
         ...state,
-        buffer: [...state.buffer, newGroup(message, 'message')]
+        buffer: [...state.buffer, newGroup(message, 'message')],
       }
     case SDK_HISTORY_CHAT_REQUEST_RATING:
     case SDK_HISTORY_CHAT_RATING:
@@ -55,12 +55,12 @@ const log = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_MEMBER_LEAVE:
       return {
         ...state,
-        buffer: [...state.buffer, newGroup(action.payload.detail, 'event')]
+        buffer: [...state.buffer, newGroup(action.payload.detail, 'event')],
       }
     case HISTORY_REQUEST_SUCCESS:
       return {
         entries: [...state.buffer, ...state.entries], // TODO: merge boundary groups when buffer is flushed
-        buffer: []
+        buffer: [],
       }
     default:
       return state

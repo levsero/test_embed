@@ -3,7 +3,7 @@ import {
   ATTACHMENT_REMOVED,
   ATTACHMENTS_CLEARED,
   ATTACHMENT_LIMIT_EXCEEDED,
-  CLEAR_LIMIT_EXCEEDED_ERROR
+  CLEAR_LIMIT_EXCEEDED_ERROR,
 } from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
 
@@ -13,26 +13,26 @@ testReducer(attachmentLimitExceeded, [
   {
     action: { type: undefined },
     expected: false,
-    initialState
+    initialState,
   },
   {
     action: { type: ATTACHMENT_REMOVED },
     expected: false,
-    initialState: true
+    initialState: true,
   },
   {
     action: { type: ATTACHMENTS_CLEARED },
     expected: false,
-    initialState: true
+    initialState: true,
   },
   {
     action: { type: CLEAR_LIMIT_EXCEEDED_ERROR },
     expected: false,
-    initialState: true
+    initialState: true,
   },
   {
     action: { type: ATTACHMENT_LIMIT_EXCEEDED },
     expected: true,
-    initialState: false
-  }
+    initialState: false,
+  },
 ])

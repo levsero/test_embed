@@ -11,12 +11,12 @@ describe('AttachmentError', () => {
       fileName: 'text.txt',
       fileSize: 2000000,
       errorMessage: ATTACHMENT_ERRORS.TOO_LARGE,
-      ...props.attachment
+      ...props.attachment,
     }
     const defaultProps = {
       handleRemoveAttachment: jest.fn(),
       maxFileSize: 5 * 1024 * 1024, // 5 MB,
-      ...props
+      ...props,
     }
 
     return render(<AttachmentError {...defaultProps} attachment={attachment} />)

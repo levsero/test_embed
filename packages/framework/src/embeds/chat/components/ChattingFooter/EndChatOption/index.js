@@ -12,7 +12,7 @@ import { Icon } from './styles'
 const EndChatOption = ({ endChat, isChatting, theme: { rtl } }) => {
   const translate = useTranslate()
 
-  const handleEndChatClick = e => {
+  const handleEndChatClick = (e) => {
     if (isChatting) endChat(e)
   }
 
@@ -43,7 +43,7 @@ const EndChatOption = ({ endChat, isChatting, theme: { rtl } }) => {
 EndChatOption.propTypes = {
   isChatting: PropTypes.bool,
   endChat: PropTypes.func,
-  theme: PropTypes.shape({ rtl: PropTypes.bool })
+  theme: PropTypes.shape({ rtl: PropTypes.bool }),
 }
 
 export default withTheme(EndChatOption)

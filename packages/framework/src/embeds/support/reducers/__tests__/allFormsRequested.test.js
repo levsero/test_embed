@@ -7,14 +7,14 @@ const initialState = false
 testReducer(allFormsRequested, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: ALL_FORMS_REQUESTED, payload: true },
-    expected: true
+    expected: true,
   },
   {
     action: { type: ALL_FORMS_REQUESTED, payload: false },
-    expected: false
-  }
+    expected: false,
+  },
 ])

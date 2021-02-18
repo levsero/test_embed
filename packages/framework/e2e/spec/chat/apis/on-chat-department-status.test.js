@@ -5,7 +5,7 @@ test('on chat:departmentStatus calls a function when department status changes',
   let result
 
   await openChattingScreenAndEvaluate(() => {
-    zE('webWidget:on', 'chat:departmentStatus', dept => {
+    zE('webWidget:on', 'chat:departmentStatus', (dept) => {
       window.departmentStatus = dept.status
     })
   })

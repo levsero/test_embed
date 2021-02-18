@@ -21,7 +21,7 @@ const actions = Object.freeze({
   botContextualSearchResults: jest.fn(),
   contextualSearchFinished: jest.fn(),
   getInTouchShown: jest.fn(),
-  botFallbackMessage: jest.fn()
+  botFallbackMessage: jest.fn(),
 })
 
 const renderComponent = (props = {}, renderFn) => {
@@ -38,11 +38,11 @@ const renderComponent = (props = {}, renderFn) => {
     isFeedbackRequired: false,
     actions,
     delayInitialFallback: false,
-    widgetShown: true
+    widgetShown: true,
   }
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
   const component = (
     <AnswerBotContainer {...componentProps}>
@@ -76,7 +76,7 @@ describe('scroll position', () => {
     const handler = jest.fn()
     const { rerender } = renderComponent({
       saveConversationScroll: handler,
-      currentScreen: CONVERSATION_SCREEN
+      currentScreen: CONVERSATION_SCREEN,
     })
 
     renderComponent({ currentScreen: ARTICLE_SCREEN }, rerender)
@@ -87,7 +87,7 @@ describe('scroll position', () => {
     const handler = jest.fn()
     const { rerender } = renderComponent({
       restoreConversationScroll: handler,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     renderComponent({ currentScreen: CONVERSATION_SCREEN }, rerender)
@@ -115,7 +115,7 @@ describe('greeting', () => {
     renderComponent({
       currentSessionID: 1234,
       isInitialSession: true,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     expect(actions.botGreeted).not.toHaveBeenCalled()
@@ -125,7 +125,7 @@ describe('greeting', () => {
     renderComponent({
       brand: 'Wayne',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botMessage).toHaveBeenNthCalledWith(
@@ -139,7 +139,7 @@ describe('greeting', () => {
     renderComponent({
       greeted: true,
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botGreeted).not.toHaveBeenCalled()
@@ -149,7 +149,7 @@ describe('greeting', () => {
     renderComponent({
       contextualSearchStatus: 'PENDING',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botGreeted).toHaveBeenCalled()
@@ -167,7 +167,7 @@ describe('contextual search', () => {
     renderComponent({
       contextualSearchStatus: 'PENDING',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botTyping).toHaveBeenCalled()
@@ -178,7 +178,7 @@ describe('contextual search', () => {
       contextualSearchResultsCount: 3,
       contextualSearchStatus: 'COMPLETED',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botMessage).toHaveBeenNthCalledWith(
@@ -193,7 +193,7 @@ describe('contextual search', () => {
       contextualSearchResultsCount: 1,
       contextualSearchStatus: 'COMPLETED',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botMessage).toHaveBeenNthCalledWith(
@@ -207,7 +207,7 @@ describe('contextual search', () => {
     renderComponent({
       contextualSearchStatus: 'NO_RESULTS',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botMessage).toHaveBeenNthCalledWith(
@@ -221,7 +221,7 @@ describe('contextual search', () => {
       contextualSearchFinished: true,
       contextualSearchStatus: 'NO_RESULTS',
       currentSessionID: 1234,
-      isInitialSession: true
+      isInitialSession: true,
     })
 
     expect(actions.botMessage).toHaveBeenCalledTimes(1)
@@ -232,14 +232,14 @@ describe('in-conversation feedback', () => {
   it('shows after going from article to conversation and feedback is required', () => {
     const { rerender } = renderComponent({
       currentSessionID: 1234,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     renderComponent(
       {
         currentSessionID: 1234,
         currentScreen: CONVERSATION_SCREEN,
-        isFeedbackRequired: true
+        isFeedbackRequired: true,
       },
       rerender
     )
@@ -254,14 +254,14 @@ describe('in-conversation feedback', () => {
   it('does not show if current screen is article screen', () => {
     const { rerender } = renderComponent({
       currentSessionID: 1234,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     renderComponent(
       {
         currentSessionID: 1234,
         currentScreen: ARTICLE_SCREEN,
-        isFeedbackRequired: true
+        isFeedbackRequired: true,
       },
       rerender
     )
@@ -272,14 +272,14 @@ describe('in-conversation feedback', () => {
   it('does not show the feedback if feedback is not required', () => {
     const { rerender } = renderComponent({
       currentSessionID: 1234,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     renderComponent(
       {
         currentSessionID: 1234,
         currentScreen: CONVERSATION_SCREEN,
-        isFeedbackRequired: false
+        isFeedbackRequired: false,
       },
       rerender
     )
@@ -295,7 +295,7 @@ describe('initial fallback', () => {
         greeted: true,
         isInitialSession: true,
         currentSessionID: 1234,
-        currentScreen: 'conversation'
+        currentScreen: 'conversation',
       })
       jest.runAllTimers()
       expect(actions.botInitialFallback).toHaveBeenCalled()
@@ -310,7 +310,7 @@ describe('initial fallback', () => {
         isInitialSession: true,
         currentSessionID: 1234,
         currentScreen: 'conversation',
-        delayInitialFallback: true
+        delayInitialFallback: true,
       })
       jest.runAllTimers()
       expect(actions.botChannelChoice).not.toHaveBeenCalled()
@@ -323,7 +323,7 @@ describe('initial fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
     jest.runAllTimers()
     expect(actions.botInitialFallback).not.toHaveBeenCalled()
@@ -335,7 +335,7 @@ describe('initial fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: CONVERSATION_SCREEN
+      currentScreen: CONVERSATION_SCREEN,
     })
     jest.runAllTimers()
     expect(actions.botInitialFallback).not.toHaveBeenCalled()
@@ -346,7 +346,7 @@ describe('initial fallback', () => {
       greeted: true,
       isInitialSession: true,
       currentSessionID: 1234,
-      currentScreen: CONVERSATION_SCREEN
+      currentScreen: CONVERSATION_SCREEN,
     })
 
     unmount()
@@ -362,7 +362,7 @@ describe('session fallback', () => {
       isInitialSession: true,
       currentSessionID: 1234,
       currentScreen: CONVERSATION_SCREEN,
-      currentRequestStatus: 'REJECTED'
+      currentRequestStatus: 'REJECTED',
     })
     expect(actions.sessionFallback).toHaveBeenCalled()
     expect(actions.botFallbackMessage).toHaveBeenCalledWith(false)
@@ -375,7 +375,7 @@ describe('session fallback', () => {
       currentSessionID: 1234,
       currentScreen: CONVERSATION_SCREEN,
       currentRequestStatus: 'COMPLETED',
-      sessionArticlesLength: 0
+      sessionArticlesLength: 0,
     })
     expect(actions.sessionFallback).toHaveBeenCalled()
     expect(actions.botFallbackMessage).toHaveBeenCalledWith(false)
@@ -389,12 +389,12 @@ describe('session fallback', () => {
         currentSessionID: 1234,
         currentScreen: CONVERSATION_SCREEN,
         currentRequestStatus: 'COMPLETED',
-        sessionArticlesLength: 3
+        sessionArticlesLength: 3,
       }
 
       return renderComponent({
         ...componentProps,
-        ...props
+        ...props,
       })
     }
 

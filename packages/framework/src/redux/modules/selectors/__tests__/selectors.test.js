@@ -17,13 +17,13 @@ const stateBaseSettings = (settings = {}) => {
   const defaultSettings = {
     locale: 'en-us',
     embeddableConfig: {
-      brand: undefined
-    }
+      brand: undefined,
+    },
   }
 
   const compiledSettings = {
     ...defaultSettings,
-    ...settings
+    ...settings,
   }
 
   return compiledSettings
@@ -33,34 +33,34 @@ const stateHelpCenterSettings = (settings = {}) => {
   return {
     base: stateBaseSettings(),
     settings: {
-      helpCenter: settings
+      helpCenter: settings,
     },
     helpCenter: {
       config: {
         buttonLabelKey: 'message',
-        formTitleKey: 'help'
-      }
-    }
+        formTitleKey: 'help',
+      },
+    },
   }
 }
 
-const stateContactFormSettings = settings => {
+const stateContactFormSettings = (settings) => {
   return {
     base: stateBaseSettings(),
     settings: {
       contactForm: {
-        settings: settings
-      }
-    }
+        settings: settings,
+      },
+    },
   }
 }
 
-const stateAnswerBotSettings = settings => {
+const stateAnswerBotSettings = (settings) => {
   return {
     base: stateBaseSettings(),
     settings: {
-      answerBot: settings
-    }
+      answerBot: settings,
+    },
   }
 }
 
@@ -71,19 +71,19 @@ const stateAttachmentSettings = (configAttachments, settingsAttachments) => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              attachmentsEnabled: configAttachments
-            }
-          }
-        }
-      }
+              attachmentsEnabled: configAttachments,
+            },
+          },
+        },
+      },
     },
     settings: {
       contactForm: {
         settings: {
-          attachments: settingsAttachments
-        }
-      }
-    }
+          attachments: settingsAttachments,
+        },
+      },
+    },
   }
 }
 
@@ -95,16 +95,16 @@ describe('selectors', () => {
       state = {
         base: {
           embeddableConfig: {
-            hideZendeskLogo: false
-          }
+            hideZendeskLogo: false,
+          },
         },
         chat: {
           accountSettings: {
             branding: {
-              hide_branding: false // eslint-disable-line camelcase
-            }
-          }
-        }
+              hide_branding: false, // eslint-disable-line camelcase
+            },
+          },
+        },
       }
     })
 
@@ -128,7 +128,7 @@ describe('selectors', () => {
   describe('answer bot', () => {
     test('getSettingsAnswerBotTitle', () => {
       const state = stateAnswerBotSettings({
-        title: { '*': 'answer bot title' }
+        title: { '*': 'answer bot title' },
       })
       const result = selectors.getSettingsAnswerBotTitle(state)
 
@@ -137,7 +137,7 @@ describe('selectors', () => {
 
     test('getSettingsAnswerBotAvatarName', () => {
       const state = stateAnswerBotSettings({
-        avatar: { name: { '*': 'answer bot name' } }
+        avatar: { name: { '*': 'answer bot name' } },
       })
       const result = selectors.getSettingsAnswerBotAvatarName(state)
 
@@ -149,12 +149,12 @@ describe('selectors', () => {
         const result = selectors.getAnswerBotEnabled({
           helpCenter: {
             config: {
-              answerBotEnabled: true
-            }
+              answerBotEnabled: true,
+            },
           },
           settings: {
-            answerBot: {}
-          }
+            answerBot: {},
+          },
         })
 
         expect(result).toEqual(true)
@@ -164,14 +164,14 @@ describe('selectors', () => {
         const result = selectors.getAnswerBotEnabled({
           helpCenter: {
             config: {
-              answerBotEnabled: true
-            }
+              answerBotEnabled: true,
+            },
           },
           settings: {
             answerBot: {
-              suppress: true
-            }
-          }
+              suppress: true,
+            },
+          },
         })
 
         expect(result).toEqual(false)
@@ -181,12 +181,12 @@ describe('selectors', () => {
         const result = selectors.getAnswerBotEnabled({
           helpCenter: {
             config: {
-              answerBotEnabled: false
-            }
+              answerBotEnabled: false,
+            },
           },
           settings: {
-            answerBot: {}
-          }
+            answerBot: {},
+          },
         })
 
         expect(result).toEqual(false)
@@ -241,11 +241,11 @@ describe('selectors', () => {
     it('returns the value from i18n', () => {
       expect(
         selectors.getTranslation('embeddable_framework.fake.translation', {
-          override: 'fake'
+          override: 'fake',
         })
       ).toEqual('Help')
       expect(i18n.t).toHaveBeenCalledWith('embeddable_framework.fake.translation', {
-        override: 'fake'
+        override: 'fake',
       })
     })
   })
@@ -254,7 +254,7 @@ describe('selectors', () => {
     it('returns the value from i18n', () => {
       expect(
         selectors.getTalkDescriptionLabel(state, 'embeddable_framework.fake.translation', {
-          override: 'fake'
+          override: 'fake',
         })
       ).toEqual('<strong>How can we help?</strong> (optional)')
     })
@@ -264,7 +264,7 @@ describe('selectors', () => {
     it('returns the value from i18n', () => {
       expect(
         selectors.getTalkNameLabel(state, 'embeddable_framework.fake.translation', {
-          override: 'fake'
+          override: 'fake',
         })
       ).toEqual('<strong>Name</strong> (optional)')
     })
@@ -275,7 +275,7 @@ describe('selectors', () => {
     describe('when messageButton is defined in helpCenter settings', () => {
       beforeEach(() => {
         state = stateHelpCenterSettings({
-          messageButton: { '*': 'helpCenter messageButton' }
+          messageButton: { '*': 'helpCenter messageButton' },
         })
       })
 
@@ -310,7 +310,7 @@ describe('selectors', () => {
     describe('when searchPlaceholder is defined in helpCenter settings', () => {
       beforeEach(() => {
         state = stateHelpCenterSettings({
-          searchPlaceholder: { '*': 'helpCenter searchPlaceholder' }
+          searchPlaceholder: { '*': 'helpCenter searchPlaceholder' },
         })
       })
 
@@ -345,7 +345,7 @@ describe('selectors', () => {
     describe('when chatButton is defined in helpCenter settings', () => {
       beforeEach(() => {
         state = stateHelpCenterSettings({
-          chatButton: { '*': 'helpCenter chatButton' }
+          chatButton: { '*': 'helpCenter chatButton' },
         })
       })
 
@@ -409,7 +409,7 @@ describe('selectors', () => {
     describe('when a custom translation is defined in settings', () => {
       beforeEach(() => {
         state = stateContactFormSettings({
-          selectTicketForm: { '*': 'Mamma mia!' }
+          selectTicketForm: { '*': 'Mamma mia!' },
         })
       })
 
@@ -445,19 +445,19 @@ describe('getHorizontalPosition', () => {
       base: {
         embeddableConfig: {
           cp4: false,
-          position: 'left'
-        }
+          position: 'left',
+        },
       },
       chat: {
         accountSettings: {
-          theme: {}
-        }
+          theme: {},
+        },
       },
       settings: {
         styling: {
-          positionHorizontal: 'right'
-        }
-      }
+          positionHorizontal: 'right',
+        },
+      },
     }
   })
 
@@ -504,7 +504,7 @@ describe('getTalkEnabled', () => {
     [true, false, 'nickname', false],
     [true, true, '', false],
     [false, false, undefined, false],
-    [false, true, 'nick', true]
+    [false, true, 'nick', true],
   ])(
     'when talkSuppressed is %p, && talkEmbed is %p, && talkNickname is %p, it returns %p',
     (suppressed, talkEmbed, talkNickname, expected) => {
@@ -528,7 +528,7 @@ describe('getTalkAvailable', () => {
     [true, true, false, false, true, true],
     [false, false, false, false, true, false],
     [true, false, false, false, true, false],
-    [false, true, false, false, true, false]
+    [false, true, false, false, true, false],
   ])(
     'when talkEnabled is %p, && configEnabled is %p && phoneNumber is %p, && deferredTalk is %p, && isEmbeddedVoiceEnabled is %p it returns %p',
     (talkEnabled, configEnabled, phoneNumber, deferredTalk, isEmbeddedVoiceEnabled, expected) => {
@@ -551,7 +551,7 @@ describe('getTalkOnline', () => {
     [true, false, true, true],
     [true, false, false, false],
     [false, false, false, false],
-    [false, true, false, false]
+    [false, true, false, false],
   ])(
     'when talkAvailable is %p, && agentsAvailable is %p, && deferred talk status is %p, it returns %p',
     (talkAvailable, agentsAvailable, deferredTalkOnline, expected) => {
@@ -575,10 +575,10 @@ describe('getDeferredTalkApiUrl', () => {
 describe('getTalkNickname', () => {
   const config = {
     props: {
-      nickname: 'Support'
-    }
+      nickname: 'Support',
+    },
   }
-  const callSelector = setting => selectors.getTalkNickname.resultFunc(setting, config)
+  const callSelector = (setting) => selectors.getTalkNickname.resultFunc(setting, config)
 
   describe('when there is a nickname setting provided', () => {
     it('returns the setting', () => {
@@ -601,15 +601,15 @@ describe('getFrameStyle', () => {
     frames = ['ipmWidget', 'webWidget', 'chatPreview', 'webWidgetPreview']
   })
 
-  const testFrames = expectedResult => {
+  const testFrames = (expectedResult) => {
     describe('when frame is ', () => {
-      _.forEach(frames, frame => {
+      _.forEach(frames, (frame) => {
         it(frame, () => {
           result = selectors.getFrameStyle(getModifiedState(), frame)
 
           expect(result).toEqual({
             marginLeft: expectedResult,
-            marginRight: expectedResult
+            marginRight: expectedResult,
           })
         })
       })
@@ -658,7 +658,7 @@ describe('getFrameStyle', () => {
         marginBottom: '7px',
         marginLeft: '7px',
         marginRight: '7px',
-        zIndex: -11
+        zIndex: -11,
       })
 
       devices.isMobileBrowser.mockRestore()
@@ -675,7 +675,7 @@ describe('getFrameStyle', () => {
         marginRight: '20px',
         marginTop: '10px',
         minHeight: '50px',
-        zIndex: -11
+        zIndex: -11,
       })
     })
   })
@@ -704,7 +704,7 @@ describe('getShowChatBadgeLauncher', () => {
     it('is minimized chat badge', () => {
       result = selectors.getShowChatBadgeLauncher(
         getModifiedState({
-          base: { isChatBadgeMinimized: true }
+          base: { isChatBadgeMinimized: true },
         })
       )
 
@@ -716,9 +716,9 @@ describe('getShowChatBadgeLauncher', () => {
         getModifiedState({
           base: {
             embeddableConfig: {
-              embeds: { chat: { props: { standalone: false } } }
-            }
-          }
+              embeds: { chat: { props: { standalone: false } } },
+            },
+          },
         })
       )
 
@@ -735,7 +735,7 @@ describe('getShowChatBadgeLauncher', () => {
     it('chatBadge is not enabled', () => {
       result = selectors.getShowChatBadgeLauncher(
         getModifiedState({
-          chat: { accountSettings: { banner: { enabled: false } } }
+          chat: { accountSettings: { banner: { enabled: false } } },
         })
       )
 
@@ -788,9 +788,9 @@ describe('getChatOfflineAvailable', () => {
       ['chat is not enabled in settings', { settings: { chat: { suppress: true } } }],
       [
         'offlineForm is disabled in settings',
-        { chat: { accountSettings: { offlineForm: { enabled: false } } } }
+        { chat: { accountSettings: { offlineForm: { enabled: false } } } },
       ],
-      ['submissionForm embed exists', { base: { embeds: { ticketSubmissionForm: {} } } }]
+      ['submissionForm embed exists', { base: { embeds: { ticketSubmissionForm: {} } } }],
     ])('%p', (_title, input) => {
       result = selectors.getChatOfflineAvailable(getModifiedState(input))
 
@@ -804,7 +804,7 @@ describe('getShowTalkBackButton', () => {
     ['all values false', 'talk', false, false, false],
     ['active embed is not talk values false', 'chat', true, true, false],
     ['helpcenter embed exists', 'talk', true, false, true],
-    ['channelChoice is available', 'talk', false, true, true]
+    ['channelChoice is available', 'talk', false, true, true],
   ])('%p', (_title, activeEmbed, embedExists, channelChoiceAvailable, expectedValue) => {
     const result = selectors.getShowTalkBackButton.resultFunc(
       activeEmbed,
@@ -820,7 +820,7 @@ describe('getChatConnectionSuppressed', () => {
   test.each([
     ['when chatting and connection suppress is false', true, true, false, false, false],
     ['chat is connection suppressed', false, false, true, false, true],
-    ['cookies are disabled', false, false, true, true, true]
+    ['cookies are disabled', false, false, true, true, true],
   ])(
     '%p',
     (_title, isChatting, chatConnected, chatConnectionSuppress, cookiesDisabled, expectedValue) => {
@@ -844,8 +844,8 @@ describe('getChatEnabled', () => {
     [
       'chat is suppressed but isChatting is true',
       { settings: { chat: { suppress: true } }, chat: { is_chatting: true } },
-      true
-    ]
+      true,
+    ],
   ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatEnabled(getModifiedState(modifier))
 
@@ -860,18 +860,18 @@ describe('getChatAvailable', () => {
       'when chatOffline is unavailable',
       {
         base: { embeds: { chat: null } },
-        settings: { chat: { hideWhenOffline: false } }
+        settings: { chat: { hideWhenOffline: false } },
       },
-      false
+      false,
     ],
     [
       'when settings hide chat offline',
       {
-        settings: { chat: { hideWhenOffline: true } }
+        settings: { chat: { hideWhenOffline: true } },
       },
-      false
+      false,
     ],
-    ['when banned', { chat: { connection: 'closed', chatBanned: true } }, false]
+    ['when banned', { chat: { connection: 'closed', chatBanned: true } }, false],
   ])('%p', (_title, modifier, expectedValue) => {
     const result = selectors.getChatAvailable(getModifiedState(modifier))
 
@@ -887,7 +887,7 @@ describe('getChatReady', () => {
       false,
       false,
       false,
-      false
+      false,
     ],
     [
       "when chat embed doesn't exist and chat connection is finished",
@@ -895,11 +895,11 @@ describe('getChatReady', () => {
       false,
       false,
       false,
-      true
+      true,
     ],
     ['when chat embed exists and chat has not finished connecting', true, true, false, false, true],
     ['when chat embed exists and chat is suppressed', true, false, true, false, true],
-    ['when chat connection is delayed', false, false, false, true, true]
+    ['when chat connection is delayed', false, false, false, true, true],
   ])(
     '%p',
     (
@@ -948,11 +948,11 @@ describe('getTalkReady', () => {
   test.each([
     ["talkEmbed exists and talk config isn't connected", {}, false, false],
     ["talkEmbed doesn't exist", null, false, true],
-    ['talk config is connected', {}, true, true]
+    ['talk config is connected', {}, true, true],
   ])('%p', (_title, talkEmbedValue, connectedVal, expectedValue) => {
     const result = selectors.getTalkReady({
       base: { embeds: { talk: talkEmbedValue } },
-      talk: { embeddableConfig: { connected: connectedVal } }
+      talk: { embeddableConfig: { connected: connectedVal } },
     })
 
     expect(result).toEqual(expectedValue)
@@ -966,7 +966,7 @@ describe('getIsWidgetReady', () => {
     ['talkReady is true, others are false, return false', true, false, false, false, false],
     ['chatReady is true, others are false, return false', false, true, false, false, false],
     ['helpCenterReady is true, others are false, return false', false, false, true, false, false],
-    ['all values are true, return true', true, true, true, false, true]
+    ['all values are true, return true', true, true, true, false, true],
   ])('%p', (_title, talkReady, chatReady, hcReady, bootupTimeout, expectedValue) => {
     const result = selectors.getIsWidgetReady.resultFunc(
       talkReady,
@@ -982,7 +982,7 @@ describe('getIsWidgetReady', () => {
 describe('getIpmHelpCenterAllowed', () => {
   test.each([
     ['helpCenter is disabled, return true', false, true],
-    ['helpCenter is enabled, return false', true, false]
+    ['helpCenter is enabled, return false', true, false],
   ])('%p', (_title, helpCenterEnabled, expectedValue) => {
     const result = selectors.getIpmHelpCenterAllowed.resultFunc(helpCenterEnabled)
 
@@ -994,11 +994,11 @@ describe('getSubmitTicketAvailable', () => {
   test.each([
     ['embed exists and not suppressed', true, false, true],
     ["embed doesn't exist and not suppressed", false, false, false],
-    ['embed exists and is suppressed', true, true, false]
+    ['embed exists and is suppressed', true, true, false],
   ])('%p', (_title, submitTicketEmbed, suppressed, expectedValue) => {
     const result = selectors.getSubmitTicketAvailable({
       base: { embeds: { ticketSubmissionForm: submitTicketEmbed } },
-      settings: { contactForm: { settings: { suppress: suppressed } } }
+      settings: { contactForm: { settings: { suppress: suppressed } } },
     })
 
     expect(result).toEqual(expectedValue)
@@ -1015,7 +1015,7 @@ describe('getChannelChoiceAvailable', () => {
       false,
       false,
       false,
-      false
+      false,
     ],
     ['all channels are available but is chatting', true, true, true, true, true, false, false],
     ['all channels are available and is not chatting', true, true, true, true, true, false, true],
@@ -1028,7 +1028,7 @@ describe('getChannelChoiceAvailable', () => {
       true,
       true,
       false,
-      true
+      true,
     ],
     [
       'neither channelChoice or talk are available but others are and not chatting',
@@ -1038,8 +1038,8 @@ describe('getChannelChoiceAvailable', () => {
       true,
       true,
       false,
-      false
-    ]
+      false,
+    ],
   ])(
     '%p',
     (
@@ -1076,22 +1076,22 @@ const stateColorSettings = (colors, cp4 = false) => {
       embeddableConfig: {
         color: '#embeddableConfig',
         textColor: '#embeddableConfigText',
-        cp4
-      }
+        cp4,
+      },
     },
     settings: {
-      color: colors
+      color: colors,
     },
     chat: {
       accountSettings: {
         theme: {
           color: {
             primary: '#chatPrimary',
-            banner: '#chatBadgeColor'
-          }
-        }
-      }
-    }
+            banner: '#chatBadgeColor',
+          },
+        },
+      },
+    },
   }
 }
 
@@ -1099,8 +1099,8 @@ const stateLauncherColorSettings = (color, cp4Enabled = false) => {
   return _.merge(stateColorSettings(color, cp4Enabled), {
     base: {
       embeddableConfig: {
-        embeds: { chat: { props: { standalone: true } } }
-      }
+        embeds: { chat: { props: { standalone: true } } },
+      },
     },
     chat: {
       activeAgents: {},
@@ -1108,12 +1108,12 @@ const stateLauncherColorSettings = (color, cp4Enabled = false) => {
       is_chatting: false,
       accountSettings: {
         banner: {
-          enabled: true
+          enabled: true,
         },
-        rating: {}
+        rating: {},
       },
-      chats: new Map([])
-    }
+      chats: new Map([]),
+    },
   })
 }
 
@@ -1130,7 +1130,7 @@ describe('getColor', () => {
               button: '#555555',
               resultLists: '#111111',
               header: '#203D9D',
-              articleLinks: '#123123'
+              articleLinks: '#123123',
             },
             false
           )
@@ -1146,7 +1146,7 @@ describe('getColor', () => {
             launcherText: '#FF4500',
             resultLists: '#111111',
             theme: '#abcabc',
-            text: '#embeddableConfigText'
+            text: '#embeddableConfigText',
           })
         })
 
@@ -1154,7 +1154,7 @@ describe('getColor', () => {
           it('uses the embeddableConfig color', () => {
             const state = stateColorSettings(
               {
-                launcher: '#691840'
+                launcher: '#691840',
               },
               false
             )
@@ -1164,7 +1164,7 @@ describe('getColor', () => {
             expect(result).toEqual({
               launcher: '#691840',
               base: '#embeddableConfig',
-              text: '#embeddableConfigText'
+              text: '#embeddableConfigText',
             })
           })
         })
@@ -1181,7 +1181,7 @@ describe('getColor', () => {
             button: '#555555',
             resultLists: '#111111',
             header: '#203D9D',
-            articleLinks: '#123123'
+            articleLinks: '#123123',
           },
           true
         )
@@ -1197,7 +1197,7 @@ describe('getColor', () => {
             launcher: '#691840',
             launcherText: '#FF4500',
             resultLists: '#111111',
-            theme: '#abcabc'
+            theme: '#abcabc',
           })
         })
       })
@@ -1209,7 +1209,7 @@ describe('getColor', () => {
           const result = selectors.getColor(state, 'webWidget')
 
           expect(result).toEqual({
-            base: '#chatPrimary'
+            base: '#chatPrimary',
           })
         })
       })
@@ -1221,7 +1221,7 @@ describe('getColor', () => {
       it('uses the launcherText color', () => {
         const state = stateLauncherColorSettings(
           {
-            launcherText: '#555555'
+            launcherText: '#555555',
           },
           false
         )
@@ -1230,7 +1230,7 @@ describe('getColor', () => {
 
         expect(result).toEqual({
           base: '#embeddableConfig',
-          launcherText: '#555555'
+          launcherText: '#555555',
         })
       })
     })
@@ -1240,7 +1240,7 @@ describe('getColor', () => {
         const state = stateLauncherColorSettings(
           {
             theme: '#abcabc',
-            launcher: '#691840'
+            launcher: '#691840',
           },
           false
         )
@@ -1249,7 +1249,7 @@ describe('getColor', () => {
 
         expect(result).toEqual({
           base: '#691840',
-          launcherText: '#embeddableConfigText'
+          launcherText: '#embeddableConfigText',
         })
       })
 
@@ -1257,7 +1257,7 @@ describe('getColor', () => {
         it('uses the settings theme', () => {
           const state = stateLauncherColorSettings(
             {
-              theme: '#abcabc'
+              theme: '#abcabc',
             },
             false
           )
@@ -1266,7 +1266,7 @@ describe('getColor', () => {
 
           expect(result).toEqual({
             base: '#abcabc',
-            launcherText: '#embeddableConfigText'
+            launcherText: '#embeddableConfigText',
           })
         })
       })
@@ -1280,7 +1280,7 @@ describe('getColor', () => {
 
             expect(result).toEqual({
               base: '#embeddableConfig',
-              launcherText: '#embeddableConfigText'
+              launcherText: '#embeddableConfigText',
             })
           })
 
@@ -1298,7 +1298,7 @@ describe('getColor', () => {
 
                 expect(result).toEqual({
                   base: '#chatBadgeColor',
-                  launcherText: '#embeddableConfigText'
+                  launcherText: '#embeddableConfigText',
                 })
               })
             })
@@ -1311,7 +1311,7 @@ describe('getColor', () => {
 
                 expect(result).toEqual({
                   base: '#chatBadgeColor',
-                  launcherText: '#embeddableConfigText'
+                  launcherText: '#embeddableConfigText',
                 })
               })
             })
@@ -1330,14 +1330,14 @@ describe('getPosition', () => {
       'chatPhase 4 but chatThemePosition is undefined',
       { cp4: false, position: 'l' },
       undefined,
-      'l'
+      'l',
     ],
     [
       'not chatPhase 4 and chatThemePosition is undefined',
       { cp4: false, position: 'l' },
       undefined,
-      'l'
-    ]
+      'l',
+    ],
   ])('%p', (_title, embeddableConfig, chatThemePosition, expectedValue) => {
     const result = selectors.getPosition.resultFunc(embeddableConfig, chatThemePosition)
 
@@ -1352,7 +1352,7 @@ describe('getLauncherVisible', () => {
     ['channel is not available', true, false, false, false, true, false],
     ['is hidden by hide', true, true, true, false, true, false],
     ['is hidden by activate', true, true, false, true, true, false],
-    ['widget is not ready', true, true, false, false, false, false]
+    ['widget is not ready', true, true, false, false, false, false],
   ])(
     '%p',
     (
@@ -1381,7 +1381,7 @@ describe('getWidgetDisplayInfo', () => {
   test.each([
     ['widget is not visible, launcher is not visible', false, false, '', 'hidden'],
     ['launcher is visible', true, false, '', LAUNCHER],
-    ['widget is visible', false, true, 'channelChoice', 'contactOptions']
+    ['widget is visible', false, true, 'channelChoice', 'contactOptions'],
   ])('%p', (_title, launcherVisible, webWidgetOpen, activeEmbed, expectedValue) => {
     const result = selectors.getWidgetDisplayInfo.resultFunc(
       launcherVisible,
@@ -1414,15 +1414,15 @@ describe('getChatConnectionConnecting', () => {
     getModifiedState({
       base: {
         embeds: {
-          chat: enabled
-        }
+          chat: enabled,
+        },
       },
       chat: {
-        connection
+        connection,
       },
       settings: {
-        cookies
-      }
+        cookies,
+      },
     })
 
   test('chat is not enabled', () => {
@@ -1462,7 +1462,7 @@ describe('getHelpCenterButtonChatLabel', () => {
       0,
       false,
       'messageButtonLabel',
-      'chatButtonLabel'
+      'chatButtonLabel',
     ],
     [
       'no chat notifications and chat offline is available',
@@ -1470,7 +1470,7 @@ describe('getHelpCenterButtonChatLabel', () => {
       0,
       true,
       'messageButtonLabel',
-      'messageButtonLabel'
+      'messageButtonLabel',
     ],
     ['one chat notification', 'chatButtonLabel', 1, false, 'messageButtonLabel', '1 new message'],
     [
@@ -1479,8 +1479,8 @@ describe('getHelpCenterButtonChatLabel', () => {
       2,
       false,
       'messageButtonLabel',
-      '2 new messages'
-    ]
+      '2 new messages',
+    ],
   ])(
     '%p',
     (
@@ -1516,7 +1516,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'chatLabel'
+      'chatLabel',
     ],
     [
       'channelChoice is available, other channels not available, returns contactButtonLabel',
@@ -1529,7 +1529,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'contactButtonLabel'
+      'contactButtonLabel',
     ],
     [
       'chat (online) is available, other channels not available, returns chatLabel',
@@ -1542,7 +1542,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'chatLabel'
+      'chatLabel',
     ],
     [
       'chat (offline) is available, other channels not available, returns chatLabel',
@@ -1555,7 +1555,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'chatLabel'
+      'chatLabel',
     ],
     [
       'talk is available, other channels not available, callback disabled, returns translated phone label',
@@ -1568,7 +1568,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'Call us'
+      'Call us',
     ],
     [
       'talk is available, other channels not available, callback disabled, returns translated callback label',
@@ -1581,7 +1581,7 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chatLabel',
       'messageLabel',
-      'Request a callback'
+      'Request a callback',
     ],
     [
       'no channels available, returns messageLabel',
@@ -1594,8 +1594,8 @@ describe('getHelpCenterButtonLabel', () => {
       'contactButtonLabel',
       'chaLabel',
       'messageLabel',
-      'messageLabel'
-    ]
+      'messageLabel',
+    ],
   ])(
     '%p',
     (
@@ -1633,7 +1633,7 @@ describe('getShowBackButton', () => {
     ['showChatHistory is true', true, false, false, true],
     ['backButtonVisible is true', false, true, false, true],
     ['talkBackButton is true', false, false, true, true],
-    ['all are false', false, false, false, false]
+    ['all are false', false, false, false, false],
   ])('%p', (_title, showChatHistory, backButtonVisible, talkBackButton, expectedValue) => {
     const result = selectors.getShowBackButton.resultFunc(
       showChatHistory,
@@ -1650,7 +1650,7 @@ describe('getShowNextButton', () => {
     ['when all offline', false, false, false, false],
     ['when submitTicket is available', true, false, false, true],
     ['when chat is available', false, true, false, true],
-    ['when talk is online', false, false, true, true]
+    ['when talk is online', false, false, true, true],
   ])('%p', (_title, submitTicketAvailable, chatAvailable, talkOnline, expectedValue) => {
     const result = selectors.getShowNextButton.resultFunc(
       submitTicketAvailable,

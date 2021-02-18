@@ -10,8 +10,8 @@ describe('chat reducer chatHistory requestStatus', () => {
 
     initMockRegistry({
       'constants/chat': {
-        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS
-      }
+        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS,
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -37,7 +37,7 @@ describe('chat reducer chatHistory requestStatus', () => {
     describe('when a HISTORY_REQUEST_SENT action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.HISTORY_REQUEST_SENT
+          type: actionTypes.HISTORY_REQUEST_SENT,
         })
       })
 
@@ -49,7 +49,7 @@ describe('chat reducer chatHistory requestStatus', () => {
     describe('when a HISTORY_REQUEST_SUCCESS action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.HISTORY_REQUEST_SUCCESS
+          type: actionTypes.HISTORY_REQUEST_SUCCESS,
         })
       })
 
@@ -61,7 +61,7 @@ describe('chat reducer chatHistory requestStatus', () => {
     describe('when a HISTORY_REQUEST_FAILURE action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.HISTORY_REQUEST_FAILURE
+          type: actionTypes.HISTORY_REQUEST_FAILURE,
         })
       })
 

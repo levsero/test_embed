@@ -38,13 +38,13 @@ describe('chat reducer accountSettings attachment', () => {
         settings = {
           file_sending: {
             allowed_extensions: 'exe',
-            enabled: false
-          }
+            enabled: false,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: settings
+          payload: settings,
         })
       })
 
@@ -60,13 +60,13 @@ describe('chat reducer accountSettings attachment', () => {
         settings = {
           file_sending: {
             allowed_extensions: 'exe',
-            enabled: false
-          }
+            enabled: false,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
 

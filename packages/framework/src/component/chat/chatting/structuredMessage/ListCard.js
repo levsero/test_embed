@@ -9,7 +9,7 @@ const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 
 const PanelActionPropType = PropTypes.shape({
   type: PropTypes.oneOf([LINK_ACTION]).isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 })
 
 export const ItemPropType = PropTypes.shape({
@@ -17,24 +17,24 @@ export const ItemPropType = PropTypes.shape({
   paragraph: PropTypes.string.isRequired,
   image_url: PropTypes.string,
   action: PanelActionPropType.isRequired,
-  isMobile: PropTypes.bool.isRequired
+  isMobile: PropTypes.bool.isRequired,
 })
 
 export class ListCard extends Component {
   static propTypes = {
     ...ListCard.schemaPropTypes,
-    createAction: PropTypes.func.isRequired
+    createAction: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     items: [],
     buttons: [],
-    isMobile: false
+    isMobile: false,
   }
 
   static schemaPropTypes = {
     items: PropTypes.arrayOf(ItemPropType).isRequired,
-    buttons: PropTypes.arrayOf(ButtonSchemaPropType)
+    buttons: PropTypes.arrayOf(ButtonSchemaPropType),
   }
 
   render() {
@@ -46,14 +46,14 @@ export class ListCard extends Component {
         return <Button {...button} key={index} createAction={createAction} />
       })
 
-    const items = this.props.items.map(item => {
+    const items = this.props.items.map((item) => {
       return {
         ...item,
         onClick: createAction(item.action),
         imageUrl: item.image_url,
         layout: 'thumbnail',
         align: 'right',
-        headingLineClamp: 1
+        headingLineClamp: 1,
       }
     })
 

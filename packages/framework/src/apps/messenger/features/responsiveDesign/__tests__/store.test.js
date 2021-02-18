@@ -2,7 +2,7 @@ import {
   breakpoints,
   getIsFullScreen,
   getIsVerticallySmallScreen,
-  watchForScreenChanges
+  watchForScreenChanges,
 } from '../store'
 import createStore from 'src/apps/messenger/store'
 import { mockMatchMedia } from 'src/apps/messenger/utils/testHelpers'

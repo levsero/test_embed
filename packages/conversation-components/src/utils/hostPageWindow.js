@@ -2,7 +2,7 @@ export default window.parent
 
 export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
-export const restoreHostPageScrollPositionIfSafari = callback => {
+export const restoreHostPageScrollPositionIfSafari = (callback) => {
   if (!isSafari) {
     callback?.()
     return

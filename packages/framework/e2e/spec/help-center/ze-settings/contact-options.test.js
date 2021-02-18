@@ -6,19 +6,19 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 import zChat from 'e2e/helpers/zChat'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
-const buildWidget = settings =>
+const buildWidget = (settings) =>
   loadWidget()
     .withPresets('contactForm', 'chat', 'helpCenterWithContextualHelp')
     .intercept(mockSearchEndpoint())
-    .evaluateOnNewDocument(contactOptions => {
+    .evaluateOnNewDocument((contactOptions) => {
       window.zESettings = {
         webWidget: {
-          contactOptions
-        }
+          contactOptions,
+        },
       }
     }, settings)
 
-const setupWidget = async settings => {
+const setupWidget = async (settings) => {
   await buildWidget(settings).load()
   await zChat.online()
   await launcher.click()
@@ -63,8 +63,8 @@ test('contact us button text can be customized', async () => {
     enabled: true,
     contactButton: {
       '*': 'Get in touch',
-      fr: 'French get in touch'
-    }
+      fr: 'French get in touch',
+    },
   })
   const doc = await widget.getDocument()
   expect(await queries.queryByText(doc, 'Get in touch')).toBeTruthy()
@@ -79,8 +79,8 @@ test('contact form button text can be customized', async () => {
     enabled: true,
     contactFormLabel: {
       '*': 'Drop a line',
-      fr: 'French drop a line'
-    }
+      fr: 'French drop a line',
+    },
   })
   const doc = await widget.getDocument()
   await goToChannelChoice()
@@ -100,8 +100,8 @@ test('chat online button text can be customized', async () => {
     enabled: true,
     chatLabelOnline: {
       '*': 'Hit em up',
-      fr: 'French hit em up'
-    }
+      fr: 'French hit em up',
+    },
   })
   const doc = await widget.getDocument()
   await goToChannelChoice()

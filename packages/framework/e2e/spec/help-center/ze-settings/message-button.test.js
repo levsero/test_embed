@@ -6,7 +6,7 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
 describe('message button', () => {
-  const assertContactForm = async doc => {
+  const assertContactForm = async (doc) => {
     await waitForContactForm()
     expect(await queries.queryByLabelText(doc, 'Your name (optional)')).toBeTruthy()
     expect(await queries.queryByLabelText(doc, 'How can we help you?')).toBeTruthy()
@@ -30,19 +30,17 @@ describe('message button', () => {
   })
 
   test('label can be overridden by settings', async () => {
-    await buildWidget()
-      .intercept(mockSearchEndpoint())
-      .load()
+    await buildWidget().intercept(mockSearchEndpoint()).load()
 
     page.evaluate(() => {
       zE('webWidget', 'updateSettings', {
         webWidget: {
           helpCenter: {
             messageButton: {
-              '*': 'Contact us now.'
-            }
-          }
-        }
+              '*': 'Contact us now.',
+            },
+          },
+        },
       })
     })
 

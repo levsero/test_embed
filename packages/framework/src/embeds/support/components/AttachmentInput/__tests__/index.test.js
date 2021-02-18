@@ -7,7 +7,7 @@ jest.mock('utility/devices')
 
 const defaultProps = {
   onFileSelect: () => {},
-  attachmentInputId: 'attachment-box'
+  attachmentInputId: 'attachment-box',
 }
 
 const renderComponent = (props = {}) => render(<AttachmentInput {...defaultProps} {...props} />)

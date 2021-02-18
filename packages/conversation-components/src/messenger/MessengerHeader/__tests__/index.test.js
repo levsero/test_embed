@@ -5,7 +5,7 @@ const mockOnCloseFn = jest.fn()
 
 describe('MessengerHeader', () => {
   const defaultProps = {
-    title: 'Test company'
+    title: 'Test company',
   }
 
   const renderComponent = (props = {}) => render(<MessengerHeader {...defaultProps} {...props} />)
@@ -13,7 +13,7 @@ describe('MessengerHeader', () => {
   it('renders the title and description', () => {
     const { getByText } = renderComponent({
       title: 'Header title',
-      description: 'Header description'
+      description: 'Header description',
     })
 
     expect(getByText('Header title')).toBeInTheDocument()
@@ -24,7 +24,7 @@ describe('MessengerHeader', () => {
     const avatarAltTag = 'Company logo'
     const avatar = 'https://example.com/cat.jpg'
     const { getByAltText } = renderComponent({
-      avatar
+      avatar,
     })
 
     expect(getByAltText(avatarAltTag).tagName).toEqual('IMG')
@@ -50,7 +50,7 @@ describe('MessengerHeader', () => {
     const { getByLabelText } = renderComponent({
       closeButtonAriaLabel,
       showCloseButton: true,
-      onClose: mockOnCloseFn
+      onClose: mockOnCloseFn,
     })
 
     getByLabelText(closeButtonAriaLabel).click()

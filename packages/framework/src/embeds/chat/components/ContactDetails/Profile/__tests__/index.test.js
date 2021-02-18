@@ -15,14 +15,14 @@ const renderComponent = async (props = {}) => {
     isAuthenticated: false,
     requiredFormData: {
       name: {
-        required: true
+        required: true,
       },
       email: {
-        required: true
-      }
+        required: true,
+      },
     },
     socialLogin: {},
-    visitor: { display_name: '', email: '' }
+    visitor: { display_name: '', email: '' },
   }
 
   const combinedVisitor = { ...defaultProps.visitor, ...props.visitor }
@@ -64,7 +64,7 @@ describe('userProfile', () => {
     describe('when name is optional', () => {
       it(`renders additional 'optional' key`, async () => {
         const { getByText } = await renderComponent({
-          requiredFormData: { name: { required: false }, email: { required: true } }
+          requiredFormData: { name: { required: false }, email: { required: true } },
         })
 
         expect(getByText('(optional)')).toBeInTheDocument()
@@ -74,7 +74,7 @@ describe('userProfile', () => {
     describe('when email is optional', () => {
       it(`renders additional 'optional' key`, async () => {
         const { getByText } = await renderComponent({
-          requiredFormData: { name: { required: true }, email: { required: false } }
+          requiredFormData: { name: { required: true }, email: { required: false } },
         })
 
         expect(getByText('(optional)')).toBeInTheDocument()
@@ -84,7 +84,7 @@ describe('userProfile', () => {
     describe('when both are optional', () => {
       it(`renders two 'optional' keys`, async () => {
         const { getAllByText } = await renderComponent({
-          requiredFormData: { name: { required: false }, email: { required: false } }
+          requiredFormData: { name: { required: false }, email: { required: false } },
         })
 
         expect(getAllByText('(optional)').length).toEqual(2)

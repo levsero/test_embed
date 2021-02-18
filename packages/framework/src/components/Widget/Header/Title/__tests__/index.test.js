@@ -4,7 +4,7 @@ import Title from '../'
 
 describe('Title', () => {
   const defaultProps = {
-    children: <div>Some child component</div>
+    children: <div>Some child component</div>,
   }
 
   const renderComponent = (props = {}) => render(<Title {...defaultProps} {...props} />)

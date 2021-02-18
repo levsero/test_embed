@@ -12,23 +12,23 @@ const cookiesDisabled = createAsyncThunk('cookies/disabled', () => {
 const cookies = createSlice({
   name: 'cookies',
   initialState: {
-    enabled: true
+    enabled: true,
   },
   reducers: {
     cookiesEnabled(state) {
       state.enabled = true
-    }
+    },
   },
   extraReducers: {
     [cookiesDisabled.pending](state) {
       state.enabled = false
-    }
-  }
+    },
+  },
 })
 
 const { cookiesEnabled } = cookies.actions
 
-const getAreCookiesEnabled = state => state.cookies.enabled
+const getAreCookiesEnabled = (state) => state.cookies.enabled
 
 export default cookies.reducer
 export { cookiesEnabled, cookiesDisabled, getAreCookiesEnabled }

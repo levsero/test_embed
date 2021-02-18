@@ -3,10 +3,10 @@ import TwitterIcon from 'icons/widget-icon_twitter.svg'
 import MessengerIcon from 'icons/widget-icon_messenger.svg'
 
 const Container = styled.div`
-  margin-bottom: ${props => 15 / props.theme.fontSize}rem;
+  margin-bottom: ${(props) => 15 / props.theme.fontSize}rem;
 `
 
-const iconStyles = props => `
+const iconStyles = (props) => `
 min-width: ${(props.mobile ? 40 : 24) / props.theme.fontSize}rem;
 min-height: ${(props.mobile ? 40 : 24) / props.theme.fontSize}rem;
 max-width: ${(props.mobile ? 40 : 24) / props.theme.fontSize}rem;
@@ -17,9 +17,9 @@ width: ${(props.mobile ? 40 : 24) / props.theme.fontSize}rem;
 
 const ChannelIcon = styled.a`
   display: inline-block;
-  padding-right: ${props => (props.theme.isMobile ? 12 : 8) / props.theme.fontSize}rem;
+  padding-right: ${(props) => (props.theme.isMobile ? 12 : 8) / props.theme.fontSize}rem;
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl &&
     `
     padding-right: 0;
@@ -35,7 +35,7 @@ export const StyledTwitterIcon = styled(TwitterIcon)`
 `
 
 const ButtonsContainer = styled.div`
-  margin-top: ${props => 8 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 8 / props.theme.fontSize}rem;
 `
 
 const StyledMessengerIcon = styled(MessengerIcon)`
@@ -51,5 +51,5 @@ export {
   ChannelIcon,
   Container,
   StyledMessengerIcon as MessengerIcon,
-  StyledTwitterIcon as TwitterIcon
+  StyledTwitterIcon as TwitterIcon,
 }

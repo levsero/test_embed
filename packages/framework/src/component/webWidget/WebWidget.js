@@ -11,13 +11,13 @@ import {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  onChannelChoiceNextClick
+  onChannelChoiceNextClick,
 } from 'src/redux/modules/base'
 import {
   proactiveChatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
-  closedChatHistory
+  closedChatHistory,
 } from 'src/redux/modules/chat'
 import { closeCurrentArticle } from 'embeds/helpCenter/actions'
 import {
@@ -26,16 +26,16 @@ import {
   getHelpCenterAvailable,
   getChannelChoiceAvailable,
   getSubmitTicketAvailable,
-  getAnswerBotAvailable
+  getAnswerBotAvailable,
 } from 'src/redux/modules/selectors'
 import {
   getActiveEmbed,
   getChatStandalone,
-  getWebWidgetOpen
+  getWebWidgetOpen,
 } from 'src/redux/modules/base/base-selectors'
 import {
   getStandaloneMobileNotificationVisible,
-  getShowChatHistory
+  getShowChatHistory,
 } from 'src/redux/modules/chat/chat-selectors'
 import { getChatNotification } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
@@ -64,7 +64,7 @@ const talk = 'talk'
 const mobileChatPopup = 'mobileChatPopup'
 const answerBot = 'answerBot'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
@@ -81,7 +81,7 @@ const mapStateToProps = state => {
     answerBotAvailable: getAnswerBotAvailable(state),
     showChatHistory: getShowChatHistory(state),
     ipmHelpCenterAvailable: !getHelpCenterAvailable(state),
-    isMobile: isMobileBrowser()
+    isMobile: isMobileBrowser(),
   }
 }
 
@@ -94,13 +94,13 @@ class WebWidget extends Component {
       msg: PropTypes.string,
       nick: PropTypes.string,
       proactive: PropTypes.bool,
-      show: PropTypes.bool
+      show: PropTypes.bool,
     }).isRequired,
     chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     style: PropTypes.shape({
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     }),
     onBackButtonClick: PropTypes.func,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -120,7 +120,7 @@ class WebWidget extends Component {
     answerBotAvailable: PropTypes.bool.isRequired,
     updateAnswerBotScreen: PropTypes.func.isRequired,
     closedChatHistory: PropTypes.func.isRequired,
-    showChatHistory: PropTypes.bool.isRequired
+    showChatHistory: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -139,7 +139,7 @@ class WebWidget extends Component {
     proactiveChatNotificationDismissed: () => {},
     webWidgetOpen: true,
     answerBotAvailable: false,
-    updateAnswerBotScreen: () => {}
+    updateAnswerBotScreen: () => {},
   }
 
   getActiveComponent = () => {
@@ -170,7 +170,7 @@ class WebWidget extends Component {
       updateAnswerBotScreen,
       channelChoiceAvailable,
       showChatHistory,
-      closedChatHistory
+      closedChatHistory,
     } = this.props
     const isShowingChatHistory = activeEmbed === chat && showChatHistory
 
@@ -275,7 +275,7 @@ class WebWidget extends Component {
       style,
       chatNotification,
       chatNotificationRespond,
-      proactiveChatNotificationDismissed
+      proactiveChatNotificationDismissed,
     } = this.props
     const onNotificatonResponded = () => {
       chatNotificationRespond()
@@ -303,7 +303,7 @@ class WebWidget extends Component {
       activeEmbed,
       mobileNotificationsDisabled,
       webWidgetOpen,
-      chatStandaloneMobileNotificationVisible
+      chatStandaloneMobileNotificationVisible,
     } = this.props
 
     if (isMobile && chatStandaloneMobileNotificationVisible && !mobileNotificationsDisabled) {
@@ -338,14 +338,11 @@ const actionCreators = {
   updateChatScreen,
   updateAnswerBotScreen,
   closedChatHistory,
-  onChannelChoiceNextClick
+  onChannelChoiceNextClick,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(WebWidget)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  WebWidget
+)
 
 export { connectedComponent as default, WebWidget as Component }

@@ -3,10 +3,10 @@ import { zdColorGrey600 } from '@zendeskgarden/css-variables'
 
 const Message = styled.div`
   text-align: center;
-  margin-top: ${props => 5 / props.theme.fontSize}rem;
-  margin-bottom: ${props => 10 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 5 / props.theme.fontSize}rem;
+  margin-bottom: ${(props) => 10 / props.theme.fontSize}rem;
   color: ${zdColorGrey600};
-  ${props => {
+  ${(props) => {
     if (props.showAnimation) {
       return css`
         animation: fadeIn 200ms 1 ease-in-out;

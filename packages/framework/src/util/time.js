@@ -1,7 +1,7 @@
 function i18nTimeFromMinutes(minuteString, locale = 'en-US') {
   const dateTimeFormat = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
-    minute: 'numeric'
+    minute: 'numeric',
   })
   const minutesFromMidnight = parseInt(minuteString, 10)
   const hours = Math.floor(minutesFromMidnight / 60)

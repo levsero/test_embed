@@ -17,7 +17,7 @@ jest.mock('components/Widget/WidgetThemeProvider', () => {
     // eslint-disable-next-line react/prop-types
     default: ({ children }) => {
       return <div data-testid="widget-theme-provider">{children}</div>
-    }
+    },
   }
 })
 
@@ -27,7 +27,7 @@ describe('BaseFrame', () => {
     style: {},
     color: {},
     title: 'Some frame',
-    ['data-testid']: 'frame'
+    ['data-testid']: 'frame',
   }
 
   const renderComponent = (props = {}) => {
@@ -35,7 +35,7 @@ describe('BaseFrame', () => {
 
     return {
       ...helpers,
-      iFrameDocument: helpers.container.querySelector('iframe').contentDocument
+      iFrameDocument: helpers.container.querySelector('iframe').contentDocument,
     }
   }
 
@@ -44,7 +44,7 @@ describe('BaseFrame', () => {
 
     store.dispatch({
       type: LOCALE_SET,
-      payload: 'en-US'
+      payload: 'en-US',
     })
     i18n.isRTL.mockReturnValue(false)
 
@@ -56,7 +56,7 @@ describe('BaseFrame', () => {
     i18n.isRTL.mockReturnValue(true)
     store.dispatch({
       type: LOCALE_SET,
-      payload: 'ar'
+      payload: 'ar',
     })
 
     await wait(() => expect(iFrameDocument.querySelector('html')).toHaveAttribute('lang', 'ar'))
@@ -65,13 +65,13 @@ describe('BaseFrame', () => {
 
   it('provides the theme provider with rtl information', async () => {
     const SomeComponent = styled.div`
-      background-color: ${props => (props.theme.rtl ? 'green' : 'blue')};
+      background-color: ${(props) => (props.theme.rtl ? 'green' : 'blue')};
     `
 
     i18n.isRTL.mockReturnValue(false)
 
     let { iFrameDocument, rerender } = renderComponent({
-      children: <SomeComponent>children</SomeComponent>
+      children: <SomeComponent>children</SomeComponent>,
     })
 
     await wait(() => expect(getByText(iFrameDocument, 'children')).toBeInTheDocument())
@@ -81,7 +81,7 @@ describe('BaseFrame', () => {
     i18n.isRTL.mockReturnValue(true)
     const secondRender = renderComponent(
       {
-        children: <SomeComponent>children</SomeComponent>
+        children: <SomeComponent>children</SomeComponent>,
       },
       { rerender }
     )
@@ -107,7 +107,7 @@ describe('BaseFrame', () => {
 
   it('supports overriding iframe styles from within children components', async () => {
     const style = {
-      backgroundColor: 'blue'
+      backgroundColor: 'blue',
     }
 
     const SomeComponent = () => {
@@ -117,7 +117,7 @@ describe('BaseFrame', () => {
     }
 
     const { container } = renderComponent({
-      children: <SomeComponent />
+      children: <SomeComponent />,
     })
 
     await wait(() =>

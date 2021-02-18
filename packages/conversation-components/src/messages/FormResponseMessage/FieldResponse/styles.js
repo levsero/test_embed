@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const Label = styled.div`
-  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
-  margin-bottom: ${props => props.theme.messenger.space.small};
+  font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
+  margin-bottom: ${(props) => props.theme.messenger.space.small};
   word-break: break-word;
 `
 

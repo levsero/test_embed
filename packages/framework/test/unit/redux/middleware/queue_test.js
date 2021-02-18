@@ -10,17 +10,17 @@ describe('queue middleware', () => {
 
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
-        getQueue: () => mockQueue
+        getQueue: () => mockQueue,
       },
       'src/redux/modules/base': {
-        removeFromQueue: removeFromQueueSpy
+        removeFromQueue: removeFromQueueSpy,
       },
       'embeds/helpCenter/actions': {
-        performContextualSearch: performContextualSearchSpy
+        performContextualSearch: performContextualSearchSpy,
       },
       'src/redux/modules/base/base-action-types': {
-        AUTHENTICATION_SUCCESS
-      }
+        AUTHENTICATION_SUCCESS,
+      },
     })
 
     const path = buildSrcPath('redux/middleware/queue')
@@ -53,7 +53,7 @@ describe('queue middleware', () => {
       describe('when queue has performContextualSearch', () => {
         beforeAll(() => {
           mockQueue = {
-            performContextualSearch: ['some', 'args']
+            performContextualSearch: ['some', 'args'],
           }
         })
 
@@ -69,7 +69,7 @@ describe('queue middleware', () => {
       describe('when queue does not have performContextualSearch', () => {
         beforeAll(() => {
           mockQueue = {
-            yoloMethod: ['some', 'args']
+            yoloMethod: ['some', 'args'],
           }
         })
 

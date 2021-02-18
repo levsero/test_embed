@@ -5,7 +5,7 @@ import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    updateChatScreen: jest.fn()
+    updateChatScreen: jest.fn(),
   }
 
   return render(<AgentDetailsPage {...defaultProps} {...props} />)

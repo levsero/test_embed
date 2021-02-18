@@ -11,8 +11,8 @@ export class WebWidgetPreview extends Component {
   static propTypes = {
     containerStyle: PropTypes.shape({
       margin: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      width: PropTypes.string
-    })
+      width: PropTypes.string,
+    }),
   }
 
   render() {

@@ -6,5 +6,5 @@ module.exports = new I18nPlugin({
   localesDir: path.join(__dirname, '../src/translation/locales'),
   source: path.join(__dirname, '../config/locales/translations/embeddable_framework.yml'),
   assetNamePrefix: 'locales/',
-  globalVariable: 'WWI18N'
+  globalVariable: 'WWI18N',
 })

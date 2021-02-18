@@ -4,8 +4,8 @@ import { FONT_SIZE } from 'constants/shared'
 
 const HeaderView = styled.div`
   padding: ${8 / FONT_SIZE}rem ${14 / FONT_SIZE}rem;
-  background: ${props => props.theme.headerColorStr} !important;
-  color: ${props => props.theme.headerTextColorStr} !important;
+  background: ${(props) => props.theme.headerColorStr} !important;
+  color: ${(props) => props.theme.headerTextColorStr} !important;
 `
 
 export default HeaderView

@@ -12,7 +12,7 @@ const UserProfile = ({
   authUrls,
   emailField,
   initiateSocialLogout,
-  shouldSpaceSocialLogin
+  shouldSpaceSocialLogin,
 }) => {
   const { authenticated: isSociallyAuthenticated } = socialLogin
   const authenticatedProfile = isSociallyAuthenticated || isAuthenticated
@@ -48,12 +48,12 @@ UserProfile.propTypes = {
   socialLogin: PropTypes.shape({
     authenticated: PropTypes.bool,
     screen: PropTypes.string,
-    avatarPath: PropTypes.string
+    avatarPath: PropTypes.string,
   }),
   visitor: PropTypes.shape({
     display_name: PropTypes.string,
-    email: PropTypes.string
-  }).isRequired
+    email: PropTypes.string,
+  }).isRequired,
 }
 
 export default UserProfile

@@ -4,16 +4,16 @@ import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 
 describe('zESettings.webWidget.contactForm.attachments', () => {
-  const queryAttachments = async attachments => {
+  const queryAttachments = async (attachments) => {
     await loadWidget()
       .withPresets('contactForm')
-      .evaluateAfterSnippetLoads(attachments => {
+      .evaluateAfterSnippetLoads((attachments) => {
         zE('webWidget', 'updateSettings', {
           webWidget: {
             contactForm: {
-              attachments
-            }
-          }
+              attachments,
+            },
+          },
         })
       }, attachments)
       .load()

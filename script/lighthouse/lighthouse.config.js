@@ -16,7 +16,7 @@ module.exports = {
       requestLatencyMs: 150 * DEVTOOLS_RTT_ADJUSTMENT_FACTOR,
       downloadThroughputKbps: 1.6 * 1024 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
       uploadThroughputKbps: 750 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
-      cpuSlowdownMultiplier: 4
+      cpuSlowdownMultiplier: 4,
     },
     onlyAudits: [
       'first-meaningful-paint',
@@ -27,8 +27,8 @@ module.exports = {
       'total-blocking-time',
       'bootup-time',
       'network-requests',
-      'total-byte-weight'
-    ]
+      'total-byte-weight',
+    ],
   },
   passes: [
     {
@@ -50,8 +50,8 @@ module.exports = {
         'meta-elements',
         'script-elements',
         'iframe-elements',
-        'main-document-content'
-      ]
-    }
-  ]
+        'main-document-content',
+      ],
+    },
+  ],
 }

@@ -17,8 +17,8 @@ const renderComponent = (props = {}) => {
       size: 100,
       type: 'image/png',
       webkitRelativePage: '',
-      url: 'https://mockurl.com'
-    }
+      url: 'https://mockurl.com',
+    },
   }
 
   return render(<ImageMessage {...defaultProps} {...props} />)

@@ -4,7 +4,7 @@ import dirStyles from '../dirStyles'
 
 describe('dirStyles', () => {
   const ExampleComponent = styled.div`
-    ${props => props.styles}
+    ${(props) => props.styles}
   `
 
   const defaultProps = { styles: '' }
@@ -56,7 +56,7 @@ describe('dirStyles', () => {
       const { getByText } = renderComponent({
         styles: css`
           color: ${dirStyles.swap('blue', 'orange')};
-        `
+        `,
       })
 
       expect(getByText('test')).toHaveStyleRule('color', 'blue')
@@ -67,7 +67,7 @@ describe('dirStyles', () => {
         {
           styles: css`
             color: ${dirStyles.swap('blue', 'orange')};
-          `
+          `,
         },
         { themeProps: { rtl: true } }
       )
@@ -81,7 +81,7 @@ describe('dirStyles', () => {
       const { getByText } = renderComponent({
         styles: css`
           ${dirStyles.borderRadius('1px', '2px', '3px', '4px')}
-        `
+        `,
       })
 
       expect(getByText('test')).toHaveStyleRule('border-top-left-radius', '1px')
@@ -95,7 +95,7 @@ describe('dirStyles', () => {
         {
           styles: css`
             ${dirStyles.borderRadius('1px', '2px', '3px', '4px')};
-          `
+          `,
         },
         { themeProps: { rtl: true } }
       )
@@ -112,7 +112,7 @@ describe('dirStyles', () => {
       const { getByText } = renderComponent({
         styles: css`
           ${dirStyles.ltrOnly('color: blue;')}
-        `
+        `,
       })
 
       expect(getByText('test')).toHaveStyleRule('color', 'blue')
@@ -123,7 +123,7 @@ describe('dirStyles', () => {
         {
           styles: css`
             ${dirStyles.ltrOnly('color: blue;')}
-          `
+          `,
         },
         { themeProps: { rtl: true } }
       )
@@ -137,7 +137,7 @@ describe('dirStyles', () => {
       const { getByText } = renderComponent({
         styles: css`
           ${dirStyles.rtlOnly('color: orange;')}
-        `
+        `,
       })
 
       expect(getByText('test')).not.toHaveStyleRule('color', 'orange')
@@ -148,7 +148,7 @@ describe('dirStyles', () => {
         {
           styles: css`
             ${dirStyles.rtlOnly('color: orange;')}
-          `
+          `,
         },
         { themeProps: { rtl: true } }
       )

@@ -8,7 +8,7 @@ export default class ZEApiError extends NonFatalError {
       apiName,
       "Check out the Developer API docs to make sure you're using it correctly",
       'https://developer.zendesk.com/embeddables/docs/widget/introduction',
-      realError.stack
+      realError.stack,
     ]).join('\n\n')
 
     super(message, 'ZEApiError')

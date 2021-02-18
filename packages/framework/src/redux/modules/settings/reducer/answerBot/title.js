@@ -11,7 +11,7 @@ const title = (state = initialState, action) => {
     case UPDATE_SETTINGS:
       return {
         ...state,
-        ..._.get(payload, 'webWidget.answerBot.title', state)
+        ..._.get(payload, 'webWidget.answerBot.title', state),
       }
     default:
       return state

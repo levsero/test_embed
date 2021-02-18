@@ -15,14 +15,14 @@ import {
   getAverageWaitTimeString,
   getCallback,
   getEmbeddableConfig,
-  getFormState
+  getFormState,
 } from 'src/redux/modules/talk/talk-selectors'
 import { submitTalkCallbackForm, updateTalkCallbackForm } from 'src/redux/modules/talk'
 import {
   getTalkDescriptionLabel,
   getTalkNameLabel,
   getTalkNickname,
-  getTalkServiceUrl
+  getTalkServiceUrl,
 } from 'src/redux/modules/selectors'
 import { SubmitButton, Form, Header, FormDivider } from './styles'
 
@@ -39,7 +39,7 @@ const CallbackForm = ({
   showCallbackNumber = false,
   submitTalkCallbackForm,
   supportedCountries,
-  updateTalkCallbackForm
+  updateTalkCallbackForm,
 }) => {
   const translate = useTranslate()
   const [showErrors, setShowErrors] = useState(false)
@@ -84,9 +84,9 @@ const CallbackForm = ({
         </div>
         <FormDivider />
         <PhoneField
-          validate={val => formRef.current?.validate(val)}
+          validate={(val) => formRef.current?.validate(val)}
           required={true}
-          onCountrySelect={country => {
+          onCountrySelect={(country) => {
             updateTalkCallbackForm({ country })
             formRef.current?.validate()
           }}
@@ -112,9 +112,9 @@ CallbackForm.propTypes = {
   formState: PropTypes.object.isRequired,
   callback: PropTypes.shape({
     error: PropTypes.shape({
-      message: PropTypes.striing
+      message: PropTypes.striing,
     }),
-    success: PropTypes.bool
+    success: PropTypes.bool,
   }),
   averageWaitTime: PropTypes.string,
   updateTalkCallbackForm: PropTypes.func.isRequired,
@@ -122,10 +122,10 @@ CallbackForm.propTypes = {
   nickname: PropTypes.string.isRequired,
   serviceUrl: PropTypes.string.isRequired,
   nameLabelText: PropTypes.string.isRequired,
-  descriptionLabelText: PropTypes.string.isRequired
+  descriptionLabelText: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     averageWaitTime: getAverageWaitTimeString(state),
     callback: getCallback(state),
@@ -134,18 +134,15 @@ const mapStateToProps = state => {
     nameLabelText: getTalkNameLabel(state),
     nickname: getTalkNickname(state),
     serviceUrl: getTalkServiceUrl(state),
-    supportedCountries: getEmbeddableConfig(state).supportedCountries
+    supportedCountries: getEmbeddableConfig(state).supportedCountries,
   }
 }
 
 const actionCreators = {
   updateTalkCallbackForm,
-  submitTalkCallbackForm
+  submitTalkCallbackForm,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(CallbackForm)
+const connectedComponent = connect(mapStateToProps, actionCreators)(CallbackForm)
 
 export { connectedComponent as default, CallbackForm as Component }

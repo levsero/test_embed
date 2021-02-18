@@ -12,7 +12,7 @@ jest.mock('src/embeds/chat/actions/email-transcript')
 
 describe('EmailTranscriptModal', () => {
   const defaultProps = {
-    onClose: jest.fn()
+    onClose: jest.fn(),
   }
 
   const renderComponent = async (props = {}) => {
@@ -28,7 +28,7 @@ describe('EmailTranscriptModal', () => {
 
     store.dispatch({
       type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-      payload: { email: 'example@example.com' }
+      payload: { email: 'example@example.com' },
     })
 
     await waitFor(() => expect(queryByLabelText('Email')).toHaveValue('example@example.com'))
@@ -66,7 +66,7 @@ describe('EmailTranscriptModal', () => {
   })
 
   it('displays a success message when the user successfully submits the form', async () => {
-    sendEmailTranscript.mockReturnValue(() => new Promise(res => res()))
+    sendEmailTranscript.mockReturnValue(() => new Promise((res) => res()))
 
     const { queryByLabelText, queryByText, container } = await renderComponent()
 
@@ -100,7 +100,7 @@ describe('EmailTranscriptModal', () => {
   })
 
   it('has a visual indicator to show the user that the form is submitting', async () => {
-    sendEmailTranscript.mockReturnValue(() => new Promise(res => res()))
+    sendEmailTranscript.mockReturnValue(() => new Promise((res) => res()))
 
     const { queryByLabelText, queryByText, queryByRole } = await renderComponent()
 

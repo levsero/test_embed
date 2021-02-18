@@ -15,8 +15,8 @@ const FileStructuredMessage = ({
     mediaUrl,
     altText,
     name,
-    received
-  }
+    received,
+  },
 }) => {
   return (
     <FileMessage
@@ -44,8 +44,8 @@ FileStructuredMessage.propTypes = {
     mediaUrl: PropTypes.string,
     name: PropTypes.string,
     received: PropTypes.number,
-    altText: PropTypes.string
-  })
+    altText: PropTypes.string,
+  }),
 }
 
 export default FileStructuredMessage

@@ -9,7 +9,7 @@ const endChatViaPostChatScreen = jest.fn(),
 const renderComponent = async (props = {}) => {
   const defaultProps = {
     endChatViaPostChatScreen,
-    onClose
+    onClose,
   }
 
   const result = render(<EndChat {...defaultProps} {...props} />)

@@ -24,7 +24,7 @@ const CloseButton = ({ onClick }) => {
 }
 
 CloseButton.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default CloseButton

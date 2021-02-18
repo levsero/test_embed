@@ -4,7 +4,7 @@ import TitleRow from '../'
 
 describe('TitleRow', () => {
   const defaultProps = {
-    children: <div>Some child component</div>
+    children: <div>Some child component</div>,
   }
 
   const renderComponent = (props = {}) => render(<TitleRow {...defaultProps} {...props} />)

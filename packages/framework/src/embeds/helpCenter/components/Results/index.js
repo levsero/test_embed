@@ -9,12 +9,12 @@ import { getSearchedArticles } from 'embeds/helpCenter/selectors'
 const Results = ({ articles }) => (articles.length > 0 ? <HasResults /> : <NoResults />)
 
 Results.propTypes = {
-  articles: PropTypes.array
+  articles: PropTypes.array,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    articles: getSearchedArticles(state)
+    articles: getSearchedArticles(state),
   }
 }
 const connectedComponent = connect(mapStateToProps)(Results)

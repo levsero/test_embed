@@ -18,7 +18,7 @@ const HiddenLabel = styled(Label)`
   clip: rect(1px, 1px, 1px, 1px);
 `
 
-const inputStyle = isMobile => {
+const inputStyle = (isMobile) => {
   if (isMobile) {
     return `
       padding: ${8 / FONT_SIZE}rem 0;

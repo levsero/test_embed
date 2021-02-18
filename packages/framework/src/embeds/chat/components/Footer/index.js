@@ -19,13 +19,13 @@ const ChatFooter = ({ onClick, label, hideButton }) => {
 ChatFooter.propTypes = {
   onClick: PropTypes.func,
   label: PropTypes.string,
-  hideButton: PropTypes.bool
+  hideButton: PropTypes.bool,
 }
 
 ChatFooter.defaultProps = {
   onClick: () => {},
   label: '',
-  hideButton: false
+  hideButton: false,
 }
 
 export default ChatFooter

@@ -6,7 +6,7 @@ import SubmitButton from '../'
 
 const defaultProps = {
   submitting: false,
-  label: 'test label'
+  label: 'test label',
 }
 const renderComponent = (props = {}) => {
   return render(<SubmitButton {...defaultProps} {...props} />)

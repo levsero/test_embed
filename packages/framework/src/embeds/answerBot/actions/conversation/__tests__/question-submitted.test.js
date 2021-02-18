@@ -18,7 +18,7 @@ const mockStore = configureMockStore([thunk])
 
 settings.init()
 store.set('zE_oauth', {
-  token: 'abc123'
+  token: 'abc123',
 })
 jest.spyOn(i18n, 'getLocale').mockReturnValue('tl')
 
@@ -39,19 +39,19 @@ describe('questionSubmitted', () => {
           1234,
           {
             deflection: { id: 888 },
-            interactionToken: { y: 2 }
-          }
-        ]
+            interactionToken: { y: 2 },
+          },
+        ],
       ]),
-      questionValueChangedTime: 123436789
+      questionValueChangedTime: 123436789,
     },
     settings: {
       answerBot: {
         search: {
-          labels: ['this', 'is', 'a', 'label']
-        }
-      }
-    }
+          labels: ['this', 'is', 'a', 'label'],
+        },
+      },
+    },
   }
   const dispatchAction = (newState = {}) => {
     const state = _.merge({}, defaultState, newState)
@@ -110,8 +110,8 @@ describe('questionSubmitted', () => {
   it('dispatches the expected action without session starting', () => {
     const store = dispatchAction({
       answerBot: {
-        currentSessionID: 4567
-      }
+        currentSessionID: 4567,
+      },
     })
 
     jest.runAllTimers()
@@ -200,8 +200,8 @@ describe('questionSubmitted', () => {
         body: {
           deflection_articles: [1, 2, 3], // eslint-disable-line camelcase
           deflection: { x: 123 },
-          interaction_access_token: { y: 456 } // eslint-disable-line camelcase
-        }
+          interaction_access_token: { y: 456 }, // eslint-disable-line camelcase
+        },
       })
       expect(store.getActions()).toMatchInlineSnapshot(`
         Array [
@@ -273,8 +273,8 @@ describe('questionSubmitted', () => {
         body: {
           deflection_articles: [], // eslint-disable-line camelcase
           deflection: { x: 123 },
-          interaction_access_token: { y: 456 } // eslint-disable-line camelcase
-        }
+          interaction_access_token: { y: 456 }, // eslint-disable-line camelcase
+        },
       })
       expect(http.send).toHaveBeenCalledTimes(2)
       expect(http.send.mock.calls[1][0]).toMatchInlineSnapshot(`
@@ -316,8 +316,8 @@ describe('questionSubmitted', () => {
         body: {
           deflection_articles: [], // eslint-disable-line camelcase
           deflection: { x: 123 },
-          interaction_access_token: { y: 456 } // eslint-disable-line camelcase
-        }
+          interaction_access_token: { y: 456 }, // eslint-disable-line camelcase
+        },
       })
       expect(http.send).toHaveBeenCalledTimes(1)
     })

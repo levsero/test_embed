@@ -16,26 +16,26 @@ export function setupZopimQueue(win) {
     }
   }
 
-  $zopim = win.$zopim = callback => {
+  $zopim = win.$zopim = (callback) => {
     if ($zopim._exec) {
       callback()
     } else {
       $zopim._.push(callback)
     }
   }
-  $zopim.set = callback => {
+  $zopim.set = (callback) => {
     $zopim.set._.push(callback)
   }
   $zopim._ = []
   $zopim.set._ = []
   $zopim._setByWW = true
   if (oldQueue) {
-    _.forEach(oldQueue, callback => {
+    _.forEach(oldQueue, (callback) => {
       $zopim._.push(callback)
     })
   }
   if (oldSet) {
-    _.forEach(oldSet, callback => {
+    _.forEach(oldSet, (callback) => {
       $zopim.set._.push(callback)
     })
   }
@@ -46,7 +46,7 @@ export function handleZopimQueue(win) {
 
   _.set(win.$zopim, '_exec', true)
 
-  _.forEach(_.get(win.$zopim, '_', []), method => {
+  _.forEach(_.get(win.$zopim, '_', []), (method) => {
     try {
       method()
     } catch (e) {

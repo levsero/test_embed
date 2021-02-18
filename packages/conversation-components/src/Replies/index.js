@@ -6,7 +6,7 @@ const Replies = ({ replies, isVisible = true, isFreshMessage = true, onReply = (
   return (
     <AnimatedReplies isVisible={isVisible} isFreshMessage={isFreshMessage}>
       <Container>
-        {replies.map(reply => (
+        {replies.map((reply) => (
           <Button key={reply._id} onClick={() => onReply(reply)} isPill={true}>
             {reply.text}
           </Button>
@@ -24,7 +24,7 @@ Replies.propTypes = {
     PropTypes.shape({
       text: PropTypes.string,
       payload: PropTypes.string,
-      _id: PropTypes.string
+      _id: PropTypes.string,
     })
   ),
   /**
@@ -32,7 +32,7 @@ Replies.propTypes = {
   */
   isVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  onReply: PropTypes.func
+  onReply: PropTypes.func,
 }
 
 export default Replies

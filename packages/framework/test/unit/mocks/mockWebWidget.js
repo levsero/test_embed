@@ -11,7 +11,7 @@ export default class MockWebWidget extends Component {
       searchCount: 0,
       searchTerm: '',
       hasSearched: false,
-      showIntroScreen: false
+      showIntroScreen: false,
     }
   }
 
@@ -60,7 +60,7 @@ class MockWebWidgetChild extends Component {
       searchCount: 0,
       searchTerm: '',
       hasSearched: false,
-      showIntroScreen: false
+      showIntroScreen: false,
     }
   }
   getChild() {

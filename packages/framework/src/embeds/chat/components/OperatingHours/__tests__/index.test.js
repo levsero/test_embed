@@ -7,12 +7,12 @@ const mockAccountOperatingHours = {
   account_schedule: [
     {
       days: [1],
-      periods: [{ start: 456, end: 789 }]
-    }
+      periods: [{ start: 456, end: 789 }],
+    },
   ],
   type: 'account',
   enabled: true,
-  timezone: 'Australia/Melbourne'
+  timezone: 'Australia/Melbourne',
 }
 
 const mockDepartmentOperatingHours = {
@@ -23,9 +23,9 @@ const mockDepartmentOperatingHours = {
       schedule: [
         {
           days: [2],
-          periods: [{ start: 500, end: 600 }]
-        }
-      ]
+          periods: [{ start: 500, end: 600 }],
+        },
+      ],
     },
     {
       name: 'Billing',
@@ -33,26 +33,26 @@ const mockDepartmentOperatingHours = {
       schedule: [
         {
           days: [1, [3, 5], 7],
-          periods: [{ start: 456, end: 789 }]
+          periods: [{ start: 456, end: 789 }],
         },
         {
           days: [2, 6],
-          periods: []
-        }
-      ]
-    }
+          periods: [],
+        },
+      ],
+    },
   ],
   type: 'department',
   enabled: true,
-  timezone: 'Australia/Melbourne'
+  timezone: 'Australia/Melbourne',
 }
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     operatingHours: mockAccountOperatingHours,
     locale: 'en-us',
     handleOfflineFormBack: jest.fn(),
-    ...inProps
+    ...inProps,
   }
   return render(<OperatingHours {...props} />)
 }
@@ -93,7 +93,7 @@ it('renders the go back button', () => {
 it('fires handleOfflineFormBack when back button clicked', () => {
   const onBack = jest.fn()
   const { getByText } = renderComponent({
-    handleOfflineFormBack: onBack
+    handleOfflineFormBack: onBack,
   })
 
   fireEvent.click(getByText('Go Back'))
@@ -104,7 +104,7 @@ it('fires handleOfflineFormBack when back button clicked', () => {
 describe('with department operating hours', () => {
   it('renders the dropdown', () => {
     const { queryByText } = renderComponent({
-      operatingHours: mockDepartmentOperatingHours
+      operatingHours: mockDepartmentOperatingHours,
     })
 
     expect(queryByText('Choose a department')).toBeInTheDocument()
@@ -112,7 +112,7 @@ describe('with department operating hours', () => {
 
   it('defaults to the first department', () => {
     const { queryByText } = renderComponent({
-      operatingHours: mockDepartmentOperatingHours
+      operatingHours: mockDepartmentOperatingHours,
     })
 
     expect(queryByText('Sales')).toBeInTheDocument()

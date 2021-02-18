@@ -14,9 +14,9 @@ expect.extend({
   toBeHidden,
   toHaveFocus,
   toAppearInOrder,
-  toMatchImageSnapshot
+  toMatchImageSnapshot,
 })
 
-process.on('unhandledRejection', function(err, promise) {
+process.on('unhandledRejection', function (err, promise) {
   console.error('Unhandled rejection (promise: ', promise, ', reason: ', err, ').') // eslint-disable-line no-console
 })

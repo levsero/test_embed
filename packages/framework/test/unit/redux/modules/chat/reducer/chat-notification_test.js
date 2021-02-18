@@ -26,7 +26,7 @@ describe('chat reducer notification', () => {
       msg: '',
       show: false,
       count: 0,
-      proactive: false
+      proactive: false,
     }
 
     describe('initial state', () => {
@@ -43,7 +43,7 @@ describe('chat reducer notification', () => {
           nick: '123',
           display_name: 'Terence',
           msg: 'Hello there!',
-          proactive: true
+          proactive: true,
         }
 
         const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload }
@@ -60,7 +60,7 @@ describe('chat reducer notification', () => {
           msg,
           show: true,
           proactive: true,
-          count: 1
+          count: 1,
         }
 
         expect(state).toEqual(expected)

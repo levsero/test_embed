@@ -30,15 +30,15 @@ const defaultOptions = {
     marginRight: `${WIDGET_MARGIN}px`,
     marginTop: `${WIDGET_MARGIN}px`,
     width: `${FRAME_WIDTH}px`,
-    height: `${FRAME_HEIGHT}px`
-  }
+    height: `${FRAME_HEIGHT}px`,
+  },
 }
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
 let frame
 
-const renderWebWidgetPreview = options => {
+const renderWebWidgetPreview = (options) => {
   options = _.defaultsDeep({}, options, defaultOptions)
 
   if (!options.element) {
@@ -54,11 +54,11 @@ const renderWebWidgetPreview = options => {
   const { width } = options.styles
   const frameStyle = _.extend({}, options.styles, {
     position: 'relative',
-    width: `${parseInt(width) + BOX_SHADOW_SIZE * 2}px`
+    width: `${parseInt(width) + BOX_SHADOW_SIZE * 2}px`,
   })
   const containerStyle = {
     width,
-    margin: `${BOX_SHADOW_SIZE}px`
+    margin: `${BOX_SHADOW_SIZE}px`,
   }
 
   // force name field to be required so "(optional)" does not show in the label
@@ -77,11 +77,11 @@ const renderWebWidgetPreview = options => {
       disableOffsetHorizontal: true,
       preventClose: true,
       generateUserCSS: generateUserWidgetCSS,
-      ref: el => {
+      ref: (el) => {
         frame = el
       },
       fullscreen: false,
-      isMobile: false
+      isMobile: false,
     }
 
     const component = (
@@ -102,13 +102,13 @@ const renderWebWidgetPreview = options => {
 
   i18n.setLocale(options.locale, renderComponent)
 
-  const setColor = newColor => {
+  const setColor = (newColor) => {
     store.dispatch(updateSettings({ color: { theme: newColor, button: newColor } }))
   }
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {
     const config = {
-      embeds: { ticketSubmissionForm: { props: { formTitleKey: titleKey } } }
+      embeds: { ticketSubmissionForm: { props: { formTitleKey: titleKey } } },
     }
 
     store.dispatch(updateEmbeddableConfig(config))
@@ -117,7 +117,7 @@ const renderWebWidgetPreview = options => {
   return {
     setColor,
     setTitle,
-    _component: frame
+    _component: frame,
   }
 }
 

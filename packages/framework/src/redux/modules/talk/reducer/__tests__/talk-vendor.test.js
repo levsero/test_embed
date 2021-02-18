@@ -3,24 +3,24 @@ import * as actionTypes from 'src/redux/modules/talk/talk-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
-  io: null
+  io: null,
 }
 
 testReducer(vendor, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: { io: '123' },
-    expected: { io: '123' }
+    expected: { io: '123' },
   },
   {
     action: {
       type: actionTypes.TALK_VENDOR_LOADED,
-      payload: { io: 'hello' }
+      payload: { io: 'hello' },
     },
-    expected: { io: 'hello' }
-  }
+    expected: { io: 'hello' },
+  },
 ])

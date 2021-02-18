@@ -18,7 +18,7 @@ import {
   getCustomerProvidedDefaultValues,
   getIsAnyTicketFormLoading,
   getIsFormLoading,
-  getReadOnlyState
+  getReadOnlyState,
 } from 'embeds/support/selectors'
 import routes from 'embeds/support/routes'
 import useTranslate from 'src/hooks/useTranslate'
@@ -36,7 +36,7 @@ const TicketForm = ({
   attachments = [],
   isPreview,
   initialValues,
-  formOpened
+  formOpened,
 }) => {
   const translate = useTranslate()
 
@@ -47,12 +47,12 @@ const TicketForm = ({
   return (
     <DynamicForm
       formId={`support-${formId}`}
-      onSubmit={async values => {
+      onSubmit={async (values) => {
         try {
           const fields = getFields(values, conditions, ticketFields)
           const valuesWithOriginalIds = {}
 
-          fields.forEach(field => {
+          fields.forEach((field) => {
             if (values[field.id]) {
               valuesWithOriginalIds[field.originalId ?? field.id] = values[field.id]
             }
@@ -60,19 +60,19 @@ const TicketForm = ({
 
           await submitTicket(valuesWithOriginalIds, formId, fields)
           return {
-            success: true
+            success: true,
           }
         } catch {
           return {
             success: false,
-            errorMessageKey: 'embeddable_framework.submitTicket.notify.message.error'
+            errorMessageKey: 'embeddable_framework.submitTicket.notify.message.error',
           }
         }
       }}
-      getFields={values => getFields(values, conditions, ticketFields)}
+      getFields={(values) => getFields(values, conditions, ticketFields)}
       initialValues={initialValues}
       isPreview={isPreview}
-      validate={values => validateTicketForm(ticketFields, values, attachments, conditions)}
+      validate={(values) => validateTicketForm(ticketFields, values, attachments, conditions)}
       controls={<TicketFormControls formId={formId} fields={ticketFields} />}
       readOnlyValues={readOnlyState}
       footer={({ isSubmitting }) => (
@@ -100,7 +100,7 @@ TicketForm.propTypes = {
   attachments: PropTypes.array,
   isPreview: PropTypes.bool,
   initialValues: PropTypes.objectOf(PropTypes.any),
-  formOpened: PropTypes.func
+  formOpened: PropTypes.func,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -120,18 +120,15 @@ const mapStateToProps = (state, ownProps) => {
     formExists: Boolean(id === routes.defaultFormId || getCanDisplayForm(state, id)),
     isLoading: getIsFormLoading(state, id),
     isAnyTicketFormLoading: getIsAnyTicketFormLoading(state),
-    initialValues: getCustomerProvidedDefaultValues(state, id)
+    initialValues: getCustomerProvidedDefaultValues(state, id),
   }
 }
 
 const mapDispatchToProps = {
   formOpened,
-  submitTicket
+  submitTicket,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TicketForm)
+export default connect(mapStateToProps, mapDispatchToProps)(TicketForm)
 
 export { TicketForm as Component }

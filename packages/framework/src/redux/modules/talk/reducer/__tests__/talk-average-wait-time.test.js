@@ -4,18 +4,18 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   waitTime: '0',
-  enabled: false
+  enabled: false,
 }
 
 testReducer(averageWaitTime, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: { waitTime: '23', enabled: true },
-    expected: { waitTime: '23', enabled: true }
+    expected: { waitTime: '23', enabled: true },
   },
   {
     action: {
@@ -23,13 +23,13 @@ testReducer(averageWaitTime, [
       payload: {
         averageWaitTime: '1',
         averageWaitTimeSetting: 'exact',
-        averageWaitTimeEnabled: true
-      }
+        averageWaitTimeEnabled: true,
+      },
     },
     expected: {
       waitTime: '1',
-      enabled: true
-    }
+      enabled: true,
+    },
   },
   {
     action: {
@@ -37,27 +37,27 @@ testReducer(averageWaitTime, [
       payload: {
         averageWaitTime: null,
         averageWaitTimeSetting: 'exact',
-        averageWaitTimeEnabled: false
-      }
+        averageWaitTimeEnabled: false,
+      },
     },
     initialState,
     expected: {
       waitTime: '0',
-      enabled: false
-    }
+      enabled: false,
+    },
   },
   {
     action: {
       type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       payload: {
         averageWaitTime: null,
-        averageWaitTimeEnabled: false
-      }
+        averageWaitTimeEnabled: false,
+      },
     },
     expected: {
       waitTime: '0',
-      enabled: false
-    }
+      enabled: false,
+    },
   },
   {
     action: {
@@ -65,13 +65,13 @@ testReducer(averageWaitTime, [
       payload: {
         averageWaitTime: '1',
         averageWaitTimeSetting: 'exact',
-        averageWaitTimeEnabled: true
-      }
+        averageWaitTimeEnabled: true,
+      },
     },
     expected: {
       waitTime: '1',
-      enabled: true
-    }
+      enabled: true,
+    },
   },
   {
     action: {
@@ -79,26 +79,26 @@ testReducer(averageWaitTime, [
       payload: {
         averageWaitTime: null,
         averageWaitTimeSetting: 'exact',
-        averageWaitTimeEnabled: false
-      }
+        averageWaitTimeEnabled: false,
+      },
     },
     initialState,
     expected: {
       waitTime: '0',
-      enabled: false
-    }
+      enabled: false,
+    },
   },
   {
     action: {
       type: actionTypes.TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
       payload: {
         averageWaitTime: null,
-        averageWaitTimeEnabled: false
-      }
+        averageWaitTimeEnabled: false,
+      },
     },
     expected: {
       waitTime: '0',
-      enabled: false
-    }
-  }
+      enabled: false,
+    },
+  },
 ])

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FONT_SIZE } from 'constants/shared'
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
 
-const padding = props => {
+const padding = (props) => {
   switch (props.size) {
     case 'small':
       return `${10 / FONT_SIZE}rem ${20 / FONT_SIZE}rem`
@@ -21,7 +21,7 @@ const shadow = () => {
 const FooterView = styled.footer`
   padding: ${padding};
 
-  ${props =>
+  ${(props) =>
     props.shadow &&
     `
     border-top: ${1.1 / FONT_SIZE}rem solid ${zdColorGrey200};
@@ -31,11 +31,11 @@ const FooterView = styled.footer`
 
 FooterView.propTypes = {
   size: PropTypes.oneOf(['small', 'large', 'minimal']),
-  shadow: PropTypes.bool
+  shadow: PropTypes.bool,
 }
 
 FooterView.defaultProps = {
-  size: 'large'
+  size: 'large',
 }
 
 export default FooterView

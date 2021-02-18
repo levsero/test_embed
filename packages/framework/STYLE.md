@@ -65,7 +65,7 @@ Always multi-line object literal initialisation if there are 2 or more propertie
 const obj = {
   key: 'val',
   foo: 'bar',
-  bob: 'bear'
+  bob: 'bear',
 }
 ```
 
@@ -190,7 +190,7 @@ Use ES6 fat-arrow notation for both anonymous functions and function expressions
 
 ```js
 // anonymous function
-mediator.channel.subscribe('someEvent', params => {
+mediator.channel.subscribe('someEvent', (params) => {
   // ...
 })
 
@@ -345,7 +345,7 @@ For all optional (non-required) props, a default value must be supplied to the `
 
 ```js
 NewComponent.defaultProps = {
-  bar: false
+  bar: false,
 }
 ```
 

@@ -4,7 +4,7 @@ import { zdColorWhite } from '@zendeskgarden/css-variables'
 
 export const StyledBackIcon = styled(BackIcon)`
   fill: ${zdColorWhite};
-  ${props =>
+  ${(props) =>
     props.theme.rtl &&
     `path {
     transform: rotate(180deg);

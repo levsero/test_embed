@@ -32,7 +32,7 @@ const mockAction = jest.fn(() => mockActionValue)
 
 describe('tags', () => {
   beforeEach(() => {
-    jest.spyOn(chatCallbacks, 'onChatConnected').mockImplementation(cb => {
+    jest.spyOn(chatCallbacks, 'onChatConnected').mockImplementation((cb) => {
       cb()
     })
   })
@@ -49,12 +49,12 @@ describe('tags', () => {
             chat: {
               vendor: {
                 zChat: {
-                  addTags: addTagsSpy
-                }
-              }
-            }
+                  addTags: addTagsSpy,
+                },
+              },
+            },
           }
-        }
+        },
       }
     })
     ;[
@@ -66,8 +66,8 @@ describe('tags', () => {
       [['zopim2', 'zopim3', 'another']],
       [[['zopim2'], 'zopim3', 'another']],
       [[['zopim2', 'zopim3'], 'another']],
-      [[['zopim2, zopim3'], 'another']]
-    ].forEach(args => {
+      [[['zopim2, zopim3'], 'another']],
+    ].forEach((args) => {
       it(`adds the [${args}] tags`, () => {
         apis.addTagsApi(mockStore)(...args)
 
@@ -90,12 +90,12 @@ describe('tags', () => {
             chat: {
               vendor: {
                 zChat: {
-                  removeTags: removeTagsSpy
-                }
-              }
-            }
+                  removeTags: removeTagsSpy,
+                },
+              },
+            },
           }
-        }
+        },
       }
     })
     ;[
@@ -107,8 +107,8 @@ describe('tags', () => {
       [['zopim2', 'zopim3', 'another']],
       [[['zopim2'], 'zopim3', 'another']],
       [[['zopim2', 'zopim3'], 'another']],
-      [[['zopim2, zopim3'], 'another']]
-    ].forEach(args => {
+      [[['zopim2, zopim3'], 'another']],
+    ].forEach((args) => {
       it(`adds the [${args}] tags`, () => {
         apis.removeTagsApi(mockStore)(...args)
 
@@ -209,7 +209,7 @@ describe('identify', () => {
       const params = {
         name: 'James Dean',
         email: 'james@dean.com',
-        ...(includePhone && { phone: '0430931722' })
+        ...(includePhone && { phone: '0430931722' }),
       }
 
       apis.identifyApi(store, params)
@@ -231,7 +231,7 @@ describe('identify', () => {
 
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
         display_name: params.name,
-        email: params.email
+        email: params.email,
       })
     })
 
@@ -249,7 +249,7 @@ describe('identify', () => {
         expect(setVisitorInfoSpy).toHaveBeenCalledWith({
           display_name: params.name,
           email: params.email,
-          phone: params.phone
+          phone: params.phone,
         })
       })
     })
@@ -262,7 +262,7 @@ describe('identify', () => {
       params = {
         name: 'James Dean',
         email: 'james@dean',
-        phone: '0430931722'
+        phone: '0430931722',
       }
 
       apis.identifyApi(store, params)
@@ -275,7 +275,7 @@ describe('identify', () => {
     it('still calls setVisitorInfo with the name and phone', () => {
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
         display_name: params.name,
-        phone: '0430931722'
+        phone: '0430931722',
       })
     })
 
@@ -293,7 +293,7 @@ describe('identify', () => {
     beforeEach(() => {
       params = {
         name: undefined,
-        email: 'james@dean.com'
+        email: 'james@dean.com',
       }
 
       apis.identifyApi(store, params)
@@ -305,7 +305,7 @@ describe('identify', () => {
 
     it('still calls setVisitorInfo with the email', () => {
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        email: params.email
+        email: params.email,
       })
     })
 
@@ -321,7 +321,7 @@ describe('identify', () => {
       params = {
         name: 'helloName',
         email: 'james@dean.com',
-        phone: 'eeeeee'
+        phone: 'eeeeee',
       }
 
       apis.identifyApi(store, params)
@@ -334,7 +334,7 @@ describe('identify', () => {
     it('still calls setVisitorInfo with the email and name', () => {
       expect(setVisitorInfoSpy).toHaveBeenCalledWith({
         email: params.email,
-        display_name: params.name
+        display_name: params.name,
       })
     })
 
@@ -352,7 +352,7 @@ describe('identify', () => {
     beforeEach(() => {
       params = {
         name: undefined,
-        email: undefined
+        email: undefined,
       }
 
       apis.identifyApi(store, params)
@@ -611,7 +611,7 @@ test('clearFormState dispatches apiClearform and attachmentsCleared actions', ()
 
   expect(store.getActions()).toEqual([
     { type: baseActionTypes.API_CLEAR_FORM, payload: { timestamp: mockTimestamp } },
-    { type: ATTACHMENTS_CLEARED }
+    { type: ATTACHMENTS_CLEARED },
   ])
 })
 
@@ -643,7 +643,7 @@ test('displayApi calls getWidgetDisplayInfo', () => {
 
   store.dispatch({
     type: baseActionTypes.UPDATE_ACTIVE_EMBED,
-    payload: 'helpCenterForm'
+    payload: 'helpCenterForm',
   })
   store.dispatch({ type: baseActionTypes.BOOT_UP_TIMER_COMPLETE })
   store.dispatch({ type: baseActionTypes.LAUNCHER_CLICKED })
@@ -658,7 +658,7 @@ test('isChattingApi', () => {
 
   store.dispatch({
     type: chatActionTypes.IS_CHATTING,
-    payload: true
+    payload: true,
   })
 
   expect(apis.isChattingApi(store)).toEqual(true)
@@ -674,21 +674,21 @@ test('getDepartmentApi', () => {
 
   store.dispatch({
     type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-    payload: { detail: { id: 10, name: 'yeetDepartment' } }
+    payload: { detail: { id: 10, name: 'yeetDepartment' } },
   })
 
   store.dispatch({
     type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-    payload: { detail: { id: 11, name: 'notYeetDepartment' } }
+    payload: { detail: { id: 11, name: 'notYeetDepartment' } },
   })
 
   expect(apis.getDepartmentApi(store, 'yeetDepartment')).toEqual({
     id: 10,
-    name: 'yeetDepartment'
+    name: 'yeetDepartment',
   })
   expect(apis.getDepartmentApi(store, 11)).toEqual({
     id: 11,
-    name: 'notYeetDepartment'
+    name: 'notYeetDepartment',
   })
   expect(apis.getDepartmentApi(store, 'blerg')).not.toBeDefined()
   expect(apis.getDepartmentApi(store, 1000)).not.toBeDefined()
@@ -701,7 +701,7 @@ test('getAllDepartmentsApi', () => {
 
   store.dispatch({
     type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-    payload: { detail: { id: 10, name: ['yeetDepartment'] } }
+    payload: { detail: { id: 10, name: ['yeetDepartment'] } },
   })
 
   expect(apis.getAllDepartmentsApi(store, 123)).toEqual([{ id: 10, name: ['yeetDepartment'] }])
@@ -806,7 +806,7 @@ describe('onApi', () => {
     expect(callback).not.toHaveBeenCalled()
     store.dispatch({
       type: chatActionTypes.SDK_ACCOUNT_STATUS,
-      payload: { detail: 'yeetStat' }
+      payload: { detail: 'yeetStat' },
     })
     callbacks.fireFor(eventConstants.CHAT_STATUS_EVENT)
 
@@ -825,8 +825,8 @@ describe('onApi', () => {
         proactive: true,
         nick: 'black hole',
         display_name: 'black hole', // eslint-disable-line camelcase
-        msg: 'check it'
-      }
+        msg: 'check it',
+      },
     })
     callbacks.fireFor(eventConstants.CHAT_UNREAD_MESSAGES_EVENT)
 
@@ -841,7 +841,7 @@ describe('onApi', () => {
     expect(callback).not.toHaveBeenCalled()
     store.dispatch({
       type: chatActionTypes.SDK_DEPARTMENT_UPDATE,
-      payload: { detail: { id: 1 } }
+      payload: { detail: { id: 1 } },
     })
     callbacks.fireFor(eventConstants.CHAT_DEPARTMENT_STATUS_EVENT, [{ id: 1 }])
 
@@ -855,7 +855,7 @@ describe('onApi', () => {
 
     expect(callback).not.toHaveBeenCalled()
     store.dispatch({
-      type: baseActionTypes.POPOUT_CREATED
+      type: baseActionTypes.POPOUT_CREATED,
     })
     callbacks.fireFor(eventConstants.CHAT_POPOUT_EVENT)
 

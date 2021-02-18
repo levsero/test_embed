@@ -3,7 +3,7 @@ import { API_CLEAR_FORM } from '../../base/base-action-types'
 
 const initialState = {
   name: '',
-  phone: ''
+  phone: '',
 }
 
 const formState = (state = initialState, action) => {
@@ -11,7 +11,7 @@ const formState = (state = initialState, action) => {
     case UPDATE_CALLBACK_FORM:
       return {
         ...initialState,
-        ...action.payload
+        ...action.payload,
       }
     case API_CLEAR_FORM:
       return initialState

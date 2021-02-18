@@ -11,10 +11,10 @@ test('use the label from config', async () => {
       embeds: {
         helpCenterForm: {
           props: {
-            buttonLabelKey: 'contact'
-          }
-        }
-      }
+            buttonLabelKey: 'contact',
+          },
+        },
+      },
     })
     .intercept(mockSearchEndpoint())
     .load()

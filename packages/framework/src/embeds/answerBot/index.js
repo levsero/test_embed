@@ -30,14 +30,14 @@ class AnswerBot extends Component {
     hideZendeskLogo: PropTypes.bool,
     actions: PropTypes.shape({
       updateBackButtonVisibility: PropTypes.func.isRequired,
-      conversationScrollChanged: PropTypes.func.isRequired
+      conversationScrollChanged: PropTypes.func.isRequired,
     }),
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     isMobile: false,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
   }
 
   constructor(props) {
@@ -80,7 +80,7 @@ class AnswerBot extends Component {
       <Widget>
         <Header title={this.props.title} />
         <Main
-          ref={el => {
+          ref={(el) => {
             this.conversationContainer = el
           }}
         >
@@ -139,31 +139,28 @@ class AnswerBot extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentScreen: getCurrentScreen(state),
     lastConversationScroll: getLastScroll(state),
     title: getSettingsAnswerBotTitle(state),
     isMobile: isMobileBrowser(),
-    hideZendeskLogo: getHideZendeskLogo(state)
+    hideZendeskLogo: getHideZendeskLogo(state),
   }
 }
 
-const actionCreators = dispatch => ({
+const actionCreators = (dispatch) => ({
   actions: bindActionCreators(
     {
       updateBackButtonVisibility,
-      conversationScrollChanged
+      conversationScrollChanged,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(AnswerBot)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  AnswerBot
+)
 
 export { connectedComponent as default, AnswerBot as Component }

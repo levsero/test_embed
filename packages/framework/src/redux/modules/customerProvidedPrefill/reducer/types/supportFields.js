@@ -4,7 +4,7 @@ import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPref
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const supportFields = (state = initialState, action) => {
@@ -18,7 +18,7 @@ const supportFields = (state = initialState, action) => {
 
       return {
         timestamp: Date.now(),
-        values: _.merge({}, state.values, normaliseFieldPrefillValues(fields))
+        values: _.merge({}, state.values, normaliseFieldPrefillValues(fields)),
       }
     default:
       return state

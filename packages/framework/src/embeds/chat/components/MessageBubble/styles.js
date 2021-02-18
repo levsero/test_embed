@@ -15,12 +15,12 @@ const MessageContainer = styled.div`
   white-space: pre-wrap;
   word-wrap: break-word !important;
 
-  border-radius: ${props => 16 / props.theme.fontSize}rem;
-  line-height: ${props => 16 / props.theme.fontSize}rem;
-  padding: ${props => 8 / props.theme.fontSize}rem ${props => 12 / props.theme.fontSize}rem;
-  max-width: ${props => 245 / props.theme.fontSize}rem;
+  border-radius: ${(props) => 16 / props.theme.fontSize}rem;
+  line-height: ${(props) => 16 / props.theme.fontSize}rem;
+  padding: ${(props) => 8 / props.theme.fontSize}rem ${(props) => 12 / props.theme.fontSize}rem;
+  max-width: ${(props) => 245 / props.theme.fontSize}rem;
 
-  ${props =>
+  ${(props) =>
     !props.isAgent &&
     `
     background-color: ${props.theme.buttonColorStr} !important;
@@ -30,7 +30,7 @@ const MessageContainer = styled.div`
     }
   `}
 
-  ${props =>
+  ${(props) =>
     props.isAgent &&
     `
       background-color: ${zdColorGrey200};
@@ -38,7 +38,7 @@ const MessageContainer = styled.div`
   `}
 
 
-  ${props =>
+  ${(props) =>
     props.hasOptions &&
     `
     border-bottom-left-radius: 0;
@@ -51,16 +51,16 @@ const Message = styled.span``
 
 const TranslateLink = styled(Button).attrs(() => ({
   isLink: true,
-  ignoreThemeOverride: true
+  ignoreThemeOverride: true,
 }))`
   &&& {
-    margin-left: ${props => 5 / props.theme.fontSize}rem;
+    margin-left: ${(props) => 5 / props.theme.fontSize}rem;
     transition: 100ms ease;
-    border-bottom: ${props => 1 / props.theme.fontSize}rem solid transparent;
+    border-bottom: ${(props) => 1 / props.theme.fontSize}rem solid transparent;
     background-color: transparent;
 
     [dir='rtl'] & {
-      margin-right: ${props => 5 / props.theme.fontSize}rem;
+      margin-right: ${(props) => 5 / props.theme.fontSize}rem;
       margin-left: 0;
     }
 

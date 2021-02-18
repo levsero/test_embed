@@ -2,7 +2,7 @@ import { clearFormState, clearAllForms, setFormState } from '../index'
 import {
   CLEARED_FORM_STATE,
   ALL_FORMS_CLEARED,
-  SET_FORM_STATE
+  SET_FORM_STATE,
 } from 'src/redux/modules/form/action-types'
 
 describe('form actions', () => {
@@ -11,8 +11,8 @@ describe('form actions', () => {
       expect(clearFormState('form id')).toEqual({
         type: CLEARED_FORM_STATE,
         payload: {
-          formId: 'form id'
-        }
+          formId: 'form id',
+        },
       })
     })
   })
@@ -20,7 +20,7 @@ describe('form actions', () => {
   describe('clearFormStates', () => {
     it('returns an action to clear all form states', () => {
       expect(clearAllForms()).toEqual({
-        type: ALL_FORMS_CLEARED
+        type: ALL_FORMS_CLEARED,
       })
     })
   })
@@ -32,9 +32,9 @@ describe('form actions', () => {
         payload: {
           formId: 'form id',
           newFormState: {
-            name: 'some name'
-          }
-        }
+            name: 'some name',
+          },
+        },
       })
     })
   })

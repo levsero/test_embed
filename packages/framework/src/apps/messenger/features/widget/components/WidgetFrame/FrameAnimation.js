@@ -4,12 +4,12 @@ import { Transition } from 'react-transition-group'
 import {
   getFrameStyles,
   getFrameWrapperStyles,
-  openAnimationDuration
+  openAnimationDuration,
 } from 'src/apps/messenger/features/widget/components/WidgetFrame/styles'
 import { useSelector } from 'react-redux'
 import {
   getIsFullScreen,
-  getIsVerticallySmallScreen
+  getIsVerticallySmallScreen,
 } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
@@ -28,7 +28,7 @@ const FrameAnimation = ({ children }) => {
 
   return (
     <Transition in={isWidgetOpen} timeout={shouldAnimate ? openAnimationDuration * 1000 : 0}>
-      {status => (
+      {(status) => (
         <div
           style={getFrameWrapperStyles({
             isVerticallySmallScreen,
@@ -36,14 +36,14 @@ const FrameAnimation = ({ children }) => {
             isFullScreen,
             position,
             isClosed: status === 'exiting' || status === 'exited',
-            zIndex
+            zIndex,
           })}
         >
           {children(
             status,
             getFrameStyles({
               isVerticallySmallScreen,
-              isFullScreen
+              isFullScreen,
             })
           )}
         </div>
@@ -53,7 +53,7 @@ const FrameAnimation = ({ children }) => {
 }
 
 FrameAnimation.propTypes = {
-  children: PropTypes.func
+  children: PropTypes.func,
 }
 
 export default FrameAnimation

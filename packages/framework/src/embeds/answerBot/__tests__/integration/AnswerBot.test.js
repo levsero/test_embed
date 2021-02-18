@@ -16,16 +16,16 @@ jest.mock('service/transport')
 jest.useFakeTimers()
 Date.now = jest.fn(() => 1559097574000)
 
-const successfulResponse = options => options.callbacks.done()
+const successfulResponse = (options) => options.callbacks.done()
 const resolution = jest.fn(successfulResponse)
 const viewed = jest.fn(successfulResponse)
 const rejection = jest.fn(successfulResponse)
-const interaction = jest.fn(options => {
+const interaction = jest.fn((options) => {
   options.callbacks.done({
     body: {
       deflection: {
         id: 360060729351,
-        auth_token: 'eyJ'
+        auth_token: 'eyJ',
       },
       deflection_articles: [
         {
@@ -42,7 +42,7 @@ const interaction = jest.fn(options => {
           brand_id: 114094997791,
           score: 0.45848482847213745,
           html_body: '<div>first article</div>',
-          snippet: 'this is a snippet'
+          snippet: 'this is a snippet',
         },
         {
           id: 360145219992,
@@ -56,7 +56,7 @@ const interaction = jest.fn(options => {
           brand_id: 114094997791,
           score: 0.8,
           html_body: '<div>second article</div>',
-          snippet: 'this is the second snippet'
+          snippet: 'this is the second snippet',
         },
         {
           id: 360145219993,
@@ -70,21 +70,21 @@ const interaction = jest.fn(options => {
           brand_id: 114094997791,
           score: 0.8,
           html_body: '<div>third article</div>',
-          snippet: 'this is the third snippet'
-        }
+          snippet: 'this is the third snippet',
+        },
       ],
       model_meta: {
         version: '00040300',
         name: 'megamike',
-        language: 'en'
+        language: 'en',
       },
-      interaction_access_token: 'eyJ0eXAi'
-    }
+      interaction_access_token: 'eyJ0eXAi',
+    },
   })
 })
 
 const setupAnswerBotServerMocks = () => {
-  http.send = options => {
+  http.send = (options) => {
     switch (options.path) {
       case '/api/v2/answer_bot/interaction?include=html_body':
         interaction(options)
@@ -137,8 +137,8 @@ test('integration', async () => {
   expect(interaction).toHaveBeenCalledWith(
     expect.objectContaining({
       params: expect.objectContaining({
-        enquiry: 'Help me do something'
-      })
+        enquiry: 'Help me do something',
+      }),
     })
   )
 
@@ -162,8 +162,8 @@ test('integration', async () => {
   expect(viewed).toHaveBeenCalledWith(
     expect.objectContaining({
       params: expect.objectContaining({
-        article_id: 360002874212 // eslint-disable-line camelcase
-      })
+        article_id: 360002874212, // eslint-disable-line camelcase
+      }),
     })
   )
 
@@ -196,8 +196,8 @@ test('integration', async () => {
     expect.objectContaining({
       params: expect.objectContaining({
         article_id: 360002874212, // eslint-disable-line camelcase
-        reason_id: 1 // eslint-disable-line camelcase
-      })
+        reason_id: 1, // eslint-disable-line camelcase
+      }),
     })
   )
 
@@ -244,8 +244,8 @@ test('integration', async () => {
     expect.objectContaining({
       params: expect.objectContaining({
         article_id: 360002874213, // eslint-disable-line camelcase
-        reason_id: 2 // eslint-disable-line camelcase
-      })
+        reason_id: 2, // eslint-disable-line camelcase
+      }),
     })
   )
 
@@ -267,8 +267,8 @@ test('integration', async () => {
   expect(resolution).toHaveBeenCalledWith(
     expect.objectContaining({
       params: expect.objectContaining({
-        article_id: 360002874214 // eslint-disable-line camelcase
-      })
+        article_id: 360002874214, // eslint-disable-line camelcase
+      }),
     })
   )
 

@@ -6,9 +6,7 @@ import zChat from 'e2e/helpers/zChat'
 import widget from './widget'
 
 const loadWidgetWithChatOnline = async (options = {}) => {
-  let builder = loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+  let builder = loadWidget().withPresets('chat').hiddenInitially()
 
   if (options.mobile) {
     builder = builder.useMobile()
@@ -26,12 +24,8 @@ const openChattingScreen = async () => {
   await waitForChatToBeReady()
 }
 
-const openChattingScreenAndEvaluate = async cb => {
-  await loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
-    .evaluateAfterSnippetLoads(cb)
-    .load()
+const openChattingScreenAndEvaluate = async (cb) => {
+  await loadWidget().withPresets('chat').hiddenInitially().evaluateAfterSnippetLoads(cb).load()
 
   await zChat.online()
 }
@@ -58,7 +52,7 @@ const clickToConfirmEndChat = async () => {
   await widget.clickButton('End')
 }
 
-const sendMessageFromUser = async message => {
+const sendMessageFromUser = async (message) => {
   const composer = await queries.queryByPlaceholderText(
     await widget.getDocument(),
     'Type a message here...'
@@ -70,24 +64,24 @@ const sendMessageFromUser = async message => {
   expect(await queries.queryByText(await widget.getDocument(), message)).toBeTruthy()
 }
 
-const agentJoinsChat = async agentName => {
+const agentJoinsChat = async (agentName) => {
   await zChat.agentJoined({
     display_name: agentName,
-    nick: 'agent:12345'
+    nick: 'agent:12345',
   })
 }
 
-const agentLeavesChat = async agentName => {
+const agentLeavesChat = async (agentName) => {
   await zChat.chatMemberLeft({
     display_name: agentName,
-    nick: 'agent:12345'
+    nick: 'agent:12345',
   })
 }
 
-const visitorLeavesChat = async visitorName => {
+const visitorLeavesChat = async (visitorName) => {
   await zChat.chatMemberLeft({
     display_name: visitorName,
-    nick: visitorName
+    nick: visitorName,
   })
 }
 
@@ -96,7 +90,7 @@ const sendMessageFromAgent = async (agentName, message) => {
     nick: 'agent:12345',
     msg: message,
     display_name: agentName,
-    proactive: false
+    proactive: false,
   }
   await zChat.chat(detail)
 
@@ -125,5 +119,5 @@ export {
   openChattingScreenAndEvaluate,
   clickToConfirmEndChat,
   waitForChatToBeReady,
-  clickChatOptions
+  clickChatOptions,
 }

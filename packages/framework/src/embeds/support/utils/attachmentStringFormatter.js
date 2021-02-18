@@ -2,7 +2,7 @@ import _ from 'lodash'
 const MAX_FILENAME_LENGTH = 30
 const TRAILING_CHARS_LENGTH = 7
 
-export const formatNameString = fileName => {
+export const formatNameString = (fileName) => {
   if (fileName.length <= MAX_FILENAME_LENGTH) return fileName
 
   const nameStart = fileName.slice(0, MAX_FILENAME_LENGTH - TRAILING_CHARS_LENGTH - 1)
@@ -17,10 +17,10 @@ export const formatAttachmentSize = (bytes, translate) => {
 
   return size >= 1000000
     ? translate('embeddable_framework.submitTicket.attachments.size_megabyte', {
-        size: _.floor(size / 1000000, 1)
+        size: _.floor(size / 1000000, 1),
       })
     : translate('embeddable_framework.submitTicket.attachments.size_kilobyte', {
-        size: _.floor(size / 1000)
+        size: _.floor(size / 1000),
       })
 }
 

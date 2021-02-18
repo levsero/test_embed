@@ -5,7 +5,7 @@ import UnreadIndicator from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    unreadCount: 20
+    unreadCount: 20,
   }
 
   return render(<UnreadIndicator {...defaultProps} {...props} />)

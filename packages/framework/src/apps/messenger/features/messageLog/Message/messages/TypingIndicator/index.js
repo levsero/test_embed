@@ -6,7 +6,7 @@ import useTranslate from 'src/apps/messenger/features/i18n/useTranslate'
 import { DotLoader } from './styles'
 
 const TypingIndicator = ({
-  message: { avatarUrl, name, isFirstInGroup, isLastInGroup, isFirstMessageInAuthorGroup, _id }
+  message: { avatarUrl, name, isFirstInGroup, isLastInGroup, isFirstMessageInAuthorGroup, _id },
 }) => {
   const translate = useTranslate()
   return (
@@ -31,7 +31,7 @@ const TypingIndicator = ({
 TypingIndicator.propTypes = {
   message: PropTypes.shape({
     avatarUrl: PropTypes.string,
-    name: PropTypes.string
-  })
+    name: PropTypes.string,
+  }),
 }
 export default TypingIndicator

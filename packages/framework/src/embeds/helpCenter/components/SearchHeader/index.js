@@ -19,7 +19,7 @@ const SearchHeader = ({ title, inputRef }) => {
 
 SearchHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  inputRef: PropTypes.object
+  inputRef: PropTypes.object,
 }
 
 export default SearchHeader

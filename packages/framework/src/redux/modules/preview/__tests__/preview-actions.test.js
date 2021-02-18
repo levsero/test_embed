@@ -7,7 +7,7 @@ describe('choosePreview', () => {
   it('returns PREVIEW_CHOICE_SELECTED action', () => {
     expect(choosePreview(CHAT)).toEqual({
       type: PREVIEW_CHOICE_SELECTED,
-      payload: CHAT
+      payload: CHAT,
     })
   })
 })

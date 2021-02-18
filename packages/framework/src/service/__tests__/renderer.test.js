@@ -7,14 +7,14 @@ jest.mock('service/settings')
 jest.mock('src/framework/services/errorTracker')
 jest.mock('src/redux/modules/base', () => ({
   updateEmbedAccessible: jest.fn().mockReturnValue({ type: 'embed accessible' }),
-  widgetInitialised: jest.fn().mockReturnValue({ type: 'widget init' })
+  widgetInitialised: jest.fn().mockReturnValue({ type: 'widget init' }),
 }))
 jest.mock('src/apps/webWidget/services/i18n')
 jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/talk')
 jest.mock('src/embeds/webWidget', () => ({
-  render: jest.fn()
+  render: jest.fn(),
 }))
 jest.mock('src/embeds/helpCenter/actions')
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
@@ -43,10 +43,10 @@ beforeEach(() => {
   window.zESettings = {}
   mockSettings = {
     contactOptions: { enabled: false },
-    offset: { vertical: 20, horizontal: 30 }
+    offset: { vertical: 20, horizontal: 30 },
   }
   settings = require('service/settings').settings
-  settings.get = value => _.get(mockSettings, value, null)
+  settings.get = (value) => _.get(mockSettings, value, null)
   settings.getErrorReportingEnabled = () => false
   errorTracker = require('src/framework/services/errorTracker').default
   errorTracker.configure = jest.fn()
@@ -68,42 +68,42 @@ const testConfig = () => ({
   embeds: {
     helpCenterForm: {
       embed: 'helpCenter',
-      props: {}
+      props: {},
     },
     launcher: {
       embed: 'launcher',
       props: {
-        position: 'right'
-      }
+        position: 'right',
+      },
     },
     ticketSubmissionForm: {
-      embed: 'submitTicket'
+      embed: 'submitTicket',
     },
     chat: {
       embed: 'chat',
       props: {
         zopimId: '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-        position: 'br'
-      }
+        position: 'br',
+      },
     },
     talk: {
       embed: 'talk',
       props: {
-        nickname: 'yoyo'
-      }
-    }
-  }
+        nickname: 'yoyo',
+      },
+    },
+  },
 })
 
 describe('init', () => {
   it('calls and renders correct embeds from config', async () => {
     await renderer.init({
       config: testConfig(),
-      reduxStore: store
+      reduxStore: store,
     })
     await renderer.run({
       config: testConfig(),
-      reduxStore: store
+      reduxStore: store,
     })
 
     expect(baseActions.updateEmbedAccessible).toHaveBeenCalledWith(expect.any(String), true)
@@ -132,11 +132,11 @@ describe('init', () => {
     beforeEach(async () => {
       await renderer.init({
         config: testConfig(),
-        reduxStore: store
+        reduxStore: store,
       })
       renderer.run({
         config: testConfig(),
-        reduxStore: store
+        reduxStore: store,
       })
     })
 
@@ -147,7 +147,7 @@ describe('init', () => {
     describe('when the config is chat standalone', () => {
       beforeEach(async () => {
         const config = {
-          embeds: { chat: { embed: 'chat' } }
+          embeds: { chat: { embed: 'chat' } },
         }
 
         await renderer.init({ config })
@@ -162,7 +162,7 @@ describe('init', () => {
     it('it calls set up on the embeds if they exist in config', () => {
       renderer.init({
         config: testConfig(),
-        reduxStore: store
+        reduxStore: store,
       })
 
       expect(chatActions.setUpChat).toHaveBeenCalled()
@@ -176,11 +176,11 @@ describe('init', () => {
     isFeatureEnabled.mockReturnValue(true)
     await renderer.init({
       config: testConfig(),
-      reduxStore: store
+      reduxStore: store,
     })
     await renderer.run({
       config: testConfig(),
-      reduxStore: store
+      reduxStore: store,
     })
 
     expect(chatActions.setUpChat).toHaveBeenCalled()
@@ -203,10 +203,10 @@ describe('init', () => {
           locale: 'en',
           webWidgetCustomizations: true,
           embeds: {
-            x: 1
-          }
+            x: 1,
+          },
         },
-        reduxStore: store
+        reduxStore: store,
       })
     }
 
@@ -237,9 +237,9 @@ describe('init', () => {
       embeds: {
         helpCenterForm: {
           embed: 'helpCenter',
-          props: { color: 'white' }
-        }
-      }
+          props: { color: 'white' },
+        },
+      },
     }
 
     it('calls and render correct embeds from config', () => {

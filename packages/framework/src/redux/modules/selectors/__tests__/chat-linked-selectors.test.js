@@ -58,7 +58,7 @@ test('getProfileConfig returns the expected value', () => {
   expect(result).toEqual({
     avatar: 'av',
     title: 'ti',
-    rating: 'ra'
+    rating: 'ra',
   })
 })
 
@@ -72,7 +72,7 @@ describe('getChatAccountSettingsTitle', () => {
   test("returns i18n'd title when windowSettings title is undefined", () => {
     const result = selectors.getChatAccountSettingsTitle(
       getModifiedState({
-        chat: { accountSettings: { chatWindow: { title: null } } }
+        chat: { accountSettings: { chatWindow: { title: null } } },
       })
     )
 
@@ -90,7 +90,7 @@ describe('getChatTitle', () => {
   test('returns Account Settings Title when translation is not included', () => {
     const result = selectors.getChatTitle(
       getModifiedState({
-        settings: { chat: { title: null } }
+        settings: { chat: { title: null } },
       })
     )
 
@@ -107,7 +107,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
       text: 'badgeText',
       image: 'heyLookA.img',
       label: 'badgeLabel',
-      layout: 'left, no right... The other left?'
+      layout: 'left, no right... The other left?',
     })
   })
 
@@ -115,8 +115,8 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
     const result = selectors.getLauncherBadgeSettings(
       getModifiedState({
         settings: {
-          launcher: { badge: { label: 'ThisIsTheIncorrectStructure ' } }
-        }
+          launcher: { badge: { label: 'ThisIsTheIncorrectStructure ' } },
+        },
       })
     )
 
@@ -125,7 +125,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
       text: 'badgeText',
       image: 'heyLookA.img',
       label: 'badgeText',
-      layout: 'left, no right... The other left?'
+      layout: 'left, no right... The other left?',
     })
   })
 
@@ -137,10 +137,10 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
             enabled: true,
             text: 'new text',
             imagePath: 'a.jpg',
-            layout: 'new layout'
-          }
-        }
-      }
+            layout: 'new layout',
+          },
+        },
+      },
     })
     state.chat.accountSettings.banner = {}
     state.settings.launcher.badge = {}
@@ -149,7 +149,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
       enabled: true,
       image: 'a.jpg',
       layout: 'new layout',
-      label: 'new text'
+      label: 'new text',
     })
   })
 
@@ -162,10 +162,10 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
               enabled: true,
               text: 'new text',
               imagePath: 'a.jpg',
-              layout: 'new layout'
-            }
-          }
-        }
+              layout: 'new layout',
+            },
+          },
+        },
       })
       const result = selectors.getLauncherBadgeSettings(state)
       expect(result).toEqual({
@@ -173,7 +173,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
         text: 'badgeText',
         image: 'heyLookA.img',
         label: 'badgeLabel',
-        layout: 'left, no right... The other left?'
+        layout: 'left, no right... The other left?',
       })
     })
 
@@ -185,10 +185,10 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
               enabled: true,
               text: 'new text',
               imagePath: 'a.jpg',
-              layout: 'new layout'
-            }
-          }
-        }
+              layout: 'new layout',
+            },
+          },
+        },
       })
       state.chat.accountSettings.banner.enabled = false
       state.settings.launcher.badge = {}
@@ -197,7 +197,7 @@ describe('getLauncherBadgeSettings aggregates badge and label settings', () => {
         enabled: true,
         image: 'a.jpg',
         layout: 'new layout',
-        label: 'new text'
+        label: 'new text',
       })
     })
   })
@@ -210,7 +210,7 @@ describe('getConciergeSettings', () => {
     expect(result).toEqual({
       avatar_path: 'overrideAvatarPath',
       display_name: 'overrideName',
-      title: 'overrideTitle'
+      title: 'overrideTitle',
     })
   })
 
@@ -219,16 +219,16 @@ describe('getConciergeSettings', () => {
       getModifiedState({
         settings: {
           chat: {
-            concierge: null
-          }
-        }
+            concierge: null,
+          },
+        },
       })
     )
 
     expect(result).toEqual({
       avatar_path: 'regularAvatarPath',
       display_name: 'regularName',
-      title: { '*': 'regularTitle' }
+      title: { '*': 'regularTitle' },
     })
   })
 })
@@ -244,8 +244,8 @@ describe('getOfflineFormSettings', () => {
       form: {
         0: { name: 'name', required: true },
         2: { name: 'phone', label: 'Phone Number', required: true },
-        3: { name: 'message', label: 'Message', required: false }
-      }
+        3: { name: 'message', label: 'Message', required: false },
+      },
     })
   })
 
@@ -253,7 +253,7 @@ describe('getOfflineFormSettings', () => {
     test('returns the chat message', () => {
       const result = selectors.getOfflineFormSettings(
         getModifiedState({
-          settings: { chat: { offlineForm: null } }
+          settings: { chat: { offlineForm: null } },
         })
       )
 
@@ -264,8 +264,8 @@ describe('getOfflineFormSettings', () => {
         form: {
           0: { name: 'name', required: true },
           2: { name: 'phone', label: 'Phone Number', required: true },
-          3: { name: 'message', label: 'Message', required: false }
-        }
+          3: { name: 'message', label: 'Message', required: false },
+        },
       })
     })
   })
@@ -276,19 +276,20 @@ describe('getOfflineFormSettings', () => {
         getModifiedState({
           settings: {
             chat: {
-              offlineForm: null
-            }
+              offlineForm: null,
+            },
           },
           chat: {
             accountSettings: {
-              offlineForm: null
-            }
-          }
+              offlineForm: null,
+            },
+          },
         })
       )
 
       expect(result).toEqual({
-        message: "Sorry, we aren't online at the moment. Leave a message and we'll get back to you."
+        message:
+          "Sorry, we aren't online at the moment. Leave a message and we'll get back to you.",
       })
     })
   })
@@ -302,7 +303,7 @@ describe('getPrechatFormSettings', () => {
       greeting: 'accPrechatGreeting',
       departmentLabel: 'accPrechatDeptLabel',
       required: 'burp',
-      message: 'accPrechatMessage'
+      message: 'accPrechatMessage',
     })
   })
 
@@ -313,14 +314,14 @@ describe('getPrechatFormSettings', () => {
           chat: {
             prechatForm: {
               departmentLabel: {
-                '*': 'prechatTranslatedDeptLabel'
+                '*': 'prechatTranslatedDeptLabel',
               },
               greeting: {
-                '*': 'prechatTranslatedGreeting'
-              }
-            }
-          }
-        }
+                '*': 'prechatTranslatedGreeting',
+              },
+            },
+          },
+        },
       })
     )
 
@@ -328,7 +329,7 @@ describe('getPrechatFormSettings', () => {
       required: 'burp',
       message: 'prechatTranslatedGreeting',
       departmentLabel: 'prechatTranslatedDeptLabel',
-      greeting: 'accPrechatGreeting'
+      greeting: 'accPrechatGreeting',
     })
   })
 })
@@ -338,7 +339,10 @@ describe('getEnabledDepartments', () => {
     it('returns only enabled departments', () => {
       const result = selectors.getEnabledDepartments(getModifiedState())
 
-      expect(result).toEqual([{ id: 111, name: 'burgers' }, { id: 222, name: 'pizza' }])
+      expect(result).toEqual([
+        { id: 111, name: 'burgers' },
+        { id: 222, name: 'pizza' },
+      ])
     })
   })
 
@@ -370,14 +374,14 @@ describe('getEnabledDepartments', () => {
     it('returns all departments', () => {
       const result = selectors.getEnabledDepartments(
         getModifiedState({
-          settings: { chat: { departments: { enabled: null } } }
+          settings: { chat: { departments: { enabled: null } } },
         })
       )
 
       expect(result).toEqual([
         { id: 111, name: 'burgers' },
         { id: 222, name: 'pizza' },
-        { id: 333, name: 'thickshakes' }
+        { id: 333, name: 'thickshakes' },
       ])
     })
   })
@@ -397,7 +401,7 @@ describe('getDefaultSelectedDepartment', () => {
   it('in accountSettings, return that department if settings is not set', () => {
     const result = selectors.getDefaultSelectedDepartment(
       getModifiedState({
-        chat: { defaultDepartment: { id: 111 } }
+        chat: { defaultDepartment: { id: 111 } },
       })
     )
 
@@ -408,13 +412,13 @@ describe('getDefaultSelectedDepartment', () => {
     const result = selectors.getDefaultSelectedDepartment(
       getModifiedState({
         settings: { chat: { departments: { select: 111 } } },
-        chat: { defaultDepartment: { id: 222 } }
+        chat: { defaultDepartment: { id: 222 } },
       })
     )
 
     expect(result).toEqual({
       id: 111,
-      name: 'burgers'
+      name: 'burgers',
     })
   })
 
@@ -422,13 +426,13 @@ describe('getDefaultSelectedDepartment', () => {
     const result = selectors.getDefaultSelectedDepartment(
       getModifiedState({
         settings: { chat: { departments: { select: 'burgers' } } },
-        chat: { defaultDepartment: { id: 222 } }
+        chat: { defaultDepartment: { id: 222 } },
       })
     )
 
     expect(result).toEqual({
       id: 111,
-      name: 'burgers'
+      name: 'burgers',
     })
   })
 })
@@ -437,7 +441,7 @@ describe('getCurrentConcierges', () => {
   test('when values are correct', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
-        chat: { activeAgents: new Map([]) }
+        chat: { activeAgents: new Map([]) },
       })
     )
 
@@ -445,8 +449,8 @@ describe('getCurrentConcierges', () => {
       {
         avatar_path: 'overrideAvatarPath',
         display_name: 'overrideName',
-        title: 'overrideTitle'
-      }
+        title: 'overrideTitle',
+      },
     ])
   })
 
@@ -454,8 +458,8 @@ describe('getCurrentConcierges', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
-          activeAgents: new Map([])
-        }
+          activeAgents: new Map([]),
+        },
       })
     )
 
@@ -463,8 +467,8 @@ describe('getCurrentConcierges', () => {
       {
         avatar_path: 'overrideAvatarPath',
         display_name: 'overrideName',
-        title: 'overrideTitle'
-      }
+        title: 'overrideTitle',
+      },
     ])
   })
 
@@ -472,13 +476,13 @@ describe('getCurrentConcierges', () => {
     const result = selectors.getCurrentConcierges(
       getModifiedState({
         chat: {
-          activeAgents: new Map([])
+          activeAgents: new Map([]),
         },
         settings: {
           chat: {
-            concierge: null
-          }
-        }
+            concierge: null,
+          },
+        },
       })
     )
 
@@ -487,9 +491,9 @@ describe('getCurrentConcierges', () => {
         avatar_path: 'regularAvatarPath',
         display_name: 'regularName',
         title: {
-          '*': 'regularTitle'
-        }
-      }
+          '*': 'regularTitle',
+        },
+      },
     ])
   })
 })
@@ -501,7 +505,7 @@ describe('getOfflineFormFields', () => {
     expect(result).toEqual({
       message: { label: 'Message', required: false, name: 'message' },
       name: { required: true, name: 'name' },
-      phone: { label: 'Phone Number', required: true, name: 'phone' }
+      phone: { label: 'Phone Number', required: true, name: 'phone' },
     })
   })
 })
@@ -512,20 +516,20 @@ describe('getChatNotification', () => {
 
     expect(result).toEqual({
       avatar_path: 'bobPath',
-      nick: 'agent:mcbob'
+      nick: 'agent:mcbob',
     })
   })
 
   test('returns the concierge avatar_path if agent has no avatar_path', () => {
     const result = selectors.getChatNotification(
       getModifiedState({
-        chat: { notification: { nick: 'agent:trigger' } }
+        chat: { notification: { nick: 'agent:trigger' } },
       })
     )
 
     expect(result).toEqual({
       avatar_path: 'overrideAvatarPath',
-      nick: 'agent:trigger'
+      nick: 'agent:trigger',
     })
   })
 })
@@ -541,8 +545,8 @@ describe('isInChattingScreen', () => {
     const result = selectors.isInChattingScreen(
       getModifiedState({
         base: {
-          widgetShown: false
-        }
+          widgetShown: false,
+        },
       })
     )
 
@@ -553,8 +557,8 @@ describe('isInChattingScreen', () => {
     const result = selectors.isInChattingScreen(
       getModifiedState({
         chat: {
-          screen: 'notChattingScreen'
-        }
+          screen: 'notChattingScreen',
+        },
       })
     )
 
@@ -565,8 +569,8 @@ describe('isInChattingScreen', () => {
     const result = selectors.isInChattingScreen(
       getModifiedState({
         base: {
-          activeEmbed: 'notChat'
-        }
+          activeEmbed: 'notChat',
+        },
       })
     )
 
@@ -611,7 +615,7 @@ describe('getIsPopoutButtonVisible', () => {
     test('when popout button is not enabled in settings', () => {
       const result = selectors.getIsPopoutButtonVisible(
         getModifiedState({
-          settings: { navigation: { popoutButton: { enabled: false } } }
+          settings: { navigation: { popoutButton: { enabled: false } } },
         })
       )
       expect(result).toEqual(false)
@@ -631,10 +635,10 @@ describe('getOfflineFormEnabled', () => {
         chat: {
           accountSettings: {
             offlineForm: {
-              enabled: false
-            }
-          }
-        }
+              enabled: false,
+            },
+          },
+        },
       })
     )
     expect(result).toEqual(false)
@@ -646,15 +650,15 @@ describe('getOfflineFormEnabled', () => {
         chat: {
           accountSettings: {
             offlineForm: {
-              enabled: false
-            }
+              enabled: false,
+            },
           },
           config: {
             forms: {
-              offlineEnabled: true
-            }
-          }
-        }
+              offlineEnabled: true,
+            },
+          },
+        },
       })
     )
     expect(result).toEqual(true)
@@ -666,13 +670,13 @@ describe('getOfflineFormEnabled', () => {
         chat: {
           accountSettings: {
             offlineForm: {
-              enabled: false
-            }
+              enabled: false,
+            },
           },
           config: {
-            forms: {}
-          }
-        }
+            forms: {},
+          },
+        },
       })
     )
     expect(result).toEqual(false)
@@ -687,17 +691,17 @@ describe('getPrechatFormFields', () => {
           department: [
             { id: 222, name: 'Pizza' },
             { id: 111, name: 'burgers' },
-            { id: 333, name: 'thickshakes' }
-          ]
+            { id: 333, name: 'thickshakes' },
+          ],
         },
         settings: {
           chat: {
             departments: {
               enabled: ['burgers', 222],
-              select: 'burgers'
-            }
-          }
-        }
+              select: 'burgers',
+            },
+          },
+        },
       }
 
       return selectors.getPrechatFormFields(getModifiedState(stateOverride))
@@ -708,8 +712,8 @@ describe('getPrechatFormFields', () => {
         department: { label: 'Choose a department' },
         departments: [
           { id: 111, isDefault: true, name: 'burgers', value: 111 },
-          { id: 222, isDefault: false, name: 'pizza', value: 222 }
-        ]
+          { id: 222, isDefault: false, name: 'pizza', value: 222 },
+        ],
       })
     })
   })
@@ -725,7 +729,7 @@ describe('getPrechatFormFields', () => {
     it('returns the expected fields', () => {
       expect(select()).toEqual({
         department: { label: 'Choose a department' },
-        departments: []
+        departments: [],
       })
     })
   })
@@ -740,7 +744,7 @@ describe('getDelayChatConnectionEnabled', () => {
     [true, true, false, true],
     [true, false, false, true],
     [true, false, true, true],
-    [true, true, true, true]
+    [true, true, true, true],
   ])(
     'when defaultToChatWidgetLite == %p, connectOnDemand == %p, connectOnPageLoad == %p, it returns %p',
     (defaultToChatWidgetLite, connectOnDemand, connectOnPageLoad, expectedValue) => {
@@ -760,7 +764,7 @@ describe('getDelayChatConnection', () => {
     [true, false, '', true],
     [false, false, '', false],
     [true, true, '', false],
-    [true, false, 'connecting', false]
+    [true, false, 'connecting', false],
   ])(
     'when delayChatConnectionEnabled == %p, is chatting == %p, chatConnection == %p, it returns %p',
     (delayChatConnectionEnabled, isChatting, connection, expectedValue) => {
@@ -781,7 +785,7 @@ describe('getShowRatingButtons', () => {
     ['when profileConfig.rating is false', false, true, true, CHATTING_SCREEN, false],
     ['when agentCount is > 0', true, false, true, CHATTING_SCREEN, false],
     ['when isChatting is false', true, true, false, CHATTING_SCREEN, false],
-    ['when its not on chatting screen', true, true, true, 'not_CHATTING_SCREEN', false]
+    ['when its not on chatting screen', true, true, true, 'not_CHATTING_SCREEN', false],
   ])('%p', (_title, profileConfigRating, agentJoined, isChatting, screen, expectedValue) => {
     const result = selectors.getShowRatingButtons.resultFunc(
       { rating: profileConfigRating },

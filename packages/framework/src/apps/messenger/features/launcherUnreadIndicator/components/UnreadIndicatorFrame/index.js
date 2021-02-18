@@ -5,7 +5,7 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import {
   frameMarginFromPage,
   unreadIndicatorSize,
-  launcherSize
+  launcherSize,
 } from 'src/apps/messenger/constants'
 import { getZIndex, getPosition } from 'src/apps/messenger/features/themeProvider/store'
 import { useSelector } from 'react-redux'
@@ -35,7 +35,7 @@ const UnreadIndicatorFrame = ({ children }) => {
         bottom: frameMarginFromPage + launcherSize - unreadIndicatorSize + indicatorOffset,
         [position]: frameMarginFromPage - indicatorOffset,
         border: 0,
-        marginTop: 0
+        marginTop: 0,
       }}
     >
       <ThemeProvider>
@@ -49,7 +49,7 @@ const UnreadIndicatorFrame = ({ children }) => {
 }
 
 UnreadIndicatorFrame.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default UnreadIndicatorFrame

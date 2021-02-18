@@ -7,10 +7,10 @@ const StyledPreviewer = styled.div`
   justify-content: flex-end;
   overflow: hidden;
 
-  align-items: ${props => (props.position === 'left' ? 'flex-start' : 'flex-end')};
+  align-items: ${(props) => (props.position === 'left' ? 'flex-start' : 'flex-end')};
 
-  height: ${props => props.height}px;
-  width: ${props => (props.width ? `${props.width}px` : 'auto')};
+  height: ${(props) => props.height}px;
+  width: ${(props) => (props.width ? `${props.width}px` : 'auto')};
   padding: 16px;
 
   > *:not(:first-child) {
@@ -18,19 +18,19 @@ const StyledPreviewer = styled.div`
   }
 `
 
-const Previewer = props => {
+const Previewer = (props) => {
   return <StyledPreviewer {...props} />
 }
 
 Previewer.propTypes = {
   position: PropTypes.oneOf(['left', 'right']),
   height: PropTypes.number,
-  width: PropTypes.number
+  width: PropTypes.number,
 }
 
 Previewer.defaultProps = {
   height: 772,
-  width: 380
+  width: 380,
 }
 
 export default Previewer

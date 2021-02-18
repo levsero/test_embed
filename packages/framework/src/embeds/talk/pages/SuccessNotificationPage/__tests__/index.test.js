@@ -6,7 +6,7 @@ import { render } from 'src/util/testHelpers'
 import SuccessNotificationPage from '../'
 
 const defaultProps = {
-  title: 'Request sent'
+  title: 'Request sent',
 }
 
 const renderComponent = (props = {}) => {

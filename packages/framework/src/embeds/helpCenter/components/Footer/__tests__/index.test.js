@@ -3,11 +3,11 @@ import React from 'react'
 
 import HelpCenterFooter from '../index'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const mergedProps = {
     onClick: noop,
     showNextButton: false,
-    ...props
+    ...props,
   }
 
   return render(<HelpCenterFooter {...mergedProps} />)

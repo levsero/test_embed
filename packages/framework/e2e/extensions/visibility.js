@@ -6,21 +6,21 @@ const waitForSelector = async (maybeSelector, prop) => {
   try {
     await page.waitForSelector(selector, {
       [prop]: true,
-      timeout: 5000 // wait for 5 seconds
+      timeout: 5000, // wait for 5 seconds
     })
     return {
       message: () => `expected ${selector} to be ${prop}`,
-      pass: true
+      pass: true,
     }
   } catch (e) {
     return {
       message: () => `expected ${selector} to be ${prop}, but it is not`,
-      pass: false
+      pass: false,
     }
   }
 }
 
-const toBeVisible = selector => waitForSelector(selector, 'visible')
-const toBeHidden = selector => waitForSelector(selector, 'hidden')
+const toBeVisible = (selector) => waitForSelector(selector, 'visible')
+const toBeHidden = (selector) => waitForSelector(selector, 'hidden')
 
 export { toBeVisible, toBeHidden }

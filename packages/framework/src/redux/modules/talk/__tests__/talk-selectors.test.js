@@ -3,22 +3,22 @@ import {
   PHONE_ONLY,
   CALLBACK_ONLY,
   CALLBACK_AND_PHONE,
-  CLICK_TO_CALL
+  CLICK_TO_CALL,
 } from '../talk-capability-types'
 
-const embeddableConfig = state => ({
+const embeddableConfig = (state) => ({
   talk: {
-    embeddableConfig: state
-  }
+    embeddableConfig: state,
+  },
 })
 
-const talkConfig = state => ({
-  talk: state
+const talkConfig = (state) => ({
+  talk: state,
 })
 
 test('getEmbeddableConfig returns the embeddableConfig object', () => {
   const state = {
-    a: 123
+    a: 123,
   }
 
   expect(selectors.getEmbeddableConfig(embeddableConfig(state))).toEqual(state)
@@ -26,7 +26,7 @@ test('getEmbeddableConfig returns the embeddableConfig object', () => {
 
 test('getEmbeddableConfigEnabled returns if config is enabled', () => {
   const state = {
-    enabled: true
+    enabled: true,
   }
 
   expect(selectors.getEmbeddableConfigEnabled(embeddableConfig(state))).toEqual(true)
@@ -34,7 +34,7 @@ test('getEmbeddableConfigEnabled returns if config is enabled', () => {
 
 test('getEmbeddableConfigConnected returns connected', () => {
   const state = {
-    connected: true
+    connected: true,
   }
 
   expect(selectors.getEmbeddableConfigConnected(embeddableConfig(state))).toEqual(true)
@@ -42,7 +42,7 @@ test('getEmbeddableConfigConnected returns connected', () => {
 
 test('getAgentAvailability returns the availability', () => {
   const state = {
-    agentAvailability: true
+    agentAvailability: true,
   }
 
   expect(selectors.getAgentAvailability(talkConfig(state))).toEqual(true)
@@ -52,8 +52,8 @@ test('getFormState returns the form state', () => {
   const state = {
     formState: {
       phone: 'fasdf',
-      name: 'blah'
-    }
+      name: 'blah',
+    },
   }
 
   expect(selectors.getFormState(talkConfig(state))).toEqual(state.formState)
@@ -62,8 +62,8 @@ test('getFormState returns the form state', () => {
 test('getCallback returns the callback object', () => {
   const state = {
     callback: {
-      blah: true
-    }
+      blah: true,
+    },
   }
 
   expect(selectors.getCallback(talkConfig(state))).toEqual(state.callback)
@@ -72,8 +72,8 @@ test('getCallback returns the callback object', () => {
 test('getAverageWaitTime returns the callback object', () => {
   const state = {
     averageWaitTime: {
-      waitTime: '5'
-    }
+      waitTime: '5',
+    },
   }
 
   expect(selectors.getAverageWaitTime(talkConfig(state))).toEqual('5')
@@ -82,8 +82,8 @@ test('getAverageWaitTime returns the callback object', () => {
 test('getAverageWaitTimeEnabled returns the callback object', () => {
   const state = {
     averageWaitTime: {
-      enabled: true
-    }
+      enabled: true,
+    },
   }
 
   expect(selectors.getAverageWaitTimeEnabled(talkConfig(state))).toEqual(true)
@@ -93,29 +93,30 @@ test('getSocketIoVendor returns the socket.io vendor', () => {
   const state = {
     vendor: {
       io: {
-        blah: 'blah'
-      }
-    }
+        blah: 'blah',
+      },
+    },
   }
 
   expect(selectors.getSocketIoVendor(talkConfig(state))).toEqual({
-    blah: 'blah'
+    blah: 'blah',
   })
 })
 
-test.each([[PHONE_ONLY, false], [CALLBACK_ONLY, true], [CALLBACK_AND_PHONE, true]])(
-  'isCallbackEnabled(%s)',
-  (capability, expected) => {
-    expect(selectors.isCallbackEnabled(embeddableConfig({ capability }))).toEqual(expected)
-  }
-)
+test.each([
+  [PHONE_ONLY, false],
+  [CALLBACK_ONLY, true],
+  [CALLBACK_AND_PHONE, true],
+])('isCallbackEnabled(%s)', (capability, expected) => {
+  expect(selectors.isCallbackEnabled(embeddableConfig({ capability }))).toEqual(expected)
+})
 
 describe('getAverageWaitTimeString', () => {
   test.each([
     ['average wait time is not enabled', false, '1', null],
     ['average wait time is enabled and wait time is 0', true, '0', null],
     ['average wait time is enabled and wait time is 1', true, '1', 'Average wait time: 1 minute'],
-    ['average wait time is enabled and wait time is 2', true, '2', 'Average wait time: 2 minutes']
+    ['average wait time is enabled and wait time is 2', true, '2', 'Average wait time: 2 minutes'],
   ])('%p', (__title, averageWaitTimeEnabled, averageWaitTime, expectedValue) => {
     const result = selectors.getAverageWaitTimeString.resultFunc(
       averageWaitTimeEnabled,
@@ -131,11 +132,11 @@ describe('getIsEmbeddedVoiceEnabled', () => {
     [CLICK_TO_CALL, true],
     [PHONE_ONLY, false],
     [CALLBACK_ONLY, false],
-    [CALLBACK_AND_PHONE, false]
+    [CALLBACK_AND_PHONE, false],
   ])('when talk capability is %p the return value is %p', (capability, expectedValue) => {
     expect(
       selectors.getIsEmbeddedVoiceEnabled({
-        talk: { embeddableConfig: { capability } }
+        talk: { embeddableConfig: { capability } },
       })
     ).toEqual(expectedValue)
   })

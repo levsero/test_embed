@@ -4,10 +4,10 @@ import AgentTyping from '..'
 
 describe('AgentTyping', () => {
   const defaultProps = {
-    agentsTyping: []
+    agentsTyping: [],
   }
 
-  const renderComponent = props => render(<AgentTyping {...defaultProps} {...props} />)
+  const renderComponent = (props) => render(<AgentTyping {...defaultProps} {...props} />)
 
   it('returns an empty div if there are no agents typing', () => {
     const { container } = renderComponent()
@@ -35,7 +35,7 @@ describe('AgentTyping', () => {
     it('displays the expected message', () => {
       const agentsTyping = [
         { display_name: 'Cordelia' },
-        { display_name: 'A less good dog with a long name' }
+        { display_name: 'A less good dog with a long name' },
       ]
       const { getByText } = render(<AgentTyping agentsTyping={agentsTyping} />)
 
@@ -48,7 +48,7 @@ describe('AgentTyping', () => {
       const agentsTyping = [
         { display_name: 'Cordelia' },
         { display_name: 'A less good dog with a long name' },
-        { display_name: 'A short dog' }
+        { display_name: 'A short dog' },
       ]
       const { getByText } = render(<AgentTyping agentsTyping={agentsTyping} />)
 

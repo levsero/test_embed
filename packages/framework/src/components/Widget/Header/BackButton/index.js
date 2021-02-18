@@ -38,7 +38,7 @@ const BackButton = ({ useReactRouter, history }) => {
 
 BackButton.propTypes = {
   useReactRouter: PropTypes.bool,
-  history: PropTypes.object
+  history: PropTypes.object,
 }
 
 const connectedComponent = withRouter(BackButton)

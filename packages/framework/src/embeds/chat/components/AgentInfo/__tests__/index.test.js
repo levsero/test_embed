@@ -7,10 +7,10 @@ const agent = {
   nick: 'agent:1',
   isTyping: false,
   title: 'kill_neo_666@hotmail.com',
-  display_name: 'Agent Smith'
+  display_name: 'Agent Smith',
 }
 
-const renderComponent = alternateProps => {
+const renderComponent = (alternateProps) => {
   const props = { ...agent, ...alternateProps }
 
   return render(<AgentInfo agent={props} />)

@@ -18,7 +18,7 @@ describe('when passed OPENED_CHAT_HISTORY', () => {
 describe('when passed CLOSED_CHAT_HISTORY', () => {
   it('returns true', () => {
     const result = reducer('swoop', {
-      type: actions.CLOSED_CHAT_HISTORY
+      type: actions.CLOSED_CHAT_HISTORY,
     })
 
     expect(result).toEqual(false)

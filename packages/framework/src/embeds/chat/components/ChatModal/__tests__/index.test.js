@@ -8,7 +8,7 @@ describe('ChatModal', () => {
   const defaultProps = {
     title: 'Modal title',
     children: <div>Modal content</div>,
-    onClose: jest.fn(0)
+    onClose: jest.fn(0),
   }
 
   const renderComponent = (props = {}) => render(<ChatModal {...defaultProps} {...props} />)

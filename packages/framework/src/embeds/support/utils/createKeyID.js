@@ -1,3 +1,3 @@
-const createKeyID = id => `key:${id}`
+const createKeyID = (id) => `key:${id}`
 
 export default createKeyID

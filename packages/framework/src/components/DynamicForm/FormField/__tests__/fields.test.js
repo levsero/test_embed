@@ -22,7 +22,7 @@ describe('getField', () => {
     ['', FallbackField],
     ['some unknown field', FallbackField],
     [null, FallbackField],
-    [undefined, FallbackField]
+    [undefined, FallbackField],
   ]
 
   expectedFieldTypes.forEach(([fieldType, expectedComponent]) => {

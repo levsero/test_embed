@@ -15,11 +15,11 @@ import { SecondaryButton, SubmitButton, ButtonGroup, Label, Textarea, RatingGrou
 const FeedbackForm = ({
   rating = {
     value: ratings.NOT_SET,
-    comment: ''
+    comment: '',
   },
   secondaryButtonText,
   handleSecondaryButtonClick,
-  submitForm
+  submitForm,
 }) => {
   const translate = useTranslate()
 
@@ -28,7 +28,7 @@ const FeedbackForm = ({
 
     if (validationError) {
       callback({
-        [FORM_ERROR]: 'embeddable_framework.validation.error.feedback_form'
+        [FORM_ERROR]: 'embeddable_framework.validation.error.feedback_form',
       })
       return
     }
@@ -52,7 +52,7 @@ const FeedbackForm = ({
 
                 <RatingGroup
                   rating={input.value}
-                  updateRating={rating => {
+                  updateRating={(rating) => {
                     input.onChange(rating)
                   }}
                 />
@@ -72,7 +72,7 @@ const FeedbackForm = ({
                   rows={6}
                   data-testid={TEST_IDS.MESSAGE_FIELD}
                   value={input.value}
-                  onChange={e => {
+                  onChange={(e) => {
                     input.onChange(e.target.value)
                   }}
                 />
@@ -114,7 +114,7 @@ FeedbackForm.propTypes = {
   rating: ChatPropTypes.chatRating.isRequired,
   secondaryButtonText: PropTypes.string.isRequired,
   handleSecondaryButtonClick: PropTypes.func,
-  submitForm: PropTypes.func.isRequired
+  submitForm: PropTypes.func.isRequired,
 }
 
 export default FeedbackForm

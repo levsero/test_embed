@@ -20,5 +20,5 @@ const render = ({ reduxStore, config }) => {
 }
 
 export default {
-  render
+  render,
 }

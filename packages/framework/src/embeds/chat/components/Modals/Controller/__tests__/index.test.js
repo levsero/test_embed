@@ -11,7 +11,7 @@ const renderComponent = (props = {}) => {
     emailTranscript: { show: false },
     endChatModalVisible: false,
     endChatViaPostChatScreen: jest.fn(),
-    updateEndChatModalVisibility: jest.fn()
+    updateEndChatModalVisibility: jest.fn(),
   }
 
   return render(<Controller {...defaultProps} {...props} />)

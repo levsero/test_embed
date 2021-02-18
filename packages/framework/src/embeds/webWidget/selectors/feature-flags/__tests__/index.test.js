@@ -6,8 +6,8 @@ jest.mock('utility/runtime')
 jest.mock('../features', () => ({
   fancyFeature: {
     defaultValue: true,
-    getArturoValue: jest.fn()
-  }
+    getArturoValue: jest.fn(),
+  },
 }))
 
 describe('isFeatureEnabled', () => {

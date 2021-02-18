@@ -11,8 +11,8 @@ const events = [
       timestamp: 1525325772386,
       nick: 'visitor',
       type: 'chat.memberjoin',
-      display_name: 'Visitor 1525325771'
-    }
+      display_name: 'Visitor 1525325771',
+    },
   },
   {
     type: 'chat',
@@ -21,8 +21,8 @@ const events = [
       nick: 'visitor',
       type: 'chat.msg',
       display_name: 'Visitor 1525325926',
-      msg: 'hey there'
-    }
+      msg: 'hey there',
+    },
   },
   {
     type: 'chat',
@@ -30,8 +30,8 @@ const events = [
       timestamp: 1525325936518,
       nick: 'agent:1689357',
       type: 'chat.memberjoin',
-      display_name: 'Briana Coppard'
-    }
+      display_name: 'Briana Coppard',
+    },
   },
   {
     type: 'chat',
@@ -40,8 +40,8 @@ const events = [
       nick: 'agent:1689357',
       type: 'chat.msg',
       display_name: 'Briana Coppard',
-      msg: 'hey to you too'
-    }
+      msg: 'hey to you too',
+    },
   },
   {
     type: 'agent_update',
@@ -49,9 +49,9 @@ const events = [
       avatar_path: `http://${hostWithPort}/e2e/fixtures/files/avatar.png`,
       display_name: 'Briana Coppard',
       title: 'Customer Service',
-      nick: 'agent:1689357'
-    }
-  }
+      nick: 'agent:1689357',
+    },
+  },
 ]
 
 export default events

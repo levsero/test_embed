@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   function ExtendableError(...args) {
     Error.apply(this, args)
   }

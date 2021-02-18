@@ -10,7 +10,7 @@ import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import {
   initialiseLauncherLabel,
   labelHidden,
-  launcherLabelStorageKey
+  launcherLabelStorageKey,
 } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import createStore from 'src/apps/messenger/store'
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'
@@ -32,8 +32,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -50,8 +50,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -68,8 +68,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -92,8 +92,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -120,8 +120,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -138,8 +138,8 @@ describe('launcher label', () => {
     store.dispatch(
       messengerConfigReceived({
         launcher: {
-          text: 'Some text'
-        }
+          text: 'Some text',
+        },
       })
     )
 
@@ -151,7 +151,7 @@ describe('launcher label', () => {
 
     store.dispatch(
       screenDimensionsChanged({
-        isFullScreen: true
+        isFullScreen: true,
       })
     )
 

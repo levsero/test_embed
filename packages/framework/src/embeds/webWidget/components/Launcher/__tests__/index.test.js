@@ -61,8 +61,8 @@ describe('Opens a widget where you can find more information', () => {
     store.dispatch(
       updateSettings({
         webWidget: {
-          zIndex: 100
-        }
+          zIndex: 100,
+        },
       })
     )
 
@@ -73,8 +73,8 @@ describe('Opens a widget where you can find more information', () => {
     store.dispatch(
       updateSettings({
         webWidget: {
-          zIndex: 200
-        }
+          zIndex: 200,
+        },
       })
     )
 
@@ -94,10 +94,10 @@ describe('Opens a widget where you can find more information', () => {
         webWidget: {
           launcher: {
             label: {
-              '*': 'Some text'
-            }
-          }
-        }
+              '*': 'Some text',
+            },
+          },
+        },
       })
     )
 

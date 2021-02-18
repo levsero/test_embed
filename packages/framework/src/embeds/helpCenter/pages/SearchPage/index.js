@@ -10,7 +10,7 @@ import Results from 'src/embeds/helpCenter/components/Results'
 import {
   getHideZendeskLogo,
   getSettingsHelpCenterTitle,
-  getShowNextButton
+  getShowNextButton,
 } from 'src/redux/modules/selectors'
 import { getSearchLoading, getSearchedArticles } from 'embeds/helpCenter/selectors'
 import { isMobileBrowser } from 'utility/devices'
@@ -41,16 +41,16 @@ SearchPage.propTypes = {
   title: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
   isSearchLoading: PropTypes.bool,
-  articles: PropTypes.array
+  articles: PropTypes.array,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getSettingsHelpCenterTitle(state),
   showNextButton: getShowNextButton(state),
   isMobile: isMobileBrowser(),
   hideZendeskLogo: getHideZendeskLogo(state),
   isSearchLoading: getSearchLoading(state),
-  articles: getSearchedArticles(state)
+  articles: getSearchedArticles(state),
 })
 
 const connectedComponent = connect(mapStateToProps)(SearchPage)

@@ -24,7 +24,7 @@ const combinedReducers = combineReducers({
   support,
   webWidget,
   customerProvidedPrefill,
-  form
+  form,
 })
 
 export default function reducer(state, action) {

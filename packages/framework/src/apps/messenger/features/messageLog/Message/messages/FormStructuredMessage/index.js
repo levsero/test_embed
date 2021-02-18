@@ -13,32 +13,32 @@ const FormStructuredMessage = ({
     isFirstInGroup,
     isLastMessageInAuthorGroup,
     isFirstMessageInAuthorGroup,
-    name
-  }
+    name,
+  },
 }) => {
   const messageStatus = status ?? MESSAGE_STATUS.sent
   const { onChange, onSubmit, values, formSubmissionStatus, step, onStepChange } = useForm({
     formId: _id,
-    fields
+    fields,
   })
   const translate = useTranslate()
 
   const errorLabels = {
     requiredField: translate('embeddable_framework.messenger.message.form.field_is_required'),
     invalidEmail: translate('embeddable_framework.messenger.message.form.invalid_email'),
-    fieldMinSize: min =>
+    fieldMinSize: (min) =>
       translate('embeddable_framework.messenger.message.form.invalid_min_characters', {
-        count: min
+        count: min,
       }),
-    fieldMaxSize: max => {
+    fieldMaxSize: (max) => {
       return max === 1
         ? translate('embeddable_framework.messenger.message.form.invalid_max_characters.one', {
-            count: max
+            count: max,
           })
         : translate('embeddable_framework.messenger.message.form.invalid_max_characters.other', {
-            count: max
+            count: max,
           })
-    }
+    },
   }
 
   return (
@@ -66,7 +66,7 @@ const FormStructuredMessage = ({
       onSubmit={onSubmit}
       onChange={(fieldId, newValue) => {
         onChange({
-          [fieldId]: newValue
+          [fieldId]: newValue,
         })
       }}
     />
@@ -83,12 +83,12 @@ FormStructuredMessage.propTypes = {
         _id: PropTypes.string,
         type: PropTypes.string,
         name: PropTypes.string,
-        label: PropTypes.string
+        label: PropTypes.string,
       })
     ),
     avatarUrl: PropTypes.string,
-    name: PropTypes.string
-  })
+    name: PropTypes.string,
+  }),
 }
 
 export default FormStructuredMessage

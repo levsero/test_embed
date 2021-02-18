@@ -11,17 +11,17 @@ class ActivityApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
+        )}`,
       },
       data: {
         author: {
           role: 'appUser',
           appUserId: appUserId,
           client: getClientInfo(this.integrationId),
-          sessionId: getSessionId(this.integrationId)
+          sessionId: getSessionId(this.integrationId),
         },
-        activity
-      }
+        activity,
+      },
     })
   }
 }

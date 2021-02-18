@@ -6,12 +6,12 @@ import { getChatConfig, getBrandCount, getBrand } from 'src/redux/modules/base/b
 import {
   fetchConversationHistory,
   handleChatVendorLoaded,
-  chatConnectionError
+  chatConnectionError,
 } from 'src/redux/modules/chat'
 import { JWT_ERROR } from 'constants/chat'
 import {
   AUTHENTICATION_STARTED,
-  AUTHENTICATION_FAILED
+  AUTHENTICATION_FAILED,
 } from 'src/redux/modules/chat/chat-action-types'
 import zopimApi from 'service/api/zopimApi'
 import { win, isPopout } from 'utility/globals'
@@ -36,7 +36,7 @@ function makeChatConfig(config) {
       authentication,
       activity_window: win,
       popout: isPopout(),
-      suppress_console_error: true
+      suppress_console_error: true,
     },
     _.isNil
   )
@@ -62,7 +62,7 @@ export function setUpChat(canBeDeferred = true) {
 
     const config = {
       ...getChatConfig(state).props,
-      authentication
+      authentication,
     }
 
     const brandCount = getBrandCount(state)
@@ -78,11 +78,11 @@ export function setUpChat(canBeDeferred = true) {
       dispatch(
         handleChatVendorLoaded({
           zChat,
-          slider: slider.default
+          slider: slider.default,
         })
       )
 
-      zChat.on('error', error => {
+      zChat.on('error', (error) => {
         // eslint-disable-next-line no-console
         console.warn(error.message)
 
@@ -92,11 +92,11 @@ export function setUpChat(canBeDeferred = true) {
       })
 
       if (config.authentication) {
-        const onAuthFailure = e => {
+        const onAuthFailure = (e) => {
           if (_.get(e, 'extra.reason') === JWT_ERROR) {
             _.unset(config, 'authentication')
             dispatch({
-              type: AUTHENTICATION_FAILED
+              type: AUTHENTICATION_FAILED,
             })
 
             zChat.init(makeChatConfig(config))
@@ -109,7 +109,7 @@ export function setUpChat(canBeDeferred = true) {
         zChat.on('error', onAuthFailure)
 
         dispatch({
-          type: AUTHENTICATION_STARTED
+          type: AUTHENTICATION_STARTED,
         })
       }
       zChat.init(makeChatConfig(config))
@@ -125,20 +125,20 @@ export function setUpChat(canBeDeferred = true) {
         ready: () => {
           if (brandName) zChat.addTags([brandName])
           zopimApi.handleChatSDKInitialized()
-        }
+        },
       })
 
       zChat.getFirehose().on('data', firehoseListener(zChat, dispatch, getState))
     }
-    const onFailure = err => {
+    const onFailure = (err) => {
       errorTracker.error(err)
     }
 
     Promise.all([
       import(/* webpackChunkName: 'chat-sdk' */ 'chat-web-sdk'),
-      import(/* webpackChunkName: 'chat-sdk' */ 'react-slick')
+      import(/* webpackChunkName: 'chat-sdk' */ 'react-slick'),
     ])
-      .then(arr => onChatImported(...arr))
+      .then((arr) => onChatImported(...arr))
       .catch(onFailure)
   }
 }

@@ -9,7 +9,12 @@ import _ from 'lodash'
 test('getChats', () => {
   const result = selectors.getChats(testState)
 
-  expect(result).toEqual(new Map([[1, { timestamp: 1 }], [2, { timestamp: 2 }]]))
+  expect(result).toEqual(
+    new Map([
+      [1, { timestamp: 1 }],
+      [2, { timestamp: 2 }],
+    ])
+  )
 })
 
 test('isAgent', () => {
@@ -217,7 +222,7 @@ test('getThemeColor', () => {
 
   expect(result).toEqual({
     base: 'green',
-    text: undefined
+    text: undefined,
   })
 })
 
@@ -251,7 +256,7 @@ test('getDepartments', () => {
   expect(result).toEqual({
     one: 'blah',
     two: 'heh',
-    three: 'oh'
+    three: 'oh',
   })
 })
 
@@ -260,7 +265,7 @@ test('getAccountSettingsLauncherBadge', () => {
 
   expect(result).toEqual({
     helloThere: 'GENERAL KENOBI!',
-    enabled: true
+    enabled: true,
   })
 })
 
@@ -270,7 +275,7 @@ test('getEmbeddableConfigBadgeSettings', () => {
   expect(result).toEqual({
     image: 'blahmage',
     text: 'blahtext',
-    enabled: true
+    enabled: true,
   })
 })
 
@@ -346,8 +351,8 @@ test('getShowChatHistory', () => {
 test('getFirstMessageTimestamp when map is invalid', () => {
   const invalidState = {
     chat: {
-      chats: new Map([[undefined], [undefined]])
-    }
+      chats: new Map([[undefined], [undefined]]),
+    },
   }
 
   jest.spyOn(Date, 'now').mockReturnValue('blarp')
@@ -383,8 +388,8 @@ describe('getChatOnline', () => {
     expect(
       getChatOnline({
         chat: {
-          forcedStatus: 'online'
-        }
+          forcedStatus: 'online',
+        },
       })
     ).toBe(true)
   })
@@ -393,8 +398,8 @@ describe('getChatOnline', () => {
     expect(
       getChatOnline({
         chat: {
-          forcedStatus: 'offline'
-        }
+          forcedStatus: 'offline',
+        },
       })
     ).toBe(false)
   })
@@ -406,30 +411,30 @@ describe('getChatOnline', () => {
           embeds: {
             chat: {
               props: {
-                webWidgetPrechatFormVisibleDepartments: isDepartmentVisibleFeatureEnabled
-              }
-            }
-          }
-        }
+                webWidgetPrechatFormVisibleDepartments: isDepartmentVisibleFeatureEnabled,
+              },
+            },
+          },
+        },
       },
       chat: {
         account_status: status,
-        departments
+        departments,
       },
       settings: {
         chat: {
           departments: {
-            enabled: filter
-          }
-        }
-      }
+            enabled: filter,
+          },
+        },
+      },
     })
 
     it('returns true when the status is online', () => {
       expect(
         getChatOnline(
           createState({
-            status: 'online'
+            status: 'online',
           })
         )
       ).toBe(true)
@@ -439,7 +444,7 @@ describe('getChatOnline', () => {
       expect(
         getChatOnline(
           createState({
-            status: 'away'
+            status: 'away',
           })
         )
       ).toBe(true)
@@ -452,7 +457,7 @@ describe('getChatOnline', () => {
             createState({
               status: 'online',
               isDepartmentVisibleFeatureEnabled: true,
-              filter: undefined
+              filter: undefined,
             })
           )
         ).toBe(true)
@@ -464,7 +469,7 @@ describe('getChatOnline', () => {
             createState({
               status: 'online',
               isDepartmentVisibleFeatureEnabled: true,
-              filter: []
+              filter: [],
             })
           )
         ).toBe(true)
@@ -481,9 +486,9 @@ describe('getChatOnline', () => {
                 1: {
                   id: 1,
                   name: 'Something',
-                  status: 'online'
-                }
-              }
+                  status: 'online',
+                },
+              },
             })
           )
         ).toBe(true)
@@ -500,9 +505,9 @@ describe('getChatOnline', () => {
                 1: {
                   id: 1,
                   name: 'Something',
-                  status: 'offline'
-                }
-              }
+                  status: 'offline',
+                },
+              },
             })
           )
         ).toBe(false)
@@ -514,8 +519,8 @@ describe('getChatOnline', () => {
     expect(
       getChatOnline({
         chat: {
-          account_status: 'offline'
-        }
+          account_status: 'offline',
+        },
       })
     ).toBe(false)
   })
@@ -529,12 +534,12 @@ describe('getDeferredChatApi', () => {
           chat: {
             props: {
               mediatorHost,
-              zopimId
-            }
-          }
-        }
-      }
-    }
+              zopimId,
+            },
+          },
+        },
+      },
+    },
   })
 
   it('returns null when mediatorHost does not exist in config', () => {

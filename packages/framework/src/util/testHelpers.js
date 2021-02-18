@@ -20,16 +20,16 @@ import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 export const dispatchChatAccountSettings = (store, settings) => {
   store.dispatch({
     type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-    payload: settings
+    payload: settings,
   })
 }
 
 const mockStore = configureStore([thunk])
 
 export const initialState = () => reducer({}, {})
-export const createMockStore = state => mockStore(state || initialState())
+export const createMockStore = (state) => mockStore(state || initialState())
 
-export const mockZChatVendor = obj => {
+export const mockZChatVendor = (obj) => {
   const zChat = obj || jest.fn()
   jest.spyOn(chatSelectors, 'getZChatVendor').mockReturnValue(zChat)
   return zChat
@@ -47,7 +47,7 @@ export const noopReactComponent = () =>
   class extends Component {
     static propTypes = {
       className: PropTypes.string,
-      children: PropTypes.node
+      children: PropTypes.node,
     }
 
     render() {
@@ -67,7 +67,7 @@ export const noopReactComponent = () =>
   of that key will be used to assert against the result of the reducer.
 */
 export const testReducer = (reducer, actions) => {
-  actions.forEach(params => {
+  actions.forEach((params) => {
     const { expected, initialState, extraDesc } = params
     const action = params.action || params
     const basicTestDesc = `${reducer.name}, action: ${action.type}`
@@ -90,7 +90,7 @@ export const testReducer = (reducer, actions) => {
   And by basic, I mean of the i18n.getSettingTranslations(setting) || i18n.t('default.translation') kind.
   The resultFunc needs to have an arity of 2 for the unused locale param.
 */
-export const testTranslationStringSelector = selector => {
+export const testTranslationStringSelector = (selector) => {
   const subject = selector.resultFunc
   const defaultTranslation = 'default translation'
   const settingsTranslation = 'settings translation'
@@ -102,7 +102,7 @@ export const testTranslationStringSelector = selector => {
   describe(selector.name, () => {
     test.each([
       [undefined, null, defaultTranslation],
-      [settingsTranslation, null, settingsTranslation]
+      [settingsTranslation, null, settingsTranslation],
     ])('resultFunc(%p, %p) returns %p', (settingString, locale, expected) => {
       jest.spyOn(i18n, 't').mockReturnValue(defaultTranslation)
       jest.spyOn(i18n, 'getSettingTranslation').mockReturnValue(settingString)
@@ -123,7 +123,7 @@ export function render(
     widgetThemeProps = {},
     store,
     route = '/',
-    history = createMemoryHistory({ initialEntries: [route] })
+    history = createMemoryHistory({ initialEntries: [route] }),
   } = {}
 ) {
   IdManager.setIdCounter(0)
@@ -140,6 +140,6 @@ export function render(
       </Provider>
     ),
     history,
-    store: reduxStore
+    store: reduxStore,
   }
 }

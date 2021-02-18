@@ -7,5 +7,5 @@ import mobile from './launcher-mobile-settings'
 export default combineReducers({
   badge,
   settings: launcherSettings,
-  mobile
+  mobile,
 })

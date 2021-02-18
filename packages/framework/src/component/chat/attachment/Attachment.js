@@ -26,7 +26,7 @@ export class Attachment extends Component {
     icon: PropTypes.string,
     uploading: PropTypes.bool.isRequired,
     uploadProgress: PropTypes.number,
-    uploadRequestSender: PropTypes.object
+    uploadRequestSender: PropTypes.object,
   }
 
   static defaultProps = {
@@ -38,7 +38,7 @@ export class Attachment extends Component {
     isRemovable: false,
     uploading: false,
     uploadProgress: 0,
-    uploadRequestSender: {}
+    uploadRequestSender: {},
   }
 
   handleIconClick = () => {
@@ -49,16 +49,16 @@ export class Attachment extends Component {
     this.props.handleRemoveAttachment(this.props.attachmentId)
   }
 
-  formatAttachmentSize = bytes => {
+  formatAttachmentSize = (bytes) => {
     // if the size of the file is less than 1KB, just round it up
     const size = _.max([bytes, 1000])
 
     return size >= 1000000
       ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte', {
-          size: _.floor(size / 1000000, 1)
+          size: _.floor(size / 1000000, 1),
         })
       : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte', {
-          size: _.floor(size / 1000)
+          size: _.floor(size / 1000),
         })
   }
 
@@ -95,7 +95,7 @@ export class Attachment extends Component {
       secondaryText = i18n.t('embeddable_framework.chat.chatLog.uploading')
     } else if (downloading) {
       secondaryText = i18n.t('embeddable_framework.chat.chatLog.loadingImage', {
-        attachmentSize
+        attachmentSize,
       })
     } else if (isDownloadable) {
       secondaryText = this.renderLinkedEl(downloadLink, file.url)

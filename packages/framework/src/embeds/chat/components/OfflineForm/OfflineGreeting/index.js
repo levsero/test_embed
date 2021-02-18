@@ -12,7 +12,7 @@ const OfflineGreeting = ({ greeting }) => (
 )
 
 OfflineGreeting.propTypes = {
-  greeting: PropTypes.string
+  greeting: PropTypes.string,
 }
 
 export default OfflineGreeting

@@ -14,18 +14,18 @@ describe('base selectors', () => {
     initMockRegistry({
       'src/framework/services/persistence': {
         store: {
-          get: () => mockStoreValue
-        }
+          get: () => mockStoreValue,
+        },
       },
       'src/redux/modules/base/helpers/auth': {
-        isTokenValid: isTokenValidSpy
+        isTokenValid: isTokenValidSpy,
       },
       'utility/pages': {
-        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
       'utility/globals': {
-        win: {}
-      }
+        win: {},
+      },
     })
 
     selectors = requireUncached(selectorsPath)
@@ -47,12 +47,12 @@ describe('base selectors', () => {
                 chat: {
                   props: {
                     zopimId: 'id',
-                    overrideProxy: 'someProxy'
-                  }
-                }
-              }
-            }
-          }
+                    overrideProxy: 'someProxy',
+                  },
+                },
+              },
+            },
+          },
         }
       })
 
@@ -60,7 +60,7 @@ describe('base selectors', () => {
         expect(result).toEqual({
           account_key: 'id',
           override_proxy: 'someProxy',
-          activity_window: {}
+          activity_window: {},
         })
       })
     })
@@ -73,19 +73,19 @@ describe('base selectors', () => {
               embeds: {
                 chat: {
                   props: {
-                    zopimId: 'id'
-                  }
-                }
-              }
-            }
-          }
+                    zopimId: 'id',
+                  },
+                },
+              },
+            },
+          },
         }
       })
 
       it('returns the chat config', () => {
         expect(result).toEqual({
           account_key: 'id',
-          activity_window: {}
+          activity_window: {},
         })
       })
     })
@@ -99,12 +99,12 @@ describe('base selectors', () => {
           embeds: {
             chat: {
               props: {
-                zopimId: 'id'
-              }
-            }
-          }
-        }
-      }
+                zopimId: 'id',
+              },
+            },
+          },
+        },
+      },
     }
 
     beforeEach(() => {
@@ -124,12 +124,12 @@ describe('base selectors', () => {
           embeds: {
             chat: {
               props: {
-                overrideProxy: 'yoloo'
-              }
-            }
-          }
-        }
-      }
+                overrideProxy: 'yoloo',
+              },
+            },
+          },
+        },
+      },
     }
 
     beforeEach(() => {
@@ -145,8 +145,8 @@ describe('base selectors', () => {
     let result
     const mockState = {
       base: {
-        onApiListeners: 'listening'
-      }
+        onApiListeners: 'listening',
+      },
     }
 
     beforeEach(() => {
@@ -162,8 +162,8 @@ describe('base selectors', () => {
     let result
     const mockState = {
       base: {
-        isChatBadgeMinimized: true
-      }
+        isChatBadgeMinimized: true,
+      },
     }
 
     beforeEach(() => {
@@ -179,8 +179,8 @@ describe('base selectors', () => {
     let result
     const mockState = {
       base: {
-        afterWidgetShowAnimation: []
-      }
+        afterWidgetShowAnimation: [],
+      },
     }
 
     beforeEach(() => {
@@ -197,9 +197,9 @@ describe('base selectors', () => {
     const mockState = {
       base: {
         hidden: {
-          hideApi: true
-        }
-      }
+          hideApi: true,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -217,8 +217,8 @@ describe('base selectors', () => {
     beforeEach(() => {
       mockState = {
         base: {
-          hasWidgetShown: true
-        }
+          hasWidgetShown: true,
+        },
       }
       result = selectors.getHasWidgetShown(mockState)
     })
@@ -234,8 +234,8 @@ describe('base selectors', () => {
     beforeEach(() => {
       mockState = {
         base: {
-          isAuthenticationPending: true
-        }
+          isAuthenticationPending: true,
+        },
       }
       result = selectors.getIsAuthenticationPending(mockState)
     })
@@ -251,8 +251,8 @@ describe('base selectors', () => {
     beforeEach(() => {
       mockState = {
         base: {
-          embeddableConfig: 'yoloConfig'
-        }
+          embeddableConfig: 'yoloConfig',
+        },
       }
       result = selectors.getEmbeddableConfig(mockState)
     })
@@ -269,16 +269,16 @@ describe('base selectors', () => {
       mockState = {
         base: {
           queue: {
-            someMethod: ['yeah', 'some', 'args']
-          }
-        }
+            someMethod: ['yeah', 'some', 'args'],
+          },
+        },
       }
       result = selectors.getQueue(mockState)
     })
 
     it('returns the queue', () => {
       expect(result).toEqual({
-        someMethod: ['yeah', 'some', 'args']
+        someMethod: ['yeah', 'some', 'args'],
       })
     })
   })
@@ -287,8 +287,8 @@ describe('base selectors', () => {
     let result
     const mockState = {
       base: {
-        activeEmbed: 'chat'
-      }
+        activeEmbed: 'chat',
+      },
     }
 
     beforeEach(() => {
@@ -305,9 +305,9 @@ describe('base selectors', () => {
     const mockState = {
       base: {
         embeds: {
-          helpCenterForm: true
-        }
-      }
+          helpCenterForm: true,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -324,9 +324,9 @@ describe('base selectors', () => {
     const mockState = {
       base: {
         embeds: {
-          talk: true
-        }
-      }
+          talk: true,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -343,9 +343,9 @@ describe('base selectors', () => {
     const mockState = {
       base: {
         embeds: {
-          chat: true
-        }
-      }
+          chat: true,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -361,8 +361,8 @@ describe('base selectors', () => {
     let result
     const mockState = {
       base: {
-        widgetShown: true
-      }
+        widgetShown: true,
+      },
     }
 
     beforeEach(() => {
@@ -389,12 +389,12 @@ describe('base selectors', () => {
               embeds: {
                 chat: {
                   props: {
-                    standalone: true
-                  }
-                }
-              }
-            }
-          }
+                    standalone: true,
+                  },
+                },
+              },
+            },
+          },
         }
       })
 
@@ -411,12 +411,12 @@ describe('base selectors', () => {
               embeds: {
                 chat: {
                   props: {
-                    standalone: false
-                  }
-                }
-              }
-            }
-          }
+                    standalone: false,
+                  },
+                },
+              },
+            },
+          },
         }
       })
 
@@ -431,9 +431,9 @@ describe('base selectors', () => {
     const mockState = {
       base: {
         embeds: {
-          ipmWidget: true
-        }
-      }
+          ipmWidget: true,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -468,7 +468,7 @@ describe('base selectors', () => {
     describe('when token does exist', () => {
       beforeAll(() => {
         mockStoreValue = {
-          token: 'token'
+          token: 'token',
         }
       })
 
@@ -517,9 +517,9 @@ describe('base selectors', () => {
         base: {
           embeddableConfig: {
             color: 'blue',
-            textColor: 'deep'
-          }
-        }
+            textColor: 'deep',
+          },
+        },
       }
       result = selectors.getConfigColor(mockState)
     })
@@ -535,8 +535,8 @@ describe('base selectors', () => {
     beforeEach(() => {
       mockState = {
         base: {
-          locale: 'ar'
-        }
+          locale: 'ar',
+        },
       }
       result = selectors.getLocale(mockState)
     })

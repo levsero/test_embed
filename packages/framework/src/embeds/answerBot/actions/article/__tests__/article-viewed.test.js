@@ -22,11 +22,11 @@ describe('articleViewed', () => {
             1234,
             {
               deflection: { id: 888 },
-              interactionToken: { y: 2 }
-            }
-          ]
-        ])
-      }
+              interactionToken: { y: 2 },
+            },
+          ],
+        ]),
+      },
     }
 
     store = mockStore(state)
@@ -140,8 +140,8 @@ describe('originalArticleClicked', () => {
     expect(actions.originalArticleClicked('articleId')).toEqual({
       type: ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED,
       payload: {
-        articleId: 'articleId'
-      }
+        articleId: 'articleId',
+      },
     })
   })
 })

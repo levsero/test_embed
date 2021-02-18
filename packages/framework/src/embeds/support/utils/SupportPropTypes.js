@@ -10,9 +10,9 @@ const conditions = PropTypes.arrayOf(
     child_fields: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
-        is_required: PropTypes.bool
+        is_required: PropTypes.bool,
       })
-    )
+    ),
   })
 )
 
@@ -20,7 +20,7 @@ const ticketField = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   keyID: PropTypes.string,
   title_in_portal: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
 })
 
 const readOnlyState = PropTypes.objectOf(PropTypes.bool)
@@ -28,7 +28,7 @@ const readOnlyState = PropTypes.objectOf(PropTypes.bool)
 const SupportPropTypes = {
   ticketField,
   conditions,
-  readOnlyState
+  readOnlyState,
 }
 
 export default SupportPropTypes

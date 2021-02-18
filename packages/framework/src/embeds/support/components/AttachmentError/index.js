@@ -7,7 +7,7 @@ import { FileName, FileSize, ErrorBody } from './styles'
 import { Alert, Title } from 'src/components/Alert'
 import {
   formatNameString,
-  formatAttachmentSize
+  formatAttachmentSize,
 } from 'src/embeds/support/utils/attachmentStringFormatter'
 import useTranslate from 'src/hooks/useTranslate'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
@@ -15,7 +15,7 @@ import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
 const AttachmentError = ({
   handleRemoveAttachment,
   attachment: { errorMessage, fileName, fileSize, id },
-  maxFileSize
+  maxFileSize,
 }) => {
   const translate = useTranslate()
   const handleIconClick = () => {
@@ -29,7 +29,7 @@ const AttachmentError = ({
   const errorBody =
     errorMessage === ATTACHMENT_ERRORS.TOO_LARGE
       ? translate('embeddable_framework.submitTicket.attachments.error.size_exceeded_body', {
-          maxSize: Math.round(maxFileSize / 1024 / 1024)
+          maxSize: Math.round(maxFileSize / 1024 / 1024),
         })
       : translate('embeddable_framework.submitTicket.attachments.error.v2.uploading_body')
 
@@ -54,9 +54,9 @@ AttachmentError.propTypes = {
     id: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
     fileSize: PropTypes.number.isRequired,
-    errorMessage: PropTypes.string
+    errorMessage: PropTypes.string,
   }),
   handleRemoveAttachment: PropTypes.func,
-  maxFileSize: PropTypes.number.isRequired
+  maxFileSize: PropTypes.number.isRequired,
 }
 export default AttachmentError

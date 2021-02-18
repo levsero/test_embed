@@ -8,7 +8,7 @@ test('initial state is null', () => {
 test('updates to expected state', () => {
   const state = reducer(undefined, {
     type: actionTypes.SESSION_STARTED,
-    payload: { sessionID: 'blah' }
+    payload: { sessionID: 'blah' },
   })
 
   expect(state).toMatchInlineSnapshot(`"blah"`)

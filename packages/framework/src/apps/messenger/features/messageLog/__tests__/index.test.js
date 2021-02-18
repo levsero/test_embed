@@ -9,7 +9,7 @@ jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', ()
   fetchHistoryOnScrollTop: jest.fn(),
   isFetchingHistory: false,
   errorFetchingHistory: false,
-  retryFetchMessages: jest.fn()
+  retryFetchMessages: jest.fn(),
 }))
 
 describe('MessageLog', () => {
@@ -26,17 +26,17 @@ describe('MessageLog', () => {
             type: 'text',
             received: 1,
             text: 'One',
-            role: 'appUser'
+            role: 'appUser',
           },
           {
             _id: 2,
             type: 'text',
             received: 2,
             text: 'Two',
-            role: 'appUser'
-          }
-        ]
-      }
+            role: 'appUser',
+          },
+        ],
+      },
     })
 
     expect(queryByText('One')).toBeInTheDocument()
@@ -59,9 +59,9 @@ describe('MessageLog', () => {
                 label: 'Form one',
                 name: 'first_name',
                 type: 'text',
-                _id: '5f669695c511asdsd9877'
-              }
-            ]
+                _id: '5f669695c511asdsd9877',
+              },
+            ],
           },
           {
             _id: 2,
@@ -73,9 +73,9 @@ describe('MessageLog', () => {
                 label: 'Form two',
                 name: 'first_name',
                 type: 'text',
-                _id: '5f669695c511asdsd9877'
-              }
-            ]
+                _id: '5f669695c511asdsd9877',
+              },
+            ],
           },
           {
             _id: 3,
@@ -87,19 +87,19 @@ describe('MessageLog', () => {
                 label: 'Form three',
                 name: 'first_name',
                 type: 'text',
-                _id: '5f669695c511asdsd9877'
-              }
-            ]
-          }
-        ]
-      }
+                _id: '5f669695c511asdsd9877',
+              },
+            ],
+          },
+        ],
+      },
     })
 
     const fulfilledAction = submitForm.fulfilled({ messages: [] })
     fulfilledAction.meta = {
       arg: {
-        formId: 1
-      }
+        formId: 1,
+      },
     }
 
     store.dispatch(fulfilledAction)
@@ -113,16 +113,16 @@ describe('MessageLog', () => {
     const typingStarted = {
       data: { name: 'ABot' },
       role: 'appMaker',
-      type: 'typing:start'
+      type: 'typing:start',
     }
 
     const typingStop = {
       data: { name: 'ABot' },
       role: 'appMaker',
-      type: 'typing:stop'
+      type: 'typing:stop',
     }
 
-    const setupMessageLog = store => {
+    const setupMessageLog = (store) => {
       store.dispatch({
         type: 'messageLog/fetchMessages/fulfilled',
         payload: {
@@ -132,10 +132,10 @@ describe('MessageLog', () => {
               type: 'text',
               received: 1,
               text: 'One',
-              role: 'appUser'
-            }
-          ]
-        }
+              role: 'appUser',
+            },
+          ],
+        },
       })
     }
     const quickReplies = [
@@ -145,8 +145,8 @@ describe('MessageLog', () => {
         payload: 'one-payload',
         text: 'First quick reply',
         metadata: {
-          one: 'metadata'
-        }
+          one: 'metadata',
+        },
       },
       {
         type: 'reply',
@@ -154,9 +154,9 @@ describe('MessageLog', () => {
         payload: 'two-payload',
         text: 'Second quick reply',
         metadata: {
-          two: 'metadata'
-        }
-      }
+          two: 'metadata',
+        },
+      },
     ]
 
     it('renders the typing indicator on typing:start', async () => {
@@ -189,10 +189,10 @@ describe('MessageLog', () => {
               received: 2,
               text: 'Quick Reply',
               role: 'appUser',
-              actions: quickReplies
-            }
-          ]
-        }
+              actions: quickReplies,
+            },
+          ],
+        },
       })
       store.dispatch(activityReceived({ activity: typingStarted }))
 

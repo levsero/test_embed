@@ -11,7 +11,7 @@ const initialState = {
   phoneNumber: '',
   supportedCountries: [],
   deferredStatusOnline: false,
-  connected: false
+  connected: false,
 }
 
 const mockConfig = {
@@ -20,23 +20,23 @@ const mockConfig = {
   enabled: true,
   nickname: 'nickname',
   phoneNumber: '+61412345678',
-  supportedCountries: 'CA,ID'
+  supportedCountries: 'CA,ID',
 }
 
 testReducer(embeddableConfig, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'something' },
     initialState: { connected: true },
-    expected: { connected: true }
+    expected: { connected: true },
   },
   {
     action: {
       type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-      payload: mockConfig
+      payload: mockConfig,
     },
     expected: {
       ...mockConfig,
@@ -44,16 +44,16 @@ testReducer(embeddableConfig, [
       capability: CALLBACK_ONLY,
       enabled: true,
       connected: true,
-      deferredStatusOnline: false
-    }
+      deferredStatusOnline: false,
+    },
   },
   {
     action: {
       type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       payload: {
         ...mockConfig,
-        capability: '2'
-      }
+        capability: '2',
+      },
     },
     expected: {
       ...mockConfig,
@@ -61,16 +61,16 @@ testReducer(embeddableConfig, [
       capability: CALLBACK_AND_PHONE,
       enabled: true,
       connected: true,
-      deferredStatusOnline: false
-    }
+      deferredStatusOnline: false,
+    },
   },
   {
     action: {
       type: actionTypes.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       payload: {
         ...mockConfig,
-        capability: '1'
-      }
+        capability: '1',
+      },
     },
     expected: {
       ...mockConfig,
@@ -78,7 +78,7 @@ testReducer(embeddableConfig, [
       capability: PHONE_ONLY,
       enabled: true,
       connected: true,
-      deferredStatusOnline: false
-    }
-  }
+      deferredStatusOnline: false,
+    },
+  },
 ])

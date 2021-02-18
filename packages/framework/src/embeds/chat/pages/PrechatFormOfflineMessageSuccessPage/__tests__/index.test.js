@@ -6,7 +6,7 @@ import { Component as PrechatFormOfflineMessageSuccessPage } from '../'
 const renderComponent = (props = {}) => {
   const defaultProps = {
     hideZendeskLogo: false,
-    title: 'A fancy form'
+    title: 'A fancy form',
   }
 
   return render(<PrechatFormOfflineMessageSuccessPage {...defaultProps} {...props} />)

@@ -14,7 +14,7 @@ const executeReinitialiseChatWithMocks = ({
   withAuth = false,
   isLoggingOut = false,
   zChatConfig = {},
-  chatAuthSettings = {}
+  chatAuthSettings = {},
 } = {}) => {
   const dispatchSpy = jest.fn()
   const onSDKInitializedSpy = jest.fn()
@@ -33,7 +33,7 @@ const executeReinitialiseChatWithMocks = ({
   jest.spyOn(baseSelectors, 'getZChatConfig').mockImplementation(getZChatConfigSpy)
   jest.spyOn(callbacks, 'onChatSDKInitialized').mockImplementation(onSDKInitializedSpy)
 
-  jest.spyOn(zChat, 'endChat').mockImplementation(a => a())
+  jest.spyOn(zChat, 'endChat').mockImplementation((a) => a())
   jest.spyOn(zChat, 'logoutForAll').mockImplementation(logoutForAllSpy)
   jest.spyOn(zChat, 'on').mockImplementation(onSpy)
   jest.spyOn(zChat, 'init').mockImplementation(initSpy)
@@ -49,7 +49,7 @@ const executeReinitialiseChatWithMocks = ({
     logoutForAllSpy,
     onSpy,
     initSpy,
-    setOnFirstReadySpy
+    setOnFirstReadySpy,
   }
 }
 
@@ -122,7 +122,7 @@ describe('reinitialiseChat', () => {
         const { initSpy } = executeReinitialiseChatWithMocks({
           withAuth: true,
           zChatConfig,
-          chatAuthSettings
+          chatAuthSettings,
         })
 
         const authentication = { jwt_fn: jwtFnSpy }
@@ -149,14 +149,14 @@ describe('reinitialiseChat', () => {
       const { setOnFirstReadySpy } = executeReinitialiseChatWithMocks({ withAuth: true })
 
       expect(setOnFirstReadySpy).toHaveBeenCalledWith({
-        fetchHistory: expect.any(Function)
+        fetchHistory: expect.any(Function),
       })
     })
 
     describe('when zChat is ready', () => {
       it('dispatch fetchConversationHistory action', () => {
         const { setOnFirstReadySpy, dispatchSpy } = executeReinitialiseChatWithMocks({
-          withAuth: true
+          withAuth: true,
         })
 
         const callback = setOnFirstReadySpy.mock.calls[0][0].fetchHistory

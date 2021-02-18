@@ -7,7 +7,7 @@ const currentArticle = (state = initialState, action) => {
     case ARTICLE_SHOWN:
       return {
         articleID: action.payload.articleID,
-        sessionID: action.payload.sessionID
+        sessionID: action.payload.sessionID,
       }
     default:
       return state

@@ -6,35 +6,35 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(resultsLocale, [
   {
     action: { type: undefined },
-    expected: ''
+    expected: '',
   },
   {
     action: { type: 'DERP DERP' },
     initialState: 'en',
-    expected: 'en'
+    expected: 'en',
   },
   {
     action: {
       type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
       payload: {
-        locale: 'fr'
-      }
+        locale: 'fr',
+      },
     },
     initialState: 'br',
-    expected: 'fr'
+    expected: 'fr',
   },
   {
     action: {
       type: actionTypes.SEARCH_REQUEST_SUCCESS,
       payload: {
-        locale: 'ar'
-      }
+        locale: 'ar',
+      },
     },
-    expected: 'ar'
+    expected: 'ar',
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: 'en',
-    expected: ''
-  }
+    expected: '',
+  },
 ])

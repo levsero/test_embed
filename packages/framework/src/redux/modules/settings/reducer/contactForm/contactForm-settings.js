@@ -7,7 +7,7 @@ const initialState = {
   suppress: false,
   tags: [],
   title: {},
-  selectTicketForm: {}
+  selectTicketForm: {},
 }
 
 const contactFormSettings = (state = initialState, action) => {
@@ -25,7 +25,7 @@ const contactFormSettings = (state = initialState, action) => {
         subject: _.get(payload, 'webWidget.contactForm.subject', state.subject),
         suppress: _.get(payload, 'webWidget.contactForm.suppress', state.suppress),
         tags: _.get(payload, 'webWidget.contactForm.tags', state.tags),
-        title: _.get(payload, 'webWidget.contactForm.title', state.title)
+        title: _.get(payload, 'webWidget.contactForm.title', state.title),
       }
     default:
       return state

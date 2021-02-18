@@ -22,11 +22,11 @@ describe('Form component', () => {
           render() {
             return <div>{this.props.children}</div>
           }
-        }
+        },
       },
       'src/constants/shared': {
-        TEST_IDS
-      }
+        TEST_IDS,
+      },
     })
 
     mockery.registerAllowable(formPath)
@@ -44,7 +44,7 @@ describe('Form component', () => {
     beforeEach(() => {
       form = instanceRender(<Form formState={mockFormState} />)
       form.form = {
-        checkValidity: () => mockCheckValidity
+        checkValidity: () => mockCheckValidity,
       }
       result = form.isFormValid(mockCustomValid)
     })
@@ -53,7 +53,7 @@ describe('Form component', () => {
       beforeAll(() => {
         mockCustomValid = true
         mockFormState = {
-          email: 'yolo'
+          email: 'yolo',
         }
       })
 
@@ -87,7 +87,7 @@ describe('Form component', () => {
       describe('when there is form state', () => {
         beforeAll(() => {
           mockFormState = {
-            email: 'yolO@yolo.com'
+            email: 'yolO@yolo.com',
           }
         })
 

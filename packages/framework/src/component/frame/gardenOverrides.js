@@ -2,7 +2,7 @@ import {
   zdColorGrey100,
   zdColorGrey400,
   zdColorGrey600,
-  zdColorWhite
+  zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'constants/shared'
 import { css } from 'styled-components'
@@ -60,7 +60,7 @@ const itemCheckOverrides = isMobile
   : ''
 
 const selectOverrides = css`
-  background-color: ${props => props.focused && `${zdColorGrey100} !important`};
+  background-color: ${(props) => props.focused && `${zdColorGrey100} !important`};
   ${mobileOverrides}
   ${isMobile ? `padding: ${16 / FONT_SIZE}rem ${25 / FONT_SIZE}rem !important` : ''};
   ${itemCheckOverrides}
@@ -82,7 +82,7 @@ const selectArrowOverrides = css`
 `
 
 const genericOverrides = css`
-  ${props => {
+  ${(props) => {
     if (props.ignoreThemeOverride) return ''
 
     return css`
@@ -126,39 +126,39 @@ const inputOverrides = css`
 
 const messageOverrides = isMobile
   ? css`
-  ${mobileOverrides}
-  margin-top: ${7 / FONT_SIZE}rem !important;
-  background-size: ${14 / FONT_SIZE}rem !important;
-  background-position-y: ${2 / FONT_SIZE}rem !important;
+      ${mobileOverrides}
+      margin-top: ${7 / FONT_SIZE}rem !important;
+      background-size: ${14 / FONT_SIZE}rem !important;
+      background-position-y: ${2 / FONT_SIZE}rem !important;
 
-  [dir='ltr'] & {
-    padding-left: ${20 / FONT_SIZE}rem !important;
-  }
+      [dir='ltr'] & {
+        padding-left: ${20 / FONT_SIZE}rem !important;
+      }
 
-  [dir='rtl'] & {
-    padding-right: ${20 / FONT_SIZE}rem !important;
-  }
-`
+      [dir='rtl'] & {
+        padding-right: ${20 / FONT_SIZE}rem !important;
+      }
+    `
   : ''
 
-const getButtonOverrides = colorVariables => {
+const getButtonOverrides = (colorVariables) => {
   return css`
-    ${props => {
+    ${(props) => {
       if (props.ignoreThemeOverride) return ''
 
       return css`
         height: ${38 / FONT_SIZE}rem !important;
         font-size: ${isMobile && `${15 / FONT_SIZE}rem`} !important;
-        border-radius: ${props => !props.pill && isMobile && `${4 / FONT_SIZE}rem`} !important;
+        border-radius: ${(props) => !props.pill && isMobile && `${4 / FONT_SIZE}rem`} !important;
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
         line-height: ${36 / FONT_SIZE}rem !important;
 
         :not([disabled]) {
-          background-color: ${props =>
+          background-color: ${(props) =>
             props.isPrimary ? colorVariables.buttonColorStr : zdColorWhite} !important;
-          color: ${props =>
+          color: ${(props) =>
             props.isPrimary
               ? colorVariables.buttonTextColorStr
               : colorVariables.buttonColorStr} !important;
@@ -167,13 +167,13 @@ const getButtonOverrides = colorVariables => {
           &:hover,
           &:focus,
           &:active {
-            background-color: ${props =>
+            background-color: ${(props) =>
               !props.isLink &&
               !isMobile &&
               (props.isPrimary
                 ? colorVariables.buttonHighlightColorStr
                 : colorVariables.buttonColorStr)} !important;
-            color: ${props =>
+            color: ${(props) =>
               !props.isLink && !isMobile && colorVariables.buttonTextColorStr} !important;
           }
         }
@@ -208,9 +208,9 @@ const checkboxLabelOverrides = isMobile
         box-shadow: 0 0 0 ${3 / FONT_SIZE}rem rgba(153, 153, 153, 0.4) !important;
       }
 
-      box-shadow: ${props =>
+      box-shadow: ${(props) =>
         props.focused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-      border-color: ${props => props.focused && `${zdColorGrey600} !important`};
+      border-color: ${(props) => props.focused && `${zdColorGrey600} !important`};
     `
   : css`
       ${labelOverrides}
@@ -220,7 +220,7 @@ const checkboxLabelOverrides = isMobile
       }
 
       &:before {
-        box-shadow: ${props =>
+        box-shadow: ${(props) =>
           props.focused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
         border-color: ${zdColorGrey400} !important;
       }
@@ -231,7 +231,7 @@ const checkboxLabelOverrides = isMobile
       }
     `
 
-const checkboxInputOverrides = themeColor => {
+const checkboxInputOverrides = (themeColor) => {
   return css`
     &:checked ~ :before {
       background-color: ${themeColor} !important;
@@ -261,22 +261,22 @@ const modalOverrides = {
       bottom: 24px;
 
       ${isMobileBrowser() &&
-        `
+      `
     top: 4rem !important;
     bottom: auto !important;
     `}
     }
   `,
   'modals.header': css`
-    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
-    font-size: ${props => 14 / props.theme.fontSize}rem;
+    padding: ${(props) => 16 / props.theme.fontSize}rem ${(props) => 20 / props.theme.fontSize}rem;
+    font-size: ${(props) => 14 / props.theme.fontSize}rem;
   `,
   'modals.footer': css`
-    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
+    padding: ${(props) => 16 / props.theme.fontSize}rem ${(props) => 20 / props.theme.fontSize}rem;
     justify-content: space-between;
   `,
   'modals.body': css`
-    padding: ${props => 16 / props.theme.fontSize}rem ${props => 20 / props.theme.fontSize}rem;
+    padding: ${(props) => 16 / props.theme.fontSize}rem ${(props) => 20 / props.theme.fontSize}rem;
   `,
   'modals.footerItem': css`
     flex: 1;
@@ -284,7 +284,7 @@ const modalOverrides = {
     > * {
       width: 100%;
     }
-  `
+  `,
 }
 
 function getGardenOverrides(colors) {
@@ -309,9 +309,10 @@ function getGardenOverrides(colors) {
     'dropdowns.faux_input': css`
       ${genericOverrides}
       ${borderOverrides}
-      box-shadow: ${props =>
+      box-shadow: ${(props) =>
         props.isFocused && `0 0 0 ${3 / FONT_SIZE}rem rgba(153,153,153, 0.4) !important`};
-      border-color: ${props => (props.focused || props.hovered) && `${zdColorGrey600} !important`};
+      border-color: ${(props) =>
+        (props.focused || props.hovered) && `${zdColorGrey600} !important`};
       ${bottomMargin}
       ${arrowOverrides}
       min-height: ${isMobile ? `${42.5 / FONT_SIZE}rem !important` : ''};
@@ -332,7 +333,7 @@ function getGardenOverrides(colors) {
       css`
         display: none !important;
       `,
-    ...modalOverrides
+    ...modalOverrides,
   }
 }
 

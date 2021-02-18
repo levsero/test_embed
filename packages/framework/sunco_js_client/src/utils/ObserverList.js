@@ -10,11 +10,11 @@ class ObserverList {
   }
 
   removeObserver(callback) {
-    this.observers = this.observers.filter(observer => observer !== callback)
+    this.observers = this.observers.filter((observer) => observer !== callback)
   }
 
   notify(...args) {
-    this.observers.forEach(callback => {
+    this.observers.forEach((callback) => {
       callback(...args)
     })
   }

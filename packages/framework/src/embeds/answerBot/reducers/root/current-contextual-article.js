@@ -1,6 +1,6 @@
 import {
   ARTICLE_SHOWN,
-  CONTEXTUAL_ARTICLE_SHOWN
+  CONTEXTUAL_ARTICLE_SHOWN,
 } from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = null
@@ -11,7 +11,7 @@ const currentContextualArticle = (state = initialState, action) => {
       return null
     case CONTEXTUAL_ARTICLE_SHOWN:
       return {
-        articleID: action.payload.articleID
+        articleID: action.payload.articleID,
       }
     default:
       return state

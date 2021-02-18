@@ -20,12 +20,12 @@ const OfflinePage = ({ message, title }) => (
 
 OfflinePage.propTypes = {
   message: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   message: i18n.t('embeddable_framework.talk.offline.label_v2'),
-  title: getOfflineTitle(state)
+  title: getOfflineTitle(state),
 })
 
 const connectedComponent = connect(mapStateToProps)(OfflinePage)

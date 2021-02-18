@@ -43,43 +43,43 @@ describe('chat selectors', () => {
         AGENT_BOT,
         DEPARTMENT_STATUSES,
         WHITELISTED_SOCIAL_LOGINS,
-        CONNECTION_STATUSES
+        CONNECTION_STATUSES,
       },
       './chat-screen-types': {
-        CHATTING_SCREEN
+        CHATTING_SCREEN,
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: state => state.base.embed,
-        getWidgetShown: state => state.base.widgetShown,
+        getActiveEmbed: (state) => state.base.embed,
+        getWidgetShown: (state) => state.base.widgetShown,
         getLocale: () => 'en-US',
-        getLauncherVisible: () => mockLauncherVisible
+        getLauncherVisible: () => mockLauncherVisible,
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsChatDepartmentsEnabled: state =>
+        getSettingsChatDepartmentsEnabled: (state) =>
           _.get(state, 'settings.chat.departments.enabled', []),
-        getSettingsChatDepartment: state => _.get(state, 'settings.chat.department', ''),
-        getSettingsChatConcierge: state =>
+        getSettingsChatDepartment: (state) => _.get(state, 'settings.chat.department', ''),
+        getSettingsChatConcierge: (state) =>
           _.get(state, 'settings.chat.concierge', mockConciergeOverideSettings),
         getSettingsChatTitle: () => mockSettingsChatTitle,
         getSettingsChatOfflineForm: () => mockSettingsChatOfflineForm,
         getSettingsChatPrechatForm: () => mockSettingsPrechatForm,
         getSettingsChatProfileCard: _.identity,
-        getSettingsLauncherBadge: () => mockBadgeSettings
+        getSettingsLauncherBadge: () => mockBadgeSettings,
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
-          getSettingTranslation: () => mockTranslation
-        }
+          getSettingTranslation: () => mockTranslation,
+        },
       },
       'embeds/webWidget/selectors/feature-flags': () => false,
       'utility/chat': {
-        isDefaultNickname: () => mockIsDefaultNickname
+        isDefaultNickname: () => mockIsDefaultNickname,
       },
       'utility/devices': {},
       'utility/globals': {
-        isPopout: () => mockIsPopout
-      }
+        isPopout: () => mockIsPopout,
+      },
     })
 
     const selectorsPath = buildSrcPath('redux/modules/chat/chat-selectors')
@@ -102,10 +102,10 @@ describe('chat selectors', () => {
         chat: {
           accountSettings: {
             banner: {
-              enabled: true
-            }
-          }
-        }
+              enabled: true,
+            },
+          },
+        },
       })
     })
 
@@ -120,8 +120,8 @@ describe('chat selectors', () => {
     beforeEach(() => {
       result = selectors.getIsLoggingOut({
         chat: {
-          isLoggingOut: true
-        }
+          isLoggingOut: true,
+        },
       })
     })
 
@@ -136,14 +136,14 @@ describe('chat selectors', () => {
     beforeEach(() => {
       mockDepartments = {
         someDepartment: {
-          status: 'online'
-        }
+          status: 'online',
+        },
       }
 
       result = selectors.getDepartments({
         chat: {
-          departments: mockDepartments
-        }
+          departments: mockDepartments,
+        },
       })
     })
 
@@ -160,8 +160,8 @@ describe('chat selectors', () => {
 
       result = selectors.getDepartmentsList({
         chat: {
-          departments: mockDepartments
-        }
+          departments: mockDepartments,
+        },
       })
     })
 
@@ -176,8 +176,8 @@ describe('chat selectors', () => {
     beforeEach(() => {
       result = selectors.getIsAuthenticated({
         chat: {
-          isAuthenticated: true
-        }
+          isAuthenticated: true,
+        },
       })
     })
 
@@ -192,9 +192,9 @@ describe('chat selectors', () => {
     const mockChatSettings = {
       chat: {
         accountSettings: {
-          rating: ratingSettings
-        }
-      }
+          rating: ratingSettings,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -211,8 +211,8 @@ describe('chat selectors', () => {
     const queuePosition = 3
     const mockChatSettings = {
       chat: {
-        queuePosition
-      }
+        queuePosition,
+      },
     }
 
     beforeEach(() => {
@@ -228,8 +228,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        is_chatting: true
-      }
+        is_chatting: true,
+      },
     }
 
     beforeEach(() => {
@@ -247,9 +247,9 @@ describe('chat selectors', () => {
       chat: {
         emailTranscript: {
           status: 'some_status',
-          email: 'someemail@email.com'
-        }
-      }
+          email: 'someemail@email.com',
+        },
+      },
     }
 
     beforeEach(() => {
@@ -259,7 +259,7 @@ describe('chat selectors', () => {
     it('returns the current state of emailTranscript', () => {
       expect(result).toEqual({
         status: 'some_status',
-        email: 'someemail@email.com'
+        email: 'someemail@email.com',
       })
     })
   })
@@ -269,8 +269,8 @@ describe('chat selectors', () => {
     const visitor = 'Batman'
     const mockChatSettings = {
       chat: {
-        visitor
-      }
+        visitor,
+      },
     }
 
     beforeEach(() => {
@@ -286,8 +286,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        connection: 'connected'
-      }
+        connection: 'connected',
+      },
     }
 
     beforeEach(() => {
@@ -303,8 +303,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        account_status: 'online'
-      }
+        account_status: 'online',
+      },
     }
 
     beforeEach(() => {
@@ -318,11 +318,14 @@ describe('chat selectors', () => {
 
   describe('getChatMessagesFromAgents', () => {
     let result
-    const mockChats = [{ nick: 'agent:123', type: 'chat.msg' }, { nick: 'user', type: 'chat.msg' }]
+    const mockChats = [
+      { nick: 'agent:123', type: 'chat.msg' },
+      { nick: 'user', type: 'chat.msg' },
+    ]
     const mockChatSettings = {
       chat: {
-        chats: { values: () => mockChats }
-      }
+        chats: { values: () => mockChats },
+      },
     }
 
     beforeEach(() => {
@@ -339,7 +342,7 @@ describe('chat selectors', () => {
   describe('getChatOnline', () => {
     let result,
       mockState = {
-        chat: {}
+        chat: {},
       }
 
     beforeEach(() => {
@@ -407,8 +410,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        rating: 'good'
-      }
+        rating: 'good',
+      },
     }
 
     beforeEach(() => {
@@ -426,9 +429,9 @@ describe('chat selectors', () => {
       chat: {
         activeAgents: new Map([
           ['agent:123', { nick: 'agent:123' }],
-          ['agent:trigger', { nick: 'agent:trigger' }]
-        ])
-      }
+          ['agent:trigger', { nick: 'agent:trigger' }],
+        ]),
+      },
     }
 
     beforeEach(() => {
@@ -437,7 +440,7 @@ describe('chat selectors', () => {
 
     it('returns the current state of agents with triggers filtered out', () => {
       expect(result).toEqual({
-        'agent:123': { nick: 'agent:123' }
+        'agent:123': { nick: 'agent:123' },
       })
     })
   })
@@ -446,8 +449,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        screen: 'chatting'
-      }
+        screen: 'chatting',
+      },
     }
 
     beforeEach(() => {
@@ -463,8 +466,8 @@ describe('chat selectors', () => {
     let result
     const mockChatSettings = {
       chat: {
-        currentMessage: 'printer is on fire'
-      }
+        currentMessage: 'printer is on fire',
+      },
     }
 
     beforeEach(() => {
@@ -483,10 +486,10 @@ describe('chat selectors', () => {
       chat: {
         accountSettings: {
           attachments: {
-            enabled: mockEnabled
-          }
-        }
-      }
+            enabled: mockEnabled,
+          },
+        },
+      },
     }
 
     beforeEach(() => {
@@ -503,9 +506,9 @@ describe('chat selectors', () => {
     const mockChatSettings = {
       chat: {
         notification: {
-          count: 123
-        }
-      }
+          count: 123,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -525,15 +528,15 @@ describe('chat selectors', () => {
         chat: {
           rating: {
             value: null,
-            comment: null
+            comment: null,
           },
           accountSettings: {
             rating: {
-              enabled: true
-            }
+              enabled: true,
+            },
           },
-          activeAgents: ['agent_1']
-        }
+          activeAgents: ['agent_1'],
+        },
       }
     })
 
@@ -603,10 +606,10 @@ describe('chat selectors', () => {
               name: 'Sizuki',
               phone: '123456789',
               email: 'foo@bar.com',
-              message: 'baz'
-            }
-          }
-        }
+              message: 'baz',
+            },
+          },
+        },
       }
       result = selectors.getChatOfflineForm(mockChatSettings)
     })
@@ -624,19 +627,19 @@ describe('chat selectors', () => {
         chat: {
           rating: {
             value: 'good',
-            comment: null
+            comment: null,
           },
           accountSettings: {
             rating: {
-              enabled: true
-            }
+              enabled: true,
+            },
           },
           is_chatting: false,
           account_status: 'offline',
           chats: { values: () => [{}, {}] },
           activeAgents: ['agent_1'],
-          isLoggingOut: false
-        }
+          isLoggingOut: false,
+        },
       }
     })
 
@@ -701,9 +704,9 @@ describe('chat selectors', () => {
     const mockChatSettings = {
       chat: {
         formState: {
-          preChatForm: formState
-        }
-      }
+          preChatForm: formState,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -720,8 +723,8 @@ describe('chat selectors', () => {
     const operatingHoursPayload = { account_schedule: [[456]] }
     const mockOperatingHours = {
       chat: {
-        operatingHours: operatingHoursPayload
-      }
+        operatingHours: operatingHoursPayload,
+      },
     }
 
     beforeEach(() => {
@@ -738,8 +741,8 @@ describe('chat selectors', () => {
       let result
       const operatingHoursPayload = {
         department_schedule: {
-          123: [[456]]
-        }
+          123: [[456]],
+        },
       }
       const mockState = {
         chat: {
@@ -747,15 +750,15 @@ describe('chat selectors', () => {
           departments: [
             {
               name: 'Design',
-              id: 123
-            }
+              id: 123,
+            },
           ],
           accountSettings: {
             operatingHours: {
-              display_notice: true
-            }
-          }
-        }
+              display_notice: true,
+            },
+          },
+        },
       }
 
       beforeEach(() => {
@@ -768,9 +771,9 @@ describe('chat selectors', () => {
             {
               name: 'Design',
               id: 123,
-              schedule: [[456]]
-            }
-          ]
+              schedule: [[456]],
+            },
+          ],
         }
 
         expect(result).toEqual(expected)
@@ -783,10 +786,10 @@ describe('chat selectors', () => {
           operatingHours: [],
           accountSettings: {
             operatingHours: {
-              display_notice: false
-            }
-          }
-        }
+              display_notice: false,
+            },
+          },
+        },
       }
 
       beforeEach(() => {
@@ -795,7 +798,7 @@ describe('chat selectors', () => {
 
       it('returns an object with enabled: false', () => {
         const expected = {
-          enabled: false
+          enabled: false,
         }
 
         expect(result).toEqual(expected)
@@ -811,9 +814,9 @@ describe('chat selectors', () => {
         chat: {
           offlineMessage: {
             message: {},
-            screen: 'main'
-          }
-        }
+            screen: 'main',
+          },
+        },
       }
       result = selectors.getOfflineMessage(mockChatSettings)
     })
@@ -827,8 +830,8 @@ describe('chat selectors', () => {
     let result
     const mockState = {
       chat: {
-        lastReadTimestamp: 12345
-      }
+        lastReadTimestamp: 12345,
+      },
     }
 
     beforeEach(() => {
@@ -846,9 +849,9 @@ describe('chat selectors', () => {
     const mockState = {
       chat: {
         accountSettings: {
-          login
-        }
-      }
+          login,
+        },
+      },
     }
 
     beforeEach(() => {
@@ -864,8 +867,8 @@ describe('chat selectors', () => {
     let result
     const mockState = {
       chat: {
-        standaloneMobileNotificationVisible: true
-      }
+        standaloneMobileNotificationVisible: true,
+      },
     }
 
     beforeEach(() => {
@@ -890,7 +893,7 @@ describe('chat selectors', () => {
         beforeEach(() => {
           result = createSession([
             1,
-            { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }
+            { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG },
           ])
         })
 
@@ -915,7 +918,7 @@ describe('chat selectors', () => {
         beforeEach(() => {
           result = createSession([
             1,
-            { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }
+            { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG },
           ])
         })
 
@@ -932,15 +935,15 @@ describe('chat selectors', () => {
                 1,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN,
+                },
               ],
               [
                 2,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG
-                }
+                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+                },
               ]
             )
           })
@@ -957,8 +960,8 @@ describe('chat selectors', () => {
                 1,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN,
+                },
               ],
               [2, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }]
             )
@@ -978,30 +981,30 @@ describe('chat selectors', () => {
                 1,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN,
+                },
               ],
               [
                 2,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG
-                }
+                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+                },
               ],
               [
                 3,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG
-                }
+                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+                },
               ],
               [4, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
               [
                 5,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
+                },
               ],
               [6, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }]
             )
@@ -1019,30 +1022,30 @@ describe('chat selectors', () => {
                 1,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN,
+                },
               ],
               [
                 2,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG
-                }
+                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+                },
               ],
               [
                 3,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG
-                }
+                  type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG,
+                },
               ],
               [4, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
               [
                 5,
                 {
                   nick: 'visitor:007',
-                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE
-                }
+                  type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE,
+                },
               ]
             )
           })
@@ -1066,8 +1069,8 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            activeAgents: new Map()
-          }
+            activeAgents: new Map(),
+          },
         }
       })
 
@@ -1083,14 +1086,17 @@ describe('chat selectors', () => {
             activeAgents: new Map([
               ['agent:123', { nick: 'agent:123', typing: true }],
               ['agent:456', { nick: 'agent:456', typing: true }],
-              ['agent:789', { nick: 'agent:789', typing: false }]
-            ])
-          }
+              ['agent:789', { nick: 'agent:789', typing: false }],
+            ]),
+          },
         }
       })
 
       it('returns a collection of the typing agents', () => {
-        const expected = [{ nick: 'agent:123', typing: true }, { nick: 'agent:456', typing: true }]
+        const expected = [
+          { nick: 'agent:123', typing: true },
+          { nick: 'agent:456', typing: true },
+        ]
 
         expect(result).toEqual(expected)
       })
@@ -1102,9 +1108,9 @@ describe('chat selectors', () => {
           chat: {
             activeAgents: new Map([
               ['agent:456', { nick: 'agent:456', typing: true }],
-              ['agent:trigger', { nick: 'agent:trigger', typing: true }]
-            ])
-          }
+              ['agent:trigger', { nick: 'agent:trigger', typing: true }],
+            ]),
+          },
         }
       })
 
@@ -1120,16 +1126,16 @@ describe('chat selectors', () => {
     let result, inactiveAgents
     const activeAgents = new Map([
       ['agent:terence', { display_name: 'Terence Liew' }],
-      ['agent:apoorv', { display_name: 'Apoorv' }]
+      ['agent:apoorv', { display_name: 'Apoorv' }],
     ])
 
     inactiveAgents = {
       'agent:sonic': { display_name: 'A. D. Ciotto' },
-      'agent:bcoppard': { display_name: 'B. C.' }
+      'agent:bcoppard': { display_name: 'B. C.' },
     }
 
     const mockChatSettings = {
-      chat: { activeAgents, inactiveAgents }
+      chat: { activeAgents, inactiveAgents },
     }
 
     beforeEach(() => {
@@ -1140,7 +1146,7 @@ describe('chat selectors', () => {
       const expected = {
         'agent:terence': { display_name: 'Terence Liew' },
         'agent:apoorv': { display_name: 'Apoorv' },
-        ...inactiveAgents
+        ...inactiveAgents,
       }
 
       expect(result).toEqual(expected)
@@ -1151,8 +1157,11 @@ describe('chat selectors', () => {
     let result,
       mockChatSettings = {
         chat: {
-          chats: new Map([[1, { timestamp: 1 }], [2, { timestamp: 2 }]])
-        }
+          chats: new Map([
+            [1, { timestamp: 1 }],
+            [2, { timestamp: 2 }],
+          ]),
+        },
       }
 
     beforeEach(() => {
@@ -1166,7 +1175,7 @@ describe('chat selectors', () => {
     describe('no chats', () => {
       beforeEach(() => {
         result = selectors.getFirstMessageTimestamp({
-          chat: { chats: new Map() }
+          chat: { chats: new Map() },
         })
       })
 
@@ -1184,9 +1193,9 @@ describe('chat selectors', () => {
             authenticated: false,
             authUrls: {},
             screen: '',
-            avatarPath: ''
-          }
-        }
+            avatarPath: '',
+          },
+        },
       }
 
     beforeEach(() => {
@@ -1214,16 +1223,16 @@ describe('chat selectors', () => {
               login: {
                 loginTypes: {
                   facebook: true,
-                  google: true
-                }
-              }
+                  google: true,
+                },
+              },
             },
             vendor: {
               zChat: {
-                getAuthLoginUrl: socialMedia => `www.foo.com/${socialMedia}/bar-baz`
-              }
-            }
-          }
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`,
+              },
+            },
+          },
         }
       })
 
@@ -1238,15 +1247,15 @@ describe('chat selectors', () => {
           chat: {
             accountSettings: {
               login: {
-                loginTypes: {}
-              }
+                loginTypes: {},
+              },
             },
             vendor: {
               zChat: {
-                getAuthLoginUrl: socialMedia => `www.foo.com/${socialMedia}/bar-baz`
-              }
-            }
-          }
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`,
+              },
+            },
+          },
         }
       })
 
@@ -1263,23 +1272,23 @@ describe('chat selectors', () => {
               login: {
                 loginTypes: {
                   facebook: true,
-                  google: true
-                }
-              }
+                  google: true,
+                },
+              },
             },
             vendor: {
               zChat: {
-                getAuthLoginUrl: socialMedia => `www.foo.com/${socialMedia}/bar-baz`
-              }
-            }
-          }
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`,
+              },
+            },
+          },
         }
       })
 
       it('returns an object with authentication urls bound to each social media', () => {
         const expected = {
           facebook: 'www.foo.com/facebook/bar-baz',
-          google: 'www.foo.com/google/bar-baz'
+          google: 'www.foo.com/google/bar-baz',
         }
 
         expect(result).toEqual(expected)
@@ -1295,16 +1304,16 @@ describe('chat selectors', () => {
                 loginTypes: {
                   facebook: false,
                   google: true,
-                  twitter: false
-                }
-              }
+                  twitter: false,
+                },
+              },
             },
             vendor: {
               zChat: {
-                getAuthLoginUrl: socialMedia => `www.foo.com/${socialMedia}/bar-baz`
-              }
-            }
-          }
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`,
+              },
+            },
+          },
         }
       })
 
@@ -1323,9 +1332,9 @@ describe('chat selectors', () => {
       mockChatSettings = {
         chat: {
           vendor: {
-            zChat: 'mockZChat'
-          }
-        }
+            zChat: 'mockZChat',
+          },
+        },
       }
 
       result = selectors.getZChatVendor(mockChatSettings)
@@ -1341,13 +1350,13 @@ describe('chat selectors', () => {
     const mockTitle = 'My custom title'
     const mockAccountSettings = {
       chatWindow: {
-        title: mockTitle
-      }
+        title: mockTitle,
+      },
     }
 
     beforeEach(() => {
       result = selectors.getWindowSettings({
-        chat: { accountSettings: mockAccountSettings }
+        chat: { accountSettings: mockAccountSettings },
       })
     })
 
@@ -1360,14 +1369,14 @@ describe('chat selectors', () => {
     let result, id
     const mockDepartments = [
       { name: 'hello', id: 123, status: 'online' },
-      { name: 'test', id: 321, status: 'online' }
+      { name: 'test', id: 321, status: 'online' },
     ]
 
     beforeEach(() => {
       const mockState = {
         chat: {
-          departments: mockDepartments
-        }
+          departments: mockDepartments,
+        },
       }
 
       result = selectors.getDepartment(mockState, id)
@@ -1399,14 +1408,14 @@ describe('chat selectors', () => {
     const mockAccountSettings = {
       theme: {
         color: {
-          primary: '#eeeeee'
-        }
-      }
+          primary: '#eeeeee',
+        },
+      },
     }
 
     beforeEach(() => {
       result = selectors.getThemeColor({
-        chat: { accountSettings: mockAccountSettings }
+        chat: { accountSettings: mockAccountSettings },
       })
     })
 
@@ -1419,13 +1428,13 @@ describe('chat selectors', () => {
     let result
     const mockAccountSettings = {
       theme: {
-        position: 'br'
-      }
+        position: 'br',
+      },
     }
 
     beforeEach(() => {
       result = selectors.getThemePosition({
-        chat: { accountSettings: mockAccountSettings }
+        chat: { accountSettings: mockAccountSettings },
       })
     })
 
@@ -1440,8 +1449,8 @@ describe('chat selectors', () => {
     beforeEach(() => {
       mockChatSettings = {
         chat: {
-          connection: connection
-        }
+          connection: connection,
+        },
       }
 
       result = selectors.getChatConnected(mockChatSettings)
@@ -1479,9 +1488,9 @@ describe('chat selectors', () => {
             [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
             [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
             [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-          ])
-        }
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }],
+          ]),
+        },
       }
 
       result = selectors.hasUnseenAgentMessage(mockState)
@@ -1529,11 +1538,11 @@ describe('chat selectors', () => {
           accountSettings: {
             theme: {
               color: {
-                banner: 'yeet'
-              }
-            }
-          }
-        }
+                banner: 'yeet',
+              },
+            },
+          },
+        },
       }
 
       result = selectors.getBadgeColor(mockState)
@@ -1554,9 +1563,9 @@ describe('chat selectors', () => {
             [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
             [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
             [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-          ])
-        }
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }],
+          ]),
+        },
       }
 
       result = selectors.getChatsLength(mockState)
@@ -1577,9 +1586,9 @@ describe('chat selectors', () => {
             [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
             [3, { nick: 'visitor:2', type: 'chat.msg', timestamp: 3 }],
             [5, { nick: 'agent:123', type: 'chat.msg', timestamp: 5 }],
-            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }]
-          ])
-        }
+            [7, { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }],
+          ]),
+        },
       }
 
       result = selectors.getGroupMessages(mockState, [5, 7])
@@ -1588,7 +1597,7 @@ describe('chat selectors', () => {
     it('returns the messages in the group', () => {
       expect(result).toEqual([
         { nick: 'agent:123', type: 'chat.msg', timestamp: 5 },
-        { nick: 'agent:123', type: 'chat.msg', timestamp: 7 }
+        { nick: 'agent:123', type: 'chat.msg', timestamp: 7 },
       ])
     })
   })
@@ -1603,12 +1612,12 @@ describe('chat selectors', () => {
             [1, { nick: 'agent:123', type: 'chat.msg', timestamp: 1 }],
             [3, { nick: 'visitor:2', type: 'member.join', timestamp: 3 }],
             [6, { nick: 'agent:123', type: 'chat.msg', timestamp: 6 }],
-            [7, { nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 }]
+            [7, { nick: 'agent:123', type: 'chat.quick_replies', timestamp: 7 }],
           ]),
           chatLog: {
-            latestQuickReply: quickReplyKey
-          }
-        }
+            latestQuickReply: quickReplyKey,
+          },
+        },
       }
 
       result = selectors.getLatestQuickReply(mockState, quickReplyKey)
@@ -1623,7 +1632,7 @@ describe('chat selectors', () => {
         expect(result).toEqual({
           nick: 'agent:123',
           type: 'chat.quick_replies',
-          timestamp: 7
+          timestamp: 7,
         })
       })
     })
@@ -1647,14 +1656,14 @@ describe('chat selectors', () => {
         chat: {
           accountSettings: {
             login: {
-              enabled: loginEnabled
-            }
+              enabled: loginEnabled,
+            },
           },
           visitor: {
             display_name: visitorName,
-            email: visitorEmail
-          }
-        }
+            email: visitorEmail,
+          },
+        },
       }
 
       result = selectors.getShowUpdateVisitorDetails(mockState)

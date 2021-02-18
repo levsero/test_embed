@@ -3,7 +3,7 @@ import { getSettingsTalkTitle } from 'src/redux/modules/settings/settings-select
 import { i18n } from 'src/apps/webWidget/services/i18n'
 
 const useGetTitle = () =>
-  useSelector(state => fallback =>
+  useSelector((state) => (fallback) =>
     i18n.getSettingTranslation({ '*': i18n.t(fallback), ...getSettingsTalkTitle(state) })
   )
 

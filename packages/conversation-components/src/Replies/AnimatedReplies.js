@@ -7,7 +7,7 @@ import messageSteps, { transition } from 'src/animations/messageSteps'
 const StyledAnimated = styled(Animated)`
   overflow: hidden;
 
-  transition: ${props => {
+  transition: ${(props) => {
     if (props.isVisible) {
       const heightTransition = transition(
         props.isFreshMessage ? messageSteps.freshRepliesEnter : messageSteps.existingRepliesEnter,
@@ -61,7 +61,7 @@ const AnimatedReplies = ({ isVisible, isFreshMessage, children }) => {
 AnimatedReplies.propTypes = {
   isVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default AnimatedReplies

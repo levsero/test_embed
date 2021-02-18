@@ -13,7 +13,7 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     launcherVisible: true,
     webWidgetVisible: false,
-    previewChoice: CHAT
+    previewChoice: CHAT,
   }
   const mergedProps = { ...defaultProps, ...props }
 
@@ -27,7 +27,7 @@ const renderComponent = (props = {}) => {
 test('with launcher visible', () => {
   const { container } = renderComponent({
     launcherVisible: true,
-    webWidgetVisible: false
+    webWidgetVisible: false,
   })
 
   expect(container).toMatchSnapshot()
@@ -36,7 +36,7 @@ test('with launcher visible', () => {
 test('with widget visible', () => {
   const { container } = renderComponent({
     launcherVisible: false,
-    webWidgetVisible: true
+    webWidgetVisible: true,
   })
 
   expect(container).toMatchSnapshot()

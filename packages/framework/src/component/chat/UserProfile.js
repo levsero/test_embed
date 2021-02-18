@@ -19,7 +19,7 @@ export class UserProfile extends Component {
     initiateSocialLogout: PropTypes.func.isRequired,
     nameField: PropTypes.node,
     emailField: PropTypes.node,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -28,7 +28,7 @@ export class UserProfile extends Component {
     visitor: {},
     initiateSocialLogout: () => {},
     nameField: null,
-    emailField: null
+    emailField: null,
   }
 
   renderAuthedProfileField() {

@@ -7,11 +7,11 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 
 const buildWidget = (preset = 'helpCenter', options) => loadWidget().withPresets(preset, options)
 
-const getHeight = async selector => {
-  return await page.evaluate(iframe => {
+const getHeight = async (selector) => {
+  return await page.evaluate((iframe) => {
     const frame = document.querySelector(iframe)
     return {
-      height: frame.style.height
+      height: frame.style.height,
     }
   }, selector)
 }
@@ -27,9 +27,7 @@ const assertResults = async () => {
 }
 
 test('searching the help center', async () => {
-  await buildWidget()
-    .intercept(mockSearchEndpoint())
-    .load()
+  await buildWidget().intercept(mockSearchEndpoint()).load()
   await launcher.click()
 
   await waitForHelpCenter()
@@ -74,7 +72,7 @@ test('sizes the frame correctly when the logo is visible', async () => {
 
   await wait(async () => {
     expect(await getHeight(widget.selector)).toEqual({
-      height: '172px'
+      height: '172px',
     })
   })
 })
@@ -86,21 +84,19 @@ test('sizes the frame correctly when the logo is not visible', async () => {
 
   await wait(async () => {
     expect(await getHeight(widget.selector)).toEqual({
-      height: '157px'
+      height: '157px',
     })
   })
 })
 
 test('sizes the frame correctly for contextual help i.e. full size widget', async () => {
-  await buildWidget('helpCenterWithContextualHelp')
-    .intercept(mockSearchEndpoint())
-    .load()
+  await buildWidget('helpCenterWithContextualHelp').intercept(mockSearchEndpoint()).load()
   await widget.openByKeyboard()
   await waitForHelpCenter()
 
   await wait(async () => {
     expect(await getHeight(widget.selector)).toEqual({
-      height: '572px'
+      height: '572px',
     })
   })
 })

@@ -15,7 +15,7 @@ export class ButtonIcon extends Component {
     iconClasses: PropTypes.string,
     label: PropTypes.node,
     onClick: PropTypes.func,
-    flipX: PropTypes.bool
+    flipX: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -26,7 +26,7 @@ export class ButtonIcon extends Component {
     iconClasses: '',
     label: null,
     onClick: () => {},
-    flipX: false
+    flipX: false,
   }
 
   handleOnClick = () => {

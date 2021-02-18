@@ -12,7 +12,7 @@ const FileInput = ({ onFileSelect, children, ...props }) => {
     input.current.click()
   }
 
-  const handleFileSelect = e => {
+  const handleFileSelect = (e) => {
     e.preventDefault()
     onFileSelect(e.target.files)
   }
@@ -22,7 +22,7 @@ const FileInput = ({ onFileSelect, children, ...props }) => {
   return (
     <>
       {React.cloneElement(triggerButton, {
-        onClick: handleClick
+        onClick: handleClick,
       })}
       <HiddenInput
         type="file"
@@ -38,7 +38,7 @@ const FileInput = ({ onFileSelect, children, ...props }) => {
 
 FileInput.propTypes = {
   onFileSelect: PropTypes.func,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 }
 
 export default FileInput

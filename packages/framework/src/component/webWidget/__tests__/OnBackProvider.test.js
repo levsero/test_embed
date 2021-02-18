@@ -18,7 +18,7 @@ describe('OnBackProvider', () => {
   }
 
   const defaultProps = {
-    value: undefined
+    value: undefined,
   }
 
   const renderComponent = (props = {}) =>

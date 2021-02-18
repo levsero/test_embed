@@ -1,18 +1,18 @@
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
-  talkAverageWaitTimeEventToAction
+  talkAverageWaitTimeEventToAction,
 } from '../events'
 import * as actions from 'src/redux/modules/talk'
 
 jest.mock('src/redux/modules/talk')
 
 const mockSocket = {
-  on: jest.fn()
+  on: jest.fn(),
 }
 
 const mockReduxStore = {
-  dispatch: jest.fn()
+  dispatch: jest.fn(),
 }
 
 describe('talkEmbeddableConfigEventToAction', () => {
@@ -24,7 +24,7 @@ describe('talkEmbeddableConfigEventToAction', () => {
     expect(mockSocket.on).toHaveBeenCalledWith('socket.embeddableConfig', expect.any(Function))
   })
 
-  const getConfig = configOverrides => ({
+  const getConfig = (configOverrides) => ({
     agentAvailability: false,
     averageWaitTime: '1',
     averageWaitTimeSetting: 'exact',
@@ -33,7 +33,7 @@ describe('talkEmbeddableConfigEventToAction', () => {
     enabled: false,
     nickname: '',
     phoneNumber: '',
-    ...configOverrides
+    ...configOverrides,
   })
 
   const getConnectionCallback = () => mockSocket.on.mock.calls[0][1]
@@ -51,7 +51,7 @@ describe('talkEmbeddableConfigEventToAction', () => {
         capability: '0',
         enabled: false,
         nickname: '',
-        phoneNumber: ''
+        phoneNumber: '',
       })
     })
   })
@@ -110,7 +110,7 @@ describe('talkAverageWaitTimeEventToAction', () => {
       mockData = {
         averageWaitTime: '1',
         averageWaitTimeSetting: 'exact',
-        averageWaitTimeEnabled: true
+        averageWaitTimeEnabled: true,
       }
       const calls = mockSocket.on.mock.calls
 

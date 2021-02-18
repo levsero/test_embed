@@ -4,7 +4,7 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   maxFileCount: 5,
-  maxFileSize: 52428800
+  maxFileSize: 52428800,
 }
 const embeddableConfigPayload = {
   embeds: {
@@ -14,16 +14,16 @@ const embeddableConfigPayload = {
         attachmentsEnabled: true,
         maxFileSize: 20971520,
         nameFieldEnabled: false,
-        webWidgetReactRouterSupport: true
-      }
-    }
-  }
+        webWidgetReactRouterSupport: true,
+      },
+    },
+  },
 }
 
 testReducer(config, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: embeddableConfigPayload },
@@ -33,11 +33,11 @@ testReducer(config, [
       attachmentsEnabled: true,
       maxFileSize: 20971520,
       nameFieldEnabled: false,
-      webWidgetReactRouterSupport: true
-    }
+      webWidgetReactRouterSupport: true,
+    },
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: {} },
-    expected: initialState
-  }
+    expected: initialState,
+  },
 ])

@@ -6,7 +6,7 @@ import {
   BOT_FEEDBACK,
   BOT_FEEDBACK_REQUESTED,
   BOT_TYPING,
-  BOT_CONTEXTUAL_SEARCH_RESULTS
+  BOT_CONTEXTUAL_SEARCH_RESULTS,
 } from './action-types'
 import { getChannelAvailable } from 'src/redux/modules/selectors/selectors'
 import { getInTouchShown } from 'src/embeds/answerBot/actions/conversation/get-in-touch-shown'
@@ -18,12 +18,12 @@ const generateBotMessage = (state, key, interpolation = {}, payloadOptions = {})
     ...payloadOptions,
     message: { key, interpolation },
     sessionID,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   }
 
   return {
     type: BOT_MESSAGE,
-    payload
+    payload,
   }
 }
 
@@ -70,8 +70,8 @@ export const botChannelChoice = (key, interpolation = {}, fallback = false) => {
     payload: {
       timestamp: Date.now(),
       message: { key, interpolation },
-      fallback
-    }
+      fallback,
+    },
   }
 }
 
@@ -80,28 +80,28 @@ export const botFeedback = (feedbackType = 'primary') => {
     type: BOT_FEEDBACK,
     payload: {
       feedbackType,
-      timestamp: Date.now()
-    }
+      timestamp: Date.now(),
+    },
   }
 }
 
 export const botFeedbackRequested = () => {
   return {
-    type: BOT_FEEDBACK_REQUESTED
+    type: BOT_FEEDBACK_REQUESTED,
   }
 }
 
 export const botGreeted = () => {
   return {
     type: BOT_GREETED,
-    payload: true
+    payload: true,
   }
 }
 
 export const botInitialFallback = () => {
   return {
     type: BOT_INITIAL_FALLBACK,
-    payload: true
+    payload: true,
   }
 }
 
@@ -112,8 +112,8 @@ export const botUserMessage = (key, interpolation = {}) => {
       timestamp: Date.now(),
       feedbackRelated: true,
       isVisitor: true,
-      message: { key, interpolation }
-    }
+      message: { key, interpolation },
+    },
   }
 }
 
@@ -123,8 +123,8 @@ export const botFeedbackMessage = (key, interpolation = {}) => {
     payload: {
       timestamp: Date.now(),
       feedbackRelated: true,
-      message: { key, interpolation }
-    }
+      message: { key, interpolation },
+    },
   }
 }
 
@@ -132,8 +132,8 @@ export const botTyping = () => {
   return {
     type: BOT_TYPING,
     payload: {
-      timestamp: Date.now()
-    }
+      timestamp: Date.now(),
+    },
   }
 }
 
@@ -141,7 +141,7 @@ export const botContextualSearchResults = () => {
   return {
     type: BOT_CONTEXTUAL_SEARCH_RESULTS,
     payload: {
-      timestamp: Date.now()
-    }
+      timestamp: Date.now(),
+    },
   }
 }

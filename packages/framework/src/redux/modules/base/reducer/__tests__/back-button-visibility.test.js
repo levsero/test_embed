@@ -5,16 +5,16 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(backButtonVisible, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: UPDATE_BACK_BUTTON_VISIBILITY, payload: false },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

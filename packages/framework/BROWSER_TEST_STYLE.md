@@ -125,8 +125,8 @@ We can convert the following snippet:
 <script type="text/javascript">
   window.zESettings = {
     webWidget: {
-      offset: { horizontal: '100px', vertical: '150px' }
-    }
+      offset: { horizontal: '100px', vertical: '150px' },
+    },
   }
 </script>
 <script id="ze-snippet" src="..widget_url"></script>
@@ -144,8 +144,8 @@ await loadWidget()
   .evaluateBeforeSnippetLoads(() => {
     window.zESettings = {
       webWidget: {
-        offset: { horizontal: '100px', vertical: '150px' }
-      }
+        offset: { horizontal: '100px', vertical: '150px' },
+      },
     }
   })
   .evaluateAfterSnippetLoads(() => {

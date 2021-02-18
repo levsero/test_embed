@@ -45,7 +45,7 @@ MessageBubble.propTypes = {
   translatedMessage: PropTypes.string,
   isAgent: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.string),
-  onOptionSelect: PropTypes.func.isRequired
+  onOptionSelect: PropTypes.func.isRequired,
 }
 
 export default MessageBubble

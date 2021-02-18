@@ -6,20 +6,20 @@ export function sendEmailTranscript(email) {
     return new Promise((res, rej) => {
       dispatch({
         type: actions.EMAIL_TRANSCRIPT_REQUEST_SENT,
-        payload: email
+        payload: email,
       })
 
-      zChatWithTimeout(getState, 'sendEmailTranscript')(email, err => {
+      zChatWithTimeout(getState, 'sendEmailTranscript')(email, (err) => {
         if (!err) {
           dispatch({
             type: actions.EMAIL_TRANSCRIPT_SUCCESS,
-            payload: email
+            payload: email,
           })
           res()
         } else {
           dispatch({
             type: actions.EMAIL_TRANSCRIPT_FAILURE,
-            payload: email
+            payload: email,
           })
           rej()
         }

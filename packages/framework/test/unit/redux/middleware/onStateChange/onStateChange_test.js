@@ -88,54 +88,54 @@ describe('onStateChange middleware', () => {
         chatNotificationReset: chatNotificationResetSpy,
         chatStarted: chatStartedSpy,
         endChat: endChatSpy,
-        proactiveMessageReceived: proactiveMessageReceivedSpy
+        proactiveMessageReceived: proactiveMessageReceivedSpy,
       },
       'src/redux/modules/chat/chat-actions/setUpChat': {
-        setUpChat: setUpChatSpy
+        setUpChat: setUpChatSpy,
       },
       'src/redux/modules/chat/chat-actions/getIsChatting': {
-        getIsChatting: getIsChattingSpy
+        getIsChatting: getIsChattingSpy,
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy,
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
-        activateReceived: activateReceivedSpy
+        activateReceived: activateReceivedSpy,
       },
       'service/audio': {
         audio: {
-          play: audioPlaySpy
-        }
+          play: audioPlaySpy,
+        },
       },
       'service/history': historySpy,
       'src/redux/modules/chat/chat-selectors': {
         getConnection: _.identity,
-        getChatMessagesFromAgents: val => {
+        getChatMessagesFromAgents: (val) => {
           if (val) {
             return _.identity(val)
           }
           return []
         },
-        getChatOnline: status => status === 'online',
-        getChatStatus: status => status === 'online',
+        getChatOnline: (status) => status === 'online',
+        getChatStatus: (status) => status === 'online',
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
-        getIsChatting: state => _.get(state, 'isChatting', mockIsChatting),
+        getIsChatting: (state) => _.get(state, 'isChatting', mockIsChatting),
         getActiveAgents: getActiveAgentsSpy,
-        getNotificationCount: array => _.get(_.last(array), 'notificationCount'),
-        getLastReadTimestamp: state => _.get(state, 'lastReadTimestamp'),
+        getNotificationCount: (array) => _.get(_.last(array), 'notificationCount'),
+        getLastReadTimestamp: (state) => _.get(state, 'lastReadTimestamp'),
         hasUnseenAgentMessage: () => mockHasUnseenAgentMessage,
-        getIsLoggingOut: () => mockIsLoggingOut
+        getIsLoggingOut: () => mockIsLoggingOut,
       },
       'src/redux/modules/selectors': {
         getOfflineFormSettings: () => mockOfflineFormSettings,
         getDefaultSelectedDepartment: () => mockDepartment,
         getAnswerBotAvailable: () => mockAnswerBotAvailable,
-        getSubmitTicketAvailable: () => mockSubmitTicketAvailable
+        getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
       },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
         getSettingsMobileNotificationsDisabled: () => mockMobileNotificationsDisabled,
-        getCookiesDisabled: () => mockCookiesDisabled
+        getCookiesDisabled: () => mockCookiesDisabled,
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
@@ -145,35 +145,35 @@ describe('onStateChange middleware', () => {
         CHAT_SOCIAL_LOGIN_SUCCESS: 'CHAT_SOCIAL_LOGIN_SUCCESS',
         SDK_VISITOR_UPDATE: 'SDK_VISITOR_UPDATE',
         CHAT_STARTED: 'CHAT_STARTED',
-        CHAT_CONNECTED: 'CHAT_CONNECTED'
+        CHAT_CONNECTED: 'CHAT_CONNECTED',
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_EMBEDDABLE_CONFIG: 'UPDATE_EMBEDDABLE_CONFIG',
-        UPDATE_ACTIVE_EMBED: 'UPDATE_ACTIVE_EMBED'
+        UPDATE_ACTIVE_EMBED: 'UPDATE_ACTIVE_EMBED',
       },
       'src/redux/modules/settings/settings-action-types': {
-        UPDATE_SETTINGS: 'UPDATE_SETTINGS'
+        UPDATE_SETTINGS: 'UPDATE_SETTINGS',
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
           CONNECTING: 'connecting',
-          CONNECTED: 'connected'
-        }
+          CONNECTED: 'connected',
+        },
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
       'embeds/helpCenter/selectors': {
-        getArticleDisplayed: x => x && x.articleDisplayed,
+        getArticleDisplayed: (x) => x && x.articleDisplayed,
         getHasSearched: () => mockHasSearched,
-        getActiveArticle: () => mockActiveArticle
+        getActiveArticle: () => mockActiveArticle,
       },
       'embeds/helpCenter/routes': {
-        articles: id => `/articles/${id}`
+        articles: (id) => `/articles/${id}`,
       },
       'embeds/chat/selectors': {
-        getUserSoundSettings: () => mockUserSoundSetting
+        getUserSoundSettings: () => mockUserSoundSetting,
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: arg => {
+        getActiveEmbed: (arg) => {
           if (useArg) return arg
           return mockActiveEmbed
         },
@@ -181,38 +181,38 @@ describe('onStateChange middleware', () => {
         getHelpCenterEmbed: () => mockHelpCenterEmbed,
         getHasWidgetShown: () => mockHasWidgetShown,
         getChatEmbed: () => mockChatEnabled,
-        getIPMWidget: () => mockIPMWidget
+        getIPMWidget: () => mockIPMWidget,
       },
       'src/framework/services/persistence': {
         store: {
           get: () => mockStoreValue,
           enable: storeEnableSpy,
-          disable: storeDisableSpy
-        }
+          disable: storeDisableSpy,
+        },
       },
       'src/redux/modules/chat/chat-screen-types': {
-        CHATTING_SCREEN: 'chatting'
+        CHATTING_SCREEN: 'chatting',
       },
       'utility/devices': {
         isMobileBrowser() {
           return mockIsMobileBrowser
-        }
+        },
       },
       'utility/globals': {
         win: mockWin,
-        isPopout: () => mockIsPopout
+        isPopout: () => mockIsPopout,
       },
       'src/redux/middleware/onStateChange/onWidgetOpen': noop,
       'src/redux/middleware/onStateChange/onChatOpen': noop,
       'src/redux/middleware/onStateChange/onChannelChoiceTransition': noop,
       'src/util/nullZChat': {
-        resetShouldWarn: resetShouldWarnSpy
+        resetShouldWarn: resetShouldWarnSpy,
       },
       'src/redux/modules/settings/settings-actions': {
-        updateChatSettings: updateChatSettingsSpy
+        updateChatSettings: updateChatSettingsSpy,
       },
       'src/redux/middleware/onStateChange/onChatConnectionClosed': noop,
-      'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger': noop
+      'src/redux/middleware/onStateChange/onChatConnectOnDemandTrigger': noop,
     })
 
     stateChangeFn = requireUncached(path).default
@@ -240,7 +240,7 @@ describe('onStateChange middleware', () => {
 
         it('does not dispatch the event CHAT_CONNECTED', () => {
           expect(dispatchSpy).not.toHaveBeenCalledWith({
-            type: 'CHAT_CONNECTED'
+            type: 'CHAT_CONNECTED',
           })
         })
 
@@ -297,7 +297,7 @@ describe('onStateChange middleware', () => {
       let nextState = [
         { nick: 'agent', timestamp: 30 },
         { nick: 'agent', timestamp: 60 },
-        { nick: 'agent:007', msg: 'latest', timestamp: 70 }
+        { nick: 'agent:007', msg: 'latest', timestamp: 70 },
       ]
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough()
 
@@ -364,7 +364,7 @@ describe('onStateChange middleware', () => {
               proactive: mockIsProactiveSession,
               nick: 'agent:007',
               msg: 'latest',
-              timestamp: 70
+              timestamp: 70,
             })
           })
 
@@ -514,7 +514,7 @@ describe('onStateChange middleware', () => {
                   nextState = [
                     { nick: 'agent', timestamp: 30 },
                     { nick: 'agent', timestamp: 60 },
-                    { nick: 'agent:007', msg: 'latest', timestamp: 70 }
+                    { nick: 'agent:007', msg: 'latest', timestamp: 70 },
                   ]
                 })
 
@@ -858,7 +858,7 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockIsPopout = true
             stateChangeFn(null, 'offline', {
-              type: actionType
+              type: actionType,
             })
           })
 
@@ -903,17 +903,17 @@ describe('onStateChange middleware', () => {
                 detail: {
                   auth: {
                     avatar$string: avatarPath,
-                    type$string: 'facebook'
-                  }
-                }
-              }
+                    type$string: 'facebook',
+                  },
+                },
+              },
             }
           })
 
           it('calls dispatch with expected args', () => {
             const expected = {
               type: 'CHAT_SOCIAL_LOGIN_SUCCESS',
-              payload: avatarPath
+              payload: avatarPath,
             }
 
             expect(dispatchSpy).toHaveBeenCalledWith(expected)
@@ -930,10 +930,10 @@ describe('onStateChange middleware', () => {
                 detail: {
                   auth: {
                     avatar$string: avatarPath,
-                    type$string: 'zopim'
-                  }
-                }
-              }
+                    type$string: 'zopim',
+                  },
+                },
+              },
             }
           })
 
@@ -953,10 +953,10 @@ describe('onStateChange middleware', () => {
               detail: {
                 auth: {
                   avatar$string: avatarPath,
-                  verified$bool: true
-                }
-              }
-            }
+                  verified$bool: true,
+                },
+              },
+            },
           }
         })
 
@@ -1039,7 +1039,7 @@ describe('onStateChange middleware', () => {
 
           it('does not dispatch the event CHAT_STARTED', () => {
             expect(dispatchSpy).not.toHaveBeenCalledWith({
-              type: 'CHAT_STARTED'
+              type: 'CHAT_STARTED',
             })
           })
 
@@ -1064,11 +1064,11 @@ describe('onStateChange middleware', () => {
                 chat: {
                   embed: 'chat',
                   props: {
-                    color: '#b74a1e'
-                  }
-                }
-              }
-            }
+                    color: '#b74a1e',
+                  },
+                },
+              },
+            },
           }
 
           stateChangeFn(null, null, action)
@@ -1089,11 +1089,11 @@ describe('onStateChange middleware', () => {
                   talk: {
                     embed: 'talk',
                     props: {
-                      color: '#b74a1e'
-                    }
-                  }
-                }
-              }
+                      color: '#b74a1e',
+                    },
+                  },
+                },
+              },
             }
 
             stateChangeFn(null, null, action)
@@ -1113,11 +1113,11 @@ describe('onStateChange middleware', () => {
                   chat: {
                     embed: 'chat',
                     props: {
-                      color: '#b74a1e'
-                    }
-                  }
-                }
-              }
+                      color: '#b74a1e',
+                    },
+                  },
+                },
+              },
             }
 
             stateChangeFn(null, null, action)
@@ -1197,7 +1197,7 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockAction = {
               type: 'UPDATE_SETTINGS',
-              payload: { webWidget: { cookies: false } }
+              payload: { webWidget: { cookies: false } },
             }
 
             stateChangeFn(prevState, null, mockAction)
@@ -1219,7 +1219,7 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockAction = {
               type: 'UPDATE_SETTINGS',
-              payload: { webWidget: { cookies: true } }
+              payload: { webWidget: { cookies: true } },
             }
 
             stateChangeFn(prevState, null, mockAction)

@@ -7,7 +7,7 @@ import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import {
   getAverageWaitTimeString,
-  getEmbeddableConfig
+  getEmbeddableConfig,
 } from 'src/redux/modules/talk/talk-selectors'
 import { Container, TalkIcon, Message, PhoneNumberContainer } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
@@ -39,15 +39,15 @@ PhoneOnlyPage.propTypes = {
   averageWaitTime: PropTypes.string,
   formattedPhoneNumber: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
-  callUsMessage: PropTypes.string.isRequired
+  callUsMessage: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     callUsMessage: i18n.t('embeddable_framework.talk.phoneOnly.new_message'),
     averageWaitTime: getAverageWaitTimeString(state),
     phoneNumber: getEmbeddableConfig(state).phoneNumber,
-    formattedPhoneNumber: getFormattedPhoneNumber(getEmbeddableConfig(state).phoneNumber)
+    formattedPhoneNumber: getFormattedPhoneNumber(getEmbeddableConfig(state).phoneNumber),
   }
 }
 

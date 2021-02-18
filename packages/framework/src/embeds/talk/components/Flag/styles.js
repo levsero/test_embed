@@ -243,7 +243,7 @@ export const flagSpritePositions = {
   yt: '98.75%',
   za: '99.166667%',
   zm: '99.583333%',
-  zw: '100%'
+  zw: '100%',
 }
 
 const FlagIcon = styled.img`
@@ -253,7 +253,7 @@ const FlagIcon = styled.img`
 
   background-size: 100%;
   background-image: url(${__ASSET_BASE_PATH__}/web_widget/static/flags.png);
-  background-position: 0% ${props => flagSpritePositions[props.country.toLowerCase()] || '0%'};
+  background-position: 0% ${(props) => flagSpritePositions[props.country.toLowerCase()] || '0%'};
 
   [dir='ltr'] & {
     margin-right: ${10 / FONT_SIZE}rem;
@@ -265,7 +265,7 @@ const FlagIcon = styled.img`
 `
 
 FlagIcon.propTypes = {
-  country: PropTypes.string.isRequired
+  country: PropTypes.string.isRequired,
 }
 
 export { FlagIcon }

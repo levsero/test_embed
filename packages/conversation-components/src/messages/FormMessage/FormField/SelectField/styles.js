@@ -16,25 +16,25 @@ const Container = styled.div`
 
 const StyledDropdown = styled(Dropdown)`
   &&& {
-    border-color: ${props => props.theme.messenger.colors.action};
+    border-color: ${(props) => props.theme.messenger.colors.action};
   }
 `
 
 const StyledSelect = styled(Select)`
   &&& {
-    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
-    font-size: ${props => props.theme.messenger.fontSizes.md};
-    line-height: ${props => props.theme.messenger.lineHeights.md};
+    border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
+    line-height: ${(props) => props.theme.messenger.lineHeights.md};
     min-height: auto;
 
     svg {
-      height: ${props => props.theme.messenger.space.sixteen};
-      width: ${props => props.theme.messenger.space.sixteen};
-      margin: ${`${props => rem(1, props.theme.messenger.baseFontSize)} 0 auto ${props =>
+      height: ${(props) => props.theme.messenger.space.sixteen};
+      width: ${(props) => props.theme.messenger.space.sixteen};
+      margin: ${`${(props) => rem(1, props.theme.messenger.baseFontSize)} 0 auto ${(props) =>
         rem(8, props.theme.messenger.baseFontSize)}`};
     }
 
-    ${props =>
+    ${(props) =>
       props.validation === undefined &&
       `
         &:hover,
@@ -57,11 +57,13 @@ const StyledSelect = styled(Select)`
           box-shadow: ${props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.45))};
         }
 
-        ${props.isOpen &&
+        ${
+          props.isOpen &&
           `
           border: ${props.theme.borders.sm} ${props.theme.messenger.colors.action};
           box-shadow: ${props.theme.shadows.md(rgba(props.theme.messenger.colors.action, 0.35))};
-        `}
+        `
+        }
       `}
   }
 `
@@ -72,16 +74,16 @@ const StyledItem = styled(Item)`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: ${props => props.theme.messenger.space.xs}
-      ${props => rem(36, props.theme.messenger.baseFontSize)};
-    line-height: ${props => props.theme.messenger.lineHeights.md};
-    font-size: ${props => props.theme.messenger.fontSizes.md};
-    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
-    margin-left: ${props => props.theme.messenger.space.xs};
-    margin-right: ${props => props.theme.messenger.space.xs};
+    padding: ${(props) => props.theme.messenger.space.xs}
+      ${(props) => rem(36, props.theme.messenger.baseFontSize)};
+    line-height: ${(props) => props.theme.messenger.lineHeights.md};
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
+    border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
+    margin-left: ${(props) => props.theme.messenger.space.xs};
+    margin-right: ${(props) => props.theme.messenger.space.xs};
 
     &:first-child {
-      margin-top: ${props => props.theme.messenger.space.xxs};
+      margin-top: ${(props) => props.theme.messenger.space.xxs};
     }
 
     &:hover,
@@ -89,20 +91,20 @@ const StyledItem = styled(Item)`
     &:active,
     &[aria-selected='true'],
     &[data-garden-focus-visible] {
-      background-color: ${props => rgba(props.theme.messenger.colors.action, 0.08)};
+      background-color: ${(props) => rgba(props.theme.messenger.colors.action, 0.08)};
     }
   }
 `
 
 const StyledLabel = styled(Label)`
   &&& {
-    font-size: ${props => props.theme.messenger.fontSizes.md};
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
   }
 `
 
 const StyledMenu = styled(Menu)`
   &&& {
-    border-radius: ${props => props.theme.messenger.borderRadii.textMessage};
+    border-radius: ${(props) => props.theme.messenger.borderRadii.textMessage};
   }
 `
 export {
@@ -111,5 +113,5 @@ export {
   StyledItem as Item,
   StyledLabel as Label,
   StyledMenu as Menu,
-  Container
+  Container,
 }

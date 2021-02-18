@@ -2,11 +2,11 @@ import {
   updateTalkEmbeddableConfig,
   updateTalkAgentAvailability,
   updateTalkAverageWaitTime,
-  talkDisconnect
+  talkDisconnect,
 } from 'src/redux/modules/talk'
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
-  socket.on('socket.embeddableConfig', config => {
+  socket.on('socket.embeddableConfig', (config) => {
     reduxStore.dispatch(updateTalkEmbeddableConfig(config))
   })
 
@@ -16,13 +16,13 @@ export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
 }
 
 export function talkAgentAvailabilityEventToAction(socket, reduxStore) {
-  socket.on('socket.availability', availabilityPayload => {
+  socket.on('socket.availability', (availabilityPayload) => {
     reduxStore.dispatch(updateTalkAgentAvailability(availabilityPayload))
   })
 }
 
 export function talkAverageWaitTimeEventToAction(socket, reduxStore) {
-  socket.on('socket.waitTimeChange', averageWaitTimePayload => {
+  socket.on('socket.waitTimeChange', (averageWaitTimePayload) => {
     reduxStore.dispatch(updateTalkAverageWaitTime(averageWaitTimePayload))
   })
 }

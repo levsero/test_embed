@@ -33,11 +33,11 @@ export class ColorMixer {
     return this.baseColor.hex()
   }
 
-  isAlmostWhite = color => {
+  isAlmostWhite = (color) => {
     return this._isAlmostWhite(generateColor(color))
   }
 
-  highlight = colorStr => {
+  highlight = (colorStr) => {
     const color = generateColor(colorStr)
     const highlighted = this._highlightColor(color)
 
@@ -62,49 +62,49 @@ export class ColorMixer {
     return this.listColor.hex()
   }
 
-  uiElementColorFrom = colorStr => {
+  uiElementColorFrom = (colorStr) => {
     const color = generateColor(colorStr)
 
     return this._uiElementColor(color).hex()
   }
 
-  foregroundColorFrom = colorStr => {
+  foregroundColorFrom = (colorStr) => {
     const color = generateColor(colorStr)
 
     return this._foregroundColor(color).hex()
   }
 
-  _uiElementColor = color => {
+  _uiElementColor = (color) => {
     return !this._isLight(color) ? color : this._accentuate(color)
   }
 
-  _buttonColor = color => {
+  _buttonColor = (color) => {
     return this._isAlmostWhite(color) ? generateColor(zdColorGrey800) : color
   }
 
-  _iconColor = color => {
+  _iconColor = (color) => {
     return this._isAlmostWhite(color) ? generateColor(zdColorGrey500) : color
   }
 
-  _listColor = color => {
+  _listColor = (color) => {
     return !this._isLight(color) && this._meetsAccessibilityRequirement(color, this.white)
       ? color
       : this._accentuate(color)
   }
 
-  _foregroundColor = color => {
+  _foregroundColor = (color) => {
     return !this._isLight(color) && this._meetsAccessibilityRequirement(color, this.white)
       ? this.white
       : this._accentuate(color)
   }
 
-  _highlightColor = color => {
+  _highlightColor = (color) => {
     const value = ColorMixer.highlightBy
 
     return this._isLight(color) ? color.darken(value.dark) : color.lighten(value.light)
   }
 
-  _accentuate = color => {
+  _accentuate = (color) => {
     if (this.accents[color.hex()]) return this.accents[color.hex()]
 
     let tentativeAccentuate = color
@@ -127,7 +127,7 @@ export class ColorMixer {
     return color.level(inContrastTo).substring(0, 2) === 'AA'
   }
 
-  _isAlmostWhite = color => {
+  _isAlmostWhite = (color) => {
     return this._isLight(color, ColorMixer.almostWhiteYIQ)
   }
 

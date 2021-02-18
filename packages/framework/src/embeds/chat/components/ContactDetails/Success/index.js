@@ -10,7 +10,7 @@ const ContactDetailsSuccess = () => {
       type="success"
       role="alert"
       tabIndex={0}
-      ref={ref => {
+      ref={(ref) => {
         setTimeout(() => {
           ref?.focus()
         }, 0)

@@ -4,7 +4,7 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 import { testReducer } from 'src/util/testHelpers'
 
 describe('settings reducer', () => {
-  const expectedState = updatedState => ({
+  const expectedState = (updatedState) => ({
     launcher: '',
     launcherText: '',
     theme: null,
@@ -12,15 +12,15 @@ describe('settings reducer', () => {
     resultLists: '',
     header: '',
     articleLinks: '',
-    ...updatedState
+    ...updatedState,
   })
 
-  const payload = settings => ({
+  const payload = (settings) => ({
     webWidget: {
       color: {
-        ...settings
-      }
-    }
+        ...settings,
+      },
+    },
   })
 
   const happyPathSettings = {
@@ -30,134 +30,134 @@ describe('settings reducer', () => {
     button: '#555555',
     resultLists: '#22eeff',
     header: '#ff0000',
-    articleLinks: '#443356'
+    articleLinks: '#443356',
   }
 
   testReducer(reducer, [
     {
       extraDesc: 'default values',
       action: { type: undefined },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'happy path',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload(happyPathSettings)
+        payload: payload(happyPathSettings),
       },
-      expected: expectedState(happyPathSettings)
+      expected: expectedState(happyPathSettings),
     },
     {
       extraDesc: 'numbers allowed, coerced to string with prepended hash',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: 112245 })
+        payload: payload({ launcher: 112245 }),
       },
-      expected: expectedState({ launcher: '#112245' })
+      expected: expectedState({ launcher: '#112245' }),
     },
     {
       extraDesc: 'hex string without "#" allowed, "#" added',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: 'ff45ee' })
+        payload: payload({ launcher: 'ff45ee' }),
       },
-      expected: expectedState({ launcher: '#ff45ee' })
+      expected: expectedState({ launcher: '#ff45ee' }),
     },
     {
       extraDesc: 'caps allowed',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: 'FF45EE' })
+        payload: payload({ launcher: 'FF45EE' }),
       },
-      expected: expectedState({ launcher: '#FF45EE' })
+      expected: expectedState({ launcher: '#FF45EE' }),
     },
     {
       extraDesc: 'three char hex allowed',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: 'FFF' })
+        payload: payload({ launcher: 'FFF' }),
       },
-      expected: expectedState({ launcher: '#FFF' })
+      expected: expectedState({ launcher: '#FFF' }),
     },
     {
       extraDesc: 'hex string with too many "#", fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: '##ff45ee' })
+        payload: payload({ launcher: '##ff45ee' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'invalid hex with "#", fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: '#aaddzz' })
+        payload: payload({ launcher: '#aaddzz' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'invalid hex without "#", fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: 'aaddzz' })
+        payload: payload({ launcher: 'aaddzz' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'valid hex with < 3 chars, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: '#EE' })
+        payload: payload({ launcher: '#EE' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'valid hex with > 6 chars, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: '#1233459' })
+        payload: payload({ launcher: '#1233459' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'valid hex with 3 < chars < 6, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: '#1337' })
+        payload: payload({ launcher: '#1337' }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'bad data, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: true })
+        payload: payload({ launcher: true }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'bad data, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: NaN })
+        payload: payload({ launcher: NaN }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'bad data, fall back to current state',
       action: {
         type: UPDATE_SETTINGS,
-        payload: payload({ launcher: { foo: 'bar' } })
+        payload: payload({ launcher: { foo: 'bar' } }),
       },
-      expected: expectedState()
+      expected: expectedState(),
     },
     {
       extraDesc: 'wrong action, fall back to current state',
       action: {
         type: 'DERP DERP',
-        payload: payload({ launcher: '#112234' })
+        payload: payload({ launcher: '#112234' }),
       },
-      expected: expectedState()
-    }
+      expected: expectedState(),
+    },
   ])
 })

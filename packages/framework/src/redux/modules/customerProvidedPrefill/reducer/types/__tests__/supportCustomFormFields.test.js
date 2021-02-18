@@ -4,7 +4,7 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 
 const initialState = {
   values: {},
-  timestamp: 0
+  timestamp: 0,
 }
 
 beforeEach(() => {
@@ -15,7 +15,7 @@ testReducer(supportCustomFormFields, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
@@ -31,22 +31,22 @@ testReducer(supportCustomFormFields, [
                   {
                     id: 'name',
                     prefill: {
-                      '*': 'Fallback name'
-                    }
+                      '*': 'Fallback name',
+                    },
                   },
                   {
                     id: 'description',
                     prefill: {
                       '*': 'Fallback description',
-                      fr: 'French description'
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
+                      fr: 'French description',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
     },
     expected: {
       timestamp: 12345,
@@ -54,13 +54,13 @@ testReducer(supportCustomFormFields, [
         123: {
           '*': {
             name: 'Fallback name',
-            description: 'Fallback description'
+            description: 'Fallback description',
           },
           fr: {
-            description: 'French description'
-          }
-        }
-      }
-    }
-  }
+            description: 'French description',
+          },
+        },
+      },
+    },
+  },
 ])

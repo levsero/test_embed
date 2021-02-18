@@ -22,13 +22,13 @@ const ClearInputButton = styled(IconButton)`
     }
 
     &&:focus {
-      box-shadow: 0 0 0 ${props => 3 / props.theme.fontSize}rem rgba(153, 153, 153, 0.4) !important;
+      box-shadow: 0 0 0 ${(props) => 3 / props.theme.fontSize}rem rgba(153, 153, 153, 0.4) !important;
     }
   }
 `
 
 const LoadingDots = styled(Dots)`
-  color: ${props => props.theme.baseColor} !important;
+  color: ${(props) => props.theme.baseColor} !important;
   width: 1rem !important;
   max-height: 1rem !important;
 `

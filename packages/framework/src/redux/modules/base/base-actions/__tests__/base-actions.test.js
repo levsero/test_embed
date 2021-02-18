@@ -15,14 +15,14 @@ jest.mock('service/api/callbacks')
 const mockState = {
   chat: {
     accountSettings: {
-      prechatForm: false
-    }
-  }
+      prechatForm: false,
+    },
+  },
 }
 
 const mockStore = configureMockStore([thunk])
 
-const dispatchAction = action => {
+const dispatchAction = (action) => {
   const store = mockStore(mockState)
 
   store.dispatch(action)
@@ -120,7 +120,7 @@ describe('apiClearForm', () => {
 
     expect(dispatchedActions).toEqual([
       { type: actionTypes.API_CLEAR_FORM, payload: { timestamp: mockTimestamp } },
-      { type: ATTACHMENTS_CLEARED }
+      { type: ATTACHMENTS_CLEARED },
     ])
   })
 })

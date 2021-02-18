@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -22,14 +22,14 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       webWidget: {
         answerBot: {
           title: {
-            '*': 'blah'
-          }
-        }
-      }
+            '*': 'blah',
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({
-      '*': 'blah'
+      '*': 'blah',
     })
   })
 })

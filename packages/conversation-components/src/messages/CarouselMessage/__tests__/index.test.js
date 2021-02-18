@@ -15,9 +15,9 @@ describe('CarouselMessage', () => {
           {
             _id: 'item-1-action-1',
             uri: 'https://www.example.com/1',
-            text: 'Item 1 action 1'
-          }
-        ]
+            text: 'Item 1 action 1',
+          },
+        ],
       },
       {
         _id: 'item-2',
@@ -27,13 +27,13 @@ describe('CarouselMessage', () => {
           {
             _id: 'item-2-action-1',
             uri: 'https://www.example.com/2',
-            text: 'Item 2 action 1'
-          }
-        ]
-      }
+            text: 'Item 2 action 1',
+          },
+        ],
+      },
     ],
     label: 'Some name',
-    avatar: 'www.example.com/cat.jpg'
+    avatar: 'www.example.com/cat.jpg',
   }
 
   const renderComponent = (props = {}) => render(<CarouselMessage {...defaultProps} {...props} />)

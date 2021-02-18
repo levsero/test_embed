@@ -5,5 +5,5 @@ import enabled from './preview-enabled'
 
 export default combineReducers({
   choice,
-  enabled
+  enabled,
 })

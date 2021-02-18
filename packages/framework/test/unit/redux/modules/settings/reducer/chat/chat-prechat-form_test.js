@@ -31,7 +31,7 @@ describe('settings chat prechat form', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SETTINGS,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -39,15 +39,15 @@ describe('settings chat prechat form', () => {
         beforeAll(() => {
           mockState = {
             departmentLabel: 'cool department',
-            greeting: 'konichiha'
+            greeting: 'konichiha',
           }
 
           payload = {
             webWidget: {
               chat: {
-                prechatForm: mockState
-              }
-            }
+                prechatForm: mockState,
+              },
+            },
           }
         })
 
@@ -60,8 +60,8 @@ describe('settings chat prechat form', () => {
         beforeAll(() => {
           payload = {
             webWidget: {
-              yeah: 'nah'
-            }
+              yeah: 'nah',
+            },
           }
         })
 

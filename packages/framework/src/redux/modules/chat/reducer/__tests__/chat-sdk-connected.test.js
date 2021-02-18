@@ -5,18 +5,18 @@ let hasSdkConnected = require('../chat-sdk-connected').default
 
 testReducer(hasSdkConnected, [
   {
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: actions.CHAT_CONNECTED
+      type: actions.CHAT_CONNECTED,
     },
-    expected: true
+    expected: true,
   },
   {
     action: {
-      type: 'random_event'
+      type: 'random_event',
     },
-    expected: false
-  }
+    expected: false,
+  },
 ])

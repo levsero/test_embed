@@ -15,17 +15,17 @@ const chatMessage = PropTypes.shape({
     mime_type: PropTypes.string, // eslint-disable-line camelcase
     name: PropTypes.string,
     size: PropTypes.number,
-    url: PropTypes.string
-  })
+    url: PropTypes.string,
+  }),
 })
 
 const chatLogEntry = PropTypes.shape({
   type: PropTypes.oneOf(['message', 'event']).isRequired,
   author: PropTypes.string.isRequired,
-  messages: PropTypes.arrayOf(PropTypes.number)
+  messages: PropTypes.arrayOf(PropTypes.number),
 })
 
 export default {
   chatMessage,
-  chatLogEntry
+  chatLogEntry,
 }

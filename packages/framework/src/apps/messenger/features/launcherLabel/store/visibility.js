@@ -8,14 +8,14 @@ export const launcherLabelStorageKey = 'launcherLabelRemoved'
 
 const initialiseLauncherLabel = createAction('initialiseLauncherLabel', () => ({
   payload: {
-    hasBeenClosed: Boolean(persistence.get(launcherLabelStorageKey))
-  }
+    hasBeenClosed: Boolean(persistence.get(launcherLabelStorageKey)),
+  },
 }))
 
 const launcherLabelVisibility = createSlice({
   name: 'launcherLabelVisibility',
   initialState: {
-    hasBeenClosed: false
+    hasBeenClosed: false,
   },
   reducers: {
     labelHidden(state) {
@@ -24,18 +24,18 @@ const launcherLabelVisibility = createSlice({
       try {
         persistence.set(launcherLabelStorageKey, true)
       } catch {}
-    }
+    },
   },
   extraReducers: {
     [initialiseLauncherLabel](state, action) {
       state.hasBeenClosed = Boolean(action.payload.hasBeenClosed)
-    }
-  }
+    },
+  },
 })
 
 const { labelHidden } = launcherLabelVisibility.actions
 
-const getIsLauncherLabelVisible = state => {
+const getIsLauncherLabelVisible = (state) => {
   const isWidgetOpen = getIsWidgetOpen(state)
 
   if (isWidgetOpen) {

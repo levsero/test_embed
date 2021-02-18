@@ -9,7 +9,7 @@ const filteredFormsToDisplay = (state = initialState, action) => {
 
       if (ticketForms !== undefined && Array.isArray(ticketForms)) {
         return ticketForms
-          .map(form => {
+          .map((form) => {
             return parseInt(form?.id, 10)
           })
           .filter(Boolean)

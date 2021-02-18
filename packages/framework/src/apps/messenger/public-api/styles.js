@@ -11,7 +11,7 @@ const defaultStyles = {
     lg: rem(DEFAULT_THEME.fontSizes.lg, baseFontSize),
     xl: rem(DEFAULT_THEME.fontSizes.xl, baseFontSize),
     xxl: rem(DEFAULT_THEME.fontSizes.xxl, baseFontSize),
-    xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, baseFontSize)
+    xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, baseFontSize),
   },
   space: {
     xxxs: rem('2px', baseFontSize),
@@ -23,15 +23,15 @@ const defaultStyles = {
     lg: rem(DEFAULT_THEME.space.lg, baseFontSize),
     xl: rem(DEFAULT_THEME.space.xl, baseFontSize),
     xxl: rem(DEFAULT_THEME.space.xxl, baseFontSize),
-    xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize)
+    xxxl: rem(DEFAULT_THEME.space.xxxl, baseFontSize),
   },
   lineHeights: {
     sm: rem(DEFAULT_THEME.lineHeights.sm, baseFontSize),
     md: rem(DEFAULT_THEME.lineHeights.md, baseFontSize),
     lg: rem(DEFAULT_THEME.lineHeights.lg, baseFontSize),
     xl: rem(DEFAULT_THEME.lineHeights.xl, baseFontSize),
-    xxl: rem(DEFAULT_THEME.lineHeights.xxl, baseFontSize)
-  }
+    xxl: rem(DEFAULT_THEME.lineHeights.xxl, baseFontSize),
+  },
 }
 
 const fullScreenBaseFontSize = 14
@@ -45,7 +45,7 @@ const fullScreenStyles = {
     lg: rem(DEFAULT_THEME.fontSizes.lg, fullScreenBaseFontSize),
     xl: rem(DEFAULT_THEME.fontSizes.xl, fullScreenBaseFontSize),
     xxl: rem(DEFAULT_THEME.fontSizes.xxl, fullScreenBaseFontSize),
-    xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, fullScreenBaseFontSize)
+    xxxl: rem(DEFAULT_THEME.fontSizes.xxxl, fullScreenBaseFontSize),
   },
   space: {
     xxxs: rem('2px', fullScreenBaseFontSize),
@@ -57,21 +57,21 @@ const fullScreenStyles = {
     lg: rem(DEFAULT_THEME.space.lg, fullScreenBaseFontSize),
     xl: rem(DEFAULT_THEME.space.xl, fullScreenBaseFontSize),
     xxl: rem(DEFAULT_THEME.space.xxl, fullScreenBaseFontSize),
-    xxxl: rem(DEFAULT_THEME.space.xxxl, fullScreenBaseFontSize)
+    xxxl: rem(DEFAULT_THEME.space.xxxl, fullScreenBaseFontSize),
   },
   lineHeights: {
     sm: rem(DEFAULT_THEME.lineHeights.sm, fullScreenBaseFontSize),
     md: rem(DEFAULT_THEME.lineHeights.md, fullScreenBaseFontSize),
     lg: rem(DEFAULT_THEME.lineHeights.lg, fullScreenBaseFontSize),
     xl: rem(DEFAULT_THEME.lineHeights.xl, fullScreenBaseFontSize),
-    xxl: rem(DEFAULT_THEME.lineHeights.xxl, fullScreenBaseFontSize)
+    xxl: rem(DEFAULT_THEME.lineHeights.xxl, fullScreenBaseFontSize),
   },
   iconSizes: {
     sm: rem(DEFAULT_THEME.iconSizes.sm, fullScreenBaseFontSize),
     md: rem(DEFAULT_THEME.iconSizes.md, fullScreenBaseFontSize),
     lg: rem(DEFAULT_THEME.iconSizes.lg, fullScreenBaseFontSize),
-    xl: rem('32px', fullScreenBaseFontSize)
-  }
+    xl: rem('32px', fullScreenBaseFontSize),
+  },
 }
 
 export { defaultStyles, fullScreenStyles }

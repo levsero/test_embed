@@ -9,7 +9,7 @@ import {
   Label,
   Field,
   Hint,
-  Message
+  Message,
 } from '@zendeskgarden/react-dropdowns'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 import { useCurrentFrame } from 'src/framework/components/Frame'
@@ -28,10 +28,10 @@ const useDropdownTree = (items = []) => {
     tree.set(rootId, {
       id: rootId,
       name: '',
-      children: []
+      children: [],
     })
 
-    items.forEach(item => {
+    items.forEach((item) => {
       // Nested fields are defined as parent::child, so split the value into its different parts
       const parts = item.name.split('::')
 
@@ -53,7 +53,7 @@ const useDropdownTree = (items = []) => {
             parent: parentId,
             children: [],
             value: item.value,
-            disabled: item.disabled
+            disabled: item.disabled,
           })
         }
 
@@ -73,12 +73,12 @@ const useDropdownTree = (items = []) => {
   return {
     view: tree.get(currentViewId),
     open: setViewId,
-    getItem: id => {
+    getItem: (id) => {
       return tree.get(id)
     },
     isRoot: () => {
       return currentViewId === rootId
-    }
+    },
   }
 }
 
@@ -90,7 +90,7 @@ const Dropdown = ({
   onChange,
   theme,
   isReadOnly,
-  isPreview
+  isPreview,
 }) => {
   const { view, open, getItem, isRoot } = useDropdownTree(field.options)
   const [isOpen, setIsOpen] = useState(false)
@@ -104,7 +104,7 @@ const Dropdown = ({
   return (
     <div
       role="presentation"
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === 'Escape' && isOpen) {
           e.stopPropagation()
         }
@@ -115,9 +115,9 @@ const Dropdown = ({
         selectedItem={value}
         isOpen={isOpen}
         downshiftProps={{
-          environment: frame.window
+          environment: frame.window,
         }}
-        onStateChange={state => {
+        onStateChange={(state) => {
           if (state.selectedItem) {
             // When the empty option is clicked
             if (state.selectedItem === emptyId) {
@@ -178,7 +178,7 @@ const Dropdown = ({
 
           {Boolean(isRoot() && !field.required) && <Item value={emptyId}>-</Item>}
 
-          {view.children.map(itemId => {
+          {view.children.map((itemId) => {
             const item = getItem(itemId)
 
             if (!item) {
@@ -220,19 +220,19 @@ Dropdown.propTypes = {
       PropTypes.shape({
         name: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
       })
-    )
+    ),
   }),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   errorMessageKey: PropTypes.number,
   theme: PropTypes.shape({
-    fontSize: PropTypes.number
+    fontSize: PropTypes.number,
   }),
   isReadOnly: PropTypes.bool,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
 }
 
 export default withTheme(Dropdown)

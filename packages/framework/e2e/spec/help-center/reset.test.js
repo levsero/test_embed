@@ -14,10 +14,7 @@ const assertInputEmpty = async () => {
 
 describe('without contextual help', () => {
   test('resets the widget to pill state', async () => {
-    await loadWidget()
-      .intercept(mockSearchEndpoint())
-      .withPresets('helpCenter')
-      .load()
+    await loadWidget().intercept(mockSearchEndpoint()).withPresets('helpCenter').load()
     await widget.openByKeyboard()
     await waitForHelpCenter()
     await search('hello world')

@@ -9,11 +9,11 @@ const handleArticleViewSpy = jest.fn()
 const article1 = { id: 1, title: 'hello darkness', body: 'my old friend' }
 const article2 = { id: 2, title: 'Hamlet', body: 'Alas, poor Yorrick!' }
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     handleArticleView: handleArticleViewSpy,
     articles: [article1, article2],
-    ...inProps
+    ...inProps,
   }
 
   return render(

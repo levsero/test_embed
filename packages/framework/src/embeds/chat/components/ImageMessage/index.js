@@ -37,13 +37,13 @@ const ImageMessage = ({ placeholderEl, onImageLoad, file }) => {
 }
 
 Image.propTypes = {
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
 }
 
 ImageMessage.propTypes = {
   placeholderEl: PropTypes.element,
   onImageLoad: PropTypes.func.isRequired,
-  file: sharedPropTypes.file.isRequired
+  file: sharedPropTypes.file.isRequired,
 }
 
 export default ImageMessage

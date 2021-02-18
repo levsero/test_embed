@@ -16,12 +16,12 @@ describe('updateSettings', () => {
         actions.updateSettings({
           webWidget: {
             authenticate: {
-              chat: { jwtFn }
+              chat: { jwtFn },
             },
             chat: {
-              suppress: true
-            }
-          }
+              suppress: true,
+            },
+          },
         })
       )
 
@@ -39,9 +39,9 @@ describe('updateSettings', () => {
         actions.updateSettings({
           webWidget: {
             chat: {
-              suppress: true
-            }
-          }
+              suppress: true,
+            },
+          },
         })
       )
 
@@ -57,22 +57,22 @@ describe('updateSettings', () => {
       payload: {
         webWidget: {
           chat: {
-            suppress: true
-          }
-        }
-      }
+            suppress: true,
+          },
+        },
+      },
     })
   })
 
   test('updates chat settings when chat is connected', () => {
     const zChat = mockZChatVendor({
-      setVisitorDefaultDepartment: jest.fn()
+      setVisitorDefaultDepartment: jest.fn(),
     })
     const state = initialState()
     state.chat.connection = CONNECTION_STATUSES.CONNECTED
     state.chat.departments = {
-      '1': { id: '1', name: 'one' },
-      '2': { id: '2', name: 'two' }
+      1: { id: '1', name: 'one' },
+      2: { id: '2', name: 'two' },
     }
     state.settings.chat.departments.select = 'two'
 
@@ -86,12 +86,12 @@ describe('updateChatSettings', () => {
   describe('setVisitorDefaultDepartment', () => {
     it('calls zChat when department is selected in settings', () => {
       const zChat = mockZChatVendor({
-        setVisitorDefaultDepartment: jest.fn()
+        setVisitorDefaultDepartment: jest.fn(),
       })
       const state = initialState()
       state.chat.departments = {
-        '1': { id: '1', name: 'one' },
-        '2': { id: '2', name: 'two' }
+        1: { id: '1', name: 'one' },
+        2: { id: '2', name: 'two' },
       }
       state.settings.chat.departments.select = 'two'
       const store = createMockStore(state)
@@ -104,7 +104,7 @@ describe('updateChatSettings', () => {
     it('updates chat tags when the tags change', () => {
       const zChat = mockZChatVendor({
         addTags: jest.fn(),
-        removeTags: jest.fn()
+        removeTags: jest.fn(),
       })
       const state = initialState()
       state.settings.chat.tags = ['two', 'three']
@@ -117,7 +117,7 @@ describe('updateChatSettings', () => {
     it('only removes and adds what was changed', () => {
       const zChat = mockZChatVendor({
         addTags: jest.fn(),
-        removeTags: jest.fn()
+        removeTags: jest.fn(),
       })
       const state = initialState()
       state.settings.chat.tags = ['two', 'three']

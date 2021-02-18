@@ -12,9 +12,9 @@ import { Icon } from 'component/Icon'
 import { getSliderVendor } from 'src/redux/modules/chat/chat-selectors'
 import { win } from 'utility/globals'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    slider: getSliderVendor(state)
+    slider: getSliderVendor(state),
   }
 }
 
@@ -31,7 +31,7 @@ export class SliderContainer extends Component {
     className: PropTypes.string,
     onClick: PropTypes.func,
     slider: PropTypes.func,
-    arrows: PropTypes.bool
+    arrows: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -40,7 +40,7 @@ export class SliderContainer extends Component {
     infinite: false,
     slidesToScroll: 1,
     slidesToShow: 1,
-    arrows: true
+    arrows: true,
   }
 
   constructor(props) {
@@ -136,7 +136,7 @@ export class SliderContainer extends Component {
     this.pages.push({
       canGoToPrevPage: false,
       canGoToNextPage: true,
-      cssTransformVal: 0
+      cssTransformVal: 0,
     })
 
     for (let itemIndex = 0; itemIndex < this.props.children.length; itemIndex++) {
@@ -152,7 +152,7 @@ export class SliderContainer extends Component {
         this.pages.push({
           canGoToPrevPage: true,
           canGoToNextPage: true,
-          cssTransformVal: prevSiblingsWidth
+          cssTransformVal: prevSiblingsWidth,
         })
 
         currPageWidth = itemWidth
@@ -167,7 +167,7 @@ export class SliderContainer extends Component {
     lastPage.cssTransformVal = prevSiblingsWidth - windowWidth
   }
 
-  goTo = pageIndex => {
+  goTo = (pageIndex) => {
     if (
       pageIndex === this.currentPageIndex ||
       this.isAnimating ||
@@ -194,7 +194,7 @@ export class SliderContainer extends Component {
     this.currentPageIndex = pageIndex
   }
 
-  updateSliderArrows = pageIndex => {
+  updateSliderArrows = (pageIndex) => {
     const { canGoToPrevPage, canGoToNextPage } = this.pages[pageIndex]
 
     if (canGoToPrevPage) {
@@ -232,7 +232,7 @@ export class SliderContainer extends Component {
     const pills = React.Children.map(this.props.children, (child, index) => {
       return React.cloneElement(child, {
         className: classNames(child.props.className, styles.item),
-        ref: el => {
+        ref: (el) => {
           this[`child${index}`] = ReactDOM.findDOMNode(el)
         },
         onMouseDown: () => {
@@ -258,11 +258,11 @@ export class SliderContainer extends Component {
         },
         onBlur: () => {
           this.isFocused = false
-        }
+        },
       })
     })
 
-    const NextArrow = props => {
+    const NextArrow = (props) => {
       const { className, onClick } = props
 
       return (
@@ -275,7 +275,7 @@ export class SliderContainer extends Component {
         </IconButton>
       )
     }
-    const PrevArrow = props => {
+    const PrevArrow = (props) => {
       const { className, onClick } = props
 
       return (
@@ -298,13 +298,13 @@ export class SliderContainer extends Component {
       draggable: false,
       arrows: this.props.arrows,
       nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />
+      prevArrow: <PrevArrow />,
     }
 
     return (
       <Slider
         {...sliderSettings}
-        ref={el => {
+        ref={(el) => {
           this.slider = el
         }}
         className={this.props.variableWidth ? 'variableWidth' : ''}
@@ -350,7 +350,7 @@ function getParent(ele, className, found = false, limit = 10) {
  * Find immediate child
  */
 function getChild(ele, className) {
-  return _.find(ele.children, child => child.classList.contains(className))
+  return _.find(ele.children, (child) => child.classList.contains(className))
 }
 
 /**
@@ -373,9 +373,4 @@ function calculateChildWidth(child) {
   return slickSlideEle.clientWidth + getComputedStyle(slickSlideEle, 'margin-right', true)
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-  null,
-  { forwardRef: true }
-)(SliderContainer)
+export default connect(mapStateToProps, null, null, { forwardRef: true })(SliderContainer)

@@ -40,7 +40,7 @@ const renderComponent = (inProps, rerender) => {
     updateChatScreen: updateChatScreenSpy,
     updateContactDetailsVisibility: updateContactDetailsVisibilitySpy,
     updateEmailTranscriptVisibility: jest.fn(),
-    ...inProps
+    ...inProps,
   }
 
   const component = <ChattingPage {...props} />
@@ -61,7 +61,7 @@ describe('Queue Position', () => {
       it('does not render the QueuePosition component', () => {
         const { queryByText } = renderComponent({
           queuePosition: 0,
-          activeAgents: {}
+          activeAgents: {},
         })
 
         expect(queryByText('Queue position: ')).toBeNull()
@@ -73,7 +73,7 @@ describe('Queue Position', () => {
     it('does not render the QueuePosition component', () => {
       const { queryByText } = renderComponent({
         activeAgents: { agent123456: { display_name: 'Wayne', typing: false } },
-        queuePosition: 1
+        queuePosition: 1,
       })
 
       expect(queryByText('Queue position: 1')).toBeNull()
@@ -93,7 +93,7 @@ describe('Scroll Pill', () => {
   describe('when notificationCount is zero', () => {
     it('does not render the scroll pill', () => {
       const { queryByTestId } = renderComponent({
-        notificationCount: 0
+        notificationCount: 0,
       })
 
       expect(queryByTestId(TEST_IDS.ICON_ARROW_DOWN)).toBeNull()
@@ -103,7 +103,7 @@ describe('Scroll Pill', () => {
   describe('when scroll is near bottom', () => {
     it('does not render the scroll pill', () => {
       const { queryByText, queryByTestId, rerender } = renderComponent({
-        notificationCount: 1
+        notificationCount: 1,
       })
 
       renderComponent({ notificationCount: 1 }, rerender)
@@ -117,7 +117,7 @@ describe('Scroll Pill', () => {
     describe('and scroll is not near bottom', () => {
       it('renders the scroll pill', () => {
         const { getByText, getByTestId } = renderComponent({
-          notificationCount: 1
+          notificationCount: 1,
         })
 
         expect(getByText('1 new message')).toBeInTheDocument()
@@ -128,7 +128,7 @@ describe('Scroll Pill', () => {
       describe('on click', () => {
         it('fires markAsRead', () => {
           const { getByText } = renderComponent({
-            notificationCount: 1
+            notificationCount: 1,
           })
           fireEvent.click(getByText('1 new message'))
 

@@ -13,14 +13,14 @@ const { LINK_ACTION } = CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
 
 const PanelActionPropType = PropTypes.shape({
   type: PropTypes.oneOf([LINK_ACTION]).isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 })
 
 const PanelPropType = PropTypes.shape({
   heading: PropTypes.string.isRequired,
   paragraph: PropTypes.string,
   image_url: PropTypes.string,
-  action: PanelActionPropType
+  action: PanelActionPropType,
 })
 
 export class PanelCard extends Component {
@@ -28,17 +28,17 @@ export class PanelCard extends Component {
     ...PanelCard.schemaPropTypes,
     createAction: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    inCarousel: PropTypes.bool
+    inCarousel: PropTypes.bool,
   }
 
   static defaultProps = {
     buttons: [],
-    inCarousel: false
+    inCarousel: false,
   }
 
   static schemaPropTypes = {
     panel: PanelPropType,
-    buttons: PropTypes.arrayOf(ButtonSchemaPropType)
+    buttons: PropTypes.arrayOf(ButtonSchemaPropType),
   }
 
   render() {
@@ -53,12 +53,12 @@ export class PanelCard extends Component {
     const panelProp = {
       ...pick(this.props.panel, ['heading', 'paragraph']),
       imageUrl: this.props.panel.image_url,
-      onClick: this.props.panel.action ? createAction(this.props.panel.action) : null
+      onClick: this.props.panel.action ? createAction(this.props.panel.action) : null,
     }
 
     const cardClassName = classnames({
       [styles.mobileInCarousel]: this.props.inCarousel && this.props.isMobile,
-      [styles.mobile]: !this.props.inCarousel && this.props.isMobile
+      [styles.mobile]: !this.props.inCarousel && this.props.isMobile,
     })
 
     return (

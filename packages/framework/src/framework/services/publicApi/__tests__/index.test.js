@@ -11,20 +11,20 @@ describe('public api service', () => {
   let mockLegacyApi
   let embeddableName = 'webWidget'
 
-  const setupWithQueueAndMockApi = api => {
+  const setupWithQueueAndMockApi = (api) => {
     mockApi = api || {
       mock: {
         example: jest.fn(),
-        example2: jest.fn()
+        example2: jest.fn(),
       },
-      mock2: { __isSettingsApi: true, example3: jest.fn(), example4: jest.fn() }
+      mock2: { __isSettingsApi: true, example3: jest.fn(), example4: jest.fn() },
     }
     mockLegacyApi = {
       example: jest.fn(),
-      example2: jest.fn()
+      example2: jest.fn(),
     }
     document.zEQueue = []
-    window.zE = window.zEmbed = function() {
+    window.zE = window.zEmbed = function () {
       document.zEQueue.push(arguments)
     }
     publicApi.registerApi(mockApi)
@@ -40,8 +40,8 @@ describe('public api service', () => {
 
     setupWithQueueAndMockApi({
       webWidget: {
-        setLocale: mockSetLocale
-      }
+        setLocale: mockSetLocale,
+      },
     })
     zE({ locale: 'ko' })
 
@@ -209,7 +209,7 @@ describe('public api service', () => {
 
         setupWithQueueAndMockApi()
         publicApi.registerLegacyApi({
-          mockApiThatFails
+          mockApiThatFails,
         })
         publicApi.run({ embeddableName })
 

@@ -12,20 +12,20 @@ class ObserverList {
   }
 
   removeObserver(callback) {
-    this.observers = this.observers.filter(observer => observer !== callback)
+    this.observers = this.observers.filter((observer) => observer !== callback)
   }
 
   notify(...args) {
-    this.observers.forEach(callback => {
+    this.observers.forEach((callback) => {
       callback(...args)
     })
   }
 }
 
-const MockTwilioConnection = jest.fn().mockImplementation(_options => {
+const MockTwilioConnection = jest.fn().mockImplementation((_options) => {
   const eventObservers = {
     accept: new ObserverList(),
-    disconnect: new ObserverList()
+    disconnect: new ObserverList(),
   }
 
   const disconnect = () => {
@@ -38,7 +38,7 @@ const MockTwilioConnection = jest.fn().mockImplementation(_options => {
 
   return {
     on,
-    disconnect: () => disconnect.call(this)
+    disconnect: () => disconnect.call(this),
   }
 })
 
@@ -50,7 +50,7 @@ class MockTwilioDevice {
       disconnect: new ObserverList(),
       error: new ObserverList(),
       ready: new ObserverList(),
-      accept: new ObserverList()
+      accept: new ObserverList(),
     }
   }
 
@@ -88,7 +88,7 @@ Device.__resetMocks = () => {
   __testDevice = undefined
 }
 
-Device.__triggerError = error => {
+Device.__triggerError = (error) => {
   __testDevice?.__trigger('error', error)
 }
 

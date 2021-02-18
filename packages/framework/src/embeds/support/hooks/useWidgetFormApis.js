@@ -9,23 +9,23 @@ import { getValues } from 'src/redux/modules/customerProvidedPrefill/selectors'
 const useWidgetFormApis = (formId, fields = []) => {
   const form = useForm()
   const locale = useSelector(getLocale)
-  const formFields = useSelector(state => getValues(state, 'supportFields'))
-  const specificFormFields = useSelector(state => getValues(state, 'supportCustomFormFields'))
-  const prefill = useSelector(state => getValues(state, 'prefill'))
+  const formFields = useSelector((state) => getValues(state, 'supportFields'))
+  const specificFormFields = useSelector((state) => getValues(state, 'supportCustomFormFields'))
+  const prefill = useSelector((state) => getValues(state, 'prefill'))
 
   const overwriteFormWithProvidedValues = useCallback(() => {
     form.batch(() => {
       const fieldsById = fields.reduce(
         (prev, next) => ({
           ...prev,
-          [next.id]: next
+          [next.id]: next,
         }),
         {}
       )
       const fieldsByOriginalId = fields.reduce(
         (prev, next) => ({
           ...prev,
-          [next.originalId]: next
+          [next.originalId]: next,
         }),
         {}
       )
@@ -35,10 +35,10 @@ const useWidgetFormApis = (formId, fields = []) => {
         ...(formFields['*'] || {}),
         ...(formFields[locale] || {}),
         ...specificFormFields[formId]?.['*'],
-        ...specificFormFields[formId]?.[locale]
+        ...specificFormFields[formId]?.[locale],
       }
 
-      Object.keys(fieldsToUpdate).forEach(key => {
+      Object.keys(fieldsToUpdate).forEach((key) => {
         const field = fieldsById[key]
 
         // If the field key matches a field's id directly this means it is for a field like

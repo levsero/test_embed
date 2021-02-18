@@ -4,7 +4,7 @@ import _ from 'lodash'
 const initialState = {
   layout: null,
   image: null,
-  label: null
+  label: null,
 }
 
 const launcherBadgeSettings = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const launcherBadgeSettings = (state = initialState, action) => {
       return {
         layout: validateLayout(initialState, state, payload),
         image: _.get(payload, 'webWidget.launcher.badge.image', state.image),
-        label: _.get(payload, 'webWidget.launcher.badge.label', state.label)
+        label: _.get(payload, 'webWidget.launcher.badge.label', state.label),
       }
     default:
       return state

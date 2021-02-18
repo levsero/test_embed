@@ -5,12 +5,12 @@ import {
   SDK_CHAT_MEMBER_LEAVE,
   END_CHAT_REQUEST_SUCCESS,
   CHAT_RECONNECT,
-  CHAT_DROPPED
+  CHAT_DROPPED,
 } from '../chat-action-types'
 
 const initialState = new Map()
 
-const isAgent = nick => nick.indexOf('agent:') > -1
+const isAgent = (nick) => nick.indexOf('agent:') > -1
 
 const addAgent = (agents, nickname, data) => {
   const copy = new Map(agents)
@@ -43,13 +43,13 @@ const activeAgents = (state = initialState, action = {}) => {
     case SDK_CHAT_MEMBER_JOIN:
       if (isAgent(payload.detail.nick)) {
         return addAgent(state, payload.detail.nick, {
-          nick: payload.detail.nick
+          nick: payload.detail.nick,
         })
       }
       return state
     case SDK_CHAT_TYPING:
       return updateAgent(state, payload.detail.nick, {
-        typing: payload.detail.typing
+        typing: payload.detail.typing,
       })
     case SDK_AGENT_UPDATE:
       const { nick: nickname } = payload.detail
@@ -58,7 +58,7 @@ const activeAgents = (state = initialState, action = {}) => {
       return updateAgent(state, payload.detail.nick, {
         ...payload.detail,
         nick: payload.detail.nick,
-        typing
+        typing,
       })
     case SDK_CHAT_MEMBER_LEAVE:
       if (isAgent(payload.detail.nick)) {

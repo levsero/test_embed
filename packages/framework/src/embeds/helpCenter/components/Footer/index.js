@@ -9,7 +9,7 @@ const HelpCenterFooter = ({ showNextButton, onClick }) => {
 
 HelpCenterFooter.propTypes = {
   onClick: PropTypes.func,
-  showNextButton: PropTypes.bool
+  showNextButton: PropTypes.bool,
 }
 
 export default HelpCenterFooter

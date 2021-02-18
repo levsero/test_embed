@@ -6,7 +6,7 @@ jest.mock('src/redux/modules/settings/settings-actions')
 jest.mock('src/redux/modules/selectors')
 
 const store = {
-  dispatch: jest.fn()
+  dispatch: jest.fn(),
 }
 
 beforeEach(() => {
@@ -25,7 +25,7 @@ describe('init', () => {
       ['viaId', 48],
       ['contactForm.ticketForms', []],
       ['contactOptions', { enabled: false }],
-      ['chat.concierge.avatarPath', null]
+      ['chat.concierge.avatarPath', null],
     ])('%s defaults to %p', (path, expected) => {
       expect(settings.get(path)).toEqual(expected)
     })
@@ -43,7 +43,7 @@ describe('init', () => {
 
     it('calls updateSettings', () => {
       expect(actions.updateSettings).toHaveBeenCalledWith({
-        webWidget: expect.any(Object)
+        webWidget: expect.any(Object),
       })
     })
   })
@@ -87,37 +87,37 @@ describe('get', () => {
       webWidget: {
         authenticate: 'foo',
         contactForm: {
-          subject: true
+          subject: true,
         },
         contactOptions: {
           enabled: true,
           contactButton: {
             '*': 'Yo, contact us!',
-            'es-ES': '¿Dónde está la biblioteca?'
+            'es-ES': '¿Dónde está la biblioteca?',
           },
-          aNonSanctionedOption: 'wawaweewa!'
+          aNonSanctionedOption: 'wawaweewa!',
         },
         helpCenter: {
           originalArticleButton: false,
           suppress: true,
-          localeFallbacks: ['fr']
+          localeFallbacks: ['fr'],
         },
         chat: {
           suppress: true,
           concierge: {
-            avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
+            avatarPath: 'https://i.imgur.com/3mZBYfn.jpg',
           },
           notifications: {
             mobile: {
-              disable: true
-            }
+              disable: true,
+            },
           },
           departments: {
-            select: 'yolo'
-          }
+            select: 'yolo',
+          },
         },
         talk: {
-          suppress: true
+          suppress: true,
         },
         color: {
           theme: '#FF0000',
@@ -126,9 +126,9 @@ describe('get', () => {
           launcher: '#990000',
           launcherText: '#009900',
           articleLinks: '#000099',
-          resultLists: '#660000'
-        }
-      }
+          resultLists: '#660000',
+        },
+      },
     }
 
     settings.init()
@@ -184,14 +184,14 @@ describe('getTranslations', () => {
         helpCenter: {
           title: {
             '*': 'help center title',
-            'en-US': 'why?'
+            'en-US': 'why?',
           },
           messageButton: {
             'en-US': 'Yo',
-            fr: ':('
-          }
-        }
-      }
+            fr: ':(',
+          },
+        },
+      },
     }
 
     settings.init()
@@ -201,12 +201,12 @@ describe('getTranslations', () => {
     expect(settings.getTranslations()).toEqual({
       helpCenterTitle: {
         '*': 'help center title',
-        'en-US': 'why?'
+        'en-US': 'why?',
       },
       helpCenterMessageButton: {
         'en-US': 'Yo',
-        fr: ':('
-      }
+        fr: ':(',
+      },
     })
   })
 })
@@ -218,8 +218,8 @@ describe('getTrackSettings', () => {
       {
         webWidget: {
           authenticate: { jwt: 'abc' },
-          helpCenter: { originalArticleButton: false }
-        }
+          helpCenter: { originalArticleButton: false },
+        },
       },
       customSettings
     )
@@ -262,12 +262,12 @@ describe('getTrackSettings', () => {
       webWidget: {
         authenticate: {
           chat: false,
-          helpCenter: true
+          helpCenter: true,
         },
         helpCenter: {
-          originalArticleButton: false
-        }
-      }
+          originalArticleButton: false,
+        },
+      },
     })
   })
 
@@ -276,10 +276,10 @@ describe('getTrackSettings', () => {
       webWidget: {
         authenticate: {
           chat: {
-            jwtFn: () => '1234'
-          }
-        }
-      }
+            jwtFn: () => '1234',
+          },
+        },
+      },
     })
     settings.init()
     expect(settings.getTrackSettings().webWidget.authenticate.chat).toEqual(true)
@@ -290,10 +290,10 @@ describe('getTrackSettings', () => {
       webWidget: {
         authenticate: {
           support: {
-            jwt: '321414'
-          }
-        }
-      }
+            jwt: '321414',
+          },
+        },
+      },
     })
     settings.init()
     expect(settings.getTrackSettings().webWidget.authenticate.helpCenter).toEqual(true)
@@ -309,11 +309,11 @@ describe('getTrackSettings', () => {
 })
 
 describe('getAuthSettingsJwt', () => {
-  const setupAuthSettingsJwt = authenticate => {
+  const setupAuthSettingsJwt = (authenticate) => {
     const mockSettings = {
       webWidget: {
-        authenticate
-      }
+        authenticate,
+      },
     }
 
     window.zESettings = mockSettings
@@ -341,11 +341,11 @@ describe('getAuthSettingsJwt', () => {
 })
 
 describe('getAuthSettingsJwtFn', () => {
-  const setupAuthSettingsJwtFn = authenticate => {
+  const setupAuthSettingsJwtFn = (authenticate) => {
     const mockSettings = {
       webWidget: {
-        authenticate
-      }
+        authenticate,
+      },
     }
 
     window.zESettings = mockSettings
@@ -388,9 +388,9 @@ describe('getChatAuthSettings', () => {
       mockSettings = {
         webWidget: {
           authenticate: {
-            chat: { jwtFn: () => {} }
-          }
-        }
+            chat: { jwtFn: () => {} },
+          },
+        },
       }
 
       window.zESettings = mockSettings
@@ -445,7 +445,7 @@ describe('storeChatAuth', () => {
     settings.storeChatAuth(jwtFn)
 
     expect(settings.getChatAuthSettings()).toEqual({
-      jwtFn
+      jwtFn,
     })
   })
 })

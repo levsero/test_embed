@@ -11,7 +11,7 @@ const SocialLoginContainer = styled.div`
     display: flex;
     align-items: center;
   }
-  ${props =>
+  ${(props) =>
     props.shouldSpace &&
     `
   margin-top: ${15 / props.theme.fontSize}rem`}
@@ -28,14 +28,14 @@ const LoginIconButton = styled(IconButton)`
     margin-left: ${5 / FONT_SIZE}rem;
     display: inline-block;
 
-    ${props =>
+    ${(props) =>
       props.theme.rtl &&
       `
       margin-right: ${5 / FONT_SIZE}rem;
     `}
 
     :focus {
-      box-shadow: 0 0 0 ${3 / FONT_SIZE}rem ${props => props.theme.headerFocusRingColorStr} !important;
+      box-shadow: 0 0 0 ${3 / FONT_SIZE}rem ${(props) => props.theme.headerFocusRingColorStr} !important;
       background-color: ${zdColorWhite} !important;
     }
 

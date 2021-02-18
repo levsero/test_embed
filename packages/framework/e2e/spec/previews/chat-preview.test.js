@@ -9,8 +9,8 @@ import events from 'e2e/fixtures/chat-preview-events'
 
 beforeEach(async () => {
   await loadPreview()
-  await page.evaluate(events => {
-    events.forEach(event => {
+  await page.evaluate((events) => {
+    events.forEach((event) => {
       window.preview.updateChatState(event)
     })
   }, events)
@@ -85,7 +85,7 @@ test('setColor updates the color of the preview widget and badge', async () => {
   const badgeColor = await preview
     .getLauncherFrame()
     .evaluate(
-      testId =>
+      (testId) =>
         getComputedStyle(document.querySelector(`div[data-testid="${testId}"] > button`))
           .backgroundColor,
       TEST_IDS.CHAT_BADGE
@@ -101,8 +101,8 @@ describe('updateSettings', () => {
         banner: {
           enabled: true,
           layout: 'image_left',
-          text: 'hello world'
-        }
+          text: 'hello world',
+        },
       })
     })
     const launcher = await preview.getLauncherDocument()
@@ -118,36 +118,36 @@ describe('updateSettings', () => {
             profile_required: false,
             message: 'test here',
             form: {
-              '0': {
+              0: {
                 name: 'name',
-                required: false
+                required: false,
               },
-              '1': {
+              1: {
                 name: 'email',
-                required: true
+                required: true,
               },
-              '2': {
+              2: {
                 label: 'Department',
                 name: 'department',
                 required: false,
-                type: 'department'
+                type: 'department',
               },
-              '3': {
+              3: {
                 label: null,
                 name: 'message',
                 required: false,
-                type: 'textarea'
+                type: 'textarea',
               },
-              '4': {
+              4: {
                 label: null,
                 name: 'phone',
                 required: false,
                 type: 'text',
-                hidden: true
-              }
-            }
-          }
-        }
+                hidden: true,
+              },
+            },
+          },
+        },
       })
     })
     await preview.updateScreen(constants.PRECHAT_SCREEN)

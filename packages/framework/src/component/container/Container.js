@@ -11,7 +11,7 @@ export class Container extends Component {
     className: PropTypes.string,
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
-    style: PropTypes.object
+    style: PropTypes.object,
   }
 
   static defaultProps = {
@@ -19,7 +19,7 @@ export class Container extends Component {
     className: '',
     isMobile: false,
     onClick: () => {},
-    style: null
+    style: null,
   }
 
   render = () => {

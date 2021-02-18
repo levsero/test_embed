@@ -10,12 +10,12 @@ snapshotDiff.setSerializers([...snapshotDiff.defaultSerializers, styleSheetSeria
 expect.addSnapshotSerializer(styleSheetSerializer)
 
 const onClick = jest.fn()
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     notificationCount: 1,
     onClick,
     isMobile: false,
-    ...inProps
+    ...inProps,
   }
 
   return render(<ScrollPill {...props} />)

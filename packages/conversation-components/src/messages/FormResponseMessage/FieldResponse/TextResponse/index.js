@@ -13,8 +13,8 @@ const TextResponse = ({ field }) => {
 TextResponse.propTypes = {
   field: PropTypes.shape({
     label: PropTypes.string,
-    text: PropTypes.string
-  })
+    text: PropTypes.string,
+  }),
 }
 
 export default TextResponse

@@ -11,14 +11,14 @@ import { HiddenLabel, Container, StyledTextarea } from './styles'
 const InputBox = ({ currentMessage = '', sendChat, handleChatBoxChange, isMobile }) => {
   const translate = useTranslate()
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault()
       sendChat()
     }
   }
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value } = e.target
     handleChatBoxChange(value)
   }
@@ -47,7 +47,7 @@ InputBox.propTypes = {
   isMobile: PropTypes.bool.isRequired,
   currentMessage: PropTypes.string,
   sendChat: PropTypes.func.isRequired,
-  handleChatBoxChange: PropTypes.func.isRequired
+  handleChatBoxChange: PropTypes.func.isRequired,
 }
 
 export default InputBox

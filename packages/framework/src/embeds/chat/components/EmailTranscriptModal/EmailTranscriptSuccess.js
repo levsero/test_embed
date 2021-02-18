@@ -11,7 +11,7 @@ const EmailTranscriptSuccess = ({ email }) => {
       type="success"
       role="alert"
       tabIndex={0}
-      ref={ref => {
+      ref={(ref) => {
         setTimeout(() => {
           ref?.focus()
         }, 0)
@@ -20,8 +20,8 @@ const EmailTranscriptSuccess = ({ email }) => {
       <Title
         dangerouslySetInnerHTML={{
           __html: translate('embeddable_framework.chat.emailtranscript.success_message', {
-            email: `<strong>${email}</strong>`
-          })
+            email: `<strong>${email}</strong>`,
+          }),
         }}
       />
     </Notification>
@@ -29,7 +29,7 @@ const EmailTranscriptSuccess = ({ email }) => {
 }
 
 EmailTranscriptSuccess.propTypes = {
-  email: PropTypes.string
+  email: PropTypes.string,
 }
 
 export default EmailTranscriptSuccess

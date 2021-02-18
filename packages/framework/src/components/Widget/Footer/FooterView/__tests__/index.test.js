@@ -5,7 +5,7 @@ import FooterView from '../'
 describe('FooterView', () => {
   const defaultProps = {
     shadow: false,
-    size: 'large'
+    size: 'large',
   }
 
   const renderComponent = (props = {}) => render(<FooterView {...defaultProps} {...props} />)

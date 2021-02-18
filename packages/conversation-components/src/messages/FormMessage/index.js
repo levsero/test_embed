@@ -28,8 +28,8 @@ const FormMessage = ({
   onValidate = undefined,
   onStepChange = (_oldStep, _newStep) => {},
   onChange = (_fieldId, _value) => {},
-  onSubmit = _formValues => {},
-  onRetry = () => {}
+  onSubmit = (_formValues) => {},
+  onRetry = () => {},
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
   const [activeStep, setActiveStep] = useState(initialStep)
@@ -72,7 +72,7 @@ const FormMessage = ({
     onChange(fieldId, newValue)
   }
 
-  const handleOnSubmit = event => {
+  const handleOnSubmit = (event) => {
     event.preventDefault()
     setValidationStep(activeStep)
     setLastSubmittedTimestamp(Date.now())
@@ -107,14 +107,14 @@ const FormMessage = ({
         <FormContainer>
           <Form onSubmit={handleOnSubmit} noValidate={true}>
             <Fields>
-              {visibleFields.map(field => {
+              {visibleFields.map((field) => {
                 return (
                   <Field key={field._id}>
                     <FormField
                       field={field}
                       value={formValues[field._id]}
                       error={validationErrors[field._id]}
-                      onChange={newValue => handleOnChange(field._id, newValue)}
+                      onChange={(newValue) => handleOnChange(field._id, newValue)}
                       lastSubmittedTimestamp={lastSubmittedTimestamp}
                     />
                   </Field>
@@ -157,7 +157,7 @@ FormMessage.propTypes = {
       _id: PropTypes.string,
       name: PropTypes.string,
       label: PropTypes.string,
-      type: PropTypes.string
+      type: PropTypes.string,
     })
   ),
   initialStep: PropTypes.number,
@@ -172,7 +172,7 @@ FormMessage.propTypes = {
   onChange: PropTypes.func,
   onValidate: PropTypes.func,
   onSubmit: PropTypes.func,
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
 }
 
 export default FormMessage

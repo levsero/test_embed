@@ -6,7 +6,7 @@ describe('chat actions', () => {
     it("returns an action to update the menu's visiblity", () => {
       expect(updateMenuVisibility(true)).toEqual({
         type: UPDATE_CHAT_MENU_VISIBILITY,
-        payload: true
+        payload: true,
       })
     })
   })
@@ -14,12 +14,12 @@ describe('chat actions', () => {
   describe('handleSoundIconClick', () => {
     it('returns an action to handle the sound icon being clicked', () => {
       const settings = {
-        sound: true
+        sound: true,
       }
 
       expect(handleSoundIconClick(settings)).toEqual({
         type: SOUND_ICON_CLICKED,
-        payload: settings
+        payload: settings,
       })
     })
   })

@@ -16,7 +16,7 @@ import {
   Heading,
   Message,
   SectionContainer,
-  CheckboxContainer
+  CheckboxContainer,
 } from './styles'
 
 const ConsentToRecord = ({ onStartCallClicked }) => {
@@ -25,7 +25,7 @@ const ConsentToRecord = ({ onStartCallClicked }) => {
   const userConsentedToRecord = useSelector(getRecordingConsent)
   const [isEstablishingCall, setIsEstablishingCall] = useState(false)
 
-  const handleCheck = e => {
+  const handleCheck = (e) => {
     if (e?.target?.checked) {
       dispatch(acceptRecordingConsent())
     } else {
@@ -74,7 +74,7 @@ const ConsentToRecord = ({ onStartCallClicked }) => {
 }
 
 ConsentToRecord.propTypes = {
-  onStartCallClicked: PropTypes.func.isRequired
+  onStartCallClicked: PropTypes.func.isRequired,
 }
 
 export default ConsentToRecord

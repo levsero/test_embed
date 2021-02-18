@@ -3,13 +3,13 @@ import { render } from '@testing-library/react'
 import Main from '../index'
 
 const defaultProps = {
-  children: 'Hallo'
+  children: 'Hallo',
 }
 
 const renderComponent = (modifiedProps = {}) => {
   const props = {
     ...defaultProps,
-    ...modifiedProps
+    ...modifiedProps,
   }
 
   return render(<Main {...props} />)

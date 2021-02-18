@@ -20,7 +20,7 @@ const Item = React.forwardRef(({ article }, ref) => {
         ref={ref}
         href={article.html_url}
         data-testid={TEST_IDS.HC_RESULT_TITLE}
-        onClick={e => handleClick(e, route, history)}
+        onClick={(e) => handleClick(e, route, history)}
       >
         {article.title || article.name}
       </ArticleLink>
@@ -29,7 +29,7 @@ const Item = React.forwardRef(({ article }, ref) => {
 })
 
 Item.propTypes = {
-  article: PropTypes.object
+  article: PropTypes.object,
 }
 
 export default Item

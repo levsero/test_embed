@@ -4,17 +4,18 @@ import frame from './frame'
 
 const goToTestPage = async () =>
   await page.goto(`http://${hostWithPort}/chatPreview.html`, {
-    waitUntil: ['domcontentloaded', 'load', 'networkidle0']
+    waitUntil: ['domcontentloaded', 'load', 'networkidle0'],
   })
 
 const renderPreview = () =>
   page.evaluate(() => {
     window.preview = window.zEPreview.renderPreview({
-      element: document.getElementById('container')
+      element: document.getElementById('container'),
     })
   })
 
-const updateScreen = screen => page.evaluate(screen => window.preview.updateScreen(screen), screen)
+const updateScreen = (screen) =>
+  page.evaluate((screen) => window.preview.updateScreen(screen), screen)
 
 export const loadPreview = async () => {
   await goToTestPage()
@@ -49,5 +50,5 @@ export default {
   getLauncherFrame,
   evaluate,
   waitForPreview,
-  updateScreen
+  updateScreen,
 }

@@ -2,16 +2,16 @@ import styled from 'styled-components'
 import { MESSAGE_BUBBLE_SHAPES } from 'src/constants'
 import dirStyles from 'src/utils/dirStyles'
 
-const getRadius = props => props.theme.messenger.borderRadii.textMessage
+const getRadius = (props) => props.theme.messenger.borderRadii.textMessage
 
 const Image = styled.img`
-  width: ${props => props.theme.messenger.space.imageWidth};
-  height: ${props => props.theme.messenger.space.imageHeight};
+  width: ${(props) => props.theme.messenger.space.imageWidth};
+  height: ${(props) => props.theme.messenger.space.imageHeight};
   object-fit: cover;
 `
 
 const PrimaryParticipantImage = styled(Image)`
-  ${props => {
+  ${(props) => {
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
@@ -45,7 +45,7 @@ const PrimaryParticipantImage = styled(Image)`
 `
 
 const OtherParticipantImage = styled(Image)`
-  ${props => {
+  ${(props) => {
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
@@ -80,16 +80,16 @@ const OtherParticipantImage = styled(Image)`
 const Text = styled.p`
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: ${props => props.theme.messenger.fontSizes.md};
-  line-height: ${props => props.theme.messenger.lineHeights.md};
-  padding: ${props => `${props.theme.messenger.space.xs} ${props.theme.messenger.space.sm}`};
+  font-size: ${(props) => props.theme.messenger.fontSizes.md};
+  line-height: ${(props) => props.theme.messenger.lineHeights.md};
+  padding: ${(props) => `${props.theme.messenger.space.xs} ${props.theme.messenger.space.sm}`};
 
   a {
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-size: ${props => props.theme.messenger.fontSizes.md};
-    line-height: ${props => props.theme.messenger.lineHeights.sm};
-    color: ${props =>
+    font-size: ${(props) => props.theme.messenger.fontSizes.md};
+    line-height: ${(props) => props.theme.messenger.lineHeights.sm};
+    color: ${(props) =>
       props.isPrimaryParticipant
         ? props.theme.messenger.colors.messageText
         : props.theme.messenger.colors.otherParticipantMessageText};

@@ -14,14 +14,14 @@ const Message = ({ title, body }) => {
 
 Message.propTypes = {
   title: PropTypes.string,
-  body: PropTypes.string
+  body: PropTypes.string,
 }
 
 const NoResultsMessage = ({ searchFailed, showNextButton, previousSearchTerm }) => {
   const title = searchFailed
     ? i18n.t('embeddable_framework.helpCenter.search.error.title')
     : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
-        searchTerm: previousSearchTerm
+        searchTerm: previousSearchTerm,
       })
   const body =
     searchFailed && showNextButton
@@ -34,7 +34,7 @@ const NoResultsMessage = ({ searchFailed, showNextButton, previousSearchTerm }) 
 NoResultsMessage.propTypes = {
   searchFailed: PropTypes.bool,
   showNextButton: PropTypes.bool,
-  previousSearchTerm: PropTypes.string
+  previousSearchTerm: PropTypes.string,
 }
 
 export default NoResultsMessage

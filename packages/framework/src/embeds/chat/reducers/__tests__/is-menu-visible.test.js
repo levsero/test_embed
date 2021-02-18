@@ -2,7 +2,7 @@ import { testReducer } from 'utility/testHelpers'
 import reducer from '../is-menu-visible'
 import {
   updateContactDetailsVisibility,
-  updateEmailTranscriptVisibility
+  updateEmailTranscriptVisibility,
 } from 'src/redux/modules/chat'
 import { CHAT_FILE_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 import { updateMenuVisibility } from 'embeds/chat/actions/actions'
@@ -13,32 +13,32 @@ describe('isMenuVisible reducer', () => {
       extraDesc: 'initial state',
       initialState: undefined,
       action: { type: 'some action' },
-      expected: false
+      expected: false,
     },
     {
       initialState: true,
       action: updateMenuVisibility(false),
-      expected: false
+      expected: false,
     },
     {
       initialState: false,
       action: updateMenuVisibility(true),
-      expected: true
+      expected: true,
     },
     {
       initialState: true,
       action: updateContactDetailsVisibility(true),
-      expected: false
+      expected: false,
     },
     {
       initialState: true,
       action: updateEmailTranscriptVisibility(true),
-      expected: false
+      expected: false,
     },
     {
       initialState: true,
       action: { type: CHAT_FILE_REQUEST_SUCCESS },
-      expected: false
-    }
+      expected: false,
+    },
   ])
 })

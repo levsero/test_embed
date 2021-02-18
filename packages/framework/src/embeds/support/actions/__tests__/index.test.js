@@ -29,7 +29,7 @@ const mockFileBlob2 = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '1'
+  id: '1',
 }
 const mockFileBlob3 = {
   name: 'blah3.txt',
@@ -37,7 +37,7 @@ const mockFileBlob3 = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '2'
+  id: '2',
 }
 const mockFileBlob4 = {
   name: 'blah4.txt',
@@ -45,7 +45,7 @@ const mockFileBlob4 = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '3'
+  id: '3',
 }
 const mockFileBlob5 = {
   name: 'blah5.txt',
@@ -53,7 +53,7 @@ const mockFileBlob5 = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '4'
+  id: '4',
 }
 const mockFileBlob6 = {
   name: 'blah6.txt',
@@ -61,7 +61,7 @@ const mockFileBlob6 = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '5'
+  id: '5',
 }
 const fiveFiles = [mockFileBlob2, mockFileBlob3, mockFileBlob4, mockFileBlob5, mockFileBlob6]
 
@@ -74,11 +74,11 @@ const mockFileBlob = {
   type: 'text/plain',
   uploading: false,
   uploadToken: '123',
-  id: '42'
+  id: '42',
 }
 
 const mockStore = configureMockStore([thunk])
-const dispatchAction = action => {
+const dispatchAction = (action) => {
   const store = mockStore()
 
   store.dispatch(action)
@@ -94,7 +94,7 @@ describe('submitForm', () => {
   it('returns the expected value', () => {
     const expected = {
       type: actionTypes.SUBMITTED_FORM,
-      payload: { state: 'blap' }
+      payload: { state: 'blap' },
     }
 
     expect(actions.submitForm('blap')).toEqual(expected)
@@ -105,7 +105,7 @@ describe('setActiveFormName', () => {
   it('returns the expected value', () => {
     const expected = {
       type: actionTypes.SET_ACTIVE_FORM_NAME,
-      payload: { name: 'blap' }
+      payload: { name: 'blap' },
     }
 
     expect(actions.setActiveFormName('blap')).toEqual(expected)
@@ -137,7 +137,7 @@ describe('deleteAttachment', () => {
 
       expect(dispatchedActions[1]).toEqual({
         type: actionTypes.ATTACHMENT_REMOVED,
-        payload: { id: mockId }
+        payload: { id: mockId },
       })
     })
   })
@@ -173,8 +173,8 @@ describe('uploadAttachment', () => {
           uploading: true,
           uploadProgress: 0,
           errorMessage: null,
-          uploadToken: null
-        }
+          uploadToken: null,
+        },
       })
     })
 
@@ -226,8 +226,8 @@ describe('uploadAttachment', () => {
             uploading: false,
             uploadProgress: 0,
             errorMessage: ATTACHMENT_ERRORS.TOO_LARGE,
-            uploadToken: null
-          }
+            uploadToken: null,
+          },
         })
       })
     })
@@ -243,7 +243,7 @@ describe('uploadAttachment', () => {
 
       expect(dispatchedActions[1]).toEqual({
         type: actionTypes.ATTACHMENT_UPLOAD_UPDATED,
-        payload: { id: mockId, uploadProgress: 50 }
+        payload: { id: mockId, uploadProgress: 50 },
       })
     })
   })
@@ -254,8 +254,8 @@ describe('uploadAttachment', () => {
         attachmentSender.mockImplementation((_file, onComplete, _onFailure, _onUpdate) => {
           onComplete({
             text: JSON.stringify({
-              upload: { token: 'abc123' }
-            })
+              upload: { token: 'abc123' },
+            }),
           })
         })
 
@@ -263,7 +263,7 @@ describe('uploadAttachment', () => {
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_SUCCEEDED,
-          payload: { id: 42, uploading: false, uploadToken: 'abc123' }
+          payload: { id: 42, uploading: false, uploadToken: 'abc123' },
         })
       })
     })
@@ -273,8 +273,8 @@ describe('uploadAttachment', () => {
         attachmentSender.mockImplementation((_file, onComplete, _onFailure, _onUpdate) => {
           onComplete({
             text: JSON.stringify({
-              upload: { foo: 'bar' }
-            })
+              upload: { foo: 'bar' },
+            }),
           })
         })
 
@@ -285,8 +285,8 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
-          }
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR,
+          },
         })
       })
     })
@@ -304,8 +304,8 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
-          }
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR,
+          },
         })
       })
     })
@@ -322,7 +322,7 @@ describe('uploadAttachment', () => {
 
         expect(dispatchedActions[1]).toEqual({
           type: actionTypes.ATTACHMENT_UPLOAD_FAILED,
-          payload: { id: 42, uploading: false, errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR }
+          payload: { id: 42, uploading: false, errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR },
         })
       })
     })
@@ -340,8 +340,8 @@ describe('uploadAttachment', () => {
           payload: {
             id: 42,
             uploading: false,
-            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR
-          }
+            errorMessage: ATTACHMENT_ERRORS.UPLOAD_ERROR,
+          },
         })
       })
     })
@@ -372,20 +372,20 @@ describe('uploadAttachedFiles', () => {
   describe('when using old forms', () => {
     it('dispatches attachmentLimitExceeded when already max attachments', () => {
       const store = mockStore({
-        support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+        support: { config: { maxFileCount: 5 }, attachments: fiveFiles },
       })
       store.dispatch(actions.uploadAttachedFiles([mockFileBlob], undefined, {}))
 
       const dispatchedActions = store.getActions()
 
       expect(dispatchedActions[0]).toEqual({
-        type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED
+        type: actionTypes.ATTACHMENT_LIMIT_EXCEEDED,
       })
     })
 
     it('dispatches uploadAttachment for files', () => {
       const store = mockStore({
-        support: { config: { maxFileCount: 5 }, attachments: [] }
+        support: { config: { maxFileCount: 5 }, attachments: [] },
       })
       store.dispatch(actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3], undefined, {}))
       const dispatchedActions = store.getActions()
@@ -428,8 +428,8 @@ describe('uploadAttachedFiles', () => {
       const store = mockStore({
         support: {
           config: { maxFileCount: 5 },
-          attachments: [mockFileBlob2, mockFileBlob3]
-        }
+          attachments: [mockFileBlob2, mockFileBlob3],
+        },
       })
       store.dispatch(actions.uploadAttachedFiles(fiveFiles, undefined, {}))
       const dispatchedActions = store.getActions()
@@ -448,11 +448,11 @@ describe('uploadAttachedFiles', () => {
     })
     it('updates final form when already max attachments', () => {
       const store = mockStore({
-        support: { config: { maxFileCount: 5 }, attachments: fiveFiles }
+        support: { config: { maxFileCount: 5 }, attachments: fiveFiles },
       })
       store.dispatch(
         actions.uploadAttachedFiles([mockFileBlob], updateFinalForm, {
-          ids: ['1', '2', '3', '4', '5']
+          ids: ['1', '2', '3', '4', '5'],
         })
       )
 
@@ -460,14 +460,14 @@ describe('uploadAttachedFiles', () => {
 
       expect(updateFinalForm).toHaveBeenCalledWith({
         ids: ['1', '2', '3', '4', '5'],
-        limitExceeded: true
+        limitExceeded: true,
       })
       expect(dispatchedActions).toEqual([])
     })
 
     it('dispatches uploadAttachment for files', () => {
       const store = mockStore({
-        support: { config: { maxFileCount: 5 }, attachments: [] }
+        support: { config: { maxFileCount: 5 }, attachments: [] },
       })
       store.dispatch(
         actions.uploadAttachedFiles([mockFileBlob2, mockFileBlob3], updateFinalForm, { ids: [] })
@@ -519,13 +519,13 @@ describe('uploadAttachedFiles', () => {
       const store = mockStore({
         support: {
           config: { maxFileCount: 5 },
-          attachments: [mockFileBlob2, mockFileBlob3]
-        }
+          attachments: [mockFileBlob2, mockFileBlob3],
+        },
       })
       store.dispatch(
         actions.uploadAttachedFiles(fiveFiles, updateFinalForm, {
           ids: ['1', '2'],
-          limitExceeded: false
+          limitExceeded: false,
         })
       )
       const dispatchedActions = store.getActions()
@@ -537,7 +537,7 @@ describe('uploadAttachedFiles', () => {
 
       expect(updateFinalForm).toHaveBeenCalledWith({
         ids: ['10', '11', '12', '1', '2'],
-        limitExceeded: true
+        limitExceeded: true,
       })
       expect(updateFinalForm).toHaveBeenCalledTimes(1)
     })
@@ -552,7 +552,7 @@ describe('submitTicket', () => {
 
   it('sends the expected request and action', () => {
     const state = {
-      support: { attachments: [{ id: '123', uploadToken: 'uploadToken-123' }] }
+      support: { attachments: [{ id: '123', uploadToken: 'uploadToken-123' }] },
     }
     const formState = { attachments: { ids: ['123'] } }
     const formTitle = 'contact-form'
@@ -564,7 +564,7 @@ describe('submitTicket', () => {
       callbacks: { done: expect.any(Function), fail: expect.any(Function) },
       method: 'post',
       params: 'params',
-      path: '/api/v2/requests'
+      path: '/api/v2/requests',
     })
     expect(formatRequestData).toHaveBeenCalledWith(
       state,
@@ -587,7 +587,7 @@ describe('submitTicket', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: actionTypes.TICKET_SUBMISSION_REQUEST_SUCCESS,
-      payload: { name: 'contact-form' }
+      payload: { name: 'contact-form' },
     })
   })
 
@@ -626,7 +626,7 @@ describe('submitTicket', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
-      payload: 'There was a problem. Please try again.'
+      payload: 'There was a problem. Please try again.',
     })
   })
 
@@ -641,7 +641,7 @@ describe('submitTicket', () => {
 
     expect(store.getActions()[1]).toEqual({
       type: actionTypes.TICKET_SUBMISSION_REQUEST_FAILURE,
-      payload: 'There was an error processing your request. Please try again later.'
+      payload: 'There was an error processing your request. Please try again later.',
     })
   })
 })
@@ -654,8 +654,8 @@ describe('formPrefilled', () => {
       type: FORM_PREFILLED,
       payload: {
         formId: 123,
-        prefillId: 456
-      }
+        prefillId: 456,
+      },
     })
   })
 })

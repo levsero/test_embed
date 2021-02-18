@@ -4,15 +4,15 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: ${props => props.theme.messenger.space.sm};
+  margin-top: ${(props) => props.theme.messenger.space.sm};
 `
 
 const Text = styled.p`
-  font-size: ${props => props.theme.messenger.fontSizes.sm};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
-  height: ${props => props.theme.messenger.space.sixteen};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  line-height: ${(props) => props.theme.messenger.lineHeights.sm};
+  height: ${(props) => props.theme.messenger.space.sixteen};
   letter-spacing: 0;
-  color: ${props => props.theme.palette.grey[600]};
+  color: ${(props) => props.theme.palette.grey[600]};
   align-self: center;
 `
 

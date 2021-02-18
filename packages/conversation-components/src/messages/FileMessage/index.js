@@ -7,14 +7,14 @@ import MessageBubble from 'src/MessageBubble'
 import { Container, Icon, Name, Size, Content } from './styles'
 import useLabels from 'src/hooks/useLabels'
 
-const parseFileNameFromUrl = url => {
+const parseFileNameFromUrl = (url) => {
   const split = url.split('/')
 
   const name = split[split.length - 1] ?? url
   return name.split('?')[0]
 }
 
-const abbreviateFileName = fileName => {
+const abbreviateFileName = (fileName) => {
   if (fileName.length <= 24) return fileName
 
   return `${fileName.slice(0, 11)}...${fileName.slice(-12)}`
@@ -42,7 +42,7 @@ const FileMessage = ({
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
-  onRetry = () => {}
+  onRetry = () => {},
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
@@ -96,7 +96,7 @@ FileMessage.propTypes = {
   isFirstInGroup: PropTypes.bool,
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
 }
 
 export default FileMessage

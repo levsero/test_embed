@@ -7,7 +7,7 @@ import {
   createTicketSubmissionEndpointResponse,
   waitForSubmissionSuccess,
   uploadFiles,
-  mockTicketSubmissionEndpoint
+  mockTicketSubmissionEndpoint,
 } from 'e2e/helpers/support-embed'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from 'e2e/helpers/utils'
 
@@ -15,8 +15,8 @@ const SUBMISSION_RESPONSE = {
   request: {
     url: 'https://z3nwebwidget2019.zendesk.com/api/v2/requests/250.json',
     id: 250,
-    status: 'open'
-  }
+    status: 'open',
+  },
 }
 
 const buildWidget = () => loadWidget().intercept(mockUploadsRequest)
@@ -42,8 +42,8 @@ const attachmentSuccessResponse = (filename, contentType) => {
           height: null,
           inline: false,
           deleted: false,
-          thumbnails: []
-        }
+          thumbnails: [],
+        },
       ],
       attachment: {
         url: `https://z3nwebwidget2019.zendesk.com/api/v2/attachments/${attachmentId}.json`,
@@ -57,9 +57,9 @@ const attachmentSuccessResponse = (filename, contentType) => {
         height: null,
         inline: false,
         deleted: false,
-        thumbnails: []
-      }
-    }
+        thumbnails: [],
+      },
+    },
   }
 }
 
@@ -73,10 +73,10 @@ const EXTENSIONS_MAP = {
   '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   '.pages': 'application/x-iwork-pages-sffpages',
   '.numbers': 'application/x-iwork-numbers-sffnumbers',
-  '.key': 'application/x-iwork-keynote-sffkey'
+  '.key': 'application/x-iwork-keynote-sffkey',
 }
 
-const mockUploadsRequest = mockCorsRequest('api/v2/uploads', request => {
+const mockUploadsRequest = mockCorsRequest('api/v2/uploads', (request) => {
   const url = request.url()
   if (request.method() === 'POST') {
     const filename = url.substring(url.indexOf('filename=') + 9, url.indexOf('&via_id=48'))
@@ -87,7 +87,7 @@ const mockUploadsRequest = mockCorsRequest('api/v2/uploads', request => {
       status: 201,
       headers: DEFAULT_CORS_HEADERS,
       contentType: 'text/plain; charset=UTF-8',
-      body: JSON.stringify(response)
+      body: JSON.stringify(response),
     })
   }
 })
@@ -131,7 +131,7 @@ test('attachments can be uploaded and submitted', async () => {
       description: 'My description',
       uploads: ['text-attachment.txt-token', 'pdf-attachment.pdf-token'],
       name: 'My name',
-      email: 'my@email.com'
+      email: 'my@email.com',
     })
   )
 })
@@ -181,7 +181,7 @@ test('attachments can be removed from the form', async () => {
       description: 'My description',
       uploads: ['doc-attachment.docx-token'],
       name: 'My',
-      email: 'my@email.com'
+      email: 'my@email.com',
     })
   )
 })
@@ -192,10 +192,10 @@ test('attachments too large are rejected', async () => {
       embeds: {
         ticketSubmissionForm: {
           props: {
-            maxFileSize: 1000000
-          }
-        }
-      }
+            maxFileSize: 1000000,
+          },
+        },
+      },
     })
     .load()
   await launcher.click()
@@ -209,9 +209,7 @@ test('attachments too large are rejected', async () => {
 })
 
 test('can only upload 5 attachments', async () => {
-  await buildWidget()
-    .withPresets('contactForm')
-    .load()
+  await buildWidget().withPresets('contactForm').load()
   await launcher.click()
 
   const doc = await widget.getDocument()
@@ -244,9 +242,7 @@ const assertIcon = async (filename, icon) => {
 }
 
 test('displays file type icon', async () => {
-  await buildWidget()
-    .withPresets('contactForm')
-    .load()
+  await buildWidget().withPresets('contactForm').load()
   await launcher.click()
   await assertIcon('text-attachment.txt', 'Icon--preview-document')
   await assertIcon('large-attachment.jpg', 'Icon--preview-image')

@@ -20,10 +20,10 @@ const EmailTranscriptFormValues = ({ showErrors }) => {
         <Field>
           <Label>{translate('embeddable_framework.common.textLabel.email')}</Label>
           <Input
-            onChange={e => {
+            onChange={(e) => {
               input.onChange(e.target.value)
             }}
-            ref={ref => {
+            ref={(ref) => {
               setTimeout(() => {
                 ref?.focus()
               }, 0)
@@ -43,7 +43,7 @@ const EmailTranscriptFormValues = ({ showErrors }) => {
 }
 
 EmailTranscriptFormValues.propTypes = {
-  showErrors: PropTypes.bool
+  showErrors: PropTypes.bool,
 }
 
 export default EmailTranscriptFormValues

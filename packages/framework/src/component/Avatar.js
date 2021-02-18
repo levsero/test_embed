@@ -9,15 +9,15 @@ export class Avatar extends Component {
   static propTypes = {
     className: PropTypes.string,
     src: PropTypes.string,
-    fallbackIcon: PropTypes.string
+    fallbackIcon: PropTypes.string,
   }
 
   static defaultProps = {
     className: '',
-    src: ''
+    src: '',
   }
 
-  renderCustom = classes => {
+  renderCustom = (classes) => {
     return <img aria-hidden={true} alt="avatar" className={classes} src={this.props.src} />
   }
 

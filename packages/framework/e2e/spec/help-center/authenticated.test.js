@@ -6,8 +6,8 @@ import { search, mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-
 import searchResults from 'e2e/fixtures/responses/search-results.json'
 import { DEFAULT_CORS_HEADERS, mockCorsRequest } from 'e2e/helpers/utils'
 
-const mockAuthSuccessEndpoint = callback => {
-  return mockCorsRequest('embeddable/authenticate', request => {
+const mockAuthSuccessEndpoint = (callback) => {
+  return mockCorsRequest('embeddable/authenticate', (request) => {
     callback(request.url())
     request.respond({
       status: 200,
@@ -16,8 +16,8 @@ const mockAuthSuccessEndpoint = callback => {
       body: JSON.stringify({
         oauth_token: 'faketoken',
         oauth_expiry: Date.now() + 100000,
-        oauth_created_at: Date.now()
-      })
+        oauth_created_at: Date.now(),
+      }),
     })
   })
 }
@@ -37,7 +37,7 @@ const buildWidget = () =>
     .intercept(mockAuthSuccessEndpoint(authenticateEndpoint))
     .evaluateOnNewDocument(() => {
       window.zESettings = {
-        authenticate: { jwt: 'authtoken' }
+        authenticate: { jwt: 'authtoken' },
       }
     })
 
@@ -56,12 +56,12 @@ test('help center images include token as well', async () => {
   const image = jest.fn()
   await buildWidget()
     .intercept(
-      mockCorsRequest('/hc/en-us/image.jpg', request => {
+      mockCorsRequest('/hc/en-us/image.jpg', (request) => {
         image(request.headers())
         request.respond({
           status: 200,
           headers: DEFAULT_CORS_HEADERS,
-          contentType: 'image/jpg'
+          contentType: 'image/jpg',
         })
       })
     )

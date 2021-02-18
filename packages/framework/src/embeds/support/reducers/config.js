@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const initialState = {
   maxFileCount: 5,
-  maxFileSize: 50 * 1024 * 1024
+  maxFileSize: 50 * 1024 * 1024,
 }
 
 const config = (state = initialState, action) => {
@@ -14,7 +14,7 @@ const config = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ..._.get(payload, 'embeds.ticketSubmissionForm.props', {})
+        ..._.get(payload, 'embeds.ticketSubmissionForm.props', {}),
       }
     default:
       return state

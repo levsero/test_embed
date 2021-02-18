@@ -34,7 +34,7 @@ const FeedbackPopup = ({ onYesClick, onNoClick, onReasonClick }) => {
 FeedbackPopup.propTypes = {
   onYesClick: PropTypes.func.isRequired,
   onNoClick: PropTypes.func.isRequired,
-  onReasonClick: PropTypes.func.isRequired
+  onReasonClick: PropTypes.func.isRequired,
 }
 
 export default FeedbackPopup

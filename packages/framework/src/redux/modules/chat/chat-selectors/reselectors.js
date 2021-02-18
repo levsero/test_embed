@@ -6,7 +6,7 @@ import {
   CHAT_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
   WHITELISTED_SOCIAL_LOGINS,
-  CONNECTION_STATUSES
+  CONNECTION_STATUSES,
 } from 'constants/chat'
 
 import { isPopout } from 'utility/globals'
@@ -31,12 +31,12 @@ import {
   getLatestQuickReplyKey,
   getInactiveAgents,
   getChatOnline,
-  isAgent
+  isAgent,
 } from './selectors'
 import { isDefaultNickname } from 'utility/chat'
 export const getPrechatFormRequired = createSelector(
   [getChatAccountSettingsPrechatForm],
-  accountSettingsPrechatForm => {
+  (accountSettingsPrechatForm) => {
     return accountSettingsPrechatForm.required
   }
 )
@@ -62,22 +62,19 @@ export const getAuthUrls = createSelector(
   }
 )
 
-export const getActiveAgents = createSelector(
-  getOrderedAgents,
-  orderedAgents => {
-    const arrAgents = Array.from(orderedAgents)
-      .filter(agent => agent[0] !== AGENT_BOT)
-      .map(agent => ({
-        [agent[0]]: agent[1]
-      }))
+export const getActiveAgents = createSelector(getOrderedAgents, (orderedAgents) => {
+  const arrAgents = Array.from(orderedAgents)
+    .filter((agent) => agent[0] !== AGENT_BOT)
+    .map((agent) => ({
+      [agent[0]]: agent[1],
+    }))
 
-    return _.assign({}, ...arrAgents)
-  }
-)
+  return _.assign({}, ...arrAgents)
+})
 
 export const getActiveAgentCount = createSelector(
   getActiveAgents,
-  activeAgents => Object.keys(activeAgents).length
+  (activeAgents) => Object.keys(activeAgents).length
 )
 
 export const getAllAgents = createSelector(
@@ -87,11 +84,11 @@ export const getAllAgents = createSelector(
   }
 )
 
-export const getAgentsTyping = state => {
+export const getAgentsTyping = (state) => {
   return _.filter(getActiveAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT)
 }
 
-export const getIsProactiveSession = state => {
+export const getIsProactiveSession = (state) => {
   const chats = Array.from(getChats(state).values())
   let foundAgentMessage = false
 
@@ -115,18 +112,15 @@ export const getIsProactiveSession = state => {
   return foundAgentMessage
 }
 
-export const getThemeShowAvatar = createSelector(
-  getThemeMessageType,
-  messageType => {
-    switch (messageType) {
-      case 'basic_avatar':
-      case 'bubble_avatar':
-        return true
-      default:
-        return false
-    }
+export const getThemeShowAvatar = createSelector(getThemeMessageType, (messageType) => {
+  switch (messageType) {
+    case 'basic_avatar':
+    case 'bubble_avatar':
+      return true
+    default:
+      return false
   }
-)
+})
 
 export const getGroupedOperatingHours = createSelector(
   [getOperatingHours, getDepartmentsList, getShowOperatingHours],
@@ -139,13 +133,13 @@ export const getGroupedOperatingHours = createSelector(
       return {
         ...operatingHours,
         department_schedule: _.map(operatingHours.department_schedule, (schedule, key) => {
-          const department = _.find(departments, d => d.id == key) // eslint-disable-line eqeqeq
+          const department = _.find(departments, (d) => d.id == key) // eslint-disable-line eqeqeq
 
           return {
             schedule,
-            ...department
+            ...department,
           }
-        })
+        }),
       }
     } else {
       return operatingHours
@@ -166,22 +160,19 @@ export const getShowOfflineChat = createSelector(
   }
 )
 
-export const getChatMessagesFromAgents = createSelector(
-  [getChats],
-  chats => {
-    const chatsArr = Array.from(chats.values())
+export const getChatMessagesFromAgents = createSelector([getChats], (chats) => {
+  const chatsArr = Array.from(chats.values())
 
-    return _.filter(
-      chatsArr,
-      message => _.includes(message.nick, 'agent') && _.includes(CHAT_MESSAGE_EVENTS, message.type)
-    )
-  }
-)
+  return _.filter(
+    chatsArr,
+    (message) => _.includes(message.nick, 'agent') && _.includes(CHAT_MESSAGE_EVENTS, message.type)
+  )
+})
 
 export const hasUnseenAgentMessage = createSelector(
   [getChatMessagesFromAgents, getLastReadTimestamp],
   (messages, timestamp) =>
-    !timestamp || !!_.find(messages, message => message.timestamp > timestamp)
+    !timestamp || !!_.find(messages, (message) => message.timestamp > timestamp)
 )
 
 export const getShowUpdateVisitorDetails = createSelector(
@@ -196,7 +187,7 @@ export const getShowUpdateVisitorDetails = createSelector(
 )
 
 export const getDepartment = (state, department) => {
-  return _.find(getDepartmentsList(state), dept => {
+  return _.find(getDepartmentsList(state), (dept) => {
     if (_.isString(department)) {
       return dept.name === department
     } else {
@@ -205,15 +196,12 @@ export const getDepartment = (state, department) => {
   })
 }
 
-export const getChatsLength = createSelector(
-  [getChats],
-  chats => chats.size
-)
+export const getChatsLength = createSelector([getChats], (chats) => chats.size)
 
 export const getGroupMessages = createCachedSelector(
   getChats,
   (_state, messageKeys) => messageKeys,
-  (chats, messageKeys) => _.map(messageKeys, key => chats.get(key))
+  (chats, messageKeys) => _.map(messageKeys, (key) => chats.get(key))
 )((_state, messageKeys) => messageKeys[messageKeys.length - 1])
 
 export const getLatestQuickReply = createSelector(
@@ -222,10 +210,11 @@ export const getLatestQuickReply = createSelector(
   (chats, latestQuickReply) => chats.get(latestQuickReply)
 )
 
-export const getIsPopoutAvailable = state =>
+export const getIsPopoutAvailable = (state) =>
   !getIsAuthenticated(state) && getChatOnline(state) && !isPopout()
 
-export const getChatConnected = state => getConnection(state) === CONNECTION_STATUSES.CONNECTED
-export const getChatConnectionClosed = state => getConnection(state) === CONNECTION_STATUSES.CLOSED
-export const getChatConnectionMade = state =>
+export const getChatConnected = (state) => getConnection(state) === CONNECTION_STATUSES.CONNECTED
+export const getChatConnectionClosed = (state) =>
+  getConnection(state) === CONNECTION_STATUSES.CLOSED
+export const getChatConnectionMade = (state) =>
   getChatConnected(state) || getChatConnectionClosed(state)

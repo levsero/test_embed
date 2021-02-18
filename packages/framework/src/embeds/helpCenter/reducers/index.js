@@ -35,5 +35,5 @@ export default combineReducers({
   searchLoading,
   searchTerm,
   totalUserSearches,
-  clickedArticles
+  clickedArticles,
 })

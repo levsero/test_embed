@@ -16,22 +16,22 @@ let config = merge(common, {
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
-    publicPath: PUBLIC_PATH + '/'
+    publicPath: PUBLIC_PATH + '/',
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } }
+      cssProcessorOptions: { discardComments: { removeAll: true } },
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
       logLevel: 'silent',
-      reportFilename: '../report.html'
+      reportFilename: '../report.html',
     }),
     new StatsWriterPlugin({
       filename: '../package_sizes.json',
@@ -44,10 +44,10 @@ let config = merge(common, {
         modules: true,
         maxModules: 0,
         errors: false,
-        warnings: false
-      }
-    })
-  ]
+        warnings: false,
+      },
+    }),
+  ],
 })
 
 if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
@@ -66,10 +66,10 @@ if (process.env.ROLLBAR_ACCESS_TOKEN && process.env.ROLLBAR_ENDPOINT) {
           'vendors~lazy/web_widget',
           'vendors~messenger',
           'vendors~web_widget',
-          'web_widget'
-        ]
-      })
-    ]
+          'web_widget',
+        ],
+      }),
+    ],
   })
 }
 

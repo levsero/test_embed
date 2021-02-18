@@ -20,13 +20,13 @@ describe('when there is a new GA snippet on the page', () => {
   let tracker
   beforeEach(() => {
     tracker = { send: jest.fn() }
-    const ga = fun => {
+    const ga = (fun) => {
       fun()
     }
     ga.getAll = () => [tracker]
     globals.win = {
       GoogleAnalyticsObject: 'ga',
-      ga
+      ga,
     }
     GA.init()
   })
@@ -38,7 +38,7 @@ describe('when there is a new GA snippet on the page', () => {
       eventCategory: 'Zendesk Web Widget',
       eventLabel: '1 - hello',
       eventValue: undefined,
-      hitType: 'event'
+      hitType: 'event',
     })
   })
 })
@@ -47,7 +47,7 @@ describe('when there is a old GA snippet on the page', () => {
   beforeEach(() => {
     globals.win = {
       _gaq: 'oldGaq',
-      _gat: 'oldGat'
+      _gat: 'oldGat',
     }
     GA.init()
   })
@@ -55,7 +55,7 @@ describe('when there is a old GA snippet on the page', () => {
   it('returns an object containing the gat and gaq of the window', () => {
     expect(GA.get()).toEqual({
       gaq: 'oldGaq',
-      gat: 'oldGat'
+      gat: 'oldGat',
     })
   })
 })

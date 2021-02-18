@@ -12,7 +12,7 @@ describe('articleViewed', () => {
   const params = {
     query: 'test',
     resultsCount: 9,
-    uniqueSearchResultClick: true
+    uniqueSearchResultClick: true,
   }
 
   test('sends the expected params', () => {
@@ -26,11 +26,11 @@ describe('articleViewed', () => {
           last_search: {
             query: params.query,
             results_count: params.resultsCount,
-            origin: 'web_widget'
+            origin: 'web_widget',
           },
-          unique_search_result_click: params.uniqueSearchResultClick
+          unique_search_result_click: params.uniqueSearchResultClick,
         },
-        authorization: ''
+        authorization: '',
       })
     )
   })
@@ -40,7 +40,7 @@ describe('articleViewed', () => {
     hcStats.articleViewed(123, 'fr', params)
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        authorization: 'Bearer abc'
+        authorization: 'Bearer abc',
       })
     )
   })
@@ -50,7 +50,7 @@ describe('articleViewed', () => {
     hcStats.articleViewed(123, 'fr', params)
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        useHostMappingIfAvailable: true
+        useHostMappingIfAvailable: true,
       })
     )
   })
@@ -71,10 +71,10 @@ describe('ticketSubmitted', () => {
         params: {
           last_search: {
             query: 'query',
-            origin: 'web_widget'
-          }
+            origin: 'web_widget',
+          },
         },
-        authorization: ''
+        authorization: '',
       })
     )
   })
@@ -84,7 +84,7 @@ describe('ticketSubmitted', () => {
     hcStats.ticketSubmitted(123, 'query')
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        authorization: 'Bearer abc'
+        authorization: 'Bearer abc',
       })
     )
   })
@@ -94,7 +94,7 @@ describe('ticketSubmitted', () => {
     hcStats.ticketSubmitted(123, 'query')
     expect(http.send).toHaveBeenCalledWith(
       expect.objectContaining({
-        useHostMappingIfAvailable: true
+        useHostMappingIfAvailable: true,
       })
     )
   })

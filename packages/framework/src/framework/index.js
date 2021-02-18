@@ -31,12 +31,12 @@ const setupIframe = (iframe, doc) => {
 const embeddables = {
   messenger: () =>
     import(/* webpackChunkName: "messenger" */ 'src/apps/messenger').then(
-      messenger => messenger.default
+      (messenger) => messenger.default
     ),
   webWidget: () =>
     import(/* webpackChunkName: "lazy/web_widget" */ 'src/apps/webWidget').then(
-      webWidget => webWidget.default
-    )
+      (webWidget) => webWidget.default
+    ),
 }
 
 const frameworkServices = [identity, beacon, publicApi, tracker]
@@ -63,11 +63,11 @@ const start = async () => {
     const serviceData = { config, configLoadStart, embeddableName }
 
     // Initialise all framework services and then initialise the embeddable
-    frameworkServices.forEach(service => service.init?.(serviceData))
+    frameworkServices.forEach((service) => service.init?.(serviceData))
     const embeddableData = await embeddable.init?.(serviceData)
 
     // Start running all framework services and then start running the embeddable
-    frameworkServices.forEach(service => service.run?.(serviceData))
+    frameworkServices.forEach((service) => service.run?.(serviceData))
     embeddable.run?.({ ...serviceData, embeddableData })
 
     beacon.sendPageView(embeddableName === 'messenger' ? 'web_messenger' : 'web_widget')
@@ -78,7 +78,7 @@ const start = async () => {
   } catch (err) {
     errorTracker.error(err, {
       rollbarFingerprint: 'Failed to render embeddable',
-      rollbarTitle: 'Failed to render embeddable'
+      rollbarTitle: 'Failed to render embeddable',
     })
   }
 }
@@ -87,7 +87,7 @@ const framework = {
   start,
 
   // Exported for testing only.
-  setupIframe
+  setupIframe,
 }
 
 export default framework

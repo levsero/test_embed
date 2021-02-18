@@ -28,5 +28,5 @@ module.exports = {
   useDocker,
   stopContainer,
   getHost,
-  getWsEndpoint
+  getWsEndpoint,
 }

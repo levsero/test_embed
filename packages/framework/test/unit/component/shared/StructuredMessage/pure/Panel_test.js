@@ -23,8 +23,8 @@ describe('Pure Panel Component', () => {
       layout: 'hero',
       roundedTop: false,
       roundedBottom: false,
-      withBorderBottom: true
-    }
+      withBorderBottom: true,
+    },
   }
 
   beforeEach(() => {
@@ -44,23 +44,23 @@ describe('Pure Panel Component', () => {
 
           noBorderRadiusTop: 'noBorderRadiusTop',
           noBorderRadiusBottom: 'noBorderRadiusBottom',
-          noBorderBottom: 'noBorderBottom'
-        }
+          noBorderBottom: 'noBorderBottom',
+        },
       },
       'component/Icon': {
-        Icon
+        Icon,
       },
       'src/constants/shared': {
         FONT_SIZE,
-        TEST_IDS
+        TEST_IDS,
       },
       'component/shared/KeyboardFocusButton': {
-        KeyboardFocusButton: KeyboardFocusButton
+        KeyboardFocusButton: KeyboardFocusButton,
       },
       'utility/devices': {
         isFirefox: isFirefoxSpy,
-        isIE: isIESpy
-      }
+        isIE: isIESpy,
+      },
     })
 
     mockery.registerAllowable(panelPath)
@@ -117,7 +117,7 @@ describe('Pure Panel Component', () => {
     describe('imageUrl', () => {
       it('should get defined first child when imageUrl prop is provided', () => {
         const panel = {
-          imageUrl: 'image.jpg'
+          imageUrl: 'image.jpg',
         }
 
         const component = instanceRender(<Panel panel={panel} />)
@@ -130,7 +130,7 @@ describe('Pure Panel Component', () => {
     describe('layout', () => {
       it('should get null as first child when layout is not hero', () => {
         const panel = {
-          layout: 'thumbnail'
+          layout: 'thumbnail',
         }
 
         const component = instanceRender(<Panel panel={panel} />)
@@ -143,7 +143,7 @@ describe('Pure Panel Component', () => {
     describe('roundedTop', () => {
       it('should not have noBorderRadiusTop classname when roundedTop is true', () => {
         const panel = {
-          roundedTop: true
+          roundedTop: true,
         }
 
         const component = instanceRender(<Panel panel={panel} />)
@@ -156,7 +156,7 @@ describe('Pure Panel Component', () => {
     describe('roundedBottom', () => {
       it('should not have noBorderRadiusBottom classname when roundedBottom is true', () => {
         const panel = {
-          roundedBottom: true
+          roundedBottom: true,
         }
 
         const component = instanceRender(<Panel panel={panel} />)
@@ -169,7 +169,7 @@ describe('Pure Panel Component', () => {
     describe('withBorderBottom', () => {
       it('should have noBorderBottom classname when withBorderBottom is false', () => {
         const panel = {
-          withBorderBottom: false
+          withBorderBottom: false,
         }
 
         const component = instanceRender(<Panel panel={panel} />)
@@ -185,7 +185,7 @@ describe('Pure Panel Component', () => {
   describe('.renderHeroImage', () => {
     const panelProps = {
       imageAspectRatio: 4 / 3,
-      imageUrl: 'image.png'
+      imageUrl: 'image.png',
     }
     let component
 
@@ -197,7 +197,7 @@ describe('Pure Panel Component', () => {
       const result = component.render()
 
       expect(result.props.children[0].props.children[0].props.style).toEqual({
-        paddingBottom: '75%'
+        paddingBottom: '75%',
       })
     })
   })
@@ -207,7 +207,7 @@ describe('Pure Panel Component', () => {
 
     const panelProps = {
       ...expectedDefaultProps.panel,
-      paragraph: 'text'
+      paragraph: 'text',
     }
 
     beforeEach(() => {

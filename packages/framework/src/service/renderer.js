@@ -16,7 +16,7 @@ let hasRendered = false
 const dummyStore = {
   dispatch: () => {},
   getState: () => {},
-  subscribe: () => {}
+  subscribe: () => {},
 }
 
 function setUpEmbeds(embeds, reduxStore) {
@@ -34,7 +34,7 @@ function setUpEmbeds(embeds, reduxStore) {
 }
 
 function registerEmbedsInRedux(config, reduxStore) {
-  Object.keys(config.embeds).forEach(embed => {
+  Object.keys(config.embeds).forEach((embed) => {
     reduxStore.dispatch(updateEmbedAccessible(embed, true))
   })
 }
@@ -85,5 +85,5 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 export const renderer = {
   run,
   init: init,
-  initIPM: initIPM
+  initIPM: initIPM,
 }

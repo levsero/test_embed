@@ -8,29 +8,29 @@ testReducer(chatLabel, [
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { chatLabel: 'boop' } }
-      }
+        webWidget: { launcher: { chatLabel: 'boop' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { somethingElse: 'hello there' } }
-      }
+        webWidget: { launcher: { somethingElse: 'hello there' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: 'not a real action',
       payload: {
-        webWidget: { launcher: { chatLabel: 'probably a real name' } }
-      }
+        webWidget: { launcher: { chatLabel: 'probably a real name' } },
+      },
     },
-    expected: 'boop'
-  }
+    expected: 'boop',
+  },
 ])

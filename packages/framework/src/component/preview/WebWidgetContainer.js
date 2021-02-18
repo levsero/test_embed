@@ -35,12 +35,12 @@ WebWidgetContainer.propTypes = {
     marginTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     marginRight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     width: PropTypes.string,
-    height: PropTypes.string
+    height: PropTypes.string,
   }),
   containerStyle: PropTypes.shape({
     margin: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    width: PropTypes.string
-  })
+    width: PropTypes.string,
+  }),
 }
 
 export default WebWidgetContainer

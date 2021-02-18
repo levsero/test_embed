@@ -26,11 +26,11 @@ SquareLauncher.propTypes = {
   isOpen: PropTypes.bool,
   onClick: PropTypes.func,
   position: PropTypes.oneOf(['left', 'right']),
-  size: PropTypes.string
+  size: PropTypes.string,
 }
 
 SquareLauncher.defaultProps = {
-  size: '64px'
+  size: '64px',
 }
 
 export default SquareLauncher

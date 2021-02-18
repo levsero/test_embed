@@ -2,7 +2,7 @@ import { socketio } from '../socketio'
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
-  talkAverageWaitTimeEventToAction
+  talkAverageWaitTimeEventToAction,
 } from '../events'
 
 jest.mock('../events')
@@ -33,7 +33,7 @@ describe('connect', () => {
       reconnectionDelay: 5000,
       reconnectionDelayMax: 30000,
       timeout: 45000,
-      transports: ['websocket']
+      transports: ['websocket'],
     })
   })
 

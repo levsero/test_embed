@@ -14,7 +14,7 @@ const DescriptionField = ({ label, defaultValue }) => {
 
 DescriptionField.propTypes = {
   label: PropTypes.string.isRequired,
-  defaultValue: PropTypes.string
+  defaultValue: PropTypes.string,
 }
 
 export default DescriptionField

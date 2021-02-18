@@ -13,7 +13,7 @@ describe('RequestRatingButton', () => {
     latestRatingRequest: -1,
     latestAgentLeaveEvent: -1,
     activeAgentCount: 1,
-    chatRating: { value: undefined, comment: null }
+    chatRating: { value: undefined, comment: null },
   }
 
   const renderComponent = (props = {}) =>
@@ -30,7 +30,7 @@ describe('RequestRatingButton', () => {
       const { queryByText } = renderComponent({
         canRateChat: false,
         latestRatingRequest: 1,
-        latestRating: 1
+        latestRating: 1,
       })
 
       expect(queryByText('Rate this chat')).not.toBeInTheDocument()
@@ -44,8 +44,8 @@ describe('RequestRatingButton', () => {
         latestRating: 1,
         chatRating: {
           value: 'good',
-          comment: 'cool comment'
-        }
+          comment: 'cool comment',
+        },
       })
 
       expect(queryByText('Rate this chat')).not.toBeInTheDocument()
@@ -57,8 +57,8 @@ describe('RequestRatingButton', () => {
         latestRating: 1,
         chatRating: {
           value: 'good',
-          comment: null
-        }
+          comment: null,
+        },
       })
 
       expect(queryByText('Rate this chat')).not.toBeInTheDocument()

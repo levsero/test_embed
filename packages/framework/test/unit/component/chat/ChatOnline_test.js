@@ -31,14 +31,14 @@ describe('ChatOnline component', () => {
 
     initMockRegistry({
       './ChatOnline.scss': {
-        locals: {}
+        locals: {},
       },
       'component/loading/LoadingSpinner': {
-        LoadingSpinner
+        LoadingSpinner,
       },
       'components/FileDropProvider': {
         FileDropProvider: noopReactComponent(),
-        FileDropTarget
+        FileDropTarget,
       },
       'src/embeds/chat/pages/ChattingPage': noopReactComponent(),
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
@@ -50,26 +50,26 @@ describe('ChatOnline component', () => {
       'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
       'embeds/chat/components/ReconnectButton': noopReactComponent(),
       'component/button/ButtonPill': {
-        ButtonPill
+        ButtonPill,
       },
       'embeds/chat/components/ChatMenu': ChatMenu,
       'component/container/Container': {
-        Container: noopReactComponent()
+        Container: noopReactComponent(),
       },
       'embeds/chat/components/ChatModal': noopReactComponent(),
       'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
       'component/chat/ChatRatingGroup': {
-        ChatRatings: {}
+        ChatRatings: {},
       },
       'src/component/attachment/AttachmentBox': AttachmentBox,
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,
-        resetCurrentMessage: resetCurrentMessageSpy
+        resetCurrentMessage: resetCurrentMessageSpy,
       },
       'src/redux/modules/selectors': {
         getPrechatFormFields: noop,
-        getChatEmailTranscriptEnabled: noop
+        getChatEmailTranscriptEnabled: noop,
       },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
@@ -78,35 +78,35 @@ describe('ChatOnline component', () => {
         POST_CHAT_SCREEN: postChatScreen,
         LOADING_SCREEN: loadingScreen,
         OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen,
-        AGENT_LIST_SCREEN
+        AGENT_LIST_SCREEN,
       },
       'src/embeds/chat/actions/email-transcript': {
-        sendEmailTranscript: noop
+        sendEmailTranscript: noop,
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
-          isRTL: () => {}
-        }
+          isRTL: () => {},
+        },
       },
       'constants/shared': {
-        TEST_IDS: {}
+        TEST_IDS: {},
       },
       'constants/chat': {
         AGENT_BOT: 'agent:trigger',
         CONNECTION_STATUSES,
-        DEPARTMENT_STATUSES
+        DEPARTMENT_STATUSES,
       },
       'src/util/chat': {
-        isDefaultNickname: noop
+        isDefaultNickname: noop,
       },
       'src/redux/modules/chat/chat-selectors': {},
       'src/util/utils': {
-        onNextTick: cb => setTimeout(cb, 0)
+        onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/embeds/chat/components/ButtonPill': {},
       'src/embeds/chat/selectors': {},
-      'src/embeds/webWidget/selectors/feature-flags': {}
+      'src/embeds/webWidget/selectors/feature-flags': {},
     })
 
     mockery.registerAllowable(chatPath)
@@ -359,7 +359,7 @@ describe('ChatOnline component', () => {
       jasmine.clock().install()
       focusSpy = jasmine.createSpy('focus')
       component.menu = {
-        focus: focusSpy
+        focus: focusSpy,
       }
 
       component.toggleMenu(keypress)

@@ -26,7 +26,7 @@ const run = async () => {
 
     let numRums = 0
 
-    await page.exposeFunction('storeTime', async time => {
+    await page.exposeFunction('storeTime', async (time) => {
       if (numRums > 0) {
         times.push(time)
 
@@ -59,8 +59,8 @@ const run = async () => {
     const evaluate = async () => {
       await page.evaluate(
         ({ start }) => {
-          const observer = new MutationObserver(mutations => {
-            mutations.forEach(async mutation => {
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach(async (mutation) => {
               const firstChild = mutation.addedNodes[0].firstElementChild
 
               if (firstChild && firstChild.id === 'launcher') {
@@ -74,7 +74,7 @@ const run = async () => {
           observer.observe(document.body, {
             attributes: true,
             childList: true,
-            characterData: true
+            characterData: true,
           })
         },
         { start }

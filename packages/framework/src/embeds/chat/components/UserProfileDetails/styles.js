@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const maxWidth = props => {
+const maxWidth = (props) => {
   const base = props.isSociallyAuthenticated ? 70 : 20
   const value = base / props.theme.fontSize
 
@@ -10,9 +10,9 @@ const maxWidth = props => {
 const UserProfileDetailsContainer = styled.div`
   display: inline-block;
   max-width: ${maxWidth};
-  padding-left: ${props => 12 / props.theme.fontSize}rem;
+  padding-left: ${(props) => 12 / props.theme.fontSize}rem;
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl &&
     `
     padding-left: 0;

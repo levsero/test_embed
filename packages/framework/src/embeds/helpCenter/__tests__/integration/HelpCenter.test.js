@@ -51,7 +51,7 @@ const results = {
         outdated_locales: [],
         permission_group_id: 617232,
         user_segment_id: null,
-        result_type: 'article'
+        result_type: 'article',
       },
       {
         id: 115002343791,
@@ -80,7 +80,7 @@ const results = {
         outdated_locales: [],
         permission_group_id: 617232,
         user_segment_id: null,
-        result_type: 'article'
+        result_type: 'article',
       },
       {
         id: 115002343751,
@@ -109,7 +109,7 @@ const results = {
         outdated_locales: [],
         permission_group_id: 617232,
         user_segment_id: null,
-        result_type: 'article'
+        result_type: 'article',
       },
       {
         id: 115002343731,
@@ -138,7 +138,7 @@ const results = {
         outdated_locales: [],
         permission_group_id: 617232,
         user_segment_id: null,
-        result_type: 'article'
+        result_type: 'article',
       },
       {
         id: 115002343771,
@@ -167,16 +167,16 @@ const results = {
         outdated_locales: [],
         permission_group_id: 617232,
         user_segment_id: null,
-        result_type: 'article'
-      }
+        result_type: 'article',
+      },
     ],
     page: 1,
     previous_page: null,
     next_page: null,
     per_page: 9,
     page_count: 1,
-    count: 5
-  }
+    count: 5,
+  },
 }
 
 const setupMocks = () => {
@@ -193,7 +193,7 @@ const setupMocks = () => {
   })
 }
 
-const checkArticlesDisplayed = queryByText => {
+const checkArticlesDisplayed = (queryByText) => {
   expect(queryByText('How can agents leverage knowledge to help customers?')).toBeInTheDocument()
   expect(queryByText('How do I customize my Help Center?')).toBeInTheDocument()
   expect(queryByText('What are these sections and articles doing here?')).toBeInTheDocument()
@@ -206,7 +206,7 @@ const focusedOnArticle = (queryByText, title) => {
 
 const setupNoResultsMock = () => {
   http.get = jest.fn(() => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve({
         body: {
           results: [],
@@ -215,8 +215,8 @@ const setupNoResultsMock = () => {
           next_page: null,
           per_page: 9,
           page_count: 0,
-          count: 0
-        }
+          count: 0,
+        },
       })
     })
   })

@@ -14,7 +14,7 @@ jest.mock('src/service/api/apis')
 
 const mockStore = {
   dispatch: jest.fn(),
-  getState: jest.fn()
+  getState: jest.fn(),
 }
 
 const isMessengerWidget = false
@@ -160,7 +160,7 @@ describe('pre render methods', () => {
     describe('when that call is prefill', () => {
       const payload = {
         name: { value: 'Terence', readOnly: true },
-        email: { value: 'a2b.c' }
+        email: { value: 'a2b.c' },
       }
 
       beforeEach(() => {
@@ -384,7 +384,7 @@ describe('post render methods', () => {
   describe('when that call is prefill', () => {
     const payload = {
       name: { value: 'T-bone', readOnly: true },
-      email: { value: 'a2b.c' }
+      email: { value: 'a2b.c' },
     }
 
     beforeEach(() => {
@@ -534,7 +534,7 @@ describe('post render methods', () => {
 describe('legacy apis', () => {
   const user = {
     name: 'Jane Doe',
-    email: 'a@b.c'
+    email: 'a@b.c',
   }
 
   describe('zE.show', () => {
@@ -573,7 +573,7 @@ describe('legacy apis', () => {
     it('calls handlePrefillReceived with the formatted user object', () => {
       const expected = {
         name: { value: 'Jane Doe' },
-        email: { value: 'a@b.c' }
+        email: { value: 'a@b.c' },
       }
 
       expect(apis.prefill).toHaveBeenCalledWith(mockStore, expected)

@@ -5,7 +5,7 @@ test('on chat:status calls a function when the status changes', async () => {
   let result
 
   await openChattingScreenAndEvaluate(() => {
-    zE('webWidget:on', 'chat:status', status => {
+    zE('webWidget:on', 'chat:status', (status) => {
       window.chatStatus = status
     })
   })

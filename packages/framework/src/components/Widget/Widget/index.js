@@ -5,7 +5,7 @@ import { Container } from './styles'
 const Widget = ({ children }) => <Container>{children}</Container>
 
 Widget.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default Widget

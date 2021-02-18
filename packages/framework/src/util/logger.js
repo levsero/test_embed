@@ -24,5 +24,5 @@ export default {
   devLog,
   info,
   warn,
-  error
+  error,
 }

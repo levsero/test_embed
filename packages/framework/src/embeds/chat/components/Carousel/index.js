@@ -9,11 +9,11 @@ import Slider from 'embeds/chat/components/SliderContainer'
 export default class Carousel extends Component {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
   }
 
   static defaultProps = {
-    isMobile: false
+    isMobile: false,
   }
 
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Carousel extends Component {
   render = () => {
     const containerClassName = classNames('structuredMessageSlider', styles.carouselSlider)
     const sliderSettings = {
-      arrows: !this.props.isMobile
+      arrows: !this.props.isMobile,
     }
 
     return (

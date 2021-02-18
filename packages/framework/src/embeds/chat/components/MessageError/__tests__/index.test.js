@@ -3,11 +3,11 @@ import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     errorMessage: 'this is an error',
     onClick: null,
-    ...inProps
+    ...inProps,
   }
   return render(<MessageError {...props} />)
 }

@@ -6,18 +6,18 @@ import { waitFor } from '@testing-library/dom'
 
 const actions = Object.freeze({
   conversationScreenClosed: jest.fn(),
-  updateBackButtonVisibility: jest.fn()
+  updateBackButtonVisibility: jest.fn(),
 })
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
     messageGroups: {},
-    actions
+    actions,
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<ConversationPage {...componentProps} />)

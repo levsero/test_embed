@@ -10,11 +10,11 @@ export default class List extends PureComponent {
     articles: PropTypes.array,
     showNextButton: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    locale: PropTypes.string
+    locale: PropTypes.string,
   }
 
   static defaultProps = {
-    articles: []
+    articles: [],
   }
 
   constructor() {
@@ -28,8 +28,8 @@ export default class List extends PureComponent {
     }
   }
 
-  renderResultRow = article => {
-    const assignRef = ref => {
+  renderResultRow = (article) => {
+    const assignRef = (ref) => {
       this.itemRefs[article.id] = ref
     }
 

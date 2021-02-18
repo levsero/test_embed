@@ -1,13 +1,13 @@
 import {
   SDK_CHAT_MEMBER_JOIN,
   END_CHAT_REQUEST_SUCCESS,
-  SDK_CHAT_MEMBER_LEAVE
+  SDK_CHAT_MEMBER_LEAVE,
 } from '../chat-action-types'
 import { AGENT_BOT } from 'constants/chat'
 
 const initialState = false
 
-const isAgent = nick => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT
+const isAgent = (nick) => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT
 
 const agentJoined = (state = initialState, action) => {
   switch (action.type) {

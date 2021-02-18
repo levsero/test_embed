@@ -13,7 +13,7 @@ export const StyledList = styled.ol`
   }
   ${({ isBottom }) => isBottom && `padding-bottom: ${20 / FONT_SIZE}rem;`}
   ${isMobileBrowser() &&
-    `
+  `
     margin-bottom: ${20 / FONT_SIZE}rem !important;
     padding: ${8 / FONT_SIZE}rem 0 0 ${24 / FONT_SIZE}rem;
 `}

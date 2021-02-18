@@ -24,7 +24,7 @@ const renderComponent = (props = {}) => {
     chatLabel: 'chatLabel',
     talkLabel: 'custom talk label',
     unreadMessages: 0,
-    showLabelMobile: false
+    showLabelMobile: false,
   }
   const actualProps = { ...defaultProps, ...props }
 
@@ -47,17 +47,17 @@ describe('WidgetLauncher', () => {
       [true, true, 0, 'launcherLabel', 'label'],
       [true, false, 0, 'launcherLabel', 'label labelMobile'],
       [false, true, 0, 'launcherLabel', 'label'],
-      [false, false, 0, 'launcherLabel', 'label']
+      [false, false, 0, 'launcherLabel', 'label'],
     ])(
       'when isMobile == %p && showLabelMobile == %p && notificationCount == %p, it contains text %p and classes %p',
       (isMobile, showLabelMobile, notificationCount, labelText, classes) => {
         const { queryByTestId } = renderComponent({
           isMobile,
           showLabelMobile,
-          notificationCount
+          notificationCount,
         })
         const label = queryByTestId(TEST_IDS.LAUNCHER_LABEL)
-        const labelClasses = _.map(label.classList, klass => klass).join(' ')
+        const labelClasses = _.map(label.classList, (klass) => klass).join(' ')
 
         expect(label.innerHTML).toEqual(labelText)
         expect(labelClasses).toEqual(classes)
@@ -69,7 +69,7 @@ describe('WidgetLauncher', () => {
     test.each([
       ['talk', 0, 'launcher boopity', 'beepity boopidy', 'beepity boopidy'],
       ['helpCenterForm', 0, 'launcher boopity', 'beepity boopidy', 'launcher boopity'],
-      ['ticketSubmissionForm', 0, 'launcher boopity', 'beepity boopidy', 'launcher boopity']
+      ['ticketSubmissionForm', 0, 'launcher boopity', 'beepity boopidy', 'launcher boopity'],
     ])(
       'when activeEmbed is %p, notificationCount is %p, talkLabel is %p, launcherLabel is %p, expect %p',
       (activeEmbed, notificationCount, launcherLabel, talkLabel, expectedLabel) => {
@@ -77,7 +77,7 @@ describe('WidgetLauncher', () => {
           activeEmbed,
           launcherLabel,
           notificationCount,
-          talkLabel
+          talkLabel,
         })
 
         const label = queryByTestId(TEST_IDS.LAUNCHER_LABEL)
