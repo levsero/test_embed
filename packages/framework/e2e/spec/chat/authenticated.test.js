@@ -62,84 +62,6 @@ test('name and email are not editable', async () => {
   expect(await queries.queryByLabelText(doc, 'Email (optional)')).toBeFalsy()
 })
 
-const mockChatHistory = async () => {
-  await page.evaluate(() => {
-    window.zChat.__mock__('fetchChatHistory', cb => {
-      const fireHistoryEvent = detail => {
-        window.zChat.__fire__('data', { type: 'history', detail })
-      }
-
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        first: true,
-        nick: 'visitor',
-        timestamp: 1586825289167,
-        type: 'chat.memberjoin'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        msg: 'help',
-        nick: 'visitor',
-        options: [],
-        timestamp: 1586825289457,
-        type: 'chat.msg'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        msg: 'this is a message from visitor',
-        nick: 'visitor',
-        options: [],
-        timestamp: 1586825293248,
-        type: 'chat.msg'
-      })
-      fireHistoryEvent({
-        display_name: 'Wayner',
-        nick: 'agent:115806148031',
-        timestamp: 1586825302265,
-        type: 'chat.memberjoin'
-      })
-      fireHistoryEvent({
-        display_name: 'Wayner',
-        msg: 'this is a message from agent',
-        nick: 'agent:115806148031',
-        options: [],
-        timestamp: 1586825326042,
-        type: 'chat.msg'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        nick: 'visitor',
-        reason: 'user_not_alive',
-        timestamp: 1586825769415,
-        type: 'chat.memberleave'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        first: true,
-        nick: 'visitor',
-        timestamp: 1586825809367,
-        type: 'chat.memberjoin'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        msg: 'second message from visitor',
-        nick: 'visitor',
-        options: [],
-        timestamp: 1586825809657,
-        type: 'chat.msg'
-      })
-      fireHistoryEvent({
-        display_name: 'Alice Bob',
-        nick: 'visitor',
-        reason: 'user_not_alive',
-        timestamp: 1586826494816,
-        type: 'chat.memberleave'
-      })
-      cb(null, { count: 9, has_more: false })
-    })
-  })
-}
-
 const assertPastChatsVisible = async () => {
   await widget.expectToSeeText('14 April 2020, 00:48')
   await widget.expectToSeeText('this is a message from visitor')
@@ -153,7 +75,7 @@ const assertPastChatsVisible = async () => {
 describe('view past chats', () => {
   beforeEach(async () => {
     await buildWidget()
-    await mockChatHistory()
+    await zChat.mockChatHistory()
     await zChat.online()
     await launcher.waitForLauncherPill()
     await launcher.click()
@@ -180,7 +102,7 @@ describe('view past chats', () => {
 describe('start chat', () => {
   beforeEach(async () => {
     await buildWidget()
-    await mockChatHistory()
+    await zChat.mockChatHistory()
     await zChat.online()
     await launcher.waitForLauncherPill()
     await launcher.click()

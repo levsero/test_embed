@@ -7,6 +7,7 @@ import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import * as constants from 'constants/api'
 import * as eventConstants from 'constants/event'
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions'
+import * as reinitialiseChatActions from 'src/redux/modules/chat/chat-actions/reinitialiseChat'
 import * as settingsActions from 'src/redux/modules/settings/settings-actions'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import * as hcActions from 'src/embeds/helpCenter/actions'
@@ -168,6 +169,21 @@ describe('sendChatMsgApi', () => {
     apis.sendChatMsgApi(store, undefined)
 
     expect(sendMsg).toHaveBeenCalledWith('')
+  })
+})
+
+describe('reauthenticateApi', () => {
+  it('dispatches the reinitialiseChat action', () => {
+    const store = createStore()
+    store.dispatch = jest.fn()
+
+    const reinitialiseChatSpy = jest.fn()
+    jest.spyOn(reinitialiseChatActions, 'reinitialiseChat').mockImplementation(reinitialiseChatSpy)
+
+    apis.reauthenticateApi(store)
+
+    expect(reinitialiseChatSpy).toHaveBeenCalledWith(true)
+    expect(store.dispatch).toHaveBeenCalledWith(reinitialiseChatSpy())
   })
 })
 
@@ -435,7 +451,7 @@ describe('updateSettingsApi', () => {
 
 describe('logoutApi', () => {
   const logoutValue = Date.now(),
-    chatLogoutValue = Date.now(),
+    reinitialiseChatValue = Date.now(),
     resetValue = { type: 'API_RESET_WIDGET' },
     closeReceivedValue = 'closeReceivedValue'
   let baseSpy, chatSpy, resetSpy, closeReceivedSpy, store
@@ -445,12 +461,14 @@ describe('logoutApi', () => {
 
     store.dispatch = jest.fn()
     const logout = jest.fn(() => logoutValue),
-      chatLogout = jest.fn(() => chatLogoutValue),
+      reinitialiseChat = jest.fn(() => reinitialiseChatValue),
       apiReset = jest.fn(() => resetValue),
       closeReceived = jest.fn(() => closeReceivedValue)
 
     baseSpy = jest.spyOn(baseActions, 'logout').mockImplementation(logout)
-    chatSpy = jest.spyOn(chatActions, 'chatLogout').mockImplementation(chatLogout)
+    chatSpy = jest
+      .spyOn(reinitialiseChatActions, 'reinitialiseChat')
+      .mockImplementation(reinitialiseChat)
     resetSpy = jest.spyOn(baseActions, 'apiResetWidget').mockImplementation(apiReset)
     closeReceivedSpy = jest.spyOn(baseActions, 'closeReceived').mockImplementation(closeReceived)
 
@@ -464,8 +482,9 @@ describe('logoutApi', () => {
     closeReceivedSpy.mockRestore()
   })
 
-  it('dispatches the chatLogout action', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(chatLogoutValue)
+  it('dispatches the reinitialiseChat action', () => {
+    expect(chatSpy).toHaveBeenCalledWith(false)
+    expect(store.dispatch).toHaveBeenCalledWith(reinitialiseChatValue)
   })
 
   it('dispatches the closeReceived action', () => {

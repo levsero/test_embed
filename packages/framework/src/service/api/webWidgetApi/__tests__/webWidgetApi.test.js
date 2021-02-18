@@ -649,6 +649,20 @@ describe('post render methods', () => {
     })
   })
 
+  describe('when that call is chat:reauthenticate', () => {
+    beforeEach(() => {
+      callAfterRender(['webWidget', 'chat:reauthenticate'])
+    })
+
+    it('calls chat:reauthenticate', () => {
+      expect(apis.reauthenticateApi).toHaveBeenCalled()
+    })
+
+    it('tracks the call', () => {
+      expect(tracker.track).toHaveBeenCalledWith('webWidget.chat:reauthenticate')
+    })
+  })
+
   describe('when that call is on', () => {
     beforeEach(() => {
       jest.spyOn(apis, 'onApiObj').mockReturnValue({ close: jest.fn() })

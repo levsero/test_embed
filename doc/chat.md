@@ -66,6 +66,7 @@ The chat component has the following commands:
 - [on chat:popout](#on-chatpopout)
 - [chat:addTags](#chataddtags)
 - [chat:removeTags](#chatremovetags)
+- [chat:reauthenticate](#chatreauthenticate)
 
 #### chat:send
 
@@ -413,5 +414,24 @@ Passing non-string types results in an error. No message is sent.
 <script type="text/javascript">
   zE('webWidget', 'chat:removeTags', ['help center', 'change password']);
   zE('webWidget', 'chat:removeTags', 'help center', 'change password'); // separate string arguments
+</script>
+```
+
+#### chat:reauthenticate
+
+`zE('webWidget', 'chat:reauthenticate');`
+
+Reauthenticate users during a session. This API is particularly useful in these cases:
+
+- Signing in a new user during an anonymous session without reloading the page.
+- Signing in a new user user after a previous user has logged out without reloading the page.
+
+**Note**: The API only applies authentication if the `jwtFn` is provided. Please see [authenticate](./settings#authenticate) settings for more details.
+
+##### Example
+
+```html
+<script type="text/javascript">
+  zE('webWidget', 'chat:reauthenticate');
 </script>
 ```

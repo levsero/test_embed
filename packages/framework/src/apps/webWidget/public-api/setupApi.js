@@ -21,7 +21,8 @@ import {
   logoutApi,
   popoutApi,
   addTagsApi,
-  removeTagsApi
+  removeTagsApi,
+  reauthenticateApi
 } from 'service/api/apis'
 import {
   API_GET_IS_CHATTING_NAME,
@@ -144,6 +145,7 @@ export const getWebWidgetPublicApi = reduxStore => {
       'chat:removeTags': (store, ...args) => removeTagsApi(store)(...args),
       'chat:end': endChatApi,
       'chat:send': sendChatMsgApi,
+      'chat:reauthenticate': reauthenticateApi,
       reset: resetWidget,
       popout: popoutApi,
       'helpCenter:reauthenticate': reauthenticateHelpCenter,

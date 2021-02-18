@@ -33,7 +33,8 @@ import {
   getIsProactiveSession,
   getIsChatting as getIsChattingState,
   getLastReadTimestamp,
-  hasUnseenAgentMessage
+  hasUnseenAgentMessage,
+  getIsLoggingOut
 } from 'src/redux/modules/chat/chat-selectors'
 import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
 import {
@@ -167,7 +168,8 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
         getSubmitTicketAvailable(nextState) &&
         !getIsChattingState(nextState) &&
         getActiveEmbed(nextState) === 'chat' &&
-        !isPopout()
+        !isPopout() &&
+        !getIsLoggingOut(nextState)
       ) {
         dispatch(updateActiveEmbed('ticketSubmissionForm'))
       }

@@ -8,15 +8,14 @@ import {
   getIsChatting as getIsChattingState,
   getActiveAgents,
   getIsAuthenticated,
-  getIsLoggingOut,
   getZChatVendor,
   getStandaloneMobileNotificationVisible,
   getNotification,
   getPrechatFormRequired,
   getChatBanned
 } from 'src/redux/modules/chat/chat-selectors'
-import { CHAT_MESSAGE_TYPES, CONNECTION_STATUSES } from 'src/constants/chat'
-import { getZChatConfig, getActiveEmbed } from 'src/redux/modules/base/base-selectors'
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { audio } from 'service/audio'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { formatSchedule } from 'src/util/chat'
@@ -663,34 +662,6 @@ export function handlePrechatFormSubmit(info) {
   return {
     type: actions.PRE_CHAT_FORM_SUBMIT,
     payload: info
-  }
-}
-
-export function chatLogout() {
-  return (dispatch, getState) => {
-    onChatSDKInitialized(() => {
-      const state = getState()
-      const zChat = getZChatVendor(state)
-      const zChatConfig = getZChatConfig(state)
-
-      zChat.endChat(() => {
-        dispatch({
-          type: actions.CHAT_USER_LOGGING_OUT
-        })
-
-        zChat.logoutForAll()
-        zChat.init(zChatConfig)
-        zChat.on('connection_update', connectionStatus => {
-          const isLoggingOut = getIsLoggingOut(getState())
-
-          if (connectionStatus === CONNECTION_STATUSES.CONNECTED && isLoggingOut) {
-            dispatch({
-              type: actions.CHAT_USER_LOGGED_OUT
-            })
-          }
-        })
-      })
-    })
   }
 }
 
