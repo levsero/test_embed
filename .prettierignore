@@ -2,6 +2,7 @@ packages/framework/src/translation/
 packages/framework/config/locales/translations/
 packages/framework/vendor/
 example/
+doc/
 dist/
 node_modules
 */node_modules/*
