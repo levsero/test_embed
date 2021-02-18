@@ -17,9 +17,9 @@ export const Container = styled.div`
   color: ${zdColorGrey800};
   font-size: ${14 / FONT_SIZE}rem !important;
   ${isMobileBrowser() &&
-    css`
-      font-size: ${15 / FONT_SIZE}rem;
-    `}
+  css`
+    font-size: ${15 / FONT_SIZE}rem;
+  `}
 `
 
 export const Content = styled.h2`

@@ -3,14 +3,14 @@ import {
   getNonCheckboxFields,
   convertFieldValue,
   getSortedFields,
-  getFieldIdFromKeyID
+  getFieldIdFromKeyID,
 } from '../fieldConversion'
 
 describe('getCheckboxFields', () => {
   it('returns a new list with only checkboxes', () => {
     const result = getCheckboxFields([
       { name: 'checkbox', type: 'checkbox' },
-      { name: 'notACheckbox', type: 'text' }
+      { name: 'notACheckbox', type: 'text' },
     ])
 
     expect(result).toEqual([{ name: 'checkbox', type: 'checkbox' }])
@@ -21,7 +21,7 @@ describe('getNonCheckboxFields', () => {
   it('returns a new list without checkboxes', () => {
     const result = getNonCheckboxFields([
       { name: 'checkbox', type: 'checkbox' },
-      { name: 'notACheckbox', type: 'text' }
+      { name: 'notACheckbox', type: 'text' },
     ])
 
     expect(result).toEqual([{ name: 'notACheckbox', type: 'text' }])
@@ -49,14 +49,14 @@ describe('getSortedfields', () => {
       { name: 'checkboxOne', type: 'checkbox' },
       { name: 'Not1', type: 'text' },
       { name: 'checkboxTwo', type: 'checkbox' },
-      { name: 'Not2', type: 'text' }
+      { name: 'Not2', type: 'text' },
     ])
 
     expect(result).toEqual([
       { name: 'Not1', type: 'text' },
       { name: 'Not2', type: 'text' },
       { name: 'checkboxOne', type: 'checkbox' },
-      { name: 'checkboxTwo', type: 'checkbox' }
+      { name: 'checkboxTwo', type: 'checkbox' },
     ])
   })
 })
@@ -66,7 +66,7 @@ describe('getFieldIdFromKeyField', () => {
     const ticketFields = [
       { id: 0, title_in_portal: 'name', keyID: '0name' },
       { id: 1, title_in_portal: 'email', keyID: '1email' },
-      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' }
+      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' },
     ]
 
     const result = getFieldIdFromKeyID(ticketFields, '1email')
@@ -78,7 +78,7 @@ describe('getFieldIdFromKeyField', () => {
     const ticketFields = [
       { id: 0, title_in_portal: 'name', keyID: '0name' },
       { id: 1, title_in_portal: 'email', keyID: '1email' },
-      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' }
+      { id: 100000, title_in_portal: 'Custom field', keyID: '100000Custom field' },
     ]
 
     const result = getFieldIdFromKeyID(ticketFields, '200000NonExistenField')

@@ -10,7 +10,7 @@ let config = {
   scheme: 'https',
   insecureScheme: 'http',
   zendeskHost: getZendeskHost(document),
-  version: __EMBEDDABLE_VERSION__
+  version: __EMBEDDABLE_VERSION__,
 }
 
 let hasLeftPage = false
@@ -44,7 +44,7 @@ function logFailure(error, payload) {
     path: payload.path,
     actualErrorMessage: apiError.message,
     status: apiError.data.status,
-    hostname: location.hostname
+    hostname: location.hostname,
   }
 
   if (!apiError.data.status) {
@@ -111,7 +111,7 @@ function sendWithMeta(payload) {
     buid: identity.getBuid(),
     suid: identity.getSuid().id,
     version: config.version,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   }
 
   const { name, email, phone } = identity.getUserIdentity()
@@ -136,7 +136,7 @@ function sendWithMeta(payload) {
 
   payload.query = {
     type: payload.type,
-    data: base64encode(JSON.stringify(payload.params))
+    data: base64encode(JSON.stringify(payload.params)),
   }
   const base64Payload = _.pick(payload, ['method', 'path', 'query', 'callbacks'])
 
@@ -152,7 +152,7 @@ function resetConfig() {
     scheme: 'https',
     insecureScheme: 'http',
     zendeskHost: getZendeskHost(document),
-    version: __EMBEDDABLE_VERSION__
+    version: __EMBEDDABLE_VERSION__,
   }
 }
 
@@ -168,5 +168,5 @@ export {
   sendWithMeta,
   updateConfig,
   resetConfig,
-  getConfig
+  getConfig,
 }

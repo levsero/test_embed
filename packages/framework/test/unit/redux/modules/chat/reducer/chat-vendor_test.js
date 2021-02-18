@@ -13,8 +13,8 @@ describe('chat vendor reducer', () => {
 
     initMockRegistry({
       'src/util/nullZChat': {
-        nullZChat: nullZChatSDK
-      }
+        nullZChat: nullZChatSDK,
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -30,7 +30,7 @@ describe('chat vendor reducer', () => {
     let state
     const mockInitialState = {
       zChat: nullZChatSDK,
-      slider: null
+      slider: null,
     }
 
     describe('initial state', () => {
@@ -45,7 +45,7 @@ describe('chat vendor reducer', () => {
       beforeEach(() => {
         payload = {
           zChat: 'zChatLibrary',
-          slider: 'react-slick'
+          slider: 'react-slick',
         }
 
         const action = { type: actionTypes.CHAT_VENDOR_LOADED, payload }

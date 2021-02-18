@@ -16,7 +16,7 @@ const StyledArrowDownIcon = styled(ArrowDownIcon)`
     stroke: ${zdColorGrey800};
   }
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl &&
     `padding-left: 0 !important;
     padding-right: ${5 / FONT_SIZE}rem !important;`}

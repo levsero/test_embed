@@ -11,7 +11,7 @@ export class ButtonNav extends Component {
     position: PropTypes.string,
     rtl: PropTypes.bool,
     'aria-label': PropTypes.string.isRequired,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -19,7 +19,7 @@ export class ButtonNav extends Component {
     fullscreen: false,
     onClick: () => {},
     position: 'left',
-    rtl: false
+    rtl: false,
   }
 
   render = () => {

@@ -20,7 +20,7 @@ class EmbedWrapper extends Component {
     reduxStore: PropTypes.object.isRequired,
     document: PropTypes.object,
     dataTestId: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
   }
 
   static defaultProps = {
@@ -30,7 +30,7 @@ class EmbedWrapper extends Component {
     fullscreen: false,
     hideNavigationButtons: false,
     useBackButton: false,
-    isChatPreview: false
+    isChatPreview: false,
   }
 
   constructor(props, context) {
@@ -44,7 +44,7 @@ class EmbedWrapper extends Component {
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />
 
     const newChild = React.cloneElement(this.props.children, {
-      ref: 'rootComponent'
+      ref: 'rootComponent',
     })
 
     return (
@@ -54,7 +54,7 @@ class EmbedWrapper extends Component {
             ...DEFAULT_THEME,
             document: this.props.document,
             rtl: i18n.isRTL(),
-            components: getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget'))
+            components: getGardenOverrides(getColor(this.props.reduxStore.getState(), 'webWidget')),
           }}
         >
           <WidgetThemeProvider>
@@ -64,7 +64,7 @@ class EmbedWrapper extends Component {
               <div
                 id="Embed"
                 data-testid={`position-${this.props.dataTestId}`}
-                ref={el => {
+                ref={(el) => {
                   this.embed = el
                 }}
               >
@@ -79,12 +79,7 @@ class EmbedWrapper extends Component {
 }
 
 const actionCreators = {
-  handleEscapeKeyPressed
+  handleEscapeKeyPressed,
 }
 
-export default connect(
-  null,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(EmbedWrapper)
+export default connect(null, actionCreators, null, { forwardRef: true })(EmbedWrapper)

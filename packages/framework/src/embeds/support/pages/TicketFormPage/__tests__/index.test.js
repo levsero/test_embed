@@ -18,7 +18,7 @@ describe('TicketFormPage', () => {
     formExists: true,
     isLoading: false,
     isAnyTicketFormLoading: false,
-    formOpened: jest.fn()
+    formOpened: jest.fn(),
   }
 
   const renderComponent = (props = {}, options) =>
@@ -78,7 +78,7 @@ describe('TicketFormPage', () => {
       const { queryByRole } = renderComponent({
         formId: routes.defaultFormId,
         amountOfCustomForms: 0,
-        isAnyTicketFormLoading: true
+        isAnyTicketFormLoading: true,
       })
 
       expect(queryByRole('progressbar')).toBeInTheDocument()
@@ -88,7 +88,7 @@ describe('TicketFormPage', () => {
       const { queryByRole, rerender } = renderComponent({
         formId: routes.defaultFormId,
         amountOfCustomForms: 0,
-        isAnyTicketFormLoading: false
+        isAnyTicketFormLoading: false,
       })
 
       expect(queryByRole('progressbar')).not.toBeInTheDocument()

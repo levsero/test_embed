@@ -28,7 +28,7 @@ describe('chat reducer accountSettings prechatForm', () => {
           email: { name: 'email', required: false },
           phone: { name: 'phone', required: false },
           department: { name: 'department', required: false },
-          message: { name: 'message', required: false }
+          message: { name: 'message', required: false },
         })
       })
 
@@ -49,7 +49,7 @@ describe('chat reducer accountSettings prechatForm', () => {
       let settings
       const mockForm = {
         0: { name: 'name', required: true },
-        1: { name: 'email', required: true }
+        1: { name: 'email', required: true },
       }
 
       beforeEach(() => {
@@ -59,14 +59,14 @@ describe('chat reducer accountSettings prechatForm', () => {
               form: mockForm,
               message: 'Hello, World!',
               profile_required: false,
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: settings
+          payload: settings,
         })
       })
 
@@ -79,7 +79,7 @@ describe('chat reducer accountSettings prechatForm', () => {
       let settings
       const mockForm = {
         0: { name: 'name', required: true },
-        1: { name: 'email', required: true }
+        1: { name: 'email', required: true },
       }
 
       beforeEach(() => {
@@ -89,14 +89,14 @@ describe('chat reducer accountSettings prechatForm', () => {
               form: mockForm,
               message: 'Hello, World!',
               profile_required: false,
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
 

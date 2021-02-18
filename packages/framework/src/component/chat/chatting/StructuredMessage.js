@@ -17,10 +17,10 @@ class StructuredMessage extends Component {
     schema: PropTypes.oneOfType([
       PropTypes.shape(_.assign({ type: PropTypes.string.isRequired }, ButtonCard.schemaPropTypes)),
       PropTypes.shape(_.assign({ type: PropTypes.string.isRequired }, PanelCard.schemaPropTypes)),
-      PropTypes.shape(_.assign({ type: PropTypes.string.isRequired }, ListCard.schemaPropTypes))
+      PropTypes.shape(_.assign({ type: PropTypes.string.isRequired }, ListCard.schemaPropTypes)),
     ]).isRequired,
     isMobile: PropTypes.bool.isRequired,
-    inCarousel: PropTypes.bool
+    inCarousel: PropTypes.bool,
   }
 
   createAction = ({ type, value }) => {
@@ -42,7 +42,7 @@ class StructuredMessage extends Component {
 
   render() {
     const {
-      schema: { type }
+      schema: { type },
     } = this.props
     const CHAT_STRUCTURED_MESSAGE_TYPE = CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE
 
@@ -83,9 +83,4 @@ class StructuredMessage extends Component {
 
 const actionCreators = { sendMsg }
 
-export default connect(
-  null,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(StructuredMessage)
+export default connect(null, actionCreators, null, { forwardRef: true })(StructuredMessage)

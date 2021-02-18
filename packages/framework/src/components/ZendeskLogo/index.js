@@ -10,7 +10,7 @@ import LogoIcon from 'icons/widget-icon_zendesk.svg'
 import { zdColorGrey600, zdColorGrey500 } from '@zendeskgarden/css-variables'
 
 const Link = styled.a`
-  ${props => {
+  ${(props) => {
     return `
       position: relative;
       display: inline-block;
@@ -43,11 +43,11 @@ const ZendeskLogo = ({ href }) => (
 )
 
 ZendeskLogo.propTypes = {
-  href: PropTypes.string.isRequired
+  href: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, props) => ({
-  href: getZendeskLogoLink(state, props.linkToChat)
+  href: getZendeskLogoLink(state, props.linkToChat),
 })
 
 const connectedComponent = connect(mapStateToProps)(ZendeskLogo)

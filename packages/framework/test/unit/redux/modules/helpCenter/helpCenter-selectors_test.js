@@ -36,14 +36,14 @@ describe('helpCenter selectors', () => {
       'embeds/helpCenter/actions/action-types': {
         CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestPending,
         CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
-        CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure
+        CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure,
       },
       'utility/utils': {
-        getPageKeywords: () => mockPageKeywords
+        getPageKeywords: () => mockPageKeywords,
       },
       'utility/pages': {
-        isOnHelpCenterPage: () => mockIsOnHelpCenterPage
-      }
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
+      },
     })
 
     const selectorsPath = buildSrcPath('embeds/helpCenter/selectors')
@@ -85,10 +85,10 @@ describe('helpCenter selectors', () => {
           clickedArticles: { current: mockActiveArticle },
           manualContextualSuggestions: mockManualContextualSuggestions,
           contextualSearch: {
-            hasSearched: mockHasSearched
+            hasSearched: mockHasSearched,
           },
-          config: {}
-        }
+          config: {},
+        },
       }
 
       result = getIsShowHCIntroState(mockState)
@@ -128,7 +128,7 @@ describe('helpCenter selectors', () => {
       describe('when getContextualHelpRequestNeeded is needed', () => {
         beforeAll(() => {
           mockManualContextualSuggestions = {
-            query: 'yolo'
+            query: 'yolo',
           }
         })
 
@@ -157,9 +157,9 @@ describe('helpCenter selectors', () => {
         helpCenter: {
           manualContextualSuggestions: mockManualContextualSuggestions,
           config: {
-            contextualHelpEnabled: mockHelpCenterContextualEnabled
-          }
-        }
+            contextualHelpEnabled: mockHelpCenterContextualEnabled,
+          },
+        },
       }
 
       result = getContextualHelpRequestNeeded(mockState)
@@ -168,7 +168,7 @@ describe('helpCenter selectors', () => {
     describe('when manual contextual suggestions search term is present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {
-          query: 'yolo'
+          query: 'yolo',
         }
       })
 
@@ -180,7 +180,7 @@ describe('helpCenter selectors', () => {
     describe('when manual contextual suggestions labels is present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {
-          labels: ['yo', 'lo']
+          labels: ['yo', 'lo'],
         }
       })
 
@@ -192,7 +192,7 @@ describe('helpCenter selectors', () => {
     describe('when manual contextual suggestions url is present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {
-          url: true
+          url: true,
         }
       })
 
@@ -284,8 +284,8 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       let mockState = {
         helpCenter: {
-          manualContextualSuggestions: mockManualContextualSuggestions
-        }
+          manualContextualSuggestions: mockManualContextualSuggestions,
+        },
       }
 
       result = getSearchQuery(mockState)
@@ -294,13 +294,13 @@ describe('helpCenter selectors', () => {
     describe('when search term is present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {
-          query: 'yolo'
+          query: 'yolo',
         }
       })
 
       it('returns the correct search query', () => {
         expect(result).toEqual({
-          query: 'yolo'
+          query: 'yolo',
         })
       })
     })
@@ -308,14 +308,14 @@ describe('helpCenter selectors', () => {
     describe('when labels are present', () => {
       beforeAll(() => {
         mockManualContextualSuggestions = {
-          labels: ['y', 'o', 'l', 'o']
+          labels: ['y', 'o', 'l', 'o'],
         }
       })
 
       it('returns the correct search query', () => {
         /* eslint camelcase:0 */
         expect(result).toEqual({
-          label_names: 'y,o,l,o'
+          label_names: 'y,o,l,o',
         })
       })
     })
@@ -328,7 +328,7 @@ describe('helpCenter selectors', () => {
 
       it('returns the correct search query', () => {
         expect(result).toEqual({
-          query: 'pageKeyword'
+          query: 'pageKeyword',
         })
       })
     })
@@ -339,9 +339,9 @@ describe('helpCenter selectors', () => {
     const mockHelpCenterState = {
       helpCenter: {
         manualContextualSuggestions: {
-          query: 'yolo'
-        }
-      }
+          query: 'yolo',
+        },
+      },
     }
 
     beforeEach(() => {
@@ -350,7 +350,7 @@ describe('helpCenter selectors', () => {
 
     it('returns the current state of manualContextualSuggestions', () => {
       expect(result).toEqual({
-        query: 'yolo'
+        query: 'yolo',
       })
     })
   })
@@ -359,8 +359,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        searchLoading: true
-      }
+        searchLoading: true,
+      },
     }
 
     beforeEach(() => {
@@ -376,8 +376,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        articleClicked: true
-      }
+        articleClicked: true,
+      },
     }
 
     beforeEach(() => {
@@ -393,8 +393,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        searchFailed: true
-      }
+        searchFailed: true,
+      },
     }
 
     beforeEach(() => {
@@ -411,9 +411,9 @@ describe('helpCenter selectors', () => {
     const mockHelpCenterState = {
       helpCenter: {
         searchTerm: {
-          current: 'foo'
-        }
-      }
+          current: 'foo',
+        },
+      },
     }
 
     beforeEach(() => {
@@ -430,9 +430,9 @@ describe('helpCenter selectors', () => {
     const mockHelpCenterState = {
       helpCenter: {
         searchTerm: {
-          previous: 'bar'
-        }
-      }
+          previous: 'bar',
+        },
+      },
     }
 
     beforeEach(() => {
@@ -451,12 +451,12 @@ describe('helpCenter selectors', () => {
       mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            hasSearched: false
+            hasSearched: false,
           },
           searchAttempted: false,
           totalUserSearches: 0,
-          articles: [1]
-        }
+          articles: [1],
+        },
       }
     })
 
@@ -523,8 +523,8 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       mockHelpCenterState = {
         helpCenter: {
-          totalUserSearches: 0
-        }
+          totalUserSearches: 0,
+        },
       }
     })
 
@@ -568,9 +568,9 @@ describe('helpCenter selectors', () => {
       mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            hasSearched: true
-          }
-        }
+            hasSearched: true,
+          },
+        },
       }
 
       result = getHasContextuallySearched(mockHelpCenterState)
@@ -588,9 +588,9 @@ describe('helpCenter selectors', () => {
       const mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            screen: mockContextualSearchScreen
-          }
-        }
+            screen: mockContextualSearchScreen,
+          },
+        },
       }
 
       result = getIsContextualSearchPending(mockHelpCenterState)
@@ -624,9 +624,9 @@ describe('helpCenter selectors', () => {
       const mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            screen: mockContextualSearchScreen
-          }
-        }
+            screen: mockContextualSearchScreen,
+          },
+        },
       }
 
       result = getIsContextualSearchSuccessful(mockHelpCenterState)
@@ -660,9 +660,9 @@ describe('helpCenter selectors', () => {
       const mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            screen: mockContextualSearchScreen
-          }
-        }
+            screen: mockContextualSearchScreen,
+          },
+        },
       }
 
       result = getIsContextualSearchFailure(mockHelpCenterState)
@@ -696,9 +696,9 @@ describe('helpCenter selectors', () => {
       const mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            screen: mockContextualSearchScreen
-          }
-        }
+            screen: mockContextualSearchScreen,
+          },
+        },
       }
 
       result = getIsContextualSearchComplete(mockHelpCenterState)
@@ -739,8 +739,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        resultsCount: 5
-      }
+        resultsCount: 5,
+      },
     }
 
     beforeEach(() => {
@@ -756,8 +756,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        resultsLocale: 'de'
-      }
+        resultsLocale: 'de',
+      },
     }
 
     beforeEach(() => {
@@ -773,8 +773,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        articles: [{ id: 1337 }, { id: 420 }]
-      }
+        articles: [{ id: 1337 }, { id: 420 }],
+      },
     }
 
     beforeEach(() => {
@@ -792,8 +792,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        clickedArticles: { current: 360 }
-      }
+        clickedArticles: { current: 360 },
+      },
     }
 
     beforeEach(() => {
@@ -809,8 +809,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        searchFieldValue: 'bob blah blerghh'
-      }
+        searchFieldValue: 'bob blah blerghh',
+      },
     }
 
     beforeEach(() => {
@@ -826,8 +826,8 @@ describe('helpCenter selectors', () => {
     let result
     const mockHelpCenterState = {
       helpCenter: {
-        articleDisplayed: true
-      }
+        articleDisplayed: true,
+      },
     }
 
     beforeEach(() => {

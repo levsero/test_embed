@@ -2,7 +2,7 @@ import {
   GET_ARTICLE_REQUEST_SENT,
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
-  ARTICLE_VIEWED
+  ARTICLE_VIEWED,
 } from 'embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 

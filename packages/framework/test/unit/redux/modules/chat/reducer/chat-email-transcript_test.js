@@ -29,7 +29,7 @@ describe('chat email transcript', () => {
           screen: screenTypes.EMAIL_TRANSCRIPT_SCREEN,
           show: false,
           email: '',
-          error: false
+          error: false,
         })
       })
     })
@@ -38,7 +38,7 @@ describe('chat email transcript', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.EMAIL_TRANSCRIPT_REQUEST_SENT,
-          payload: 'john@john.com'
+          payload: 'john@john.com',
         })
       })
 
@@ -59,7 +59,7 @@ describe('chat email transcript', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.EMAIL_TRANSCRIPT_SUCCESS,
-          payload: 'john@john.com'
+          payload: 'john@john.com',
         })
       })
 
@@ -80,7 +80,7 @@ describe('chat email transcript', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.EMAIL_TRANSCRIPT_IDLE,
-          payload: 'john@john.com'
+          payload: 'john@john.com',
         })
       })
 
@@ -96,7 +96,7 @@ describe('chat email transcript', () => {
     describe('when a RESET_EMAIL_TRANSCRIPT action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.RESET_EMAIL_TRANSCRIPT
+          type: actionTypes.RESET_EMAIL_TRANSCRIPT,
         })
       })
 
@@ -112,7 +112,7 @@ describe('chat email transcript', () => {
     describe('when a SDK_ERROR action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.SDK_ERROR
+          type: actionTypes.SDK_ERROR,
         })
       })
 
@@ -129,7 +129,7 @@ describe('chat email transcript', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-          payload: true
+          payload: true,
         })
       })
 
@@ -146,7 +146,7 @@ describe('chat email transcript', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: 'yolo',
-          payload: 'john@john.com'
+          payload: 'john@john.com',
         })
       })
 

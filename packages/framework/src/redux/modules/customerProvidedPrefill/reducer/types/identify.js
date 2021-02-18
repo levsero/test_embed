@@ -2,7 +2,7 @@ import { SET_VISITOR_INFO_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-ac
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const identify = (state = initialState, action) => {
@@ -12,8 +12,8 @@ const identify = (state = initialState, action) => {
         timestamp: action.payload.timestamp,
         values: {
           ...(state.values || {}),
-          ...action.payload
-        }
+          ...action.payload,
+        },
       }
     default:
       return state

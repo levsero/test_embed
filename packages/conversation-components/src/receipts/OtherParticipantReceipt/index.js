@@ -7,7 +7,7 @@ import { Layout, Tail, Time } from './styles'
 const OtherParticipantReceipt = ({
   timeReceived,
   isReceiptVisible = true,
-  isFreshMessage = true
+  isFreshMessage = true,
 }) => {
   const parsedTime = useParseTime(timeReceived)
 
@@ -24,7 +24,7 @@ const OtherParticipantReceipt = ({
 OtherParticipantReceipt.propTypes = {
   timeReceived: PropTypes.number,
   isReceiptVisible: PropTypes.bool,
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
 }
 
 export default OtherParticipantReceipt

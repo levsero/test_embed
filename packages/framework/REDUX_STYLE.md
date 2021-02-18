@@ -95,10 +95,10 @@ Actions exports should always be in all uppercase.
 Actions defined in the action-types file should contain the module path.
 
 ```js
-  export const SEARCH_REQUEST_SENT = 'widget/helpCenter/SEARCH_REQUEST_SENT'; // good
+export const SEARCH_REQUEST_SENT = 'widget/helpCenter/SEARCH_REQUEST_SENT' // good
 
-  export const searchRequestSent = 'widget/helpCenter/searchRequestSent'; // bad
-  export const SEARCH_REQUEST_SENT = 'SEARCH_REQUEST_SENT'; // bad
+export const searchRequestSent = 'widget/helpCenter/searchRequestSent' // bad
+export const SEARCH_REQUEST_SENT = 'SEARCH_REQUEST_SENT' // bad
 ```
 
 #### Define actions in one place
@@ -126,8 +126,8 @@ When sending an asynchronous request to a 3rd party we use the thunk middleware 
 
 ```js
 export function sendChatRating(rating = null) {
-  return dispatch => {
-    zChat.sendChatRating(comment, err => {
+  return (dispatch) => {
+    zChat.sendChatRating(comment, (err) => {
       if (!err) {
         dispatch({ type: CHAT_RATING_REQUEST_SUCCESS })
       } else {
@@ -168,7 +168,7 @@ Never dispatch actions from anywhere but an action creator, even if they're smal
 ```js
 export const sendMsgRequest = () => {
   return {
-    type: CHAT_MSG_REQUEST_SENT
+    type: CHAT_MSG_REQUEST_SENT,
   }
 }
 ```
@@ -188,7 +188,7 @@ For example `handleButtonClicked` instead of `handleButtonClick`.
 Never directly access certain parts of the application state with dot notation. Instead use selectors to access state, even if it’s extremely simple. This allows us to modify the state without having to change the props on the component.
 
 ```js
-export const getZopimChatStatus = state => state.zopimChat.status
+export const getZopimChatStatus = (state) => state.zopimChat.status
 ```
 
 #### Use selectors for any logic concerning multiple states
@@ -229,8 +229,8 @@ For complex state that rerenders often we should memoize it using reselect. The 
 ```js
 export const getChatMessages = createSelector(
   [getChats], // If the value of getChats
-  chats => {
-    const filterChatType = event => _.includes(['chat.msg', 'chat.file'], event.type)
+  (chats) => {
+    const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type)
 
     return _.filter([...chats.values()], filterChatType)
   }
@@ -245,7 +245,8 @@ When we need state from multiple modules we should import and combine the select
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors'
 import { getSettingsChatSuppress } from './settings/settings-selectors'
 
-export const getChatEnabled = state => getZopimChatOnline(state) && !getSettingsChatSuppress(state)
+export const getChatEnabled = (state) =>
+  getZopimChatOnline(state) && !getSettingsChatSuppress(state)
 ```
 
 #### Use selectors everywhere
@@ -261,7 +262,7 @@ Don't set up selectors to return default state, we should be relying on the init
 export const getChatEnabled = (state) => state.chat.enabled
 
 // Bad: Might not reflect what the store actually has stored
-export const getChatEnabled = (state) => _.get(state, 'chat.enabled', true);
+export const getChatEnabled = (state) => _.get(state, 'chat.enabled', true)
 ```
 
 ## Middleware
@@ -272,8 +273,8 @@ Thunk middleware allows you to write action creators that return a function inst
 
 ```js
 export function sendChatRating(rating = null) {
-  return dispatch => {
-    zChat.sendChatRating(comment, err => {
+  return (dispatch) => {
+    zChat.sendChatRating(comment, (err) => {
       if (!err) {
         dispatch({ type: CHAT_RATING_REQUEST_SUCCESS })
       } else {

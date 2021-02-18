@@ -18,19 +18,19 @@ import {
   markAsRead,
   resetCurrentMessage,
   sendMsg,
-  updateChatScreen
+  updateChatScreen,
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   getHasMoreHistory,
-  getHistoryRequestStatus
+  getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
 import {
   SCROLL_BOTTOM_THRESHOLD,
   HISTORY_REQUEST_STATUS,
-  CONNECTION_STATUSES
+  CONNECTION_STATUSES,
 } from 'constants/chat'
 import { onNextTick } from 'src/util/utils'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
@@ -41,13 +41,13 @@ import {
   useMessagesOnMount,
   useHistoryUpdate,
   useAgentTyping,
-  useNewMessages
+  useNewMessages,
 } from 'src/embeds/chat/hooks/chattingScreenHooks'
 import ChatModalController from 'src/embeds/chat/components/Modals/Controller'
 import { ChatLogContainer, Shadow } from './styles'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     activeAgents: chatSelectors.getActiveAgents(state),
     agentsTyping: chatSelectors.getAgentsTyping(state),
@@ -63,7 +63,7 @@ const mapStateToProps = state => {
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     socialLogin: chatSelectors.getSocialLogin(state),
     visible: isInChattingScreen(state),
-    connection: selectors.getConnection(state)
+    connection: selectors.getConnection(state),
   }
 }
 
@@ -94,7 +94,7 @@ const ChattingScreen = ({
   markAsRead = () => {},
   visible = false,
   isPreview = false,
-  connection
+  connection,
 }) => {
   const scrollContainer = useRef(null)
   const agentTypingRef = useRef(null)
@@ -157,7 +157,7 @@ const ChattingScreen = ({
           isMobile={isMobile}
           currentMessage={currentMessage}
           sendChat={sendChatFn}
-          handleChatBoxChange={message => {
+          handleChatBoxChange={(message) => {
             if (connection !== CONNECTION_STATUSES.CONNECTED) {
               return
             }
@@ -274,7 +274,7 @@ ChattingScreen.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
   updateChatScreen: PropTypes.func.isRequired,
   visible: PropTypes.bool,
-  connection: PropTypes.string
+  connection: PropTypes.string,
 }
 
 const actionCreators = {
@@ -283,14 +283,11 @@ const actionCreators = {
   markAsRead,
   resetCurrentMessage,
   sendMsg,
-  updateChatScreen
+  updateChatScreen,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ChattingScreen)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  ChattingScreen
+)
 
 export { connectedComponent as default, ChattingScreen as Component }

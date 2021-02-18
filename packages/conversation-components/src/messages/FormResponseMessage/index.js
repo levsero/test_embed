@@ -16,7 +16,7 @@ const FormResponseMessage = ({
   isFirstInGroup = true,
   isReceiptVisible = true,
   isFreshMessage = true,
-  onRetry = () => {}
+  onRetry = () => {},
 }) => {
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
 
@@ -32,7 +32,7 @@ const FormResponseMessage = ({
       isFreshMessage={isFreshMessage}
     >
       <FormContainer>
-        {fields.map(field => (
+        {fields.map((field) => (
           <Field key={field._id}>
             <FieldResponse field={field} />
           </Field>
@@ -50,7 +50,7 @@ FormResponseMessage.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
-      text: PropTypes.string
+      text: PropTypes.string,
     })
   ),
   timeReceived: PropTypes.number,
@@ -58,7 +58,7 @@ FormResponseMessage.propTypes = {
   isFirstInGroup: PropTypes.bool,
   isReceiptVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
-  onRetry: PropTypes.func
+  onRetry: PropTypes.func,
 }
 
 export default FormResponseMessage

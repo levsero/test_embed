@@ -5,7 +5,7 @@ import widget from 'e2e/helpers/widget'
 import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-export const assertHCSearchPayload = url => {
+export const assertHCSearchPayload = (url) => {
   const payload = getBlipPayload(url)
   expect(payload).toEqual({
     channel: 'web_widget',
@@ -13,9 +13,9 @@ export const assertHCSearchPayload = url => {
       category: 'helpCenter',
       action: 'search',
       label: 'helpCenterForm',
-      value: 'Help'
+      value: 'Help',
     },
-    ...blipMetadata
+    ...blipMetadata,
   })
 }
 

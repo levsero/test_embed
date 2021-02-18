@@ -14,7 +14,7 @@ describe('MessageBubble', () => {
     translatedMessage: undefined,
     isAgent: false,
     options: [],
-    onOptionSelect: jest.fn()
+    onOptionSelect: jest.fn(),
   }
 
   const renderComponent = (props = {}, options) =>
@@ -28,7 +28,7 @@ describe('MessageBubble', () => {
 
   it('render any links in the message in anchor tags', () => {
     const { container } = renderComponent({
-      message: 'Text1 www.example.com Text2 www.example.com/example'
+      message: 'Text1 www.example.com Text2 www.example.com/example',
     })
 
     const children = container.querySelector('.Linkify').childNodes
@@ -45,7 +45,7 @@ describe('MessageBubble', () => {
   it('uses the widget theme to color messages from the user', () => {
     jest.spyOn(colorUtils, 'getWidgetColorVariables').mockReturnValueOnce({
       buttonColorStr: 'green',
-      buttonTextColorStr: 'blue'
+      buttonTextColorStr: 'blue',
     })
     const { container } = renderComponent({ isAgent: false })
 
@@ -66,7 +66,7 @@ describe('MessageBubble', () => {
     it('displays the translated message by default', () => {
       const { getByText } = renderComponent({
         message: 'original',
-        translatedMessage: 'translated'
+        translatedMessage: 'translated',
       })
 
       expect(getByText('translated')).toBeInTheDocument()
@@ -75,7 +75,7 @@ describe('MessageBubble', () => {
     it('displays the original message when the "view original" button is clicked', () => {
       const { getByText } = renderComponent({
         message: 'original',
-        translatedMessage: 'translated'
+        translatedMessage: 'translated',
       })
 
       fireEvent.click(getByText('Show original'))
@@ -87,7 +87,7 @@ describe('MessageBubble', () => {
     it('displays the translated message when the "show translated" button is clicked', () => {
       const { getByText } = renderComponent({
         message: 'original',
-        translatedMessage: 'translated'
+        translatedMessage: 'translated',
       })
 
       fireEvent.click(getByText('Show original'))
@@ -100,7 +100,7 @@ describe('MessageBubble', () => {
 
   it('displays message options when options exist for the message', () => {
     const { getByText, container } = renderComponent({
-      options: ['one', 'two', 'three']
+      options: ['one', 'two', 'three'],
     })
 
     expect(getByText('one')).toBeInTheDocument()
@@ -113,7 +113,7 @@ describe('MessageBubble', () => {
     const onOptionSelect = jest.fn()
     const { getByText } = renderComponent({
       options: ['one', 'two', 'three'],
-      onOptionSelect
+      onOptionSelect,
     })
 
     fireEvent.click(getByText('one'))

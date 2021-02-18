@@ -1,7 +1,7 @@
 import OtherParticipantReceipt from './'
 import {
   MessengerContainerDecorator,
-  MessageLogListDecorator
+  MessageLogListDecorator,
 } from '../../../.storybook/decorators'
 
 const timeNowInSeconds = Math.floor(new Date().getTime() / 1000)
@@ -19,15 +19,15 @@ export default {
         defaultValue: timeNowInSeconds,
         min: timeNowInSeconds - fifteenMinutes,
         max: timeNowInSeconds,
-        step: oneMinute
-      }
-    }
-  }
+        step: oneMinute,
+      },
+    },
+  },
 }
 
-const Template = args => <OtherParticipantReceipt {...args} />
+const Template = (args) => <OtherParticipantReceipt {...args} />
 
 export const DefaultReceipt = Template.bind()
 DefaultReceipt.args = {
-  timeReceived: timeNowInSeconds
+  timeReceived: timeNowInSeconds,
 }

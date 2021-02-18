@@ -18,14 +18,14 @@ describe('useConditionalFields', () => {
 
   const initialFormValues = {
     field1: 'one',
-    field2: 'two'
+    field2: 'two',
   }
 
   beforeEach(() => {
     useForm.mockReturnValue({
       getState: () => ({
-        values: initialFormValues
-      })
+        values: initialFormValues,
+      }),
     })
   })
 

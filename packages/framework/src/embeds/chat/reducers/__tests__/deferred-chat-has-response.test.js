@@ -9,13 +9,13 @@ describe('deferredChatHasResponse reducer', () => {
       extraDesc: 'initialState',
       initialState: undefined,
       action: { type: 'some action' },
-      expected: false
+      expected: false,
     },
     {
       extraDesc: 'recieve response from SDK',
       initialState: false,
       action: { type: RECEIVE_DEFERRED_CHAT_STATUS },
-      expected: true
-    }
+      expected: true,
+    },
   ])
 })

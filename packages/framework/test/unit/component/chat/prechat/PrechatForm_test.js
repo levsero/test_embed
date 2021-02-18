@@ -19,24 +19,24 @@ describe('PrechatForm component', () => {
     name: { name: 'name', required: true },
     email: { name: 'email', required: true },
     phone: { name: 'phone', label: 'Phone Number', required: false },
-    message: { name: 'message', label: 'Message', required: false }
+    message: { name: 'message', label: 'Message', required: false },
   }
   const mockForm = {
     checkValidity: () => mockFormValidity,
     elements: [
       {
         name: 'display_name',
-        value: 'John Snow'
+        value: 'John Snow',
       },
       {
         name: 'email',
-        value: 'j@l.r'
+        value: 'j@l.r',
       },
       {
         name: 'button',
-        type: 'submit'
-      }
-    ]
+        type: 'submit',
+      },
+    ],
   }
 
   beforeEach(() => {
@@ -48,32 +48,32 @@ describe('PrechatForm component', () => {
     initMockRegistry({
       './PrechatForm.scss': {
         locals: {
-          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
-        }
+          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass',
+        },
       },
       'src/constants/shared': {
         NAME_PATTERN: /.+/,
         EMAIL_PATTERN: /.+/,
         PHONE_PATTERN: /.+/,
         FONT_SIZE: 14,
-        TEST_IDS
+        TEST_IDS,
       },
       '@zendeskgarden/react-buttons': {
-        Button: noopReactComponent()
+        Button: noopReactComponent(),
       },
       'component/chat/UserProfile': { UserProfile },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: noop,
-          isRTL: () => {}
-        }
+          isRTL: () => {},
+        },
       },
       '@zendeskgarden/react-forms': {
         Field,
         Label,
         Input,
         Textarea: noopReactComponent(),
-        Message
+        Message,
       },
       'react-linkify': Linkify,
       '@zendeskgarden/react-dropdowns': {
@@ -83,27 +83,27 @@ describe('PrechatForm component', () => {
         Field: noopReactComponent(),
         Message: noopReactComponent(),
         Item,
-        Select: noopReactComponent()
+        Select: noopReactComponent(),
       },
       'src/util/fields': {
         shouldRenderErrorMessage: () => mockShouldRenderErrorMessage,
-        renderLabel: renderLabelSpy
+        renderLabel: renderLabelSpy,
       },
       'embeds/chat/components/ViewHistoryButton': noopReactComponent(),
       'component/Icon': {
-        Icon: noop
+        Icon: noop,
       },
       'src/util/utils': {
-        onNextTick: cb => setTimeout(cb, 0)
+        onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/components/Widget': {
         Widget: noopReactComponent(),
         Header: noopReactComponent(),
         Main: noopReactComponent(),
-        Footer: noopReactComponent()
+        Footer: noopReactComponent(),
       },
       'src/embeds/chat/components/Footer': {},
-      'src/framework/components/Frame': {}
+      'src/framework/components/Frame': {},
     })
 
     mockery.registerAllowable(PrechatFormPath)
@@ -234,7 +234,7 @@ describe('PrechatForm component', () => {
     beforeEach(() => {
       const mockForm = {
         ...mockFormProp,
-        email: { required: true }
+        email: { required: true },
       }
 
       component = instanceRender(<PrechatForm form={mockForm} />)
@@ -280,7 +280,7 @@ describe('PrechatForm component', () => {
     beforeEach(() => {
       const mockForm = {
         ...mockFormProp,
-        message: { required: true }
+        message: { required: true },
       }
 
       component = instanceRender(<PrechatForm form={mockForm} />)
@@ -345,7 +345,7 @@ describe('PrechatForm component', () => {
       expect(onPrechatFormChangeSpy).toHaveBeenCalledWith(
         jasmine.objectContaining({
           display_name: 'John Snow',
-          email: 'j@l.r'
+          email: 'j@l.r',
         })
       )
     })
@@ -369,7 +369,7 @@ describe('PrechatForm component', () => {
     const formState = {
       name: 'someName',
       email: 'someEmail@someEmail.com',
-      message: 'someMessage'
+      message: 'someMessage',
     }
 
     beforeEach(() => {
@@ -392,7 +392,7 @@ describe('PrechatForm component', () => {
     describe('when form is invalid', () => {
       beforeAll(() => {
         mockState = {
-          valid: false
+          valid: false,
         }
       })
 
@@ -404,7 +404,7 @@ describe('PrechatForm component', () => {
     describe('when form is valid', () => {
       beforeAll(() => {
         mockState = {
-          valid: true
+          valid: true,
         }
       })
 
@@ -416,7 +416,7 @@ describe('PrechatForm component', () => {
     describe('when not socially logged in', () => {
       beforeAll(() => {
         mockSocialLogin = {
-          authenticated: false
+          authenticated: false,
         }
       })
 
@@ -428,11 +428,11 @@ describe('PrechatForm component', () => {
     describe('when socially logged in', () => {
       beforeAll(() => {
         mockSocialLogin = {
-          authenticated: true
+          authenticated: true,
         }
         mockVisitor = {
           display_name: 'yolo',
-          email: 'email@email.com'
+          email: 'email@email.com',
         }
       })
 
@@ -440,7 +440,7 @@ describe('PrechatForm component', () => {
         expect(onFormCompletedSpy).toHaveBeenCalledWith({
           ...formState,
           name: 'yolo',
-          email: 'email@email.com'
+          email: 'email@email.com',
         })
       })
     })
@@ -450,7 +450,7 @@ describe('PrechatForm component', () => {
         mockIsAuthenticated = true
         mockVisitor = {
           display_name: 'yolo',
-          email: 'email@email.com'
+          email: 'email@email.com',
         }
       })
 
@@ -458,7 +458,7 @@ describe('PrechatForm component', () => {
         expect(onFormCompletedSpy).toHaveBeenCalledWith({
           ...formState,
           name: 'yolo',
-          email: 'email@email.com'
+          email: 'email@email.com',
         })
       })
     })
@@ -501,7 +501,7 @@ describe('PrechatForm component', () => {
           mockForm = {
             ...mockFormProp,
             department: { required: true },
-            departments: []
+            departments: [],
           }
         })
 
@@ -515,7 +515,7 @@ describe('PrechatForm component', () => {
           mockForm = {
             ...mockFormProp,
             department: { required: true },
-            departments: ['here']
+            departments: ['here'],
           }
         })
 
@@ -528,7 +528,7 @@ describe('PrechatForm component', () => {
         describe('there is a value for departments in form state', () => {
           beforeAll(() => {
             mockFormState = {
-              department: 'here'
+              department: 'here',
             }
           })
 
@@ -551,7 +551,10 @@ describe('PrechatForm component', () => {
 
     describe('when no matching department was found', () => {
       beforeAll(() => {
-        mockDepartments = [{ id: '123', status: 'online' }, { id: '420', status: 'offline' }]
+        mockDepartments = [
+          { id: '123', status: 'online' },
+          { id: '420', status: 'offline' },
+        ]
         mockDepartmentId = 'blah123'
       })
 
@@ -562,7 +565,10 @@ describe('PrechatForm component', () => {
 
     describe('when the matching departments status is offline', () => {
       beforeAll(() => {
-        mockDepartments = [{ id: '4566', status: 'online' }, { id: '1111', status: 'offline' }]
+        mockDepartments = [
+          { id: '4566', status: 'online' },
+          { id: '1111', status: 'offline' },
+        ]
         mockDepartmentId = '1111'
       })
 
@@ -573,7 +579,10 @@ describe('PrechatForm component', () => {
 
     describe('when the matching departments status is online', () => {
       beforeAll(() => {
-        mockDepartments = [{ id: '234', status: 'online' }, { id: '77890', status: 'offline' }]
+        mockDepartments = [
+          { id: '234', status: 'online' },
+          { id: '77890', status: 'offline' },
+        ]
         mockDepartmentId = '234'
       })
 
@@ -590,11 +599,11 @@ describe('PrechatForm component', () => {
       const form = {
         ...mockFormProp,
         departments: mockDepartments,
-        department: { label: '' }
+        department: { label: '' },
       }
       const formState = {
         ...mockForm,
-        department: mockDepartment
+        department: mockDepartment,
       }
 
       component = instanceRender(<PrechatForm form={form} formState={formState} />)
@@ -605,7 +614,10 @@ describe('PrechatForm component', () => {
     describe('when a department value exists', () => {
       beforeAll(() => {
         mockRequired = false
-        mockDepartments = [{ id: 1, status: 'online' }, { id: 2, status: 'offline' }]
+        mockDepartments = [
+          { id: 1, status: 'online' },
+          { id: 2, status: 'offline' },
+        ]
       })
 
       describe('when department is online', () => {

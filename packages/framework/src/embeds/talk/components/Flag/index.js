@@ -13,7 +13,7 @@ const Flag = ({ country }) => {
 }
 
 Flag.propTypes = {
-  country: PropTypes.string.isRequired
+  country: PropTypes.string.isRequired,
 }
 
 export default Flag

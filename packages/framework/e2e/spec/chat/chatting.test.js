@@ -7,7 +7,7 @@ import {
   agentJoinsChat,
   sendMessageFromUser,
   sendMessageFromAgent,
-  waitForChatToBeReady
+  waitForChatToBeReady,
 } from 'e2e/helpers/chat-embed'
 
 const getFrame = () => frame.getByName('webWidget')

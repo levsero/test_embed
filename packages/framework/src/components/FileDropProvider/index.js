@@ -23,7 +23,7 @@ const FileDropProvider = ({ children }) => {
       >
         {showDropTarget && (
           <DropContainer
-            onDrop={e => {
+            onDrop={(e) => {
               e.preventDefault()
               setIsDragging(false)
 
@@ -34,7 +34,7 @@ const FileDropProvider = ({ children }) => {
             onDragLeave={() => {
               setIsDragging(false)
             }}
-            onDragOver={e => {
+            onDragOver={(e) => {
               e.preventDefault()
             }}
           >
@@ -51,10 +51,10 @@ const FileDropProvider = ({ children }) => {
 }
 
 FileDropProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
-const useOnDrop = onDrop => {
+const useOnDrop = (onDrop) => {
   const setCallback = useContext(DropContext)
 
   useEffect(() => {

@@ -66,5 +66,5 @@ export {
   StyledMenu as Menu,
   StyledEllipsisIcon as EllipsisIcon,
   MENU_PADDING,
-  Container
+  Container,
 }

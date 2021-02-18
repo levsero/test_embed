@@ -7,12 +7,12 @@ import EmbeddedVoiceCallInProgressPage from '..'
 import * as talkActions from 'src/embeds/talk/actions'
 import * as talkSelectors from 'src/embeds/talk/selectors/selectors'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const defaultProps = {
     callDuration: '0:00',
     onEndCallClicked: jest.fn(),
     isCallInProgress: true,
-    hasLastCallFailed: false
+    hasLastCallFailed: false,
   }
 
   return render(<EmbeddedVoiceCallInProgressPage {...defaultProps} {...props} />)

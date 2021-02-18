@@ -3,14 +3,14 @@ import _ from 'lodash'
 import {
   QUESTION_SUBMITTED_FULFILLED,
   QUESTION_SUBMITTED_PENDING,
-  QUESTION_SUBMITTED_REJECTED
+  QUESTION_SUBMITTED_REJECTED,
 } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 import {
   SESSION_STARTED,
   SESSION_RESOLVED_PENDING,
   SESSION_FALLBACK,
-  SESSION_AUTO_SCROLL
+  SESSION_AUTO_SCROLL,
 } from 'src/embeds/answerBot/actions/sessions/action-types'
 
 import { ARTICLE_DISMISSED_PENDING } from 'src/embeds/answerBot/actions/article/action-types'
@@ -31,10 +31,10 @@ function setSession(state, { sessionID }, val) {
 
 function normalize(articles) {
   articles = _.isArray(articles) ? _.take(articles, 3) : []
-  return articles.map(article => ({
+  return articles.map((article) => ({
     ...article,
     id: article.article_id,
-    body: article.html_body || article.body
+    body: article.html_body || article.body,
   }))
 }
 
@@ -45,7 +45,7 @@ const sessions = (state = initialState, action) => {
     case QUESTION_SUBMITTED_PENDING:
       return setSession(state, action.payload, {
         query: action.payload.message,
-        requestStatus: 'PENDING'
+        requestStatus: 'PENDING',
       })
     case QUESTION_SUBMITTED_FULFILLED:
       // eslint-disable-next-line babel/camelcase
@@ -55,7 +55,7 @@ const sessions = (state = initialState, action) => {
         requestStatus: 'COMPLETED',
         articles: normalize(message),
         deflection,
-        interactionToken: interaction_access_token
+        interactionToken: interaction_access_token,
       })
     case QUESTION_SUBMITTED_REJECTED:
       return setSession(state, action.payload, { requestStatus: 'REJECTED' })
@@ -72,7 +72,7 @@ const sessions = (state = initialState, action) => {
     case ARTICLE_DISMISSED_PENDING:
       const { sessionID, articleID } = action.payload
       const session = state.get(sessionID)
-      const articles = session.articles.map(a => {
+      const articles = session.articles.map((a) => {
         if (a.id === articleID) {
           return { ...a, markedAsIrrelevant: true }
         } else {

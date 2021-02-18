@@ -9,12 +9,12 @@ describe('Frame', () => {
     title: 'Frame test',
     children: <div id="child-component">Child component</div>,
     id: 'frame-test',
-    ref: React.createRef()
+    ref: React.createRef(),
   }
 
   const renderComponent = (props = {}) => render(<Frame {...defaultProps} {...props} />)
 
-  const getIFrame = element => element.querySelector('#frame-test').contentDocument
+  const getIFrame = (element) => element.querySelector('#frame-test').contentDocument
 
   it('uses the provided title for the iframe', () => {
     const { queryByTitle } = renderComponent()
@@ -47,9 +47,7 @@ describe('Frame', () => {
 
     await waitFor(() =>
       expect(
-        getIFrame(baseElement)
-          .querySelector('head')
-          .querySelector('style')
+        getIFrame(baseElement).querySelector('head').querySelector('style')
       ).toBeInTheDocument()
     )
   })
@@ -63,7 +61,7 @@ describe('Frame', () => {
 
   it('forwards the provided callback ref onto the iframe', () => {
     let current = null
-    const ref = iframe => {
+    const ref = (iframe) => {
       current = iframe
     }
     const { baseElement } = renderComponent({ ref })
@@ -91,14 +89,12 @@ describe('Frame', () => {
       expect(getIFrame(baseElement).querySelector('#exampleComponent')).toBeInTheDocument()
     )
 
-    getIFrame(baseElement)
-      .querySelector('#exampleComponent')
-      .click()
+    getIFrame(baseElement).querySelector('#exampleComponent').click()
 
     await waitFor(() =>
       expect(onClick).toHaveBeenCalledWith({
         document: document.querySelector('#frame-test').contentDocument,
-        window: document.querySelector('#frame-test').contentWindow
+        window: document.querySelector('#frame-test').contentWindow,
       })
     )
   })

@@ -4,10 +4,10 @@ import Footer from './'
 
 export default {
   title: 'Messenger/Footer',
-  component: Footer
+  component: Footer,
 }
 
-const Template = args => <Footer {...args} />
+const Template = (args) => <Footer {...args} />
 
 export const Standard = Template.bind({})
 Standard.args = {}

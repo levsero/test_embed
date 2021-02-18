@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react'
 // For most cases you should cancel the promise or handle not updating the state locally.
 // For all other cases where this isn't possible, this hook will safely protect you from updating
 // a component after it has unmounted
-const useSafeState = initialState => {
+const useSafeState = (initialState) => {
   const isMounted = useRef(true)
   const [state, setState] = useState(initialState)
 
@@ -16,7 +16,7 @@ const useSafeState = initialState => {
     }
   }, [])
 
-  const wrappedSetState = value => {
+  const wrappedSetState = (value) => {
     if (isMounted.current) {
       setState(value)
     }

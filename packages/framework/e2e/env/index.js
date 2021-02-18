@@ -20,13 +20,13 @@ const shutdown = () => {
 const jestConfig = () => {
   const options = {
     launch: {
-      headless
-    }
+      headless,
+    },
   }
 
   if (useDocker) {
     options.connect = {
-      browserWSEndpoint: getWsEndpoint()
+      browserWSEndpoint: getWsEndpoint(),
     }
   }
 
@@ -42,5 +42,5 @@ module.exports = {
   port,
   shutdown,
   jestConfig,
-  headless
+  headless,
 }

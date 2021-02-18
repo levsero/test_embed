@@ -13,8 +13,8 @@ jest.mock('embeds/support/selectors')
 
 jest.mock('service/beacon', () => ({
   beacon: {
-    trackUserAction: jest.fn()
-  }
+    trackUserAction: jest.fn(),
+  },
 }))
 
 beforeEach(() => {
@@ -30,9 +30,9 @@ describe('trackTicketSubmitted', () => {
         id: 'response id',
         attachmentsCount: 5,
         attachmentTypes: 'attachment types',
-        contextualSearch: true
-      }
-    }
+        contextualSearch: true,
+      },
+    },
   })
 
   describe('hcStats', () => {
@@ -40,7 +40,7 @@ describe('trackTicketSubmitted', () => {
       const attachments = [
         { id: 1, fileType: 'png' },
         { id: 2, fileType: 'jpg' },
-        { id: 3, fileType: 'pdf' }
+        { id: 3, fileType: 'pdf' },
       ]
 
       getSearchTerm.mockReturnValueOnce('search term')
@@ -55,8 +55,8 @@ describe('trackTicketSubmitted', () => {
         const response = getResponse('request')
         const formValues = {
           attachments: {
-            ids: [1, 2, 3]
-          }
+            ids: [1, 2, 3],
+          },
         }
         getHelpCenterAvailable.mockReturnValueOnce(true)
 
@@ -70,8 +70,8 @@ describe('trackTicketSubmitted', () => {
         const response = getResponse('request')
         const formValues = {
           attachments: {
-            ids: [1, 2, 3]
-          }
+            ids: [1, 2, 3],
+          },
         }
         getHelpCenterAvailable.mockReturnValueOnce(false)
 
@@ -86,13 +86,13 @@ describe('trackTicketSubmitted', () => {
       const response = getResponse('request')
       const formValues = {
         attachments: {
-          ids: [1, 2, 3]
-        }
+          ids: [1, 2, 3],
+        },
       }
       const attachments = [
         { id: 1, fileType: 'png' },
         { id: 2, fileType: 'jpg' },
-        { id: 3, fileType: 'pdf' }
+        { id: 3, fileType: 'pdf' },
       ]
 
       getSearchTerm.mockReturnValueOnce('search term')
@@ -111,8 +111,8 @@ describe('trackTicketSubmitted', () => {
           ticketId: response.body.request.id,
           attachmentsCount: 3,
           attachmentTypes: ['png', 'jpg', 'pdf'],
-          contextualSearch: true
-        }
+          contextualSearch: true,
+        },
       })
     })
   })
@@ -122,13 +122,13 @@ describe('trackTicketSubmitted', () => {
       const response = getResponse('suspended_ticket')
       const formValues = {
         attachments: {
-          ids: [1, 2, 3]
-        }
+          ids: [1, 2, 3],
+        },
       }
       const attachments = [
         { id: 1, fileType: 'png' },
         { id: 2, fileType: 'jpg' },
-        { id: 3, fileType: 'pdf' }
+        { id: 3, fileType: 'pdf' },
       ]
 
       getSearchTerm.mockReturnValueOnce('search term')
@@ -147,8 +147,8 @@ describe('trackTicketSubmitted', () => {
           ticketId: response.body.suspended_ticket.id,
           attachmentsCount: 3,
           attachmentTypes: ['png', 'jpg', 'pdf'],
-          contextualSearch: true
-        }
+          contextualSearch: true,
+        },
       })
     })
   })

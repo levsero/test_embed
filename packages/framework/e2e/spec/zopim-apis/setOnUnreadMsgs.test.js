@@ -9,7 +9,7 @@ beforeEach(async () => {
 
 test('setOnUnreadMsgs executes a callback with the number of unread messages', async () => {
   await page.evaluate(() => {
-    $zopim.livechat.setOnUnreadMsgs(number => (window.unreadMessageNumber = number))
+    $zopim.livechat.setOnUnreadMsgs((number) => (window.unreadMessageNumber = number))
   })
 
   await agentJoinsChat('Cody Allen')

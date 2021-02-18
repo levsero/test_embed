@@ -10,7 +10,7 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   questionSubmitted,
   questionValueChanged,
-  getInTouchClicked
+  getInTouchClicked,
 } from 'src/embeds/answerBot/actions/conversation'
 import GetInTouch from 'src/embeds/answerBot/components/GetInTouch'
 import { getContactButtonVisible, getCurrentMessage } from 'src/embeds/answerBot/selectors/root'
@@ -31,13 +31,13 @@ class ConversationFooter extends Component {
     showGetInTouch: PropTypes.bool.isRequired,
     botUserMessage: PropTypes.func.isRequired,
     botChannelChoice: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
+    locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   }
 
   static defaultProps = {
     scrollToBottom: () => {},
     isMobile: false,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
   }
 
   handleQuestionSubmitted = (...args) => {
@@ -125,11 +125,11 @@ class ConversationFooter extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentMessage: getCurrentMessage(state),
     showGetInTouch: getContactButtonVisible(state),
-    locale: getLocale(state)
+    locale: getLocale(state),
   }
 }
 
@@ -138,7 +138,7 @@ const actionCreators = {
   questionValueChanged,
   getInTouchClicked,
   botUserMessage,
-  botChannelChoice
+  botChannelChoice,
 }
 
 const connectedComponent = connect(

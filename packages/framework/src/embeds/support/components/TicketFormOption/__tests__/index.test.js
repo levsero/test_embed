@@ -6,12 +6,12 @@ import Component from '..'
 const onClick = jest.fn()
 const form = {
   id: 42,
-  display_name: 'the goggles do nothing'
+  display_name: 'the goggles do nothing',
 }
 const renderComponent = (props = {}) => {
   const defaultProps = {
     form,
-    onClick
+    onClick,
   }
 
   return render(<Component {...defaultProps} {...props} />)

@@ -5,12 +5,12 @@ import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 export default {
   title: 'Messenger/MessengerFooter',
   component: MessengerFooter,
-  decorators: [MessengerContainerDecorator]
+  decorators: [MessengerContainerDecorator],
 }
 
-const Template = args => <MessengerFooter {...args} />
+const Template = (args) => <MessengerFooter {...args} />
 
 export const EmptyFooter = Template.bind()
 EmptyFooter.args = {
-  onSendMessage: value => console.log('Footer send message: ', value)
+  onSendMessage: (value) => console.log('Footer send message: ', value),
 }

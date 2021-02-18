@@ -3,7 +3,7 @@ import { zdColorGrey600, zdColorBlue600 } from '@zendeskgarden/css-variables'
 import Icon from 'src/embeds/answerBot/icons/article.svg'
 
 const Header = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: flex !important;
       align-items: center !important;
@@ -14,7 +14,7 @@ const Header = styled.div`
 `
 
 const Snippet = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: flex !important;
       color: ${zdColorGrey600};
@@ -33,7 +33,7 @@ const Title = styled.div`
 `
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: flex !important;
       padding: ${12 / props.theme.fontSize}rem ${14 / props.theme.fontSize}rem;
@@ -43,7 +43,7 @@ const Container = styled.div`
 `
 
 const ArticleIcon = styled(Icon)`
-  ${props => {
+  ${(props) => {
     return `
       ${props.theme.rtl ? 'margin-left' : 'margin-right'}: ${10 / props.theme.fontSize}rem;
 

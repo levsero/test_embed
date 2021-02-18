@@ -2,12 +2,12 @@ import _ from 'lodash'
 import {
   SDK_CHAT_MEMBER_JOIN,
   CHAT_AGENT_INACTIVE,
-  CHAT_ALL_AGENTS_INACTIVE
+  CHAT_ALL_AGENTS_INACTIVE,
 } from '../chat-action-types'
 
 const initialState = {}
 
-const isAgent = nick => nick.indexOf('agent:') > -1
+const isAgent = (nick) => nick.indexOf('agent:') > -1
 
 const inactiveAgents = (state = initialState, action = {}) => {
   const { type, payload } = action
@@ -18,8 +18,8 @@ const inactiveAgents = (state = initialState, action = {}) => {
         return {
           ...state,
           [payload.nick]: {
-            ...payload
-          }
+            ...payload,
+          },
         }
       }
       return state
@@ -33,7 +33,7 @@ const inactiveAgents = (state = initialState, action = {}) => {
     case CHAT_ALL_AGENTS_INACTIVE:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     default:
       return state

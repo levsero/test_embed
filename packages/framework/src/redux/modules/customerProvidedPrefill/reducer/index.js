@@ -5,7 +5,7 @@ import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
 const reducers = combineReducers({
   acknowledged,
-  types
+  types,
 })
 
 const customerProvidedPrefill = (state = {}, action) => {

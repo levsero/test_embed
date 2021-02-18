@@ -33,9 +33,9 @@ describe('analytics reducer', () => {
           type: actionTypes.UPDATE_SETTINGS,
           payload: {
             webWidget: {
-              analytics: false
-            }
-          }
+              analytics: false,
+            },
+          },
         })
       })
 

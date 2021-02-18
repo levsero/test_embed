@@ -8,13 +8,13 @@ const LoadingMessagesIndicator = ({ loading }) => {
   const t = useTranslate()
   const transitionStyles = {
     entering: { opacity: 0.9 },
-    entered: { opacity: 1 }
+    entered: { opacity: 1 },
   }
 
   return (
     <Container>
       <Transition timeout={0} in={loading} unmountOnExit={true}>
-        {state => (
+        {(state) => (
           <Text style={{ ...transitionStyles[state] }}>
             {t('embeddable_framework.chat.fetching_history')}
           </Text>
@@ -25,7 +25,7 @@ const LoadingMessagesIndicator = ({ loading }) => {
 }
 
 LoadingMessagesIndicator.propTypes = {
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 }
 
 export default LoadingMessagesIndicator

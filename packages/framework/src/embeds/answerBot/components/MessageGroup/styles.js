@@ -3,7 +3,7 @@ import { Avatar as AvatarComponent } from 'src/component/Avatar'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       position: relative !important;
       margin-bottom: ${5 / props.theme.fontSize}rem !important;
@@ -25,7 +25,7 @@ const animate = () => `
 `
 
 const Name = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       margin-top: ${5 / props.theme.fontSize}rem !important;
       margin-bottom: ${5 / props.theme.fontSize}rem !important;
@@ -38,7 +38,7 @@ const Name = styled.div`
   }}
 `
 
-const avatarStyle = props => {
+const avatarStyle = (props) => {
   return `
     position: absolute !important;
     transition: top 300ms ease-in-out;
@@ -59,11 +59,11 @@ const avatarStyle = props => {
 }
 
 const Avatar = styled(AvatarComponent)`
-  ${props => avatarStyle(props)}
+  ${(props) => avatarStyle(props)}
 `
 
 const IconContainer = styled.div`
-  ${props => avatarStyle(props)}
+  ${(props) => avatarStyle(props)}
 `
 
 export { Container, Name, Avatar, IconContainer }

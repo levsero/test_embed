@@ -43,7 +43,7 @@ const icons = {
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
   [ICONS.CC_CHAT]: require('icons/widget-icon_channelChoice-chat.svg'),
-  'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg')
+  'Icon--previous': require('@zendeskgarden/svg-icons/src/14/previous.svg'),
 }
 
 export class Icon extends Component {
@@ -52,12 +52,12 @@ export class Icon extends Component {
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
     type: PropTypes.string,
-    flipX: PropTypes.bool
+    flipX: PropTypes.bool,
   }
 
   static defaultProps = {
     isMobile: isMobileBrowser(),
-    flipX: false
+    flipX: false,
   }
 
   render() {
@@ -65,7 +65,7 @@ export class Icon extends Component {
     const IconSVG = icons[type].default
     const iconClasses = classNames(styles.container, className, type, {
       [styles.mobile]: isMobile,
-      [styles.flipX]: flipX
+      [styles.flipX]: flipX,
     })
 
     const spanProps = onClick
@@ -73,7 +73,7 @@ export class Icon extends Component {
           tabIndex: 0,
           role: 'button',
           onKeyDown: triggerOnEnter(onClick),
-          onClick: onClick
+          onClick: onClick,
         }
       : {}
 

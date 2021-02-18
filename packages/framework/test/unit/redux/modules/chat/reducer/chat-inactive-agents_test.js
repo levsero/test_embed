@@ -31,7 +31,7 @@ describe('chat reducer inactiveAgents', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionType,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -41,13 +41,13 @@ describe('chat reducer inactiveAgents', () => {
           payload = {
             nick: 'agent:mcbob',
             display_name: 'McBob',
-            title: 'Bobliest Bob'
+            title: 'Bobliest Bob',
           }
         })
 
         it('updates the agent with properties from the payload', () => {
           const expected = {
-            [payload.nick]: { ...payload }
+            [payload.nick]: { ...payload },
           }
 
           expect(state).toEqual(jasmine.objectContaining(expected))
@@ -58,17 +58,17 @@ describe('chat reducer inactiveAgents', () => {
         beforeAll(() => {
           actionType = actionTypes.SDK_CHAT_MEMBER_JOIN
           payload = {
-            detail: { nick: 'agent:terence' }
+            detail: { nick: 'agent:terence' },
           }
           initialState = {
             'agent:terence': { display_name: 'terence' },
-            'agent:bob': { display_name: 'bob' }
+            'agent:bob': { display_name: 'bob' },
           }
         })
 
         it('updates the state by removing the agent specified in the payload', () => {
           const expected = {
-            'agent:bob': { display_name: 'bob' }
+            'agent:bob': { display_name: 'bob' },
           }
 
           expect(state).toEqual(jasmine.objectContaining(expected))
@@ -79,7 +79,7 @@ describe('chat reducer inactiveAgents', () => {
         beforeAll(() => {
           payload = {
             'agent:foo': { display_name: 'Fooh bear' },
-            'agent:bar': { display_name: 'bar bong' }
+            'agent:bar': { display_name: 'bar bong' },
           }
           actionType = actionTypes.CHAT_ALL_AGENTS_INACTIVE
           initialState = {}

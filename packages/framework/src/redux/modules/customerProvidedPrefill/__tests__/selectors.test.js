@@ -7,10 +7,10 @@ describe('customerProvidedPrefill selectors', () => {
         customerProvidedPrefill: {
           types: {
             prefill: {
-              timestamp: 123
-            }
-          }
-        }
+              timestamp: 123,
+            },
+          },
+        },
       }
 
       expect(getLastTimestamp(state, 'prefill')).toBe(123)
@@ -25,16 +25,16 @@ describe('customerProvidedPrefill selectors', () => {
             prefill: {
               values: {
                 name: 'Someone',
-                email: 'someone@example.com'
-              }
-            }
-          }
-        }
+                email: 'someone@example.com',
+              },
+            },
+          },
+        },
       }
 
       expect(getValues(state, 'prefill')).toEqual({
         name: 'Someone',
-        email: 'someone@example.com'
+        email: 'someone@example.com',
       })
     })
   })
@@ -45,10 +45,10 @@ describe('customerProvidedPrefill selectors', () => {
         customerProvidedPrefill: {
           acknowledged: {
             prefill: {
-              prechatForm: 123
-            }
-          }
-        }
+              prechatForm: 123,
+            },
+          },
+        },
       }
 
       expect(getLastUpdateAcknowledged(state, 'prefill', 'prechatForm')).toBe(123)
@@ -59,10 +59,10 @@ describe('customerProvidedPrefill selectors', () => {
         customerProvidedPrefill: {
           acknowledged: {
             prefill: {
-              prechatForm: 123
-            }
-          }
-        }
+              prechatForm: 123,
+            },
+          },
+        },
       }
 
       expect(getLastUpdateAcknowledged(state, 'prefill', 'some id')).toBe(undefined)

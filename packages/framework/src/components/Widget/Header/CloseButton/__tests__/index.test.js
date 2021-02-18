@@ -6,12 +6,12 @@ import * as actions from 'src/redux/modules/base'
 import CloseButton from '../'
 
 jest.mock('src/redux/modules/base', () => ({
-  handleCloseButtonClicked: jest.fn(() => 'handleCloseButtonClicked')
+  handleCloseButtonClicked: jest.fn(() => 'handleCloseButtonClicked'),
 }))
 
 describe('CloseButton', () => {
   const defaultProps = {
-    onClick: undefined
+    onClick: undefined,
   }
 
   const renderComponent = (props = {}) => {
@@ -26,7 +26,7 @@ describe('CloseButton', () => {
 
     return {
       ...result,
-      store
+      store,
     }
   }
 

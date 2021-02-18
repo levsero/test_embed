@@ -5,15 +5,15 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(baseActiveEmbed, [
   {
     action: { type: undefined },
-    expected: ''
+    expected: '',
   },
   {
     action: { type: 'DERP DERP' },
     initialState: 'ab',
-    expected: 'ab'
+    expected: 'ab',
   },
   {
     action: { type: UPDATE_ACTIVE_EMBED, payload: 'ticketSubmissionForm' },
-    expected: 'ticketSubmissionForm'
-  }
+    expected: 'ticketSubmissionForm',
+  },
 ])

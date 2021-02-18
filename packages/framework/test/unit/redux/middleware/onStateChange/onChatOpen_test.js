@@ -15,22 +15,22 @@ describe('onChatOpen', () => {
 
     initMockRegistry({
       'src/redux/modules/base/base-selectors': {
-        getWidgetShown: state => state.widgetShown,
-        getActiveEmbed: state => state.activeEmbed
+        getWidgetShown: (state) => state.widgetShown,
+        getActiveEmbed: (state) => state.activeEmbed,
       },
       'src/redux/modules/chat': {
-        chatOpened: chatOpenedSpy
-      }
+        chatOpened: chatOpenedSpy,
+      },
     })
 
     prevState = {
       widgetShown: mockPrevWidgetShown,
-      activeEmbed: mockPrevActiveEmbed
+      activeEmbed: mockPrevActiveEmbed,
     }
 
     nextState = {
       widgetShown: mockNextWidgetShown,
-      activeEmbed: mockNextActiveEmbed
+      activeEmbed: mockNextActiveEmbed,
     }
 
     const path = buildSrcPath('redux/middleware/onStateChange/onChatOpen')

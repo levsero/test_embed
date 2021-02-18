@@ -3,22 +3,22 @@ import _ from 'lodash'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_DISCONNECT_SOCKET_EVENT,
-  RECEIVED_DEFERRED_TALK_STATUS
+  RECEIVED_DEFERRED_TALK_STATUS,
 } from '../talk-action-types'
 import {
   CALLBACK_ONLY,
   PHONE_ONLY,
   CALLBACK_AND_PHONE,
-  CLICK_TO_CALL
+  CLICK_TO_CALL,
 } from '../talk-capability-types'
 
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
 const capabilityMap = {
-  '0': CALLBACK_ONLY,
-  '1': PHONE_ONLY,
-  '2': CALLBACK_AND_PHONE,
-  '3': CLICK_TO_CALL
+  0: CALLBACK_ONLY,
+  1: PHONE_ONLY,
+  2: CALLBACK_AND_PHONE,
+  3: CLICK_TO_CALL,
 }
 
 const initialState = {
@@ -29,7 +29,7 @@ const initialState = {
   phoneNumber: '',
   supportedCountries: [],
   connected: false,
-  deferredStatusOnline: false
+  deferredStatusOnline: false,
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -48,12 +48,12 @@ const embeddableConfig = (state = initialState, action) => {
           : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
         connected: true,
-        deferredStatusOnline: false
+        deferredStatusOnline: false,
       }
     case TALK_DISCONNECT_SOCKET_EVENT:
       return {
         ...state,
-        enabled: false
+        enabled: false,
       }
     case RECEIVED_DEFERRED_TALK_STATUS:
       return {
@@ -62,7 +62,7 @@ const embeddableConfig = (state = initialState, action) => {
           ? CLICK_TO_CALL
           : capabilityMap[payload.capability],
         enabled: payload.enabled === true,
-        deferredStatusOnline: payload.availability
+        deferredStatusOnline: payload.availability,
       }
     default:
       return state

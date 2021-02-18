@@ -19,7 +19,7 @@ const clickBack = async () => {
   await backButton.click()
 }
 
-const clickButton = async buttonText => {
+const clickButton = async (buttonText) => {
   const frame = await getFrame()
   await waitForText(buttonText)
   await expect(frame).toClick('button', { text: buttonText })
@@ -58,16 +58,16 @@ const waitForText = async (text, options) => {
   await wait(async () => await queries.getByText(widget, text, options))
 }
 
-const waitForPlaceholderText = async placeholderText => {
+const waitForPlaceholderText = async (placeholderText) => {
   const widget = await getDocument()
   await wait(async () => await queries.getByPlaceholderText(widget, placeholderText))
 }
 
-const expectToSeeText = async text => {
+const expectToSeeText = async (text) => {
   expect(await queries.queryByText(await getDocument(), text)).toBeTruthy()
 }
 
-const expectNotToSeeText = async text => {
+const expectNotToSeeText = async (text) => {
   expect(await queries.queryByText(await getDocument(), text)).toBeNull()
 }
 
@@ -75,7 +75,7 @@ const expectToBeVisible = async () => {
   try {
     await page.waitForSelector(selector, {
       visible: true,
-      timeout: 5000 // wait for 5 seconds
+      timeout: 5000, // wait for 5 seconds
     })
     const embed = await evaluate(() => {
       return document.querySelector('#Embed [data-embed]').dataset['embed']
@@ -102,5 +102,5 @@ export default {
   expectNotToSeeText,
   evaluate,
   zendeskLogoVisible,
-  expectToBeVisible
+  expectToBeVisible,
 }

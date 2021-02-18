@@ -10,9 +10,9 @@ let defaultStorage = win.localStorage
 const defaults = {
   suid: {
     id: null,
-    tabs: []
+    tabs: [],
   },
-  store: {}
+  store: {},
 }
 
 const enableSessionStorage = () => {
@@ -77,9 +77,9 @@ function remove(name) {
 
 function clear() {
   try {
-    const keys = _.keys(defaultStorage).filter(key => _.includes(key, prefix))
+    const keys = _.keys(defaultStorage).filter((key) => _.includes(key, prefix))
 
-    keys.forEach(key => {
+    keys.forEach((key) => {
       defaultStorage.removeItem(key)
     })
   } catch (e) {}
@@ -120,5 +120,5 @@ export const store = {
   clear: clear,
   enable: enable,
   disable: disable,
-  prefix
+  prefix,
 }

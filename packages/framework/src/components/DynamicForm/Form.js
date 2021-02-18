@@ -26,7 +26,7 @@ const Form = ({
   isPreview,
   footer: FooterComponent,
   controls,
-  extraFieldOptions
+  extraFieldOptions,
 }) => {
   const translate = useTranslate()
   const form = useForm()
@@ -44,7 +44,7 @@ const Form = ({
         {children}
 
         <Fields>
-          {fields.map(field => (
+          {fields.map((field) => (
             <div key={field.id}>
               <Field
                 name={field.id}
@@ -54,7 +54,7 @@ const Form = ({
                     field={field}
                     errorMessage={showErrors && meta.error ? translate(meta.error) : ''}
                     value={convertFieldValue(field.type, input.value)}
-                    onChange={value => input.onChange(value)}
+                    onChange={(value) => input.onChange(value)}
                     isReadOnly={isPreview || readOnlyValues[field.id]}
                     isPreview={isPreview}
                     errorMessageKey={errorMessageKey}
@@ -93,7 +93,7 @@ Form.propTypes = {
   footer: PropTypes.elementType,
   extraFieldOptions: PropTypes.objectOf(PropTypes.elementType),
   children: PropTypes.node,
-  controls: PropTypes.node
+  controls: PropTypes.node,
 }
 
 export default Form

@@ -2,7 +2,7 @@ import { getOfflineFormFields } from 'src/redux/modules/selectors'
 import {
   getIsAuthenticated,
   getLoginSettings,
-  getSocialLogin
+  getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 
 import { getFields } from 'src/embeds/chat/selectors/offline-form'
@@ -16,13 +16,13 @@ describe('offline form selectors', () => {
       isAuthenticated: false,
       formFields: {},
       socialLogin: { authenticated: false },
-      loginSettings: {}
+      loginSettings: {},
     }
 
     const run = (overrideOptions = {}) => {
       const options = {
         ...defaultOptions,
-        ...overrideOptions
+        ...overrideOptions,
       }
 
       getIsAuthenticated.mockReturnValue(options.isAuthenticated)
@@ -36,19 +36,19 @@ describe('offline form selectors', () => {
     describe('name', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field).not.toBeUndefined()
       })
 
@@ -57,12 +57,12 @@ describe('offline form selectors', () => {
           isAuthenticated: false,
           formFields: {
             name: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field.required).toBe(true)
       })
     })
@@ -70,19 +70,19 @@ describe('offline form selectors', () => {
     describe('social login', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'socialLogin')
+        const field = result.find((field) => field.id === 'socialLogin')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'socialLogin')
+        const field = result.find((field) => field.id === 'socialLogin')
         expect(field).not.toBeUndefined()
       })
     })
@@ -90,19 +90,19 @@ describe('offline form selectors', () => {
     describe('email', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field).not.toBeUndefined()
       })
 
@@ -111,12 +111,12 @@ describe('offline form selectors', () => {
           isAuthenticated: false,
           formFields: {
             email: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field.required).toBe(true)
       })
     })
@@ -124,10 +124,10 @@ describe('offline form selectors', () => {
     describe('phone', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field).toBeUndefined()
       })
 
@@ -135,11 +135,11 @@ describe('offline form selectors', () => {
         const result = run({
           isAuthenticated: false,
           loginSettings: {
-            phoneEnabled: false
-          }
+            phoneEnabled: false,
+          },
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field).toBeUndefined()
       })
 
@@ -147,16 +147,16 @@ describe('offline form selectors', () => {
         const result = run({
           isAuthenticated: false,
           loginSettings: {
-            phoneEnabled: true
+            phoneEnabled: true,
           },
           formFields: {
             phone: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field.required).toBe(true)
       })
     })
@@ -166,19 +166,19 @@ describe('offline form selectors', () => {
         const result = run({
           formFields: {
             message: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'message')
+        const field = result.find((field) => field.id === 'message')
         expect(field.required).toBe(true)
       })
 
       it('is always visible', () => {
         const result = run()
 
-        const field = result.find(field => field.id === 'message')
+        const field = result.find((field) => field.id === 'message')
         expect(field).not.toBeUndefined()
       })
     })

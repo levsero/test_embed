@@ -16,7 +16,7 @@ const Legend = ({ hasContextuallySearched }) => {
 }
 
 Legend.propTypes = {
-  hasContextuallySearched: PropTypes.bool
+  hasContextuallySearched: PropTypes.bool,
 }
 
 export default Legend

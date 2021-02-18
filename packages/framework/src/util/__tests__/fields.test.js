@@ -2,7 +2,7 @@ import {
   getStyledLabelText,
   shouldRenderErrorMessage,
   renderLabel,
-  updateConditionalVisibility
+  updateConditionalVisibility,
 } from '../fields'
 import { EMAIL_PATTERN } from 'constants/shared'
 import { noopReactComponent } from 'utility/testHelpers'
@@ -135,7 +135,7 @@ describe('customFields', () => {
     title_in_portal: 'Text',
     required_in_portal: true,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
   }
   const nestedDropdownFieldPayload = {
     id: '10006',
@@ -145,19 +145,19 @@ describe('customFields', () => {
     custom_field_options: [
       {
         name: 'Option1::Part1',
-        value: 'option1__part1'
+        value: 'option1__part1',
       },
       {
         name: 'Option2::Part2',
-        value: 'option2__part2'
+        value: 'option2__part2',
       },
       {
         name: 'Option1::Part2',
-        value: 'option1__part2'
-      }
+        value: 'option1__part2',
+      },
     ],
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
   }
   const dropdownFieldPayload = {
     id: '22666574',
@@ -166,16 +166,16 @@ describe('customFields', () => {
     custom_field_options: [
       {
         name: 'Sales',
-        value: 1
+        value: 1,
       },
       {
         name: 'Support',
-        value: 2
-      }
+        value: 2,
+      },
     ],
     visible_in_portal: true,
     editable_in_portal: true,
-    required_in_portal: true
+    required_in_portal: true,
   }
   const textareaFieldPayload = {
     id: '22660524',
@@ -183,7 +183,7 @@ describe('customFields', () => {
     title_in_portal: 'Order Details',
     required_in_portal: true,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
   }
   const integerFieldPayload = {
     id: '22823250',
@@ -192,7 +192,7 @@ describe('customFields', () => {
     required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
-    description: 'this is the integer description'
+    description: 'this is the integer description',
   }
   const decimalFieldPayload = {
     id: '22823260',
@@ -201,7 +201,7 @@ describe('customFields', () => {
     required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
-    description: 'this is the decimal description'
+    description: 'this is the decimal description',
   }
   const checkboxFieldPayload = {
     id: '22823270',
@@ -210,7 +210,7 @@ describe('customFields', () => {
     required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
-    description: 'this is the description'
+    description: 'this is the description',
   }
   const descriptionFieldPayload = {
     id: '2284527',
@@ -218,7 +218,7 @@ describe('customFields', () => {
     title_in_portal: 'How can we help?',
     required_in_portal: false,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
   }
   const subjectFieldPayload = {
     id: '2284528',
@@ -227,7 +227,7 @@ describe('customFields', () => {
     required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true,
-    description: 'subject description'
+    description: 'subject description',
   }
 
   beforeEach(() => {
@@ -240,7 +240,7 @@ describe('customFields', () => {
       { ...decimalFieldPayload },
       { ...checkboxFieldPayload },
       { ...descriptionFieldPayload },
-      { ...subjectFieldPayload }
+      { ...subjectFieldPayload },
     ]
   })
 
@@ -269,10 +269,10 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: false
-            }
-          ]
-        }
+              is_required: false,
+            },
+          ],
+        },
       ]
       const conditionWithMultipleChildren = [
         {
@@ -281,18 +281,18 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: false
+              is_required: false,
             },
             {
               id: '2284528',
-              is_required: true
+              is_required: true,
             },
             {
               id: '2284527',
-              is_required: true
-            }
-          ]
-        }
+              is_required: true,
+            },
+          ],
+        },
       ]
       const multipleConditions = [
         {
@@ -301,9 +301,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22660524',
@@ -311,10 +311,10 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22823270',
-              is_required: false
-            }
-          ]
-        }
+              is_required: false,
+            },
+          ],
+        },
       ]
       const multipleConditionsOnSameChild = [
         {
@@ -323,9 +323,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22660524',
@@ -333,10 +333,10 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: true
-            }
-          ]
-        }
+              is_required: true,
+            },
+          ],
+        },
       ]
       const allFieldsAsConditions = [
         {
@@ -345,9 +345,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660514',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22660514',
@@ -355,9 +355,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '10006',
-              is_required: true
-            }
-          ]
+              is_required: true,
+            },
+          ],
         },
         {
           parent_field_id: '10006',
@@ -365,9 +365,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22666574',
-              is_required: true
-            }
-          ]
+              is_required: true,
+            },
+          ],
         },
         {
           parent_field_id: '22666574',
@@ -375,9 +375,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22660524',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22660524',
@@ -385,9 +385,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22823250',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22823250',
@@ -395,9 +395,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22823260',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '22823260',
@@ -405,9 +405,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '2284527',
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         },
         {
           parent_field_id: '2284527',
@@ -415,9 +415,9 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '2284528',
-              is_required: true
-            }
-          ]
+              is_required: true,
+            },
+          ],
         },
         {
           parent_field_id: '2284528',
@@ -425,10 +425,10 @@ describe('customFields', () => {
           child_fields: [
             {
               id: '22823270',
-              is_required: true
-            }
-          ]
-        }
+              is_required: true,
+            },
+          ],
+        },
       ]
 
       describe('with no form state', () => {
@@ -441,7 +441,7 @@ describe('customFields', () => {
           ['singleCondition', singleCondition],
           ['multipleConditions', multipleConditions],
           ['multipleConditionsOnSameChild', multipleConditionsOnSameChild],
-          ['allFieldsAsConditions', allFieldsAsConditions]
+          ['allFieldsAsConditions', allFieldsAsConditions],
         ])('with %s', (_, conditions) => {
           const fields = updateConditionalVisibility(payload, {}, conditions)
 
@@ -454,11 +454,11 @@ describe('customFields', () => {
           defaultFields = updateConditionalVisibility(payload)
         })
         const conditionFulfilled = {
-          22823270: 1
+          22823270: 1,
         }
         const bothConditionsFulfilled = {
           22823270: 1,
-          22660524: 'first'
+          22660524: 'first',
         }
         const allConditionsFulfilled = {
           22823270: true,
@@ -469,7 +469,7 @@ describe('customFields', () => {
           22823250: 23,
           22823260: 22.23,
           2284527: 'a description!',
-          2284528: 'and a subject?'
+          2284528: 'and a subject?',
         }
 
         test.each([
@@ -479,15 +479,15 @@ describe('customFields', () => {
           [
             'multipleConditionsOnSameChild one fulfilled',
             multipleConditionsOnSameChild,
-            conditionFulfilled
+            conditionFulfilled,
           ],
           ['multipleConditions one fulfilled', multipleConditions, bothConditionsFulfilled],
           [
             'multipleConditionsOnSameChild one fulfilled',
             multipleConditionsOnSameChild,
-            bothConditionsFulfilled
+            bothConditionsFulfilled,
           ],
-          ['allFieldsAsConditions', allFieldsAsConditions, allConditionsFulfilled]
+          ['allFieldsAsConditions', allFieldsAsConditions, allConditionsFulfilled],
         ])('with %s', (_, conditions, formState) => {
           const fields = updateConditionalVisibility(payload, formState, conditions)
 

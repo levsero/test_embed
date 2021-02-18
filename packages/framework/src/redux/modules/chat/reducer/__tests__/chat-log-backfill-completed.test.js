@@ -5,28 +5,28 @@ import chatLogBackfillCompleted from '../chat-log-backfill-completed'
 testReducer(chatLogBackfillCompleted, [
   {
     action: {
-      type: 'initial state'
+      type: 'initial state',
     },
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: CHAT_CONNECTED
+      type: CHAT_CONNECTED,
     },
-    expected: true
-  },
-  {
-    initialState: true,
-    action: {
-      type: CHAT_CONNECTED
-    },
-    expected: true
+    expected: true,
   },
   {
     initialState: true,
     action: {
-      type: 'SOME_OTHER_ACTION'
+      type: CHAT_CONNECTED,
     },
-    expected: true
-  }
+    expected: true,
+  },
+  {
+    initialState: true,
+    action: {
+      type: 'SOME_OTHER_ACTION',
+    },
+    expected: true,
+  },
 ])

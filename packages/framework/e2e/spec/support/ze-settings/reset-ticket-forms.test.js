@@ -7,13 +7,13 @@ test('load with with default form, update to show single ticket form then reset 
   const description = createField({
     id: 1,
     title_in_portal: 'Custom description',
-    type: 'description'
+    type: 'description',
   })
 
   const { mockFormsResponse, form } = createForm({
     name: 'Custom form',
     id: 123,
-    fields: [description]
+    fields: [description],
   })
 
   await loadWidget()
@@ -25,13 +25,13 @@ test('load with with default form, update to show single ticket form then reset 
 
   await widget.waitForText('How can we help you?')
 
-  await page.evaluate(formId => {
+  await page.evaluate((formId) => {
     zE('webWidget', 'updateSettings', {
       webWidget: {
         contactForm: {
-          ticketForms: [{ id: formId }]
-        }
-      }
+          ticketForms: [{ id: formId }],
+        },
+      },
     })
   }, form.id)
 
@@ -48,9 +48,9 @@ test('load with with default form, update to show single ticket form then reset 
     zE('webWidget', 'updateSettings', {
       webWidget: {
         contactForm: {
-          ticketForms: []
-        }
-      }
+          ticketForms: [],
+        },
+      },
     })
   })
 
@@ -66,11 +66,11 @@ test('load with with default form, update to show single ticket form then reset 
 test('load with with default form, update to show multiple ticket forms then reset back to default form', async () => {
   const option1 = createForm({
     name: 'Custom form 1',
-    id: 123
+    id: 123,
   })
   const option2 = createForm({
     name: 'Custom form 2',
-    id: 456
+    id: 456,
   })
 
   await loadWidget()
@@ -79,12 +79,12 @@ test('load with with default form, update to show multiple ticket forms then res
       mockTicketFormsEndpoint({
         ticket_forms: [
           ...option1.mockFormsResponse.ticket_forms,
-          ...option2.mockFormsResponse.ticket_forms
+          ...option2.mockFormsResponse.ticket_forms,
         ],
         ticket_fields: [
           ...option1.mockFormsResponse.ticket_fields,
-          ...option2.mockFormsResponse.ticket_fields
-        ]
+          ...option2.mockFormsResponse.ticket_fields,
+        ],
       })
     )
     .load()
@@ -98,9 +98,9 @@ test('load with with default form, update to show multiple ticket forms then res
       zE('webWidget', 'updateSettings', {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: formId1 }, { id: formId2 }]
-          }
-        }
+            ticketForms: [{ id: formId1 }, { id: formId2 }],
+          },
+        },
       })
     },
     option1.form.id,
@@ -123,9 +123,9 @@ test('load with with default form, update to show multiple ticket forms then res
     zE('webWidget', 'updateSettings', {
       webWidget: {
         contactForm: {
-          ticketForms: []
-        }
-      }
+          ticketForms: [],
+        },
+      },
     })
   })
 
@@ -138,25 +138,25 @@ test('load with with default form, update to show multiple ticket forms then res
 test('load with three custom forms, update to show only two custom forms then reset back to all forms', async () => {
   const option1 = createForm({
     name: 'Custom form 1',
-    id: 123
+    id: 123,
   })
   const option2 = createForm({
     name: 'Custom form 2',
-    id: 456
+    id: 456,
   })
   const option3 = createForm({
     name: 'Custom form 3',
-    id: 789
+    id: 789,
   })
 
   const mockConfigWithForm = {
     embeds: {
       ticketSubmissionForm: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
-    }
+          ticketFormsEnabled: true,
+        },
+      },
+    },
   }
 
   await loadWidget()
@@ -166,13 +166,13 @@ test('load with three custom forms, update to show only two custom forms then re
         ticket_forms: [
           ...option1.mockFormsResponse.ticket_forms,
           ...option2.mockFormsResponse.ticket_forms,
-          ...option3.mockFormsResponse.ticket_forms
+          ...option3.mockFormsResponse.ticket_forms,
         ],
         ticket_fields: [
           ...option1.mockFormsResponse.ticket_fields,
           ...option2.mockFormsResponse.ticket_fields,
-          ...option3.mockFormsResponse.ticket_fields
-        ]
+          ...option3.mockFormsResponse.ticket_fields,
+        ],
       })
     )
     .load()
@@ -188,9 +188,9 @@ test('load with three custom forms, update to show only two custom forms then re
       zE('webWidget', 'updateSettings', {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: formId1 }, { id: formId2 }]
-          }
-        }
+            ticketForms: [{ id: formId1 }, { id: formId2 }],
+          },
+        },
       })
     },
     option1.form.id,
@@ -205,9 +205,9 @@ test('load with three custom forms, update to show only two custom forms then re
     zE('webWidget', 'updateSettings', {
       webWidget: {
         contactForm: {
-          ticketForms: []
-        }
-      }
+          ticketForms: [],
+        },
+      },
     })
   })
 

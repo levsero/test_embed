@@ -11,7 +11,7 @@ const PhoneNumber = ({ phoneNumber, formattedPhoneNumber }) => (
 
 PhoneNumber.propTypes = {
   phoneNumber: PropTypes.string.isRequired,
-  formattedPhoneNumber: PropTypes.string.isRequired
+  formattedPhoneNumber: PropTypes.string.isRequired,
 }
 
 export default PhoneNumber

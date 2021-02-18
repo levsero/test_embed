@@ -6,7 +6,7 @@ const OfflineFormControls = () => {
   const form = useForm()
 
   const onIdentify = useCallback(
-    values => {
+    (values) => {
       form.batch(() => {
         if (values.display_name) {
           form.change('name', values.display_name)

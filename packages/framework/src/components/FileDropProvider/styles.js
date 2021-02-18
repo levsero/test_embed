@@ -15,12 +15,12 @@ const DropContainer = styled.div`
 
   z-index: 20;
 
-  margin: ${props => 10 / props.theme.fontSize}rem;
+  margin: ${(props) => 10 / props.theme.fontSize}rem;
 
-  border-width: ${props => 2 / props.theme.fontSize}rem;
+  border-width: ${(props) => 2 / props.theme.fontSize}rem;
   border-color: ${zdColorGrey300};
   border-style: dashed;
-  border-radius: ${props => 5 / props.theme.fontSize}rem;
+  border-radius: ${(props) => 5 / props.theme.fontSize}rem;
   background-color: ${zdColorWhite};
   opacity: 0.9;
 
@@ -31,19 +31,19 @@ const DropContainer = styled.div`
 
 const DropInfo = styled.div`
   text-align: center;
-  font-size: ${props => 15 / props.theme.fontSize}rem;
+  font-size: ${(props) => 15 / props.theme.fontSize}rem;
 `
 
 const Message = styled.div`
-  margin-top: ${props => 10 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 10 / props.theme.fontSize}rem;
   font-weight: 700;
   color: ${zdColorGrey800};
 `
 
 const AttachmentIcon = styled(GardenAttachmentIcon)`
-  height: ${props => 36 / props.theme.fontSize}rem;
-  width: ${props => 36 / props.theme.fontSize}rem;
-  color: ${props => props.theme.iconColor};
+  height: ${(props) => 36 / props.theme.fontSize}rem;
+  width: ${(props) => 36 / props.theme.fontSize}rem;
+  color: ${(props) => props.theme.iconColor};
 `
 
 export { Container, DropContainer, DropInfo, Message, AttachmentIcon }

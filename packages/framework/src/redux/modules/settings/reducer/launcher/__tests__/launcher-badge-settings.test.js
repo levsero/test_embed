@@ -8,7 +8,7 @@ describe('launcher settings reducer', () => {
   beforeEach(() => {
     result = reducer(initialState, {
       type,
-      payload
+      payload,
     })
   })
 
@@ -41,7 +41,7 @@ describe('launcher settings reducer', () => {
       describe('when the payload is incorrectly formed', () => {
         beforeAll(() => {
           payload = {
-            foo: 'bar'
+            foo: 'bar',
           }
         })
 
@@ -58,19 +58,19 @@ describe('launcher settings reducer', () => {
                 badge: {
                   image: 'https://img.example.com/firefox.png',
                   label: {
-                    '*': 'the best browser'
-                  }
-                }
-              }
-            }
+                    '*': 'the best browser',
+                  },
+                },
+              },
+            },
           }
 
           expectedState = {
             ...initialState,
             image: 'https://img.example.com/firefox.png',
             label: {
-              '*': 'the best browser'
-            }
+              '*': 'the best browser',
+            },
           }
         })
 
@@ -79,19 +79,19 @@ describe('launcher settings reducer', () => {
         })
 
         describe('when the payload contains a layout property', () => {
-          const getPayload = layout => ({
+          const getPayload = (layout) => ({
             webWidget: {
               launcher: {
                 badge: {
-                  layout
-                }
-              }
-            }
+                  layout,
+                },
+              },
+            },
           })
 
           const getExpectedState = (initialState, layout) => ({
             ...initialState,
-            layout
+            layout,
           })
 
           describe('when the layout is not acceptable', () => {

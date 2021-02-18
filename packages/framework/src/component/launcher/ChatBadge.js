@@ -27,13 +27,13 @@ const frameStyle = {
   marginTop: 7,
   marginBottom: 7,
   marginLeft: 7,
-  marginRight: 7
+  marginRight: 7,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentMessage: getCurrentMessage(state),
-    bannerSettings: getLauncherBadgeSettings(state)
+    bannerSettings: getLauncherBadgeSettings(state),
   }
 }
 
@@ -47,13 +47,13 @@ class ChatBadge extends Component {
     bannerSettings: PropTypes.object.isRequired,
     chatBadgeClicked: PropTypes.func.isRequired,
     hideBranding: PropTypes.bool,
-    isPreviewer: PropTypes.bool
+    isPreviewer: PropTypes.bool,
   }
 
   static defaultProps = {
     currentMessage: '',
     bannerSettings: {},
-    hideBranding: false
+    hideBranding: false,
   }
 
   constructor(props, context) {
@@ -86,7 +86,7 @@ class ChatBadge extends Component {
     const labelClasses = classNames(styles.textContainer, {
       [styles.textOnLeft]: this.props.bannerSettings.layout === 'image_right',
       [styles.textOnRight]: this.props.bannerSettings.layout === 'image_left',
-      [styles.textOnly]: this.props.bannerSettings.layout === 'text_only'
+      [styles.textOnly]: this.props.bannerSettings.layout === 'text_only',
     })
 
     return (
@@ -106,7 +106,7 @@ class ChatBadge extends Component {
       [styles.imgLeft]: layout === 'image_left',
       [styles.imgOnly]: !image && layout === 'image_only',
       [styles.customImg]: image && layout !== 'image_only',
-      [styles.customImgOnly]: image && layout === 'image_only'
+      [styles.customImgOnly]: image && layout === 'image_only',
     })
 
     if (image) {
@@ -146,7 +146,7 @@ class ChatBadge extends Component {
 
   renderSplashDisplay = () => {
     const displayClasses = classNames(styles.splashDisplayContainer, {
-      [styles.splashPadding]: this.props.bannerSettings.layout !== 'image_only'
+      [styles.splashPadding]: this.props.bannerSettings.layout !== 'image_only',
     })
 
     return (
@@ -171,14 +171,14 @@ class ChatBadge extends Component {
 
   renderInputContainer = () => {
     const sendButtonClasses = classNames(styles.sendButton, {
-      [styles.sendButtonActive]: this.props.currentMessage.length > 0
+      [styles.sendButtonActive]: this.props.currentMessage.length > 0,
     })
 
     return (
       <div className={styles.inputContainer}>
         <Field>
           <Input
-            ref={el => {
+            ref={(el) => {
               this.input = el
             }}
             focusInset={true}
@@ -204,13 +204,13 @@ class ChatBadge extends Component {
     )
   }
 
-  sendChatMsg = e => {
+  sendChatMsg = (e) => {
     if (_.isEmpty(this.props.currentMessage)) return
     this.props.sendMsg(this.props.currentMessage)
     this.props.onSend(e)
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.props.handleChatBadgeMessageChange(e.target.value)
   }
 
@@ -222,7 +222,7 @@ class ChatBadge extends Component {
           data-testid={TEST_IDS.CHAT_BADGE}
           className={classNames({
             [styles.container]: true,
-            [styles.containerForWidget]: !this.props.isPreviewer
+            [styles.containerForWidget]: !this.props.isPreviewer,
           })}
         >
           {this.renderSplashDisplay()}
@@ -238,12 +238,7 @@ const actionCreators = {
   sendMsg: sendChatBadgeMessage,
   handleChatBadgeMessageChange,
   handleChatBadgeMinimize,
-  chatBadgeClicked
+  chatBadgeClicked,
 }
 
-export default connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ChatBadge)
+export default connect(mapStateToProps, actionCreators, null, { forwardRef: true })(ChatBadge)

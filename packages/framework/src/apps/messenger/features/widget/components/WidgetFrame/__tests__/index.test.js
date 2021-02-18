@@ -7,7 +7,7 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import {
   frameMarginFromPage,
   launcherSize,
-  marginBetweenFrames
+  marginBetweenFrames,
 } from 'src/apps/messenger/constants'
 
 describe('WidgetFrame', () => {
@@ -61,7 +61,7 @@ describe('WidgetFrame', () => {
       store.dispatch(
         screenDimensionsChanged({
           isVerticallySmallScreen: false,
-          isFullScreen: false
+          isFullScreen: false,
         })
       )
 
@@ -76,7 +76,7 @@ describe('WidgetFrame', () => {
       const { getByTitle, store } = renderComponent()
       store.dispatch(
         screenDimensionsChanged({
-          isFullScreen: true
+          isFullScreen: true,
         })
       )
 
@@ -94,7 +94,7 @@ describe('WidgetFrame', () => {
       store.dispatch(
         screenDimensionsChanged({
           isVerticallySmallScreen: true,
-          isFullScreen: false
+          isFullScreen: false,
         })
       )
 

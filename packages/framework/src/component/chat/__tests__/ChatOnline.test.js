@@ -4,7 +4,7 @@ import { render } from 'src/util/testHelpers'
 import { Component } from '../ChatOnline'
 import { CONNECTION_STATUSES } from 'constants/chat'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const mergedProps = {
     attachmentsEnabled: false,
     authUrls: {},
@@ -20,7 +20,7 @@ const renderComponent = props => {
     updateContactDetailsVisibility: jest.fn(),
     updateEmailTranscriptVisibility: jest.fn(),
     updateEndChatModalVisibility: jest.fn(),
-    ...props
+    ...props,
   }
 
   return render(<Component {...mergedProps} />)

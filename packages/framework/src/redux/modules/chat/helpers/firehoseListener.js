@@ -4,7 +4,7 @@ import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/s
 import {
   SDK_ACCOUNT_STATUS,
   SDK_DEPARTMENT_UPDATE,
-  SDK_CHAT_MEMBER_LEAVE
+  SDK_CHAT_MEMBER_LEAVE,
 } from 'src/redux/modules/chat/chat-action-types'
 import * as callbacks from 'service/api/callbacks'
 import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
@@ -34,7 +34,7 @@ const fireChatBannedEvent = (zChat, dispatch, data) => {
   }
 }
 
-const firehoseListener = (zChat, dispatch, getReduxState) => data => {
+const firehoseListener = (zChat, dispatch, getReduxState) => (data) => {
   let actionType
 
   if (data.type === 'history') {
@@ -53,7 +53,7 @@ const firehoseListener = (zChat, dispatch, getReduxState) => data => {
 
   const chatAction = {
     type: actionType,
-    payload: data
+    payload: data,
   }
 
   dispatch(chatAction)

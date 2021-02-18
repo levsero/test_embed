@@ -4,7 +4,7 @@ import { render } from 'src/util/testHelpers'
 
 describe('LoadingMessagesIndicator', () => {
   const defaultProps = {
-    loading: false
+    loading: false,
   }
 
   const renderComponent = (props = {}) =>

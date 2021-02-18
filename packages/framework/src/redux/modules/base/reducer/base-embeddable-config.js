@@ -9,23 +9,23 @@ const initialState = {
       props: {
         attachmentsEnabled: false,
         nameFieldEnabled: true,
-        nameFieldRequired: false
-      }
+        nameFieldRequired: false,
+      },
     },
     chat: {
       props: {
         zopimId: null,
         overrideProxy: null,
-        standalone: false
-      }
+        standalone: false,
+      },
     },
     talk: {
       props: {
         color: '',
         serviceUrl: '',
-        nickname: ''
-      }
-    }
+        nickname: '',
+      },
+    },
   },
   position: 'right', // default position
   color: '#1F73B7', // default base color
@@ -36,7 +36,7 @@ const initialState = {
   brandCount: undefined,
   brandLogoUrl: undefined,
   disableStatusPolling: false,
-  newBootSequence: false
+  newBootSequence: false,
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -46,7 +46,7 @@ const embeddableConfig = (state = initialState, action) => {
     case UPDATE_PREVIEWER_SETTINGS:
       return {
         ...state,
-        cp4: true
+        cp4: true,
       }
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
@@ -55,14 +55,14 @@ const embeddableConfig = (state = initialState, action) => {
           chat: {
             props: {
               ...state.embeds.chat.props,
-              ..._.get(payload, 'embeds.chat.props')
-            }
+              ..._.get(payload, 'embeds.chat.props'),
+            },
           },
           ticketSubmissionForm: {
             props: {
               ...state.embeds.ticketSubmissionForm.props,
-              ..._.get(payload, 'embeds.ticketSubmissionForm.props')
-            }
+              ..._.get(payload, 'embeds.ticketSubmissionForm.props'),
+            },
           },
           talk: {
             props: {
@@ -76,9 +76,9 @@ const embeddableConfig = (state = initialState, action) => {
                 payload,
                 'embeds.talk.props.nickname',
                 state.embeds.talk.props.nickname
-              )
-            }
-          }
+              ),
+            },
+          },
         },
         position: payload.position || state.position,
         color: payload.color || _.get(state, 'color.base'),
@@ -89,7 +89,7 @@ const embeddableConfig = (state = initialState, action) => {
         brandCount: _.get(payload, 'brandCount', state.brandCount),
         brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl),
         disableStatusPolling: _.get(payload, 'disableStatusPolling', state.disableStatusPolling),
-        newBootSequence: _.get(payload, 'newBootSequence', state.newBootSequence)
+        newBootSequence: _.get(payload, 'newBootSequence', state.newBootSequence),
       }
     default:
       return state

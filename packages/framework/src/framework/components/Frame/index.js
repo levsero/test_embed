@@ -4,11 +4,11 @@ import { StyleSheetManager } from 'styled-components'
 import PropTypes from 'prop-types'
 import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
 
-const useCombinedRefs = extraRef => {
+const useCombinedRefs = (extraRef) => {
   const targetRef = useRef(null)
 
   const setRef = useCallback(
-    ref => {
+    (ref) => {
       targetRef.current = ref
       if (!extraRef) return
 
@@ -87,7 +87,7 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
           <CurrentFrameProvider
             value={{
               document: frame.current.contentDocument,
-              window: frame.current.contentWindow
+              window: frame.current.contentWindow,
             }}
           >
             {!hidden && ReactDOM.createPortal(children, container.current)}
@@ -103,7 +103,7 @@ Frame.propTypes = {
   rootElement: PropTypes.instanceOf(Element),
   title: PropTypes.string.isRequired,
   hidden: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
 }
 
 export default Frame

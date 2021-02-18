@@ -8,7 +8,7 @@ const MessageBubble = ({
   status = 'sent',
   children,
   isPrimaryParticipant = true,
-  isFreshMessage = true
+  isFreshMessage = true,
 }) => {
   const ParticipantBubble = isPrimaryParticipant ? PrimaryParticipantBubble : OtherParticipantBubble
 
@@ -24,7 +24,7 @@ MessageBubble.propTypes = {
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
   children: PropTypes.node,
   isPrimaryParticipant: PropTypes.bool,
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
 }
 
 export default MessageBubble

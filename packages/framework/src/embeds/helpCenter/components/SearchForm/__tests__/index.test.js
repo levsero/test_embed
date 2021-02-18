@@ -5,7 +5,7 @@ import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import SearchForm from '../index'
 import { http } from 'service/transport'
 http.get = jest.fn(() => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve()
   })
 })

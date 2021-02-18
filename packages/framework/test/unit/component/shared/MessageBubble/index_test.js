@@ -15,21 +15,21 @@ describe('MessageBubble component', () => {
       './MessageBubble.scss': {
         locals: {
           messageBubbleWithOptions: 'messageBubbleWithOptions',
-          messageBubble: 'messageBubble'
-        }
+          messageBubble: 'messageBubble',
+        },
       },
       'component/shared/MessageOptions': {
-        MessageOptions: MessageOptions
+        MessageOptions: MessageOptions,
       },
       'react-linkify': Linkify,
       'src/apps/webWidget/services/i18n': {
         i18n: {
-          t: _.identity
-        }
+          t: _.identity,
+        },
       },
       'src/constants/shared': {
-        TEST_IDS
-      }
+        TEST_IDS,
+      },
     })
 
     mockery.registerAllowable(messageBubblePath)

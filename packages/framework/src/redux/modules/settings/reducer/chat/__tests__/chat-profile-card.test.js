@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -16,7 +16,7 @@ test('initial state', () => {
   expect(initialState()).toEqual({
     avatar: true,
     title: true,
-    rating: true
+    rating: true,
   })
 })
 
@@ -28,16 +28,16 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           profileCard: {
             avatar: false,
             title: true,
-            rating: false
-          }
-        }
-      }
+            rating: false,
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({
       avatar: false,
       title: true,
-      rating: false
+      rating: false,
     })
   })
 
@@ -46,16 +46,16 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       webWidget: {
         chat: {
           profileCard: {
-            avatar: false
-          }
-        }
-      }
+            avatar: false,
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({
       avatar: false,
       title: true,
-      rating: true
+      rating: true,
     })
   })
 })

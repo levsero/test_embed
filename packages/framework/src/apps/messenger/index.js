@@ -45,7 +45,7 @@ const init = async ({ config }) => {
   setupSuncoClient(config.messenger)
 
   return {
-    store
+    store,
   }
 }
 
@@ -75,5 +75,5 @@ const run = async ({ embeddableData }) => {
 
 export default {
   init,
-  run
+  run,
 }

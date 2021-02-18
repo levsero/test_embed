@@ -23,5 +23,5 @@ export default combineReducers({
   microphoneMuted,
   recordingConsent,
   timeInCall,
-  vendor
+  vendor,
 })

@@ -22,7 +22,7 @@ const ContactFormLabel = ({ fieldId, value, required, as, isReadOnly, isPreview 
   const sanitizedLabel = sanitizeHtml(value, { allowedTags: [] })
   const requiredLabel = `<strong>${sanitizedLabel}</strong>`
   const optionalLabel = translate('embeddable_framework.validation.label.new_optional', {
-    label: sanitizedLabel
+    label: sanitizedLabel,
   })
 
   return (
@@ -31,7 +31,7 @@ const ContactFormLabel = ({ fieldId, value, required, as, isReadOnly, isPreview 
         dangerouslySetInnerHTML={{
           __html: getShouldShowWithOptionalLabel(required, isReadOnly, isPreview)
             ? optionalLabel
-            : requiredLabel
+            : requiredLabel,
         }}
       />
     </FormLabel>
@@ -44,7 +44,7 @@ ContactFormLabel.propTypes = {
   isReadOnly: PropTypes.bool,
   isPreview: PropTypes.bool,
   as: PropTypes.elementType,
-  fieldId: PropTypes.any
+  fieldId: PropTypes.any,
 }
 
 export default ContactFormLabel

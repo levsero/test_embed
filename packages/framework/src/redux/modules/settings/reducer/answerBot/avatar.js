@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const initialState = {
   url: '',
-  name: {}
+  name: {},
 }
 
 const avatar = (state = initialState, action) => {
@@ -14,7 +14,7 @@ const avatar = (state = initialState, action) => {
     case UPDATE_SETTINGS:
       return {
         url: _.get(payload, 'webWidget.answerBot.avatar.url', state.url),
-        name: _.get(payload, 'webWidget.answerBot.avatar.name', state.name)
+        name: _.get(payload, 'webWidget.answerBot.avatar.name', state.name),
       }
     default:
       return state

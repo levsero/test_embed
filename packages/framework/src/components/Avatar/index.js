@@ -6,7 +6,7 @@ import { ICONS } from 'src/constants/shared'
 import BlankAvatar from 'src/asset/icons/widget-icon_avatar.svg'
 
 const FALLBACK_ICONS = {
-  [ICONS.AGENT_AVATAR]: BlankAvatar
+  [ICONS.AGENT_AVATAR]: BlankAvatar,
 }
 
 const Avatar = ({ src, fallbackIcon }) => {
@@ -21,7 +21,7 @@ const Avatar = ({ src, fallbackIcon }) => {
 
 Avatar.propTypes = {
   src: PropTypes.string,
-  fallbackIcon: PropTypes.string
+  fallbackIcon: PropTypes.string,
 }
 
 export default Avatar

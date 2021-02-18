@@ -8,7 +8,7 @@ testReducer(reducer, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     extraDesc: 'add new forms',
@@ -18,12 +18,12 @@ testReducer(reducer, [
       payload: {
         webWidget: {
           contactForm: {
-            ticketForms: [{ id: 123 }, { id: 456 }]
-          }
-        }
-      }
+            ticketForms: [{ id: 123 }, { id: 456 }],
+          },
+        },
+      },
     },
-    expected: [123, 456]
+    expected: [123, 456],
   },
   {
     extraDesc: 'clear forms',
@@ -33,12 +33,12 @@ testReducer(reducer, [
       payload: {
         webWidget: {
           contactForm: {
-            ticketForms: []
-          }
-        }
-      }
+            ticketForms: [],
+          },
+        },
+      },
     },
-    expected: []
+    expected: [],
   },
   {
     extraDesc: 'ignore irrelevant update settings',
@@ -46,9 +46,9 @@ testReducer(reducer, [
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: {}
-      }
+        webWidget: {},
+      },
     },
-    expected: [123]
-  }
+    expected: [123],
+  },
 ])

@@ -7,8 +7,8 @@ describe('chat reducer screens', () => {
     initMockRegistry({
       '../chat-screen-types': {
         CHATTING_SCREEN: 'chatting_screen',
-        PRECHAT_SCREEN: 'pre_chat_screen'
-      }
+        PRECHAT_SCREEN: 'pre_chat_screen',
+      },
     })
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-screen')
@@ -42,7 +42,7 @@ describe('chat reducer screens', () => {
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_CHAT_SCREEN,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -55,7 +55,7 @@ describe('chat reducer screens', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SCREEN,
-          payload: { screen: 'prechat_screen' }
+          payload: { screen: 'prechat_screen' },
         })
       })
 
@@ -67,7 +67,7 @@ describe('chat reducer screens', () => {
     describe('when a CHAT_NOTIFICATION_RESPONDED action is dispatched', () => {
       beforeEach(() => {
         state = reducer('prechat_screen', {
-          type: actionTypes.CHAT_NOTIFICATION_RESPONDED
+          type: actionTypes.CHAT_NOTIFICATION_RESPONDED,
         })
       })
 
@@ -79,7 +79,7 @@ describe('chat reducer screens', () => {
     describe('when a PRE_CHAT_FORM_SUBMIT action is dispatched', () => {
       beforeEach(() => {
         state = reducer('prechat_screen', {
-          type: actionTypes.PRE_CHAT_FORM_SUBMIT
+          type: actionTypes.PRE_CHAT_FORM_SUBMIT,
         })
       })
 
@@ -91,7 +91,7 @@ describe('chat reducer screens', () => {
     describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
       beforeEach(() => {
         state = reducer('prechat_screen', {
-          type: actionTypes.SDK_CHAT_MEMBER_JOIN
+          type: actionTypes.SDK_CHAT_MEMBER_JOIN,
         })
       })
 

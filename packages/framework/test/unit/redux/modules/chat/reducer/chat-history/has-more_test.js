@@ -31,7 +31,7 @@ describe('chat reducer chatHistory hasMore', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.HISTORY_REQUEST_SUCCESS,
-          payload: { has_more: true }
+          payload: { has_more: true },
         })
       })
 

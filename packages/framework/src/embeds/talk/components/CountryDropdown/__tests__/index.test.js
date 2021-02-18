@@ -13,17 +13,17 @@ describe('CountryDropdown', () => {
       {
         code: '+61',
         iso: 'AU',
-        name: 'Australia'
+        name: 'Australia',
       },
       {
         code: '+1',
         iso: 'US',
-        name: 'America'
-      }
+        name: 'America',
+      },
     ],
     width: '100px',
     isOpen: false,
-    onToggleOpen: jest.fn()
+    onToggleOpen: jest.fn(),
   }
 
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe('CountryDropdown', () => {
 
     const { queryByText } = renderComponent({
       isOpen: true,
-      onChange
+      onChange,
     })
 
     act(() => {
@@ -74,7 +74,7 @@ describe('CountryDropdown', () => {
     const onToggleOpen = jest.fn()
     const { queryByTestId } = renderComponent({
       isOpen: true,
-      onToggleOpen
+      onToggleOpen,
     })
 
     act(() => {
@@ -88,7 +88,7 @@ describe('CountryDropdown', () => {
     const onToggleOpen = jest.fn()
     const { queryByTestId } = renderComponent({
       isOpen: false,
-      onToggleOpen
+      onToggleOpen,
     })
 
     act(() => {

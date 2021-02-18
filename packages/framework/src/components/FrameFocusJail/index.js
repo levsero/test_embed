@@ -13,7 +13,7 @@ const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
   const { getContainerProps } = useFocusJail({
     focusOnMount: false,
     environment: frame.document,
-    containerRef
+    containerRef,
   })
 
   if (name === 'launcher') {
@@ -24,14 +24,14 @@ const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
     <div
       {...getContainerProps({
         ref: containerRef,
-        onKeyDown: evt => {
+        onKeyDown: (evt) => {
           const { keyCode } = evt
 
           if (keyCode === KEY_CODES.ESCAPE) {
             focusLauncher()
             handleEscapeKeyPressed()
           }
-        }
+        },
       })}
       {...props}
     >
@@ -43,16 +43,13 @@ const FocusJail = ({ name, handleEscapeKeyPressed, children, ...props }) => {
 FocusJail.propTypes = {
   name: PropTypes.string,
   children: PropTypes.node,
-  handleEscapeKeyPressed: PropTypes.func
+  handleEscapeKeyPressed: PropTypes.func,
 }
 
 const mapDispatchToProps = {
-  handleEscapeKeyPressed
+  handleEscapeKeyPressed,
 }
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(FocusJail)
+export default connect(undefined, mapDispatchToProps)(FocusJail)
 
 export const Component = FocusJail

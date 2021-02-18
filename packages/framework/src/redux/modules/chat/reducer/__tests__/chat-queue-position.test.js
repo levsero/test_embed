@@ -8,30 +8,30 @@ testReducer(chatQueuePosition, [
   {
     action: {
       type: '__INIT',
-      payload: true
+      payload: true,
     },
     initialState: undefined,
-    expected: 0
+    expected: 0,
   },
   {
     action: {
       type: SDK_CHAT_QUEUE_POSITION,
       payload: {
         detail: {
-          queue_position: 5
-        }
-      }
+          queue_position: 5,
+        },
+      },
     },
     initialState: 1,
-    expected: 5
+    expected: 5,
   },
   {
     action: {
       type: SDK_CONNECTION_UPDATE,
-      payload: { type: 'connection_update', detail: CONNECTION_STATUSES.CLOSED }
+      payload: { type: 'connection_update', detail: CONNECTION_STATUSES.CLOSED },
     },
     initialState: 5,
     expected: 0,
-    extraDesc: 'resets to the initial state when the connection is closed'
-  }
+    extraDesc: 'resets to the initial state when the connection is closed',
+  },
 ])

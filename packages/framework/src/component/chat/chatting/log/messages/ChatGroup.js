@@ -12,7 +12,7 @@ import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import {
   ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES,
-  CHAT_STRUCTURED_CONTENT_TYPE
+  CHAT_STRUCTURED_CONTENT_TYPE,
 } from 'constants/chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { locals as styles } from './ChatGroup.scss'
@@ -34,7 +34,7 @@ export default class ChatGroup extends Component {
     socialLogin: PropTypes.object,
     avatarPath: PropTypes.string,
     children: PropTypes.object,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -44,7 +44,7 @@ export default class ChatGroup extends Component {
     onImageLoad: () => {},
     chatLogCreatedAt: 0,
     socialLogin: {},
-    avatarPath: ''
+    avatarPath: '',
   }
 
   constructor(props) {
@@ -54,7 +54,7 @@ export default class ChatGroup extends Component {
   }
 
   state = {
-    shouldShowAvatar: false
+    shouldShowAvatar: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -75,7 +75,7 @@ export default class ChatGroup extends Component {
     const nameClasses = classNames({
       [styles.nameAvatar]: showAvatar,
       [styles.nameNoAvatar]: !showAvatar,
-      [styles.fadeIn]: shouldAnimate
+      [styles.fadeIn]: shouldAnimate,
     })
 
     return isAgent && name ? <div className={nameClasses}>{name}</div> : null
@@ -84,10 +84,10 @@ export default class ChatGroup extends Component {
   renderChatMessages = (isAgent, showAvatar, messages) => {
     let messageClasses = classNames(styles.message, {
       [styles.messageUser]: !isAgent,
-      [styles.messageAgent]: isAgent
+      [styles.messageAgent]: isAgent,
     })
 
-    return messages.map(chat => {
+    return messages.map((chat) => {
       let message
 
       if (chat.msg) {
@@ -101,7 +101,7 @@ export default class ChatGroup extends Component {
         ) {
           messageClasses = classNames(messageClasses, {
             [styles.carouselContainer]: !this.props.isMobile,
-            [styles.carouselMobileContainer]: this.props.isMobile
+            [styles.carouselMobileContainer]: this.props.isMobile,
           })
 
           message = this.renderCarousel(chat.structured_msg.items)
@@ -114,7 +114,7 @@ export default class ChatGroup extends Component {
           const newChat = {
             ...chat,
             msg: chat.structured_msg.msg,
-            options: []
+            options: [],
           }
 
           message = this.renderPrintedMessage(newChat, isAgent, showAvatar)
@@ -129,7 +129,7 @@ export default class ChatGroup extends Component {
       const wrapperClasses = classNames(styles.wrapper, {
         [styles.avatarAgentWrapper]: this.state.shouldShowAvatar && this.props.isAgent,
         [styles.avatarEndUserWrapper]: this.state.shouldShowAvatar && !this.props.isAgent,
-        [styles.fadeUp]: shouldAnimate
+        [styles.fadeUp]: shouldAnimate,
       })
 
       return (
@@ -200,15 +200,12 @@ export default class ChatGroup extends Component {
     let inlineAttachment
 
     const file = chat.file ? chat.file : { ...chat.attachment, type: chat.attachment.mime_type }
-    const extension = file.name
-      .split('.')
-      .pop()
-      .toUpperCase()
+    const extension = file.name.split('.').pop().toUpperCase()
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT
     const isImage = /(gif|jpe?g|png)$/i.test(extension)
 
     const attachmentClasses = classNames(styles.attachment, {
-      [styles.attachmentError]: !!file.error
+      [styles.attachmentError]: !!file.error,
     })
 
     inlineAttachment = (
@@ -252,7 +249,7 @@ export default class ChatGroup extends Component {
     return inlineAttachment
   }
 
-  renderAvatar = messages => {
+  renderAvatar = (messages) => {
     if (!this.state.shouldShowAvatar) return
 
     const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt
@@ -263,17 +260,17 @@ export default class ChatGroup extends Component {
       [styles.avatar]: true,
       [styles.agentAvatar]: this.props.isAgent,
       [styles.endUserAvatar]: !this.props.isAgent,
-      [styles.fadeIn]: shouldAnimate
+      [styles.fadeIn]: shouldAnimate,
     })
 
     return <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--agent-avatar" />
   }
 
-  renderStructuredMessage = schema => {
+  renderStructuredMessage = (schema) => {
     return <StructuredMessage schema={schema} isMobile={this.props.isMobile} />
   }
 
-  renderCarousel = items => {
+  renderCarousel = (items) => {
     return <Carousel items={items} isMobile={this.props.isMobile} />
   }
 
@@ -282,7 +279,7 @@ export default class ChatGroup extends Component {
 
     return (
       <div
-        ref={el => {
+        ref={(el) => {
           this.container = el
         }}
         className={styles.container}

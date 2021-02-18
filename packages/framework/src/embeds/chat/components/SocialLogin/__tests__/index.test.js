@@ -8,7 +8,7 @@ import { SocialLoginContainer } from 'embeds/chat/components/SocialLogin/styles'
 
 describe('SocialLogin', () => {
   const defaultProps = {
-    authUrls: {}
+    authUrls: {},
   }
 
   const renderComponent = (props = {}) => render(<SocialLogin {...defaultProps} {...props} />)
@@ -27,8 +27,8 @@ describe('SocialLogin', () => {
     it('renders a button to log into facebook', () => {
       const { queryByTestId } = renderComponent({
         authUrls: {
-          facebook: 'www.facebook.com'
-        }
+          facebook: 'www.facebook.com',
+        },
       })
 
       expect(queryByTestId(TEST_IDS.ICON_FACEBOOK)).toBeInTheDocument()
@@ -37,8 +37,8 @@ describe('SocialLogin', () => {
     it('opens the url to login to facebook when button is clicked', () => {
       const { queryByTestId } = renderComponent({
         authUrls: {
-          facebook: 'www.facebook.com'
-        }
+          facebook: 'www.facebook.com',
+        },
       })
 
       fireEvent.click(queryByTestId(TEST_IDS.ICON_FACEBOOK))
@@ -51,8 +51,8 @@ describe('SocialLogin', () => {
     it('renders a button to log into google', () => {
       const { queryByTestId } = renderComponent({
         authUrls: {
-          google: 'www.google.com'
-        }
+          google: 'www.google.com',
+        },
       })
 
       expect(queryByTestId(TEST_IDS.ICON_GOOGLE)).toBeInTheDocument()
@@ -61,8 +61,8 @@ describe('SocialLogin', () => {
     it('opens the url to login to facebook when button is clicked', () => {
       const { queryByTestId } = renderComponent({
         authUrls: {
-          facebook: 'www.google.com'
-        }
+          facebook: 'www.google.com',
+        },
       })
 
       fireEvent.click(queryByTestId(TEST_IDS.ICON_FACEBOOK))

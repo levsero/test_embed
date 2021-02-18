@@ -23,7 +23,7 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   useReactRouter: PropTypes.bool.isRequired,
   showBackButton: PropTypes.bool.isRequired,
-  showCloseButton: PropTypes.bool.isRequired
+  showCloseButton: PropTypes.bool.isRequired,
 }
 
 Header.defaultProps = {
@@ -31,7 +31,7 @@ Header.defaultProps = {
   useReactRouter: false,
   showTitle: true,
   showBackButton: true,
-  showCloseButton: true
+  showCloseButton: true,
 }
 
 export default Header

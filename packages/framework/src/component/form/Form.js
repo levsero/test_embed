@@ -9,7 +9,7 @@ export class Form extends Component {
     className: PropTypes.string,
     children: PropTypes.node,
     onCompleted: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -21,14 +21,14 @@ export class Form extends Component {
     submitButtonLabel: '',
     onCompleted: () => {},
     onChange: () => {},
-    submitButtonClasses: ''
+    submitButtonClasses: '',
   }
 
   constructor() {
     super()
 
     this.state = {
-      valid: false
+      valid: false,
     }
 
     this.form = null
@@ -38,13 +38,13 @@ export class Form extends Component {
     this.validate()
   }
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault()
 
     this.props.onCompleted(this.props.formState)
   }
 
-  handleFormChange = e => {
+  handleFormChange = (e) => {
     const { name, value } = e.target
     const fieldState = { [name]: value }
     const formState = { ...this.props.formState, ...fieldState }
@@ -67,7 +67,7 @@ export class Form extends Component {
         noValidate={true}
         onSubmit={this.handleFormSubmit}
         onChange={this.handleFormChange}
-        ref={el => (this.form = el)}
+        ref={(el) => (this.form = el)}
         className={this.props.className}
         data-testid={TEST_IDS.FORM}
       >

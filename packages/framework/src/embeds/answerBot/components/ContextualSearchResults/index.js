@@ -15,13 +15,13 @@ class ContextualSearchResults extends Component {
     articles: PropTypes.array.isRequired,
     actions: PropTypes.shape({
       screenChanged: PropTypes.func.isRequired,
-      articleShown: PropTypes.func.isRequired
-    })
+      articleShown: PropTypes.func.isRequired,
+    }),
   }
 
-  articleClicked = article => {
+  articleClicked = (article) => {
     const {
-      actions: { screenChanged, articleShown }
+      actions: { screenChanged, articleShown },
     } = this.props
 
     articleShown(article.id)
@@ -38,25 +38,22 @@ class ContextualSearchResults extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  articles: getSearchedArticles(state)
+const mapStateToProps = (state) => ({
+  articles: getSearchedArticles(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
       screenChanged: screenChanged,
-      articleShown: contextualArticleShown
+      articleShown: contextualArticleShown,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
-)(ContextualSearchResults)
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
+  ContextualSearchResults
+)
 
 export { connectedComponent as default, ContextualSearchResults as Component }

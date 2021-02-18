@@ -15,15 +15,15 @@ module.exports = {
     'no-multiple-empty-lines': [
       2,
       {
-        max: 1
-      }
+        max: 1,
+      },
     ],
     'object-curly-newline': [
       2,
       {
         multiline: true,
-        consistent: true
-      }
+        consistent: true,
+      },
     ],
     'no-trailing-spaces': 2,
     'no-mixed-spaces-and-tabs': 2,
@@ -43,9 +43,9 @@ module.exports = {
       4,
       {
         ignoreComments: true,
-        ignoreUrls: true
-      }
+        ignoreUrls: true,
+      },
     ],
-    'arrow-parens': ['error', 'always']
-  }
+    'arrow-parens': ['error', 'always'],
+  },
 }

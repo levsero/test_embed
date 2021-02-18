@@ -23,5 +23,5 @@ export {
   StyledFauxInput as FauxInput,
   StyledInput as Input,
   StyledContainer as Container,
-  StyledMessage as Message
+  StyledMessage as Message,
 }

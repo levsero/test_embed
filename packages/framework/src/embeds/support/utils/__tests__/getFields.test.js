@@ -15,7 +15,7 @@ describe('getFields', () => {
       visible: true,
       required: true,
       type: 'text',
-      ...overrides
+      ...overrides,
     }
   }
 
@@ -50,9 +50,9 @@ describe('getFields', () => {
       child_fields: [
         {
           id: field2.originalId,
-          is_required: true
-        }
-      ]
+          is_required: true,
+        },
+      ],
     }
     const condition2 = {
       parent_field_id: field2.originalId,
@@ -60,9 +60,9 @@ describe('getFields', () => {
       child_fields: [
         {
           id: field1.originalId,
-          is_required: true
-        }
-      ]
+          is_required: true,
+        },
+      ],
     }
 
     expect(() =>
@@ -81,9 +81,9 @@ describe('getFields', () => {
       child_fields: [
         {
           id: child.originalId,
-          is_required: true
-        }
-      ]
+          is_required: true,
+        },
+      ],
     })
 
     const field1a = field({ id: '1a' })
@@ -96,7 +96,7 @@ describe('getFields', () => {
       condition(field1a, field1b),
       condition(field1b, field3),
       condition(field2a, field2b),
-      condition(field2b, field3)
+      condition(field2b, field3),
     ]
 
     it('does not show the child field if at least one of its parents are not visible', () => {
@@ -105,7 +105,7 @@ describe('getFields', () => {
           [field1a.id]: 'not match',
           [field1b.id]: 'match',
           [field2a.id]: 'match',
-          [field2b.id]: 'not match'
+          [field2b.id]: 'not match',
         },
         conditions,
         [field1a, field1b, field2a, field2b, field3]
@@ -118,7 +118,7 @@ describe('getFields', () => {
       const result = getFields({ [field1a.keyID]: 'match', [field2a.keyID]: 'match' }, conditions, [
         field1a,
         field2a,
-        field3
+        field3,
       ])
 
       expect(result).toEqual([field1a, field2a, field3])
@@ -135,9 +135,9 @@ describe('getFields', () => {
       child_fields: [
         {
           id: 2,
-          is_required: true
-        }
-      ]
+          is_required: true,
+        },
+      ],
     }
     const condition2 = {
       parent_field_id: 2,
@@ -145,9 +145,9 @@ describe('getFields', () => {
       child_fields: [
         {
           id: 3,
-          is_required: true
-        }
-      ]
+          is_required: true,
+        },
+      ],
     }
 
     it('does not include the field if it fails meeting a condition', () => {
@@ -184,9 +184,9 @@ describe('getFields', () => {
         child_fields: [
           {
             id: 2,
-            is_required: false
-          }
-        ]
+            is_required: false,
+          },
+        ],
       }
 
       const result = getFields({ [field1.id]: 'one' }, [condition], [field1, field2])
@@ -205,9 +205,9 @@ describe('getFields', () => {
           child_fields: [
             {
               id: 2,
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         }
 
         const result = getFields({ [field1.keyID]: 0 }, [condition], [field1, field2])
@@ -225,9 +225,9 @@ describe('getFields', () => {
           child_fields: [
             {
               id: 2,
-              is_required: false
-            }
-          ]
+              is_required: false,
+            },
+          ],
         }
 
         const result = getFields({ [field1.id]: 1 }, [condition], [field1, field2])

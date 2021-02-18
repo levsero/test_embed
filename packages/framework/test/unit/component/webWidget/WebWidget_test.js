@@ -41,7 +41,7 @@ describe('WebWidget component', () => {
       constructor() {
         super()
         this.state = {
-          selectedTicketForm: null
+          selectedTicketForm: null,
         }
         this.clearForm = clearFormSpy
         this.handleDragEnter = submitTicketOnDragEnterSpy
@@ -68,7 +68,7 @@ describe('WebWidget component', () => {
           render() {
             return <div>{this.props.children}</div>
           }
-        }
+        },
       },
       'embeds/answerBot': connectedComponent(<MockAnswerBot />),
       'component/chat/Chat': connectedComponent(<MockChat />),
@@ -81,10 +81,10 @@ describe('WebWidget component', () => {
       'component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
       'utility/devices': {
-        isMobileBrowser: () => undefined
+        isMobileBrowser: () => undefined,
       },
       'utility/globals': {
-        isPopout: () => undefined
+        isPopout: () => undefined,
       },
       'components/NotificationPopup': noopReactComponent(),
       'embeds/webWidget/selectors/feature-flags': () => undefined,
@@ -93,49 +93,49 @@ describe('WebWidget component', () => {
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
-        updateBackButtonVisibility: noop
+        updateBackButtonVisibility: noop,
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
-        updateChatScreen: noop
+        updateChatScreen: noop,
       },
       'embeds/helpCenter/actions': {
-        closeCurrentArticle: noop
+        closeCurrentArticle: noop,
       },
       'src/redux/modules/base/base-selectors': {},
       'src/redux/modules/selectors': {
         getChatNotification: noop,
-        getChatOnline: noop
+        getChatOnline: noop,
       },
       'src/redux/modules/chat/chat-screen-types': {
-        CHATTING_SCREEN: 'chatting'
+        CHATTING_SCREEN: 'chatting',
       },
       'src/redux/modules/talk/talk-selectors': {
-        getTalkAvailable: noop
+        getTalkAvailable: noop,
       },
       'embeds/helpCenter/selectors': {
-        getArticleViewActive: noop
+        getArticleViewActive: noop,
       },
       'src/redux/modules/submitTicket/submitTicket-selectors': {
-        getTicketForms: noop
+        getTicketForms: noop,
       },
       'service/settings': {
-        settings: { get: noop }
+        settings: { get: noop },
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsMobileNotificationsDisabled: noop
+        getSettingsMobileNotificationsDisabled: noop,
       },
       'src/redux/modules/chat/chat-selectors': {},
       'src/embeds/answerBot/actions/root': {
-        screenChanged: noop
+        screenChanged: noop,
       },
       'src/embeds/answerBot/constants': {
         ARTICLE_SCREEN: 'article',
-        CONVERSATION_SCREEN: 'conversation'
+        CONVERSATION_SCREEN: 'conversation',
       },
       'service/history': {
-        history: {}
-      }
+        history: {},
+      },
     })
 
     mockery.registerAllowable(webWidgetPath)
@@ -287,7 +287,7 @@ describe('WebWidget component', () => {
     it('renders a ChatNotificationPopup with the correct props', () => {
       const expectedProps = {
         isMobile: true,
-        notification: { ...mockChatNotification, show: true }
+        notification: { ...mockChatNotification, show: true },
       }
 
       expect(chatPopup.props).toEqual(jasmine.objectContaining(expectedProps))

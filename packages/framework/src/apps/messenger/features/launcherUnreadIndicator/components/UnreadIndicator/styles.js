@@ -5,8 +5,8 @@ const size = 20
 const Container = styled.div`
   height: ${size}px;
   min-width: ${size}px;
-  color: ${props => props.theme.palette.white};
-  background-color: ${props => props.theme.palette.red[500]};
+  color: ${(props) => props.theme.palette.white};
+  background-color: ${(props) => props.theme.palette.red[500]};
   border-radius: ${size}px;
   display: flex;
   justify-content: center;

@@ -8,7 +8,7 @@ import { Component as NoAgentsPage } from '../'
 const renderComponent = (props = {}) => {
   const defaultProps = {
     title: "bob's burgers",
-    onButtonClick: jest.fn()
+    onButtonClick: jest.fn(),
   }
 
   return render(<NoAgentsPage {...defaultProps} {...props} />)

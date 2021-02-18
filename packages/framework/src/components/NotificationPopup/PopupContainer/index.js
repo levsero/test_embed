@@ -12,7 +12,7 @@ import {
   WrapperButton,
   MobileSlideAppear,
   StyledSlideAppear,
-  Container
+  Container,
 } from './styles'
 
 export default class ChatPopup extends Component {
@@ -34,7 +34,7 @@ export default class ChatPopup extends Component {
     onCloseIconClick: PropTypes.func,
     isMobile: PropTypes.bool,
     useOverlay: PropTypes.bool,
-    showOnlyLeftCta: PropTypes.bool
+    showOnlyLeftCta: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -54,7 +54,7 @@ export default class ChatPopup extends Component {
     onExited: () => {},
     isDismissible: false,
     onCloseIconClick: () => {},
-    showOnlyLeftCta: false
+    showOnlyLeftCta: false,
   }
 
   constructor() {
@@ -63,7 +63,7 @@ export default class ChatPopup extends Component {
     this.firstButton = null
   }
 
-  onContainerClick = e => {
+  onContainerClick = (e) => {
     e.stopPropagation()
   }
 
@@ -80,14 +80,14 @@ export default class ChatPopup extends Component {
       rightCtaFn,
       leftCtaLabel,
       rightCtaLabel,
-      rightCtaDisabled
+      rightCtaDisabled,
     } = this.props
 
     if (!showCta) return null
 
     const leftCtaButton = (
       <CtaButtonLeft
-        ref={el => (this.firstButton = el)}
+        ref={(el) => (this.firstButton = el)}
         onClick={leftCtaFn}
         data-testid={TEST_IDS.BUTTON_CANCEL}
       >

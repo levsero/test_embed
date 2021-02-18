@@ -1,15 +1,15 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
-global.basePath = function(path) {
+global.basePath = function (path) {
   return __dirname + '/../../' + path
 }
 
-global.buildSrcPath = function(path) {
+global.buildSrcPath = function (path) {
   return basePath('src/' + path)
 }
 
-global.buildTestPath = function(path) {
+global.buildTestPath = function (path) {
   return basePath('test/' + path)
 }
 
@@ -35,12 +35,12 @@ global.document.createRange = () => ({
   setEnd: () => {},
   commonAncestorContainer: {
     nodeName: 'BODY',
-    ownerDocument: document
-  }
+    ownerDocument: document,
+  },
 })
 
 global.requestAnimationFrame = global.window.requestAnimationFrame =
-  global.window.requestAnimationFrame || (callback => setTimeout(callback, 0))
+  global.window.requestAnimationFrame || ((callback) => setTimeout(callback, 0))
 
 global.cancelAnimationFrame = global.window.cancelAnimationFrame =
   global.window.cancelAnimationFrame || (() => {})
@@ -85,7 +85,7 @@ global.noopSuspenseComponent = () =>
     }
   }
 
-global.noopReactRenderPropComponent = value =>
+global.noopReactRenderPropComponent = (value) =>
   class extends Component {
     render() {
       return this.props.children(value)
@@ -105,10 +105,10 @@ global.scrollContainerComponent = () =>
     }
   }
 
-global.connectedComponent = component =>
+global.connectedComponent = (component) =>
   React.forwardRef((props, ref) => <div>{React.cloneElement(component, { ref: ref })}</div>)
 
-global.shallowRender = component => {
+global.shallowRender = (component) => {
   const renderer = new ShallowRenderer()
 
   renderer.render(component)
@@ -119,45 +119,45 @@ global.testRender = (component, nodeMock = {}) => {
   return TestRenderer.create(component, nodeMock)
 }
 
-global.instanceRender = component => {
+global.instanceRender = (component) => {
   const renderer = new ShallowRenderer()
 
   renderer.render(component)
   return renderer.getMountedInstance(renderer)
 }
 
-global.getRenderer = component => {
+global.getRenderer = (component) => {
   const renderer = new ShallowRenderer()
 
   renderer.render(component)
   return renderer
 }
 
-global.domRender = component => {
+global.domRender = (component) => {
   return ReactDOM.render(component, global.document.body)
 }
 
-global.noop = function() {}
+global.noop = function () {}
 
 // TODO: This suppresses the warnings and errors in put tests for now.
 // Once the components and component tests are refactored this should be removed.
 /* eslint no-console:0 */
 console.warn = console.error = noop
 
-global.resetDOM = function() {
+global.resetDOM = function () {
   global.document.head.innerHTML = ''
   global.document.body.innerHTML = ''
   global.window.zE = null
 }
 
-global.initMockRegistry = function(registry) {
-  _.forEach(registry, function(value, key) {
+global.initMockRegistry = function (registry) {
+  _.forEach(registry, function (value, key) {
     mockery.registerMock(key, value)
   })
   return registry
 }
 
-global.dispatchEvent = function(eventName, node) {
+global.dispatchEvent = function (eventName, node) {
   const event = global.document.createEvent('HTMLEvents')
 
   event.initEvent(eventName, true, true)
@@ -190,8 +190,8 @@ global.__EMBEDDABLE_VERSION__ = 'bob1337'
 global.__EMBEDDABLE_FRAMEWORK_ENV__ = 'test'
 global.__ASSET_BASE_PATH__ = 'https://static-staging.zdassets.com'
 
-global.shallowObjectValuesNull = object => {
-  _.keys(object).forEach(key => {
+global.shallowObjectValuesNull = (object) => {
+  _.keys(object).forEach((key) => {
     expect(object[key]).toBeNull()
   })
 }

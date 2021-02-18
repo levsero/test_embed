@@ -5,7 +5,7 @@ const store = createReducer(
   {
     colors: {},
     position: 'right',
-    zIndex: 999999
+    zIndex: 999999,
   },
   {
     [messengerConfigReceived]: (state, action) => {
@@ -29,12 +29,12 @@ const store = createReducer(
     },
     [zIndexUpdated]: (state, action) => {
       state.zIndex = action.payload
-    }
+    },
   }
 )
 
-export const getMessengerColors = state => state.theme.colors
-export const getPosition = state => state.theme.position
-export const getZIndex = state => state.theme.zIndex
+export const getMessengerColors = (state) => state.theme.colors
+export const getPosition = (state) => state.theme.position
+export const getZIndex = (state) => state.theme.zIndex
 
 export default store

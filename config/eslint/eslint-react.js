@@ -2,8 +2,8 @@ module.exports = {
   plugins: ['react'],
   settings: {
     react: {
-      version: '16.5.2'
-    }
+      version: '16.5.2',
+    },
   },
   rules: {
     'react/prop-types': 2,
@@ -20,6 +20,6 @@ module.exports = {
     'react/sort-comp': 2,
     'react/jsx-wrap-multilines': 2,
     'react/jsx-no-duplicate-props': 2,
-    'react/no-unused-prop-types': 2
-  }
+    'react/no-unused-prop-types': 2,
+  },
 }

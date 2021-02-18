@@ -25,7 +25,7 @@ module.exports = () => {
     devtool: 'eval-source-map',
     output: {
       filename: '[name].js',
-      publicPath: 'http://localhost:1337/'
+      publicPath: 'http://localhost:1337/',
     },
     devServer: {
       host: '127.0.0.1',
@@ -34,30 +34,30 @@ module.exports = () => {
       headers: {
         'Cache-Control': 'no-cache, no-store',
         'Content-Security-Policy': CSP_HEADER,
-        'Access-Control-Allow-Origin': '*'
-      }
+        'Access-Control-Allow-Origin': '*',
+      },
     },
     plugins: [
       ...webWidgetTemplates(config),
       new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(true)
+        __DEV__: JSON.stringify(true),
       }),
       new webpack.WatchIgnorePlugin([
         path.resolve(__dirname, './test/'),
-        path.resolve(__dirname, './node_modules/')
+        path.resolve(__dirname, './node_modules/'),
       ]),
       new ProgressBarPlugin({
         format: 'Build [:bar] :percent (:elapsed seconds)',
-        clear: false
-      })
-    ]
+        clear: false,
+      }),
+    ],
   })
 
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
       preload: path.join(projectRoot, '/src/framework/preload.js'),
       webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
-      chatPreview: path.join(projectRoot, '/src/chatPreview.js')
+      chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
     }
     webpackConfig.plugins.push(new DashboardPlugin(), ...previewTemplates())
   }

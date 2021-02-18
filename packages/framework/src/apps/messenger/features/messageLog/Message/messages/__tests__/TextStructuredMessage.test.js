@@ -12,8 +12,8 @@ describe('TextStructuredMessage', () => {
   const defaultProps = {
     message: {
       _id: '123',
-      role: 'appUser'
-    }
+      role: 'appUser',
+    },
   }
 
   const quickReplies = [
@@ -23,8 +23,8 @@ describe('TextStructuredMessage', () => {
       payload: 'one-payload',
       text: 'one-text',
       metadata: {
-        one: 'metadata'
-      }
+        one: 'metadata',
+      },
     },
     {
       type: 'reply',
@@ -32,9 +32,9 @@ describe('TextStructuredMessage', () => {
       payload: 'two-payload',
       text: 'two-text',
       metadata: {
-        two: 'metadata'
-      }
-    }
+        two: 'metadata',
+      },
+    },
   ]
 
   const renderComponent = (props = {}) =>
@@ -49,8 +49,8 @@ describe('TextStructuredMessage', () => {
       message: {
         ...defaultProps.message,
         isLastInLog: true,
-        actions: quickReplies
-      }
+        actions: quickReplies,
+      },
     })
 
     expect(getByText('one-text')).toBeInTheDocument()
@@ -62,8 +62,8 @@ describe('TextStructuredMessage', () => {
       message: {
         ...defaultProps.message,
         isLastInLog: false,
-        actions: quickReplies
-      }
+        actions: quickReplies,
+      },
     })
 
     expect(queryByText('one-text')).not.toBeInTheDocument()
@@ -75,8 +75,8 @@ describe('TextStructuredMessage', () => {
       message: {
         ...defaultProps.message,
         isLastInLog: true,
-        actions: quickReplies
-      }
+        actions: quickReplies,
+      },
     })
 
     userEvent.click(getByText('one-text'))
@@ -93,9 +93,9 @@ describe('TextStructuredMessage', () => {
         text: 'one-text',
         payload: 'one-payload',
         metadata: {
-          one: 'metadata'
-        }
-      }
+          one: 'metadata',
+        },
+      },
     })
 
     await waitFor(() => expect(getByText('Tap to retry')).toBeInTheDocument())

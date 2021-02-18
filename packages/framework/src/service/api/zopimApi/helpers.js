@@ -6,13 +6,13 @@ import * as callbacks from 'service/api/callbacks'
 import { CHAT_STATUS_EVENT, CHAT_DEPARTMENT_STATUS_EVENT } from 'constants/event'
 import tracker from 'service/tracker'
 
-export const setPositionApi = store => position => {
+export const setPositionApi = (store) => (position) => {
   const mapPositions = {
     b: 'bottom',
     t: 'top',
     m: null,
     r: 'right',
-    l: 'left'
+    l: 'left',
   }
   const verticalVal = mapPositions[position[0]]
   const horizontalVal = mapPositions[position[1]]
@@ -26,19 +26,19 @@ export const setPositionApi = store => position => {
   }
 }
 
-export const setOffsetApi = store => {
+export const setOffsetApi = (store) => {
   return {
-    setOffsetVertical: dist => updateSettings(store, 'webWidget.offset.vertical', dist),
-    setOffsetHorizontal: dist => updateSettings(store, 'webWidget.offset.horizontal', dist)
+    setOffsetVertical: (dist) => updateSettings(store, 'webWidget.offset.vertical', dist),
+    setOffsetHorizontal: (dist) => updateSettings(store, 'webWidget.offset.horizontal', dist),
   }
 }
 
-export const setOffsetMobileApi = store => {
+export const setOffsetMobileApi = (store) => {
   return {
-    setOffsetVerticalMobile: dist =>
+    setOffsetVerticalMobile: (dist) =>
       updateSettings(store, 'webWidget.offset.mobile.vertical', dist),
-    setOffsetHorizontalMobile: dist =>
-      updateSettings(store, 'webWidget.offset.mobile.horizontal', dist)
+    setOffsetHorizontalMobile: (dist) =>
+      updateSettings(store, 'webWidget.offset.mobile.horizontal', dist),
   }
 }
 
@@ -55,13 +55,13 @@ export const setGreetingsApi = (store, greetings) => {
   }
 }
 
-export const setProfileCardConfigApi = store => settings => {
+export const setProfileCardConfigApi = (store) => (settings) => {
   const newSettings = {
     webWidget: {
       chat: {
-        profileCard: {}
-      }
-    }
+        profileCard: {},
+      },
+    },
   }
   const { profileCard } = newSettings.webWidget.chat
 
@@ -78,7 +78,7 @@ export const setProfileCardConfigApi = store => settings => {
   updateSettingsApi(store, newSettings)
 }
 
-const upperCaseFirstChar = str => {
+const upperCaseFirstChar = (str) => {
   str += ''
   return str.charAt(0).toUpperCase() + str.substring(1)
 }
@@ -96,7 +96,7 @@ const supportedSetters = [
   'onChatStart',
   'onChatEnd',
   'onStatus',
-  'onUnreadMsgs'
+  'onUnreadMsgs',
 ]
 
 export const setApi = (win, options) => {
@@ -147,11 +147,11 @@ export const setOnStatusApi = (store, callback) => {
   }
 }
 
-export const showBadgeApi = store => {
+export const showBadgeApi = (store) => {
   store.dispatch(badgeShowReceived())
 }
 
-export const hideBadgeApi = store => {
+export const hideBadgeApi = (store) => {
   store.dispatch(badgeHideReceived())
 }
 

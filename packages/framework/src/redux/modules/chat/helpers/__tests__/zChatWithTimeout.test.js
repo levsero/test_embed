@@ -6,14 +6,14 @@ jest.mock('async/timeout')
 describe('zChatWithTimeout', () => {
   const timeout = 1000
   const zChat = {
-    sendMsg: jest.fn()
+    sendMsg: jest.fn(),
   }
   const getState = () => ({
     chat: {
       vendor: {
-        zChat
-      }
-    }
+        zChat,
+      },
+    },
   })
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('canBeIgnored', () => {
     [{ code: 'DERP' }, false],
     [{ some: 'error' }, false],
     [undefined, true],
-    [null, true]
+    [null, true],
   ])('when the input is %p, it returns %p', (input, result) => {
     expect(canBeIgnored(input)).toEqual(result)
   })

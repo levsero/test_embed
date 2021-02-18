@@ -6,10 +6,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: PREVIEW_CHOICE_SELECTED,
-    payload
+    payload,
   })
 }
 

@@ -21,7 +21,7 @@ const SendChatOption = ({ sendChat }) => {
 }
 
 SendChatOption.propTypes = {
-  sendChat: PropTypes.func
+  sendChat: PropTypes.func,
 }
 
 export default SendChatOption

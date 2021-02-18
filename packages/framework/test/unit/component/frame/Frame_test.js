@@ -29,13 +29,13 @@ describe('Frame', () => {
 
     render() {
       const newChild = React.cloneElement(this.props.children, {
-        ref: 'rootComponent'
+        ref: 'rootComponent',
       })
 
       return (
         <div
           id="Embed"
-          ref={el => {
+          ref={(el) => {
             this.embed = el
           }}
         >
@@ -73,16 +73,16 @@ describe('Frame', () => {
     mockSettingsValue = {
       offset: { vertical: 0, horizontal: 0 },
       zIndex: 999999,
-      position: { vertical: 'bottom' }
+      position: { vertical: 'bottom' },
     }
 
     mockRegistryMocks = {
       React: React,
       './Frame.scss': {
-        locals: {}
+        locals: {},
       },
       'utility/utils': {
-        cssTimeToMs: () => 300
+        cssTimeToMs: () => 300,
       },
       'utility/color/styles': {},
       'utility/devices': {
@@ -91,19 +91,19 @@ describe('Frame', () => {
         },
         isFirefox: () => {
           return false
-        }
+        },
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: noop,
           isRTL: () => mockIsRTLValue,
-          getLocale: () => mockLocaleValue
-        }
+          getLocale: () => mockLocaleValue,
+        },
       },
       'service/settings': {
         settings: {
-          get: name => _.get(mockSettingsValue, name, null)
-        }
+          get: (name) => _.get(mockSettingsValue, name, null),
+        },
       },
       'component/frame/EmbedWrapper': MockEmbedWrapper,
       'src/framework/components/Frame': requireUncached(
@@ -111,7 +111,7 @@ describe('Frame', () => {
       ),
       'src/redux/modules/settings/settings-selectors': {},
       'src/redux/modules/base/base-actions': {
-        widgetShowAnimationComplete: noop
+        widgetShowAnimationComplete: noop,
       },
       'constants/shared': {
         FONT_SIZE: 14,
@@ -119,21 +119,21 @@ describe('Frame', () => {
         MIN_WIDGET_HEIGHT,
         WIDGET_WIDTH,
         WIDGET_MARGIN,
-        TEST_IDS
+        TEST_IDS,
       },
       lodash: _,
       'component/Icon': {
-        Icon: noop
+        Icon: noop,
       },
       'src/redux/modules/selectors': {
-        getFixedStyles: () => {}
+        getFixedStyles: () => {},
       },
       'src/redux/modules/base/base-selectors': {
-        getFrameVisible: () => {}
+        getFrameVisible: () => {},
       },
       'src/util/utils': {
-        onNextTick: cb => setTimeout(cb, 0)
-      }
+        onNextTick: (cb) => setTimeout(cb, 0),
+      },
     }
 
     initMockRegistry(mockRegistryMocks)
@@ -152,21 +152,21 @@ describe('Frame', () => {
     const defaultProps = {
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
-      isMobile: false
+      isMobile: false,
     }
     const mergedProps = { ...defaultProps, ...props }
 
     renderedFrame = domRender(<Frame {...mergedProps}>{mockChild}</Frame>)
   }
 
-  const wait = time =>
-    new Promise(res => {
+  const wait = (time) =>
+    new Promise((res) => {
       setTimeout(() => {
         res()
       }, time)
     })
 
-  const forceFrameReady = async frame => {
+  const forceFrameReady = async (frame) => {
     const doc = frame.getContentWindow().document
 
     const event = document.createEvent('Event')
@@ -332,7 +332,7 @@ describe('Frame', () => {
         const frameStyle = {
           marginRight: '22px',
           marginLeft: '10px',
-          marginTop: '66px'
+          marginTop: '66px',
         }
 
         beforeEach(() => {
@@ -364,14 +364,14 @@ describe('Frame', () => {
       const frameStyle = {
         width: 0,
         height: 0,
-        background: 'rgb(255, 255, 255)'
+        background: 'rgb(255, 255, 255)',
       }
 
       describe('when fixedStyles has properties', () => {
         const fixedStyles = {
           width: '10px',
           height: 'auto',
-          background: 'transparent'
+          background: 'transparent',
         }
 
         beforeEach(() => {
@@ -444,21 +444,21 @@ describe('Frame', () => {
   describe('offset', () => {
     const desktopOnlyOffset = {
       vertical: 31,
-      horizontal: 52
+      horizontal: 52,
     }
     const mobileOnlyOffset = {
       mobile: {
         horizontal: 100,
-        vertical: 200
-      }
+        vertical: 200,
+      },
     }
     const desktopAndMobileOffset = {
       horizontal: 101,
       vertical: 102,
       mobile: {
         horizontal: 100,
-        vertical: 200
-      }
+        vertical: 200,
+      },
     }
 
     describe('when not on webWidget', () => {
@@ -600,7 +600,7 @@ describe('Frame', () => {
             renderFrame({
               isMobile: true,
               name: 'webWidget',
-              offset: desktopAndMobileOffset
+              offset: desktopAndMobileOffset,
             })
           })
 
@@ -710,23 +710,23 @@ describe('Frame', () => {
     const expectedMobileDimensions = {
       width: '100%',
       maxWidth: '100%',
-      height: '100%'
+      height: '100%',
     }
     const expectedDesktopDimensions = {
       width: `${WIDGET_WIDTH + 2 * WIDGET_MARGIN}px`,
       height: '100%',
       maxHeight: `${DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN}px`,
-      minHeight: `${MIN_WIDGET_HEIGHT}px`
+      minHeight: `${MIN_WIDGET_HEIGHT}px`,
     }
     const expectedDesktopPopoutDimensions = {
       ...expectedMobileDimensions,
       right: '50%',
-      background: '#EEE'
+      background: '#EEE',
     }
     const expectedDesktopPopoutLeftDimensions = {
       ...expectedMobileDimensions,
       left: undefined,
-      background: '#EEE'
+      background: '#EEE',
     }
 
     beforeEach(() => {
@@ -734,7 +734,7 @@ describe('Frame', () => {
         isMobile: mockIsMobile,
         horizontalPosition: mockHorizontalPosition,
         fullscreen: mockIsPopout,
-        fullscreenable: mockFullscreenable
+        fullscreenable: mockFullscreenable,
       })
     })
 

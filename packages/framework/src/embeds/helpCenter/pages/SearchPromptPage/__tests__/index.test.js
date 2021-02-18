@@ -6,7 +6,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import { http } from 'service/transport'
 http.get = jest.fn(
   () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve()
     })
 )
@@ -23,11 +23,11 @@ const renderInitialSearchPage = () => {
   return { ...utils, inputNode, formNode }
 }
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const componentProps = {
     title: 'title',
     hasSearched: false,
-    ...props
+    ...props,
   }
   return render(<Component {...componentProps} />)
 }

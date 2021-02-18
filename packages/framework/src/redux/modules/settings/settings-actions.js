@@ -25,8 +25,8 @@ export function updateSettings(settings) {
     if (!_.get(settings, 'webWidget')) {
       settings = {
         webWidget: {
-          ...settings
-        }
+          ...settings,
+        },
       }
     }
 
@@ -38,7 +38,7 @@ export function updateSettings(settings) {
 
     dispatch({
       type: UPDATE_SETTINGS,
-      payload: settings
+      payload: settings,
     })
 
     const state = getState()

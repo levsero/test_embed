@@ -4,7 +4,7 @@ import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
-  mockViewedEndpoint
+  mockViewedEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 import { queries } from 'pptr-testing-library'
 
@@ -17,9 +17,9 @@ test('hides the original article link', async () => {
       window.zESettings = {
         webWidget: {
           helpCenter: {
-            originalArticleButton: false
-          }
-        }
+            originalArticleButton: false,
+          },
+        },
       }
     })
     .load()

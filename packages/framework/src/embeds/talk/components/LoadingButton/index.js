@@ -22,8 +22,8 @@ LoadingButton.propTypes = {
   label: PropTypes.string.isRequired,
   theme: PropTypes.shape({
     fontSize: PropTypes.number,
-    buttonTextColorStr: PropTypes.string
-  })
+    buttonTextColorStr: PropTypes.string,
+  }),
 }
 
 export default withTheme(LoadingButton)

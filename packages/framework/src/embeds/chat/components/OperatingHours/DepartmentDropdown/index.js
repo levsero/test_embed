@@ -10,13 +10,13 @@ const DepartmentDropdown = ({
   departmentSchedule,
   selectedDepartment,
   setSelectedDepartment,
-  theme
+  theme,
 }) => {
   const translate = useTranslate()
   const frame = useCurrentFrame()
 
   const formatDepartmentsForDropdown = () => {
-    return departmentSchedule.map(deptSchedule => {
+    return departmentSchedule.map((deptSchedule) => {
       return (
         <Item key={deptSchedule.id} value={String(deptSchedule.id)}>
           {deptSchedule.name}
@@ -26,7 +26,7 @@ const DepartmentDropdown = ({
   }
 
   const getSelectedDepartmentSchedule = () => {
-    return _.find(departmentSchedule, d => {
+    return _.find(departmentSchedule, (d) => {
       return d.id.toString() === selectedDepartment
     })
   }
@@ -37,9 +37,9 @@ const DepartmentDropdown = ({
     <Dropdown
       name="department"
       selectedItem={String(selectedDepartment)}
-      onSelect={department => setSelectedDepartment(department)}
+      onSelect={(department) => setSelectedDepartment(department)}
       downshiftProps={{
-        environment: frame.window
+        environment: frame.window,
       }}
     >
       <Field>
@@ -52,7 +52,7 @@ const DepartmentDropdown = ({
         style={{ maxHeight: `${140 / theme.fontSize}rem`, overflow: 'auto' }}
         popperModifiers={{
           flip: { enabled: false },
-          preventOverflow: { escapeWithReference: true }
+          preventOverflow: { escapeWithReference: true },
         }}
       >
         {departments}
@@ -66,8 +66,8 @@ DepartmentDropdown.propTypes = {
   selectedDepartment: PropTypes.string.isRequired,
   setSelectedDepartment: PropTypes.func.isRequired,
   theme: PropTypes.shape({
-    fontSize: PropTypes.number
-  })
+    fontSize: PropTypes.number,
+  }),
 }
 
 export default withTheme(DepartmentDropdown)

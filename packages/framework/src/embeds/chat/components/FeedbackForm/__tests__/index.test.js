@@ -12,10 +12,10 @@ describe('FeedbackForm', () => {
   const defaultProps = {
     rating: defaultRating,
     secondaryButtonText: 'Cancel',
-    submitForm: () => {}
+    submitForm: () => {},
   }
 
-  const renderComponent = props => render(<FeedbackForm {...defaultProps} {...props} />)
+  const renderComponent = (props) => render(<FeedbackForm {...defaultProps} {...props} />)
 
   it('renders rating buttons', () => {
     const { queryByTestId } = renderComponent()
@@ -52,7 +52,7 @@ describe('FeedbackForm', () => {
     const submitForm = jest.fn()
     const { getByText } = renderComponent({
       submitForm: submitForm,
-      rating: { value: ratings.GOOD, comment: null }
+      rating: { value: ratings.GOOD, comment: null },
     })
 
     fireEvent.click(getByText('Send'))
@@ -64,7 +64,7 @@ describe('FeedbackForm', () => {
     const submitForm = jest.fn()
     const { getByText } = renderComponent({
       submitForm: submitForm,
-      rating: { value: ratings.NOT_SET, comment: 'chat was good' }
+      rating: { value: ratings.NOT_SET, comment: 'chat was good' },
     })
 
     fireEvent.click(getByText('Send'))
@@ -76,7 +76,7 @@ describe('FeedbackForm', () => {
     const submitForm = jest.fn()
     const { getByText } = renderComponent({
       submitForm: submitForm,
-      rating: { value: ratings.BAD, comment: 'chat was bad' }
+      rating: { value: ratings.BAD, comment: 'chat was bad' },
     })
 
     fireEvent.click(getByText('Send'))
@@ -88,7 +88,7 @@ describe('FeedbackForm', () => {
     const submitForm = jest.fn()
     const { getByText, rerender } = renderComponent({
       submitForm: submitForm,
-      rating: { value: ratings.NOT_SET, comment: null }
+      rating: { value: ratings.NOT_SET, comment: null },
     })
 
     fireEvent.click(getByText('Send'))
@@ -96,7 +96,7 @@ describe('FeedbackForm', () => {
     renderComponent(
       {
         submitForm: submitForm,
-        rating: { value: ratings.NOT_SET, comment: null }
+        rating: { value: ratings.NOT_SET, comment: null },
       },
       rerender
     )
@@ -108,7 +108,7 @@ describe('FeedbackForm', () => {
     const submitForm = jest.fn()
     const { getByText, rerender } = renderComponent({
       submitForm: submitForm,
-      rating: { value: ratings.NOT_SET, comment: null }
+      rating: { value: ratings.NOT_SET, comment: null },
     })
 
     fireEvent.click(getByText('Send'))
@@ -116,7 +116,7 @@ describe('FeedbackForm', () => {
     renderComponent(
       {
         submitForm: submitForm,
-        rating: { value: ratings.NOT_SET, comment: null }
+        rating: { value: ratings.NOT_SET, comment: null },
       },
       rerender
     )

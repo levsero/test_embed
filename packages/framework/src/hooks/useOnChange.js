@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   getLastUpdateAcknowledged,
   getLastTimestamp,
-  getValues
+  getValues,
 } from 'src/redux/modules/customerProvidedPrefill/selectors'
 import { updateAcknowledged } from 'src/redux/modules/customerProvidedPrefill/actions'
 
 const useOnChange = (type, id, callback) => {
   const dispatch = useDispatch()
-  const lastTimestamp = useSelector(state => getLastTimestamp(state, type))
-  const lastUpdateAcknowledged = useSelector(state => getLastUpdateAcknowledged(state, type, id))
-  const values = useSelector(state => getValues(state, type))
+  const lastTimestamp = useSelector((state) => getLastTimestamp(state, type))
+  const lastUpdateAcknowledged = useSelector((state) => getLastUpdateAcknowledged(state, type, id))
+  const values = useSelector((state) => getValues(state, type))
 
   useEffect(() => {
     if (lastTimestamp === lastUpdateAcknowledged) {

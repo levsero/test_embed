@@ -13,32 +13,32 @@ describe('chat embed actions', () => {
   describe('beginChatSetup', () => {
     it('returns an action to acknowledge chat has begun to be set up', () => {
       expect(beginChatSetup()).toEqual({
-        type: BEGIN_CHAT_SETUP
+        type: BEGIN_CHAT_SETUP,
       })
     })
   })
 
   describe('deferChatSetup', () => {
     const waitForApi = async () => {
-      await new Promise(res => {
+      await new Promise((res) => {
         res()
       })
-      await new Promise(res => {
+      await new Promise((res) => {
         res()
       })
     }
 
     const waitForTimer = async (time = MAX_CHAT_POLL_INTERVAL) => {
-      await new Promise(res => {
+      await new Promise((res) => {
         res()
       })
       jest.advanceTimersByTime(time)
-      await new Promise(res => {
+      await new Promise((res) => {
         res()
       })
     }
 
-    const iteration = async time => {
+    const iteration = async (time) => {
       await waitForApi()
       await waitForTimer(time)
     }
@@ -48,14 +48,14 @@ describe('chat embed actions', () => {
       departments: {
         1: {
           id: 1,
-          status: 'online'
-        }
-      }
+          status: 'online',
+        },
+      },
     }
 
     const expectedAction = {
       type: RECEIVE_DEFERRED_CHAT_STATUS,
-      payload: response
+      payload: response,
     }
 
     afterEach(() => {
@@ -118,7 +118,7 @@ describe('chat embed actions', () => {
         [expectedAction],
         [expectedAction],
         [expectedAction],
-        [expectedAction]
+        [expectedAction],
       ])
       mockDispatch.mockClear()
 
@@ -156,7 +156,7 @@ describe('chat embed actions', () => {
       expect(mockDispatch).not.toHaveBeenCalled()
       expect(errorTracker.warn).toHaveBeenCalledWith(error, {
         rollbarFingerprint: 'Failed to connect to chat ODVR endpoint',
-        rollbarTitle: 'Failed to connect to chat ODVR endpoint'
+        rollbarTitle: 'Failed to connect to chat ODVR endpoint',
       })
 
       await waitForTimer()

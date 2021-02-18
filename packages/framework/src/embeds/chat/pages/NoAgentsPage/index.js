@@ -34,18 +34,15 @@ const NoAgentsPage = ({ title, onButtonClick }) => {
 
 NoAgentsPage.propTypes = {
   title: PropTypes.string.isRequired,
-  onButtonClick: PropTypes.func.isRequired
+  onButtonClick: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  title: getChatTitle(state)
+const mapStateToProps = (state) => ({
+  title: getChatTitle(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  {
-    onButtonClick: cancelButtonClicked
-  }
-)(NoAgentsPage)
+const connectedComponent = connect(mapStateToProps, {
+  onButtonClick: cancelButtonClicked,
+})(NoAgentsPage)
 
 export { connectedComponent as default, NoAgentsPage as Component }

@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -21,9 +21,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
     const payload = {
       webWidget: {
         chat: {
-          hideWhenOffline: true
-        }
-      }
+          hideWhenOffline: true,
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual(true)

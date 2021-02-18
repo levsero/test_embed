@@ -41,7 +41,7 @@ export const ICONS = {
   CHAT: 'Icon--chat',
   ARTICLE: 'Icon--article',
   FACEBOOK: 'Icon--facebook',
-  GOOGLE: 'Icon--google'
+  GOOGLE: 'Icon--google',
 }
 
 export const FILETYPE_ICONS = {
@@ -64,7 +64,7 @@ export const FILETYPE_ICONS = {
   JPG: ICONS.PREVIEW_IMAGE,
   PNG: ICONS.PREVIEW_IMAGE,
   RAR: ICONS.PREVIEW_ZIP,
-  ZIP: ICONS.PREVIEW_ZIP
+  ZIP: ICONS.PREVIEW_ZIP,
 }
 
 export const TEST_IDS = {
@@ -191,7 +191,7 @@ export const TEST_IDS = {
   CHAT_BADGE: 'chat-badge',
   SUPPORT_SUBMIT_BUTTON: 'support-submit-button',
   DROP_CONTAINER: 'drop-container',
-  FILE_INPUT: 'file-input'
+  FILE_INPUT: 'file-input',
 }
 
 export const GA_CATEGORY = 'Zendesk Web Widget'
@@ -208,7 +208,7 @@ export const EMBED_MAP = {
   chat: 'chat',
   talk: 'talk',
   channelChoice: 'contactOptions',
-  answerBot: 'answerBot'
+  answerBot: 'answerBot',
 }
 export const NIL_EMBED = 'nilEmbed'
 export const LAUNCHER = 'launcher'

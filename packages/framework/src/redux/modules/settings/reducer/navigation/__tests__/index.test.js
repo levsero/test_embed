@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -22,10 +22,10 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       webWidget: {
         navigation: {
           popoutButton: {
-            enabled: false
-          }
-        }
-      }
+            enabled: false,
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({ popoutButton: { enabled: false } })

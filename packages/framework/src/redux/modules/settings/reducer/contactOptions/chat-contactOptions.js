@@ -3,7 +3,7 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 
 const initialState = {
   chatLabelOnline: null,
-  chatLabelOffline: null
+  chatLabelOffline: null,
 }
 
 const chatContactOptions = (state = initialState, action) => {
@@ -21,7 +21,7 @@ const chatContactOptions = (state = initialState, action) => {
           payload,
           'webWidget.contactOptions.chatLabelOffline',
           state.chatLabelOffline
-        )
+        ),
       }
     default:
       return state

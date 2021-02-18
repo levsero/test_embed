@@ -23,5 +23,5 @@ export default combineReducers({
   chatWindow,
   banner,
   branding,
-  operatingHours
+  operatingHours,
 })

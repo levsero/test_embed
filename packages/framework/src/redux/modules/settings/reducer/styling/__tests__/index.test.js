@@ -19,7 +19,7 @@ describe('launcher settings reducer', () => {
         offsetHorizontal: 0,
         offsetVertical: 0,
         offsetMobileHorizontal: 0,
-        offsetMobileVertical: 0
+        offsetMobileVertical: 0,
       })
     })
   })
@@ -48,15 +48,15 @@ describe('launcher settings reducer', () => {
               horizontal: 15,
               mobile: {
                 vertical: 20,
-                horizontal: 30
-              }
+                horizontal: 30,
+              },
             },
             position: {
               vertical: 'top',
-              horizontal: 'left'
+              horizontal: 'left',
             },
-            zIndex: 10000
-          }
+            zIndex: 10000,
+          },
         }
 
         result = reducer(defaultState, { type, payload })
@@ -70,7 +70,7 @@ describe('launcher settings reducer', () => {
           offsetVertical: 10,
           positionHorizontal: 'left',
           positionVertical: 'top',
-          zIndex: 10000
+          zIndex: 10000,
         })
       })
     })

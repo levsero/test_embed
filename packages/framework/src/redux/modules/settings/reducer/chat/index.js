@@ -31,5 +31,5 @@ export default combineReducers({
   suppress,
   tags,
   title,
-  connectOnPageLoad
+  connectOnPageLoad,
 })

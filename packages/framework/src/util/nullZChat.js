@@ -11,7 +11,7 @@ if (typeof Proxy !== 'undefined') {
     get(_target, prop) {
       if (prop === 'toJSON') return {}
 
-      return _data => {
+      return (_data) => {
         if (shouldWarn) {
           /* eslint-disable max-len, no-console */
           console.warn(
@@ -26,11 +26,11 @@ if (typeof Proxy !== 'undefined') {
         }
         return false
       }
-    }
+    },
   })
 }
 
 export {
   nullZChat,
-  resetShouldWarn // for testing purposes
+  resetShouldWarn, // for testing purposes
 }

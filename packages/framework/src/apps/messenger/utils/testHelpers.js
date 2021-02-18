@@ -15,7 +15,7 @@ export const render = (ui, { render, store, themeProps = {} } = {}) => {
       <Provider store={reduxStore}>
         <ThemeProvider theme={themeProps}>{ui}</ThemeProvider>
       </Provider>
-    )
+    ),
   }
 }
 
@@ -26,7 +26,7 @@ export const mockMatchMedia = () => {
   // }
   const mediaQueries = {}
 
-  const mockMatchMedia = jest.fn().mockImplementation(query => {
+  const mockMatchMedia = jest.fn().mockImplementation((query) => {
     if (!mediaQueries[query]) {
       mediaQueries[query] = []
     }
@@ -35,18 +35,18 @@ export const mockMatchMedia = () => {
       matches: true,
       addEventListener: (_, callback) => {
         mediaQueries[query].push(callback)
-      }
+      },
     }
   })
 
   const triggerChangeForBreakpoint = (breakpoint, event) => {
-    mediaQueries[breakpoint]?.forEach(callback => callback(event))
+    mediaQueries[breakpoint]?.forEach((callback) => callback(event))
   }
 
   hostPageWindow.matchMedia = mockMatchMedia
 
   return {
-    triggerChangeForBreakpoint
+    triggerChangeForBreakpoint,
   }
 }
 
@@ -62,7 +62,7 @@ export const mockMatchMedia = () => {
   of that key will be used to assert against the result of the reducer.
 */
 export const testReducer = (reducer, actions) => {
-  actions.forEach(params => {
+  actions.forEach((params) => {
     const { expected, initialState, extraDesc } = params
     const action = params.action || params
     const basicTestDesc = `${reducer.name}, action: ${action.type}`

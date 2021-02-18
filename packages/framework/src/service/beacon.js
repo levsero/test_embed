@@ -16,10 +16,10 @@ let config = {
   endpoint: '/embeddable_blip',
   identifyEndpoint: '/embeddable_identify',
   reduceBlipping: false,
-  throttleIdentify: false
+  throttleIdentify: false,
 }
 
-const trackLocaleDiff = rawServerLocale => {
+const trackLocaleDiff = (rawServerLocale) => {
   const rawClientLocale = i18n.getBrowserLocale()
   const clientLocale = i18n.parseLocale(rawClientLocale)
   const serverLocale = i18n.parseLocale(rawServerLocale)
@@ -32,24 +32,24 @@ const trackLocaleDiff = rawServerLocale => {
         clientLocale,
         serverLocale,
         userAgent: navigator.userAgent,
-        isMobile: isMobileBrowser()
+        isMobile: isMobileBrowser(),
       },
       action: 'localeMismatch',
-      category: 'locale'
+      category: 'locale',
     }
 
     sendAnalyticsBlip(analytics)
   }
 }
 
-const sendAnalyticsBlip = data => {
+const sendAnalyticsBlip = (data) => {
   const payload = {
     type: 'analytics',
     method: config.method,
     path: config.endpoint,
     params: {
-      analytics: data
-    }
+      analytics: data,
+    },
   }
 
   sendWithMeta(payload)
@@ -98,7 +98,7 @@ const sendPageView = (channel = 'web_widget') => {
     isMobile: isMobileBrowser(),
     isResponsive: Boolean(metaTag),
     viewportMeta: metaTag ? metaTag.getAttribute('content') : '',
-    helpCenterDedup: isOnHelpCenterPage()
+    helpCenterDedup: isOnHelpCenterPage(),
   }
   const payload = {
     type: 'pageView',
@@ -106,8 +106,8 @@ const sendPageView = (channel = 'web_widget') => {
     path: config.endpoint,
     params: {
       channel,
-      pageView: _.extend(pageViewParams, pageView)
-    }
+      pageView: _.extend(pageViewParams, pageView),
+    },
   }
 
   sendWithMeta(payload)
@@ -125,15 +125,15 @@ function sendWidgetInitInterval() {
   const params = {
     performance: {
       initInterval: time,
-      configLoadTime: configLoadTime
-    }
+      configLoadTime: configLoadTime,
+    },
   }
 
   const payload = {
     type: 'performance',
     method: config.method,
     path: config.endpoint,
-    params: params
+    params: params,
   }
 
   sendWithMeta(payload)
@@ -142,7 +142,7 @@ function sendWidgetInitInterval() {
 function setConfig(_config) {
   _.merge(config, {
     reduceBlipping: !!_config.reduceBlipping,
-    throttleIdentify: !!_config.throttleIdentify
+    throttleIdentify: !!_config.throttleIdentify,
   })
 }
 
@@ -166,7 +166,7 @@ function trackUserAction(category, action, options) {
   const defaults = {
     label: null,
     value: null,
-    channel: 'web_widget'
+    channel: 'web_widget',
   }
 
   options = _.defaults(options, defaults)
@@ -175,7 +175,7 @@ function trackUserAction(category, action, options) {
     category: category,
     action: action,
     label: options.label,
-    value: options.value
+    value: options.value,
   }
   const payload = {
     type: 'userAction',
@@ -183,8 +183,8 @@ function trackUserAction(category, action, options) {
     path: config.endpoint,
     params: {
       channel: options.channel,
-      userAction: userAction
-    }
+      userAction: userAction,
+    },
   }
 
   sendWithMeta(payload)
@@ -197,7 +197,7 @@ function trackSettings(settings) {
   const previousSettings = store.get('settings')
   const expiryTime = nowInSeconds() - 24 * 60 * 60
   const encoded = sha1(JSON.stringify(settings))
-  const validSettings = _.filter(previousSettings, settings => settings[1] > expiryTime)
+  const validSettings = _.filter(previousSettings, (settings) => settings[1] > expiryTime)
   const done = () => {
     validSettings.push([encoded, nowInSeconds()])
     store.set('settings', validSettings)
@@ -208,10 +208,10 @@ function trackSettings(settings) {
     method: config.method,
     path: config.endpoint,
     params: { settings },
-    callbacks: { done }
+    callbacks: { done },
   }
 
-  if (!_.find(validSettings, s => s[0] === encoded)) {
+  if (!_.find(validSettings, (s) => s[0] === encoded)) {
     sendWithMeta(payload)
   } else {
     // Clear any expired settings that exist from other pages
@@ -230,8 +230,8 @@ function identify(user, localeId) {
     path: identifyEndpoint,
     params: {
       user: { ...user, localeId },
-      userAgent: navigator.userAgent
-    }
+      userAgent: navigator.userAgent,
+    },
   }
 
   sendWithMeta(payload)
@@ -255,7 +255,7 @@ function getFrameworkLoadTime() {
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {
     if ('performance' in window && 'getEntries' in window.performance) {
-      entry = _.find(window.performance.getEntries(), function(entry) {
+      entry = _.find(window.performance.getEntries(), function (entry) {
         return isEntryTrackedScript(entry)
       })
 
@@ -278,5 +278,5 @@ export const beacon = {
   sendPageView: sendPageViewWhenReady,
   setConfig,
   sendWidgetInitInterval,
-  trackLocaleDiff
+  trackLocaleDiff,
 }

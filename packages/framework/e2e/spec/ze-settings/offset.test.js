@@ -4,17 +4,17 @@ import widget from 'e2e/helpers/widget'
 import { wait } from 'pptr-testing-library'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-const getPosition = async selector => {
-  return await page.evaluate(iframe => {
+const getPosition = async (selector) => {
+  return await page.evaluate((iframe) => {
     const frame = document.querySelector(iframe)
     return {
       right: frame.style.right,
-      bottom: frame.style.bottom
+      bottom: frame.style.bottom,
     }
   }, selector)
 }
 
-const buildWidget = mobile => {
+const buildWidget = (mobile) => {
   let builder = loadWidget().withPresets('helpCenter')
   if (mobile) builder = builder.useMobile()
   return builder
@@ -27,8 +27,8 @@ describe('desktop', () => {
         window.zESettings = {
           offset: {
             horizontal: '100px',
-            vertical: '150px'
-          }
+            vertical: '150px',
+          },
         }
       })
       .load()
@@ -39,7 +39,7 @@ describe('desktop', () => {
     await wait(async () =>
       expect(await getPosition(launcher.selector)).toEqual({
         right: '100px',
-        bottom: '150px'
+        bottom: '150px',
       })
     )
   })
@@ -52,7 +52,7 @@ describe('desktop', () => {
     await wait(async () => {
       expect(await getPosition(widget.selector)).toEqual({
         right: '100px',
-        bottom: '150px'
+        bottom: '150px',
       })
     })
   })
@@ -62,7 +62,7 @@ describe('desktop', () => {
     await wait(async () =>
       expect(await getPosition(launcher.selector)).toEqual({
         right: '0px',
-        bottom: '0px'
+        bottom: '0px',
       })
     )
     await widget.openByKeyboard()
@@ -71,7 +71,7 @@ describe('desktop', () => {
     await wait(async () =>
       expect(await getPosition(widget.selector)).toEqual({
         right: '',
-        bottom: ''
+        bottom: '',
       })
     )
   })
@@ -85,9 +85,9 @@ describe('mobile', () => {
           offset: {
             mobile: {
               horizontal: '230px',
-              vertical: '100px'
-            }
-          }
+              vertical: '100px',
+            },
+          },
         }
       })
       .load()
@@ -98,7 +98,7 @@ describe('mobile', () => {
     await wait(async () =>
       expect(await getPosition(launcher.selector)).toEqual({
         right: '230px',
-        bottom: '100px'
+        bottom: '100px',
       })
     )
   })
@@ -111,7 +111,7 @@ describe('mobile', () => {
     await wait(async () => {
       expect(await getPosition(widget.selector)).toEqual({
         right: '',
-        bottom: ''
+        bottom: '',
       })
     })
   })
@@ -121,7 +121,7 @@ describe('mobile', () => {
     await wait(async () =>
       expect(await getPosition(launcher.selector)).toEqual({
         right: '0px',
-        bottom: '0px'
+        bottom: '0px',
       })
     )
     await widget.openByKeyboard()
@@ -129,7 +129,7 @@ describe('mobile', () => {
     await wait(async () => {
       expect(await getPosition(widget.selector)).toEqual({
         right: '0px',
-        bottom: '0px'
+        bottom: '0px',
       })
     })
   })

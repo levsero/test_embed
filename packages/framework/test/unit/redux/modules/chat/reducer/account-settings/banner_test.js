@@ -29,9 +29,9 @@ describe('banner', () => {
             layout: 'image_left',
             image_path: 'http://img.com/img.png',
             text: 'chat it up',
-            enabled: true
-          }
-        }
+            enabled: true,
+          },
+        },
       })
     })
 
@@ -40,7 +40,7 @@ describe('banner', () => {
         layout: 'image_left',
         image: 'http://img.com/img.png',
         text: 'chat it up',
-        enabled: true
+        enabled: true,
       })
     })
   })

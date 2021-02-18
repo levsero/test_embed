@@ -57,7 +57,7 @@ describe('chat reducer standalone mobile notification visible', () => {
     describe('when a PROACTIVE_CHAT_NOTIFICATION_DISMISSED action is dispatched', () => {
       beforeEach(() => {
         const action = {
-          type: actionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED
+          type: actionTypes.PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
         }
 
         state = reducer(initialState, action)

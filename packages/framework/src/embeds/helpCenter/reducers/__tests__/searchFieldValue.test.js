@@ -6,29 +6,29 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(searchFieldValue, [
   {
     action: { type: undefined },
-    expected: ''
+    expected: '',
   },
   {
     action: { type: 'DERP DERP' },
     initialState: 'blah',
-    expected: 'blah'
+    expected: 'blah',
   },
   {
     action: {
       type: actionTypes.SEARCH_FIELD_CHANGED,
-      payload: 'blah'
+      payload: 'blah',
     },
     initialState: '',
-    expected: 'blah'
+    expected: 'blah',
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: 'blah',
-    expected: ''
+    expected: '',
   },
   {
     action: { type: API_CLEAR_FORM },
     initialState: 'blah',
-    expected: ''
-  }
+    expected: '',
+  },
 ])

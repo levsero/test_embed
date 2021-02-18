@@ -4,48 +4,51 @@ import { render } from 'utility/testHelpers'
 
 const singleScheduleSingleDay = {
   days: [2],
-  periods: [{ start: 800, end: 900 }]
+  periods: [{ start: 800, end: 900 }],
 }
 
 const singleScheduleMultipleDays = {
   days: [1, [3, 6]],
-  periods: [{ start: 456, end: 889 }]
+  periods: [{ start: 456, end: 889 }],
 }
 
 const multipleSchedulesSingleDay = {
   days: [7],
-  periods: [{ start: 456, end: 789 }, { start: 800, end: 901 }]
+  periods: [
+    { start: 456, end: 789 },
+    { start: 800, end: 901 },
+  ],
 }
 
 const fullDaySchedule = {
   days: [5],
-  periods: [{ start: 0, end: 1440 }]
+  periods: [{ start: 0, end: 1440 }],
 }
 
 const closedSchedule = {
   days: [5],
-  periods: []
+  periods: [],
 }
 
 const multiDaysAndMultiSchedulesPerDay = [
   singleScheduleMultipleDays,
   singleScheduleSingleDay,
   multipleSchedulesSingleDay,
-  fullDaySchedule
+  fullDaySchedule,
 ]
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     schedule: [],
     locale: 'en-us',
-    ...inProps
+    ...inProps,
   }
   return render(<Schedule {...props} />)
 }
 
 it('renders single schedule on single day', () => {
   const { queryByText } = renderComponent({
-    schedule: [singleScheduleSingleDay]
+    schedule: [singleScheduleSingleDay],
   })
 
   expect(queryByText('Tuesday')).toBeInTheDocument()
@@ -54,7 +57,7 @@ it('renders single schedule on single day', () => {
 
 it('renders when closed', () => {
   const { queryByText } = renderComponent({
-    schedule: [closedSchedule]
+    schedule: [closedSchedule],
   })
 
   expect(queryByText('Friday')).toBeInTheDocument()
@@ -85,7 +88,7 @@ it('renders open all day', () => {
 
 it('renders all days correctly together', () => {
   const { queryByText } = renderComponent({
-    schedule: multiDaysAndMultiSchedulesPerDay
+    schedule: multiDaysAndMultiSchedulesPerDay,
   })
 
   expect(queryByText('Monday, Wednesday — Saturday')).toBeInTheDocument()

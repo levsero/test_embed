@@ -28,7 +28,7 @@ describe('chat reducer suppress', () => {
     beforeEach(() => {
       state = reducer(initialState, {
         type: actionTypes.UPDATE_SETTINGS,
-        payload: payload
+        payload: payload,
       })
     })
 
@@ -37,9 +37,9 @@ describe('chat reducer suppress', () => {
         payload = {
           webWidget: {
             chat: {
-              suppress: true
-            }
-          }
+              suppress: true,
+            },
+          },
         }
       })
 
@@ -52,8 +52,8 @@ describe('chat reducer suppress', () => {
       beforeAll(() => {
         payload = {
           webWidget: {
-            yeah: 'nah'
-          }
+            yeah: 'nah',
+          },
         }
       })
 

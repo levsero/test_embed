@@ -10,9 +10,7 @@ const buildWidget = () => loadWidget().withPresets('answerBot')
 
 test('searches interaction endpoint with expected parameters', async () => {
   const endpoint = jest.fn()
-  await buildWidget()
-    .intercept(mockInteractionEndpoint(searchResults, endpoint))
-    .load()
+  await buildWidget().intercept(mockInteractionEndpoint(searchResults, endpoint)).load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')
@@ -25,15 +23,13 @@ test('searches interaction endpoint with expected parameters', async () => {
       interaction_reference: expect.any(String),
       locale: 'en-gb',
       enquiry: 'Help',
-      labels: []
+      labels: [],
     })
   )
 })
 
 test('displays expected components in the conversation', async () => {
-  await buildWidget()
-    .intercept(mockInteractionEndpoint())
-    .load()
+  await buildWidget().intercept(mockInteractionEndpoint()).load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')
@@ -46,9 +42,7 @@ test('displays expected components in the conversation', async () => {
 
 test('sending messages in quick succession will batch it into a single query', async () => {
   const endpoint = jest.fn()
-  await buildWidget()
-    .intercept(mockInteractionEndpoint(searchResults, endpoint))
-    .load()
+  await buildWidget().intercept(mockInteractionEndpoint(searchResults, endpoint)).load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('First message')
@@ -57,7 +51,7 @@ test('sending messages in quick succession will batch it into a single query', a
   await widget.waitForTestId(TEST_IDS.HC_ARTICLE_TITLE, { visible: true })
   expect(getJsonPayload(endpoint)).toEqual(
     expect.objectContaining({
-      enquiry: 'First message Second message Third message'
+      enquiry: 'First message Second message Third message',
     })
   )
 })
@@ -67,7 +61,7 @@ test('empty result will display expected message', async () => {
     .intercept(
       mockInteractionEndpoint({
         deflection: { id: 1, auth_token: 'abc' },
-        deflection_articles: []
+        deflection_articles: [],
       })
     )
     .load()

@@ -21,13 +21,13 @@ import { isMobileBrowser } from 'utility/devices'
 import {
   handleChatSDKInitialized,
   handleChatConnected,
-  reset as resetChatSDKInitializedQueue
+  reset as resetChatSDKInitializedQueue,
 } from 'src/service/api/zopimApi/callbacks'
 
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT
+  CHAT_UNREAD_MESSAGES_EVENT,
 } from 'constants/event'
 
 const timeoutError = { code: 'ETIMEDOUT' }
@@ -43,20 +43,20 @@ const getState = (state = {}) => {
         embeds: {
           chat: {
             props: {
-              zopimId: 123
-            }
-          }
-        }
-      }
+              zopimId: 123,
+            },
+          },
+        },
+      },
     },
     chat: {
       vendor: {
-        zChat
+        zChat,
       },
       accountSettings: {
-        prechatForm: false
-      }
-    }
+        prechatForm: false,
+      },
+    },
   }
 
   return _.merge(defaults, state)
@@ -77,7 +77,7 @@ const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
   return {
     store,
     timeoutArgs,
-    callback
+    callback,
   }
 }
 
@@ -91,19 +91,19 @@ const dispatchAction = (action, initialState = {}) => {
 
 describe('endChat', () => {
   const payload = { agent: 'smith' }
-  const happyPathActions = expectedVisibilityPayload => {
+  const happyPathActions = (expectedVisibilityPayload) => {
     return [
       {
         type: actionTypes.CHAT_ALL_AGENTS_INACTIVE,
-        payload
+        payload,
       },
       {
-        type: actionTypes.END_CHAT_REQUEST_SUCCESS
+        type: actionTypes.END_CHAT_REQUEST_SUCCESS,
       },
       {
         payload: expectedVisibilityPayload,
-        type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
-      }
+        type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+      },
     ]
   }
 
@@ -135,8 +135,8 @@ describe('endChat', () => {
         expect.arrayContaining([
           {
             payload: false,
-            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
-          }
+            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+          },
         ])
       )
     })
@@ -151,8 +151,8 @@ describe('endChat', () => {
         expect.arrayContaining([
           {
             payload: true,
-            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY
-          }
+            type: baseActionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
+          },
         ])
       )
     })
@@ -200,7 +200,7 @@ describe('setVisitorInfo', () => {
   const mockTimestamp = 1234
   const mockRequestSuccessAction = {
     type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-    payload: { ...mockVisitor, timestamp: mockTimestamp }
+    payload: { ...mockVisitor, timestamp: mockTimestamp },
   }
 
   beforeEach(() => {
@@ -238,15 +238,15 @@ describe('setVisitorInfo', () => {
 
       const vistor = {
         name: 'Someone',
-        phone: '123'
+        phone: '123',
       }
 
       store.dispatch(actions.setVisitorInfo(vistor, {}, 1234))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-          payload: { phone: '123', timestamp: mockTimestamp }
-        }
+          payload: { phone: '123', timestamp: mockTimestamp },
+        },
       ])
     })
 
@@ -257,8 +257,8 @@ describe('setVisitorInfo', () => {
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-          payload: { ...mockVisitor, timestamp: mockTimestamp }
-        }
+          payload: { ...mockVisitor, timestamp: mockTimestamp },
+        },
       ])
     })
 
@@ -278,7 +278,7 @@ describe('setVisitorInfo', () => {
         )
 
         expect(store.getActions()).toContainEqual({
-          type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE,
         })
       })
     })
@@ -309,7 +309,7 @@ describe('sendChatRating', () => {
   const mockRating = 4
   const mockSuccessAction = {
     type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
-    payload: mockRating
+    payload: mockRating,
   }
 
   describe('when there are no errors', () => {
@@ -341,8 +341,8 @@ describe('sendChatRating', () => {
 
         expect(store.getActions()).toEqual([
           {
-            type: actionTypes.CHAT_RATING_REQUEST_FAILURE
-          }
+            type: actionTypes.CHAT_RATING_REQUEST_FAILURE,
+          },
         ])
       })
     })
@@ -353,7 +353,7 @@ describe('sendChatComment', () => {
   const mockComment = "I'm selling these fine leather jackets..."
   const mockSuccessAction = {
     type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
-    payload: mockComment
+    payload: mockComment,
   }
 
   describe('when there are no errors', () => {
@@ -385,8 +385,8 @@ describe('sendChatComment', () => {
 
         expect(store.getActions()).toEqual([
           {
-            type: actionTypes.CHAT_RATING_COMMENT_REQUEST_FAILURE
-          }
+            type: actionTypes.CHAT_RATING_COMMENT_REQUEST_FAILURE,
+          },
         ])
       })
     })
@@ -398,19 +398,19 @@ describe('sendAttachments', () => {
     name: 'Ronnie James Dio',
     email: 'the_horns@example.com',
     nick: 'theDio',
-    display_name: 'Dio'
+    display_name: 'Dio',
   }
   const mockBasePayload = {
     type: 'chat.file',
     timestamp: 123456,
     nick: mockVisitor.nick,
-    display_name: mockVisitor.display_name
+    display_name: mockVisitor.display_name,
   }
   const mockFileList = [
     {
       name: 'super-sekret-accountings.xls',
-      size: 666
-    }
+      size: 666,
+    },
   ]
 
   beforeEach(() => {
@@ -471,9 +471,9 @@ describe('setDepartment', () => {
         type: actionTypes.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
         payload: {
           timestamp: 123456,
-          department: mockDeptId
-        }
-      }
+          department: mockDeptId,
+        },
+      },
     ])
   })
 
@@ -525,7 +525,7 @@ describe('sendOfflineMessage', () => {
   const mockPhone = 123456
   const mockFormState = {
     name: 'Charles Darwin',
-    phone: mockPhone
+    phone: mockPhone,
   }
   const mockSuccessCallback = jest.fn()
   const mockFailureCallback = jest.fn()
@@ -536,7 +536,7 @@ describe('sendOfflineMessage', () => {
     )
 
     expect(store.getActions()).toContainEqual({
-      type: actionTypes.OFFLINE_FORM_REQUEST_SENT
+      type: actionTypes.OFFLINE_FORM_REQUEST_SENT,
     })
   })
 
@@ -548,7 +548,7 @@ describe('sendOfflineMessage', () => {
 
       expect(store.getActions()).toContainEqual({
         type: actionTypes.OFFLINE_FORM_REQUEST_SUCCESS,
-        payload: mockFormState
+        payload: mockFormState,
       })
     })
 
@@ -567,7 +567,7 @@ describe('sendOfflineMessage', () => {
 
       expect(store.getActions()).toContainEqual({
         type: formActionTypes.SET_FORM_STATE,
-        payload: { formId: 'offline-form', newFormState: { ...mockFormState, message: '' } }
+        payload: { formId: 'offline-form', newFormState: { ...mockFormState, message: '' } },
       })
     })
   })
@@ -580,7 +580,7 @@ describe('sendOfflineMessage', () => {
       )
 
       expect(store.getActions()).toContainEqual({
-        type: actionTypes.OFFLINE_FORM_REQUEST_FAILURE
+        type: actionTypes.OFFLINE_FORM_REQUEST_FAILURE,
       })
     })
 
@@ -622,7 +622,7 @@ describe('sendOfflineMessage', () => {
 describe('fetchConversationHistory', () => {
   const mockHistory = []
   const mockData = {
-    history: mockHistory
+    history: mockHistory,
   }
 
   it('dispatches HISTORY_REQUEST_SENT', () => {
@@ -633,7 +633,7 @@ describe('fetchConversationHistory', () => {
     )
 
     expect(store.getActions()).toContainEqual({
-      type: actionTypes.HISTORY_REQUEST_SENT
+      type: actionTypes.HISTORY_REQUEST_SENT,
     })
   })
 
@@ -647,7 +647,7 @@ describe('fetchConversationHistory', () => {
 
       expect(store.getActions()).toContainEqual({
         type: actionTypes.HISTORY_REQUEST_SUCCESS,
-        payload: { ...mockData }
+        payload: { ...mockData },
       })
     })
   })
@@ -663,7 +663,7 @@ describe('fetchConversationHistory', () => {
 
         expect(store.getActions()).toContainEqual({
           type: actionTypes.HISTORY_REQUEST_SUCCESS,
-          payload: { ...mockData }
+          payload: { ...mockData },
         })
       })
     })
@@ -678,7 +678,7 @@ describe('fetchConversationHistory', () => {
 
         expect(store.getActions()).toContainEqual({
           type: actionTypes.HISTORY_REQUEST_FAILURE,
-          payload: otherError
+          payload: otherError,
         })
       })
     })
@@ -693,7 +693,7 @@ describe('initiateSocialLogout', () => {
     const { store } = dispatchZChatWithTimeoutAction(actions.initiateSocialLogout())
 
     expect(store.getActions()).toContainEqual({
-      type: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING
+      type: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING,
     })
   })
 
@@ -720,7 +720,7 @@ describe('initiateSocialLogout', () => {
 describe('editContactDetailsSubmitted', () => {
   const mockVisitor = {
     name: 'Boromir',
-    email: 'dadsfav@gondor.gd'
+    email: 'dadsfav@gondor.gd',
   }
 
   beforeEach(() => {
@@ -740,12 +740,12 @@ describe('editContactDetailsSubmitted', () => {
 
     expect(dispatchedActions).toContainEqual({
       type: actionTypes.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
-      payload: { ...mockVisitor, timestamp: Date.now() }
+      payload: { ...mockVisitor, timestamp: Date.now() },
     })
 
     expect(dispatchedActions).toContainEqual({
       type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-      payload: { ...mockVisitor, timestamp: Date.now() }
+      payload: { ...mockVisitor, timestamp: Date.now() },
     })
   })
 })
@@ -815,7 +815,7 @@ test('newAgentMessageReceived', () => {
   expect(callbacks.fireFor).toHaveBeenCalledWith(CHAT_UNREAD_MESSAGES_EVENT)
   expect(result).toEqual({
     type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED,
-    payload: 'yeet'
+    payload: 'yeet',
   })
 })
 
@@ -824,9 +824,9 @@ describe('proactiveMessageReceived', () => {
     const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
-          hideApi: false
-        }
-      }
+          hideApi: false,
+        },
+      },
     })
 
     expect(results).toMatchInlineSnapshot(`
@@ -855,9 +855,9 @@ describe('proactiveMessageReceived', () => {
     const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
-          hideApi: true
-        }
-      }
+          hideApi: true,
+        },
+      },
     })
 
     expect(results).toMatchInlineSnapshot(`
@@ -884,9 +884,9 @@ describe('proactiveMessageReceived', () => {
     const results = dispatchAction(actions.proactiveMessageReceived(), {
       base: {
         hidden: {
-          hideApi: false
-        }
-      }
+          hideApi: false,
+        },
+      },
     })
 
     expect(results).toMatchInlineSnapshot(`
@@ -925,7 +925,7 @@ describe('sendVisitorPath', () => {
     resetChatSDKInitializedQueue()
   })
 
-  const dispatchAction = arg => {
+  const dispatchAction = (arg) => {
     const store = mockStore(getState())
     store.dispatch(actions.sendVisitorPath(arg))
     return store
@@ -1057,7 +1057,7 @@ describe('chatNotificationTimedOut', () => {
 describe('sendMsg', () => {
   const mockVisitor = {
     name: 'Boromir',
-    email: 'dadsfav@gondor.gd'
+    email: 'dadsfav@gondor.gd',
   }
 
   beforeEach(() => {
@@ -1094,7 +1094,7 @@ describe('sendMsg', () => {
 describe('sendChatBadgeMessage', () => {
   const mockVisitor = {
     name: 'Boromir',
-    email: 'dadsfav@gondor.gd'
+    email: 'dadsfav@gondor.gd',
   }
 
   beforeEach(() => {
@@ -1113,10 +1113,10 @@ describe('sendChatBadgeMessage', () => {
           chat: {
             accountSettings: {
               prechatForm: {
-                required: false
-              }
-            }
-          }
+                required: false,
+              },
+            },
+          },
         })
 
         expect(results).toMatchInlineSnapshot(`
@@ -1155,10 +1155,10 @@ describe('sendChatBadgeMessage', () => {
           chat: {
             accountSettings: {
               prechatForm: {
-                required: true
-              }
-            }
-          }
+                required: true,
+              },
+            },
+          },
         })
         expect(results).toMatchInlineSnapshot(`
           Array [
@@ -1186,10 +1186,10 @@ describe('sendChatBadgeMessage', () => {
         chat: {
           accountSettings: {
             prechatForm: {
-              required: true
-            }
-          }
-        }
+              required: true,
+            },
+          },
+        },
       })
 
       expect(results).toEqual([])

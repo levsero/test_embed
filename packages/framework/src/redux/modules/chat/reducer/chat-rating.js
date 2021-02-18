@@ -6,7 +6,7 @@ import {
   UPDATE_PREVIEWER_SCREEN,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_RATING,
-  SDK_CHAT_COMMENT
+  SDK_CHAT_COMMENT,
 } from '../chat-action-types'
 import { isAgent } from 'src/util/chat'
 import { ratings } from 'src/embeds/chat/components/RatingGroup'
@@ -14,7 +14,7 @@ import { ratings } from 'src/embeds/chat/components/RatingGroup'
 const initialState = {
   value: ratings.NOT_SET,
   disableEndScreen: false,
-  comment: null
+  comment: null,
 }
 
 const rating = (state = initialState, action = {}) => {
@@ -25,28 +25,28 @@ const rating = (state = initialState, action = {}) => {
       return {
         ...state,
         value: payload,
-        comment: null
+        comment: null,
       }
     case SDK_CHAT_RATING:
       return {
         ...state,
         value: payload.detail.new_rating,
-        comment: null
+        comment: null,
       }
     case CHAT_RATING_COMMENT_REQUEST_SUCCESS:
       return {
         ...state,
-        comment: payload
+        comment: payload,
       }
     case SDK_CHAT_COMMENT:
       return {
         ...state,
-        comment: payload.detail.new_comment
+        comment: payload.detail.new_comment,
       }
     case UPDATE_PREVIEWER_SCREEN:
       return {
         ...state,
-        disableEndScreen: true
+        disableEndScreen: true,
       }
     case SDK_CHAT_MEMBER_LEAVE:
       if (!isAgent(payload.detail.nick)) {

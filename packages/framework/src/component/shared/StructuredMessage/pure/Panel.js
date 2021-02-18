@@ -27,7 +27,7 @@ export const PanelWrapper = ({ className, onClick, children }) => {
 PanelWrapper.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export const PanelPropType = PropTypes.shape({
@@ -40,17 +40,17 @@ export const PanelPropType = PropTypes.shape({
   onClick: PropTypes.func,
   layout: PropTypes.oneOf(['thumbnail']),
   align: PropTypes.oneOf(['left', 'right']),
-  withBorderBottom: PropTypes.bool
+  withBorderBottom: PropTypes.bool,
 })
 
 // We calculate a max height for browsers that don't support line-clamp
-const _calculateMaxHeight = function(noOfLines) {
+const _calculateMaxHeight = function (noOfLines) {
   return isFirefox() || isIE() ? `${(16 * noOfLines) / FONT_SIZE}rem` : 'auto'
 }
 
 export class Panel extends Component {
   static propTypes = {
-    panel: PanelPropType
+    panel: PanelPropType,
   }
 
   static defaultProps = {
@@ -61,8 +61,8 @@ export class Panel extends Component {
       layout: 'hero',
       roundedTop: false,
       roundedBottom: false,
-      withBorderBottom: true
-    }
+      withBorderBottom: true,
+    },
   }
 
   renderHeroImage(panel) {
@@ -70,7 +70,7 @@ export class Panel extends Component {
 
     return this.renderImage({
       containerClassNames: styles.imageContainer,
-      panel
+      panel,
     })
   }
 
@@ -81,18 +81,18 @@ export class Panel extends Component {
     // For line truncation
     const headingLineClampStyle = {
       WebkitLineClamp: panel.headingLineClamp,
-      maxHeight: _calculateMaxHeight(panel.headingLineClamp)
+      maxHeight: _calculateMaxHeight(panel.headingLineClamp),
     }
     const paragraphLineClampStyle = {
       WebkitLineClamp: panel.paragraphLineClamp,
-      maxHeight: _calculateMaxHeight(panel.paragraphLineClamp)
+      maxHeight: _calculateMaxHeight(panel.paragraphLineClamp),
     }
 
     const contentClassNames =
       panel.layout === 'thumbnail'
         ? classNames(styles.floatedPanelContent, {
             [styles.floatLeft]: panel.align === 'right',
-            [styles.floatRight]: panel.align === 'left'
+            [styles.floatRight]: panel.align === 'left',
           })
         : ''
 
@@ -123,12 +123,12 @@ export class Panel extends Component {
 
     const containerClassNames = classNames(styles.panelContentImage, {
       [styles.floatLeft]: panel.align === 'left',
-      [styles.floatRight]: panel.align === 'right'
+      [styles.floatRight]: panel.align === 'right',
     })
 
     return this.renderImage({
       containerClassNames,
-      panel
+      panel,
     })
   }
 
@@ -137,15 +137,15 @@ export class Panel extends Component {
    */
   renderImage({ containerClassNames, panel }) {
     const aspectRatioStyle = {
-      paddingBottom: `${(1 / panel.imageAspectRatio) * 100}%`
+      paddingBottom: `${(1 / panel.imageAspectRatio) * 100}%`,
     }
 
     const imageStyle = {
-      backgroundImage: `url(${panel.imageUrl})`
+      backgroundImage: `url(${panel.imageUrl})`,
     }
 
     const imageClassNames = classNames(styles.imagePlaceholder, {
-      [styles.scaleUp]: panel.layout === 'hero'
+      [styles.scaleUp]: panel.layout === 'hero',
     })
 
     return (
@@ -167,7 +167,7 @@ export class Panel extends Component {
       [styles.hasLink]: panel.onClick,
       [styles.noBorderRadiusTop]: !panel.roundedTop,
       [styles.noBorderRadiusBottom]: !panel.roundedBottom,
-      [styles.noBorderBottom]: !panel.withBorderBottom
+      [styles.noBorderBottom]: !panel.withBorderBottom,
     })
 
     return (

@@ -17,11 +17,11 @@ import {
   getChatsLength,
   getConnection as getChatConnection,
   getNotificationCount,
-  getShowChatHistory
+  getShowChatHistory,
 } from '../chat/chat-selectors'
 import {
   getOfflineFormEnabled,
-  getDelayChatConnectionEnabled
+  getDelayChatConnectionEnabled,
 } from 'src/redux/modules/selectors/chat-linked-selectors'
 import { getDeferredChatHasResponse } from 'src/embeds/chat/selectors'
 import {
@@ -53,7 +53,7 @@ import {
   getSettingsChatEmailTranscriptEnabled,
   getCookiesDisabled,
   getSettingsAnswerBotSuppress,
-  getSettingsSelectTicketFormLabel
+  getSettingsSelectTicketFormLabel,
 } from '../settings/settings-selectors'
 import {
   getEmbeddableConfigEnabled as getTalkEmbeddableConfigEnabled,
@@ -62,7 +62,7 @@ import {
   isCallbackEnabled,
   getPhoneNumber,
   getDeferredStatusOnline,
-  getIsEmbeddedVoiceEnabled
+  getIsEmbeddedVoiceEnabled,
 } from '../talk/talk-selectors'
 import {
   getActiveEmbed,
@@ -87,17 +87,17 @@ import {
   getFormTitleKey,
   getBrand,
   getBackButtonVisible,
-  getHasWidgetShown
+  getHasWidgetShown,
 } from '../base/base-selectors'
 import {
   getCanShowHelpCenterIntroState,
   getHelpCenterAvailable,
-  getHelpCenterReady
+  getHelpCenterReady,
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import {
   getAnswerBotEnabled as getAnswerBotConfigEnabled,
   getButtonLabelKey,
-  getFormTitleKey as getHelpCenterFormTitleKey
+  getFormTitleKey as getHelpCenterFormTitleKey,
 } from 'src/embeds/helpCenter/selectors'
 
 import { settings } from 'service/settings'
@@ -110,7 +110,7 @@ import {
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
   WIDGET_MARGIN,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
-  DEFAULT_WIDGET_HEIGHT
+  DEFAULT_WIDGET_HEIGHT,
 } from 'constants/shared'
 import { CONNECTION_STATUSES } from 'constants/chat'
 import { isPopout } from 'utility/globals'
@@ -127,27 +127,21 @@ export const getTranslation = (translationKey, override) => {
   return i18n.t(translationKey, override)
 }
 
-export const getTalkDescriptionLabel = createSelector(
-  [getLocale],
-  _locale => {
-    const descriptionLabel = getTranslation('embeddable_framework.common.textLabel.description')
+export const getTalkDescriptionLabel = createSelector([getLocale], (_locale) => {
+  const descriptionLabel = getTranslation('embeddable_framework.common.textLabel.description')
 
-    return getTranslation('embeddable_framework.validation.label.new_optional', {
-      label: descriptionLabel
-    })
-  }
-)
+  return getTranslation('embeddable_framework.validation.label.new_optional', {
+    label: descriptionLabel,
+  })
+})
 
-export const getTalkNameLabel = createSelector(
-  [getLocale],
-  _locale => {
-    const nameLabel = getTranslation('embeddable_framework.common.textLabel.name')
+export const getTalkNameLabel = createSelector([getLocale], (_locale) => {
+  const nameLabel = getTranslation('embeddable_framework.common.textLabel.name')
 
-    return getTranslation('embeddable_framework.validation.label.new_optional', {
-      label: nameLabel
-    })
-  }
-)
+  return getTranslation('embeddable_framework.validation.label.new_optional', {
+    label: nameLabel,
+  })
+})
 export const getSettingsHelpCenterTitle = createSelector(
   [getHelpCenterTitle, getLocale, getHelpCenterFormTitleKey],
   (helpCenterTitle, _locale, formTitleKey) => {
@@ -163,7 +157,7 @@ export const getSettingsHelpCenterSearchPlaceholder = createSelector(
     i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help')
 )
 
-export const getHideZendeskLogo = state => {
+export const getHideZendeskLogo = (state) => {
   return getEmbeddableConfig(state).hideZendeskLogo || getAccountSettingsHideBranding(state)
 }
 
@@ -201,7 +195,7 @@ const getWidgetFixedFrameStyles = createSelector(
     getHideZendeskLogo,
     getStandaloneMobileNotificationVisible,
     getIPMWidget,
-    getCanShowHelpCenterIntroState
+    getCanShowHelpCenterIntroState,
   ],
   (
     hideZendeskLogo,
@@ -220,7 +214,7 @@ const getWidgetFixedFrameStyles = createSelector(
 
       return {
         maxHeight: `${height}px`,
-        minHeight: `${height}px`
+        minHeight: `${height}px`,
       }
     }
 
@@ -229,7 +223,7 @@ const getWidgetFixedFrameStyles = createSelector(
         height: `${DEFAULT_WIDGET_HEIGHT + (2 * WIDGET_MARGIN) / FONT_SIZE}rem`,
         bottom: 0,
         top: 'initial',
-        background: 'transparent'
+        background: 'transparent',
       }
     }
 
@@ -237,15 +231,15 @@ const getWidgetFixedFrameStyles = createSelector(
   }
 )
 
-export const getSubmitTicketAvailable = state => {
+export const getSubmitTicketAvailable = (state) => {
   return getSubmitTicketEmbed(state) && !getSettingsContactFormSuppress(state)
 }
 
-const getChannelChoiceEnabled = state => {
+const getChannelChoiceEnabled = (state) => {
   return getSettingsContactOptionsEnabled(state) && getSubmitTicketAvailable(state)
 }
 
-export const getChatOnline = state => !getShowOfflineChat(state)
+export const getChatOnline = (state) => !getShowOfflineChat(state)
 
 export const getChatConnectionSuppressed = createSelector(
   [getIsChatting, getChatConnected, getSettingsChatConnectionSuppress, getCookiesDisabled],
@@ -284,19 +278,20 @@ export const getChatReady = createSelector(
   }
 )
 
-export const getChatOfflineAvailable = state =>
+export const getChatOfflineAvailable = (state) =>
   getChatEnabled(state) &&
   !getChatOnline(state) &&
   getChatEmbed(state) &&
   getOfflineFormEnabled(state) &&
   !getSubmitTicketEmbed(state)
 
-export const getChatAvailable = state => {
+export const getChatAvailable = (state) => {
   const offlineFormOn = getChatOfflineAvailable(state) && !getSettingsChatHideWhenOffline(state)
 
   return getChatEnabled(state) && (getChatOnline(state) || offlineFormOn) && !getChatBanned(state)
 }
-export const getTalkReady = state => !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state)
+export const getTalkReady = (state) =>
+  !getTalkEmbed(state) || getTalkEmbeddableConfigConnected(state)
 
 export const getTalkNickname = createSelector(
   [getSettingsTalkNickname, getTalkConfig],
@@ -314,7 +309,7 @@ export const getTalkAvailable = createSelector(
     getTalkEmbeddableConfigEnabled,
     getPhoneNumber,
     getDeferredStatusOnline,
-    getIsEmbeddedVoiceEnabled
+    getIsEmbeddedVoiceEnabled,
   ],
   (talkEnabled, configEnabled, phoneNumber, deferredTalkOnline, isEmbeddedVoiceEnabled) =>
     talkEnabled &&
@@ -335,7 +330,7 @@ export const getFixedStyles = (state, frame = 'webWidget') => {
   return {}
 }
 
-export const getIsOnInitialDesktopSearchScreen = state => {
+export const getIsOnInitialDesktopSearchScreen = (state) => {
   return !!getFixedStyles(state, 'webWidget').maxHeight
 }
 
@@ -356,7 +351,7 @@ export const getChannelChoiceAvailable = createSelector(
     getTalkOnline,
     getChatAvailable,
     getChatOfflineAvailable,
-    getIsChatting
+    getIsChatting,
   ],
   (
     channelChoiceEnabled,
@@ -414,14 +409,14 @@ const getCoreColor = createSelector(
     getSettingsColorTheme,
     getChatThemeColor,
     getConfigColorBase,
-    getConfigColorText
+    getConfigColorText,
   ],
   (embeddableConfig, settingsColorTheme, chatThemeColor, configColorBase, configColorText) => {
     return embeddableConfig.cp4 && chatThemeColor && chatThemeColor.base
       ? { base: settingsColorTheme || chatThemeColor.base }
       : {
           base: settingsColorTheme || configColorBase,
-          text: configColorText
+          text: configColorText,
         }
   }
 )
@@ -431,7 +426,7 @@ const getWidgetColor = createSelector(
   (coreColor, settingsColors) => {
     return {
       ...settingsColors,
-      ...coreColor
+      ...coreColor,
     }
   }
 )
@@ -442,7 +437,7 @@ export const getShowChatBadgeLauncher = createSelector(
     getChatStandalone,
     getChatOnline,
     getChatBadgeEnabled,
-    getHasWidgetShown
+    getHasWidgetShown,
   ],
   (isMinimizedChatBadge, isChatStandalone, chatOnline, chatBadgeEnabled, hasWidgetShown) => {
     return (
@@ -464,7 +459,7 @@ const getBaseColor = createSelector(
     getConfigColorBase,
     getSettingsColorTheme,
     getChatThemeColor,
-    getEmbeddableConfig
+    getEmbeddableConfig,
   ],
   (
     settingsColor,
@@ -489,15 +484,12 @@ const getTextColor = createSelector(
   }
 )
 
-const getLauncherColor = createSelector(
-  [getBaseColor, getTextColor],
-  (baseColor, textColor) => {
-    return {
-      base: baseColor,
-      launcherText: textColor
-    }
+const getLauncherColor = createSelector([getBaseColor, getTextColor], (baseColor, textColor) => {
+  return {
+    base: baseColor,
+    launcherText: textColor,
   }
-)
+})
 
 export const getColor = (state, frame) => {
   if (frame === 'webWidget') {
@@ -521,12 +513,9 @@ export const getHorizontalPosition = createSelector(
   }
 )
 
-export const getIpmHelpCenterAllowed = createSelector(
-  getHelpCenterEmbed,
-  helpCenterEnabled => {
-    return !helpCenterEnabled
-  }
-)
+export const getIpmHelpCenterAllowed = createSelector(getHelpCenterEmbed, (helpCenterEnabled) => {
+  return !helpCenterEnabled
+})
 
 export const getIsWidgetReady = createSelector(
   [getTalkReady, getChatReady, getHelpCenterReady, getBootupTimeout],
@@ -541,7 +530,7 @@ const getIsChannelAvailable = createSelector(
   }
 )
 
-export const getWebWidgetVisibleOpenAndReady = state => {
+export const getWebWidgetVisibleOpenAndReady = (state) => {
   return (
     getWebWidgetOpen(state) &&
     !getHiddenByHideAPI(state) &&
@@ -556,7 +545,7 @@ export const getLauncherVisible = createSelector(
     getIsChannelAvailable,
     getHiddenByHideAPI,
     getHiddenByActivateAPI,
-    getIsWidgetReady
+    getIsWidgetReady,
   ],
   (launcherVisible, isChannelAvailable, hiddenByHide, hiddenByActivate, isWidgetReady) => {
     return (
@@ -596,7 +585,7 @@ export const getFrameStyle = (state, frame) => {
 
     return {
       marginLeft: margin,
-      marginRight: margin
+      marginRight: margin,
     }
   } else {
     const defaultFrameStyle = {
@@ -606,7 +595,7 @@ export const getFrameStyle = (state, frame) => {
       marginBottom: '10px',
       marginLeft: '20px',
       marginRight: '20px',
-      zIndex: getStylingZIndex(state) - 1
+      zIndex: getStylingZIndex(state) - 1,
     }
 
     if (getShowChatBadgeLauncher(state)) {
@@ -619,7 +608,7 @@ export const getFrameStyle = (state, frame) => {
         marginTop: '7px',
         marginBottom: '7px',
         marginLeft: '7px',
-        marginRight: '7px'
+        marginRight: '7px',
       }
     }
 
@@ -627,14 +616,11 @@ export const getFrameStyle = (state, frame) => {
   }
 }
 
-export const getAttachmentsEnabled = state => {
+export const getAttachmentsEnabled = (state) => {
   return Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
 }
 
-export const getTalkServiceUrl = createSelector(
-  getTalkConfig,
-  config => config.props.serviceUrl
-)
+export const getTalkServiceUrl = createSelector(getTalkConfig, (config) => config.props.serviceUrl)
 
 export const getDeferredTalkApiUrl = createSelector(
   [getTalkServiceUrl, getTalkNickname],
@@ -668,7 +654,7 @@ export const getAnswerBotEnabled = createSelector(
 
 export const getAnswerBotAvailable = getAnswerBotEnabled
 
-export const getChannelAvailable = state => {
+export const getChannelAvailable = (state) => {
   return getSubmitTicketAvailable(state) || getTalkOnline(state) || getChatAvailable(state)
 }
 
@@ -691,13 +677,13 @@ export const getHelpCenterButtonChatLabel = createSelector(
     getSettingsHelpCenterChatButton,
     getNotificationCount,
     getChatOfflineAvailable,
-    getSettingsHelpCenterMessageButton
+    getSettingsHelpCenterMessageButton,
   ],
   (chatButtonLabel, chatNotificationCount, chatOfflineAvailable, messageButtonLabel) => {
     if (chatNotificationCount > 0) {
       return chatNotificationCount > 1
         ? i18n.t('embeddable_framework.common.notification.manyMessages', {
-            plural_number: chatNotificationCount
+            plural_number: chatNotificationCount,
           })
         : i18n.t('embeddable_framework.common.notification.oneMessage')
     } else if (chatOfflineAvailable) {
@@ -717,7 +703,7 @@ export const getHelpCenterButtonLabel = createSelector(
     isCallbackEnabled,
     getContactOptionsButton,
     getHelpCenterButtonChatLabel,
-    getSettingsHelpCenterMessageButton
+    getSettingsHelpCenterMessageButton,
   ],
   (
     isChatting,

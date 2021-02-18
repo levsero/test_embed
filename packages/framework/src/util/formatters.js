@@ -7,11 +7,11 @@ const defaultOptions = {
     day: 'numeric',
     year: 'numeric',
     hour: 'numeric',
-    minute: 'numeric'
+    minute: 'numeric',
   },
   minuteOptions = {
     hour: 'numeric',
-    minute: 'numeric'
+    minute: 'numeric',
   }
 
 export function dateTime(timestamp, options = {}) {
@@ -22,14 +22,14 @@ export function dateTime(timestamp, options = {}) {
     const localMinutes = i18n.dateTimeFormat(timestamp, minuteOptions)
 
     return i18n.t('embeddable_framework.common.today', {
-      time: localMinutes
+      time: localMinutes,
     })
   }
 
   return messageFormattedDate
 }
 
-const isToday = inStamp => {
+const isToday = (inStamp) => {
   const inDate = new Date(inStamp),
     today = new Date()
 

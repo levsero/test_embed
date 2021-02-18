@@ -17,7 +17,7 @@ const mockStore = configureMockStore([thunk])
 test('updateTalkAgentAvailability dispatches TALK_AGENT_AVAILABILITY_SOCKET_EVENT action', () => {
   const expected = {
     type: types.TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-    payload: { agentAvailability: true }
+    payload: { agentAvailability: true },
   }
 
   expect(actions.updateTalkAgentAvailability({ agentAvailability: true })).toEqual(expected)
@@ -30,20 +30,20 @@ test('updateTalkEmbeddableConfig dispatches TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT 
     capability: '0',
     enabled: false,
     nickname: '',
-    phoneNumber: ''
+    phoneNumber: '',
   }
   const action = actions.updateTalkEmbeddableConfig(mockConfig)
 
   expect(action).toEqual({
     type: types.TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-    payload: mockConfig
+    payload: mockConfig,
   })
 })
 
 test('updateTalkAverageWaitTime dispatches TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT action', () => {
   const expected = {
     type: types.TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
-    payload: '5'
+    payload: '5',
   }
 
   expect(actions.updateTalkAverageWaitTime('5')).toEqual(expected)
@@ -51,7 +51,7 @@ test('updateTalkAverageWaitTime dispatches TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT a
 
 test('talkDisconnect dispatches TALK_DISCONNECT_SOCKET_EVENT action', () => {
   const expected = {
-    type: types.TALK_DISCONNECT_SOCKET_EVENT
+    type: types.TALK_DISCONNECT_SOCKET_EVENT,
   }
 
   expect(actions.talkDisconnect()).toEqual(expected)
@@ -62,7 +62,7 @@ test('updateTalkCallMeForm dispatches expected actions', () => {
     phone: '+61423423329',
     name: 'ally',
     email: 'Allly@ally.com',
-    description: 'Pleaseee help me.'
+    description: 'Pleaseee help me.',
   }
   const expected = {
     type: types.UPDATE_CALLBACK_FORM,
@@ -70,8 +70,8 @@ test('updateTalkCallMeForm dispatches expected actions', () => {
       phone: '+61423423329',
       name: 'ally',
       email: 'Allly@ally.com',
-      description: 'Pleaseee help me.'
-    }
+      description: 'Pleaseee help me.',
+    },
   }
 
   expect(actions.updateTalkCallbackForm(formState)).toEqual(expected)
@@ -83,12 +83,12 @@ describe('submitTalkCallbackForm', () => {
         phone: '+61423456789',
         name: 'Johnny',
         email: 'Johnny@john.com',
-        description: 'Please help me.'
+        description: 'Please help me.',
       },
       serviceUrl = 'https://customer.blah.com',
       nickname = 'Support',
       store = mockStore({
-        talk: { formState }
+        talk: { formState },
       })
 
     store.dispatch(actions.submitTalkCallbackForm(serviceUrl, nickname))
@@ -102,12 +102,12 @@ describe('submitTalkCallbackForm', () => {
         phoneNumber: '+61423456789',
         additionalInfo: {
           name: 'Johnny',
-          description: 'Please help me.'
+          description: 'Please help me.',
         },
         subdomain: 'customer',
-        keyword: 'Support'
+        keyword: 'Support',
       },
-      callbacks: { done: expect.any(Function), fail: expect.any(Function) }
+      callbacks: { done: expect.any(Function), fail: expect.any(Function) },
     }
 
     dispatchAction()
@@ -124,9 +124,9 @@ describe('submitTalkCallbackForm', () => {
           phone: '+61423456789',
           name: 'Johnny',
           email: 'Johnny@john.com',
-          description: 'Please help me.'
-        }
-      }
+          description: 'Please help me.',
+        },
+      },
     ])
   })
 
@@ -146,17 +146,17 @@ describe('submitTalkCallbackForm', () => {
           description: 'Please help me.',
           email: 'Johnny@john.com',
           name: 'Johnny',
-          phone: '+61423456789'
-        }
+          phone: '+61423456789',
+        },
       },
       {
         type: types.UPDATE_CALLBACK_FORM,
-        payload: {}
+        payload: {},
       },
       {
         type: baseTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-        payload: false
-      }
+        payload: false,
+      },
     ])
   })
 
@@ -164,13 +164,13 @@ describe('submitTalkCallbackForm', () => {
     const store = dispatchAction()
     const error = {
       response: {
-        text: '{"error": "Invalid phone number"}'
+        text: '{"error": "Invalid phone number"}',
       },
-      status: 422
+      status: 422,
     }
     const expectedError = {
       message: 'Invalid phone number',
-      status: 422
+      status: 422,
     }
     const callback = http.callMeRequest.mock.calls[0][1].callbacks.fail
 
@@ -181,8 +181,8 @@ describe('submitTalkCallbackForm', () => {
     expect(actions).toEqual([
       {
         type: types.TALK_CALLBACK_FAILURE,
-        payload: expectedError
-      }
+        payload: expectedError,
+      },
     ])
   })
 })
@@ -196,17 +196,17 @@ describe('loadTalkVendors', () => {
           base: {
             embeds: { talk: true },
             embeddableConfig: {
-              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: mockNickname } } }
-            }
+              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: mockNickname } } },
+            },
           },
           settings: {
-            talk: { suppress: false }
-          }
+            talk: { suppress: false },
+          },
         })
 
       return {
         store,
-        response: store.dispatch(actions.loadTalkVendors())
+        response: store.dispatch(actions.loadTalkVendors()),
       }
     }
 
@@ -219,7 +219,7 @@ describe('loadTalkVendors', () => {
       expect(action.type).toBe(types.TALK_VENDOR_LOADED)
 
       expect(action.payload).toEqual({
-        io: expect.any(Function)
+        io: expect.any(Function),
       })
     })
 
@@ -253,17 +253,17 @@ describe('loadTalkVendors', () => {
           base: {
             embeds: { talk: true },
             embeddableConfig: {
-              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: '' } } }
-            }
+              embeds: { talk: { props: { serviceUrl: mockServiceUrl, nickname: '' } } },
+            },
           },
           settings: {
-            talk: { suppress: false }
-          }
+            talk: { suppress: false },
+          },
         })
 
       return {
         store,
-        response: store.dispatch(actions.loadTalkVendors())
+        response: store.dispatch(actions.loadTalkVendors()),
       }
     }
 
@@ -278,25 +278,25 @@ describe('loadTalkVendors', () => {
 })
 
 const waitForApi = async () => {
-  await new Promise(res => {
+  await new Promise((res) => {
     res()
   })
-  await new Promise(res => {
+  await new Promise((res) => {
     res()
   })
 }
 
 const waitForTimer = async (time = MAX_TALK_POLL_INTERVAL) => {
-  await new Promise(res => {
+  await new Promise((res) => {
     res()
   })
   jest.advanceTimersByTime(time)
-  await new Promise(res => {
+  await new Promise((res) => {
     res()
   })
 }
 
-const iteration = async time => {
+const iteration = async (time) => {
   await waitForApi()
   await waitForTimer(time)
 }
@@ -306,20 +306,20 @@ describe('pollTalkStatus', () => {
   beforeEach(() => {
     baseSelectors.getDeferredTalkApiUrl = jest.fn(() => 'http://talk/url')
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve({
           body: {
             subdomain: 'support',
             nickname: 'Support',
             availability: true,
-            capability: 0
-          }
+            capability: 0,
+          },
         })
       })
     })
 
     store = mockStore({
-      talk: { isPolling: true }
+      talk: { isPolling: true },
     })
   })
 
@@ -330,8 +330,8 @@ describe('pollTalkStatus', () => {
         availability: true,
         capability: 0,
         nickname: 'Support',
-        subdomain: 'support'
-      }
+        subdomain: 'support',
+      },
     }
 
     store.dispatch(actions.pollTalkStatus())
@@ -371,8 +371,8 @@ describe('pollTalkStatus', () => {
         availability: true,
         capability: 0,
         nickname: 'Support',
-        subdomain: 'support'
-      }
+        subdomain: 'support',
+      },
     }
 
     const mockDispatch = jest.fn(store.dispatch)
@@ -388,7 +388,7 @@ describe('pollTalkStatus', () => {
       [expectedAction],
       [expectedAction],
       [expectedAction],
-      [expectedAction]
+      [expectedAction],
     ])
     mockDispatch.mockClear()
 
@@ -404,7 +404,7 @@ describe('pollTalkStatus', () => {
 test('handleTalkVendorLoaded dispatches expected action', () => {
   const expected = {
     type: types.TALK_VENDOR_LOADED,
-    payload: 'blah'
+    payload: 'blah',
   }
 
   expect(actions.handleTalkVendorLoaded('blah')).toEqual(expected)

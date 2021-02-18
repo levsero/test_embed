@@ -1,6 +1,6 @@
 import {
   GET_IN_TOUCH_SHOWN,
-  GET_IN_TOUCH_CLICKED
+  GET_IN_TOUCH_CLICKED,
 } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 const initialState = false

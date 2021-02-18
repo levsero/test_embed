@@ -4,7 +4,7 @@ import {
   getHasPrevious,
   getHasFetchedConversation,
   fetchPaginatedMessages,
-  getIsFetchingHistory
+  getIsFetchingHistory,
 } from 'src/apps/messenger/features/messageLog/store'
 
 import useSafeState from 'src/hooks/useSafeState'
@@ -25,7 +25,7 @@ const useFetchMessages = ({ messages, container }) => {
         cursor: messages[0]?.received,
         callback: () => {
           setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
-        }
+        },
       })
     )
   }
@@ -61,7 +61,7 @@ const useFetchMessages = ({ messages, container }) => {
           cursor: messages[0].received,
           callback: () => {
             setScrollHeightOnHistoryFetch(container?.current?.scrollHeight)
-          }
+          },
         })
       )
     }
@@ -70,7 +70,7 @@ const useFetchMessages = ({ messages, container }) => {
 
   return {
     onScrollTop,
-    retryFetchMessages
+    retryFetchMessages,
   }
 }
 

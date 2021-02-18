@@ -10,7 +10,7 @@ import Header from '../'
 describe('Header', () => {
   const defaultProps = {
     title: undefined,
-    children: <div>Some child component</div>
+    children: <div>Some child component</div>,
   }
 
   const renderComponent = (props = {}) => render(<Header {...defaultProps} {...props} />)

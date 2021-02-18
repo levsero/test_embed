@@ -1,6 +1,6 @@
-const getCheckboxFields = fields => fields.filter(field => field.type === 'checkbox')
+const getCheckboxFields = (fields) => fields.filter((field) => field.type === 'checkbox')
 
-const getNonCheckboxFields = fields => fields.filter(field => field.type !== 'checkbox')
+const getNonCheckboxFields = (fields) => fields.filter((field) => field.type !== 'checkbox')
 
 const convertFieldValue = (type, value) => {
   switch (type) {
@@ -13,11 +13,11 @@ const convertFieldValue = (type, value) => {
   }
 }
 
-const getSortedFields = fields => getNonCheckboxFields(fields).concat(getCheckboxFields(fields))
+const getSortedFields = (fields) => getNonCheckboxFields(fields).concat(getCheckboxFields(fields))
 
 const getFieldIdFromKeyID = (ticketFields, keyID) => {
   let outKey = null
-  ticketFields.forEach(field => {
+  ticketFields.forEach((field) => {
     if (field.keyID === keyID) outKey = `${field.id}`
   })
 
@@ -29,5 +29,5 @@ export {
   getCheckboxFields,
   getNonCheckboxFields,
   getFieldIdFromKeyID,
-  getSortedFields
+  getSortedFields,
 }

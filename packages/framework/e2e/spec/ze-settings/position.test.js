@@ -4,12 +4,12 @@ import widget from 'e2e/helpers/widget'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 import { wait } from 'pptr-testing-library'
 
-const getPosition = async selector => {
-  return await page.evaluate(iframe => {
+const getPosition = async (selector) => {
+  return await page.evaluate((iframe) => {
     const frame = document.querySelector(iframe)
     return {
       top: frame.style.top,
-      left: frame.style.left
+      left: frame.style.left,
     }
   }, selector)
 }
@@ -20,15 +20,15 @@ test('override left and top positions for launcher and frame', async () => {
     .evaluateOnNewDocument(() => {
       window.zESettings = {
         webWidget: {
-          position: { horizontal: 'left', vertical: 'top' }
-        }
+          position: { horizontal: 'left', vertical: 'top' },
+        },
       }
     })
     .load()
   await wait(async () =>
     expect(await getPosition(launcher.selector)).toEqual({
       top: '0px',
-      left: '0px'
+      left: '0px',
     })
   )
   await launcher.click()
@@ -36,7 +36,7 @@ test('override left and top positions for launcher and frame', async () => {
   await wait(async () => {
     expect(await getPosition(widget.selector)).toEqual({
       top: '0px',
-      left: '0px'
+      left: '0px',
     })
   })
 })

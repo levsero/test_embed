@@ -11,5 +11,5 @@ export {
   conversationScrollChanged,
   conversationScreenClosed,
   getInTouchShown,
-  getInTouchClicked
+  getInTouchClicked,
 }

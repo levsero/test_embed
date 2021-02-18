@@ -21,14 +21,14 @@ const mockState = {
   base: {
     hasWidgetShown: false,
     embeds: {
-      chat: {}
-    }
-  }
+      chat: {},
+    },
+  },
 }
 
 const mockStore = configureMockStore([thunk])
 
-const dispatchAction = action => {
+const dispatchAction = (action) => {
   const store = mockStore(mockState)
 
   store.dispatch(action)
@@ -40,7 +40,7 @@ describe('onCancelClick', () => {
   const setEmbedAvailability = ({
     answerBotAvailable = true,
     helpCenterAvailable = true,
-    channelChoiceAvailable = true
+    channelChoiceAvailable = true,
   }) => {
     jest.spyOn(selectors, 'getAnswerBotAvailable').mockReturnValue(answerBotAvailable)
     jest.spyOn(selectors, 'getHelpCenterAvailable').mockReturnValue(helpCenterAvailable)
@@ -55,12 +55,12 @@ describe('onCancelClick', () => {
       expect(dispatchedActions).toEqual([
         {
           type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-          payload: false
+          payload: false,
         },
         {
           type: actionTypes.UPDATE_ACTIVE_EMBED,
-          payload: 'answerBot'
-        }
+          payload: 'answerBot',
+        },
       ])
 
       expect(history.replace).toHaveBeenCalledWith('/')
@@ -79,12 +79,12 @@ describe('onCancelClick', () => {
       expect(dispatchedActions).toEqual([
         {
           type: actionTypes.UPDATE_ACTIVE_EMBED,
-          payload: 'helpCenterForm'
+          payload: 'helpCenterForm',
         },
         {
           type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-          payload: true
-        }
+          payload: true,
+        },
       ])
     })
 
@@ -110,19 +110,19 @@ describe('onCancelClick', () => {
       setEmbedAvailability({
         answerBotAvailable: false,
         helpCenterAvailable: false,
-        channelChoiceAvailable: true
+        channelChoiceAvailable: true,
       })
       const dispatchedActions = dispatchAction(actions.onCancelClick())
 
       expect(dispatchedActions).toEqual([
         {
           type: actionTypes.UPDATE_ACTIVE_EMBED,
-          payload: 'channelChoice'
+          payload: 'channelChoice',
         },
         {
           type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-          payload: false
-        }
+          payload: false,
+        },
       ])
     })
   })
@@ -132,14 +132,14 @@ describe('onCancelClick', () => {
       setEmbedAvailability({
         channelChoiceAvailable: false,
         answerBotAvailable: false,
-        helpCenterAvailable: false
+        helpCenterAvailable: false,
       })
       const dispatchedActions = dispatchAction(actions.onCancelClick())
 
       expect(dispatchedActions).toEqual([
         {
-          type: actionTypes.CANCEL_BUTTON_CLICKED
-        }
+          type: actionTypes.CANCEL_BUTTON_CLICKED,
+        },
       ])
     })
   })
@@ -151,7 +151,7 @@ describe('updateActiveEmbed', () => {
 
     expect(dispatchedActions[0]).toEqual({
       type: actionTypes.UPDATE_ACTIVE_EMBED,
-      payload: 'chat'
+      payload: 'chat',
     })
   })
 })
@@ -162,7 +162,7 @@ describe('updateBackButtonVisibility', () => {
 
     expect(dispatchedActions[0]).toEqual({
       type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-      payload: true
+      payload: true,
     })
   })
 })
@@ -178,7 +178,7 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: 'channelChoice'
+        payload: 'channelChoice',
       })
     })
 
@@ -210,7 +210,7 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: 'chat'
+        payload: 'chat',
       })
     })
 
@@ -233,7 +233,7 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: 'talk'
+        payload: 'talk',
       })
     })
 
@@ -256,7 +256,7 @@ describe('onHelpCenterNextClick', () => {
 
       expect(dispatchedActions[0]).toEqual({
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: 'ticketSubmissionForm'
+        payload: 'ticketSubmissionForm',
       })
     })
 
@@ -287,7 +287,7 @@ describe('onHelpCenterNextClick', () => {
     const dispatchedActions = dispatchAction(actions.onHelpCenterNextClick())
 
     expect(dispatchedActions[1]).toEqual({
-      type: actionTypes.NEXT_BUTTON_CLICKED
+      type: actionTypes.NEXT_BUTTON_CLICKED,
     })
   })
 })
@@ -298,7 +298,7 @@ describe('showChat', () => {
 
     expect(dispatchedActions[0]).toEqual({
       type: actionTypes.UPDATE_ACTIVE_EMBED,
-      payload: 'chat'
+      payload: 'chat',
     })
   })
 
@@ -307,7 +307,7 @@ describe('showChat', () => {
 
     expect(dispatchedActions[1]).toEqual({
       type: UPDATE_CHAT_SCREEN,
-      payload: { screen: CHATTING_SCREEN }
+      payload: { screen: CHATTING_SCREEN },
     })
   })
 
@@ -324,7 +324,7 @@ describe('onChannelChoiceNextClick', () => {
 
     expect(dispatchedActions[0]).toEqual({
       type: actionTypes.UPDATE_BACK_BUTTON_VISIBILITY,
-      payload: true
+      payload: true,
     })
   })
 
@@ -333,7 +333,7 @@ describe('onChannelChoiceNextClick', () => {
 
     expect(dispatchedActions[1]).toEqual({
       type: actionTypes.UPDATE_ACTIVE_EMBED,
-      payload: 'chat'
+      payload: 'chat',
     })
   })
 
@@ -342,7 +342,7 @@ describe('onChannelChoiceNextClick', () => {
 
     expect(dispatchedActions[1]).toEqual({
       type: actionTypes.UPDATE_ACTIVE_EMBED,
-      payload: 'talk'
+      payload: 'talk',
     })
   })
 

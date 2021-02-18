@@ -8,7 +8,7 @@ import {
   ProactiveContainer,
   StyledAvatar,
   AgentName,
-  AgentMessage
+  AgentMessage,
 } from './styles'
 
 import { locals as styles } from './styles.scss'
@@ -22,16 +22,16 @@ export default class NotificationPopup extends Component {
       proactive: PropTypes.bool,
       avatar_path: PropTypes.string,
       display_name: PropTypes.string,
-      msg: PropTypes.string
+      msg: PropTypes.string,
     }).isRequired,
     resultsCount: PropTypes.number.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
-    chatNotificationRespond: PropTypes.func.isRequired
+    chatNotificationRespond: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isMobile: false,
-    resultsCount: 0
+    resultsCount: 0,
   }
 
   constructor() {
@@ -40,17 +40,20 @@ export default class NotificationPopup extends Component {
     this.agentMessage = null
   }
 
-  renderAgentName = agentName => {
+  renderAgentName = (agentName) => {
     if (agentName === '') return null
 
     return <AgentName>{agentName}</AgentName>
   }
 
-  renderAgentMessage = message => {
+  renderAgentMessage = (message) => {
     const { scrollHeight, clientHeight } = this.agentMessage || {}
 
     return (
-      <AgentMessage ref={el => (this.agentMessage = el)} hasOverflow={scrollHeight > clientHeight}>
+      <AgentMessage
+        ref={(el) => (this.agentMessage = el)}
+        hasOverflow={scrollHeight > clientHeight}
+      >
         {message}
       </AgentMessage>
     )
@@ -67,7 +70,7 @@ export default class NotificationPopup extends Component {
       avatar_path: avatarPath,
       display_name: displayName,
       proactive,
-      msg
+      msg,
     } = this.props.notification // eslint-disable-line camelcase
     const noAvatar = avatarPath === ''
 
@@ -88,7 +91,7 @@ export default class NotificationPopup extends Component {
       chatNotificationDismissed,
       chatNotificationRespond,
       isMobile,
-      resultsCount
+      resultsCount,
     } = this.props
     const { proactive } = notification
     const hasArticleResults = resultsCount > 0
@@ -96,7 +99,7 @@ export default class NotificationPopup extends Component {
       [styles.proactiveNotificationMobile]: proactive && isMobile,
       [styles.ongoingNotificationDesktop]: hasArticleResults && !proactive && !isMobile,
       [styles.ongoingNotificationMobile]: !proactive && isMobile,
-      [styles.ongoingNotificationNoResultsDesktop]: !hasArticleResults && !proactive && !isMobile
+      [styles.ongoingNotificationNoResultsDesktop]: !hasArticleResults && !proactive && !isMobile,
     })
 
     return (

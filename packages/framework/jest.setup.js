@@ -5,11 +5,11 @@ import 'jest-styled-components'
 import 'mutationobserver-shim'
 
 jest.mock('translation/ze_localeIdMap', () => require('translation/__mocks__/ze_localeIdMap'), {
-  virtual: true
+  virtual: true,
 })
 
 jest.mock('translation/ze_countries', () => require('translation/__mocks__/ze_countries'), {
-  virtual: true
+  virtual: true,
 })
 
 jest.mock('src/redux/middleware/preventLoops/index')
@@ -23,13 +23,14 @@ global.noop = () => {}
 
 const mockMedia = () => ({
   matches: false,
-  addListener: function() {},
-  removeListener: function() {}
+  addListener: function () {},
+  removeListener: function () {},
 })
 
 // setup needed for react-slick mocks
 window.matchMedia = window.matchMedia || mockMedia
-window.requestAnimationFrame = window.requestAnimationFrame || (callback => setTimeout(callback, 0))
+window.requestAnimationFrame =
+  window.requestAnimationFrame || ((callback) => setTimeout(callback, 0))
 
 // setup needed for popper.js
 document.createRange = () => ({
@@ -37,8 +38,8 @@ document.createRange = () => ({
   setEnd: () => {},
   commonAncestorContainer: {
     nodeName: 'BODY',
-    ownerDocument: document
-  }
+    ownerDocument: document,
+  },
 })
 
 document.zendeskHost = 'testingHost'
@@ -63,10 +64,10 @@ beforeAll(() => {
 // Hack for avoiding OOM errors when rendering resizable text areas
 const actuallyGetComputedStyle = window.getComputedStyle
 
-window.getComputedStyle = jest.fn().mockImplementation(arg => {
+window.getComputedStyle = jest.fn().mockImplementation((arg) => {
   if (arg.type === 'textarea' && arg.hasAttribute('data-garden-id')) {
     return {
-      getPropertyValue: () => {}
+      getPropertyValue: () => {},
     }
   } else {
     return actuallyGetComputedStyle(arg)
@@ -78,6 +79,6 @@ afterAll(() => {
 })
 /* eslint-enable no-console */
 
-process.on('unhandledRejection', function(err, promise) {
+process.on('unhandledRejection', function (err, promise) {
   console.error('Unhandled rejection (promise: ', promise, ', reason: ', err, ').') // eslint-disable-line no-console
 })

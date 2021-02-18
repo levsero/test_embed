@@ -2,7 +2,7 @@ import {
   CLEARED_FORM_STATES,
   SET_FORM_STATE,
   TICKET_SUBMISSION_REQUEST_SUCCESS,
-  CLEARED_FORM_STATE
+  CLEARED_FORM_STATE,
 } from 'src/embeds/support/actions/action-types'
 import { API_CLEAR_FORM, API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
@@ -15,7 +15,7 @@ const formStates = (state = initialState, action = {}) => {
     case SET_FORM_STATE:
       return {
         ...state,
-        [payload.name]: payload.newFormState
+        [payload.name]: payload.newFormState,
       }
     case CLEARED_FORM_STATES:
       return initialState

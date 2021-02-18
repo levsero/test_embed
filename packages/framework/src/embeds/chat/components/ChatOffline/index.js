@@ -12,7 +12,7 @@ import OperatingHoursPage from 'src/embeds/chat/pages/OperatingHoursPage'
 
 const ChatOffline = ({
   formSettings: { enabled: offlineFormEnabled = false },
-  offlineMessage: { screen }
+  offlineMessage: { screen },
 }) => {
   if (screen === OFFLINE_FORM_SCREENS.OPERATING_HOURS) return <OperatingHoursPage />
 
@@ -22,20 +22,15 @@ const ChatOffline = ({
 ChatOffline.propTypes = {
   formSettings: PropTypes.shape({ enabled: PropTypes.bool }).isRequired,
   offlineMessage: PropTypes.shape({
-    screen: PropTypes.oneOf(Object.values(OFFLINE_FORM_SCREENS))
-  })
+    screen: PropTypes.oneOf(Object.values(OFFLINE_FORM_SCREENS)),
+  }),
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   formSettings: getOfflineFormSettings(state),
-  offlineMessage: getOfflineMessage(state)
+  offlineMessage: getOfflineMessage(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  null,
-  null,
-  { forwardRef: true }
-)(ChatOffline)
+const connectedComponent = connect(mapStateToProps, null, null, { forwardRef: true })(ChatOffline)
 
 export { connectedComponent as default, ChatOffline as Component }

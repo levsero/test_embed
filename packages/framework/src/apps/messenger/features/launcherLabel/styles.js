@@ -6,8 +6,8 @@ import { dirStyles } from '@zendesk/conversation-components'
 
 const LauncherLabelButton = styled.button`
   border: 0;
-  background: ${props => props.theme.messenger.colors.otherParticipantMessage};
-  color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
+  background: ${(props) => props.theme.messenger.colors.otherParticipantMessage};
+  color: ${(props) => props.theme.messenger.colors.otherParticipantMessageText};
   border-radius: 20px;
   box-shadow: rgba(36, 36, 36, 0.1) 0px 8px 16px 0px, rgba(36, 36, 36, 0.04) 0px 1px 4px 0px;
   display: flex;
@@ -33,7 +33,7 @@ const CloseButton = styled(LauncherLabelButton)`
 
   margin-right: 4px;
 
-  ${props =>
+  ${(props) =>
     props.position === 'left' &&
     `
   margin-left: 4px;
@@ -75,7 +75,7 @@ const Content = styled.div`
   display: inline-flex;
   flex-direction: ${dirStyles.swap('row', 'row-reverse')};
 
-  ${props =>
+  ${(props) =>
     props.position === 'left' &&
     css`
       flex-direction: ${dirStyles.swap('row-reverse', 'row')};
@@ -85,9 +85,9 @@ const Content = styled.div`
 const Label = styled(LauncherLabelButton)`
   padding: 10px 12px;
   background-color: rgb(244, 246, 248);
-  font-size: ${props => props.theme.fontSizes.md};
+  font-size: ${(props) => props.theme.fontSizes.md};
   position: relative;
-  line-height: ${props => props.theme.lineHeights.md};
+  line-height: ${(props) => props.theme.lineHeights.md};
   max-width: 240px;
   min-width: 120px;
 `
@@ -98,9 +98,9 @@ const Tail = styled(TailSVG)`
   top: calc(100% + 2px);
   height: 12px;
   width: 12px;
-  ${props => `${props.position === 'left' ? 'right' : 'left'}: 20px`};
+  ${(props) => `${props.position === 'left' ? 'right' : 'left'}: 20px`};
 
-  ${props =>
+  ${(props) =>
     props.position === 'left' &&
     `
     flex-direction: row-reverse;
@@ -115,7 +115,7 @@ const TriangleShadow = styled.div`
   height: 5px;
   width: 5px;
   box-shadow: 0 6px 10px 2px rgba(36, 36, 36, 0.2);
-  ${props => `${props.position === 'left' ? 'right' : 'left'}: 20px`};
+  ${(props) => `${props.position === 'left' ? 'right' : 'left'}: 20px`};
 `
 
 const CloseIcon = styled(CloseSVG)``

@@ -11,7 +11,7 @@ const performImageSearch = jest.fn(),
   addRestrictedImage = jest.fn(),
   goBackSpy = jest.fn()
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     article,
     addRestrictedImage,
@@ -27,7 +27,7 @@ const renderComponent = inProps => {
     closeCurrentArticle: closeCurrentArticleSpy,
     handleArticleView: handleArticleViewSpy,
     history: { length: 2, goBack: goBackSpy },
-    ...inProps
+    ...inProps,
   }
 
   return render(<ArticlePage {...props} />)

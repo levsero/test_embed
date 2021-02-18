@@ -4,11 +4,11 @@ import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'src/constants/shared'
 import ChatLogFooter from '../'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const defaultProps = {
     agentsTyping: [],
     isMobile: true,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
   }
   return render(<ChatLogFooter {...defaultProps} {...inProps} />)
 }
@@ -18,7 +18,7 @@ describe('Agent Typing Indicator', () => {
     describe('one agent', () => {
       it('renders single agent indicator', () => {
         const { queryByTestId, getByText } = renderComponent({
-          agentsTyping: [{ display_name: 'bob' }]
+          agentsTyping: [{ display_name: 'bob' }],
         })
 
         expect(queryByTestId(TEST_IDS.ICON_ELLIPSIS)).toBeInTheDocument()
@@ -29,7 +29,7 @@ describe('Agent Typing Indicator', () => {
     describe('two agents', () => {
       it('renders double agent indicators', () => {
         const { queryByTestId, getByText } = renderComponent({
-          agentsTyping: [{ display_name: 'bob' }, { display_name: 'jane' }]
+          agentsTyping: [{ display_name: 'bob' }, { display_name: 'jane' }],
         })
 
         expect(queryByTestId(TEST_IDS.ICON_ELLIPSIS)).toBeInTheDocument()
@@ -43,8 +43,8 @@ describe('Agent Typing Indicator', () => {
           agentsTyping: [
             { display_name: 'bob' },
             { display_name: 'jane' },
-            { display_name: 'suzie' }
-          ]
+            { display_name: 'suzie' },
+          ],
         })
 
         expect(queryByTestId(TEST_IDS.ICON_ELLIPSIS)).toBeInTheDocument()
@@ -75,14 +75,14 @@ describe('Zendesk Logo', () => {
       [false, false, []],
       [true, true, [{ display_name: 'suzie' }]],
       [true, true, []],
-      [true, false, [{ display_name: 'suzie' }]]
+      [true, false, [{ display_name: 'suzie' }]],
     ])(
       'isMobile is %p, hideZendeskLogo is %p, agentsTyping is %p, expect no zendesk icon',
       (isMobile, hideZendeskLogo, agentsTyping) => {
         const { queryByTestId } = renderComponent({
           isMobile,
           hideZendeskLogo,
-          agentsTyping
+          agentsTyping,
         })
 
         expect(queryByTestId(TEST_IDS.ICON_ZENDESK)).toBeNull()

@@ -15,7 +15,7 @@ const ContactDetailField = ({
   label,
   name,
   testId,
-  shouldFocusOnMount = false
+  shouldFocusOnMount = false,
 }) => {
   const translate = useTranslate()
   const [hasFocused, setHasFocused] = useSafeState(false)
@@ -31,8 +31,8 @@ const ContactDetailField = ({
             name={input.name}
             disabled={isAuthenticated}
             validation={meta.error ? 'error' : undefined}
-            onChange={value => input.onChange(value)}
-            ref={ref => {
+            onChange={(value) => input.onChange(value)}
+            ref={(ref) => {
               if (shouldFocusOnMount && !hasFocused)
                 setTimeout(() => {
                   ref?.focus()
@@ -54,7 +54,7 @@ ContactDetailField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
-  shouldFocusOnMount: PropTypes.bool
+  shouldFocusOnMount: PropTypes.bool,
 }
 
 export default ContactDetailField

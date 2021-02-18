@@ -26,14 +26,14 @@ describe('ChatGroup component', () => {
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS
     TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
     i18n = {
-      t: jasmine.createSpy().and.callFake(key => {
+      t: jasmine.createSpy().and.callFake((key) => {
         return key
-      })
+      }),
     }
 
     initMockRegistry({
       'types/chat': {
-        chatMessage: 'chatMessage'
+        chatMessage: 'chatMessage',
       },
       'component/Icon': { Icon },
       'component/Avatar': { Avatar },
@@ -46,18 +46,18 @@ describe('ChatGroup component', () => {
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES,
-        CHAT_STRUCTURED_CONTENT_TYPE
+        CHAT_STRUCTURED_CONTENT_TYPE,
       },
       'src/constants/shared': {
         ICONS,
         FILETYPE_ICONS,
-        TEST_IDS
+        TEST_IDS,
       },
       'src/redux/modules/chat/chat-selectors': {
-        getGroupMessages: noop
+        getGroupMessages: noop,
       },
       'src/apps/webWidget/services/i18n': {
-        i18n
+        i18n,
       },
       './ChatGroup.scss': {
         locals: {
@@ -74,9 +74,9 @@ describe('ChatGroup component', () => {
           nameNoAvatar: 'nameNoAvatarClass',
           fadeIn: 'fadeInClass',
           fadeUp: 'fadeUpClass',
-          structuredMessageContainer: 'structuredMessageContainerClass'
-        }
-      }
+          structuredMessageContainer: 'structuredMessageContainerClass',
+        },
+      },
     })
 
     mockery.registerAllowable(chatGroupPath)
@@ -114,8 +114,8 @@ describe('ChatGroup component', () => {
             type: 'chat.msg',
             nick: 'visitor',
             display_name: 'Visitor 123',
-            msg: 'Hello'
-          }
+            msg: 'Hello',
+          },
         ]
       })
 
@@ -135,8 +135,8 @@ describe('ChatGroup component', () => {
             {
               type: 'chat.msg',
               nick: 'agent:123',
-              msg: 'Hello'
-            }
+              msg: 'Hello',
+            },
           ]
         })
 
@@ -153,8 +153,8 @@ describe('ChatGroup component', () => {
               nick: 'agent:123',
               display_name: 'Agent 123',
               msg: 'Hello',
-              timestamp: fakeTimestamp
-            }
+              timestamp: fakeTimestamp,
+            },
           ]
         })
 
@@ -189,7 +189,7 @@ describe('ChatGroup component', () => {
           beforeEach(() => {
             showAvatar = true
             renderName = getComponentMethod('renderName', {
-              chatLogCreatedAt: fakeTimestamp + 1
+              chatLogCreatedAt: fakeTimestamp + 1,
             })
             result = renderName(isAgent, showAvatar, messages)
           })
@@ -217,14 +217,14 @@ describe('ChatGroup component', () => {
         const handleSendMsgSpy = jasmine.createSpy('handleSendMsg')
 
         componentProps = {
-          handleSendMsg: handleSendMsgSpy
+          handleSendMsg: handleSendMsgSpy,
         }
         chat = {
           msg: 'Hello how can I help you today?',
           options: ['foo', 'bar'],
           translation: {
-            msg: 'someTranslatedMessage'
-          }
+            msg: 'someTranslatedMessage',
+          },
         }
       })
 
@@ -265,7 +265,7 @@ describe('ChatGroup component', () => {
       beforeAll(() => {
         chat = {
           msg: 'An unexpected problem has occurred with your request.',
-          options: ['foo']
+          options: ['foo'],
         }
         isAgent = true
         showAvatar = true
@@ -278,13 +278,13 @@ describe('ChatGroup component', () => {
           handleSendMsgSpy = jasmine.createSpy('handleSendMsg')
 
           componentArgs = {
-            handleSendMsg: handleSendMsgSpy
+            handleSendMsg: handleSendMsgSpy,
           }
           chat = {
             numFailedTries: 1,
             msg: 'An unexpected problem has occurred with your request.',
             options: ['foo'],
-            timestamp: 1525309837209
+            timestamp: 1525309837209,
           }
         })
 
@@ -313,11 +313,11 @@ describe('ChatGroup component', () => {
           handleSendMsgSpy = jasmine.createSpy('handleSendMsg')
 
           componentArgs = {
-            handleSendMsg: handleSendMsgSpy
+            handleSendMsg: handleSendMsgSpy,
           }
           chat = {
             numFailedTries: 0,
-            msg: 'An unexpected problem has occurred with your request.'
+            msg: 'An unexpected problem has occurred with your request.',
           }
         })
 
@@ -443,8 +443,8 @@ describe('ChatGroup component', () => {
             nick: 'visitor',
             display_name: 'Visitor 123',
             msg: 'Hello, I would like these pancakes please:',
-            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
-          }
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
+          },
         ]
       })
 
@@ -465,7 +465,7 @@ describe('ChatGroup component', () => {
       CHAT_STRUCTURED_CONTENT_TYPE.CHAT_STRUCTURED_MESSAGE_TYPE
     )
 
-    structuredMessageTypes.forEach(structuredMessageType => {
+    structuredMessageTypes.forEach((structuredMessageType) => {
       describe(`when messages contain a chat.msg with ${structuredMessageType} structured message`, () => {
         beforeAll(() => {
           isAgent = true
@@ -478,9 +478,9 @@ describe('ChatGroup component', () => {
               structured_msg: {
                 type: structuredMessageType,
                 other_schema_prop: 'prop_1',
-                another_schema_prop: 'prop_2'
-              }
-            }
+                another_schema_prop: 'prop_2',
+              },
+            },
           ]
         })
 
@@ -506,7 +506,7 @@ describe('ChatGroup component', () => {
 
     const carouselTypes = _.values(CHAT_STRUCTURED_CONTENT_TYPE.CAROUSEL)
 
-    carouselTypes.forEach(carouselType => {
+    carouselTypes.forEach((carouselType) => {
       describe(`when messages contain a chat.msg with ${carouselType} structured message`, () => {
         beforeAll(() => {
           isAgent = true
@@ -518,9 +518,9 @@ describe('ChatGroup component', () => {
               msg: 'Hi! Welcome to Zendesk!',
               structured_msg: {
                 type: carouselType,
-                items: ['hi']
-              }
-            }
+                items: ['hi'],
+              },
+            },
           ]
         })
 
@@ -550,9 +550,9 @@ describe('ChatGroup component', () => {
             structured_msg: {
               type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
               msg: "Quick replies' message",
-              quick_replies: [{}, {}]
-            }
-          }
+              quick_replies: [{}, {}],
+            },
+          },
         ]
       })
 
@@ -571,8 +571,8 @@ describe('ChatGroup component', () => {
             structured_msg: {
               type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
               msg: "Quick replies' message",
-              quick_replies: [{}, {}]
-            }
+              quick_replies: [{}, {}],
+            },
           },
           true,
           false
@@ -591,9 +591,9 @@ describe('ChatGroup component', () => {
               name: 'pancakes.jpg',
               size: 1024,
               uploading: false,
-              url: 'path://to/file'
-            }
-          }
+              url: 'path://to/file',
+            },
+          },
         ]
       })
 
@@ -615,7 +615,7 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           componentArgs = {
             showAvatar: true,
-            isAgent: true
+            isAgent: true,
           }
           messages = [
             {
@@ -623,8 +623,8 @@ describe('ChatGroup component', () => {
               nick: 'agent:123',
               display_name: 'Agent 123',
               msg: 'Sure. Here is the bill:',
-              timestamp: fakeTimestamp
-            }
+              timestamp: fakeTimestamp,
+            },
           ]
         })
 
@@ -642,7 +642,7 @@ describe('ChatGroup component', () => {
           componentArgs = {
             showAvatar: true,
             isAgent: false,
-            socialLogin: { avatarPath: 'path/to/avatar' }
+            socialLogin: { avatarPath: 'path/to/avatar' },
           }
           messages = [
             {
@@ -650,8 +650,8 @@ describe('ChatGroup component', () => {
               nick: 'chatsta',
               display_name: 'Chat Gangsta',
               msg: 'Help me out yo',
-              timestamp: fakeTimestamp
-            }
+              timestamp: fakeTimestamp,
+            },
           ]
         })
 
@@ -668,7 +668,7 @@ describe('ChatGroup component', () => {
     describe('when the message is old', () => {
       beforeAll(() => {
         componentArgs = {
-          chatLogCreatedAt: fakeTimestamp + 1
+          chatLogCreatedAt: fakeTimestamp + 1,
         }
         isAgent = true
         messages = [
@@ -677,8 +677,8 @@ describe('ChatGroup component', () => {
             nick: 'agent:123',
             display_name: 'Agent 123',
             msg: 'Sure. Here is the bill:',
-            timestamp: fakeTimestamp
-          }
+            timestamp: fakeTimestamp,
+          },
         ]
       })
 
@@ -712,8 +712,8 @@ describe('ChatGroup component', () => {
               type: 'application/pdf',
               name: 'invoice.pdf',
               size: 1024,
-              url: 'path://to/file'
-            }
+              url: 'path://to/file',
+            },
           }
         })
 
@@ -726,7 +726,7 @@ describe('ChatGroup component', () => {
             jasmine.objectContaining({
               downloading: false,
               file: chat.file,
-              isDownloadable: true
+              isDownloadable: true,
             })
           )
         })
@@ -740,8 +740,8 @@ describe('ChatGroup component', () => {
               type: 'image/jpeg',
               name: 'penguins.jpg',
               size: 1024,
-              url: 'path://to/image'
-            }
+              url: 'path://to/image',
+            },
           }
         })
 
@@ -756,7 +756,7 @@ describe('ChatGroup component', () => {
         it('renders the component without a placeholder element', () => {
           expect(result.props).toEqual(
             jasmine.objectContaining({
-              placeholderEl: null
+              placeholderEl: null,
             })
           )
         })
@@ -776,8 +776,8 @@ describe('ChatGroup component', () => {
               type: 'application/pdf',
               name: 'manual.pdf',
               size: 1024,
-              url: 'path://to/file'
-            }
+              url: 'path://to/file',
+            },
           }
         })
 
@@ -790,7 +790,7 @@ describe('ChatGroup component', () => {
             jasmine.objectContaining({
               downloading: false,
               file: chat.file,
-              isDownloadable: true
+              isDownloadable: true,
             })
           )
         })
@@ -807,8 +807,8 @@ describe('ChatGroup component', () => {
                   name: 'funnycat.gif',
                   size: 512,
                   error: { key: 'value' },
-                  uploading: false
-                }
+                  uploading: false,
+                },
               }
             })
 
@@ -833,8 +833,8 @@ describe('ChatGroup component', () => {
                     name: 'sketchy.zip',
                     size: 512,
                     error: { message: 'INVALID_EXTENSION' },
-                    uploading: false
-                  }
+                    uploading: false,
+                  },
                 }
               })
 
@@ -856,7 +856,7 @@ describe('ChatGroup component', () => {
                     downloading: false,
                     file: chat.file,
                     isDownloadable: false,
-                    uploading: false
+                    uploading: false,
                   })
                 )
               })
@@ -868,7 +868,7 @@ describe('ChatGroup component', () => {
               it('passes the correct props to the MessageError component', () => {
                 expect(children[1].props).toEqual(
                   jasmine.objectContaining({
-                    errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension'
+                    errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension',
                   })
                 )
               })
@@ -885,8 +885,8 @@ describe('ChatGroup component', () => {
                     name: 'funnycat.gif',
                     size: 512,
                     error: { message: 'DERPY DERP' },
-                    uploading: false
-                  }
+                    uploading: false,
+                  },
                 }
               })
 
@@ -897,7 +897,7 @@ describe('ChatGroup component', () => {
               it('falls back to a default "something went wrong" error message', () => {
                 expect(children[1].props).toEqual(
                   jasmine.objectContaining({
-                    errorMessage: 'embeddable_framework.chat.attachments.error.unknown_error'
+                    errorMessage: 'embeddable_framework.chat.attachments.error.unknown_error',
                   })
                 )
               })
@@ -915,8 +915,8 @@ describe('ChatGroup component', () => {
                 type: 'image/jpeg',
                 name: 'tortoises.jpg',
                 size: 1024,
-                uploading: true
-              }
+                uploading: true,
+              },
             }
           })
 
@@ -930,7 +930,7 @@ describe('ChatGroup component', () => {
                 downloading: false,
                 file: chat.file,
                 isDownloadable: false,
-                uploading: true
+                uploading: true,
               })
             )
           })
@@ -945,8 +945,8 @@ describe('ChatGroup component', () => {
                 name: 'tortoises.jpg',
                 size: 1024,
                 url: 'path://to/file',
-                uploading: false
-              }
+                uploading: false,
+              },
             }
           })
 
@@ -972,8 +972,8 @@ describe('ChatGroup component', () => {
           file: {
             name: 'numbers.xls',
             size: 128,
-            uploading: true
-          }
+            uploading: true,
+          },
         }
       })
 
@@ -989,8 +989,8 @@ describe('ChatGroup component', () => {
           file: {
             name: 'readme.nfo',
             size: 64,
-            uploading: true
-          }
+            uploading: true,
+          },
         }
       })
 
@@ -1007,8 +1007,8 @@ describe('ChatGroup component', () => {
         nick: 'agent:123',
         display_name: 'Agent 123',
         msg: 'Sure. Here is the bill:',
-        timestamp: fakeTimestamp
-      }
+        timestamp: fakeTimestamp,
+      },
     ]
     let componentArgs, renderAvatar, result
 
@@ -1020,7 +1020,7 @@ describe('ChatGroup component', () => {
     describe('when the showAvatar prop is false', () => {
       beforeAll(() => {
         componentArgs = {
-          showAvatar: false
+          showAvatar: false,
         }
       })
 
@@ -1034,7 +1034,7 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           componentArgs = {
             showAvatar: true,
-            isAgent: true
+            isAgent: true,
           }
         })
 
@@ -1054,7 +1054,7 @@ describe('ChatGroup component', () => {
           componentArgs = {
             showAvatar: true,
             isAgent: false,
-            socialLogin: { avatarPath: 'path/to/avatar' }
+            socialLogin: { avatarPath: 'path/to/avatar' },
           }
         })
 
@@ -1084,7 +1084,7 @@ describe('ChatGroup component', () => {
       beforeAll(() => {
         schema = {
           type: 'SomeType',
-          other_prop: 'prop1'
+          other_prop: 'prop1',
         }
       })
 
@@ -1108,8 +1108,8 @@ describe('ChatGroup component', () => {
         type: 'chat.msg',
         nick: 'agent:123',
         display_name: 'Agent 123',
-        msg: 'Hello'
-      }
+        msg: 'Hello',
+      },
     ]
 
     beforeEach(() => {

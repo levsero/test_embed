@@ -49,13 +49,13 @@ class WidgetBuilder {
   load() {
     const configs = this.configs.length > 0 ? [mockEmbeddableConfigEndpoint(...this.configs)] : []
     const mockRequests = configs.concat(this.intercepts)
-    const beforeSnippetLoads = page => {
-      this.beforeSnippetScripts.forEach(async arg => {
+    const beforeSnippetLoads = (page) => {
+      this.beforeSnippetScripts.forEach(async (arg) => {
         await page.evaluateOnNewDocument(...arg)
       })
     }
-    const afterSnippetLoads = page => {
-      this.afterSnippetScripts.forEach(async arg => {
+    const afterSnippetLoads = (page) => {
+      this.afterSnippetScripts.forEach(async (arg) => {
         await page.evaluate(...arg)
       })
     }
@@ -64,7 +64,7 @@ class WidgetBuilder {
       beforeSnippetLoads,
       afterSnippetLoads,
       hidden: this.hidden,
-      mobile: this.mobile
+      mobile: this.mobile,
     })
   }
 }

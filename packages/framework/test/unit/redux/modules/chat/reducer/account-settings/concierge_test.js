@@ -43,13 +43,13 @@ describe('chat reducer accountSettings concierge', () => {
           concierge: {
             avatar_path: 'r.m',
             display_name: 'Rick',
-            title: 'Rickiest Rick'
-          }
+            title: 'Rickiest Rick',
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: settings
+          payload: settings,
         })
       })
 
@@ -66,13 +66,13 @@ describe('chat reducer accountSettings concierge', () => {
           concierge: {
             avatar_path: 'r.m',
             display_name: 'Rick',
-            title: 'Rickiest Rick'
-          }
+            title: 'Rickiest Rick',
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
 

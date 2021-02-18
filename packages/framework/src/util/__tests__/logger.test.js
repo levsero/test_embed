@@ -4,8 +4,8 @@ import logger from '../logger'
 describe('#logger', () => {
   const errPayload = {
     error: {
-      message: 'error'
-    }
+      message: 'error',
+    },
   }
   const logMsg = 'test msg'
 

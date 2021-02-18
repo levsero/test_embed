@@ -1,10 +1,10 @@
 import {
   getIsFullScreen,
-  getIsVerticallySmallScreen
+  getIsVerticallySmallScreen,
 } from 'src/apps/messenger/features/responsiveDesign/store'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 
-const getIsLauncherVisible = state => {
+const getIsLauncherVisible = (state) => {
   if (getIsWidgetOpen(state) && (getIsVerticallySmallScreen(state) || getIsFullScreen(state))) {
     return false
   }

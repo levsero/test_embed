@@ -5,7 +5,7 @@ const createStep = (propertyOptions = {}) => ({
   duration: 0.3,
   delay: 0,
   timing: 'linear',
-  ...propertyOptions
+  ...propertyOptions,
 })
 
 let delay = 0
@@ -38,7 +38,7 @@ const textEnter = createStep({ delay, timing: 'ease' })
 // e.g. transition(textEnter, 'opacity', 'color) -> opacity 0.3s ease 0.9s, color 0.3s ease 0.9s;
 const transition = (options, ...properties) =>
   properties
-    .map(property => `${property} ${options.duration}s ${options.timing} ${options.delay}s`)
+    .map((property) => `${property} ${options.duration}s ${options.timing} ${options.delay}s`)
     .join(', ')
 
 // Helper function that generates the CSS required for an animation
@@ -61,7 +61,7 @@ const messageSteps = {
   repliesFadeIn,
   receiptEnter,
   receiptReenter,
-  receiptExit
+  receiptExit,
 }
 
 export default messageSteps

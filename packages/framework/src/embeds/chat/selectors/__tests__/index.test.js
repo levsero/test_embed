@@ -3,7 +3,7 @@ import {
   getDeferredChatHasResponse,
   getMenuVisible,
   getUserSoundSettings,
-  getEditContactDetails
+  getEditContactDetails,
 } from '../index'
 
 describe('chat selectors', () => {
@@ -13,12 +13,12 @@ describe('chat selectors', () => {
         getIsPollingChat({
           base: {
             embeddableConfig: {
-              disableStatusPolling: false
-            }
+              disableStatusPolling: false,
+            },
           },
           chat: {
-            deferredChatIsPolling: true
-          }
+            deferredChatIsPolling: true,
+          },
         })
       ).toBe(true)
     })
@@ -28,12 +28,12 @@ describe('chat selectors', () => {
         getIsPollingChat({
           base: {
             embeddableConfig: {
-              disableStatusPolling: false
-            }
+              disableStatusPolling: false,
+            },
           },
           chat: {
-            deferredChatIsPolling: false
-          }
+            deferredChatIsPolling: false,
+          },
         })
       ).toBe(false)
     })
@@ -43,12 +43,12 @@ describe('chat selectors', () => {
         getIsPollingChat({
           base: {
             embeddableConfig: {
-              disableStatusPolling: true
-            }
+              disableStatusPolling: true,
+            },
           },
           chat: {
-            deferredChatIsPolling: true
-          }
+            deferredChatIsPolling: true,
+          },
         })
       ).toBe(false)
     })
@@ -58,7 +58,7 @@ describe('chat selectors', () => {
     it('returns the value of chat.deferredChatHasResponse', () => {
       expect(
         getDeferredChatHasResponse({
-          chat: { deferredChatHasResponse: 'boopidy' }
+          chat: { deferredChatHasResponse: 'boopidy' },
         })
       ).toEqual('boopidy')
     })

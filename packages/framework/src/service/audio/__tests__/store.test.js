@@ -1,10 +1,10 @@
 import { clear, loadSound, getSound } from '../store'
 
 describe('#loadSound', () => {
-  const mockAudioElement = supported => {
+  const mockAudioElement = (supported) => {
     document.createElement = jest.fn(() => {
       return {
-        canPlayType: jest.fn(() => (supported ? 'maybe' : null))
+        canPlayType: jest.fn(() => (supported ? 'maybe' : null)),
       }
     })
   }

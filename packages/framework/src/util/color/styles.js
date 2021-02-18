@@ -38,7 +38,7 @@ function getWidgetColorVariables(color) {
     headerTextColorStr,
     headerFocusRingColorStr,
     headerBackgroundColorStr,
-    iconColor
+    iconColor,
   }
 }
 
@@ -61,7 +61,7 @@ function getLauncherColorVariables(color) {
     launcherColorStr,
     launcherTextColorStr,
     launcherFocusRingColorStr,
-    launcherIsAlmostWhite
+    launcherIsAlmostWhite,
   }
 }
 
@@ -221,5 +221,5 @@ export {
   generateUserWidgetCSS,
   generateUserLauncherCSS,
   generateWebWidgetPreviewCSS,
-  getWidgetColorVariables
+  getWidgetColorVariables,
 }

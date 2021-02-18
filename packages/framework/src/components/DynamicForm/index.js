@@ -20,14 +20,14 @@ const DynamicForm = ({
   controls,
   extraFieldOptions,
   readOnlyValues = {},
-  initialValues = {}
+  initialValues = {},
 }) => {
   const [showErrors, setShowFormErrors] = useState(false)
   const scrollToFirstError = useScrollToFirstError()
-  const initialState = useSelector(state => getFormValues(state, formId))
+  const initialState = useSelector((state) => getFormValues(state, formId))
   const [
     temporaryFieldsToShowWhileSubmitting,
-    setTemporaryFieldsToShowWhileSubmitting
+    setTemporaryFieldsToShowWhileSubmitting,
   ] = useSafeState(null)
 
   // We want screen readers to read out the error message every time the user tries to submit the form.
@@ -45,21 +45,21 @@ const DynamicForm = ({
     if (_.isEmpty(errors)) {
       const valuesToSubmit = {}
 
-      fields.forEach(field => {
+      fields.forEach((field) => {
         valuesToSubmit[field.id] = values[field.id]
       })
 
       setTemporaryFieldsToShowWhileSubmitting(fields)
 
       Promise.resolve(onSubmit(valuesToSubmit, values))
-        .then(result => {
+        .then((result) => {
           if (!result || (result.success === false && !result.errorMessageKey)) {
             throw new Error()
           }
 
           if (!result.success) {
             const newErrors = {
-              [FORM_ERROR]: result.errorMessageKey
+              [FORM_ERROR]: result.errorMessageKey,
             }
             callback(newErrors)
             scrollToFirstError(getFields(values), newErrors)
@@ -70,7 +70,7 @@ const DynamicForm = ({
         })
         .catch(() => {
           const newErrors = {
-            [FORM_ERROR]: 'embeddable_framework.submitTicket.notify.message.error'
+            [FORM_ERROR]: 'embeddable_framework.submitTicket.notify.message.error',
           }
           callback(newErrors)
           scrollToFirstError(getFields(values), newErrors)
@@ -88,7 +88,7 @@ const DynamicForm = ({
 
   return (
     <ReactFinalForm
-      validate={values => {
+      validate={(values) => {
         if (!showErrors) {
           return null
         }
@@ -103,7 +103,7 @@ const DynamicForm = ({
           isSubmitting={submitting}
           isPreview={isPreview}
           controls={controls}
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault()
             if (isPreview) {
               return
@@ -145,7 +145,7 @@ DynamicForm.propTypes = {
   readOnlyValues: PropTypes.objectOf(PropTypes.bool),
   initialValues: PropTypes.objectOf(PropTypes.any),
   children: PropTypes.node,
-  controls: PropTypes.node
+  controls: PropTypes.node,
 }
 
 export default DynamicForm

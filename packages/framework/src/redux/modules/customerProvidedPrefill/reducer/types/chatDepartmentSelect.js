@@ -1,11 +1,11 @@
 import {
   VISITOR_DEFAULT_DEPARTMENT_SELECTED,
-  SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE
+  SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
 } from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const chatDepartmentSelect = (state = initialState, action) => {
@@ -14,15 +14,15 @@ const chatDepartmentSelect = (state = initialState, action) => {
       return {
         timestamp: action.payload.timestamp,
         values: {
-          departmentId: action.payload.detail.id
-        }
+          departmentId: action.payload.detail.id,
+        },
       }
     case VISITOR_DEFAULT_DEPARTMENT_SELECTED:
       return {
         timestamp: action.payload.timestamp,
         values: {
-          departmentId: action.payload.department
-        }
+          departmentId: action.payload.department,
+        },
       }
     default:
       return state

@@ -1,7 +1,7 @@
 import {
   GET_ARTICLE_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-  SEARCH_REQUEST_SUCCESS
+  SEARCH_REQUEST_SUCCESS,
 } from 'embeds/helpCenter/actions/action-types'
 
 const initialState = {}
@@ -18,12 +18,12 @@ const articles = (state = initialState, action) => {
       }, {})
       return {
         ...state,
-        ...articles
+        ...articles,
       }
     case GET_ARTICLE_REQUEST_SUCCESS:
       return {
         ...state,
-        [payload.id]: payload
+        [payload.id]: payload,
       }
     default:
       return state

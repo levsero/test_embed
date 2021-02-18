@@ -10,7 +10,7 @@ const renderComponent = (props = {}) => {
     isRequired: false,
     label: 'embeddable_framework.common.textLabel.name',
     name: 'name',
-    testId: 'TEMP_TESTID'
+    testId: 'TEMP_TESTID',
   }
 
   const formValues = { name: 'boop' }

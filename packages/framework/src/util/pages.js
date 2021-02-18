@@ -46,5 +46,5 @@ export {
   getHelpCenterArticleId,
   isOnHostMappedDomain,
   getURLParameterByName,
-  getDecodedJWTBody
+  getDecodedJWTBody,
 }

@@ -23,7 +23,7 @@ const Text = ({ field, value, errorMessage, errorMessageKey, onChange, isReadOnl
         value={value || ''}
         required={Boolean(field.required)}
         readOnly={isReadOnly}
-        onChange={e => {
+        onChange={(e) => {
           onChange(e.target.value)
         }}
         validation={errorMessage ? 'error' : undefined}
@@ -42,14 +42,14 @@ Text.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     description: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
   }),
   value: PropTypes.string,
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   isReadOnly: PropTypes.bool,
   isPreview: PropTypes.bool,
-  errorMessageKey: PropTypes.number
+  errorMessageKey: PropTypes.number,
 }
 
 export default Text

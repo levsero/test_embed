@@ -10,7 +10,7 @@ const queue = (state = initialState, action) => {
     case UPDATE_QUEUE:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     case REMOVE_FROM_QUEUE:
       return _.omit(state, [payload])

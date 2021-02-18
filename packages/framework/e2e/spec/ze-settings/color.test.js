@@ -5,8 +5,8 @@ import { queries } from 'pptr-testing-library'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { TEST_IDS } from 'src/constants/shared'
 
-const applySettings = settings =>
-  page.evaluate(settings => zE('webWidget', 'updateSettings', settings), settings)
+const applySettings = (settings) =>
+  page.evaluate((settings) => zE('webWidget', 'updateSettings', settings), settings)
 
 const openWidget = async () => {
   await launcher.click()
@@ -15,14 +15,15 @@ const openWidget = async () => {
 const defaultThemeColor = 'rgb(183, 74, 30)'
 const getHeaderColor = () => {
   return widget.evaluate(
-    testid => getComputedStyle(document.querySelector(`[data-testid="${testid}"]`)).backgroundColor,
+    (testid) =>
+      getComputedStyle(document.querySelector(`[data-testid="${testid}"]`)).backgroundColor,
     TEST_IDS.WIDGET_HEADER_VIEW
   )
 }
 
-const getBackgroundColor = selector =>
+const getBackgroundColor = (selector) =>
   getComputedStyle(document.querySelector(selector)).backgroundColor
-const getColor = selector => getComputedStyle(document.querySelector(selector)).color
+const getColor = (selector) => getComputedStyle(document.querySelector(selector)).color
 
 const getLauncherColor = () => launcher.evaluate(getBackgroundColor, 'button')
 const getFooterButtonColor = () => widget.evaluate(getBackgroundColor, 'footer button')
@@ -45,13 +46,13 @@ const validatesColors = (applyColorSetting, getColor, defaultColor = defaultThem
   })
 }
 
-const applyColorSetting = colorSetting =>
+const applyColorSetting = (colorSetting) =>
   applySettings({
     webWidget: {
       color: {
-        ...colorSetting
-      }
-    }
+        ...colorSetting,
+      },
+    },
   })
 
 beforeEach(async () => {
@@ -84,7 +85,7 @@ describe('zESettings.webWidget.color.theme', () => {
     })
   })
 
-  validatesColors(theme => applyColorSetting({ theme }), getLauncherColor)
+  validatesColors((theme) => applyColorSetting({ theme }), getLauncherColor)
 })
 
 describe('zESettings.webWidget.color.launcher', () => {
@@ -103,7 +104,7 @@ describe('zESettings.webWidget.color.launcher', () => {
     })
   })
 
-  validatesColors(launcher => applyColorSetting({ launcher }), getLauncherColor)
+  validatesColors((launcher) => applyColorSetting({ launcher }), getLauncherColor)
 })
 
 describe('zESettings.webWidget.color.launcherText', () => {
@@ -120,7 +121,7 @@ describe('zESettings.webWidget.color.launcherText', () => {
   })
 
   validatesColors(
-    launcherText => applyColorSetting({ launcherText }),
+    (launcherText) => applyColorSetting({ launcherText }),
     getLauncherTextColor,
     'rgb(255, 255, 255)'
   )
@@ -138,7 +139,7 @@ describe('zESettings.webWidget.color.button', () => {
     })
   })
 
-  validatesColors(async button => {
+  validatesColors(async (button) => {
     await applyColorSetting({ button })
     await openWidget()
   }, getFooterButtonColor)
@@ -156,7 +157,7 @@ describe('zESettings.webWidget.color.resultLists', () => {
     })
   })
 
-  validatesColors(resultLists => applyColorSetting({ resultLists }), getListItemColor)
+  validatesColors((resultLists) => applyColorSetting({ resultLists }), getListItemColor)
 })
 
 describe('zESettings.webWidget.color.header', () => {
@@ -171,7 +172,7 @@ describe('zESettings.webWidget.color.header', () => {
     })
   })
 
-  validatesColors(header => applyColorSetting({ header }), getHeaderColor)
+  validatesColors((header) => applyColorSetting({ header }), getHeaderColor)
 })
 
 describe('zESettings.webWidget.color.articleLinks', () => {
@@ -189,5 +190,5 @@ describe('zESettings.webWidget.color.articleLinks', () => {
     })
   })
 
-  validatesColors(articleLinks => applyColorSetting({ articleLinks }), getLinkColor)
+  validatesColors((articleLinks) => applyColorSetting({ articleLinks }), getLinkColor)
 })

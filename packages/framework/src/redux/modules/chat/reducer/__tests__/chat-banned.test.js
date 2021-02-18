@@ -5,14 +5,14 @@ import chatBanned from '../chat-banned'
 testReducer(chatBanned, [
   {
     action: {
-      type: 'initial state'
+      type: 'initial state',
     },
-    expected: false
+    expected: false,
   },
   {
     action: {
-      type: CHAT_BANNED
+      type: CHAT_BANNED,
     },
-    expected: true
-  }
+    expected: true,
+  },
 ])

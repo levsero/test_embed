@@ -21,7 +21,7 @@ describe('firehoseListener', () => {
     statusCallback = jest.fn()
     endChatCallback = jest.fn()
     zChat = {
-      getConnectionClosedReason: jest.fn()
+      getConnectionClosedReason: jest.fn(),
     }
     listener = firehoseListener(zChat, dispatch, getReduxState)
     registerCallback(departmentCallback, CHAT_DEPARTMENT_STATUS_EVENT)
@@ -33,15 +33,15 @@ describe('firehoseListener', () => {
     const data = {
       type: 'history',
       detail: {
-        type: 'fetch_history'
-      }
+        type: 'fetch_history',
+      },
     }
 
     listener(data)
 
     expect(dispatch).toHaveBeenCalledWith({
       type: `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`,
-      payload: data
+      payload: data,
     })
   })
 
@@ -49,15 +49,15 @@ describe('firehoseListener', () => {
     const data = {
       type: 'not history',
       detail: {
-        type: 'fetch_history'
-      }
+        type: 'fetch_history',
+      },
     }
 
     listener(data)
 
     expect(dispatch).toHaveBeenCalledWith({
       type: `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`,
-      payload: data
+      payload: data,
     })
   })
 
@@ -65,15 +65,15 @@ describe('firehoseListener', () => {
     const data = {
       type: 'not history',
       detail: {
-        type: null
-      }
+        type: null,
+      },
     }
 
     listener(data)
 
     expect(dispatch).toHaveBeenCalledWith({
       type: `${SDK_ACTION_TYPE_PREFIX}/${data.type}`,
-      payload: data
+      payload: data,
     })
   })
 
@@ -81,16 +81,16 @@ describe('firehoseListener', () => {
     Date.now = jest.fn(() => 123)
     const data = {
       type: 'chat',
-      detail: {}
+      detail: {},
     }
     const expectedAction = {
       type: `${SDK_ACTION_TYPE_PREFIX}/${data.type}`,
       payload: {
         type: 'chat',
         detail: {
-          timestamp: Date.now()
-        }
-      }
+          timestamp: Date.now(),
+        },
+      },
     }
 
     listener(data)
@@ -102,7 +102,7 @@ describe('firehoseListener', () => {
     Date.now = jest.fn(() => 123)
     const data = {
       type: 'visitor_update',
-      detail: {}
+      detail: {},
     }
 
     const expectedAction = {
@@ -110,8 +110,8 @@ describe('firehoseListener', () => {
       payload: {
         type: 'visitor_update',
         timestamp: Date.now(),
-        detail: {}
-      }
+        detail: {},
+      },
     }
 
     listener(data)
@@ -124,15 +124,15 @@ describe('firehoseListener', () => {
     const data = {
       type: 'chat',
       detail: {
-        timestamp: 321
-      }
+        timestamp: 321,
+      },
     }
 
     listener(data)
 
     expect(dispatch).toHaveBeenCalledWith({
       type: `${SDK_ACTION_TYPE_PREFIX}/${data.type}`,
-      payload: data
+      payload: data,
     })
   })
 
@@ -141,7 +141,7 @@ describe('firehoseListener', () => {
 
     const data = {
       type: 'department_update',
-      detail: {}
+      detail: {},
     }
 
     listener(data)
@@ -154,7 +154,7 @@ describe('firehoseListener', () => {
 
     const data = {
       type: 'account_status',
-      detail: {}
+      detail: {},
     }
 
     listener(data)
@@ -167,7 +167,7 @@ describe('firehoseListener', () => {
       mockHasBackfillCompleted = true
       const data = {
         type: 'chat.memberleave',
-        detail: { nick: 'visitor' }
+        detail: { nick: 'visitor' },
       }
 
       listener(data)
@@ -181,7 +181,7 @@ describe('firehoseListener', () => {
       mockHasBackfillCompleted = false
       const data = {
         type: 'chat.memberleave',
-        detail: { nick: 'visitor' }
+        detail: { nick: 'visitor' },
       }
 
       listener(data)
@@ -193,7 +193,7 @@ describe('firehoseListener', () => {
   it('does not call the end chat callbacks when a type is an agent member leave', () => {
     const data = {
       type: 'chat.memberleave',
-      detail: { nick: 'agent:124' }
+      detail: { nick: 'agent:124' },
     }
 
     listener(data)
@@ -206,7 +206,7 @@ describe('firehoseListener', () => {
 
     const data = {
       type: 'connection_update',
-      detail: 'closed'
+      detail: 'closed',
     }
 
     listener(data)
@@ -219,7 +219,7 @@ describe('firehoseListener', () => {
 
     const data = {
       type: 'connection_update',
-      detail: 'closed'
+      detail: 'closed',
     }
 
     listener(data)

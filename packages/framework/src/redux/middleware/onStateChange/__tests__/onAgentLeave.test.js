@@ -4,7 +4,7 @@ import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions'
 import {
   SDK_CHAT_MEMBER_LEAVE,
-  CHAT_AGENT_INACTIVE
+  CHAT_AGENT_INACTIVE,
 } from 'src/redux/modules/chat/chat-action-types'
 
 const setupMocks = (chatOnline = false, activeAgents = {}, chatStatus = 'offline') => {
@@ -25,9 +25,9 @@ const memberLeaveAction = {
   type: SDK_CHAT_MEMBER_LEAVE,
   payload: {
     detail: {
-      nick: 'agent:john'
-    }
-  }
+      nick: 'agent:john',
+    },
+  },
 }
 
 describe('when the Chat SDK is not ready', () => {
@@ -68,7 +68,7 @@ describe('when there are agents left', () => {
 
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: CHAT_AGENT_INACTIVE,
-      payload: 'yolo'
+      payload: 'yolo',
     })
     expect(chatActions.endChat).not.toHaveBeenCalled()
   })

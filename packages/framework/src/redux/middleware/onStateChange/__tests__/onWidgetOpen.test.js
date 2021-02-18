@@ -27,7 +27,7 @@ beforeEach(() => {
   jest.mock('utility/scrollHacks')
   jest.mock('src/redux/modules/chat/chat-selectors/selectors')
 
-  jest.spyOn(selectors, 'getWebWidgetVisibleOpenAndReady').mockImplementation(state => state)
+  jest.spyOn(selectors, 'getWebWidgetVisibleOpenAndReady').mockImplementation((state) => state)
   jest.spyOn(baseSelectors, 'getActiveEmbed').mockImplementation(() => 'helpCenter')
 })
 

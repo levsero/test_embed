@@ -1,16 +1,16 @@
 import * as selectors from 'src/redux/modules/base/base-selectors'
 
-const mockState = config => ({ base: config })
+const mockState = (config) => ({ base: config })
 const mockConfig = (config = {}) =>
   embeddableConfig({
     embeds: {
       talk: config.talk,
-      ticketSubmissionForm: config.ticketSubmission
-    }
+      ticketSubmissionForm: config.ticketSubmission,
+    },
   })
-const embeddableConfig = config =>
+const embeddableConfig = (config) =>
   mockState({
-    embeddableConfig: config
+    embeddableConfig: config,
   })
 
 test('getTalkConfig', () => {
@@ -19,9 +19,9 @@ test('getTalkConfig', () => {
       props: {
         color: '#123123',
         serviceUrl: 'https://example.com',
-        nickname: 'Support'
-      }
-    }
+        nickname: 'Support',
+      },
+    },
   }
 
   const state = mockConfig(config)
@@ -36,10 +36,10 @@ describe('getCustomFieldsAvailable', () => {
         ticketSubmission: {
           props: {
             customFields: {
-              ids: [10, 20]
-            }
-          }
-        }
+              ids: [10, 20],
+            },
+          },
+        },
       }
 
       it('returns true', () => {
@@ -54,10 +54,10 @@ describe('getCustomFieldsAvailable', () => {
         ticketSubmission: {
           props: {
             customFields: {
-              all: true
-            }
-          }
-        }
+              all: true,
+            },
+          },
+        },
       }
 
       it('returns true', () => {
@@ -71,8 +71,8 @@ describe('getCustomFieldsAvailable', () => {
   describe('when config does not contain the setting', () => {
     const config = {
       ticketSubmission: {
-        props: {}
-      }
+        props: {},
+      },
     }
 
     it('returns the setting', () => {
@@ -88,9 +88,9 @@ describe('getTicketFormsEnabled', () => {
     const config = {
       ticketSubmission: {
         props: {
-          ticketFormsEnabled: true
-        }
-      }
+          ticketFormsEnabled: true,
+        },
+      },
     }
 
     it('returns true', () => {
@@ -104,9 +104,9 @@ describe('getTicketFormsEnabled', () => {
     const config = {
       ticketSubmission: {
         props: {
-          ticketFormsEnabled: false
-        }
-      }
+          ticketFormsEnabled: false,
+        },
+      },
     }
 
     it('returns false', () => {
@@ -123,10 +123,10 @@ describe('getCustomFieldIds', () => {
       ticketSubmission: {
         props: {
           customFields: {
-            ids: [10, 20]
-          }
-        }
-      }
+            ids: [10, 20],
+          },
+        },
+      },
     }
 
     it('returns the setting', () => {
@@ -139,8 +139,8 @@ describe('getCustomFieldIds', () => {
   describe('when config does not contain the setting', () => {
     const config = {
       ticketSubmission: {
-        props: {}
-      }
+        props: {},
+      },
     }
 
     it('returns the setting', () => {
@@ -156,9 +156,9 @@ describe('getFormTitleKey', () => {
     const config = {
       ticketSubmission: {
         props: {
-          formTitleKey: 'contact'
-        }
-      }
+          formTitleKey: 'contact',
+        },
+      },
     }
 
     it('returns the setting', () => {
@@ -219,13 +219,13 @@ describe('getWidgetAlreadyHidden', () => {
       [true, false, false, true],
       [false, true, false, true],
       [false, true, true, false],
-      [false, false, false, false]
+      [false, false, false, false],
     ],
     'fn(%p, %p, %p) = %p',
     (hideApi, activateApi, webWidgetOpen, expected) => {
       const config = mockState({
         webWidgetOpen,
-        hidden: { hideApi, activateApi }
+        hidden: { hideApi, activateApi },
       })
 
       expect(selectors.getWebWidgetOpen(config)).toEqual(expected)

@@ -1,12 +1,12 @@
 import {
   agentJoinsChat,
   openChattingScreenAndEvaluate,
-  sendMessageFromAgent
+  sendMessageFromAgent,
 } from 'e2e/helpers/chat-embed'
 
 test('on chat:unreadMessages returns the number of unread messages', async () => {
   await openChattingScreenAndEvaluate(() => {
-    zE('webWidget:on', 'chat:unreadMessages', number => {
+    zE('webWidget:on', 'chat:unreadMessages', (number) => {
       window.unreadMessageNumber = number
     })
   })

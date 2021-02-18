@@ -86,7 +86,7 @@ const combinedReducers = combineReducers({
   deferredChatHasResponse,
   soundEnabled,
   contactDetailsSubmissionPending,
-  contactDetailsSubmissionError
+  contactDetailsSubmissionError,
 })
 
 export default function reducer(state, action) {
@@ -95,7 +95,7 @@ export default function reducer(state, action) {
       vendor: state.vendor,
       isLoggingOut: state.isLoggingOut,
       screen: state.screen,
-      accountSettings: state.accountSettings
+      accountSettings: state.accountSettings,
     }
   }
 

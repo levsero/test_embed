@@ -10,7 +10,7 @@ import {
   closeReceived,
   toggleReceived,
   handlePopoutCreated,
-  renewToken
+  renewToken,
 } from 'src/redux/modules/base'
 import {
   API_ON_CHAT_STATUS_NAME,
@@ -21,7 +21,7 @@ import {
   API_ON_CHAT_END_NAME,
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CHAT_DEPARTMENT_STATUS,
-  API_ON_CHAT_POPOUT
+  API_ON_CHAT_POPOUT,
 } from 'constants/api'
 import {
   WIDGET_OPENED_EVENT,
@@ -33,14 +33,14 @@ import {
   CHAT_UNREAD_MESSAGES_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
   CHAT_POPOUT_EVENT,
-  USER_EVENT
+  USER_EVENT,
 } from 'constants/event'
 import {
   reinitialiseChat,
   sendVisitorPath,
   endChat,
   sendMsg,
-  setVisitorInfo
+  setVisitorInfo,
 } from 'src/redux/modules/chat/chat-actions'
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import {
@@ -51,7 +51,7 @@ import {
   getZChatVendor,
   getNotificationCount,
   getChatStatus,
-  getHasBackfillCompleted
+  getHasBackfillCompleted,
 } from 'src/redux/modules/chat/chat-selectors'
 import { updateSettings } from 'src/redux/modules/settings'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
@@ -67,11 +67,11 @@ import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 import * as callbacks from 'service/api/callbacks'
 import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
 
-const getTagsInString = tags => {
+const getTagsInString = (tags) => {
   return tags.reduce((newTags, tag) => {
     if (_.isEmpty(tag)) return newTags
 
-    tag.split(',').forEach(subTag => {
+    tag.split(',').forEach((subTag) => {
       const newTag = subTag.trim()
 
       if (!_.isEmpty(newTag)) {
@@ -99,11 +99,11 @@ const updateTags = (store, args, type) => {
   })
 }
 
-export const removeTagsApi = store => (...args) => updateTags(store, args, 'remove')
+export const removeTagsApi = (store) => (...args) => updateTags(store, args, 'remove')
 
-export const addTagsApi = store => (...args) => updateTags(store, args, 'add')
+export const addTagsApi = (store) => (...args) => updateTags(store, args, 'add')
 
-export const endChatApi = reduxStore => {
+export const endChatApi = (reduxStore) => {
   reduxStore.dispatch(endChat())
 }
 
@@ -113,7 +113,7 @@ export const sendChatMsgApi = (reduxStore, msg) => {
   reduxStore.dispatch(sendMsg(message))
 }
 
-export const reauthenticateApi = reduxStore => {
+export const reauthenticateApi = (reduxStore) => {
   reduxStore.dispatch(reinitialiseChat(true))
 }
 
@@ -127,7 +127,7 @@ export const identifyApi = (reduxStore, user) => {
     ...(isEmailValid && { email: user.email }),
     ...(isNameValid && { name: user.name }),
     ...(isPhoneValid && { phone: user.phone }),
-    organization: user.organization
+    organization: user.organization,
   }
   const validUserExist =
     validUser.email || validUser.name || validUser.phone || validUser.organization
@@ -146,7 +146,7 @@ export const identifyApi = (reduxStore, user) => {
       setVisitorInfo({
         ...(validUser.name && { display_name: validUser.name }),
         ...(validUser.email && { email: validUser.email }),
-        ...(validUser.phone && { phone: validUser.phone })
+        ...(validUser.phone && { phone: validUser.phone }),
       })
     )
   }
@@ -157,15 +157,15 @@ export const identifyApi = (reduxStore, user) => {
   }
 }
 
-export const openApi = reduxStore => {
+export const openApi = (reduxStore) => {
   reduxStore.dispatch(openReceived())
 }
 
-export const closeApi = reduxStore => {
+export const closeApi = (reduxStore) => {
   reduxStore.dispatch(closeReceived())
 }
 
-export const toggleApi = reduxStore => {
+export const toggleApi = (reduxStore) => {
   reduxStore.dispatch(toggleReceived())
 }
 
@@ -177,7 +177,7 @@ export const updateSettingsApi = (reduxStore, newSettings) => {
   reduxStore.dispatch(updateSettings(newSettings))
 }
 
-export const logoutApi = reduxStore => {
+export const logoutApi = (reduxStore) => {
   reduxStore.dispatch(logout())
   reduxStore.dispatch(closeReceived())
   reduxStore.dispatch(reinitialiseChat(false))
@@ -192,25 +192,25 @@ export const prefill = (reduxStore, payload) => {
   reduxStore.dispatch(handlePrefillReceived(payload))
 }
 
-export const hideApi = reduxStore => {
+export const hideApi = (reduxStore) => {
   const state = reduxStore.getState()
 
   if (getWidgetAlreadyHidden(state)) return
   reduxStore.dispatch(hideReceived())
 }
 
-export const showApi = reduxStore => {
+export const showApi = (reduxStore) => {
   const state = reduxStore.getState()
 
   if (!getWidgetAlreadyHidden(state)) return
   reduxStore.dispatch(showReceived())
 }
 
-export const reauthenticateHelpCenter = reduxStore => {
+export const reauthenticateHelpCenter = (reduxStore) => {
   reduxStore.dispatch(renewToken())
 }
 
-export const popoutApi = reduxStore => {
+export const popoutApi = (reduxStore) => {
   const reduxState = reduxStore.getState()
 
   if (getIsPopoutAvailable(reduxState)) {
@@ -227,7 +227,7 @@ export const updatePathApi = (reduxStore, page = {}) => {
   reduxStore.dispatch(sendVisitorPath(page))
 }
 
-export const clearFormState = reduxStore => {
+export const clearFormState = (reduxStore) => {
   reduxStore.dispatch(apiClearForm())
 }
 
@@ -271,9 +271,9 @@ export const onApiObj = () => {
       },
       [API_ON_CHAT_POPOUT]: (store, cb) => {
         callbacks.registerCallback(() => cb(getChatStatus(store.getState())), CHAT_POPOUT_EVENT)
-      }
+      },
     },
     [API_ON_OPEN_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_OPENED_EVENT),
-    [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_CLOSED_EVENT)
+    [API_ON_CLOSE_NAME]: (_reduxStore, cb) => callbacks.registerCallback(cb, WIDGET_CLOSED_EVENT),
   }
 }

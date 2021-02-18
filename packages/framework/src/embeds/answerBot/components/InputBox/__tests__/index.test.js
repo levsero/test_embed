@@ -7,12 +7,12 @@ const renderComponent = (props = {}) => {
   const defaultProps = {
     name: 'inputBox',
     placeholder: 'placeholder',
-    handleSendInputValue: noop
+    handleSendInputValue: noop,
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<InputBox {...componentProps} />)
@@ -39,7 +39,7 @@ test('text area has 1 row when in mobile', () => {
 
 test('renders with value', () => {
   const { getByPlaceholderText } = renderComponent({
-    inputValue: 'doremi'
+    inputValue: 'doremi',
   })
 
   expect(getByPlaceholderText('placeholder').value).toEqual('doremi')
@@ -50,7 +50,7 @@ describe('events', () => {
     const handler = jest.fn()
     const { getByPlaceholderText } = renderComponent({
       updateInputValue: handler,
-      placeholder: 'here'
+      placeholder: 'here',
     })
 
     fireEvent.change(getByPlaceholderText('here'), { target: { value: 'new' } })
@@ -61,13 +61,13 @@ describe('events', () => {
     const handler = jest.fn()
     const { getByPlaceholderText } = renderComponent({
       handleSendInputValue: handler,
-      placeholder: 'here'
+      placeholder: 'here',
     })
 
     fireEvent.keyDown(getByPlaceholderText('here'), {
       key: 'Enter',
       keyCode: 13,
-      which: 13
+      which: 13,
     })
     expect(handler).toHaveBeenCalled()
   })
@@ -76,14 +76,14 @@ describe('events', () => {
     const handler = jest.fn()
     const { getByPlaceholderText } = renderComponent({
       handleSendInputValue: handler,
-      placeholder: 'here'
+      placeholder: 'here',
     })
 
     fireEvent.keyDown(getByPlaceholderText('here'), {
       key: 'Enter',
       keyCode: 13,
       which: 13,
-      shiftKey: true
+      shiftKey: true,
     })
     expect(handler).not.toHaveBeenCalled()
   })

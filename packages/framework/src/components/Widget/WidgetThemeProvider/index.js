@@ -9,7 +9,7 @@ import { getWidgetColorVariables } from 'utility/color/styles'
 import { getColor } from 'src/redux/modules/selectors'
 import { FONT_SIZE } from 'src/constants/shared'
 
-const themeColors = baseColors => {
+const themeColors = (baseColors) => {
   const themeColor = getThemeColor()
   return getWidgetColorVariables({ ...themeColor, ...baseColors })
 }
@@ -35,12 +35,12 @@ WidgetThemeProvider.propTypes = {
     headerFocusRingColorStr: PropTypes.string,
     headerBackgroundColorStr: PropTypes.string,
     iconColor: PropTypes.string,
-    isMobile: PropTypes.bool
-  }).isRequired
+    isMobile: PropTypes.bool,
+  }).isRequired,
 }
 
 WidgetThemeProvider.defaultProps = {
-  children: []
+  children: [],
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -48,13 +48,10 @@ const mapStateToProps = (state, ownProps) => ({
     ...themeColors(getColor(state, 'webWidget')),
     fontSize: FONT_SIZE,
     isMobile: isMobileBrowser(),
-    ...ownProps.theme
-  }
+    ...ownProps.theme,
+  },
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  null
-)(WidgetThemeProvider)
+const connectedComponent = connect(mapStateToProps, null)(WidgetThemeProvider)
 
 export { connectedComponent as default, WidgetThemeProvider as Component }

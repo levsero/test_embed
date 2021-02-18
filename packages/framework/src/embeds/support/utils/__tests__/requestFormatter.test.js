@@ -9,7 +9,7 @@ jest.mock('utility/globals')
 const mockTicketField = {
   id: '22660514',
   type: 'text',
-  title: 'Text'
+  title: 'Text',
 }
 
 describe('formatRequestData', () => {
@@ -21,9 +21,9 @@ describe('formatRequestData', () => {
     fields = []
   ) => {
     jest.spyOn(i18n, 'getLocaleId').mockReturnValue('fr')
-    jest.spyOn(i18n, 't').mockImplementation(st => st)
+    jest.spyOn(i18n, 't').mockImplementation((st) => st)
     globals.location = {
-      href: 'test.com'
+      href: 'test.com',
     }
 
     const formState = {
@@ -31,7 +31,7 @@ describe('formatRequestData', () => {
       email: 'mock@email.com',
       description: 'Mock Description',
       subject: 'Mock Subject',
-      ...formStateOverrides
+      ...formStateOverrides,
     }
     const state = {
       settings: {
@@ -39,16 +39,16 @@ describe('formatRequestData', () => {
           settings: {
             tags: [],
             subject: false,
-            ...settingOverrides
-          }
-        }
+            ...settingOverrides,
+          },
+        },
       },
       submitTicket: {
         ticketForms: {},
         ticketFields: [],
         activeForm: null,
-        ...submitTicketOverrides
-      }
+        ...submitTicketOverrides,
+      },
     }
 
     return formatRequestData(state, formState, [], ticketFormName, fields)
@@ -60,7 +60,7 @@ describe('formatRequestData', () => {
     expect(result.request.requester).toEqual({
       name: 'bob',
       email: 'mock@email.com',
-      locale_id: 'fr'
+      locale_id: 'fr',
     })
   })
 
@@ -87,27 +87,27 @@ describe('formatRequestData', () => {
     const values = [
       {
         email: 'harry.j.potter@hogwarts.com',
-        expected: 'Harry J Potter'
+        expected: 'Harry J Potter',
       },
       {
         email: 'ron_b.weasley@hogwarts.com',
-        expected: 'Ron B Weasley'
+        expected: 'Ron B Weasley',
       },
       {
         email: 'hermione_granger@hogwarts.com',
-        expected: 'Hermione Granger'
+        expected: 'Hermione Granger',
       },
       {
         email: 'dracomalfoy@hogwarts.com',
-        expected: 'Dracomalfoy'
+        expected: 'Dracomalfoy',
       },
       {
         email: 'ginny-weasley@hogwarts.com',
-        expected: 'Ginny Weasley'
-      }
+        expected: 'Ginny Weasley',
+      },
     ]
 
-    values.forEach(value => {
+    values.forEach((value) => {
       it(`formats the name based on the email ${value.email}`, () => {
         const result = format({ name: '', email: value.email })
 
@@ -125,7 +125,7 @@ describe('formatRequestData', () => {
   it('trims the subject if it is too long', () => {
     const result = format({
       subject: '',
-      description: 'this text is longer then 50 characters 12345678987654321'
+      description: 'this text is longer then 50 characters 12345678987654321',
     })
 
     expect(result.request.subject).toEqual('this text is longer then 50 characters 12345678987...')
@@ -153,7 +153,7 @@ describe('formatRequestData', () => {
   describe('when the form has custom ticket fields', () => {
     it('should correctly format custom fields', () => {
       const result = format(
-        { '22660514': 'mockCustomField' },
+        { 22660514: 'mockCustomField' },
         {},
         { ticketFields: [mockTicketField] },
         null,
@@ -170,23 +170,23 @@ describe('formatRequestData', () => {
         id: 'description',
         type: 'description',
         removable: false,
-        originalId: 123
+        originalId: 123,
       },
       {
         id: 456,
         type: 'text',
-        removable: true
-      }
+        removable: true,
+      },
     ]
     const ticketForms = {
       id: 50,
-      ticket_field_ids: [123, 234, 456]
+      ticket_field_ids: [123, 234, 456],
     }
 
     const mockValues = {
       123: 'Just saying Hi',
       234: 'Hello',
-      456: 'Cheeseburger'
+      456: 'Cheeseburger',
     }
 
     it('should correctly format custom fields', () => {
@@ -210,14 +210,14 @@ describe('formatRequestData', () => {
     it('correctly formats the subject field when available', () => {
       const fields = [
         ...ticketFields,
-        { id: 'subject', type: 'subject', removable: false, originalId: 234 }
+        { id: 'subject', type: 'subject', removable: false, originalId: 234 },
       ]
       const result = format(
         { ...mockValues, subject: '' },
         {},
         {
           ticketFields: fields,
-          ticketForms
+          ticketForms,
         },
         50,
         fields
@@ -250,17 +250,17 @@ describe('formatRequestData', () => {
       { type: 'decimal', expected: '' },
       { type: 'text', expected: '' },
       { type: 'tagger', expected: '' },
-      { type: 'textarea', expected: '' }
+      { type: 'textarea', expected: '' },
     ]
 
-    tests.forEach(testCase => {
+    tests.forEach((testCase) => {
       it(`defaults to ${JSON.stringify(testCase.expected)} when field type ${
         testCase.type
       } has no value`, () => {
         const fieldId = '123'
 
         const result = format({ [fieldId]: undefined }, {}, {}, undefined, [
-          { type: testCase.type, id: fieldId }
+          { type: testCase.type, id: fieldId },
         ])
 
         expect(result.request.fields[fieldId]).toBe(testCase.expected)

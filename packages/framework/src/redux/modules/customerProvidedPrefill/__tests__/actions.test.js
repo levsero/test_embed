@@ -9,8 +9,8 @@ describe('customerProvidedPrefill actions', () => {
         payload: {
           type: 'some type',
           id: 'some id',
-          timestamp: 123
-        }
+          timestamp: 123,
+        },
       })
     })
   })

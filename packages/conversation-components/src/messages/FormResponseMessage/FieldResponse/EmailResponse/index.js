@@ -13,8 +13,8 @@ const EmailResponse = ({ field }) => {
 EmailResponse.propTypes = {
   field: PropTypes.shape({
     label: PropTypes.string,
-    email: PropTypes.string
-  })
+    email: PropTypes.string,
+  }),
 }
 
 export default EmailResponse

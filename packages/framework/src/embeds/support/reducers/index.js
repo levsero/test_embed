@@ -37,5 +37,5 @@ export default combineReducers({
   ticketFormsRequest,
   isTicketFieldsLoading,
   isFormLoading,
-  formsWithSuppressedTitle
+  formsWithSuppressedTitle,
 })

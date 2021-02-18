@@ -5,14 +5,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the field is required and there is no value', () => {
       const result = validate({
         values: {
-          name: ''
+          name: '',
         },
         fields: [
           {
             id: 'name',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
 
       expect(result).toEqual({ name: 'embeddable_framework.validation.error.name' })
@@ -21,14 +21,14 @@ describe('PrechatForm validate', () => {
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {
-          name: 'Some name'
+          name: 'Some name',
         },
         fields: [
           {
             id: 'name',
-            required: false
-          }
-        ]
+            required: false,
+          },
+        ],
       })
 
       expect(result).toEqual(undefined)
@@ -39,14 +39,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the field is required and there is no value', () => {
       const result = validate({
         values: {
-          email: ''
+          email: '',
         },
         fields: [
           {
             id: 'email',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
 
       expect(result).toEqual({ email: 'embeddable_framework.validation.error.email' })
@@ -55,14 +55,14 @@ describe('PrechatForm validate', () => {
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {
-          email: 'example@example.com'
+          email: 'example@example.com',
         },
         fields: [
           {
             id: 'email',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
 
       expect(result).toEqual(undefined)
@@ -71,14 +71,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the value is not a valid email address', () => {
       const result = validate({
         values: {
-          email: 'invalid email'
+          email: 'invalid email',
         },
         fields: [
           {
             id: 'email',
-            required: false
-          }
-        ]
+            required: false,
+          },
+        ],
       })
 
       expect(result).toEqual({ email: 'embeddable_framework.validation.error.email' })
@@ -89,15 +89,15 @@ describe('PrechatForm validate', () => {
     it('returns an error if the field is required and there is no value', () => {
       const result = validate({
         values: {
-          department: null
+          department: null,
         },
         fields: [
           {
             id: 'department',
             required: true,
-            options: []
-          }
-        ]
+            options: [],
+          },
+        ],
       })
 
       expect(result).toEqual({ department: 'embeddable_framework.validation.error.department' })
@@ -108,15 +108,15 @@ describe('PrechatForm validate', () => {
         const result = validate({
           isVisibleDepartmentsFeatureEnabled: true,
           values: {
-            department: 4
+            department: 4,
           },
           fields: [
             {
               id: 'department',
               required: true,
-              options: [{ value: 1 }, { value: 2 }, { value: 3 }]
-            }
-          ]
+              options: [{ value: 1 }, { value: 2 }, { value: 3 }],
+            },
+          ],
         })
 
         expect(result).toEqual({ department: 'embeddable_framework.validation.error.department' })
@@ -126,15 +126,15 @@ describe('PrechatForm validate', () => {
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {
-          department: null
+          department: null,
         },
         fields: [
           {
             id: 'department',
             required: false,
-            options: []
-          }
-        ]
+            options: [],
+          },
+        ],
       })
 
       expect(result).toEqual(undefined)
@@ -143,16 +143,16 @@ describe('PrechatForm validate', () => {
     it('returns an error if the selected department is offline and the offline form is not enabled', () => {
       const result = validate({
         values: {
-          department: 123
+          department: 123,
         },
         isOfflineFormEnabled: false,
         fields: [
           {
             id: 'department',
             required: false,
-            options: [{ value: 123, disabled: true }]
-          }
-        ]
+            options: [{ value: 123, disabled: true }],
+          },
+        ],
       })
 
       expect(result).toEqual({ department: 'embeddable_framework.validation.error.department' })
@@ -163,14 +163,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the field is required and there is no value', () => {
       const result = validate({
         values: {
-          phone: null
+          phone: null,
         },
         fields: [
           {
             id: 'phone',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
 
       expect(result).toEqual({ phone: 'embeddable_framework.validation.error.phone' })
@@ -179,14 +179,14 @@ describe('PrechatForm validate', () => {
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {
-          phone: null
+          phone: null,
         },
         fields: [
           {
             id: 'phone',
-            required: false
-          }
-        ]
+            required: false,
+          },
+        ],
       })
 
       expect(result).toEqual(undefined)
@@ -195,14 +195,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the value is not a valid phone number', () => {
       const result = validate({
         values: {
-          phone: 'invalid phone number'
+          phone: 'invalid phone number',
         },
         fields: [
           {
             id: 'phone',
-            required: false
-          }
-        ]
+            required: false,
+          },
+        ],
       })
 
       expect(result).toEqual({ phone: 'embeddable_framework.validation.error.phone' })
@@ -213,14 +213,14 @@ describe('PrechatForm validate', () => {
     it('returns an error if the field is required and there is no value', () => {
       const result = validate({
         values: {
-          message: null
+          message: null,
         },
         fields: [
           {
             id: 'message',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       })
 
       expect(result).toEqual({ message: 'embeddable_framework.validation.error.message' })
@@ -229,14 +229,14 @@ describe('PrechatForm validate', () => {
     it('does not return an error if the field is required and there is a value', () => {
       const result = validate({
         values: {
-          message: null
+          message: null,
         },
         fields: [
           {
             id: 'message',
-            required: false
-          }
-        ]
+            required: false,
+          },
+        ],
       })
 
       expect(result).toEqual(undefined)

@@ -8,7 +8,7 @@ const initialState = {
   offsetHorizontal: 0,
   offsetVertical: 0,
   offsetMobileHorizontal: 0,
-  offsetMobileVertical: 0
+  offsetMobileVertical: 0,
 }
 
 const setHideWhenChatOffline = (state = initialState, action) => {
@@ -35,7 +35,7 @@ const setHideWhenChatOffline = (state = initialState, action) => {
           state.offsetMobileVertical
         ),
         offsetVertical: _.get(payload, 'webWidget.offset.vertical', state.offsetVertical),
-        zIndex: _.get(payload, 'webWidget.zIndex', state.zIndex)
+        zIndex: _.get(payload, 'webWidget.zIndex', state.zIndex),
       }
     default:
       return state

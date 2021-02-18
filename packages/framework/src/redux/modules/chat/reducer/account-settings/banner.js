@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import {
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  UPDATE_PREVIEWER_SETTINGS
+  UPDATE_PREVIEWER_SETTINGS,
 } from '../../chat-action-types'
 
 const initialState = {
   enabled: false,
   layout: 'image_only',
   image: '',
-  text: 'Chat with us'
+  text: 'Chat with us',
 }
 
 const banner = (state = initialState, action) => {
@@ -21,7 +21,7 @@ const banner = (state = initialState, action) => {
         enabled: _.get(bannerInfo, 'enabled', state.enabled),
         layout: _.get(bannerInfo, 'layout', state.layout),
         text: _.get(bannerInfo, 'text', state.text),
-        image: _.get(bannerInfo, 'image_path', state.image)
+        image: _.get(bannerInfo, 'image_path', state.image),
       }
     default:
       return state

@@ -11,7 +11,7 @@ function isTokenValid(token) {
   return false
 }
 
-const extractTokenId = _.memoize(function(jwt) {
+const extractTokenId = _.memoize(function (jwt) {
   const jwtBody = jwt.split('.')[1]
 
   if (typeof jwtBody === 'undefined') {

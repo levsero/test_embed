@@ -6,7 +6,7 @@ const SelectResponse = ({ field }) => {
     <>
       <Label>{field.label}</Label>
 
-      {field.select?.map(option => {
+      {field.select?.map((option) => {
         return <Value key={option._id}>{option.label}</Value>
       })}
     </>
@@ -19,10 +19,10 @@ SelectResponse.propTypes = {
     select: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string,
-        label: PropTypes.string
+        label: PropTypes.string,
       })
-    )
-  })
+    ),
+  }),
 }
 
 export default SelectResponse

@@ -11,11 +11,11 @@ jest.mock('src/service/transport/http')
 
 jest.useFakeTimers()
 
-const turnChatOnline = store => {
+const turnChatOnline = (store) => {
   store.dispatch(setStatusForcefully('online'))
   store.dispatch(chatConnected())
 }
-const sendAgentMessage = store => {
+const sendAgentMessage = (store) => {
   store.dispatch({
     type: 'websdk/chat.msg',
     payload: {
@@ -26,9 +26,9 @@ const sendAgentMessage = store => {
         type: 'chat.msg',
         display_name: 'Wayner',
         msg: 'hello world',
-        options: []
-      }
-    }
+        options: [],
+      },
+    },
   })
 }
 
@@ -91,9 +91,9 @@ describe('proactive chat', () => {
         updateSettings({
           chat: {
             notifications: {
-              mobile: { disable: true }
-            }
-          }
+              mobile: { disable: true },
+            },
+          },
         })
       )
 

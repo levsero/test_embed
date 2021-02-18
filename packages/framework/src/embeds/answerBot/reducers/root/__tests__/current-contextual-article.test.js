@@ -9,8 +9,8 @@ test('updates to expected state', () => {
   const state = reducer(undefined, {
     type: actionTypes.CONTEXTUAL_ARTICLE_SHOWN,
     payload: {
-      articleID: 'two'
-    }
+      articleID: 'two',
+    },
   })
 
   expect(state.articleID).toEqual('two')
@@ -22,8 +22,8 @@ test('updates to expected state', () => {
     {
       type: actionTypes.ARTICLE_SHOWN,
       payload: {
-        articleID: 'two'
-      }
+        articleID: 'two',
+      },
     }
   )
 

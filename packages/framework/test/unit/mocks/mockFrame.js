@@ -1,7 +1,7 @@
 class MockEmbedWrapper extends Component {
   setHighlightColor() {
     this.setState({
-      css: 'setHighlightColorCSS { background-color: red; }'
+      css: 'setHighlightColorCSS { background-color: red; }',
     })
   }
 
@@ -11,7 +11,7 @@ class MockEmbedWrapper extends Component {
 
   render() {
     const newChild = React.cloneElement(this.props.children, {
-      ref: 'rootComponent'
+      ref: 'rootComponent',
     })
 
     return <div>{newChild}</div>
@@ -49,7 +49,7 @@ export class MockFrame extends Component {
 
     ReactDOM.render(
       <MockEmbedWrapper
-        ref={el => {
+        ref={(el) => {
           this.child = el
         }}
         className="mock-frame"

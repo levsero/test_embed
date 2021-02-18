@@ -5,7 +5,7 @@ import ZEApiError from './ZEApiError'
 import LegacyZEApiError from './LegacyZEApiError'
 
 const baseProperties = {
-  version: __EMBEDDABLE_VERSION__
+  version: __EMBEDDABLE_VERSION__,
 }
 let api = {}
 let isMessengerWidgetUsed = false
@@ -54,7 +54,7 @@ function zE(...params) {
   }
 
   if (typeof name === 'object') {
-    Object.keys(name).forEach(subName => {
+    Object.keys(name).forEach((subName) => {
       if (!api[root].__isSettingsApi) return
       const args = name[subName]
       zE(root, subName, args)
@@ -82,11 +82,11 @@ function zE(...params) {
   }
 }
 
-const registerApi = newApis => {
+const registerApi = (newApis) => {
   api = _.merge(api, newApis)
 }
 
-const registerLegacyApi = newApis => {
+const registerLegacyApi = (newApis) => {
   Object.entries(newApis).forEach(([name, apiFunction]) => {
     if (typeof apiFunction === 'function') {
       zE[name] = (...args) => {
@@ -105,7 +105,7 @@ const registerLegacyApi = newApis => {
 const run = ({ embeddableName }) => {
   isMessengerWidgetUsed = embeddableName === 'messenger'
 
-  Object.keys(baseProperties).forEach(key => {
+  Object.keys(baseProperties).forEach((key) => {
     zE[key] = baseProperties[key]
   })
 
@@ -116,13 +116,13 @@ const run = ({ embeddableName }) => {
   }
   window.parent.zEmbed = zE
 
-  Object.keys(originalFunction ?? {}).forEach(key => {
+  Object.keys(originalFunction ?? {}).forEach((key) => {
     zE[key] = originalFunction[key]
   })
 
   tracker.addTo(window.parent.zE, 'zE')
 
-  document.zEQueue?.forEach?.(call => {
+  document.zEQueue?.forEach?.((call) => {
     try {
       zE(...call)
     } catch (err) {

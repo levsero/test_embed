@@ -3,7 +3,7 @@ import {
   RESET_CURRENT_MESSAGE,
   PRE_CHAT_FORM_ON_CHANGE,
   CHAT_BADGE_MESSAGE_CHANGED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from '../chat-action-types'
 
 const initialState = ''

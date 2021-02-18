@@ -10,7 +10,7 @@ const markAsRead = createAsyncThunk('markAsRead', async () => {
 const unreadIndicator = createSlice({
   name: 'unreadIndicator',
   initialState: {
-    lastReadTimestamp: null
+    lastReadTimestamp: null,
   },
   extraReducers: {
     [markAsRead.pending](state, action) {
@@ -18,17 +18,17 @@ const unreadIndicator = createSlice({
     },
     [fetchExistingConversation.fulfilled](state, action) {
       state.lastReadTimestamp = action.payload.lastRead
-    }
-  }
+    },
+  },
 })
 
-const getLastReadTimestamp = state => state.unreadIndicator.lastReadTimestamp
+const getLastReadTimestamp = (state) => state.unreadIndicator.lastReadTimestamp
 
 const getUnreadMessages = createSelector(
   getMessageLog,
   getLastReadTimestamp,
   (messageLog, lastReadTimestamp) => {
-    return messageLog.filter(message => {
+    return messageLog.filter((message) => {
       return (
         !message.isLocalMessageType &&
         message.received > lastReadTimestamp &&
@@ -38,19 +38,13 @@ const getUnreadMessages = createSelector(
   }
 )
 
-const getLastUnreadTimestamp = createSelector(
-  getUnreadMessages,
-  unreadMessages => {
-    return unreadMessages[unreadMessages.length - 1]?.received
-  }
-)
+const getLastUnreadTimestamp = createSelector(getUnreadMessages, (unreadMessages) => {
+  return unreadMessages[unreadMessages.length - 1]?.received
+})
 
-const getUnreadCount = createSelector(
-  getUnreadMessages,
-  unreadMessages => {
-    return unreadMessages.length
-  }
-)
+const getUnreadCount = createSelector(getUnreadMessages, (unreadMessages) => {
+  return unreadMessages.length
+})
 
 export default unreadIndicator.reducer
 

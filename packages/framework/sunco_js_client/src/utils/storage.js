@@ -35,7 +35,7 @@ class SessionStore extends Store {
 }
 
 // From: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-const storageAvailable = type => {
+const storageAvailable = (type) => {
   var storage
   try {
     storage = win[type]
@@ -56,7 +56,8 @@ const storageAvailable = type => {
         // Firefox
         e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
       // acknowledge QuotaExceededError only if there's something already stored
-      (storage && storage.length !== 0)
+      storage &&
+      storage.length !== 0
     )
   }
 }
@@ -88,7 +89,7 @@ const setStorageType = ({ type }) => {
 
 export default {
   setStorageType,
-  getItem: key => webStorage().getItem(key),
+  getItem: (key) => webStorage().getItem(key),
   setItem: (key, value) => webStorage().setItem(key, value),
-  removeItem: key => webStorage().removeItem(key)
+  removeItem: (key) => webStorage().removeItem(key),
 }

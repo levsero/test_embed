@@ -14,7 +14,7 @@ import {
   botMessage,
   botFeedbackMessage,
   botFeedbackRequested,
-  botFallbackMessage
+  botFallbackMessage,
 } from 'src/embeds/answerBot/actions/root/bot'
 import * as rootActions from 'src/embeds/answerBot/actions/root'
 import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
@@ -52,15 +52,15 @@ class ArticlePage extends Component {
       botFallbackMessage: PropTypes.func.isRequired,
       originalArticleClicked: PropTypes.func.isRequired,
       addRestrictedImage: PropTypes.func.isRequired,
-      performImageSearch: PropTypes.func.isRequired
-    })
+      performImageSearch: PropTypes.func.isRequired,
+    }),
   }
 
   static defaultProps = {
     articleTitleKey: 'help',
     authToken: '',
     isMobile: false,
-    saveConversationScroll: () => {}
+    saveConversationScroll: () => {},
   }
 
   constructor(props) {
@@ -70,7 +70,7 @@ class ArticlePage extends Component {
       showPopup: false,
       popupDisplayed: false,
       initialOptions: true,
-      showFooter: true
+      showFooter: true,
     }
     this.showPopupTimer = null
   }
@@ -104,7 +104,7 @@ class ArticlePage extends Component {
     saveConversationScroll({ scrollToBottom: true })
   }
 
-  onNoFeedback = reasonID => {
+  onNoFeedback = (reasonID) => {
     const { actions, saveConversationScroll } = this.props
 
     actions.articleDismissed(reasonID)
@@ -182,17 +182,17 @@ class ArticlePage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   article: rootSelectors.getCurrentArticle(state),
   isFeedbackRequired: rootSelectors.isFeedbackRequired(state),
   locale: baseSelectors.getLocale(state),
   authToken: rootSelectors.getAuthToken(state),
   articleTitleKey: getFormTitleKey(state),
   storedImages: getRestrictedImages(state),
-  originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state)
+  originalArticleButton: getSettingsHelpCenterOriginalArticleButton(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
       screenChanged: rootActions.screenChanged,
@@ -205,17 +205,14 @@ const mapDispatchToProps = dispatch => ({
       botFallbackMessage,
       originalArticleClicked,
       performImageSearch,
-      addRestrictedImage
+      addRestrictedImage,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
-)(ArticlePage)
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
+  ArticlePage
+)
 
 export { connectedComponent as default, ArticlePage as Component }

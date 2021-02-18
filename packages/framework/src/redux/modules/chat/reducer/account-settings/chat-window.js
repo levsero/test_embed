@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import {
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  UPDATE_PREVIEWER_SETTINGS
+  UPDATE_PREVIEWER_SETTINGS,
 } from '../../chat-action-types'
 
 const initialState = {
-  title: ''
+  title: '',
 }
 
 const chatWindow = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const chatWindow = (state = initialState, action) => {
       const { title } = _.get(action.payload, 'chat_window.title_bar', state)
 
       return {
-        title: _.toString(title)
+        title: _.toString(title),
       }
     default:
       return state

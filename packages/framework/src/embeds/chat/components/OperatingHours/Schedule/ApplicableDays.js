@@ -5,7 +5,7 @@ import { DayName } from './styles'
 
 const ApplicableDays = ({ days }) => {
   const translate = useTranslate()
-  const nameOfDay = id => {
+  const nameOfDay = (id) => {
     const daysOfTheWeek = [
       'monday',
       'tuesday',
@@ -13,7 +13,7 @@ const ApplicableDays = ({ days }) => {
       'thursday',
       'friday',
       'saturday',
-      'sunday'
+      'sunday',
     ]
 
     return translate(`embeddable_framework.chat.operatingHours.label.${daysOfTheWeek[id - 1]}`)
@@ -22,7 +22,7 @@ const ApplicableDays = ({ days }) => {
   return (
     <DayName>
       {days
-        .map(day => {
+        .map((day) => {
           if (Array.isArray(day)) {
             return day
               .map(nameOfDay)
@@ -37,7 +37,7 @@ const ApplicableDays = ({ days }) => {
 }
 
 ApplicableDays.propTypes = {
-  days: PropTypes.oneOfType([PropTypes.array, PropTypes.number])
+  days: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 }
 
 export default ApplicableDays

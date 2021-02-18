@@ -12,15 +12,15 @@ const baseConfig = {
     launcher: {
       embed: 'launcher',
       props: {
-        color: '#1F73B7'
-      }
-    }
-  }
+        color: '#1F73B7',
+      },
+    },
+  },
 }
 
-const mergeEmbeddableConfigs = configs => {
+const mergeEmbeddableConfigs = (configs) => {
   const values = configs
-    .map(config => {
+    .map((config) => {
       if (typeof config !== 'object') {
         return presets[config]
       }
@@ -32,7 +32,7 @@ const mergeEmbeddableConfigs = configs => {
   return _.merge({}, baseConfig, ...values)
 }
 
-const mockEmbeddableConfigEndpoint = (...configs) => request => {
+const mockEmbeddableConfigEndpoint = (...configs) => (request) => {
   if (!request.url().includes('config')) {
     return false
   }
@@ -41,7 +41,7 @@ const mockEmbeddableConfigEndpoint = (...configs) => request => {
     status: 200,
     headers: { 'Access-Control-Allow-Origin': '*' },
     contentType: 'application/json',
-    body: JSON.stringify(mergeEmbeddableConfigs(configs))
+    body: JSON.stringify(mergeEmbeddableConfigs(configs)),
   })
 }
 

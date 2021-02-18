@@ -7,14 +7,14 @@ describe('form selectors', () => {
         form: {
           formValues: {
             123: {
-              name: 'Something'
-            }
-          }
-        }
+              name: 'Something',
+            },
+          },
+        },
       }
 
       expect(getFormValues(state, 123)).toEqual({
-        name: 'Something'
+        name: 'Something',
       })
     })
 
@@ -23,10 +23,10 @@ describe('form selectors', () => {
         form: {
           formValues: {
             123: {
-              name: 'Something'
-            }
-          }
-        }
+              name: 'Something',
+            },
+          },
+        },
       }
 
       expect(getFormValues(state, 100)).toBe(undefined)

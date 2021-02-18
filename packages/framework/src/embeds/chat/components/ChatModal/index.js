@@ -12,18 +12,18 @@ const ChatModal = ({
   focusOnMount,
   'data-testid': testId,
   noPadding,
-  animate = true
+  animate = true,
 }) => {
   const modalRef = useRef(null)
   const frame = useCurrentFrame()
   const { getBackdropProps, getModalProps, getTitleProps, getContentProps } = useModal({
-    onClose: e => {
+    onClose: (e) => {
       e.stopPropagation()
       onClose()
     },
     modalRef,
     focusOnMount,
-    environment: frame.document
+    environment: frame.document,
   })
 
   return (
@@ -38,7 +38,7 @@ const ChatModal = ({
       >
         <div
           {...getModalProps({
-            ref: modalRef
+            ref: modalRef,
           })}
         >
           {title && <Header {...getTitleProps()}>{title}</Header>}
@@ -56,7 +56,7 @@ ChatModal.propTypes = {
   focusOnMount: PropTypes.bool,
   'data-testid': PropTypes.string,
   noPadding: PropTypes.bool,
-  animate: PropTypes.bool
+  animate: PropTypes.bool,
 }
 
 export default ChatModal

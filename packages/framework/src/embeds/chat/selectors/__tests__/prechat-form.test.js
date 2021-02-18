@@ -1,24 +1,24 @@
 import {
   getDefaultSelectedDepartment,
   getVisiblePrechatFields,
-  getPrechatGreeting
+  getPrechatGreeting,
 } from 'embeds/chat/selectors/prechat-form'
 import {
   getDefaultFormFields,
   getPrechatFormFields,
-  getPrechatFormSettings
+  getPrechatFormSettings,
 } from 'src/redux/modules/selectors'
 import {
   getAccountDefaultDepartmentId,
   getDepartment,
   getDepartmentsList,
   getIsAuthenticated,
-  getLoginSettings
+  getLoginSettings,
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatDepartment,
   getSettingsChatDepartmentsEnabled,
-  getSettingsChatPrechatForm
+  getSettingsChatPrechatForm,
 } from 'src/redux/modules/settings/settings-selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 
@@ -31,21 +31,21 @@ describe('prechat form selectors', () => {
     const defaultOptions = {
       isAuthenticated: false,
       department: {
-        status: 'online'
+        status: 'online',
       },
       formFields: {},
       loginSettings: {
-        enabled: true
+        enabled: true,
       },
       customerDefinedDepartments: undefined,
       prechatFormSettings: {},
-      locale: 'en'
+      locale: 'en',
     }
 
-    const run = overrideOptions => {
+    const run = (overrideOptions) => {
       const options = {
         ...defaultOptions,
-        ...overrideOptions
+        ...overrideOptions,
       }
 
       jest.spyOn(i18n, 'getLocale').mockReturnValue(options.locale)
@@ -64,30 +64,30 @@ describe('prechat form selectors', () => {
     describe('name', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field).toBeUndefined()
       })
 
       it('is not included when login is disabled via the chat admin', () => {
         const result = run({
           loginSettings: {
-            enabled: false
-          }
+            enabled: false,
+          },
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field).not.toBeUndefined()
       })
 
@@ -96,12 +96,12 @@ describe('prechat form selectors', () => {
           isAuthenticated: false,
           formFields: {
             name: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field.required).toBe(true)
       })
 
@@ -110,15 +110,15 @@ describe('prechat form selectors', () => {
           isAuthenticated: false,
           formFields: {
             name: {
-              required: false
-            }
+              required: false,
+            },
           },
           department: {
-            status: 'offline'
-          }
+            status: 'offline',
+          },
         })
 
-        const field = result.find(field => field.id === 'name')
+        const field = result.find((field) => field.id === 'name')
         expect(field.required).toBe(true)
       })
     })
@@ -126,19 +126,19 @@ describe('prechat form selectors', () => {
     describe('social login', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'socialLogin')
+        const field = result.find((field) => field.id === 'socialLogin')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'socialLogin')
+        const field = result.find((field) => field.id === 'socialLogin')
         expect(field).not.toBeUndefined()
       })
     })
@@ -146,30 +146,30 @@ describe('prechat form selectors', () => {
     describe('email', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field).toBeUndefined()
       })
 
       it('is not included when login is disabled via the chat admin', () => {
         const result = run({
           loginSettings: {
-            enabled: false
-          }
+            enabled: false,
+          },
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field).toBeUndefined()
       })
 
       it('is included when the user is not authenticated', () => {
         const result = run({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field).not.toBeUndefined()
       })
 
@@ -178,12 +178,12 @@ describe('prechat form selectors', () => {
           isAuthenticated: false,
           formFields: {
             email: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field.required).toBe(true)
       })
 
@@ -192,15 +192,15 @@ describe('prechat form selectors', () => {
           isAuthenticated: false,
           formFields: {
             email: {
-              required: false
-            }
+              required: false,
+            },
           },
           department: {
-            status: 'offline'
-          }
+            status: 'offline',
+          },
         })
 
-        const field = result.find(field => field.id === 'email')
+        const field = result.find((field) => field.id === 'email')
         expect(field.required).toBe(true)
       })
     })
@@ -210,13 +210,13 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              required: true
+              required: true,
             },
-            departments: [{ id: 1 }, { id: 1 }]
-          }
+            departments: [{ id: 1 }, { id: 1 }],
+          },
         })
 
-        const department = result.find(field => field.id === 'department')
+        const department = result.find((field) => field.id === 'department')
         expect(department.required).toBe(true)
       })
 
@@ -224,14 +224,14 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              required: true
+              required: true,
             },
-            departments: [{ id: 1 }, { id: 1 }]
+            departments: [{ id: 1 }, { id: 1 }],
           },
-          customerDefinedDepartments: []
+          customerDefinedDepartments: [],
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field).toBeUndefined()
       })
 
@@ -239,13 +239,13 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              required: true
+              required: true,
             },
-            departments: []
-          }
+            departments: [],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field).toBeUndefined()
       })
 
@@ -253,18 +253,18 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              required: true
+              required: true,
             },
             departments: [
               {
                 id: 1,
-                isDefault: true
-              }
-            ]
-          }
+                isDefault: true,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field).toBeUndefined()
       })
 
@@ -272,37 +272,37 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              required: true
+              required: true,
             },
             departments: [
               {
                 id: 1,
-                isDefault: false
-              }
-            ]
-          }
+                isDefault: false,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field).not.toBeUndefined()
       })
 
       it('uses the label defined in settings if it exists', () => {
         const result = run({
           prechatFormSettings: {
-            departmentLabel: { '*': 'Label from settings' }
+            departmentLabel: { '*': 'Label from settings' },
           },
           formFields: {
             departments: [
               {
                 id: 1,
-                isDefault: false
-              }
-            ]
-          }
+                isDefault: false,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field.title).toBe('Label from settings')
       })
 
@@ -310,19 +310,19 @@ describe('prechat form selectors', () => {
         const result = run({
           locale: 'fr',
           prechatFormSettings: {
-            departmentLabel: { fr: 'French label', '*': 'Fallback label' }
+            departmentLabel: { fr: 'French label', '*': 'Fallback label' },
           },
           formFields: {
             departments: [
               {
                 id: 1,
-                isDefault: false
-              }
-            ]
-          }
+                isDefault: false,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field.title).toBe('French label')
       })
 
@@ -330,18 +330,18 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             department: {
-              label: 'Label from chat'
+              label: 'Label from chat',
             },
             departments: [
               {
                 id: 1,
-                isDefault: false
-              }
-            ]
-          }
+                isDefault: false,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field.title).toBe('Label from chat')
       })
 
@@ -351,13 +351,13 @@ describe('prechat form selectors', () => {
             departments: [
               {
                 id: 1,
-                isDefault: false
-              }
-            ]
-          }
+                isDefault: false,
+              },
+            ],
+          },
         })
 
-        const field = result.find(field => field.id === 'department')
+        const field = result.find((field) => field.id === 'department')
         expect(field.title).toBe('Choose a department')
       })
     })
@@ -365,21 +365,21 @@ describe('prechat form selectors', () => {
     describe('phone', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field).toBeUndefined()
       })
 
       it('is not included when login is disabled via the chat admin', () => {
         const result = run({
           loginSettings: {
-            enabled: false
-          }
+            enabled: false,
+          },
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field).toBeUndefined()
       })
 
@@ -387,11 +387,11 @@ describe('prechat form selectors', () => {
         const result = run({
           isAuthenticated: false,
           loginSettings: {
-            phoneEnabled: false
-          }
+            phoneEnabled: false,
+          },
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field).toBeUndefined()
       })
 
@@ -400,16 +400,16 @@ describe('prechat form selectors', () => {
           isAuthenticated: false,
           loginSettings: {
             enabled: true,
-            phoneEnabled: true
+            phoneEnabled: true,
           },
           formFields: {
             phone: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'phone')
+        const field = result.find((field) => field.id === 'phone')
         expect(field.required).toBe(true)
       })
     })
@@ -419,12 +419,12 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             message: {
-              required: true
-            }
-          }
+              required: true,
+            },
+          },
         })
 
-        const field = result.find(field => field.id === 'message')
+        const field = result.find((field) => field.id === 'message')
         expect(field.required).toBe(true)
       })
 
@@ -432,22 +432,22 @@ describe('prechat form selectors', () => {
         const result = run({
           formFields: {
             message: {
-              required: false
-            }
+              required: false,
+            },
           },
           department: {
-            status: 'offline'
-          }
+            status: 'offline',
+          },
         })
 
-        const field = result.find(field => field.id === 'message')
+        const field = result.find((field) => field.id === 'message')
         expect(field.required).toBe(true)
       })
 
       it('is always visible', () => {
         const result = run()
 
-        const field = result.find(field => field.id === 'message')
+        const field = result.find((field) => field.id === 'message')
         expect(field).not.toBeUndefined()
       })
     })
@@ -456,7 +456,7 @@ describe('prechat form selectors', () => {
   describe('getPrechatGreeting', () => {
     it('returns the prechat form greeting', () => {
       getPrechatFormSettings.mockReturnValue({
-        message: 'Some message'
+        message: 'Some message',
       })
 
       expect(getPrechatGreeting({})).toBe('Some message')
@@ -467,7 +467,7 @@ describe('prechat form selectors', () => {
     getDepartmentsList.mockReturnValue([
       { id: 1, name: 'department' },
       { id: 2, name: 'sOmE dEpArTmEnT' },
-      { id: 3, name: 'another department' }
+      { id: 3, name: 'another department' },
     ])
 
     it('returns the department that matches the name specified in the settings', () => {

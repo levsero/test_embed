@@ -17,24 +17,24 @@ const exit = `
 const Layout = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: ${props => props.theme.messenger.space.xxxs};
+  margin-top: ${(props) => props.theme.messenger.space.xxxs};
   margin-${dirStyles.left}: calc(
-    ${props => props.theme.messenger.iconSizes.xl} + ${props => props.theme.messenger.space.md}
+    ${(props) => props.theme.messenger.iconSizes.xl} + ${(props) => props.theme.messenger.space.md}
   );
   justify-content: flex-start;
 `
 
 const Time = styled.p`
-  color: ${props => props.theme.palette.grey[600]};
-  font-size: ${props => props.theme.messenger.fontSizes.sm};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  color: ${(props) => props.theme.palette.grey[600]};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  line-height: ${(props) => props.theme.messenger.lineHeights.sm};
 
   margin: 0;
-  margin-${dirStyles.left}: ${props => props.theme.messenger.space.xs};
+  margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.xs};
 
   opacity: 0;
 
-  ${props =>
+  ${(props) =>
     !props.isFreshMessage &&
     `
     opacity: 1;
@@ -56,14 +56,14 @@ const Time = styled.p`
 `
 
 const Tail = styled.div`
-  border-top: ${props => props.theme.messenger.space.sm} solid
-    ${props => props.theme.messenger.colors.otherParticipantMessage};
-  border-${dirStyles.right}: ${props => props.theme.messenger.space.sm} solid transparent;
+  border-top: ${(props) => props.theme.messenger.space.sm} solid
+    ${(props) => props.theme.messenger.colors.otherParticipantMessage};
+  border-${dirStyles.right}: ${(props) => props.theme.messenger.space.sm} solid transparent;
 
   transform: translateY(-105%) scale(0);
   opacity: 0;
 
-  ${props =>
+  ${(props) =>
     !props.isFreshMessage &&
     `
     transform: translateY(0) scale(1);
@@ -76,7 +76,7 @@ const Tail = styled.div`
     transform: translateY(0) scale(1);
     opacity: 1;
 
-    ${props =>
+    ${(props) =>
       props.status === 'sending' &&
       `
     opacity: 0.5;
@@ -88,7 +88,7 @@ const Tail = styled.div`
 
     transform: translateY(-105%) scale(0);
     opacity: 1;
-    ${props =>
+    ${(props) =>
       props.status === 'sending' &&
       `
     opacity: 0.5;

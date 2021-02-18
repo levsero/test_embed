@@ -26,20 +26,17 @@ const ViewHistoryButton = ({ canShowHistory, onOpenChatHistory }) => {
 
 ViewHistoryButton.propTypes = {
   canShowHistory: PropTypes.bool,
-  onOpenChatHistory: PropTypes.func
+  onOpenChatHistory: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
-  canShowHistory: getIsAuthenticated(state) && getHasChatHistory(state)
+const mapStateToProps = (state) => ({
+  canShowHistory: getIsAuthenticated(state) && getHasChatHistory(state),
 })
 
 const mapDispatchToProps = {
-  onOpenChatHistory: openedChatHistory
+  onOpenChatHistory: openedChatHistory,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ViewHistoryButton)
+export default connect(mapStateToProps, mapDispatchToProps)(ViewHistoryButton)
 
 export const Component = ViewHistoryButton

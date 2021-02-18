@@ -11,7 +11,7 @@ const renderComponent = (params = { country: 'AU' }) => {
 
   store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
   dispatchUpdateEmbeddableConfig(store, {
-    phoneNumber: '+61234567890'
+    phoneNumber: '+61234567890',
   })
   store.dispatch(updateTalkCallbackForm({ country: params.country }))
   return render(<CallbackAndPhonePage />, { store })

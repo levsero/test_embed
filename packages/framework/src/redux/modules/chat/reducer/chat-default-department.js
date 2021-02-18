@@ -9,7 +9,7 @@ const chatDefaultDepartment = (state = initialState, action) => {
   switch (type) {
     case SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE:
       return {
-        id: _.get(payload, 'detail.id', state.id)
+        id: _.get(payload, 'detail.id', state.id),
       }
     default:
       return state

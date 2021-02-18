@@ -1,10 +1,10 @@
 import { getElement } from './helpers'
 
-const toAppearInOrder = async elements => {
+const toAppearInOrder = async (elements) => {
   if (elements.length < 2) {
     return {
       message: () => `toAppearInOrder failed because less than two elements were provided to check`,
-      pass: false
+      pass: false,
     }
   }
 
@@ -16,7 +16,7 @@ const toAppearInOrder = async elements => {
       return {
         message: () =>
           `toAppearInOrder failed because it was not able to find element at position ${i - 1}`,
-        pass: false
+        pass: false,
       }
     }
 
@@ -24,7 +24,7 @@ const toAppearInOrder = async elements => {
       return {
         message: () =>
           `toAppearInOrder failed because it was not able to find element at position ${i}`,
-        pass: false
+        pass: false,
       }
     }
 
@@ -34,16 +34,17 @@ const toAppearInOrder = async elements => {
     if (box1.y > box2.y) {
       return {
         message: () =>
-          `expected elements to appear in order, but they weren't. Element ${i -
-            1} appeared after ${i}`,
-        pass: false
+          `expected elements to appear in order, but they weren't. Element ${
+            i - 1
+          } appeared after ${i}`,
+        pass: false,
       }
     }
   }
 
   return {
     message: () => `expected elements to appear in order`,
-    pass: true
+    pass: true,
   }
 }
 

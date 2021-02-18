@@ -11,22 +11,22 @@ export default {
       defaultValue: BANNER_STATUS.success,
       control: {
         type: 'inline-radio',
-        options: Object.values(BANNER_STATUS)
-      }
-    }
-  }
+        options: Object.values(BANNER_STATUS),
+      },
+    },
+  },
 }
 
-const Template = args => <Banner {...args} />
+const Template = (args) => <Banner {...args} />
 
 export const OnlineBanner = Template.bind()
 OnlineBanner.args = {
   status: BANNER_STATUS.success,
-  message: "You're back online!"
+  message: "You're back online!",
 }
 
 export const OfflineBanner = Template.bind()
 OfflineBanner.args = {
   status: BANNER_STATUS.fatal,
-  message: 'Offline. You will not receive messages.'
+  message: 'Offline. You will not receive messages.',
 }

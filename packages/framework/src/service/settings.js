@@ -77,61 +77,61 @@ const optionAllowList = {
     'talk.nickname',
     'talk.suppress',
     'talk.title',
-    'zIndex'
-  ]
+    'zIndex',
+  ],
 }
 const customizationsAllowList = ['helpCenter.localeFallbacks']
 const webWidgetStoreDefaults = {
   answerBot: {
     avatar: {
       url: '',
-      name: {}
+      name: {},
     },
     title: {},
     search: {
-      labels: []
+      labels: [],
     },
-    suppress: false
+    suppress: false,
   },
   contactForm: {
     fields: [],
-    ticketForms: []
+    ticketForms: [],
   },
   helpCenter: {},
   contactOptions: {
-    enabled: false
+    enabled: false,
   },
   chat: {
     concierge: {
-      avatarPath: null
+      avatarPath: null,
     },
     departments: {
       enabled: null,
-      select: ''
+      select: '',
     },
     suppress: false,
     connectionSuppress: false,
     notifications: {
       mobile: {
-        disable: false
-      }
+        disable: false,
+      },
     },
-    tags: []
+    tags: [],
   },
   launcher: {},
   margin: 8,
   talk: {
     suppress: false,
     nickname: null,
-    title: {}
+    title: {},
   },
   viaId: 48,
-  viaIdAnswerBot: 67
+  viaIdAnswerBot: 67,
 }
 const baseDefaults = {
   errorReporting: true,
   analytics: true,
-  cookies: true
+  cookies: true,
 }
 let settingsStore = {}
 let webWidgetStore = {}
@@ -170,8 +170,8 @@ function init(reduxStore = { dispatch: () => {} }) {
     updateSettings({
       webWidget: {
         ...webWidgetStore,
-        ...settingsStore
-      }
+        ...settingsStore,
+      },
     })
   )
 }
@@ -194,7 +194,7 @@ function getTranslations() {
     helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
     helpCenterTitle: webWidgetStore.helpCenter.title,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,
-    launcherLabel: webWidgetStore.launcher.label
+    launcherLabel: webWidgetStore.launcher.label,
   }
 
   return _.omitBy(translations, _.isUndefined)
@@ -211,13 +211,13 @@ function getTrackSettings() {
 
     widgetSettings.authenticate = {
       helpCenter: !!authSettings.jwt || !!_.get(authSettings, 'support.jwt'),
-      chat: !!(authSettings.chat && authSettings.chat.jwtFn)
+      chat: !!(authSettings.chat && authSettings.chat.jwtFn),
     }
   }
 
   return _.omitBy(
     {
-      webWidget: widgetSettings
+      webWidget: widgetSettings,
     },
     _.isEmpty
   )
@@ -256,9 +256,9 @@ function storeChatAuth(jwtFn) {
   _.merge(webWidgetStore, {
     authenticate: {
       chat: {
-        jwtFn
-      }
-    }
+        jwtFn,
+      },
+    },
   })
 }
 
@@ -273,5 +273,5 @@ export const settings = {
   getErrorReportingEnabled,
   enableCustomizations,
   storeChatAuth,
-  disableCustomizations
+  disableCustomizations,
 }

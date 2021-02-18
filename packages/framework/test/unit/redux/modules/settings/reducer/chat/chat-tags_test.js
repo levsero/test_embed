@@ -30,7 +30,7 @@ describe('chat reducer tags', () => {
     beforeEach(() => {
       state = reducer(currentState, {
         type: actionTypes.UPDATE_SETTINGS,
-        payload: someSettings
+        payload: someSettings,
       })
     })
 
@@ -39,9 +39,9 @@ describe('chat reducer tags', () => {
         someSettings = {
           webWidget: {
             chat: {
-              tags: ['yolo', 'yolo2']
-            }
-          }
+              tags: ['yolo', 'yolo2'],
+            },
+          },
         }
         currentState = initialState
       })
@@ -56,9 +56,9 @@ describe('chat reducer tags', () => {
         someSettings = {
           webWidget: {
             chat: {
-              suppress: false
-            }
-          }
+              suppress: false,
+            },
+          },
         }
         currentState = ['old', 'tags']
       })

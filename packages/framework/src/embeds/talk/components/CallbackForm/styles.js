@@ -6,7 +6,7 @@ import { FONT_SIZE } from 'constants/shared'
 
 const SubmitButton = styled(Button).attrs({
   isPrimary: true,
-  type: 'submit'
+  type: 'submit',
 })`
   max-width: ${200 / FONT_SIZE}rem !important;
   padding-right: ${10 / FONT_SIZE}rem !important;

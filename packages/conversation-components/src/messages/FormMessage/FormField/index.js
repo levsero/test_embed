@@ -6,7 +6,7 @@ import SelectField from './SelectField'
 const fields = {
   text: TextField,
   email: EmailField,
-  select: SelectField
+  select: SelectField,
 }
 
 const FormField = ({ field, onChange, value, error, lastSubmittedTimestamp }) => {
@@ -29,12 +29,12 @@ const FormField = ({ field, onChange, value, error, lastSubmittedTimestamp }) =>
 
 FormField.propTypes = {
   field: PropTypes.shape({
-    type: PropTypes.oneOf(Object.keys(fields))
+    type: PropTypes.oneOf(Object.keys(fields)),
   }),
   onChange: PropTypes.func,
   value: PropTypes.any,
   error: PropTypes.string,
-  lastSubmittedTimestamp: PropTypes.number
+  lastSubmittedTimestamp: PropTypes.number,
 }
 
 export default FormField

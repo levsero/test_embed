@@ -7,17 +7,17 @@ import { store } from 'src/framework/services/persistence'
 const keysToStore = {
   activeEmbed: 'base',
   widgetShown: 'base',
-  is_chatting: 'chat' // eslint-disable-line camelcase
+  is_chatting: 'chat', // eslint-disable-line camelcase
 }
 const actionsToStoreOn = [
   UPDATE_WIDGET_SHOWN,
   UPDATE_ACTIVE_EMBED,
   CHAT_STARTED,
-  END_CHAT_REQUEST_SUCCESS
+  END_CHAT_REQUEST_SUCCESS,
 ]
 
 export default function persist({ getState }) {
-  return next => action => {
+  return (next) => (action) => {
     const result = next(action)
 
     const { type } = action

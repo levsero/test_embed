@@ -16,9 +16,9 @@ const renderComponent = (props = {}) => {
     currentScreen: CONVERSATION_SCREEN,
     actions: {
       updateBackButtonVisibility: noop,
-      conversationScrollChanged: noop
+      conversationScrollChanged: noop,
     },
-    ...props
+    ...props,
   }
 
   return render(<AnswerBot {...componentProps} />)
@@ -34,7 +34,7 @@ describe('conversation screen', () => {
 
   it('hides zendesk logo', () => {
     const { queryByTestId } = renderComponent({
-      hideZendeskLogo: true
+      hideZendeskLogo: true,
     })
 
     expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()
@@ -46,13 +46,13 @@ describe('article screen', () => {
     jest.spyOn(http, 'getDynamicHostname').mockReturnValue('a.b.c')
     jest.spyOn(rootSelectors, 'getCurrentArticle').mockReturnValue({
       title: 'this is the title',
-      body: 'this is the body'
+      body: 'this is the body',
     })
   })
 
   test('renders the article', () => {
     const { queryByText } = renderComponent({
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     expect(queryByText('this is the title')).toBeInTheDocument()
@@ -61,7 +61,7 @@ describe('article screen', () => {
 
   test('does not render the chat input box', () => {
     const { queryByLabelText } = renderComponent({
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     expect(queryByLabelText('Type your question here...')).not.toBeInTheDocument()
@@ -69,7 +69,7 @@ describe('article screen', () => {
 
   test('renders the logo by default', () => {
     const { queryByTestId } = renderComponent({
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     expect(queryByTestId('Icon--zendesk')).toBeInTheDocument()
@@ -78,7 +78,7 @@ describe('article screen', () => {
   test('hides the logo', () => {
     jest.spyOn(selectors, 'getHideZendeskLogo').mockReturnValue(true)
     const { queryByTestId } = renderComponent({
-      currentScreen: ARTICLE_SCREEN
+      currentScreen: ARTICLE_SCREEN,
     })
 
     expect(queryByTestId('Icon--zendesk')).not.toBeInTheDocument()

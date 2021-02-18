@@ -14,7 +14,7 @@ import {
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE,
   TALK_VENDOR_LOADED,
-  RECEIVED_DEFERRED_TALK_STATUS
+  RECEIVED_DEFERRED_TALK_STATUS,
 } from './talk-action-types'
 import { getFormState, getIsPollingTalk } from './talk-selectors'
 import { handleCloseButtonClicked, updateBackButtonVisibility } from 'src/redux/modules/base'
@@ -22,46 +22,46 @@ import {
   getTalkEnabled,
   getTalkNickname,
   getTalkServiceUrl,
-  getDeferredTalkApiUrl
+  getDeferredTalkApiUrl,
 } from 'src/redux/modules/selectors'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 import {
   BASE_TALK_POLL_INTERVAL,
   MAX_TALK_POLL_INTERVAL,
-  REQUESTS_BEFORE_BACKOFF
+  REQUESTS_BEFORE_BACKOFF,
 } from 'src/redux/modules/talk/constants'
 
 export function updateTalkEmbeddableConfig(config) {
   return {
     type: TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
-    payload: config
+    payload: config,
   }
 }
 
 export function updateTalkAgentAvailability(availability) {
   return {
     type: TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
-    payload: availability
+    payload: availability,
   }
 }
 
 export function updateTalkAverageWaitTime(averageWaitTime) {
   return {
     type: TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
-    payload: averageWaitTime
+    payload: averageWaitTime,
   }
 }
 
 export function talkDisconnect() {
   return {
-    type: TALK_DISCONNECT_SOCKET_EVENT
+    type: TALK_DISCONNECT_SOCKET_EVENT,
   }
 }
 
 export function updateTalkCallbackForm(formState) {
   return {
     type: UPDATE_CALLBACK_FORM,
-    payload: formState
+    payload: formState,
   }
 }
 
@@ -71,7 +71,7 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
     const additionalInfo = _.pickBy(
       {
         name: formState.name,
-        description: formState.description
+        description: formState.description,
       },
       _.identity
     )
@@ -80,7 +80,7 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
       phoneNumber: formState.phone,
       additionalInfo,
       subdomain,
-      keyword: nickname
+      keyword: nickname,
     }
     const callbacks = {
       done: () => {
@@ -88,30 +88,30 @@ export function submitTalkCallbackForm(serviceUrl, nickname) {
         dispatch(updateTalkCallbackForm({}))
         dispatch(updateBackButtonVisibility(false))
       },
-      fail: err => {
+      fail: (err) => {
         const errorMessage = err.responseJSON
           ? err.responseJSON.error
           : JSON.parse(err.response.text).error
         const error = {
           message: errorMessage,
-          status: err.status
+          status: err.status,
         }
 
         dispatch({
           type: TALK_CALLBACK_FAILURE,
-          payload: error
+          payload: error,
         })
-      }
+      },
     }
 
     dispatch({
       type: TALK_CALLBACK_REQUEST,
-      payload: formState
+      payload: formState,
     })
 
     http.callMeRequest(serviceUrl, {
       params,
-      callbacks
+      callbacks,
     })
   }
 }
@@ -137,19 +137,19 @@ export function pollTalkStatus() {
       if (!skip) {
         http
           .get({ path }, { skipCache: true })
-          .then(response => {
+          .then((response) => {
             if (!getIsPollingTalk(getState())) {
               return
             }
             dispatch({
               type: RECEIVED_DEFERRED_TALK_STATUS,
-              payload: response.body
+              payload: response.body,
             })
           })
-          .catch(err => {
+          .catch((err) => {
             errorTracker.warn(err, {
               rollbarFingerprint: 'Failed to connect to deferred talk endpoint',
-              rollbarTitle: 'Failed to connect to deferred talk endpoint'
+              rollbarTitle: 'Failed to connect to deferred talk endpoint',
             })
             if (err.status == 404) {
               pathsToSkip[path] = true
@@ -175,7 +175,7 @@ export function loadTalkVendors() {
 
       socketio.mapEventsToActions(socket, { dispatch })
     }
-    const onFailure = err => {
+    const onFailure = (err) => {
       errorTracker.error(err)
     }
 
@@ -188,13 +188,13 @@ export function loadTalkVendors() {
 export function handleTalkVendorLoaded(vendor) {
   return {
     type: TALK_VENDOR_LOADED,
-    payload: vendor
+    payload: vendor,
   }
 }
 
-export const successDoneButtonClicked = () => dispatch => {
+export const successDoneButtonClicked = () => (dispatch) => {
   dispatch(handleCloseButtonClicked())
   dispatch({
-    type: TALK_SUCCESS_DONE_BUTTON_CLICKED
+    type: TALK_SUCCESS_DONE_BUTTON_CLICKED,
   })
 }

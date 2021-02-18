@@ -20,7 +20,7 @@ describe('useScrollToFirstError', () => {
           scrollToFirstError(fields, errors)
         }}
       >
-        {fields.map(field => (
+        {fields.map((field) => (
           <>
             <label data-fieldid={field.id}>{field.id}</label>
             <input style={{ height: 50 }} key={field.id} data-testid={field.id} name={field.id} />
@@ -34,7 +34,7 @@ describe('useScrollToFirstError', () => {
 
   const defaultProps = {
     fields: [{ id: 'one' }, { id: 'two' }, { id: 'three' }],
-    errors: {}
+    errors: {},
   }
 
   const renderComponent = (props = {}) => {
@@ -44,7 +44,7 @@ describe('useScrollToFirstError', () => {
   it('scrolls to the first field that has an error', () => {
     let elementScrolledIntoView = null
 
-    window.HTMLElement.prototype.scrollIntoView = jest.fn(function() {
+    window.HTMLElement.prototype.scrollIntoView = jest.fn(function () {
       elementScrolledIntoView = this
     })
 
@@ -70,7 +70,7 @@ describe('useScrollToFirstError', () => {
   it('scrolls to the form error message if it is the only error', () => {
     let elementScrolledIntoView = null
 
-    window.HTMLElement.prototype.scrollIntoView = jest.fn(function() {
+    window.HTMLElement.prototype.scrollIntoView = jest.fn(function () {
       elementScrolledIntoView = this
     })
 

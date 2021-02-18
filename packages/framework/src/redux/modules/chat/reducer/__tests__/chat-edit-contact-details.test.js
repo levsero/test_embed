@@ -7,7 +7,7 @@ describe('editContactDetails', () => {
   const initialState = editContactDetails(undefined, { type: '' })
   const mockFormState = {
     display_name: 'Bob',
-    email: 'bob@bob.com'
+    email: 'bob@bob.com',
   }
   const reduce = (action, state = undefined) => editContactDetails(state, action)
 
@@ -17,7 +17,7 @@ describe('editContactDetails', () => {
       show: false,
       display_name: null,
       email: null,
-      error: false
+      error: false,
     })
   })
 
@@ -26,12 +26,12 @@ describe('editContactDetails', () => {
       expect(
         reduce({
           type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-          payload: mockFormState
+          payload: mockFormState,
         })
       ).toEqual({
         ...initialState,
         ...mockFormState,
-        status: chatConstants.EDIT_CONTACT_DETAILS_SCREEN
+        status: chatConstants.EDIT_CONTACT_DETAILS_SCREEN,
       })
     })
   })
@@ -41,12 +41,12 @@ describe('editContactDetails', () => {
       expect(
         reduce({
           type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
-          payload: mockFormState
+          payload: mockFormState,
         })
       ).toEqual({
         ...initialState,
         ...mockFormState,
-        status: chatConstants.EDIT_CONTACT_DETAILS_LOADING_SCREEN
+        status: chatConstants.EDIT_CONTACT_DETAILS_LOADING_SCREEN,
       })
     })
   })
@@ -57,7 +57,7 @@ describe('editContactDetails', () => {
         ...initialState,
         status: chatConstants.EDIT_CONTACT_DETAILS_ERROR_SCREEN,
         show: false,
-        error: true
+        error: true,
       })
     })
   })
@@ -67,12 +67,12 @@ describe('editContactDetails', () => {
       expect(
         reduce({
           type: actions.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
-          payload: true
+          payload: true,
         })
       ).toEqual({
         ...initialState,
         status: chatConstants.EDIT_CONTACT_DETAILS_SCREEN,
-        show: true
+        show: true,
       })
     })
   })
@@ -90,12 +90,12 @@ describe('editContactDetails', () => {
           reduce({
             type: baseActions.PREFILL_RECEIVED,
             payload: {
-              prefillValues: { name: 'Not Terence', email: 'foo@example.com' }
-            }
+              prefillValues: { name: 'Not Terence', email: 'foo@example.com' },
+            },
           })
         ).toMatchObject({
           display_name: 'Not Terence',
-          email: 'foo@example.com'
+          email: 'foo@example.com',
         })
       })
     })
@@ -105,11 +105,11 @@ describe('editContactDetails', () => {
         expect(
           reduce({
             type: baseActions.PREFILL_RECEIVED,
-            payload: { prefillValues: { name: 'Not Terence' } }
+            payload: { prefillValues: { name: 'Not Terence' } },
           })
         ).toMatchObject({
           display_name: 'Not Terence',
-          email: null
+          email: null,
         })
       })
     })
@@ -119,11 +119,11 @@ describe('editContactDetails', () => {
         expect(
           reduce({
             type: baseActions.PREFILL_RECEIVED,
-            payload: { prefillValues: { email: 'foo@example.com' } }
+            payload: { prefillValues: { email: 'foo@example.com' } },
           })
         ).toMatchObject({
           display_name: null,
-          email: 'foo@example.com'
+          email: 'foo@example.com',
         })
       })
     })
@@ -135,7 +135,7 @@ describe('editContactDetails', () => {
     beforeEach(() => {
       newFormState = {
         display_name: 'Not Terence',
-        email: 'foo@baz'
+        email: 'foo@baz',
       }
     })
 
@@ -143,11 +143,11 @@ describe('editContactDetails', () => {
       expect(
         reduce({
           type: actions.SDK_VISITOR_UPDATE,
-          payload: { detail: newFormState }
+          payload: { detail: newFormState },
         })
       ).toEqual({
         ...initialState,
-        ...newFormState
+        ...newFormState,
       })
     })
 
@@ -160,11 +160,11 @@ describe('editContactDetails', () => {
         expect(
           reduce({
             type: actions.SDK_VISITOR_UPDATE,
-            payload: { detail: newFormState }
+            payload: { detail: newFormState },
           })
         ).toEqual({
           ...initialState,
-          email: 'foo@baz'
+          email: 'foo@baz',
         })
       })
     })
@@ -173,7 +173,7 @@ describe('editContactDetails', () => {
       beforeEach(() => {
         newFormState = {
           display_name: 'Visitor 2131231',
-          email: ''
+          email: '',
         }
       })
 
@@ -182,13 +182,13 @@ describe('editContactDetails', () => {
           reduce(
             {
               type: actions.SDK_VISITOR_UPDATE,
-              payload: { detail: newFormState }
+              payload: { detail: newFormState },
             },
             { ...initialState, email: 'prefilled@example.com' }
           )
         ).toEqual({
           ...initialState,
-          email: 'prefilled@example.com'
+          email: 'prefilled@example.com',
         })
       })
     })

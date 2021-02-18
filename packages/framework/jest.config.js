@@ -59,7 +59,7 @@ module.exports = {
     __EMBEDDABLE_VERSION__: 1,
     __EMBEDDABLE_FRAMEWORK_ENV__: 'test',
     __DEV__: false,
-    __ASSET_BASE_PATH__: 'https://static-staging.zdassets.com'
+    __ASSET_BASE_PATH__: 'https://static-staging.zdassets.com',
   },
 
   // An array of directory names to be searched recursively up from the requiring module's location
@@ -78,7 +78,7 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.js',
-    '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js'
+    '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -109,7 +109,7 @@ module.exports = {
   resolver: 'jest-webpack-resolver',
 
   jestWebpackResolver: {
-    webpackConfig: './webpack/webpack.common.js'
+    webpackConfig: './webpack/webpack.common.js',
   },
 
   // Automatically restore mock state between every test
@@ -175,15 +175,15 @@ module.exports = {
   transform: {
     '^.+\\.jsx$': 'babel-jest',
     '^.+\\.js$': 'babel-jest',
-    '^.+\\.svg$': '<rootDir>/src/__mocks__/svgrMock.js'
+    '^.+\\.svg$': '<rootDir>/src/__mocks__/svgrMock.js',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: [
     'node_modules/(?!(@zendeskgarden)/)',
     'ze_countries.js',
-    'ze_localeIdMap.js'
-  ]
+    'ze_localeIdMap.js',
+  ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

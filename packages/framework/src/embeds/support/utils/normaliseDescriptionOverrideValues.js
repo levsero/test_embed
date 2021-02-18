@@ -37,7 +37,7 @@ import _ from 'lodash'
 //   }
 // }
 
-const normaliseDescriptionOverrideValues = fields => {
+const normaliseDescriptionOverrideValues = (fields) => {
   if (!Array.isArray(fields)) return {}
 
   return fields.reduce((normalisedValues, field) => {

@@ -8,7 +8,7 @@ import EndChatOption from '../'
 const renderComponent = (props = {}) => {
   const defaultProps = {
     endChat: jest.fn(),
-    isChatting: false
+    isChatting: false,
   }
 
   return render(<EndChatOption {...defaultProps} {...props} />)

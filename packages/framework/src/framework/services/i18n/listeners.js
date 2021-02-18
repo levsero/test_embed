@@ -1,20 +1,20 @@
 let listeners = []
 
-const subscribe = callback => {
+const subscribe = (callback) => {
   listeners.push(callback)
 
   const unsubscribe = () => {
-    listeners = listeners.filter(c => c !== callback)
+    listeners = listeners.filter((c) => c !== callback)
   }
 
   return unsubscribe
 }
 
 const notifyAll = () => {
-  listeners.forEach(callback => callback())
+  listeners.forEach((callback) => callback())
 }
 
 export default {
   subscribe,
-  notifyAll
+  notifyAll,
 }

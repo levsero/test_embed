@@ -24,74 +24,74 @@ describe('blip middleware', () => {
     mockery.enable()
     initMockRegistry({
       'service/beacon': {
-        beacon: beaconSpy
+        beacon: beaconSpy,
       },
       'src/apps/webWidget/services/i18n': {
-        i18n: i18nSpy
+        i18n: i18nSpy,
       },
       'src/redux/modules/talk/talk-selectors': {
         getEmbeddableConfig: _.identity,
-        getAgentAvailability: prevState => prevState.agentAvailability,
+        getAgentAvailability: (prevState) => prevState.agentAvailability,
         getFormState: _.identity,
-        getAverageWaitTime: prevState => prevState.averageWaitTime
+        getAverageWaitTime: (prevState) => prevState.averageWaitTime,
       },
       'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: prevState => prevState.isChatting
+        getIsChatting: (prevState) => prevState.isChatting,
       },
       'src/redux/modules/base/base-selectors': {
-        getWebWidgetOpen: prevState => prevState.webWidgetOpen,
-        getActiveEmbed: prevState => prevState.activeEmbed
+        getWebWidgetOpen: (prevState) => prevState.webWidgetOpen,
+        getActiveEmbed: (prevState) => prevState.activeEmbed,
       },
       'embeds/helpCenter/selectors': {
-        getTotalUserSearches: prevState => prevState.totalUserSearches,
-        getSearchTerm: prevState => prevState.searchTerm,
-        getResultsCount: prevState => prevState.resultsCount,
-        getArticleClicked: prevState => prevState.articleClicked,
-        getCurrentActiveArticle: prevState => prevState.activeArticle,
-        getHasContextuallySearched: prevState => prevState.hasContextuallySearched
+        getTotalUserSearches: (prevState) => prevState.totalUserSearches,
+        getSearchTerm: (prevState) => prevState.searchTerm,
+        getResultsCount: (prevState) => prevState.resultsCount,
+        getArticleClicked: (prevState) => prevState.articleClicked,
+        getCurrentActiveArticle: (prevState) => prevState.activeArticle,
+        getHasContextuallySearched: (prevState) => prevState.hasContextuallySearched,
       },
       'src/redux/modules/talk/talk-action-types': {
-        TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
+        TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS,
       },
       'src/embeds/helpCenter/actions/action-types': {
         ARTICLE_VIEWED: ARTICLE_VIEWED,
         ORIGINAL_ARTICLE_CLICKED: ORIGINAL_ARTICLE_CLICKED,
         SEARCH_REQUEST_SUCCESS: SEARCH_REQUEST_SUCCESS,
-        SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE
+        SEARCH_REQUEST_FAILURE: SEARCH_REQUEST_FAILURE,
       },
       'src/embeds/answerBot/actions/article/action-types': {
-        ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED: 'ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED'
+        ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED: 'ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED',
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED,
         UPDATE_WIDGET_SHOWN,
-        LAUNCHER_CLICKED
+        LAUNCHER_CLICKED,
       },
       'src/embeds/answerBot/selectors/sessions': {
-        getSessionByID: (prevState, id) => prevState.sessions.get(id)
+        getSessionByID: (prevState, id) => prevState.sessions.get(id),
       },
       'src/embeds/answerBot/selectors/root': {
-        getCurrentQuery: prevState => prevState.query,
-        getCurrentDeflection: prevState => prevState.deflection,
-        getCurrentArticleID: prevState => prevState.articleID,
-        getCurrentScreen: prevState => prevState.currentScreen
+        getCurrentQuery: (prevState) => prevState.query,
+        getCurrentDeflection: (prevState) => prevState.deflection,
+        getCurrentArticleID: (prevState) => prevState.articleID,
+        getCurrentScreen: (prevState) => prevState.currentScreen,
       },
       'src/embeds/answerBot/actions/root/action-types': {
         ARTICLE_SHOWN: ARTICLE_SHOWN,
         SCREEN_CHANGED: SCREEN_CHANGED,
-        CONTEXTUAL_ARTICLE_SHOWN
+        CONTEXTUAL_ARTICLE_SHOWN,
       },
       'src/embeds/answerBot/constants': {
         ARTICLE_SCREEN: 'article',
-        CONVERSATION_SCREEN: 'conversation'
+        CONVERSATION_SCREEN: 'conversation',
       },
       'src/redux/modules/selectors': {
-        getDefaultSelectedDepartment: state => state.department
+        getDefaultSelectedDepartment: (state) => state.department,
       },
       'src/redux/modules/chat/chat-action-types': {
-        CHAT_STARTED
+        CHAT_STARTED,
       },
-      'service/hcStats': hcStatsSpy
+      'service/hcStats': hcStatsSpy,
     })
 
     sendBlips = requireUncached(blipPath).sendBlips
@@ -128,7 +128,7 @@ describe('blip middleware', () => {
         nextSpy = jasmine.createSpy('nextSpy')
 
         const flatState = {
-          currentScreen: mockCurrentScreen
+          currentScreen: mockCurrentScreen,
         }
 
         sendBlips({ getState: () => flatState })(nextSpy)(action)
@@ -143,7 +143,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction', () => {
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('answerBot', 'userNavigation', {
             label: 'journey',
-            value: { from: 'article', to: 'conversation' }
+            value: { from: 'article', to: 'conversation' },
           })
         })
       })
@@ -173,7 +173,7 @@ describe('blip middleware', () => {
           nickname: 'Support',
           supportedCountries: '1, 10, 9, 89',
           averageWaitTime: 10,
-          agentAvailability: true
+          agentAvailability: true,
         }
 
         sendBlips({ getState: () => flatState })(nextSpy)(action)
@@ -189,14 +189,14 @@ describe('blip middleware', () => {
           user: {
             name: 'Johnny',
             email: 'Johnny@john.com',
-            description: 'Please help me.'
+            description: 'Please help me.',
           },
-          locale: 'US'
+          locale: 'US',
         }
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('talk', 'request', {
           label: 'callbackForm',
-          value: expectedValue
+          value: expectedValue,
         })
       })
     })
@@ -205,7 +205,7 @@ describe('blip middleware', () => {
       describe('when called once', () => {
         beforeEach(() => {
           action = {
-            type: LAUNCHER_CLICKED
+            type: LAUNCHER_CLICKED,
           }
 
           beaconSpy.trackUserAction.calls.reset()
@@ -216,7 +216,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('launcher', 'click', {
             label: 'launcher',
-            value: { embedOpen: 'answerBot' }
+            value: { embedOpen: 'answerBot' },
           })
         })
       })
@@ -244,7 +244,7 @@ describe('blip middleware', () => {
           webWidgetOpen: mockWebWidgetOpen,
           activeEmbed: mockActiveEmbed,
           deflection: mockDeflection,
-          query: mockQuery
+          query: mockQuery,
         }
 
         beaconSpy.trackUserAction.calls.reset()
@@ -252,7 +252,7 @@ describe('blip middleware', () => {
 
         action = {
           type: UPDATE_ACTIVE_EMBED,
-          payload
+          payload,
         }
         sendBlips({ getState: () => flatState })(nextSpy)(action)
       })
@@ -289,7 +289,7 @@ describe('blip middleware', () => {
 
             it('calls trackUserAction with the correct params', () => {
               expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'opened', {
-                label: 'newChat'
+                label: 'newChat',
               })
             })
           })
@@ -318,12 +318,12 @@ describe('blip middleware', () => {
               phoneNumber: '+61430919721',
               averageWaitTime: 10,
               agentAvailability: true,
-              locale: 'US'
+              locale: 'US',
             }
 
             expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('talk', 'opened', {
               label: 'phoneNumber',
-              value: expectedValue
+              value: expectedValue,
             })
           })
         })
@@ -355,12 +355,12 @@ describe('blip middleware', () => {
             const expectedValue = {
               query: 'hello world',
               deflectionId: 23,
-              channel: 'chat'
+              channel: 'chat',
             }
 
             expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('answerBot', 'channelClicked', {
               label: 'channelChoice',
-              value: expectedValue
+              value: expectedValue,
             })
           })
         })
@@ -375,7 +375,7 @@ describe('blip middleware', () => {
           searchTerm: 'i made a query...',
           resultsCount: 5,
           articleClicked: false,
-          hasContextuallySearched: false
+          hasContextuallySearched: false,
         }
 
         beaconSpy.trackUserAction.calls.reset()
@@ -386,7 +386,7 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: ARTICLE_VIEWED,
-            payload: { id: 121212112, locale: 'US' }
+            payload: { id: 121212112, locale: 'US' },
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -398,13 +398,13 @@ describe('blip middleware', () => {
           articleId: 121212112,
           locale: 'US',
           contextualSearch: false,
-          answerBot: false
+          answerBot: false,
         }
 
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
             label: 'helpCenterForm',
-            value: expectedValue
+            value: expectedValue,
           })
         })
 
@@ -417,7 +417,7 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: ARTICLE_VIEWED,
-            payload: null
+            payload: null,
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -440,10 +440,10 @@ describe('blip middleware', () => {
         beforeEach(() => {
           flatState = {
             totalUserSearches: 0,
-            searchTerm: 'i made a query...'
+            searchTerm: 'i made a query...',
           }
           action = {
-            type: SEARCH_REQUEST_SUCCESS
+            type: SEARCH_REQUEST_SUCCESS,
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -451,7 +451,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'search', {
             label: 'helpCenterForm',
-            value: 'i made a query...'
+            value: 'i made a query...',
           })
         })
       })
@@ -460,10 +460,10 @@ describe('blip middleware', () => {
         beforeEach(() => {
           flatState = {
             totalUserSearches: 100,
-            searchTerm: 'i made a query...'
+            searchTerm: 'i made a query...',
           }
           action = {
-            type: SEARCH_REQUEST_SUCCESS
+            type: SEARCH_REQUEST_SUCCESS,
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -486,10 +486,10 @@ describe('blip middleware', () => {
         beforeEach(() => {
           flatState = {
             totalUserSearches: 0,
-            searchTerm: 'i made a query...'
+            searchTerm: 'i made a query...',
           }
           action = {
-            type: SEARCH_REQUEST_FAILURE
+            type: SEARCH_REQUEST_FAILURE,
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -497,7 +497,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'search', {
             label: 'helpCenterForm',
-            value: 'i made a query...'
+            value: 'i made a query...',
           })
         })
       })
@@ -506,10 +506,10 @@ describe('blip middleware', () => {
         beforeEach(() => {
           flatState = {
             totalUserSearches: 100,
-            searchTerm: 'i made a query...'
+            searchTerm: 'i made a query...',
           }
           action = {
-            type: SEARCH_REQUEST_FAILURE
+            type: SEARCH_REQUEST_FAILURE,
           }
           sendBlips({ getState: () => flatState })(nextSpy)(action)
         })
@@ -531,10 +531,10 @@ describe('blip middleware', () => {
           resultsCount: 1,
           searchTerm: 'i made a query...',
           articleClicked: true,
-          hasContextuallySearched: true
+          hasContextuallySearched: true,
         }
         action = {
-          type: ORIGINAL_ARTICLE_CLICKED
+          type: ORIGINAL_ARTICLE_CLICKED,
         }
         sendBlips({ getState: () => flatState })(nextSpy)(action)
       })
@@ -547,7 +547,7 @@ describe('blip middleware', () => {
           articleId: 1213211232123,
           locale: 'US',
           contextualSearch: true,
-          answerBot: false
+          answerBot: false,
         }
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith(
@@ -555,7 +555,7 @@ describe('blip middleware', () => {
           'viewOriginalArticle',
           {
             label: 'helpCenterForm',
-            value: expectedValue
+            value: expectedValue,
           }
         )
       })
@@ -582,15 +582,15 @@ describe('blip middleware', () => {
         flatState = {
           sessions: new Map([
             [123, { deflection: { id: 9 }, query: 'test', articles: [1, 2] }],
-            [789, { deflection: { id: 3 }, query: 'two', articles: [1] }]
-          ])
+            [789, { deflection: { id: 3 }, query: 'two', articles: [1] }],
+          ]),
         }
         action = {
           type: ARTICLE_SHOWN,
           payload: {
             sessionID: 123,
-            articleID: 456
-          }
+            articleID: 456,
+          },
         }
         sendBlips({ getState: () => flatState })(nextSpy)(action)
       })
@@ -603,12 +603,12 @@ describe('blip middleware', () => {
           locale: 'US',
           deflectionId: 9,
           answerBot: true,
-          uniqueSearchResultClick: false
+          uniqueSearchResultClick: false,
         }
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
           label: 'helpCenterForm',
-          value: expectedValue
+          value: expectedValue,
         })
       })
     })
@@ -621,13 +621,13 @@ describe('blip middleware', () => {
         nextSpy = jasmine.createSpy('nextSpy')
         flatState = {
           searchTerm: 'i made a query...',
-          resultsCount: 3
+          resultsCount: 3,
         }
         action = {
           type: CONTEXTUAL_ARTICLE_SHOWN,
           payload: {
-            articleID: 456
-          }
+            articleID: 456,
+          },
         }
         sendBlips({ getState: () => flatState })(nextSpy)(action)
       })
@@ -640,22 +640,22 @@ describe('blip middleware', () => {
           locale: 'US',
           answerBot: true,
           uniqueSearchResultClick: false,
-          contextualSearch: true
+          contextualSearch: true,
         }
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('helpCenter', 'click', {
           label: 'helpCenterForm',
-          value: expectedValue
+          value: expectedValue,
         })
       })
     })
 
     describe('action has type CHAT_STARTED', () => {
-      const run = department => {
+      const run = (department) => {
         beaconSpy.trackUserAction.calls.reset()
         nextSpy = jasmine.createSpy('nextSpy')
         action = {
-          type: CHAT_STARTED
+          type: CHAT_STARTED,
         }
         sendBlips({ getState: () => ({ department }) })(nextSpy)(action)
       }
@@ -667,23 +667,23 @@ describe('blip middleware', () => {
           label: 'newChat',
           value: {
             departmentId: null,
-            departmentName: null
-          }
+            departmentName: null,
+          },
         })
       })
 
       it('tracks a chatStarted blip with the department information when one is selected', () => {
         run({
           id: 1337,
-          name: 'department name'
+          name: 'department name',
         })
 
         expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('chat', 'chatStarted', {
           label: 'newChat',
           value: {
             departmentId: 1337,
-            departmentName: 'department name'
-          }
+            departmentName: 'department name',
+          },
         })
       })
     })
@@ -698,7 +698,7 @@ describe('blip middleware', () => {
         beforeEach(() => {
           action = {
             type: UPDATE_WIDGET_SHOWN,
-            payload: true
+            payload: true,
           }
           sendBlips({ getState: () => {} })(nextSpy)(action)
         })
@@ -715,14 +715,14 @@ describe('blip middleware', () => {
           beforeAll(() => {
             flatState = {
               currentScreen: 'article',
-              articleID: 421
+              articleID: 421,
             }
           })
 
           beforeEach(() => {
             action = {
               type: UPDATE_WIDGET_SHOWN,
-              payload: false
+              payload: false,
             }
             sendBlips({ getState: () => flatState })(nextSpy)(action)
           })
@@ -730,7 +730,7 @@ describe('blip middleware', () => {
           it('calls trackUserAction with the expected value', () => {
             expect(beaconSpy.trackUserAction).toHaveBeenCalledWith('answerBot', 'articleClosed', {
               label: 'helpCenterForm',
-              value: { articleId: 421 }
+              value: { articleId: 421 },
             })
           })
         })
@@ -743,7 +743,7 @@ describe('blip middleware', () => {
           beforeEach(() => {
             action = {
               type: UPDATE_WIDGET_SHOWN,
-              payload: false
+              payload: false,
             }
             sendBlips({ getState: () => flatState })(nextSpy)(action)
           })

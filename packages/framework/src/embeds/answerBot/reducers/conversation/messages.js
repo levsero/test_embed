@@ -1,6 +1,6 @@
 import {
   QUESTION_VALUE_SUBMITTED,
-  QUESTION_SUBMITTED_FULFILLED
+  QUESTION_SUBMITTED_FULFILLED,
 } from 'src/embeds/answerBot/actions/conversation/action-types'
 
 import {
@@ -9,7 +9,7 @@ import {
   BOT_FEEDBACK,
   BOT_FEEDBACK_REQUESTED,
   BOT_TYPING,
-  BOT_CONTEXTUAL_SEARCH_RESULTS
+  BOT_CONTEXTUAL_SEARCH_RESULTS,
 } from 'src/embeds/answerBot/actions/root/action-types'
 
 const initialState = new Map()
@@ -43,7 +43,7 @@ const messages = (state = initialState, action) => {
       return addMessage(state, {
         ...payload,
         isVisitor: true,
-        type: 'feedback'
+        type: 'feedback',
       })
     case BOT_FEEDBACK_REQUESTED:
       return addMessage(state, { ...payload, type: 'feedbackRequested' })

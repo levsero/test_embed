@@ -29,12 +29,9 @@ const SuccessPage = ({ onCancelClick }) => {
 }
 
 SuccessPage.propTypes = {
-  onCancelClick: PropTypes.func
+  onCancelClick: PropTypes.func,
 }
 
-const connectedComponent = connect(
-  undefined,
-  { onCancelClick }
-)(SuccessPage)
+const connectedComponent = connect(undefined, { onCancelClick })(SuccessPage)
 
 export { connectedComponent as default, SuccessPage as Component }

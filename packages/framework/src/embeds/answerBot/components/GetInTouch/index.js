@@ -16,7 +16,7 @@ const GetInTouch = ({ onClick }) => {
 }
 
 GetInTouch.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default GetInTouch

@@ -5,7 +5,7 @@ const packageJson = require('./package.json')
 const peerDependencies = Object.keys(packageJson.peerDependencies).reduce(
   (prev, dependencyName) => ({
     ...prev,
-    [dependencyName]: dependencyName
+    [dependencyName]: dependencyName,
   }),
   {}
 )
@@ -16,22 +16,22 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'conversation-components.js',
     library: '@zendesk/conversation-components',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   externals: peerDependencies,
   devtool: 'source-map',
   mode: 'production',
   resolve: {
     alias: {
-      src: path.resolve(__dirname, 'src')
-    }
+      src: path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: path.resolve(__dirname, 'src')
+        include: path.resolve(__dirname, 'src'),
       },
       {
         test: /\.svg$/,
@@ -48,22 +48,22 @@ module.exports = {
                   { removeViewBox: false },
                   { prefixIds: false },
                   { cleanupIDs: false },
-                  { inlineStyles: false }
-                ]
+                  { inlineStyles: false },
+                ],
               },
-              titleProp: true
-            }
-          }
-        ]
-      }
-    ]
+              titleProp: true,
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
       logLevel: 'silent',
-      reportFilename: './report.html'
-    })
-  ]
+      reportFilename: './report.html',
+    }),
+  ],
 }

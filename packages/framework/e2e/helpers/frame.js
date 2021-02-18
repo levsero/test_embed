@@ -1,4 +1,4 @@
-const getByName = name => {
+const getByName = (name) => {
   for (const frame of page.mainFrame().childFrames()) {
     if (frame.name() === name) {
       return frame
@@ -6,7 +6,7 @@ const getByName = name => {
   }
 }
 
-const getDocument = async name => {
+const getDocument = async (name) => {
   const frame = await getByName(name)
   const documentHandle = await frame.evaluateHandle('document')
   return documentHandle.asElement()
@@ -14,5 +14,5 @@ const getDocument = async name => {
 
 export default {
   getByName,
-  getDocument
+  getDocument,
 }

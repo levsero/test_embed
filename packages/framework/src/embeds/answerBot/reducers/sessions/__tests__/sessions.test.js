@@ -18,12 +18,12 @@ describe('when SESSION_STARTED is dispatched', () => {
     beforeEach(() => {
       payload = {
         sessionID: 123,
-        sessionData: { resolved: false }
+        sessionData: { resolved: false },
       }
 
       state = reducer(initialState, {
         type: actionTypes.SESSION_STARTED,
-        payload: payload
+        payload: payload,
       })
     })
 
@@ -34,7 +34,7 @@ describe('when SESSION_STARTED is dispatched', () => {
     it('creates the session with provided value', () => {
       expect(state.get(payload.sessionID)).toEqual(
         expect.objectContaining({
-          resolved: false
+          resolved: false,
         })
       )
     })
@@ -50,15 +50,15 @@ describe('when QUESTION_SUBMITTED_FULFILLED is dispatched', () => {
       message: [
         { article_id: 1, html_body: 'one' }, // eslint-disable-line camelcase
         { article_id: 2, html_body: 'two' }, // eslint-disable-line camelcase
-        { article_id: 3, html_body: 'three' } // eslint-disable-line camelcase
-      ]
+        { article_id: 3, html_body: 'three' }, // eslint-disable-line camelcase
+      ],
     }
 
     const currentState = new Map([[123, {}]])
 
     const state = reducer(currentState, {
       type: conversationActionTypes.QUESTION_SUBMITTED_FULFILLED,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
@@ -66,11 +66,11 @@ describe('when QUESTION_SUBMITTED_FULFILLED is dispatched', () => {
         articles: [
           expect.objectContaining({ id: 1, body: 'one' }),
           expect.objectContaining({ id: 2, body: 'two' }),
-          expect.objectContaining({ id: 3, body: 'three' })
+          expect.objectContaining({ id: 3, body: 'three' }),
         ],
         requestStatus: 'COMPLETED',
         deflection: 'deflection',
-        interactionToken: 'token'
+        interactionToken: 'token',
       })
     )
   })
@@ -83,15 +83,15 @@ describe('when QUESTION_SUBMITTED_FULFILLED is dispatched', () => {
           { article_id: 1, html_body: 'one' }, // eslint-disable-line camelcase
           { article_id: 2, html_body: 'two' }, // eslint-disable-line camelcase
           { article_id: 3, html_body: 'three' }, // eslint-disable-line camelcase
-          { article_id: 4, html_body: 'four' } // eslint-disable-line camelcase
-        ]
+          { article_id: 4, html_body: 'four' }, // eslint-disable-line camelcase
+        ],
       }
 
       const currentState = new Map([[123, {}]])
 
       const state = reducer(currentState, {
         type: conversationActionTypes.QUESTION_SUBMITTED_FULFILLED,
-        payload: payload
+        payload: payload,
       })
 
       expect(state.get(payload.sessionID)).toEqual(
@@ -99,8 +99,8 @@ describe('when QUESTION_SUBMITTED_FULFILLED is dispatched', () => {
           articles: [
             expect.objectContaining({ id: 1, body: 'one' }),
             expect.objectContaining({ id: 2, body: 'two' }),
-            expect.objectContaining({ id: 3, body: 'three' })
-          ]
+            expect.objectContaining({ id: 3, body: 'three' }),
+          ],
         })
       )
     })
@@ -108,19 +108,19 @@ describe('when QUESTION_SUBMITTED_FULFILLED is dispatched', () => {
     it('handles responses that are not arrays', () => {
       const payload = {
         sessionID: 123,
-        message: {}
+        message: {},
       }
 
       const currentState = new Map([[123, {}]])
 
       const state = reducer(currentState, {
         type: conversationActionTypes.QUESTION_SUBMITTED_FULFILLED,
-        payload: payload
+        payload: payload,
       })
 
       expect(state.get(payload.sessionID)).toEqual(
         expect.objectContaining({
-          articles: []
+          articles: [],
         })
       )
     })
@@ -135,13 +135,13 @@ describe('when QUESTION_SUBMITTED_PENDING is dispatched', () => {
 
     const state = reducer(currentState, {
       type: conversationActionTypes.QUESTION_SUBMITTED_PENDING,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
       expect.objectContaining({
         requestStatus: 'PENDING',
-        query: 'hello'
+        query: 'hello',
       })
     )
   })
@@ -155,12 +155,12 @@ describe('when QUESTION_SUBMITTED_REJECTED is dispatched', () => {
 
     const state = reducer(currentState, {
       type: conversationActionTypes.QUESTION_SUBMITTED_REJECTED,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
       expect.objectContaining({
-        requestStatus: 'REJECTED'
+        requestStatus: 'REJECTED',
       })
     )
   })
@@ -174,12 +174,12 @@ describe('when SESSION_RESOLVED_PENDING is dispatched', () => {
 
     const state = reducer(currentState, {
       type: actionTypes.SESSION_RESOLVED_PENDING,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
       expect.objectContaining({
-        resolved: true
+        resolved: true,
       })
     )
   })
@@ -193,12 +193,12 @@ describe('when SESSION_FALLBACK is dispatched', () => {
 
     const state = reducer(currentState, {
       type: actionTypes.SESSION_FALLBACK,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
       expect.objectContaining({
-        fallbackSuggested: true
+        fallbackSuggested: true,
       })
     )
   })
@@ -220,12 +220,12 @@ describe('when SESSION_AUTO_SCROLL is dispatched', () => {
 
     const state = reducer(currentState, {
       type: actionTypes.SESSION_AUTO_SCROLL,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID)).toEqual(
       expect.objectContaining({
-        autoScrolled: 1234
+        autoScrolled: 1234,
       })
     )
   })
@@ -240,12 +240,12 @@ describe('when ARTICLE_DISMISSED is dispatched', () => {
 
     const state = reducer(currentState, {
       type: articleActionTypes.ARTICLE_DISMISSED_PENDING,
-      payload: payload
+      payload: payload,
     })
 
     expect(state.get(payload.sessionID).articles).toContainEqual({
       id: 456,
-      markedAsIrrelevant: true
+      markedAsIrrelevant: true,
     })
   })
 })

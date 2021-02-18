@@ -5,7 +5,7 @@ import {
   API_ON_CHAT_END_NAME,
   API_ON_CHAT_UNREAD_MESSAGES_NAME,
   API_ON_CLOSE_NAME,
-  API_ON_OPEN_NAME
+  API_ON_OPEN_NAME,
 } from 'constants/api'
 import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'
@@ -27,7 +27,7 @@ import {
   popoutApi,
   setLocaleApi,
   addTagsApi,
-  removeTagsApi
+  removeTagsApi,
 } from 'src/service/api/apis'
 import {
   setPositionApi,
@@ -39,7 +39,7 @@ import {
   setGreetingsApi,
   setOnStatusApi,
   showBadgeApi,
-  hideBadgeApi
+  hideBadgeApi,
 } from './helpers'
 import tracker from 'service/tracker'
 import { updateActiveEmbed } from 'src/redux/modules/base'
@@ -63,11 +63,11 @@ export function setUpZopimApiMethods(win, store) {
       cookieLaw: {
         comply: noop,
         showPrivacyPanel: noop,
-        setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false)
+        setDefaultImplicitConsent: () => updateSettings(store, 'cookies', false),
       },
       unreadflag: {
         enable: noop,
-        disable: noop
+        disable: noop,
       },
       window: {
         toggle: () => toggleApi(store),
@@ -89,17 +89,17 @@ export function setUpZopimApiMethods(win, store) {
         },
         setSize: noop,
         getDisplay: () => getWebWidgetOpen(store.getState()),
-        onHide: callback => onApis[API_ON_CLOSE_NAME](store, callback),
-        onShow: callback => onApis[API_ON_OPEN_NAME](store, callback),
-        setTitle: title => updateSettings(store, 'webWidget.chat.title.*', title),
-        setColor: color => updateSettings(store, 'webWidget.color.theme', color),
+        onHide: (callback) => onApis[API_ON_CLOSE_NAME](store, callback),
+        onShow: (callback) => onApis[API_ON_OPEN_NAME](store, callback),
+        setTitle: (title) => updateSettings(store, 'webWidget.chat.title.*', title),
+        setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
         openPopout: () => onChatConnected(() => popoutApi(store)),
         setPosition: setPositionApi(store),
         setOffsetHorizontal,
         setOffsetVertical,
         setOffsetBottom: setOffsetVertical,
         setBg: noop,
-        getSettings: noop
+        getSettings: noop,
       },
       badge: {
         hide: () => hideBadgeApi(store),
@@ -107,16 +107,16 @@ export function setUpZopimApiMethods(win, store) {
           showBadgeApi(store)
           showApi(store)
         },
-        setColor: color => updateSettings(store, 'webWidget.color.launcher', color),
-        setText: text => updateSettings(store, 'webWidget.launcher.badge.label.*', text),
-        setImage: image => updateSettings(store, 'webWidget.launcher.badge.image', image),
-        setLayout: layout => updateSettings(store, 'webWidget.launcher.badge.layout', layout)
+        setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
+        setText: (text) => updateSettings(store, 'webWidget.launcher.badge.label.*', text),
+        setImage: (image) => updateSettings(store, 'webWidget.launcher.badge.image', image),
+        setLayout: (layout) => updateSettings(store, 'webWidget.launcher.badge.layout', layout),
       },
       prechatForm: {
-        setGreetings: msg => updateSettings(store, 'webWidget.chat.prechatForm.greeting.*', msg)
+        setGreetings: (msg) => updateSettings(store, 'webWidget.chat.prechatForm.greeting.*', msg),
       },
       offlineForm: {
-        setGreetings: msg => updateSettings(store, 'webWidget.chat.offlineForm.greeting.*', msg)
+        setGreetings: (msg) => updateSettings(store, 'webWidget.chat.offlineForm.greeting.*', msg),
       },
       button: {
         hide: () => hideApi(store),
@@ -124,21 +124,21 @@ export function setUpZopimApiMethods(win, store) {
           showApi(store)
           closeApi(store)
         },
-        setHideWhenOffline: bool => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
+        setHideWhenOffline: (bool) => updateSettings(store, 'webWidget.chat.hideWhenOffline', bool),
         setPosition: setPositionApi(store),
         setPositionMobile: setPositionApi(store),
-        setColor: color => updateSettings(store, 'webWidget.color.launcher', color),
+        setColor: (color) => updateSettings(store, 'webWidget.color.launcher', color),
         setOffsetVertical,
         setOffsetHorizontal,
         ...setOffsetMobileApi(store),
         setOffsetBottom: setOffsetVertical,
         useFavicon: noop,
         setTheme: noop,
-        setImage: noop
+        setImage: noop,
       },
       theme: {
-        setColor: color => updateSettings(store, 'webWidget.color.theme', color),
-        setColors: options => {
+        setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
+        setColors: (options) => {
           if (!options.primary) return
 
           updateSettings(store, 'webWidget.color.theme', options.primary)
@@ -146,47 +146,47 @@ export function setUpZopimApiMethods(win, store) {
         reload: noop,
         setProfileCardConfig: setProfileCardConfigApi(store),
         setFontConfig: noop,
-        setTheme: noop
+        setTheme: noop,
       },
       mobileNotifications: {
-        setDisabled: bool =>
+        setDisabled: (bool) =>
           updateSettings(store, 'webWidget.chat.notifications.mobile.disable', bool),
-        setIgnoreChatButtonVisibility: noop
+        setIgnoreChatButtonVisibility: noop,
       },
       departments: {
-        setLabel: label =>
+        setLabel: (label) =>
           onChatConnected(() => {
             updateSettings(store, 'webWidget.chat.prechatForm.departmentLabel.*', label)
           }),
-        getDepartment: id => getDepartmentApi(store, id),
+        getDepartment: (id) => getDepartmentApi(store, id),
         getAllDepartments: () => getAllDepartmentsApi(store),
         filter: (...deps) =>
           onChatConnected(() => {
             updateSettings(store, 'webWidget.chat.departments.enabled', [...deps])
           }),
-        setVisitorDepartment: nameOrId =>
+        setVisitorDepartment: (nameOrId) =>
           onChatConnected(() => {
             updateSettings(store, 'webWidget.chat.departments.select', nameOrId)
           }),
         clearVisitorDepartment: () =>
           onChatConnected(() => {
             updateSettings(store, 'webWidget.chat.departments.select', '')
-          })
+          }),
       },
       concierge: {
-        setAvatar: path => updateSettings(store, 'webWidget.chat.concierge.avatarPath', path),
-        setName: name => updateSettings(store, 'webWidget.chat.concierge.name', name),
-        setTitle: title => updateSettings(store, 'webWidget.chat.concierge.title.*', title)
+        setAvatar: (path) => updateSettings(store, 'webWidget.chat.concierge.avatarPath', path),
+        setName: (name) => updateSettings(store, 'webWidget.chat.concierge.name', name),
+        setTitle: (title) => updateSettings(store, 'webWidget.chat.concierge.title.*', title),
       },
-      setColor: color => updateSettings(store, 'webWidget.color.theme', color),
+      setColor: (color) => updateSettings(store, 'webWidget.color.theme', color),
       hideAll: () => hideApi(store),
-      set: options => onChatSDKInitialized(() => setApi(win, options)),
+      set: (options) => onChatSDKInitialized(() => setApi(win, options)),
       isChatting: () => isChattingApi(store),
-      say: msg => sendChatMsgApi(store, msg),
+      say: (msg) => sendChatMsgApi(store, msg),
       endChat: () => endChatApi(store),
       addTags: addTagsApi(store),
       removeTags: removeTagsApi(store),
-      setName: name => {
+      setName: (name) => {
         if (nameValid(name)) {
           onChatSDKInitialized(() => {
             store.dispatch(setVisitorInfo({ display_name: name })) // eslint-disable-line camelcase
@@ -197,7 +197,7 @@ export function setUpZopimApiMethods(win, store) {
           console.warn(`invalid name passed into setName: ${name}`) // eslint-disable-line no-console
         }
       },
-      setPhone: phone => {
+      setPhone: (phone) => {
         if (phoneValid(phone)) {
           onChatSDKInitialized(() => {
             store.dispatch(setVisitorInfo({ phone }))
@@ -207,7 +207,7 @@ export function setUpZopimApiMethods(win, store) {
           console.warn(`invalid phone number passed into setPhone: ${phone}`) // eslint-disable-line no-console
         }
       },
-      setEmail: email => {
+      setEmail: (email) => {
         if (emailValid(email)) {
           onChatSDKInitialized(() => {
             store.dispatch(setVisitorInfo({ email }))
@@ -217,21 +217,21 @@ export function setUpZopimApiMethods(win, store) {
           console.warn(`invalid email passed into setEmail: ${email}`) // eslint-disable-line no-console
         }
       },
-      setLanguage: locale => setLocaleApi(store, locale),
-      sendVisitorPath: page => updatePathApi(store, page),
+      setLanguage: (locale) => setLocaleApi(store, locale),
+      sendVisitorPath: (page) => updatePathApi(store, page),
       clearAll: () => onChatSDKInitialized(() => logoutApi(store)),
-      setStatus: status => {
+      setStatus: (status) => {
         if (status !== 'online' && status !== 'offline') return
 
         store.dispatch(setStatusForcefully(status))
       },
-      setDisableGoogleAnalytics: bool => updateSettings(store, 'webWidget.analytics', !bool),
-      setGreetings: greeting => setGreetingsApi(store, greeting),
-      setOnConnected: callback => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
-      setOnChatStart: callback => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
-      setOnChatEnd: callback => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
-      setOnStatus: callback => setOnStatusApi(store, callback),
-      setOnUnreadMsgs: callback => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
+      setDisableGoogleAnalytics: (bool) => updateSettings(store, 'webWidget.analytics', !bool),
+      setGreetings: (greeting) => setGreetingsApi(store, greeting),
+      setOnConnected: (callback) => onApis.chat[API_ON_CHAT_CONNECTED_NAME](store, callback),
+      setOnChatStart: (callback) => onApis.chat[API_ON_CHAT_START_NAME](store, callback),
+      setOnChatEnd: (callback) => onApis.chat[API_ON_CHAT_END_NAME](store, callback),
+      setOnStatus: (callback) => setOnStatusApi(store, callback),
+      setOnUnreadMsgs: (callback) => onApis.chat[API_ON_CHAT_UNREAD_MESSAGES_NAME](store, callback),
       bubble: {
         show: noop,
         setTitle: noop,
@@ -239,7 +239,7 @@ export function setUpZopimApiMethods(win, store) {
         setImage: noop,
         setColor: noop,
         reset: noop,
-        hide: noop
+        hide: noop,
       },
       getName: noop,
       getEmail: noop,
@@ -250,7 +250,7 @@ export function setUpZopimApiMethods(win, store) {
       setOnFlashReady: noop,
       setDisableSound: noop,
       freeze: noop,
-      fire: noop
+      fire: noop,
     }
 
     instrumentZopimApis(win)

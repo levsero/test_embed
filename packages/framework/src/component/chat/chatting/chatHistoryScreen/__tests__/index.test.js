@@ -15,12 +15,12 @@ const renderChatHistoryScreen = (customProps = {}) => {
     hideZendeskLogo: false,
     firstMessageTimestamp: 1555030483758,
     fullscreen: false,
-    title: 'this is the title'
+    title: 'this is the title',
   }
 
   const props = {
     ...defaultProps,
-    ...customProps
+    ...customProps,
   }
 
   return render(<ChatHistoryScreen {...props} />)

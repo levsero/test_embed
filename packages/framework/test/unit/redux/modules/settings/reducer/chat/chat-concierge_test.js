@@ -31,7 +31,7 @@ describe('chat concierge reducer', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SETTINGS,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -39,16 +39,16 @@ describe('chat concierge reducer', () => {
         const mockState = {
           avatarPath: 'https://i.imgur.com/3mZBYfn.jpg',
           title: 'Some title',
-          name: 'Mr McGee'
+          name: 'Mr McGee',
         }
 
         beforeAll(() => {
           payload = {
             webWidget: {
               chat: {
-                concierge: mockState
-              }
-            }
+                concierge: mockState,
+              },
+            },
           }
         })
 
@@ -60,7 +60,7 @@ describe('chat concierge reducer', () => {
       describe('when an irrelevant property is set', () => {
         beforeAll(() => {
           payload = {
-            whatevs: { foo: 'bar' }
+            whatevs: { foo: 'bar' },
           }
         })
 

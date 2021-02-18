@@ -5,20 +5,20 @@ import {
   EMAIL_TRANSCRIPT_IDLE,
   RESET_EMAIL_TRANSCRIPT,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-  SDK_ERROR
+  SDK_ERROR,
 } from '../chat-action-types'
 import {
   EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
   EMAIL_TRANSCRIPT_SCREEN,
-  EMAIL_TRANSCRIPT_LOADING_SCREEN
+  EMAIL_TRANSCRIPT_LOADING_SCREEN,
 } from '../chat-screen-types'
 
 const initialState = {
   screen: EMAIL_TRANSCRIPT_SCREEN,
   show: false,
   email: '',
-  error: false
+  error: false,
 }
 
 const emailTranscript = (state = initialState, action) => {
@@ -26,7 +26,7 @@ const emailTranscript = (state = initialState, action) => {
     [EMAIL_TRANSCRIPT_REQUEST_SENT]: EMAIL_TRANSCRIPT_LOADING_SCREEN,
     [EMAIL_TRANSCRIPT_SUCCESS]: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
     [EMAIL_TRANSCRIPT_FAILURE]: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
-    [EMAIL_TRANSCRIPT_IDLE]: EMAIL_TRANSCRIPT_SCREEN
+    [EMAIL_TRANSCRIPT_IDLE]: EMAIL_TRANSCRIPT_SCREEN,
   }
   const { type, payload } = action
 
@@ -39,7 +39,7 @@ const emailTranscript = (state = initialState, action) => {
         ...state,
         screen: screenLookUp[type],
         email: payload,
-        error: false
+        error: false,
       }
     case RESET_EMAIL_TRANSCRIPT:
       return initialState
@@ -47,13 +47,13 @@ const emailTranscript = (state = initialState, action) => {
       return {
         ...state,
         screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
-        error: true
+        error: true,
       }
     case UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY:
       return {
         ...state,
         screen: EMAIL_TRANSCRIPT_SCREEN,
-        show: payload
+        show: payload,
       }
     default:
       return state

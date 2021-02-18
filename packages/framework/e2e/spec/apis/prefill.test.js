@@ -14,7 +14,7 @@ test('prefills the contact form', async () => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu' },
         email: { value: 'isamu@voltron.com' },
-        phone: { value: '61431909749' }
+        phone: { value: '61431909749' },
       })
     })
     .load()
@@ -36,7 +36,7 @@ test('prefills the contact form and sets it as read only', async () => {
     .evaluateAfterSnippetLoads(() => {
       zE('webWidget', 'prefill', {
         name: { value: 'isamu', readOnly: true },
-        email: { value: 'isamu@voltron.com', readOnly: true }
+        email: { value: 'isamu@voltron.com', readOnly: true },
       })
     })
     .load()

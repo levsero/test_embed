@@ -22,7 +22,7 @@ const MessengerFrame = ({ children }) => {
   )
 }
 MessengerFrame.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default MessengerFrame

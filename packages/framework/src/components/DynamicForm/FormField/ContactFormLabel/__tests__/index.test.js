@@ -9,7 +9,7 @@ describe('ContactFormLabel', () => {
     required: false,
     as: undefined,
     isReadOnly: false,
-    isPreview: false
+    isPreview: false,
   }
 
   const renderComponent = (props = {}) =>
@@ -43,7 +43,7 @@ describe('ContactFormLabel', () => {
       value: 'A title',
       required: false,
       isReadOnly: true,
-      isPreview: true
+      isPreview: true,
     })
 
     expect(container).toHaveTextContent('A title (optional)')

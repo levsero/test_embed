@@ -3,39 +3,39 @@ export default {
     account_status: 'online',
     accountSettings: {
       attachments: {
-        enabled: 'maybe'
+        enabled: 'maybe',
       },
       banner: {
         helloThere: 'GENERAL KENOBI!',
-        enabled: true
+        enabled: true,
       },
       branding: {
-        hide_branding: true
+        hide_branding: true,
       },
       chatWindow: {
-        x: 'y'
+        x: 'y',
       },
       concierge: {
-        yes: 'madame'
+        yes: 'madame',
       },
       login: 'unsafePassword',
       offlineForm: {
-        ohNo: "We're down!"
+        ohNo: "We're down!",
       },
       operatingHours: {
-        display_notice: 'foo'
+        display_notice: 'foo',
       },
       prechatForm: {
-        Ive: 'been waiting for this'
+        Ive: 'been waiting for this',
       },
       rating: 'Hawaii Five-Oh',
       theme: {
         message_type: 'HelloMyNameIsTaipan',
         color: {
           primary: 'green',
-          banner: 'wait, no, blue!'
-        }
-      }
+          banner: 'wait, no, blue!',
+        },
+      },
     },
     agentJoined: 'Sam I am',
     activeAgents: ['Bob', 'Charlie', 'Groundskeeper Willie'],
@@ -43,15 +43,15 @@ export default {
       [
         1,
         {
-          timestamp: 1
-        }
+          timestamp: 1,
+        },
       ],
       [
         2,
         {
-          timestamp: 2
-        }
-      ]
+          timestamp: 2,
+        },
+      ],
     ]),
     connection: 'emotional',
     currentMessage: "I can't let you do that, Dave",
@@ -60,19 +60,19 @@ export default {
       badge: {
         text: 'blahtext',
         image: 'blahmage',
-        enabled: true
+        enabled: true,
       },
       forms: {
-        offlineEnabled: true
-      }
+        offlineEnabled: true,
+      },
     },
     defaultDepartment: {
-      id: 123456
+      id: 123456,
     },
     departments: {
       one: 'blah',
       two: 'heh',
-      three: 'oh'
+      three: 'oh',
     },
     editContactDetails: 'bad edit',
     emailTranscript: 'Vodka is pretty overrated',
@@ -80,11 +80,11 @@ export default {
     formState: {
       readOnlyState: 'sure thing',
       offlineForm: {
-        hello: 'charlie'
+        hello: 'charlie',
       },
       preChatForm: {
-        charlie: 'say hello back!'
-      }
+        charlie: 'say hello back!',
+      },
     },
     inactiveAgents: 'Lois Lane',
     isAuthenticated: 'nope',
@@ -93,7 +93,7 @@ export default {
     lastReadTimestamp: 'Doomsday',
     menuVisible: 'sure thang buddy',
     notification: {
-      count: 321
+      count: 321,
     },
     offlineMessage: 'Oops, offline!',
     operatingHours: '25/8',
@@ -106,8 +106,8 @@ export default {
     soundEnabled: true,
     vendor: {
       zChat: 'mmm... legacy',
-      slider: 'wheeeeeee'
+      slider: 'wheeeeeee',
     },
-    visitor: 'Kerrigan'
-  }
+    visitor: 'Kerrigan',
+  },
 }

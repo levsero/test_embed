@@ -28,7 +28,7 @@ describe('default parameters', () => {
 
   beforeEach(() => {
     preview = window.zE.renderWebWidgetPreview({
-      element: document.getElementById('preview')
+      element: document.getElementById('preview'),
     })
   })
 
@@ -109,7 +109,7 @@ describe('when calling with no element property in options', () => {
 test('locale can be set', async () => {
   window.zE.renderWebWidgetPreview({
     element: document.getElementById('preview'),
-    locale: 'fr'
+    locale: 'fr',
   })
 
   await waitFor(() => expect(i18n.getLocale()).toEqual('fr'))
@@ -120,12 +120,12 @@ test('styles can be customized', async () => {
     float: 'left',
     marginTop: '32px',
     marginLeft: '32px',
-    width: '100px'
+    width: '100px',
   }
 
   window.zE.renderWebWidgetPreview({
     element: document.getElementById('preview'),
-    styles
+    styles,
   })
 
   await waitFor(() =>

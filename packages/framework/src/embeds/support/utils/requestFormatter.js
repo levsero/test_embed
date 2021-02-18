@@ -1,30 +1,30 @@
 import _ from 'lodash'
 import {
   getSettingsContactFormTags,
-  getSettingsContactFormSubject
+  getSettingsContactFormSubject,
 } from 'src/redux/modules/settings/settings-selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { location, getReferrerPolicy } from 'utility/globals'
 import routes from 'embeds/support/routes'
 
 const findOriginalId = (systemFieldName, ticketFields) => {
-  const field = _.find(ticketFields, field => {
+  const field = _.find(ticketFields, (field) => {
     return field.id === systemFieldName
   })
 
   return _.get(field, 'originalId', null)
 }
 
-const formatNameFromEmail = email => {
+const formatNameFromEmail = (email) => {
   const localPart = email.split('@', 2)[0]
   const newName = localPart.split(/[._\-]/) // eslint-disable-line no-useless-escape
 
   return _.map(newName, _.capitalize).join(' ')
 }
 
-const formatDescriptionField = description => {
+const formatDescriptionField = (description) => {
   const submittedFrom = i18n.t('embeddable_framework.submitTicket.form.submittedFrom.label', {
-    url: location.href
+    url: location.href,
   })
   const descriptionUrlStr = `\n\n------------------\n${submittedFrom}`
 
@@ -39,7 +39,7 @@ const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFie
   let params = { fields: {} }
 
   if (fields) {
-    fields.forEach(field => {
+    fields.forEach((field) => {
       if (!field.required && values[field.originalId || field.id] === undefined) {
         switch (field.type) {
           case 'checkbox':
@@ -57,7 +57,7 @@ const formatTicketFieldData = (formState, fields, subjectFieldId, descriptionFie
     })
   }
 
-  _.forEach(values, function(value, name) {
+  _.forEach(values, function (value, name) {
     // Custom field names are numbers so we check if name is NaN
     const nameInt = parseInt(name, 10)
 
@@ -80,7 +80,7 @@ const getTicketFormValues = (formState, ticketFields) => {
     description,
     subject,
     descriptionField,
-    subjectField
+    subjectField,
   }
 }
 
@@ -94,7 +94,7 @@ const getContactFormValues = (formState, state) => {
 
   return {
     description,
-    subject
+    subject,
   }
 }
 
@@ -111,15 +111,15 @@ export default (state, formState, attachments, formTitle, fields) => {
       via_id: 48,
       comment: {
         body: formatDescriptionField(params.description),
-        uploads: attachments ? attachments : []
+        uploads: attachments ? attachments : [],
       },
       requester: {
         name: formState.name || formatNameFromEmail(formState.email),
         email: formState.email,
-        locale_id: i18n.getLocaleId()
+        locale_id: i18n.getLocaleId(),
       },
       ticket_form_id: isTicketForm ? parseInt(formTitle) : null,
-      ...formatTicketFieldData(formState, fields, params.subjectField, params.descriptionField)
-    }
+      ...formatTicketFieldData(formState, fields, params.subjectField, params.descriptionField),
+    },
   }
 }

@@ -11,9 +11,9 @@ describe('zESettings.webWidget.launcher.label', () => {
           launcher: {
             label: {
               '*': 'Need help?',
-              fr: "Besoin d'aide?"
-            }
-          }
+              fr: "Besoin d'aide?",
+            },
+          },
         }
       })
   }
@@ -34,22 +34,22 @@ describe('zESettings.webWidget.launcher.label', () => {
 })
 
 describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
-  const buildWidget = labelVisible => {
+  const buildWidget = (labelVisible) => {
     return loadWidget()
       .withPresets('helpCenter')
-      .evaluateOnNewDocument(labelVisible => {
+      .evaluateOnNewDocument((labelVisible) => {
         window.zESettings = {
           launcher: {
             mobile: {
-              labelVisible
-            }
-          }
+              labelVisible,
+            },
+          },
         }
       }, labelVisible)
   }
 
   const getLabelVisible = async () => {
-    return await launcher.evaluate(testId => {
+    return await launcher.evaluate((testId) => {
       return (
         getComputedStyle(document.querySelector(`[data-testid="${testId}"]`)).display !== 'none'
       )
@@ -57,16 +57,12 @@ describe('zESettings.webWidget.launcher.mobile.labelVisible', () => {
   }
 
   it('does not show the label when false', async () => {
-    await buildWidget(false)
-      .useMobile()
-      .load()
+    await buildWidget(false).useMobile().load()
     expect(await getLabelVisible()).toEqual(false)
   })
 
   it('does shows the label when true', async () => {
-    await buildWidget(true)
-      .useMobile()
-      .load()
+    await buildWidget(true).useMobile().load()
     expect(await getLabelVisible()).toEqual(true)
   })
 

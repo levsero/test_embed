@@ -16,15 +16,15 @@ describe('zESettings.webWidget.contactForm.fields', () => {
     const { mockFormsResponse, embedConfig } = createForm({
       name: 'Test form',
       id: 123,
-      fields: [description, subject, text, textarea, integer, decimal]
+      fields: [description, subject, text, textarea, integer, decimal],
     })
     await loadWidget()
       .withPresets('contactForm', {
         embeds: {
           ticketSubmissionForm: {
-            props: embedConfig
-          }
-        }
+            props: embedConfig,
+          },
+        },
       })
       .intercept(mockTicketFormsEndpoint(mockFormsResponse))
       .evaluateOnNewDocument(
@@ -38,10 +38,10 @@ describe('zESettings.webWidget.contactForm.fields', () => {
                   { id: textId, prefill: { '*': 'random text' } },
                   { id: textAreaId, prefill: { '*': 'gibberish' } },
                   { id: integerId, prefill: { '*': '456' } },
-                  { id: decimalId, prefill: { '*': '456.08' } }
-                ]
-              }
-            }
+                  { id: decimalId, prefill: { '*': '456.08' } },
+                ],
+              },
+            },
           }
         },
         text.id,
@@ -68,27 +68,27 @@ describe('zESettings.webWidget.contactForm.fields', () => {
     const { mockFormsResponse, embedConfig } = createForm({
       name: 'Test form',
       id: 123,
-      fields: [subject, text]
+      fields: [subject, text],
     })
     await loadWidget()
       .withPresets('contactForm', {
         embeds: {
           ticketSubmissionForm: {
-            props: embedConfig
-          }
-        }
+            props: embedConfig,
+          },
+        },
       })
       .intercept(mockTicketFormsEndpoint(mockFormsResponse))
-      .evaluateOnNewDocument(textId => {
+      .evaluateOnNewDocument((textId) => {
         window.zESettings = {
           webWidget: {
             contactForm: {
               fields: [
                 { id: 'subject', prefill: { '*': 'Prefill subject', fr: 'french prefill' } },
-                { id: textId, prefill: { '*': 'random text', fr: 'french random' } }
-              ]
-            }
-          }
+                { id: textId, prefill: { '*': 'random text', fr: 'french random' } },
+              ],
+            },
+          },
         }
       }, text.id)
       .load()

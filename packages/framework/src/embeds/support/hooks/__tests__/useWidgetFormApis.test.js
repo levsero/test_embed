@@ -27,11 +27,11 @@ describe('useWidgetFormApis', () => {
               {
                 id: id,
                 prefill: {
-                  '*': value
-                }
-              }
-            ]
-          }
+                  '*': value,
+                },
+              },
+            ],
+          },
         })
       )
     }
@@ -47,11 +47,11 @@ describe('useWidgetFormApis', () => {
     mockReset = jest.fn()
 
     useForm.mockReturnValue({
-      batch: cb => {
+      batch: (cb) => {
         cb()
       },
       change: mockChange,
-      reset: mockReset
+      reset: mockReset,
     })
   })
 
@@ -61,8 +61,8 @@ describe('useWidgetFormApis', () => {
     store.dispatch(
       handlePrefillReceived({
         name: {
-          value: 'Some name'
-        }
+          value: 'Some name',
+        },
       })
     )
 
@@ -71,8 +71,8 @@ describe('useWidgetFormApis', () => {
     store.dispatch(
       handlePrefillReceived({
         name: {
-          value: 'Another name'
-        }
+          value: 'Another name',
+        },
       })
     )
 
@@ -103,13 +103,13 @@ describe('useWidgetFormApis', () => {
                 {
                   id: 'description',
                   prefill: {
-                    '*': 'Description'
-                  }
-                }
-              ]
-            }
-          ]
-        }
+                    '*': 'Description',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       })
     )
 
@@ -130,15 +130,15 @@ describe('useWidgetFormApis', () => {
               id: 'name',
               prefill: {
                 '*': 'Name',
-                fr: 'French name'
-              }
+                fr: 'French name',
+              },
             },
             {
               id: 'description',
               prefill: {
-                '*': 'Something'
-              }
-            }
+                '*': 'Something',
+              },
+            },
           ],
           ticketForms: [
             {
@@ -147,24 +147,24 @@ describe('useWidgetFormApis', () => {
                 {
                   id: 'description',
                   prefill: {
-                    '*': 'Specific form description'
-                  }
-                }
-              ]
-            }
-          ]
-        }
+                    '*': 'Specific form description',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       })
     )
 
     store.dispatch(
       handlePrefillReceived({
         name: {
-          value: 'Prefill name'
+          value: 'Prefill name',
         },
         phone: {
-          value: '123 123 123'
-        }
+          value: '123 123 123',
+        },
       })
     )
 
@@ -172,7 +172,7 @@ describe('useWidgetFormApis', () => {
 
     store.dispatch({
       type: LOCALE_SET,
-      payload: 'fr'
+      payload: 'fr',
     })
 
     await wait(() =>
@@ -190,8 +190,8 @@ describe('useWidgetFormApis', () => {
     const fields = [
       {
         id: createKeyID('12345'),
-        originalId: '12345'
-      }
+        originalId: '12345',
+      },
     ]
     const { updateField } = renderComponent({ formId, fields })
 
@@ -205,8 +205,8 @@ describe('useWidgetFormApis', () => {
     const fields = [
       {
         id: 'description',
-        originalId: '12345'
-      }
+        originalId: '12345',
+      },
     ]
     const { updateField } = renderComponent({ formId, fields })
 
@@ -220,8 +220,8 @@ describe('useWidgetFormApis', () => {
     const fields = [
       {
         id: 'description',
-        originalId: '12345'
-      }
+        originalId: '12345',
+      },
     ]
 
     const { updateField } = renderComponent({ formId, fields })

@@ -6,11 +6,11 @@ import { hostWithPort } from 'e2e/env'
 
 export const goToTestPage = async () =>
   await page.goto(`http://${hostWithPort}/e2e.html`, {
-    waitUntil: 'domcontentloaded'
+    waitUntil: 'domcontentloaded',
   })
 
 export const failOnConsoleError = () =>
-  page.on('console', msg => {
+  page.on('console', (msg) => {
     if (msg.type() === 'error' && msg.location().url.includes('rollbar')) {
       fail(`Console error detected: ${msg.text()}`)
     }
@@ -20,7 +20,7 @@ export const DEFAULT_CORS_HEADERS = {
   'Access-Control-Allow-Credentials': 'true',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Expose-Headers':
-    'X-Zendesk-API-Warn,X-Zendesk-User-Id,X-Zendesk-User-Session-Expires-At'
+    'X-Zendesk-API-Warn,X-Zendesk-User-Id,X-Zendesk-User-Session-Expires-At',
 }
 
 export const OPTIONS_RESPONSE = {
@@ -30,12 +30,12 @@ export const OPTIONS_RESPONSE = {
     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
     'Access-Control-Allow-Headers':
       'Authorization,X-Requested-With,X-Prototype-Version,X-Zendesk-API,Content-Type,X-CSRF-Token,X-Zendesk-Renew-Session',
-    'Access-Control-Max-Age': '86400'
+    'Access-Control-Max-Age': '86400',
   },
-  contentType: 'text/plain'
+  contentType: 'text/plain',
 }
 
-export const mockCorsRequest = (path, cb) => request => {
+export const mockCorsRequest = (path, cb) => (request) => {
   const url = request.url()
   if (!url.includes(path)) {
     return false
@@ -47,12 +47,12 @@ export const mockCorsRequest = (path, cb) => request => {
   }
 }
 
-export const mockRollbarEndpoint = mockCorsRequest('rollbar-eu.zendesk.com', request => {
+export const mockRollbarEndpoint = mockCorsRequest('rollbar-eu.zendesk.com', (request) => {
   request.respond({
     status: 200,
     headers: DEFAULT_CORS_HEADERS,
     contentType: 'text/html',
-    body: ''
+    body: '',
   })
 })
 
@@ -63,20 +63,20 @@ export const assertInputValue = async (label, value) => {
   expect(await valueHandle.jsonValue()).toEqual(value)
 }
 
-export const getJsonPayload = endpoint => JSON.parse(endpoint.mock.calls[0][0])
+export const getJsonPayload = (endpoint) => JSON.parse(endpoint.mock.calls[0][0])
 
 const assetLookups = {
   'chat-incoming-message-notification.mp3': {
     contentType: 'audio/mpeg',
-    body: fs.readFileSync('src/asset/media/chat-incoming-message-notification.mp3')
+    body: fs.readFileSync('src/asset/media/chat-incoming-message-notification.mp3'),
   },
   'flags.png': {
     contentType: 'image/png',
-    body: fs.readFileSync('src/asset/images/flags.png')
-  }
+    body: fs.readFileSync('src/asset/images/flags.png'),
+  },
 }
 
-export const mockStaticAssets = request => {
+export const mockStaticAssets = (request) => {
   const url = request.url(),
     path = '/web_widget/static/',
     length = path.length
@@ -91,7 +91,7 @@ export const mockStaticAssets = request => {
   if (asset) {
     request.respond({
       status: 200,
-      ...asset
+      ...asset,
     })
   } else {
     request.abort()
@@ -114,7 +114,7 @@ export const fillForm = async (options = {}) => {
   }
 }
 
-export const clearInputField = async field => {
+export const clearInputField = async (field) => {
   await field.click({ clickCount: 3 })
   await field.press('Backspace')
 }

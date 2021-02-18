@@ -13,7 +13,7 @@ const renderComponent = (props = {}) => {
     hideZendeskLogo: false,
     isChatting: true,
     isMobile: false,
-    isPreview: false
+    isPreview: false,
   }
 
   return render(

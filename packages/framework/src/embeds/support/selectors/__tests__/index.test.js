@@ -15,7 +15,7 @@ import {
   getTicketForms,
   getIsFormLoading,
   getIsAnyTicketFormLoading,
-  getHasFetchedTicketForms
+  getHasFetchedTicketForms,
 } from 'embeds/support/selectors'
 
 const expectedNameField = {
@@ -24,7 +24,7 @@ const expectedNameField = {
   required: false,
   visible: true,
   validation: 'name',
-  type: 'text'
+  type: 'text',
 }
 
 const expectedEmailField = {
@@ -33,14 +33,14 @@ const expectedEmailField = {
   required: true,
   visible: true,
   type: 'text',
-  validation: 'email'
+  validation: 'email',
 }
 const expectedDescriptionField = {
   id: 'description',
   title: 'How can we help you?',
   required: true,
   visible: true,
-  type: 'textarea'
+  type: 'textarea',
 }
 const checkboxField = {
   id: 123,
@@ -48,7 +48,7 @@ const checkboxField = {
   required_in_portal: false,
   visible_in_portal: true,
   type: 'checkbox',
-  description: 'hello world'
+  description: 'hello world',
 }
 const expectedCheckboxField = {
   id: createKeyID('123'),
@@ -57,7 +57,7 @@ const expectedCheckboxField = {
   required: false,
   visible: true,
   type: 'checkbox',
-  description: 'hello world'
+  description: 'hello world',
 }
 
 const textField = {
@@ -66,7 +66,7 @@ const textField = {
   required_in_portal: false,
   visible_in_portal: true,
   type: 'text',
-  description: 'hello'
+  description: 'hello',
 }
 
 const expectedTextField = {
@@ -76,14 +76,14 @@ const expectedTextField = {
   required: false,
   visible: true,
   type: 'text',
-  description: 'hello'
+  description: 'hello',
 }
 const textareaField = {
   id: '789',
   title_in_portal: 'Textarea field',
   required_in_portal: false,
   visible_in_portal: true,
-  type: 'textarea'
+  type: 'textarea',
 }
 
 const expectedTextareaField = {
@@ -92,26 +92,31 @@ const expectedTextareaField = {
   title: 'Textarea field',
   required: false,
   visible: true,
-  type: 'textarea'
+  type: 'textarea',
 }
 const subjectField = {
   id: 'subject',
   title: 'Subject',
   required: false,
   visible: true,
-  type: 'subject'
+  type: 'subject',
 }
 const attachmentField = {
   id: 'attachments',
   type: 'attachments',
   validation: 'attachments',
-  visible: true
+  visible: true,
 }
 
 describe('getAttachmentTitle', () => {
   it('with attachments', () => {
     const state = {
-      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+      support: {
+        attachments: [
+          { id: '1', uploadToken: '1' },
+          { id: '2', uploadToken: '2' },
+        ],
+      },
     }
     const result = selectors.getAttachmentTitle(state, ['1'])
 
@@ -129,7 +134,12 @@ describe('getAttachmentTitle', () => {
 describe('getAttachmentsForForm', () => {
   it('with a matching attachments', () => {
     const state = {
-      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+      support: {
+        attachments: [
+          { id: '1', uploadToken: '1' },
+          { id: '2', uploadToken: '2' },
+        ],
+      },
     }
     const result = selectors.getAttachmentsForForm(state, ['1'])
 
@@ -138,7 +148,12 @@ describe('getAttachmentsForForm', () => {
 
   it('with no matching attachments', () => {
     const state = {
-      support: { attachments: [{ id: '1', uploadToken: '1' }, { id: '2', uploadToken: '2' }] }
+      support: {
+        attachments: [
+          { id: '1', uploadToken: '1' },
+          { id: '2', uploadToken: '2' },
+        ],
+      },
     }
     const result = selectors.getAttachmentsForForm(state, ['3'])
 
@@ -152,13 +167,13 @@ describe('getTicketFormFields', () => {
     nameFieldRequired,
     subjectFieldEnabled,
     fields = [],
-    attachmentsEnabled
+    attachmentsEnabled,
   } = {}) => {
     const store = createStore()
 
     store.dispatch({
       type: TICKET_FIELDS_REQUEST_SUCCESS,
-      payload: fields
+      payload: fields,
     })
 
     store.dispatch({
@@ -167,10 +182,10 @@ describe('getTicketFormFields', () => {
         webWidget: {
           contactForm: {
             subject: Boolean(subjectFieldEnabled),
-            settings: { attachments: Boolean(attachmentsEnabled) }
-          }
-        }
-      }
+            settings: { attachments: Boolean(attachmentsEnabled) },
+          },
+        },
+      },
     })
 
     store.dispatch(
@@ -180,10 +195,10 @@ describe('getTicketFormFields', () => {
             props: {
               nameFieldEnabled: Boolean(nameFieldEnabled),
               nameFieldRequired: Boolean(nameFieldRequired),
-              attachmentsEnabled: Boolean(attachmentsEnabled)
-            }
-          }
-        }
+              attachmentsEnabled: Boolean(attachmentsEnabled),
+            },
+          },
+        },
       })
     )
 
@@ -200,7 +215,7 @@ describe('getTicketFormFields', () => {
     it('includes a required name field when it is required ', () => {
       const result = run({
         nameFieldEnabled: true,
-        nameFieldRequired: true
+        nameFieldRequired: true,
       })
 
       expect(result).toEqual([
@@ -210,17 +225,17 @@ describe('getTicketFormFields', () => {
           required: true,
           visible: true,
           validation: 'name',
-          type: 'text'
+          type: 'text',
         },
         expectedEmailField,
-        expectedDescriptionField
+        expectedDescriptionField,
       ])
     })
 
     it('includes a non-required name field when it is not required ', () => {
       const result = run({
         nameFieldEnabled: true,
-        nameFieldRequired: false
+        nameFieldRequired: false,
       })
 
       expect(result).toEqual([expectedNameField, expectedEmailField, expectedDescriptionField])
@@ -233,11 +248,11 @@ describe('getTicketFormFields', () => {
       title: 'Subject',
       required: false,
       visible: true,
-      type: 'text'
+      type: 'text',
     }
 
     const result = run({
-      subjectFieldEnabled: true
+      subjectFieldEnabled: true,
     })
 
     expect(result).toEqual([expectedEmailField, expectedSubjectField, expectedDescriptionField])
@@ -245,7 +260,7 @@ describe('getTicketFormFields', () => {
 
   it('attachments are visible when enabled', () => {
     const result = run({
-      attachmentsEnabled: true
+      attachmentsEnabled: true,
     })
 
     expect(result).toEqual([expectedEmailField, expectedDescriptionField, attachmentField])
@@ -255,7 +270,7 @@ describe('getTicketFormFields', () => {
     const result = run({
       subjectFieldEnabled: true,
       nameFieldEnabled: true,
-      fields: [checkboxField, textField, textareaField]
+      fields: [checkboxField, textField, textareaField],
     })
 
     expect(result).toEqual([
@@ -265,7 +280,7 @@ describe('getTicketFormFields', () => {
         required: false,
         visible: true,
         validation: 'name',
-        type: 'text'
+        type: 'text',
       },
       expectedEmailField,
       expectedTextField,
@@ -275,10 +290,10 @@ describe('getTicketFormFields', () => {
         title: 'Subject',
         required: false,
         visible: true,
-        type: 'text'
+        type: 'text',
       },
       expectedDescriptionField,
-      expectedCheckboxField
+      expectedCheckboxField,
     ])
   })
 })
@@ -287,7 +302,7 @@ describe('getCustomTicketFields', () => {
   const defaultTicketFields = {
     123: checkboxField,
     456: textField,
-    789: textareaField
+    789: textareaField,
   }
 
   const getState = ({
@@ -295,24 +310,24 @@ describe('getCustomTicketFields', () => {
     nameFieldRequired = false,
     ticketFields = defaultTicketFields,
     formsWithSuppressedSubject = [],
-    descriptionOverrides = {}
+    descriptionOverrides = {},
   } = {}) => ({
     base: {
       embeddableConfig: {
-        embeds: { ticketSubmissionForm: { props: { nameFieldEnabled, nameFieldRequired } } }
-      }
+        embeds: { ticketSubmissionForm: { props: { nameFieldEnabled, nameFieldRequired } } },
+      },
     },
     support: {
       forms: {
-        123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true }
+        123456: { id: '123456', ticket_field_ids: Object.keys(ticketFields), active: true },
       },
       fieldDescriptionOverrides: {
-        123456: descriptionOverrides
+        123456: descriptionOverrides,
       },
       filteredFormsToDisplay: [123456],
       formsWithSuppressedSubject: formsWithSuppressedSubject,
-      fields: ticketFields
-    }
+      fields: ticketFields,
+    },
   })
 
   it('always includes an email field', () => {
@@ -324,11 +339,11 @@ describe('getCustomTicketFields', () => {
   it('does not include the subject if it has been suppressed through the API', () => {
     const state = getState({
       formsWithSuppressedSubject: [123456],
-      ticketFields: { ...defaultTicketFields, 666: subjectField }
+      ticketFields: { ...defaultTicketFields, 666: subjectField },
     })
 
     const result = selectors.getCustomTicketFields(state, '123456')
-    const types = result.map(field => field.type)
+    const types = result.map((field) => field.type)
 
     expect(types).toContain('text', 'checkbox', 'textarea')
     expect(types).not.toContain('subject')
@@ -341,7 +356,7 @@ describe('getCustomTicketFields', () => {
       expectedEmailField,
       expectedCheckboxField,
       expectedTextField,
-      expectedTextareaField
+      expectedTextareaField,
     ])
   })
 
@@ -353,7 +368,7 @@ describe('getCustomTicketFields', () => {
       expectedEmailField,
       expectedCheckboxField,
       expectedTextField,
-      expectedTextareaField
+      expectedTextareaField,
     ])
   })
 
@@ -364,7 +379,7 @@ describe('getCustomTicketFields', () => {
     )
     const requiredNameField = {
       ...expectedNameField,
-      required: true
+      required: true,
     }
 
     expect(result).toEqual([
@@ -372,7 +387,7 @@ describe('getCustomTicketFields', () => {
       expectedEmailField,
       expectedCheckboxField,
       expectedTextField,
-      expectedTextareaField
+      expectedTextareaField,
     ])
   })
 
@@ -382,7 +397,7 @@ describe('getCustomTicketFields', () => {
       title_in_portal: 'Description',
       required_in_portal: false,
       visible_in_portal: true,
-      type: 'description'
+      type: 'description',
     }
     const expectedDescriptionField = {
       id: 'description',
@@ -390,13 +405,13 @@ describe('getCustomTicketFields', () => {
       title: 'Description',
       required: false,
       visible: true,
-      type: 'description'
+      type: 'description',
     }
 
     const state = getState({
       ticketFields: {
-        123: descriptionField
-      }
+        123: descriptionField,
+      },
     })
 
     const result = selectors.getCustomTicketFields(state, '123456')
@@ -410,7 +425,7 @@ describe('getCustomTicketFields', () => {
       title_in_portal: 'Subject',
       required_in_portal: false,
       visible_in_portal: true,
-      type: 'subject'
+      type: 'subject',
     }
 
     const expectedSubjectField = {
@@ -419,13 +434,13 @@ describe('getCustomTicketFields', () => {
       title: 'Subject',
       required: false,
       visible: true,
-      type: 'subject'
+      type: 'subject',
     }
 
     const state = getState({
       ticketFields: {
-        123: subjectField
-      }
+        123: subjectField,
+      },
     })
 
     const result = selectors.getCustomTicketFields(state, '123456')
@@ -441,7 +456,7 @@ describe('getCustomTicketFields', () => {
       required_in_portal: false,
       visible_in_portal: true,
       type: 'description',
-      description: defaultDescriptionHint
+      description: defaultDescriptionHint,
     }
     const expectedDescriptionField = {
       id: 'description',
@@ -450,17 +465,17 @@ describe('getCustomTicketFields', () => {
       required: false,
       visible: true,
       type: 'description',
-      description: 'salut!'
+      description: 'salut!',
     }
 
     it('correctly overrides the description when given a numeric ID', () => {
       const state = getState({
         ticketFields: {
-          123: descriptionField
+          123: descriptionField,
         },
         descriptionOverrides: {
-          666: { '*': 'salut!' }
-        }
+          666: { '*': 'salut!' },
+        },
       })
 
       const result = selectors.getCustomTicketFields(state, '123456')
@@ -471,11 +486,11 @@ describe('getCustomTicketFields', () => {
     it('correctly overrides the description when given a string ID', () => {
       const state = getState({
         ticketFields: {
-          123: descriptionField
+          123: descriptionField,
         },
         descriptionOverrides: {
-          description: { '*': 'salut!' }
-        }
+          description: { '*': 'salut!' },
+        },
       })
 
       const result = selectors.getCustomTicketFields(state, '123456')
@@ -486,18 +501,18 @@ describe('getCustomTicketFields', () => {
     it('does not omit the hint if passed an empty string for the catch-all', () => {
       const state = getState({
         ticketFields: {
-          123: descriptionField
+          123: descriptionField,
         },
         descriptionOverrides: {
-          description: { '*': '' }
-        }
+          description: { '*': '' },
+        },
       })
 
       const result = selectors.getCustomTicketFields(state, '123456')
 
       expect(result).toEqual([
         expectedEmailField,
-        { ...expectedDescriptionField, description: defaultDescriptionHint }
+        { ...expectedDescriptionField, description: defaultDescriptionHint },
       ])
     })
   })
@@ -511,15 +526,15 @@ describe('getFormTicketFields', () => {
         filteredFormsToDisplay: [123456],
         formsWithSuppressedSubject: [],
         fieldDescriptionOverrides: {
-          123456: {}
+          123456: {},
         },
         fields,
-        contactFormFields
+        contactFormFields,
       },
       settings: { contactForm: { settings: { subject: false, attachments: attachmentsEnabled } } },
       base: {
-        embeddableConfig: { embeds: { ticketSubmissionForm: { props: { attachmentsEnabled } } } }
-      }
+        embeddableConfig: { embeds: { ticketSubmissionForm: { props: { attachmentsEnabled } } } },
+      },
     }
   }
 
@@ -532,7 +547,7 @@ describe('getFormTicketFields', () => {
       expectedTextField,
       expectedTextareaField,
       expectedDescriptionField,
-      expectedCheckboxField
+      expectedCheckboxField,
     ])
   })
 
@@ -549,7 +564,7 @@ describe('getFormTicketFields', () => {
     const fields = {
       123: checkboxField,
       456: textField,
-      789: textareaField
+      789: textareaField,
     }
     const result = selectors.getFormTicketFields(setUpState({ fields }), '123456')
 
@@ -557,7 +572,7 @@ describe('getFormTicketFields', () => {
       expectedEmailField,
       expectedCheckboxField,
       expectedTextField,
-      expectedTextareaField
+      expectedTextareaField,
     ])
   })
 })
@@ -568,16 +583,16 @@ const state = {
       yolo: 'yolo',
       maxFileCount: 10,
       maxFileSize: 5,
-      webWidgetReactRouterSupport: true
+      webWidgetReactRouterSupport: true,
     },
     activeFormName: 'ticketForm',
     formStates: { contactForm: { name: 'Bobby' } },
-    showFormErrors: 'blap'
-  }
+    showFormErrors: 'blap',
+  },
 }
 
-const supportState = state => ({
-  support: state
+const supportState = (state) => ({
+  support: state,
 })
 
 test('getSupportConfig', () => {
@@ -587,7 +602,7 @@ test('getSupportConfig', () => {
     yolo: 'yolo',
     maxFileCount: 10,
     maxFileSize: 5,
-    webWidgetReactRouterSupport: true
+    webWidgetReactRouterSupport: true,
   })
 })
 
@@ -610,32 +625,32 @@ test('getActiveFormName', () => {
 })
 
 describe('getFormState', () => {
-  const createState = formExists => {
+  const createState = (formExists) => {
     const state = {
       base: {
         locale: 'en-US',
         embeddableConfig: {
-          embeds: { ticketSubmissionForm: { props: { attachmentsEnabled: false } } }
-        }
+          embeds: { ticketSubmissionForm: { props: { attachmentsEnabled: false } } },
+        },
       },
       support: {
         formStates: {},
         prefillValues: {
           '*': {
-            name: 'Prefill name'
-          }
+            name: 'Prefill name',
+          },
         },
         forms: {
           contactForm: {
             id: 'contactForm',
             ticket_field_ids: [123],
-            active: true
-          }
+            active: true,
+          },
         },
         filteredFormsToDisplay: ['contactForm'],
         formsWithSuppressedSubject: [],
         fieldDescriptionOverrides: {
-          123456: {}
+          123456: {},
         },
         fields: {
           123: {
@@ -643,22 +658,22 @@ describe('getFormState', () => {
             type: 'tagger',
             custom_field_options: [
               {
-                value: 'option 1'
+                value: 'option 1',
               },
               {
                 value: 'option 2',
-                default: true
-              }
-            ]
-          }
+                default: true,
+              },
+            ],
+          },
         },
-        prefillSpecificFormValues: {}
-      }
+        prefillSpecificFormValues: {},
+      },
     }
 
     if (formExists) {
       state.support.formStates.contactForm = {
-        [createKeyID('name')]: 'Bobby'
+        [createKeyID('name')]: 'Bobby',
       }
     }
 
@@ -691,7 +706,7 @@ describe('attachments', () => {
     uploading: false,
     uploadProgress: 100,
     errorMessage: null,
-    uploadToken: 'a35g4a3f5v1a6df5bv1a'
+    uploadToken: 'a35g4a3f5v1a6df5bv1a',
   }
   const attachment2 = {
     id: 2,
@@ -701,7 +716,7 @@ describe('attachments', () => {
     uploading: false,
     uploadProgress: 100,
     errorMessage: 'failed',
-    uploadToken: null
+    uploadToken: null,
   }
   const attachment3 = {
     id: 3,
@@ -711,7 +726,7 @@ describe('attachments', () => {
     uploading: true,
     uploadProgress: 0,
     errorMessage: null,
-    uploadToken: null
+    uploadToken: null,
   }
   const attachments = [attachment1, attachment2, attachment3]
   const state = supportState({ attachments })
@@ -769,14 +784,14 @@ describe('getReadOnlyState', () => {
       support: {
         readOnly: {
           email: true,
-          name: false
-        }
-      }
+          name: false,
+        },
+      },
     })
 
     expect(result).toEqual({
       email: true,
-      name: false
+      name: false,
     })
   })
 })
@@ -787,7 +802,7 @@ describe('getForm', () => {
   it('returns the form when it exists', () => {
     const result = getForm(
       {
-        support: { forms: { 123: form }, filteredFormsToDisplay: [] }
+        support: { forms: { 123: form }, filteredFormsToDisplay: [] },
       },
       123
     )
@@ -798,7 +813,7 @@ describe('getForm', () => {
   it('returns undefined when the form does not exist', () => {
     const result = getForm(
       {
-        support: { forms: { 456: form }, filteredFormsToDisplay: [] }
+        support: { forms: { 456: form }, filteredFormsToDisplay: [] },
       },
       123
     )
@@ -815,10 +830,10 @@ describe('getCanDisplayForm', () => {
       {
         base: {
           embeddableConfig: {
-            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } }
-          }
+            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } },
+          },
         },
-        support: { forms: { 123: form }, filteredFormsToDisplay: [456] }
+        support: { forms: { 123: form }, filteredFormsToDisplay: [456] },
       },
       123
     )
@@ -831,10 +846,10 @@ describe('getCanDisplayForm', () => {
       {
         base: {
           embeddableConfig: {
-            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } }
-          }
+            embeds: { ticketSubmissionForm: { props: { ticketFormsEnabled: true } } },
+          },
         },
-        support: { forms: { 123: form }, filteredFormsToDisplay: [123] }
+        support: { forms: { 123: form }, filteredFormsToDisplay: [123] },
       },
       123
     )
@@ -876,24 +891,24 @@ describe('getFormIdsToDisplay', () => {
     enabled = true,
     forms = [],
     filteredFormIds = [],
-    allFormsRequested = true
+    allFormsRequested = true,
   }) => ({
     base: {
       embeddableConfig: {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: enabled
-            }
-          }
-        }
-      }
+              ticketFormsEnabled: enabled,
+            },
+          },
+        },
+      },
     },
     support: {
       forms,
       filteredFormsToDisplay: filteredFormIds,
-      allFormsRequested
-    }
+      allFormsRequested,
+    },
   })
 
   describe('when ticket forms are not enabled in config', () => {
@@ -921,7 +936,7 @@ describe('getFormIdsToDisplay', () => {
       const forms = {
         [form1.id]: form1,
         [form2.id]: form2,
-        [form3.id]: form3
+        [form3.id]: form3,
       }
 
       const result = getFormIdsToDisplay(createState({ forms, allFormsRequested: true }))
@@ -946,17 +961,17 @@ describe('getFormsToDisplay', () => {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: true
-            }
-          }
-        }
-      }
+              ticketFormsEnabled: true,
+            },
+          },
+        },
+      },
     },
     support: {
       forms,
       filteredFormsToDisplay: filteredFormIds,
-      allFormsRequested: true
-    }
+      allFormsRequested: true,
+    },
   })
 
   describe('when the customer has filtered forms using the ticketForms setting', () => {
@@ -968,7 +983,7 @@ describe('getFormsToDisplay', () => {
       const forms = {
         [form1.id]: form1,
         [form2.id]: form2,
-        [form3.id]: form3
+        [form3.id]: form3,
       }
 
       const filteredFormIds = [form1.id, form3.id]
@@ -986,7 +1001,7 @@ describe('getFormsToDisplay', () => {
       const forms = {
         [form1.id]: form1,
         [form2.id]: form2,
-        [form3.id]: form3
+        [form3.id]: form3,
       }
 
       const filteredFormIds = [form1.id, form3.id, "some id that doesn't match"]
@@ -1005,7 +1020,7 @@ describe('getFormsToDisplay', () => {
     const forms = {
       [form1.id]: form1,
       [form2.id]: form2,
-      [form3.id]: form3
+      [form3.id]: form3,
     }
 
     const result = getFormsToDisplay(createState({ forms }))
@@ -1021,7 +1036,7 @@ describe('getFormsToDisplay', () => {
     const forms = {
       [form1.id]: form1,
       [form2.id]: form2,
-      [form3.id]: form3
+      [form3.id]: form3,
     }
 
     const result = getFormsToDisplay(createState({ forms }))
@@ -1035,7 +1050,7 @@ describe('getFormsToDisplay', () => {
 
     const forms = {
       [form1.id]: form1,
-      [form2.id]: form2
+      [form2.id]: form2,
     }
 
     const filteredFormIds = [form1.id, form2.id, form1.id, form2.id, form1.id, form2.id]
@@ -1051,24 +1066,24 @@ describe('getTicketForms', () => {
     enabled = true,
     forms = [],
     filteredFormIds = [],
-    allFormsRequested = true
+    allFormsRequested = true,
   }) => ({
     base: {
       embeddableConfig: {
         embeds: {
           ticketSubmissionForm: {
             props: {
-              ticketFormsEnabled: enabled
-            }
-          }
-        }
-      }
+              ticketFormsEnabled: enabled,
+            },
+          },
+        },
+      },
     },
     support: {
       forms,
       filteredFormsToDisplay: filteredFormIds,
-      allFormsRequested
-    }
+      allFormsRequested,
+    },
   })
 
   it('returns the form IDs', () => {
@@ -1093,7 +1108,7 @@ describe('getTicketForms', () => {
         const form1 = { id: 1, position: 1, active: true }
 
         const forms = {
-          [form1.id]: form1
+          [form1.id]: form1,
         }
 
         const filteredFormIds = [666]
@@ -1109,7 +1124,7 @@ describe('getTicketForms', () => {
         const form1 = { id: 1, position: 1, active: true }
 
         const forms = {
-          [form1.id]: form1
+          [form1.id]: form1,
         }
 
         const filteredFormIds = [666, 1]
@@ -1128,7 +1143,7 @@ describe('getTicketForms', () => {
 
       const forms = {
         [form1.id]: form1,
-        [form2.id]: form2
+        [form2.id]: form2,
       }
 
       const result = getTicketForms(createState({ forms }))
@@ -1152,7 +1167,7 @@ describe('getTicketForms', () => {
 
       const forms = {
         [form1.id]: form1,
-        [form2.id]: form2
+        [form2.id]: form2,
       }
 
       const result = getTicketForms(createState({ forms }))
@@ -1197,9 +1212,9 @@ describe('getIsFormLoading', () => {
     const state = {
       support: {
         isFormLoading: {
-          123: 'fetchKey'
-        }
-      }
+          123: 'fetchKey',
+        },
+      },
     }
 
     expect(getIsFormLoading(state, 123)).toBe(true)
@@ -1209,9 +1224,9 @@ describe('getIsFormLoading', () => {
     const state = {
       support: {
         isFormLoading: {
-          123: false
-        }
-      }
+          123: false,
+        },
+      },
     }
 
     expect(getIsFormLoading(state, 123)).toBe(false)
@@ -1221,9 +1236,9 @@ describe('getIsFormLoading', () => {
     const state = {
       support: {
         isFormLoading: {
-          456: 'fetchKey'
-        }
-      }
+          456: 'fetchKey',
+        },
+      },
     }
 
     expect(getIsFormLoading(state, 123)).toBe(false)
@@ -1236,9 +1251,9 @@ describe('getIsAnyTicketFormLoading', () => {
       getIsAnyTicketFormLoading({
         support: {
           ticketFormsRequest: {
-            isLoading: true
-          }
-        }
+            isLoading: true,
+          },
+        },
       })
     ).toBe(true)
   })
@@ -1248,9 +1263,9 @@ describe('getIsAnyTicketFormLoading', () => {
       getIsAnyTicketFormLoading({
         support: {
           ticketFormsRequest: {
-            isLoading: false
-          }
-        }
+            isLoading: false,
+          },
+        },
       })
     ).toBe(false)
   })
@@ -1261,9 +1276,9 @@ describe('getHasFetchedTicketForms', () => {
     const state = {
       support: {
         ticketFormsRequest: {
-          fetchKey: 'fetchKey'
-        }
-      }
+          fetchKey: 'fetchKey',
+        },
+      },
     }
 
     expect(getHasFetchedTicketForms(state, 'fetchKey')).toBe(true)
@@ -1273,9 +1288,9 @@ describe('getHasFetchedTicketForms', () => {
     const state = {
       support: {
         ticketFormsRequest: {
-          fetchKey: 'aNewerFetchKey'
-        }
-      }
+          fetchKey: 'aNewerFetchKey',
+        },
+      },
     }
 
     expect(getHasFetchedTicketForms(state, 'anOlderFetchKey')).toBe(false)
@@ -1288,14 +1303,14 @@ describe('getTicketFormTitle', () => {
       support: {
         forms: {
           123: {
-            display_name: 'one two three'
+            display_name: 'one two three',
           },
           456: {
-            display_name: 'four five six'
-          }
+            display_name: 'four five six',
+          },
         },
-        formsWithSuppressedTitle: [123]
-      }
+        formsWithSuppressedTitle: [123],
+      },
     }
   }
 

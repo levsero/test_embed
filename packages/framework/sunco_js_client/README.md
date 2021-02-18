@@ -10,7 +10,7 @@ To see if you integration has the correct feature flag enabled we can use the cl
 
 ```js
 //after you've initialised the client
-client.SDKConfig.init().then(response => console.log(response.body.config.app.settings))
+client.SDKConfig.init().then((response) => console.log(response.body.config.app.settings))
 //=> { multiConvoEnabled: true }
 ```
 
@@ -26,7 +26,7 @@ const integrationId = 'replace with integration id'
 const client = new Sunco({
   integrationId: integrationId,
   appId: appId,
-  baseUrl: 'https://smooch-lhills.ngrok.io'
+  baseUrl: 'https://smooch-lhills.ngrok.io',
 })
 ```
 
@@ -35,12 +35,12 @@ const client = new Sunco({
 Super basic interface so far and still needs some work, but the basic gist of it looks something like this:
 
 ```js
-client.startConversation().then(conversation => {
+client.startConversation().then((conversation) => {
   // fetch conversation history via REST API
-  conversation.listMessages().then(response => console.log(response))
+  conversation.listMessages().then((response) => console.log(response))
 
   // subscribe to socket events to listen for live changes
-  conversation.socketClient.subscribe(event => {
+  conversation.socketClient.subscribe((event) => {
     console.log('received via socket: ', event.message?.text)
   })
 })
@@ -49,7 +49,7 @@ client.startConversation().then(conversation => {
 // send and receive messages via the client instance and it will associate the requests
 // with the active conversation taking place
 client.sendMessage('plain text message')
-client.listMessages().then(response => console.log(response))
+client.listMessages().then((response) => console.log(response))
 ```
 
 ##### Local storage tokens

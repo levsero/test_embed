@@ -4,14 +4,14 @@ import { setDefaultDepartment } from 'src/redux/modules/chat'
 
 const initialState = {
   values: {},
-  timestamp: 0
+  timestamp: 0,
 }
 
 testReducer(chatDepartmentSelect, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState: undefined,
@@ -19,8 +19,8 @@ testReducer(chatDepartmentSelect, [
     expected: {
       timestamp: 123,
       values: {
-        departmentId: 'department id'
-      }
-    }
-  }
+        departmentId: 'department id',
+      },
+    },
+  },
 ])

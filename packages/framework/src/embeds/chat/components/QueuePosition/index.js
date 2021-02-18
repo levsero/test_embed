@@ -10,14 +10,14 @@ const QueuePosition = ({ queuePosition = 1 }) => {
   return (
     <Container role="status" aria-live="polite">
       {translate('embeddable_framework.chat.chatLog.queuePosition', {
-        value: queuePosition
+        value: queuePosition,
       })}
     </Container>
   )
 }
 
 QueuePosition.propTypes = {
-  queuePosition: PropTypes.number
+  queuePosition: PropTypes.number,
 }
 
 export default QueuePosition

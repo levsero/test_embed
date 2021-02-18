@@ -7,7 +7,7 @@ import { getActiveAgents } from 'src/redux/modules/chat/chat-selectors/reselecto
 
 const AgentList = ({ agents }) => (
   <ul>
-    {Object.values(agents).map(agent => (
+    {Object.values(agents).map((agent) => (
       <li key={agent.nick}>
         <AgentInfo agent={agent} />
       </li>
@@ -21,13 +21,13 @@ AgentList.propTypes = {
       nick: PropTypes.string,
       isTyping: PropTypes.bool,
       title: PropTypes.string,
-      display_name: PropTypes.string
-    })
-  }).isRequired
+      display_name: PropTypes.string,
+    }),
+  }).isRequired,
 }
 
-const mapStateToProps = state => ({
-  agents: getActiveAgents(state)
+const mapStateToProps = (state) => ({
+  agents: getActiveAgents(state),
 })
 
 const connectedComponent = connect(mapStateToProps)(AgentList)

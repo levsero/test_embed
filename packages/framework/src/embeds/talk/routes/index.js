@@ -10,5 +10,5 @@ export default {
   clickToCallConsent: () => '/talk/online/click_to_call/consent',
   clickToCallInProgress: () => '/talk/online/click_to_call/in_progress',
   clickToCallNetworkError: () => '/talk/online/click_to_call/network_error',
-  successNotification: () => '/talk/success_notification'
+  successNotification: () => '/talk/success_notification',
 }

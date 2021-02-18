@@ -22,7 +22,7 @@ ButtonGroup.propTypes = {
   rtl: PropTypes.bool,
   style: PropTypes.element,
   className: PropTypes.string,
-  center: PropTypes.bool
+  center: PropTypes.bool,
 }
 
 ButtonGroup.defaultProps = {
@@ -31,7 +31,7 @@ ButtonGroup.defaultProps = {
   style: null,
   className: '',
   containerClasses: '',
-  center: false
+  center: false,
 }
 
 export { ButtonGroup }

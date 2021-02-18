@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import {
   getSettingsContactFormSubject,
   getSettingsContactFormAttachments,
-  getSettingsContactFormTitle
+  getSettingsContactFormTitle,
 } from 'src/redux/modules/settings/settings-selectors'
 import {
   getConfigNameFieldEnabled,
@@ -10,32 +10,32 @@ import {
   getLocale,
   getConfigAttachmentsEnabled,
   getFormTitleKey,
-  getTicketFormsEnabled
+  getTicketFormsEnabled,
 } from 'src/redux/modules/base/base-selectors'
 import { getCheckboxFields, getNonCheckboxFields } from 'embeds/support/utils/fieldConversion'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import createKeyID from 'embeds/support/utils/createKeyID'
 import routes from 'embeds/support/routes'
 
-export const getSupportConfig = state => state.support.config
-export const getMaxFileCount = state => getSupportConfig(state).maxFileCount
-export const getMaxFileSize = state => getSupportConfig(state).maxFileSize
-export const getActiveFormName = state => state.support.activeFormName
-export const getAllAttachments = state => state.support.attachments
-export const getDisplayDropzone = state => state.support.displayDropzone
-export const getAttachmentLimitExceeded = state => state.support.attachmentLimitExceeded
-export const getFilteredFormIds = state => state.support.filteredFormsToDisplay
-export const getFormsWithSuppressedSubject = state => state.support.formsWithSuppressedSubject
-export const getFieldDescriptionOverrides = state => state.support.fieldDescriptionOverrides
-export const getTicketFormsSetViaAPI = state => state.support.ticketFormsSetViaAPI
-export const getAllFormsRequested = state => state.support.allFormsRequested
+export const getSupportConfig = (state) => state.support.config
+export const getMaxFileCount = (state) => getSupportConfig(state).maxFileCount
+export const getMaxFileSize = (state) => getSupportConfig(state).maxFileSize
+export const getActiveFormName = (state) => state.support.activeFormName
+export const getAllAttachments = (state) => state.support.attachments
+export const getDisplayDropzone = (state) => state.support.displayDropzone
+export const getAttachmentLimitExceeded = (state) => state.support.attachmentLimitExceeded
+export const getFilteredFormIds = (state) => state.support.filteredFormsToDisplay
+export const getFormsWithSuppressedSubject = (state) => state.support.formsWithSuppressedSubject
+export const getFieldDescriptionOverrides = (state) => state.support.fieldDescriptionOverrides
+export const getTicketFormsSetViaAPI = (state) => state.support.ticketFormsSetViaAPI
+export const getAllFormsRequested = (state) => state.support.allFormsRequested
 export const getAttachmentTitle = (state, attachmentIds) => {
   const validAttachments = getAttachmentsForForm(state, attachmentIds)
   const numAttachments = validAttachments.length
   const title =
     numAttachments > 0
       ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount', {
-          count: numAttachments
+          count: numAttachments,
         })
       : i18n.t('embeddable_framework.submitTicket.attachments.title')
   return title
@@ -49,7 +49,7 @@ export const getIsFormLoading = (state, formId) => {
   return Boolean(state.support.isFormLoading[formId])
 }
 
-export const getIsAnyTicketFormLoading = state => state.support.ticketFormsRequest.isLoading
+export const getIsAnyTicketFormLoading = (state) => state.support.ticketFormsRequest.isLoading
 
 export const getHasFetchedTicketForms = (state, fetchKey) => {
   return state.support.ticketFormsRequest.fetchKey === fetchKey
@@ -62,30 +62,30 @@ export const getContactFormTitle = createSelector(
     i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)
 )
 
-export const getAttachmentsEnabled = state =>
+export const getAttachmentsEnabled = (state) =>
   Boolean(getConfigAttachmentsEnabled(state) && getSettingsContactFormAttachments(state))
 
 export const getAttachmentsForForm = (state, attachmentIds) => {
   const attachments = getAllAttachments(state)
   if (!attachmentIds) return attachments
-  return attachments.filter(attachment => attachmentIds.includes(attachment.id))
+  return attachments.filter((attachment) => attachmentIds.includes(attachment.id))
 }
 
-export const getReadOnlyState = state => state.support.readOnly
+export const getReadOnlyState = (state) => state.support.readOnly
 
 export const getCustomerProvidedDefaultValues = (state, formId) => {
   const fields = getFormTicketFields(state, formId)
 
   const defaultValues = {}
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     switch (field.type) {
       case 'tagger':
         if (!field.options) {
           return
         }
 
-        field.options.forEach(item => {
+        field.options.forEach((item) => {
           if (item.default) {
             defaultValues[field.id] = item.value
           }
@@ -99,14 +99,12 @@ export const getCustomerProvidedDefaultValues = (state, formId) => {
 export const getFormState = (state, name) =>
   state.support.formStates[name] || getCustomerProvidedDefaultValues(state, name)
 
-export const getSuccessfulAttachments = createSelector(
-  getAllAttachments,
-  attachments => attachments.filter(attachment => attachment.uploadToken)
+export const getSuccessfulAttachments = createSelector(getAllAttachments, (attachments) =>
+  attachments.filter((attachment) => attachment.uploadToken)
 )
 
-export const getAttachmentTokens = createSelector(
-  getSuccessfulAttachments,
-  attachments => attachments.map(attachment => attachment.uploadToken)
+export const getAttachmentTokens = createSelector(getSuccessfulAttachments, (attachments) =>
+  attachments.map((attachment) => attachment.uploadToken)
 )
 
 export const getAttachmentsReady = createSelector(
@@ -114,9 +112,8 @@ export const getAttachmentsReady = createSelector(
   (allAttachments, successfulAttachments) => allAttachments.length === successfulAttachments.length
 )
 
-export const getAttachmentTypes = createSelector(
-  getAllAttachments,
-  attachments => attachments.map(attachment => attachment.fileType)
+export const getAttachmentTypes = createSelector(getAllAttachments, (attachments) =>
+  attachments.map((attachment) => attachment.fileType)
 )
 
 export const getTicketFormsActive = createSelector(
@@ -127,14 +124,14 @@ export const getTicketFormsActive = createSelector(
 )
 
 export const getFormIdsToDisplay = createSelector(
-  [getAllFormsRequested, getFilteredFormIds, getTicketFormsActive, state => state.support.forms],
+  [getAllFormsRequested, getFilteredFormIds, getTicketFormsActive, (state) => state.support.forms],
   (allFormsRequested, filteredFormIds, ticketFormsActive, availableForms) => {
     if (!ticketFormsActive) return
 
     const filteredArray = Array.from(new Set(filteredFormIds))
 
     if (filteredArray.length > 0) return filteredArray
-    if (allFormsRequested) return Object.keys(availableForms).map(item => parseInt(item, 10))
+    if (allFormsRequested) return Object.keys(availableForms).map((item) => parseInt(item, 10))
 
     return []
   }
@@ -142,32 +139,32 @@ export const getFormIdsToDisplay = createSelector(
 
 export const getFormsToDisplay = createSelector(
   getFormIdsToDisplay,
-  state => state.support.forms,
+  (state) => state.support.forms,
   (formIds, forms) => {
     if (!Array.isArray(formIds)) return []
 
     return formIds
-      ?.map(id => forms[id])
-      .filter(form => form?.active)
+      ?.map((id) => forms[id])
+      .filter((form) => form?.active)
       .sort((a, b) => a.position - b.position)
   }
 )
 
 export const getTicketForms = createSelector(
-  [getFormIdsToDisplay, getTicketFormsActive, state => state.support.forms],
+  [getFormIdsToDisplay, getTicketFormsActive, (state) => state.support.forms],
   (ids, active, availableForms) => {
-    const returnedFormIds = Object.keys(availableForms).map(id => parseInt(id, 10))
+    const returnedFormIds = Object.keys(availableForms).map((id) => parseInt(id, 10))
     const anyFormsReturned = returnedFormIds.length > 0
     const requestAll = Boolean(active && ids.length == 0)
     const showList = anyFormsReturned && (requestAll || (active && ids.length > 1))
-    const validatedIds = ids?.filter(value => returnedFormIds.includes(value)) || []
+    const validatedIds = ids?.filter((value) => returnedFormIds.includes(value)) || []
 
     return {
       ids,
       validatedIds,
       showList,
       requestAll,
-      active
+      active,
     }
   }
 )
@@ -177,11 +174,11 @@ export const getForm = (state, formId) => {
 }
 
 export const getCanDisplayForm = (state, formId) => {
-  return Boolean(getFormsToDisplay(state).find(form => `${form.id}` === `${formId}`))
+  return Boolean(getFormsToDisplay(state).find((form) => `${form.id}` === `${formId}`))
 }
 
 export const getField = (state, fieldId) => state.support.fields[fieldId]
-export const getContactFormFields = state => state.support.contactFormFields
+export const getContactFormFields = (state) => state.support.contactFormFields
 
 export const getTicketFormFields = createSelector(
   [
@@ -192,12 +189,12 @@ export const getTicketFormFields = createSelector(
     getAttachmentsEnabled,
 
     // getLocale is just here so the translations get updated when locale changes
-    getLocale
+    getLocale,
   ],
   (ticketFields, subjectEnabled, nameEnabled, nameRequired, attachmentsEnabled) => {
     const fields = ticketFields
       .map(convertTicketFieldToFormField)
-      .map(field => ({ ...field, visible: true }))
+      .map((field) => ({ ...field, visible: true }))
 
     const checkBoxFields = getCheckboxFields(fields)
     const nonCheckBoxFields = getNonCheckboxFields(fields)
@@ -209,7 +206,7 @@ export const getTicketFormFields = createSelector(
         required: nameRequired,
         visible: true,
         type: 'text',
-        validation: 'name'
+        validation: 'name',
       },
       {
         id: 'email',
@@ -217,35 +214,35 @@ export const getTicketFormFields = createSelector(
         required: true,
         visible: true,
         type: 'text',
-        validation: 'email'
+        validation: 'email',
       },
-      ...nonCheckBoxFields.filter(field => field.type !== 'description'),
+      ...nonCheckBoxFields.filter((field) => field.type !== 'description'),
       subjectEnabled && {
         id: 'subject',
         title: i18n.t('embeddable_framework.submitTicket.field.subject.label'),
         required: false,
         visible: true,
-        type: 'text'
+        type: 'text',
       },
       {
         id: 'description',
         title: i18n.t('embeddable_framework.submitTicket.field.description.label'),
         required: true,
         visible: true,
-        type: 'textarea'
+        type: 'textarea',
       },
       ...checkBoxFields,
       attachmentsEnabled && {
         id: 'attachments',
         visible: true,
         type: 'attachments',
-        validation: 'attachments'
-      }
+        validation: 'attachments',
+      },
     ].filter(Boolean)
   }
 )
 
-const convertTicketFieldToFormField = ticketField => {
+const convertTicketFieldToFormField = (ticketField) => {
   const formField = {
     originalId: ticketField.id,
     id: createKeyID(ticketField.id),
@@ -253,7 +250,7 @@ const convertTicketFieldToFormField = ticketField => {
     required: ticketField.required_in_portal,
     visible: ticketField.visible_in_portal,
     type: ticketField.type,
-    description: ticketField.description
+    description: ticketField.description,
   }
 
   if (ticketField.custom_field_options) {
@@ -265,7 +262,7 @@ const convertTicketFieldToFormField = ticketField => {
 
 export const getCustomTicketFields = (state, formId) => {
   const fallbackForm = {
-    ticket_field_ids: []
+    ticket_field_ids: [],
   }
 
   const attachmentsEnabled = getAttachmentsEnabled(state)
@@ -273,10 +270,10 @@ export const getCustomTicketFields = (state, formId) => {
   const nameEnabled = getConfigNameFieldEnabled(state)
   const nameRequired = getConfigNameFieldRequired(state)
   const suppressedSubjects = getFormsWithSuppressedSubject(state)
-  const subjectDisabled = suppressedSubjects.find(form => `${form}` === `${formId}`)
+  const subjectDisabled = suppressedSubjects.find((form) => `${form}` === `${formId}`)
   const fieldDescriptionOverrides = getFieldDescriptionOverrides(state)
   const fields = ticketForm.ticket_field_ids
-    .map(id => getField(state, id))
+    .map((id) => getField(state, id))
     .filter(Boolean)
     .map(convertTicketFieldToFormField)
 
@@ -287,7 +284,7 @@ export const getCustomTicketFields = (state, formId) => {
       required: nameRequired,
       visible: true,
       type: 'text',
-      validation: 'name'
+      validation: 'name',
     },
     {
       id: 'email',
@@ -295,22 +292,22 @@ export const getCustomTicketFields = (state, formId) => {
       required: true,
       visible: true,
       type: 'text',
-      validation: 'email'
+      validation: 'email',
     },
     ...fields,
     attachmentsEnabled && {
       id: 'attachments',
       visible: true,
       type: 'attachments',
-      validation: 'attachments'
-    }
+      validation: 'attachments',
+    },
   ]
     .filter(Boolean)
-    .map(field => {
+    .map((field) => {
       if (field.type === 'description') {
         return {
           ...field,
-          id: 'description'
+          id: 'description',
         }
       }
 
@@ -319,13 +316,13 @@ export const getCustomTicketFields = (state, formId) => {
 
         return {
           ...field,
-          id: 'subject'
+          id: 'subject',
         }
       }
 
       return field
     })
-    .map(field => {
+    .map((field) => {
       const override =
         fieldDescriptionOverrides[formId] &&
         (fieldDescriptionOverrides[formId][field.id] ||
@@ -335,7 +332,7 @@ export const getCustomTicketFields = (state, formId) => {
 
       return {
         ...field,
-        description: getDescriptionOverride(override, field.description)
+        description: getDescriptionOverride(override, field.description),
       }
     })
 }
@@ -356,10 +353,10 @@ export const getFormTicketFields = (state, formId) => {
   return getCustomTicketFields(state, formId)
 }
 
-const getFormsWithSuppressedTitle = state => state.support.formsWithSuppressedTitle
+const getFormsWithSuppressedTitle = (state) => state.support.formsWithSuppressedTitle
 
 export const getTicketFormTitle = (state, formId) => {
-  const suppressed = getFormsWithSuppressedTitle(state).find(id => `${id}` === `${formId}`)
+  const suppressed = getFormsWithSuppressedTitle(state).find((id) => `${id}` === `${formId}`)
   if (suppressed) {
     return undefined
   }

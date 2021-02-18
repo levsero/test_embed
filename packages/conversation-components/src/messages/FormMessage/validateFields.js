@@ -25,13 +25,13 @@ const validateType = {
     if (value.length > maxEmailSize) {
       return errorLabels.fieldMaxSize(maxEmailSize)
     }
-  }
+  },
 }
 
 const validateFields = (fields, values, errorLabels) => {
   const errors = {}
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     const value = values[field._id]
 
     if (!value) {

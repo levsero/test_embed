@@ -9,8 +9,8 @@ describe('chat chat-history reducer', () => {
 
     initMockRegistry({
       'constants/chat': {
-        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS
-      }
+        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS,
+      },
     })
 
     reducer = requireUncached(reducerPath).default

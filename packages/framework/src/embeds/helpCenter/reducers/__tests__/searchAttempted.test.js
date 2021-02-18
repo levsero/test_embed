@@ -7,30 +7,30 @@ testReducer(searchAttempted, [
   {
     action: { type: undefined },
     initialState: false,
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP' },
     initialState: false,
-    expected: false
+    expected: false,
   },
   {
     action: { type: SEARCH_REQUEST_SENT },
-    expected: true
+    expected: true,
   },
   {
     action: { type: SEARCH_REQUEST_SENT },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: { type: SEARCH_REQUEST_SENT },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

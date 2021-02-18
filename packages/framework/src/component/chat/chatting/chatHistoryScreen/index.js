@@ -10,7 +10,7 @@ import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/ch
 import {
   getHistoryLength,
   getHasMoreHistory,
-  getHistoryRequestStatus
+  getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
@@ -20,7 +20,7 @@ import { onNextTick } from 'src/util/utils'
 import { Widget, Header, Main, Footer } from 'components/Widget'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     historyLength: getHistoryLength(state),
     hasMoreHistory: getHasMoreHistory(state),
@@ -29,7 +29,7 @@ const mapStateToProps = state => {
     visitor: chatSelectors.getChatVisitor(state),
     showAvatar: chatSelectors.getThemeShowAvatar(state),
     firstMessageTimestamp: chatSelectors.getFirstMessageTimestamp(state),
-    title: getChatTitle(state)
+    title: getChatTitle(state),
   }
 }
 
@@ -40,14 +40,14 @@ class ChatHistoryScreen extends Component {
     historyRequestStatus: PropTypes.oneOf([
       HISTORY_REQUEST_STATUS.PENDING,
       HISTORY_REQUEST_STATUS.DONE,
-      HISTORY_REQUEST_STATUS.FAIL
+      HISTORY_REQUEST_STATUS.FAIL,
     ]),
     isMobile: PropTypes.bool,
     allAgents: PropTypes.object.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     fetchConversationHistory: PropTypes.func,
     firstMessageTimestamp: PropTypes.number,
-    title: PropTypes.string
+    title: PropTypes.string,
   }
 
   static defaultProps = {
@@ -60,7 +60,7 @@ class ChatHistoryScreen extends Component {
     fetchConversationHistory: () => {},
     firstMessageTimestamp: null,
     showContactDetails: () => {},
-    markAsRead: () => {}
+    markAsRead: () => {},
   }
 
   constructor(props) {
@@ -145,19 +145,19 @@ class ChatHistoryScreen extends Component {
     const { isMobile, title } = this.props
 
     const chatLogContainerClasses = classNames(styles.chatLogContainer, {
-      [styles.chatLogContainerMobile]: isMobile
+      [styles.chatLogContainerMobile]: isMobile,
     })
 
     return (
       <Widget>
         <Header title={title} />
         <Main
-          ref={el => {
+          ref={(el) => {
             this.scrollContainer = el
           }}
           onScroll={this.handleChatScreenScrolled}
           className={classNames({
-            [styles.scrollBarFix]: isFirefox() || isIE()
+            [styles.scrollBarFix]: isFirefox() || isIE(),
           })}
         >
           <div className={chatLogContainerClasses}>
@@ -178,13 +178,10 @@ class ChatHistoryScreen extends Component {
 
 const actionCreators = {
   updateChatScreen,
-  fetchConversationHistory
+  fetchConversationHistory,
 }
 
-export default connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ChatHistoryScreen)
+export default connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  ChatHistoryScreen
+)
 export { ChatHistoryScreen as Component }

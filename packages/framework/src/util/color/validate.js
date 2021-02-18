@@ -20,7 +20,7 @@ function mainTextColor(base = null) {
 
 function colorFor() {
   const colorOptions = arguments
-  const color = _.find(colorOptions, option => {
+  const color = _.find(colorOptions, (option) => {
     return validatedColor(option)
   })
 

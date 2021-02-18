@@ -13,7 +13,7 @@ import {
   getDepartments,
   getIsAuthenticated,
   getSocialLogin,
-  getPreChatFormState
+  getPreChatFormState,
 } from 'src/redux/modules/chat/chat-selectors'
 import DynamicForm from 'components/DynamicForm'
 import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
@@ -42,25 +42,25 @@ const PrechatForm = ({
   isOfflineFormEnabled,
   departments,
   isPreview,
-  initialValues
+  initialValues,
 }) => {
-  const isVisibleDepartmentsFeatureEnabled = useSelector(state =>
+  const isVisibleDepartmentsFeatureEnabled = useSelector((state) =>
     isFeatureEnabled(state, 'web_widget_prechat_form_visible_departments')
   )
   const translate = useTranslate()
 
   const isDepartmentFieldVisible = (options = {}) => {
-    return getVisibleFields(options).some(field => field.id === 'department')
+    return getVisibleFields(options).some((field) => field.id === 'department')
   }
 
   const isDepartmentOffline = (fields, departmentId) => {
     if (isVisibleDepartmentsFeatureEnabled) {
-      const isAnyDepartmentVisibleToEndUsers = fields.some(field => field.id === 'department')
+      const isAnyDepartmentVisibleToEndUsers = fields.some((field) => field.id === 'department')
 
       const isSelectedDepartmentVisibleToEndUsers = Boolean(
         fields
-          .find(field => field.id === 'department')
-          ?.options.some(option => option.value === departmentId)
+          .find((field) => field.id === 'department')
+          ?.options.some((option) => option.value === departmentId)
       )
 
       // If the selected department isn't available in the list of options that is visible to the end user, exclude it
@@ -79,7 +79,7 @@ const PrechatForm = ({
     if (allValues.department) hiddenFieldValues.department = allValues.department
     return {
       ...hiddenFieldValues,
-      ...valuesToSubmit
+      ...valuesToSubmit,
     }
   }
 
@@ -92,7 +92,7 @@ const PrechatForm = ({
         onSubmit={(valuesToSubmit, allValues) =>
           onSubmit({
             values: includeHiddenDepartmentFieldValue(valuesToSubmit, allValues),
-            isDepartmentFieldVisible: isDepartmentFieldVisible(valuesToSubmit)
+            isDepartmentFieldVisible: isDepartmentFieldVisible(valuesToSubmit),
           }).then(() => {
             return { success: true }
           })
@@ -101,13 +101,13 @@ const PrechatForm = ({
         getFields={getVisibleFields}
         controls={<PrechatFormControls />}
         isPreview={isPreview}
-        validate={values =>
+        validate={(values) =>
           validate({
             values,
             isAuthenticated,
             fields: getVisibleFields(values),
             isOfflineFormEnabled,
-            isVisibleDepartmentsFeatureEnabled
+            isVisibleDepartmentsFeatureEnabled,
           })
         }
         footer={({ isSubmitting, formValues, fields }) => (
@@ -123,7 +123,7 @@ const PrechatForm = ({
           </Footer>
         )}
         extraFieldOptions={{
-          socialLogin: () => <SocialLogin authUrls={authUrls} />
+          socialLogin: () => <SocialLogin authUrls={authUrls} />,
         }}
         readOnlyValues={readOnlyValues}
       >
@@ -158,18 +158,18 @@ PrechatForm.propTypes = {
   isPreview: PropTypes.bool,
   departments: PropTypes.objectOf(
     PropTypes.shape({
-      status: PropTypes.string
+      status: PropTypes.string,
     })
   ),
   initialValues: PropTypes.shape({
-    message: PropTypes.string
-  })
+    message: PropTypes.string,
+  }),
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getChatTitle(state),
   customerDefinedDepartmentsEnabled: getSettingsChatDepartmentsEnabled(state),
-  getVisibleFields: options => getVisiblePrechatFields(state, options),
+  getVisibleFields: (options) => getVisiblePrechatFields(state, options),
   isAuthenticated: getIsAuthenticated(state),
   greetingMessage: getPrechatGreeting(state),
   visitor: getChatVisitor(state),
@@ -178,12 +178,11 @@ const mapStateToProps = state => ({
   readOnlyValues: getReadOnlyState(state),
   isOfflineFormEnabled: getOfflineFormSettings(state).enabled,
   departments: getDepartments(state),
-  initialValues: getPreChatFormState(state)
+  initialValues: getPreChatFormState(state),
 })
 
-export default connect(
-  mapStateToProps,
-  { initiateSocialLogout, onSubmit: submitPrechatForm }
-)(PrechatForm)
+export default connect(mapStateToProps, { initiateSocialLogout, onSubmit: submitPrechatForm })(
+  PrechatForm
+)
 
 export const Component = PrechatForm

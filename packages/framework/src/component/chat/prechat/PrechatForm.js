@@ -10,7 +10,7 @@ import {
   Select,
   Label as DropdownLabel,
   Message as DropdownMessage,
-  Item
+  Item,
 } from '@zendeskgarden/react-dropdowns'
 import Linkify from 'react-linkify'
 
@@ -51,12 +51,12 @@ export class PrechatForm extends Component {
       name: PropTypes.string,
       status: PropTypes.string,
       required: PropTypes.bool,
-      disabled: PropTypes.bool
+      disabled: PropTypes.bool,
     }),
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
-      status: PropTypes.string
-    })
+      status: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
@@ -74,7 +74,7 @@ export class PrechatForm extends Component {
     authUrls: {},
     socialLogin: {},
     hideZendeskLogo: false,
-    fullscreen: false
+    fullscreen: false,
   }
 
   constructor() {
@@ -82,7 +82,7 @@ export class PrechatForm extends Component {
 
     this.state = {
       valid: false,
-      showErrors: false
+      showErrors: false,
     }
 
     this.form = null
@@ -102,13 +102,13 @@ export class PrechatForm extends Component {
     const { defaultDepartment } = this.props
     const deptArray = [
       ...(!departments ? [] : departments),
-      _.get(defaultDepartment, 'status') === 'online' ? defaultDepartment : {}
+      _.get(defaultDepartment, 'status') === 'online' ? defaultDepartment : {},
     ]
 
-    return _.find(deptArray, d => parseInt(d.id, 10) === parseInt(departmentId, 10)) || {} // eslint-disable-line eqeqeq
+    return _.find(deptArray, (d) => parseInt(d.id, 10) === parseInt(departmentId, 10)) || {} // eslint-disable-line eqeqeq
   }
 
-  shouldHideDepartments = departments => {
+  shouldHideDepartments = (departments) => {
     return (
       _.size(departments) === 0 ||
       (_.size(departments) === 1 &&
@@ -128,7 +128,7 @@ export class PrechatForm extends Component {
     }
   }
 
-  handleFormSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault()
 
     if (!this.state.valid) {
@@ -144,7 +144,7 @@ export class PrechatForm extends Component {
         ? {
             ...this.props.formState,
             name: visitor.display_name,
-            email: visitor.email
+            email: visitor.email,
           }
         : this.props.formState
 
@@ -177,7 +177,7 @@ export class PrechatForm extends Component {
     })
   }
 
-  handleSelectChange = value => {
+  handleSelectChange = (value) => {
     this.props.onPrechatFormChange({ department: value })
 
     this.handleFormChange()
@@ -222,7 +222,7 @@ export class PrechatForm extends Component {
     const required = this.isFieldRequired(nameData.required)
     const fieldContainerStyle = classNames({
       [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
-      [styles.textField]: _.size(authUrls) === 0
+      [styles.textField]: _.size(authUrls) === 0,
     })
 
     const error = this.renderErrorMessage(
@@ -376,7 +376,7 @@ export class PrechatForm extends Component {
 
     if (this.shouldHideDepartments(departments)) return null
 
-    const options = _.map(departments, dept => {
+    const options = _.map(departments, (dept) => {
       return (
         <Item disabled={dept.disabled} key={dept.id} value={dept.id}>
           {dept.name}
@@ -396,7 +396,7 @@ export class PrechatForm extends Component {
 
     return (
       <CurrentFrameConsumer>
-        {frame => (
+        {(frame) => (
           <Dropdown
             required={required}
             aria-required={required}
@@ -404,7 +404,7 @@ export class PrechatForm extends Component {
             selectedItem={value}
             onSelect={this.handleSelectChange}
             downshiftProps={{
-              environment: frame.window
+              environment: frame.window,
             }}
             validation={error ? 'error' : undefined}
           >
@@ -424,7 +424,7 @@ export class PrechatForm extends Component {
               maxHeight={`${140 / FONT_SIZE}rem`}
               popperModifiers={{
                 flip: { enabled: false },
-                preventOverflow: { escapeWithReference: true }
+                preventOverflow: { escapeWithReference: true },
               }}
             >
               {options}
@@ -442,7 +442,7 @@ export class PrechatForm extends Component {
       visitor,
       initiateSocialLogout,
       isAuthenticated,
-      loginEnabled
+      loginEnabled,
     } = this.props
 
     if (!loginEnabled) return
@@ -474,7 +474,7 @@ export class PrechatForm extends Component {
             noValidate={true}
             onSubmit={this.handleFormSubmit}
             onChange={this.handleFormChange}
-            ref={el => {
+            ref={(el) => {
               if (!el) {
                 return
               }

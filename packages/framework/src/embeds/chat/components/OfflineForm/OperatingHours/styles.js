@@ -11,7 +11,7 @@ const OperatingHoursLink = styled(Button)`
     display: block !important;
     line-height: 1em !important;
     height: auto !important;
-    margin-bottom: ${props => 9 / props.theme.fontSize}rem;
+    margin-bottom: ${(props) => 9 / props.theme.fontSize}rem;
 
     &:hover {
       text-decoration: none !important;

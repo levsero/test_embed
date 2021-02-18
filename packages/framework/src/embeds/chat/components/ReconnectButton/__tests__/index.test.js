@@ -5,7 +5,7 @@ import ReconnectButton from 'embeds/chat/components/ReconnectButton'
 
 describe('ReconnectButton', () => {
   const defaultProps = {
-    onClick: jest.fn()
+    onClick: jest.fn(),
   }
 
   const renderComponent = (props = {}) => render(<ReconnectButton {...defaultProps} {...props} />)

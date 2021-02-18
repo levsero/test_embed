@@ -1,6 +1,6 @@
 import * as selectors from '../'
 
-const getMockState = state => {
+const getMockState = (state) => {
   return { answerBot: state }
 }
 
@@ -26,7 +26,7 @@ describe('getCurrentArticle', () => {
     [null, 1, 1, new Map([[1, { articles: [] }]]), undefined],
     [null, 1, 1, new Map([[1, { articles: [article2] }]]), undefined],
     [null, 1, 1, new Map([[1, { articles: [article1] }]]), article1],
-    [article1, 1, 1, new Map([[1, { articles: [article2] }]]), article1]
+    [article1, 1, 1, new Map([[1, { articles: [article2] }]]), article1],
   ])('fn(%p, %i, %i, %p)', (contextualArticle, articleID, sessionID, sessions, expected) => {
     const result = selectors.getCurrentArticle.resultFunc(
       contextualArticle,
@@ -42,7 +42,7 @@ describe('getCurrentArticle', () => {
 describe('getCurrentArticleID', () => {
   const articleID = 123
   const mockState = {
-    currentArticle: { articleID }
+    currentArticle: { articleID },
   }
 
   it('returns the current article ID', () => {
@@ -55,7 +55,7 @@ describe('getCurrentArticleID', () => {
 describe('getCurrentArticleSessionID', () => {
   const sessionID = 123
   const mockState = {
-    currentArticle: { sessionID }
+    currentArticle: { sessionID },
   }
 
   it('returns the current article sessionID', () => {
@@ -71,7 +71,7 @@ describe('isFeedbackRequired', () => {
     [null, { markedAsIrrelevant: true }, 1, 1, false, false],
     [null, { markedAsIrrelevant: false }, 1, 2, false, false],
     [null, { markedAsIrrelevant: false }, 1, 1, true, false],
-    [null, { markedAsIrrelevant: false }, 1, 1, false, true]
+    [null, { markedAsIrrelevant: false }, 1, 1, false, true],
   ])(
     'fn(%p, %p, %i, %i, %s)',
     (contextual, article, sessionID, currentSessionID, currentSessionResolved, expected) => {
@@ -91,7 +91,7 @@ describe('isFeedbackRequired', () => {
 describe('getCurrentScreen', () => {
   const screen = 'article'
   const mockState = getMockState({
-    currentScreen: screen
+    currentScreen: screen,
   })
 
   it('returns the current screen', () => {
@@ -104,7 +104,7 @@ describe('getCurrentScreen', () => {
 describe('getCurrentSessionID', () => {
   const session = 1234
   const mockState = getMockState({
-    currentSessionID: session
+    currentSessionID: session,
   })
 
   it('returns the current sessionID', () => {
@@ -119,7 +119,7 @@ describe('getCurrentRequestStatus', () => {
     it('returns the request status', () => {
       const mockState = getMockState({
         currentSessionID: 1,
-        sessions: new Map([[1, { requestStatus: 'blah' }]])
+        sessions: new Map([[1, { requestStatus: 'blah' }]]),
       })
 
       const result = selectors.getCurrentRequestStatus(mockState)
@@ -131,7 +131,7 @@ describe('getCurrentRequestStatus', () => {
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
-        sessions: new Map()
+        sessions: new Map(),
       })
       const result = selectors.getCurrentRequestStatus(mockState)
 
@@ -145,7 +145,7 @@ describe('getCurrentDeflection', () => {
     it('returns the deflection of the current session', () => {
       const mockState = getMockState({
         currentSessionID: 1,
-        sessions: new Map([[1, { deflection: 'blah' }]])
+        sessions: new Map([[1, { deflection: 'blah' }]]),
       })
       const result = selectors.getCurrentDeflection(mockState)
 
@@ -156,7 +156,7 @@ describe('getCurrentDeflection', () => {
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
-        sessions: new Map()
+        sessions: new Map(),
       })
       const result = selectors.getCurrentDeflection(mockState)
 
@@ -170,7 +170,7 @@ describe('getCurrentInteractionToken', () => {
     it('returns the interactionToken of the current session', () => {
       const mockState = getMockState({
         currentSessionID: 1,
-        sessions: new Map([[1, { interactionToken: 'blah' }]])
+        sessions: new Map([[1, { interactionToken: 'blah' }]]),
       })
       const result = selectors.getCurrentInteractionToken(mockState)
 
@@ -181,7 +181,7 @@ describe('getCurrentInteractionToken', () => {
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
-        sessions: new Map()
+        sessions: new Map(),
       })
       const result = selectors.getCurrentInteractionToken(mockState)
 
@@ -195,7 +195,7 @@ describe('getCurrentQuery', () => {
     it('returns the query of the current session', () => {
       const mockState = getMockState({
         currentSessionID: 1,
-        sessions: new Map([[1, { query: 'blah' }]])
+        sessions: new Map([[1, { query: 'blah' }]]),
       })
       const result = selectors.getCurrentQuery(mockState)
 
@@ -206,7 +206,7 @@ describe('getCurrentQuery', () => {
   describe('no session', () => {
     it('returns null', () => {
       const mockState = getMockState({
-        sessions: new Map()
+        sessions: new Map(),
       })
       const result = selectors.getCurrentQuery(mockState)
 
@@ -221,7 +221,7 @@ describe('isCurrentSessionResolved', () => {
       it('returns true', () => {
         const mockState = getMockState({
           currentSessionID: 1,
-          sessions: new Map([[1, { resolved: true }]])
+          sessions: new Map([[1, { resolved: true }]]),
         })
         const result = selectors.isCurrentSessionResolved(mockState)
 
@@ -233,7 +233,7 @@ describe('isCurrentSessionResolved', () => {
       it('returns false', () => {
         const mockState = getMockState({
           currentSessionID: 1,
-          sessions: new Map([[1, { resolved: false }]])
+          sessions: new Map([[1, { resolved: false }]]),
         })
         const result = selectors.isCurrentSessionResolved(mockState)
 
@@ -245,7 +245,7 @@ describe('isCurrentSessionResolved', () => {
   describe('no session', () => {
     it('returns false', () => {
       const mockState = getMockState({
-        sessions: new Map()
+        sessions: new Map(),
       })
       const result = selectors.isCurrentSessionResolved(mockState)
 
@@ -283,7 +283,7 @@ describe('getContextualSearchStatus', () => {
     [false, true, 'text', 0, null],
     [true, true, 'botTyping', 0, null],
     [true, false, 'botTyping', 3, 'COMPLETED'],
-    [true, false, 'botTyping', 0, 'NO_RESULTS']
+    [true, false, 'botTyping', 0, 'NO_RESULTS'],
   ])(
     'fn(%p, %p, %s, %i)',
     (hasContextuallySearched, searchLoading, lastMessageType, resultsCount, expected) => {
@@ -304,7 +304,7 @@ describe('getContactButtonVisible', () => {
     [true, true, true],
     [true, false, false],
     [false, false, false],
-    [false, true, false]
+    [false, true, false],
   ])(
     'when getInTouchVisible is %p && channelAvailable is %p, it returns %p',
     (getInTouchVisible, channelAvailable, expected) => {
@@ -328,10 +328,10 @@ describe('getAuthToken', () => {
     return {
       answerBot: {
         currentArticle: {
-          sessionID
+          sessionID,
         },
-        sessions
-      }
+        sessions,
+      },
     }
   }
 
@@ -342,7 +342,7 @@ describe('getAuthToken', () => {
   it('returns undefined when session information is not known', () => {
     const state = createState({
       sessionID: '123',
-      session: null
+      session: null,
     })
 
     expect(selectors.getAuthToken(state)).toBeUndefined()
@@ -352,8 +352,8 @@ describe('getAuthToken', () => {
     const state = createState({
       sessionID: '123',
       session: {
-        deflection: false
-      }
+        deflection: false,
+      },
     })
 
     expect(selectors.getAuthToken(state)).toBeUndefined()
@@ -364,9 +364,9 @@ describe('getAuthToken', () => {
       sessionID: '123',
       session: {
         deflection: {
-          auth_token: 'token'
-        }
-      }
+          auth_token: 'token',
+        },
+      },
     })
 
     expect(selectors.getAuthToken(state)).toBe('token')

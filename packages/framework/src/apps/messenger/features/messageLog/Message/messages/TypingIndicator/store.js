@@ -4,7 +4,7 @@ import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
 const typingIndicatorsSlice = createSlice({
   name: 'typingIndicators',
   initialState: {
-    typingUser: null
+    typingUser: null,
   },
   reducers: {
     activityReceived: (state, action) => {
@@ -12,9 +12,9 @@ const typingIndicatorsSlice = createSlice({
         payload: {
           activity: {
             type,
-            data: { name, avatarUrl }
-          }
-        }
+            data: { name, avatarUrl },
+          },
+        },
       } = action
 
       switch (type) {
@@ -22,7 +22,7 @@ const typingIndicatorsSlice = createSlice({
           {
             state.typingUser = {
               name,
-              avatarUrl
+              avatarUrl,
             }
           }
           break
@@ -30,16 +30,16 @@ const typingIndicatorsSlice = createSlice({
           state.typingUser = null
         }
       }
-    }
+    },
   },
   extraReducers: {
     [messageReceived](state, _action) {
       state.typingUser = null
-    }
-  }
+    },
+  },
 })
 
-const getUserTyping = state => state.typingIndicators.typingUser
+const getUserTyping = (state) => state.typingIndicators.typingUser
 
 export const { activityReceived } = typingIndicatorsSlice.actions
 export { getUserTyping }

@@ -31,7 +31,7 @@ const NetworkError = ({ onClick, isLoading = false }) => {
 
 NetworkError.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
 }
 
 export default NetworkError

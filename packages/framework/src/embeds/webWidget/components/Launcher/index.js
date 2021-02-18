@@ -29,7 +29,7 @@ const baseLauncherStyle = {
   bottom: 30,
   overflow: 'visible',
   opacity: 0,
-  border: 0
+  border: 0,
 }
 
 const getMobileStyles = () => ({
@@ -38,7 +38,7 @@ const getMobileStyles = () => ({
   marginTop: Math.round(parseInt(baseLauncherStyle.marginTop, 10) * getZoomSizingRatio()),
   marginBottom: Math.round(parseInt(baseLauncherStyle.marginBottom, 10) * getZoomSizingRatio()),
   marginLeft: Math.round(parseInt(baseLauncherStyle.marginLeft, 10) * getZoomSizingRatio()),
-  marginRight: Math.round(parseInt(baseLauncherStyle.marginRight, 10) * getZoomSizingRatio())
+  marginRight: Math.round(parseInt(baseLauncherStyle.marginRight, 10) * getZoomSizingRatio()),
 })
 
 const Launcher = ({ labelKey }) => {
@@ -46,8 +46,8 @@ const Launcher = ({ labelKey }) => {
   const [title, setTitle] = useState(translate('embeddable_framework.launcher.frame.title') ?? '')
   const launcherContainer = useRef()
   const dispatch = useDispatch()
-  const color = useSelector(state => getColor(state, 'launcher'))
-  const visible = useSelector(state => getFrameVisible(state, 'launcher'))
+  const color = useSelector((state) => getColor(state, 'launcher'))
+  const visible = useSelector((state) => getFrameVisible(state, 'launcher'))
   const hideZendeskLogo = useSelector(getHideZendeskLogo)
   const zIndex = useSelector(getStylingZIndex)
 
@@ -58,7 +58,7 @@ const Launcher = ({ labelKey }) => {
 
   return (
     <FrameTransition visible={visible}>
-      {transitionStyles => (
+      {(transitionStyles) => (
         <BaseFrame
           title={title}
           id="launcher"
@@ -73,7 +73,7 @@ const Launcher = ({ labelKey }) => {
 
           <div ref={launcherContainer} style={{ float: 'right' }}>
             <WidgetLauncher
-              onClickHandler={e => {
+              onClickHandler={(e) => {
                 e.preventDefault()
 
                 dispatch(renewToken())
@@ -92,7 +92,7 @@ const Launcher = ({ labelKey }) => {
 }
 
 Launcher.propTypes = {
-  labelKey: PropTypes.string
+  labelKey: PropTypes.string,
 }
 
 export default Launcher

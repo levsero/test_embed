@@ -12,5 +12,5 @@ export const StyledButton = styled(Button)`
 `
 
 export const Loading = styled(Dots)`
-  color: ${props => props.theme.buttonTextColorStr} !important;
+  color: ${(props) => props.theme.buttonTextColorStr} !important;
 `

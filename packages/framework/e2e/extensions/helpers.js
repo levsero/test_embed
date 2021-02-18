@@ -1,5 +1,5 @@
-const getElementHTML = element => {
-  return page.evaluate(el => {
+const getElementHTML = (element) => {
+  return page.evaluate((el) => {
     if (!el || typeof el.cloneNode !== 'function') {
       return '<unable to find expected element>'
     }
@@ -14,7 +14,7 @@ const getElementHTML = element => {
 // - A string selector, e.g. 'div.someClass'
 // - A custom element object that has a 'selector' property, e.g. launcher and widget objects
 // - A puppeteer element, retrieved through something like () => page.waitForSelector('div.someClass')
-const getElement = async element => {
+const getElement = async (element) => {
   if (typeof element === 'string') {
     return page.waitForSelector(element)
   }

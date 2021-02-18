@@ -8,7 +8,7 @@ import AnswerBotIcon from 'src/embeds/answerBot/icons/answerBot.svg'
 import Messages from 'src/embeds/answerBot/components/Messages'
 import {
   makeGetGroupMessages,
-  getLastScreenClosed
+  getLastScreenClosed,
 } from 'src/embeds/answerBot/selectors/conversation'
 import { getBrandLogoUrl, getLocale } from 'src/redux/modules/base/base-selectors'
 
@@ -22,7 +22,7 @@ const makeMapStateToProps = () => {
     locale: getLocale(state),
     messages: getGroupMessages(state, props),
     lastConversationScreenClosed: getLastScreenClosed(state),
-    brandLogoUrl: getBrandLogoUrl(state)
+    brandLogoUrl: getBrandLogoUrl(state),
   })
 }
 
@@ -35,7 +35,7 @@ class MessageGroup extends Component {
     agentAvatarName: PropTypes.string,
     agentAvatarUrl: PropTypes.string,
     brandLogoUrl: PropTypes.string.isRequired,
-    locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
+    locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   }
 
   static defaultProps = {
@@ -44,7 +44,7 @@ class MessageGroup extends Component {
     scrollToBottom: () => {},
     agentAvatarName: '',
     agentAvatarUrl: '',
-    brandLogoUrl: ''
+    brandLogoUrl: '',
   }
 
   constructor(props) {
@@ -84,7 +84,7 @@ class MessageGroup extends Component {
     return timestamp > lastConversationScreenClosed && timestamp > this.lastAnimatedTimestamp
   }
 
-  isFeedbackMessage = messages => {
+  isFeedbackMessage = (messages) => {
     return _.get(messages, '0.type') === 'feedback'
   }
 
@@ -120,7 +120,7 @@ class MessageGroup extends Component {
     }
 
     // Ignore messages which belong to previous screen or already animated
-    let oldMessages = _.filter(messages, message => {
+    let oldMessages = _.filter(messages, (message) => {
       return !this.isNewMessage(message.timestamp, lastConversationScreenClosed)
     })
     let newMessages = _.difference(messages, oldMessages)
@@ -129,7 +129,7 @@ class MessageGroup extends Component {
     this.setState({ messages: oldMessages })
 
     // Run callback of old messages
-    _.forEach(oldMessages, message => {
+    _.forEach(oldMessages, (message) => {
       if (_.isFunction(message.callback)) {
         message.callback()
       }
@@ -137,9 +137,9 @@ class MessageGroup extends Component {
 
     if (this.props.isVisitor && !this.isFeedbackMessage(newMessages)) {
       // For visitor, only animation and no delay
-      newMessages = _.map(newMessages, message => ({
+      newMessages = _.map(newMessages, (message) => ({
         ...message,
-        shouldAnimate: true
+        shouldAnimate: true,
       }))
       this.setState({ messages: oldMessages.concat(newMessages) })
     } else {
@@ -160,7 +160,7 @@ class MessageGroup extends Component {
     // value would be used in the next run of renderNextMessage 1s later
     oldMessages.push({
       ...newMessages.shift(),
-      shouldAnimate: true
+      shouldAnimate: true,
     })
 
     // Clone oldMessages here in order to setState with a new object
@@ -168,7 +168,7 @@ class MessageGroup extends Component {
     this.setState({ messages: oldMessages.slice(0) })
   }
 
-  handleMessageAnimated = message => {
+  handleMessageAnimated = (message) => {
     this.lastAnimatedTimestamp = message.timestamp
 
     // Always scroll to bottom after a new message has completed its animation
@@ -200,7 +200,7 @@ class MessageGroup extends Component {
         <Avatar
           src={customUrl}
           shouldAnimate={this.shouldAnimate()}
-          ref={el => {
+          ref={(el) => {
             this.avatar = ReactDOM.findDOMNode(el)
           }}
         />
@@ -210,7 +210,7 @@ class MessageGroup extends Component {
     return (
       <IconContainer
         shouldAnimate={this.shouldAnimate()}
-        ref={el => {
+        ref={(el) => {
           this.avatar = ReactDOM.findDOMNode(el)
         }}
       >
@@ -222,7 +222,7 @@ class MessageGroup extends Component {
   render() {
     return this.state.messages.length ? (
       <Container
-        ref={el => {
+        ref={(el) => {
           this.container = el
         }}
       >
@@ -238,11 +238,8 @@ class MessageGroup extends Component {
   }
 }
 
-const ConnectedMessageGroup = connect(
-  makeMapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(MessageGroup)
+const ConnectedMessageGroup = connect(makeMapStateToProps, {}, null, { forwardRef: true })(
+  MessageGroup
+)
 
 export { ConnectedMessageGroup as default, MessageGroup as Component }

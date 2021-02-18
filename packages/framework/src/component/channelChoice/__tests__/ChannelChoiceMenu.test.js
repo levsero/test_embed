@@ -19,7 +19,7 @@ describe('rendering', () => {
       chatOnlineAvailableLabel: 'Live chat',
       chatOfflineLabel: 'Live chat is offline',
       submitTicketLabel: 'Leave a message',
-      chatOfflineAvailableLabel: 'Chat is offline, leave a message'
+      chatOfflineAvailableLabel: 'Chat is offline, leave a message',
     }
     const mergedProps = { ...defaultProps, ...props }
     const component = <ChannelChoiceMenu {...mergedProps} />
@@ -82,7 +82,7 @@ describe('rendering', () => {
       it('when chatAvailable & chatOfflineAvailable are true', () => {
         const { container } = renderComponent({
           chatAvailable: true,
-          chatOfflineAvailable: true
+          chatOfflineAvailable: true,
         })
 
         expect(container).toMatchSnapshot()
@@ -91,7 +91,7 @@ describe('rendering', () => {
       it('when chatAvailable is false', () => {
         const { container } = renderComponent({
           chatAvailable: false,
-          chatOfflineAvailable: true
+          chatOfflineAvailable: true,
         })
 
         expect(container).toMatchSnapshot()
@@ -100,7 +100,7 @@ describe('rendering', () => {
       it('and chatOfflineAvailable is false', () => {
         const { container } = renderComponent({
           chatAvailable: true,
-          chatOfflineAvailable: false
+          chatOfflineAvailable: false,
         })
 
         expect(container).toMatchSnapshot()
@@ -110,7 +110,7 @@ describe('rendering', () => {
         it('and chatAvailableOnMount is false', () => {
           const { container } = renderComponent({
             chatAvailable: false,
-            chatOfflineAvailable: false
+            chatOfflineAvailable: false,
           })
 
           expect(container).toMatchSnapshot()
@@ -119,7 +119,7 @@ describe('rendering', () => {
         it('and chatAvailableOnMount is true', () => {
           const { container, rerender } = renderComponent({
             chatAvailable: true,
-            chatOfflineAvailable: false
+            chatOfflineAvailable: false,
           })
 
           renderComponent({ chatAvailable: false }, rerender)
@@ -152,7 +152,7 @@ describe('rendering', () => {
           talkOnline: true,
           callbackEnabled: true,
           labelClasses: 'label-class',
-          buttonClasses: 'button-class'
+          buttonClasses: 'button-class',
         })
 
         expect(container).toMatchSnapshot()
@@ -166,7 +166,7 @@ describe('rendering', () => {
             chatAvailable: true,
             chatOfflineAvailable: true,
             talkOnline: true,
-            callbackEnabled: true
+            callbackEnabled: true,
           })
 
           expect(container).toMatchSnapshot()
@@ -184,7 +184,7 @@ describe('dom interaction', () => {
       chatOnlineAvailableLabel: 'Live chat',
       chatOfflineLabel: 'Chat is offline',
       submitTicketLabel: 'Leave a message',
-      chatOfflineAvailableLabel: 'Leave a message'
+      chatOfflineAvailableLabel: 'Leave a message',
     }
     const mergedProps = { ...defaultProps, ...props }
     const component = <ChannelChoiceMenu {...mergedProps} />
@@ -197,7 +197,7 @@ describe('dom interaction', () => {
       const props = {
         onNextClick: click,
         talkOnline: true,
-        callbackEnabled: true
+        callbackEnabled: true,
       }
       const { getByText } = component(props)
 
@@ -211,7 +211,7 @@ describe('dom interaction', () => {
       const props = {
         onNextClick: click,
         talkOnline: true,
-        callbackEnabled: false
+        callbackEnabled: false,
       }
       const { getByText } = component(props)
 
@@ -239,7 +239,7 @@ describe('dom interaction', () => {
           onNextClick: click,
           chatAvailable: true,
           chatOfflineAvailable: true,
-          submitTicketAvailable: false
+          submitTicketAvailable: false,
         }
         const { getByText } = component(props)
 

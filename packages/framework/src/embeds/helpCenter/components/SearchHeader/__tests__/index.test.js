@@ -6,11 +6,11 @@ import snapshotDiff from 'snapshot-diff'
 import { render } from 'src/util/testHelpers'
 import SearchHeader from '../index'
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     title: 'Search',
     isMobile: false,
-    ...inProps
+    ...inProps,
   }
 
   return render(<SearchHeader {...props} />)

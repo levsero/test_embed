@@ -112,7 +112,7 @@ Instead, use functions to setup the subject. This allows us to pass in
 different arguments for the setup, and removes the need for the `beforeEach`.
 
 ```js
-const setup = arg => doSomething(arg)
+const setup = (arg) => doSomething(arg)
 it('returns something when argument is 1', () => {
   expect(setup(1)).toEqual(something)
 })
@@ -131,7 +131,7 @@ const setup = () => {
   const input = utils.getByLabelText('Email')
   return {
     input,
-    ...utils
+    ...utils,
   }
 }
 ```

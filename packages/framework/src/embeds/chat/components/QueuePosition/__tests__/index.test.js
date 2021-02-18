@@ -6,10 +6,10 @@ import QueuePosition from '../index'
 
 expect.addSnapshotSerializer(styleSheetSerializer)
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     queuePosition: 1,
-    ...inProps
+    ...inProps,
   }
 
   return render(<QueuePosition {...props} />)

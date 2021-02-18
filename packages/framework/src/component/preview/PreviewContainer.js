@@ -7,9 +7,9 @@ import WebWidgetContainer from './WebWidgetContainer'
 
 import { getPreviewShowWidget } from 'src/redux/modules/preview/preview-selectors'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    webWidgetVisible: getPreviewShowWidget(state)
+    webWidgetVisible: getPreviewShowWidget(state),
   }
 }
 
@@ -23,16 +23,16 @@ export class PreviewContainer extends Component {
       marginTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       marginRight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       width: PropTypes.string,
-      height: PropTypes.string
+      height: PropTypes.string,
     }),
     containerStyle: PropTypes.shape({
       margin: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      width: PropTypes.string
-    })
+      width: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
-    webWidgetVisible: false
+    webWidgetVisible: false,
   }
 
   constructor(props) {
@@ -49,7 +49,7 @@ export class PreviewContainer extends Component {
           store={store}
           webWidgetVisible={webWidgetVisible}
           frameStyle={frameStyle}
-          ref={el => {
+          ref={(el) => {
             if (el) this.launcherContainer = el
           }}
         />
@@ -65,9 +65,4 @@ export class PreviewContainer extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(PreviewContainer)
+export default connect(mapStateToProps, {}, null, { forwardRef: true })(PreviewContainer)

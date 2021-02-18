@@ -64,11 +64,8 @@ function base64decode(string) {
 // https://github.com/auth0/jwt-decode
 function b64DecodeUnicode(str) {
   return decodeURIComponent(
-    window.atob(str).replace(/(.)/g, function(_match, captureGroup) {
-      let code = captureGroup
-        .charCodeAt(0)
-        .toString(16)
-        .toUpperCase()
+    window.atob(str).replace(/(.)/g, function (_match, captureGroup) {
+      let code = captureGroup.charCodeAt(0).toString(16).toUpperCase()
 
       if (code.length < 2) {
         code = '0' + code
@@ -231,5 +228,5 @@ export {
   getHostUrl,
   isValidUrl,
   onNextTick,
-  appendParams
+  appendParams,
 }

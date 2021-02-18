@@ -4,7 +4,7 @@ import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
-  mockViewedEndpoint
+  mockViewedEndpoint,
 } from 'e2e/helpers/answer-bot-embed'
 import { queries, wait } from 'pptr-testing-library'
 
@@ -18,15 +18,10 @@ const assertOriginalArticleLink = async () => {
   )
 }
 
-const buildWidget = () =>
-  loadWidget()
-    .withPresets('answerBot')
-    .intercept(mockInteractionEndpoint())
+const buildWidget = () => loadWidget().withPresets('answerBot').intercept(mockInteractionEndpoint())
 
 test('article displayed with expected properties', async () => {
-  await buildWidget()
-    .intercept(mockViewedEndpoint())
-    .load()
+  await buildWidget().intercept(mockViewedEndpoint()).load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')
@@ -39,9 +34,7 @@ test('article displayed with expected properties', async () => {
 
 test('sends article viewed request when article is viewed', async () => {
   const endpoint = jest.fn()
-  await buildWidget()
-    .intercept(mockViewedEndpoint(endpoint))
-    .load()
+  await buildWidget().intercept(mockViewedEndpoint(endpoint)).load()
   await widget.openByKeyboard()
   await waitForAnswerBot()
   await search('Help')
@@ -56,6 +49,6 @@ test('sends article viewed request when article is viewed', async () => {
     interaction_access_token: 'eyJ0eXAi',
     deflection_id: 360060729351,
     article_id: 360002874213,
-    resolution_channel_id: 67
+    resolution_channel_id: 67,
   })
 })

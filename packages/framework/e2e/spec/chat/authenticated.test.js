@@ -15,9 +15,9 @@ const buildWidget = async () => {
       window.zESettings = {
         authenticate: {
           chat: {
-            jwtFn: cb => cb('abc123')
-          }
-        }
+            jwtFn: (cb) => cb('abc123'),
+          },
+        },
       }
     })
     .intercept(mockAuthSuccessEndpoint(authenticateEndpoint))
@@ -25,8 +25,8 @@ const buildWidget = async () => {
   return authenticateEndpoint
 }
 
-const mockAuthSuccessEndpoint = callback => {
-  return mockCorsRequest('authenticated/web/jwt', request => {
+const mockAuthSuccessEndpoint = (callback) => {
+  return mockCorsRequest('authenticated/web/jwt', (request) => {
     callback(request.url())
     request.respond({
       status: 200,
@@ -35,8 +35,8 @@ const mockAuthSuccessEndpoint = callback => {
       body: JSON.stringify({
         expires_in: 7200,
         error: null,
-        success: true
-      })
+        success: true,
+      }),
     })
   })
 }

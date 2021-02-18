@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import {
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-  UPDATE_PREVIEWER_SETTINGS
+  UPDATE_PREVIEWER_SETTINGS,
 } from '../../chat-action-types'
 
 const initialState = {
   avatar_path: '',
   display_name: '',
-  title: ''
+  title: '',
 }
 
 const concierge = (state = initialState, action) => {

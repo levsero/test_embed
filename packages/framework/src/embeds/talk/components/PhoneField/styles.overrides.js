@@ -35,7 +35,7 @@ const overrides = {
     }
   `,
   'dropdowns.item': selectOverrides,
-  'dropdowns.label': mobileOverrides
+  'dropdowns.label': mobileOverrides,
 }
 
 export default overrides

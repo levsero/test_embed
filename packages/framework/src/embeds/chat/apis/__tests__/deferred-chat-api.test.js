@@ -8,13 +8,13 @@ describe('deferred chat api', () => {
     const mockFetch = (response, statusCode = 200) => {
       superagent.mockReturnValue({
         responseType: () => ({
-          end: cb => {
+          end: (cb) => {
             cb(undefined, {
               status: statusCode,
-              body: response
+              body: response,
             })
-          }
-        })
+          },
+        }),
       })
     }
 
@@ -58,8 +58,8 @@ describe('deferred chat api', () => {
         departments: [
           { id: '1', name: 'online' },
           { id: '2', name: 'offline' },
-          { id: '3', name: 'away' }
-        ]
+          { id: '3', name: 'away' },
+        ],
       })
 
       await expect(await fetchDeferredChatStatus('example.com')).toEqual({
@@ -67,8 +67,8 @@ describe('deferred chat api', () => {
         departments: {
           1: { id: '1', name: 'online' },
           2: { id: '2', name: 'offline' },
-          3: { id: '3', name: 'away' }
-        }
+          3: { id: '3', name: 'away' },
+        },
       })
     })
 
@@ -77,7 +77,7 @@ describe('deferred chat api', () => {
 
       await expect(await fetchDeferredChatStatus('example.com')).toEqual({
         status: 'online',
-        departments: {}
+        departments: {},
       })
     })
   })

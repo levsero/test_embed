@@ -4,9 +4,7 @@ import widget from 'e2e/helpers/widget'
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
 const buildWidget = () =>
-  loadWidget()
-    .withPresets('helpCenterWithContextualHelp')
-    .intercept(mockSearchEndpoint())
+  loadWidget().withPresets('helpCenterWithContextualHelp').intercept(mockSearchEndpoint())
 
 test('displays the original article button', async () => {
   await buildWidget().load()
@@ -32,9 +30,9 @@ test('hides the original article button via api', async () => {
     zE('webWidget', 'updateSettings', {
       webWidget: {
         helpCenter: {
-          originalArticleButton: false
-        }
-      }
+          originalArticleButton: false,
+        },
+      },
     })
   })
 

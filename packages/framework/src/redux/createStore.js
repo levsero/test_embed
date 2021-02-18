@@ -14,19 +14,19 @@ import { trackAnalytics } from 'src/redux/middleware/analytics'
 import { sendBlips } from 'src/redux/middleware/blip'
 import queueCalls from 'src/redux/middleware/queue'
 
-const reduxConsoleLogger = storeName => {
+const reduxConsoleLogger = (storeName) => {
   return createLogger({
     collapsed: true,
-    titleFormatter: action => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ')
+    titleFormatter: (action) => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' '),
   })
 }
 
 const reduxDevtoolsAvailable = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-const reduxDevtoolsComposer = storeName => {
+const reduxDevtoolsComposer = (storeName) => {
   return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: storeName })
 }
 
-export default function(storeName = 'web_widget', options = {}) {
+export default function (storeName = 'web_widget', options = {}) {
   const middlewares = [
     thunk,
     preventLoops,
@@ -36,7 +36,7 @@ export default function(storeName = 'web_widget', options = {}) {
     onStateChangeWrapper(resetActiveEmbed),
     trackAnalytics,
     persist,
-    onStateChangeWrapper(queueCalls)
+    onStateChangeWrapper(queueCalls),
   ]
 
   let composeEnhancers = compose

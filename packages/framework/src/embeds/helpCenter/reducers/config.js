@@ -7,7 +7,7 @@ const initialState = {
   signInRequired: false,
   answerBotEnabled: false,
   buttonLabelKey: 'message',
-  formTitleKey: 'help'
+  formTitleKey: 'help',
 }
 
 const config = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const config = (state = initialState, action) => {
     case UPDATE_EMBEDDABLE_CONFIG:
       return {
         ...state,
-        ..._.get(payload, 'embeds.helpCenterForm.props', {})
+        ..._.get(payload, 'embeds.helpCenterForm.props', {}),
       }
     default:
       return state

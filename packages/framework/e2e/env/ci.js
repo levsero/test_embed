@@ -6,7 +6,7 @@ const limitTests = () => {
   let tests = process.env.JEST_TESTS
   // the console output contains some extra lines that we want to ignore before
   // we can parse the JSON input.
-  tests = tests.split('\n').filter(line => line.startsWith('['))
+  tests = tests.split('\n').filter((line) => line.startsWith('['))
   // sort the files so that the list is deterministic
   tests = JSON.parse(tests[0]).sort((a, b) => {
     return b.localeCompare(a)
@@ -18,5 +18,5 @@ const useParallel = parallelism && !process.env.SKIP_PARALLEL
 
 module.exports = {
   useParallel,
-  limitTests
+  limitTests,
 }

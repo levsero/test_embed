@@ -14,14 +14,14 @@ import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import {
   getUserRecordingConsentRequirement,
   getIsCallInProgress,
-  getHasLastCallFailed
+  getHasLastCallFailed,
 } from 'embeds/talk/selectors'
 import {
   unmuteMicrophone,
   callStarted,
   callEnded,
   callFailed,
-  resetCallFailed
+  resetCallFailed,
 } from 'src/embeds/talk/actions'
 
 const EmbeddedVoicePage = () => {
@@ -49,7 +49,7 @@ const EmbeddedVoicePage = () => {
     }
   }
 
-  const onError = error => {
+  const onError = (error) => {
     if (error?.code === microphoneErrorCode) {
       dispatch(talkDisconnect())
       return
@@ -70,7 +70,7 @@ const EmbeddedVoicePage = () => {
     onConnect,
     onDisconnect,
     onError,
-    onUnsupported
+    onUnsupported,
   })
 
   const handleCallStart = () => {

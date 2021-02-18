@@ -15,7 +15,7 @@ import {
   getColor,
   getHorizontalPosition,
   getFrameVisible,
-  getFrameStyle
+  getFrameStyle,
 } from 'src/redux/modules/selectors'
 import {
   FONT_SIZE,
@@ -24,13 +24,13 @@ import {
   WIDGET_WIDTH,
   FRAME_TRANSITION_DURATION,
   TEST_IDS,
-  WIDGET_MARGIN
+  WIDGET_MARGIN,
 } from 'constants/shared'
 import { getChatStandalone, getLocale } from 'src/redux/modules/base/base-selectors'
 import {
   getStylingOffset,
   getStylingPositionVertical,
-  getStylingZIndex
+  getStylingZIndex,
 } from 'src/redux/modules/settings/settings-selectors'
 import { onNextTick } from 'src/util/utils'
 import IFrame from 'src/framework/components/Frame'
@@ -46,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
     offset: getStylingOffset(state),
     verticalPosition: getStylingPositionVertical(state),
     zIndex: getStylingZIndex(state),
-    locale: getLocale(state)
+    locale: getLocale(state),
   }
 }
 
@@ -65,8 +65,8 @@ class Frame extends Component {
       vertical: stringOrNumber,
       mobile: PropTypes.shape({
         horizontal: stringOrNumber,
-        vertical: stringOrNumber
-      })
+        vertical: stringOrNumber,
+      }),
     }).isRequired,
     rawCSS: PropTypes.string,
     frameStyleModifier: PropTypes.func,
@@ -77,7 +77,7 @@ class Frame extends Component {
       marginRight: stringOrNumber,
       marginTop: stringOrNumber,
       minHeight: PropTypes.string,
-      zIndex: PropTypes.number
+      zIndex: PropTypes.number,
     }).isRequired,
     fullscreenable: PropTypes.bool,
     hideNavigationButtons: PropTypes.bool,
@@ -95,7 +95,7 @@ class Frame extends Component {
       bottom: PropTypes.oneOf([0]),
       top: PropTypes.oneOf(['initial']),
       background: PropTypes.oneOf(['transparent']),
-      maxHeight: PropTypes.string
+      maxHeight: PropTypes.string,
     }),
     widgetShowAnimationComplete: PropTypes.func,
     color: PropTypes.shape({
@@ -106,7 +106,7 @@ class Frame extends Component {
       button: PropTypes.string,
       resultLists: PropTypes.string,
       header: PropTypes.string,
-      articleLinks: PropTypes.string
+      articleLinks: PropTypes.string,
     }).isRequired,
     generateUserCSS: PropTypes.func,
     chatStandalone: PropTypes.bool,
@@ -119,9 +119,9 @@ class Frame extends Component {
       marginRight: stringOrNumber,
       marginTop: stringOrNumber,
       minHeight: PropTypes.string,
-      zIndex: PropTypes.number
+      zIndex: PropTypes.number,
     }),
-    zIndex: PropTypes.number
+    zIndex: PropTypes.number,
   }
 
   static defaultProps = {
@@ -143,14 +143,14 @@ class Frame extends Component {
     widgetShowAnimationComplete: () => {},
     generateUserCSS: () => {},
     chatStandalone: false,
-    isMobile: false
+    isMobile: false,
   }
 
   constructor(props, context) {
     super(props, context)
     this.state = {
       hiddenByZoom: false,
-      customCSS: ''
+      customCSS: '',
     }
 
     this.child = null
@@ -165,7 +165,7 @@ class Frame extends Component {
     this.updateFrameLocale()
   }
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     if (this.props.name === 'launcher') {
       onNextTick(() => {
         const newWidth = this.computeIframeStyle().width
@@ -187,7 +187,7 @@ class Frame extends Component {
 
   setCustomCSS() {
     this.setState({
-      customCSS: this.generateUserCSSWithColor(this.props.color)
+      customCSS: this.generateUserCSSWithColor(this.props.color),
     })
   }
 
@@ -249,7 +249,7 @@ class Frame extends Component {
     })
   }
 
-  updateFrameTitle = title => {
+  updateFrameTitle = (title) => {
     const doc = this.getContentDocument()
 
     this.iframe.title = doc.title = title
@@ -262,21 +262,21 @@ class Frame extends Component {
     let fullscreenStyle = {
       width: '100%',
       maxWidth: '100%',
-      height: '100%'
+      height: '100%',
     }
 
     if (fullscreen && !isMobile) {
       fullscreenStyle = {
         ...fullscreenStyle,
         [horizontalPosition]: isLeft ? fullscreenStyle.position : '50%',
-        background: '#EEE'
+        background: '#EEE',
       }
     }
     const popoverStyle = {
       width: `${WIDGET_WIDTH + 2 * WIDGET_MARGIN}px`,
       height: '100%',
       maxHeight: `${DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN}px`,
-      minHeight: `${MIN_WIDGET_HEIGHT}px`
+      minHeight: `${MIN_WIDGET_HEIGHT}px`,
     }
 
     if ((fullscreen || isMobile) && fullscreenable) {
@@ -286,20 +286,20 @@ class Frame extends Component {
     }
   }
 
-  updateBaseFontSize = fontSize => {
+  updateBaseFontSize = (fontSize) => {
     const htmlElem = this.getContentDocument().documentElement
 
     htmlElem.style.fontSize = fontSize
   }
 
-  back = e => {
+  back = (e) => {
     if (e && typeof e.preventDefault === 'function') {
       e.preventDefault()
     }
     this.props.onBack(this)
   }
 
-  setHiddenByZoom = hiddenByZoom => {
+  setHiddenByZoom = (hiddenByZoom) => {
     this.setState({ hiddenByZoom })
   }
 
@@ -327,7 +327,7 @@ class Frame extends Component {
       transitionDuration: `${transitionDuration}ms`,
       transitionTimingFunction: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
       transitionProperty: 'opacity, top, bottom',
-      opacity: 0
+      opacity: 0,
     }
 
     const mobileStyles = mobileFullscreen
@@ -335,7 +335,7 @@ class Frame extends Component {
           left: this.props.visible ? '0px' : '-9999px',
           top: this.props.visible ? '0px' : '-9999px',
           background: '#FFF',
-          margin: 0
+          margin: 0,
         }
       : {}
 
@@ -365,11 +365,11 @@ class Frame extends Component {
 
     return {
       [horizontalPosition]: horizontalOffset,
-      [verticalPosition]: parseInt(verticalOffset) + animationOffset
+      [verticalPosition]: parseInt(verticalOffset) + animationOffset,
     }
   }
 
-  generateUserCSSWithColor = color => {
+  generateUserCSSWithColor = (color) => {
     return this.props.generateUserCSS(color)
   }
 
@@ -392,7 +392,7 @@ class Frame extends Component {
     }
   }
 
-  updateFrameRef = iframe => {
+  updateFrameRef = (iframe) => {
     if (!iframe) {
       return
     }
@@ -408,20 +408,20 @@ class Frame extends Component {
     const transitionStyles = {
       entering: {
         opacity: 0,
-        ...this.getOffsetPosition(-20)
+        ...this.getOffsetPosition(-20),
       },
       entered: {
         opacity: 1,
-        ...this.getOffsetPosition(0)
+        ...this.getOffsetPosition(0),
       },
       exiting: {
         opacity: 0,
-        ...this.getOffsetPosition(-20)
+        ...this.getOffsetPosition(-20),
       },
       exited: {
         top: '-9999px',
-        visibility: 'hidden'
-      }
+        visibility: 'hidden',
+      },
     }
 
     return (
@@ -430,12 +430,12 @@ class Frame extends Component {
         timeout={transitionDuration}
         onEntered={this.onShowAnimationComplete}
       >
-        {status => (
+        {(status) => (
           <IFrame
             title={this.props.title || this.props.name}
             style={{
               ...this.computeIframeStyle(),
-              ...transitionStyles[status]
+              ...transitionStyles[status],
             }}
             ref={this.updateFrameRef}
             id={this.props.name}
@@ -444,7 +444,7 @@ class Frame extends Component {
             rootElement={this.iframeRoot}
           >
             <EmbedWrapper
-              ref={el => {
+              ref={(el) => {
                 this.child = el
               }}
               document={this.getContentDocument()}
@@ -464,7 +464,7 @@ class Frame extends Component {
               dataTestId={this.props.horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
             >
               {React.cloneElement(this.props.children, {
-                onBackButtonClick: this.back
+                onBackButtonClick: this.back,
               })}
             </EmbedWrapper>
           </IFrame>
@@ -475,12 +475,7 @@ class Frame extends Component {
 }
 
 const actionCreators = {
-  widgetShowAnimationComplete
+  widgetShowAnimationComplete,
 }
 
-export default connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(Frame)
+export default connect(mapStateToProps, actionCreators, null, { forwardRef: true })(Frame)

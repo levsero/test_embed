@@ -7,10 +7,10 @@ describe('settings chat reducer', () => {
     initMockRegistry({
       'service/settings': {
         settings: {
-          get: noop
-        }
+          get: noop,
+        },
       },
-      'src/redux/modules/settings/settings-action-types': {}
+      'src/redux/modules/settings/settings-action-types': {},
     })
 
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/chat/index')

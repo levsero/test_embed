@@ -5,15 +5,15 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(widgetInitialised, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: WIDGET_INITIALISED },
-    expected: true
-  }
+    expected: true,
+  },
 ])

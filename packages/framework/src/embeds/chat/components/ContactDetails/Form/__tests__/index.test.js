@@ -21,11 +21,11 @@ const renderComponent = (props = {}, inRender) => {
     onSuccess,
     requiredFormData: {
       name: { required: true },
-      email: { required: true }
+      email: { required: true },
     },
     socialLogin: { authenticated: false },
     updateContactDetailsVisibility,
-    visitor: { display_name: 'bob saget', email: 'stop@lookingAtMyEmail.com' }
+    visitor: { display_name: 'bob saget', email: 'stop@lookingAtMyEmail.com' },
   }
 
   return render(
@@ -76,7 +76,7 @@ describe('Contact Details Form', () => {
 
         expect(editContactDetailsSubmitted).toHaveBeenCalledWith({
           display_name: 'totally not bob saget',
-          email: 'lookAtThis@email.com'
+          email: 'lookAtThis@email.com',
         })
       })
     })
@@ -85,7 +85,7 @@ describe('Contact Details Form', () => {
       describe('email is invalid', () => {
         it('does not submit contact details', () => {
           const { getByText } = renderComponent({
-            contactDetails: { display_name: 'bob', email: 'abc' }
+            contactDetails: { display_name: 'bob', email: 'abc' },
           })
 
           fireEvent.click(getByText('Save'))
@@ -95,14 +95,14 @@ describe('Contact Details Form', () => {
 
         it('displays an email error', () => {
           const { getByText, rerender } = renderComponent({
-            contactDetails: { display_name: 'bob', email: 'abc' }
+            contactDetails: { display_name: 'bob', email: 'abc' },
           })
 
           fireEvent.click(getByText('Save'))
 
           renderComponent(
             {
-              contactDetails: { display_name: 'bob', email: 'abc' }
+              contactDetails: { display_name: 'bob', email: 'abc' },
             },
             rerender
           )
@@ -115,7 +115,7 @@ describe('Contact Details Form', () => {
         it('does not submit contact details', () => {
           const { getByText } = renderComponent({
             contactDetails: { display_name: '', email: 'abc@abc.abc' },
-            requiredFormData: { name: { required: true }, email: { required: true } }
+            requiredFormData: { name: { required: true }, email: { required: true } },
           })
 
           fireEvent.click(getByText('Save'))
@@ -126,7 +126,7 @@ describe('Contact Details Form', () => {
         it('displays a name error', () => {
           const { getByText, rerender } = renderComponent({
             contactDetails: { display_name: '', email: 'abc@abc.abc' },
-            requiredFormData: { name: { required: true }, email: { required: true } }
+            requiredFormData: { name: { required: true }, email: { required: true } },
           })
 
           fireEvent.click(getByText('Save'))
@@ -134,7 +134,7 @@ describe('Contact Details Form', () => {
           renderComponent(
             {
               contactDetails: { display_name: '', email: 'abc@abc.abc' },
-              requiredFormData: { name: { required: true }, email: { required: true } }
+              requiredFormData: { name: { required: true }, email: { required: true } },
             },
             rerender
           )
@@ -151,8 +151,8 @@ describe('Contact Details Form', () => {
         it('renders social sign in space', () => {
           const { getByText } = renderComponent({
             authUrls: {
-              facebook: 'facebook link'
-            }
+              facebook: 'facebook link',
+            },
           })
 
           expect(getByText('Or social sign in:')).toBeInTheDocument()
@@ -161,8 +161,8 @@ describe('Contact Details Form', () => {
         it('renders facebook login button', () => {
           const { getByTestId } = renderComponent({
             authUrls: {
-              facebook: 'facebook link'
-            }
+              facebook: 'facebook link',
+            },
           })
 
           expect(getByTestId(TEST_IDS.ICON_FACEBOOK)).toBeInTheDocument()
@@ -173,8 +173,8 @@ describe('Contact Details Form', () => {
         it('renders social sign in space', () => {
           const { getByText } = renderComponent({
             authUrls: {
-              google: 'google link'
-            }
+              google: 'google link',
+            },
           })
           expect(getByText('Or social sign in:')).toBeInTheDocument()
         })
@@ -182,8 +182,8 @@ describe('Contact Details Form', () => {
         it('renders google login button', () => {
           const { getByTestId } = renderComponent({
             authUrls: {
-              google: 'google link'
-            }
+              google: 'google link',
+            },
           })
 
           expect(getByTestId(TEST_IDS.ICON_GOOGLE)).toBeInTheDocument()
@@ -208,7 +208,7 @@ describe('Contact Details Form', () => {
     describe('when socially logged in', () => {
       it('shows the Your Profile view', () => {
         const { getByText } = renderComponent({
-          socialLogin: { authenticated: true }
+          socialLogin: { authenticated: true },
         })
 
         expect(getByText('Your profile:')).toBeInTheDocument()
@@ -217,7 +217,7 @@ describe('Contact Details Form', () => {
       describe('and the user clicks the logout button', () => {
         it('calls initiateSocialLogout', () => {
           const { getByTestId } = renderComponent({
-            socialLogin: { authenticated: true }
+            socialLogin: { authenticated: true },
           })
 
           fireEvent.click(getByTestId(TEST_IDS.ICON_LOGOUT))
@@ -232,7 +232,7 @@ describe('Contact Details Form', () => {
     describe('when name field is optional', () => {
       it(`renders a single 'optional' tag`, () => {
         const { getByText } = renderComponent({
-          requiredFormData: { name: { required: false }, email: { required: true } }
+          requiredFormData: { name: { required: false }, email: { required: true } },
         })
 
         expect(getByText('(optional)')).toBeInTheDocument()
@@ -242,7 +242,7 @@ describe('Contact Details Form', () => {
     describe('when email field is optional', () => {
       it(`renders a single 'optional' tag`, () => {
         const { getByText } = renderComponent({
-          requiredFormData: { name: { required: true }, email: { required: false } }
+          requiredFormData: { name: { required: true }, email: { required: false } },
         })
 
         expect(getByText('(optional)')).toBeInTheDocument()
@@ -252,7 +252,7 @@ describe('Contact Details Form', () => {
     describe('when both fields are optional', () => {
       it(`renders two 'optional' tags`, () => {
         const { getAllByText } = renderComponent({
-          requiredFormData: { name: { required: false }, email: { required: false } }
+          requiredFormData: { name: { required: false }, email: { required: false } },
         })
 
         expect(getAllByText('(optional)').length).toEqual(2)

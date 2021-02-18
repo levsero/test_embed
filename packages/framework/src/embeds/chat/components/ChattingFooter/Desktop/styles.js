@@ -5,7 +5,7 @@ const BottomRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: ${props => 8 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 8 / props.theme.fontSize}rem;
 `
 
 const Footer = styled(FooterView)`
@@ -20,7 +20,7 @@ const IconContainer = styled.div`
   transform: translate(0px, 33%);
 
   button {
-    margin-right: ${props => 3 / props.theme.fontSize}rem;
+    margin-right: ${(props) => 3 / props.theme.fontSize}rem;
   }
 `
 

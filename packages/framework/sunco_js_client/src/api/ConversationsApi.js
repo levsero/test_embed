@@ -9,8 +9,8 @@ class ConversationsApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 
@@ -21,8 +21,8 @@ class ConversationsApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 }

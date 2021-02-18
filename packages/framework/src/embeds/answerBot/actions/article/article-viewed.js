@@ -3,7 +3,7 @@ import { settings } from 'service/settings'
 import {
   ARTICLE_VIEWED_PENDING,
   ARTICLE_VIEWED_FULFILLED,
-  ARTICLE_VIEWED_REJECTED
+  ARTICLE_VIEWED_REJECTED,
 } from './action-types'
 
 import { getSessionByID } from 'src/embeds/answerBot/selectors/sessions'
@@ -16,8 +16,8 @@ function articleViewedPending(sessionID, articleID) {
     type: ARTICLE_VIEWED_PENDING,
     payload: {
       sessionID,
-      articleID
-    }
+      articleID,
+    },
   }
 }
 
@@ -26,8 +26,8 @@ function articleViewedFulfilled(sessionID, articleID) {
     type: ARTICLE_VIEWED_FULFILLED,
     payload: {
       sessionID,
-      articleID
-    }
+      articleID,
+    },
   }
 }
 
@@ -37,8 +37,8 @@ function articleViewedRejected(error, sessionID, articleID) {
     payload: {
       error,
       sessionID,
-      articleID
-    }
+      articleID,
+    },
   }
 }
 
@@ -55,30 +55,30 @@ export const articleViewed = (sessionID, articleID) => {
       done: () => {
         dispatch(articleViewedFulfilled(sessionID, articleID))
       },
-      fail: err => {
+      fail: (err) => {
         dispatch(articleViewedRejected(err, sessionID, articleID))
-      }
+      },
     }
 
     const params = {
       deflection_id: deflectionID,
       interaction_access_token: interactionToken,
       article_id: articleID,
-      resolution_channel_id: settings.get('viaIdAnswerBot')
+      resolution_channel_id: settings.get('viaIdAnswerBot'),
     }
 
     http.send({
       callbacks,
       method: 'post',
       path: '/api/v2/answer_bot/viewed',
-      params
+      params,
     })
   }
 }
 
-export const originalArticleClicked = articleId => ({
+export const originalArticleClicked = (articleId) => ({
   type: ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED,
   payload: {
-    articleId
-  }
+    articleId,
+  },
 })

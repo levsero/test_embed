@@ -9,8 +9,8 @@ describe('chat reducer active agents', () => {
 
     initMockRegistry({
       'src/embeds/chat/components/RatingGroup': {
-        ratings: {}
-      }
+        ratings: {},
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -42,8 +42,8 @@ describe('chat reducer active agents', () => {
             nick: 'agent:mcbob',
             display_name: 'McBob',
             avatar_path: 'http://www.example.com/avatar.png',
-            title: 'Bobliest Bob'
-          }
+            title: 'Bobliest Bob',
+          },
         }
       })
 
@@ -52,7 +52,7 @@ describe('chat reducer active agents', () => {
 
         state = reducer(currentState, {
           type: actionTypes.SDK_AGENT_UPDATE,
-          payload: payload
+          payload: payload,
         })
 
         expect(state.get('agent:mcbob')).toEqual(jasmine.objectContaining(payload.detail))
@@ -61,7 +61,7 @@ describe('chat reducer active agents', () => {
       it('does not update the agent if they are not in the chat', () => {
         state = reducer(initialState, {
           type: actionTypes.SDK_AGENT_UPDATE,
-          payload: payload
+          payload: payload,
         })
 
         expect(state.get('agent:mcbob')).toBeFalsy()
@@ -78,13 +78,13 @@ describe('chat reducer active agents', () => {
           detail: {
             type: 'typing',
             nick: 'agent:mcbob',
-            typing: true
-          }
+            typing: true,
+          },
         }
 
         state = reducer(currentState, {
           type: actionTypes.SDK_CHAT_TYPING,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -102,8 +102,8 @@ describe('chat reducer active agents', () => {
             type: 'chat.memberjoin',
             nick: '',
             display_name: '',
-            timestamp: Date.now()
-          }
+            timestamp: Date.now(),
+          },
         }
       })
 
@@ -116,14 +116,14 @@ describe('chat reducer active agents', () => {
           beforeEach(() => {
             state = reducer(initialState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload: payload
+              payload: payload,
             })
           })
 
           it('adds an entry for the member', () => {
             expect(state.get('agent:mcbob')).toEqual(
               jasmine.objectContaining({
-                nick: payload.detail.nick
+                nick: payload.detail.nick,
               })
             )
           })
@@ -135,7 +135,7 @@ describe('chat reducer active agents', () => {
 
             state = reducer(currentState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload: payload
+              payload: payload,
             })
           })
 
@@ -151,7 +151,7 @@ describe('chat reducer active agents', () => {
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -170,11 +170,14 @@ describe('chat reducer active agents', () => {
             type: 'chat.memberleave',
             nick: '',
             display_name: '',
-            timestamp: Date.now()
-          }
+            timestamp: Date.now(),
+          },
         }
 
-        currentState = new Map([['agent:mcbob', {}], ['agent:mcjim', {}]])
+        currentState = new Map([
+          ['agent:mcbob', {}],
+          ['agent:mcjim', {}],
+        ])
       })
 
       describe('when the member is an agent', () => {
@@ -183,7 +186,7 @@ describe('chat reducer active agents', () => {
 
           state = reducer(currentState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -202,7 +205,7 @@ describe('chat reducer active agents', () => {
 
           state = reducer(currentState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-            payload: payload
+            payload: payload,
           })
         })
 
@@ -217,7 +220,7 @@ describe('chat reducer active agents', () => {
         const currentState = new Map([['agent:cena', {}]])
 
         state = reducer(currentState, {
-          type: actionTypes.END_CHAT_REQUEST_SUCCESS
+          type: actionTypes.END_CHAT_REQUEST_SUCCESS,
         })
       })
 
@@ -231,7 +234,7 @@ describe('chat reducer active agents', () => {
         const currentState = new Map([['agent:cena', {}]])
 
         state = reducer(currentState, {
-          type: actionTypes.CHAT_RECONNECT
+          type: actionTypes.CHAT_RECONNECT,
         })
       })
 
@@ -245,7 +248,7 @@ describe('chat reducer active agents', () => {
         const currentState = new Map([['agent:cena', {}]])
 
         state = reducer(currentState, {
-          type: actionTypes.CHAT_DROPPED
+          type: actionTypes.CHAT_DROPPED,
         })
       })
 

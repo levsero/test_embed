@@ -18,7 +18,7 @@ describe('dateTime', () => {
           getDate: () => 2,
           getFullYear: () => 3,
           getHours: () => 4,
-          getMinutes: () => 5
+          getMinutes: () => 5,
         }
       })
       global.Date.now = jest.fn()

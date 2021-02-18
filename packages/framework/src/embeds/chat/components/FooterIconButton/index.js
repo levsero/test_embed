@@ -6,7 +6,7 @@ import {
   zdColorGrey300,
   zdColorGrey400,
   zdColorGrey600,
-  zdColorGrey800
+  zdColorGrey800,
 } from '@zendeskgarden/css-variables'
 import { isMobileBrowser } from 'utility/devices'
 
@@ -33,7 +33,7 @@ const FooterIconButton = styled(IconButton)`
 
     g,
     path {
-      ${props => props.colorType}: ${zdColorGrey600} !important;
+      ${(props) => props.colorType}: ${zdColorGrey600} !important;
     }
   }
 
@@ -45,7 +45,7 @@ const FooterIconButton = styled(IconButton)`
 
       svg > g,
       path {
-        ${props => props.colorType}: ${zdColorGrey800} !important;
+        ${(props) => props.colorType}: ${zdColorGrey800} !important;
       }
     }
   }
@@ -56,14 +56,14 @@ const FooterIconButton = styled(IconButton)`
 `
 
 FooterIconButton.propTypes = {
-  colorType: PropTypes.oneOf(['fill', 'stroke'])
+  colorType: PropTypes.oneOf(['fill', 'stroke']),
 }
 
 FooterIconButton.defaultProps = {
   isPill: isMobileBrowser(),
   ignoreThemeOverride: true,
   colorType: 'stroke',
-  size: 'small'
+  size: 'small',
 }
 
 export default FooterIconButton

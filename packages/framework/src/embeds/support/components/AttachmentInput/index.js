@@ -27,7 +27,7 @@ const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {
 AttachmentInput.propTypes = {
   onFileSelect: PropTypes.func.isRequired,
   attachmentInputId: PropTypes.string.isRequired,
-  name: PropTypes.string
+  name: PropTypes.string,
 }
 
 export default AttachmentInput

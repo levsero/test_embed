@@ -4,7 +4,7 @@ import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
 
 const useShouldDisableAnimations = () => {
-  const animationsDisabled = useSelector(state =>
+  const animationsDisabled = useSelector((state) =>
     isFeatureEnabled(state, 'web_widget_messenger_animations_disabled')
   )
 
@@ -15,7 +15,7 @@ const useShouldDisableAnimations = () => {
   useEffect(() => {
     const reduceMotionQuery = hostPageWindow.matchMedia('(prefers-reduced-motion: reduce)')
 
-    const onChange = event => {
+    const onChange = (event) => {
       setReduceMotion(Boolean(event.matches))
     }
 

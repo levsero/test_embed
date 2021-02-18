@@ -5,7 +5,7 @@ import useLabels from 'src/hooks/useLabels'
 
 import { Container, Textarea, SendIcon, Field, SendButton } from './styles'
 
-const triggerOnEnter = callback => e => {
+const triggerOnEnter = (callback) => (e) => {
   if (e.keyCode === KEY_CODES.ENTER && !e.shiftKey) {
     e.preventDefault()
     callback(e)
@@ -19,14 +19,14 @@ const Composer = React.forwardRef(
       minRows = 1,
       maxRows = 5,
       initialValue = '',
-      onChange = _event => {},
-      onSendMessage = _value => {}
+      onChange = (_event) => {},
+      onSendMessage = (_value) => {},
     },
     ref
   ) => {
     const [composerValue, setComposerValue] = useState(initialValue)
     const labels = useLabels().composer
-    const handleChange = event => {
+    const handleChange = (event) => {
       setComposerValue(event.target.value)
       onChange(event)
     }
@@ -71,6 +71,6 @@ Composer.propTypes = {
   maxRows: PropTypes.number,
   initialValue: PropTypes.string,
   onChange: PropTypes.func,
-  onSendMessage: PropTypes.func
+  onSendMessage: PropTypes.func,
 }
 export default Composer

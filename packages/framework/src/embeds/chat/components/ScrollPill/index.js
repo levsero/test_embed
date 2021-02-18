@@ -11,7 +11,7 @@ const ScrollPill = ({ notificationCount, onClick }) => {
   const label =
     notificationCount > 1
       ? translate('embeddable_framework.common.notification.manyMessages', {
-          plural_number: notificationCount
+          plural_number: notificationCount,
         })
       : translate('embeddable_framework.common.notification.oneMessage')
 
@@ -25,7 +25,7 @@ const ScrollPill = ({ notificationCount, onClick }) => {
 
 ScrollPill.propTypes = {
   notificationCount: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 export default ScrollPill

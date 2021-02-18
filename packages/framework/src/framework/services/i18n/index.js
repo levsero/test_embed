@@ -24,7 +24,7 @@ const setLocale = (newLocale = 'en-US') => {
   currentLocale = nextLocale
 
   return fetchLocale(nextLocale)
-    .then(res => {
+    .then((res) => {
       const translations = res.default.locale
 
       if (currentLocale !== translations.locale) {
@@ -38,7 +38,7 @@ const setLocale = (newLocale = 'en-US') => {
 
       return { success: true }
     })
-    .catch(err => {
+    .catch((err) => {
       errorTracker.error('Failed loading locale', err.message)
       return { success: false }
     })
@@ -71,5 +71,5 @@ export default {
   getInternalCurrentLocale: () => currentLocale,
   subscribe: listeners.subscribe,
   parseLocale,
-  isRTL
+  isRTL,
 }

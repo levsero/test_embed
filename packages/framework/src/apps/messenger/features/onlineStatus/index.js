@@ -31,21 +31,21 @@ const ReconnectedBanner = ({ onExit }) => {
   const defaultStyle = {
     transition: `opacity ${duration}ms ease-in-out`,
     zIndex: 10,
-    opacity: 1
+    opacity: 1,
   }
 
   const transitionStyles = {
     exiting: { opacity: 0 },
-    exited: { opacity: 0 }
+    exited: { opacity: 0 },
   }
 
   return (
     <CSSTransition in={isVisible} timeout={duration} onExited={onExit}>
-      {state => (
+      {(state) => (
         <div
           style={{
             ...defaultStyle,
-            ...transitionStyles[state]
+            ...transitionStyles[state],
           }}
         >
           <Banner
@@ -59,7 +59,7 @@ const ReconnectedBanner = ({ onExit }) => {
 }
 
 ReconnectedBanner.propTypes = {
-  onExit: PropTypes.func
+  onExit: PropTypes.func,
 }
 
 const OnlineStatusBanner = () => {

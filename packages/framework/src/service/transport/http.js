@@ -11,23 +11,23 @@ import {
   sendWithMeta,
   updateConfig,
   resetConfig,
-  getConfig
+  getConfig,
 } from './http-base'
 
 let config = {
   scheme: 'https',
   insecureScheme: 'http',
   zendeskHost: getZendeskHost(document),
-  version: __EMBEDDABLE_VERSION__
+  version: __EMBEDDABLE_VERSION__,
 }
 
 let cache = {}
 const defaultConfig = {
   timeout: {
     response: 5000, // Wait 5 seconds for the response to start.
-    deadline: 60000 // allow 1 minute for the response to finish.
+    deadline: 60000, // allow 1 minute for the response to finish.
   },
-  retries: 1
+  retries: 1,
 }
 const clearCache = () => {
   cache = {}
@@ -37,7 +37,7 @@ function get(payload, options = {}) {
   const queryConfig = {
     ...defaultConfig,
     method: 'GET',
-    ...options
+    ...options,
   }
 
   const url = buildFullUrl(payload)
@@ -63,10 +63,10 @@ function get(payload, options = {}) {
 
   const requestPromise = (cache[cacheKey] = new Promise((resolve, reject) => {
     request
-      .then(response => {
+      .then((response) => {
         resolve(response)
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
         logFailure(err, { ...queryConfig, ...payload })
       })
@@ -103,14 +103,14 @@ function sendFile(payload) {
     .query({ filename: payload.file.name })
     .query({ via_id: settings.get('viaId') })
     .attach('uploaded_data', payload.file)
-    .on('progress', function(e) {
+    .on('progress', function (e) {
       if (payload.callbacks) {
         if (_.isFunction(payload.callbacks.progress)) {
           payload.callbacks.progress(e)
         }
       }
     })
-    .end(function(err, res) {
+    .end(function (err, res) {
       if (payload.callbacks) {
         if (err) {
           if (_.isFunction(payload.callbacks.fail)) {
@@ -161,5 +161,5 @@ export const http = {
   getConfig, //for testing purposes
   resetConfig, //for testing purposes
   clearCache, //for testing purposes
-  logFailure //for testing purposes
+  logFailure, //for testing purposes
 }

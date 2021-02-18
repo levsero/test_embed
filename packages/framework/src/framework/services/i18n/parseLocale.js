@@ -13,7 +13,7 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
 }
 
-const localeKeyExists = locale => {
+const localeKeyExists = (locale) => {
   return zELocaleIdMap[locale] !== undefined
 }
 

@@ -9,8 +9,8 @@ const FormResponseStructuredMessage = ({
     isFirstInGroup,
     isFirstMessageInAuthorGroup,
     isLastMessageInAuthorGroup,
-    name
-  }
+    name,
+  },
 }) => {
   return (
     <FormResponseMessage
@@ -32,8 +32,8 @@ FormResponseStructuredMessage.propTypes = {
     isFirstInGroup: PropTypes.bool,
     isFirstMessageInAuthorGroup: PropTypes.bool,
     isLastMessageInAuthorGroup: PropTypes.bool,
-    name: PropTypes.string
-  })
+    name: PropTypes.string,
+  }),
 }
 
 export default FormResponseStructuredMessage

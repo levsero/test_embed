@@ -11,7 +11,7 @@ const ChatContactDetailsUserProfile = ({
   isAuthenticated,
   requiredFormData,
   socialLogin,
-  visitor
+  visitor,
 }) => {
   const { name: nameData, email: emailData } = requiredFormData
   const nameField = (
@@ -55,21 +55,21 @@ ChatContactDetailsUserProfile.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   requiredFormData: PropTypes.shape({
     name: PropTypes.shape({
-      required: PropTypes.bool
+      required: PropTypes.bool,
     }),
     email: PropTypes.shape({
-      required: PropTypes.bool
-    })
+      required: PropTypes.bool,
+    }),
   }),
   socialLogin: PropTypes.shape({
     authenticated: PropTypes.bool,
     screen: PropTypes.string,
-    avatarPath: PropTypes.string
+    avatarPath: PropTypes.string,
   }).isRequired,
   visitor: PropTypes.shape({
     display_name: PropTypes.string,
-    email: PropTypes.string
-  })
+    email: PropTypes.string,
+  }),
 }
 
 export default ChatContactDetailsUserProfile

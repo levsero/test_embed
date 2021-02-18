@@ -28,7 +28,7 @@ const SuccessNotification = ({ onClick, doneText, icon }) => {
 SuccessNotification.propTypes = {
   onClick: PropTypes.func,
   doneText: PropTypes.string,
-  icon: PropTypes.object
+  icon: PropTypes.object,
 }
 
 export default SuccessNotification

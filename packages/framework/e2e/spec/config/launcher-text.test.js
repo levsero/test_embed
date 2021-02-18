@@ -1,23 +1,21 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import launcher from 'e2e/helpers/launcher'
 
-const buildWidget = labelKey =>
+const buildWidget = (labelKey) =>
   loadWidget()
     .withPresets('helpCenter', {
       embeds: {
         launcher: {
           props: {
-            labelKey
-          }
-        }
-      }
+            labelKey,
+          },
+        },
+      },
     })
     .load()
 
 test('when there is no labelKey set, default label says Help', async () => {
-  await loadWidget()
-    .withPresets('helpCenter')
-    .load()
+  await loadWidget().withPresets('helpCenter').load()
   expect(await launcher.getLabelText()).toEqual('Help')
 })
 

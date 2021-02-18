@@ -3,7 +3,7 @@ import { sendMessage as sendSuncoMessage, fetchMessages } from 'src/apps/messeng
 import { submitForm } from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/store'
 import {
   fetchExistingConversation,
-  startNewConversation
+  startNewConversation,
 } from 'src/apps/messenger/features/suncoConversation/store'
 
 const fetchPaginatedMessages = createAsyncThunk(
@@ -27,7 +27,7 @@ const sendMessage = createAsyncThunk(
 
     if (Array.isArray(response.body.messages) && response.body.messages.length === 1) {
       return {
-        message: response.body.messages[0]
+        message: response.body.messages[0],
       }
     }
 
@@ -36,8 +36,8 @@ const sendMessage = createAsyncThunk(
 )
 
 const messagesAdapter = createEntityAdapter({
-  selectId: message => message._id,
-  sortComparer: (messageA, messageB) => messageA.received - messageB.received
+  selectId: (message) => message._id,
+  sortComparer: (messageA, messageB) => messageA.received - messageB.received,
 })
 
 const messagesSlice = createSlice({
@@ -46,12 +46,12 @@ const messagesSlice = createSlice({
     hasPrevious: false,
     hasFetchedConversation: false,
     errorFetchingHistory: false,
-    isFetchingHistory: false
+    isFetchingHistory: false,
   }),
   reducers: {
     messageReceived(state, action) {
       messagesAdapter.addOne(state, action.payload.message)
-    }
+    },
   },
   extraReducers: {
     [startNewConversation.fulfilled](state, action) {
@@ -89,7 +89,7 @@ const messagesSlice = createSlice({
         messagesAdapter.upsertOne(state, {
           _id: action.meta.arg.messageId,
           payload: action.meta.arg.payload,
-          status: 'sending'
+          status: 'sending',
         })
         return
       }
@@ -102,31 +102,31 @@ const messagesSlice = createSlice({
         received: Date.now() / 1000,
         text: action.meta.arg.message,
         isOptimistic: true,
-        status: 'sending'
+        status: 'sending',
       })
     },
     [sendMessage.rejected](state, action) {
       messagesAdapter.upsertOne(state, {
         _id: action.meta.arg.messageId ?? action.meta.requestId,
-        status: 'failed'
+        status: 'failed',
       })
     },
     [sendMessage.fulfilled](state, action) {
       messagesAdapter.upsertOne(state, {
         ...action.payload.message,
         _id: action.meta.arg.messageId ?? action.meta.requestId,
-        status: 'sent'
+        status: 'sent',
       })
-    }
-  }
+    },
+  },
 })
 
-const selectors = messagesAdapter.getSelectors(state => state.messages)
+const selectors = messagesAdapter.getSelectors((state) => state.messages)
 
-const getHasPrevious = state => state.messages.hasPrevious
-const getErrorFetchingHistory = state => state.messages.errorFetchingHistory
-const getIsFetchingHistory = state => state.messages.isFetchingHistory
-const getHasFetchedConversation = state => state.messages.hasFetchedConversation
+const getHasPrevious = (state) => state.messages.hasPrevious
+const getErrorFetchingHistory = (state) => state.messages.errorFetchingHistory
+const getIsFetchingHistory = (state) => state.messages.isFetchingHistory
+const getHasFetchedConversation = (state) => state.messages.hasFetchedConversation
 const getAllMessages = selectors.selectAll
 const getMessage = selectors.selectById
 
@@ -139,7 +139,7 @@ export {
   getIsFetchingHistory,
   fetchPaginatedMessages,
   getAllMessages,
-  getMessage
+  getMessage,
 }
 
 export default messagesSlice.reducer

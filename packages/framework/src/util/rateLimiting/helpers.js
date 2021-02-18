@@ -8,7 +8,7 @@ export const queuesReset = () => {
   queues = {}
 }
 
-export const exponentialBackoffTime = attempts => {
+export const exponentialBackoffTime = (attempts) => {
   const numberOfAttempts = attempts.length
 
   if (numberOfAttempts < 1) return 0
@@ -18,7 +18,7 @@ export const exponentialBackoffTime = attempts => {
   return initialDelay * Math.pow(2, numberOfAttempts - 1)
 }
 
-const hoursInSeconds = hours => hours * 60 * 60 * 1000
+const hoursInSeconds = (hours) => hours * 60 * 60 * 1000
 
 export const isRateLimited = (queueName, timestamp) => {
   queues[queueName] = queues[queueName] || []

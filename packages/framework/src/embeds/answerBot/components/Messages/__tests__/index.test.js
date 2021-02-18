@@ -20,15 +20,15 @@ const resultsMessage = {
         'https://support.zendesk.com/api/v2/help_center/en-us/articles/204231676-Guide-resources.json',
       title: 'title 123',
       body: 'to be filled later 123',
-      snippet: 'to be filled later 123'
-    }
+      snippet: 'to be filled later 123',
+    },
   ],
   author: 'AUTHOR_BOT',
-  sessionID: 1234
+  sessionID: 1234,
 }
 
 const contextualSearchResultsMessage = {
-  type: 'contextualSearchResults'
+  type: 'contextualSearchResults',
 }
 
 const textMessage = {
@@ -36,28 +36,28 @@ const textMessage = {
   message: 'hello',
   author: 'AUTHOR_VISITOR',
   timestamp: Date.now(),
-  sessionID: 1234
+  sessionID: 1234,
 }
 
 const channelChoiceMessage = {
   type: 'channelChoice',
-  timestamp: Date.now()
+  timestamp: Date.now(),
 }
 
 const primaryFeedbackMessage = {
   type: 'feedback',
   timestamp: Date.now(),
-  feedbackType: 'primary'
+  feedbackType: 'primary',
 }
 
 const secondaryFeedbackMessage = {
   type: 'feedback',
   timestamp: Date.now(),
-  feedbackType: 'secondary'
+  feedbackType: 'secondary',
 }
 
 const botTyping = {
-  type: 'botTyping'
+  type: 'botTyping',
 }
 
 test('renders expected classes and components with default props for non-visitor messages', () => {
@@ -68,14 +68,14 @@ test('renders expected classes and components with default props for non-visitor
     channelChoiceMessage,
     primaryFeedbackMessage,
     secondaryFeedbackMessage,
-    botTyping
+    botTyping,
   ]
 
   jest.spyOn(selectors, 'getSearchedArticles').mockReturnValue([
     {
       title: 'contextual search results',
-      body: 'body of contextual search results'
-    }
+      body: 'body of contextual search results',
+    },
   ])
   const utils = render(<Messages messages={[]} isVisitor={false} />)
   const { container } = render(<Messages messages={messages} isVisitor={false} />)

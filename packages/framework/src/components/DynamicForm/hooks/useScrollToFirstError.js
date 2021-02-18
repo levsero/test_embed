@@ -9,7 +9,7 @@ const useScrollToFirstError = () => {
   // scrollToFirstErroredField will scroll to the first field that has errored, or to the submit error message if
   // no fields have errors
   return (fields, errors) => {
-    const firstFieldToError = fields.concat({ id: FORM_ERROR }).find(field => errors[field.id])
+    const firstFieldToError = fields.concat({ id: FORM_ERROR }).find((field) => errors[field.id])
 
     if (!firstFieldToError) {
       return

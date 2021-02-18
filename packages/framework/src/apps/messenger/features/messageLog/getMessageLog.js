@@ -9,7 +9,7 @@ import insertTimestampsInLog from './utils/insertTimestampsInLog'
 const GROUPABLE_TYPES = { text: true, image: true, file: true, typingIndicator: true }
 
 const removeSubmittedForms = (messages, formsState) => {
-  return messages.filter(message => {
+  return messages.filter((message) => {
     if (message.type !== 'form') {
       return true
     }
@@ -21,18 +21,18 @@ const removeSubmittedForms = (messages, formsState) => {
   })
 }
 
-const retrieveFormDataForFormResponse = messages => {
-  return messages.map(message => {
+const retrieveFormDataForFormResponse = (messages) => {
+  return messages.map((message) => {
     if (message.type === 'formResponse') {
       const relatedForm = messages.find(
-        otherMessage => otherMessage._id === message.quotedMessageId
+        (otherMessage) => otherMessage._id === message.quotedMessageId
       )
 
       return {
         ...message,
         name: relatedForm?.name ?? message.name,
         avatarUrl: relatedForm?.avatarUrl ?? message.avatarUrl,
-        authorId: relatedForm?.authorId ?? message.authorId
+        authorId: relatedForm?.authorId ?? message.authorId,
       }
     }
     return message
@@ -43,7 +43,7 @@ const isLastMessageAQuickReply = (log = []) => {
   const [lastMessage] = log.slice(-1)
   return (
     lastMessage?.type === 'text' &&
-    lastMessage.actions?.filter(action => action.type === 'reply')?.length > 0
+    lastMessage.actions?.filter((action) => action.type === 'reply')?.length > 0
   )
 }
 
@@ -53,7 +53,7 @@ const withUserTyping = (log, userTyping) => {
       ...userTyping,
       _id: 'typingIndicator',
       isLocalMessageType: true,
-      type: 'typingIndicator'
+      type: 'typingIndicator',
     })
   }
 
@@ -62,7 +62,7 @@ const withUserTyping = (log, userTyping) => {
 
 const areMessagesGroupable = (thisMessage, otherMessage) => {
   if (!GROUPABLE_TYPES[thisMessage.type]) return false
-  if (!GROUPABLE_TYPES[(otherMessage?.type)]) return false
+  if (!GROUPABLE_TYPES[otherMessage?.type]) return false
 
   const hasOtherFailed = otherMessage?.status === MESSAGE_STATUS.failed
 
@@ -88,7 +88,7 @@ const areSameAuthor = (first, second) => {
   )
 }
 
-const addMessagePositionsToGroups = messages => {
+const addMessagePositionsToGroups = (messages) => {
   let lastMessageThatHasntFailed
 
   const withPositions = messages.map((message, index) => {
@@ -113,7 +113,7 @@ const addMessagePositionsToGroups = messages => {
       isLastInLog,
       isFirstMessageInAuthorGroup: !isPreviousSameAuthor,
       isLastMessageInAuthorGroup: !isNextSameAuthor,
-      isLastMessageThatHasntFailed: false
+      isLastMessageThatHasntFailed: false,
     }
   })
 

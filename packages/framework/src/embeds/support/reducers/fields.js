@@ -10,7 +10,7 @@ const fields = (state = initialState, action) => {
       return payload.ticket_fields.reduce(
         (prev, next) => ({
           ...prev,
-          [next.id]: next
+          [next.id]: next,
         }),
         state
       )

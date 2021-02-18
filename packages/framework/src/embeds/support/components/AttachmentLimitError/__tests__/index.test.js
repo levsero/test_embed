@@ -8,7 +8,7 @@ describe('AttachmentLimitError', () => {
     const defaultProps = {
       handleClearError: jest.fn(),
       maxFileCount: 5,
-      ...props
+      ...props,
     }
 
     return render(<AttachmentLimitError {...defaultProps} />)

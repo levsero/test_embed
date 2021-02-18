@@ -23,7 +23,7 @@ describe('ChatMenu', () => {
     updateEmailTranscriptVisibility: jest.fn(),
     updateContactDetailsVisibility: jest.fn(),
     updateEndChatModalVisibility: jest.fn(),
-    onBackClick: jest.fn()
+    onBackClick: jest.fn(),
   }
 
   const findSvg = (container, svgName) => container.querySelector(`[realfilename="${svgName}"]`)
@@ -106,7 +106,7 @@ describe('ChatMenu', () => {
     expect(updateEndChatModalVisibility).toHaveBeenCalledWith(false)
   })
 
-  it('renders as open when prop isOpen is true', done => {
+  it('renders as open when prop isOpen is true', (done) => {
     const { queryByText } = renderComponent({ isOpen: true })
 
     onNextTick(() => {
@@ -115,7 +115,7 @@ describe('ChatMenu', () => {
     })
   })
 
-  it('does not render when prop isOpen is false', done => {
+  it('does not render when prop isOpen is false', (done) => {
     const { queryByText } = renderComponent({ isOpen: false })
 
     onNextTick(() => {
@@ -131,12 +131,12 @@ describe('ChatMenu', () => {
       expect(find(container, SoundOnIcon)).toBeInTheDocument()
     })
 
-    it('turns off sound when sound option is clicked and ', done => {
+    it('turns off sound when sound option is clicked and ', (done) => {
       const handleSoundIconClick = jest.fn()
       const { queryByText } = renderComponent({
         isOpen: true,
         soundEnabled: true,
-        handleSoundIconClick
+        handleSoundIconClick,
       })
 
       queryByText('Sound').click()
@@ -155,12 +155,12 @@ describe('ChatMenu', () => {
       expect(find(container, SoundOffIcon)).toBeInTheDocument()
     })
 
-    it('turns on sound when sound option is clicked', done => {
+    it('turns on sound when sound option is clicked', (done) => {
       const handleSoundIconClick = jest.fn()
       const { queryByText } = renderComponent({
         isOpen: true,
         soundEnabled: false,
-        handleSoundIconClick
+        handleSoundIconClick,
       })
 
       queryByText('Sound').click()
@@ -172,11 +172,11 @@ describe('ChatMenu', () => {
     })
   })
 
-  it('does not close the dropdown when sound option is clicked', done => {
+  it('does not close the dropdown when sound option is clicked', (done) => {
     const onToggle = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
-      onToggle
+      onToggle,
     })
 
     queryByText('Sound').click()
@@ -187,11 +187,11 @@ describe('ChatMenu', () => {
     })
   })
 
-  it('opens the email transcript form when email option is clicked', done => {
+  it('opens the email transcript form when email option is clicked', (done) => {
     const updateEmailTranscriptVisibility = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
-      updateEmailTranscriptVisibility
+      updateEmailTranscriptVisibility,
     })
 
     queryByText('Email transcript').click()
@@ -202,12 +202,12 @@ describe('ChatMenu', () => {
     })
   })
 
-  it('opens the contact details form when contact details option is clicked', done => {
+  it('opens the contact details form when contact details option is clicked', (done) => {
     const updateContactDetailsVisibility = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
       editContactDetailsEnabled: true,
-      updateContactDetailsVisibility
+      updateContactDetailsVisibility,
     })
 
     queryByText('Edit contact details').click()
@@ -220,17 +220,17 @@ describe('ChatMenu', () => {
 
   it('does not render the edit contact details option when contact details are not enabled', () => {
     const { queryByText } = renderComponent({
-      isOpen: true
+      isOpen: true,
     })
 
     expect(queryByText('Edit contact details')).toBeNull()
   })
 
-  it('opens the end chat modal when end chat option is clicked', done => {
+  it('opens the end chat modal when end chat option is clicked', (done) => {
     const updateEndChatModalVisibility = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
-      updateEndChatModalVisibility
+      updateEndChatModalVisibility,
     })
 
     queryByText('End chat').click()
@@ -259,11 +259,11 @@ describe('ChatMenu', () => {
     expect(queryByText('Email transcript')).toBeInTheDocument()
   })
 
-  it('calls onBackClick when the back item is selected', done => {
+  it('calls onBackClick when the back item is selected', (done) => {
     const onBackClick = jest.fn()
     const { queryByText } = renderComponent({
       isOpen: true,
-      onBackClick
+      onBackClick,
     })
 
     queryByText('Go Back').click()
@@ -277,7 +277,7 @@ describe('ChatMenu', () => {
   it('displays the back item when goBackIsVisible is true', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
-      goBackIsVisible: true
+      goBackIsVisible: true,
     })
 
     expect(queryByText('Go Back')).toBeInTheDocument()
@@ -286,7 +286,7 @@ describe('ChatMenu', () => {
   it('does not display the back item when goBackIsVisible is true', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
-      goBackIsVisible: false
+      goBackIsVisible: false,
     })
 
     expect(queryByText('Go Back')).not.toBeInTheDocument()
@@ -295,7 +295,7 @@ describe('ChatMenu', () => {
   it('displays the sound item when soundIsVisible is true', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
-      soundIsVisible: true
+      soundIsVisible: true,
     })
 
     expect(queryByText('Sound')).toBeInTheDocument()
@@ -304,7 +304,7 @@ describe('ChatMenu', () => {
   it('does not display the sound item when soundIsVisible is true', () => {
     const { queryByText } = renderComponent({
       isOpen: true,
-      soundIsVisible: false
+      soundIsVisible: false,
     })
 
     expect(queryByText('Sound')).not.toBeInTheDocument()

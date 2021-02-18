@@ -1,9 +1,9 @@
 import { getElementHTML, getElement } from './helpers'
 
-const toHaveFocus = async function(maybeElement) {
+const toHaveFocus = async function (maybeElement) {
   const element = await getElement(maybeElement)
 
-  const isFocused = await page.evaluate(el => document.activeElement === el, element)
+  const isFocused = await page.evaluate((el) => document.activeElement === el, element)
   const activeElement = await page.evaluate(() => {
     if (!document.activeElement) {
       return '<no element was focused>'
@@ -21,13 +21,13 @@ const toHaveFocus = async function(maybeElement) {
   if (isFocused) {
     return {
       message: () => `expected element ${condition} focused.${this.isNot ? errorMessage : ''}`,
-      pass: true
+      pass: true,
     }
   }
 
   return {
     message: () => `expected element ${condition} focused.${!this.isNot ? errorMessage : ''}`,
-    pass: false
+    pass: false,
   }
 }
 

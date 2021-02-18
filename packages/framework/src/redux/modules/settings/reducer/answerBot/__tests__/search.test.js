@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -22,10 +22,10 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       webWidget: {
         answerBot: {
           search: {
-            labels: ['hello', 'world']
-          }
-        }
-      }
+            labels: ['hello', 'world'],
+          },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({ labels: ['hello', 'world'] })
@@ -37,7 +37,7 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
 
   it('returns the current state when other actions are dispatched', () => {
     expect(reducer({ labels: ['hello'] }, { type: 'something else' })).toEqual({
-      labels: ['hello']
+      labels: ['hello'],
     })
   })
 })

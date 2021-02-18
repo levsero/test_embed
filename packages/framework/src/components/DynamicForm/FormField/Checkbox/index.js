@@ -12,7 +12,7 @@ const Checkbox = ({
   errorMessage,
   errorMessageKey,
   isReadOnly,
-  isPreview
+  isPreview,
 }) => {
   return (
     <Container data-testid={TEST_IDS.CHECKBOX_FIELD}>
@@ -21,7 +21,7 @@ const Checkbox = ({
           name={field.id}
           checked={value === 1}
           required={Boolean(field.required)}
-          onChange={e => {
+          onChange={(e) => {
             onChange(e.target.checked ? 1 : 0)
           }}
           validation={errorMessage ? 'error' : undefined}
@@ -53,14 +53,14 @@ Checkbox.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     description: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
   }),
   value: PropTypes.oneOf([0, 1]),
   onChange: PropTypes.func,
   errorMessage: PropTypes.string,
   errorMessageKey: PropTypes.number,
   isReadOnly: PropTypes.bool,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
 }
 
 export default Checkbox

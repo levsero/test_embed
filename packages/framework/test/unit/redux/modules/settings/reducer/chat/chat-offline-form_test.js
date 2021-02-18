@@ -31,22 +31,22 @@ describe('settings chat offline form', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SETTINGS,
-          payload: payload
+          payload: payload,
         })
       })
 
       describe('when valid properties are set', () => {
         beforeAll(() => {
           mockState = {
-            greeting: 'Nice cup of tea, puny human?'
+            greeting: 'Nice cup of tea, puny human?',
           }
 
           payload = {
             webWidget: {
               chat: {
-                offlineForm: mockState
-              }
-            }
+                offlineForm: mockState,
+              },
+            },
           }
         })
 
@@ -59,8 +59,8 @@ describe('settings chat offline form', () => {
         beforeAll(() => {
           payload = {
             webWidget: {
-              yeah: 'nah'
-            }
+              yeah: 'nah',
+            },
           }
         })
 

@@ -9,7 +9,7 @@ const validAttachment = {
   fileName: 'text.txt',
   fileSize: 20000,
   uploading: false,
-  uploadProgress: 100
+  uploadProgress: 100,
 }
 
 const errorAttachment = {
@@ -18,14 +18,14 @@ const errorAttachment = {
   fileSize: 20000,
   uploading: false,
   uploadProgress: 100,
-  errorMessage: 'this failed'
+  errorMessage: 'this failed',
 }
 
 const defaultProps = {
   allAttachments: [validAttachment, errorAttachment],
   deleteAttachment: jest.fn(),
   onRemoveAttachment: jest.fn(),
-  maxFileSize: 5
+  maxFileSize: 5,
 }
 
 const renderComponent = (props = {}) => render(<AttachmentList {...defaultProps} {...props} />)

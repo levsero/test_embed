@@ -8,7 +8,7 @@ testReducer(reducer, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     extraDesc: 'only collects proper IDs where the title has been suppressed properly',
@@ -24,12 +24,12 @@ testReducer(reducer, [
               { id: 789, title: null },
               { id: 666, title: false },
               { id: 234, title: undefined },
-              { id: 567, title: 123 }
-            ]
-          }
-        }
-      }
+              { id: 567, title: 123 },
+            ],
+          },
+        },
+      },
     },
-    expected: [123, 666]
-  }
+    expected: [123, 666],
+  },
 ])

@@ -15,8 +15,8 @@ describe('render', () => {
       image_url: 'https://nsync.com/banner.png',
       action: {
         type: 'LINK_ACTION',
-        value: 'https://nsync.com'
-      }
+        value: 'https://nsync.com',
+      },
     },
     {
       heading: "Destiny's Child",
@@ -24,9 +24,9 @@ describe('render', () => {
       image_url: 'https://destiny.com/banner.png',
       action: {
         type: 'LINK_ACTION',
-        value: 'https://destiny.com'
-      }
-    }
+        value: 'https://destiny.com',
+      },
+    },
   ]
 
   it('renders the list correctly', () => {

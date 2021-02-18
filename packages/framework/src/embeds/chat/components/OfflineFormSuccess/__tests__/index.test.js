@@ -6,7 +6,7 @@ import OfflineFormSuccess from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    onClick: jest.fn()
+    onClick: jest.fn(),
   }
 
   return render(<OfflineFormSuccess {...defaultProps} {...props} />)

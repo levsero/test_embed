@@ -1,8 +1,8 @@
 import { SCREEN_CHANGED } from './action-types'
 
-export const screenChanged = screen => {
+export const screenChanged = (screen) => {
   return {
     type: SCREEN_CHANGED,
-    payload: screen
+    payload: screen,
   }
 }

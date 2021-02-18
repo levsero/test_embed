@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {
   MessageLogListDecorator,
-  MessengerContainerDecorator
+  MessengerContainerDecorator,
 } from '../../../.storybook/decorators'
 import { MESSAGE_STATUS } from 'src/constants'
 import PrimaryParticipantLayout from './'
@@ -15,10 +15,10 @@ export default {
       defaultValue: MESSAGE_STATUS.sent,
       control: {
         type: 'inline-radio',
-        options: Object.values(MESSAGE_STATUS)
-      }
-    }
-  }
+        options: Object.values(MESSAGE_STATUS),
+      },
+    },
+  },
 }
 
 const DummyMessageContainer = styled.div`
@@ -30,7 +30,7 @@ const DummyMessageContainer = styled.div`
   border: 1px solid #000;
 `
 
-const Template = args => (
+const Template = (args) => (
   <PrimaryParticipantLayout {...args}>
     <DummyMessageContainer>Component children get inserted here</DummyMessageContainer>
   </PrimaryParticipantLayout>
@@ -41,5 +41,5 @@ export const EmptyLayoutt = Template.bind()
 EmptyLayoutt.args = {
   label: 'Majestic Emus',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
-  timeReceived: timeNowInSeconds
+  timeReceived: timeNowInSeconds,
 }

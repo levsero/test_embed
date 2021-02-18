@@ -7,12 +7,12 @@ import {
   zdColorGrey400,
   zdColorGrey600,
   zdColorGrey800,
-  zdColorWhite
+  zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import Paperclip from '@zendeskgarden/svg-icons/src/16/paperclip.svg'
 
 export const AttachmentButton = styled.button.attrs(() => ({
-  type: 'button'
+  type: 'button',
 }))`
   cursor: pointer !important;
   border-width: ${2 / FONT_SIZE}rem;
@@ -54,10 +54,10 @@ export const Label = styled.div`
 export const Icon = styled(Paperclip)`
   max-width: 100%;
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl ? `margin-left: ${5 / FONT_SIZE}rem;` : `margin-right: ${5 / FONT_SIZE}rem;`}
 
-  color: ${props => props.theme.baseColor};
+  color: ${(props) => props.theme.baseColor};
   min-width: ${18 / FONT_SIZE}rem;
   min-height: ${18 / FONT_SIZE}rem;
   height: ${18 / FONT_SIZE}rem;

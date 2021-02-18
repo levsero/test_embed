@@ -16,11 +16,11 @@ describe('Button Component', () => {
 
     initMockRegistry({
       'component/shared/StructuredMessage/pure/Button': {
-        Button: PureButton
+        Button: PureButton,
       },
       'constants/chat': {
-        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE
-      }
+        CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
+      },
     })
 
     mockery.registerAllowable(buttonPath)
@@ -39,8 +39,8 @@ describe('Button Component', () => {
       text: 'Hey!',
       action: {
         type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.QUICK_REPLY_ACTION,
-        value: 'replied'
-      }
+        value: 'replied',
+      },
     }
 
     let component, result

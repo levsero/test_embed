@@ -10,7 +10,7 @@ import {
   CHAT_CONNECTED_EVENT,
   CHAT_UNREAD_MESSAGES_EVENT,
   CHAT_DEPARTMENT_STATUS_EVENT,
-  CHAT_STATUS_EVENT
+  CHAT_STATUS_EVENT,
 } from 'constants/event'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
 
@@ -26,7 +26,7 @@ const setup = () => {
   return {
     mockWin,
     store,
-    callback
+    callback,
   }
 }
 
@@ -93,8 +93,8 @@ describe('zopim events', () => {
         proactive: true,
         nick: 'black hole',
         display_name: 'black hole', // eslint-disable-line camelcase
-        msg: 'check it'
-      }
+        msg: 'check it',
+      },
     })
     callbacks.fireFor(CHAT_UNREAD_MESSAGES_EVENT)
 
@@ -117,7 +117,7 @@ describe('zopim events', () => {
 
       store.dispatch({
         type: chatActionTypes.SDK_ACCOUNT_STATUS,
-        payload: { detail: 'yeetStat' }
+        payload: { detail: 'yeetStat' },
       })
 
       mockWin.$zopim.livechat.setOnStatus(callback)

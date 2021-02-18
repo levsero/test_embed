@@ -13,9 +13,9 @@ const SecondaryButton = styled(Button)`
 const SubmitButton = styled(Button)`
   flex-grow: 1;
   max-width: 50%;
-  margin-left: ${props => 7 / props.theme.fontSize}rem !important;
+  margin-left: ${(props) => 7 / props.theme.fontSize}rem !important;
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl &&
     `
       margin-left: 0 !important;
@@ -34,12 +34,12 @@ const StyledLabel = styled(Label)`
 `
 
 const StyledTextarea = styled(Textarea)`
-  margin-bottom: ${props => 15 / props.theme.fontSize}rem;
+  margin-bottom: ${(props) => 15 / props.theme.fontSize}rem;
 `
 
 const StyledRatingGroup = styled(RatingGroup)`
-  margin-bottom: ${props => 10 / props.theme.fontSize}rem;
-  margin-top: ${props => 5 / props.theme.fontSize}rem;
+  margin-bottom: ${(props) => 10 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 5 / props.theme.fontSize}rem;
 `
 
 export {
@@ -48,5 +48,5 @@ export {
   ButtonGroup,
   StyledLabel as Label,
   StyledTextarea as Textarea,
-  StyledRatingGroup as RatingGroup
+  StyledRatingGroup as RatingGroup,
 }

@@ -4,19 +4,19 @@ import { testReducer } from 'src/util/testHelpers'
 
 const settingsPayload = {
   webWidget: {
-    cookies: false
-  }
+    cookies: false,
+  },
 }
 
 testReducer(cookies, [
   {
     type: undefined,
     payload: '',
-    expected: true
+    expected: true,
   },
   {
     type: UPDATE_SETTINGS,
     payload: settingsPayload,
-    expected: false
-  }
+    expected: false,
+  },
 ])

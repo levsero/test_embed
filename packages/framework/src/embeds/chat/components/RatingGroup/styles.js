@@ -9,7 +9,7 @@ const Container = styled.div`
 
 const RatingButton = styled(IconButton)`
   &&& {
-  ${props =>
+  ${(props) =>
     props.selected &&
     `
       background-color: ${props.theme.baseColor} !important;
@@ -31,7 +31,7 @@ const RatingButton = styled(IconButton)`
   }
 
   &:focus {
-    box-shadow: inset 0 0 0 ${3 / FONT_SIZE}rem ${props =>
+    box-shadow: inset 0 0 0 ${3 / FONT_SIZE}rem ${(props) =>
   props.selected ? 'rgba(255,255,255,0.4)' : props.theme.headerFocusRingColorStr} !important;
   }
 `

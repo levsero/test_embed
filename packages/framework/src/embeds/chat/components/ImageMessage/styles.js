@@ -13,10 +13,10 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: ${zdColorGrey200};
-  border: ${props => 1 / props.theme.fontSize}rem solid ${zdColorGrey300};
-  border-radius: ${props => 8 / props.theme.fontSize}rem;
-  width: ${props => 150 / props.theme.fontSize}rem;
-  height: ${props => 113 / props.theme.fontSize}rem;
+  border: ${(props) => 1 / props.theme.fontSize}rem solid ${zdColorGrey300};
+  border-radius: ${(props) => 8 / props.theme.fontSize}rem;
+  width: ${(props) => 150 / props.theme.fontSize}rem;
+  height: ${(props) => 113 / props.theme.fontSize}rem;
 `
 
 const StyledImage = styled.img`
@@ -24,12 +24,12 @@ const StyledImage = styled.img`
   flex-direction: column;
   align-items: center;
   background: ${zdColorGrey200};
-  border: ${props => 1 / props.theme.fontSize}rem solid ${zdColorGrey300};
-  border-radius: ${props => 8 / props.theme.fontSize}rem;
+  border: ${(props) => 1 / props.theme.fontSize}rem solid ${zdColorGrey300};
+  border-radius: ${(props) => 8 / props.theme.fontSize}rem;
   background-position: center;
   background-size: cover;
-  width: ${props => 150 / props.theme.fontSize}rem;
-  height: ${props => 113 / props.theme.fontSize}rem;
+  width: ${(props) => 150 / props.theme.fontSize}rem;
+  height: ${(props) => 113 / props.theme.fontSize}rem;
 `
 
 const Link = styled.a`

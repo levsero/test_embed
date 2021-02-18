@@ -10,7 +10,7 @@ describe('RatingGroup', () => {
 
   const defaultProps = {
     updateRating: updateRatingFunction,
-    rating: null
+    rating: null,
   }
 
   it('renders ratings', () => {

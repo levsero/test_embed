@@ -8,19 +8,19 @@ import {
   chatConnected,
   chatStarted,
   proactiveMessageReceived,
-  chatNotificationTimedOut
+  chatNotificationTimedOut,
 } from 'src/redux/modules/chat/chat-actions/actions'
 import { setUpChat } from 'src/redux/modules/chat/chat-actions/setUpChat'
 import { getIsChatting } from 'src/redux/modules/chat/chat-actions/getIsChatting'
 import {
   updateActiveEmbed,
   updateBackButtonVisibility,
-  activateReceived
+  activateReceived,
 } from 'src/redux/modules/base'
 import {
   END_CHAT_REQUEST_SUCCESS,
   SDK_VISITOR_UPDATE,
-  CHAT_SOCIAL_LOGIN_SUCCESS
+  CHAT_SOCIAL_LOGIN_SUCCESS,
 } from 'src/redux/modules/chat/chat-action-types'
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
@@ -34,7 +34,7 @@ import {
   getIsChatting as getIsChattingState,
   getLastReadTimestamp,
   hasUnseenAgentMessage,
-  getIsLoggingOut
+  getIsLoggingOut,
 } from 'src/redux/modules/chat/chat-selectors'
 import { getArticleDisplayed } from 'embeds/helpCenter/selectors'
 import {
@@ -43,13 +43,13 @@ import {
   getHasWidgetShown,
   getChatEmbed,
   getHelpCenterEmbed,
-  getIPMWidget
+  getIPMWidget,
 } from 'src/redux/modules/base/base-selectors'
 import { store } from 'src/framework/services/persistence'
 import history from 'service/history'
 import {
   getSettingsMobileNotificationsDisabled,
-  getCookiesDisabled
+  getCookiesDisabled,
 } from 'src/redux/modules/settings/settings-selectors'
 import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
 import { isMobileBrowser } from 'utility/devices'
@@ -80,7 +80,7 @@ const startChatNotificationTimer = ({ proactive }, dispatch) => {
   }, timeout)
 }
 
-const getNewAgentMessage = state => {
+const getNewAgentMessage = (state) => {
   const agentChats = getChatMessagesFromAgents(state)
   const newAgentMessage = _.last(agentChats)
   const proactive = getIsProactiveSession(state)
@@ -88,7 +88,7 @@ const getNewAgentMessage = state => {
   return { ...newAgentMessage, proactive }
 }
 
-const isRecentMessage = agentMessage => {
+const isRecentMessage = (agentMessage) => {
   return agentMessage.timestamp && agentMessage.timestamp > createdAtTimestamp
 }
 
@@ -219,7 +219,7 @@ const onVisitorUpdate = ({ type, payload }, dispatch) => {
   if (isVisitorUpdate && isSociallyAuth) {
     dispatch({
       type: CHAT_SOCIAL_LOGIN_SUCCESS,
-      payload: avatarPath
+      payload: avatarPath,
     })
   }
 }
@@ -238,7 +238,7 @@ const onChatStarted = (prevState, nextState, dispatch) => {
   }
 }
 
-const onUpdateEmbeddableConfig = action => {
+const onUpdateEmbeddableConfig = (action) => {
   if (action.type === UPDATE_EMBEDDABLE_CONFIG) {
     if (!_.get(action.payload, 'embeds.chat')) {
       resetShouldWarn()

@@ -6,7 +6,7 @@ import { Component as Results } from '..'
 
 const actions = Object.freeze({
   screenChanged: jest.fn(),
-  articleShown: jest.fn()
+  articleShown: jest.fn(),
 })
 
 const articles = [
@@ -15,26 +15,26 @@ const articles = [
     url:
       'https://support.zendesk.com/api/v2/help_center/en-us/articles/204231676-Guide-resources.json',
     title: 'title 123',
-    body: '    <div></div><p>to be filled later 123</p>'
+    body: '    <div></div><p>to be filled later 123</p>',
   },
   {
     id: 456,
     url:
       'https://support.zendesk.com/api/v2/help_center/en-us/articles/204231676-Guide-resources.json',
     title: 'title 456',
-    body: '        <h1>to be filled later 456</h1>'
-  }
+    body: '        <h1>to be filled later 456</h1>',
+  },
 ]
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
     articles,
-    actions
+    actions,
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<Results {...componentProps} />)

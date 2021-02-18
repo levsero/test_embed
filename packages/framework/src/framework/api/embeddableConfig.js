@@ -19,9 +19,9 @@ const fetchEmbeddableConfig = async () => {
         method: 'get',
         path: '/embeddable/config',
         callbacks: {
-          done: res => resolve(res.body),
-          fail: reject
-        }
+          done: (res) => resolve(res.body),
+          fail: reject,
+        },
       },
       false
     )

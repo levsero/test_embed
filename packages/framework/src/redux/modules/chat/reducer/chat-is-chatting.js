@@ -7,7 +7,7 @@ import {
   CHAT_BANNED,
   IS_CHATTING,
   SDK_CONNECTION_UPDATE,
-  SDK_CHAT_MEMBER_JOIN
+  SDK_CHAT_MEMBER_JOIN,
 } from '../chat-action-types'
 import { store } from 'src/framework/services/persistence'
 

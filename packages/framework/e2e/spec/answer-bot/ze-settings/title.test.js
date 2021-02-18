@@ -10,10 +10,10 @@ test('updates the title', async () => {
           answerBot: {
             title: {
               '*': 'answer bot title fallback',
-              fr: 'french ab title'
-            }
-          }
-        }
+              fr: 'french ab title',
+            },
+          },
+        },
       }
     })
     .load()

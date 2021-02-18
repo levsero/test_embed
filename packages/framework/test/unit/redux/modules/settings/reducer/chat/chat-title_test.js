@@ -31,7 +31,7 @@ describe('settings chat title', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SETTINGS,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -40,9 +40,9 @@ describe('settings chat title', () => {
           payload = {
             webWidget: {
               chat: {
-                title: 'some brilliantly witty title'
-              }
-            }
+                title: 'some brilliantly witty title',
+              },
+            },
           }
         })
 
@@ -55,8 +55,8 @@ describe('settings chat title', () => {
         beforeAll(() => {
           payload = {
             webWidget: {
-              yeah: 'nah'
-            }
+              yeah: 'nah',
+            },
           }
         })
 

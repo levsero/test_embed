@@ -10,6 +10,6 @@ module.exports = async function globalSetup(globalConfig) {
     launchTimeout: 15000,
     host: '0.0.0.0',
     port,
-    debug: true
+    debug: true,
   })
 }

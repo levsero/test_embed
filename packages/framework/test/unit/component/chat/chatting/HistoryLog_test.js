@@ -6,8 +6,8 @@ describe('HistoryLog component', () => {
       display_name: 'Agent123',
       nick: 'agent:123',
       typing: false,
-      avatar_path: '/path/to/avatar'
-    }
+      avatar_path: '/path/to/avatar',
+    },
   }
 
   const HistoryLogPath = buildSrcPath('component/chat/chatting/HistoryLog')
@@ -26,7 +26,7 @@ describe('HistoryLog component', () => {
     dateTimeSpy = jasmine.createSpy('dateTime')
 
     i18n = {
-      t: _.identity
+      t: _.identity,
     }
 
     initMockRegistry({
@@ -35,20 +35,20 @@ describe('HistoryLog component', () => {
       '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
-        CHAT_SYSTEM_EVENTS
+        CHAT_SYSTEM_EVENTS,
       },
       'src/redux/modules/chat/chat-history-selectors': {
-        getHistoryLog: noop
+        getHistoryLog: noop,
       },
       './HistoryLog.scss': {
-        locals: {}
+        locals: {},
       },
       'src/apps/webWidget/services/i18n': {
-        i18n
+        i18n,
       },
       'utility/formatters': {
-        dateTime: dateTimeSpy
-      }
+        dateTime: dateTimeSpy,
+      },
     })
 
     mockery.registerAllowable(HistoryLogPath)
@@ -79,8 +79,8 @@ describe('HistoryLog component', () => {
             timestamp: 100,
             author: 'visitor',
             type: 'message',
-            messages: [100]
-          }
+            messages: [100],
+          },
         ]
         let result
 
@@ -103,7 +103,7 @@ describe('HistoryLog component', () => {
             jasmine.objectContaining({
               isAgent: false,
               messageKeys: [100],
-              avatarPath: undefined
+              avatarPath: undefined,
             })
           )
         })
@@ -115,8 +115,8 @@ describe('HistoryLog component', () => {
             timestamp: 100,
             author: 'agent:123',
             type: 'message',
-            messages: [100]
-          }
+            messages: [100],
+          },
         ]
         let result
 
@@ -139,7 +139,7 @@ describe('HistoryLog component', () => {
             jasmine.objectContaining({
               isAgent: true,
               messageKeys: [100],
-              avatarPath: undefined
+              avatarPath: undefined,
             })
           )
         })
@@ -152,8 +152,8 @@ describe('HistoryLog component', () => {
           timestamp: 100,
           author: 'visitor',
           type: 'message',
-          messages: [100, 200, 300]
-        }
+          messages: [100, 200, 300],
+        },
       ]
 
       let result
@@ -177,7 +177,7 @@ describe('HistoryLog component', () => {
           jasmine.objectContaining({
             isAgent: false,
             messageKeys: [100, 200, 300],
-            avatarPath: undefined
+            avatarPath: undefined,
           })
         )
       })
@@ -189,8 +189,8 @@ describe('HistoryLog component', () => {
           timestamp: 100,
           author: 'visitor',
           type: 'event',
-          messages: [100]
-        }
+          messages: [100],
+        },
       ]
 
       let result
@@ -212,7 +212,7 @@ describe('HistoryLog component', () => {
       it('is passed the expected props', () => {
         expect(result[0].props).toEqual(
           jasmine.objectContaining({
-            eventKey: 100
+            eventKey: 100,
           })
         )
       })
@@ -226,18 +226,18 @@ describe('HistoryLog component', () => {
           timestamp: 200,
           author: 'visitor',
           type: 'message',
-          messages: [200, 300]
+          messages: [200, 300],
         },
         { timestamp: 400, author: 'agent:123', type: 'event', messages: [400] },
         {
           timestamp: 500,
           author: 'agent:123',
           type: 'message',
-          messages: [500, 600]
+          messages: [500, 600],
         },
         { timestamp: 700, author: 'visitor', type: 'message', messages: [700] },
         { timestamp: 800, author: 'visitor', type: 'event', messages: [800] },
-        { timestamp: 900, author: 'visitor', type: 'event', messages: [900] }
+        { timestamp: 900, author: 'visitor', type: 'event', messages: [900] },
       ]
 
       const expectedResult = [
@@ -247,8 +247,8 @@ describe('HistoryLog component', () => {
           props: {
             isAgent: false,
             messageKeys: [200, 300],
-            avatarPath: undefined
-          }
+            avatarPath: undefined,
+          },
         },
         { component: HistoryEventMessage, props: { eventKey: 400 } },
         {
@@ -256,15 +256,15 @@ describe('HistoryLog component', () => {
           props: {
             isAgent: true,
             messageKeys: [500, 600],
-            avatarPath: '/path/to/avatar'
-          }
+            avatarPath: '/path/to/avatar',
+          },
         },
         {
           component: HistoryChatGroup,
-          props: { isAgent: false, messageKeys: [700], avatarPath: undefined }
+          props: { isAgent: false, messageKeys: [700], avatarPath: undefined },
         },
         { component: HistoryEventMessage, props: { eventKey: 800 } },
-        { component: HistoryEventMessage, props: { eventKey: 900 } }
+        { component: HistoryEventMessage, props: { eventKey: 900 } },
       ]
 
       beforeEach(() => {
@@ -312,7 +312,7 @@ describe('HistoryLog component', () => {
       { type: 'message', author: 'agent:123', messages: [500, 600] },
       { type: 'message', author: 'visitor', messages: [700] },
       { type: 'event', author: 'visitor', messages: [800] },
-      { type: 'event', author: 'visitor', messages: [900] }
+      { type: 'event', author: 'visitor', messages: [900] },
     ]
 
     beforeEach(() => {

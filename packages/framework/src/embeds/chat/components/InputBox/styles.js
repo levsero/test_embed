@@ -14,24 +14,24 @@ export const HiddenLabel = styled(Label)`
 `
 export const Container = styled.div`
   vertical-align: bottom !important;
-  margin: 0 ${props => 1 / props.theme.fontSize}rem;
+  margin: 0 ${(props) => 1 / props.theme.fontSize}rem;
 `
 
 export const StyledTextarea = styled(Textarea)`
   ${isMobileBrowser() &&
-    css`
-      padding: ${props => 8 / props.theme.fontSize}rem;
-      border: none !important;
-      border-radius: 0;
-      box-shadow: none !important;
-      font-size: ${props => 16 / props.theme.fontSize}rem !important;
-    `}
+  css`
+    padding: ${(props) => 8 / props.theme.fontSize}rem;
+    border: none !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    font-size: ${(props) => 16 / props.theme.fontSize}rem !important;
+  `}
   &::-webkit-scrollbar {
-    width: ${props => 4 / props.theme.fontSize}rem;
+    width: ${(props) => 4 / props.theme.fontSize}rem;
   }
 
   &::-webkit-scrollbar-thumb {
     background: ${zdColorGrey300};
-    border-radius: ${props => 4 / props.theme.fontSize}rem;
+    border-radius: ${(props) => 4 / props.theme.fontSize}rem;
   }
 `

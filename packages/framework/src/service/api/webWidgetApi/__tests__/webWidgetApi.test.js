@@ -13,7 +13,7 @@ jest.mock('src/service/renderer')
 
 const mockStore = {
   dispatch: jest.fn(),
-  getState: jest.fn()
+  getState: jest.fn(),
 }
 
 describe('apisExecuteQueue', () => {
@@ -105,7 +105,7 @@ describe('setupLegacyApiQueue', () => {
 
         win = fireSetup({
           zEmbed: embedState,
-          zE: embedState
+          zE: embedState,
         })
       })
 
@@ -124,11 +124,11 @@ describe('setupLegacyApiQueue', () => {
       beforeEach(() => {
         win = fireSetup({
           zEmbed: {
-            t: 'hello fren'
+            t: 'hello fren',
           },
           zE: {
-            t: 'hello fren'
-          }
+            t: 'hello fren',
+          },
         })
       })
 
@@ -148,7 +148,7 @@ describe('setupLegacyApiQueue', () => {
 })
 
 describe('pre render methods', () => {
-  const enqueue = call => {
+  const enqueue = (call) => {
     api.apisExecuteQueue(mockStore, [call])
     api.apisExecutePostRenderQueue({}, [], mockStore)
   }
@@ -313,7 +313,7 @@ describe('pre render methods', () => {
     describe('when that call is prefill', () => {
       const payload = {
         name: { value: 'Terence', readOnly: true },
-        email: { value: 'a2b.c' }
+        email: { value: 'a2b.c' },
       }
 
       beforeEach(() => {
@@ -411,7 +411,7 @@ describe('post render methods', () => {
   let result
   let win = { zEmbed: {} }
 
-  const callAfterRender = call => {
+  const callAfterRender = (call) => {
     api.setupLegacyApiQueue(win, [], mockStore)
     result = win.zEmbed(...call)
   }
@@ -543,7 +543,7 @@ describe('post render methods', () => {
   describe('when that call is prefill', () => {
     const payload = {
       name: { value: 'T-bone', readOnly: true },
-      email: { value: 'a2b.c' }
+      email: { value: 'a2b.c' },
     }
 
     beforeEach(() => {
@@ -718,7 +718,7 @@ describe('legacy apis', () => {
   let win = { zE: {} }
   const user = {
     name: 'Jane Doe',
-    email: 'a@b.c'
+    email: 'a@b.c',
   }
 
   beforeEach(() => {
@@ -765,7 +765,7 @@ describe('legacy apis', () => {
     it('calls handlePrefillReceived with the formatted user object', () => {
       const expected = {
         name: { value: 'Jane Doe' },
-        email: { value: 'a@b.c' }
+        email: { value: 'a@b.c' },
       }
 
       expect(apis.prefill).toHaveBeenCalledWith(mockStore, expected)

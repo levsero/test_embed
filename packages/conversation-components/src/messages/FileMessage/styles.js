@@ -11,28 +11,28 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  margin-${dirStyles.right}: ${props => props.theme.messenger.space.md};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.md};
   justify-content: center;
-  margin-top: ${props => props.theme.messenger.space.xs};
-  margin-bottom: ${props => props.theme.messenger.space.xs};
+  margin-top: ${(props) => props.theme.messenger.space.xs};
+  margin-bottom: ${(props) => props.theme.messenger.space.xs};
 `
 
 const Icon = styled(AttachmentIcon)`
-  width: ${props => rem(20, props.theme.messenger.baseFontSize)};
-  height: ${props => rem(20, props.theme.messenger.baseFontSize)};
+  width: ${(props) => rem(20, props.theme.messenger.baseFontSize)};
+  height: ${(props) => rem(20, props.theme.messenger.baseFontSize)};
   align-self: center;
-  margin-top: ${props => props.theme.messenger.space.xs};
-  margin-bottom: ${props => props.theme.messenger.space.xs};
-  margin-${dirStyles.left}: ${props => props.theme.messenger.space.xs};
-  margin-${dirStyles.right}: ${props => props.theme.messenger.space.xxs};
+  margin-top: ${(props) => props.theme.messenger.space.xs};
+  margin-bottom: ${(props) => props.theme.messenger.space.xs};
+  margin-${dirStyles.left}: ${(props) => props.theme.messenger.space.xs};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xxs};
 `
 
 const Name = styled.a`
-  font-size: ${props => props.theme.messenger.fontSizes.sm};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  line-height: ${(props) => props.theme.messenger.lineHeights.sm};
   overflow-wrap: anywhere;
-  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
-  color: ${props =>
+  font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
+  color: ${(props) =>
     props.isPrimaryParticipant
       ? props.theme.messenger.colors.messageText
       : props.theme.messenger.colors.otherParticipantMessageText};
@@ -40,7 +40,7 @@ const Name = styled.a`
   &:visited,
   &:active,
   &:focus {
-    color: ${props =>
+    color: ${(props) =>
       props.isPrimaryParticipant
         ? props.theme.messenger.colors.messageText
         : props.theme.messenger.colors.otherParticipantMessageText};
@@ -48,8 +48,8 @@ const Name = styled.a`
 `
 
 const Size = styled.div`
-  font-size: ${props => props.theme.messenger.fontSizes.sm};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  line-height: ${(props) => props.theme.messenger.lineHeights.sm};
 `
 
 export { Container, Content, Icon, Name, Size }

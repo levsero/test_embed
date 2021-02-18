@@ -9,7 +9,7 @@ const textMessage = {
   message: 'hello',
   author: 'AUTHOR_VISITOR',
   timestamp: Date.now(),
-  sessionID: 1234
+  sessionID: 1234,
 }
 
 jest.useFakeTimers()
@@ -21,12 +21,12 @@ const renderComponent = (props = {}) => {
     messages: messages,
     isVisitor: false,
     agentAvatarName: 'Answer Bot',
-    locale: 'en-US'
+    locale: 'en-US',
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   const utils = render(<MessageGroup {...componentProps} />)
@@ -47,7 +47,7 @@ describe('bot', () => {
   describe('name', () => {
     it('renders agent name', () => {
       const { queryByText } = renderComponent({
-        agentAvatarName: 'Bond'
+        agentAvatarName: 'Bond',
       })
 
       expect(queryByText('Bond')).toBeInTheDocument()
@@ -58,7 +58,7 @@ describe('bot', () => {
   describe('avatar', () => {
     it('renders brand logo', () => {
       const { getByAltText } = renderComponent({
-        brandLogoUrl: 'http://url'
+        brandLogoUrl: 'http://url',
       })
 
       expect(getByAltText('avatar').src).toEqual('http://url/')
@@ -66,7 +66,7 @@ describe('bot', () => {
 
     it('renders agent avatar', () => {
       const { getByAltText } = renderComponent({
-        agentAvatarUrl: 'http://url'
+        agentAvatarUrl: 'http://url',
       })
 
       expect(getByAltText('avatar').src).toEqual('http://url/')
@@ -78,7 +78,7 @@ describe('bot', () => {
       const messages = [
         { timestamp: 1, text: 'first' },
         { timestamp: 2, text: 'second' },
-        { timestamp: 3, text: 'third' }
+        { timestamp: 3, text: 'third' },
       ]
 
       const { getAllByTestId } = render(
@@ -117,13 +117,13 @@ describe('visitor', () => {
       const messages = [
         { timestamp: 1, text: 'first', callback: callback1 },
         { timestamp: 2, text: 'second' },
-        { timestamp: 3, text: 'third', callback: callback3 }
+        { timestamp: 3, text: 'third', callback: callback3 },
       ]
 
       renderComponent({
         lastConversationScreenClosed: 1,
         isVisitor: true,
-        messages
+        messages,
       })
       expect(callback1).toHaveBeenCalled()
     })

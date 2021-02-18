@@ -7,28 +7,28 @@ describe('mobileSettings', () => {
     webWidget: {
       launcher: {
         mobile: {
-          labelVisible: true
-        }
-      }
-    }
+          labelVisible: true,
+        },
+      },
+    },
   }
 
   const badPayload = {
-    derp: 'derp'
+    derp: 'derp',
   }
 
   testReducer(reducer, [
     {
       type: UPDATE_SETTINGS,
-      payload: goodPayload
+      payload: goodPayload,
     },
     {
       type: UPDATE_SETTINGS,
-      payload: badPayload
+      payload: badPayload,
     },
     {
       type: 'ANY_OTHER_ACTION',
-      payload: goodPayload
-    }
+      payload: goodPayload,
+    },
   ])
 })

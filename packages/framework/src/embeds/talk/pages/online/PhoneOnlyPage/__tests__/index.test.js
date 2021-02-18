@@ -18,7 +18,7 @@ describe('PhoneOnlyPage', () => {
     averageWaitTime: '10',
     phoneNumber: '+61412345678',
     formattedPhoneNumber: '+61412 345 678',
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
   }
 
   const renderComponent = (props = {}) =>
@@ -29,7 +29,7 @@ describe('PhoneOnlyPage', () => {
       expect(
         renderComponent({
           isMobile: true,
-          averageWaitTime: '10'
+          averageWaitTime: '10',
         })
       ).toMatchSnapshot()
     })
@@ -37,12 +37,12 @@ describe('PhoneOnlyPage', () => {
     it('renders when there is no average wait time', () => {
       const withWaitTime = renderComponent({
         isMobile: true,
-        averageWaitTime: '10'
+        averageWaitTime: '10',
       })
 
       const withoutWaitTime = renderComponent({
         isMobile: true,
-        averageWaitTime: null
+        averageWaitTime: null,
       })
 
       expect(snapshotDiff(withWaitTime, withoutWaitTime, { contextLines: 0 })).toMatchSnapshot()
@@ -53,11 +53,11 @@ describe('PhoneOnlyPage', () => {
     it('renders when there is an average wait time', () => {
       const mobile = renderComponent({
         isMobile: true,
-        averageWaitTime: '10'
+        averageWaitTime: '10',
       })
       const desktop = renderComponent({
         isMobile: false,
-        averageWaitTime: '10'
+        averageWaitTime: '10',
       })
 
       expect(snapshotDiff(mobile, desktop, { contextLines: 0 })).toMatchSnapshot()
@@ -66,11 +66,11 @@ describe('PhoneOnlyPage', () => {
     it('renders when there is no average wait time', () => {
       const withWaitTime = renderComponent({
         isMobile: false,
-        averageWaitTime: '10'
+        averageWaitTime: '10',
       })
       const withoutWaitTime = renderComponent({
         isMobile: false,
-        averageWaitTime: null
+        averageWaitTime: null,
       })
 
       expect(snapshotDiff(withoutWaitTime, withWaitTime, { contextLines: 0 })).toMatchSnapshot()

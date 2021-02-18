@@ -3,7 +3,7 @@ import React from 'react'
 import { render } from 'utility/testHelpers'
 import Avatar from '..'
 
-const renderComponent = props => render(<Avatar {...props} />)
+const renderComponent = (props) => render(<Avatar {...props} />)
 
 describe('when an image src is provided', () => {
   it('renders an img element with the passed src', () => {

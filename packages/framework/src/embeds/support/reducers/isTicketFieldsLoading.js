@@ -1,7 +1,7 @@
 import {
   TICKET_FIELDS_REQUEST_SENT,
   TICKET_FIELDS_REQUEST_SUCCESS,
-  TICKET_FIELDS_REQUEST_FAILURE
+  TICKET_FIELDS_REQUEST_FAILURE,
 } from 'src/embeds/support/actions/action-types'
 
 const initialState = false

@@ -6,22 +6,22 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(embedShown, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: API_RESET_WIDGET },
-    expected: false
+    expected: false,
   },
   {
     action: { type: UPDATE_WIDGET_SHOWN, payload: false },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])
 
 describe('WIDGET_INITIALISED', () => {

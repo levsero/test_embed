@@ -1,6 +1,6 @@
 import storage from './storage'
 
-export const getCurrentUserIfAny = integrationId => {
+export const getCurrentUserIfAny = (integrationId) => {
   let sessionToken = storage.getItem(`${integrationId}.sessionToken`)
   let appUserId = storage.getItem(`${integrationId}.appUserId`)
   const clientId = storage.getItem(`${integrationId}.clientId`)

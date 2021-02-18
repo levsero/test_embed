@@ -6,7 +6,7 @@ import widget from 'e2e/helpers/widget'
 import searchResults from 'e2e/fixtures/responses/search-results-with-empty-article.json'
 import { TEST_IDS } from 'src/constants/shared'
 
-const notInSearchResultsScreen = async doc => {
+const notInSearchResultsScreen = async (doc) => {
   await wait(async () => {
     expect(await queries.queryByText(doc, 'Top results')).not.toBeTruthy()
   })
@@ -14,7 +14,7 @@ const notInSearchResultsScreen = async doc => {
 
 const waitForSearchResultsScreen = () => widget.waitForText('Top results')
 
-const clickArticle = async title => {
+const clickArticle = async (title) => {
   await waitForSearchResultsScreen()
   const doc = await widget.getDocument()
   await waitForSearchResultsScreen()
@@ -24,10 +24,7 @@ const clickArticle = async title => {
 }
 
 test('displays no article contents for empty article', async () => {
-  await loadWidget()
-    .withPresets('helpCenter')
-    .intercept(mockSearchEndpoint(searchResults))
-    .load()
+  await loadWidget().withPresets('helpCenter').intercept(mockSearchEndpoint(searchResults)).load()
 
   await launcher.click()
   await waitForHelpCenter()

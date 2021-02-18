@@ -23,15 +23,15 @@ describe('useOnChange', () => {
       payload: {
         timestamp: 123,
         name: 'Someone',
-        email: 'someone@example.com'
-      }
+        email: 'someone@example.com',
+      },
     })
 
     await wait(() =>
       expect(callback).toHaveBeenCalledWith({
         timestamp: 123,
         name: 'Someone',
-        email: 'someone@example.com'
+        email: 'someone@example.com',
       })
     )
 
@@ -39,15 +39,15 @@ describe('useOnChange', () => {
       type: SET_VISITOR_INFO_REQUEST_SUCCESS,
       payload: {
         timestamp: 456,
-        name: 'Another name'
-      }
+        name: 'Another name',
+      },
     })
 
     await wait(() =>
       expect(callback).toHaveBeenCalledWith({
         timestamp: 456,
         name: 'Another name',
-        email: 'someone@example.com'
+        email: 'someone@example.com',
       })
     )
   })

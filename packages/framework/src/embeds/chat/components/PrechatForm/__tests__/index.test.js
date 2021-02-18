@@ -14,7 +14,7 @@ jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
     __esModule: true,
     default: () => {
       return <div data-testid="history button" />
-    }
+    },
   }
 })
 
@@ -25,15 +25,15 @@ describe('PrechatForm', () => {
     getVisibleFields: jest.fn().mockReturnValue([]),
     departments: {},
     socialLogin: {
-      authenticated: false
+      authenticated: false,
     },
     visitor: {},
     initiateSocialLogout: jest.fn(),
     initialValues: {
       name: 'initial name',
       email: 'initialEmail@example.com',
-      message: 'initial message'
-    }
+      message: 'initial message',
+    },
   }
 
   const allFields = [
@@ -41,40 +41,43 @@ describe('PrechatForm', () => {
       id: 'name',
       title: 'Name',
       required: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'email',
       title: 'Email',
       required: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'department',
       title: 'Departments',
       required: true,
       type: 'dropdown',
-      options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
+      options: [
+        { value: 1, name: 'Department 1' },
+        { value: 2, name: 'Department 2' },
+      ],
     },
     {
       id: 'phone',
       title: 'Phone',
       required: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'message',
       title: 'Message',
       required: true,
-      type: 'text'
-    }
+      type: 'text',
+    },
   ]
 
   const renderComponent = (props = {}) => render(<PrechatForm {...defaultProps} {...props} />)
 
   it('displays the chat title', () => {
     const { queryByText } = renderComponent({
-      title: 'Some title'
+      title: 'Some title',
     })
 
     expect(queryByText('Some title')).toBeInTheDocument()
@@ -88,7 +91,7 @@ describe('PrechatForm', () => {
 
   it('renders the greeting message if one exists', async () => {
     const { queryByText } = renderComponent({
-      greetingMessage: 'Greeting message'
+      greetingMessage: 'Greeting message',
     })
 
     await wait(() => expect(queryByText('Greeting message')).toBeInTheDocument())
@@ -96,7 +99,7 @@ describe('PrechatForm', () => {
 
   it('does not render a greeting message if it does not exist', () => {
     const { queryByTestId } = renderComponent({
-      greetingMessage: null
+      greetingMessage: null,
     })
 
     expect(queryByTestId(TEST_IDS.FORM_GREETING_MSG)).not.toBeInTheDocument()
@@ -104,7 +107,7 @@ describe('PrechatForm', () => {
 
   it('renders the authenticated profile information if the user is authenticated', () => {
     const { getByText } = renderComponent({
-      isAuthenticated: true
+      isAuthenticated: true,
     })
 
     expect(getByText('Your profile:')).toBeInTheDocument()
@@ -118,17 +121,17 @@ describe('PrechatForm', () => {
         getVisibleFields: () => [
           {
             id: 'department',
-            options: [{ id: 1, value: 'dep 1' }]
-          }
+            options: [{ id: 1, value: 'dep 1' }],
+          },
         ],
-        onSubmit
+        onSubmit,
       })
 
       fireEvent.click(getByText('Start chat'))
 
       expect(onSubmit).toHaveBeenCalledWith({
         values: {},
-        isDepartmentFieldVisible: true
+        isDepartmentFieldVisible: true,
       })
     })
 
@@ -137,14 +140,14 @@ describe('PrechatForm', () => {
 
       const { getByText } = renderComponent({
         getVisibleFields: () => [],
-        onSubmit
+        onSubmit,
       })
 
       fireEvent.click(getByText('Start chat'))
 
       expect(onSubmit).toHaveBeenCalledWith({
         values: {},
-        isDepartmentFieldVisible: false
+        isDepartmentFieldVisible: false,
       })
     })
 
@@ -156,14 +159,17 @@ describe('PrechatForm', () => {
             title: 'Departments',
             required: true,
             type: 'dropdown',
-            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
-          }
+            options: [
+              { value: 1, name: 'Department 1' },
+              { value: 2, name: 'Department 2' },
+            ],
+          },
         ],
         departments: {
           1: {
-            status: 'online'
-          }
-        }
+            status: 'online',
+          },
+        },
       })
 
       expect(getByText('Start chat')).toBeInTheDocument()
@@ -177,15 +183,18 @@ describe('PrechatForm', () => {
             title: 'Departments',
             required: true,
             type: 'dropdown',
-            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }],
-            value: 1
-          }
+            options: [
+              { value: 1, name: 'Department 1' },
+              { value: 2, name: 'Department 2' },
+            ],
+            value: 1,
+          },
         ],
         departments: {
           1: {
-            status: 'offline'
-          }
-        }
+            status: 'offline',
+          },
+        },
       })
 
       store.dispatch(setDefaultDepartment(1, 123))
@@ -196,7 +205,7 @@ describe('PrechatForm', () => {
 
     it('only respects the initialValue for message', async () => {
       const { getByLabelText } = renderComponent({
-        getVisibleFields: () => allFields
+        getVisibleFields: () => allFields,
       })
 
       const name = getByLabelText('Name')
@@ -214,8 +223,8 @@ describe('PrechatForm', () => {
         readOnlyValues: {
           name: true,
           email: false,
-          phone: true
-        }
+          phone: true,
+        },
       })
 
       expect(getByLabelText('Name')).toHaveAttribute('readonly')
@@ -231,13 +240,16 @@ describe('PrechatForm', () => {
             title: 'Departments',
             required: true,
             type: 'dropdown',
-            options: [{ value: 1, name: 'Department 1' }, { value: 2, name: 'Department 2' }]
-          }
+            options: [
+              { value: 1, name: 'Department 1' },
+              { value: 2, name: 'Department 2' },
+            ],
+          },
         ],
         departments: {
           1: { id: 1, name: 'Department 1', status: 'online' },
-          2: { id: 2, name: 'Department 2', status: 'online' }
-        }
+          2: { id: 2, name: 'Department 2', status: 'online' },
+        },
       })
 
       store.dispatch(setDefaultDepartment(2, 123))
@@ -252,19 +264,19 @@ describe('PrechatForm', () => {
     it('updates the department when the department is set via the websdk', async () => {
       const { getByText, store } = renderComponent({
         departments: {
-          1: { id: 1, name: 'Department 1', status: 'online' }
+          1: { id: 1, name: 'Department 1', status: 'online' },
         },
-        getVisibleFields: () => allFields
+        getVisibleFields: () => allFields,
       })
 
       store.dispatch({
         type: SDK_VISITOR_DEFAULT_DEPARTMENT_UPDATE,
         payload: {
           detail: {
-            id: 1
+            id: 1,
           },
-          timestamp: 123
-        }
+          timestamp: 123,
+        },
       })
 
       await wait(() => expect(getByText('Department 1')).toBeInTheDocument())
@@ -272,7 +284,7 @@ describe('PrechatForm', () => {
 
     it('updates when the prefill command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getVisibleFields: () => allFields
+        getVisibleFields: () => allFields,
       })
 
       const name = getByLabelText('Name')
@@ -291,7 +303,7 @@ describe('PrechatForm', () => {
         handlePrefillReceived({
           name: { value: 'Name 2' },
           email: { value: 'email2@example.com' },
-          phone: { value: '222 222 222' }
+          phone: { value: '222 222 222' },
         })
       )
 
@@ -302,7 +314,7 @@ describe('PrechatForm', () => {
 
     it('updates when the identify command has been called', async () => {
       const { getByLabelText, store } = renderComponent({
-        getVisibleFields: () => allFields
+        getVisibleFields: () => allFields,
       })
 
       const name = getByLabelText('Name')
@@ -321,8 +333,8 @@ describe('PrechatForm', () => {
         type: SET_VISITOR_INFO_REQUEST_SUCCESS,
         payload: {
           display_name: 'Name 2',
-          email: 'email2@example.com'
-        }
+          email: 'email2@example.com',
+        },
       })
 
       await wait(() => expect(name).toHaveValue('Name 2'))

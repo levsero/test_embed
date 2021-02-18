@@ -19,76 +19,76 @@ describe('WidgetLauncher component', () => {
       'utility/devices': {
         isMobileBrowser: () => {
           return false
-        }
+        },
       },
       'component/Icon': {
         Icon: class extends Component {
           render() {
             return <div className={this.props.className}>{this.props.type}</div>
           }
-        }
+        },
       },
       './WidgetLauncher.scss': {
         locals: {
           label: 'labelClasses',
-          icon: 'iconClasses'
-        }
+          icon: 'iconClasses',
+        },
       },
       'component/launcher/WidgetLauncherTitle': noopReactComponent(),
       'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
-        FrameStyle: noopReactComponent()
+        FrameStyle: noopReactComponent(),
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
           getLocale: () => mockLocale,
-          isRTL: () => mockIsRTL
-        }
+          isRTL: () => mockIsRTL,
+        },
       },
       'utility/utils': {
-        onNextTick: callback => callback()
+        onNextTick: (callback) => callback(),
       },
       'src/redux/modules/selectors': {
-        getChatOnline: noop
+        getChatOnline: noop,
       },
       'service/settings': {
         settings: {
-          get: () => mockChatSuppressedValue
-        }
+          get: () => mockChatSuppressedValue,
+        },
       },
       'src/redux/modules/talk/talk-selectors': {
-        isCallbackEnabled: noop
+        isCallbackEnabled: noop,
       },
       'src/redux/modules/chat/chat-selectors': {
-        getNotification: noop
+        getNotification: noop,
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: noop
+        getActiveEmbed: noop,
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsLauncherMobile: noop
+        getSettingsLauncherMobile: noop,
       },
       'src/redux/modules/base/': {
-        launcherClicked: noop
+        launcherClicked: noop,
       },
       'utility/keyboard': {
         keyCodes: {
           SPACE: 32,
-          ENTER: 13
-        }
+          ENTER: 13,
+        },
       },
       'src/constants/shared': {
         TEST_IDS,
-        ICONS
+        ICONS,
       },
       'src/embeds/talk/selectors': {
-        getTalkTitleKey: noop
+        getTalkTitleKey: noop,
       },
       'src/embeds/launcher/settings/selectors': {
         getLauncherChatLabel: noop,
         getLauncherTalkLabel: noop,
-        getLauncherLabel: noop
-      }
+        getLauncherLabel: noop,
+      },
     })
 
     Launcher = requireUncached(launcherPath).default.WrappedComponent

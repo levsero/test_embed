@@ -5,7 +5,7 @@ import {
   createTicketSubmissionEndpointResponse,
   mockTicketSubmissionEndpoint,
   waitForContactForm,
-  waitForSubmissionSuccess
+  waitForSubmissionSuccess,
 } from 'e2e/helpers/support-embed'
 import { fillForm } from 'e2e/helpers/utils'
 
@@ -17,9 +17,9 @@ test('includes the subject field in ticket form when enabled', async () => {
       window.zESettings = {
         webWidget: {
           contactForm: {
-            subject: true
-          }
-        }
+            subject: true,
+          },
+        },
       }
     })
     .intercept(mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint))
@@ -33,7 +33,7 @@ test('includes the subject field in ticket form when enabled', async () => {
     'Your name (optional)': 'test name',
     'Email address': 'test@email.com',
     'Subject (optional)': 'test subject',
-    'How can we help you?': 'test description'
+    'How can we help you?': 'test description',
   })
   await expect(frame).toClick('button', { text: 'Send' })
   await waitForSubmissionSuccess()
@@ -42,7 +42,7 @@ test('includes the subject field in ticket form when enabled', async () => {
       email: 'test@email.com',
       name: 'test name',
       subject: 'test subject',
-      description: 'test description'
+      description: 'test description',
     })
   )
 })

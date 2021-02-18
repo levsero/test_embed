@@ -8,7 +8,7 @@ import { appendMetaTag } from 'utility/devices'
 
 globals.navigator = {
   userAgent: 'myuseragent',
-  language: 'th'
+  language: 'th',
 }
 
 jest.mock('service/transport/http-base')
@@ -23,7 +23,7 @@ beforeEach(() => {
   store.clear()
   beacon.setConfig({
     reduceBlipping: false,
-    throttleIdentify: false
+    throttleIdentify: false,
   })
 })
 
@@ -51,12 +51,12 @@ describe('trackLocaleDiff', () => {
               clientLocale: 'ar',
               rawServerLocale: 'en-GB',
               serverLocale: 'en-gb',
-              userAgent: 'myuseragent'
-            }
-          }
+              userAgent: 'myuseragent',
+            },
+          },
         },
         path: '/embeddable_blip',
-        type: 'analytics'
+        type: 'analytics',
       })
     })
 
@@ -77,7 +77,7 @@ test('identify', () => {
   beacon.identify(
     {
       name: 'hello',
-      email: 'a@a.com'
+      email: 'a@a.com',
     },
     12345
   )
@@ -90,10 +90,10 @@ test('identify', () => {
       user: {
         email: 'a@a.com',
         name: 'hello',
-        localeId: 12345
+        localeId: 12345,
       },
-      userAgent: 'myuseragent'
-    }
+      userAgent: 'myuseragent',
+    },
   })
 })
 
@@ -101,7 +101,7 @@ describe('trackUserAction', () => {
   it('calls sendWithMeta with the right arguments', () => {
     beacon.trackUserAction('mycategory', 'myaction', {
       label: 'mylabel',
-      value: 'myvalue'
+      value: 'myvalue',
     })
 
     expect(http.sendWithMeta).toHaveBeenCalledWith({
@@ -114,15 +114,15 @@ describe('trackUserAction', () => {
           action: 'myaction',
           category: 'mycategory',
           label: 'mylabel',
-          value: 'myvalue'
-        }
-      }
+          value: 'myvalue',
+        },
+      },
     })
   })
 
   it('allows for options', () => {
     beacon.trackUserAction('mycategory', 'myaction', {
-      channel: 'zendeskSpace'
+      channel: 'zendeskSpace',
     })
 
     expect(http.sendWithMeta).toHaveBeenCalledWith({
@@ -135,9 +135,9 @@ describe('trackUserAction', () => {
           action: 'myaction',
           category: 'mycategory',
           label: null,
-          value: null
-        }
-      }
+          value: null,
+        },
+      },
     })
   })
 })
@@ -147,7 +147,7 @@ describe('sendPageView', () => {
     beforeEach(() => {
       Object.defineProperty(document, 'referrer', {
         value: '',
-        configurable: true
+        configurable: true,
       })
     })
 
@@ -172,11 +172,11 @@ describe('sendPageView', () => {
             userAgent: 'myuseragent',
             loadTime: 17,
             navigatorLanguage: 'th',
-            time: 0
-          }
+            time: 0,
+          },
         },
         path: '/embeddable_blip',
-        type: 'pageView'
+        type: 'pageView',
       })
     })
   })
@@ -185,7 +185,7 @@ describe('sendPageView', () => {
     beforeEach(() => {
       Object.defineProperty(document, 'referrer', {
         value: 'http://www.example.com/path',
-        configurable: true
+        configurable: true,
       })
     })
 
@@ -199,9 +199,9 @@ describe('sendPageView', () => {
           params: {
             channel: 'web_widget',
             pageView: expect.objectContaining({
-              referrer: expect.stringContaining('http://www.example.com')
-            })
-          }
+              referrer: expect.stringContaining('http://www.example.com'),
+            }),
+          },
         })
       )
     })
@@ -216,9 +216,9 @@ describe('sendPageView', () => {
           params: {
             channel: 'web_widget',
             pageView: expect.objectContaining({
-              referrer: 'http://www.example.com'
-            })
-          }
+              referrer: 'http://www.example.com',
+            }),
+          },
         })
       )
     })
@@ -229,7 +229,7 @@ describe('sendPageView', () => {
       jest.spyOn(globals, 'getReferrerPolicy').mockReturnValue('')
       Object.defineProperty(document, 'referrer', {
         value: 'http://www.example.com/path',
-        configurable: true
+        configurable: true,
       })
     })
 
@@ -241,9 +241,9 @@ describe('sendPageView', () => {
           params: {
             channel: 'web_widget',
             pageView: expect.objectContaining({
-              referrer: 'http://www.example.com/path'
-            })
-          }
+              referrer: 'http://www.example.com/path',
+            }),
+          },
         })
       )
     })
@@ -257,9 +257,9 @@ describe('sendPageView', () => {
           params: {
             channel: 'web_widget',
             pageView: expect.objectContaining({
-              time: 0
-            })
-          }
+              time: 0,
+            }),
+          },
         })
       )
     })
@@ -269,7 +269,7 @@ describe('sendPageView', () => {
     beforeEach(() => {
       Object.defineProperty(document, 'referrer', {
         value: 'http://localhost/path',
-        configurable: true
+        configurable: true,
       })
     })
 
@@ -281,9 +281,9 @@ describe('sendPageView', () => {
           params: {
             channel: 'web_widget',
             pageView: expect.objectContaining({
-              referrer: 'http://localhost/path'
-            })
-          }
+              referrer: 'http://localhost/path',
+            }),
+          },
         })
       )
     })
@@ -298,9 +298,9 @@ describe('sendPageView', () => {
         params: {
           channel: 'web_widget',
           pageView: expect.objectContaining({
-            helpCenterDedup: true
-          })
-        }
+            helpCenterDedup: true,
+          }),
+        },
       })
     )
   })
@@ -313,9 +313,9 @@ describe('sendPageView', () => {
         params: {
           channel: 'web_messenger',
           pageView: expect.objectContaining({
-            helpCenterDedup: true
-          })
-        }
+            helpCenterDedup: true,
+          }),
+        },
       })
     )
   })
@@ -334,25 +334,25 @@ describe('sendPageView', () => {
           pageView: expect.objectContaining({
             isMobile: true,
             isResponsive: true,
-            viewportMeta: 'initial-scale=1'
-          })
-        }
+            viewportMeta: 'initial-scale=1',
+          }),
+        },
       })
     )
   })
 
-  it('does not send until page has loaded', done => {
+  it('does not send until page has loaded', (done) => {
     Object.defineProperty(document, 'readyState', {
       get() {
         return 'loading'
-      }
+      },
     })
     beacon.sendPageView()
     expect(http.sendWithMeta).not.toHaveBeenCalled()
     document.dispatchEvent(
       new Event('DOMContentLoaded', {
         bubbles: true,
-        cancelable: true
+        cancelable: true,
       })
     )
     setTimeout(() => {
@@ -366,7 +366,7 @@ describe('trackSettings', () => {
   const settings = { webWidget: { viaId: 48 } }
 
   describe('argument guards', () => {
-    ;[undefined, {}, { cookies: false }].forEach(arg => {
+    ;[undefined, {}, { cookies: false }].forEach((arg) => {
       test(`when passed ${JSON.stringify(arg)}, no blips sent`, () => {
         beacon.trackSettings(arg)
 
@@ -380,7 +380,7 @@ describe('trackSettings', () => {
     beacon.trackSettings(settings)
     expect(http.sendWithMeta).toHaveBeenCalledWith({
       callbacks: {
-        done: expect.any(Function)
+        done: expect.any(Function),
       },
       method: 'GET',
       path: '/embeddable_blip',
@@ -388,10 +388,10 @@ describe('trackSettings', () => {
       params: {
         settings: {
           webWidget: {
-            viaId: 48
-          }
-        }
-      }
+            viaId: 48,
+          },
+        },
+      },
     })
   })
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 import { Container, Bubble } from './styles'
 
-const Text = props => {
+const Text = (props) => {
   const { isVisitor, message } = props
 
   return (
@@ -20,11 +20,11 @@ const Text = props => {
 
 Text.propTypes = {
   isVisitor: PropTypes.bool.isRequired,
-  message: PropTypes.string
+  message: PropTypes.string,
 }
 
 Text.defaultProps = {
-  message: ''
+  message: '',
 }
 
 export default Text

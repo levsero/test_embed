@@ -5,14 +5,14 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 
-  ${props =>
+  ${(props) =>
     props.justLogo &&
     `
     justify-content: center;
     align-items: center;
   `}
 
-  ${props =>
+  ${(props) =>
     props.justChildren &&
     `
     justify-content: flex-end;

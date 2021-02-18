@@ -4,7 +4,7 @@ import { TEST_IDS } from 'src/constants/shared'
 
 import { Header, Container, Item } from './styles'
 
-const renderLeadingMessage = leadingMessage => {
+const renderLeadingMessage = (leadingMessage) => {
   if (!leadingMessage) return
   return <Header>{leadingMessage}</Header>
 }
@@ -31,7 +31,7 @@ const MessageBubbleChoices = ({ leadingMessage, children }) => {
 
 MessageBubbleChoices.propTypes = {
   leadingMessage: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export default MessageBubbleChoices

@@ -8,7 +8,7 @@ import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
   const {
-    messenger: { currentFrame }
+    messenger: { currentFrame },
   } = useContext(ThemeContext)
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef(null)
@@ -27,7 +27,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
   return (
     <Container
       role="presentation"
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === 'Escape' && isOpen) {
           e.stopPropagation()
         }
@@ -36,18 +36,18 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
     >
       <Dropdown
         isOpen={isOpen}
-        onStateChange={dropdownState => {
+        onStateChange={(dropdownState) => {
           if (dropdownState.hasOwnProperty('isOpen')) {
             setIsOpen(dropdownState.isOpen)
           }
         }}
         selectedItem={value}
-        onSelect={option => {
+        onSelect={(option) => {
           onChange([option])
         }}
         downshiftProps={{
           environment: currentFrame?.window,
-          itemToString: item => item?.label
+          itemToString: (item) => item?.label,
         }}
         name={field.name}
         data-id={field._id}
@@ -59,7 +59,7 @@ const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) 
           </Select>
         </Field>
         <Menu>
-          {field.options.map(option => (
+          {field.options.map((option) => (
             <Item key={option._id} value={option}>
               {option.label}
             </Item>
@@ -82,19 +82,19 @@ SelectField.propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string,
-        label: PropTypes.string
+        label: PropTypes.string,
       })
-    )
+    ),
   }),
   value: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
-      label: PropTypes.string
+      label: PropTypes.string,
     })
   ),
   onChange: PropTypes.func,
   lastSubmittedTimestamp: PropTypes.number,
-  error: PropTypes.string
+  error: PropTypes.string,
 }
 
 export default SelectField

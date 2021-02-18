@@ -19,7 +19,7 @@ const renderComponent = (params = { country: 'AU' }) => {
 
   store.dispatch(handleTalkVendorLoaded({ libphonenumber }))
   dispatchUpdateEmbeddableConfig(store, {
-    phoneNumber: '+611800-738773'
+    phoneNumber: '+611800-738773',
   })
   store.dispatch(updateTalkCallbackForm({ country: params.country }))
   return render(<CallbackOnlyPage />, { store })

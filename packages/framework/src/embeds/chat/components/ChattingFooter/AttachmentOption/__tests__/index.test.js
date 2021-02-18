@@ -9,7 +9,7 @@ const renderComponent = (props = {}, renderProps = {}) => {
   const defaultProps = {
     isPreview: false,
     isMobile: false,
-    handleAttachmentDrop: jest.fn()
+    handleAttachmentDrop: jest.fn(),
   }
 
   return render(<AttachmentOption {...defaultProps} {...props} />, renderProps)

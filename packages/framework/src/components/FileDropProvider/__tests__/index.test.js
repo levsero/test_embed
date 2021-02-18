@@ -5,7 +5,7 @@ import { FileDropProvider, FileDropTarget, useOnDrop } from '../'
 
 describe('FileDropProvider', () => {
   const defaultProps = {
-    onDrop: jest.fn()
+    onDrop: jest.fn(),
   }
 
   const ExampleComponent = ({ onDrop }) => {
@@ -53,8 +53,8 @@ describe('FileDropProvider', () => {
 
     fireEvent.drop(queryByText('Drop to attach'), {
       target: {
-        files
-      }
+        files,
+      },
     })
 
     await wait(() => expect(queryByText('Drop to attach')).not.toBeInTheDocument())
@@ -71,8 +71,8 @@ describe('FileDropProvider', () => {
 
       fireEvent.drop(queryByText('Drop to attach'), {
         target: {
-          files
-        }
+          files,
+        },
       })
 
       expect(onDrop).toHaveBeenCalledWith(files)
@@ -80,7 +80,7 @@ describe('FileDropProvider', () => {
   })
 
   describe('FileDropTarget', () => {
-    const renderComponent = props =>
+    const renderComponent = (props) =>
       render(
         <FileDropProvider>
           <p>Some text</p>
@@ -98,8 +98,8 @@ describe('FileDropProvider', () => {
 
       fireEvent.drop(queryByText('Drop to attach'), {
         target: {
-          files
-        }
+          files,
+        },
       })
 
       expect(onDrop).toHaveBeenCalledWith(files)

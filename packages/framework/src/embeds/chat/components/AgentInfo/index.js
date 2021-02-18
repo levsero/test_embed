@@ -20,8 +20,8 @@ AgentInfo.propTypes = {
     nick: PropTypes.string,
     isTyping: PropTypes.bool,
     title: PropTypes.string,
-    display_name: PropTypes.string
-  }).isRequired
+    display_name: PropTypes.string,
+  }).isRequired,
 }
 
 export default AgentInfo

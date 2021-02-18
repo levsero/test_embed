@@ -17,11 +17,11 @@ describe('UserProfile component', () => {
       './UserProfile.scss': {
         locals: {
           authProfileFieldContainer: 'authProfileFieldContainerClasses',
-          historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses'
-        }
+          historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses',
+        },
       },
       'constants/chat': {
-        CHAT_SOCIAL_LOGIN_SCREENS
+        CHAT_SOCIAL_LOGIN_SCREENS,
       },
       'component/Icon': { Icon },
       'component/loading/LoadingSpinner': { LoadingSpinner },
@@ -29,9 +29,9 @@ describe('UserProfile component', () => {
       'component/Avatar': { Avatar },
       'src/apps/webWidget/services/i18n': {
         i18n: {
-          t: _.identity
-        }
-      }
+          t: _.identity,
+        },
+      },
     })
 
     mockery.registerAllowable(UserProfilePath)
@@ -59,8 +59,8 @@ describe('UserProfile component', () => {
       beforeAll(() => {
         componentArgs = {
           socialLogin: {
-            authenticated: true
-          }
+            authenticated: true,
+          },
         }
       })
 
@@ -75,8 +75,8 @@ describe('UserProfile component', () => {
       beforeAll(() => {
         componentArgs = {
           socialLogin: {
-            authenticated: false
-          }
+            authenticated: false,
+          },
         }
       })
 
@@ -96,8 +96,8 @@ describe('UserProfile component', () => {
           authUrls={[
             {
               Goggle:
-                'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-            }
+                'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
+            },
           ]}
         />
       )
@@ -121,8 +121,8 @@ describe('UserProfile component', () => {
           componentArgs = {
             socialLogin: {
               authenticated: true,
-              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
-            }
+              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING,
+            },
           }
         })
 
@@ -146,8 +146,8 @@ describe('UserProfile component', () => {
           componentArgs = {
             socialLogin: {
               authenticated: true,
-              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS
-            }
+              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS,
+            },
           }
         })
 
@@ -163,7 +163,7 @@ describe('UserProfile component', () => {
 
           expect(authContainer.props.children.length > 0).toBe(true)
 
-          _.forEach(authContainer.props.children, child => {
+          _.forEach(authContainer.props.children, (child) => {
             expect(child).toBeTruthy()
           })
         })
@@ -174,7 +174,7 @@ describe('UserProfile component', () => {
       beforeAll(() => {
         componentArgs = {
           socialLogin: {},
-          isAuthenticated: true
+          isAuthenticated: true,
         }
       })
 

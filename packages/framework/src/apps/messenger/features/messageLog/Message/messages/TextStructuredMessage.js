@@ -6,8 +6,8 @@ import { TextMessage, Replies, MESSAGE_STATUS } from '@zendesk/conversation-comp
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 
-const extractReplies = actions => {
-  return actions?.filter(action => action.type === 'reply') ?? []
+const extractReplies = (actions) => {
+  return actions?.filter((action) => action.type === 'reply') ?? []
 }
 
 const TextStructuredMessage = ({
@@ -27,9 +27,9 @@ const TextStructuredMessage = ({
     status,
     isLastMessageThatHasntFailed,
     payload,
-    metadata
+    metadata,
   },
-  isFreshMessage
+  isFreshMessage,
 }) => {
   const dispatch = useDispatch()
   const isPrimaryParticipant = role === 'appUser'
@@ -55,7 +55,7 @@ const TextStructuredMessage = ({
               messageId: _id,
               message: text,
               payload,
-              metadata
+              metadata,
             })
           )
         }}
@@ -64,12 +64,12 @@ const TextStructuredMessage = ({
         isFreshMessage={isFreshMessage}
         isVisible={isLastInLog}
         replies={replies}
-        onReply={reply => {
+        onReply={(reply) => {
           dispatch(
             sendMessage({
               message: reply.text,
               payload: reply.payload,
-              metadata: reply.metadata
+              metadata: reply.metadata,
             })
           )
         }}
@@ -89,16 +89,16 @@ TextStructuredMessage.propTypes = {
     actions: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string,
-        type: PropTypes.string
+        type: PropTypes.string,
       })
     ),
     metadata: PropTypes.objectOf(PropTypes.any),
     avatarUrl: PropTypes.string,
     name: PropTypes.string,
     status: PropTypes.string,
-    received: PropTypes.number
+    received: PropTypes.number,
   }),
-  isFreshMessage: PropTypes.bool
+  isFreshMessage: PropTypes.bool,
 }
 
 export default TextStructuredMessage

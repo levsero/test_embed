@@ -41,7 +41,7 @@ export const sendConversationRead = async () => {
   return conversation.conversationRead()
 }
 
-export const fetchMessages = async cursor => {
+export const fetchMessages = async (cursor) => {
   const conversation = await getActiveConversation()
   return conversation.listMessages(cursor)
 }
@@ -56,6 +56,6 @@ export const sendFormResponse = async (fields, formId) => {
   return conversation.sendFormResponse(fields, formId)
 }
 
-export const setLocale = async locale => {
+export const setLocale = async (locale) => {
   getClient().setLocale(locale)
 }

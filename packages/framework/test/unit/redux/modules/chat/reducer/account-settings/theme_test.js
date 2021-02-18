@@ -27,9 +27,9 @@ describe('chat reducer accountSettings theme', () => {
           message_type: '',
           color: {
             primary: '',
-            banner: ''
+            banner: '',
           },
-          position: ''
+          position: '',
         }
 
         expect(initialState).toEqual(expected)
@@ -42,18 +42,18 @@ describe('chat reducer accountSettings theme', () => {
           theme: {
             message_type: 'bubble_avatar',
             chat_window: {
-              position: 'bl'
+              position: 'bl',
             },
             colors: {
               primary: 'blah',
-              banner: 'yeet'
-            }
-          }
+              banner: 'yeet',
+            },
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: mockSettings
+          payload: mockSettings,
         })
       })
 
@@ -63,8 +63,8 @@ describe('chat reducer accountSettings theme', () => {
           position: 'bl',
           color: {
             primary: 'blah',
-            banner: 'yeet'
-          }
+            banner: 'yeet',
+          },
         }
 
         expect(state).toEqual(expected)
@@ -77,17 +77,17 @@ describe('chat reducer accountSettings theme', () => {
           theme: {
             message_type: 'bubble_avatar',
             chat_window: {
-              position: 'b'
+              position: 'b',
             },
             colors: {
-              primary: 'fasdfasf'
-            }
-          }
+              primary: 'fasdfasf',
+            },
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: mockSettings
+          payload: mockSettings,
         })
       })
 
@@ -97,8 +97,8 @@ describe('chat reducer accountSettings theme', () => {
           position: 'b',
           color: {
             primary: 'fasdfasf',
-            banner: ''
-          }
+            banner: '',
+          },
         }
 
         expect(state).toEqual(expected)

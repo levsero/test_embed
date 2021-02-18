@@ -19,12 +19,10 @@ const assertSuggestionsShown = async () => {
   })
 }
 
-const buildWidget = preset => loadWidget().withPresets(preset)
+const buildWidget = (preset) => loadWidget().withPresets(preset)
 const buildWidgetWithSeachEndpointSpy = async () => {
   const endpoint = jest.fn()
-  await buildWidget('helpCenter')
-    .intercept(mockSearchEndpoint(searchResults, endpoint))
-    .load()
+  await buildWidget('helpCenter').intercept(mockSearchEndpoint(searchResults, endpoint)).load()
   return endpoint
 }
 
@@ -46,9 +44,7 @@ describe('contextual search', () => {
 
   describe('via config', () => {
     it('displays the contextual search results on open of widget', async () => {
-      await buildWidget('helpCenterWithContextualHelp')
-        .intercept(mockSearchEndpoint())
-        .load()
+      await buildWidget('helpCenterWithContextualHelp').intercept(mockSearchEndpoint()).load()
       await widget.openByKeyboard()
       await assertSuggestionsShown()
     })

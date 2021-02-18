@@ -10,10 +10,10 @@ describe('Carousel Component', () => {
     initMockRegistry({
       './Carousel.scss': {
         locals: {
-          carouselSlider: 'carouselSlider'
-        }
+          carouselSlider: 'carouselSlider',
+        },
       },
-      'embeds/chat/components/SliderContainer': Slider
+      'embeds/chat/components/SliderContainer': Slider,
     })
 
     mockery.registerAllowable(carouselPath)
@@ -28,7 +28,7 @@ describe('Carousel Component', () => {
   describe('.render', () => {
     const mockChildren = <div />
     const mockProps = {
-      children: [mockChildren]
+      children: [mockChildren],
     }
 
     let component, result

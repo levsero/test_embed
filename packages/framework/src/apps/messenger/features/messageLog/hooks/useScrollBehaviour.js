@@ -7,12 +7,12 @@ import { FORM_ERROR } from 'final-form'
 
 import hostPageWindow, {
   restoreHostPageScrollPositionIfSafari,
-  isSafari
+  isSafari,
 } from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
   getLastUnreadTimestamp,
-  markAsRead
+  markAsRead,
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
 
@@ -35,7 +35,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
           container.scrollTop = container.scrollHeight + anchor.current.scrollHeight
       } else {
         anchor.current?.scrollIntoView({
-          behavior: smooth && !animationsDisabled ? 'smooth' : undefined
+          behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
         })
       }
 
@@ -45,7 +45,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   )
 
   const scrollToBottomIfNeeded = useCallback(
-    options => {
+    (options) => {
       if (isScrollAtBottom.current) {
         setTimeout(() => {
           scrollToBottom(options)
@@ -56,7 +56,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   )
 
   const onScrollBottom = useCallback(
-    event => {
+    (event) => {
       const pxFromBottom =
         event.target.scrollHeight - event.target.clientHeight - event.target.scrollTop
       const remFromBottom = stripUnit(rem(pxFromBottom, theme.messenger.baseFontSize))
@@ -72,7 +72,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   // scrollToFirstErroredField will scroll to the first field that has errored
   const scrollToFirstError = useCallback((fields, errors) => {
-    const firstFieldToError = fields.concat({ id: FORM_ERROR }).find(field => errors[field._id])
+    const firstFieldToError = fields.concat({ id: FORM_ERROR }).find((field) => errors[field._id])
     if (!firstFieldToError) {
       return
     }
@@ -135,7 +135,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
     onScrollBottom,
     scrollToBottomIfNeeded,
     scrollToBottom,
-    scrollToFirstError
+    scrollToFirstError,
   }
 }
 

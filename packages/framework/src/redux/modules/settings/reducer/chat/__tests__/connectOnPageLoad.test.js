@@ -4,44 +4,44 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = true
 const badPayload = {
-  foo: 'bar'
+  foo: 'bar',
 }
-const goodPayload = connectOnPageLoad => ({
+const goodPayload = (connectOnPageLoad) => ({
   webWidget: {
     chat: {
-      connectOnPageLoad
-    }
-  }
+      connectOnPageLoad,
+    },
+  },
 })
 
 testReducer(connectOnPageLoad, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'DERP DERP' },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: {
       type: UPDATE_SETTINGS,
-      payload: badPayload
+      payload: badPayload,
     },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: {
       type: UPDATE_SETTINGS,
-      payload: goodPayload(false)
+      payload: goodPayload(false),
     },
-    expected: false
+    expected: false,
   },
   {
     action: {
       type: UPDATE_SETTINGS,
-      payload: goodPayload(1)
+      payload: goodPayload(1),
     },
-    expected: true
-  }
+    expected: true,
+  },
 ])

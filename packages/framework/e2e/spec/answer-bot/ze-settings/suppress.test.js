@@ -10,9 +10,9 @@ test('shows help center when answer bot is suppressed', async () => {
       window.zESettings = {
         webWidget: {
           answerBot: {
-            suppress: true
-          }
-        }
+            suppress: true,
+          },
+        },
       }
     })
     .load()
@@ -27,12 +27,12 @@ test('shows other embed when help center and answer bot are both suppressed', as
       window.zESettings = {
         webWidget: {
           helpCenter: {
-            suppress: true
+            suppress: true,
           },
           answerBot: {
-            suppress: true
-          }
-        }
+            suppress: true,
+          },
+        },
       }
     })
     .load()

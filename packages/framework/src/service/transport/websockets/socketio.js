@@ -1,7 +1,7 @@
 import {
   talkEmbeddableConfigEventToAction,
   talkAgentAvailabilityEventToAction,
-  talkAverageWaitTimeEventToAction
+  talkAverageWaitTimeEventToAction,
 } from './events'
 import { parseUrl } from 'utility/utils'
 
@@ -24,7 +24,7 @@ function connect(io, serviceUrl, nickname) {
     reconnectionDelay: 5000,
     reconnectionDelayMax: 30000,
     timeout: 45000,
-    transports: ['websocket']
+    transports: ['websocket'],
   })
 }
 
@@ -36,5 +36,5 @@ function mapEventsToActions(socket, reduxStore) {
 
 export const socketio = {
   connect,
-  mapEventsToActions
+  mapEventsToActions,
 }

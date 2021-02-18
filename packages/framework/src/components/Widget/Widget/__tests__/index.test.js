@@ -2,12 +2,12 @@ import React from 'react'
 import { Widget } from 'components/Widget'
 import { render } from 'utility/testHelpers'
 
-const renderWidgetContainer = inProps => {
+const renderWidgetContainer = (inProps) => {
   const defaultProps = {}
 
   const props = {
     ...defaultProps,
-    ...inProps
+    ...inProps,
   }
 
   return render(<Widget {...props}>web widget content</Widget>)

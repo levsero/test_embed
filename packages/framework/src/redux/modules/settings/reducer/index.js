@@ -25,5 +25,5 @@ export default combineReducers({
   launcher,
   navigation,
   styling,
-  talk
+  talk,
 })

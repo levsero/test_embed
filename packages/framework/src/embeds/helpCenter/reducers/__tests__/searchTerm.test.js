@@ -5,61 +5,61 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   current: '',
-  previous: ''
+  previous: '',
 }
 
 testReducer(searchTerm, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: { current: 'h', previous: 'w' },
-    expected: { current: 'h', previous: 'w' }
+    expected: { current: 'h', previous: 'w' },
   },
   {
     action: { type: API_RESET_WIDGET },
     initialState: { current: 'h', previous: 'w' },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: actionTypes.SEARCH_REQUEST_SUCCESS },
     initialState: { current: 'hello' },
-    expected: { previous: 'hello', current: 'hello' }
+    expected: { previous: 'hello', current: 'hello' },
   },
   {
     action: { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE },
     initialState: { current: 'hello' },
-    expected: { previous: 'hello', current: 'hello' }
+    expected: { previous: 'hello', current: 'hello' },
   },
   {
     action: { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS },
     initialState: { current: 'hello' },
-    expected: { previous: 'hello', current: 'hello' }
+    expected: { previous: 'hello', current: 'hello' },
   },
   {
     action: { type: actionTypes.SEARCH_REQUEST_FAILURE },
     initialState: { current: 'hello' },
-    expected: { previous: 'hello', current: 'hello' }
+    expected: { previous: 'hello', current: 'hello' },
   },
   {
     action: {
       type: actionTypes.SEARCH_REQUEST_SENT,
       payload: {
-        searchTerm: 'help'
-      }
+        searchTerm: 'help',
+      },
     },
     initialState: { current: 'hello' },
-    expected: { current: 'help' }
+    expected: { current: 'help' },
   },
   {
     action: {
       type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT,
       payload: {
-        searchTerm: 'help'
-      }
+        searchTerm: 'help',
+      },
     },
-    expected: { current: 'help', previous: '' }
-  }
+    expected: { current: 'help', previous: '' },
+  },
 ])

@@ -4,7 +4,7 @@ import {
   getSettingsLauncherTalkLabel,
   getLauncherTalkLabel,
   getLauncherChatLabel,
-  getLauncherLabel
+  getLauncherLabel,
 } from '../'
 
 describe('getSettingsLauncherLabel', () => {
@@ -19,7 +19,7 @@ describe('getSettingsLauncherChatLabel', () => {
   it('returns the chat label within the launcher settings object', () => {
     expect(
       getSettingsLauncherChatLabel({
-        settings: { launcher: { settings: { chatLabel: 'testChatLabel' } } }
+        settings: { launcher: { settings: { chatLabel: 'testChatLabel' } } },
       })
     ).toEqual('testChatLabel')
   })
@@ -29,7 +29,7 @@ describe('getSettingsLauncherTalkLabel', () => {
   it('returns the talk label within the launcher settings object', () => {
     expect(
       getSettingsLauncherTalkLabel({
-        settings: { launcher: { settings: { talkLabel: 'testTalkLabel' } } }
+        settings: { launcher: { settings: { talkLabel: 'testTalkLabel' } } },
       })
     ).toEqual('testTalkLabel')
   })

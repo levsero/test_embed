@@ -18,13 +18,13 @@ describe('FormMessage', () => {
           _id: 'field-1',
           type: 'text',
           name: 'first_name',
-          label: 'First name'
+          label: 'First name',
         },
         {
           _id: 'field-2',
           type: 'email',
           name: 'email',
-          label: 'Email'
+          label: 'Email',
         },
         {
           _id: 'field-3',
@@ -34,18 +34,18 @@ describe('FormMessage', () => {
           options: [
             {
               _id: 'option-1',
-              label: 'Tacos'
+              label: 'Tacos',
             },
             {
               _id: 'option-2',
-              label: 'Cheese'
-            }
-          ]
-        }
+              label: 'Cheese',
+            },
+          ],
+        },
       ],
       avatarUrl: 'www.example.com/cat.jpg',
-      name: 'Some user'
-    }
+      name: 'Some user',
+    },
   }
 
   const renderComponent = (props = {}, options = {}) => {
@@ -153,13 +153,13 @@ describe('FormMessage', () => {
           type: 'text',
           name: 'first_name',
           label: 'First name',
-          text: 'Bobby'
+          text: 'Bobby',
         },
         {
           type: 'email',
           name: 'email',
           label: 'Email',
-          email: 'valid@example.com'
+          email: 'valid@example.com',
         },
         {
           type: 'select',
@@ -168,10 +168,10 @@ describe('FormMessage', () => {
           select: [
             {
               _id: 'option-2',
-              label: 'Cheese'
-            }
-          ]
-        }
+              label: 'Cheese',
+            },
+          ],
+        },
       ],
       '123'
     )
@@ -192,12 +192,12 @@ describe('FormMessage', () => {
             _id: 'field-2',
             type: 'email',
             name: 'email',
-            label: 'Email'
-          }
+            label: 'Email',
+          },
         ],
         avatarUrl: 'www.example.com/cat.jpg',
-        name: 'Some user'
-      }
+        name: 'Some user',
+      },
     })
 
     userEvent.type(
@@ -231,7 +231,7 @@ describe('FormMessage', () => {
     unmount()
 
     const { queryByLabelText: queryByLabelText2 } = renderComponent(undefined, {
-      store
+      store,
     })
 
     expect(queryByLabelText2('First name')).toHaveValue('Bobby')

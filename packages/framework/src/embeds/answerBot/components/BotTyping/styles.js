@@ -3,7 +3,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses'
 import { zdColorGrey600, zdColorGrey100 } from '@zendeskgarden/css-variables'
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       display: inline-block;
       max-width: 100%;
@@ -17,7 +17,7 @@ const Container = styled.div`
 `
 
 const Loader = styled(LoadingEllipses)`
-  ${props => {
+  ${(props) => {
     return `
       margin: ${4 / props.theme.fontSize}rem;
 

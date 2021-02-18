@@ -5,19 +5,19 @@ import { render, fireEvent } from '@testing-library/react'
 
 const onClickMock = jest.fn()
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   onClickMock.mockReset()
   const defaultProps = {
     buttonLabel: 'defaultButtonLabel',
     isRTL: false,
     loading: false,
     onClick: onClickMock(),
-    isMobile: false
+    isMobile: false,
   }
 
   const combinedProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<ChannelButton {...combinedProps} />)

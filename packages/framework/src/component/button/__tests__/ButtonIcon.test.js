@@ -3,7 +3,7 @@ import React from 'react'
 
 import { ButtonIcon } from '../ButtonIcon'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const label = <span>Label</span>
 
   return render(<ButtonIcon label={label} icon="Icon--zendesk" {...props} />)
@@ -20,7 +20,7 @@ test('classes are customizable', () => {
     icon: 'Icon--zendesk',
     actionable: false,
     flipX: true,
-    iconClasses: 'here there'
+    iconClasses: 'here there',
   })
 
   expect(container).toMatchSnapshot()
@@ -32,7 +32,7 @@ describe('actionable', () => {
 
     const { container } = renderComponent({
       actionable: true,
-      onClick: handler
+      onClick: handler,
     })
 
     fireEvent.click(container.querySelector('button'))
@@ -45,7 +45,7 @@ describe('actionable', () => {
 
     const { container } = renderComponent({
       actionable: false,
-      onClick: handler
+      onClick: handler,
     })
 
     fireEvent.click(container.querySelector('button'))

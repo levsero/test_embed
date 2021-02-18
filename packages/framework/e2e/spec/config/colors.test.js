@@ -3,9 +3,9 @@ import launcher from 'e2e/helpers/launcher'
 import widget from 'e2e/helpers/widget'
 import { waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 
-const getBackgroundColor = selector =>
+const getBackgroundColor = (selector) =>
   getComputedStyle(document.querySelector(selector)).backgroundColor
-const getColor = selector => getComputedStyle(document.querySelector(selector)).color
+const getColor = (selector) => getComputedStyle(document.querySelector(selector)).color
 const getLauncherColor = () => launcher.evaluate(getBackgroundColor, 'button')
 const getLauncherTextColor = () => launcher.evaluate(getColor, 'button')
 const getHeaderColor = () =>
@@ -17,7 +17,7 @@ test('sets the launcher and widget colors based on config', async () => {
   await loadWidget()
     .withPresets('helpCenter', {
       color: '#ffffff',
-      textColor: '#000000'
+      textColor: '#000000',
     })
     .load()
   expect(await getLauncherColor()).toEqual('rgb(255, 255, 255)')

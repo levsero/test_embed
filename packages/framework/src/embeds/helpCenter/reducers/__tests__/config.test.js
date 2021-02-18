@@ -7,32 +7,32 @@ const initialState = {
   signInRequired: false,
   answerBotEnabled: false,
   buttonLabelKey: 'message',
-  formTitleKey: 'help'
+  formTitleKey: 'help',
 }
 const embeddableConfigPayload = {
   embeds: {
     helpCenterForm: {
       props: {
-        contextualHelpEnabled: true
-      }
-    }
-  }
+        contextualHelpEnabled: true,
+      },
+    },
+  },
 }
 
 testReducer(config, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: embeddableConfigPayload },
     expected: {
       ...initialState,
-      contextualHelpEnabled: true
-    }
+      contextualHelpEnabled: true,
+    },
   },
   {
     action: { type: UPDATE_EMBEDDABLE_CONFIG, payload: {} },
-    expected: initialState
-  }
+    expected: initialState,
+  },
 ])

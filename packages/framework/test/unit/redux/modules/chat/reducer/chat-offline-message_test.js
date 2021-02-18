@@ -12,9 +12,9 @@ describe('chat reducer offline message', () => {
         OFFLINE_FORM_SCREENS: {
           MAIN: 'main',
           SUCCESS: 'success',
-          LOADING: 'loading'
-        }
-      }
+          LOADING: 'loading',
+        },
+      },
     })
 
     reducer = requireUncached(reducerPath).default
@@ -35,9 +35,9 @@ describe('chat reducer offline message', () => {
       details: {
         name: '',
         email: '',
-        message: ''
+        message: '',
       },
-      error: false
+      error: false,
     }
 
     describe('initial state', () => {
@@ -57,7 +57,7 @@ describe('chat reducer offline message', () => {
         const expected = {
           details: {},
           error: false,
-          screen: 'loading'
+          screen: 'loading',
         }
 
         expect(state).toEqual(expected)
@@ -68,13 +68,13 @@ describe('chat reducer offline message', () => {
       const payload = {
         name: 'Boromir',
         email: 'boromir@gondor.nw',
-        message: 'One does not simply walk into Mordor'
+        message: 'One does not simply walk into Mordor',
       }
 
       beforeEach(() => {
         const action = {
           type: actionTypes.OFFLINE_FORM_REQUEST_SUCCESS,
-          payload
+          payload,
         }
 
         state = reducer(initialState, action)
@@ -84,7 +84,7 @@ describe('chat reducer offline message', () => {
         const expected = {
           ...mockInitialState,
           details: payload,
-          screen: 'success'
+          screen: 'success',
         }
 
         expect(state).toEqual(expected)

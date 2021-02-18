@@ -13,12 +13,12 @@ const getValue = (field, value) => {
 }
 
 const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, values }) => {
-  const responseFields = fields.map(field => {
+  const responseFields = fields.map((field) => {
     return {
       type: field.type,
       name: field.name,
       label: field.label,
-      [field.type]: getValue(field, values[field._id])
+      [field.type]: getValue(field, values[field._id]),
     }
   })
 
@@ -29,15 +29,15 @@ const submitForm = createAsyncThunk('form/submit', async ({ formId, fields, valu
   }
 
   return {
-    messages: []
+    messages: [],
   }
 })
 
-const getDefaultForm = formId => ({
+const getDefaultForm = (formId) => ({
   _id: formId,
   step: 1,
   values: {},
-  formSubmissionStatus: FORM_MESSAGE_STATUS.unsubmitted
+  formSubmissionStatus: FORM_MESSAGE_STATUS.unsubmitted,
 })
 
 const ensureFormInState = (state, formId) => {
@@ -59,7 +59,7 @@ const formSlice = createSlice({
       ensureFormInState(state, action.payload.formId)
 
       state[action.payload.formId].step = action.payload.step
-    }
+    },
   },
   extraReducers: {
     [submitForm.pending]: (state, action) => {
@@ -76,12 +76,12 @@ const formSlice = createSlice({
       ensureFormInState(state, action.meta.arg.formId)
 
       state[action.meta.arg.formId].formSubmissionStatus = FORM_MESSAGE_STATUS.failed
-    }
-  }
+    },
+  },
 })
 
 const { formUpdated, stepChanged } = formSlice.actions
-const getFormsState = state => state.forms
+const getFormsState = (state) => state.forms
 const getFormInfo = (state, formId) => state.forms?.[formId] ?? getDefaultForm(formId)
 
 export { getFormsState, formUpdated, getFormInfo, submitForm, stepChanged }

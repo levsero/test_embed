@@ -10,8 +10,8 @@ import events from 'e2e/fixtures/chat-preview-events'
 
 beforeEach(async () => {
   await loadPreview()
-  await page.evaluate(events => {
-    events.forEach(event => {
+  await page.evaluate((events) => {
+    events.forEach((event) => {
       window.preview.updateChatState(event)
     })
   }, events)

@@ -8,12 +8,12 @@ test('displays an error message when the endpoint returns an error', async () =>
   await loadWidget()
     .withPresets('contactForm')
     .intercept(
-      mockCorsRequest('api/v2/requests', request => {
+      mockCorsRequest('api/v2/requests', (request) => {
         request.respond({
           status: 401,
           headers: DEFAULT_CORS_HEADERS,
           contentType: 'application/json',
-          body: JSON.stringify({ error: true })
+          body: JSON.stringify({ error: true }),
         })
       })
     )

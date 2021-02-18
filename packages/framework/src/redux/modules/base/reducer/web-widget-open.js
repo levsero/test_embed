@@ -10,12 +10,12 @@ import {
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
   SHOW_WIDGET,
-  ESCAPE_KEY_PRESSED
+  ESCAPE_KEY_PRESSED,
 } from '../base-action-types'
 import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from '../../chat/chat-action-types'
 import { isPopout } from 'utility/globals'
 

@@ -4,7 +4,7 @@ import Timestamp from '../'
 
 describe('Timestamp', () => {
   const defaultProps = {
-    timestamp: new Date('11:59 PM September 28, 2020').getTime()
+    timestamp: new Date('11:59 PM September 28, 2020').getTime(),
   }
 
   const renderComponent = (props = {}) => {

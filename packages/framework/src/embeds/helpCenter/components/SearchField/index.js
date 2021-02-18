@@ -34,7 +34,7 @@ const SearchField = ({ isLoading, onChange, placeholder, value, inputRef }) => {
             onClick={handleSearchFieldCleared(onChange, inputRef)}
           />
         }
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         value={value}
         ref={inputRef}
         placeholder={placeholder}
@@ -51,13 +51,13 @@ SearchField.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  inputRef: PropTypes.object
+  inputRef: PropTypes.object,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: getSearchLoading(state),
   placeholder: getSettingsHelpCenterSearchPlaceholder(state),
-  value: getSearchFieldValue(state)
+  value: getSearchFieldValue(state),
 })
 
 const connectedComponent = connect(mapStateToProps)(SearchField)

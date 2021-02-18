@@ -8,7 +8,7 @@ const CenterSpinnerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  font-size: ${props => props.theme.messenger.fontSizes.xxxl};
+  font-size: ${(props) => props.theme.messenger.fontSizes.xxxl};
 `
 
 const CenterLoadingErrorContainer = styled.div`
@@ -17,7 +17,7 @@ const CenterLoadingErrorContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  font-size: ${props => props.theme.messenger.fontSizes.sixteen};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sixteen};
   &&& {
     color: ${zdColorGrey800};
   }
@@ -32,23 +32,23 @@ const LoadingErrorButton = styled(Button)`
 const TopSpinnerContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: ${props => props.theme.messenger.space.sm};
-  font-size: ${props => props.theme.messenger.fontSizes.xl};
+  padding-top: ${(props) => props.theme.messenger.space.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.xl};
 `
 
 const TopLoadingErrorContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: ${props => props.theme.messenger.space.sm};
-  font-size: ${props => props.theme.messenger.fontSizes.sixteen};
+  padding-top: ${(props) => props.theme.messenger.space.sm};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sixteen};
   &&& {
     color: ${zdColorGrey800};
   }
 `
 
 const CenterLoadingErrorTitle = styled.div`
-  font-weight: ${props => props.theme.messenger.fontWeights.semibold};
-  margin-bottom: ${props => props.theme.messenger.space.xxs};
+  font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
+  margin-bottom: ${(props) => props.theme.messenger.space.xxs};
 `
 
 export {
@@ -57,5 +57,5 @@ export {
   TopLoadingErrorContainer,
   CenterLoadingErrorContainer,
   CenterLoadingErrorTitle,
-  LoadingErrorButton
+  LoadingErrorButton,
 }

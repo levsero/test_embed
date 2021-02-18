@@ -20,7 +20,7 @@ const EmbeddedVoicePage = lazy(() =>
 import {
   getAgentAvailability,
   getSocketIoVendor,
-  getDeferredStatusOnline
+  getDeferredStatusOnline,
 } from 'src/redux/modules/talk/talk-selectors'
 import { getCapability, getIsCallInProgress } from 'src/embeds/talk/selectors'
 import { loadTalkVendors } from 'src/redux/modules/talk'
@@ -29,7 +29,7 @@ const onlineContactOptions = {
   [CONTACT_OPTIONS.CALLBACK_ONLY]: routes.callbackOnly(),
   [CONTACT_OPTIONS.PHONE_ONLY]: routes.phoneOnly(),
   [CONTACT_OPTIONS.CALLBACK_AND_PHONE]: routes.callbackAndPhone(),
-  [CONTACT_OPTIONS.CLICK_TO_CALL]: routes.clickToCall()
+  [CONTACT_OPTIONS.CLICK_TO_CALL]: routes.clickToCall(),
 }
 
 // This component needs to be a class component since the parent WebWidget component expects to be able
@@ -60,7 +60,7 @@ class Talk extends Component {
       hasAvailableAgents,
       contactOption,
       talkIsDeferred,
-      isEmbeddedVoiceCallInProgress
+      isEmbeddedVoiceCallInProgress,
     } = this.props
 
     if (talkIsDeferred) {
@@ -107,30 +107,27 @@ Talk.propTypes = {
   isEmbeddedVoiceCallInProgress: PropTypes.bool.isRequired,
   contactOption: PropTypes.oneOf(Object.values(CONTACT_OPTIONS)).isRequired,
   history: PropTypes.shape({
-    replace: PropTypes.func.isRequired
+    replace: PropTypes.func.isRequired,
   }),
   loadTalkVendors: PropTypes.func.isRequired,
   talkVendorLoaded: PropTypes.bool.isRequired,
-  talkIsDeferred: PropTypes.bool.isRequired
+  talkIsDeferred: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasAvailableAgents: getAgentAvailability(state),
   isEmbeddedVoiceCallInProgress: getIsCallInProgress(state),
   contactOption: getCapability(state),
   talkVendorLoaded: !!getSocketIoVendor(state),
-  talkIsDeferred: getDeferredStatusOnline(state)
+  talkIsDeferred: getDeferredStatusOnline(state),
 })
 
 const actionCreators = {
-  loadTalkVendors
+  loadTalkVendors,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(withRouter(Talk))
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  withRouter(Talk)
+)
 
 export { connectedComponent as default, Talk as Component }

@@ -35,5 +35,5 @@ export default combineReducers({
   queue,
   widgetInitialised,
   webWidgetOpen,
-  widgetShown
+  widgetShown,
 })

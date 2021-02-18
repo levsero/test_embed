@@ -8,29 +8,29 @@ testReducer(label, [
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { label: 'boop' } }
-      }
+        webWidget: { launcher: { label: 'boop' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { somethingElse: 'hello there' } }
-      }
+        webWidget: { launcher: { somethingElse: 'hello there' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: 'not a real action',
       payload: {
-        webWidget: { launcher: { label: 'probably a real name' } }
-      }
+        webWidget: { launcher: { label: 'probably a real name' } },
+      },
     },
-    expected: 'boop'
-  }
+    expected: 'boop',
+  },
 ])

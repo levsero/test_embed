@@ -30,7 +30,7 @@ function setLocale(apiLocale, callback, configLocale = 'en-US') {
   currentLocale = parseLocale(apiLocale || currentLocale || configLocale)
 
   fetchLocale(currentLocale)
-    .then(res => {
+    .then((res) => {
       const translations = res.default.locale
 
       if (currentLocale !== translations.locale) return
@@ -41,14 +41,14 @@ function setLocale(apiLocale, callback, configLocale = 'en-US') {
 
       store.dispatch({
         type: LOCALE_SET,
-        payload: currentLocale
+        payload: currentLocale,
       })
 
       if (callback) {
         callback()
       }
     })
-    .catch(err => {
+    .catch((err) => {
       errorTracker.error('Failed loading locale', err.message)
     })
 }
@@ -179,7 +179,7 @@ function parseZhLocale(str) {
 }
 
 // Retrieves the correct translation from the passed map of settings translations.
-const getSettingTranslation = translations => {
+const getSettingTranslation = (translations) => {
   const locale = regulateLocaleStringCase(regulateDash(i18n.getLocale()))
   const lowercaseLocale = locale.toLowerCase()
 
@@ -206,5 +206,5 @@ export const i18n = {
   init: init,
   reset,
   parseLocale,
-  getClientLocale
+  getClientLocale,
 }

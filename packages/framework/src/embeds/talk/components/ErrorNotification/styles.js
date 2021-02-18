@@ -5,7 +5,7 @@ import {
   zdColorRed500,
   zdColorRed600,
   zdColorRed700,
-  zdColorWhite
+  zdColorWhite,
 } from '@zendeskgarden/css-variables'
 import ErrorIcon from '@zendeskgarden/svg-icons/src/14/error.svg'
 

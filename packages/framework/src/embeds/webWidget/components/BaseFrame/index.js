@@ -9,7 +9,7 @@ import HTMLManager from 'embeds/webWidget/components/BaseFrame/HTMLManager'
 import {
   FrameStyleConsumer,
   FrameStyleProvider,
-  useFrameStyle
+  useFrameStyle,
 } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { getZoomSizingRatio } from 'utility/devices'
 import { FONT_SIZE } from 'constants/shared'
@@ -28,16 +28,16 @@ const BaseFrame = ({ children, style, color, visible, ...props }) => {
   return (
     <FrameStyleProvider>
       <FrameStyleConsumer>
-        {frameStyleOverrides => (
+        {(frameStyleOverrides) => (
           <IFrame
             {...props}
             style={{
               ...style,
-              ...frameStyleOverrides.style
+              ...frameStyleOverrides.style,
             }}
           >
             <CurrentFrameConsumer>
-              {frame => (
+              {(frame) => (
                 <ThemeProvider
                   theme={{
                     ...DEFAULT_THEME,
@@ -46,8 +46,8 @@ const BaseFrame = ({ children, style, color, visible, ...props }) => {
                     components: getGardenOverrides(color),
                     colors: {
                       ...DEFAULT_THEME.colors,
-                      primaryHue: 'grey'
-                    }
+                      primaryHue: 'grey',
+                    },
                   }}
                 >
                   <WidgetThemeProvider>
@@ -71,7 +71,7 @@ BaseFrame.propTypes = {
   style: PropTypes.objectOf(PropTypes.any),
   onEntered: PropTypes.func,
   visible: PropTypes.bool,
-  color: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+  color: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 }
 
 export default BaseFrame

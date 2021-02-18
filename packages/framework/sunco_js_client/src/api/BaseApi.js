@@ -18,7 +18,7 @@ class BaseApi {
       'x-smooch-sdk': `web/${VENDOR_ID}/${VERSION}`,
       'x-smooch-appid': this.appId,
       'x-smooch-clientid': getClientId(this.integrationId),
-      ...headers
+      ...headers,
     }
 
     const url = buildUrl(this.baseUrl, path)

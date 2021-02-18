@@ -3,7 +3,7 @@ import { nullZChat } from 'src/util/nullZChat'
 
 const initialState = {
   zChat: nullZChat,
-  slider: null
+  slider: null,
 }
 
 const vendor = (state = initialState, action = {}) => {
@@ -18,8 +18,8 @@ const vendor = (state = initialState, action = {}) => {
         zChat: {
           getAuthLoginUrl: () => '',
           getMachineId: () => '',
-          markAsRead: () => {}
-        }
+          markAsRead: () => {},
+        },
       }
     default:
       return state

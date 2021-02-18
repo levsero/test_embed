@@ -6,7 +6,7 @@ describe('Banner', () => {
   it('renders', () => {
     const defaultProps = {
       message: 'Some message',
-      status: BANNER_STATUS.success
+      status: BANNER_STATUS.success,
     }
 
     const renderComponent = (props = {}) => {

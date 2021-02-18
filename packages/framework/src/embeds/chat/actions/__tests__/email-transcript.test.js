@@ -21,7 +21,7 @@ describe('sendEmailTranscript', () => {
 
     expect(dispatchedActions).toContainEqual({
       type: actionTypes.EMAIL_TRANSCRIPT_REQUEST_SENT,
-      payload: mockEmail
+      payload: mockEmail,
     })
   })
 
@@ -38,7 +38,7 @@ describe('sendEmailTranscript', () => {
 
     expect(dispatchedActions).toContainEqual({
       type: actionTypes.EMAIL_TRANSCRIPT_SUCCESS,
-      payload: mockEmail
+      payload: mockEmail,
     })
   })
 
@@ -55,7 +55,7 @@ describe('sendEmailTranscript', () => {
 
     expect(dispatchedActions).toContainEqual({
       type: actionTypes.EMAIL_TRANSCRIPT_FAILURE,
-      payload: mockEmail
+      payload: mockEmail,
     })
   })
 

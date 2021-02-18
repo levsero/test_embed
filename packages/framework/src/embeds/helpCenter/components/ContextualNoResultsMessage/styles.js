@@ -15,7 +15,7 @@ export const Container = styled.div`
   margin-right: ${25 / FONT_SIZE}rem;
 
   ${isMobileBrowser() &&
-    `
+  `
       font-size: ${16 / FONT_SIZE}rem;
     `}
 `

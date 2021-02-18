@@ -18,7 +18,7 @@ const exit = `
   .receipt-exit-done &
 `
 
-const wasJustSent = styles => props => {
+const wasJustSent = (styles) => (props) => {
   if (props.previousStatus === MESSAGE_STATUS.sending && props.status === MESSAGE_STATUS.sent) {
     return styles
   }
@@ -26,7 +26,7 @@ const wasJustSent = styles => props => {
   return ''
 }
 
-const sendingKeyframes = props => keyframes`
+const sendingKeyframes = (props) => keyframes`
   0% {
     border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
@@ -45,7 +45,7 @@ const sendingKeyframes = props => keyframes`
   }
 `
 
-const sendingToSentKeyframes = props => keyframes`
+const sendingToSentKeyframes = (props) => keyframes`
   0% {
     border-top: ${rem('6px', props.theme.messenger.baseFontSize)} solid
       ${props.theme.messenger.colors.message};
@@ -76,22 +76,22 @@ const sendingToSentAnimation = css`
 const Layout = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: ${props => props.theme.messenger.space.xxxs};
-  margin-${dirStyles.right}: ${props => props.theme.messenger.space.sm};
+  margin-top: ${(props) => props.theme.messenger.space.xxxs};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.sm};
   justify-content: flex-end;
 `
 
 const Time = styled.p`
-  color: ${props => props.theme.palette.grey[600]};
-  font-size: ${props => props.theme.messenger.fontSizes.sm};
-  line-height: ${props => props.theme.messenger.lineHeights.sm};
+  color: ${(props) => props.theme.palette.grey[600]};
+  font-size: ${(props) => props.theme.messenger.fontSizes.sm};
+  line-height: ${(props) => props.theme.messenger.lineHeights.sm};
   margin: 0;
-  margin-${dirStyles.right}: ${props => props.theme.messenger.space.xs};
+  margin-${dirStyles.right}: ${(props) => props.theme.messenger.space.xs};
   text-align: ${dirStyles.right};
 
   opacity: 0;
 
-  ${props =>
+  ${(props) =>
     !props.isFreshMessage &&
     `
     opacity: 1;
@@ -110,8 +110,8 @@ const Time = styled.p`
   }
 `
 const TailContainer = styled.div`
-  width: ${props => props.theme.messenger.space.sm};
-  height: ${props => props.theme.messenger.space.sm};
+  width: ${(props) => props.theme.messenger.space.sm};
+  height: ${(props) => props.theme.messenger.space.sm};
   position: relative;
   overflow: visible;
 `
@@ -121,14 +121,14 @@ const Tail = styled.div`
   top: 0;
   ${dirStyles.left}: 0;
 
-  border-top: ${props => props.theme.messenger.space.sm} solid
-    ${props => props.theme.messenger.colors.message};
-  border-${dirStyles.left}: ${props => props.theme.messenger.space.sm} solid transparent;
+  border-top: ${(props) => props.theme.messenger.space.sm} solid
+    ${(props) => props.theme.messenger.colors.message};
+  border-${dirStyles.left}: ${(props) => props.theme.messenger.space.sm} solid transparent;
   opacity: 1;
 
   transform: translateY(-105%) scale(0);
 
-  ${props =>
+  ${(props) =>
     !props.isFreshMessage &&
     `
     transform: translateY(0) scale(1);
@@ -141,7 +141,7 @@ const Tail = styled.div`
     transform: translateY(0) scale(1);
     opacity: 1;
 
-    ${props =>
+    ${(props) =>
       props.status === 'sending' &&
       `
     opacity: 0.5;
@@ -154,14 +154,14 @@ const Tail = styled.div`
 
     transform: translateY(-105%) scale(0);
     opacity: 1;
-    ${props =>
+    ${(props) =>
       props.status === 'sending' &&
       `
     opacity: 0.5;
   `}
   }
 
-  ${props =>
+  ${(props) =>
     props.status === 'sending' &&
     css`
       animation: ${sendingAnimation};
@@ -177,8 +177,8 @@ const Tail = styled.div`
 const FailedMessage = styled(Anchor)`
   &&& {
     border: 0;
-    color: ${props => props.theme.palette.red[400]};
-    font-size: ${props => props.theme.messenger.fontSizes.sm};
+    color: ${(props) => props.theme.palette.red[400]};
+    font-size: ${(props) => props.theme.messenger.fontSizes.sm};
     background-color: transparent;
 
     &:focus {
@@ -188,8 +188,8 @@ const FailedMessage = styled(Anchor)`
 `
 
 const AlertIcon = styled(AlertSVG)`
-  height: ${props => props.theme.messenger.iconSizes.sm};
-  width: ${props => props.theme.messenger.iconSizes.sm};
+  height: ${(props) => props.theme.messenger.iconSizes.sm};
+  width: ${(props) => props.theme.messenger.iconSizes.sm};
   max-height: none;
 `
 

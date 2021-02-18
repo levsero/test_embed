@@ -9,18 +9,16 @@ import { waitForPrechatForm, clickStartChat } from 'e2e/helpers/chat-embed'
 
 const buildWidget = async (onPageLoad = true) => {
   const authenticateEndpoint = jest.fn()
-  let instance = await loadWidget()
-    .withPresets('chat')
-    .hiddenInitially()
+  let instance = await loadWidget().withPresets('chat').hiddenInitially()
 
   if (onPageLoad) {
     instance = instance.evaluateBeforeSnippetLoads(() => {
       window.zESettings = {
         authenticate: {
           chat: {
-            jwtFn: cb => cb('abc123')
-          }
-        }
+            jwtFn: (cb) => cb('abc123'),
+          },
+        },
       }
     })
   }
@@ -29,8 +27,8 @@ const buildWidget = async (onPageLoad = true) => {
   return authenticateEndpoint
 }
 
-const mockAuthSuccessEndpoint = callback => {
-  return mockCorsRequest('authenticated/web/jwt', request => {
+const mockAuthSuccessEndpoint = (callback) => {
+  return mockCorsRequest('authenticated/web/jwt', (request) => {
     callback(request.url())
     request.respond({
       status: 200,
@@ -39,8 +37,8 @@ const mockAuthSuccessEndpoint = callback => {
       body: JSON.stringify({
         expires_in: 7200,
         error: null,
-        success: true
-      })
+        success: true,
+      }),
     })
   })
 }
@@ -68,10 +66,10 @@ const authenticateUserInSession = async () => {
       webWidget: {
         authenticate: {
           chat: {
-            jwtFn: cb => cb('abc123')
-          }
-        }
-      }
+            jwtFn: (cb) => cb('abc123'),
+          },
+        },
+      },
     })
     zE('webWidget', 'chat:reauthenticate')
   })

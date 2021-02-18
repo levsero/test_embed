@@ -7,12 +7,12 @@ import {
   CALL_FAILED,
   CALL_STARTED,
   RESET_CALL_FAILED,
-  INCREMENT_CALL_TIMER
+  INCREMENT_CALL_TIMER,
 } from './action-types'
 
 let callInterval
 
-const startCallCounter = () => dispatch => {
+const startCallCounter = () => (dispatch) => {
   if (!callInterval) {
     callInterval = setInterval(() => {
       dispatch({ type: INCREMENT_CALL_TIMER })
@@ -26,35 +26,35 @@ const stopCallCounter = () => {
 }
 
 export const muteMicrophone = () => ({
-  type: MICROPHONE_MUTED
+  type: MICROPHONE_MUTED,
 })
 
 export const unmuteMicrophone = () => ({
-  type: MICROPHONE_UNMUTED
+  type: MICROPHONE_UNMUTED,
 })
 
 export const acceptRecordingConsent = () => ({
-  type: RECORDING_CONSENT_ACCEPTED
+  type: RECORDING_CONSENT_ACCEPTED,
 })
 export const declineRecordingConsent = () => ({
-  type: RECORDING_CONSENT_DENIED
+  type: RECORDING_CONSENT_DENIED,
 })
 
-export const callStarted = () => dispatch => {
+export const callStarted = () => (dispatch) => {
   dispatch({ type: CALL_STARTED })
   dispatch(startCallCounter())
 }
 
-export const callEnded = () => dispatch => {
+export const callEnded = () => (dispatch) => {
   dispatch({ type: CALL_ENDED })
   stopCallCounter()
 }
 
-export const callFailed = () => dispatch => {
+export const callFailed = () => (dispatch) => {
   dispatch({ type: CALL_FAILED })
   stopCallCounter()
 }
 
 export const resetCallFailed = () => ({
-  type: RESET_CALL_FAILED
+  type: RESET_CALL_FAILED,
 })

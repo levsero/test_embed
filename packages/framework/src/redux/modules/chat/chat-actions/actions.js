@@ -12,7 +12,7 @@ import {
   getStandaloneMobileNotificationVisible,
   getNotification,
   getPrechatFormRequired,
-  getChatBanned
+  getChatBanned,
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
@@ -23,7 +23,7 @@ import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/z
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
-  CHAT_UNREAD_MESSAGES_EVENT
+  CHAT_UNREAD_MESSAGES_EVENT,
 } from 'constants/event'
 import * as callbacks from 'service/api/callbacks'
 import zopimApi from 'service/api/zopimApi'
@@ -41,7 +41,7 @@ const getChatMessagePayload = (msg, visitor, timestamp) => ({
   timestamp,
   nick: visitor.nick,
   display_name: visitor.display_name,
-  msg
+  msg,
 })
 
 const noop = () => {}
@@ -56,10 +56,10 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
       type: actions.CHAT_MSG_REQUEST_SENT,
       payload: {
         detail: {
-          ...getChatMessagePayload(msg, visitor, timestamp)
+          ...getChatMessagePayload(msg, visitor, timestamp),
         },
-        status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
-      }
+        status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING,
+      },
     })
   }
 }
@@ -69,10 +69,10 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
     type: actions.CHAT_MSG_REQUEST_SUCCESS,
     payload: {
       detail: {
-        ...getChatMessagePayload(msg, visitor, timestamp)
+        ...getChatMessagePayload(msg, visitor, timestamp),
       },
-      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
-    }
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
+    },
   }
 }
 
@@ -81,10 +81,10 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
     type: actions.CHAT_MSG_REQUEST_FAILURE,
     payload: {
       detail: {
-        ...getChatMessagePayload(msg, visitor, timestamp)
+        ...getChatMessagePayload(msg, visitor, timestamp),
       },
-      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
-    }
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
+    },
   }
 }
 
@@ -95,7 +95,7 @@ export function sendMsg(msg, timestamp = Date.now()) {
 
       dispatch(sendMsgRequest(msg, visitor, timestamp))
 
-      zChatWithTimeout(getState, 'sendChatMsg')(msg, err => {
+      zChatWithTimeout(getState, 'sendChatMsg')(msg, (err) => {
         visitor = getChatVisitor(getState())
 
         if (!err) {
@@ -110,13 +110,16 @@ export function sendMsg(msg, timestamp = Date.now()) {
 
 export const endChat = (callback = noop) => {
   return (dispatch, getState) => {
-    zChatWithTimeout(getState, 'endChat')(err => {
+    zChatWithTimeout(
+      getState,
+      'endChat'
+    )((err) => {
       if (canBeIgnored(err)) {
         const activeAgents = getActiveAgents(getState())
 
         dispatch({
           type: actions.CHAT_ALL_AGENTS_INACTIVE,
-          payload: activeAgents
+          payload: activeAgents,
         })
         dispatch({ type: actions.END_CHAT_REQUEST_SUCCESS })
         dispatch(
@@ -143,32 +146,32 @@ export const endChatViaPostChatScreen = () => {
   }
 }
 
-export const updateChatScreen = screen => {
+export const updateChatScreen = (screen) => {
   return {
     type: actions.UPDATE_CHAT_SCREEN,
-    payload: { screen }
+    payload: { screen },
   }
 }
 
 export function resetCurrentMessage() {
   return {
-    type: actions.RESET_CURRENT_MESSAGE
+    type: actions.RESET_CURRENT_MESSAGE,
   }
 }
 
 export function openedChatHistory() {
   return {
-    type: actions.OPENED_CHAT_HISTORY
+    type: actions.OPENED_CHAT_HISTORY,
   }
 }
 
 export function closedChatHistory() {
   return {
-    type: actions.CLOSED_CHAT_HISTORY
+    type: actions.CLOSED_CHAT_HISTORY,
   }
 }
 
-const stopTypingIndicator = _.debounce(zChat => zChat.sendTyping(false), chatTypingTimeout)
+const stopTypingIndicator = _.debounce((zChat) => zChat.sendTyping(false), chatTypingTimeout)
 
 export function handleChatBoxChange(msg) {
   return (dispatch, getState) => {
@@ -176,7 +179,7 @@ export function handleChatBoxChange(msg) {
 
     dispatch({
       type: actions.CHAT_BOX_CHANGED,
-      payload: msg
+      payload: msg,
     })
 
     if (msg.length === 0) {
@@ -214,15 +217,15 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
 
     dispatch({
       type: actions.SET_VISITOR_INFO_REQUEST_PENDING,
-      payload: { ...infoToUpdate, timestamp }
+      payload: { ...infoToUpdate, timestamp },
     })
     return new Promise((res, rej) => {
       onChatSDKInitialized(() => {
-        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, err => {
+        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, (err) => {
           if (!err) {
             dispatch({
               type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
-              payload: { ...infoToUpdate, timestamp }
+              payload: { ...infoToUpdate, timestamp },
             })
             if (_.isObjectLike(successAction)) dispatch(successAction)
             res()
@@ -241,7 +244,7 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
 export function editContactDetailsSubmitted(visitor) {
   const successAction = {
     type: actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
-    payload: { ...visitor, timestamp: Date.now() }
+    payload: { ...visitor, timestamp: Date.now() },
   }
 
   return setVisitorInfo(visitor, successAction)
@@ -258,11 +261,11 @@ export function sendVisitorPath(options = {}) {
 
       if (!page.title) page.title = page.url
 
-      zChat.sendVisitorPath(page, err => {
+      zChat.sendVisitorPath(page, (err) => {
         if (!err) {
           dispatch({
             type: actions.SEND_VISITOR_PATH_REQUEST_SUCCESS,
-            payload: page
+            payload: page,
           })
         } else {
           dispatch({ type: actions.SEND_VISITOR_PATH_REQUEST_FAILURE })
@@ -274,17 +277,17 @@ export function sendVisitorPath(options = {}) {
 
 export function resetEmailTranscript() {
   return {
-    type: actions.RESET_EMAIL_TRANSCRIPT
+    type: actions.RESET_EMAIL_TRANSCRIPT,
   }
 }
 
 export function sendChatRating(rating = null) {
   return (dispatch, getState) => {
-    zChatWithTimeout(getState, 'sendChatRating')(rating, err => {
+    zChatWithTimeout(getState, 'sendChatRating')(rating, (err) => {
       if (canBeIgnored(err)) {
         dispatch({
           type: actions.CHAT_RATING_REQUEST_SUCCESS,
-          payload: rating
+          payload: rating,
         })
       } else {
         dispatch({ type: actions.CHAT_RATING_REQUEST_FAILURE })
@@ -295,11 +298,11 @@ export function sendChatRating(rating = null) {
 
 export function sendChatComment(comment = '') {
   return (dispatch, getState) => {
-    zChatWithTimeout(getState, 'sendChatComment')(comment, err => {
+    zChatWithTimeout(getState, 'sendChatComment')(comment, (err) => {
       if (canBeIgnored(err)) {
         dispatch({
           type: actions.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
-          payload: comment
+          payload: comment,
         })
       } else {
         dispatch({ type: actions.CHAT_RATING_COMMENT_REQUEST_FAILURE })
@@ -332,7 +335,7 @@ export function getAccountSettings() {
 
     dispatch({
       type: actions.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-      payload: accountSettings
+      payload: accountSettings,
     })
   }
 }
@@ -348,7 +351,7 @@ export function getOperatingHours() {
       if (!enabled)
         return dispatch({
           type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS,
-          payload: { enabled }
+          payload: { enabled },
         })
 
       const formattedOperatingHours = {
@@ -358,16 +361,16 @@ export function getOperatingHours() {
         timezone: timezone.replace(/_/g, ' '),
         ...(type === 'account'
           ? {
-              account_schedule: formatSchedule(operatingHours.account_schedule)
+              account_schedule: formatSchedule(operatingHours.account_schedule),
             }
           : {
-              department_schedule: _.mapValues(operatingHours.department_schedule, formatSchedule)
-            })
+              department_schedule: _.mapValues(operatingHours.department_schedule, formatSchedule),
+            }),
       }
 
       dispatch({
         type: actions.GET_OPERATING_HOURS_REQUEST_SUCCESS,
-        payload: formattedOperatingHours
+        payload: formattedOperatingHours,
       })
     }
   }
@@ -407,12 +410,12 @@ export function sendAttachments(fileList) {
     const zChat = getZChatVendor(getState())
     const visitor = getChatVisitor(getState())
 
-    _.forEach(fileList, file => {
+    _.forEach(fileList, (file) => {
       const basePayload = {
         type: 'chat.file',
         timestamp: Date.now(),
         nick: visitor.nick,
-        display_name: visitor.display_name
+        display_name: visitor.display_name,
       }
 
       dispatch({
@@ -423,10 +426,10 @@ export function sendAttachments(fileList) {
             // _.assign is intentionally used here as 'file' is an instance of the
             // File class and isn't easily spread over/extended with native methods
             file: _.assign(file, {
-              uploading: true
-            })
-          }
-        }
+              uploading: true,
+            }),
+          },
+        },
       })
 
       zChat.sendFile(file, (err, data) => {
@@ -438,10 +441,10 @@ export function sendAttachments(fileList) {
                 ...basePayload,
                 file: _.assign(file, {
                   url: data.url,
-                  uploading: false
-                })
-              }
-            }
+                  uploading: false,
+                }),
+              },
+            },
           })
         } else {
           dispatch({
@@ -451,10 +454,10 @@ export function sendAttachments(fileList) {
                 ...basePayload,
                 file: _.assign(file, {
                   error: err,
-                  uploading: false
-                })
-              }
-            }
+                  uploading: false,
+                }),
+              },
+            },
           })
         }
       })
@@ -463,7 +466,7 @@ export function sendAttachments(fileList) {
 }
 
 export function newAgentMessageReceived(chat) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: actions.NEW_AGENT_MESSAGE_RECEIVED, payload: chat })
     callbacks.fireFor(CHAT_UNREAD_MESSAGES_EVENT)
   }
@@ -488,13 +491,13 @@ export function chatConnectionError() {
 export function chatOfflineFormChanged(formState) {
   return {
     type: actions.CHAT_OFFLINE_FORM_CHANGED,
-    payload: formState
+    payload: formState,
   }
 }
 
 export function setDepartment(departmentId, successCallback = noop, errCallback = noop) {
   return (dispatch, getState) => {
-    zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, err => {
+    zChatWithTimeout(getState, 'setVisitorDefaultDepartment')(departmentId, (err) => {
       dispatch(setDefaultDepartment(departmentId, Date.now()))
 
       if (!err) {
@@ -508,7 +511,10 @@ export function setDepartment(departmentId, successCallback = noop, errCallback 
 
 export function clearDepartment(successCallback = noop) {
   return (_dispatch, getState) => {
-    zChatWithTimeout(getState, 'clearVisitorDefaultDepartment')(_error => {
+    zChatWithTimeout(
+      getState,
+      'clearVisitorDefaultDepartment'
+    )((_error) => {
       successCallback()
     })
   }
@@ -517,47 +523,47 @@ export function clearDepartment(successCallback = noop) {
 export function handlePreChatFormChange(state) {
   return {
     type: actions.PRE_CHAT_FORM_ON_CHANGE,
-    payload: state
+    payload: state,
   }
 }
 
 export function handleChatBadgeMessageChange(message) {
   return {
     type: actions.CHAT_BADGE_MESSAGE_CHANGED,
-    payload: message
+    payload: message,
   }
 }
 
 export function updateContactDetailsVisibility(bool) {
   return {
     type: actions.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
-    payload: bool
+    payload: bool,
   }
 }
 
 export function updateEmailTranscriptVisibility(bool) {
   return {
     type: actions.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-    payload: bool
+    payload: bool,
   }
 }
 
 export function updateContactDetailsFields(state) {
   return {
     type: actions.UPDATE_CHAT_CONTACT_DETAILS_INFO,
-    payload: state
+    payload: state,
   }
 }
 
 export function handleOfflineFormBack() {
   return {
-    type: actions.OFFLINE_FORM_BACK_BUTTON_CLICKED
+    type: actions.OFFLINE_FORM_BACK_BUTTON_CLICKED,
   }
 }
 
 export function handleOperatingHoursClick() {
   return {
-    type: actions.OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
+    type: actions.OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
   }
 }
 
@@ -571,11 +577,11 @@ export function sendOfflineMessage(formState, successCallback = noop, failureCal
       delete offlineFormState.phone
     }
 
-    zChatWithTimeout(getState, 'sendOfflineMsg')(offlineFormState, err => {
+    zChatWithTimeout(getState, 'sendOfflineMsg')(offlineFormState, (err) => {
       if (!err) {
         dispatch({
           type: actions.OFFLINE_FORM_REQUEST_SUCCESS,
-          payload: offlineFormState
+          payload: offlineFormState,
         })
         dispatch(setFormState('offline-form', { ...offlineFormState, message: '' }))
         successCallback()
@@ -594,7 +600,7 @@ export function handleReconnect() {
     zChat.reconnect()
 
     dispatch({
-      type: actions.CHAT_RECONNECT
+      type: actions.CHAT_RECONNECT,
     })
   }
 }
@@ -607,7 +613,10 @@ export const fetchConversationHistory = () => {
   return (dispatch, getState) => {
     dispatch({ type: actions.HISTORY_REQUEST_SENT })
 
-    zChatWithTimeout(getState, 'fetchChatHistory')((err, data) => {
+    zChatWithTimeout(
+      getState,
+      'fetchChatHistory'
+    )((err, data) => {
       /*
         This callback is invoked either when the API errors out or
         after the next batch of history messages has been passed into firehose.
@@ -616,12 +625,12 @@ export const fetchConversationHistory = () => {
       if (canBeIgnored(err)) {
         dispatch({
           type: actions.HISTORY_REQUEST_SUCCESS,
-          payload: { ...data, history }
+          payload: { ...data, history },
         })
       } else {
         dispatch({
           type: actions.HISTORY_REQUEST_FAILURE,
-          payload: err
+          payload: err,
         })
       }
 
@@ -630,17 +639,17 @@ export const fetchConversationHistory = () => {
   }
 }
 
-export const updatePreviewerScreen = screen => {
+export const updatePreviewerScreen = (screen) => {
   return {
     type: actions.UPDATE_PREVIEWER_SCREEN,
-    payload: screen
+    payload: screen,
   }
 }
 
-export const updatePreviewerSettings = settings => {
+export const updatePreviewerSettings = (settings) => {
   return {
     type: actions.UPDATE_PREVIEWER_SETTINGS,
-    payload: settings
+    payload: settings,
   }
 }
 
@@ -648,7 +657,11 @@ export function initiateSocialLogout() {
   return (dispatch, getState) => {
     dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_PENDING })
 
-    zChatWithTimeout(getState, 'doAuthLogout', 10000)(err => {
+    zChatWithTimeout(
+      getState,
+      'doAuthLogout',
+      10000
+    )((err) => {
       if (!err) {
         dispatch({ type: actions.CHAT_SOCIAL_LOGOUT_SUCCESS })
       } else {
@@ -661,19 +674,19 @@ export function initiateSocialLogout() {
 export function handlePrechatFormSubmit(info) {
   return {
     type: actions.PRE_CHAT_FORM_SUBMIT,
-    payload: info
+    payload: info,
   }
 }
 
 export function handleChatVendorLoaded(vendor) {
   return {
     type: actions.CHAT_VENDOR_LOADED,
-    payload: vendor
+    payload: vendor,
   }
 }
 
 export function proactiveMessageReceived() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: actions.PROACTIVE_CHAT_RECEIVED })
     dispatch(showWidget())
     dispatch(showChat({ proactive: true }))
@@ -686,7 +699,7 @@ export function proactiveMessageReceived() {
 
 export function chatWindowOpenOnNavigate() {
   return {
-    type: actions.CHAT_WINDOW_OPEN_ON_NAVIGATE
+    type: actions.CHAT_WINDOW_OPEN_ON_NAVIGATE,
   }
 }
 
@@ -704,10 +717,10 @@ export function chatStarted() {
 }
 
 export function chatConnected() {
-  return dispatch => {
+  return (dispatch) => {
     zopimApi.handleChatConnected()
     dispatch({
-      type: actions.CHAT_CONNECTED
+      type: actions.CHAT_CONNECTED,
     })
     callbacks.fireFor(CHAT_CONNECTED_EVENT)
   }
@@ -716,7 +729,7 @@ export function chatConnected() {
 export function setStatusForcefully(status) {
   return {
     type: actions.API_FORCE_STATUS_CALLED,
-    payload: status
+    payload: status,
   }
 }
 
@@ -736,8 +749,8 @@ export function setDefaultDepartment(id, timestamp) {
     type: actions.VISITOR_DEFAULT_DEPARTMENT_SELECTED,
     payload: {
       timestamp,
-      department: id
-    }
+      department: id,
+    },
   }
 }
 
@@ -745,8 +758,8 @@ export function updateEndChatModalVisibility(isVisible) {
   return {
     type: actions.UPDATE_END_CHAT_MODAL_VISIBILITY,
     payload: {
-      isVisible
-    }
+      isVisible,
+    },
   }
 }
 

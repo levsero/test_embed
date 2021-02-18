@@ -4,43 +4,43 @@ import identify from '../identify'
 
 const initialState = {
   values: {},
-  timestamp: 0
+  timestamp: 0,
 }
 
 testReducer(identify, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
     action: {
       type: SET_VISITOR_INFO_REQUEST_SUCCESS,
-      payload: { name: 'someone', email: 'someone@example.com', timestamp: 123 }
+      payload: { name: 'someone', email: 'someone@example.com', timestamp: 123 },
     },
     expected: {
       timestamp: 123,
       values: {
         name: 'someone',
         email: 'someone@example.com',
-        timestamp: 123
-      }
-    }
+        timestamp: 123,
+      },
+    },
   },
   {
     initialState: { timestamp: 100, values: { name: 'someone' } },
     action: {
       type: SET_VISITOR_INFO_REQUEST_SUCCESS,
-      payload: { email: 'someone@example.com', timestamp: 123 }
+      payload: { email: 'someone@example.com', timestamp: 123 },
     },
     expected: {
       timestamp: 123,
       values: {
         name: 'someone',
         email: 'someone@example.com',
-        timestamp: 123
-      }
-    }
-  }
+        timestamp: 123,
+      },
+    },
+  },
 ])

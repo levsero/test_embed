@@ -13,12 +13,12 @@ const renderComponent = (props = {}) => {
     botUserMessage: noop,
     botChannelChoice: noop,
     showGetInTouch: false,
-    locale: 'en-US'
+    locale: 'en-US',
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(<Footer {...componentProps} />)
@@ -28,7 +28,7 @@ describe('desktop', () => {
   describe('when showGetInTouch is false', () => {
     it('renders the expected elements', () => {
       const { queryByPlaceholderText, queryByText } = renderComponent({
-        currentMessage: 'desktop message'
+        currentMessage: 'desktop message',
       })
 
       expect(queryByPlaceholderText('Type your question here...').value).toEqual('desktop message')
@@ -44,7 +44,7 @@ describe('desktop', () => {
         currentMessage: 'send this',
         questionValueChanged,
         questionSubmitted,
-        scrollToBottom
+        scrollToBottom,
       })
 
       fireEvent.keyDown(container.querySelector('textarea'), { key: 'Enter', keyCode: 13 })
@@ -59,7 +59,7 @@ describe('desktop', () => {
     it('renders the expected elements', () => {
       const { queryByPlaceholderText, queryByText } = renderComponent({
         currentMessage: 'desktop message',
-        showGetInTouch: true
+        showGetInTouch: true,
       })
 
       expect(queryByPlaceholderText('Type your question here...').value).toEqual('desktop message')
@@ -73,7 +73,7 @@ describe('mobile', () => {
     it('renders the expected elements', () => {
       const { queryByPlaceholderText, queryByText } = renderComponent({
         isMobile: true,
-        currentMessage: 'mobile message'
+        currentMessage: 'mobile message',
       })
 
       const input = queryByPlaceholderText('Type your question here...')
@@ -92,7 +92,7 @@ describe('mobile', () => {
         currentMessage: 'send this',
         questionValueChanged,
         questionSubmitted,
-        scrollToBottom
+        scrollToBottom,
       })
 
       fireEvent.click(container.querySelector('button'))
@@ -108,7 +108,7 @@ describe('mobile', () => {
       const { queryByPlaceholderText, queryByText } = renderComponent({
         isMobile: true,
         currentMessage: 'mobile message',
-        showGetInTouch: true
+        showGetInTouch: true,
       })
 
       const input = queryByPlaceholderText('Type your question here...')
@@ -129,7 +129,7 @@ describe('handleGetInTouchClicked', () => {
       showGetInTouch: true,
       getInTouchClicked,
       botUserMessage,
-      botChannelChoice
+      botChannelChoice,
     })
 
     fireEvent.click(getByText('Get in touch'))

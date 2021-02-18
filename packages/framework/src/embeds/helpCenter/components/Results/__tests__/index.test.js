@@ -4,7 +4,10 @@ import * as selectors from 'embeds/helpCenter/selectors'
 
 import Results from '../index'
 
-const articles = [{ id: 1, title: 'jane eyre' }, { id: 2, title: 'pride and prejudice' }]
+const articles = [
+  { id: 1, title: 'jane eyre' },
+  { id: 2, title: 'pride and prejudice' },
+]
 
 const renderComponent = () => {
   return render(<Results />)

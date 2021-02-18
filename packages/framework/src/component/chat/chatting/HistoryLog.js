@@ -10,9 +10,9 @@ import HistoryChatGroup from 'component/chat/chatting/log/messages/ConnectedHist
 import HistoryEventMessage from 'src/embeds/chat/components/EventMessage'
 import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    chatHistoryLog: getHistoryLog(state)
+    chatHistoryLog: getHistoryLog(state),
   }
 }
 
@@ -22,11 +22,11 @@ export class HistoryLog extends Component {
     agents: PropTypes.object,
     showAvatar: PropTypes.bool.isRequired,
     firstMessageTimestamp: PropTypes.number,
-    isMobile: PropTypes.bool.isRequired
+    isMobile: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
-    firstMessageTimestamp: null
+    firstMessageTimestamp: null,
   }
 
   constructor(props) {
@@ -40,14 +40,14 @@ export class HistoryLog extends Component {
     return (this.container && this.container.scrollHeight) || 0
   }
 
-  renderDivider = timestamp => {
+  renderDivider = (timestamp) => {
     const format = dateTime(timestamp, { showToday: true })
 
     return <div className={styles.divider}>{format}</div>
   }
 
   renderHistoryLog = () => {
-    const chatLogEl = _.map(this.props.chatHistoryLog, chatGroup => {
+    const chatLogEl = _.map(this.props.chatHistoryLog, (chatGroup) => {
       const { type, author, first } = chatGroup
 
       if (type === 'message') {
@@ -90,7 +90,7 @@ export class HistoryLog extends Component {
 
     return (
       <div
-        ref={el => {
+        ref={(el) => {
           this.container = el
         }}
       >
@@ -101,9 +101,4 @@ export class HistoryLog extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(HistoryLog)
+export default connect(mapStateToProps, {}, null, { forwardRef: true })(HistoryLog)

@@ -20,7 +20,7 @@ import {
   getGroupedOperatingHours,
   getIsAuthenticated,
   getReadOnlyState,
-  getSocialLogin
+  getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 import { handleOperatingHoursClick, initiateSocialLogout } from 'src/redux/modules/chat'
 import { getOfflineFormSettings } from 'src/redux/modules/selectors'
@@ -41,14 +41,14 @@ const OfflineForm = ({
   onSubmit,
   setHasSubmitted,
   socialLogin,
-  visitor
+  visitor,
 }) => {
   const translate = useTranslate()
 
   const anyMessagingChannels = !_.isEmpty(channels)
   const isLoggedIn = isAuthenticated || socialLogin.authenticated
 
-  const handleSubmit = async values => {
+  const handleSubmit = async (values) => {
     try {
       await onSubmit(values, isLoggedIn ? { name: visitor.display_name, email: visitor.email } : {})
       setHasSubmitted()
@@ -65,7 +65,7 @@ const OfflineForm = ({
       onSubmit={handleSubmit}
       getFields={getFields}
       isPreview={isPreview}
-      validate={values => validate({ values, isAuthenticated, fields: getFields() })}
+      validate={(values) => validate({ values, isAuthenticated, fields: getFields() })}
       footer={({ isSubmitting }) => (
         <Footer>
           <SubmitButton
@@ -75,7 +75,7 @@ const OfflineForm = ({
         </Footer>
       )}
       extraFieldOptions={{
-        socialLogin: () => <SocialLogin authUrls={authUrls} />
+        socialLogin: () => <SocialLogin authUrls={authUrls} />,
       }}
       readOnlyValues={readOnlyValues}
     >
@@ -102,13 +102,13 @@ OfflineForm.propTypes = {
     channels: PropTypes.shape({
       facebook: PropTypes.shape({
         allowed: PropTypes.bool,
-        page_id: PropTypes.string
+        page_id: PropTypes.string,
       }),
       twitter: PropTypes.shape({
         allowed: PropTypes.bool,
-        page_id: PropTypes.string
-      })
-    })
+        page_id: PropTypes.string,
+      }),
+    }),
   }),
   getFields: PropTypes.func.isRequired,
   handleOperatingHoursClick: PropTypes.func.isRequired,
@@ -121,10 +121,10 @@ OfflineForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   setHasSubmitted: PropTypes.func.isRequired,
   socialLogin: AuthenticatedProfile.propTypes.socialLogin,
-  visitor: PropTypes.shape({ display_name: PropTypes.string, email: PropTypes.string })
+  visitor: PropTypes.shape({ display_name: PropTypes.string, email: PropTypes.string }),
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authUrls: getAuthUrls(state),
   formSettings: getOfflineFormSettings(state),
   getFields: () => getFields(state),
@@ -132,18 +132,15 @@ const mapStateToProps = state => ({
   operatingHours: getGroupedOperatingHours(state),
   readOnlyValues: getReadOnlyState(state),
   socialLogin: getSocialLogin(state),
-  visitor: getChatVisitor(state)
+  visitor: getChatVisitor(state),
 })
 
 const actionCreators = {
   handleOperatingHoursClick,
   initiateSocialLogout,
-  onSubmit: submitOfflineForm
+  onSubmit: submitOfflineForm,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(OfflineForm)
+const connectedComponent = connect(mapStateToProps, actionCreators)(OfflineForm)
 
 export { connectedComponent as default, OfflineForm as Component }

@@ -8,7 +8,7 @@ testReducer(forms, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     initialState,
@@ -18,36 +18,36 @@ testReducer(forms, [
         ticket_forms: [
           {
             id: 1,
-            name: 'One'
+            name: 'One',
           },
           {
             id: 2,
-            name: 'Two'
-          }
-        ]
-      }
+            name: 'Two',
+          },
+        ],
+      },
     },
     expected: {
       1: {
         id: 1,
-        name: 'One'
+        name: 'One',
       },
       2: {
         id: 2,
-        name: 'Two'
-      }
-    }
+        name: 'Two',
+      },
+    },
   },
   {
     initialState: {
       1: {
         id: 1,
-        name: 'One'
+        name: 'One',
       },
       2: {
         id: 2,
-        name: 'Two'
-      }
+        name: 'Two',
+      },
     },
     action: {
       type: TICKET_FORMS_REQUEST_SUCCESS,
@@ -55,32 +55,32 @@ testReducer(forms, [
         ticket_forms: [
           {
             id: 3,
-            name: 'Three'
+            name: 'Three',
           },
           {
             id: 4,
-            name: 'Four'
-          }
-        ]
-      }
+            name: 'Four',
+          },
+        ],
+      },
     },
     expected: {
       1: {
         id: 1,
-        name: 'One'
+        name: 'One',
       },
       2: {
         id: 2,
-        name: 'Two'
+        name: 'Two',
       },
       3: {
         id: 3,
-        name: 'Three'
+        name: 'Three',
       },
       4: {
         id: 4,
-        name: 'Four'
-      }
-    }
-  }
+        name: 'Four',
+      },
+    },
+  },
 ])

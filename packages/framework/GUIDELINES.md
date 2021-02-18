@@ -308,8 +308,8 @@ The only thing required for this is the feature flag name and its default value.
 export default {
   /* ... */
   fancyNewFeature: {
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 }
 ```
 
@@ -323,8 +323,8 @@ export default {
   /* ... */
   fancyNewFeature: {
     defaultValue: false,
-    getArturoValue: state => state.fancyNewFeature
-  }
+    getArturoValue: (state) => state.fancyNewFeature,
+  },
 }
 ```
 

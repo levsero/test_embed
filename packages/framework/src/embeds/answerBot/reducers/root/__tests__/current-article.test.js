@@ -10,8 +10,8 @@ test('updates to expected state', () => {
     type: actionTypes.ARTICLE_SHOWN,
     payload: {
       sessionID: 'one',
-      articleID: 'two'
-    }
+      articleID: 'two',
+    },
   })
 
   expect(state).toMatchInlineSnapshot(`

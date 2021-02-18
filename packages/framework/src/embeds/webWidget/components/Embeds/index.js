@@ -24,7 +24,7 @@ const baseWebWidgetStyle = {
   height: DEFAULT_WIDGET_HEIGHT + 2 * WIDGET_MARGIN,
   position: 'fixed',
   opacity: 0,
-  border: 0
+  border: 0,
 }
 
 const mobileWebWidgetStyle = {
@@ -33,7 +33,7 @@ const mobileWebWidgetStyle = {
   position: 'fixed',
   opacity: 0,
   border: 0,
-  top: 0
+  top: 0,
 }
 
 const fullscreenDesktopStyle = {
@@ -44,21 +44,21 @@ const fullscreenDesktopStyle = {
   top: 0,
   left: 0,
   right: 0,
-  bottom: 0
+  bottom: 0,
 }
 
 // On mobile we don't want to transition the web widget's position
 const mobileTransitionOverrides = {
   left: 0,
   bottom: null,
-  right: null
+  right: null,
 }
 
 const Embeds = () => {
   const translate = useTranslate()
   const dispatch = useDispatch()
-  const visible = useSelector(state => getFrameVisible(state, 'webWidget'))
-  const color = useSelector(state => getColor(state, 'webWidget'))
+  const visible = useSelector((state) => getFrameVisible(state, 'webWidget'))
+  const color = useSelector((state) => getColor(state, 'webWidget'))
   const zIndex = useSelector(getStylingZIndex)
 
   const frameStyle = isMobileBrowser() ? mobileWebWidgetStyle : baseWebWidgetStyle
@@ -73,7 +73,7 @@ const Embeds = () => {
         dispatch(widgetShowAnimationComplete())
       }}
     >
-      {transitionStyles => (
+      {(transitionStyles) => (
         <BaseFrame
           title={translate('embeddable_framework.web_widget.frame.title') ?? ''}
           id="webWidget"
@@ -82,7 +82,7 @@ const Embeds = () => {
             ...frameStyle,
             ...transitionStyles,
             ...(isMobileBrowser() ? mobileTransitionOverrides : {}),
-            zIndex
+            zIndex,
           }}
           color={color}
           tabIndex={visible ? '0' : '-1'}

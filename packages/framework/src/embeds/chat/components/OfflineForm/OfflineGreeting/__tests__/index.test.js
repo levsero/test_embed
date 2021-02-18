@@ -6,7 +6,7 @@ import OfflineGreeting from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    greeting: 'hello friend!'
+    greeting: 'hello friend!',
   }
 
   return render(<OfflineGreeting {...defaultProps} {...props} />)

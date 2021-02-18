@@ -6,17 +6,17 @@ testReducer(endChatModalVisible, [
   {
     action: {
       type: UPDATE_END_CHAT_MODAL_VISIBILITY,
-      payload: { isVisible: true }
+      payload: { isVisible: true },
     },
     initialState: false,
-    expected: true
+    expected: true,
   },
   {
     action: {
       type: UPDATE_END_CHAT_MODAL_VISIBILITY,
-      payload: { isVisible: false }
+      payload: { isVisible: false },
     },
     initialState: true,
-    expected: false
-  }
+    expected: false,
+  },
 ])

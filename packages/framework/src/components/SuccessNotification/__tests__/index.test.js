@@ -6,12 +6,12 @@ import { Provider } from 'react-redux'
 
 const onClickSpy = jest.fn()
 
-const renderComponent = inProps => {
+const renderComponent = (inProps) => {
   const props = {
     onClick: onClickSpy,
     doneText: 'Doneski testski',
     icon: <div data-testid="OhLookeyHere" />,
-    ...inProps
+    ...inProps,
   }
 
   return render(

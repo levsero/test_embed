@@ -7,5 +7,5 @@ import chatLabel from 'src/embeds/launcher/settings/reducers/chatLabel'
 export default combineReducers({
   label,
   chatLabel,
-  talkLabel
+  talkLabel,
 })

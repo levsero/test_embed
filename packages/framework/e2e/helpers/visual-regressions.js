@@ -4,7 +4,7 @@ export const assertScreenshot = async (identifier, customOptions = {}) => {
   const options = {
     comparisonMethod: 'ssim',
     failureThreshold: 0.01,
-    failureThresholdType: 'percent'
+    failureThresholdType: 'percent',
   }
   if (identifier) {
     if (customOptions.tag) {

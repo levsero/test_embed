@@ -12,9 +12,9 @@ test('suppresses the contact form', async () => {
       window.zESettings = {
         webWidget: {
           contactForm: {
-            suppress: true
-          }
-        }
+            suppress: true,
+          },
+        },
       }
     })
     .load()

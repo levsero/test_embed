@@ -7,8 +7,8 @@ const StyledButton = styled(Button)`
 `
 
 const Greeting = styled.p`
-  margin-top: ${props => 6 / props.theme.fontSize}rem;
-  font-size: ${props => 15 / props.theme.fontSize}rem;
+  margin-top: ${(props) => 6 / props.theme.fontSize}rem;
+  font-size: ${(props) => 15 / props.theme.fontSize}rem;
   color: ${zdColorGrey800};
   flex-grow: 1;
 `
@@ -16,7 +16,7 @@ const Greeting = styled.p`
 const InnerContentContainer = styled.div`
   flex-direction: column;
   display: flex;
-  padding-bottom: ${props => 25 / props.theme.fontSize}rem;
+  padding-bottom: ${(props) => 25 / props.theme.fontSize}rem;
   height: 100%;
 `
 

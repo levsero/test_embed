@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { formUpdated, getFormInfo, stepChanged, submitForm } from './store'
 
 const useForm = ({ formId, fields }) => {
-  const { values: valuesFromState, formSubmissionStatus, step } = useSelector(state =>
+  const { values: valuesFromState, formSubmissionStatus, step } = useSelector((state) =>
     getFormInfo(state, formId)
   )
 
@@ -25,7 +25,7 @@ const useForm = ({ formId, fields }) => {
 
   const onChange = useCallback(
     (updatedValues = {}) => {
-      setValues(previousValues => ({ ...previousValues, ...updatedValues }))
+      setValues((previousValues) => ({ ...previousValues, ...updatedValues }))
     },
     [setValues]
   )
@@ -35,7 +35,7 @@ const useForm = ({ formId, fields }) => {
       submitForm({
         formId,
         fields,
-        values
+        values,
       })
     )
   }
@@ -46,7 +46,7 @@ const useForm = ({ formId, fields }) => {
     formSubmissionStatus,
     onStepChange,
     onChange,
-    onSubmit
+    onSubmit,
   }
 }
 

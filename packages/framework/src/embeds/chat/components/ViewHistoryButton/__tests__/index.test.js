@@ -8,7 +8,7 @@ import { Container, HistoryIcon } from 'embeds/chat/components/ViewHistoryButton
 describe('ViewHistoryButton', () => {
   const defaultProps = {
     canShowHistory: true,
-    onOpenChatHistory: jest.fn()
+    onOpenChatHistory: jest.fn(),
   }
 
   const renderComponent = (props = {}) => render(<ViewHistoryButton {...defaultProps} {...props} />)

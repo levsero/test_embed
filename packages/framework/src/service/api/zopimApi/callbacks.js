@@ -4,7 +4,7 @@ let chatSDKInitialized = false
 let onChatConnectedQueue = []
 let onChatSDKInitializedQueue = []
 
-export const onChatConnected = cb => {
+export const onChatConnected = (cb) => {
   if (chatConnected) {
     return cb()
   } else {
@@ -12,7 +12,7 @@ export const onChatConnected = cb => {
   }
 }
 
-export const onChatSDKInitialized = cb => {
+export const onChatSDKInitialized = (cb) => {
   if (chatSDKInitialized) {
     return cb()
   } else {
@@ -38,7 +38,7 @@ export const reset = () => {
   onChatSDKInitializedQueue = []
 }
 
-const flushQueue = queue => {
-  queue.forEach(cb => cb())
+const flushQueue = (queue) => {
+  queue.forEach((cb) => cb())
   queue = []
 }

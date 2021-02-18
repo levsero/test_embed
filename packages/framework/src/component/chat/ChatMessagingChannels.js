@@ -10,7 +10,7 @@ import {
   ButtonsContainer,
   Container,
   MessengerIcon,
-  TwitterIcon
+  TwitterIcon,
 } from './ChatMessagingChannelsStyles'
 
 const ChatMessagingChannels = ({ channels: { facebook, twitter }, theme: { isMobile } }) => {
@@ -59,14 +59,14 @@ ChatMessagingChannels.propTypes = {
   channels: PropTypes.shape({
     facebook: PropTypes.shape({
       allowed: PropTypes.bool,
-      page_id: PropTypes.string
+      page_id: PropTypes.string,
     }),
     twitter: PropTypes.shape({
       allowed: PropTypes.bool,
-      page_id: PropTypes.string
-    })
+      page_id: PropTypes.string,
+    }),
   }),
-  theme: PropTypes.shape({ isMobile: PropTypes.bool })
+  theme: PropTypes.shape({ isMobile: PropTypes.bool }),
 }
 
 const themedComponent = withTheme(ChatMessagingChannels)

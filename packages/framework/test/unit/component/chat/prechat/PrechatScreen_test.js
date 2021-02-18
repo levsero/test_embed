@@ -36,22 +36,22 @@ describe('PrechatScreen component', () => {
           logoFooter: 'logoFooterClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
-          zendeskLogo: 'zendeskLogoClasses'
-        }
+          zendeskLogo: 'zendeskLogoClasses',
+        },
       },
       'src/embeds/chat/components/SocialLogin': noopReactComponent(),
       'component/loading/LoadingSpinner': {
-        LoadingSpinner
+        LoadingSpinner,
       },
       'component/chat/prechat/PrechatForm': {
-        PrechatForm
+        PrechatForm,
       },
       'embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
       'component/container/Container': {
-        Container: noopReactComponent()
+        Container: noopReactComponent(),
       },
       'embeds/webWidget/selectors/feature-flags': {
-        isFeatureEnabled: () => false
+        isFeatureEnabled: () => false,
       },
       'components/Widget/SuspensePage': noopReactComponent(),
       'src/redux/modules/chat': {
@@ -60,29 +60,29 @@ describe('PrechatScreen component', () => {
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy,
         handlePrechatFormSubmit: handlePrechatFormSubmitSpy,
-        resetCurrentMessage: resetCurrentMessageSpy
+        resetCurrentMessage: resetCurrentMessageSpy,
       },
       'src/redux/modules/selectors': {
-        getPrechatFormFields: noop
+        getPrechatFormFields: noop,
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsChatDepartmentsEmpty: noop
+        getSettingsChatDepartmentsEmpty: noop,
       },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
         LOADING_SCREEN: loadingScreen,
-        OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen
+        OFFLINE_MESSAGE_SUCCESS_SCREEN: offlineMessageScreen,
       },
       'src/apps/webWidget/services/i18n': {
         i18n: {
           t: _.identity,
-          isRTL: () => {}
-        }
+          isRTL: () => {},
+        },
       },
       'constants/chat': {
         AGENT_BOT: 'agent:trigger',
-        DEPARTMENT_STATUSES
+        DEPARTMENT_STATUSES,
       },
       'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage': PrechatFormOfflineMessageSuccessPage,
       'src/redux/modules/chat/chat-selectors': {},
@@ -91,9 +91,9 @@ describe('PrechatScreen component', () => {
         Widget: noopReactComponent(),
         Header: noopReactComponent(),
         Main: noopReactComponent(),
-        Footer: noopReactComponent()
+        Footer: noopReactComponent(),
       },
-      'src/components/WidgetHeader': {}
+      'src/components/WidgetHeader': {},
     })
 
     mockery.registerAllowable(chatPath)
@@ -159,7 +159,7 @@ describe('PrechatScreen component', () => {
     it('calls submitPrechatForm', () => {
       expect(submitPrechatFormSpy).toHaveBeenCalledWith({
         values: formInfo,
-        isDepartmentFieldVisible: !deptHidden
+        isDepartmentFieldVisible: !deptHidden,
       })
     })
 

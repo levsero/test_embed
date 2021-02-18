@@ -12,7 +12,7 @@ jest.mock('src/embeds/chat/components/ViewHistoryButton', () => {
     __esModule: true,
     default: () => {
       return <div data-testid="viewHistoryButton" />
-    }
+    },
   }
 })
 
@@ -24,9 +24,9 @@ describe('OfflineForm', () => {
     formSettings: {
       channels: {
         facebook: { allowed: true, page_id: 'facebookPageId' },
-        twitter: { allowed: true, page_id: 'twitterPageId' }
+        twitter: { allowed: true, page_id: 'twitterPageId' },
       },
-      message: "Hey, here's a form message"
+      message: "Hey, here's a form message",
     },
     getFields: jest.fn().mockReturnValue([]),
     handleOperatingHoursClick: jest.fn(),
@@ -38,7 +38,7 @@ describe('OfflineForm', () => {
     onSubmit: jest.fn(),
     setHasSubmitted: jest.fn(),
     socialLogin: { avatarPath: 'asd', authenticated: false, screen: '' },
-    visitor: {}
+    visitor: {},
   }
 
   const allFields = [
@@ -47,29 +47,29 @@ describe('OfflineForm', () => {
       title: 'Name',
       required: true,
       visible: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'email',
       title: 'Email',
       required: true,
       visible: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'phone',
       title: 'Phone',
       required: true,
       visible: true,
-      type: 'text'
+      type: 'text',
     },
     {
       id: 'message',
       title: 'Message',
       required: true,
       visible: true,
-      type: 'textarea'
-    }
+      type: 'textarea',
+    },
   ]
 
   const renderComponent = (props = {}, renderProps) => {
@@ -88,9 +88,9 @@ describe('OfflineForm', () => {
       formSettings: {
         channels: {
           facebook: { allowed: true, page_id: 'facebookPageId' },
-          twitter: { allowed: true, page_id: 'twitterPageId' }
-        }
-      }
+          twitter: { allowed: true, page_id: 'twitterPageId' },
+        },
+      },
     })
 
     expect(queryByText("Hey, here's a form message")).not.toBeInTheDocument()
@@ -103,8 +103,8 @@ describe('OfflineForm', () => {
       readOnlyValues: {
         name: true,
         email: false,
-        phone: true
-      }
+        phone: true,
+      },
     })
 
     expect(getByLabelText('Name')).toHaveAttribute('readonly')
@@ -114,7 +114,7 @@ describe('OfflineForm', () => {
 
   it('updates when the prefill command has been called', async () => {
     const { getByLabelText, store } = renderComponent({
-      getFields: () => allFields
+      getFields: () => allFields,
     })
 
     const name = getByLabelText('Name')
@@ -133,7 +133,7 @@ describe('OfflineForm', () => {
       handlePrefillReceived({
         name: { value: 'Name 2' },
         email: { value: 'email2@example.com' },
-        phone: { value: '222 222 222' }
+        phone: { value: '222 222 222' },
       })
     )
 
@@ -144,7 +144,7 @@ describe('OfflineForm', () => {
 
   it('updates when the identify command has been called', async () => {
     const { getByLabelText, store } = renderComponent({
-      getFields: () => allFields
+      getFields: () => allFields,
     })
 
     const name = getByLabelText('Name')
@@ -163,8 +163,8 @@ describe('OfflineForm', () => {
       type: SET_VISITOR_INFO_REQUEST_SUCCESS,
       payload: {
         display_name: 'Name 2',
-        email: 'email2@example.com'
-      }
+        email: 'email2@example.com',
+      },
     })
 
     await waitFor(() => expect(name).toHaveValue('Name 2'))
@@ -176,7 +176,7 @@ describe('OfflineForm', () => {
       const onSubmit = jest.fn()
       const { getByText } = renderComponent({
         getFields: () => allFields,
-        onSubmit
+        onSubmit,
       })
 
       await userEvent.click(getByText('Send message'))
@@ -186,7 +186,7 @@ describe('OfflineForm', () => {
 
     it('renders errors for required fields on submit', async () => {
       const { getByText, rerender } = renderComponent({
-        getFields: () => allFields
+        getFields: () => allFields,
       })
 
       await userEvent.click(getByText('Send message'))
@@ -199,7 +199,7 @@ describe('OfflineForm', () => {
       expect(getByText('Please enter a valid message.')).toBeInTheDocument()
     })
 
-    const inputIntoFields = async getByLabelText => {
+    const inputIntoFields = async (getByLabelText) => {
       const name = getByLabelText('Name')
       const email = getByLabelText('Email')
       const phone = getByLabelText('Phone')
@@ -215,7 +215,7 @@ describe('OfflineForm', () => {
       const onSubmit = jest.fn()
       const { getByLabelText, getByText, queryByText, rerender } = renderComponent({
         getFields: () => allFields,
-        onSubmit
+        onSubmit,
       })
 
       const send = getByText('Send message')
@@ -241,7 +241,7 @@ describe('OfflineForm', () => {
       const onSubmit = jest.fn()
       const { getByLabelText, getByText } = renderComponent({
         getFields: () => allFields,
-        onSubmit
+        onSubmit,
       })
 
       const send = getByText('Send message')
@@ -258,7 +258,7 @@ describe('OfflineForm', () => {
     describe('when user is authenticated', () => {
       it('renders the authenticated profile information', () => {
         const { getByText } = renderComponent({
-          isAuthenticated: true
+          isAuthenticated: true,
         })
 
         expect(getByText('Your profile:')).toBeInTheDocument()
@@ -268,7 +268,7 @@ describe('OfflineForm', () => {
     describe('when user is not authenticated', () => {
       it('does not render the authenticated profile information', () => {
         const { queryByText } = renderComponent({
-          isAuthenticated: false
+          isAuthenticated: false,
         })
 
         expect(queryByText('Your profile:')).toBeNull()

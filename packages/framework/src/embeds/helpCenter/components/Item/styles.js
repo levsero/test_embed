@@ -14,16 +14,16 @@ export const ListItem = styled.li`
     margin-bottom: 0;
   }
   ${isMobileBrowser() &&
-    `
+  `
     font-size: ${15 / FONT_SIZE}rem;
  `}
 `
 
 export const ArticleLink = styled.a`
-  color: ${props => props.theme.listColorStr} !important;
+  color: ${(props) => props.theme.listColorStr} !important;
   :hover,
   :active,
   :focus {
-    color: ${props => props.theme.listHighlightColorStr} !important;
+    color: ${(props) => props.theme.listHighlightColorStr} !important;
   }
 `

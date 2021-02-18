@@ -13,12 +13,12 @@ function DashboardPlugin() {
     throw new Error(
       [
         "You tried to start the widget with the dashboard, but don't have the dashboard installed yet.\n",
-        'Installation instructions can be found here https://github.com/zendesk/widget-developer-dashboard\n'
+        'Installation instructions can be found here https://github.com/zendesk/widget-developer-dashboard\n',
       ].join('')
     )
   }
 
-  return compiler => {
+  return (compiler) => {
     compiler.plugin('compilation', () => {
       if (running) {
         return
@@ -26,12 +26,12 @@ function DashboardPlugin() {
       running = true
 
       const child = spawn(`cd ${dashboardPath} && yarn start`, {
-        shell: true
+        shell: true,
       })
-      child.stdout.on('data', function(data) {
+      child.stdout.on('data', function (data) {
         process.stdout.write(data)
       })
-      child.stderr.on('data', function(data) {
+      child.stderr.on('data', function (data) {
         process.stderr.write(data)
       })
     })

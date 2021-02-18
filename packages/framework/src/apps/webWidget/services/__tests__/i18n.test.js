@@ -10,10 +10,10 @@ jest.mock('../../../../../../../config/locales/translations/embeddable_framework
       {
         translation: {
           key: 'string.key.from.yml.file',
-          value: 'Hello'
-        }
-      }
-    ]
+          value: 'Hello',
+        },
+      },
+    ],
   }
 })
 
@@ -31,7 +31,7 @@ describe('i18n', () => {
         globals.navigator = {
           languages: ['ar', 'fr'],
           browserLanguage: 'en-GB',
-          language: 'yolodunno'
+          language: 'yolodunno',
         }
         expect(i18n.getClientLocale()).toEqual('ar')
       })
@@ -41,7 +41,7 @@ describe('i18n', () => {
         globals.navigator = {
           languages: [],
           browserLanguage: 'en-GB',
-          language: 'yolodunno'
+          language: 'yolodunno',
         }
         expect(i18n.getClientLocale()).toEqual('en-GB')
       })
@@ -51,7 +51,7 @@ describe('i18n', () => {
         globals.navigator = {
           languages: [],
           browserLanguage: undefined,
-          language: 'en-GB'
+          language: 'en-GB',
         }
         expect(i18n.getClientLocale()).toEqual('en-GB')
       })
@@ -61,7 +61,7 @@ describe('i18n', () => {
         globals.navigator = {
           languages: [],
           browserLanguage: undefined,
-          language: undefined
+          language: undefined,
         }
         expect(i18n.getClientLocale()).toEqual('en-US')
       })
@@ -77,7 +77,7 @@ describe('i18n', () => {
   describe('setLocale', () => {
     describe('with no previously set locale', () => {
       describe('and no locales are passed in', () => {
-        it('defaults setLocale to en-US', done => {
+        it('defaults setLocale to en-US', (done) => {
           i18n.setLocale(undefined, () => {
             expect(i18n.getLocale()).toEqual('en-US')
             done()
@@ -85,7 +85,7 @@ describe('i18n', () => {
         })
       })
       describe('and a configLocale is passed in', () => {
-        it('uses the configLocale', done => {
+        it('uses the configLocale', (done) => {
           i18n.setLocale(
             undefined,
             () => {
@@ -97,7 +97,7 @@ describe('i18n', () => {
         })
       })
       describe('and an apiLocale is passed in', () => {
-        it('uses the apiLocale', done => {
+        it('uses the apiLocale', (done) => {
           i18n.setLocale(
             'pt-BR',
             () => {
@@ -126,7 +126,7 @@ describe('i18n', () => {
         })
       })
       describe('and a apiLocale is passed in', () => {
-        it('uses the apiLocale', done => {
+        it('uses the apiLocale', (done) => {
           i18n.setLocale(
             'pt-BR',
             () => {
@@ -155,7 +155,7 @@ describe('i18n', () => {
         ['nn-NO', 'nn'],
         ['no', 'no'],
         ['tl', 'tl'],
-        ['en-AU', 'en-au']
+        ['en-AU', 'en-au'],
       ])('setLocale(%s) resolves to %s', (arg, expected, done) => {
         i18n.setLocale(arg, () => {
           expect(i18n.getLocale()).toEqual(expected)
@@ -165,13 +165,13 @@ describe('i18n', () => {
     })
   })
   describe('getLocaleId', () => {
-    it('returns the correct locale_id for en-US', done => {
+    it('returns the correct locale_id for en-US', (done) => {
       i18n.setLocale(undefined, () => {
         expect(i18n.getLocaleId()).toEqual(1)
         done()
       })
     })
-    it('returns the correct locale_id for de-de', done => {
+    it('returns the correct locale_id for de-de', (done) => {
       i18n.setLocale('de-de')
       i18n.setLocale('de-de', () => {
         expect(i18n.getLocaleId()).toEqual(8)
@@ -194,7 +194,7 @@ describe('i18n', () => {
           it('returns the interpolated string', () => {
             expect(
               i18n.t('embeddable_framework.chat.chatLog.queuePosition', {
-                value: 'First'
+                value: 'First',
               })
             ).toEqual('Queue position: First')
           })
@@ -203,7 +203,7 @@ describe('i18n', () => {
           it('returns the raw string', () => {
             expect(
               i18n.t('embeddable_framework.chat.chatLog.queuePosition', {
-                val: 'First'
+                val: 'First',
               })
             ).toEqual('Queue position: %(value)s')
           })
@@ -221,7 +221,7 @@ describe('i18n', () => {
   })
   describe('getSettingTranslation', () => {
     describe('when the translations object is empty', () => {
-      it('returns undefined', done => {
+      it('returns undefined', (done) => {
         i18n.setLocale('en-US', () => {
           expect(i18n.getSettingTranslation({})).toEqual(undefined)
           done()
@@ -231,10 +231,10 @@ describe('i18n', () => {
     describe('when the translations object is not empty', () => {
       const translations = {
         de: 'Achtung! Schnell!',
-        '*': 'Move it!'
+        '*': 'Move it!',
       }
       describe('when the translations object contains the locale', () => {
-        it('returns the correct translation', done => {
+        it('returns the correct translation', (done) => {
           i18n.setLocale('de', () => {
             expect(i18n.getSettingTranslation(translations)).toEqual(translations.de)
             done()
@@ -242,19 +242,19 @@ describe('i18n', () => {
         })
       })
       describe('when the translations object does not contain the locale', () => {
-        it('returns the default * locale value', done => {
+        it('returns the default * locale value', (done) => {
           i18n.setLocale('fr', () => {
             expect(i18n.getSettingTranslation(translations)).toEqual(translations['*'])
             done()
           })
         })
         describe('when the translations object is missing a default locale', () => {
-          it('returns null', done => {
+          it('returns null', (done) => {
             i18n.setLocale('ar', () => {
               expect(
                 i18n.getSettingTranslation({
                   de: 'german',
-                  fr: 'french'
+                  fr: 'french',
                 })
               ).toBeNull()
               done()

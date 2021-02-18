@@ -17,16 +17,16 @@ describe('ButtonCard component', () => {
 
     initMockRegistry({
       'component/shared/StructuredMessage/ButtonCard': {
-        ButtonCard: PureButtonCard
+        ButtonCard: PureButtonCard,
       },
       './Button': {
-        Button
+        Button,
       },
       './ButtonCard.scss': {
         locals: {
-          mobile: 'mobile'
-        }
-      }
+          mobile: 'mobile',
+        },
+      },
     })
 
     mockery.registerAllowable(buttonCardPath)
@@ -48,17 +48,17 @@ describe('ButtonCard component', () => {
           text: 'Hey!',
           action: {
             type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.QUICK_REPLY_ACTION,
-            value: 'replied'
-          }
+            value: 'replied',
+          },
         },
         {
           text: 'Hello!',
           action: {
             type: CHAT_STRUCTURED_MESSAGE_ACTION_TYPE.LINK_ACTION,
-            value: 'https://sample.com'
-          }
-        }
-      ]
+            value: 'https://sample.com',
+          },
+        },
+      ],
     }
 
     let component, result
@@ -86,7 +86,7 @@ describe('ButtonCard component', () => {
       it('renders correct number of Button components', () => {
         expect(result.props.children.length).toEqual(componentProps.buttons.length)
 
-        result.props.children.forEach(child => {
+        result.props.children.forEach((child) => {
           expect(TestUtils.isElementOfType(child, Button)).toEqual(true)
         })
       })

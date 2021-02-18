@@ -7,7 +7,7 @@ import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-e
 import { mockTicketFieldsEndpoint } from 'e2e/helpers/support-embed'
 import { mockHcStatsEndpoint } from 'e2e/helpers/hc-stats'
 
-export const assertContactFormSubmittedPayload = url => {
+export const assertContactFormSubmittedPayload = (url) => {
   const payload = getBlipPayload(url)
 
   expect(payload).toEqual({
@@ -22,10 +22,10 @@ export const assertContactFormSubmittedPayload = url => {
         ticketId: expect.any(Number),
         attachmentsCount: 0,
         attachmentTypes: [],
-        contextualSearch: false
-      }
+        contextualSearch: false,
+      },
     },
-    ...blipMetadata
+    ...blipMetadata,
   })
 }
 
@@ -124,7 +124,7 @@ test('sends hc stat call in the correct format', async () => {
   expect(payload).toEqual({
     last_search: {
       query: 'Help',
-      origin: 'web_widget'
-    }
+      origin: 'web_widget',
+    },
   })
 })

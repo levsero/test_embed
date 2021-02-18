@@ -17,7 +17,7 @@ export function getIsChatting() {
 
     dispatch({
       type: IS_CHATTING,
-      payload: isChatting
+      payload: isChatting,
     })
 
     if (isChatting) {

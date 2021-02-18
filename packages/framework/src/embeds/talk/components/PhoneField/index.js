@@ -6,7 +6,7 @@ import { Field, Label } from '@zendeskgarden/react-forms'
 import {
   FieldContainer,
   composeEventHandlers,
-  ControlledComponent
+  ControlledComponent,
 } from '@zendeskgarden/react-selection'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { AsYouType, parsePhoneNumber } from 'libphonenumber-js'
@@ -24,7 +24,7 @@ const mapStateToProps = () => {
   return {
     isRTL: i18n.isRTL(),
     label: getStyledLabelText(i18n.t('embeddable_framework.common.textLabel.phone_number'), true),
-    errorMessage: i18n.t('embeddable_framework.validation.error.phone')
+    errorMessage: i18n.t('embeddable_framework.validation.error.phone'),
   }
 }
 
@@ -37,7 +37,7 @@ class PhoneField extends ControlledComponent {
     country: PropTypes.string,
     value: PropTypes.string,
     onCountrySelect: PropTypes.func,
-    showError: PropTypes.bool
+    showError: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -45,7 +45,7 @@ class PhoneField extends ControlledComponent {
     country: '',
     value: '',
     onCountrySelect: () => {},
-    showError: false
+    showError: false,
   }
 
   constructor(props) {
@@ -61,13 +61,13 @@ class PhoneField extends ControlledComponent {
       inputValue,
       countries: this.formatCountries(props.supportedCountries),
       valid: false,
-      countryDropdownOpen: false
+      countryDropdownOpen: false,
     }
 
     this.phoneInput = undefined
   }
 
-  onFlagChange = selectedKey => {
+  onFlagChange = (selectedKey) => {
     if (selectedKey === this.state.selectedKey) return
 
     const { code } = this.getCountryByIso(selectedKey)
@@ -82,7 +82,7 @@ class PhoneField extends ControlledComponent {
 
   formatCountries(supportedCountries) {
     return supportedCountries
-      .map(iso => this.getCountryByIso(iso))
+      .map((iso) => this.getCountryByIso(iso))
       .sort((a, b) => {
         return a.name > b.name ? 1 : b.name > a.name ? -1 : 0 // eslint-disable-line no-nested-ternary
       })
@@ -97,7 +97,7 @@ class PhoneField extends ControlledComponent {
       onClick: composeEventHandlers(onClick, () => {
         this.selectRef && this.selectRef.focus()
       }),
-      ...other
+      ...other,
     }
   }
 
@@ -127,7 +127,7 @@ class PhoneField extends ControlledComponent {
     return !_.startsWith(inputValue, code) ? code : this.formatPhoneNumber(selectedKey, inputValue)
   }
 
-  onInputChange = e => {
+  onInputChange = (e) => {
     const phoneValue = this.getPhoneValue(e.target.value, this.state.selectedKey)
 
     const errorMessage = this.validatePhoneNumber(phoneValue, this.state.selectedKey)
@@ -144,7 +144,7 @@ class PhoneField extends ControlledComponent {
       iso,
       // We format the number as the user types which removes any dashes from the input.
       // When storing the dialing code we need to replace the dash with a space so we can match it.
-      code: `+${code}`.replace('-', ' ')
+      code: `+${code}`.replace('-', ' '),
     }
   }
 
@@ -162,7 +162,7 @@ class PhoneField extends ControlledComponent {
     return (
       <Container>
         <CurrentFrameConsumer>
-          {frame => (
+          {(frame) => (
             <ThemeProvider
               theme={{
                 ...DEFAULT_THEME,
@@ -171,8 +171,8 @@ class PhoneField extends ControlledComponent {
                 components: styleOverrides,
                 colors: {
                   ...DEFAULT_THEME.colors,
-                  primaryHue: 'grey'
-                }
+                  primaryHue: 'grey',
+                },
               }}
             >
               <FieldContainer>
@@ -188,7 +188,7 @@ class PhoneField extends ControlledComponent {
                         validation={showError ? 'error' : undefined}
                         tabIndex={-1}
                         mediaLayout={true}
-                        ref={container => {
+                        ref={(container) => {
                           if (!container) {
                             return
                           }
@@ -198,7 +198,7 @@ class PhoneField extends ControlledComponent {
                           if (!this.state.dropdownWidth) {
                             this.setState({
                               dropdownWidth:
-                                this.containerRef.getBoundingClientRect().width || '100%'
+                                this.containerRef.getBoundingClientRect().width || '100%',
                             })
                           }
                         }}
@@ -209,7 +209,7 @@ class PhoneField extends ControlledComponent {
                           countries={this.state.countries}
                           width={this.state.dropdownWidth || '100%'}
                           isOpen={this.state.countryDropdownOpen}
-                          onToggleOpen={countryDropdownOpen => {
+                          onToggleOpen={(countryDropdownOpen) => {
                             this.setState({ countryDropdownOpen })
                           }}
                         />
@@ -220,7 +220,7 @@ class PhoneField extends ControlledComponent {
                           type="tel"
                           name="phone"
                           autoComplete="off"
-                          ref={node => (this.phoneInput = node)}
+                          ref={(node) => (this.phoneInput = node)}
                           required={this.props.required}
                           isBare={true}
                           data-testid={TEST_IDS.PHONE_FIELD}

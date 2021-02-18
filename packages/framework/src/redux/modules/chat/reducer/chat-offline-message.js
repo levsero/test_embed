@@ -3,7 +3,7 @@ import {
   OFFLINE_FORM_REQUEST_FAILURE,
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
-  OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
+  OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
 } from '../chat-action-types'
 import { OFFLINE_FORM_SCREENS } from 'constants/chat'
 
@@ -12,9 +12,9 @@ const initialState = {
   details: {
     name: '',
     email: '',
-    message: ''
+    message: '',
   },
-  error: false
+  error: false,
 }
 
 const offlineMessage = (state = initialState, action) => {
@@ -23,29 +23,29 @@ const offlineMessage = (state = initialState, action) => {
       return {
         details: {},
         error: false,
-        screen: OFFLINE_FORM_SCREENS.LOADING
+        screen: OFFLINE_FORM_SCREENS.LOADING,
       }
     case OFFLINE_FORM_REQUEST_SUCCESS:
       return {
         ...state,
         details: action.payload,
-        screen: OFFLINE_FORM_SCREENS.SUCCESS
+        screen: OFFLINE_FORM_SCREENS.SUCCESS,
       }
     case OFFLINE_FORM_REQUEST_FAILURE:
       return {
         ...state,
         error: true,
-        screen: OFFLINE_FORM_SCREENS.MAIN
+        screen: OFFLINE_FORM_SCREENS.MAIN,
       }
     case OFFLINE_FORM_BACK_BUTTON_CLICKED:
       return {
         ...state,
-        screen: OFFLINE_FORM_SCREENS.MAIN
+        screen: OFFLINE_FORM_SCREENS.MAIN,
       }
     case OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED:
       return {
         ...state,
-        screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS
+        screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS,
       }
     default:
       return state

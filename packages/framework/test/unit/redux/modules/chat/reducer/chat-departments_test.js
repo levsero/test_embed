@@ -35,13 +35,13 @@ describe('chat reducer departments', () => {
           detail: {
             id: 123,
             name: 'Helpdesk',
-            status: 'online'
-          }
+            status: 'online',
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.SDK_DEPARTMENT_UPDATE,
-          payload: payload
+          payload: payload,
         })
       })
 
@@ -50,8 +50,8 @@ describe('chat reducer departments', () => {
           newState = reducer(state, {
             type: actionTypes.SDK_DEPARTMENT_UPDATE,
             payload: {
-              detail: _.extend({}, payload.detail, { id: 456 })
-            }
+              detail: _.extend({}, payload.detail, { id: 456 }),
+            },
           })
         })
 
@@ -65,8 +65,8 @@ describe('chat reducer departments', () => {
           newState = reducer(state, {
             type: actionTypes.SDK_DEPARTMENT_UPDATE,
             payload: {
-              detail: _.extend({}, payload.detail, { status: 'offline' })
-            }
+              detail: _.extend({}, payload.detail, { status: 'offline' }),
+            },
           })
         })
 

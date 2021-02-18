@@ -7,16 +7,16 @@ describe('settings reducer', () => {
     initMockRegistry({
       'service/settings': {
         settings: {
-          get: noop
-        }
+          get: noop,
+        },
       },
       'src/redux/modules/settings/settings-action-types': {
-        UPDATE_SETTINGS: 'UPDATE_SETTINGS'
+        UPDATE_SETTINGS: 'UPDATE_SETTINGS',
       },
       'src/util/color/validate': {
-        normalizeColor: noop
+        normalizeColor: noop,
       },
-      'src/embeds/launcher/settings/reducers': {}
+      'src/embeds/launcher/settings/reducers': {},
     })
 
     const reducerPath = buildSrcPath('redux/modules/settings/reducer/index')

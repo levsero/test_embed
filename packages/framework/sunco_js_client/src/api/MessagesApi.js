@@ -11,8 +11,8 @@ class MessagesApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 
@@ -23,8 +23,8 @@ class MessagesApi extends BaseApi {
         role: 'appUser',
         appUserId: appUserId,
         client: getClientInfo(this.integrationId),
-        sessionId: getSessionId(this.integrationId)
-      }
+        sessionId: getSessionId(this.integrationId),
+      },
     }
 
     return this.request({
@@ -34,8 +34,8 @@ class MessagesApi extends BaseApi {
       headers: {
         Authorization: `Basic ${btoa(
           `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
-        )}`
-      }
+        )}`,
+      },
     })
   }
 }

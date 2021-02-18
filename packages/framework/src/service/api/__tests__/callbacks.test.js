@@ -3,7 +3,7 @@ import {
   WIDGET_OPENED_EVENT,
   WIDGET_CLOSED_EVENT,
   CHAT_CONNECTED_EVENT,
-  CHAT_DEPARTMENT_STATUS_EVENT
+  CHAT_DEPARTMENT_STATUS_EVENT,
 } from 'constants/event'
 
 test('invalid event name', () => {
@@ -43,9 +43,9 @@ describe('valid event', () => {
       WIDGET_OPENED_EVENT,
       WIDGET_OPENED_EVENT,
       WIDGET_CLOSED_EVENT,
-      CHAT_CONNECTED_EVENT
+      CHAT_CONNECTED_EVENT,
     ]
-    const runExpectedCalls = statuses => {
+    const runExpectedCalls = (statuses) => {
       statuses.forEach((status, i) => {
         if (status) {
           expect(callbackSpys[i]).toHaveBeenCalled()
@@ -61,11 +61,11 @@ describe('valid event', () => {
 
     callbacks.fireFor(WIDGET_CLOSED_EVENT)
     runExpectedCalls([false, false, true, false])
-    callbackSpys.forEach(cb => cb.mockClear())
+    callbackSpys.forEach((cb) => cb.mockClear())
 
     callbacks.fireFor(WIDGET_OPENED_EVENT)
     runExpectedCalls([true, true, false, false])
-    callbackSpys.forEach(cb => cb.mockClear())
+    callbackSpys.forEach((cb) => cb.mockClear())
 
     callbacks.fireFor(CHAT_CONNECTED_EVENT)
     runExpectedCalls([false, false, false, true])

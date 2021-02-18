@@ -14,7 +14,7 @@ export const getZendeskLogoLink = (state, linkToChat) => {
       `&utm_term=${zopimId}`,
       `&utm_content=${getZendeskHost(document)}`,
       `&iref=${zopimId}`,
-      `&lang=${locale}`
+      `&lang=${locale}`,
     ].join('')
 
     return [i18n.t('embeddable_framework.zendeskLogo.powered_by_url.chat'), params].join('')
@@ -22,6 +22,6 @@ export const getZendeskLogoLink = (state, linkToChat) => {
 
   return [
     i18n.t('embeddable_framework.zendeskLogo.powered_by_url.embeddables'),
-    '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
+    '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image',
   ].join('')
 }

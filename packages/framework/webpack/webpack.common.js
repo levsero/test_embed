@@ -26,7 +26,7 @@ module.exports = {
     path: path.resolve(projectRoot, 'dist/public'),
     publicPath: '/dist/',
     filename: '[name].js',
-    jsonpFunction: WEBPACK_JSONP_GLOBAL
+    jsonpFunction: WEBPACK_JSONP_GLOBAL,
   },
   module: {
     rules: [
@@ -36,8 +36,8 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
-          plugins: babelLoaderPlugins
-        }
+          plugins: babelLoaderPlugins,
+        },
       },
       {
         test: /\.js$/,
@@ -48,10 +48,10 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              plugins: babelLoaderPlugins
-            }
-          }
-        ]
+              plugins: babelLoaderPlugins,
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,
@@ -62,18 +62,18 @@ module.exports = {
             options: {
               importLoaders: 2,
               modules: {
-                localIdentName: cssModulesName
-              }
-            }
+                localIdentName: cssModulesName,
+              },
+            },
           },
           'postcss-loader',
           {
             loader: 'sass-loader',
             options: {
-              data: `$asset-base-path: "${assetBasePath}";`
-            }
-          }
-        ]
+              data: `$asset-base-path: "${assetBasePath}";`,
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -82,11 +82,11 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
-            }
+              importLoaders: 1,
+            },
           },
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
@@ -104,19 +104,19 @@ module.exports = {
                   { removeViewBox: false },
                   { prefixIds: false },
                   { cleanupIDs: false },
-                  { inlineStyles: false }
-                ]
+                  { inlineStyles: false },
+                ],
               },
-              titleProp: true
-            }
-          }
-        ]
+              titleProp: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(yml|yaml)/,
-        use: ['json-loader', 'yaml-loader']
-      }
-    ]
+        use: ['json-loader', 'yaml-loader'],
+      },
+    ],
   },
   resolve: {
     alias: {
@@ -137,19 +137,19 @@ module.exports = {
       // CSS Components
       componentCSS: path.join(projectRoot + '/src/styles/components'),
       icons: path.join(projectRoot + '/src/asset/icons'),
-      globalCSS: path.join(projectRoot + '/src/styles/globals.scss')
+      globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
     },
     extensions: ['.js'],
-    modules: ['node_modules']
+    modules: ['node_modules'],
   },
   plugins: [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
       __EMBEDDABLE_FRAMEWORK_ENV__: JSON.stringify(embeddableEnv),
-      __ASSET_BASE_PATH__: JSON.stringify(assetBasePath)
+      __ASSET_BASE_PATH__: JSON.stringify(assetBasePath),
     }),
     new webpack.BannerPlugin({
-      banner: legalNotices
-    })
-  ]
+      banner: legalNotices,
+    }),
+  ],
 }

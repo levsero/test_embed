@@ -9,11 +9,11 @@ describe('SlideAppear component', () => {
 
     initMockRegistry({
       'react-transition-group/Transition': {
-        Transition: noopReactComponent
+        Transition: noopReactComponent,
       },
       'src/constants/shared': {
-        TEST_IDS
-      }
+        TEST_IDS,
+      },
     })
 
     const SlideAppearPath = buildSrcPath('component/transition/SlideAppear')

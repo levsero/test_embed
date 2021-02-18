@@ -6,7 +6,7 @@ const mockOnSendMessageFn = jest.fn()
 
 describe('Composer', () => {
   const defaultProps = {
-    inputAriaLabel: 'Type a message'
+    inputAriaLabel: 'Type a message',
   }
 
   const renderComponent = (props = {}, ref) => {
@@ -48,7 +48,7 @@ describe('Composer', () => {
   it('fires the onSendMessage when the send button is clicked', () => {
     const { getByLabelText } = renderComponent({
       initialValue: 'Fig and ginger crispbread',
-      onSendMessage: mockOnSendMessageFn
+      onSendMessage: mockOnSendMessageFn,
     })
 
     getByLabelText('Send a message').click()

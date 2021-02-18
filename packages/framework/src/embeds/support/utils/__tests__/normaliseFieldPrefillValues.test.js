@@ -7,36 +7,36 @@ describe('normaliseFieldPrefillValues', () => {
         id: 1337,
         prefill: {
           '*': 'email@example.com',
-          fr: 'french-email@example.com'
-        }
+          fr: 'french-email@example.com',
+        },
       },
       {
         id: 666,
         prefill: {
           '*': 'Name',
-          fr: 'French name'
-        }
+          fr: 'French name',
+        },
       },
       {
         id: 'description',
         prefill: {
           '*': 'Descrição',
-          it: 'Descrizione'
-        }
+          it: 'Descrizione',
+        },
       },
       {
         id: 'age',
         prefill: {
           '*': 'Edad',
-          de: 'Beschreibung'
-        }
+          de: 'Beschreibung',
+        },
       },
       {
-        id: 2001
+        id: 2001,
       },
       {
-        id: 'Surname'
-      }
+        id: 'Surname',
+      },
     ])
 
     expect(result).toEqual({
@@ -44,18 +44,18 @@ describe('normaliseFieldPrefillValues', () => {
         1337: 'email@example.com',
         666: 'Name',
         age: 'Edad',
-        description: 'Descrição'
+        description: 'Descrição',
       },
       fr: {
         1337: 'french-email@example.com',
-        666: 'French name'
+        666: 'French name',
       },
       de: {
-        age: 'Beschreibung'
+        age: 'Beschreibung',
       },
       it: {
-        description: 'Descrizione'
-      }
+        description: 'Descrizione',
+      },
     })
   })
 })

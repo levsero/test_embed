@@ -38,7 +38,7 @@ function isIos() {
 function isDevice(...testStrings) {
   const str = navigator.userAgent
 
-  return _.every(testStrings, string => {
+  return _.every(testStrings, (string) => {
     return str.indexOf(string) !== -1
   })
 }
@@ -168,7 +168,7 @@ function appendMetaTag(_doc, name, content) {
   return _doc.head.appendChild(meta)
 }
 
-const initViewportMeta = active => {
+const initViewportMeta = (active) => {
   const viewportMetas = getMetaTagsByName(doc, 'viewport')
 
   if (viewportMetas.length > 0) {
@@ -178,7 +178,7 @@ const initViewportMeta = active => {
   }
 }
 
-const metaObjToString = obj => _.map(obj, (value, key) => `${key}=${value}`).join(', ')
+const metaObjToString = (obj) => _.map(obj, (value, key) => `${key}=${value}`).join(', ')
 
 export {
   isLandscape,
@@ -197,5 +197,5 @@ export {
   setScaleLock,
   metaStringToObj,
   getMetaTagsByName,
-  appendMetaTag
+  appendMetaTag,
 }

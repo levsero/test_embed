@@ -24,7 +24,7 @@ const fieldValidation = {
       return 'embeddable_framework.validation.error.department'
     }
 
-    const selectedOption = field.options.find(option => option.value === value)
+    const selectedOption = field.options.find((option) => option.value === value)
     if (isVisibleDepartmentsFeatureEnabled) {
       if (!selectedOption && field.required) {
         return 'embeddable_framework.validation.error.department'
@@ -56,18 +56,18 @@ const fieldValidation = {
     if (field.required && !value) {
       return 'embeddable_framework.validation.error.message'
     }
-  }
+  },
 }
 
 const validate = ({ values, fields, isOfflineFormEnabled, isVisibleDepartmentsFeatureEnabled }) => {
   const errors = {}
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     const errorMessage = fieldValidation[field.id]?.({
       value: values[field.id],
       field,
       isOfflineFormEnabled,
-      isVisibleDepartmentsFeatureEnabled
+      isVisibleDepartmentsFeatureEnabled,
     })
 
     if (errorMessage) {

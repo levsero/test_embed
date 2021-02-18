@@ -4,7 +4,7 @@ import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPref
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const supportCustomFormFields = (state = initialState, action) => {
@@ -14,7 +14,7 @@ const supportCustomFormFields = (state = initialState, action) => {
 
       const updatedValues = {}
 
-      forms.forEach(form => {
+      forms.forEach((form) => {
         updatedValues[form.id] = normaliseFieldPrefillValues(form.fields)
       })
 
@@ -24,7 +24,7 @@ const supportCustomFormFields = (state = initialState, action) => {
 
       return {
         timestamp: Date.now(),
-        values: _.merge({}, state.values || {}, updatedValues)
+        values: _.merge({}, state.values || {}, updatedValues),
       }
     default:
       return state

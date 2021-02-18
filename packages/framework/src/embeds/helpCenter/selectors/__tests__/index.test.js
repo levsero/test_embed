@@ -8,7 +8,7 @@ describe('shouldShowContextualResults', () => {
     [true, true, false, 1, true],
     [false, false, true, 0, true],
     [false, false, true, 1, false],
-    [true, true, true, 1, true]
+    [true, true, true, 1, true],
   ])(
     'when hasContextualSearched == %p && isContextualSearched == %p && contextualHelpRequestNeeded == %p, totalUserSearches %p, returns %p',
     (
@@ -35,9 +35,9 @@ test('getPreviousActiveArticle', () => {
     helpCenter: {
       clickedArticles: {
         current: 123,
-        previous: 456
-      }
-    }
+        previous: 456,
+      },
+    },
   })
 
   expect(result).toEqual(456)
@@ -50,9 +50,9 @@ test('getSearchedArticles', () => {
       articles: {
         0: { a: 1 },
         1: { b: 2 },
-        2: { c: 3 }
-      }
-    }
+        2: { c: 3 },
+      },
+    },
   })
   expect(result).toEqual([{ b: 2 }, { c: 3 }])
 })

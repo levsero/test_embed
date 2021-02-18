@@ -6,7 +6,7 @@ import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blip
 import { mockSearchEndpoint, waitForHelpCenter } from 'e2e/helpers/help-center-embed'
 import { mockHcStatsEndpoint } from 'e2e/helpers/hc-stats'
 
-export const assertHCArticleViewedPayload = url => {
+export const assertHCArticleViewedPayload = (url) => {
   const payload = getBlipPayload(url)
 
   expect(payload).toEqual({
@@ -22,10 +22,10 @@ export const assertHCArticleViewedPayload = url => {
         articleId: expect.any(Number),
         locale: 'en-gb',
         contextualSearch: false,
-        answerBot: false
-      }
+        answerBot: false,
+      },
     },
-    ...blipMetadata
+    ...blipMetadata,
   })
 }
 
@@ -95,8 +95,8 @@ test('sends hc stat call in the correct format', async () => {
     last_search: {
       query: 'Help',
       results_count: 3,
-      origin: 'web_widget'
+      origin: 'web_widget',
     },
-    unique_search_result_click: true
+    unique_search_result_click: true,
   })
 })

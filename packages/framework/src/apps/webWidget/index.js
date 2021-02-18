@@ -5,7 +5,7 @@ import { settings } from 'service/settings'
 import {
   updateEmbedAccessible,
   updateEmbeddableConfig,
-  widgetInitialised
+  widgetInitialised,
 } from 'src/redux/modules/base'
 import { setUpChat } from 'src/redux/modules/chat'
 import { pollTalkStatus } from 'src/redux/modules/talk'
@@ -30,10 +30,10 @@ let hasRendered = false
 const dummyStore = {
   dispatch: () => {},
   getState: () => {},
-  subscribe: () => {}
+  subscribe: () => {},
 }
 
-const filterEmbeds = config => {
+const filterEmbeds = (config) => {
   const features = _.get(document.zendesk, 'web_widget.features')
 
   // If there are no features available to read, do not do filtering
@@ -63,7 +63,7 @@ function setUpEmbeds(embeds, reduxStore) {
 }
 
 function registerEmbedsInRedux(config, reduxStore) {
-  Object.keys(config.embeds).forEach(embed => {
+  Object.keys(config.embeds).forEach((embed) => {
     reduxStore.dispatch(updateEmbedAccessible(embed, true))
   })
 }
@@ -105,7 +105,7 @@ async function init({ config }) {
   }
 
   i18n.init(reduxStore)
-  await new Promise(res => {
+  await new Promise((res) => {
     i18n.setLocale(undefined, res, config.locale)
   })
 
@@ -126,7 +126,7 @@ async function init({ config }) {
 
   return {
     reduxStore,
-    filteredConfig
+    filteredConfig,
   }
 }
 
@@ -158,5 +158,5 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 export default {
   run,
   init: init,
-  initIPM: initIPM
+  initIPM: initIPM,
 }

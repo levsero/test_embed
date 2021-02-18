@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { FONT_SIZE } from 'src/constants/shared'
 import { zdColorGrey100, zdColorGrey200, zdColorGrey800 } from '@zendeskgarden/css-variables'
 
-const maxWidth = props => {
+const maxWidth = (props) => {
   switch (props.size) {
     case 'small':
       return `${219 / FONT_SIZE}rem`
@@ -23,7 +23,7 @@ const Container = styled.div`
   margin-bottom: ${7 / FONT_SIZE}rem;
   max-width: ${maxWidth};
 
-  ${props => (props.theme.rtl ? 'margin-right' : 'margin-left') + `: ${40 / FONT_SIZE}rem;`}
+  ${(props) => (props.theme.rtl ? 'margin-right' : 'margin-left') + `: ${40 / FONT_SIZE}rem;`}
 `
 
 const Item = styled.div`
@@ -32,8 +32,8 @@ const Item = styled.div`
     background-color: ${zdColorGrey100};
   }
   border-bottom: ${1 / FONT_SIZE}rem ${zdColorGrey200} solid;
-  ${props => props.top && topBorder}
-  ${props => props.bottom && bottomBorder}
+  ${(props) => props.top && topBorder}
+  ${(props) => props.bottom && bottomBorder}
 `
 
 const bottomBorder = `

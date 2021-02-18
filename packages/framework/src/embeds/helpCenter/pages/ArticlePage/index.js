@@ -13,13 +13,13 @@ import {
   performImageSearch,
   addRestrictedImage,
   closeCurrentArticle,
-  handleArticleView
+  handleArticleView,
 } from 'src/embeds/helpCenter/actions'
 import {
   getSettingsHelpCenterTitle,
   getHelpCenterButtonLabel,
   getChatConnectionConnecting,
-  getShowNextButton
+  getShowNextButton,
 } from 'src/redux/modules/selectors'
 import HelpCenterArticle from 'src/components/HelpCenterArticle'
 
@@ -36,7 +36,7 @@ const ArticlePage = ({
   showNextButton,
   handleArticleView,
   closeCurrentArticle,
-  article
+  article,
 }) => {
   useEffect(() => {
     handleArticleView(article)
@@ -79,11 +79,11 @@ ArticlePage.propTypes = {
   theme: PropTypes.shape({ isMobile: PropTypes.bool }),
   onClick: PropTypes.func,
   showNextButton: PropTypes.bool,
-  article: PropTypes.object
+  article: PropTypes.object,
 }
 
 ArticlePage.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -101,7 +101,7 @@ const mapStateToProps = (state, ownProps) => {
     title: getSettingsHelpCenterTitle(state, titleKey),
     buttonLabel: getHelpCenterButtonLabel(state),
     loading: getChatConnectionConnecting(state),
-    showNextButton: getShowNextButton(state)
+    showNextButton: getShowNextButton(state),
   }
 }
 
@@ -110,14 +110,11 @@ const actionCreators = {
   performImageSearch,
   addRestrictedImage,
   closeCurrentArticle,
-  handleArticleView
+  handleArticleView,
 }
 
 const themedComponent = withTheme(ArticlePage)
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(themedComponent)
+const connectedComponent = connect(mapStateToProps, actionCreators)(themedComponent)
 
 export { connectedComponent as default, themedComponent as Component }

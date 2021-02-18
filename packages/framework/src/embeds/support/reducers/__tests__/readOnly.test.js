@@ -9,43 +9,43 @@ testReducer(readOnly, [
   {
     initialState: undefined,
     action: { type: undefined },
-    expected: {}
+    expected: {},
   },
   {
     initialState,
     action: handlePrefillReceived({
       email: {
-        value: 'email@example.com'
+        value: 'email@example.com',
       },
       name: {
         value: 'Some name',
-        readOnly: true
-      }
+        readOnly: true,
+      },
     }),
     expected: {
       [createKeyID('name')]: true,
-      name: true
-    }
+      name: true,
+    },
   },
   {
     initialState: {
-      [createKeyID('name')]: true
+      [createKeyID('name')]: true,
     },
     action: handlePrefillReceived({
       email: {
         value: 'email@example.com',
-        readOnly: true
+        readOnly: true,
       },
       name: {
         value: 'Some name',
-        readOnly: false
-      }
+        readOnly: false,
+      },
     }),
     expected: {
       [createKeyID('email')]: true,
       email: true,
       [createKeyID('name')]: false,
-      name: false
-    }
-  }
+      name: false,
+    },
+  },
 ])

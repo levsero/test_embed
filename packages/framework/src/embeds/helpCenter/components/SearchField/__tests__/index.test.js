@@ -8,13 +8,13 @@ import { TEST_IDS } from 'src/constants/shared'
 jest.useFakeTimers()
 
 const onChangeSpy = jest.fn()
-const renderComponent = props => {
+const renderComponent = (props) => {
   const defaultProps = {
     onChange: onChangeSpy,
     isLoading: false,
     placeholder: 'hello there',
     value: '',
-    inputRef: {}
+    inputRef: {},
   }
 
   return render(<SearchField {...defaultProps} {...props} />)

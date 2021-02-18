@@ -6,13 +6,13 @@ import { location } from 'utility/globals'
 import {
   getAuthToken,
   getHasWidgetShown,
-  getIsAuthenticationPending
+  getIsAuthenticationPending,
 } from 'src/redux/modules/base/base-selectors'
 import {
   getLastSearchTimestamp,
   getContextualHelpRequestNeeded,
   getSearchQuery,
-  getTokensRevokedAt
+  getTokensRevokedAt,
 } from 'embeds/helpCenter/selectors'
 import { getHasPassedAuth } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { i18n } from 'src/apps/webWidget/services/i18n'
@@ -32,13 +32,13 @@ import {
   GET_ARTICLE_REQUEST_SUCCESS,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
-  CONTEXTUAL_SUGGESTIONS_MANUALLY_SET
+  CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
 } from './action-types'
 import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
 import { isOnHostMappedDomain } from 'utility/pages'
 import {
   getSettingsHelpCenterFilter,
-  getSettingsHelpCenterLocaleFallbacks
+  getSettingsHelpCenterLocaleFallbacks,
 } from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'service/settings'
 
@@ -53,25 +53,25 @@ const sendQuery = async (path, query, doneFn, failFn, filter, responseType) => {
       path,
       query: queryParams,
       authorization: token ? `Bearer ${token}` : '',
-      responseType
+      responseType,
     })
-    .then(res => {
+    .then((res) => {
       doneFn(res)
     })
-    .catch(err => {
+    .catch((err) => {
       if (failFn) {
         failFn(err)
       }
     })
 }
 
-const formatResults = response => {
+const formatResults = (response) => {
   const { results = [], count = 0 } = response.body
 
   return {
     articles: results,
     resultsCount: count,
-    locale: results.length > 0 ? results[0].locale : ''
+    locale: results.length > 0 ? results[0].locale : '',
   }
 }
 
@@ -89,7 +89,7 @@ export function performImageSearch(path, done) {
   http.getImage({
     path,
     callbacks: { done },
-    authorization: token ? `Bearer ${token}` : ''
+    authorization: token ? `Bearer ${token}` : '',
   })
 
   // Temporary to stop middleware from breaking until we properly implement images
@@ -102,7 +102,7 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
     // attempt the search with each locale in that array in order. Otherwise
     // try the search with no locale (injects an empty string into localeFallbacks).
     const locales = [i18n.getLocale()].concat([
-      getSettingsHelpCenterLocaleFallbacks(getState()) || ['']
+      getSettingsHelpCenterLocaleFallbacks(getState()) || [''],
     ])
 
     if (localeIndex >= locales.length) {
@@ -113,21 +113,21 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
       locale: locales[localeIndex],
       query: searchTerm,
       per_page: MAXIMUM_SEARCH_RESULTS,
-      origin: 'web_widget'
+      origin: 'web_widget',
     }
 
     const timestamp = Date.now()
     const path = '/api/v2/help_center/articles/embeddable_search.json'
 
-    const successFn = response => {
+    const successFn = (response) => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
       dispatch({
         type: SEARCH_REQUEST_SUCCESS,
         payload: {
           ...formatResults(response),
-          isFallback: localeIndex > 0
-        }
+          isFallback: localeIndex > 0,
+        },
       })
 
       if (response.body.count > 0 || _.isEmpty(locales)) {
@@ -137,7 +137,7 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
       }
     }
 
-    const failFn = error => {
+    const failFn = (error) => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
       dispatch({ type: SEARCH_REQUEST_FAILURE })
@@ -146,7 +146,7 @@ export function performSearch(searchTerm, success = () => {}, fail = () => {}, l
 
     dispatch({
       type: SEARCH_REQUEST_SENT,
-      payload: { searchTerm: query.query, timestamp }
+      payload: { searchTerm: query.query, timestamp },
     })
 
     const filter = getSettingsHelpCenterFilter(getState())
@@ -184,19 +184,19 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
     let query = {
       locale: i18n.getLocale(),
       per_page: MAXIMUM_CONTEXTUAL_SEARCH_RESULTS,
-      ...searchQuery
+      ...searchQuery,
     }
 
-    const doneFn = response => {
+    const doneFn = (response) => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
       dispatch({
         type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-        payload: formatResults(response)
+        payload: formatResults(response),
       })
       done(response)
     }
-    const failFn = error => {
+    const failFn = (error) => {
       if (preventSearchCompleteDispatch(getState, timestamp)) return
 
       dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_FAILURE })
@@ -207,8 +207,8 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
       type: CONTEXTUAL_SEARCH_REQUEST_SENT,
       payload: {
         searchTerm: searchQuery.query || searchQuery.label_names,
-        timestamp
-      }
+        timestamp,
+      },
     })
 
     const filter = getSettingsHelpCenterFilter(getState())
@@ -219,14 +219,14 @@ export function performContextualSearch(done = () => {}, fail = () => {}) {
 
 export function handleOriginalArticleClicked() {
   return {
-    type: ORIGINAL_ARTICLE_CLICKED
+    type: ORIGINAL_ARTICLE_CLICKED,
   }
 }
 
 export function handleArticleView(article) {
   return {
     type: ARTICLE_VIEWED,
-    payload: article
+    payload: article,
   }
 }
 
@@ -237,19 +237,19 @@ export function closeCurrentArticle() {
 export function addRestrictedImage(img) {
   return {
     type: ADD_RESTRICTED_IMAGE,
-    payload: img
+    payload: img,
   }
 }
 
 export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
-    payload: value || ''
+    payload: value || '',
   }
 }
 
 export function displayArticle(articleId) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: GET_ARTICLE_REQUEST_SENT })
     const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:'
 
@@ -259,20 +259,20 @@ export function displayArticle(articleId) {
           method: 'get',
           forceHttp: forceHttp,
           path: `/api/v2/help_center/articles/${articleId}.json`,
-          useHostMappingIfAvailable: isOnHostMappedDomain()
+          useHostMappingIfAvailable: isOnHostMappedDomain(),
         },
         false
       )
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: GET_ARTICLE_REQUEST_SUCCESS,
-          payload: res.body.article
+          payload: res.body.article,
         })
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_ARTICLE_REQUEST_FAILURE,
-          payload: err.response ? err.response : err
+          payload: err.response ? err.response : err,
         })
       })
   }
@@ -282,7 +282,7 @@ export function setContextualSuggestionsManually(options) {
   return (dispatch, getState) => {
     dispatch({
       type: CONTEXTUAL_SUGGESTIONS_MANUALLY_SET,
-      payload: options
+      payload: options,
     })
 
     if (getHasWidgetShown(getState())) {
@@ -302,7 +302,7 @@ export function setUpHelpCenterAuth() {
     const settingJwtFn = settings.getAuthSettingsJwtFn()
 
     if (settingJwtFn) {
-      const callback = retrievedJwt => {
+      const callback = (retrievedJwt) => {
         dispatch(authenticate(retrievedJwt))
       }
 

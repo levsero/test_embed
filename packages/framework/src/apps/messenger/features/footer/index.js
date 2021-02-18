@@ -5,7 +5,7 @@ import { MessengerFooter } from '@zendesk/conversation-components'
 import {
   getComposerDraft,
   getIsComposerEnabled,
-  saveDraft
+  saveDraft,
 } from 'src/apps/messenger/features/footer/store'
 import { sendMessage } from 'src/apps/messenger/features/messageLog/store'
 import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
@@ -19,7 +19,7 @@ const Footer = () => {
   const isFullScreen = useSelector(getIsFullScreen)
   const composerDraft = useSelector(getComposerDraft)
 
-  const onSendMessage = message => {
+  const onSendMessage = (message) => {
     if (message.trim().length === 0) {
       return
     }
@@ -27,7 +27,7 @@ const Footer = () => {
     stopTyping()
   }
 
-  const onChange = _e => {
+  const onChange = (_e) => {
     startTyping()
   }
 

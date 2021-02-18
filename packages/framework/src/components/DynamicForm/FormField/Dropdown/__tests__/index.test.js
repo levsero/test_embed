@@ -10,11 +10,11 @@ describe('Dropdown', () => {
       required: false,
       title: 'Some title',
       description: 'Some description',
-      options: []
+      options: [],
     },
     value: 'Some text',
     onChange: jest.fn(),
-    errorMessage: null
+    errorMessage: null,
   }
 
   const renderComponent = (props = {}, { onKeyDown = jest.fn(), ...options } = {}) =>
@@ -31,8 +31,8 @@ describe('Dropdown', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
-        }
+          required: true,
+        },
       })
 
       expect(queryByLabelText('Some title')).toBeInTheDocument()
@@ -43,8 +43,8 @@ describe('Dropdown', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: false
-        }
+          required: false,
+        },
       })
 
       expect(queryByLabelText('Some title (optional)')).toBeInTheDocument()
@@ -55,8 +55,8 @@ describe('Dropdown', () => {
     const { container } = renderComponent({
       field: {
         ...defaultProps.field,
-        title: null
-      }
+        title: null,
+      },
     })
 
     expect(container.querySelector('label')).toBeNull()
@@ -66,8 +66,8 @@ describe('Dropdown', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
-        description: 'Some description'
-      }
+        description: 'Some description',
+      },
     })
 
     expect(queryByText('Some description')).toBeInTheDocument()
@@ -79,9 +79,9 @@ describe('Dropdown', () => {
         ...defaultProps.field,
         options: [
           { name: 'Not disabled', value: 'not-disabled', disabled: false },
-          { name: 'Disabled', value: 'disabled', disabled: true }
-        ]
-      }
+          { name: 'Disabled', value: 'disabled', disabled: true },
+        ],
+      },
     })
 
     getByText('-').click()
@@ -92,7 +92,7 @@ describe('Dropdown', () => {
 
   it('displays the error message when provided', () => {
     const { queryByRole } = renderComponent({
-      errorMessage: 'Something is wrong with the input'
+      errorMessage: 'Something is wrong with the input',
     })
 
     expect(queryByRole('alert')).toHaveTextContent('Something is wrong with the input')
@@ -106,10 +106,10 @@ describe('Dropdown', () => {
         ...defaultProps.field,
         options: [
           { id: 1, name: 'parent::child1', value: '_parent__child1' },
-          { id: 2, name: 'parent::child2', value: '_parent__child2' }
-        ]
+          { id: 2, name: 'parent::child2', value: '_parent__child2' },
+        ],
       },
-      onChange
+      onChange,
     })
 
     queryByText('-').click()
@@ -129,10 +129,10 @@ describe('Dropdown', () => {
           { id: 1, name: 'parent::child1', value: '_parent__child1' },
           { id: 2, name: 'parent::child2::grandchild1', value: '_parent__child2__grandchild1' },
           { id: 3, name: 'parent::child2::grandchild2', value: '_parent__child2__grandchild2' },
-          { id: 4, name: 'child4', value: 'child4' }
-        ]
+          { id: 4, name: 'child4', value: 'child4' },
+        ],
       },
-      onChange
+      onChange,
     })
 
     queryByText('-').click()
@@ -150,9 +150,9 @@ describe('Dropdown', () => {
     const { queryByText } = renderComponent({
       field: {
         ...defaultProps.field,
-        options: [{ id: 1, name: 'parent::child1::child2', value: '_parent__child1__child2' }]
+        options: [{ id: 1, name: 'parent::child1::child2', value: '_parent__child1__child2' }],
       },
-      onChange
+      onChange,
     })
 
     queryByText('-').click()
@@ -178,9 +178,9 @@ describe('Dropdown', () => {
       field: {
         ...defaultProps.field,
         required: false,
-        options: [{ id: 1, name: 'an_option', value: 'an_option' }]
+        options: [{ id: 1, name: 'an_option', value: 'an_option' }],
       },
-      value: 'an_option'
+      value: 'an_option',
     })
 
     queryByText('an_option').click()
@@ -192,9 +192,9 @@ describe('Dropdown', () => {
       field: {
         ...defaultProps.field,
         required: false,
-        options: [{ id: 1, name: 'an_option', value: 'an_option' }]
+        options: [{ id: 1, name: 'an_option', value: 'an_option' }],
       },
-      value: 'an_option'
+      value: 'an_option',
     })
 
     renderComponent(
@@ -204,10 +204,10 @@ describe('Dropdown', () => {
           required: false,
           options: [
             { id: 1, name: 'an_option', value: 'an_option' },
-            { id: 2, name: 'another_option', value: 'another_option' }
-          ]
+            { id: 2, name: 'another_option', value: 'another_option' },
+          ],
         },
-        value: 'an_option'
+        value: 'an_option',
       },
       { render: rerender }
     )
@@ -221,9 +221,9 @@ describe('Dropdown', () => {
       field: {
         ...defaultProps.field,
         required: false,
-        options: [{ id: 1, name: 'parent::child', value: 'an_option' }]
+        options: [{ id: 1, name: 'parent::child', value: 'an_option' }],
       },
-      value: 'an_option'
+      value: 'an_option',
     })
 
     expect(queryByText('-')).not.toBeInTheDocument()
@@ -237,9 +237,9 @@ describe('Dropdown', () => {
       field: {
         ...defaultProps.field,
         required: true,
-        options: [{ id: 1, name: 'an option', value: 'an_option' }]
+        options: [{ id: 1, name: 'an option', value: 'an_option' }],
       },
-      value: 'an_option'
+      value: 'an_option',
     })
 
     expect(queryByText('-')).toBeNull()
@@ -252,14 +252,14 @@ describe('Dropdown', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
-        }
+          required: true,
+        },
       },
       { onKeyDown }
     )
 
     fireEvent.keyDown(queryByLabelText('Some title'), {
-      key: 'Escape'
+      key: 'Escape',
     })
 
     expect(onKeyDown).toHaveBeenCalled()
@@ -272,8 +272,8 @@ describe('Dropdown', () => {
         field: {
           ...defaultProps.field,
           title: 'Some title',
-          required: true
-        }
+          required: true,
+        },
       },
       onKeyDown
     )
@@ -281,7 +281,7 @@ describe('Dropdown', () => {
     queryByLabelText('Some title').click()
 
     fireEvent.keyDown(queryByLabelText('Some title'), {
-      key: 'Escape'
+      key: 'Escape',
     })
 
     expect(onKeyDown).not.toHaveBeenCalled()

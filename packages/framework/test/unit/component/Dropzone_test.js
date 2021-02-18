@@ -11,8 +11,8 @@ describe('Dropzone component', () => {
     initMockRegistry({
       React: React,
       'src/constants/shared': {
-        TEST_IDS
-      }
+        TEST_IDS,
+      },
     })
 
     mockery.registerAllowable(dropzonePath)
@@ -115,14 +115,14 @@ describe('Dropzone component', () => {
       files = [
         {
           name: 'file1.pdf',
-          size: 1111
-        }
+          size: 1111,
+        },
       ]
 
       dropzone = domRender(<Dropzone onDrop={jasmine.createSpy()} />)
       dropzone.onDrop({
         preventDefault: noop,
-        dataTransfer: { files: files }
+        dataTransfer: { files: files },
       })
     })
 

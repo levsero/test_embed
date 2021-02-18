@@ -27,7 +27,7 @@ describe('chat reducer accountSettings offlineForm', () => {
           name: { name: 'name', required: false },
           email: { name: 'email', required: false },
           phone: { name: 'phone', required: false },
-          message: { name: 'message', required: false }
+          message: { name: 'message', required: false },
         }
 
         expect(initialState.form).toEqual(expected)
@@ -45,18 +45,18 @@ describe('chat reducer accountSettings offlineForm', () => {
                 0: { name: 'name', required: true },
                 1: { name: 'email', required: true },
                 2: { name: 'phone', label: 'Phone Number', required: true },
-                3: { name: 'message', label: 'Message', required: false }
-              }
-            }
+                3: { name: 'message', label: 'Message', required: false },
+              },
+            },
           },
           chat_button: {
-            hide_when_offline: false
-          }
+            hide_when_offline: false,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: settings
+          payload: settings,
         })
       })
 
@@ -80,18 +80,18 @@ describe('chat reducer accountSettings offlineForm', () => {
                 0: { name: 'name', required: true },
                 1: { name: 'email', required: true },
                 2: { name: 'phone', label: 'Phone Number', required: true },
-                3: { name: 'message', label: 'Message', required: false }
-              }
-            }
+                3: { name: 'message', label: 'Message', required: false },
+              },
+            },
           },
           chat_button: {
-            hide_when_offline: false
-          }
+            hide_when_offline: false,
+          },
         }
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: settings
+          payload: settings,
         })
       })
 

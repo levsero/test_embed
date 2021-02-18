@@ -13,7 +13,7 @@ import { settings } from 'service/settings'
 jest.mock('src/service/api/apis')
 jest.mock('src/redux/modules/chat', () => ({
   setStatusForcefully: jest.fn(),
-  setVisitorInfo: jest.fn()
+  setVisitorInfo: jest.fn(),
 }))
 jest.mock('src/redux/modules/chat/chat-selectors')
 jest.mock('src/redux/modules/base/base-selectors')
@@ -21,12 +21,12 @@ jest.mock('src/redux/modules/selectors/chat-linked-selectors')
 jest.mock('src/redux/modules/base', () => ({
   badgeHideReceived: jest.fn(),
   badgeShowReceived: jest.fn(),
-  updateActiveEmbed: jest.fn()
+  updateActiveEmbed: jest.fn(),
 }))
 jest.mock('src/apps/webWidget/services/i18n', () => ({
   i18n: {
-    setCustomTranslations: jest.fn()
-  }
+    setCustomTranslations: jest.fn(),
+  },
 }))
 jest.mock('service/tracker')
 
@@ -36,7 +36,7 @@ zopimApi.handleChatConnected()
 
 const mockStore = {
   dispatch: jest.fn(),
-  getState: jest.fn()
+  getState: jest.fn(),
 }
 
 describe('handleZopimQueue', () => {
@@ -47,8 +47,8 @@ describe('handleZopimQueue', () => {
         const win = {
           $zopim: {
             _: [methodSpy],
-            _setByWW: true
-          }
+            _setByWW: true,
+          },
         }
 
         zopimApi.handleZopimQueue(win)
@@ -62,8 +62,8 @@ describe('handleZopimQueue', () => {
       const win = {
         $zopim: {
           _: [undefined],
-          _setByWW: true
-        }
+          _setByWW: true,
+        },
       }
 
       beforeEach(() => {
@@ -93,8 +93,8 @@ describe('handleZopimQueue', () => {
       const win = {
         $zopim: {
           _: [methodSpy],
-          _setByWW: false
-        }
+          _setByWW: false,
+        },
       }
 
       zopimApi.handleZopimQueue(win)
@@ -110,7 +110,7 @@ describe('setupZopimQueue', () => {
 
     beforeEach(() => {
       mockWin = {}
-      const $zopim = callback => {
+      const $zopim = (callback) => {
         $zopim._.push(callback)
       }
       $zopim._ = []
@@ -173,7 +173,7 @@ describe('setUpZopimApiMethods', () => {
     const jwtFnSpy = jest.fn()
 
     mockWin.$zopim.livechat.authenticate({
-      jwtFn: jwtFnSpy
+      jwtFn: jwtFnSpy,
     })
 
     expect(settings.get('authenticate.chat.jwtFn')).toEqual(jwtFnSpy)
@@ -279,10 +279,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             title: {
-              '*': title
-            }
-          }
-        }
+              '*': title,
+            },
+          },
+        },
       })
     })
 
@@ -294,9 +294,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            vertical: 10
-          }
-        }
+            vertical: 10,
+          },
+        },
       })
     })
 
@@ -308,9 +308,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            vertical: 10
-          }
-        }
+            vertical: 10,
+          },
+        },
       })
     })
 
@@ -322,9 +322,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            horizontal: 10
-          }
-        }
+            horizontal: 10,
+          },
+        },
       })
     })
 
@@ -336,9 +336,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           color: {
-            theme: color
-          }
-        }
+            theme: color,
+          },
+        },
       })
     })
 
@@ -358,9 +358,9 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'top'
-              }
-            }
+                vertical: 'top',
+              },
+            },
           })
         })
       })
@@ -374,17 +374,17 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'bottom'
-              }
-            }
+                vertical: 'bottom',
+              },
+            },
           })
 
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                horizontal: 'right'
-              }
-            }
+                horizontal: 'right',
+              },
+            },
           })
         })
       })
@@ -398,17 +398,17 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'top'
-              }
-            }
+                vertical: 'top',
+              },
+            },
           })
 
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                horizontal: 'left'
-              }
-            }
+                horizontal: 'left',
+              },
+            },
           })
         })
       })
@@ -439,11 +439,11 @@ describe('setUpZopimApiMethods', () => {
           launcher: {
             badge: {
               label: {
-                '*': text
-              }
-            }
-          }
-        }
+                '*': text,
+              },
+            },
+          },
+        },
       })
     })
 
@@ -455,9 +455,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           color: {
-            launcher: color
-          }
-        }
+            launcher: color,
+          },
+        },
       })
     })
 
@@ -470,10 +470,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           launcher: {
             badge: {
-              image: image
-            }
-          }
-        }
+              image: image,
+            },
+          },
+        },
       })
     })
 
@@ -486,10 +486,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           launcher: {
             badge: {
-              layout: layout
-            }
-          }
-        }
+              layout: layout,
+            },
+          },
+        },
       })
     })
   })
@@ -505,11 +505,11 @@ describe('setUpZopimApiMethods', () => {
           chat: {
             prechatForm: {
               greeting: {
-                '*': greeting
-              }
-            }
-          }
-        }
+                '*': greeting,
+              },
+            },
+          },
+        },
       })
     })
   })
@@ -525,11 +525,11 @@ describe('setUpZopimApiMethods', () => {
           chat: {
             offlineForm: {
               greeting: {
-                '*': greeting
-              }
-            }
-          }
-        }
+                '*': greeting,
+              },
+            },
+          },
+        },
       })
     })
   })
@@ -554,9 +554,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           chat: {
-            hideWhenOffline: true
-          }
-        }
+            hideWhenOffline: true,
+          },
+        },
       })
     })
 
@@ -582,9 +582,9 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'top'
-              }
-            }
+                vertical: 'top',
+              },
+            },
           })
         })
       })
@@ -599,9 +599,9 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'bottom'
-              }
-            }
+                vertical: 'bottom',
+              },
+            },
           })
         })
       })
@@ -615,17 +615,17 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                vertical: 'bottom'
-              }
-            }
+                vertical: 'bottom',
+              },
+            },
           })
 
           expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
             webWidget: {
               position: {
-                horizontal: 'right'
-              }
-            }
+                horizontal: 'right',
+              },
+            },
           })
         })
       })
@@ -639,17 +639,17 @@ describe('setUpZopimApiMethods', () => {
           expect(apis.updateSettingsApi).toHaveBeenNthCalledWith(2, mockStore, {
             webWidget: {
               position: {
-                vertical: 'top'
-              }
-            }
+                vertical: 'top',
+              },
+            },
           })
 
           expect(apis.updateSettingsApi).toHaveBeenNthCalledWith(1, mockStore, {
             webWidget: {
               position: {
-                horizontal: 'left'
-              }
-            }
+                horizontal: 'left',
+              },
+            },
           })
         })
       })
@@ -661,7 +661,7 @@ describe('setUpZopimApiMethods', () => {
       mockWin.$zopim.livechat.button.setColor(color)
 
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
-        webWidget: { color: { launcher: '#ffffff' } }
+        webWidget: { color: { launcher: '#ffffff' } },
       })
     })
 
@@ -673,9 +673,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            vertical: 10
-          }
-        }
+            vertical: 10,
+          },
+        },
       })
     })
 
@@ -687,9 +687,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            vertical: 10
-          }
-        }
+            vertical: 10,
+          },
+        },
       })
     })
 
@@ -701,9 +701,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           offset: {
-            horizontal: 10
-          }
-        }
+            horizontal: 10,
+          },
+        },
       })
     })
 
@@ -716,10 +716,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           offset: {
             mobile: {
-              vertical: 10
-            }
-          }
-        }
+              vertical: 10,
+            },
+          },
+        },
       })
     })
 
@@ -732,10 +732,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           offset: {
             mobile: {
-              horizontal: 10
-            }
-          }
-        }
+              horizontal: 10,
+            },
+          },
+        },
       })
     })
   })
@@ -749,9 +749,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           color: {
-            theme: color
-          }
-        }
+            theme: color,
+          },
+        },
       })
     })
 
@@ -763,9 +763,9 @@ describe('setUpZopimApiMethods', () => {
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
         webWidget: {
           color: {
-            theme: color
-          }
-        }
+            theme: color,
+          },
+        },
       })
     })
 
@@ -774,7 +774,7 @@ describe('setUpZopimApiMethods', () => {
         mockWin.$zopim.livechat.theme.setProfileCardConfig({
           avatar: true,
           title: false,
-          rating: true
+          rating: true,
         })
 
         expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
@@ -783,43 +783,43 @@ describe('setUpZopimApiMethods', () => {
               profileCard: {
                 avatar: true,
                 title: false,
-                rating: true
-              }
-            }
-          }
+                rating: true,
+              },
+            },
+          },
         })
       })
 
       test('setProfileCardConfig with invalid values', () => {
         mockWin.$zopim.livechat.theme.setProfileCardConfig({
           avatar: 123,
-          rating: false
+          rating: false,
         })
 
         expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
           webWidget: {
             chat: {
               profileCard: {
-                rating: false
-              }
-            }
-          }
+                rating: false,
+              },
+            },
+          },
         })
       })
 
       test('setProfileCardConfig with missing values', () => {
         mockWin.$zopim.livechat.theme.setProfileCardConfig({
-          avatar: true
+          avatar: true,
         })
 
         expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
           webWidget: {
             chat: {
               profileCard: {
-                avatar: true
-              }
-            }
-          }
+                avatar: true,
+              },
+            },
+          },
         })
       })
     })
@@ -834,11 +834,11 @@ describe('setUpZopimApiMethods', () => {
           chat: {
             notifications: {
               mobile: {
-                disable: true
-              }
-            }
-          }
-        }
+                disable: true,
+              },
+            },
+          },
+        },
       })
     })
   })
@@ -854,11 +854,11 @@ describe('setUpZopimApiMethods', () => {
           chat: {
             prechatForm: {
               departmentLabel: {
-                '*': label
-              }
-            }
-          }
-        }
+                '*': label,
+              },
+            },
+          },
+        },
       })
     })
 
@@ -881,10 +881,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             departments: {
-              enabled: [1, 2, 3]
-            }
-          }
-        }
+              enabled: [1, 2, 3],
+            },
+          },
+        },
       })
     })
 
@@ -895,10 +895,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             departments: {
-              select: 'sales'
-            }
-          }
-        }
+              select: 'sales',
+            },
+          },
+        },
       })
     })
 
@@ -909,10 +909,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             departments: {
-              select: ''
-            }
-          }
-        }
+              select: '',
+            },
+          },
+        },
       })
     })
   })
@@ -925,10 +925,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             concierge: {
-              avatarPath: '123'
-            }
-          }
-        }
+              avatarPath: '123',
+            },
+          },
+        },
       })
     })
 
@@ -939,10 +939,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             concierge: {
-              name: '123'
-            }
-          }
-        }
+              name: '123',
+            },
+          },
+        },
       })
     })
 
@@ -953,10 +953,10 @@ describe('setUpZopimApiMethods', () => {
         webWidget: {
           chat: {
             concierge: {
-              title: { '*': '123' }
-            }
-          }
-        }
+              title: { '*': '123' },
+            },
+          },
+        },
       })
     })
   })
@@ -969,9 +969,9 @@ describe('setUpZopimApiMethods', () => {
     expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
       webWidget: {
         color: {
-          theme: color
-        }
-      }
+          theme: color,
+        },
+      },
     })
   })
 
@@ -1043,11 +1043,11 @@ describe('setUpZopimApiMethods', () => {
         mockWin.$zopim.livechat.setName('wayne')
 
         expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-          name: { value: 'wayne' }
+          name: { value: 'wayne' },
         })
 
         expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
-          display_name: 'wayne'
+          display_name: 'wayne',
         }) // eslint-disable-line camelcase
       })
     })
@@ -1079,10 +1079,10 @@ describe('setUpZopimApiMethods', () => {
         mockWin.$zopim.livechat.setEmail('wayne@see.com')
 
         expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-          email: { value: 'wayne@see.com' }
+          email: { value: 'wayne@see.com' },
         })
         expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({
-          email: 'wayne@see.com'
+          email: 'wayne@see.com',
         })
       })
     })
@@ -1126,7 +1126,7 @@ describe('setUpZopimApiMethods', () => {
         mockWin.$zopim.livechat.setPhone('011111')
 
         expect(apis.prefill).toHaveBeenCalledWith(mockStore, {
-          phone: { value: '011111' }
+          phone: { value: '011111' },
         })
         expect(chatActions.setVisitorInfo).toHaveBeenCalledWith({ phone: '011111' })
       })
@@ -1229,8 +1229,8 @@ describe('setUpZopimApiMethods', () => {
       it('sets analytics to false', () => {
         expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
           webWidget: {
-            analytics: false
-          }
+            analytics: false,
+          },
         })
       })
     })
@@ -1243,8 +1243,8 @@ describe('setUpZopimApiMethods', () => {
       it('sets analytics to true', () => {
         expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
           webWidget: {
-            analytics: true
-          }
+            analytics: true,
+          },
         })
       })
     })
@@ -1261,7 +1261,7 @@ describe('setUpZopimApiMethods', () => {
       beforeAll(() => {
         mockGreetings = {
           online: 'online yo',
-          offline: 'offline yo'
+          offline: 'offline yo',
         }
       })
 
@@ -1270,10 +1270,10 @@ describe('setUpZopimApiMethods', () => {
           webWidget: {
             launcher: {
               chatLabel: {
-                '*': 'online yo'
-              }
-            }
-          }
+                '*': 'online yo',
+              },
+            },
+          },
         })
       })
 
@@ -1282,10 +1282,10 @@ describe('setUpZopimApiMethods', () => {
           webWidget: {
             launcher: {
               label: {
-                '*': 'offline yo'
-              }
-            }
-          }
+                '*': 'offline yo',
+              },
+            },
+          },
         })
       })
     })
@@ -1293,7 +1293,7 @@ describe('setUpZopimApiMethods', () => {
     describe('when online only provided', () => {
       beforeAll(() => {
         mockGreetings = {
-          online: 'online yo'
+          online: 'online yo',
         }
       })
 
@@ -1302,10 +1302,10 @@ describe('setUpZopimApiMethods', () => {
           webWidget: {
             launcher: {
               chatLabel: {
-                '*': 'online yo'
-              }
-            }
-          }
+                '*': 'online yo',
+              },
+            },
+          },
         })
       })
     })
@@ -1313,7 +1313,7 @@ describe('setUpZopimApiMethods', () => {
     describe('when offline only provided', () => {
       beforeAll(() => {
         mockGreetings = {
-          offline: 'offline yo'
+          offline: 'offline yo',
         }
       })
 
@@ -1322,10 +1322,10 @@ describe('setUpZopimApiMethods', () => {
           webWidget: {
             launcher: {
               label: {
-                '*': 'offline yo'
-              }
-            }
-          }
+                '*': 'offline yo',
+              },
+            },
+          },
         })
       })
     })
@@ -1334,7 +1334,7 @@ describe('setUpZopimApiMethods', () => {
       beforeAll(() => {
         mockGreetings = {
           online: 10,
-          offline: null
+          offline: null,
         }
       })
 
@@ -1349,7 +1349,7 @@ describe('setUpZopimApiMethods', () => {
       mockWin.$zopim.livechat.cookieLaw.setDefaultImplicitConsent()
 
       expect(apis.updateSettingsApi).toHaveBeenCalledWith(mockStore, {
-        cookies: false
+        cookies: false,
       })
     })
   })

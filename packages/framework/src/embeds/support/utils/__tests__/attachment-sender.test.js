@@ -2,7 +2,7 @@ import { http } from 'service/transport'
 import attachmentSender from 'embeds/support/utils/attachment-sender'
 
 jest.mock('service/transport', () => ({
-  http: { sendFile: jest.fn() }
+  http: { sendFile: jest.fn() },
 }))
 
 describe('attachmentSender', () => {
@@ -21,8 +21,8 @@ describe('attachmentSender', () => {
       callbacks: {
         done: doneFn,
         fail: failFn,
-        progress: progressFn
-      }
+        progress: progressFn,
+      },
     })
   })
 })

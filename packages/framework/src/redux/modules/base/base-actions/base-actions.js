@@ -5,7 +5,7 @@ import {
   getBaseIsAuthenticated,
   getAfterWidgetShowAnimation,
   getWebWidgetOpen,
-  getWidgetAlreadyHidden
+  getWidgetAlreadyHidden,
 } from 'src/redux/modules/base/base-selectors'
 import { getHasContextuallySearched } from 'embeds/helpCenter/selectors'
 import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
@@ -13,7 +13,7 @@ import { contextualSearch } from 'embeds/helpCenter/actions'
 import {
   extractTokenId,
   isTokenRenewable,
-  isTokenExpired
+  isTokenExpired,
 } from 'src/redux/modules/base/helpers/auth'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { nameValid, emailValid, phoneValid } from 'src/util/utils'
@@ -31,24 +31,24 @@ function onAuthRequestSuccess(res, id, dispatch, webToken) {
     token: res.body.oauth_token,
     expiry: res.body.oauth_expiry,
     createdAt: res.body.oauth_created_at,
-    webToken: webToken
+    webToken: webToken,
   })
   dispatch({
-    type: actions.AUTHENTICATION_SUCCESS
+    type: actions.AUTHENTICATION_SUCCESS,
   })
 }
 
 function onAuthRequestFailure(res, dispatch) {
   store.remove('zE_oauth')
   dispatch({
-    type: actions.AUTHENTICATION_FAILURE
+    type: actions.AUTHENTICATION_FAILURE,
   })
 }
 
-export const authenticate = webToken => {
-  return dispatch => {
+export const authenticate = (webToken) => {
+  return (dispatch) => {
     dispatch({
-      type: actions.AUTHENTICATION_PENDING
+      type: actions.AUTHENTICATION_PENDING,
     })
 
     const oauth = getOAuth()
@@ -64,22 +64,22 @@ export const authenticate = webToken => {
         params: { body: webToken },
         timeout: 10000,
         callbacks: {
-          done: res => onAuthRequestSuccess(res, webTokenId, dispatch, webToken),
-          fail: res => onAuthRequestFailure(res, dispatch)
-        }
+          done: (res) => onAuthRequestSuccess(res, webTokenId, dispatch, webToken),
+          fail: (res) => onAuthRequestFailure(res, dispatch),
+        },
       }
 
       http.send(payload)
     } else {
       dispatch({
-        type: actions.AUTHENTICATION_SUCCESS
+        type: actions.AUTHENTICATION_SUCCESS,
       })
     }
   }
 }
 
 export const renewToken = () => {
-  return dispatch => {
+  return (dispatch) => {
     const oauth = getOAuth()
 
     if (isTokenRenewable(oauth)) {
@@ -87,17 +87,17 @@ export const renewToken = () => {
         body: oauth.webToken,
         token: {
           oauth_token: oauth.token,
-          oauth_expiry: oauth.expiry
-        }
+          oauth_expiry: oauth.expiry,
+        },
       }
       const payload = {
         method: 'POST',
         path: '/embeddable/authenticate/renew',
         params: params,
         callbacks: {
-          done: res => onAuthRequestSuccess(res, oauth.id, dispatch, oauth.webToken),
-          fail: res => onAuthRequestFailure(res, dispatch)
-        }
+          done: (res) => onAuthRequestSuccess(res, oauth.id, dispatch, oauth.webToken),
+          fail: (res) => onAuthRequestFailure(res, dispatch),
+        },
       }
 
       http.send(payload)
@@ -106,7 +106,7 @@ export const renewToken = () => {
     const settingsJwtFn = settings.getAuthSettingsJwtFn()
 
     if (settingsJwtFn && (!oauth || isTokenExpired(oauth))) {
-      const callback = jwt => {
+      const callback = (jwt) => {
         dispatch(authenticate(jwt))
       }
 
@@ -118,11 +118,11 @@ export const renewToken = () => {
 const revokeToken = () => {
   store.remove('zE_oauth')
   return {
-    type: actions.AUTHENTICATION_TOKEN_REVOKED
+    type: actions.AUTHENTICATION_TOKEN_REVOKED,
   }
 }
 
-export const expireToken = revokedAt => {
+export const expireToken = (revokedAt) => {
   const oauth = getOAuth()
 
   if (oauth && oauth.createdAt <= revokedAt) {
@@ -130,23 +130,23 @@ export const expireToken = revokedAt => {
   }
 
   return {
-    type: actions.AUTHENTICATION_TOKEN_NOT_REVOKED
+    type: actions.AUTHENTICATION_TOKEN_NOT_REVOKED,
   }
 }
 
 export const logout = () => revokeToken()
 
-export const updateEmbeddableConfig = rawEmbeddableConfig => {
+export const updateEmbeddableConfig = (rawEmbeddableConfig) => {
   return {
     type: actions.UPDATE_EMBEDDABLE_CONFIG,
-    payload: rawEmbeddableConfig
+    payload: rawEmbeddableConfig,
   }
 }
 
-export const updateArturos = payload => {
+export const updateArturos = (payload) => {
   return {
     type: actions.UPDATE_ARTUROS,
-    payload
+    payload,
   }
 }
 
@@ -155,15 +155,15 @@ export const updateEmbedAccessible = (name, accessible) => {
     type: actions.UPDATE_EMBED,
     payload: {
       name,
-      params: { accessible }
-    }
+      params: { accessible },
+    },
   }
 }
 
-export const updateWidgetShown = show => {
+export const updateWidgetShown = (show) => {
   const updateWidgetShownAction = {
     type: actions.UPDATE_WIDGET_SHOWN,
-    payload: show
+    payload: show,
   }
 
   return (dispatch, getState) => {
@@ -177,7 +177,7 @@ export const updateWidgetShown = show => {
   }
 }
 
-export const handlePrefillReceived = payload => {
+export const handlePrefillReceived = (payload) => {
   const { name = {}, email = {}, phone = {} } = payload
   let prefillValues = {}
   let isReadOnly = {}
@@ -208,28 +208,28 @@ export const handlePrefillReceived = payload => {
 
   return {
     type: actions.PREFILL_RECEIVED,
-    payload: { prefillValues, isReadOnly, timestamp: Date.now() }
+    payload: { prefillValues, isReadOnly, timestamp: Date.now() },
   }
 }
 
-export const updateQueue = payload => {
+export const updateQueue = (payload) => {
   return {
     type: actions.UPDATE_QUEUE,
-    payload
+    payload,
   }
 }
 
-export const removeFromQueue = methodName => {
+export const removeFromQueue = (methodName) => {
   return {
     type: actions.REMOVE_FROM_QUEUE,
-    payload: methodName
+    payload: methodName,
   }
 }
 
-export const addToAfterShowAnimationQueue = callback => {
+export const addToAfterShowAnimationQueue = (callback) => {
   return {
     type: actions.ADD_TO_AFTER_SHOW_ANIMATE,
-    payload: callback
+    payload: callback,
   }
 }
 
@@ -237,20 +237,20 @@ export const widgetShowAnimationComplete = () => {
   return (dispatch, getState) => {
     const queue = getAfterWidgetShowAnimation(getState())
 
-    queue.forEach(callback => {
+    queue.forEach((callback) => {
       dispatch(callback())
     })
 
     dispatch({
-      type: actions.WIDGET_SHOW_ANIMATION_COMPLETE
+      type: actions.WIDGET_SHOW_ANIMATION_COMPLETE,
     })
   }
 }
 
 export const handleCloseButtonClicked = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: actions.CLOSE_BUTTON_CLICKED
+      type: actions.CLOSE_BUTTON_CLICKED,
     })
 
     focusLauncher()
@@ -262,7 +262,7 @@ export const handleEscapeKeyPressed = () => {
   return (dispatch, getState) => {
     if (getWebWidgetOpen(getState())) {
       dispatch({
-        type: actions.ESCAPE_KEY_PRESSED
+        type: actions.ESCAPE_KEY_PRESSED,
       })
       callbacks.fireFor(WIDGET_CLOSED_EVENT)
     }
@@ -305,7 +305,7 @@ export const apiResetWidget = () => {
 }
 
 export const launcherClicked = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: actions.LAUNCHER_CLICKED })
 
     callbacks.fireFor(WIDGET_OPENED_EVENT)
@@ -313,7 +313,7 @@ export const launcherClicked = () => {
 }
 
 export const chatBadgeClicked = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: actions.CHAT_BADGE_CLICKED })
     callbacks.fireFor(WIDGET_OPENED_EVENT)
     dispatch(addToAfterShowAnimationQueue(handleChatBadgeMinimize))
@@ -321,9 +321,9 @@ export const chatBadgeClicked = () => {
 }
 
 export const widgetInitialised = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: actions.WIDGET_INITIALISED
+      type: actions.WIDGET_INITIALISED,
     })
 
     setTimeout(() => dispatch({ type: actions.BOOT_UP_TIMER_COMPLETE }), 5000)
@@ -333,25 +333,25 @@ export const widgetInitialised = () => {
 export const activateReceived = (options = {}) => {
   return {
     type: actions.ACTIVATE_RECEIVED,
-    payload: options
+    payload: options,
   }
 }
 
 export const hideReceived = () => {
   return {
-    type: actions.HIDE_RECEIVED
+    type: actions.HIDE_RECEIVED,
   }
 }
 
 export const showReceived = () => {
   return {
-    type: actions.SHOW_RECEIVED
+    type: actions.SHOW_RECEIVED,
   }
 }
 
 export const legacyShowReceived = () => {
   return {
-    type: actions.LEGACY_SHOW_RECEIVED
+    type: actions.LEGACY_SHOW_RECEIVED,
   }
 }
 
@@ -384,7 +384,7 @@ export const toggleReceived = () => (dispatch, getState) => {
 
 export const cancelButtonClicked = () => (dispatch, _getState) => {
   dispatch({
-    type: actions.CANCEL_BUTTON_CLICKED
+    type: actions.CANCEL_BUTTON_CLICKED,
   })
 
   callbacks.fireFor(WIDGET_CLOSED_EVENT)
@@ -392,18 +392,18 @@ export const cancelButtonClicked = () => (dispatch, _getState) => {
 
 export const handleChatBadgeMinimize = () => {
   return {
-    type: actions.CHAT_BADGE_MINIMIZED
+    type: actions.CHAT_BADGE_MINIMIZED,
   }
 }
 
 export const badgeHideReceived = () => {
   return {
-    type: actions.BADGE_HIDE_RECEIVED
+    type: actions.BADGE_HIDE_RECEIVED,
   }
 }
 
 export const badgeShowReceived = () => {
   return {
-    type: actions.BADGE_SHOW_RECEIVED
+    type: actions.BADGE_SHOW_RECEIVED,
   }
 }

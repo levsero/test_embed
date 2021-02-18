@@ -13,16 +13,16 @@ const dropzoneMargin = 19 // the frames border and padding
 const AttachmentBox = ({
   dimensions = { width: WIDGET_WIDTH, height: MAX_WIDGET_HEIGHT },
   onDragLeave = () => {},
-  onDrop
+  onDrop,
 }) => {
   const translate = useTranslate()
   const style = {
     width: `${dimensions.width - dropzoneMargin}px`,
-    height: `${dimensions.height - dropzoneMargin}px`
+    height: `${dimensions.height - dropzoneMargin}px`,
   }
   const dropzoneContainerStyles = {
     width: `${dimensions.width}px`,
-    height: `${dimensions.height}px`
+    height: `${dimensions.height}px`,
   }
 
   return (
@@ -49,7 +49,7 @@ const AttachmentBox = ({
 AttachmentBox.propTypes = {
   dimensions: PropTypes.object,
   onDragLeave: PropTypes.func,
-  onDrop: PropTypes.func.isRequired
+  onDrop: PropTypes.func.isRequired,
 }
 
 export default AttachmentBox

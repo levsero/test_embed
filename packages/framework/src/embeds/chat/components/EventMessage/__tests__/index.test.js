@@ -6,12 +6,12 @@ import { Component as EventMessage } from '../'
 const renderComponent = (customProps = {}) => {
   const defaultProps = {
     children: {},
-    chatLogCreatedAt: 1588227858632
+    chatLogCreatedAt: 1588227858632,
   }
 
   const props = {
     ...defaultProps,
-    ...customProps
+    ...customProps,
   }
 
   return render(
@@ -30,8 +30,8 @@ describe('EventMessage', () => {
         timestamp: 1588227858632,
         nick: 'visitor',
         type: 'chat.memberjoin',
-        display_name: 'Visitor 21173003'
-      }
+        display_name: 'Visitor 21173003',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -46,8 +46,8 @@ describe('EventMessage', () => {
         timestamp: 1588240662239,
         nick: 'agent:45031391',
         type: 'chat.memberjoin',
-        display_name: 'agent'
-      }
+        display_name: 'agent',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -63,8 +63,8 @@ describe('EventMessage', () => {
         nick: 'agent:45031391',
         type: 'chat.memberleave',
         reason: 'user_leave_chat',
-        display_name: 'agent'
-      }
+        display_name: 'agent',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -80,8 +80,8 @@ describe('EventMessage', () => {
         nick: 'agent:45031391',
         type: 'chat.memberleave',
         reason: 'disconnect_user',
-        display_name: 'agent'
-      }
+        display_name: 'agent',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -97,8 +97,8 @@ describe('EventMessage', () => {
         nick: 'visitor',
         type: 'chat.memberleave',
         reason: 'user_leave_chat',
-        display_name: 'Visitor 21173003'
-      }
+        display_name: 'Visitor 21173003',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -114,8 +114,8 @@ describe('EventMessage', () => {
         nick: 'visitor',
         type: 'chat.rating',
         display_name: 'Visitor 21173003',
-        new_rating: 'good'
-      }
+        new_rating: 'good',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -131,8 +131,8 @@ describe('EventMessage', () => {
         nick: 'visitor',
         type: 'chat.rating',
         display_name: 'Visitor 21173003',
-        new_rating: 'bad'
-      }
+        new_rating: 'bad',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -149,8 +149,8 @@ describe('EventMessage', () => {
         type: 'chat.rating',
         new_rating: undefined,
         display_name: 'Visitor 21173003',
-        rating: 'good'
-      }
+        rating: 'good',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -165,8 +165,8 @@ describe('EventMessage', () => {
         timestamp: 1588244444988,
         nick: 'visitor',
         type: 'chat.comment',
-        display_name: 'Visitor 21173003'
-      }
+        display_name: 'Visitor 21173003',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()
@@ -181,8 +181,8 @@ describe('EventMessage', () => {
         timestamp: 1588244444988,
         nick: 'visitor',
         type: 'chat.contact_details.updated',
-        display_name: 'Visitor 21173003'
-      }
+        display_name: 'Visitor 21173003',
+      },
     })
 
     expect(getByTestId(TEST_IDS.CHAT_MSG_EVENT)).toBeInTheDocument()

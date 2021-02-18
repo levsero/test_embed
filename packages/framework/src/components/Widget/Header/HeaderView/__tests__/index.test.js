@@ -4,7 +4,7 @@ import HeaderView from '../'
 
 describe('HeaderView', () => {
   const defaultProps = {
-    children: <div>Some child component</div>
+    children: <div>Some child component</div>,
   }
 
   const renderComponent = (props = {}) => render(<HeaderView {...defaultProps} {...props} />)

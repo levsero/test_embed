@@ -15,12 +15,12 @@ const renderComponent = (override = {}, notification = {}) => {
       show: true,
       title: 'does anything',
       typing: false,
-      ...notification
+      ...notification,
     },
     resultsCount: 1,
     chatNotificationDismissed: () => {},
     chatNotificationRespond: () => {},
-    ...override
+    ...override,
   }
 
   return render(<NotificationPopup {...props} />)

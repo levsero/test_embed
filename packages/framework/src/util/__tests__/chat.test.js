@@ -7,7 +7,7 @@ import {
   isAgent,
   isVisitor,
   createChatPopoutWindow,
-  getDisplayName
+  getDisplayName,
 } from '../chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 
@@ -17,9 +17,9 @@ beforeEach(() => {
   globals.win = {
     open: jest.fn(),
     location: {
-      hostname: 'abc.com'
+      hostname: 'abc.com',
     },
-    btoa: x => x
+    btoa: (x) => x,
   }
   globals.getZendeskHost = () => 'a.zendesk.com'
 })
@@ -28,7 +28,7 @@ describe('isDefaultNickname', () => {
   const validNames = [
     'Visitor 26681136',
     'Visitor 1234567890463274356726736476353276435674834747835746574647878372436573657847',
-    'Visitor 000000'
+    'Visitor 000000',
   ]
   const invalidNames = [
     'Mike',
@@ -42,16 +42,16 @@ describe('isDefaultNickname', () => {
     undefined,
     {},
     [],
-    10000
+    10000,
   ]
 
-  _.forEach(validNames, name =>
+  _.forEach(validNames, (name) =>
     it(`returns true for ${name}`, () => {
       expect(isDefaultNickname(name)).toEqual(true)
     })
   )
 
-  _.forEach(invalidNames, name =>
+  _.forEach(invalidNames, (name) =>
     it(`returns false for ${name}`, () => {
       expect(isDefaultNickname(name)).toEqual(false)
     })
@@ -127,14 +127,14 @@ describe('formatSchedule', () => {
       3: [],
       4: [],
       5: [],
-      6: []
+      6: [],
     }
 
     const expected = [
       {
         days: [[1, 7]],
-        periods: []
-      }
+        periods: [],
+      },
     ]
 
     expect(formatSchedule(input)).toEqual(expected)
@@ -148,18 +148,18 @@ describe('formatSchedule', () => {
       3: [{ start: 0, end: 1 }],
       4: [],
       5: [],
-      6: []
+      6: [],
     }
 
     const expected = [
       {
         days: [1, 3],
-        periods: [{ start: 0, end: 1 }]
+        periods: [{ start: 0, end: 1 }],
       },
       {
         days: [2, [4, 7]],
-        periods: []
-      }
+        periods: [],
+      },
     ]
 
     expect(formatSchedule(input)).toEqual(expected)
@@ -173,26 +173,26 @@ describe('formatSchedule', () => {
       3: [],
       4: [{ start: 0, end: 1 }],
       5: [{ start: 3, end: 4 }],
-      6: [{ start: 3, end: 4 }]
+      6: [{ start: 3, end: 4 }],
     }
 
     const expected = [
       {
         days: [1, 4],
-        periods: [{ start: 0, end: 1 }]
+        periods: [{ start: 0, end: 1 }],
       },
       {
         days: [[2, 3]],
-        periods: []
+        periods: [],
       },
       {
         days: [[5, 6]],
-        periods: [{ start: 3, end: 4 }]
+        periods: [{ start: 3, end: 4 }],
       },
       {
         days: [7],
-        periods: [{ start: 6, end: 7 }]
-      }
+        periods: [{ start: 6, end: 7 }],
+      },
     ]
 
     expect(formatSchedule(input)).toEqual(expected)
@@ -201,27 +201,36 @@ describe('formatSchedule', () => {
   test('should be work with multiple periods in a day', () => {
     const input = {
       0: [],
-      1: [{ start: 0, end: 1 }, { start: 3, end: 4 }],
+      1: [
+        { start: 0, end: 1 },
+        { start: 3, end: 4 },
+      ],
       2: [],
       3: [],
       4: [{ start: 0, end: 1 }],
       5: [],
-      6: [{ start: 0, end: 1 }, { start: 3, end: 4 }]
+      6: [
+        { start: 0, end: 1 },
+        { start: 3, end: 4 },
+      ],
     }
 
     const expected = [
       {
         days: [1, 6],
-        periods: [{ start: 0, end: 1 }, { start: 3, end: 4 }]
+        periods: [
+          { start: 0, end: 1 },
+          { start: 3, end: 4 },
+        ],
       },
       {
         days: [[2, 3], 5, 7],
-        periods: []
+        periods: [],
       },
       {
         days: [4],
-        periods: [{ start: 0, end: 1 }]
-      }
+        periods: [{ start: 0, end: 1 }],
+      },
     ]
 
     expect(formatSchedule(input)).toEqual(expected)

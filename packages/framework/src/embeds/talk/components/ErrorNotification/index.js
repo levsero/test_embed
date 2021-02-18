@@ -11,7 +11,7 @@ const ErrorNotification = ({ message }) => (
 )
 
 ErrorNotification.propTypes = {
-  message: PropTypes.string
+  message: PropTypes.string,
 }
 
 export default ErrorNotification

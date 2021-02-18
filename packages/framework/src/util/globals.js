@@ -13,10 +13,10 @@ const getReferrerPolicy = () => referrerPolicy
 
 const setReferrerMetas = (iframe, doc) => {
   const metaElements = getMetaTagsByName(doc, 'referrer')
-  const referrerMetas = _.map(metaElements, meta => meta.content)
+  const referrerMetas = _.map(metaElements, (meta) => meta.content)
   const iframeDoc = iframe.contentDocument
 
-  _.forEach(referrerMetas, content => appendMetaTag(iframeDoc, 'referrer', content))
+  _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content))
 
   if (referrerMetas.length > 0) {
     referrerPolicy = _.last(referrerMetas)
@@ -27,7 +27,7 @@ function getDocumentHost() {
   return document.body || document.documentElement
 }
 
-const getZendeskHost = doc => {
+const getZendeskHost = (doc) => {
   const path = 'web_widget.id'
 
   return doc.zendeskHost || _.get(doc.zendesk, path) || _.get(doc, path)
@@ -57,5 +57,5 @@ export {
   isPopout,
   setReferrerMetas,
   getReferrerPolicy,
-  focusLauncher
+  focusLauncher,
 }

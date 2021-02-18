@@ -17,11 +17,11 @@ WebWidget.propTypes = {
     embeds: PropTypes.shape({
       launcher: PropTypes.shape({
         props: PropTypes.shape({
-          labelKey: PropTypes.string
-        })
-      })
-    })
-  })
+          labelKey: PropTypes.string,
+        }),
+      }),
+    }),
+  }),
 }
 
 export default WebWidget

@@ -6,12 +6,12 @@ const mockAccountOperatingHours = {
   account_schedule: [
     {
       days: [1],
-      periods: [{ start: 456, end: 789 }]
-    }
+      periods: [{ start: 456, end: 789 }],
+    },
   ],
   type: 'account',
   enabled: true,
-  timezone: 'Australia/Melbourne'
+  timezone: 'Australia/Melbourne',
 }
 
 const renderComponent = (props = {}) => {
@@ -19,7 +19,7 @@ const renderComponent = (props = {}) => {
     operatingHours: mockAccountOperatingHours,
     handleOfflineFormBack: jest.fn(),
     title: 'Chat with us',
-    locale: 'en-us'
+    locale: 'en-us',
   }
 
   return render(<OperatingHoursPage {...defaultProps} {...props} />)

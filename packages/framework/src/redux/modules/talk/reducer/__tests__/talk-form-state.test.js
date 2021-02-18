@@ -5,34 +5,34 @@ import { testReducer } from 'src/util/testHelpers'
 
 const initialState = {
   name: '',
-  phone: ''
+  phone: '',
 }
 
 testReducer(formState, [
   {
     action: { type: undefined },
-    expected: initialState
+    expected: initialState,
   },
   {
     action: { type: 'something' },
     initialState: { name: 'vafasdf' },
-    expected: { name: 'vafasdf' }
+    expected: { name: 'vafasdf' },
   },
   {
     action: {
       type: actionTypes.UPDATE_CALLBACK_FORM,
-      payload: { phone: '+61412345678' }
+      payload: { phone: '+61412345678' },
     },
     expected: {
       name: '',
-      phone: '+61412345678'
-    }
+      phone: '+61412345678',
+    },
   },
   {
     action: {
-      type: API_CLEAR_FORM
+      type: API_CLEAR_FORM,
     },
     initialState: { name: 'fasdfas', phone: '+412341234' },
-    expected: initialState
-  }
+    expected: initialState,
+  },
 ])

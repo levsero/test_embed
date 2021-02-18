@@ -29,31 +29,31 @@ describe('EmbedWrapper', () => {
             querySelector: () => ({
               focus: hostDocumentFocusSpy,
               contentDocument: {
-                querySelector: () => ({ focus: noop })
-              }
-            })
+                querySelector: () => ({ focus: noop }),
+              },
+            }),
           }
-        }
+        },
       },
       'src/components/Widget': {
-        WidgetThemeProvider: ({ children }) => <React.Fragment>{children}</React.Fragment>
+        WidgetThemeProvider: ({ children }) => <React.Fragment>{children}</React.Fragment>,
       },
       'component/frame/Navigation': noopReactComponent(),
       'components/FrameFocusJail': noopReactComponent(),
       'src/redux/modules/selectors': {
-        getColor: noop
+        getColor: noop,
       },
       'service/history': createMemoryHistory(),
       lodash: _,
       'src/apps/webWidget/services/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['isRTL'])
+        i18n: jasmine.createSpyObj('i18n', ['isRTL']),
       },
       './gardenOverrides': {
-        getGardenOverrides: noop
+        getGardenOverrides: noop,
       },
       'src/redux/modules/base': {
-        handleEscapeKeyPressed: noop
-      }
+        handleEscapeKeyPressed: noop,
+      },
     })
 
     EmbedWrapper = requireUncached(EmbedWrapperPath).default.WrappedComponent

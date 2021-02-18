@@ -41,7 +41,7 @@ describe('launcher store', () => {
       store.dispatch(
         screenDimensionsChanged({
           isVerticallySmallScreen: false,
-          isHorizontallySmallScreen: false
+          isHorizontallySmallScreen: false,
         })
       )
 

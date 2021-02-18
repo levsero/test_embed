@@ -6,7 +6,7 @@ const fs = require('fs')
 const chromeImage = 'docker.pkg.github.com/zendesk/dockerhub-images/alpine-chrome:latest'
 
 /* eslint-disable no-console */
-const fetchVersion = async mode => {
+const fetchVersion = async (mode) => {
   try {
     const dockerHost = mode === 'vbox' ? process.env.DOCKER_HOST_IP : 'localhost'
     console.log('Connecting to', dockerHost)
@@ -20,8 +20,8 @@ const fetchVersion = async mode => {
   }
 }
 
-const wait = ms => {
-  return new Promise(resolve => {
+const wait = (ms) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }
@@ -35,7 +35,7 @@ const waitForConnection = async (id, mode) => {
       const output = {
         mode,
         container: id,
-        wsEndpoint: result.webSocketDebuggerUrl
+        wsEndpoint: result.webSocketDebuggerUrl,
       }
       fs.writeFileSync('docker-chromium', JSON.stringify(output))
       console.log('Container ready')
@@ -49,7 +49,7 @@ const waitForConnection = async (id, mode) => {
 
 console.log('Starting headless Chrome browser in Docker')
 
-const dockerCommand = mode => {
+const dockerCommand = (mode) => {
   let addHost = '--net=host'
   if (mode === 'vbox') {
     addHost = '--add-host="host.docker.internal:10.0.2.2"'
@@ -59,7 +59,7 @@ const dockerCommand = mode => {
   return `docker container run ${addHost} -d -p 9222:9222 ${chromeImage} --no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222`
 }
 
-const startContainer = mode => {
+const startContainer = (mode) => {
   console.log('Mode:', mode)
   exec(dockerCommand(mode), async (error, stdout) => {
     if (error) {
@@ -70,20 +70,20 @@ const startContainer = mode => {
   })
 }
 
-const exit = error => {
+const exit = (error) => {
   console.error(error)
   process.exit(1)
 }
 
 const run = () => {
-  exec('docker ps', err => {
+  exec('docker ps', (err) => {
     if (err) {
       exit('Docker is not available, exiting.')
     }
     if (process.env.DOCKER_FOR_MAC_ENABLED === 'true') {
       startContainer('dfm')
     } else {
-      exec('vboxmanage list runningvms', err => {
+      exec('vboxmanage list runningvms', (err) => {
         const mode = err ? 'docker' : 'vbox'
         startContainer(mode)
       })

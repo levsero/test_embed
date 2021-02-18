@@ -6,7 +6,7 @@ import {
   CenterLoadingErrorTitle,
   CenterLoadingErrorContainer,
   TopLoadingErrorContainer,
-  LoadingErrorButton
+  LoadingErrorButton,
 } from './styles'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import ReloadStroke from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
@@ -16,7 +16,7 @@ const HistoryLoader = ({
   hasFetchedConversation,
   isFetchingHistory,
   errorFetchingHistory,
-  retryFetchMessages
+  retryFetchMessages,
 }) => {
   const translate = useTranslate()
   if (hasFetchedConversation && isFetchingHistory)
@@ -64,7 +64,7 @@ HistoryLoader.propTypes = {
   hasFetchedConversation: PropTypes.bool.isRequired,
   isFetchingHistory: PropTypes.bool.isRequired,
   errorFetchingHistory: PropTypes.bool.isRequired,
-  retryFetchMessages: PropTypes.func.isRequired
+  retryFetchMessages: PropTypes.func.isRequired,
 }
 
 export default HistoryLoader

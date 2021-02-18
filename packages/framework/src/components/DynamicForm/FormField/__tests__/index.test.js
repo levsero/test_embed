@@ -10,11 +10,11 @@ describe('FormField', () => {
       type: 'text',
       required: true,
       title: 'Some title',
-      description: 'Some description'
+      description: 'Some description',
     },
     value: 'Something',
     onChange: jest.fn(),
-    errorMessage: null
+    errorMessage: null,
   }
 
   const renderComponent = (props = {}) => render(<FormField {...defaultProps} {...props} />)

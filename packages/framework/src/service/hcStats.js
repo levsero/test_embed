@@ -14,11 +14,11 @@ const articleViewed = (articleId, locale, params) => {
       last_search: {
         query: params.query,
         results_count: params.resultsCount,
-        origin: 'web_widget'
+        origin: 'web_widget',
       },
-      unique_search_result_click: params.uniqueSearchResultClick
+      unique_search_result_click: params.uniqueSearchResultClick,
     },
-    authorization: token ? `Bearer ${token}` : ''
+    authorization: token ? `Bearer ${token}` : '',
   })
 }
 
@@ -31,11 +31,11 @@ const ticketSubmitted = (ticketId, query) => {
     path: `/api/v2/help_center/${locale.toLowerCase()}/tickets/${ticketId}/stats.json`,
     useHostMappingIfAvailable: isOnHostMappedDomain(),
     params: { last_search: { query, origin: 'web_widget' } },
-    authorization: token ? `Bearer ${token}` : ''
+    authorization: token ? `Bearer ${token}` : '',
   })
 }
 
 export default {
   articleViewed,
-  ticketSubmitted
+  ticketSubmitted,
 }

@@ -14,7 +14,7 @@ function combineNumbers(numbers) {
 
   const dump = () => (start = (result.push(start ? [start, last] : last), undefined))
 
-  numbers.forEach(num => {
+  numbers.forEach((num) => {
     num = parseInt(num, 10)
     if (last === num - 1) {
       if (!start) start = last
@@ -26,12 +26,13 @@ function combineNumbers(numbers) {
   return result
 }
 
-const periodsToString = periods => periods.map(period => `${period.start},${period.end}`).toString()
-const stringToPeriods = str =>
+const periodsToString = (periods) =>
+  periods.map((period) => `${period.start},${period.end}`).toString()
+const stringToPeriods = (str) =>
   str
-    ? _.chunk(str.split(','), 2).map(arr => ({
+    ? _.chunk(str.split(','), 2).map((arr) => ({
         start: parseInt(arr[0], 10),
-        end: parseInt(arr[1], 10)
+        end: parseInt(arr[1], 10),
       }))
     : []
 
@@ -48,7 +49,7 @@ function formatSchedule(schedule) {
   return _.sortBy(
     _.map(preprocessedDates, (days, periods) => ({
       periods: stringToPeriods(periods),
-      days: combineNumbers(days)
+      days: combineNumbers(days),
     })),
     ['days']
   )
@@ -114,7 +115,7 @@ export {
   isVisitor,
   createChatPopoutWindow,
   getDisplayName,
-  cleanBrandName
+  cleanBrandName,
 }
 
 /**

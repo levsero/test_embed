@@ -14,15 +14,15 @@ describe('MessageOptions component', () => {
         locals: {
           firstItemBorders: 'firstItemBorders',
           lastItemBorders: 'lastItemBorders',
-          optionItem: 'optionItem'
-        }
+          optionItem: 'optionItem',
+        },
       },
       'component/shared/KeyboardFocusButton': {
-        KeyboardFocusButton: KeyboardFocusButton
+        KeyboardFocusButton: KeyboardFocusButton,
       },
       'src/constants/shared': {
-        TEST_IDS: {}
-      }
+        TEST_IDS: {},
+      },
     })
 
     mockery.registerAllowable(messageOptionsPath)
@@ -123,7 +123,7 @@ describe('MessageOptions component', () => {
         it('does not render remaining option items with firstItemBorders styles', () => {
           const middleItems = response.props.children
 
-          _.slice(middleItems, 1).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach((optionItem) => {
             const classes = optionItem.props.className
 
             expect(classes).not.toContain('firstItemBorders')
@@ -166,7 +166,7 @@ describe('MessageOptions component', () => {
         it('does not render remaining option items with firstItemBorders', () => {
           const middleItems = response.props.children
 
-          _.slice(middleItems, 1).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach((optionItem) => {
             const classes = optionItem.props.className
 
             expect(classes).not.toContain('firstItemBorders')

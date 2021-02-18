@@ -23,8 +23,8 @@ describe('ChatMessagingChannels', () => {
       const { container } = renderComponent({
         channels: {
           facebook: { allowed: false, page_id: '1' },
-          twitter: { allowed: false, page_id: '1' }
-        }
+          twitter: { allowed: false, page_id: '1' },
+        },
       })
 
       expect(find(container, Container)).toBeNull()
@@ -36,8 +36,8 @@ describe('ChatMessagingChannels', () => {
         const { getByTestId } = renderComponent({
           channels: {
             facebook: { allowed: true, page_id: '1' },
-            twitter: { allowed: false, page_id: '1' }
-          }
+            twitter: { allowed: false, page_id: '1' },
+          },
         })
 
         expect(getByTestId(TEST_IDS.ICON_MESSENGER)).toBeInTheDocument()
@@ -46,8 +46,8 @@ describe('ChatMessagingChannels', () => {
         const { queryByTestId } = renderComponent({
           channels: {
             facebook: { allowed: true, page_id: '1' },
-            twitter: { allowed: false, page_id: '1' }
-          }
+            twitter: { allowed: false, page_id: '1' },
+          },
         })
 
         expect(queryByTestId(TEST_IDS.ICON_TWITTER)).toBeNull()
@@ -59,8 +59,8 @@ describe('ChatMessagingChannels', () => {
         const { getByTestId } = renderComponent({
           channels: {
             facebook: { allowed: false, page_id: '1' },
-            twitter: { allowed: true, page_id: '1' }
-          }
+            twitter: { allowed: true, page_id: '1' },
+          },
         })
 
         expect(getByTestId(TEST_IDS.ICON_TWITTER)).toBeInTheDocument()
@@ -69,8 +69,8 @@ describe('ChatMessagingChannels', () => {
         const { queryByTestId } = renderComponent({
           channels: {
             facebook: { allowed: false, page_id: '1' },
-            twitter: { allowed: true, page_id: '1' }
-          }
+            twitter: { allowed: true, page_id: '1' },
+          },
         })
 
         expect(queryByTestId(TEST_IDS.ICON_MESSENGER)).toBeNull()
@@ -83,8 +83,8 @@ describe('ChatMessagingChannels', () => {
       const { getByTestId } = renderComponent({
         channels: {
           facebook: { allowed: true, page_id: '1' },
-          twitter: { allowed: true, page_id: '1' }
-        }
+          twitter: { allowed: true, page_id: '1' },
+        },
       })
 
       expect(getByTestId(TEST_IDS.ICON_TWITTER)).toBeInTheDocument()
@@ -96,15 +96,15 @@ describe('ChatMessagingChannels', () => {
         const { container: desktopContainer } = renderComponent({
           channels: {
             facebook: { allowed: true, page_id: '1' },
-            twitter: { allowed: true, page_id: '1' }
-          }
+            twitter: { allowed: true, page_id: '1' },
+          },
         })
         const { container: mobileContainer } = renderComponent(
           {
             channels: {
               facebook: { allowed: true, page_id: '1' },
-              twitter: { allowed: true, page_id: '1' }
-            }
+              twitter: { allowed: true, page_id: '1' },
+            },
           },
           { widgetThemeProps: { isMobile: true } }
         )
@@ -120,11 +120,11 @@ describe('ChatMessagingChannels', () => {
             {
               channels: {
                 facebook: { allowed: true, page_id: '1' },
-                twitter: { allowed: true, page_id: '1' }
-              }
+                twitter: { allowed: true, page_id: '1' },
+              },
             },
             {
-              themeProps: { rtl: true }
+              themeProps: { rtl: true },
             }
           )
 
@@ -132,12 +132,12 @@ describe('ChatMessagingChannels', () => {
             {
               channels: {
                 facebook: { allowed: true, page_id: '1' },
-                twitter: { allowed: true, page_id: '1' }
-              }
+                twitter: { allowed: true, page_id: '1' },
+              },
             },
             {
               themeProps: { rtl: true },
-              widgetThemeProps: { isMobile: true }
+              widgetThemeProps: { isMobile: true },
             }
           )
 

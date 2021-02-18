@@ -12,17 +12,17 @@ import {
   getChatLog,
   getFirstVisitorMessage,
   getShowUpdateVisitorDetails,
-  getIsChatting
+  getIsChatting,
 } from 'src/redux/modules/chat/chat-selectors'
 import chatPropTypes from 'types/chat'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     chatLog: getChatLog(state),
     firstVisitorMessage: getFirstVisitorMessage(state),
     showUpdateInfo: getShowUpdateVisitorDetails(state),
     locale: i18n.getLocale(),
-    isChatting: getIsChatting(state)
+    isChatting: getIsChatting(state),
   }
 }
 
@@ -40,11 +40,11 @@ export class ChatLog extends PureComponent {
     socialLogin: PropTypes.object,
     conciergeAvatar: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
-    isChatting: PropTypes.bool.isRequired
+    isChatting: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
-    socialLogin: {}
+    socialLogin: {},
   }
 
   constructor(props) {
@@ -53,7 +53,7 @@ export class ChatLog extends PureComponent {
     this.createdTimestamp = Date.now()
   }
 
-  renderGroup = group => {
+  renderGroup = (group) => {
     const {
       agents,
       showAvatar,
@@ -61,7 +61,7 @@ export class ChatLog extends PureComponent {
       onImageLoad,
       socialLogin,
       conciergeAvatar,
-      isMobile
+      isMobile,
     } = this.props
 
     if (group.type === 'message') {
@@ -129,9 +129,4 @@ export class ChatLog extends PureComponent {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {},
-  null,
-  { forwardRef: true }
-)(ChatLog)
+export default connect(mapStateToProps, {}, null, { forwardRef: true })(ChatLog)

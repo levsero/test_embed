@@ -4,14 +4,14 @@ import {
   ATTACHMENT_UPLOAD_FAILED,
   ATTACHMENT_UPLOAD_UPDATED,
   ATTACHMENT_REMOVED,
-  ATTACHMENTS_CLEARED
+  ATTACHMENTS_CLEARED,
 } from 'src/embeds/support/actions/action-types'
 
 const initialState = []
 
 const attachments = (state = initialState, action) => {
   const { type, payload } = action
-  const updateAttachment = payload =>
+  const updateAttachment = (payload) =>
     state.reduce((newState, attachment) => {
       if (attachment.id === payload.id) {
         newState.push({ ...attachment, ...payload })
@@ -30,7 +30,7 @@ const attachments = (state = initialState, action) => {
     case ATTACHMENT_UPLOAD_UPDATED:
       return updateAttachment(payload)
     case ATTACHMENT_REMOVED:
-      return state.filter(attachment => attachment.id !== payload.id)
+      return state.filter((attachment) => attachment.id !== payload.id)
     case ATTACHMENTS_CLEARED:
       return initialState
     default:

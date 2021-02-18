@@ -2,25 +2,25 @@ import { isOnHelpCenterPage, isOnHostMappedDomain, getDecodedJWTBody } from '../
 import * as globals from 'utility/globals'
 
 globals.win = {
-  HelpCenter: {}
+  HelpCenter: {},
 }
 globals.location = {
   href: 'http://foo.com/anthony/is/awesome',
   pathname: '/anthony/is/awesome',
-  hash: ''
+  hash: '',
 }
 
-describe('isOnHelpCenterPage()', function() {
+describe('isOnHelpCenterPage()', function () {
   let location, win
 
-  beforeEach(function() {
+  beforeEach(function () {
     location = globals.location
     win = globals.win
 
     win.HelpCenter = { account: '', user: '' }
   })
 
-  it('returns true if the host page is a helpcenter', function() {
+  it('returns true if the host page is a helpcenter', function () {
     location.pathname = '/hc/en-us'
 
     expect(isOnHelpCenterPage()).toBe(true)
@@ -30,13 +30,13 @@ describe('isOnHelpCenterPage()', function() {
     expect(isOnHelpCenterPage()).toBe(true)
   })
 
-  it('returns false if the URL is not a help center URL', function() {
+  it('returns false if the URL is not a help center URL', function () {
     location.pathname = '/foo/bar'
 
     expect(isOnHelpCenterPage()).toBe(false)
   })
 
-  it('returns false if window.HelpCenter is not set', function() {
+  it('returns false if window.HelpCenter is not set', function () {
     win.HelpCenter = null
 
     expect(isOnHelpCenterPage()).toBe(false)
@@ -97,7 +97,7 @@ describe('getDecodedJWTBody', () => {
         articles: [1, 2, 3],
         token: 'crazy-weird-token',
         exp: 1482367796,
-        iat: Math.floor(Date.now() / 1000) - 30
+        iat: Math.floor(Date.now() / 1000) - 30,
       }
       jwtToken = jsonwebtoken.sign(jwtPayload, 'secret')
     })

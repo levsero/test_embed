@@ -11,8 +11,8 @@ const departments = (state = initialState, action) => {
         ...state,
         [payload.detail.id]: {
           ...state[payload.detail.id],
-          ...payload.detail
-        }
+          ...payload.detail,
+        },
       }
     default:
       return state

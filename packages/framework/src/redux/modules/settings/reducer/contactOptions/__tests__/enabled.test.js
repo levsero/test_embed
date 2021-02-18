@@ -3,19 +3,19 @@ import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-type
 import { testReducer } from 'src/util/testHelpers'
 
 const badPayload = {
-  foo: 'bar'
+  foo: 'bar',
 }
 const goodPayload = {
   webWidget: {
     contactOptions: {
-      enabled: true
-    }
-  }
+      enabled: true,
+    },
+  },
 }
 
 testReducer(enabled, [
   { type: undefined, payload: '' },
   { type: 'DERP DERP', payload: '' },
   { type: UPDATE_SETTINGS, payload: badPayload },
-  { type: UPDATE_SETTINGS, payload: goodPayload }
+  { type: UPDATE_SETTINGS, payload: goodPayload },
 ])

@@ -24,13 +24,13 @@ const CallbackPhone = ({ phoneNumber, formattedPhoneNumber, phoneLabel }) => {
 CallbackPhone.propTypes = {
   phoneNumber: PropTypes.string.isRequired,
   formattedPhoneNumber: PropTypes.string.isRequired,
-  phoneLabel: PropTypes.string.isRequired
+  phoneLabel: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   phoneNumber: getPhoneNumber(state),
   formattedPhoneNumber: getFormattedPhoneNumber(getPhoneNumber(state)),
-  phoneLabel: i18n.t('embeddable_framework.talk.form.phoneDisplay')
+  phoneLabel: i18n.t('embeddable_framework.talk.form.phoneDisplay'),
 })
 
 const connectedComponent = connect(mapStateToProps)(CallbackPhone)

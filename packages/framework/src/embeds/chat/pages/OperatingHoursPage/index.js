@@ -27,20 +27,17 @@ OperatingHoursPage.propTypes = {
   handleOfflineFormBack: PropTypes.func.isRequired,
   operatingHours: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
 }
 
 const actionCreators = { handleOfflineFormBack }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   operatingHours: getGroupedOperatingHours(state),
   title: getChatTitle(state),
-  locale: getLocale(state)
+  locale: getLocale(state),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(OperatingHoursPage)
+const connectedComponent = connect(mapStateToProps, actionCreators)(OperatingHoursPage)
 
 export { connectedComponent as default, OperatingHoursPage as Component }

@@ -5,13 +5,13 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 testReducer(store, [
   {
     action: {
-      type: 'some_nonsense_action'
+      type: 'some_nonsense_action',
     },
     expected: {
       colors: {},
       position: 'right',
-      zIndex: 999999
-    }
+      zIndex: 999999,
+    },
   },
   {
     action: {
@@ -20,19 +20,19 @@ testReducer(store, [
         color: {
           primary: 'red',
           message: 'blue',
-          action: 'green'
-        }
-      }
+          action: 'green',
+        },
+      },
     },
     expected: {
       colors: {
         primary: 'red',
         message: 'blue',
-        action: 'green'
+        action: 'green',
       },
       position: 'right',
-      zIndex: 999999
-    }
+      zIndex: 999999,
+    },
   },
   {
     extraDesc: 'partial color override from config',
@@ -42,19 +42,19 @@ testReducer(store, [
       payload: {
         color: {
           primary: 'red',
-          message: 'blue'
-        }
-      }
+          message: 'blue',
+        },
+      },
     },
     expected: {
       colors: {
         primary: 'red',
-        message: 'blue'
+        message: 'blue',
       },
       position: 'right',
-      zIndex: 999999
-    }
-  }
+      zIndex: 999999,
+    },
+  },
 ])
 
 describe('getMessengerColors', () => {
@@ -63,10 +63,10 @@ describe('getMessengerColors', () => {
       getMessengerColors({
         theme: {
           colors: {
-            some: 'color'
+            some: 'color',
           },
-          someOtherState: 'some other object'
-        }
+          someOtherState: 'some other object',
+        },
       })
     ).toEqual({ some: 'color' })
   })

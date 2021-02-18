@@ -11,13 +11,13 @@ export class MessageOptions extends Component {
     optionItemClasses: PropTypes.string,
     optionItems: PropTypes.array,
     onOptionClick: PropTypes.func,
-    isMessageBubbleLinked: PropTypes.bool
+    isMessageBubbleLinked: PropTypes.bool,
   }
 
   static defaultProps = {
     optionItems: [],
     onOptionClick: () => {},
-    isMessageBubbleLinked: false
+    isMessageBubbleLinked: false,
   }
 
   render() {
@@ -27,7 +27,7 @@ export class MessageOptions extends Component {
         styles.optionItem,
         this.props.optionItemClasses,
         {
-          [styles.firstItemBorders]: index === 0 && !this.props.isMessageBubbleLinked
+          [styles.firstItemBorders]: index === 0 && !this.props.isMessageBubbleLinked,
         }
       )
 

@@ -2,7 +2,7 @@ import {
   FORM_MESSAGE_STATUS,
   BANNER_STATUS,
   MESSAGE_BUBBLE_SHAPES,
-  MESSAGE_STATUS
+  MESSAGE_STATUS,
 } from './constants'
 
 import Animated from './Animated'
@@ -60,7 +60,7 @@ export {
   Timestamp,
   ThemeProvider,
   useScroll,
-  dirStyles
+  dirStyles,
 }
 
 export { FORM_MESSAGE_STATUS, BANNER_STATUS, MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS }

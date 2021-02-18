@@ -10,80 +10,80 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
-  ESCAPE_KEY_PRESSED
+  ESCAPE_KEY_PRESSED,
 } from '../../base-action-types'
 import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from 'src/redux/modules/chat/chat-action-types'
 import { testReducer } from 'src/util/testHelpers'
 
 testReducer(webWidgetVisibility, [
   {
     action: { type: undefined },
-    expected: false
+    expected: false,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: true,
-    expected: true
+    expected: true,
   },
   {
     action: { type: LAUNCHER_CLICKED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CHAT_BADGE_CLICKED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: ACTIVATE_RECEIVED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CHAT_WINDOW_OPEN_ON_NAVIGATE },
-    expected: true
+    expected: true,
   },
   {
     action: { type: OPEN_RECEIVED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CLOSE_BUTTON_CLICKED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: POPOUT_CREATED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: LEGACY_SHOW_RECEIVED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CANCEL_BUTTON_CLICKED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: PROACTIVE_CHAT_NOTIFICATION_DISMISSED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CHAT_BANNED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CLOSE_RECEIVED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: ESCAPE_KEY_PRESSED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: TOGGLE_RECEIVED },
     initialState: false,
-    expected: true
-  }
+    expected: true,
+  },
 ])

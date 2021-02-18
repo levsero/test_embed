@@ -1,11 +1,11 @@
 import {
   TALK_AVERAGE_WAIT_TIME_SOCKET_EVENT,
-  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT
+  TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
 } from '../talk-action-types'
 
 const initialState = {
   waitTime: '0',
-  enabled: false
+  enabled: false,
 }
 
 const averageWaitTime = (state = initialState, action) => {
@@ -16,7 +16,7 @@ const averageWaitTime = (state = initialState, action) => {
 
       return {
         waitTime: averageWaitTime || state.waitTime,
-        enabled: !!averageWaitTimeSetting && averageWaitTimeEnabled
+        enabled: !!averageWaitTimeSetting && averageWaitTimeEnabled,
       }
     default:
       return state

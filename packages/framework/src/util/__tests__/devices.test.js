@@ -19,22 +19,22 @@ beforeEach(() => {
   globals.win = {
     innerWidth: 980,
     orientation: 0,
-    XMLHttpRequest: function() {
+    XMLHttpRequest: function () {
       this.withCredentials = true
     },
     screen: {
       availWidth: 320,
-      availHeight: 548
-    }
+      availHeight: 548,
+    },
   }
   globals.screen = {
     availWidth: 320,
-    availHeight: 548
+    availHeight: 548,
   }
   globals.document = document
   globals.navigator = {
     userAgent:
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36',
   }
 })
 
@@ -161,7 +161,7 @@ describe('launcher-scaling', () => {
       })
 
       it('returns zoom ratio of 1 regardless of innerWidth value', () => {
-        innerWithArray.forEach(innerWidth => {
+        innerWithArray.forEach((innerWidth) => {
           win.innerWidth = innerWidth
 
           expect(devices.getZoomSizingRatio()).toEqual(1)

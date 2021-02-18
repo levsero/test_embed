@@ -41,8 +41,8 @@ describe('support embed', () => {
     await page.evaluate(() => {
       zE('webWidget', 'prefill', {
         email: {
-          value: 'example@example.com'
-        }
+          value: 'example@example.com',
+        },
       })
     })
 

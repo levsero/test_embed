@@ -14,7 +14,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
   return (
     <Dropdown
       isOpen={isOpen}
-      onSelect={value => onChange(value)}
+      onSelect={(value) => onChange(value)}
       onStateChange={({ isOpen }) => {
         if (isOpen === undefined) {
           return
@@ -22,7 +22,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
         onToggleOpen(isOpen)
       }}
       downshiftProps={{
-        environment: frame.window
+        environment: frame.window,
       }}
     >
       <Field>
@@ -35,7 +35,7 @@ const CountryDropdown = ({ selectedKey, onChange, countries, width, isOpen, onTo
           minWidth: width,
           maxWidth: width,
           maxHeight: `${215 / FONT_SIZE}rem`,
-          overflow: 'auto'
+          overflow: 'auto',
         }}
         data-testid={TEST_IDS.DROPDOWN_OPTIONS}
       >
@@ -58,19 +58,19 @@ CountryDropdown.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       iso: PropTypes.string,
-      code: PropTypes.string
+      code: PropTypes.string,
     })
   ),
   onChange: PropTypes.func,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isOpen: PropTypes.bool,
-  onToggleOpen: PropTypes.func
+  onToggleOpen: PropTypes.func,
 }
 
 CountryDropdown.defaultProps = {
   selectedKey: '',
   countries: [],
-  onChange: () => undefined
+  onChange: () => undefined,
 }
 
 export default CountryDropdown

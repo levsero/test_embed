@@ -3,6 +3,6 @@ import labelSettings from '../'
 
 testReducer(labelSettings, [
   {
-    expected: { chatLabel: null, label: null, talkLabel: null }
-  }
+    expected: { chatLabel: null, label: null, talkLabel: null },
+  },
 ])

@@ -13,15 +13,15 @@ const EmailTranscriptModal = ({ onClose }) => {
 
   return (
     <>
-      <div ref={ref => setContainer(ref)} data-testid={TEST_IDS.CHAT_EMAIL_TRANSCRIPT_MODAL} />
+      <div ref={(ref) => setContainer(ref)} data-testid={TEST_IDS.CHAT_EMAIL_TRANSCRIPT_MODAL} />
       {container && (
         <StyledModal
           backdropProps={{
             style: {
-              position: 'absolute'
-            }
+              position: 'absolute',
+            },
           }}
-          onClose={e => {
+          onClose={(e) => {
             e.stopPropagation()
             onClose()
           }}
@@ -30,7 +30,7 @@ const EmailTranscriptModal = ({ onClose }) => {
           {updatedEmail ? (
             <EmailTranscriptSuccess email={updatedEmail} />
           ) : (
-            <EmailTranscriptForm onSuccess={email => setUpdatedEmail(email)} onClose={onClose} />
+            <EmailTranscriptForm onSuccess={(email) => setUpdatedEmail(email)} onClose={onClose} />
           )}
         </StyledModal>
       )}
@@ -39,7 +39,7 @@ const EmailTranscriptModal = ({ onClose }) => {
 }
 
 EmailTranscriptModal.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 export default withTheme(EmailTranscriptModal)

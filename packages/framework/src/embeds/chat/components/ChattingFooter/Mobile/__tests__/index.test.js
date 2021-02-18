@@ -15,7 +15,7 @@ const renderComponent = (props = {}) => {
     isChatting: true,
     isMobile: false,
     isPreview: false,
-    sendChat
+    sendChat,
   }
 
   return render(

@@ -20,7 +20,7 @@ const ignoredMessagesList = [
   'Request has been terminated\nPossible causes',
 
   // Occurs in safari and ios when there's no permission to play audio
-  'the user denied permission'
+  'the user denied permission',
 ]
 
 export const ignoreException = (_isUncaught, _args, _payload) => {
@@ -32,7 +32,7 @@ export const ignoreException = (_isUncaught, _args, _payload) => {
   return false
 }
 
-const payloadTransformer = payload => {
+const payloadTransformer = (payload) => {
   const rollbarFingerprint = _.get(payload, 'body.trace.extra.rollbarFingerprint', false)
   const rollbarTitle = _.get(payload, 'body.trace.extra.rollbarTitle', false)
 
@@ -59,10 +59,10 @@ const rollbarConfig = {
       javascript: {
         source_map_enabled: true, // eslint-disable-line camelcase
         code_version: __EMBEDDABLE_VERSION__, // eslint-disable-line camelcase
-        guess_uncaught_frames: true // eslint-disable-line camelcase
-      }
-    }
-  }
+        guess_uncaught_frames: true, // eslint-disable-line camelcase
+      },
+    },
+  },
 }
 
 const errorTracker = new Rollbar(rollbarConfig)
@@ -85,5 +85,5 @@ export default {
   },
   debug: (...args) => {
     errorTracker.debug.call(errorTracker, ...args)
-  }
+  },
 }

@@ -5,7 +5,7 @@ const launcherLabelConfig = createSlice({
   name: 'launcherLabelConfig',
   initialState: {
     isVisibleOnMobile: false,
-    text: ''
+    text: '',
   },
   extraReducers: {
     [messengerConfigReceived](state, action) {
@@ -16,13 +16,13 @@ const launcherLabelConfig = createSlice({
 
         state.isVisibleOnMobile = Boolean(action.payload.launcher.showTextInMobile)
       }
-    }
-  }
+    },
+  },
 })
 
-const getLauncherLabelText = state => state.launcherLabel.config.text
+const getLauncherLabelText = (state) => state.launcherLabel.config.text
 
-const getIsVisibleOnSmallDevices = state => state.launcherLabel.config.isVisibleOnMobile
+const getIsVisibleOnSmallDevices = (state) => state.launcherLabel.config.isVisibleOnMobile
 
 export default launcherLabelConfig.reducer
 

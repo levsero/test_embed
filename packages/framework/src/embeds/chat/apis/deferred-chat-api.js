@@ -3,10 +3,10 @@ import superagent from 'superagent'
 const validStatus = {
   online: true,
   away: true,
-  offline: true
+  offline: true,
 }
 
-const fetchDeferredChatStatus = async endpoint => {
+const fetchDeferredChatStatus = async (endpoint) => {
   if (!endpoint) {
     throw new Error('Failed to get deferred chat status, no endpoint specified')
   }
@@ -45,7 +45,7 @@ const fetchDeferredChatStatus = async endpoint => {
   const departmentsById = departments.reduce(
     (prev, next) => ({
       ...prev,
-      [next.id]: next
+      [next.id]: next,
     }),
     {}
   )

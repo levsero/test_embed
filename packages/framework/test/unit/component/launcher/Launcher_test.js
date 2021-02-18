@@ -10,11 +10,11 @@ describe('Launcher', () => {
       'src/component/launcher/ChatBadge': ChatBadge,
       'src/component/launcher/WidgetLauncher': WidgetLauncher,
       'src/redux/modules/selectors': {
-        getShowChatBadgeLauncher: noop
+        getShowChatBadgeLauncher: noop,
       },
       'src/redux/modules/base': {
-        launcherClicked: noop
-      }
+        launcherClicked: noop,
+      },
     })
 
     const path = buildSrcPath('component/launcher/Launcher')

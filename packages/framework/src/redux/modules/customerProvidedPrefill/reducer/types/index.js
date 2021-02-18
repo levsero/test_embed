@@ -12,7 +12,7 @@ const reducers = {
   chatDepartmentSelect,
   chatVisitor,
   supportFields,
-  supportCustomFormFields
+  supportCustomFormFields,
 }
 
 export default combineReducers(reducers)

@@ -3,7 +3,7 @@ import {
   PHONE_ONLY,
   CALLBACK_AND_PHONE,
   CLICK_TO_CALL,
-  CAPABILITY_TYPE_CODES
+  CAPABILITY_TYPE_CODES,
 } from '../talk-capability-types'
 
 test('CALLBACK_ONLY', () => {

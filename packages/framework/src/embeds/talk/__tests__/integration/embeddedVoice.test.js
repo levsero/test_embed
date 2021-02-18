@@ -22,8 +22,8 @@ const mockResponse = {
   send: jest.fn().mockReturnThis(),
   set: jest.fn().mockReturnThis(),
   body: {
-    token: 'mock-twilio-token-from-talk-admin'
-  }
+    token: 'mock-twilio-token-from-talk-admin',
+  },
 }
 
 const microphonePermissionDescription =
@@ -41,7 +41,7 @@ describe('Embedded Voice scenarios', () => {
     capability: '3',
     enabled: true,
     nickname: 'talkNickname',
-    recordingConsent: null
+    recordingConsent: null,
   }
 
   const renderComponent = ({ talkConfig = {} } = {}) => {
@@ -50,7 +50,7 @@ describe('Embedded Voice scenarios', () => {
     store.dispatch(handleTalkVendorLoaded())
     dispatchUpdateEmbeddableConfig(store, {
       ...embeddedVoiceTalkConfig,
-      ...talkConfig
+      ...talkConfig,
     })
     return render(<Talk />, { store })
   }
@@ -78,7 +78,7 @@ describe('Embedded Voice scenarios', () => {
 
   describe('when recordingConsent is null', () => {
     const talkConfig = {
-      recordingConsent: null
+      recordingConsent: null,
     }
     it('renders the "Start call" button on the Allow microphone page', async () => {
       const { queryByText, getByLabelText } = renderComponent({ talkConfig })
@@ -116,7 +116,7 @@ describe('Embedded Voice scenarios', () => {
 
     it('does not drop the call when agents go offline while a call is in progress', async () => {
       const { getByText, getByLabelText, queryByText, store } = renderComponent({
-        talkConfig
+        talkConfig,
       })
 
       userEvent.click(getByLabelText('Start call'))
@@ -144,7 +144,7 @@ describe('Embedded Voice scenarios', () => {
 
   describe('when recordingConsent is "opt-in"', () => {
     const talkConfig = {
-      recordingConsent: OPT_IN
+      recordingConsent: OPT_IN,
     }
     it('renders the "Next" button on the Allow microphone page', () => {
       const { queryByText, getByText } = renderComponent({ talkConfig })
@@ -167,7 +167,7 @@ describe('Embedded Voice scenarios', () => {
 
   describe('when recordingConsent is "opt-out"', () => {
     const talkConfig = {
-      recordingConsent: OPT_OUT
+      recordingConsent: OPT_OUT,
     }
     it('renders the "Next" button on the Allow microphone page', () => {
       const { queryByText, getByText } = renderComponent({ talkConfig })

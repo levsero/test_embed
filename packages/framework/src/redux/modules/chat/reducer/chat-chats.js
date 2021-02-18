@@ -15,13 +15,13 @@ import {
   CHAT_FILE_REQUEST_FAILURE,
   CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
   CHAT_BANNED,
-  CHAT_DROPPED
+  CHAT_DROPPED,
 } from '../chat-action-types'
 import {
   CHAT_MESSAGE_TYPES,
   CHAT_CUSTOM_MESSAGE_EVENTS,
   CHAT_SYSTEM_EVENTS,
-  CHAT_STRUCTURED_CONTENT_TYPE
+  CHAT_STRUCTURED_CONTENT_TYPE,
 } from 'constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 
@@ -34,7 +34,7 @@ const concatContactDetailsUpdated = (chats, event) => {
   const timestamp = event.timestamp
   const contactDetailsUpdated = {
     timestamp: timestamp,
-    type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
+    type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED,
   }
 
   return copy.set(timestamp, contactDetailsUpdated)
@@ -54,7 +54,7 @@ const concatQuickReply = (chats, chat) => {
     type: CHAT_CUSTOM_MESSAGE_EVENTS.CHAT_QUICK_REPLIES,
     nick: chat.nick,
     items: chat.structured_msg.quick_replies,
-    timestamp: timestamp + 1
+    timestamp: timestamp + 1,
   }
 
   copy.set(timestamp, chat)
@@ -75,7 +75,7 @@ const updateChat = (chats, chat) => {
     ...prevChat,
     ...chat.detail,
     status: chat.status,
-    numFailedTries
+    numFailedTries,
   })
 }
 

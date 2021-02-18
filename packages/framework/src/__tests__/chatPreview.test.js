@@ -36,11 +36,11 @@ describe('rendered with default options', () => {
 
   beforeEach(() => {
     preview = window.zEPreview.renderPreview({
-      element: document.getElementById('preview')
+      element: document.getElementById('preview'),
     })
   })
 
-  it('creates the iframe for preview', done => {
+  it('creates the iframe for preview', (done) => {
     preview.waitForComponent(() => {
       expect(chatPreview()).toBeInTheDocument()
       done()
@@ -60,7 +60,7 @@ describe('rendered with default options', () => {
     `)
   })
 
-  it('can update to chatting screen', done => {
+  it('can update to chatting screen', (done) => {
     preview.updateScreen(constants.CHATTING_SCREEN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Type a message here')
@@ -68,7 +68,7 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('can update to prechat screen', done => {
+  it('can update to prechat screen', (done) => {
     preview.updateScreen(constants.PRECHAT_SCREEN)
     preview.waitForComponent(async () => {
       await waitFor(() => expect(chatPreviewBodyEl()).toHaveTextContent('Start chat'))
@@ -76,7 +76,7 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('can update to offline message screen', done => {
+  it('can update to offline message screen', (done) => {
     preview.updateScreen(OFFLINE_FORM_SCREENS.MAIN)
     preview.waitForComponent(() => {
       expect(chatPreviewBodyEl()).toHaveTextContent('Sorry, we are not online at the moment')
@@ -84,7 +84,7 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('allows setting of color', done => {
+  it('allows setting of color', (done) => {
     preview.setColor('#FF1234')
 
     preview.waitForComponent(() => {
@@ -93,7 +93,7 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('sets it with default color', done => {
+  it('sets it with default color', (done) => {
     preview.setColor()
 
     preview.waitForComponent(() => {
@@ -108,7 +108,7 @@ describe('rendered with default options', () => {
     await waitFor(() => expect(i18n.getLocale()).toEqual('zh-cn'))
   })
 
-  it('allows setting of chat state', done => {
+  it('allows setting of chat state', (done) => {
     const action = { type: 'account_status', detail: 'online' }
 
     preview.updateChatState(action)
@@ -120,7 +120,7 @@ describe('rendered with default options', () => {
     })
   })
 
-  it('allows updating of preview settings', done => {
+  it('allows updating of preview settings', (done) => {
     preview.updateScreen(constants.CHATTING_SCREEN)
     preview.updateSettings({ concierge: { title: 'updated concierge title' } })
 
@@ -142,7 +142,7 @@ describe('when calling with no element property in options', () => {
 test('locale can be set', async () => {
   window.zEPreview.renderPreview({
     element: document.getElementById('preview'),
-    locale: 'fr'
+    locale: 'fr',
   })
 
   await waitFor(() => expect(i18n.getLocale()).toEqual('fr'))
@@ -153,12 +153,12 @@ test('styles can be customized', async () => {
     float: 'left',
     marginTop: '32px',
     marginLeft: '32px',
-    width: '100px'
+    width: '100px',
   }
 
   window.zEPreview.renderPreview({
     element: document.getElementById('preview'),
-    styles
+    styles,
   })
 
   await waitFor(() =>

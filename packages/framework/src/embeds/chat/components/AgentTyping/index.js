@@ -15,11 +15,11 @@ const twoAgentsTyping = (translate, agentsTyping) => {
 
   return translate('embeddable_framework.chat.chatLog.isTyping_two', {
     agent1,
-    agent2
+    agent2,
   })
 }
 
-const manyAgentsTyping = translate => {
+const manyAgentsTyping = (translate) => {
   return translate('embeddable_framework.chat.chatLog.isTyping_multiple')
 }
 
@@ -50,7 +50,7 @@ const AgentTyping = React.forwardRef(({ agentsTyping = [] }, ref) => {
 })
 
 AgentTyping.propTypes = {
-  agentsTyping: PropTypes.array
+  agentsTyping: PropTypes.array,
 }
 
 export default AgentTyping

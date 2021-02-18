@@ -3,7 +3,7 @@ import { useForm } from 'react-final-form'
 import { useEffect } from 'react'
 import { setFormState } from 'src/redux/modules/form/actions'
 
-const useFormBackup = formId => {
+const useFormBackup = (formId) => {
   const dispatch = useDispatch()
   const form = useForm()
 

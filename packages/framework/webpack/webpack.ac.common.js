@@ -8,35 +8,35 @@ const projectRoot = path.resolve(__dirname, '../')
 
 module.exports = merge(common, {
   entry: {
-    preload: path.join(projectRoot, '/src/framework/preload.js')
+    preload: path.join(projectRoot, '/src/framework/preload.js'),
   },
   optimization: {
     chunkIds: 'named',
     splitChunks: {
       chunks(chunk) {
         return !chunks.excludeFromVendoring(chunk.name)
-      }
-    }
+      },
+    },
   },
   plugins: [
     new ManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
-      filter: file => {
+      filter: (file) => {
         if (!file.isChunk) return false
 
         return Boolean(chunks.http2Chunks(file.chunk.name))
       },
-      sort: function(a, b) {
+      sort: function (a, b) {
         const priorityA = chunks.priority(a.chunk.name)
         const priorityB = chunks.priority(b.chunk.name)
 
         return priorityA - priorityB
       },
-      generate: function(seed, files) {
+      generate: function (seed, files) {
         const assets = files
-          .filter(file => path.extname(file.path) !== '.map')
-          .map(function(file) {
+          .filter((file) => path.extname(file.path) !== '.map')
+          .map(function (file) {
             const chunk = chunks.http2Chunks(file.chunk.name)
             const asset = { path: file.path.replace('public/', '') }
 
@@ -48,7 +48,7 @@ module.exports = merge(common, {
           }, seed)
 
         return { assets }
-      }
-    })
-  ]
+      },
+    }),
+  ],
 })

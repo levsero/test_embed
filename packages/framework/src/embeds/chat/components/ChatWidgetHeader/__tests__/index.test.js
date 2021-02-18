@@ -7,27 +7,27 @@ import { isMobileBrowser } from 'utility/devices'
 import { TEST_IDS } from 'constants/shared'
 
 jest.mock('utility/chat', () => ({
-  createChatPopoutWindow: jest.fn()
+  createChatPopoutWindow: jest.fn(),
 }))
 
 jest.mock('utility/devices')
 
 jest.mock('src/redux/modules/selectors', () => ({
   ...jest.requireActual('src/redux/modules/selectors'),
-  getShowBackButton: jest.fn().mockReturnValue(true)
+  getShowBackButton: jest.fn().mockReturnValue(true),
 }))
 
 describe('ChatWidgetHeader', () => {
   const defaultProps = {
     title: 'Chat title',
     zChat: {
-      getMachineId: jest.fn().mockReturnValue('machine id')
+      getMachineId: jest.fn().mockReturnValue('machine id'),
     },
     popoutSettings: {},
     isChatPreview: false,
     locale: 'en-US',
     popoutButtonIsVisible: false,
-    handlePopoutCreated: jest.fn()
+    handlePopoutCreated: jest.fn(),
   }
 
   const renderComponent = (props = {}) => {
@@ -52,7 +52,7 @@ describe('ChatWidgetHeader', () => {
       const { queryByLabelText } = renderComponent({
         isPopoutButtonVisible: true,
         isChatPreview: true,
-        handlePopoutCreated
+        handlePopoutCreated,
       })
 
       queryByLabelText('Popout').click()
@@ -64,7 +64,7 @@ describe('ChatWidgetHeader', () => {
       const handlePopoutCreated = jest.fn()
       const { queryByLabelText } = renderComponent({
         isPopoutButtonVisible: true,
-        handlePopoutCreated
+        handlePopoutCreated,
       })
 
       queryByLabelText('Popout').click()
@@ -74,7 +74,7 @@ describe('ChatWidgetHeader', () => {
 
     it('opens a chat popup window when clicked', () => {
       const { queryByLabelText } = renderComponent({
-        isPopoutButtonVisible: true
+        isPopoutButtonVisible: true,
       })
 
       queryByLabelText('Popout').click()

@@ -28,14 +28,11 @@ const AgentDetailsPage = ({ updateChatScreen }) => {
 }
 
 AgentDetailsPage.propTypes = {
-  updateChatScreen: PropTypes.func.isRequired
+  updateChatScreen: PropTypes.func.isRequired,
 }
 
 const actionCreators = { updateChatScreen }
 
-const connectedComponent = connect(
-  null,
-  actionCreators
-)(AgentDetailsPage)
+const connectedComponent = connect(null, actionCreators)(AgentDetailsPage)
 
 export { connectedComponent as default, AgentDetailsPage as Component }

@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import CurrentFrameProvider, {
   useCurrentFrame,
-  CurrentFrameConsumer
+  CurrentFrameConsumer,
 } from '../CurrentFrameProvider'
 
 describe('CurrentFrameProvider', () => {
@@ -10,7 +10,7 @@ describe('CurrentFrameProvider', () => {
     return render(<CurrentFrameProvider value={value}>{children}</CurrentFrameProvider>)
   }
 
-  const renderWithoutProvider = children => {
+  const renderWithoutProvider = (children) => {
     return render(children)
   }
 
@@ -32,7 +32,7 @@ describe('CurrentFrameProvider', () => {
 
         expect(onClick).toHaveBeenCalledWith({
           document,
-          window
+          window,
         })
       })
     })
@@ -41,7 +41,7 @@ describe('CurrentFrameProvider', () => {
       it('uses the values provided by the provider', () => {
         const value = {
           document: Symbol(),
-          window: Symbol()
+          window: Symbol(),
         }
 
         const onClick = jest.fn()
@@ -60,7 +60,7 @@ describe('CurrentFrameProvider', () => {
     const ExampleComponent = ({ onClick }) => {
       return (
         <CurrentFrameConsumer>
-          {frame => <button onClick={() => onClick(frame)}>Example component</button>}
+          {(frame) => <button onClick={() => onClick(frame)}>Example component</button>}
         </CurrentFrameConsumer>
       )
     }
@@ -75,7 +75,7 @@ describe('CurrentFrameProvider', () => {
 
         expect(onClick).toHaveBeenCalledWith({
           document,
-          window
+          window,
         })
       })
     })
@@ -84,7 +84,7 @@ describe('CurrentFrameProvider', () => {
       it('uses the values provided by the provider', () => {
         const value = {
           document: Symbol(),
-          window: Symbol()
+          window: Symbol(),
         }
 
         const onClick = jest.fn()

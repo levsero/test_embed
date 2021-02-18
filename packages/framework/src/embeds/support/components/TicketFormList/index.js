@@ -9,7 +9,7 @@ const TicketFormList = ({ ticketForms, handleFormOptionClick }) => {
 
   return (
     <ul data-testid={TEST_IDS.TICKET_FORM_LIST}>
-      {ticketForms.map(form => (
+      {ticketForms.map((form) => (
         <TicketFormOption key={form.id} form={form} onClick={handleFormOptionClick} />
       ))}
     </ul>
@@ -19,10 +19,10 @@ const TicketFormList = ({ ticketForms, handleFormOptionClick }) => {
 TicketFormList.propTypes = {
   ticketForms: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired
+      id: PropTypes.number.isRequired,
     })
   ).isRequired,
-  handleFormOptionClick: PropTypes.func.isRequired
+  handleFormOptionClick: PropTypes.func.isRequired,
 }
 
 export default TicketFormList

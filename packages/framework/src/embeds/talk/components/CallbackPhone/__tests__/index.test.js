@@ -13,7 +13,7 @@ test('renders the component', () => {
     phoneNumber: '1234567890',
     formattedPhoneNumber: '+1 2345 67890',
     phoneLabel: 'Our phone number',
-    capability: CALLBACK_AND_PHONE
+    capability: CALLBACK_AND_PHONE,
   }
   const { container } = render(<CallbackPhone {...props} />)
 

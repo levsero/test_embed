@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { SlideAppear } from 'component/transition/SlideAppear'
 
 const Container = styled.div`
-  ${props => {
+  ${(props) => {
     return `
       position: relative !important;
       margin-bottom: ${5 / props.theme.fontSize}rem !important;

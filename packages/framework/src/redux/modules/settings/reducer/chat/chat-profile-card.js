@@ -4,7 +4,7 @@ import _ from 'lodash'
 const initialState = {
   avatar: true,
   title: true,
-  rating: true
+  rating: true,
 }
 
 const profileCard = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const profileCard = (state = initialState, action) => {
       return {
         avatar: _.get(payload, 'webWidget.chat.profileCard.avatar', state.avatar),
         title: _.get(payload, 'webWidget.chat.profileCard.title', state.title),
-        rating: _.get(payload, 'webWidget.chat.profileCard.rating', state.rating)
+        rating: _.get(payload, 'webWidget.chat.profileCard.rating', state.rating),
       }
     default:
       return state

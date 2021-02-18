@@ -8,8 +8,8 @@ const TimestampStructuredMessage = ({ message: { received } }) => {
 
 TimestampStructuredMessage.propTypes = {
   message: PropTypes.shape({
-    received: PropTypes.number
-  })
+    received: PropTypes.number,
+  }),
 }
 
 export default TimestampStructuredMessage

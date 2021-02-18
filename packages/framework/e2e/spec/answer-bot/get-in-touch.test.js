@@ -4,7 +4,7 @@ import {
   search,
   waitForAnswerBot,
   mockInteractionEndpoint,
-  waitForGetInTouchButton
+  waitForGetInTouchButton,
 } from 'e2e/helpers/answer-bot-embed'
 
 test('does not display get in touch button when there are no channels available', async () => {

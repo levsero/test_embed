@@ -8,7 +8,7 @@ import {
   TICKET_FORMS_REQUEST_SENT,
   TICKET_FORMS_REQUEST_SUCCESS,
   TICKET_FORMS_REQUEST_FAILURE,
-  TICKET_FORM_UPDATE
+  TICKET_FORM_UPDATE,
 } from '../action-types'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
 jest.mock('src/apps/webWidget/services/i18n')
@@ -19,7 +19,7 @@ describe('fetchTicketForms', () => {
   beforeEach(() => {
     createStore().clearActions()
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve()
       })
     })
@@ -32,14 +32,14 @@ describe('fetchTicketForms', () => {
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: true,
-          fetchKey: `en-US/123,456`
-        }
-      }
+          fetchKey: `en-US/123,456`,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [123, 456],
-      requestAll: false
+      requestAll: false,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -51,9 +51,9 @@ describe('fetchTicketForms', () => {
         {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
-            fetchKey: 'en-US/123,456'
-          }
-        }
+            fetchKey: 'en-US/123,456',
+          },
+        },
       ])
     )
   })
@@ -64,20 +64,20 @@ describe('fetchTicketForms', () => {
         forms: {
           123: {
             id: 123,
-            locale: 'en-US'
-          }
+            locale: 'en-US',
+          },
         },
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [123],
-      requestAll: false
+      requestAll: false,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -89,9 +89,9 @@ describe('fetchTicketForms', () => {
         {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
-            fetchKey: 'en-US/123,456'
-          }
-        }
+            fetchKey: 'en-US/123,456',
+          },
+        },
       ])
     )
   })
@@ -102,21 +102,21 @@ describe('fetchTicketForms', () => {
         forms: {
           123: {
             id: 123,
-            locale: 'en-US'
-          }
+            locale: 'en-US',
+          },
         },
         filteredFormsToDisplay: [],
         allFormsRequested: true,
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: 'en-US/all'
-        }
-      }
+          fetchKey: 'en-US/all',
+        },
+      },
     })
 
     const ticketForms = {
       ids: [],
-      requestAll: true
+      requestAll: true,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -129,9 +129,9 @@ describe('fetchTicketForms', () => {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
             fetchKey: 'en-US/all',
-            formIds: []
-          }
-        }
+            formIds: [],
+          },
+        },
       ])
     )
   })
@@ -142,14 +142,14 @@ describe('fetchTicketForms', () => {
         allFormsRequested: false,
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: 'en-US/123'
-        }
-      }
+          fetchKey: 'en-US/123',
+        },
+      },
     })
 
     const ticketForms = {
       ids: [],
-      requestAll: false
+      requestAll: false,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -162,9 +162,9 @@ describe('fetchTicketForms', () => {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
             fetchKey: 'en-US/all',
-            formIds: []
-          }
-        }
+            formIds: [],
+          },
+        },
       ])
     )
   })
@@ -176,25 +176,25 @@ describe('fetchTicketForms', () => {
           123: {
             id: 123,
             locale: 'en-US',
-            active: true
+            active: true,
           },
           456: {
             id: 456,
             locale: 'fr',
-            active: true
-          }
+            active: true,
+          },
         },
         filteredFormsToDisplay: [123, 456],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [123, 456],
-      requestAll: false
+      requestAll: false,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -207,9 +207,9 @@ describe('fetchTicketForms', () => {
           type: TICKET_FORMS_REQUEST_SENT,
           payload: {
             fetchKey: 'en-US/456',
-            formIds: [456]
-          }
-        }
+            formIds: [456],
+          },
+        },
       ])
     )
 
@@ -217,7 +217,7 @@ describe('fetchTicketForms', () => {
       {
         locale: 'en-US',
         path:
-          '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US&end_user_visible=true&active=true'
+          '/api/v2/ticket_forms/show_many.json?ids=456&include=ticket_fields&locale=en-US&end_user_visible=true&active=true',
       },
       false
     )
@@ -229,14 +229,14 @@ describe('fetchTicketForms', () => {
         forms: {},
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [123, 456],
-      requestAll: false
+      requestAll: false,
     }
 
     store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -253,25 +253,25 @@ describe('fetchTicketForms', () => {
           123: {
             id: 123,
             locale: 'en-US',
-            active: true
+            active: true,
           },
           456: {
             id: 456,
             locale: 'fr',
-            active: true
-          }
+            active: true,
+          },
         },
         filteredFormsToDisplay: [123, 456],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [],
-      requestAll: true
+      requestAll: true,
     }
 
     jest.spyOn(store, 'dispatch')
@@ -282,7 +282,7 @@ describe('fetchTicketForms', () => {
       {
         locale: 'en-US',
         path:
-          '/api/v2/ticket_forms/show_many.json?include=ticket_fields&locale=en-US&associated_to_brand=true&end_user_visible=true&active=true'
+          '/api/v2/ticket_forms/show_many.json?include=ticket_fields&locale=en-US&associated_to_brand=true&end_user_visible=true&active=true',
       },
       false
     )
@@ -294,14 +294,14 @@ describe('fetchTicketForms', () => {
         forms: {},
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
 
     const ticketForms = {
       ids: [],
-      requestAll: true
+      requestAll: true,
     }
 
     store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -314,7 +314,7 @@ describe('fetchTicketForms', () => {
   it('dispatches a request success action when successful', async () => {
     const response = { body: { ticket_forms: [{ id: 123 }] } }
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve(response)
       })
     })
@@ -325,15 +325,15 @@ describe('fetchTicketForms', () => {
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
     jest.spyOn(store, 'dispatch')
 
     const ticketForms = {
       ids: [123],
-      requestAll: false
+      requestAll: false,
     }
 
     await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -346,13 +346,13 @@ describe('fetchTicketForms', () => {
             ticket_forms: [
               {
                 id: 123,
-                locale: 'en-US'
-              }
+                locale: 'en-US',
+              },
             ],
             fetchKey: 'en-US/123',
-            formIds: [123]
-          }
-        }
+            formIds: [123],
+          },
+        },
       ])
     )
   })
@@ -360,7 +360,7 @@ describe('fetchTicketForms', () => {
   it('dispatches an ALL_FORMS_REQUESTED action when all forms are requested', async () => {
     const response = { body: { ticket_forms: [{ id: 123 }] } }
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve(response)
       })
     })
@@ -371,15 +371,15 @@ describe('fetchTicketForms', () => {
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
     jest.spyOn(store, 'dispatch')
 
     const ticketForms = {
       ids: [],
-      requestAll: true
+      requestAll: true,
     }
 
     await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -388,8 +388,8 @@ describe('fetchTicketForms', () => {
       expect.arrayContaining([
         {
           type: ALL_FORMS_REQUESTED,
-          payload: true
-        }
+          payload: true,
+        },
       ])
     )
   })
@@ -397,7 +397,7 @@ describe('fetchTicketForms', () => {
   it('dispatches a ticket form update action when successful and only one form retrieved from api', async () => {
     const response = { body: { ticket_forms: [{ id: 123 }] } }
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve(response)
       })
     })
@@ -408,15 +408,15 @@ describe('fetchTicketForms', () => {
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
     jest.spyOn(store, 'dispatch')
 
     const ticketForms = {
       ids: [123],
-      requestAll: false
+      requestAll: false,
     }
 
     await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -427,9 +427,9 @@ describe('fetchTicketForms', () => {
           type: TICKET_FORM_UPDATE,
           payload: {
             id: 123,
-            locale: 'en-US'
-          }
-        }
+            locale: 'en-US',
+          },
+        },
       ])
     )
   })
@@ -447,15 +447,15 @@ describe('fetchTicketForms', () => {
         filteredFormsToDisplay: [],
         ticketFormsRequest: {
           isLoading: false,
-          fetchKey: null
-        }
-      }
+          fetchKey: null,
+        },
+      },
     })
     jest.spyOn(store, 'dispatch')
 
     const ticketForms = {
       ids: [123],
-      requestAll: false
+      requestAll: false,
     }
 
     await store.dispatch(fetchTicketForms(ticketForms, 'en-US'))
@@ -466,9 +466,9 @@ describe('fetchTicketForms', () => {
           type: TICKET_FORMS_REQUEST_FAILURE,
           payload: {
             fetchKey: 'en-US/123',
-            formIds: [123]
-          }
-        }
+            formIds: [123],
+          },
+        },
       ])
     )
   })
@@ -481,9 +481,9 @@ describe('getTicketFields', () => {
     const store = mockStore({
       base: {
         embeddableConfig: {
-          embeds: { ticketSubmissionForm: { props: { customFields: customFields } } }
-        }
-      }
+          embeds: { ticketSubmissionForm: { props: { customFields: customFields } } },
+        },
+      },
     })
 
     store.dispatch(actions.getTicketFields(locale))
@@ -495,8 +495,8 @@ describe('getTicketFields', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: types.TICKET_FIELDS_REQUEST_SENT
-      }
+        type: types.TICKET_FIELDS_REQUEST_SENT,
+      },
     ])
   })
 
@@ -506,7 +506,7 @@ describe('getTicketFields', () => {
     expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'ru',
-        path: '/embeddable/ticket_fields?field_ids=123&locale=ru'
+        path: '/embeddable/ticket_fields?field_ids=123&locale=ru',
       },
       false
     )
@@ -518,7 +518,7 @@ describe('getTicketFields', () => {
     expect(http.get).toHaveBeenCalledWith(
       {
         locale: 'th',
-        path: '/embeddable/ticket_fields?locale=th'
+        path: '/embeddable/ticket_fields?locale=th',
       },
       false
     )
@@ -534,33 +534,33 @@ describe('getTicketFields', () => {
     const store = mockStore({
       base: {
         embeddableConfig: {
-          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } }
-        }
-      }
+          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } },
+        },
+      },
     })
     await store.dispatch(actions.getTicketFields('th'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         {
-          type: types.TICKET_FIELDS_REQUEST_FAILURE
-        }
+          type: types.TICKET_FIELDS_REQUEST_FAILURE,
+        },
       ])
     )
   })
 
   it('dispatches expected actions on successful request', async () => {
     http.get = jest.fn(() => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve({ body: { abc: true } })
       })
     })
     const store = mockStore({
       base: {
         embeddableConfig: {
-          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } }
-        }
-      }
+          embeds: { ticketSubmissionForm: { props: { customFields: { all: true } } } },
+        },
+      },
     })
     await store.dispatch(actions.getTicketFields('th'))
 
@@ -568,8 +568,8 @@ describe('getTicketFields', () => {
       expect.arrayContaining([
         {
           type: types.TICKET_FIELDS_REQUEST_SUCCESS,
-          payload: { abc: true }
-        }
+          payload: { abc: true },
+        },
       ])
     )
   })

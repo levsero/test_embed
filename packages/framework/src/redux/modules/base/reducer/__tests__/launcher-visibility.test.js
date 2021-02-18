@@ -11,13 +11,13 @@ import {
   CLOSE_RECEIVED,
   TOGGLE_RECEIVED,
   POPOUT_CREATED,
-  ESCAPE_KEY_PRESSED
+  ESCAPE_KEY_PRESSED,
 } from '../../base-action-types'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,
-  CHAT_BANNED
+  CHAT_BANNED,
 } from 'src/redux/modules/chat/chat-action-types'
 import * as devices from 'utility/devices'
 import { testReducer } from 'src/util/testHelpers'
@@ -25,74 +25,74 @@ import { testReducer } from 'src/util/testHelpers'
 testReducer(launcherVisibility, [
   {
     action: { type: undefined },
-    expected: true
+    expected: true,
   },
   {
     action: { type: 'DERP DERP' },
     initialState: false,
-    expected: false
+    expected: false,
   },
   {
     action: { type: LAUNCHER_CLICKED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CHAT_BADGE_CLICKED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: ACTIVATE_RECEIVED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: PROACTIVE_CHAT_RECEIVED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CHAT_WINDOW_OPEN_ON_NAVIGATE },
-    expected: false
+    expected: false,
   },
   {
     action: { type: OPEN_RECEIVED },
-    expected: false
+    expected: false,
   },
   {
     action: { type: CLOSE_BUTTON_CLICKED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: POPOUT_CREATED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: LEGACY_SHOW_RECEIVED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CANCEL_BUTTON_CLICKED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: PROACTIVE_CHAT_NOTIFICATION_DISMISSED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CHAT_BANNED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: CLOSE_RECEIVED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: ESCAPE_KEY_PRESSED },
-    expected: true
+    expected: true,
   },
   {
     action: { type: TOGGLE_RECEIVED },
     initialState: false,
-    expected: true
-  }
+    expected: true,
+  },
 ])
 
 describe('when the action is NEXT_BUTTON_CLICKED', () => {

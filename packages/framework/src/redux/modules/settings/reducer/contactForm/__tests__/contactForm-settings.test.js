@@ -5,10 +5,10 @@ const initialState = () => {
   return reducer(undefined, { type: '' })
 }
 
-const reduce = payload => {
+const reduce = (payload) => {
   return reducer(initialState(), {
     type: settingsActionTypes.UPDATE_SETTINGS,
-    payload: payload
+    payload: payload,
   })
 }
 
@@ -19,7 +19,7 @@ test('initial state', () => {
     suppress: false,
     tags: [],
     title: {},
-    selectTicketForm: {}
+    selectTicketForm: {},
   })
 })
 
@@ -33,9 +33,9 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
           suppress: true,
           tags: ['hello'],
           title: { '*': 'wassup' },
-          selectTicketForm: { '*': 'yo select this ticket form' }
-        }
-      }
+          selectTicketForm: { '*': 'yo select this ticket form' },
+        },
+      },
     }
 
     expect(reduce(payload)).toEqual({
@@ -44,7 +44,7 @@ describe('when UPDATE_SETTINGS is dispatched', () => {
       suppress: true,
       tags: ['hello'],
       title: { '*': 'wassup' },
-      selectTicketForm: { '*': 'yo select this ticket form' }
+      selectTicketForm: { '*': 'yo select this ticket form' },
     })
   })
 })

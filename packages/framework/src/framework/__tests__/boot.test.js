@@ -22,7 +22,7 @@ jest.mock('src/apps/webWidget')
 describe('setupIframe', () => {
   let mockComputedStyle = {},
     mockDoc = {
-      documentElement: {}
+      documentElement: {},
     }
 
   beforeEach(() => {
@@ -58,7 +58,7 @@ describe('setupIframe', () => {
 
 describe('start', () => {
   const mockMessengerConfig = {
-    messenger: {}
+    messenger: {},
   }
   const mockWebWidgetConfig = {}
 
@@ -102,7 +102,7 @@ describe('start', () => {
 
     expect(errorTracker.error).toHaveBeenCalledWith(mockError, {
       rollbarFingerprint: 'Failed to render embeddable',
-      rollbarTitle: 'Failed to render embeddable'
+      rollbarTitle: 'Failed to render embeddable',
     })
   })
 
@@ -114,7 +114,7 @@ describe('start', () => {
     const expectedServiceData = {
       config: mockMessengerConfig,
       configLoadStart: Date.now(),
-      embeddableName: 'messenger'
+      embeddableName: 'messenger',
     }
 
     expect(beacon.init).toHaveBeenCalledWith(expectedServiceData)
@@ -129,7 +129,7 @@ describe('start', () => {
     const expectedServiceData = {
       config: mockMessengerConfig,
       configLoadStart: Date.now(),
-      embeddableName: 'messenger'
+      embeddableName: 'messenger',
     }
 
     expect(publicApi.run).toHaveBeenCalledWith(expectedServiceData)
@@ -186,7 +186,7 @@ describe('start', () => {
       expect(messenger.init).toHaveBeenCalledWith({
         config: mockMessengerConfig,
         configLoadStart: Date.now(),
-        embeddableName: 'messenger'
+        embeddableName: 'messenger',
       })
     })
 
@@ -198,7 +198,7 @@ describe('start', () => {
       expect(messenger.run).toHaveBeenCalledWith({
         config: mockMessengerConfig,
         configLoadStart: Date.now(),
-        embeddableName: 'messenger'
+        embeddableName: 'messenger',
       })
     })
 
@@ -220,7 +220,7 @@ describe('start', () => {
       expect(webWidget.init).toHaveBeenCalledWith({
         config: mockWebWidgetConfig,
         configLoadStart: Date.now(),
-        embeddableName: 'webWidget'
+        embeddableName: 'webWidget',
       })
     })
 
@@ -232,7 +232,7 @@ describe('start', () => {
       expect(webWidget.run).toHaveBeenCalledWith({
         config: mockWebWidgetConfig,
         configLoadStart: Date.now(),
-        embeddableName: 'webWidget'
+        embeddableName: 'webWidget',
       })
     })
 

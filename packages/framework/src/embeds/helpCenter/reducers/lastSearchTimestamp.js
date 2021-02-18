@@ -1,6 +1,6 @@
 import {
   SEARCH_REQUEST_SENT,
-  CONTEXTUAL_SEARCH_REQUEST_SENT
+  CONTEXTUAL_SEARCH_REQUEST_SENT,
 } from 'embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 

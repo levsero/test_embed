@@ -22,7 +22,7 @@ const ChatWidgetHeader = ({
   isChatPreview,
   isPopoutButtonVisible,
   locale,
-  handlePopoutCreated
+  handlePopoutCreated,
 }) => {
   const onBack = useOnBack()
 
@@ -56,31 +56,28 @@ const ChatWidgetHeader = ({
 ChatWidgetHeader.propTypes = {
   title: PropTypes.string,
   zChat: PropTypes.shape({
-    getMachineId: PropTypes.func
+    getMachineId: PropTypes.func,
   }),
   popoutSettings: PropTypes.shape({}),
   isChatPreview: PropTypes.bool,
   isPopoutButtonVisible: PropTypes.bool,
   locale: PropTypes.string,
-  handlePopoutCreated: PropTypes.func
+  handlePopoutCreated: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getChatTitle(state),
   zChat: getZChatVendor(state),
   popoutSettings: getSettingsChatPopout(state),
   isChatPreview: getIsChatPreviewEnabled(state),
   isPopoutButtonVisible: Boolean(getIsChatPreviewEnabled(state) || getIsPopoutButtonVisible(state)),
-  locale: getLocale(state)
+  locale: getLocale(state),
 })
 
 const mapDispatchToProps = {
-  handlePopoutCreated
+  handlePopoutCreated,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatWidgetHeader)
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(ChatWidgetHeader)
 
 export { connectedComponent as default, ChatWidgetHeader as Component }

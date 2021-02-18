@@ -16,7 +16,7 @@ export class KeyboardFocusButton extends Component {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClick: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
   }
 
   render() {
@@ -24,7 +24,7 @@ export class KeyboardFocusButton extends Component {
       <KeyboardFocusContainer>
         {({ keyboardFocused, getFocusProps }) => {
           const buttonStyles = classNames(styles.button, this.props.className, {
-            [styles.keyboardFocus]: keyboardFocused
+            [styles.keyboardFocus]: keyboardFocused,
           })
 
           return (
@@ -32,7 +32,7 @@ export class KeyboardFocusButton extends Component {
               {...getFocusProps({
                 className: buttonStyles,
                 onClick: this.props.onClick,
-                title: this.props.title
+                title: this.props.title,
               })}
             >
               {this.props.children}

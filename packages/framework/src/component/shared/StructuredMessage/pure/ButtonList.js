@@ -10,12 +10,12 @@ const isMobile = isMobileBrowser()
 
 export class ButtonList extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
 
   render() {
     const buttonItemStyles = classNames(styles.buttonItem, {
-      [styles.overwriteState]: isMobile
+      [styles.overwriteState]: isMobile,
     })
 
     return (

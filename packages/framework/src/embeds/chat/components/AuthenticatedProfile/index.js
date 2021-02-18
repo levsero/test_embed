@@ -10,7 +10,7 @@ import {
   AuthenticatedProfileContainer,
   LoadingSpinnerIcon,
   LogoutIcon,
-  SocialAvatar
+  SocialAvatar,
 } from './styles'
 
 const AuthenticatedProfile = ({ socialLogin, visitor, initiateSocialLogout }) => {
@@ -45,13 +45,13 @@ AuthenticatedProfile.propTypes = {
   socialLogin: PropTypes.shape({
     avatarPath: PropTypes.string,
     authenticated: PropTypes.bool,
-    screen: PropTypes.oneOf([...Object.values(CHAT_SOCIAL_LOGIN_SCREENS), ''])
+    screen: PropTypes.oneOf([...Object.values(CHAT_SOCIAL_LOGIN_SCREENS), '']),
   }),
   visitor: PropTypes.shape({
     display_name: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
   }),
-  initiateSocialLogout: PropTypes.func.isRequired
+  initiateSocialLogout: PropTypes.func.isRequired,
 }
 
 export default AuthenticatedProfile

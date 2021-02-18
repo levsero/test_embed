@@ -12,10 +12,10 @@ const callbacksRegistry = {
   [events.CHAT_UNREAD_MESSAGES_EVENT]: [],
   [events.CHAT_STATUS_EVENT]: [],
   [events.CHAT_POPOUT_EVENT]: [],
-  [events.USER_EVENT]: []
+  [events.USER_EVENT]: [],
 }
 
-const eventExists = eventName => _.has(callbacksRegistry, eventName)
+const eventExists = (eventName) => _.has(callbacksRegistry, eventName)
 
 export const registerCallback = (cb, eventName) => {
   if (!eventExists(eventName)) return
@@ -26,5 +26,5 @@ export const registerCallback = (cb, eventName) => {
 export const fireFor = (eventName, args = []) => {
   if (!eventExists(eventName)) return
 
-  callbacksRegistry[eventName].forEach(cb => (_.isFunction(cb) ? cb(...args) : null))
+  callbacksRegistry[eventName].forEach((cb) => (_.isFunction(cb) ? cb(...args) : null))
 }

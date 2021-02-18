@@ -26,7 +26,7 @@ describe('chat reducer socialLogin', () => {
         const expected = {
           authenticated: false,
           screen: '',
-          avatarPath: ''
+          avatarPath: '',
         }
 
         expect(initialState).toEqual(expected)
@@ -45,7 +45,7 @@ describe('chat reducer socialLogin', () => {
           payload = 'wwww.terence.com/myAvatar.jpeg'
           action = {
             type: actionTypes.CHAT_SOCIAL_LOGIN_SUCCESS,
-            payload: payload
+            payload: payload,
           }
         })
 
@@ -53,7 +53,7 @@ describe('chat reducer socialLogin', () => {
           const expected = {
             ...initialState,
             authenticated: true,
-            avatarPath: payload
+            avatarPath: payload,
           }
 
           expect(state).toEqual(expected)
@@ -70,7 +70,7 @@ describe('chat reducer socialLogin', () => {
             ...initialState,
             screen: actionTypes.CHAT_SOCIAL_LOGOUT_SUCCESS,
             avatarPath: '',
-            authenticated: false
+            authenticated: false,
           }
 
           expect(state).toEqual(expected)
@@ -85,7 +85,7 @@ describe('chat reducer socialLogin', () => {
         it('updates the state with the payload', () => {
           const expected = {
             ...initialState,
-            screen: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING
+            screen: actionTypes.CHAT_SOCIAL_LOGOUT_PENDING,
           }
 
           expect(state).toEqual(expected)
@@ -100,7 +100,7 @@ describe('chat reducer socialLogin', () => {
         it('updates the state with the payload', () => {
           const expected = {
             ...initialState,
-            screen: actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE
+            screen: actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE,
           }
 
           expect(state).toEqual(expected)

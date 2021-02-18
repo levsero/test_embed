@@ -19,7 +19,7 @@ const createStore = () => {
   const store = configureStore({
     devTools: __DEV__
       ? {
-          name: 'Zendesk Messenger'
+          name: 'Zendesk Messenger',
         }
       : undefined,
     reducer: combineReducers({
@@ -33,13 +33,13 @@ const createStore = () => {
       forms: createResettableReducer(forms),
       launcherLabel: combineReducers({
         config: launcherLabelConfig,
-        visibility: createResettableReducer(launcherLabelVisibility)
+        visibility: createResettableReducer(launcherLabelVisibility),
       }),
       typingIndicators: createResettableReducer(typingIndicators),
       unreadIndicator: createResettableReducer(unreadIndicator),
       composer: createResettableReducer(composer),
-      cookies
-    })
+      cookies,
+    }),
   })
 
   return store

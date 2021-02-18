@@ -10,8 +10,8 @@ describe('auth utils', () => {
     initMockRegistry({
       'utility/utils': {
         base64UrlDecode: window.atob,
-        sha1: () => mockSha1
-      }
+        sha1: () => mockSha1,
+      },
     })
 
     isTokenValid = require(authPath).isTokenValid
@@ -39,7 +39,7 @@ describe('auth utils', () => {
     describe('when token has expired', () => {
       beforeAll(() => {
         token = {
-          expiry: Math.floor(currDate / 1000) - 100
+          expiry: Math.floor(currDate / 1000) - 100,
         }
       })
 
@@ -51,7 +51,7 @@ describe('auth utils', () => {
     describe('when token has not expired', () => {
       beforeAll(() => {
         token = {
-          expiry: Math.floor(currDate / 1000) + 100
+          expiry: Math.floor(currDate / 1000) + 100,
         }
       })
 
@@ -73,7 +73,7 @@ describe('auth utils', () => {
     describe('when token expiry does not exist', () => {
       beforeAll(() => {
         token = {
-          expiry: undefined
+          expiry: undefined,
         }
       })
 
@@ -140,7 +140,7 @@ describe('auth utils', () => {
 
       beforeAll(() => {
         token = {
-          expiry: expiryDate
+          expiry: expiryDate,
         }
       })
 
@@ -154,7 +154,7 @@ describe('auth utils', () => {
 
       beforeAll(() => {
         token = {
-          expiry: expiryDate
+          expiry: expiryDate,
         }
       })
 
@@ -168,7 +168,7 @@ describe('auth utils', () => {
 
       beforeAll(() => {
         token = {
-          expiry: expiryDate
+          expiry: expiryDate,
         }
       })
 
@@ -190,7 +190,7 @@ describe('auth utils', () => {
     describe('when token expiry does not exist', () => {
       beforeAll(() => {
         token = {
-          expiry: undefined
+          expiry: undefined,
         }
       })
 

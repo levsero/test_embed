@@ -53,7 +53,7 @@ describe('throttle middleware', () => {
 
         it('calls next function with the action passed in', () => {
           expect(nextSpy).toHaveBeenCalledWith({
-            type: 'UPDATE_PREVIEWER_SCREEN'
+            type: 'UPDATE_PREVIEWER_SCREEN',
           })
         })
       })

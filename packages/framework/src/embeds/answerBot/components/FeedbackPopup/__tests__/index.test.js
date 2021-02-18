@@ -10,12 +10,12 @@ const renderComponent = (props = {}) => {
     onYesClick: noop,
     onNoClick: noop,
     onReasonClick: noop,
-    locale: 'en-US'
+    locale: 'en-US',
   }
 
   const componentProps = {
     ...defaultProps,
-    ...props
+    ...props,
   }
 
   return render(
@@ -35,7 +35,7 @@ test('renders the choices', () => {
 test('fires the expected handler on yes click', () => {
   const onYesClick = jest.fn()
   const { getByText } = renderComponent({
-    onYesClick
+    onYesClick,
   })
 
   fireEvent.click(getByText('Yes'))
@@ -46,7 +46,7 @@ describe('on no click', () => {
   it('fires the expected handler', () => {
     const onNoClick = jest.fn()
     const { getByText } = renderComponent({
-      onNoClick
+      onNoClick,
     })
 
     fireEvent.click(getByText('No, I need help'))
@@ -67,7 +67,7 @@ describe('on no click', () => {
 
     beforeEach(() => {
       const component = renderComponent({
-        onReasonClick
+        onReasonClick,
       })
 
       getByText = component.getByText

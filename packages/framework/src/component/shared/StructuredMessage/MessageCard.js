@@ -10,12 +10,12 @@ export class MessageCard extends Component {
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     imageUrl: PropTypes.string,
-    buttons: PropTypes.array
+    buttons: PropTypes.array,
   }
 
   static defaultProps = {
     imageUrl: null,
-    buttons: []
+    buttons: [],
   }
 
   render() {

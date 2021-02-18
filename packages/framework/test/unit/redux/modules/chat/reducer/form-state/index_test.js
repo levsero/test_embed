@@ -5,7 +5,7 @@ describe('chat form-state reducer', () => {
     mockery.enable()
 
     initMockRegistry({
-      'src/util/chat': {}
+      'src/util/chat': {},
     })
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/form-state/index')

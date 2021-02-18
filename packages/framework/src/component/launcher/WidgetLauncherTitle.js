@@ -11,7 +11,7 @@ const WidgetLauncherTitle = ({ title, onTitleChange }) => {
 
 WidgetLauncherTitle.propTypes = {
   title: PropTypes.string,
-  onTitleChange: PropTypes.func
+  onTitleChange: PropTypes.func,
 }
 
 export default WidgetLauncherTitle

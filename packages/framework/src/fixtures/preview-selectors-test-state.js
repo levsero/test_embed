@@ -6,8 +6,8 @@ const getModifiedState = (inputState = {}) => {
   const defaultState = {
     preview: {
       choice: CHAT,
-      enabled: true
-    }
+      enabled: true,
+    },
   }
 
   return _.merge({}, defaultState, inputState)

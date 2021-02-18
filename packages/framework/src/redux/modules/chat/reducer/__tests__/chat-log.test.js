@@ -7,7 +7,7 @@ describe('chatLog', () => {
   let state
 
   const initialState = () => chatLog(undefined, { type: '' })
-  const reduce = action => chatLog(state, action)
+  const reduce = (action) => chatLog(state, action)
 
   test('initialState', () => {
     expect(initialState()).toEqual({
@@ -17,7 +17,7 @@ describe('chatLog', () => {
       latestQuickReply: -1,
       latestAgentLeaveEvent: -1,
       lastMessageAuthor: '',
-      groups: []
+      groups: [],
     })
   })
 
@@ -32,7 +32,7 @@ describe('chatLog', () => {
 
   describe('when a CHAT_BANNED action is received', () => {
     const mockState = {
-      firstVisitorMessage: 'hey there, pass my PR pls'
+      firstVisitorMessage: 'hey there, pass my PR pls',
     }
     const action = { type: actions.CHAT_BANNED }
 
@@ -45,7 +45,7 @@ describe('chatLog', () => {
     const mockState = {
       firstVisitorMessage: 'you shall not pass',
       latestRating: 'good',
-      lastMessageAuthor: 'Gandalf'
+      lastMessageAuthor: 'Gandalf',
     }
     const action = { type: actions.CHAT_DROPPED }
 
@@ -67,9 +67,9 @@ describe('chatLog', () => {
             nick: 'visitor',
             timestamp: 12345,
             type: 'chat.msg',
-            msg: 'oh hi'
-          }
-        }
+            msg: 'oh hi',
+          },
+        },
       }
 
       describe('and firstVisitorMessage has not been set', () => {
@@ -93,8 +93,8 @@ describe('chatLog', () => {
       const action = {
         type: actions.CHAT_FILE_REQUEST_SENT,
         payload: {
-          detail: { nick: 'visitor', timestamp: 12345, type: 'chat.file' }
-        }
+          detail: { nick: 'visitor', timestamp: 12345, type: 'chat.file' },
+        },
       }
 
       describe('and firstVisitorMessage has not been set', () => {
@@ -129,8 +129,8 @@ describe('chatLog', () => {
       const action = {
         type: actions.SDK_CHAT_RATING,
         payload: {
-          detail: { nick: 'visitor', timestamp: 12345, type: 'chat.rating' }
-        }
+          detail: { nick: 'visitor', timestamp: 12345, type: 'chat.rating' },
+        },
       }
 
       it('updates the state with the message timestamp', () => {
@@ -156,9 +156,9 @@ describe('chatLog', () => {
           detail: {
             nick: 'agent:smith',
             timestamp: 12345,
-            type: 'chat.rating_request'
-          }
-        }
+            type: 'chat.rating_request',
+          },
+        },
       }
 
       it('updates the state with the message timestamp', () => {
@@ -169,7 +169,7 @@ describe('chatLog', () => {
     it('resets the state when the user successfully rates the chat', () => {
       const action = {
         type: actions.CHAT_RATING_REQUEST_SUCCESS,
-        payload: {}
+        payload: {},
       }
 
       expect(reduce(action)).toHaveProperty(
@@ -199,10 +199,10 @@ describe('chatLog', () => {
               timestamp: 12345,
               type: 'chat.msg',
               structured_msg: {
-                type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES
-              }
-            }
-          }
+                type: CHAT_STRUCTURED_CONTENT_TYPE.QUICK_REPLIES,
+              },
+            },
+          },
         }
 
         it('updates the state with the message timestamp incremented by 1', () => {
@@ -214,8 +214,8 @@ describe('chatLog', () => {
         const action = {
           type: actions.SDK_CHAT_MSG,
           payload: {
-            detail: { nick: 'agent:smith', timestamp: 12345, type: 'chat.msg' }
-          }
+            detail: { nick: 'agent:smith', timestamp: 12345, type: 'chat.msg' },
+          },
         }
 
         it('unsets the timestamp from the state', () => {
@@ -231,13 +231,13 @@ describe('chatLog', () => {
       actions.SDK_CHAT_REQUEST_RATING,
       actions.SDK_CHAT_RATING,
       actions.SDK_CHAT_COMMENT,
-      actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS
-    ])('when a %s action is received', actionType => {
+      actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
+    ])('when a %s action is received', (actionType) => {
       it('unsets the timestamp from the state', () => {
         expect(
           reduce({
             type: actionType,
-            payload: { detail: { nick: 'system', timestamp: 12345 } }
+            payload: { detail: { nick: 'system', timestamp: 12345 } },
           })
         ).toHaveProperty('latestQuickReply', -1)
       })
@@ -262,9 +262,9 @@ describe('chatLog', () => {
             detail: {
               nick: 'agent:smith',
               timestamp: 12345,
-              type: 'chat.memberleave'
-            }
-          }
+              type: 'chat.memberleave',
+            },
+          },
         }
 
         it('updates the state with the message timestamp', () => {
@@ -279,9 +279,9 @@ describe('chatLog', () => {
             detail: {
               nick: 'visitor',
               timestamp: 12345,
-              type: 'chat.memberleave'
-            }
-          }
+              type: 'chat.memberleave',
+            },
+          },
         }
 
         it('does not update the state', () => {
@@ -308,13 +308,13 @@ describe('chatLog', () => {
       actions.CHAT_MSG_REQUEST_SENT,
       actions.CHAT_FILE_REQUEST_SENT,
       actions.SDK_CHAT_FILE,
-      actions.SDK_CHAT_MSG
-    ])('when a %s action is received', actionType => {
+      actions.SDK_CHAT_MSG,
+    ])('when a %s action is received', (actionType) => {
       const action = {
         type: actionType,
         payload: {
-          detail: { nick: 'message_guy', timestamp: 12345 }
-        }
+          detail: { nick: 'message_guy', timestamp: 12345 },
+        },
       }
 
       it('updates the state with the message nick', () => {
@@ -342,13 +342,13 @@ describe('chatLog', () => {
         actions.CHAT_MSG_REQUEST_SENT,
         actions.CHAT_FILE_REQUEST_SENT,
         actions.SDK_CHAT_FILE,
-        actions.SDK_CHAT_MSG
-      ])('when a %s action is received', actionType => {
+        actions.SDK_CHAT_MSG,
+      ])('when a %s action is received', (actionType) => {
         const action = {
           type: actionType,
           payload: {
-            detail: { nick: 'message_guy', timestamp: 12345 }
-          }
+            detail: { nick: 'message_guy', timestamp: 12345 },
+          },
         }
 
         describe('when the latest group was a message group from the same author', () => {
@@ -358,8 +358,8 @@ describe('chatLog', () => {
               groups: [
                 { type: 'event', author: 'other_guy', messages: [10001] },
                 { type: 'message', author: 'other_guy', messages: [10002] },
-                { type: 'message', author: 'message_guy', messages: [10003] }
-              ]
+                { type: 'message', author: 'message_guy', messages: [10003] },
+              ],
             }
           })
 
@@ -374,8 +374,8 @@ describe('chatLog', () => {
               ...state,
               groups: [
                 { type: 'event', author: 'other_guy', messages: [10001] },
-                { type: 'message', author: 'other_guy', messages: [10002] }
-              ]
+                { type: 'message', author: 'other_guy', messages: [10002] },
+              ],
             }
           })
 
@@ -392,8 +392,8 @@ describe('chatLog', () => {
                 { type: 'event', author: 'other_guy', messages: [10001] },
                 { type: 'message', author: 'other_guy', messages: [10002] },
                 { type: 'message', author: 'message_guy', messages: [10003] },
-                { type: 'event', author: 'some_guy', messages: [10004] }
-              ]
+                { type: 'event', author: 'some_guy', messages: [10004] },
+              ],
             }
           })
 
@@ -415,13 +415,13 @@ describe('chatLog', () => {
       actions.SDK_CHAT_RATING,
       actions.SDK_CHAT_COMMENT,
       actions.SDK_CHAT_MEMBER_JOIN,
-      actions.SDK_CHAT_MEMBER_LEAVE
-    ])('when a %s action is received', actionType => {
+      actions.SDK_CHAT_MEMBER_LEAVE,
+    ])('when a %s action is received', (actionType) => {
       const action = {
         type: actionType,
         payload: {
-          detail: { nick: 'event_guy', timestamp: 12345 }
-        }
+          detail: { nick: 'event_guy', timestamp: 12345 },
+        },
       }
 
       test('adds a new event group', () => {
@@ -432,7 +432,7 @@ describe('chatLog', () => {
     describe('when a CHAT_CONTACT_DETAILS_UPDATE_SUCCESS action is received', () => {
       const action = {
         type: actions.CHAT_CONTACT_DETAILS_UPDATE_SUCCESS,
-        payload: { nick: 'visitor', timestamp: 12345 }
+        payload: { nick: 'visitor', timestamp: 12345 },
       }
 
       test('adds a new event group', () => {

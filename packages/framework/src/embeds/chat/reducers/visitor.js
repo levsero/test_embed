@@ -1,12 +1,12 @@
 import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_VISITOR_UPDATE,
-  SET_VISITOR_INFO_REQUEST_SUCCESS
+  SET_VISITOR_INFO_REQUEST_SUCCESS,
 } from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = {}
 
-const isAgent = nick => nick.indexOf('agent:') > -1
+const isAgent = (nick) => nick.indexOf('agent:') > -1
 
 const visitor = (state = initialState, action = {}) => {
   const { type, payload } = action
@@ -16,7 +16,7 @@ const visitor = (state = initialState, action = {}) => {
       if (!isAgent(payload.detail.nick)) {
         return {
           ...state,
-          nick: payload.detail.nick
+          nick: payload.detail.nick,
         }
       }
       return state
@@ -24,12 +24,12 @@ const visitor = (state = initialState, action = {}) => {
       return {
         ...state,
         ...payload.detail,
-        nick: payload.detail.nick || 'visitor'
+        nick: payload.detail.nick || 'visitor',
       }
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     default:
       return state

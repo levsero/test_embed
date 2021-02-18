@@ -8,7 +8,7 @@ import { isMobileBrowser } from 'utility/devices'
 import {
   getSearchedArticles,
   getHasContextuallySearched,
-  getPreviousActiveArticle
+  getPreviousActiveArticle,
 } from 'embeds/helpCenter/selectors'
 import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
 import { handleArticleView } from 'src/embeds/helpCenter/actions'
@@ -20,7 +20,7 @@ const HasResults = ({
   hideZendeskLogo,
   locale,
   hasContextuallySearched,
-  previousArticle
+  previousArticle,
 }) => {
   const listRef = useRef(null)
 
@@ -52,10 +52,10 @@ HasResults.propTypes = {
   hideZendeskLogo: PropTypes.bool,
   locale: PropTypes.string,
   hasContextuallySearched: PropTypes.bool,
-  previousArticle: PropTypes.number
+  previousArticle: PropTypes.number,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isMobile: isMobileBrowser(),
     articles: getSearchedArticles(state),
@@ -63,17 +63,14 @@ const mapStateToProps = state => {
     hideZendeskLogo: getHideZendeskLogo(state),
     locale: getLocale(state),
     hasContextuallySearched: getHasContextuallySearched(state),
-    previousArticle: getPreviousActiveArticle(state)
+    previousArticle: getPreviousActiveArticle(state),
   }
 }
 
 const actionCreators = {
-  handleArticleView
+  handleArticleView,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(HasResults)
+const connectedComponent = connect(mapStateToProps, actionCreators)(HasResults)
 
 export { connectedComponent as default, HasResults as Component }

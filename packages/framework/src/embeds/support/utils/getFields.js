@@ -21,7 +21,7 @@ const getFields = (currentValues, conditions = [], fields = []) => {
   const fieldsById = fields.reduce(
     (prev, field) => ({
       ...prev,
-      [field.id]: field
+      [field.id]: field,
     }),
     {}
   )
@@ -33,8 +33,8 @@ const getFields = (currentValues, conditions = [], fields = []) => {
   const conditionalValues = {}
   const conditionalDependencies = {}
 
-  conditions.forEach(condition => {
-    condition.child_fields.forEach(field => {
+  conditions.forEach((condition) => {
+    condition.child_fields.forEach((field) => {
       const parentId = createKeyID(condition.parent_field_id)
       const fieldId = createKeyID(field.id)
 
@@ -45,7 +45,7 @@ const getFields = (currentValues, conditions = [], fields = []) => {
         conditionalValues[fieldId] = {
           visible: false,
           required: false,
-          validParents: {}
+          validParents: {},
         }
       }
 
@@ -90,14 +90,14 @@ const getFields = (currentValues, conditions = [], fields = []) => {
       return true
     }
     const visibleAndValidParents = parentIds
-      .filter(parentId => isFieldVisible(parentId, { ...seenFields }))
-      .filter(parentId => conditionalValues[fieldId].validParents[parentId])
+      .filter((parentId) => isFieldVisible(parentId, { ...seenFields }))
+      .filter((parentId) => conditionalValues[fieldId].validParents[parentId])
 
     return visibleAndValidParents.length > 0
   }
 
   return fields
-    .map(field => {
+    .map((field) => {
       if (!conditionalValues[field.id]) {
         return field
       }
@@ -105,11 +105,11 @@ const getFields = (currentValues, conditions = [], fields = []) => {
       return {
         ...field,
         visible: field.visible && isFieldVisible(field.id),
-        required: field.required || conditionalValues[field.id].required
+        required: field.required || conditionalValues[field.id].required,
       }
     })
-    .filter(field => field.visible)
-    .filter(field => supportedFields[field.type])
+    .filter((field) => field.visible)
+    .filter((field) => supportedFields[field.type])
 }
 
 export default getFields

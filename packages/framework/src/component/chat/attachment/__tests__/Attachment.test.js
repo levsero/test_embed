@@ -11,14 +11,14 @@ const file = {
   size: 1024,
   type: 'image/jpeg',
   url: 'path://to/file',
-  webkitRelativePath: 'what is this'
+  webkitRelativePath: 'what is this',
 }
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const defaultProps = {
     attachmentId: '1234',
     file,
-    icon: 'Icon--preview-default'
+    icon: 'Icon--preview-default',
   }
   const mergedProps = { ...defaultProps, ...props }
 
@@ -35,7 +35,7 @@ describe('size formatting', () => {
   describe('greater than or equal to 1MB', () => {
     it('displays correctly', () => {
       const { container } = renderComponent({
-        file: { ...file, size: 1000000 }
+        file: { ...file, size: 1000000 },
       })
 
       expect(container).toMatchSnapshot()
@@ -43,7 +43,7 @@ describe('size formatting', () => {
 
     it('includes one decimal place precision', () => {
       const { container } = renderComponent({
-        file: { ...file, size: 1120000 }
+        file: { ...file, size: 1120000 },
       })
 
       expect(container).toMatchSnapshot()
@@ -53,7 +53,7 @@ describe('size formatting', () => {
   describe('when the file size is less than one megabyte', () => {
     it('displays file size in kilobytes', () => {
       const { container } = renderComponent({
-        file: { ...file, size: 999999 }
+        file: { ...file, size: 999999 },
       })
 
       expect(container).toMatchSnapshot()
@@ -63,7 +63,7 @@ describe('size formatting', () => {
   describe('when the file size is less than one kilobyte', () => {
     it('displays 1 KB', () => {
       const { container } = renderComponent({
-        file: { ...file, size: 999 }
+        file: { ...file, size: 999 },
       })
 
       expect(container).toMatchSnapshot()
@@ -92,7 +92,7 @@ test('renders uploading text when it is uploading', () => {
 test('renders icon when icon is specified and attachment is not downloadable', () => {
   const { container } = renderComponent({
     icon: 'Icon--preview-default',
-    isDownloadable: false
+    isDownloadable: false,
   })
 
   expect(container).toMatchSnapshot()
@@ -101,7 +101,7 @@ test('renders icon when icon is specified and attachment is not downloadable', (
 test('renders link when icon is specified and attachment is downloadable', () => {
   const { container } = renderComponent({
     icon: 'Icon--preview-default',
-    isDownloadable: true
+    isDownloadable: true,
   })
 
   expect(container).toMatchSnapshot()
@@ -133,7 +133,7 @@ describe('dom interaction', () => {
       isRemovable: true,
       uploading: false,
       uploadRequestSender: { abort: uploadHandler },
-      handleRemoveAttachment: handler
+      handleRemoveAttachment: handler,
     })
 
     fireEvent.click(container.querySelector('.Icon--close'))
@@ -148,7 +148,7 @@ describe('dom interaction', () => {
       isRemovable: true,
       uploading: true,
       uploadRequestSender: { abort: uploadHandler },
-      handleRemoveAttachment: handler
+      handleRemoveAttachment: handler,
     })
 
     fireEvent.click(container.querySelector('.Icon--close'))

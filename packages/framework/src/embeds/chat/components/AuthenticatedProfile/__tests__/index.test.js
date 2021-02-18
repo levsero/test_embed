@@ -4,7 +4,7 @@ import { render } from 'utility/testHelpers'
 import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
 import {
   LoadingSpinnerIcon,
-  SocialAvatar
+  SocialAvatar,
 } from 'embeds/chat/components/AuthenticatedProfile/styles'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 import { TEST_IDS } from 'constants/shared'
@@ -14,13 +14,13 @@ describe('AuthenticatedProfile', () => {
     socialLogin: {
       avatarPath: 'www.example.com/avatar',
       authenticated: false,
-      screen: null
+      screen: null,
     },
     visitor: {
       display_name: 'Some visitor',
-      email: 'visitor@example.com'
+      email: 'visitor@example.com',
     },
-    initiateSocialLogout: jest.fn()
+    initiateSocialLogout: jest.fn(),
   }
 
   const renderComponent = (props = {}) =>
@@ -44,8 +44,8 @@ describe('AuthenticatedProfile', () => {
       const { container } = renderComponent({
         socialLogin: {
           ...defaultProps.socialLogin,
-          authenticated: true
-        }
+          authenticated: true,
+        },
       })
 
       const image = find(container, SocialAvatar)
@@ -57,8 +57,8 @@ describe('AuthenticatedProfile', () => {
       const { getByTestId } = renderComponent({
         socialLogin: {
           ...defaultProps.socialLogin,
-          authenticated: true
-        }
+          authenticated: true,
+        },
       })
 
       expect(getByTestId(TEST_IDS.ICON_LOGOUT)).toBeInTheDocument()
@@ -69,8 +69,8 @@ describe('AuthenticatedProfile', () => {
         socialLogin: {
           ...defaultProps,
           authenticated: true,
-          screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
-        }
+          screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING,
+        },
       })
 
       expect(find(container, LoadingSpinnerIcon)).toBeInTheDocument()

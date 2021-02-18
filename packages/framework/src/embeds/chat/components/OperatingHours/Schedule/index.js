@@ -24,12 +24,12 @@ Schedule.propTypes = {
       periods: PropTypes.arrayOf(
         PropTypes.shape({
           start: PropTypes.number,
-          end: PropTypes.number
+          end: PropTypes.number,
         })
-      )
+      ),
     })
   ).isRequired,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
 }
 
 export default Schedule

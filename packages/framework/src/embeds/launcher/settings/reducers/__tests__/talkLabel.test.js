@@ -8,29 +8,29 @@ testReducer(talkLabel, [
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { talkLabel: 'boop' } }
-      }
+        webWidget: { launcher: { talkLabel: 'boop' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: UPDATE_SETTINGS,
       payload: {
-        webWidget: { launcher: { somethingElse: 'hello there' } }
-      }
+        webWidget: { launcher: { somethingElse: 'hello there' } },
+      },
     },
-    expected: 'boop'
+    expected: 'boop',
   },
   {
     initialState: 'boop',
     action: {
       type: 'not a real action',
       payload: {
-        webWidget: { launcher: { talkLabel: 'probably a real name' } }
-      }
+        webWidget: { launcher: { talkLabel: 'probably a real name' } },
+      },
     },
-    expected: 'boop'
-  }
+    expected: 'boop',
+  },
 ])

@@ -12,7 +12,7 @@ jest.mock('src/apps/messenger/features/messageLog/hooks/useFetchMessages.js', ()
   fetchHistoryOnScrollTop: jest.fn(),
   isFetchingHistory: false,
   errorFetchingHistory: false,
-  retryFetchMessages: jest.fn()
+  retryFetchMessages: jest.fn(),
 }))
 
 describe('MessagePage', () => {

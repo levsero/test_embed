@@ -15,13 +15,13 @@ describe('CallbackForm', () => {
     averageWaitTime: 'Average wait time: 25m',
     callback: {
       error: {
-        message: ''
-      }
+        message: '',
+      },
     },
     descriptionLabelText: 'Description',
     formState: {
       description: 'A thing went wrong with the thing',
-      name: 'Someone'
+      name: 'Someone',
     },
     nameLabelText: 'Name',
     nickname: 'Nick name',
@@ -29,7 +29,7 @@ describe('CallbackForm', () => {
     showCallbackNumber: false,
     submitTalkCallbackForm: jest.fn(),
     supportedCountries: ['AU', 'US'],
-    updateTalkCallbackForm: jest.fn()
+    updateTalkCallbackForm: jest.fn(),
   }
 
   const renderComponent = (props = {}) => render(<CallbackForm {...defaultProps} {...props} />)

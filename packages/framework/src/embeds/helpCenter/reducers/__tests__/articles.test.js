@@ -2,46 +2,49 @@ import articles from '../articles'
 import * as actionTypes from 'embeds/helpCenter/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
 
-const mockArticles = [{ id: 1, body: 'hello' }, { id: 2, body: 'world' }]
+const mockArticles = [
+  { id: 1, body: 'hello' },
+  { id: 2, body: 'world' },
+]
 const articleMap = {
   1: { id: 1, body: 'hello' },
-  2: { id: 2, body: 'world' }
+  2: { id: 2, body: 'world' },
 }
 
 testReducer(articles, [
   {
     action: { type: undefined },
-    expected: {}
+    expected: {},
   },
   {
     action: { type: 'DERP DERP' },
     initialState: { a: 1 },
-    expected: { a: 1 }
+    expected: { a: 1 },
   },
   {
     action: {
       type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-      payload: { articles: mockArticles }
+      payload: { articles: mockArticles },
     },
-    expected: articleMap
+    expected: articleMap,
   },
   {
     action: {
       type: actionTypes.SEARCH_REQUEST_SUCCESS,
-      payload: { articles: mockArticles }
+      payload: { articles: mockArticles },
     },
     initialState: {},
-    expected: articleMap
+    expected: articleMap,
   },
   {
     action: {
       type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS,
-      payload: mockArticles[1]
+      payload: mockArticles[1],
     },
     initialState: { b: 2 },
     expected: {
       b: 2,
-      2: { id: 2, body: 'world' }
-    }
-  }
+      2: { id: 2, body: 'world' },
+    },
+  },
 ])

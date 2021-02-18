@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NotificationContainer from '../'
 
-const renderComponent = override => {
+const renderComponent = (override) => {
   const props = {
     className: '',
     containerClasses: '',
@@ -22,7 +22,7 @@ const renderComponent = override => {
     isMobile: false,
     useOverlay: false,
     showOnlyLeftCta: false,
-    ...override
+    ...override,
   }
 
   return render(<NotificationContainer {...props} />)

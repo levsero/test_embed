@@ -11,7 +11,7 @@ const initialState = {
   labelFilter: null,
   messageButton: null,
   searchPlaceholder: null,
-  title: null
+  title: null,
 }
 
 const maxLocaleFallbacks = 3
@@ -44,7 +44,7 @@ const helpCenter = (state = initialState, action) => {
           'webWidget.helpCenter.searchPlaceholder',
           state.searchPlaceholder
         ),
-        title: _.get(payload, 'webWidget.helpCenter.title', state.title)
+        title: _.get(payload, 'webWidget.helpCenter.title', state.title),
       }
     default:
       return state

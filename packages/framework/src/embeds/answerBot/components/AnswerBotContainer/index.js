@@ -54,8 +54,8 @@ class AnswerBotContainer extends Component {
       botTyping: PropTypes.func.isRequired,
       botContextualSearchResults: PropTypes.func.isRequired,
       contextualSearchFinished: PropTypes.func.isRequired,
-      botFallbackMessage: PropTypes.func.isRequired
-    })
+      botFallbackMessage: PropTypes.func.isRequired,
+    }),
   }
 
   static defaultProps = {
@@ -65,7 +65,7 @@ class AnswerBotContainer extends Component {
     saveConversationScroll: () => {},
     contextualSearchFinished: false,
     contextualSearchStatus: null,
-    contextualSearchResultsCount: 0
+    contextualSearchResultsCount: 0,
   }
 
   constructor(props) {
@@ -103,7 +103,7 @@ class AnswerBotContainer extends Component {
 
     let args = {
       props,
-      shouldStopTimer: {}
+      shouldStopTimer: {},
     }
 
     this.runningFlow = true
@@ -118,7 +118,7 @@ class AnswerBotContainer extends Component {
     this.stopTimers(args.shouldStopTimer)
   }
 
-  runNext = fn => {
+  runNext = (fn) => {
     if (this.runningFlow && _.isFunction(fn)) {
       this.runningFlow = fn()
     }
@@ -175,7 +175,7 @@ class AnswerBotContainer extends Component {
     return true
   }
 
-  checkRequestStatus = args => {
+  checkRequestStatus = (args) => {
     const { props } = args
 
     switch (props.currentRequestStatus) {
@@ -191,7 +191,7 @@ class AnswerBotContainer extends Component {
     }
   }
 
-  onRequestFinished = args => {
+  onRequestFinished = (args) => {
     this.runNext(() => this.checkSessionFallbackSuggested(args)).runNext(() =>
       this.suggestSessionFallback(args)
     )
@@ -222,7 +222,7 @@ class AnswerBotContainer extends Component {
     return false
   }
 
-  onRequestNotStarted = args => {
+  onRequestNotStarted = (args) => {
     this.runNext(() => this.checkInitialSession(args))
       .runNext(() => this.checkGreetings(args))
       .runNext(() => this.checkContextualSearch(args))
@@ -312,11 +312,11 @@ class AnswerBotContainer extends Component {
     if (brand) {
       return {
         key: 'embeddable_framework.answerBot.msg.greetings_with_brand',
-        interpolation: { brand }
+        interpolation: { brand },
       }
     } else {
       return {
-        key: 'embeddable_framework.answerBot.msg.greetings'
+        key: 'embeddable_framework.answerBot.msg.greetings',
       }
     }
   }
@@ -339,11 +339,11 @@ class AnswerBotContainer extends Component {
     this.props.actions.botFallbackMessage(false)
   }
 
-  stopTimers = shouldStopTimer => {
+  stopTimers = (shouldStopTimer) => {
     shouldStopTimer = {
       initialFallback: true,
       fallback: true,
-      ...shouldStopTimer
+      ...shouldStopTimer,
     }
 
     if (shouldStopTimer.initialFallback && this.initialFallbackTimer) {
@@ -360,7 +360,7 @@ class AnswerBotContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentScreen: rootSelectors.getCurrentScreen(state),
   currentSessionID: rootSelectors.getCurrentSessionID(state),
   currentSessionResolved: rootSelectors.isCurrentSessionResolved(state),
@@ -378,10 +378,10 @@ const mapStateToProps = state => ({
   contextualSearchFinished: rootSelectors.getContextualSearchFinished(state),
   contextualSearchStatus: rootSelectors.getContextualSearchStatus(state),
   contextualSearchResultsCount: getResultsCount(state),
-  widgetShown: getWidgetShown(state)
+  widgetShown: getWidgetShown(state),
 })
 
-const actionCreators = dispatch => ({
+const actionCreators = (dispatch) => ({
   actions: bindActionCreators(
     {
       sessionStarted: sessionActions.sessionStarted,
@@ -396,17 +396,14 @@ const actionCreators = dispatch => ({
       botContextualSearchResults: botActions.botContextualSearchResults,
       contextualSearchFinished: rootActions.contextualSearchFinished,
       botFallbackMessage: botActions.botFallbackMessage,
-      getInTouchShown
+      getInTouchShown,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(AnswerBotContainer)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  AnswerBotContainer
+)
 
 export { connectedComponent as default, AnswerBotContainer as Component }

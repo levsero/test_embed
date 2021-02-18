@@ -17,7 +17,7 @@ describe('PhoneField', () => {
     label: 'Phone field label',
     supportedCountries: ['AU', 'US'],
     value: '+61412345678',
-    showError: false
+    showError: false,
   }
 
   const renderComponent = (props = {}) => {
@@ -71,7 +71,7 @@ describe('PhoneField', () => {
     it('initialises to the current countries number code when prop "value" is not provided', () => {
       const { queryByTestId } = renderComponent({
         value: null,
-        country: 'AU'
+        country: 'AU',
       })
 
       expect(queryByTestId(TEST_IDS.PHONE_FIELD)).toHaveValue(`+${countriesByIso.AU.code}`)
@@ -80,7 +80,7 @@ describe('PhoneField', () => {
     it('replaces "-" with spaces when displaying a country code', () => {
       const { queryByTestId } = renderComponent({
         value: null,
-        country: 'BB'
+        country: 'BB',
       })
 
       const expectedCountryCode = countriesByIso.BB.code.replace('-', ' ')

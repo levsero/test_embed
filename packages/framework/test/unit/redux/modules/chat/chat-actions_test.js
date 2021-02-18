@@ -22,8 +22,10 @@ let actions,
   mockChannelChoiceAvailable = false,
   mockChatMessagesByAgent,
   mockInit = jasmine.createSpy('init'),
-  mockOnChatSDKInitializedSpy = jasmine.createSpy('onChatSDKInitialized').and.callFake(cb => cb()),
-  mockOnChatConnectedSpy = jasmine.createSpy('onChatConnected').and.callFake(cb => cb()),
+  mockOnChatSDKInitializedSpy = jasmine
+    .createSpy('onChatSDKInitialized')
+    .and.callFake((cb) => cb()),
+  mockOnChatConnectedSpy = jasmine.createSpy('onChatConnected').and.callFake((cb) => cb()),
   mockLogout = jasmine.createSpy('logout'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('setVisitorInfo'),
@@ -89,11 +91,11 @@ describe('chat redux actions', () => {
       'service/api/callbacks': {},
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
-        getZChatConfig: () => mockZChatConfig
+        getZChatConfig: () => mockZChatConfig,
       },
       'src/service/api/zopimApi/callbacks': {
         onChatSDKInitialized: mockOnChatSDKInitializedSpy,
-        onChatConnected: mockOnChatConnectedSpy
+        onChatConnected: mockOnChatConnectedSpy,
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
@@ -123,45 +125,45 @@ describe('chat redux actions', () => {
             fetchChatHistory: mockFetchChatHistory,
             markAsRead: mockMarkAsRead,
             on: mockOn,
-            getAuthLoginUrl: key => `www.foo.com/${key}/bar-baz`,
-            doAuthLogout: cb => cb(mockDoAuthLogoutArgs),
+            getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
+            doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs),
             init: mockInit,
-            logoutForAll: mockLogout
+            logoutForAll: mockLogout,
           }
-        }
+        },
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES,
         WHITELISTED_SOCIAL_LOGINS,
         CONNECTION_STATUSES: {
-          CONNECTED: 'connected'
-        }
+          CONNECTED: 'connected',
+        },
       },
       'constants/event': {},
       'service/audio': {
-        audio: { load: loadSoundSpy }
+        audio: { load: loadSoundSpy },
       },
       'src/redux/modules/form/actions': {},
       'src/redux/modules/chat/helpers/zChatWithTimeout': {
         zChatWithTimeout: mockZChatWithTimeout,
-        canBeIgnored: mockCanBeIgnored
+        canBeIgnored: mockCanBeIgnored,
       },
       'src/util/utils': {
         getPageTitle: () => mockPageTitle,
         getHostUrl: () => mockHostUrl,
-        isValidUrl: () => mockIsValidUrl
+        isValidUrl: () => mockIsValidUrl,
       },
       'src/util/chat': {
-        formatSchedule: formatScheduleSpy
+        formatSchedule: formatScheduleSpy,
       },
       'utility/devices': {
-        isMobileBrowser: () => false
+        isMobileBrowser: () => false,
       },
       'src/redux/modules/base': {},
       'src/redux/modules/selectors': {
         getHelpCenterAvailable: () => mockHelpCenterAvailable,
-        getChannelChoiceAvailable: () => mockChannelChoiceAvailable
-      }
+        getChannelChoiceAvailable: () => mockChannelChoiceAvailable,
+      },
     })
 
     actions = requireUncached(actionsPath)
@@ -173,9 +175,9 @@ describe('chat redux actions', () => {
         visitor: mockVisitor,
         rating: {},
         accountSettings: {
-          rating: {}
-        }
-      }
+          rating: {},
+        },
+      },
     })
 
     jasmine.clock().install()
@@ -267,14 +269,14 @@ describe('chat redux actions', () => {
     })
 
     it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
-      expect(mockStore.getActions().map(action => action.type)).toContain(
+      expect(mockStore.getActions().map((action) => action.type)).toContain(
         actionTypes.CHAT_MSG_REQUEST_SENT
       )
     })
 
     it('sets status of payload to CHAT_MESSAGE_PENDING', () => {
       expect(
-        mockStore.getActions().find(action => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
+        mockStore.getActions().find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
           .payload.status
       ).toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING)
     })
@@ -292,7 +294,7 @@ describe('chat redux actions', () => {
         })
 
         it('dispatches a CHAT_MSG_REQUEST_SUCCESS action with the message in payload', () => {
-          expect(mockStore.getActions().map(action => action.type)).toContain(
+          expect(mockStore.getActions().map((action) => action.type)).toContain(
             actionTypes.CHAT_MSG_REQUEST_SUCCESS
           )
         })
@@ -301,7 +303,7 @@ describe('chat redux actions', () => {
           expect(
             mockStore
               .getActions()
-              .find(action => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS).payload.detail
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS).payload.detail
               .msg
           ).toEqual(message)
         })
@@ -310,7 +312,7 @@ describe('chat redux actions', () => {
           expect(
             mockStore
               .getActions()
-              .find(action => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS).payload.status
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS).payload.status
           ).toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS)
         })
       })
@@ -323,7 +325,7 @@ describe('chat redux actions', () => {
         })
 
         it('dispatches a CHAT_MSG_REQUEST_FAILURE action with the errors in the payload', () => {
-          expect(mockStore.getActions().map(action => action.type)).toContain(
+          expect(mockStore.getActions().map((action) => action.type)).toContain(
             actionTypes.CHAT_MSG_REQUEST_FAILURE
           )
         })
@@ -332,7 +334,7 @@ describe('chat redux actions', () => {
           expect(
             mockStore
               .getActions()
-              .find(action => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE).payload.detail
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE).payload.detail
               .msg
           ).toEqual(message)
         })
@@ -341,7 +343,7 @@ describe('chat redux actions', () => {
           expect(
             mockStore
               .getActions()
-              .find(action => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE).payload.status
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE).payload.status
           ).toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE)
         })
       })
@@ -362,7 +364,7 @@ describe('chat redux actions', () => {
       it('dispatches an UPDATE_CHAT_SCREEN action with the POST_CHAT_SCREEN', () => {
         expect(mockStore.getActions()).toContain({
           type: actionTypes.UPDATE_CHAT_SCREEN,
-          payload: { screen: screenTypes.POST_CHAT_SCREEN }
+          payload: { screen: screenTypes.POST_CHAT_SCREEN },
         })
       })
     })
@@ -376,7 +378,7 @@ describe('chat redux actions', () => {
       it('does not dispatch an UPDATE_CHAT_SCREEN action with the POST_CHAT_SCREEN', () => {
         expect(mockStore.getActions()).not.toContain({
           type: actionTypes.UPDATE_CHAT_SCREEN,
-          payload: { screen: screenTypes.POST_CHAT_SCREEN }
+          payload: { screen: screenTypes.POST_CHAT_SCREEN },
         })
       })
     })
@@ -394,7 +396,7 @@ describe('chat redux actions', () => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
           chat_button: { hide_when_offline: false },
-          sound: { disabled: false }
+          sound: { disabled: false },
         }
         mockStore.dispatch(actions.getAccountSettings())
       })
@@ -409,7 +411,7 @@ describe('chat redux actions', () => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
           chat_button: { hide_when_offline: false },
-          sound: { disabled: true }
+          sound: { disabled: true },
         }
         mockStore.dispatch(actions.getAccountSettings())
       })
@@ -426,7 +428,7 @@ describe('chat redux actions', () => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: true } },
           chat_button: { hide_when_offline: false },
-          sound: { disabled: true }
+          sound: { disabled: true },
         }
         mockStore.dispatch(actions.getAccountSettings())
         updateScreenAction = mockStore.getActions()[0]
@@ -437,7 +439,7 @@ describe('chat redux actions', () => {
         it('dispatches updateChatScreen action with the prechat screen', () => {
           expect(updateScreenAction).toEqual({
             type: actionTypes.UPDATE_CHAT_SCREEN,
-            payload: { screen: screenTypes.PRECHAT_SCREEN }
+            payload: { screen: screenTypes.PRECHAT_SCREEN },
           })
         })
       })
@@ -449,7 +451,7 @@ describe('chat redux actions', () => {
           mockAccountSettings = {
             forms: { pre_chat_form: { required: true } },
             chat_button: { hide_when_offline: false },
-            sound: { disabled: true }
+            sound: { disabled: true },
           }
           mockStore.clearActions()
           mockIsChatting = true
@@ -478,7 +480,7 @@ describe('chat redux actions', () => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
           chat_button: { hide_when_offline: false },
-          sound: { disabled: true }
+          sound: { disabled: true },
         }
         mockStore.dispatch(actions.getAccountSettings())
         updateAccountSettingsAction = mockStore.getActions()[0]
@@ -500,7 +502,7 @@ describe('chat redux actions', () => {
         mockAccountSettings = {
           forms: { pre_chat_form: { required: false } },
           chat_button: { hide_when_offline: false },
-          sound: { disabled: true }
+          sound: { disabled: true },
         }
       })
     })
@@ -587,7 +589,7 @@ describe('chat redux actions', () => {
 
     it('dispatches RESET_EMAIL_TRANSCRIPT action', () => {
       expect(action).toEqual({
-        type: actionTypes.RESET_EMAIL_TRANSCRIPT
+        type: actionTypes.RESET_EMAIL_TRANSCRIPT,
       })
     })
   })
@@ -607,9 +609,9 @@ describe('chat redux actions', () => {
             3: [],
             4: [],
             5: [],
-            6: []
+            6: [],
           },
-          timezone: 'Africa/Sao_Tome'
+          timezone: 'Africa/Sao_Tome',
         }
 
         mockformatSchedule = 'abc'
@@ -632,7 +634,7 @@ describe('chat redux actions', () => {
         const expected = {
           ...mockOperatingHours,
           account_schedule: 'abc',
-          timezone: 'Africa/Sao Tome'
+          timezone: 'Africa/Sao Tome',
         }
 
         expect(updateOperatingHoursAction.payload).toEqual(expected)
@@ -654,7 +656,7 @@ describe('chat redux actions', () => {
               3: [],
               4: [],
               5: [],
-              6: []
+              6: [],
             },
             b: {
               0: [{ start: 0, end: 1 }],
@@ -663,10 +665,10 @@ describe('chat redux actions', () => {
               3: [{ start: 0, end: 1 }],
               4: [{ start: 0, end: 1 }],
               5: [{ start: 0, end: 1 }],
-              6: [{ start: 0, end: 1 }]
-            }
+              6: [{ start: 0, end: 1 }],
+            },
           },
-          timezone: 'Africa/Sao_Tome'
+          timezone: 'Africa/Sao_Tome',
         }
 
         mockformatSchedule = 'abc'
@@ -702,9 +704,9 @@ describe('chat redux actions', () => {
           ...mockOperatingHours,
           department_schedule: {
             a: 'abc',
-            b: 'abc'
+            b: 'abc',
           },
-          timezone: 'Africa/Sao Tome'
+          timezone: 'Africa/Sao Tome',
         }
 
         expect(updateOperatingHoursAction.payload).toEqual(expected)
@@ -723,9 +725,9 @@ describe('chat redux actions', () => {
             3: [],
             4: [],
             5: [],
-            6: []
+            6: [],
           },
-          timezone: 'Africa/Sao_Tome'
+          timezone: 'Africa/Sao_Tome',
         }
         mockStore.dispatch(actions.getOperatingHours())
         updateOperatingHoursAction = mockStore.getActions()[0]
@@ -761,7 +763,7 @@ describe('chat redux actions', () => {
       mockFormState = {
         name: 'Terence',
         phone: '123456789',
-        message: 'foo bar'
+        message: 'foo bar',
       }
 
       mockStore.dispatch(actions.chatOfflineFormChanged(mockFormState))
@@ -782,7 +784,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.chatBanned())
 
       expect(mockStore.getActions()[0]).toEqual({
-        type: actionTypes.CHAT_BANNED
+        type: actionTypes.CHAT_BANNED,
       })
     })
   })
@@ -791,7 +793,7 @@ describe('chat redux actions', () => {
     let action
     const payload = {
       name: 'name',
-      email: 'foo@bar.com'
+      email: 'foo@bar.com',
     }
 
     beforeEach(() => {
@@ -802,7 +804,7 @@ describe('chat redux actions', () => {
     it('dispatches a PRE_CHAT_FORM_ON_CHANGE action with the payload passed in', () => {
       const expected = {
         type: actionTypes.PRE_CHAT_FORM_ON_CHANGE,
-        payload
+        payload,
       }
 
       expect(action).toEqual(expected)
@@ -927,7 +929,7 @@ describe('chat redux actions', () => {
     beforeEach(() => {
       mockFormState = {
         department: '123',
-        message: 'foo'
+        message: 'foo',
       }
 
       mockStore.dispatch(actions.handlePrechatFormSubmit(mockFormState))
@@ -948,7 +950,7 @@ describe('chat redux actions', () => {
 
     beforeEach(() => {
       mockPayload = {
-        zChat: 'chat-web-sdk'
+        zChat: 'chat-web-sdk',
       }
 
       mockStore.dispatch(actions.handleChatVendorLoaded(mockPayload))

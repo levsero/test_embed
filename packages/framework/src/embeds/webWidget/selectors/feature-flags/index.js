@@ -4,7 +4,7 @@ import logger from 'src/util/logger'
 import features from './features'
 
 const featurePrefix = 'feature-'
-const getFullStorageName = name => `${persistenceStore.prefix}${featurePrefix}${name}`
+const getFullStorageName = (name) => `${persistenceStore.prefix}${featurePrefix}${name}`
 
 const hasWarnedAboutFeature = {}
 
@@ -17,7 +17,7 @@ const logFeatureOverrideUsage = (name, enabled) => {
   const message = [
     `Feature flag "${name}" is currently overridden to be "${enabled}"`,
     'To stop overriding this feature enter the following into the browser console',
-    `\n\tdelete localStorage["${getFullStorageName(name)}"]`
+    `\n\tdelete localStorage["${getFullStorageName(name)}"]`,
   ].join('\n')
 
   logger.devLog(message)

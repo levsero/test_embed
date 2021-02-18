@@ -13,16 +13,16 @@ import { useFrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleC
 import {
   WIDGET_MARGIN,
   DEFAULT_WIDGET_HEIGHT_NO_SEARCH,
-  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO
+  DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO,
 } from 'constants/shared'
 import { isMobileBrowser } from 'utility/devices'
 
 const frameStyle = {
-  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH + 2 * WIDGET_MARGIN
+  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH + 2 * WIDGET_MARGIN,
 }
 
 const frameStyleWithoutLogo = {
-  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + 2 * WIDGET_MARGIN
+  height: DEFAULT_WIDGET_HEIGHT_NO_SEARCH_NO_ZENDESK_LOGO + 2 * WIDGET_MARGIN,
 }
 
 const mobileFrameStyle = {}
@@ -53,22 +53,19 @@ const SearchPromptPage = ({ title, hasSearched, isLogoHidden }) => {
 SearchPromptPage.propTypes = {
   title: PropTypes.string.isRequired,
   hasSearched: PropTypes.bool.isRequired,
-  isLogoHidden: PropTypes.bool
+  isLogoHidden: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   title: getSettingsHelpCenterTitle(state),
   hasSearched: getHasSearched(state),
-  isLogoHidden: getHideZendeskLogo(state)
+  isLogoHidden: getHideZendeskLogo(state),
 })
 
 const mapDispatchToProps = {
-  performSearch
+  performSearch,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchPromptPage)
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(SearchPromptPage)
 
 export { connectedComponent as default, SearchPromptPage as Component }

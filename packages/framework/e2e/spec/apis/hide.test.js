@@ -30,10 +30,7 @@ test('calling api multiple times is a no-op', async () => {
 })
 
 test('works on prerender as well', async () => {
-  await buildWidget()
-    .evaluateAfterSnippetLoads(fn)
-    .hiddenInitially()
-    .load()
+  await buildWidget().evaluateAfterSnippetLoads(fn).hiddenInitially().load()
   await expect(launcher).toBeHidden()
   await expect(widget).toBeHidden()
 })

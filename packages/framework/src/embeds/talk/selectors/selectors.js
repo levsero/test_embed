@@ -7,16 +7,17 @@ import { CONTACT_OPTIONS } from 'src/embeds/talk/constants'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags/index'
 
-export const getEmbeddedVoiceSupported = _state => isFeatureEnabled(null, 'embedded_voice_enabled')
+export const getEmbeddedVoiceSupported = (_state) =>
+  isFeatureEnabled(null, 'embedded_voice_enabled')
 
-export const getIsCallInProgress = state => state.talk.embeddedVoiceCallStatus.isCallInProgress
-export const getHasLastCallFailed = state => state.talk.embeddedVoiceCallStatus.hasLastCallFailed
-export const getRecordingConsent = state => state.talk.recordingConsent
-export const getUserRecordingConsentRequirement = state =>
+export const getIsCallInProgress = (state) => state.talk.embeddedVoiceCallStatus.isCallInProgress
+export const getHasLastCallFailed = (state) => state.talk.embeddedVoiceCallStatus.hasLastCallFailed
+export const getRecordingConsent = (state) => state.talk.recordingConsent
+export const getUserRecordingConsentRequirement = (state) =>
   state.talk.embeddableConfig.recordingConsent
 
-export const getMicrophoneMuted = state => state.talk.microphoneMuted
-export const getTimeInCall = state => state.talk.timeInCall
+export const getMicrophoneMuted = (state) => state.talk.microphoneMuted
+export const getTimeInCall = (state) => state.talk.timeInCall
 
 export const getCapability = createSelector(
   [getEmbeddableConfig, getEmbeddedVoiceSupported],
@@ -25,7 +26,7 @@ export const getCapability = createSelector(
   }
 )
 
-export const getOfflineTitle = state => {
+export const getOfflineTitle = (state) => {
   const capability = getCapability(state)
   const title = i18n.getSettingTranslation(getSettingsTalkTitle(state))
 

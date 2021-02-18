@@ -8,7 +8,7 @@ describe('offlineForm', () => {
     name: 'Terence',
     phone: '123456789',
     email: 'foo@bar',
-    message: 'fred'
+    message: 'fred',
   }
   const reduce = (action, state = undefined) => offlineForm(state, action)
 
@@ -17,7 +17,7 @@ describe('offlineForm', () => {
       name: '',
       email: '',
       phone: '',
-      message: ''
+      message: '',
     })
   })
 
@@ -26,7 +26,7 @@ describe('offlineForm', () => {
       expect(
         reduce({
           type: actions.CHAT_OFFLINE_FORM_CHANGED,
-          payload: mockFormState
+          payload: mockFormState,
         })
       ).toEqual(mockFormState)
     })
@@ -35,18 +35,18 @@ describe('offlineForm', () => {
   describe('when a PREFILL_RECEIVED action is dispatched', () => {
     const newFormState = {
       name: 'Not Terence',
-      email: 'foo@baz'
+      email: 'foo@baz',
     }
 
     it('adds the action payload to the state', () => {
       expect(
         reduce({
           type: baseActions.PREFILL_RECEIVED,
-          payload: { prefillValues: newFormState }
+          payload: { prefillValues: newFormState },
         })
       ).toEqual({
         ...initialState,
-        ...newFormState
+        ...newFormState,
       })
     })
   })
@@ -58,7 +58,7 @@ describe('offlineForm', () => {
       newFormState = {
         display_name: 'Not Terence',
         email: 'foo@baz',
-        phone: '87654321'
+        phone: '87654321',
       }
     })
 
@@ -66,13 +66,13 @@ describe('offlineForm', () => {
       expect(
         reduce({
           type: actions.SDK_VISITOR_UPDATE,
-          payload: { detail: newFormState }
+          payload: { detail: newFormState },
         })
       ).toEqual({
         ...initialState,
         name: 'Not Terence',
         email: 'foo@baz',
-        phone: '87654321'
+        phone: '87654321',
       })
     })
 
@@ -85,12 +85,12 @@ describe('offlineForm', () => {
         expect(
           reduce({
             type: actions.SDK_VISITOR_UPDATE,
-            payload: { detail: newFormState }
+            payload: { detail: newFormState },
           })
         ).toEqual({
           ...initialState,
           email: 'foo@baz',
-          phone: '87654321'
+          phone: '87654321',
         })
       })
     })
@@ -99,7 +99,7 @@ describe('offlineForm', () => {
       beforeEach(() => {
         newFormState = {
           display_name: 'Visitor 2131231',
-          email: ''
+          email: '',
         }
       })
 
@@ -108,13 +108,13 @@ describe('offlineForm', () => {
           reduce(
             {
               type: actions.SDK_VISITOR_UPDATE,
-              payload: { detail: newFormState }
+              payload: { detail: newFormState },
             },
             { ...initialState, email: 'prefilled@example.com' }
           )
         ).toEqual({
           ...initialState,
-          email: 'prefilled@example.com'
+          email: 'prefilled@example.com',
         })
       })
     })
@@ -124,7 +124,7 @@ describe('offlineForm', () => {
     it('clears the value of message', () => {
       expect(reduce({ type: actions.OFFLINE_FORM_BACK_BUTTON_CLICKED }, mockFormState)).toEqual({
         ...mockFormState,
-        message: ''
+        message: '',
       })
     })
   })

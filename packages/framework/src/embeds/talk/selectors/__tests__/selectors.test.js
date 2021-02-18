@@ -3,7 +3,7 @@ import {
   CLICK_TO_CALL,
   PHONE_ONLY,
   CALLBACK_ONLY,
-  CALLBACK_AND_PHONE
+  CALLBACK_AND_PHONE,
 } from 'src/redux/modules/talk/talk-capability-types'
 
 import { getOfflineTitle, getTalkTitleKey, getCapability } from '../selectors'
@@ -17,7 +17,7 @@ describe('talk selectors', () => {
       [CALLBACK_ONLY, null, CALLBACK_ONLY],
       [PHONE_ONLY, null, PHONE_ONLY],
       [CALLBACK_AND_PHONE, null, CALLBACK_AND_PHONE],
-      [CALLBACK_AND_PHONE, false, CALLBACK_AND_PHONE]
+      [CALLBACK_AND_PHONE, false, CALLBACK_AND_PHONE],
     ])(
       'When config state is %p, embeddedVoiceSupported is %p, expect to return %p',
       (state, embeddedVoiceSupported, expectedValue) => {
@@ -31,7 +31,7 @@ describe('talk selectors', () => {
   describe('getOfflineTitle', () => {
     const createState = (title, capability) => ({
       settings: { talk: { title } },
-      talk: { embeddableConfig: { capability } }
+      talk: { embeddableConfig: { capability } },
     })
 
     describe('when no custom talk title set', () => {
@@ -66,7 +66,7 @@ describe('talk selectors', () => {
       [CLICK_TO_CALL, true, 'embeddable_framework.talk.embeddedVoice.channel.title'],
       [CLICK_TO_CALL, false, 'embeddable_framework.talk.embeddedVoice.channel.title'],
       ['something else', true, 'embeddable_framework.launcher.label.talk.request_callback'],
-      ['something else', false, 'embeddable_framework.launcher.label.talk.call_us']
+      ['something else', false, 'embeddable_framework.launcher.label.talk.call_us'],
     ])(
       'When capability is %p, callbackEnabled is %p, expect %p',
       (capability, callbackEnabled, expectedValue) => {

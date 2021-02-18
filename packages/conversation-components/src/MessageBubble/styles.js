@@ -5,7 +5,7 @@ import { MESSAGE_BUBBLE_SHAPES, MESSAGE_STATUS } from 'src/constants'
 import messageSteps, { animation, transition } from 'src/animations/messageSteps'
 import dirStyles from 'src/utils/dirStyles'
 
-const getRadius = props => props.theme.messenger.borderRadii.textMessage
+const getRadius = (props) => props.theme.messenger.borderRadii.textMessage
 
 const enterFromRight = keyframes`
        0% { transform: translateY(0%) translateX(50%) scale(0); }
@@ -19,21 +19,21 @@ const enterFromLeft = keyframes`
     `
 
 const Bubble = styled.div`
-  margin-top: ${props => props.theme.messenger.space.xxxs};
-  min-width: ${props => props.theme.messenger.space.messageBubbleWidth};
+  margin-top: ${(props) => props.theme.messenger.space.xxxs};
+  min-width: ${(props) => props.theme.messenger.space.messageBubbleWidth};
 
   transition: ${transition(messageSteps.messageBorder, 'border-radius')},
     ${transition(messageSteps.messageStatusOpacity, 'opacity')};
 `
 
 const PrimaryParticipantBubble = styled(Bubble)`
-  font-family: ${props => props.theme.messenger.fontFamily};
-  background-color: ${props => props.theme.messenger.colors.message};
-  color: ${props => props.theme.messenger.colors.messageText};
+  font-family: ${(props) => props.theme.messenger.fontFamily};
+  background-color: ${(props) => props.theme.messenger.colors.message};
+  color: ${(props) => props.theme.messenger.colors.messageText};
   border: 0;
-  max-width: calc(100% - ${props => rem(80, props.theme.messenger.baseFontSize)});
+  max-width: calc(100% - ${(props) => rem(80, props.theme.messenger.baseFontSize)});
 
-  ${props => {
+  ${(props) => {
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
@@ -47,19 +47,18 @@ const PrimaryParticipantBubble = styled(Bubble)`
     }
   }}
 
-
-  animation: ${props =>
+  animation: ${(props) =>
     props.isFreshMessage
       ? animation(messageSteps.messageEnter, dirStyles.swap(enterFromRight, enterFromLeft)(props))
       : 'none'};
 
-  ${props =>
+  ${(props) =>
     props.status === MESSAGE_STATUS.sending &&
     `
       opacity: 0.5;
   `}
 
-  ${props =>
+  ${(props) =>
     props.status === MESSAGE_STATUS.failed &&
     `
       opacity: 0.5;
@@ -69,14 +68,16 @@ const PrimaryParticipantBubble = styled(Bubble)`
 `
 
 const OtherParticipantBubble = styled(Bubble)`
-  font-family: ${props => props.theme.messenger.fontFamily};
-  border-color: ${props => props.theme.messenger.colors.otherParticipantMessageBorder};
-  background-color: ${props => props.theme.messenger.colors.otherParticipantMessage};
-  color: ${props => props.theme.messenger.colors.otherParticipantMessageText};
-  max-width: calc(100% - ${props => rem(36, props.theme.messenger.baseFontSize)} - ${props =>
-  rem(64, props.theme.messenger.baseFontSize)});
+  font-family: ${(props) => props.theme.messenger.fontFamily};
+  border-color: ${(props) => props.theme.messenger.colors.otherParticipantMessageBorder};
+  background-color: ${(props) => props.theme.messenger.colors.otherParticipantMessage};
+  color: ${(props) => props.theme.messenger.colors.otherParticipantMessageText};
+  max-width: calc(
+    100% - ${(props) => rem(36, props.theme.messenger.baseFontSize)} -
+      ${(props) => rem(64, props.theme.messenger.baseFontSize)}
+  );
 
-  ${props => {
+  ${(props) => {
     const radius = getRadius(props)
     switch (props.shape) {
       case MESSAGE_BUBBLE_SHAPES.standalone:
@@ -90,7 +91,7 @@ const OtherParticipantBubble = styled(Bubble)`
     }
   }}
 
-  animation: ${props =>
+  animation: ${(props) =>
     props.isFreshMessage
       ? animation(messageSteps.messageEnter, dirStyles.swap(enterFromLeft, enterFromRight)(props))
       : 'none'};

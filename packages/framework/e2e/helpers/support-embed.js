@@ -5,7 +5,7 @@ import { DEFAULT_CORS_HEADERS, mockCorsRequest } from './utils'
 import widget from './widget'
 import { hostWithPort } from 'e2e/env'
 
-const mockTicketFormsEndpoint = response => request => {
+const mockTicketFormsEndpoint = (response) => (request) => {
   if (!request.url().includes('ticket_forms')) {
     return false
   }
@@ -14,11 +14,11 @@ const mockTicketFormsEndpoint = response => request => {
     status: 200,
     headers: DEFAULT_CORS_HEADERS,
     contentType: 'application/json',
-    body: JSON.stringify(response)
+    body: JSON.stringify(response),
   })
 }
 
-const mockTicketFieldsEndpoint = response => request => {
+const mockTicketFieldsEndpoint = (response) => (request) => {
   if (!request.url().includes('ticket_fields')) {
     return false
   }
@@ -27,12 +27,12 @@ const mockTicketFieldsEndpoint = response => request => {
     status: 200,
     headers: DEFAULT_CORS_HEADERS,
     contentType: 'application/json',
-    body: JSON.stringify(response)
+    body: JSON.stringify(response),
   })
 }
 
 const mockTicketSubmissionEndpoint = (payload, callback) => {
-  return mockCorsRequest('api/v2/requests', request => {
+  return mockCorsRequest('api/v2/requests', (request) => {
     if (callback) {
       callback(request.postData())
     }
@@ -41,7 +41,7 @@ const mockTicketSubmissionEndpoint = (payload, callback) => {
       status: 200,
       headers: DEFAULT_CORS_HEADERS,
       contentType: 'application/json',
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     })
   })
 }
@@ -56,12 +56,12 @@ const createTicketSubmissionEndpointResponse = (formId, fields) => {
       via_id: 48,
       comment: {
         body: `${description}\n\n------------------\nSubmitted from: http://${hostWithPort}/e2e.html`,
-        uploads: uploads || []
+        uploads: uploads || [],
       },
       requester: { name, email, locale_id: 1176 },
       ticket_form_id: formId,
-      fields: other
-    }
+      fields: other,
+    },
   })
 }
 
@@ -77,7 +77,7 @@ const createField = (values = {}) => {
     visible_in_portal: true,
     editable_in_portal: true,
     required_in_portal: true,
-    ...values
+    ...values,
   }
 }
 
@@ -86,24 +86,24 @@ const createForm = ({ name, id, active = true, fields = [] }) => {
     id,
     active,
     display_name: name,
-    ticket_field_ids: fields.map(field => field.id)
+    ticket_field_ids: fields.map((field) => field.id),
   }
 
   const mockFormsResponse = {
     ticket_forms: [form],
-    ticket_fields: fields
+    ticket_fields: fields,
   }
 
   const embedConfig = {
     ticketFormsEnabled: true,
-    nameFieldEnabled: false
+    nameFieldEnabled: false,
   }
 
   return {
     form,
     mockFormsResponse,
     embedConfig,
-    fields
+    fields,
   }
 }
 
@@ -114,9 +114,9 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
     .withPresets('contactForm', {
       embeds: {
         ticketSubmissionForm: {
-          props: config
-        }
-      }
+          props: config,
+        },
+      },
     })
     .intercept(mockTicketFormsEndpoint(mockFormsResponse))
     .intercept(mockTicketSubmissionEndpoint({ request: { id: 123 } }, mockSubmissionEndpoint))
@@ -144,14 +144,14 @@ export const testForm = async ({ config, mockFormsResponse, mockFieldsResponse }
       createTicketSubmissionEndpointResponse(formId, {
         email: 'fake@example.com',
         name: 'Fake',
-        ...values
+        ...values,
       })
     )
   }
 
   return {
     submit,
-    expectSuccess
+    expectSuccess,
   }
 }
 
@@ -166,7 +166,7 @@ const waitForSubmissionSuccess = async () => {
 const uploadFiles = async (...filePaths) => {
   const doc = await widget.getDocument()
   const upload = await queries.getByTestId(doc, 'dropzone-input')
-  filePaths.forEach(path => upload.uploadFile(path))
+  filePaths.forEach((path) => upload.uploadFile(path))
 }
 
 export {
@@ -178,5 +178,5 @@ export {
   createForm,
   waitForContactForm,
   uploadFiles,
-  waitForSubmissionSuccess
+  waitForSubmissionSuccess,
 }

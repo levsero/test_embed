@@ -16,15 +16,15 @@ export default class Messages extends Component {
   static propTypes = {
     messages: PropTypes.array,
     isVisitor: PropTypes.bool.isRequired,
-    onMessageAnimated: PropTypes.func
+    onMessageAnimated: PropTypes.func,
   }
 
   static defaultProps = {
     messages: [],
-    onMessageAnimated: () => {}
+    onMessageAnimated: () => {},
   }
 
-  getMessage = message => {
+  getMessage = (message) => {
     const { type, message: text, articles, sessionID } = message
 
     switch (type) {
@@ -45,7 +45,7 @@ export default class Messages extends Component {
     }
   }
 
-  handleMessageAnimated = message => {
+  handleMessageAnimated = (message) => {
     return () => {
       this.props.onMessageAnimated(message)
     }

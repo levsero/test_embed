@@ -22,7 +22,7 @@ const assertLogoHidden = async () => {
 const buildWidget = () =>
   loadWidget()
     .withPresets('helpCenter', {
-      hideZendeskLogo: true
+      hideZendeskLogo: true,
     })
     .intercept(mockSearchEndpoint())
 
@@ -32,8 +32,6 @@ test('hides the zendesk logo in desktop', async () => {
 })
 
 test('hides the zendesk logo in mobile', async () => {
-  await buildWidget()
-    .useMobile()
-    .load()
+  await buildWidget().useMobile().load()
   await assertLogoHidden()
 })

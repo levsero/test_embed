@@ -6,17 +6,14 @@ import { mockSearchEndpoint } from 'e2e/helpers/help-center-embed'
 import { waitForContactForm } from 'e2e/helpers/support-embed'
 
 test('can suppress help center by api', async () => {
-  await loadWidget()
-    .withPresets('helpCenter', 'contactForm')
-    .intercept(mockSearchEndpoint())
-    .load()
+  await loadWidget().withPresets('helpCenter', 'contactForm').intercept(mockSearchEndpoint()).load()
   await page.evaluate(() => {
     zE('webWidget', 'updateSettings', {
       webWidget: {
         helpCenter: {
-          suppress: true
-        }
-      }
+          suppress: true,
+        },
+      },
     })
   })
   await launcher.click()

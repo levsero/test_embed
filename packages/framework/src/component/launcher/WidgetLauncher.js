@@ -9,7 +9,7 @@ import {
   getChatAvailable,
   getTalkOnline,
   getChatOfflineAvailable,
-  getHelpCenterAvailable
+  getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
@@ -18,7 +18,7 @@ import { launcherClicked } from 'src/redux/modules/base/'
 import {
   getLauncherChatLabel,
   getLauncherTalkLabel,
-  getLauncherLabel
+  getLauncherLabel,
 } from 'src/embeds/launcher/settings/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
@@ -27,7 +27,7 @@ import { onNextTick } from 'utility/utils'
 import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
 
 const baseLauncherStyle = {
-  width: 240
+  width: 240,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
     chatLabel: getLauncherChatLabel(state),
     launcherLabel: getLauncherLabel(state, ownProps.label),
     talkLabel: getLauncherTalkLabel(state),
-    showLabelMobile: getSettingsLauncherMobile(state).labelVisible
+    showLabelMobile: getSettingsLauncherMobile(state).labelVisible,
   }
 }
 
@@ -61,11 +61,11 @@ class WidgetLauncher extends Component {
     launcherLabel: PropTypes.string.isRequired,
     chatLabel: PropTypes.string.isRequired,
     showLabelMobile: PropTypes.bool.isRequired,
-    talkLabel: PropTypes.string.isRequired
+    talkLabel: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    isMobile: false
+    isMobile: false,
   }
 
   constructor(props, context) {
@@ -73,7 +73,7 @@ class WidgetLauncher extends Component {
 
     this.container = React.createRef()
     this.state = {
-      style: baseLauncherStyle
+      style: baseLauncherStyle,
     }
   }
 
@@ -101,8 +101,8 @@ class WidgetLauncher extends Component {
       this.setState({
         style: {
           ...baseLauncherStyle,
-          width: newWidth
-        }
+          width: newWidth,
+        },
       })
     })
   }
@@ -119,13 +119,13 @@ class WidgetLauncher extends Component {
       launcherLabel,
       chatLabel,
       notificationCount,
-      talkLabel
+      talkLabel,
     } = this.props
 
     if (notificationCount) {
       return notificationCount > 1
         ? i18n.t('embeddable_framework.chat.notification_multiple', {
-            count: notificationCount
+            count: notificationCount,
           })
         : i18n.t('embeddable_framework.chat.notification')
     } else if (chatAvailable && talkOnline) {
@@ -146,13 +146,13 @@ class WidgetLauncher extends Component {
       chatOfflineAvailable,
       activeEmbed,
       notificationCount,
-      talkLabel
+      talkLabel,
     } = this.props
 
     if (notificationCount) {
       return notificationCount > 1
         ? i18n.t('embeddable_framework.chat.notification_multiple', {
-            count: notificationCount
+            count: notificationCount,
           })
         : i18n.t('embeddable_framework.chat.notification')
     }
@@ -240,7 +240,7 @@ class WidgetLauncher extends Component {
             aria-haspopup="true"
             aria-label={this.getActiveEmbedLabel()}
             className={`${styles.wrapper} ${baseMobileClasses}`}
-            onClick={e => {
+            onClick={(e) => {
               this.props.onClick(e)
               this.props.launcherClicked()
             }}
@@ -260,7 +260,7 @@ class WidgetLauncher extends Component {
         </div>
         <WidgetLauncherTitle
           title={this.getTitle()}
-          onTitleChange={title => {
+          onTitleChange={(title) => {
             this.props.updateFrameTitle?.(title)
           }}
         />
@@ -270,12 +270,7 @@ class WidgetLauncher extends Component {
 }
 
 const actionCreators = {
-  launcherClicked
+  launcherClicked,
 }
 
-export default connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(WidgetLauncher)
+export default connect(mapStateToProps, actionCreators, null, { forwardRef: true })(WidgetLauncher)

@@ -14,7 +14,7 @@ const AttachmentLimitError = React.forwardRef(({ handleClearError, maxFileCount 
   const errorMessageBody = translate(
     'embeddable_framework.submitTicket.attachments.error.limit_reached_body',
     {
-      maxFiles: maxFileCount
+      maxFiles: maxFileCount,
     }
   )
 
@@ -29,6 +29,6 @@ const AttachmentLimitError = React.forwardRef(({ handleClearError, maxFileCount 
 
 AttachmentLimitError.propTypes = {
   maxFileCount: PropTypes.number.isRequired,
-  handleClearError: PropTypes.func.isRequired
+  handleClearError: PropTypes.func.isRequired,
 }
 export default AttachmentLimitError

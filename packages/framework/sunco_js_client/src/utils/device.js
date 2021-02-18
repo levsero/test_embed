@@ -29,8 +29,8 @@ export function getClientInfo(integrationId) {
       referrer: _document.referrer,
       browserLanguage: navigator.language,
       currentUrl: href,
-      currentTitle: _document.title
-    }
+      currentTitle: _document.title,
+    },
   }
 }
 

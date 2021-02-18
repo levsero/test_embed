@@ -9,5 +9,5 @@ export default combineReducers({
   hasMore,
   chats,
   log,
-  requestStatus
+  requestStatus,
 })

@@ -15,20 +15,20 @@ export class MessageBubble extends Component {
     translatedMessage: PropTypes.string,
     options: PropTypes.array,
     handleSendMsg: PropTypes.func,
-    'data-testid': PropTypes.string.isRequired
+    'data-testid': PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     options: [],
     handleSendMsg: () => {},
-    translatedMessage: ''
+    translatedMessage: '',
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      userWantOriginalMessage: undefined
+      userWantOriginalMessage: undefined,
     }
   }
 
@@ -60,7 +60,7 @@ export class MessageBubble extends Component {
       : i18n.t('embeddable_framework.chat.show_translated')
     const onTranslatedMessageClick = () => {
       this.setState({
-        userWantOriginalMessage: !showTranslationText
+        userWantOriginalMessage: !showTranslationText,
       })
     }
 

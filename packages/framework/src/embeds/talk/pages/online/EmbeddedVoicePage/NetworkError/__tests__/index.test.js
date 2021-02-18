@@ -7,7 +7,7 @@ import NetworkError from '../'
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
-    onClick: jest.fn()
+    onClick: jest.fn(),
   }
   return render(<NetworkError {...defaultProps} {...props} />)
 }

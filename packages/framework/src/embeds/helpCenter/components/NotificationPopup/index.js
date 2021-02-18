@@ -16,7 +16,7 @@ const Popup = ({
   resultsCount,
   chatNotification,
   fullscreen,
-  chatNotificationDismissed
+  chatNotificationDismissed,
 }) => {
   const onNotificatonResponded = () => {
     updateActiveEmbed('chat')
@@ -42,25 +42,22 @@ Popup.propTypes = {
   resultsCount: PropTypes.number.isRequired,
   chatNotification: PropTypes.object.isRequired,
   fullscreen: PropTypes.bool.isRequired,
-  chatNotificationDismissed: PropTypes.func.isRequired
+  chatNotificationDismissed: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isMobile: isMobileBrowser(),
   resultsCount: getResultsCount(state),
   fullscreen: isPopout(),
-  chatNotification: getChatNotification(state)
+  chatNotification: getChatNotification(state),
 })
 
 const actionCreators = {
   chatNotificationDismissed,
   chatNotificationRespond,
-  updateActiveEmbed
+  updateActiveEmbed,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(Popup)
+const connectedComponent = connect(mapStateToProps, actionCreators)(Popup)
 
 export { connectedComponent as default, Popup as Component }

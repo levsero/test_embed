@@ -10,7 +10,7 @@ import {
   getChatOfflineAvailable,
   getTalkOnline,
   getContactOptionsChatLabelOnline,
-  getContactOptionsContactFormLabel
+  getContactOptionsContactFormLabel,
 } from 'src/redux/modules/selectors'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
@@ -38,19 +38,19 @@ class ChannelChoice extends Component {
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
     actions: PropTypes.shape({
       updateBackButtonVisibility: PropTypes.func.isRequired,
-      updateActiveEmbed: PropTypes.func.isRequired
-    })
+      updateActiveEmbed: PropTypes.func.isRequired,
+    }),
   }
 
   static defaultProps = {
-    useLeadingMessageAsFallback: false
+    useLeadingMessageAsFallback: false,
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      availableChannels: this.getAvailableChannels(this.props)
+      availableChannels: this.getAvailableChannels(this.props),
     }
   }
 
@@ -58,13 +58,13 @@ class ChannelChoice extends Component {
     this.setState({ availableChannels: this.getAvailableChannels(props) })
   }
 
-  getAvailableChannels = props => {
+  getAvailableChannels = (props) => {
     const {
       chatAvailable,
       chatOfflineAvailable,
       talkAvailable,
       callbackAvailable,
-      submitTicketAvailable
+      submitTicketAvailable,
     } = props
     let availableChannels = []
 
@@ -85,7 +85,7 @@ class ChannelChoice extends Component {
     return availableChannels
   }
 
-  handleClick = channel => {
+  handleClick = (channel) => {
     return () => {
       this.props.actions.updateBackButtonVisibility(true)
       this.props.actions.updateActiveEmbed(channel)
@@ -99,9 +99,7 @@ class ChannelChoice extends Component {
 
     if (this.state.availableChannels.length === 1) {
       return i18n.t(
-        `embeddable_framework.answerBot.msg.channel_choice.${
-          this.state.availableChannels[0]
-        }_only.title`
+        `embeddable_framework.answerBot.msg.channel_choice.${this.state.availableChannels[0]}_only.title`
       )
     } else if (leadingMessage) {
       return leadingMessage
@@ -131,7 +129,7 @@ class ChannelChoice extends Component {
       chatAvailable,
       chatOfflineAvailable,
       chatOnlineAvailableLabel,
-      chatOfflineAvailableLabel
+      chatOfflineAvailableLabel,
     } = this.props
 
     if (!chatAvailable && !chatOfflineAvailable) return null
@@ -140,7 +138,7 @@ class ChannelChoice extends Component {
     return this.renderChannel(ICONS.CC_CHAT, label, 'chat')
   }
 
-  talkOptionLabel = talkCapability => {
+  talkOptionLabel = (talkCapability) => {
     if (talkCapability == CLICK_TO_CALL) {
       return i18n.t('embeddable_framework.talk.embeddedVoice.channel.title')
     }
@@ -180,7 +178,7 @@ class ChannelChoice extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   talkAvailable: getTalkOnline(state),
   talkCapability: getCapability(state),
   callbackAvailable: getTalkOnline(state) && isCallbackEnabled(state),
@@ -190,24 +188,21 @@ const mapStateToProps = state => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state),
-  locale: getLocale(state)
+  locale: getLocale(state),
 })
 
-const actionCreators = dispatch => ({
+const actionCreators = (dispatch) => ({
   actions: bindActionCreators(
     {
       updateBackButtonVisibility,
-      updateActiveEmbed
+      updateActiveEmbed,
     },
     dispatch
-  )
+  ),
 })
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators,
-  null,
-  { forwardRef: true }
-)(ChannelChoice)
+const connectedComponent = connect(mapStateToProps, actionCreators, null, { forwardRef: true })(
+  ChannelChoice
+)
 
 export { connectedComponent as default, ChannelChoice as Component }

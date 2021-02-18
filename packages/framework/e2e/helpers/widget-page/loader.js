@@ -10,7 +10,7 @@ const defaultMocks = [
   mockStaticAssets,
   mockBlipEndpoint(),
   mockIdentifyEndpoint(),
-  mockHcStatsEndpoint()
+  mockHcStatsEndpoint(),
 ]
 
 /*
@@ -30,9 +30,9 @@ const defaultMocks = [
  *   // mock out request
  * }
  */
-const mockRequests = async mockFns => {
+const mockRequests = async (mockFns) => {
   await page.setRequestInterception(true)
-  await page.on('request', request => {
+  await page.on('request', (request) => {
     const fns = (mockFns || []).concat(defaultMocks)
 
     for (let i = 0; i < fns.length; i++) {
@@ -66,7 +66,7 @@ const load = async (options = {}) => {
     options.afterSnippetLoads(page)
   }
   const selectorOptions = {
-    visible: true
+    visible: true,
   }
   if (options.hidden) {
     selectorOptions.visible = false

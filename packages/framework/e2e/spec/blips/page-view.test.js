@@ -1,7 +1,7 @@
 import loadWidget from 'e2e/helpers/widget-page'
 import { mockBlipEndpoint, getBlipPayload, blipMetadata } from 'e2e/helpers/blips'
 
-export const assertPageViewPayload = url => {
+export const assertPageViewPayload = (url) => {
   const payload = getBlipPayload(url)
   expect(payload).toMatchObject({
     pageView: {
@@ -14,21 +14,18 @@ export const assertPageViewPayload = url => {
       isMobile: false,
       isResponsive: true,
       viewportMeta: 'width=device-width,initial-scale=1',
-      helpCenterDedup: false
+      helpCenterDedup: false,
     },
-    ...blipMetadata
+    ...blipMetadata,
   })
 }
 
 test('sends page view blips in the correct format', async () => {
   const blipEndpoint = jest.fn()
 
-  await loadWidget()
-    .withPresets('helpCenter')
-    .intercept(mockBlipEndpoint(blipEndpoint))
-    .load()
+  await loadWidget().withPresets('helpCenter').intercept(mockBlipEndpoint(blipEndpoint)).load()
 
-  const blipUrl = blipEndpoint.mock.calls.find(call => call[0].indexOf('type=pageView') !== -1)[0]
+  const blipUrl = blipEndpoint.mock.calls.find((call) => call[0].indexOf('type=pageView') !== -1)[0]
 
   assertPageViewPayload(blipUrl)
 })

@@ -6,7 +6,7 @@ jest.mock('src/redux/modules/chat')
 
 const getAction = (actionType = LAUNCHER_CLICKED) => {
   return {
-    type: actionType
+    type: actionType,
   }
 }
 
@@ -14,17 +14,17 @@ const getState = (connectOnDemand = true, chatEnabled = true) => {
   return {
     settings: {
       chat: {
-        connectOnDemand
-      }
+        connectOnDemand,
+      },
     },
     base: {
       embeds: {
-        chat: chatEnabled
-      }
+        chat: chatEnabled,
+      },
     },
     chat: {
-      config: {}
-    }
+      config: {},
+    },
   }
 }
 

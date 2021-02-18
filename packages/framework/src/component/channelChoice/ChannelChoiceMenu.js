@@ -10,19 +10,19 @@ import { ButtonIcon } from 'component/button/ButtonIcon'
 import {
   getContactOptionsChatLabelOnline,
   getContactOptionsChatLabelOffline,
-  getContactOptionsContactFormLabel
+  getContactOptionsContactFormLabel,
 } from 'src/redux/modules/selectors'
 import { getCapability } from 'src/embeds/talk/selectors'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 
 import { locals as styles } from './ChannelChoiceMenu.scss'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   chatOnlineAvailableLabel: getContactOptionsChatLabelOnline(state),
   chatOfflineLabel: getContactOptionsChatLabelOffline(state),
   chatOfflineAvailableLabel: getContactOptionsContactFormLabel(state),
   submitTicketLabel: getContactOptionsContactFormLabel(state),
-  talkCapability: getCapability(state)
+  talkCapability: getCapability(state),
 })
 
 class ChannelChoiceMenu extends Component {
@@ -40,7 +40,7 @@ class ChannelChoiceMenu extends Component {
     chatOfflineLabel: PropTypes.string.isRequired,
     chatOfflineAvailableLabel: PropTypes.string.isRequired,
     submitTicketLabel: PropTypes.string.isRequired,
-    talkCapability: PropTypes.string
+    talkCapability: PropTypes.string,
   }
 
   static defaultProps = {
@@ -50,12 +50,12 @@ class ChannelChoiceMenu extends Component {
     talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false,
-    chatOfflineAvailable: false
+    chatOfflineAvailable: false,
   }
 
   state = {
     chatWasOnline: false,
-    talkWasOnline: false
+    talkWasOnline: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -74,10 +74,10 @@ class ChannelChoiceMenu extends Component {
   handleChatClick = () => {
     return this.props.chatAvailable || this.props.chatOfflineAvailable
       ? this.handleNextClick('chat')
-      : e => e.stopPropagation() // prevent container from hiding channelChoice
+      : (e) => e.stopPropagation() // prevent container from hiding channelChoice
   }
 
-  handleNextClick = embed => {
+  handleNextClick = (embed) => {
     return () => this.props.onNextClick(embed)
   }
 
@@ -120,11 +120,11 @@ class ChannelChoiceMenu extends Component {
 
     const iconStyle = classNames(styles.iconTalk, {
       [styles.newIcon]: talkOnline,
-      [styles.newIconDisabled]: !talkOnline
+      [styles.newIconDisabled]: !talkOnline,
     })
     const buttonStyle = classNames(buttonClasses, styles.btn, {
       [styles.btnEnabled]: talkOnline,
-      [styles.talkBtnDisabled]: !talkOnline
+      [styles.talkBtnDisabled]: !talkOnline,
     })
 
     return (
@@ -171,7 +171,7 @@ class ChannelChoiceMenu extends Component {
       chatOfflineAvailable,
       chatOnlineAvailableLabel,
       chatOfflineLabel,
-      chatOfflineAvailableLabel
+      chatOfflineAvailableLabel,
     } = this.props
     const offlineLabel = (
       <span className={styles.offlineOptionContainer}>
@@ -196,11 +196,11 @@ class ChannelChoiceMenu extends Component {
 
     const iconStyle = classNames(styles.iconChat, {
       [styles.newIcon]: showChatChannel,
-      [styles.newIconDisabled]: !showChatChannel
+      [styles.newIconDisabled]: !showChatChannel,
     })
     const buttonStyle = classNames(buttonClasses, styles.btn, {
       [styles.btnEnabled]: showChatChannel,
-      [styles.chatBtnDisabled]: !showChatChannel
+      [styles.chatBtnDisabled]: !showChatChannel,
     })
 
     return (
@@ -230,11 +230,8 @@ class ChannelChoiceMenu extends Component {
   }
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  null,
-  null,
-  { forwardRef: true }
-)(ChannelChoiceMenu)
+const connectedComponent = connect(mapStateToProps, null, null, { forwardRef: true })(
+  ChannelChoiceMenu
+)
 
 export { connectedComponent as default, ChannelChoiceMenu as Component }

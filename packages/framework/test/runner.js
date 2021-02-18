@@ -1,5 +1,5 @@
 require('@babel/register')({
-  plugins: ['dynamic-import-node']
+  plugins: ['dynamic-import-node'],
 })
 
 // NODE_ENV value set by test:ci npm task for use on Travis - matches Travis defaults:
@@ -11,8 +11,8 @@ const jRunner = new Jasmine()
 const reporterConfig = {
   spec: {
     displaySuccessful: env === 'test' ? false : true,
-    displayStacktrace: true
-  }
+    displayStacktrace: true,
+  },
 }
 
 jRunner.configureDefaultReporter({ print: () => {} })

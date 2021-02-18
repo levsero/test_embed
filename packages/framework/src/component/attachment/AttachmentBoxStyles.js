@@ -18,13 +18,13 @@ const DropzoneChild = styled.div`
     text-align: center !important;
     top: 50%;
     transform: translateY(-50%);
-    font-size: ${props => 15 / props.theme.fontSize}rem;
+    font-size: ${(props) => 15 / props.theme.fontSize}rem;
   }
 `
 
 const DropzoneChildLabel = styled.p`
   &&& {
-    margin-top: ${props => 10 / props.theme.fontSize}rem !important;
+    margin-top: ${(props) => 10 / props.theme.fontSize}rem !important;
     font-weight: 700;
     color: ${zdColorGrey800};
   }
@@ -34,12 +34,12 @@ const StyledPaperclipIcon = styled(PaperclipLargeIcon)`
   padding-right: 0;
 
   path {
-    color: ${props => props.theme.iconColor};
+    color: ${(props) => props.theme.iconColor};
   }
-  min-width: ${props => 36 / props.theme.fontSize}rem;
-  min-height: ${props => 36 / props.theme.fontSize}rem;
-  height: ${props => 36 / props.theme.fontSize}rem;
-  width: ${props => 36 / props.theme.fontSize}rem;
+  min-width: ${(props) => 36 / props.theme.fontSize}rem;
+  min-height: ${(props) => 36 / props.theme.fontSize}rem;
+  height: ${(props) => 36 / props.theme.fontSize}rem;
+  width: ${(props) => 36 / props.theme.fontSize}rem;
   transform: rotate(45deg) scaleX(-1);
 `
 

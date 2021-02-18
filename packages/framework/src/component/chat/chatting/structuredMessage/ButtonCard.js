@@ -13,16 +13,16 @@ export class ButtonCard extends Component {
     // Other props
     createAction: PropTypes.func.isRequired,
     className: PropTypes.string,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
   }
 
   static defaultProps = {
-    msg: ''
+    msg: '',
   }
 
   static schemaPropTypes = {
     buttons: PropTypes.arrayOf(ButtonSchemaPropType).isRequired,
-    msg: PropTypes.string
+    msg: PropTypes.string,
   }
 
   render() {
@@ -33,7 +33,7 @@ export class ButtonCard extends Component {
     ))
 
     const cardClassName = classnames({
-      [styles.mobile]: this.props.isMobile
+      [styles.mobile]: this.props.isMobile,
     })
 
     return (

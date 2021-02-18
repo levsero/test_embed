@@ -15,12 +15,12 @@ describe('Chat component', () => {
       'component/chat/ChatOnline': ChatOnline,
       'components/LoadingPage': LoadingPage,
       'src/redux/modules/chat/chat-selectors': {
-        getShowOfflineChat: ''
+        getShowOfflineChat: '',
       },
       'src/redux/modules/base': {
-        cancelButtonClicked: noop
+        cancelButtonClicked: noop,
       },
-      'src/component/chat/chatting/chatHistoryScreen': {}
+      'src/component/chat/chatting/chatHistoryScreen': {},
     })
 
     mockery.registerAllowable(ChatPath)
@@ -76,7 +76,7 @@ describe('Chat component', () => {
       describe('handleDragEnter', () => {
         beforeEach(() => {
           component.online = {
-            handleDragEnter: handleDragEnterSpy
+            handleDragEnter: handleDragEnterSpy,
           }
           component.handleDragEnter()
         })

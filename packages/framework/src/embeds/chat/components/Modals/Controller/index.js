@@ -11,7 +11,7 @@ import {
   endChatViaPostChatScreen,
   updateEmailTranscriptVisibility,
   updateEndChatModalVisibility,
-  updateContactDetailsVisibility
+  updateContactDetailsVisibility,
 } from 'src/redux/modules/chat'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -22,7 +22,7 @@ const Controller = ({
   endChatViaPostChatScreen,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 }) => {
   return (
     <div data-testid={TEST_IDS.CHAT_MODAL_CONTAINER}>
@@ -44,34 +44,31 @@ const Controller = ({
 
 Controller.propTypes = {
   editContactDetails: PropTypes.shape({
-    show: PropTypes.bool
+    show: PropTypes.bool,
   }),
   emailTranscript: PropTypes.shape({
-    show: PropTypes.bool
+    show: PropTypes.bool,
   }),
   endChatModalVisible: PropTypes.bool,
   endChatViaPostChatScreen: PropTypes.func,
   updateContactDetailsVisibility: PropTypes.func,
   updateEmailTranscriptVisibility: PropTypes.func,
-  updateEndChatModalVisibility: PropTypes.func
+  updateEndChatModalVisibility: PropTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   editContactDetails: getEditContactDetails(state),
   emailTranscript: getEmailTranscript(state),
-  endChatModalVisible: getIsEndChatModalVisible(state)
+  endChatModalVisible: getIsEndChatModalVisible(state),
 })
 
 const actionCreators = {
   endChatViaPostChatScreen,
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,
-  updateEndChatModalVisibility
+  updateEndChatModalVisibility,
 }
 
-const connectedComponent = connect(
-  mapStateToProps,
-  actionCreators
-)(Controller)
+const connectedComponent = connect(mapStateToProps, actionCreators)(Controller)
 
 export { connectedComponent as default, Controller as Component }

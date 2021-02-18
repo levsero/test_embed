@@ -5,13 +5,13 @@ import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { http } from 'service/transport/http'
 import HelpCenterArticle from '../index'
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   const mergedProps = {
     isMobile: false,
     imagesSender: noop,
     updateStoredImages: noop,
     storedImages: {},
-    ...props
+    ...props,
   }
 
   return render(<HelpCenterArticle {...mergedProps} />)
@@ -42,7 +42,7 @@ const activeArticle = {
         <td>OMGWTFBBQ!!1! wat? another table? but why??</td>
       </tr>
     </table>
-  `
+  `,
 }
 
 test('renders the expected classes', () => {
@@ -62,7 +62,7 @@ test('removes the \\n between start and end tags', () => {
   const article = {
     id: 1,
     locale: 'en-us',
-    body: '<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>'
+    body: '<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>',
   }
   const { container } = renderComponent({ activeArticle: article })
 
@@ -79,7 +79,7 @@ test('when the article has ordered lists the start and end are preserved', () =>
       <li>five</li>
       <li>four</li>
       </ol>
-    `
+    `,
   }
   const { container } = renderComponent({ activeArticle: article })
   const list = container.querySelector('ol')
@@ -111,7 +111,7 @@ describe('clicking article links', () => {
     const article = {
       id: 1,
       locale: 'en-us',
-      body: '<a name="mailto" href="mailto:bob@example.com">mailto link</a>'
+      body: '<a name="mailto" href="mailto:bob@example.com">mailto link</a>',
     }
     const { getByText } = renderComponent({ activeArticle: article })
     const link = getByText('mailto link')
@@ -138,13 +138,13 @@ describe('iframe', () => {
       '//play.vidyard.com/fooid.html',
       '//content.jwplatform.com/players/fooid.html',
       '//screencast.com/users/fooid',
-      '//www.loom.com/embed/fooid'
-    ].forEach(src => {
+      '//www.loom.com/embed/fooid',
+    ].forEach((src) => {
       test(`${src} gets the expected iframe tag with stripped attrs`, () => {
         const article = {
           id: 1,
           locale: 'en-us',
-          body: `<iframe height="320px" width="480px" allowfullscreen src="${src}" />`
+          body: `<iframe height="320px" width="480px" allowfullscreen src="${src}" />`,
         }
         const { container } = renderComponent({ activeArticle: article })
         const iframe = container.querySelector('iframe')
@@ -161,13 +161,13 @@ describe('iframe', () => {
       '.com',
       'https://player.notvimeo.com/video/fooid',
       'https://content.jpmorgan.com/players/fooid.html',
-      '//screenfast.com/users/fooid'
-    ].forEach(src => {
+      '//screenfast.com/users/fooid',
+    ].forEach((src) => {
       test(`${src} are stripped out of the article`, () => {
         const article = {
           id: 1,
           locale: 'en-us',
-          body: `<iframe height="320px" width="480px" allowfullscreen src="${src}" />`
+          body: `<iframe height="320px" width="480px" allowfullscreen src="${src}" />`,
         }
         const { container } = renderComponent({ activeArticle: article })
 
@@ -180,7 +180,7 @@ describe('iframe', () => {
 test('does not render original article button if it renderOriginalArticleButton is false', () => {
   const { queryByTitle } = renderComponent({
     originalArticleButton: false,
-    activeArticle
+    activeArticle,
   })
 
   expect(queryByTitle('View original article')).not.toBeInTheDocument()
@@ -192,7 +192,7 @@ describe('article images', () => {
     const article = {
       id: 1,
       locale: 'en-us',
-      body: '<img alt="img" src="https://dev.zd-dev.com/hc/article_attachments/img1.png" />'
+      body: '<img alt="img" src="https://dev.zd-dev.com/hc/article_attachments/img1.png" />',
     }
     const { getByAltText } = renderComponent({ activeArticle: article })
 
@@ -210,7 +210,7 @@ describe('article images', () => {
         locale: 'en-us',
         body: `<img src="https://dev.zd-dev.com/hc/article_attachments/img1.png" />
         <img src="https://dev.zd-dev.com/hc/article_attachments/img2.png" />
-        `
+        `,
       }
       const imagesSender = jest.fn(),
         updateStoredImages = jest.fn()
@@ -218,7 +218,7 @@ describe('article images', () => {
       renderComponent({
         imagesSender,
         updateStoredImages,
-        activeArticle: article
+        activeArticle: article,
       })
       expect(imagesSender).toHaveBeenCalledWith(
         'https://dev.zd-dev.com/hc/en-us/article_attachments/img1.png',
@@ -233,14 +233,14 @@ describe('article images', () => {
       const successFn = imagesSender.mock.calls[0][1]
       const mockRes = {
         xhr: {
-          response: new window.Blob([''], { type: 'image/png' })
-        }
+          response: new window.Blob([''], { type: 'image/png' }),
+        },
       }
 
       successFn(mockRes)
       expect(window.URL.createObjectURL).toHaveBeenCalledWith(mockRes.xhr.response)
       expect(updateStoredImages).toHaveBeenCalledWith({
-        'https://dev.zd-dev.com/hc/en-us/article_attachments/img1.png': 'hello'
+        'https://dev.zd-dev.com/hc/en-us/article_attachments/img1.png': 'hello',
       })
     })
 
@@ -248,7 +248,7 @@ describe('article images', () => {
       jest.spyOn(baseSelectors, 'getBaseIsAuthenticated').mockReturnValue(true)
       const storedImages = {
         'https://localhost/hc/en-us/article_attachments/img0.png': 'https://localhost/abc/img0.png',
-        'https://localhost/hc/en-us/article_attachments/img1.png': 'https://localhost/abc/img1.png'
+        'https://localhost/hc/en-us/article_attachments/img1.png': 'https://localhost/abc/img1.png',
       }
       const { getByAltText } = renderComponent({
         storedImages,
@@ -256,8 +256,8 @@ describe('article images', () => {
           body: `
           <img alt="img1" src="https://localhost/hc/en-us/article_attachments/img0.png" />
           <img alt="img2" src="https://localhost/hc/en-us/article_attachments/img1.png" />
-          `
-        }
+          `,
+        },
       })
 
       expect(getByAltText('img1').src).toEqual('https://localhost/abc/img0.png')
@@ -269,7 +269,7 @@ describe('article images', () => {
     const article = {
       id: 1,
       locale: 'en-us',
-      body: '<img alt="img" src="https://cdn.com/id/img.png" />'
+      body: '<img alt="img" src="https://cdn.com/id/img.png" />',
     }
     const { getByAltText } = renderComponent({ activeArticle: article })
 
@@ -280,7 +280,7 @@ describe('article images', () => {
     const article = {
       id: 1,
       locale: 'en-us',
-      body: '<img alt="img" src="/attachments/token/abc/?name=img.png" />'
+      body: '<img alt="img" src="/attachments/token/abc/?name=img.png" />',
     }
     const { getByAltText } = renderComponent({ activeArticle: article })
 

@@ -2,7 +2,7 @@ import { PREFILL_RECEIVED } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {
   timestamp: 0,
-  values: {}
+  values: {},
 }
 
 const prefill = (state = initialState, action) => {
@@ -12,8 +12,8 @@ const prefill = (state = initialState, action) => {
         timestamp: action.payload.timestamp,
         values: {
           ...(state.values || {}),
-          ...action.payload.prefillValues
-        }
+          ...action.payload.prefillValues,
+        },
       }
     default:
       return state

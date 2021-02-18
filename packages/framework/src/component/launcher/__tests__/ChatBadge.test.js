@@ -12,7 +12,7 @@ const renderComponent = (props = {}) => {
     handleChatBadgeMinimize: noop,
     updateChatScreen: noop,
     chatBadgeClicked: noop,
-    bannerSettings: {}
+    bannerSettings: {},
   }
 
   const mergedProps = { ...defaultProps, ...props }

@@ -11,7 +11,7 @@ const LoadingDots = styled(Inline)`
   width: 1.4rem !important;
   padding-bottom: ${2 / FONT_SIZE}rem;
 
-  ${props =>
+  ${(props) =>
     props.theme.rtl ? `margin-left: ${5 / FONT_SIZE}rem;` : `margin-right: ${5 / FONT_SIZE}rem;`}
 `
 
