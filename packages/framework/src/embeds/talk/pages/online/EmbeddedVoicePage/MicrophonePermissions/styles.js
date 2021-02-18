@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Button } from '@zendeskgarden/react-buttons'
+import EmbeddedVoiceIcon from 'src/embeds/talk/icons/embedded_voice.svg'
 
 const Container = styled.div`
   display: flex;
@@ -13,20 +14,37 @@ const Container = styled.div`
   min-height: ${props => 300 / props.theme.fontSize}rem;
 `
 
-const SectionContainer = styled.div`
+const TopSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 50%;
+  height: 60%;
   justify-content: center;
   width: 100%;
+  text-align: center;
 `
 
-const Heading = styled.h1`
-  align-self: center;
-  font-size: ${props => 22 / props.theme.fontSize}rem;
-  letter-spacing: ${props => 0.35 / props.theme.fontSize}rem;
-  line-height: ${props => 28 / props.theme.fontSize}rem;
+const BottomSectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 40%;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+`
+
+const StyledEmbeddedVoiceIcon = styled(EmbeddedVoiceIcon)`
+  min-width: ${props => 60 / props.theme.fontSize}rem;
+  min-height: ${props => 60 / props.theme.fontSize}rem;
+  height: ${props => 60 / props.theme.fontSize}rem;
+  width: ${props => 60 / props.theme.fontSize}rem;
+  margin-bottom: ${props => 20 / props.theme.fontSize}rem !important;
+  flex-shrink: 0;
+  path.customColor,
+  rect.customColor {
+    fill: ${props => props.theme.baseColor} !important;
+  }
 `
 
 const Message = styled.p`
@@ -34,7 +52,8 @@ const Message = styled.p`
   text-align: center;
   margin-top: ${props => 24 / props.theme.fontSize}rem !important;
   line-height: ${props => 20 / props.theme.fontSize}rem;
-  width: 100%;
+  color: rgb(47, 57, 65);
+  width: 85%;
 `
 
 const StyledButton = styled(Button)`
@@ -58,4 +77,13 @@ const DotContainer = styled.div`
   }
 `
 
-export { StyledButton as Button, Container, Dot, DotContainer, Heading, Message, SectionContainer }
+export {
+  StyledButton as Button,
+  StyledEmbeddedVoiceIcon as EmbeddedVoiceIcon,
+  Container,
+  Dot,
+  DotContainer,
+  Message,
+  TopSectionContainer,
+  BottomSectionContainer
+}

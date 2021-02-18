@@ -1,6 +1,6 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { waitFor } from '@testing-library/dom'
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom'
 import { Device } from 'twilio-client'
 import superagent from 'superagent'
 
@@ -25,6 +25,9 @@ const mockResponse = {
     token: 'mock-twilio-token-from-talk-admin'
   }
 }
+
+const microphonePermissionDescription =
+  "Call us directly from your browser. You'll need to allow microphone access when prompted."
 
 describe('Embedded Voice scenarios', () => {
   beforeEach(() => {
@@ -56,8 +59,8 @@ describe('Embedded Voice scenarios', () => {
     const { queryByRole } = renderComponent()
 
     expect(queryByRole('progressbar')).toBeInTheDocument()
-    jest.advanceTimersByTime(2000)
-    await waitFor(() => expect(queryByRole('progressbar')).not.toBeInTheDocument())
+    jest.advanceTimersByTime(3000)
+    await waitForElementToBeRemoved(() => queryByRole('progressbar'))
   })
 
   const expectStartAndStopCallToWork = async ({ getByLabelText, getByText, queryByText }) => {
@@ -70,7 +73,7 @@ describe('Embedded Voice scenarios', () => {
     jest.advanceTimersByTime(3000)
 
     expect(queryByText('Call us')).toBeInTheDocument()
-    expect(queryByText('Allow microphone')).toBeInTheDocument()
+    expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
   }
 
   describe('when recordingConsent is null', () => {
@@ -81,7 +84,7 @@ describe('Embedded Voice scenarios', () => {
       const { queryByText, getByLabelText } = renderComponent({ talkConfig })
 
       expect(queryByText('Call us')).toBeInTheDocument()
-      expect(queryByText('Allow microphone')).toBeInTheDocument()
+      expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
       expect(getByLabelText('Start call')).toBeInTheDocument()
     })
 
@@ -104,10 +107,10 @@ describe('Embedded Voice scenarios', () => {
 
       expect(getByText("Call couldn't be connected")).toBeInTheDocument()
 
-      userEvent.click(getByText('Reconnect'))
+      userEvent.click(getByText('Try again'))
 
       expect(queryByText('Call us')).toBeInTheDocument()
-      expect(queryByText('Allow microphone')).toBeInTheDocument()
+      expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
       expect(getByLabelText('Start call')).toBeInTheDocument()
     })
 
@@ -129,7 +132,7 @@ describe('Embedded Voice scenarios', () => {
       const { queryByText, store } = renderComponent({ talkConfig })
 
       expect(queryByText('Call us')).toBeInTheDocument()
-      expect(queryByText('Allow microphone')).toBeInTheDocument()
+      expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
 
       store.dispatch(updateTalkAgentAvailability({ agentAvailability: false }))
       jest.advanceTimersByTime(1000)
@@ -147,7 +150,7 @@ describe('Embedded Voice scenarios', () => {
       const { queryByText, getByText } = renderComponent({ talkConfig })
 
       expect(queryByText('Call us')).toBeInTheDocument()
-      expect(queryByText('Allow microphone')).toBeInTheDocument()
+      expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
       expect(getByText('Next')).toBeInTheDocument() // Next button probably needs a translated aria-label
     })
 
@@ -170,7 +173,7 @@ describe('Embedded Voice scenarios', () => {
       const { queryByText, getByText } = renderComponent({ talkConfig })
 
       expect(queryByText('Call us')).toBeInTheDocument()
-      expect(queryByText('Allow microphone')).toBeInTheDocument()
+      expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
       expect(getByText('Next')).toBeInTheDocument() // Next button probably needs a translated aria-label
     })
 

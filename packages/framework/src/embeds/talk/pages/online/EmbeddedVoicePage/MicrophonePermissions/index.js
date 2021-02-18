@@ -4,7 +4,16 @@ import PropTypes from 'prop-types'
 import useTranslate from 'src/hooks/useTranslate'
 import LoadingButton from 'embeds/talk/components/LoadingButton'
 
-import { Button, Container, Dot, DotContainer, Heading, Message, SectionContainer } from './styles'
+import {
+  Button,
+  Container,
+  Dot,
+  DotContainer,
+  Message,
+  TopSectionContainer,
+  BottomSectionContainer,
+  EmbeddedVoiceIcon
+} from './styles'
 
 const MicrophonePermissions = ({
   onStartCallClicked,
@@ -16,15 +25,13 @@ const MicrophonePermissions = ({
 
   return (
     <Container>
-      <SectionContainer>
-        <Heading>
-          {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.title')}
-        </Heading>
+      <TopSectionContainer>
+        <EmbeddedVoiceIcon />
         <Message>
-          {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.description')}
+          {translate('embeddable_framework.talk.embeddedVoice.landingPage.description')}
         </Message>
-      </SectionContainer>
-      <SectionContainer>
+      </TopSectionContainer>
+      <BottomSectionContainer>
         {showStartCallButton ? (
           <LoadingButton
             isPrimary={true}
@@ -37,14 +44,14 @@ const MicrophonePermissions = ({
           />
         ) : (
           <Button isPrimary={true} onClick={onPermissionsGiven}>
-            {translate('embeddable_framework.talk.embeddedVoice.microphoneAccess.button.next')}
+            {translate('embeddable_framework.talk.embeddedVoice.button.next')}
           </Button>
         )}
         <DotContainer>
           {!showStartCallButton && <Dot isActive={true} />}
           {!showStartCallButton && <Dot />}
         </DotContainer>
-      </SectionContainer>
+      </BottomSectionContainer>
     </Container>
   )
 }

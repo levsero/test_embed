@@ -9,7 +9,7 @@ export const CAPABILTY_NAMES = {
   'widget/talk/CALLBACK_ONLY': 'Request a callback',
   'widget/talk/PHONE_ONLY': 'Call us',
   'widget/talk/CALLBACK_AND_PHONE': 'Request a callback and call us',
-  'widget/talk/CLICK_TO_CALL': 'click to call'
+  'widget/talk/CLICK_TO_CALL': 'Click to call'
 }
 
 export const TEST_IDS = {

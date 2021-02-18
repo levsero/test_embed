@@ -7,8 +7,7 @@ const Label = styled.div`
 `
 
 const Loader = styled.div`
-  position: relative;
-  left: -32px;
+  position: absolute;
 `
 
 const LoadingDots = styled(Dots)``

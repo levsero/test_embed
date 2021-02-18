@@ -25,17 +25,17 @@ describe('NetworkError', () => {
     expect(screen.getByText('Check your internet connection and try again.')).toBeInTheDocument()
   })
 
-  it('renders the Reconnect button', () => {
+  it('renders a button to Try again', () => {
     renderComponent()
 
-    expect(screen.getByText('Reconnect')).toBeInTheDocument()
+    expect(screen.getByText('Try again')).toBeInTheDocument()
   })
 
-  it('fires the onClick event when the Reconnect button is clicked', () => {
+  it('fires the onClick event when the Try again button is clicked', () => {
     const onClick = jest.fn()
     renderComponent({ onClick })
 
-    userEvent.click(screen.getByText('Reconnect'))
+    userEvent.click(screen.getByText('Try again'))
 
     expect(onClick).toHaveBeenCalled()
   })
