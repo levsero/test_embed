@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Component as TicketForm } from '../'
 import useWidgetFormApis from 'embeds/support/hooks/useWidgetFormApis'

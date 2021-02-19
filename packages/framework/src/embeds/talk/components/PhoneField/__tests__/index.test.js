@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent, queryByAltText } from '@testing-library/react'
 import * as libphonenumber from 'libphonenumber-js'
 import { Component as PhoneField } from '../'

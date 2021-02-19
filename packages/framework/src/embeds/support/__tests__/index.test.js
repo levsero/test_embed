@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import { Component as Support } from '../'
 import createStore from 'src/redux/createStore'

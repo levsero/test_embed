@@ -1,4 +1,3 @@
-import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom'
 import { Device } from 'twilio-client'

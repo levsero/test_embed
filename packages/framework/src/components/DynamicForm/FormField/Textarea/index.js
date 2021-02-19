@@ -1,4 +1,3 @@
-import React from 'react'
 import { Field, Hint, Message, Textarea as GardenTextarea } from '@zendeskgarden/react-forms'
 import ContactFormLabel from 'src/components/DynamicForm/FormField/ContactFormLabel'
 import PropTypes from 'prop-types'

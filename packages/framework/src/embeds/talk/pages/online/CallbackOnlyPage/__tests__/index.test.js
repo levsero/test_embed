@@ -1,4 +1,3 @@
-import React from 'react'
 import * as libphonenumber from 'libphonenumber-js'
 
 import CallbackOnlyPage from '../index'

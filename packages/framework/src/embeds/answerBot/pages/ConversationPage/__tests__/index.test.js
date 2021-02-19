@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-import React from 'react'
 
 import { Component as ConversationPage } from '../index'
 import { waitFor } from '@testing-library/dom'

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import createStore from 'src/redux/createStore'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'

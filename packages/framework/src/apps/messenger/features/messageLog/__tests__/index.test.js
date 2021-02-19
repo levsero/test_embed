@@ -1,4 +1,3 @@
-import React from 'react'
 import { waitFor } from '@testing-library/dom'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import MessageLog from 'src/apps/messenger/features/messageLog'

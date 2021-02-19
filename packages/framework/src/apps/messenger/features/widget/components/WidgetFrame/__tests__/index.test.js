@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import * as launcherStore from 'src/apps/messenger/features/launcher/store'
 import WidgetFrame from '../index'

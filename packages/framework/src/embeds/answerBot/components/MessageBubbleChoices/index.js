@@ -1,4 +1,4 @@
-import React from 'react'
+import { Children } from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 
@@ -10,7 +10,7 @@ const renderLeadingMessage = (leadingMessage) => {
 }
 
 const renderChildren = (leadingMessage, children) => {
-  const items = React.Children.toArray(children)
+  const items = Children.toArray(children)
 
   return items.map((child, index) => (
     <Item key={index} top={!leadingMessage && index === 0} bottom={index === items.length - 1}>

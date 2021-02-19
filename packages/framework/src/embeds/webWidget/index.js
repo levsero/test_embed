@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
 import { document, getDocumentHost } from 'utility/globals'
 import { Provider } from 'react-redux'

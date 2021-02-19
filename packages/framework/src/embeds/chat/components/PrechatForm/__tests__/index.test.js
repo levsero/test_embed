@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import { Component as PrechatForm } from '../'
 import { TEST_IDS } from 'constants/shared'

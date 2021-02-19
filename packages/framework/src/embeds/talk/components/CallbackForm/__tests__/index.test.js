@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Component as CallbackForm } from '../'
 import { TEST_IDS } from 'src/constants/shared'

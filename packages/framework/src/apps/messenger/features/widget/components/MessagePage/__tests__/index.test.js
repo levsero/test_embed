@@ -1,4 +1,3 @@
-import React from 'react'
 import MessagePage from 'src/apps/messenger/features/widget/components/MessagePage'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'

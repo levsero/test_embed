@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 import AttachmentOption from 'src/embeds/chat/components/ChattingFooter/AttachmentOption'

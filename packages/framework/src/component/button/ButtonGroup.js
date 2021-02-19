@@ -1,4 +1,3 @@
-import React from 'react'
 import { locals as styles } from './ButtonGroup.scss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'

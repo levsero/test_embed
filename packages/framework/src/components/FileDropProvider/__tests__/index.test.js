@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent, wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
 import { FileDropProvider, FileDropTarget, useOnDrop } from '../'

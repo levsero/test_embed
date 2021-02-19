@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 
 import Success from 'src/embeds/chat/components/ContactDetails/Success'

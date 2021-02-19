@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import transformTime from '../useTransformTime'
 import { i18n } from 'src/apps/webWidget/services/i18n'

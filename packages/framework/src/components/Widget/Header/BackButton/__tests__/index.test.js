@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { TEST_IDS } from 'constants/shared'
 import { render } from 'src/util/testHelpers'
 import { useOnBack } from 'component/webWidget/OnBackProvider'

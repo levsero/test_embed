@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { LoadingDots, Container } from './styles'
 import { TEST_IDS } from 'src/constants/shared'
@@ -34,7 +34,7 @@ const message = (translate, agentsTyping) => {
   }
 }
 
-const AgentTyping = React.forwardRef(({ agentsTyping = [] }, ref) => {
+const AgentTyping = forwardRef(({ agentsTyping = [] }, ref) => {
   const translate = useTranslate()
 
   return (

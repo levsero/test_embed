@@ -1,6 +1,5 @@
 import { fireEvent, queryByAltText } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
 import createStore from 'src/redux/createStore'
 import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
 import Talk from '../../'

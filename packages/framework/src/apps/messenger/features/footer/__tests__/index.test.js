@@ -1,4 +1,3 @@
-import React from 'react'
 import userEvent from '@testing-library/user-event'
 import * as suncoClient from 'src/apps/messenger/api/sunco'
 import { render } from 'src/apps/messenger/utils/testHelpers'

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { SocialLoginContainer, LoginIconButton, FacebookLoginIcon, GoogleLoginIcon } from './styles'
 import useTranslate from 'src/hooks/useTranslate'

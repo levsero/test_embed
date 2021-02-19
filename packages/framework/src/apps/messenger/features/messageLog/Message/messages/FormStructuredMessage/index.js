@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { FormMessage, MESSAGE_STATUS } from '@zendesk/conversation-components'
 import useForm from 'src/apps/messenger/features/messageLog/Message/messages/FormStructuredMessage/useForm'

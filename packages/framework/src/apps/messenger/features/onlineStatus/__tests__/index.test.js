@@ -1,4 +1,3 @@
-import React from 'react'
 import createStore from 'src/apps/messenger/store'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import OnlineStatusBanner from '../'

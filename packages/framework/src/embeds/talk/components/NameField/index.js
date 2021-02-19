@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Label } from '@zendeskgarden/react-forms'
 import { Input } from './styles'

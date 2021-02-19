@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import SupportPropTypes from 'embeds/support/utils/SupportPropTypes'
 import getField from './fields'

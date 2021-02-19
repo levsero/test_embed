@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, Content } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Component as ChatRatingPage } from '../'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'

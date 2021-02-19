@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { lazy, Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { PrechatForm } from 'component/chat/prechat/PrechatForm'
@@ -42,7 +42,7 @@ import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import SuspensePage from 'components/Widget/SuspensePage'
 import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 
-const NewPrechatForm = React.lazy(() =>
+const NewPrechatForm = lazy(() =>
   import(/* webpackChunkName: 'lazy/prechat-form' */ 'embeds/chat/components/PrechatForm')
 )
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { locals as styles } from './LoadingSpinner.scss'
 import { TEST_IDS } from 'src/constants/shared'

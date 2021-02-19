@@ -1,6 +1,5 @@
 import { fireEvent, queryByText } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import React from 'react'
 
 import { PrechatForm } from '../PrechatForm'
 import { TEST_IDS } from 'constants/shared'

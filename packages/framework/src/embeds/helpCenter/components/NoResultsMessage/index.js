@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Paragraph, Title } from './styles'
 import { i18n } from 'src/apps/webWidget/services/i18n'

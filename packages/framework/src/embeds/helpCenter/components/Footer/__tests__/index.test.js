@@ -1,5 +1,4 @@
 import { render } from 'utility/testHelpers'
-import React from 'react'
 
 import HelpCenterFooter from '../index'
 

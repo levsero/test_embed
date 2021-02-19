@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { TEST_IDS } from 'src/constants/shared'
@@ -11,7 +11,7 @@ const handleClick = (e, route, history) => {
   history.push(route)
 }
 
-const Item = React.forwardRef(({ article }, ref) => {
+const Item = forwardRef(({ article }, ref) => {
   const history = useHistory()
   const route = routes.articles(article.id)
   return (

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import RatingGroup from 'src/embeds/chat/components/RatingGroup'
 import { fireEvent } from '@testing-library/react'

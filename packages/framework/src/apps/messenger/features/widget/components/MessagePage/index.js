@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { forwardRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 
@@ -15,7 +15,7 @@ import { hasExistingConversation } from 'src/apps/messenger/api/sunco'
 import { startNewConversation } from 'src/apps/messenger/features/suncoConversation/store'
 import useDisableAnimationProps from 'src/apps/messenger/features/animations/useDisableAnimationProps'
 
-const MessagePage = React.forwardRef((_props, ref) => {
+const MessagePage = forwardRef((_props, ref) => {
   const dispatch = useDispatch()
   const isFullScreen = useSelector(getIsFullScreen)
   const isLauncherVisible = useSelector(getIsLauncherVisible)

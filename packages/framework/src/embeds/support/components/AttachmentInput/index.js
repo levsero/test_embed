@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { AttachmentButton, Description, Label, Icon } from './styles'
 import useTranslate from 'src/hooks/useTranslate'

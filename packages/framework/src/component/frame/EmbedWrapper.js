@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { cloneElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -43,7 +43,7 @@ class EmbedWrapper extends Component {
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.props.customCSS }} />
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />
 
-    const newChild = React.cloneElement(this.props.children, {
+    const newChild = cloneElement(this.props.children, {
       ref: 'rootComponent',
     })
 

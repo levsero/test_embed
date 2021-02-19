@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { Children, cloneElement, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { HiddenInput } from './styles'
 import { TEST_IDS } from 'constants/shared'
@@ -17,11 +17,11 @@ const FileInput = ({ onFileSelect, children, ...props }) => {
     onFileSelect(e.target.files)
   }
 
-  const triggerButton = React.Children.only(children)
+  const triggerButton = Children.only(children)
 
   return (
     <>
-      {React.cloneElement(triggerButton, {
+      {cloneElement(triggerButton, {
         onClick: handleClick,
       })}
       <HiddenInput

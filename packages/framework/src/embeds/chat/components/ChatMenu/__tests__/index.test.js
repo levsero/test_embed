@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { find } from 'styled-components/test-utils'
 import { isMobileBrowser } from 'utility/devices'

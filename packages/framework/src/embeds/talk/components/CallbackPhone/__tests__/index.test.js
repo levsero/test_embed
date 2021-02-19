@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react'
-import React from 'react'
 
 import { Component as CallbackPhone } from '../'
 import { CALLBACK_AND_PHONE } from 'src/redux/modules/talk/talk-capability-types'

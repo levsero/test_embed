@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import ClearInputIcon from '@zendeskgarden/svg-icons/src/16/x-stroke.svg'
 

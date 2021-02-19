@@ -1,5 +1,4 @@
 import { fireEvent } from '@testing-library/react'
-import React from 'react'
 
 import createStore from 'src/redux/createStore'
 import { http } from 'service/transport'

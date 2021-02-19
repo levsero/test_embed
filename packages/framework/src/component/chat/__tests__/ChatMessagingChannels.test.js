@@ -1,4 +1,3 @@
-import React from 'react'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
 import { find } from 'styled-components/test-utils'
 import snapshotDiff from 'snapshot-diff'

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import { createChatPopoutWindow } from 'utility/chat'
 import { Component as ChatWidgetHeader } from 'embeds/chat/components/ChatWidgetHeader'

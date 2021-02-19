@@ -1,4 +1,3 @@
-import React from 'react'
 import { find } from 'styled-components/test-utils'
 import { render } from 'utility/testHelpers'
 import { Message } from '../styles'

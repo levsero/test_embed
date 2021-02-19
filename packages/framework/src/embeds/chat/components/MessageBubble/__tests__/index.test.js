@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
 import { render } from 'utility/testHelpers'

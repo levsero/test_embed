@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import useFormBackup from 'src/components/DynamicForm/hooks/useFormBackup'
 import { fireEvent } from '@testing-library/react'

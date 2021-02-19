@@ -1,4 +1,4 @@
-import React from 'react'
+import { createRef } from 'react'
 import { render } from '@testing-library/react'
 import styled from 'styled-components'
 import Frame, { useCurrentFrame } from '../index'
@@ -9,7 +9,7 @@ describe('Frame', () => {
     title: 'Frame test',
     children: <div id="child-component">Child component</div>,
     id: 'frame-test',
-    ref: React.createRef(),
+    ref: createRef(),
   }
 
   const renderComponent = (props = {}) => render(<Frame {...defaultProps} {...props} />)
@@ -53,7 +53,7 @@ describe('Frame', () => {
   })
 
   it('forwards the provided ref onto the iframe', () => {
-    const ref = React.createRef()
+    const ref = createRef()
     const { baseElement } = renderComponent({ ref })
 
     expect(ref.current).toBe(baseElement.querySelector('#frame-test'))

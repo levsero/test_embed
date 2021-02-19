@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { StyledModal } from './styles'

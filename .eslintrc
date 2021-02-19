@@ -49,7 +49,8 @@
     "space-infix-ops": "error",
     "space-unary-ops": ["error", { "words": true, "nonwords": false }],
     "no-case-declarations": "off",
-    "no-extra-semi": "off"
+    "no-extra-semi": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "overrides": [
     {

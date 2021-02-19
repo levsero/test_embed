@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import React from 'react'
 
 import { Component as ChannelChoice } from '../index'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'

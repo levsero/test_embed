@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import AttachmentLimitError from '../'
 import { fireEvent } from '@testing-library/react'

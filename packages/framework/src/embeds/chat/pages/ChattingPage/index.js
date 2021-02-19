@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'

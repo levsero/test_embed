@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MessengerHeader } from '@zendesk/conversation-components'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'

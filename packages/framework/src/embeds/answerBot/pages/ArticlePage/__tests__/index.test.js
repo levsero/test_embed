@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
-import React from 'react'
 
 import { Component as ArticlePage } from '../index'
 import { render } from 'src/util/testHelpers'

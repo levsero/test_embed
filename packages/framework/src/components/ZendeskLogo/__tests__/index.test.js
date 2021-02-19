@@ -1,5 +1,3 @@
-import React from 'react'
-
 import ZendeskLogo from '..'
 import { render } from 'src/util/testHelpers'
 

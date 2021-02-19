@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react'
+import { useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   Dropdown as GardenDropdown,

@@ -1,4 +1,3 @@
-import React from 'react'
 import { waitFor } from '@testing-library/dom'
 import { fireEvent } from '@testing-library/react'
 import { KEY_CODES } from '@zendeskgarden/react-selection'

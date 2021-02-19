@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { connect } from 'react-redux'
 import { FORM_ERROR } from 'final-form'
 import PropTypes from 'prop-types'

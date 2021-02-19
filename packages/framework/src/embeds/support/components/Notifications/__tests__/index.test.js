@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { Alert, Title } from '../index'
 import 'jest-styled-components'

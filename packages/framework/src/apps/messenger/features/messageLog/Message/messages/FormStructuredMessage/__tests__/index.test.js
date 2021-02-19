@@ -1,4 +1,3 @@
-import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { waitFor, screen, fireEvent } from '@testing-library/dom'
 import { render } from 'src/apps/messenger/utils/testHelpers'

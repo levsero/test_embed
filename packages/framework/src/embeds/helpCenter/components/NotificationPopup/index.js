@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { isMobileBrowser } from 'utility/devices'
 import ChatNotificationPopup from 'src/components/NotificationPopup'

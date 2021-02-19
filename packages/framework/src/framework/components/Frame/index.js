@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
 import PropTypes from 'prop-types'

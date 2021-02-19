@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import Chat from '../Chat'
 import * as selectors from 'src/redux/modules/chat/chat-selectors/reselectors'

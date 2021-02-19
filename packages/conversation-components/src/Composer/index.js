@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { KEY_CODES } from '@zendeskgarden/react-selection'
 import useLabels from 'src/hooks/useLabels'
@@ -12,7 +12,7 @@ const triggerOnEnter = (callback) => (e) => {
   }
 }
 
-const Composer = React.forwardRef(
+const Composer = forwardRef(
   (
     {
       disabled = false,

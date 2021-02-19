@@ -1,6 +1,5 @@
 jest.mock('utility/devices')
 
-import React from 'react'
 import snapshotDiff from 'snapshot-diff'
 
 import { render } from 'src/util/testHelpers'

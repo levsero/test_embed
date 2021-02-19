@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { cloneElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -463,7 +463,7 @@ class Frame extends Component {
               chatStandalone={this.props.chatStandalone}
               dataTestId={this.props.horizontalPosition === 'left' ? TEST_IDS.LEFT : TEST_IDS.RIGHT}
             >
-              {React.cloneElement(this.props.children, {
+              {cloneElement(this.props.children, {
                 onBackButtonClick: this.back,
               })}
             </EmbedWrapper>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { fireEvent } from '@testing-library/dom'
 import { render } from 'utility/testHelpers'
 import AttachmentInput from '../'

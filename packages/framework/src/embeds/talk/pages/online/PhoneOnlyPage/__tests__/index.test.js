@@ -1,7 +1,6 @@
 jest.mock('src/redux/modules/talk/talk-selectors')
 jest.mock('utility/devices')
 
-import React from 'react'
 import snapshotDiff from 'snapshot-diff'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
 

@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { fireEvent } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'
-import React from 'react'
 
 import * as botActions from 'src/embeds/answerBot/actions/root/bot'
 import * as sessionActions from 'src/embeds/answerBot/actions/sessions/session-fallback-suggested'

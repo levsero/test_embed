@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'src/constants/shared'
 import { Button } from './styles'

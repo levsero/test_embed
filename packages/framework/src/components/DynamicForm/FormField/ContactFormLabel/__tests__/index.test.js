@@ -1,4 +1,3 @@
-import React from 'react'
 import { Field } from '@zendeskgarden/react-forms'
 import { render } from 'utility/testHelpers'
 import ContactFormLabel from '../'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
 import { MessageBubble } from '../index'

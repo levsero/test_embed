@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 import _isEqual from 'lodash/isEqual'
 import CarouselStructuredMessage from './messages/CarouselStructuredMessage'
@@ -31,7 +31,7 @@ function areEqual(prevProps, nextProps) {
   return _isEqual(prevProps.message, nextProps.message)
 }
 
-const Message = React.memo(({ message, isFreshMessage }) => {
+const Message = memo(({ message, isFreshMessage }) => {
   const messageTypes = message.isLocalMessageType ? localMessageTypes : suncoMessageTypes
   const StructuredMessage = messageTypes[message.type]
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { createMemoryHistory } from 'history'
 
 describe('EmbedWrapper', () => {
@@ -36,7 +36,7 @@ describe('EmbedWrapper', () => {
         },
       },
       'src/components/Widget': {
-        WidgetThemeProvider: ({ children }) => <React.Fragment>{children}</React.Fragment>,
+        WidgetThemeProvider: ({ children }) => <Fragment>{children}</Fragment>,
       },
       'component/frame/Navigation': noopReactComponent(),
       'components/FrameFocusJail': noopReactComponent(),

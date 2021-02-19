@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import useSafeState from 'src/hooks/useSafeState'
 import { fireEvent, waitFor } from '@testing-library/dom'

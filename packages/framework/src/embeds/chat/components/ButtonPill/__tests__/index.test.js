@@ -1,7 +1,6 @@
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
 import { render } from 'src/util/testHelpers'
 import snapshotDiff from 'snapshot-diff'
-import React from 'react'
 
 import ButtonPill from '../'
 

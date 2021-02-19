@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Footer } from 'src/components/Widget'
 import { Button } from '@zendeskgarden/react-buttons'

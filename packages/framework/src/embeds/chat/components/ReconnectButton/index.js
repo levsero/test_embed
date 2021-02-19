@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import ButtonPill from 'embeds/chat/components/ButtonPill'
 import useTranslate from 'src/hooks/useTranslate'

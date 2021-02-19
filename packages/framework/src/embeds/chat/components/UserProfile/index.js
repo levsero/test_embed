@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 import { DefaultProfileContainer } from './styles'

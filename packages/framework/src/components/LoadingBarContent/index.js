@@ -1,4 +1,3 @@
-import React from 'react'
 import { StyledSkeleton } from './styles'
 
 const LoadingBarContent = () => {

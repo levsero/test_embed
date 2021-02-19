@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Launcher from 'embeds/webWidget/components/Launcher'
 import Embeds from 'embeds/webWidget/components/Embeds'

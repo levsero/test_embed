@@ -1,4 +1,3 @@
-import React from 'react'
 import { Spinner } from '@zendeskgarden/react-loaders'
 import useTranslate from 'src/hooks/useTranslate'
 import { Container, Bubble, Message } from './styles'

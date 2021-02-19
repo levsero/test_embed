@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import { Component as ArticlePage } from 'src/embeds/helpCenter/pages/ArticlePage'
 

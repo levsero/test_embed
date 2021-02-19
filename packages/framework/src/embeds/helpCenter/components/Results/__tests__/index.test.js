@@ -1,5 +1,4 @@
 import { render } from 'utility/testHelpers'
-import React from 'react'
 import * as selectors from 'embeds/helpCenter/selectors'
 
 import Results from '../index'

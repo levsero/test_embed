@@ -1,4 +1,3 @@
-import React from 'react'
 import { getByRole, fireEvent } from '@testing-library/react'
 import { render } from 'utility/testHelpers'
 import { updateSettings } from 'src/redux/modules/settings'

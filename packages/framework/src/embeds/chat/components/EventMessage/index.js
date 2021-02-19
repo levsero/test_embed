@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import React from 'react'
 import PropTypes from 'prop-types'
 
 import { DISCONNECTION_REASONS } from 'constants/chat'

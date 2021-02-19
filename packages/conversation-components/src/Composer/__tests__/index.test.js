@@ -1,4 +1,4 @@
-import React from 'react'
+import { createRef } from 'react'
 import render from 'src/utils/test/render'
 import Composer from '../'
 
@@ -26,7 +26,7 @@ describe('Composer', () => {
   })
 
   it('supports passing in a ref to control focus within a parent component', () => {
-    const myTestRef = React.createRef()
+    const myTestRef = createRef()
     const { getByLabelText } = renderComponent({}, myTestRef)
     myTestRef.current.focus()
 

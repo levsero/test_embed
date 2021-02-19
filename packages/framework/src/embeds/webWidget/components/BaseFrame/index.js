@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
