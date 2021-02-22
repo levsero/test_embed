@@ -1,4 +1,3 @@
-import React from 'react'
 import { useForm } from 'react-final-form'
 import { render } from 'src/util/testHelpers'
 import useConditionalFields from 'embeds/support/hooks/useConditionalFields'

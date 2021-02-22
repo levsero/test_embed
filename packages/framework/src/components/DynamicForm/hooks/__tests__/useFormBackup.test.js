@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { useForm } from 'react-final-form'
 import { setFormState } from 'src/redux/modules/form/actions'

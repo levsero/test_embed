@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Children, cloneElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'
 import classNames from 'classnames'
@@ -77,10 +77,10 @@ export class QuickReplies extends Component {
 
   render = () => {
     // Give each child a margin but not the last child
-    const children = React.Children.map(this.props.children, (child, idx) => {
+    const children = Children.map(this.props.children, (child, idx) => {
       const lastChildIndex = this.props.children.length - 1
 
-      return React.cloneElement(child, {
+      return cloneElement(child, {
         className: classNames({
           [styles.separator]: idx !== lastChildIndex,
           [styles.lastSeparator]: idx === lastChildIndex,

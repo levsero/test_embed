@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { StyledList } from './styles'

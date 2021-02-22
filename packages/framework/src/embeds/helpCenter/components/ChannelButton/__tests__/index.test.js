@@ -1,5 +1,4 @@
 import { Component as ChannelButton } from 'src/embeds/helpCenter/components/ChannelButton'
-import React from 'react'
 
 import { render, fireEvent } from '@testing-library/react'
 

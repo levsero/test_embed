@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { CenteredDiv, LoadingSpinner } from './styles'
 

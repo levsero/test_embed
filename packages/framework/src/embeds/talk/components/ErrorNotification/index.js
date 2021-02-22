@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, ErrorIcon } from './styles'
 import { TEST_IDS } from 'src/constants/shared'

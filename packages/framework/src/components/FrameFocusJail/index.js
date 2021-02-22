@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useFocusJail } from '@zendeskgarden/container-focusjail'
 import { KEY_CODES } from '@zendeskgarden/react-selection'

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import { frameMarginFromPage, launcherSize } from 'src/apps/messenger/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPosition } from 'src/apps/messenger/features/themeProvider/store'
@@ -26,7 +26,7 @@ import {
 
 const roughSizeForBoxShadows = 20
 
-const LauncherLabel = React.forwardRef((_, ref) => {
+const LauncherLabel = forwardRef((_, ref) => {
   const dispatch = useDispatch()
   const position = useSelector(getPosition)
   const zIndex = useSelector(getZIndex)

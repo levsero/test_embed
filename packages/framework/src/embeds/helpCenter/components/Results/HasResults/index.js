@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Legend from 'embeds/helpCenter/components/Legend'

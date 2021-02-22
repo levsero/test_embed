@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
 import WidgetLauncher from 'component/launcher/Launcher'

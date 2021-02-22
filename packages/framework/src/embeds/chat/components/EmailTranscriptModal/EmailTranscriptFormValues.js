@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Input, Label, Message } from '@zendeskgarden/react-forms'
 import useTranslate from 'src/hooks/useTranslate'

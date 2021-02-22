@@ -1,4 +1,3 @@
-import React from 'react'
 import { withTheme } from 'styled-components'
 import PropTypes from 'prop-types'
 import { Button } from '@zendeskgarden/react-buttons'

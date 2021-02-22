@@ -1,5 +1,4 @@
 import { render } from 'utility/testHelpers'
-import React from 'react'
 import { OFFLINE_FORM_SCREENS } from 'src/constants/chat'
 
 import { Component as ChatOffline } from '../'

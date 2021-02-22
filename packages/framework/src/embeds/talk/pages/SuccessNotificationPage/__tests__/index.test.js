@@ -1,6 +1,5 @@
 jest.mock('utility/devices')
 
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 
 import SuccessNotificationPage from '../'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import createStore from 'src/apps/messenger/store'
 import { widgetOpened } from 'src/apps/messenger/store/visibility'

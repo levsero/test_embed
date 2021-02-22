@@ -1,5 +1,4 @@
 import OperatingHours from '../'
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { fireEvent } from '@testing-library/react'
 

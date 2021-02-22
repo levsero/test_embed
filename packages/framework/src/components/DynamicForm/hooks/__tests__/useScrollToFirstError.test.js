@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import { FORM_ERROR } from 'final-form'
 import { fireEvent } from '@testing-library/react'

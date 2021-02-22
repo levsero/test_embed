@@ -1,4 +1,3 @@
-import React from 'react'
 import { useForm } from 'react-final-form'
 import { wait } from '@testing-library/react'
 import { render } from 'src/util/testHelpers'

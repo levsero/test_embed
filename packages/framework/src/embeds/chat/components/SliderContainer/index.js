@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Children, cloneElement, Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -229,8 +229,8 @@ export class SliderContainer extends Component {
   render() {
     const Slider = this.props.slider
 
-    const pills = React.Children.map(this.props.children, (child, index) => {
-      return React.cloneElement(child, {
+    const pills = Children.map(this.props.children, (child, index) => {
+      return cloneElement(child, {
         className: classNames(child.props.className, styles.item),
         ref: (el) => {
           this[`child${index}`] = ReactDOM.findDOMNode(el)

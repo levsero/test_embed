@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import PropTypes from 'prop-types'
 
 import LoadingPageErrorBoundary from 'src/components/LoadingPageErrorBoundary'

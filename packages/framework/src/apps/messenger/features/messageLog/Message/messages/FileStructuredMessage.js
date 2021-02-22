@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { FileMessage } from '@zendesk/conversation-components'
 import getMessageShape from 'src/apps/messenger/features/messageLog/utils/getMessageShape'

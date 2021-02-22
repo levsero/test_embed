@@ -1,4 +1,4 @@
-import React from 'react'
+import { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { Close } from '@zendeskgarden/react-notifications'
@@ -6,7 +6,7 @@ import { TEST_IDS } from 'src/constants/shared'
 import { ErrorTitle, StyledAlert } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 
-const AttachmentLimitError = React.forwardRef(({ handleClearError, maxFileCount }, ref) => {
+const AttachmentLimitError = forwardRef(({ handleClearError, maxFileCount }, ref) => {
   const translate = useTranslate()
   const errorMessageTitle = translate(
     'embeddable_framework.submitTicket.attachments.error.limit_reached_header'

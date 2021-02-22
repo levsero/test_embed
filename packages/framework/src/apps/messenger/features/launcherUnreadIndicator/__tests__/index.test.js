@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 
 import { screenDimensionsChanged } from 'src/apps/messenger/features/responsiveDesign/store'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import { TEST_IDS } from 'src/constants/shared'
 

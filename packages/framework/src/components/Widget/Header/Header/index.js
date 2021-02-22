@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import HeaderView from 'components/Widget/Header/HeaderView'
 import BackButton from 'components/Widget/Header/BackButton'

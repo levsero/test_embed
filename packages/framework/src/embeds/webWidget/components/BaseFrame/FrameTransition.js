@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { FRAME_TRANSITION_DURATION } from 'constants/shared'
 import Transition from 'react-transition-group/Transition'

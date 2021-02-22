@@ -1,5 +1,4 @@
 import { render } from 'src/util/testHelpers'
-import React from 'react'
 
 import BotTyping from '../index'
 

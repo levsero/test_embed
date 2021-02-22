@@ -1,4 +1,3 @@
-import React from 'react'
 import { Notification } from '@zendeskgarden/react-notifications'
 import { Title } from 'src/components/Alert'
 import useTranslate from 'src/hooks/useTranslate'

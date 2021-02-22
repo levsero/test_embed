@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Footer, FooterItem, Header } from '@zendeskgarden/react-modals'
 import { Alert, Title } from 'embeds/support/components/Notifications'

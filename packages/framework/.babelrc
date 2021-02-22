@@ -8,14 +8,18 @@
         "corejs": "3.6"
       }
     ],
-    "@babel/preset-react"
+    ["@babel/preset-react", {
+      "runtime": "automatic"
+    }]
   ],
   "ignore": ["src/translation/*.js"],
   "env": {
     "test": {
       "presets": [
         ["@babel/preset-env", { "targets": { "node": "current" }, "useBuiltIns": false }],
-        "@babel/preset-react"
+        ["@babel/preset-react", {
+          "runtime": "automatic"
+        }]
       ],
       "plugins": ["babel-plugin-styled-components", "dynamic-import-node"]
     },
@@ -36,7 +40,9 @@
     "e2e": {
       "presets": [
         ["@babel/preset-env", { "targets": { "node": "current" } }],
-        "@babel/preset-react"
+        ["@babel/preset-react", {
+          "runtime": "automatic"
+        }]
       ]
     }
   },

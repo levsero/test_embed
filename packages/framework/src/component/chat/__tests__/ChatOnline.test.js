@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import { Component } from '../ChatOnline'
 import { CONNECTION_STATUSES } from 'constants/chat'

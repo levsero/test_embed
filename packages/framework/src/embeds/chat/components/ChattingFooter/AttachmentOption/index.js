@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { withTheme } from 'styled-components'

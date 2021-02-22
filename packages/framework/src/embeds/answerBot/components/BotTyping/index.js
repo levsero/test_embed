@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Container, Loader } from './styles'
 import { TEST_IDS } from 'constants/shared'
 

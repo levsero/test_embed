@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Footer } from 'src/components/Widget'
 import ChannelButton from 'src/embeds/helpCenter/components/ChannelButton'

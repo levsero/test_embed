@@ -1,5 +1,4 @@
 import SuccessNotification from '../'
-import React from 'react'
 import { render, getByTestId, fireEvent } from '@testing-library/react'
 import createStore from 'src/redux/createStore'
 import { Provider } from 'react-redux'

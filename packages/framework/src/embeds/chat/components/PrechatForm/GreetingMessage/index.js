@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Linkify from 'react-linkify'
 import { TEST_IDS } from 'constants/shared'

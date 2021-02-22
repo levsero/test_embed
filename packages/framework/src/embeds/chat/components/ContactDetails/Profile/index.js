@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import UserProfile from 'src/embeds/chat/components/UserProfile'
 import { TEST_IDS } from 'constants/shared'

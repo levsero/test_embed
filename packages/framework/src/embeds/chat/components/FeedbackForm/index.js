@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { FORM_ERROR } from 'final-form'
 import { Field as FinalFormField, Form as ReactFinalForm } from 'react-final-form'

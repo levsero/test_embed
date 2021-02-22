@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Container, DropContainer, DropInfo, Message, AttachmentIcon } from './styles'
 import useTranslate from 'src/hooks/useTranslate'
 import { TEST_IDS } from 'constants/shared'
 
-const DropContext = React.createContext(() => undefined)
+const DropContext = createContext(() => undefined)
 
 const FileDropProvider = ({ children }) => {
   const translate = useTranslate()

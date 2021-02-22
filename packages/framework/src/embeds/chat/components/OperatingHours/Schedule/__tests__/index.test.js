@@ -1,5 +1,4 @@
 import Schedule from '../'
-import React from 'react'
 import { render } from 'utility/testHelpers'
 
 const singleScheduleSingleDay = {

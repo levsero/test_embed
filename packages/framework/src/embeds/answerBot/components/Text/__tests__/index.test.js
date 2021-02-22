@@ -1,5 +1,4 @@
 import { render } from 'src/util/testHelpers'
-import React from 'react'
 
 import { TEST_IDS } from 'src/constants/shared'
 

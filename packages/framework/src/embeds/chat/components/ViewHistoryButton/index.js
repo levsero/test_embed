@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors'
 import { getHasChatHistory } from 'src/redux/modules/chat/chat-history-selectors'

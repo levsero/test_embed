@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { DayList } from './styles'
 import ApplicableDays from './ApplicableDays'

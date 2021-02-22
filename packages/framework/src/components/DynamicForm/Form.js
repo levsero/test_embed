@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { TEST_IDS } from 'constants/shared'
 import { Main } from 'components/Widget'

@@ -1,4 +1,3 @@
-import React from 'react'
 import Component from 'src/embeds/chat/components/ContactDetails'
 import { render } from 'src/util/testHelpers'
 

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import { find } from 'styled-components/test-utils'
 import HeaderView from 'components/Widget/Header/HeaderView'

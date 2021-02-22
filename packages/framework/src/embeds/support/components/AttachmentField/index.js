@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 

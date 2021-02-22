@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { Dropdown, Menu, Field, Select, Label, Item } from '@zendeskgarden/react-dropdowns'

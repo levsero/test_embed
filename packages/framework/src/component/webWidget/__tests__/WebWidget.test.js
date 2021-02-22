@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Component as WebWidget } from '../WebWidget'
 import { render } from 'src/util/testHelpers'
 

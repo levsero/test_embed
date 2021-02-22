@@ -1,4 +1,3 @@
-import React from 'react'
 import LoadingMessagesIndicator from '..'
 import { render } from 'src/util/testHelpers'
 

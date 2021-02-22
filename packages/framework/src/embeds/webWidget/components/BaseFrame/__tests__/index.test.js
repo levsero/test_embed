@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { getByText, wait } from '@testing-library/react'
 import { render } from 'utility/testHelpers'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import { find } from 'styled-components/test-utils'
 import { Provider } from 'react-redux'

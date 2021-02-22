@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { render } from 'src/util/testHelpers'
 import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
 import { http } from 'service/transport'

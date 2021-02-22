@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import LauncherLabel from '../index'

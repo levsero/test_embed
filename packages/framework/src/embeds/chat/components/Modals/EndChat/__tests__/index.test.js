@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'src/util/testHelpers'
 import EndChat from '../'
 import { waitFor, fireEvent } from '@testing-library/dom'

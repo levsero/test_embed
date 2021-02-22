@@ -1,5 +1,4 @@
 import { fireEvent } from '@testing-library/react'
-import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { http } from 'service/transport'

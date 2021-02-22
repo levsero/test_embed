@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { locals as styles } from './WidgetLauncher.scss'
@@ -71,7 +71,7 @@ class WidgetLauncher extends Component {
   constructor(props, context) {
     super(props, context)
 
-    this.container = React.createRef()
+    this.container = createRef()
     this.state = {
       style: baseLauncherStyle,
     }

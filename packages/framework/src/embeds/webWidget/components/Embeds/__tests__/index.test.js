@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from 'utility/testHelpers'
 import { closeReceived, openReceived } from 'src/redux/modules/base'
 import Embeds from '..'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { isMobileBrowser } from 'utility/devices'

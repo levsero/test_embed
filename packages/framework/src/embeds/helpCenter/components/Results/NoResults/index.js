@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import NoResultsMessage from 'embeds/helpCenter/components/NoResultsMessage'
 import ContextualNoResultsMessage from 'embeds/helpCenter/components/ContextualNoResultsMessage'

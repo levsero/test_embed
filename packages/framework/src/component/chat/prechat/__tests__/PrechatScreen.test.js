@@ -1,5 +1,4 @@
 import { getByTestId } from '@testing-library/react'
-import React from 'react'
 
 import { render } from 'src/util/testHelpers'
 import { Component } from 'src/component/chat/prechat/PrechatScreen'

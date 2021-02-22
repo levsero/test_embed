@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { useFocusJail } from './hooks/focusJail'
 import Launcher from 'src/apps/messenger/features/launcher'
 import Widget from 'src/apps/messenger/features/widget'

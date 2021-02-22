@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'

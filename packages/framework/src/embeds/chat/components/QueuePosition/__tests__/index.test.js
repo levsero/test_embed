@@ -1,4 +1,3 @@
-import React from 'react'
 import { styleSheetSerializer } from 'jest-styled-components/serializer'
 
 import { render } from 'src/util/testHelpers'

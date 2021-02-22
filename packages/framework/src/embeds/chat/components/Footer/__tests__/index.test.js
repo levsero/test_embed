@@ -1,5 +1,4 @@
 import Footer from '../'
-import React from 'react'
 import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
 import { render } from 'utility/testHelpers'

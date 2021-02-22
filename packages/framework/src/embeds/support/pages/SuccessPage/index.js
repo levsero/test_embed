@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Footer, Header, Main, Widget } from 'components/Widget'
 import SuccessNotification from 'components/SuccessNotification'

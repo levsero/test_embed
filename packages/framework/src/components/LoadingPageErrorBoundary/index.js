@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import LoadingPage from 'src/components/LoadingPage'
 import errorTracker from 'src/framework/services/errorTracker'

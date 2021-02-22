@@ -1,4 +1,3 @@
-import React from 'react'
 import { act, render } from '@testing-library/react'
 import { ThemeProvider } from '@zendeskgarden/react-theming'
 import CountryDropdown from '../'
