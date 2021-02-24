@@ -11,4 +11,5 @@ export default {
   clickToCallInProgress: () => '/talk/online/click_to_call/in_progress',
   clickToCallNetworkError: () => '/talk/online/click_to_call/network_error',
   successNotification: () => '/talk/success_notification',
+  clickToCallPermissionsDenied: () => '/talk/online/click_to_call/microphone_permissions_denied',
 }
