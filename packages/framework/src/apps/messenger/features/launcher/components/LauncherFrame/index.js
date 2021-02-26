@@ -49,10 +49,11 @@ const LauncherFrame = ({ children }) => {
           border: 0,
           marginTop: 0,
           boxShadow: frameBoxShadow,
-          animation:
+          animation: `onLoad 0.2s ease-in, ${
             isWidgetOpen && shouldAnimate
               ? `launcherOnOpen ${FRAME_ANIMATION_DURATION}s ${bezierCurve}`
-              : undefined,
+              : undefined
+          }`,
           zIndex,
         }}
       >
