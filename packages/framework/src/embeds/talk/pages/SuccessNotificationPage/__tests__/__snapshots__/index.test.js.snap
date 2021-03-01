@@ -297,7 +297,7 @@ exports[`SuccessNotificationPage renders 1`] = `
 
 .c1 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -392,7 +392,7 @@ exports[`SuccessNotificationPage renders 1`] = `
 }
 
 .c5:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 .c9 {
@@ -501,13 +501,13 @@ exports[`SuccessNotificationPage renders 1`] = `
 }
 
 .c11 .customColor {
-  fill: #1F73B7 !important;
+  fill: #17494D !important;
 }
 
 .c12 {
   font-weight: 700;
-  color: #1F73B7 !important;
-  fill: #1F73B7 !important;
+  color: #17494D !important;
+  fill: #17494D !important;
   font-size: 1.0714285714285714rem;
   text-align: center;
 }
@@ -515,8 +515,8 @@ exports[`SuccessNotificationPage renders 1`] = `
 .c12:hover,
 .c12:active,
 .c12:focus {
-  color: #227EC9 !important;
-  fill: #227EC9 !important;
+  color: #195055 !important;
+  fill: #195055 !important;
 }
 
 .c13 {
@@ -527,7 +527,7 @@ exports[`SuccessNotificationPage renders 1`] = `
 
 .c14 {
   margin-top: 1.0714285714285714rem;
-  color: #1F73B7;
+  color: #17494D;
 }
 
 <div>

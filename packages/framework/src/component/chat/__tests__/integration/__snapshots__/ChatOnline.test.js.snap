@@ -799,7 +799,7 @@ exports[`chat log series of actions 1`] = `
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c3,
@@ -1001,7 +1001,7 @@ exports[`chat log visitor message account settings login enabled displays update
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,
@@ -1105,7 +1105,7 @@ exports[`chat log visitor message account settings login enabled displays update
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,
@@ -1209,7 +1209,7 @@ exports[`chat log visitor message account settings login enabled does not displa
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,
@@ -1308,7 +1308,7 @@ exports[`chat log visitor message account settings login enabled does not displa
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,
@@ -1471,7 +1471,7 @@ exports[`chat log visitor message failure 1`] = `
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,
@@ -1612,7 +1612,7 @@ exports[`chat log visitor message success 1`] = `
   line-height: 1.1428571428571428rem;
   padding: 0.5714285714285714rem 0.8571428571428571rem;
   max-width: 17.5rem;
-  background-color: #1F73B7 !important;
+  background-color: #17494D !important;
 }
 
 .c2,

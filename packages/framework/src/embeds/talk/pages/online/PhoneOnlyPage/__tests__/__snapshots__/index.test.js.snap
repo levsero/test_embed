@@ -279,7 +279,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 
 .c1 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -374,7 +374,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 }
 
 .c5:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 .c9 {
@@ -479,7 +479,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 
 .c10:not(:disabled) svg,
 .c10:not(:disabled) svg path {
-  fill: #1F73B7 !important;
+  fill: #17494D !important;
 }
 
 .c11 {
@@ -491,7 +491,7 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 
 .c11 path.customColor,
 .c11 rect.customColor {
-  fill: #1F73B7 !important;
+  fill: #17494D !important;
 }
 
 .c12 {
@@ -508,11 +508,11 @@ exports[`PhoneOnlyPage on mobile renders when there is an average wait time 1`] 
 
 .c14 a,
 .c14 a span {
-  color: #1F73B7 !important;
+  color: #17494D !important;
 }
 
 .c14 a:hover {
-  color: #1F73B7 !important;
+  color: #17494D !important;
 }
 
 <div>

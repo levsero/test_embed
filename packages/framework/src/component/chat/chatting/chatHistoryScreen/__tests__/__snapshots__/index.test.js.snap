@@ -201,7 +201,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
 
 .c1 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -296,7 +296,7 @@ exports[`ChatHistoryScreen when not mobile renders ChatHistory 1`] = `
 }
 
 .c5:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 .c9 {

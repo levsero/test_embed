@@ -235,8 +235,8 @@ Snapshot Diff:
 + 
 + .c13.c13.c13 {
 +   background-color: transparent !important;
-+   color: #1F73B7 !important;
-+   border-color: #1F73B7 !important;
++   color: #17494D !important;
++   border-color: #17494D !important;
 +   font-size: 1.0714285714285714rem !important;
 +   padding-right: 1.7142857142857142rem !important;
 +   padding-left: 1.7142857142857142rem !important;
@@ -253,8 +253,8 @@ Snapshot Diff:
 + .c13.c13.c13:not([disabled]):active,
 + .c13.c13.c13:not([disabled]):focus {
 +   color: #FFFFFF !important;
-+   background-color: #1F73B7 !important;
-+   border-color: #1F73B7 !important;
++   background-color: #17494D !important;
++   border-color: #17494D !important;
 + }
 + 
 + .c12 {

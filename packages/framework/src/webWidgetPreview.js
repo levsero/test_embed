@@ -15,6 +15,7 @@ import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
 import { DEFAULT_WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_MARGIN } from 'src/constants/shared'
 import TicketFormPage from 'embeds/support/pages/TicketFormPage'
 import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
+import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
 
 const FRAME_WIDTH = WIDGET_WIDTH
 const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
@@ -22,7 +23,7 @@ const BOX_SHADOW_SIZE = 6
 
 const defaultOptions = {
   locale: 'en-US',
-  color: { base: '#1F73B7' },
+  color: { base: DEFAULT_BASE_COLOR },
   titleKey: 'message',
   styles: {
     float: 'right',

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import styled from 'styled-components'
 
+import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
 import reducer from 'src/redux/modules/reducer'
 import WidgetThemeProvider from '../index'
 
@@ -48,20 +49,20 @@ const StyledTestParagraph = styled(TestParagraph)`
 describe('connected WidgetThemeProvider', () => {
   describe('using default widget theme', () => {
     const expectedDefaultColours = {
-      baseColor: '#1F73B7',
-      baseHighlightColor: '#227EC9',
-      buttonColorStr: '#1F73B7',
-      buttonHighlightColorStr: '#227EC9',
+      baseColor: DEFAULT_BASE_COLOR,
+      baseHighlightColor: '#195055',
+      buttonColorStr: DEFAULT_BASE_COLOR,
+      buttonHighlightColorStr: '#195055',
       buttonTextColorStr: '#FFFFFF',
-      listColorStr: '#1F73B7',
-      listHighlightColorStr: '#227EC9',
-      linkColorStr: '#1F73B7',
-      linkTextColorStr: '#1F73B7',
-      headerColorStr: '#1F73B7',
+      listColorStr: DEFAULT_BASE_COLOR,
+      listHighlightColorStr: '#195055',
+      linkColorStr: DEFAULT_BASE_COLOR,
+      linkTextColorStr: DEFAULT_BASE_COLOR,
+      headerColorStr: DEFAULT_BASE_COLOR,
       headerTextColorStr: '#FFFFFF',
-      headerFocusRingColorStr: 'rgba(31,115,183,0.4)',
-      headerBackgroundColorStr: '#227EC9',
-      iconColor: '#1F73B7',
+      headerFocusRingColorStr: 'rgba(23,73,77,0.4)',
+      headerBackgroundColorStr: '#195055',
+      iconColor: DEFAULT_BASE_COLOR,
     }
 
     for (let colorVariableName in expectedDefaultColours) {
