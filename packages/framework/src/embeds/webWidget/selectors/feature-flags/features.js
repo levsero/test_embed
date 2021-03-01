@@ -25,4 +25,9 @@ export default {
   web_widget_messenger_animations_disabled: {
     defaultValue: false,
   },
+  web_widget_enable_last_chat_rating: {
+    defaultValue: false,
+    getArturoValue: (state) =>
+      state.base.embeddableConfig.embeds?.chat?.props?.webWidgetEnableLastChatRating,
+  },
 }

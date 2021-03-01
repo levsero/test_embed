@@ -25,6 +25,7 @@ import queuePosition from './chat-queue-position'
 import offlineMessage from './chat-offline-message'
 import menuVisible from 'src/embeds/chat/reducers/is-menu-visible'
 import agentJoined from './chat-agent-joined'
+import agentEndedChatSession from './chat-agent-ended-chat-session'
 import lastReadTimestamp from './chat-last-read-timestamp'
 import operatingHours from './chat-operating-hours'
 import socialLogin from './chat-social-login'
@@ -47,6 +48,7 @@ import contactDetailsSubmissionError from 'src/embeds/chat/reducers/contact-deta
 const combinedReducers = combineReducers({
   accountSettings,
   account_status: accountStatus,
+  agentEndedChatSession,
   agentJoined,
   activeAgents,
   chatBanned,

@@ -5,8 +5,10 @@ import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 const renderComponent = (props = {}) => {
   const defaultProps = {
     rating: {},
+    isAgentEndedChatSession: false,
     sendChatRating: jest.fn(),
     sendChatComment: jest.fn(),
+    sendLastChatRatingInfo: jest.fn(),
     updateChatScreen: jest.fn(),
     concierges: [
       {

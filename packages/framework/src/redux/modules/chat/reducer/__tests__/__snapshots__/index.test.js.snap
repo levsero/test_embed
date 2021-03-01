@@ -95,6 +95,7 @@ Object {
   },
   "account_status": "",
   "activeAgents": Map {},
+  "agentEndedChatSession": false,
   "agentJoined": false,
   "chatBanned": false,
   "chatHistory": Object {
