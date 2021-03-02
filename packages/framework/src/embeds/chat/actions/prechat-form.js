@@ -1,4 +1,8 @@
-import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
+import {
+  getChatVisitor,
+  getDepartment,
+  getIsAuthenticated,
+} from 'src/redux/modules/chat/chat-selectors'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   clearDepartment,
@@ -11,8 +15,20 @@ import {
 } from 'src/redux/modules/chat'
 import _ from 'lodash'
 
-const submitPrechatForm = ({ values, isDepartmentFieldVisible }) => async (dispatch, getState) => {
+const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => async (
+  dispatch,
+  getState
+) => {
+  const values = { ...rawValues }
   const department = getDepartment(getState(), values.department)
+
+  if (getIsAuthenticated(getState())) {
+    const visitor = getChatVisitor(getState())
+    Object.assign(values, {
+      name: visitor.display_name,
+      email: visitor.email,
+    })
+  }
 
   if (department && department.status === 'offline') {
     dispatch(
