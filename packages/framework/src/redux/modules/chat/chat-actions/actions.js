@@ -32,6 +32,7 @@ import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { isMobileBrowser } from 'utility/devices'
+import errorTracker from 'src/framework/services/errorTracker'
 
 const chatTypingTimeout = 2000
 let history = []
@@ -231,11 +232,16 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
             res()
           } else {
             dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
-            rej()
+
+            rej(err)
           }
         })
       })
-    }).catch(() => {
+    }).catch((err) => {
+      errorTracker.error(err || new Error('Unknown reason'), {
+        rollbarFingerprint: 'Failed to set user information while starting chat',
+        rollbarTitle: 'Failed to set user information while starting chat',
+      })
       dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
     })
   }

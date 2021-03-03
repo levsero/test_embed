@@ -156,6 +156,9 @@ describe('chat redux actions', () => {
       'src/util/chat': {
         formatSchedule: formatScheduleSpy,
       },
+      'src/framework/services/errorTracker': {
+        error: () => undefined,
+      },
       'utility/devices': {
         isMobileBrowser: () => false,
       },
