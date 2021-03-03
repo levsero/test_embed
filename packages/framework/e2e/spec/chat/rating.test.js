@@ -6,10 +6,9 @@ import {
   sendMessageFromUser,
   agentJoinsChat,
   sendMessageFromAgent,
-  loadWidgetWithChatOnline,
-  clickStartChat,
   clickEndChat,
   clickToConfirmEndChat,
+  openChattingScreen,
 } from 'e2e/helpers/chat-embed'
 
 const agentRequestsRating = async () => {
@@ -41,8 +40,7 @@ const userClicksCommentButton = async () => {
 }
 
 const setup = async () => {
-  await loadWidgetWithChatOnline()
-  await clickStartChat()
+  await openChattingScreen()
 
   await sendMessageFromUser('this is a message from the end user')
   await agentJoinsChat('Very good agent')
@@ -51,8 +49,7 @@ const setup = async () => {
 
 describe('chat ratings', () => {
   test('rating buttons only show when an agent has joined the chat', async () => {
-    await loadWidgetWithChatOnline()
-    await clickStartChat()
+    await openChattingScreen()
 
     await sendMessageFromUser('this is a message from the end user')
 

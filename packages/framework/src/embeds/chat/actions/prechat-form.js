@@ -42,7 +42,7 @@ const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => a
   }
 
   if (values.display_name || values.name || values.email || values.phone) {
-    dispatch(
+    await dispatch(
       setVisitorInfo(
         _.omitBy(
           {
