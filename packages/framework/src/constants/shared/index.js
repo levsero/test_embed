@@ -215,3 +215,5 @@ export const LAUNCHER = 'launcher'
 
 export const FRAME_TRANSITION_DURATION = 250
 export const FRAME_ANIMATION_DELAY = FRAME_TRANSITION_DURATION * 2
+
+export const DEFAULT_BASE_COLOR = '#17494D'

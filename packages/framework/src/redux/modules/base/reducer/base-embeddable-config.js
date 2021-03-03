@@ -1,5 +1,6 @@
 import { UPDATE_EMBEDDABLE_CONFIG } from '../base-action-types'
 import { UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types'
+import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
 
 import _ from 'lodash'
 
@@ -28,7 +29,7 @@ const initialState = {
     },
   },
   position: 'right', // default position
-  color: '#1F73B7', // default base color
+  color: DEFAULT_BASE_COLOR,
   textColor: undefined,
   cp4: false,
   hideZendeskLogo: false,

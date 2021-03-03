@@ -2,6 +2,7 @@ import '../webWidgetPreview'
 
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { waitFor } from '@testing-library/dom'
+import { DEFAULT_BASE_COLOR } from 'src/constants/shared'
 
 beforeEach(() => {
   const div = document.createElement('div')
@@ -94,7 +95,7 @@ describe('default parameters', () => {
   it('sets it with default color', () => {
     preview.setColor()
 
-    expect(webWidgetPreviewBody()).toMatch('background-color: #1F73B7 !important;')
+    expect(webWidgetPreviewBody()).toMatch(`background-color: ${DEFAULT_BASE_COLOR} !important;`)
   })
 })
 

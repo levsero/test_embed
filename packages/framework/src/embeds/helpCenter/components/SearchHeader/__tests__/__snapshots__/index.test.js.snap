@@ -520,7 +520,7 @@ exports[`renders correctly on desktop 1`] = `
 
 .c0 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -619,7 +619,7 @@ exports[`renders correctly on desktop 1`] = `
 }
 
 .c4:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 @media screen and (min--moz-device-pixel-ratio:0) {

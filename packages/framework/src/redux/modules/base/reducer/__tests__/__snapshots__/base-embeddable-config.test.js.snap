@@ -43,7 +43,7 @@ Object {
   "brand": undefined,
   "brandCount": undefined,
   "brandLogoUrl": undefined,
-  "color": "#1F73B7",
+  "color": "#17494D",
   "cp4": false,
   "disableStatusPolling": false,
   "embeds": Object {

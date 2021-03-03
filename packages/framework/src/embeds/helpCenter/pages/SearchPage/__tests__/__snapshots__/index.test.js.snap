@@ -322,7 +322,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 
 .c1 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -421,7 +421,7 @@ exports[`render when isContextualSearchPending matches snapshot, renders Loading
 }
 
 .c5:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 .c18 {
@@ -1393,7 +1393,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 
 .c1 {
   padding: 0.5714285714285714rem 1rem;
-  background: #1F73B7 !important;
+  background: #17494D !important;
   color: #FFFFFF !important;
 }
 
@@ -1492,7 +1492,7 @@ exports[`render when not isContextualSearchPending matches snapshot, renders NoR
 }
 
 .c5:hover {
-  background: #227EC9 !important;
+  background: #195055 !important;
 }
 
 .c18 {
