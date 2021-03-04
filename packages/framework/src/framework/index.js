@@ -55,12 +55,13 @@ const start = async () => {
 
     const configLoadStart = Date.now()
     const config = await fetchEmbeddableConfig()
+    beacon.setConfigLoadTime(Date.now() - configLoadStart)
 
     // Load the embeddable
     const embeddableName = config.messenger ? 'messenger' : 'webWidget'
     const embeddable = await embeddables[embeddableName]()
 
-    const serviceData = { config, configLoadStart, embeddableName }
+    const serviceData = { config, embeddableName }
 
     // Initialise all framework services and then initialise the embeddable
     frameworkServices.forEach((service) => service.init?.(serviceData))

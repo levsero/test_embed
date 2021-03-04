@@ -146,12 +146,11 @@ function setConfig(_config) {
   })
 }
 
-function init({ config, configLoadStart }) {
+function init({ config }) {
   previousTime = Date.now()
 
   beacon.setConfig(config)
   beacon.trackLocaleDiff(config.locale)
-  beacon.setConfigLoadTime(Date.now() - configLoadStart)
 }
 
 function setConfigLoadTime(time) {

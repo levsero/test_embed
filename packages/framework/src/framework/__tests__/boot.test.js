@@ -113,7 +113,6 @@ describe('start', () => {
 
     const expectedServiceData = {
       config: mockMessengerConfig,
-      configLoadStart: Date.now(),
       embeddableName: 'messenger',
     }
 
@@ -128,7 +127,6 @@ describe('start', () => {
 
     const expectedServiceData = {
       config: mockMessengerConfig,
-      configLoadStart: Date.now(),
       embeddableName: 'messenger',
     }
 
@@ -185,7 +183,6 @@ describe('start', () => {
 
       expect(messenger.init).toHaveBeenCalledWith({
         config: mockMessengerConfig,
-        configLoadStart: Date.now(),
         embeddableName: 'messenger',
       })
     })
@@ -197,7 +194,6 @@ describe('start', () => {
 
       expect(messenger.run).toHaveBeenCalledWith({
         config: mockMessengerConfig,
-        configLoadStart: Date.now(),
         embeddableName: 'messenger',
       })
     })
@@ -219,7 +215,6 @@ describe('start', () => {
 
       expect(webWidget.init).toHaveBeenCalledWith({
         config: mockWebWidgetConfig,
-        configLoadStart: Date.now(),
         embeddableName: 'webWidget',
       })
     })
@@ -231,7 +226,6 @@ describe('start', () => {
 
       expect(webWidget.run).toHaveBeenCalledWith({
         config: mockWebWidgetConfig,
-        configLoadStart: Date.now(),
         embeddableName: 'webWidget',
       })
     })
