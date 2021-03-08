@@ -132,6 +132,9 @@ const ThemeProvider = ({ children }) => {
         launcher: {
           ariaLabel: translate('embeddable_framework.messenger.launcher.button'),
         },
+        launcherLabel: {
+          ariaLabel: translate('embeddable_framework.messenger.launcher_label.close'),
+        },
         formatTimestamp: parseTimestamp,
       }}
     >
