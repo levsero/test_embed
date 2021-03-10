@@ -2,6 +2,9 @@ import PropTypes from 'prop-types'
 import CSSTransition from 'react-transition-group/CSSTransition'
 
 import { useScroll } from 'src/hooks/useScrollBehaviour'
+import { isSafari } from 'src/utils/hostPageWindow'
+
+import FRAME_ANIMATION_DURATION from 'src/constants'
 
 const Animated = ({
   children,
@@ -13,6 +16,12 @@ const Animated = ({
   className,
 }) => {
   const { scrollToBottomIfNeeded } = useScroll()
+  const onEnter = () => {
+    // Safari scrolls the host page if called before the animation has finished, so delay until it's done
+    isSafari
+      ? setTimeout(scrollToBottomIfNeeded, FRAME_ANIMATION_DURATION * 1000)
+      : scrollToBottomIfNeeded()
+  }
 
   return (
     <CSSTransition
@@ -25,8 +34,8 @@ const Animated = ({
         enter: (enter.duration + enter.delay) * 1000,
         exit: (exit.duration + exit.delay) * 1000,
       }}
-      onEntering={scrollToBottomIfNeeded}
-      onEntered={scrollToBottomIfNeeded}
+      onEntering={onEnter}
+      onEntered={onEnter}
     >
       <div>
         <div className={className}>{children}</div>

@@ -7,7 +7,6 @@ import { FORM_ERROR } from 'final-form'
 
 import hostPageWindow, {
   restoreHostPageScrollPositionIfSafari,
-  isSafari,
 } from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
@@ -30,14 +29,10 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   const scrollToBottom = useCallback(
     ({ smooth = true } = {}) => {
-      if (isSafari) {
-        if (anchor.current)
-          container.scrollTop = container.scrollHeight + anchor.current.scrollHeight
-      } else {
-        anchor.current?.scrollIntoView({
-          behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
-        })
-      }
+      anchor.current?.scrollIntoView({
+        behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
+        block: 'nearest',
+      })
 
       isScrollAtBottom.current = true
     },

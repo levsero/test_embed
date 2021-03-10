@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { FRAME_ANIMATION_DURATION } from '@zendesk/conversation-components'
 import Frame from 'src/framework/components/Frame'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import {
@@ -49,7 +50,9 @@ const LauncherFrame = ({ children }) => {
           marginTop: 0,
           boxShadow: frameBoxShadow,
           animation:
-            isWidgetOpen && shouldAnimate ? `launcherOnOpen 0.7s ${bezierCurve}` : undefined,
+            isWidgetOpen && shouldAnimate
+              ? `launcherOnOpen ${FRAME_ANIMATION_DURATION}s ${bezierCurve}`
+              : undefined,
           zIndex,
         }}
       >
