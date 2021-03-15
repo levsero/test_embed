@@ -60,6 +60,7 @@ const start = async () => {
     // Load the embeddable
     const embeddableName = config.messenger ? 'messenger' : 'webWidget'
     const embeddable = await embeddables[embeddableName]()
+    errorTracker.configure({ payload: { embeddableName: embeddableName } })
 
     const serviceData = { config, embeddableName }
 
