@@ -12,6 +12,7 @@ const ImageMessage = ({
   label,
   text,
   mediaUrl,
+  alt,
   timeReceived,
   shape = 'standalone',
   status = 'sent',
@@ -40,7 +41,7 @@ const ImageMessage = ({
         <a href={mediaUrl} target="_blank">
           <ParticipantImage
             src={mediaUrl}
-            alt={mediaUrl}
+            alt={alt}
             shape={shape}
             isPrimaryParticipant={isPrimaryParticipant}
             hasText={hasText}
@@ -62,6 +63,7 @@ ImageMessage.propTypes = {
   isPrimaryParticipant: PropTypes.bool,
   text: PropTypes.string,
   mediaUrl: PropTypes.string,
+  alt: PropTypes.string,
   timeReceived: PropTypes.number,
   shape: PropTypes.oneOf(Object.values(MESSAGE_BUBBLE_SHAPES)),
   status: PropTypes.oneOf(Object.values(MESSAGE_STATUS)),
