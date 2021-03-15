@@ -34,6 +34,7 @@ export const getChatOfflineForm = (state) => chatState(state).formState.offlineF
 export const getOfflineMessage = (state) => chatState(state).offlineMessage
 export const getPreChatFormState = (state) => chatState(state).formState.preChatForm
 export const getAgentJoined = (state) => chatState(state).agentJoined
+export const getAgentEndedChatSession = (state) => chatState(state).agentEndedChatSession
 export const getLastReadTimestamp = (state) => chatState(state).lastReadTimestamp
 export const getOperatingHours = (state) => chatState(state).operatingHours
 export const getLoginSettings = (state) => chatState(state).accountSettings.login

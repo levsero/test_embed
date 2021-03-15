@@ -393,6 +393,78 @@ describe('sendChatComment', () => {
   })
 })
 
+describe('sendLastChatRatingInfo', () => {
+  const mockLastChatRatingInfo = {
+    rating: 'good',
+    comment: 'this is a good comment',
+  }
+  const mockRatingSuccessAction = {
+    type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
+    payload: mockLastChatRatingInfo.rating,
+  }
+
+  const mockCommentSuccessAction = {
+    type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
+    payload: mockLastChatRatingInfo.comment,
+  }
+
+  const mockLastChatRatingCompleteAction = {
+    type: actionTypes.CHAT_LAST_CHAT_RATING_REQUEST_COMPLETE,
+  }
+
+  describe('when there are no errors', () => {
+    it('dispatches CHAT_RATING_REQUEST_SUCCESS and CHAT_RATING_COMMENT_REQUEST_SUCCESS actions', () => {
+      const { store } = dispatchZChatWithTimeoutAction(
+        actions.sendLastChatRatingInfo(mockLastChatRatingInfo)
+      )
+
+      expect(store.getActions()).toEqual([
+        mockRatingSuccessAction,
+        mockCommentSuccessAction,
+        mockLastChatRatingCompleteAction,
+      ])
+    })
+  })
+
+  describe('when there is an error', () => {
+    describe("when it's a timeout error", () => {
+      it('dispatches CHAT_RATING_REQUEST_SUCCESS and CHAT_RATING_COMMENT_REQUEST_SUCCESS actions anyway', () => {
+        const { store } = dispatchZChatWithTimeoutAction(
+          actions.sendLastChatRatingInfo(mockLastChatRatingInfo),
+          timeoutError
+        )
+
+        expect(store.getActions()).toEqual([
+          mockRatingSuccessAction,
+          mockCommentSuccessAction,
+          mockLastChatRatingCompleteAction,
+        ])
+      })
+    })
+
+    describe('when it is any other error', () => {
+      it('dispatches CHAT_RATING_REQUEST_FAILURE and CHAT_RATING_COMMENT_REQUEST_SUCCESS actions', () => {
+        const { store } = dispatchZChatWithTimeoutAction(
+          actions.sendLastChatRatingInfo(mockLastChatRatingInfo),
+          otherError
+        )
+
+        expect(store.getActions()).toEqual([
+          {
+            type: actionTypes.CHAT_RATING_REQUEST_FAILURE,
+          },
+          {
+            type: actionTypes.CHAT_RATING_COMMENT_REQUEST_FAILURE,
+          },
+          {
+            type: actionTypes.CHAT_LAST_CHAT_RATING_REQUEST_COMPLETE,
+          },
+        ])
+      })
+    })
+  })
+})
+
 describe('sendAttachments', () => {
   const mockVisitor = {
     name: 'Ronnie James Dio',

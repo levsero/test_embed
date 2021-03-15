@@ -23,6 +23,7 @@ import { beacon } from 'service/beacon'
 import { http } from 'service/transport'
 import createStore from 'src/redux/createStore'
 import { clickBusterHandler, isMobileBrowser } from 'utility/devices'
+import { store } from 'src/framework/services/persistence'
 
 let initialised = false
 let hasRendered = false
@@ -95,6 +96,17 @@ async function init({ config }) {
   }
 
   reduxStore.dispatch(updateEmbeddableConfig(config))
+
+  // We need to use arturo in reducers for new reset behaviour for chat rating. We will
+  // remove the `arturos` once the feature is stable, refer to https://zendesk.atlassian.net/browse/POLO-2135
+  const webWidgetEnableLastChatRating = _.get(
+    config,
+    'embeds.chat.props.webWidgetEnableLastChatRating'
+  )
+  const arturos = {
+    webWidgetEnableLastChatRating,
+  }
+  store.set('arturos', arturos)
 
   if (win.zESettings) {
     beacon.trackSettings(settings.getTrackSettings())

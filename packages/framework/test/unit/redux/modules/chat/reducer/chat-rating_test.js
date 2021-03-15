@@ -1,5 +1,5 @@
 describe('chat ratings', () => {
-  let reducer, actionTypes, initialState, mockIsAgent
+  let reducer, actionTypes, initialState, mockIsAgent, mockStoreValue
 
   beforeAll(() => {
     mockery.enable()
@@ -15,6 +15,11 @@ describe('chat ratings', () => {
       'src/util/chat': {
         isAgent: () => mockIsAgent,
       },
+      'src/framework/services/persistence': {
+        store: {
+          get: () => mockStoreValue,
+        },
+      },
     })
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-rating')
@@ -24,6 +29,10 @@ describe('chat ratings', () => {
     actionTypes = requireUncached(actionTypesPath)
 
     initialState = reducer(undefined, { type: '' })
+  })
+
+  beforeEach(() => {
+    mockStoreValue = { webWidgetEnableLastChatRating: false }
   })
 
   afterAll(() => {
@@ -197,14 +206,94 @@ describe('chat ratings', () => {
         yolo: 'yolo',
       }
 
-      beforeEach(() => {
-        state = reducer(randomState, {
-          type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-          payload,
+      describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
+        beforeEach(() => {
+          state = reducer(randomState, {
+            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+            payload,
+          })
+        })
+
+        describe('when agent leaves', () => {
+          beforeAll(() => {
+            mockIsAgent = true
+            payload = {
+              detail: {
+                nick: 'agent:123',
+              },
+            }
+          })
+
+          it('does not change state', () => {
+            expect(state).toEqual(randomState)
+          })
+        })
+
+        describe('when user leaves', () => {
+          beforeAll(() => {
+            mockIsAgent = false
+            payload = {
+              detail: {
+                nick: 'visitor',
+              },
+            }
+          })
+
+          it('clears the state', () => {
+            expect(state).toEqual(initialState)
+          })
         })
       })
 
-      describe('when agent leaves', () => {
+      describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
+        beforeEach(() => {
+          mockStoreValue = { webWidgetEnableLastChatRating: true }
+
+          state = reducer(randomState, {
+            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+            payload,
+          })
+        })
+
+        describe('when agent leaves', () => {
+          beforeAll(() => {
+            mockIsAgent = true
+            payload = {
+              detail: {
+                nick: 'agent:123',
+              },
+            }
+          })
+
+          it('does not change state', () => {
+            expect(state).toEqual(randomState)
+          })
+        })
+
+        describe('when user leaves', () => {
+          beforeAll(() => {
+            mockIsAgent = false
+            payload = {
+              detail: {
+                nick: 'visitor',
+              },
+            }
+          })
+
+          it('does not change state', () => {
+            expect(state).toEqual(randomState)
+          })
+        })
+      })
+    })
+
+    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
+      let payload
+      const randomState = {
+        yolo: 'yolo',
+      }
+
+      describe('when agent joins', () => {
         beforeAll(() => {
           mockIsAgent = true
           payload = {
@@ -214,12 +303,29 @@ describe('chat ratings', () => {
           }
         })
 
-        it('does not change state', () => {
-          expect(state).toEqual(randomState)
+        describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
+          it('does not change state', () => {
+            state = reducer(randomState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload,
+            })
+            expect(state).toEqual(randomState)
+          })
+        })
+
+        describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
+          it('does not change state', () => {
+            mockStoreValue = { webWidgetEnableLastChatRating: true }
+            state = reducer(randomState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload,
+            })
+            expect(state).toEqual(randomState)
+          })
         })
       })
 
-      describe('when user leaves', () => {
+      describe('when user joins', () => {
         beforeAll(() => {
           mockIsAgent = false
           payload = {
@@ -229,8 +335,25 @@ describe('chat ratings', () => {
           }
         })
 
-        it('clears the state', () => {
-          expect(state).toEqual(initialState)
+        describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
+          it('does not change state', () => {
+            state = reducer(randomState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload,
+            })
+            expect(state).toEqual(randomState)
+          })
+        })
+
+        describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
+          it('clears the state', () => {
+            mockStoreValue = { webWidgetEnableLastChatRating: true }
+            state = reducer(randomState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload,
+            })
+            expect(state).toEqual(initialState)
+          })
         })
       })
     })

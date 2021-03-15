@@ -317,6 +317,37 @@ export function sendChatComment(comment = '') {
   }
 }
 
+export function sendLastChatRatingInfo(lastChatRatingInfo = {}) {
+  return (dispatch, getState) => {
+    zChatWithTimeout(getState, 'sendLastChatRatingInfo')(lastChatRatingInfo, (err) => {
+      if (canBeIgnored(err)) {
+        if ('rating' in lastChatRatingInfo) {
+          dispatch({
+            type: actions.CHAT_RATING_REQUEST_SUCCESS,
+            payload: lastChatRatingInfo.rating,
+          })
+        }
+
+        if ('comment' in lastChatRatingInfo) {
+          dispatch({
+            type: actions.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
+            payload: lastChatRatingInfo.comment,
+          })
+        }
+      } else {
+        // Follow existing chat rating error handling
+        dispatch({ type: actions.CHAT_RATING_REQUEST_FAILURE })
+        dispatch({ type: actions.CHAT_RATING_COMMENT_REQUEST_FAILURE })
+      }
+
+      // To reset rating state after sending last chat rating. We will handle
+      // retry and failure logic for chat rating in https://zendesk.atlassian.net/browse/POLO-2100
+      // For now, last chat rating will fail silently, similar to existing chat rating
+      dispatch({ type: actions.CHAT_LAST_CHAT_RATING_REQUEST_COMPLETE })
+    })
+  }
+}
+
 const loadAudio = () => {
   try {
     audio.load(

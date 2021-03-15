@@ -116,3 +116,7 @@ export const CONNECTION_CLOSED_REASON = {
   LOGOUT: 'logged_out',
   AUTH_FAIL: 'authentication_fail',
 }
+
+export const SDK_CHAT_REASON = {
+  AGENT_ENDS_CHAT: 'agent_ends_chat',
+}
