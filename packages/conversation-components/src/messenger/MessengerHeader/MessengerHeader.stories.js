@@ -7,7 +7,16 @@ export default {
   decorators: [MessengerContainerDecorator],
 }
 
-const Template = (args) => <MessengerHeader {...args} />
+const Template = (args) => (
+  <MessengerHeader {...args}>
+    <MessengerHeader.Content
+      title={args.title}
+      description={args.description}
+      avatar={args.avatar}
+    />
+    {args.showCloseButton && <MessengerHeader.Close />}
+  </MessengerHeader>
+)
 
 export const AllFields = Template.bind()
 AllFields.args = {

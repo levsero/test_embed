@@ -5,15 +5,28 @@ const mockOnCloseFn = jest.fn()
 
 describe('MessengerHeader', () => {
   const defaultProps = {
-    title: 'Test company',
+    content: {
+      title: 'Test company',
+    },
+    close: {
+      onClick: jest.fn(),
+    },
   }
 
-  const renderComponent = (props = {}) => render(<MessengerHeader {...defaultProps} {...props} />)
+  const renderComponent = (props = {}) =>
+    render(
+      <MessengerHeader>
+        <MessengerHeader.Content {...defaultProps.content} {...(props.content || {})} />
+        <MessengerHeader.Close {...defaultProps.close} {...(props.close || {})} />
+      </MessengerHeader>
+    )
 
   it('renders the title and description', () => {
     const { getByText } = renderComponent({
-      title: 'Header title',
-      description: 'Header description',
+      content: {
+        title: 'Header title',
+        description: 'Header description',
+      },
     })
 
     expect(getByText('Header title')).toBeInTheDocument()
@@ -24,36 +37,29 @@ describe('MessengerHeader', () => {
     const avatarAltTag = 'Company logo'
     const avatar = 'https://example.com/cat.jpg'
     const { getByAltText } = renderComponent({
-      avatar,
+      content: {
+        avatar,
+      },
     })
 
     expect(getByAltText(avatarAltTag).tagName).toEqual('IMG')
     expect(getByAltText(avatarAltTag).src).toEqual(avatar)
   })
 
-  it('does not render a close button by default', () => {
-    const closeButtonAriaLabel = 'Close'
-    const { queryByLabelText } = renderComponent()
+  it('renders the close button with an aria-label', () => {
+    const { getByLabelText } = renderComponent()
 
-    expect(queryByLabelText(closeButtonAriaLabel)).not.toBeInTheDocument()
-  })
-
-  it('renders the close button with a custom aria-label when it is shown', () => {
-    const closeButtonAriaLabel = 'Close'
-    const { getByLabelText } = renderComponent({ showCloseButton: true })
-
-    expect(getByLabelText(closeButtonAriaLabel)).toBeInTheDocument()
+    expect(getByLabelText('Close')).toBeInTheDocument()
   })
 
   it('fires the onClose event when close is clicked', () => {
-    const closeButtonAriaLabel = 'Close'
     const { getByLabelText } = renderComponent({
-      closeButtonAriaLabel,
-      showCloseButton: true,
-      onClose: mockOnCloseFn,
+      close: {
+        onClick: mockOnCloseFn,
+      },
     })
 
-    getByLabelText(closeButtonAriaLabel).click()
+    getByLabelText('Close').click()
     expect(mockOnCloseFn).toHaveBeenCalled()
   })
 })

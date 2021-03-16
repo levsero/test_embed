@@ -1,17 +1,9 @@
-import styled, { css } from 'styled-components'
-import { rgba } from 'polished'
+import styled from 'styled-components'
+import { rem, rgba } from 'polished'
 import { Avatar } from '@zendeskgarden/react-avatars'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 import dirStyles from 'src/utils/dirStyles'
-
-const onCompactHeader = (styles) => (props) => {
-  if (props.isCompact) {
-    return styles
-  }
-
-  return ''
-}
 
 const Container = styled.div`
   display: flex;
@@ -21,13 +13,10 @@ const Container = styled.div`
   padding: ${(props) => props.theme.messenger.space.sixteen};
   background-color: ${(props) => props.theme.messenger.colors.primary};
   color: ${(props) => props.theme.messenger.colors.primaryText};
-
-  ${onCompactHeader(css`
-    padding: ${(props) => props.theme.messenger.space.sm}
-      ${(props) => props.theme.messenger.space.sixteen};
-    align-items: center;
-  `)}
+  word-break: break-word;
 `
+
+const CompactContainer = styled(Container)``
 
 const Details = styled.div`
   display: flex;
@@ -44,41 +33,32 @@ const Details = styled.div`
 
 const StyledAvatar = styled(Avatar)`
   && {
-    height: ${(props) => props.theme.messenger.space.xxl} !important;
-    width: ${(props) => props.theme.messenger.space.xxl} !important;
+    height: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
+    width: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
     flex-shrink: 0;
     border-radius: 50%;
-
-    ${onCompactHeader(css`
-      height: ${(props) => props.theme.messenger.space.xl} !important;
-      width: ${(props) => props.theme.messenger.space.xl} !important;
-    `)}
+    margin-top: ${(props) => rem(4, props.theme.messenger.baseFontSize)} !important;
   }
 `
 
 const Title = styled.div`
-  font-size: ${(props) => props.theme.messenger.fontSizes.lg};
-  line-height: ${(props) => props.theme.messenger.lineHeights.lg};
+  font-size: ${(props) => rem(18, props.theme.messenger.baseFontSize)};
+  line-height: ${(props) => rem(24, props.theme.messenger.baseFontSize)};
   font-weight: ${(props) => props.theme.messenger.fontWeights.semibold};
-
-  ${onCompactHeader(css`
-    font-size: ${(props) => props.theme.messenger.fontSizes.lg};
-    line-height: ${(props) => props.theme.messenger.lineHeights.lg};
-  `)}
+  letter-spacing: ${(props) => rem(-0.45, props.theme.messenger.baseFontSize)};
 `
 
 const Description = styled.div`
-  font-size: ${(props) => props.theme.messenger.space.sixteen};
-  line-height: ${(props) => props.theme.messenger.lineHeights.lg};
+  font-size: ${(props) => props.theme.messenger.fontSizes.md};
+  line-height: ${(props) => props.theme.messenger.lineHeights.md};
+  letter-spacing: ${(props) => rem(-0.15, props.theme.messenger.baseFontSize)};
 
-  ${onCompactHeader(css`
+  ${CompactContainer} & {
     text-wrap: avoid;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: ${(props) => props.theme.messenger.fontSizes.md};
-    line-height: ${(props) => props.theme.messenger.lineHeights.md};
-  `)}
+  }
 `
 
 const StyledCloseIcon = styled(CloseIcon)``
@@ -88,11 +68,6 @@ const StyledIconButton = styled(IconButton)`
     width: ${(props) => props.theme.messenger.space.xl};
     height: ${(props) => props.theme.messenger.space.xl};
     color: ${(props) => props.theme.messenger.colors.primaryText};
-
-    ${onCompactHeader(css`
-      width: ${(props) => props.theme.messenger.space.xl};
-      height: ${(props) => props.theme.messenger.space.xl};
-    `)}
 
     &:hover {
       background-color: ${(props) => rgba(props.theme.messenger.colors.primaryText, 0.2)};
@@ -114,11 +89,6 @@ const StyledIconButton = styled(IconButton)`
       color: ${(props) => props.theme.messenger.colors.primaryText};
       width: ${(props) => props.theme.messenger.iconSizes.md};
       height: ${(props) => props.theme.messenger.iconSizes.md};
-
-      ${onCompactHeader(css`
-        width: ${(props) => props.theme.messenger.iconSizes.md};
-        height: ${(props) => props.theme.messenger.iconSizes.md};
-      `)}
     }
   }
 `
@@ -130,9 +100,7 @@ const CloseIconContainer = styled.div`
   justify-content: center;
   height: ${(props) => props.theme.messenger.space.xxl};
 
-  ${onCompactHeader(css`
-    height: ${(props) => props.theme.messenger.space.xl};
-  `)}
+
 `
 
 export {
@@ -140,6 +108,7 @@ export {
   Title,
   Description,
   Container,
+  CompactContainer,
   Details,
   StyledCloseIcon as CloseIcon,
   StyledIconButton as IconButton,
