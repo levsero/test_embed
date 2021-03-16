@@ -40,6 +40,7 @@ StandaloneImageWithText.args = {
   ...defaultProps,
   mediaUrl:
     'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  alt: 'Emu',
   text: 'Emus are lovely',
 }
 
@@ -48,6 +49,7 @@ StandaloneImageWithLink.args = {
   ...defaultProps,
   mediaUrl:
     'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  alt: 'Emu',
   text:
     'Emus are lovely, for more information on the resilience of emus, go to https://en.wikipedia.org/wiki/Emu_War',
 }
@@ -57,4 +59,5 @@ StandaloneImageWithNoText.args = {
   ...defaultProps,
   mediaUrl:
     'https://upload.wikimedia.org/wikipedia/commons/b/be/Emu_in_the_wild-1%2B_%282153629669%29.jpg',
+  alt: 'Emu',
 }

@@ -8,6 +8,7 @@ const ImageStructuredMessage = ({
     role,
     text,
     mediaUrl,
+    altText,
     isFirstInGroup,
     isLastInGroup,
     isFirstMessageInAuthorGroup,
@@ -30,6 +31,7 @@ const ImageStructuredMessage = ({
       shape={getMessageShape(isFirstInGroup, isLastInGroup)}
       mediaUrl={mediaUrl}
       text={text}
+      alt={altText}
     />
   )
 }
@@ -38,6 +40,7 @@ ImageStructuredMessage.propTypes = {
   message: PropTypes.shape({
     role: PropTypes.string,
     text: PropTypes.string,
+    altText: PropTypes.string,
     mediaUrl: PropTypes.string,
     isFirstInGroup: PropTypes.bool,
     isLastMessageThatHasntFailed: PropTypes.bool,
