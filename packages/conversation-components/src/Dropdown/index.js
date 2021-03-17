@@ -56,7 +56,23 @@ const StyledSelect = styled(Select)`
   }
 `
 
-const StyledItem = styled(Item)`
+const StyledItem = styled(Item).attrs((props) => {
+  return {
+    theme: {
+      ...props.theme,
+      colors: {
+        ...props.theme.colors,
+        primaryHue: 'action',
+      },
+      palette: {
+        ...props.theme.palette,
+        action: {
+          600: rgba(props.theme.messenger.colors.action, 0.08),
+        },
+      },
+    },
+  }
+})`
   &&& {
     display: flex;
     flex-direction: row;
@@ -72,14 +88,6 @@ const StyledItem = styled(Item)`
 
     &:first-child {
       margin-top: ${(props) => props.theme.messenger.space.xxs};
-    }
-
-    &:hover,
-    &:focus,
-    &:active,
-    &[aria-selected='true'],
-    &[data-garden-focus-visible] {
-      background-color: ${(props) => rgba(props.theme.messenger.colors.action, 0.08)};
     }
   }
 `
