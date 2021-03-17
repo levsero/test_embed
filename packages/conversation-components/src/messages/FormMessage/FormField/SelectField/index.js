@@ -4,7 +4,8 @@ import { ThemeContext } from 'styled-components'
 import { Field, Message as GardenDropdownMessage } from '@zendeskgarden/react-dropdowns'
 import Message from 'src/messages/FormMessage/FormField/Message'
 import { restoreHostPageScrollPositionIfSafari } from 'src/utils/hostPageWindow'
-import { Container, Dropdown, Select, Item, Label, Menu } from './styles'
+import { Container } from './styles'
+import { Dropdown, Select, Item, Label, Menu } from 'src/Dropdown'
 
 const SelectField = ({ field, value, onChange, error, lastSubmittedTimestamp }) => {
   const {
