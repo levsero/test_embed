@@ -57,7 +57,7 @@ const launcherAnimation = `
           }
         }
 
-        @keyframes onLoad {
+        @keyframes webSDKOnLoad {
           0% {
             opacity: 0;
           }
@@ -65,7 +65,7 @@ const launcherAnimation = `
             opacity 1;
           }
         }
-        @-webkit-keyframes onLoad {
+        @-webkit-keyframes webSDKOnLoad {
           0% {
             opacity: 0;
           }
