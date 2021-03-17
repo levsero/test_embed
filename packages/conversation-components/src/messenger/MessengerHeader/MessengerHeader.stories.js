@@ -1,4 +1,4 @@
-import MessengerHeader from './'
+import MessengerHeader from './index'
 import { MessengerContainerDecorator } from '../../../.storybook/decorators'
 
 export default {
@@ -14,6 +14,7 @@ const Template = (args) => (
       description={args.description}
       avatar={args.avatar}
     />
+    <MessengerHeader.Menu isOpen={args.isMenuOpen} channels={args.channels} />
     {args.showCloseButton && <MessengerHeader.Close />}
   </MessengerHeader>
 )
@@ -24,6 +25,12 @@ AllFields.args = {
   description: 'a catchy little punchline',
   avatar: 'https://lucashills.com/emu_avatar.jpg',
   showCloseButton: true,
+  isMenuOpen: true,
+  channels: {
+    messenger: 'linked',
+    instagram: 'not linked',
+    whatsapp: undefined,
+  },
 }
 
 export const TitleOnly = Template.bind()

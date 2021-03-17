@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { rem, rgba } from 'polished'
-import { Avatar } from '@zendeskgarden/react-avatars'
-import { IconButton } from '@zendeskgarden/react-buttons'
-import CloseIcon from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
+import { Avatar as GardenAvatar } from '@zendeskgarden/react-avatars'
+import { IconButton as GardenIconButton } from '@zendeskgarden/react-buttons'
+import CloseSVG from '@zendeskgarden/svg-icons/src/16/x-fill.svg'
 import dirStyles from 'src/utils/dirStyles'
 
 const Container = styled.div`
@@ -31,7 +31,7 @@ const Details = styled.div`
   }
 `
 
-const StyledAvatar = styled(Avatar)`
+const Avatar = styled(GardenAvatar)`
   && {
     height: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
     width: ${(props) => rem(36, props.theme.messenger.baseFontSize)} !important;
@@ -61,13 +61,14 @@ const Description = styled.div`
   }
 `
 
-const StyledCloseIcon = styled(CloseIcon)``
+const CloseIcon = styled(CloseSVG)``
 
-const StyledIconButton = styled(IconButton)`
+const IconButton = styled(GardenIconButton)`
   &&& {
     width: ${(props) => props.theme.messenger.space.xl};
     height: ${(props) => props.theme.messenger.space.xl};
     color: ${(props) => props.theme.messenger.colors.primaryText};
+    align-self: center;
 
     &:hover {
       background-color: ${(props) => rgba(props.theme.messenger.colors.primaryText, 0.2)};
@@ -85,7 +86,7 @@ const StyledIconButton = styled(IconButton)`
     }
 
     /* We have to style this as a child of the button in order to access the theme props */
-    ${StyledCloseIcon} {
+    svg {
       color: ${(props) => props.theme.messenger.colors.primaryText};
       width: ${(props) => props.theme.messenger.iconSizes.md};
       height: ${(props) => props.theme.messenger.iconSizes.md};
@@ -93,24 +94,29 @@ const StyledIconButton = styled(IconButton)`
   }
 `
 
-const CloseIconContainer = styled.div`
+const HeaderControl = styled.div`
   display: flex;
   flex-direction: column;
-  padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
+  &:not(& + &) {
+    padding-${dirStyles.left}: ${(props) => props.theme.messenger.space.sixteen};
+  }
+
+  & + & {
+    margin-${dirStyles.left}: 3px;
+
+  }
   justify-content: center;
   height: ${(props) => props.theme.messenger.space.xxl};
-
-
 `
 
 export {
-  StyledAvatar as Avatar,
+  Avatar,
   Title,
   Description,
   Container,
   CompactContainer,
   Details,
-  StyledCloseIcon as CloseIcon,
-  StyledIconButton as IconButton,
-  CloseIconContainer,
+  CloseIcon,
+  IconButton,
+  HeaderControl,
 }
