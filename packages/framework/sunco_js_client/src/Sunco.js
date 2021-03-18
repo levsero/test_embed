@@ -4,6 +4,7 @@ import ConversationsApi from './api/ConversationsApi'
 import MessagesApi from './api/MessagesApi'
 import ActivityAPI from './api/ActivityApi'
 import SocketClient from './socket/SocketClient'
+import IntegrationsApi from './api/IntegrationsApi'
 import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
 import { getClientId, getSessionId } from './utils/device'
 
@@ -23,6 +24,7 @@ export default class Sunco {
     this.conversations = new ConversationsApi(this)
     this.messages = new MessagesApi(this)
     this.activity = new ActivityAPI(this)
+    this.integrations = new IntegrationsApi(this)
   }
 
   get hasExistingAppUser() {
@@ -89,6 +91,7 @@ export default class Sunco {
       forgetUser: () => {
         removeAppUser({ integrationId: this.integrationId })
       },
+      getIntegrations: () => this.integrations.get(),
     }
   }
 
