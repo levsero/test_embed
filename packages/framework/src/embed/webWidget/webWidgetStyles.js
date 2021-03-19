@@ -3,7 +3,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.scss'
 import ButtonGroupStyles from 'component/button/ButtonGroup.scss'
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss'
 import ChatAttachmentStyles from 'component/chat/attachment/Attachment.scss'
-import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss'
 import ChatGroupStyles from 'component/chat/chatting/log/messages/ChatGroup.scss'
 import ChatLogStyles from 'component/chat/chatting/ChatLog.scss'
 import HistoryLogStyles from 'component/chat/chatting/HistoryLog.scss'
@@ -29,7 +28,6 @@ export const webWidgetStyles = `
   ${ChannelChoiceMenuStyles}
   ${ChatAttachmentStyles}
   ${ChattHistoryScreenStyles}
-  ${PrechatFormStyles}
   ${ChatGroupStyles}
   ${ChatLogStyles}
   ${HistoryLogStyles}
