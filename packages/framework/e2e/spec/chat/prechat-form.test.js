@@ -48,9 +48,9 @@ describe('prechat form', () => {
 
     await populateField('Message (optional)', 'Some message')
 
-    const departmentDropdown = await queries.queryByPlaceholderText(
+    const departmentDropdown = await queries.queryByTestId(
       await widget.getDocument(),
-      'Choose a department'
+      'dropdown-field'
     )
     await departmentDropdown.click()
     await widget.expectToSeeText('Department 1')
