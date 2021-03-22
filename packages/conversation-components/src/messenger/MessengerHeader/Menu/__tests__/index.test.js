@@ -20,9 +20,9 @@ describe('Menu', () => {
       },
     })
 
-    expect(queryByText('Transfer to WhatsApp')).toBeInTheDocument()
-    expect(queryByText('Transfer to Instagram')).toBeInTheDocument()
-    expect(queryByText('Transfer to Messenger')).not.toBeInTheDocument()
+    expect(queryByText('Continue on WhatsApp')).toBeInTheDocument()
+    expect(queryByText('Continue on Instagram')).toBeInTheDocument()
+    expect(queryByText('Continue on Messenger')).not.toBeInTheDocument()
   })
 
   it('renders them in the order WhatsApp, Messenger then Instagram', () => {
@@ -35,9 +35,9 @@ describe('Menu', () => {
       },
     })
 
-    expect(queryByText('Transfer to WhatsApp')).toBeInTheDocument()
-    expect(queryByText('Transfer to Messenger')).toBeInTheDocument()
-    expect(queryByText('Transfer to Instagram')).toBeInTheDocument()
+    expect(queryByText('Continue on WhatsApp')).toBeInTheDocument()
+    expect(queryByText('Continue on Messenger')).toBeInTheDocument()
+    expect(queryByText('Continue on Instagram')).toBeInTheDocument()
   })
 
   it('renders as open when isOpen is true', () => {
@@ -48,7 +48,7 @@ describe('Menu', () => {
       },
     })
 
-    expect(queryByText('Transfer to WhatsApp')).toBeInTheDocument()
+    expect(queryByText('Continue on WhatsApp')).toBeInTheDocument()
   })
 
   it('renders as closed when isOpen is false', () => {
@@ -59,6 +59,6 @@ describe('Menu', () => {
       },
     })
 
-    expect(queryByText('Transfer to WhatsApp')).not.toBeInTheDocument()
+    expect(queryByText('Continue on WhatsApp')).not.toBeInTheDocument()
   })
 })

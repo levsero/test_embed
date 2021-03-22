@@ -69,7 +69,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
                   <ChannelLogo />
                 </ChannelIcon>
                 {` `}
-                Transfer to {channel.name}
+                Continue on {channel.name}
               </HeaderMenuItem>
             )
           })}
