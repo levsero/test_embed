@@ -9,6 +9,7 @@ import MicrophonePermissions from './MicrophonePermissions'
 import ConsentToRecord from './ConsentToRecord'
 import CallInProgress from './CallInProgress'
 import NetworkError from './NetworkError'
+import MicrophonePermissionsDeniedPage from './MicrophonePermissionsDeniedPage'
 import { microphoneErrorCode, useTwilioDevice } from 'src/embeds/talk/hooks/useTwilioDevice'
 import { talkDisconnect } from 'src/redux/modules/talk/talk-actions'
 import {
@@ -31,6 +32,7 @@ const EmbeddedVoicePage = () => {
   const callEndedTimeout = useRef(null)
   const userRecordingConsentRequirement = useSelector(getUserRecordingConsentRequirement)
   const isCallInProgress = useSelector(getIsCallInProgress)
+  const hasCallButtonBeenPressed = useRef(false)
   const hasLastCallFailed = useSelector(getHasLastCallFailed)
   const skipConsent = userRecordingConsentRequirement === null
 
@@ -47,11 +49,20 @@ const EmbeddedVoicePage = () => {
         history.replace(routes.home())
       }, 3000)
     }
+    hasCallButtonBeenPressed.current = false
   }
 
   const onError = (error) => {
+    hasCallButtonBeenPressed.current = false
+
     if (error?.code === microphoneErrorCode) {
-      dispatch(talkDisconnect())
+      if (callEndedTimeout.current) {
+        clearTimeout(callEndedTimeout.current)
+        callEndedTimeout.current = null
+      }
+
+      history.replace(routes.clickToCallPermissionsDenied())
+
       return
     }
     dispatch(callFailed())
@@ -74,7 +85,8 @@ const EmbeddedVoicePage = () => {
   })
 
   const handleCallStart = () => {
-    if (!isCallInProgress) {
+    if (!isCallInProgress && !hasCallButtonBeenPressed.current) {
+      hasCallButtonBeenPressed.current = true
       startTwilioConnection()
     }
   }
@@ -119,6 +131,9 @@ const EmbeddedVoicePage = () => {
           </Route>
           <Route path={routes.clickToCallNetworkError()}>
             <NetworkError onClick={handleErrorReset} />
+          </Route>
+          <Route path={routes.clickToCallPermissionsDenied()}>
+            <MicrophonePermissionsDeniedPage onClick={() => handleCallStart()} />
           </Route>
 
           <Redirect to={getPathWithRedirect()} />

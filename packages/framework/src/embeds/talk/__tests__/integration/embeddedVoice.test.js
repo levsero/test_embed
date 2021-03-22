@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event'
-import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom'
+import { waitFor, waitForElementToBeRemoved, screen } from '@testing-library/dom'
 import { Device } from 'twilio-client'
 import superagent from 'superagent'
 
@@ -8,6 +8,7 @@ import { updateTalkAgentAvailability } from 'src/redux/modules/talk/talk-actions
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 import { OPT_IN, OPT_OUT } from 'src/embeds/talk/reducers/recording-consent'
+import { microphoneErrorCode } from 'src/embeds/talk/hooks/useTwilioDevice'
 import Talk from 'src/embeds/talk'
 
 jest.useFakeTimers()
@@ -111,6 +112,42 @@ describe('Embedded Voice scenarios', () => {
       expect(queryByText('Call us')).toBeInTheDocument()
       expect(queryByText(microphonePermissionDescription)).toBeInTheDocument()
       expect(getByLabelText('Start call')).toBeInTheDocument()
+    })
+
+    it('swaps to the Microphone Permissions Denied page when the microphone permissions have been denied', async () => {
+      renderComponent({ talkConfig })
+
+      userEvent.click(screen.getByLabelText('Start call'))
+      await waitFor(() => expect(screen.getByText('Call in progress')).toBeInTheDocument())
+      const error = new Error('Microphone permissions denied')
+      error.code = microphoneErrorCode
+
+      Device.__triggerError(error)
+
+      await waitFor(() => expect(screen.getByText('Microphone access needed')).toBeInTheDocument())
+      await waitFor(() =>
+        expect(
+          screen.getByText(
+            'This permission may have been denied. Check browser settings to grant this permission.'
+          )
+        ).toBeInTheDocument()
+      )
+    })
+
+    it('returns to the callInProgressPage when "Try again" is pressed in the Permissions Denied Page', async () => {
+      renderComponent({ talkConfig })
+
+      userEvent.click(screen.getByLabelText('Start call'))
+      await waitFor(() => expect(screen.getByText('Call in progress')).toBeInTheDocument())
+      const error = new Error('Microphone permissions denied')
+      error.code = microphoneErrorCode
+
+      Device.__triggerError(error)
+
+      await waitFor(() => expect(screen.getByText('Microphone access needed')).toBeInTheDocument())
+
+      userEvent.click(screen.getByText('Try again'))
+      await waitFor(() => expect(screen.getByText('Call in progress')).toBeInTheDocument())
     })
 
     it('does not drop the call when agents go offline while a call is in progress', async () => {
