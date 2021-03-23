@@ -10,13 +10,23 @@
 - Bulleted lists don't have periods at the end
 -->
 
+### 17 March 2021
+
+- Fixed a bug where the end user's chat rating would not be sent if the agent prematurely terminated the chat session
+
+### 3 March 2021
+
+- Added Chat [re-authentication API](/embeddables/docs/widget/chat#chatreauthenticate) which allows single page apps to re-authenticate users with the Chat service without requiring a page reload
+- Fixed a bug in the prechat form that prevented authenticated users from sending offline messages
+- Changed the default color of the classic Web Widget from #1F73B7 to #17494D
+- Fixed a bug in the Web SDK to ensure visitor details are correctly assigned to the agent ticket
 
 ### 22 February 2021
 
 - Fixed a bug which would cause the parent page to scroll when the Web SDK is displayed
 - Updated API error messages when a user makes an incorrect request to the Web Widget APIs
 - Fixed a bug where the Web Widget doesn't use the user defined translations for Chat Title and other configurable text based on locale id. For example, the Web Widget would only accept "en-US" instead of both "en-us" and "en-US"
-- Fixed a bug in Web SDK where the text in long replies were not wrapping
+- Fixed a bug in Web SDK where the text in long replies was not wrapping
 
 ### 20 February 2021
 
@@ -37,8 +47,7 @@
 ### 4 January 2021
 
 - Fixed a bug where Chats were routed incorrectly to offline departments
-- Fixed a UI bug in IE11 where the Success Message (from Contact Form) and
-  the "Call Us" message is not displayed in the centre of the Web Widget
+- Fixed a UI bug in IE11 where the Success Message (from Contact Form) and the "Call Us" message was not displayed in the center of the Web Widget.
 
 ### 3 December 2020
 
