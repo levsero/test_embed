@@ -92,6 +92,7 @@ export default class Sunco {
         removeAppUser({ integrationId: this.integrationId })
       },
       getIntegrations: () => this.integrations.get(),
+      getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
     }
   }
 
