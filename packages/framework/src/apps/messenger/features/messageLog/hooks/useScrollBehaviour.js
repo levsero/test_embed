@@ -14,6 +14,7 @@ import {
   markAsRead,
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 
 const scrollOffsetInRems = 3
 
@@ -23,6 +24,7 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   const firstRender = useRef(true)
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
+  const widgetOpen = useSelector(getIsWidgetOpen)
   const theme = useContext(ThemeContext)
   const animationsDisabled = useShouldDisableAnimations()
   const frame = useCurrentFrame()
@@ -41,13 +43,13 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   const scrollToBottomIfNeeded = useCallback(
     (options) => {
-      if (isScrollAtBottom.current) {
+      if (isScrollAtBottom.current && widgetOpen) {
         setTimeout(() => {
           scrollToBottom(options)
         }, 0)
       }
     },
-    [scrollToBottom]
+    [scrollToBottom, widgetOpen]
   )
 
   const onScrollBottom = useCallback(
