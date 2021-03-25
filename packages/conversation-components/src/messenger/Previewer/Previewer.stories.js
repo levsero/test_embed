@@ -70,10 +70,26 @@ const textmessageProps = {
 }
 
 const quickReplies = [
-  { _id: 'r1', type: 'reply', text: 'Pizza' },
-  { _id: 'r2', type: 'reply', text: 'Crumpets' },
-  { _id: 'r3', type: 'reply', text: 'Chocolate' },
-  { _id: 'r4', type: 'reply', text: 'Cake' },
+  {
+    _id: 'r1',
+    type: 'reply',
+    text: 'Pizza',
+  },
+  {
+    _id: 'r2',
+    type: 'reply',
+    text: 'Crumpets',
+  },
+  {
+    _id: 'r3',
+    type: 'reply',
+    text: 'Chocolate',
+  },
+  {
+    _id: 'r4',
+    type: 'reply',
+    text: 'Cake',
+  },
 ]
 
 export default {
@@ -86,12 +102,14 @@ export const Basic = (args) => {
   return (
     <Previewer {...args}>
       <MessengerContainer>
-        <MessengerHeader
-          title="Augustine"
-          description="Cats sister says hi"
-          avatar="https://lucashills.com/emu_avatar.jpg"
-          showCloseButton={true}
-        />
+        <MessengerHeader>
+          <MessengerHeader.Content
+            title="Augustine"
+            description="Cats sister says hi"
+            avatar="https://lucashills.com/emu_avatar.jpg"
+          />
+          <MessengerHeader.Close />
+        </MessengerHeader>
         <MessengerBody>
           <MessageLogList>
             <TextMessage

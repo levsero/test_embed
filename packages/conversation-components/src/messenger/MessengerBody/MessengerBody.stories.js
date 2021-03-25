@@ -81,12 +81,14 @@ const quickReplies = [
 
 const Template = (_args) => (
   <MessengerContainer>
-    <MessengerHeader
-      title="Augustine"
-      description="Cats sister says hi"
-      avatar="https://lucashills.com/emu_avatar.jpg"
-      showCloseButton={true}
-    />
+    <MessengerHeader>
+      <MessengerHeader.Content
+        title="Augustine"
+        description="Cats sister says hi"
+        avatar="https://lucashills.com/emu_avatar.jpg"
+      />
+      <MessengerHeader.Close />
+    </MessengerHeader>
     <MessengerBody>
       <MessageLogList>
         <TextMessage
