@@ -55,4 +55,32 @@ testReducer(reducer, [
     },
     expected: [123, 666, 2749314],
   },
+  {
+    extraDesc: 'it does not update when there are no ticket forms in the response',
+    initialState,
+    action: {
+      type: UPDATE_SETTINGS,
+      payload: {
+        webWidget: {
+          contactForm: [{ id: 123 }, { id: 666 }],
+        },
+      },
+    },
+    expected: initialState,
+  },
+  {
+    extraDesc: 'it does not update when ticket forms are not in an array',
+    initialState,
+    action: {
+      type: UPDATE_SETTINGS,
+      payload: {
+        webWidget: {
+          contactForm: {
+            ticketForms: { id: '123' },
+          },
+        },
+      },
+    },
+    expected: initialState,
+  },
 ])
