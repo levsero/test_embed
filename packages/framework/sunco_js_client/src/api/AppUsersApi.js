@@ -42,6 +42,18 @@ class AppUsersApi extends BaseApi {
       },
     })
   }
+
+  getLinkRequest(appUserId, integrationId) {
+    return this.request({
+      method: 'GET',
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}/linkrequest?integrationIds=${integrationId}`,
+      headers: {
+        Authorization: `Basic ${btoa(
+          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
+        )}`,
+      },
+    })
+  }
 }
 
 export default AppUsersApi
