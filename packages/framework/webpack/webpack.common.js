@@ -40,20 +40,6 @@ module.exports = {
         },
       },
       {
-        test: /\.js$/,
-        include: /node_modules\/smoothscroll-polyfill/,
-        use: [
-          'raw-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              plugins: babelLoaderPlugins,
-            },
-          },
-        ],
-      },
-      {
         test: /\.scss$/,
         exclude: /node_modules\/@zendeskgarden/,
         use: [

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { StyleSheetManager } from 'styled-components'
 import PropTypes from 'prop-types'
 import CurrentFrameProvider, { useCurrentFrame, CurrentFrameConsumer } from './CurrentFrameProvider'
+import { smoothScroll } from '../../utils/smoothScroll'
 
 const useCombinedRefs = (extraRef) => {
   const targetRef = useRef(null)
@@ -66,9 +67,7 @@ const Frame = React.forwardRef(({ children, rootElement, title, hidden, ...props
     body.appendChild(currentContainer)
 
     if (!('scrollBehavior' in currentFrame.contentDocument.documentElement.style)) {
-      const script = currentFrame.contentDocument.createElement('script')
-      script.innerHTML = require('smoothscroll-polyfill')
-      currentFrame.contentDocument.head.appendChild(script)
+      smoothScroll(window, window.document)
     }
 
     setIsTargetReady(true)

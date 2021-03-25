@@ -1,4 +1,5 @@
 import { em } from 'polished'
+import { FRAME_ANIMATION_DURATION } from '@zendesk/conversation-components'
 import {
   baseFontSize,
   frameBoxShadow,
@@ -9,7 +10,7 @@ import {
   widgetFrameWidth,
 } from 'src/apps/messenger/constants'
 
-export const openAnimationDuration = 0.7
+export const openAnimationDuration = FRAME_ANIMATION_DURATION
 
 const maxHeightSmallScreens = `calc(100vh - ${frameMarginFromPage * 2}px)`
 

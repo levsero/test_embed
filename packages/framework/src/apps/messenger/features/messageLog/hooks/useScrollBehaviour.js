@@ -7,7 +7,6 @@ import { FORM_ERROR } from 'final-form'
 
 import hostPageWindow, {
   restoreHostPageScrollPositionIfSafari,
-  isSafari,
 } from 'src/framework/utils/hostPageWindow'
 import {
   getLastReadTimestamp,
@@ -15,6 +14,7 @@ import {
   markAsRead,
 } from 'src/apps/messenger/store/unreadIndicator'
 import { useShouldDisableAnimations } from 'src/apps/messenger/features/animations/useDisableAnimationProps'
+import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 
 const scrollOffsetInRems = 3
 
@@ -24,20 +24,17 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
   const firstRender = useRef(true)
   const lastReadTimestamp = useSelector(getLastReadTimestamp)
   const lastUnreadTimestamp = useSelector(getLastUnreadTimestamp)
+  const widgetOpen = useSelector(getIsWidgetOpen)
   const theme = useContext(ThemeContext)
   const animationsDisabled = useShouldDisableAnimations()
   const frame = useCurrentFrame()
 
   const scrollToBottom = useCallback(
     ({ smooth = true } = {}) => {
-      if (isSafari) {
-        if (anchor.current)
-          container.scrollTop = container.scrollHeight + anchor.current.scrollHeight
-      } else {
-        anchor.current?.scrollIntoView({
-          behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
-        })
-      }
+      anchor.current?.scrollIntoView({
+        behavior: smooth && !animationsDisabled ? 'smooth' : undefined,
+        block: 'nearest',
+      })
 
       isScrollAtBottom.current = true
     },
@@ -46,13 +43,13 @@ const useScrollBehaviour = ({ messages, anchor, container }) => {
 
   const scrollToBottomIfNeeded = useCallback(
     (options) => {
-      if (isScrollAtBottom.current) {
+      if (isScrollAtBottom.current && widgetOpen) {
         setTimeout(() => {
           scrollToBottom(options)
         }, 0)
       }
     },
-    [scrollToBottom]
+    [scrollToBottom, widgetOpen]
   )
 
   const onScrollBottom = useCallback(
