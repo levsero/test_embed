@@ -134,6 +134,7 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
     aborted: new ObserverList(),
     message: new ObserverList(),
     activity: new ObserverList(),
+    link: new ObserverList(),
   }
 
   this.triggerSocketAborted = () => {
@@ -157,6 +158,11 @@ const SocketClient = function ({ baseUrl, appId, appUserId, sessionToken } = {})
               break
             case 'activity':
               this.eventObservers['activity'].notify(event.activity)
+              break
+            case 'link:matched':
+            case 'link:cancelled':
+            case 'link':
+              this.eventObservers['link'].notify(event)
               break
           }
         }
