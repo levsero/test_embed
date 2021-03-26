@@ -14,6 +14,7 @@ const Animated = ({
   isFreshMessage,
   isVisible,
   className,
+  unmountOnExit = false,
 }) => {
   const { scrollToBottomIfNeeded } = useScroll()
   const onEnter = () => {
@@ -29,6 +30,7 @@ const Animated = ({
       in={Boolean(isVisible)}
       appear={isFreshMessage}
       mountOnEnter={true}
+      unmountOnExit={unmountOnExit}
       timeout={{
         appear: (enter.duration + enter.delay) * 1000,
         enter: (enter.duration + enter.delay) * 1000,
@@ -79,6 +81,7 @@ Animated.propTypes = {
   isVisible: PropTypes.bool,
   isFreshMessage: PropTypes.bool,
   className: PropTypes.string,
+  unmountOnExit: PropTypes.bool,
 }
 
 export default Animated

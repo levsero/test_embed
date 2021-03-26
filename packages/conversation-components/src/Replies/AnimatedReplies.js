@@ -52,6 +52,7 @@ const AnimatedReplies = ({ isVisible, isFreshMessage, children }) => {
       name="animate-replies"
       enter={isFreshMessage ? messageSteps.freshRepliesEnter : messageSteps.existingRepliesEnter}
       exit={messageSteps.repliesExit}
+      unmountOnExit={true}
     >
       {children}
     </StyledAnimated>
