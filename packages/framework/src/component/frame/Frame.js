@@ -408,7 +408,7 @@ class Frame extends Component {
     const transitionStyles = {
       entering: {
         opacity: 0,
-        ...this.getOffsetPosition(-20),
+        ...this.getOffsetPosition(0),
       },
       entered: {
         opacity: 1,
@@ -419,6 +419,7 @@ class Frame extends Component {
         ...this.getOffsetPosition(-20),
       },
       exited: {
+        opacity: 0,
         top: '-9999px',
         visibility: 'hidden',
       },

@@ -35,7 +35,7 @@ const useTransitionStyles = () => {
     return {
       entering: {
         opacity: 0,
-        ...getOffsetPosition(-20),
+        ...getOffsetPosition(0),
       },
       entered: {
         opacity: 1,
@@ -46,6 +46,7 @@ const useTransitionStyles = () => {
         ...getOffsetPosition(-20),
       },
       exited: {
+        opacity: 0,
         top: '-9999px',
         visibility: 'hidden',
       },
