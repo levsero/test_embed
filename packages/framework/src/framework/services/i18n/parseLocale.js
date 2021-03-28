@@ -10,7 +10,7 @@ function regulateLocaleStringCase(locale) {
   if (dashIndex < 0) {
     return locale.toLowerCase()
   }
-  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
+  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toLowerCase()
 }
 
 const localeKeyExists = (locale) => {
@@ -18,7 +18,8 @@ const localeKeyExists = (locale) => {
 }
 
 function parseLocale(str, desiredFallback) {
-  const fallback = localeKeyExists(desiredFallback) ? desiredFallback : 'en-US'
+  const fallback = localeKeyExists(desiredFallback) ? desiredFallback : 'en-us'
+
   if (!str) return fallback
 
   const locale = regulateLocaleStringCase(regulateDash(str))

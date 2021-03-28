@@ -57,13 +57,13 @@ describe('i18n', () => {
       })
     })
     describe('no language', () => {
-      it('returns en-US default', () => {
+      it('returns en-us default', () => {
         globals.navigator = {
           languages: [],
           browserLanguage: undefined,
           language: undefined,
         }
-        expect(i18n.getClientLocale()).toEqual('en-US')
+        expect(i18n.getClientLocale()).toEqual('en-us')
       })
     })
   })
@@ -77,9 +77,9 @@ describe('i18n', () => {
   describe('setLocale', () => {
     describe('with no previously set locale', () => {
       describe('and no locales are passed in', () => {
-        it('defaults setLocale to en-US', (done) => {
+        it('defaults setLocale to en-us', (done) => {
           i18n.setLocale(undefined, () => {
-            expect(i18n.getLocale()).toEqual('en-US')
+            expect(i18n.getLocale()).toEqual('en-us')
             done()
           })
         })
@@ -104,7 +104,7 @@ describe('i18n', () => {
               expect(getLocale(store.getState())).toEqual('pt-br')
               done()
             },
-            'en-US'
+            'en-us'
           )
         })
       })
@@ -133,16 +133,16 @@ describe('i18n', () => {
               expect(getLocale(store.getState())).toEqual('pt-br')
               done()
             },
-            'en-US'
+            'en-us'
           )
         })
       })
       it.each([
         ['de', 'de'],
         ['DE', 'de'],
-        ['de-de', 'de'],
-        ['fil-PH', 'fil'],
-        ['xx', 'en-US'],
+        ['de-de', 'de-de'],
+        ['fil-PH', 'fil-ph'],
+        ['xx', 'en-us'],
         ['zh', 'zh-cn'],
         ['zh_TW', 'zh-tw'],
         ['zh-Hant-TW', 'zh-tw'],
@@ -151,8 +151,8 @@ describe('i18n', () => {
         ['zh-Hant-MO', 'zh-mo'],
         ['zh-TW', 'zh-tw'],
         ['nb', 'nb'],
-        ['nb-NO', 'nb'],
-        ['nn-NO', 'nn'],
+        ['nb-NO', 'nb-no'],
+        ['nn-NO', 'nn-no'],
         ['no', 'no'],
         ['tl', 'tl'],
         ['en-AU', 'en-au'],
@@ -165,7 +165,7 @@ describe('i18n', () => {
     })
   })
   describe('getLocaleId', () => {
-    it('returns the correct locale_id for en-US', (done) => {
+    it('returns the correct locale_id for en-us', (done) => {
       i18n.setLocale(undefined, () => {
         expect(i18n.getLocaleId()).toEqual(1)
         done()
@@ -173,8 +173,9 @@ describe('i18n', () => {
     })
     it('returns the correct locale_id for de-de', (done) => {
       i18n.setLocale('de-de')
-      i18n.setLocale('de-de', () => {
-        expect(i18n.getLocaleId()).toEqual(8)
+      i18n.setLocale('de-de', async () => {
+        expect(i18n.getLocaleId()).toEqual(1541)
+
         done()
       })
     })
@@ -222,7 +223,7 @@ describe('i18n', () => {
   describe('getSettingTranslation', () => {
     describe('when the translations object is empty', () => {
       it('returns undefined', (done) => {
-        i18n.setLocale('en-US', () => {
+        i18n.setLocale('en-us', () => {
           expect(i18n.getSettingTranslation({})).toEqual(undefined)
           done()
         })
