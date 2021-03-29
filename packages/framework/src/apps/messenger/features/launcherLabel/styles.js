@@ -1,5 +1,14 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle, keyframes } from 'styled-components'
 import { dirStyles } from '@zendesk/conversation-components'
+
+const onLoadFadeIn = keyframes`
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+`
 
 const Container = styled.div`
   position: absolute;
@@ -7,6 +16,7 @@ const Container = styled.div`
   ${(props) => `${props.position === 'left' ? 'left' : 'right'}: 0;`}
   display: flex;
   justify-content: ${dirStyles.swap('flex-end', 'flex-start')};
+  animation: ${onLoadFadeIn} 0.2s ease-in;
 `
 
 const GlobalStyles = createGlobalStyle`

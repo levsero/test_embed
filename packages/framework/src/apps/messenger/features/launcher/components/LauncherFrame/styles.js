@@ -56,6 +56,23 @@ const launcherAnimation = `
                     transform: translateY(-0px) rotate(0deg);
           }
         }
+
+        @keyframes webSDKOnLoad {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity 1;
+          }
+        }
+        @-webkit-keyframes webSDKOnLoad {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
       `
 
 export { launcherAnimation }
