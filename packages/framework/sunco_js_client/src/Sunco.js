@@ -93,6 +93,7 @@ export default class Sunco {
       },
       getIntegrations: () => this.integrations.get(),
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
+      unlinkChannel: (clientId) => this.appUsers.unlinkChannel(appUserId, clientId),
     }
   }
 

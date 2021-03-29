@@ -54,6 +54,18 @@ class AppUsersApi extends BaseApi {
       },
     })
   }
+
+  unlinkChannel(appUserId, clientId) {
+    return this.request({
+      method: 'DELETE',
+      path: `/v2/apps/${this.appId}/appusers/${appUserId}/clients/${clientId}`,
+      headers: {
+        Authorization: `Basic ${btoa(
+          `${appUserId}:${storage.getItem(`${this.integrationId}.sessionToken`)}`
+        )}`,
+      },
+    })
+  }
 }
 
 export default AppUsersApi
