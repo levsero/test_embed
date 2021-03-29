@@ -14,6 +14,7 @@ const Log = styled.div`
   overflow-y: auto;
   height: 100%;
   flex-grow: 1;
+  overscroll-behavior-y: contain;
 `
 
 export { Container, Log }
