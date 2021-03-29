@@ -14,8 +14,13 @@ import { store as persistence } from 'src/framework/services/persistence'
 import { initialiseLauncherLabel } from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import createMessengerApi from './public-api'
 import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
+import errorTracker from 'src/framework/services/errorTracker'
 
 const init = async ({ config }) => {
+  if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
+    errorTracker.logOneOutOfXErrors(1)
+  }
   if (config?.messenger?.conversationHistory === 'remember') {
     const success = persistence.enableLocalStorage()
 

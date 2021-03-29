@@ -30,4 +30,8 @@ export default {
     getArturoValue: (state) =>
       state.base.embeddableConfig.embeds?.chat?.props?.webWidgetEnableLastChatRating,
   },
+  log_all_messenger_errors: {
+    defaultValue: false,
+    getArturoValue: (config) => config.logMessengerErrors,
+  },
 }
