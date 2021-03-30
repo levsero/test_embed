@@ -56,7 +56,37 @@ testReducer(reducer, [
     expected: [123, 666, 2749314],
   },
   {
-    extraDesc: 'it does not update when there are no ticket forms in the response',
+    extraDesc: 'it ignores IDs that cannot be coerced to integers',
+    initialState,
+    action: {
+      type: UPDATE_SETTINGS,
+      payload: {
+        webWidget: {
+          contactForm: {
+            ticketForms: [{ id: '123' }, { id: 666 }, { id: 'abc' }, { id: true }],
+          },
+        },
+      },
+    },
+    expected: [123, 666],
+  },
+  {
+    extraDesc: 'it ignores elements that have no ID key',
+    initialState,
+    action: {
+      type: UPDATE_SETTINGS,
+      payload: {
+        webWidget: {
+          contactForm: {
+            ticketForms: [{ id: '123' }, { id: 666 }, { derp: 456 }],
+          },
+        },
+      },
+    },
+    expected: [123, 666],
+  },
+  {
+    extraDesc: 'it does not update when there are no ticket forms in the payload',
     initialState,
     action: {
       type: UPDATE_SETTINGS,
