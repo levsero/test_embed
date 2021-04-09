@@ -19,7 +19,6 @@ import {
 import { CHAT_STRUCTURED_CONTENT_TYPE } from 'constants/chat'
 import { API_RESET_WIDGET } from 'src/redux/modules/base/base-action-types'
 import { CHAT_RATING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import { store } from 'src/framework/services/persistence'
 import { isAgent } from 'src/util/chat'
 
 const UNSET_TIMESTAMP = -1
@@ -61,8 +60,7 @@ const latestRating = (state = initialState.latestRating, action) => {
     // after agent ends the chat. We will reset it using SDK_CHAT_MEMBER_JOIN to
     // hide rating button
     case SDK_CHAT_MEMBER_JOIN:
-      const isLastChatRatingEnabled = _.get(store.get('arturos'), 'webWidgetEnableLastChatRating')
-      if (isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
+      if (action.payload.isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
         return initialState.latestRating
       }
       return state
@@ -126,8 +124,7 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
     // is not reset. We will reset it using SDK_CHAT_MEMBER_JOIN to hide rating
     // button
     case SDK_CHAT_MEMBER_JOIN:
-      const isLastChatRatingEnabled = _.get(store.get('arturos'), 'webWidgetEnableLastChatRating')
-      if (isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
+      if (action.payload.isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
         return initialState.latestAgentLeaveEvent
       }
       return state

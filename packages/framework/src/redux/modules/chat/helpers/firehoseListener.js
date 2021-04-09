@@ -9,6 +9,7 @@ import {
 import * as callbacks from 'service/api/callbacks'
 import { CHAT_DEPARTMENT_STATUS_EVENT, CHAT_STATUS_EVENT, CHAT_ENDED_EVENT } from 'constants/event'
 import { isVisitor } from 'utility/chat'
+import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const fireWidgetChatEvent = (action, getReduxState) => {
   switch (action.type) {
@@ -50,6 +51,11 @@ const firehoseListener = (zChat, dispatch, getReduxState) => (data) => {
   } else {
     data.timestamp = Date.now()
   }
+
+  data.isLastChatRatingEnabled = isFeatureEnabled(
+    getReduxState(),
+    'web_widget_enable_last_chat_rating'
+  )
 
   const chatAction = {
     type: actionType,
