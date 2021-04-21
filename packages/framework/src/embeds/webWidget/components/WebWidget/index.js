@@ -1,12 +1,18 @@
+import { lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { getFrameVisible } from 'src/redux/modules/selectors'
 import Launcher from 'embeds/webWidget/components/Launcher'
-import Embeds from 'embeds/webWidget/components/Embeds'
+const Embeds = lazy(() =>
+  import(/* webpackChunkName: 'lazy/embeds' */ 'src/embeds/webWidget/components/Embeds')
+)
 
 const WebWidget = ({ config }) => {
+  const isWidgetOpen = useSelector((state) => getFrameVisible(state, 'webWidget'))
   return (
     <>
       <Launcher labelKey={config?.embeds?.launcher?.props?.labelKey} />
-      <Embeds />
+      <Suspense fallback={<span />}>{isWidgetOpen && <Embeds />}</Suspense>
     </>
   )
 }
