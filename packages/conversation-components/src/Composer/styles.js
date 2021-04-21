@@ -12,7 +12,10 @@ const StyledSendIcon = styled(SendIcon)``
 // To do this, add the line height, padding and border together
 const sendButtonSize = css`
   ${(props) => `
-  calc(${props.theme.messenger.lineHeights.md} + ${props.theme.messenger.space.sm} + ${props.theme.messenger.space.sm} + ${props.theme.borderWidths.sm})
+  calc(${props.theme.messenger.lineHeights.md} + ${rem(
+    10,
+    props.theme.messenger.baseFontSize
+  )} + ${rem(10, props.theme.messenger.baseFontSize)})
 `}
 `
 
@@ -58,12 +61,11 @@ const StyledTextarea = styled(Textarea)`
     border: ${(props) => props.theme.borders.sm} rgb(216, 220, 222);
     background: transparent;
     min-height: ${(props) => rem(40, props.theme.messenger.baseFontSize)};
-    padding: ${(props) => props.theme.messenger.space.sm}
+    padding: ${(props) => rem(10, props.theme.messenger.baseFontSize)}
       ${(props) => props.theme.messenger.space.sixteen};
     padding-${dirStyles.right}: ${sendButtonSize};
 
     box-shadow: none;
-    line-height: ${(props) => props.theme.messenger.lineHeights.md};
     font-size: ${(props) => props.theme.messenger.fontSizes.md};
 
     -ms-overflow-style: none;
