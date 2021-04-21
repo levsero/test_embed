@@ -4,7 +4,7 @@ import CSSTransition from 'react-transition-group/CSSTransition'
 import { useScroll } from 'src/hooks/useScrollBehaviour'
 import { isSafari } from 'src/utils/hostPageWindow'
 
-import FRAME_ANIMATION_DURATION from 'src/constants'
+import { FRAME_ANIMATION_DURATION } from 'src/constants'
 
 const Animated = ({
   children,
