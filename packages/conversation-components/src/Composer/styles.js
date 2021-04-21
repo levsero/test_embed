@@ -57,7 +57,7 @@ const StyledTextarea = styled(Textarea)`
     border-radius: ${(props) => rem(22, props.theme.messenger.baseFontSize)};
     border: ${(props) => props.theme.borders.sm} rgb(216, 220, 222);
     background: transparent;
-    min-height: auto;
+    min-height: ${(props) => rem(40, props.theme.messenger.baseFontSize)};
     padding: ${(props) => props.theme.messenger.space.sm}
       ${(props) => props.theme.messenger.space.sixteen};
     padding-${dirStyles.right}: ${sendButtonSize};
