@@ -8,5 +8,5 @@ test('endChat() ends a chat', async () => {
 
   await page.evaluate(() => $zopim.livechat.endChat())
 
-  await widget.expectToSeeText('Chat ended')
+  await widget.waitForText('Chat ended')
 })

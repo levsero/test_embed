@@ -16,7 +16,7 @@ const sendMessageFromAgent = async (proactive) => {
 }
 const buildWidget = () => loadWidget().withPresets('chat').hiddenInitially()
 const expectWidgetToBeOpen = () => widget.expectToSeeText('Chat with us')
-const expectWidgetNotToBeOpen = () => widget.expectNotToSeeText('Chat with us')
+const expectWidgetNotToBeOpen = async () => await expect(widget).toBeHidden()
 
 test('first proactive chat message opens the widget', async () => {
   await buildWidget().load()
@@ -80,5 +80,4 @@ test('proactive chat notifications can be closed on mobile', async () => {
   await widget.clickText('Dismiss', { exact: false })
 
   await wait(async () => await expectWidgetNotToBeOpen())
-  await widget.expectNotToSeeText('message from agent')
 })

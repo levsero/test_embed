@@ -4,8 +4,16 @@ import { TEST_IDS } from 'src/constants/shared'
 
 const webWidgetId = 'webWidget'
 const selector = `iframe#${webWidgetId}`
-const getDocument = () => frame.getDocument(webWidgetId)
-const getFrame = () => frame.getByName(webWidgetId)
+
+const getDocument = async () => {
+  await page.waitForSelector(`#${webWidgetId}`)
+  return frame.getDocument(webWidgetId)
+}
+
+const getFrame = async () => {
+  await page.waitForSelector(`#${webWidgetId}`)
+  return frame.getByName(webWidgetId)
+}
 
 const clickClose = async () => {
   const widget = await getDocument()

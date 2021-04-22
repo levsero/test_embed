@@ -2,7 +2,6 @@ import { mockRollbarEndpoint, mockStaticAssets, goToTestPage, failOnConsoleError
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
 import { mockHcStatsEndpoint } from './../hc-stats'
 import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
 import devices from 'puppeteer/DeviceDescriptors'
 
 const defaultMocks = [
@@ -75,9 +74,6 @@ const load = async (options = {}) => {
   if (!options.hidden) {
     await launcher.getFrame().waitForSelector('#Embed', { visible: true })
   }
-  await widget.evaluate(() => {
-    document.body.style.caretColor = 'transparent'
-  })
 }
 
 export default load

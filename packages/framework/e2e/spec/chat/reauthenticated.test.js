@@ -44,7 +44,7 @@ const mockAuthSuccessEndpoint = (callback) => {
 }
 
 const assertPastChatsVisible = async () => {
-  await widget.expectToSeeText('14 April 2020, 00:48')
+  await widget.waitForText('14 April 2020, 00:48')
   await widget.expectToSeeText('this is a message from visitor')
   await widget.expectToSeeText('Wayner joined the chat')
   await widget.expectToSeeText('Wayner')
@@ -94,7 +94,7 @@ describe('when authentication is provided during session', () => {
   })
 
   test('name and email are not editable', async () => {
-    await widget.expectToSeeText('Your profile:')
+    await widget.waitForText('Your profile:')
     await widget.expectToSeeText('yolo@authenticated.com')
 
     const doc = await widget.getDocument()
@@ -133,7 +133,7 @@ describe('when authentication is provided during session', () => {
 
     test('can navigate back to prechat form', async () => {
       await widget.clickBack()
-      await widget.expectToSeeText('Your profile:')
+      await widget.waitForText('Your profile:')
       await widget.expectToSeeText('yolo@authenticated.com')
     })
   })
@@ -151,13 +151,13 @@ describe('when reauthenticating during an existing authenticated session', () =>
   })
 
   test('name and email are not editable', async () => {
-    await widget.expectToSeeText('Your profile:')
+    await widget.waitForText('Your profile:')
     await widget.expectToSeeText('Visitor 1')
 
     await authenticateUserInSession()
 
-    await widget.expectToSeeText('Your profile:')
-    await widget.expectToSeeText('yolo@authenticated.com')
+    await widget.waitForText('Your profile:')
+    await widget.waitForText('yolo@authenticated.com')
     await widget.expectNotToSeeText('Visitor 1')
 
     const doc = await widget.getDocument()

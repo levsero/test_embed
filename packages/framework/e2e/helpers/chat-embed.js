@@ -14,6 +14,7 @@ const loadWidgetWithChatOnline = async (options = {}) => {
 
   await builder.load()
   await zChat.online()
+  await wait(() => expect(launcher).toBeVisible())
   await launcher.click()
   await waitForPrechatForm()
 }
