@@ -2,6 +2,7 @@ import 'core-js/modules/es.promise'
 import 'core-js/modules/es.array.iterator'
 import 'core-js/modules/es.object.assign'
 import fetchLocale from 'src/framework/services/i18n/fetchLocale'
+import { prefetchChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WW_I18N'
 
@@ -23,6 +24,15 @@ if (window.ACFetch) {
     .then((config) => {
       if (!localeFetched) {
         fetchLocale(config.locale ?? 'en-US').catch(() => {})
+      }
+
+      if (window.top?.zESettings?.webWidget?.chat?.connectOnPageLoad === false) {
+        if (config?.embeds?.chat?.props?.mediatorHost && config?.embeds?.chat?.props?.zopimId) {
+          prefetchChatStatus(
+            config.embeds.chat.props.mediatorHost,
+            config.embeds.chat.props.zopimId
+          )
+        }
       }
 
       return {

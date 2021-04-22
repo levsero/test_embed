@@ -6,27 +6,68 @@ const validStatus = {
   offline: true,
 }
 
+let __prefetchedChatStatus = null
+
+const prefetchChatStatus = async (mediatorHost, zopimId) => {
+  __prefetchedChatStatus = new Promise((resolve, reject) => {
+    return superagent(
+      'GET',
+      `https://${mediatorHost}/client/widget/account/status?embed_key=${zopimId}`
+    )
+      .responseType('json')
+      .end((err, result) => {
+        if (err || result.status !== 200) {
+          __prefetchedChatStatus = null
+          reject(err)
+        } else {
+          resolve({
+            success: true,
+            chatStatus: result.body,
+          })
+        }
+      })
+  })
+
+  return await __prefetchedChatStatus
+}
+
 const fetchDeferredChatStatus = async (endpoint) => {
   if (!endpoint) {
     throw new Error('Failed to get deferred chat status, no endpoint specified')
   }
 
-  const response = await new Promise((resolve, reject) => {
-    superagent('GET', endpoint)
-      .responseType('json')
-      .end((err, result) => {
-        if (err) {
-          reject(err)
-          return
-        }
+  let response
 
-        if (result.status !== 200) {
-          throw new Error(`Unexpected status code, expected 200 got ${result.status}`)
-        }
+  if (__prefetchedChatStatus) {
+    try {
+      const prefetchedStatus = await __prefetchedChatStatus
+      if (prefetchedStatus.success) {
+        response = { ...prefetchedStatus.chatStatus }
+        __prefetchedChatStatus = null
+      }
+    } catch {
+      // fallback to fetching chat status
+    }
+  }
 
-        resolve(result.body)
-      })
-  })
+  response =
+    response ||
+    (await new Promise((resolve, reject) => {
+      superagent('GET', endpoint)
+        .responseType('json')
+        .end((err, result) => {
+          if (err) {
+            reject(err)
+            return
+          }
+
+          if (result.status !== 200) {
+            throw new Error(`Unexpected status code, expected 200 got ${result.status}`)
+          }
+
+          resolve(result.body)
+        })
+    }))
 
   const status = response.status
   const departments =
@@ -53,4 +94,4 @@ const fetchDeferredChatStatus = async (endpoint) => {
   return { status, departments: departmentsById }
 }
 
-export { fetchDeferredChatStatus }
+export { prefetchChatStatus, fetchDeferredChatStatus }
