@@ -12,8 +12,8 @@ test('api toggles the widget visibility', async () => {
   await widget.expectToBeVisible()
   expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('helpCenter')
   await page.evaluate(() => zE('webWidget', 'toggle'))
+  await widget.waitForWidget({ isVisible: false })
   await expect(launcher).toBeVisible()
-  await expect(widget).toBeHidden()
   expect(await page.evaluate(() => zE('webWidget:get', 'display'))).toEqual('launcher')
 })
 
@@ -21,13 +21,13 @@ test('widget toggles to launcher when it is initially open', async () => {
   await buildWidget().load()
   await launcher.click()
   await page.evaluate(toggleFn)
-  await expect(widget).toBeHidden()
+  await widget.waitForWidget({ isVisible: false })
   await expect(launcher).toBeVisible()
 })
 
 test('works on prerender as well', async () => {
-  await buildWidget().evaluateAfterSnippetLoads(toggleFn).hiddenInitially().load()
+  await buildWidget().evaluateAfterSnippetLoads(toggleFn).dontWaitForLauncherToLoad().load()
 
+  await widget.waitForWidget({ isVisible: true })
   await expect(launcher).toBeHidden()
-  await widget.expectToBeVisible()
 })

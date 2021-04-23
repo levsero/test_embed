@@ -64,15 +64,11 @@ const load = async (options = {}) => {
   if (options.afterSnippetLoads) {
     options.afterSnippetLoads(page)
   }
-  const selectorOptions = {
-    visible: true,
-  }
-  if (options.hidden) {
-    selectorOptions.visible = false
-  }
-  await page.waitForSelector('iframe#launcher', selectorOptions)
-  if (!options.hidden) {
-    await launcher.getFrame().waitForSelector('#Embed', { visible: true })
+  const launcherFrame = await launcher.getFrame()
+  if (options.waitForLauncherToLoad) {
+    await launcherFrame.waitForSelector('#Embed', { visible: true })
+  } else {
+    await launcherFrame.waitForSelector('#Embed')
   }
 }
 

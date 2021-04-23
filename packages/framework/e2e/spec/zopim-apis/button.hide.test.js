@@ -10,15 +10,17 @@ beforeEach(async () => {
 
 test('api hides the the widget', async () => {
   await page.evaluate(() => $zopim.livechat.button.show())
+  await launcher.waitForLauncherPill({ visible: true })
   await page.evaluate(() => $zopim.livechat.button.hide())
-  await expect(launcher).toBeHidden()
+  await launcher.waitForLauncherPill({ visible: false })
   await expect(widget).toBeHidden()
 })
 
 test('api hides an opened widget', async () => {
   await launcher.click()
+  await launcher.waitForLauncherPill({ visible: true })
   await page.evaluate(() => $zopim.livechat.button.hide())
-  await expect(launcher).toBeHidden()
+  await launcher.waitForLauncherPill({ visible: false })
   await expect(widget).toBeHidden()
 })
 
@@ -26,6 +28,6 @@ test('calling api multiple times is a no-op', async () => {
   await page.evaluate(() => $zopim.livechat.button.hide())
   await page.evaluate(() => $zopim.livechat.button.hide())
   await page.evaluate(() => $zopim.livechat.button.hide())
-  await expect(launcher).toBeHidden()
+  await launcher.waitForLauncherPill({ visible: false })
   await expect(widget).toBeHidden()
 })

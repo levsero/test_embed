@@ -3,11 +3,19 @@ import { TEST_IDS } from 'src/constants/shared'
 import frame from './frame'
 
 const launcherId = 'launcher'
-const getDocument = () => frame.getDocument(launcherId)
 const getLabel = async () => await queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER_LABEL)
 const getLabelText = async () => await queries.getNodeText(await getLabel())
 const getButton = async () => await queries.getByTestId(await getDocument(), TEST_IDS.LAUNCHER)
-const getFrame = () => frame.getByName(launcherId)
+
+const getDocument = async () => {
+  await page.waitForSelector(`#${launcherId}`)
+  return frame.getDocument(launcherId)
+}
+
+const getFrame = async () => {
+  await page.waitForSelector(`#${launcherId}`)
+  return frame.getByName(launcherId)
+}
 
 const evaluate = async (script, ...arg) => {
   const frame = await getFrame()
@@ -19,8 +27,11 @@ const waitForTestId = async (testId, options = { visible: true }) => {
   await frame.waitForSelector(`[data-testid="${testId}"]`, options)
 }
 
-const waitForLauncherPill = async () => await waitForTestId(TEST_IDS.LAUNCHER, { visible: true })
-const waitForChatBadge = async () => await waitForTestId(TEST_IDS.CHAT_BADGE, { visible: true })
+const waitForLauncherPill = async ({ isVisible = true } = {}) =>
+  await waitForTestId(TEST_IDS.LAUNCHER, { visible: isVisible, timeout: 5000 })
+
+const waitForChatBadge = async ({ isVisible = true } = {}) =>
+  await waitForTestId(TEST_IDS.CHAT_BADGE, { visible: isVisible, timeout: 5000 })
 
 const expectIconToBeVisible = async (iconType) => {
   const iconTestid = ((icon) => {

@@ -29,7 +29,7 @@ const clickBack = async () => {
 
 const clickButton = async (buttonText) => {
   const frame = await getFrame()
-  await waitForText(buttonText)
+  await waitForText(buttonText, { visible: true })
   await expect(frame).toClick('button', { text: buttonText })
 }
 
@@ -79,12 +79,17 @@ const expectNotToSeeText = async (text) => {
   expect(await queries.queryByText(await getDocument(), text)).toBeNull()
 }
 
+const waitForWidget = async ({ isVisible = true } = {}) => {
+  if (isVisible) {
+    await page.waitForSelector(selector, { visible: true, timeout: 5000 })
+  } else {
+    await wait(async () => await expect(selector).toBeHidden())
+  }
+}
+
 const expectToBeVisible = async () => {
   try {
-    await page.waitForSelector(selector, {
-      visible: true,
-      timeout: 5000, // wait for 5 seconds
-    })
+    waitForWidget({ isVisible: true })
     const embed = await evaluate(() => {
       return document.querySelector('#Embed [data-embed]').dataset['embed']
     })
@@ -106,6 +111,7 @@ export default {
   waitForTestId,
   waitForPlaceholderText,
   waitForText,
+  waitForWidget,
   expectToSeeText,
   expectNotToSeeText,
   evaluate,

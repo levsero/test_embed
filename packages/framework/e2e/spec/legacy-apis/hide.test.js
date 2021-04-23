@@ -35,7 +35,7 @@ test('works on prerender as well', async () => {
         zE.hide()
       })
     })
-    .hiddenInitially()
+    .dontWaitForLauncherToLoad()
     .load()
   await expect(launcher).toBeHidden()
   await expect(widget).toBeHidden()

@@ -9,7 +9,7 @@ import { waitForPrechatForm, clickStartChat } from 'e2e/helpers/chat-embed'
 
 const buildWidget = async (onPageLoad = true) => {
   const authenticateEndpoint = jest.fn()
-  let instance = await loadWidget().withPresets('chat').hiddenInitially()
+  let instance = await loadWidget().withPresets('chat').dontWaitForLauncherToLoad()
 
   if (onPageLoad) {
     instance = instance.evaluateBeforeSnippetLoads(() => {

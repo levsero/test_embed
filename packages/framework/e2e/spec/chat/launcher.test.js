@@ -10,7 +10,7 @@ import zChat from 'e2e/helpers/zChat'
 const buildWidget = async (...embeds) => {
   await loadWidget()
     .withPresets(...embeds)
-    .hiddenInitially()
+    .dontWaitForLauncherToLoad()
     .load()
 }
 

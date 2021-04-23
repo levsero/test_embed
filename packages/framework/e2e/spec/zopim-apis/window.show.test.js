@@ -11,13 +11,13 @@ beforeEach(async () => {
 test('api opens the widget', async () => {
   await page.evaluate(() => $zopim.livechat.window.show())
 
-  await widget.expectToBeVisible()
+  await widget.waitForWidget({ isVisible: true })
   await expect(launcher).toBeHidden()
 })
 
 test('api shows the widget in opened state when the whole widget is initially hidden', async () => {
   await page.evaluate(() => $zopim.livechat.window.hide())
   await page.evaluate(() => $zopim.livechat.window.show())
-  await widget.expectToBeVisible()
+  await widget.waitForWidget({ isVisible: true })
   await expect(launcher).toBeHidden()
 })
