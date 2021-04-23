@@ -17,6 +17,7 @@ import {
   getDepartmentsList,
   getIsAuthenticated,
   getLoginSettings,
+  getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 
 const getCanViewDepartmentSelect = (state) => {
@@ -56,7 +57,7 @@ export const getVisiblePrechatFields = (state, options = {}) => {
   const prechatFormFields = getPrechatFormFields(state)
   const loginSettings = getLoginSettings(state)
   const isAuthenticated = getIsAuthenticated(state)
-
+  const { authenticated: isSociallyLoggedIn } = getSocialLogin(state)
   // If the user has selected an offline department,
   // then all other fields except the phone field are changed to be required
   const selectedDepartment = getDepartment(state, options.department)
@@ -67,19 +68,19 @@ export const getVisiblePrechatFields = (state, options = {}) => {
       id: 'name',
       title: i18n.t('embeddable_framework.common.textLabel.name'),
       required: Boolean(prechatFormFields.name?.required || isDepartmentOffline),
-      visible: loginSettings.enabled && !isAuthenticated,
+      visible: loginSettings.enabled && !isAuthenticated && !isSociallyLoggedIn,
       type: 'text',
     },
     {
       id: 'socialLogin',
       type: 'socialLogin',
-      visible: loginSettings.enabled && !isAuthenticated,
+      visible: loginSettings.enabled && !isAuthenticated && !isSociallyLoggedIn,
     },
     {
       id: 'email',
       title: i18n.t('embeddable_framework.common.textLabel.email'),
       required: Boolean(prechatFormFields.email?.required || isDepartmentOffline),
-      visible: loginSettings.enabled && !isAuthenticated,
+      visible: loginSettings.enabled && !isAuthenticated && !isSociallyLoggedIn,
       type: 'text',
     },
     {

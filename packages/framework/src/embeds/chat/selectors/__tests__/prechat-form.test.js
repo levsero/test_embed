@@ -14,6 +14,7 @@ import {
   getDepartmentsList,
   getIsAuthenticated,
   getLoginSettings,
+  getSocialLogin,
 } from 'src/redux/modules/chat/chat-selectors'
 import {
   getSettingsChatDepartment,
@@ -37,6 +38,7 @@ describe('prechat form selectors', () => {
       loginSettings: {
         enabled: true,
       },
+      socialLogin: { authenticated: false },
       customerDefinedDepartments: undefined,
       prechatFormSettings: {},
       locale: 'en',
@@ -54,6 +56,7 @@ describe('prechat form selectors', () => {
       getPrechatFormFields.mockReturnValue(options.formFields)
       getDefaultFormFields.mockReturnValue(options.formFields)
       getLoginSettings.mockReturnValue(options.loginSettings)
+      getSocialLogin.mockReturnValue(options.socialLogin)
       getDepartment.mockReturnValue(options.department)
       getSettingsChatDepartmentsEnabled.mockReturnValue(options.customerDefinedDepartments)
       getSettingsChatPrechatForm.mockReturnValue(options.prechatFormSettings)
@@ -65,6 +68,15 @@ describe('prechat form selectors', () => {
       it('is not included when the user is authenticated', () => {
         const result = run({
           isAuthenticated: true,
+        })
+
+        const field = result.find((field) => field.id === 'name')
+        expect(field).toBeUndefined()
+      })
+
+      it('is not included when the user is socially logged in', () => {
+        const result = run({
+          socialLogin: { authenticated: true },
         })
 
         const field = result.find((field) => field.id === 'name')
@@ -133,6 +145,15 @@ describe('prechat form selectors', () => {
         expect(field).toBeUndefined()
       })
 
+      it('is not included when the user is socially logged in', () => {
+        const result = run({
+          socialLogin: { authenticated: true },
+        })
+
+        const field = result.find((field) => field.id === 'socialLogin')
+        expect(field).toBeUndefined()
+      })
+
       it('is included when the user is not authenticated', () => {
         const result = run({
           isAuthenticated: false,
@@ -158,6 +179,15 @@ describe('prechat form selectors', () => {
           loginSettings: {
             enabled: false,
           },
+        })
+
+        const field = result.find((field) => field.id === 'email')
+        expect(field).toBeUndefined()
+      })
+
+      it('is not included when the user is socially logged in', () => {
+        const result = run({
+          socialLogin: { authenticated: true },
         })
 
         const field = result.find((field) => field.id === 'email')
