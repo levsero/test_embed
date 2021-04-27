@@ -26,7 +26,7 @@ const sendMessageFromAgent = async (proactive) => {
   }
   await zChat.chat(detail)
 }
-const buildWidget = () => loadWidget().withPresets('chat').hiddenInitially()
+const buildWidget = () => loadWidget().withPresets('chat').dontWaitForLauncherToLoad()
 
 test('proactive chats show a notification on mobile', async () => {
   await buildWidget().useMobile().load()
@@ -41,7 +41,7 @@ test('proactive chats show a notification on mobile', async () => {
 })
 
 test('proactive chat', async () => {
-  await loadWidget().withPresets('chatStandalone').hiddenInitially().load()
+  await loadWidget().withPresets('chatStandalone').dontWaitForLauncherToLoad().load()
   await zChat.online()
   await launcher.waitForChatBadge()
   await assertScreenshot('chat-badge')

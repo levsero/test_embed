@@ -8,15 +8,15 @@ class WidgetBuilder {
     this.beforeSnippetScripts = []
     this.afterSnippetScripts = []
     this.mobile = false
-    this.hidden = false
+    this.waitForLauncherToLoad = true
   }
   useMobile() {
     this.mobile = true
     return this
   }
 
-  hiddenInitially() {
-    this.hidden = true
+  dontWaitForLauncherToLoad() {
+    this.waitForLauncherToLoad = false
     return this
   }
 
@@ -63,8 +63,8 @@ class WidgetBuilder {
       mockRequests,
       beforeSnippetLoads,
       afterSnippetLoads,
-      hidden: this.hidden,
       mobile: this.mobile,
+      waitForLauncherToLoad: this.waitForLauncherToLoad,
     })
   }
 }

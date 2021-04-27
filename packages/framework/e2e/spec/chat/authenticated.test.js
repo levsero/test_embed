@@ -10,7 +10,7 @@ const buildWidget = async () => {
   const authenticateEndpoint = jest.fn()
   await loadWidget()
     .withPresets('chat')
-    .hiddenInitially()
+    .dontWaitForLauncherToLoad()
     .evaluateBeforeSnippetLoads(() => {
       window.zESettings = {
         authenticate: {

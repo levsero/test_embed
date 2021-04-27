@@ -4,9 +4,10 @@ import { agentJoinsChat, openChattingScreen, visitorLeavesChat } from 'e2e/helpe
 test('endChat() ends a chat', async () => {
   await openChattingScreen()
   await agentJoinsChat('Murray Bozinsky')
+  await widget.waitForText('Murray Bozinsky joined the chat')
   await visitorLeavesChat('Visitor 1')
 
   await page.evaluate(() => $zopim.livechat.endChat())
 
-  await widget.expectToSeeText('Chat ended')
+  await widget.waitForText('Chat ended')
 })

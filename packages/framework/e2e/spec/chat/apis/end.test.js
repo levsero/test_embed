@@ -4,6 +4,7 @@ import { agentJoinsChat, openChattingScreen, visitorLeavesChat } from 'e2e/helpe
 test('chat:end ends a chat', async () => {
   await openChattingScreen()
   await agentJoinsChat('Murray Bozinsky')
+  await widget.waitForText('Murray Bozinsky joined the chat')
   await visitorLeavesChat('Visitor 1')
 
   await page.evaluate(() => zE('webWidget', 'chat:end'))

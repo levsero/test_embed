@@ -6,14 +6,14 @@ import zChat from 'e2e/helpers/zChat'
 import widget from './widget'
 
 const loadWidgetWithChatOnline = async (options = {}) => {
-  let builder = loadWidget().withPresets('chat').hiddenInitially()
+  let builder = loadWidget().withPresets('chat').dontWaitForLauncherToLoad()
 
   if (options.mobile) {
     builder = builder.useMobile()
   }
-
   await builder.load()
   await zChat.online()
+  await launcher.waitForLauncherPill({ visible: true })
   await launcher.click()
   await waitForPrechatForm()
 }
@@ -25,7 +25,11 @@ const openChattingScreen = async () => {
 }
 
 const openChattingScreenAndEvaluate = async (cb) => {
-  await loadWidget().withPresets('chat').hiddenInitially().evaluateAfterSnippetLoads(cb).load()
+  await loadWidget()
+    .withPresets('chat')
+    .dontWaitForLauncherToLoad()
+    .evaluateAfterSnippetLoads(cb)
+    .load()
 
   await zChat.online()
 }
@@ -35,7 +39,7 @@ const waitForPrechatForm = async () => {
 }
 
 const clickStartChat = async () => {
-  await widget.clickButton('Start chat')
+  await widget.clickText('Start chat')
 }
 
 const waitForChatToBeReady = async () => {

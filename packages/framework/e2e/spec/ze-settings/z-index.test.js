@@ -15,6 +15,9 @@ test('override zIndex value for launcher and frame', async () => {
       }
     })
     .load()
+  // launch so that widget gets lazy loaded onto the page
+  await launcher.click()
+  await widget.getDocument()
   expect(await getZIndex(launcher.selector)).toEqual('4566')
   expect(await getZIndex(widget.selector)).toEqual('4567')
 })

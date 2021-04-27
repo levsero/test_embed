@@ -2,7 +2,7 @@ import loadWidget from 'e2e/helpers/widget-page'
 
 test('prerender queue is used', async () => {
   await loadWidget()
-    .hiddenInitially()
+    .dontWaitForLauncherToLoad()
     .withPresets('helpCenter')
     .evaluateAfterSnippetLoads(() => {
       zE('webWidget', 'open')

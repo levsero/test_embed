@@ -2,7 +2,6 @@ import { mockRollbarEndpoint, mockStaticAssets, goToTestPage, failOnConsoleError
 import { mockIdentifyEndpoint, mockBlipEndpoint } from './../blips'
 import { mockHcStatsEndpoint } from './../hc-stats'
 import launcher from 'e2e/helpers/launcher'
-import widget from 'e2e/helpers/widget'
 import devices from 'puppeteer/DeviceDescriptors'
 
 const defaultMocks = [
@@ -65,19 +64,12 @@ const load = async (options = {}) => {
   if (options.afterSnippetLoads) {
     options.afterSnippetLoads(page)
   }
-  const selectorOptions = {
-    visible: true,
+  const launcherFrame = await launcher.getFrame()
+  if (options.waitForLauncherToLoad) {
+    await launcherFrame.waitForSelector('#Embed', { visible: true })
+  } else {
+    await launcherFrame.waitForSelector('#Embed')
   }
-  if (options.hidden) {
-    selectorOptions.visible = false
-  }
-  await page.waitForSelector('iframe#launcher', selectorOptions)
-  if (!options.hidden) {
-    await launcher.getFrame().waitForSelector('#Embed', { visible: true })
-  }
-  await widget.evaluate(() => {
-    document.body.style.caretColor = 'transparent'
-  })
 }
 
 export default load
