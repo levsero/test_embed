@@ -1,5 +1,6 @@
 // Note: This file is shared with the Widget Developer Dashboard
 // Do not import from any other file
+// localStorage.setItem(`ZD-feature-web_widget_prefetch_widget_container`, true)
 
 export default {
   web_widget_prechat_form_v2: {
@@ -33,5 +34,8 @@ export default {
   log_all_messenger_errors: {
     defaultValue: false,
     getArturoValue: (config) => config.logMessengerErrors,
+  },
+  web_widget_prefetch_widget_container: {
+    defaultValue: false,
   },
 }
