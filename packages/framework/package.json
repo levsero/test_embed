@@ -48,7 +48,7 @@
   "bundlesize": [
     {
       "path": "./dist/public/preload.*.js",
-      "maxSize": "22 KB"
+      "maxSize": "30 KB"
     },
     {
       "path": "./dist/public/vendors~framework*.js",
