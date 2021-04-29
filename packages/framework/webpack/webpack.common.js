@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
+const { RetryChunkLoadPlugin } = require('webpack-retry-chunk-load-plugin')
 
 const legalNotices =
   'Our embeddable contains third-party, open source software and/or libraries. ' +
@@ -136,6 +137,16 @@ module.exports = {
     }),
     new webpack.BannerPlugin({
       banner: legalNotices,
+    }),
+    new RetryChunkLoadPlugin({
+      // This plugin will retry failed chunk fetches which seems to happen far more often then we would like:
+      // https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/items/132198/
+      // https://www.npmjs.com/package/webpack-retry-chunk-load-plugin
+      cacheBust: `function() {
+        return Date.now();
+      }`,
+      timeout: 2000,
+      maxRetries: 2,
     }),
   ],
 }
