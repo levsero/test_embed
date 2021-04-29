@@ -16,9 +16,7 @@ const WebWidget = ({ config }) => {
 
   useEffect(() => {
     if (isEarlyPrefetchEnabled) {
-      import(
-        /* webpackPrefetch: true */ /* webpackChunkName: 'lazy/embeds' */ 'src/embeds/webWidget/components/Embeds'
-      )
+      import(/* webpackChunkName: 'lazy/embeds' */ 'src/embeds/webWidget/components/Embeds')
     }
   }, [])
 
