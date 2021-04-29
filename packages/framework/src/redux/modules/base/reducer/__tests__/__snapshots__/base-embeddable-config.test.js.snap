@@ -34,6 +34,7 @@ Object {
   "hideZendeskLogo": true,
   "newBootSequence": false,
   "position": "left",
+  "prefetchWidgetContainer": false,
   "textColor": "black",
 }
 `;
@@ -72,6 +73,7 @@ Object {
   "hideZendeskLogo": false,
   "newBootSequence": false,
   "position": "right",
+  "prefetchWidgetContainer": false,
   "textColor": undefined,
 }
 `;
