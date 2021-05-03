@@ -38,6 +38,7 @@ const initialState = {
   brandLogoUrl: undefined,
   disableStatusPolling: false,
   newBootSequence: false,
+  prefetchWidgetContainer: false,
 }
 
 const embeddableConfig = (state = initialState, action) => {
@@ -91,6 +92,11 @@ const embeddableConfig = (state = initialState, action) => {
         brandLogoUrl: _.get(payload, 'brandLogoUrl', state.brandLogoUrl),
         disableStatusPolling: _.get(payload, 'disableStatusPolling', state.disableStatusPolling),
         newBootSequence: _.get(payload, 'newBootSequence', state.newBootSequence),
+        prefetchWidgetContainer: _.get(
+          payload,
+          'prefetchWidgetContainer',
+          state.prefetchWidgetContainer
+        ),
       }
     default:
       return state

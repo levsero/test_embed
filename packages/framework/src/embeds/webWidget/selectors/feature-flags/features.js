@@ -37,5 +37,6 @@ export default {
   },
   web_widget_prefetch_widget_container: {
     defaultValue: false,
+    getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
   },
 }
