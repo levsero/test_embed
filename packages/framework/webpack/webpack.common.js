@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
+const { RetryChunkLoadPlugin } = require('webpack-retry-chunk-load-plugin')
 
 const legalNotices =
   'Our embeddable contains third-party, open source software and/or libraries. ' +
@@ -136,6 +137,13 @@ module.exports = {
     }),
     new webpack.BannerPlugin({
       banner: legalNotices,
+    }),
+    new RetryChunkLoadPlugin({
+      cacheBust: `function() {
+        return Date.now();
+      }`,
+      timeout: 2000,
+      maxRetries: 3,
     }),
   ],
 }
