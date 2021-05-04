@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { getFrameVisible } from 'src/redux/modules/selectors'
@@ -14,16 +14,12 @@ const WebWidget = ({ config }) => {
     isFeatureEnabled(state, 'web_widget_prefetch_widget_container')
   )
 
-  useEffect(() => {
-    if (isEarlyPrefetchEnabled) {
-      import(/* webpackChunkName: 'lazy/embeds' */ 'src/embeds/webWidget/components/Embeds')
-    }
-  }, [])
-
   return (
     <>
       <Launcher labelKey={config?.embeds?.launcher?.props?.labelKey} />
-      <Suspense fallback={<span />}>{isWidgetOpen && <Embeds />}</Suspense>
+      <Suspense fallback={<span />}>
+        {(isEarlyPrefetchEnabled || isWidgetOpen) && <Embeds />}
+      </Suspense>
     </>
   )
 }
