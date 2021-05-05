@@ -24,18 +24,18 @@ def ekr_jwt_header
   "X-Samson-Token: #{JWT.encode(ekr_jwt_payload, ENV['EKR_RW_JWT_SECRET'], 'HS256')}"
 end
 
-def release_web_widget_assets
+def release_web_widget_assets(group)
   raise version_error(S3_RELEASE_DIRECTORY_VERSIONED) unless version_exists_on_s3?(S3_RELEASE_DIRECTORY_VERSIONED)
 
+  versions = group.nil? ? { version: VERSION } : { versions: { group.to_sym => VERSION }}
   url = "#{ENV['EKR_BASE_URL']}release"
   params = {
     product: {
       name: 'web_widget',
-      version: VERSION,
       base_url: ENV['STATIC_ASSETS_DOMAIN'],
       use_asset_manifest: true,
       use_latest: true
-    }
+    }.merge(versions)
   }.to_json
 
   sh %(curl -w '%{http_code}' -v -H "Content-Type: application/json" -H "#{ekr_jwt_header}" -X POST -d '#{params}' #{url} | tail -n1 | grep 200)
@@ -52,12 +52,12 @@ def release_previewer_assets
   end
 end
 
-def release
-  release_web_widget_assets
+def release(group)
+  release_web_widget_assets(group)
   release_previewer_assets
 end
 
 desc "Release WW/Previewer assets to the public"
-task :release do
-  release
+task :release, [:group] do |t, args|
+  release(args[:group])
 end
