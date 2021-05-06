@@ -11,3 +11,11 @@ PREVIEW_FILES = %i(webWidgetPreview.js chatPreview.js).freeze
 def s3_deployer
   @s3_deployer ||= S3Deployer.new(ENV['STATIC_ASSETS_AWS_BUCKET_NAME'])
 end
+
+def version_exists_on_s3?(path)
+  s3_deployer.object_exists?("#{path}/")
+end
+
+def version_error(path)
+  "Folder #{path} does not exist on the bucket"
+end

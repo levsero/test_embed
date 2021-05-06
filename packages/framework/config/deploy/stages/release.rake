@@ -2,14 +2,6 @@ require_relative '../deploy_helper'
 require 'jwt'
 require 'json'
 
-def version_exists_on_s3?(path)
-  s3_deployer.object_exists?("#{path}/")
-end
-
-def version_error(path)
-  "Folder #{path} does not exist on the bucket"
-end
-
 def ekr_jwt_payload
   now = Time.now.to_i
 
@@ -41,23 +33,7 @@ def release_web_widget_assets(group)
   sh %(curl -w '%{http_code}' -v -H "Content-Type: application/json" -H "#{ekr_jwt_header}" -X POST -d '#{params}' #{url} | tail -n1 | grep 200)
 end
 
-def release_previewer_assets
-  raise version_error(PREVIEWER_DIRECTORY_VERSIONED) unless version_exists_on_s3?(PREVIEWER_DIRECTORY_VERSIONED)
-
-  PREVIEW_FILES.each do |file|
-    s3_deployer.copy(
-      "#{PREVIEWER_DIRECTORY_VERSIONED}/#{file}",
-      "web_widget/previews/#{file}"
-    )
-  end
-end
-
-def release(group)
-  release_web_widget_assets(group)
-  release_previewer_assets
-end
-
-desc "Release WW/Previewer assets to the public"
+desc "Release Web Widget Assets to the public"
 task :release, [:group] do |t, args|
-  release(args[:group])
+  release_web_widget_assets(args[:group])
 end
