@@ -24,11 +24,11 @@ zChat.setOnFirstReady.mockImplementation((readyObj) => {
   _.forEach(readyObj, (val) => val())
 })
 
-const dispatchAction = (customState = {}) => {
+const dispatchAction = (customState = {}, chatReadyCallback) => {
   const mockStore = configureMockStore([thunk])
   const store = mockStore(getModifiedState(customState))
 
-  store.dispatch(setUpChat())
+  store.dispatch(setUpChat(true, chatReadyCallback))
 
   return store
 }
@@ -40,6 +40,15 @@ describe('setupChat', () => {
 
       await wait(() => {
         expect(zopimApi.handleChatSDKInitialized).toHaveBeenCalled()
+      })
+    })
+
+    it('calls chatReadyCallback if provided', async () => {
+      const chatReadyCallback = jest.fn()
+      dispatchAction({}, chatReadyCallback)
+
+      await wait(() => {
+        expect(chatReadyCallback).toHaveBeenCalled()
       })
     })
 
@@ -222,6 +231,25 @@ describe('setupChat', () => {
 
       expect(setupChatActions.deferChatSetup).toHaveBeenCalled()
       expect(zopimApi.handleZopimQueue).not.toHaveBeenCalled()
+    })
+
+    it('does not defer if overriden', () => {
+      jest.spyOn(setupChatActions, 'deferChatSetup').mockReturnValue({ type: DEFER_CHAT_SETUP })
+      const mockStore = configureMockStore([thunk])
+      const store = mockStore(
+        getModifiedState({
+          settings: {
+            chat: {
+              connectOnDemand: true,
+            },
+          },
+        })
+      )
+
+      store.dispatch(setUpChat(false))
+
+      expect(setupChatActions.deferChatSetup).not.toHaveBeenCalled()
+      expect(zopimApi.handleZopimQueue).toHaveBeenCalled()
     })
   })
 })
