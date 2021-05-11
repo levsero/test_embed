@@ -383,7 +383,7 @@ Add tags to a given chat session to provide extra context.
 
 ##### Parameters
 
-- `tags`: Array<String>. Tags to add to a given chat session. Note that the API also supports providing tags as separate string arguments (see example below).
+- `tags`: Array<String>. Tags to add to a given chat session. They should not contain any spaces or special characters except for underscores or hyphens. Note that the API also supports providing tags as separate string arguments. 
 
 Passing non-string types results in an error. No message is sent.
 
