@@ -83,15 +83,11 @@ class WidgetLauncher extends Component {
         return
       }
 
-      const newWidth = Math.max(
-        this.container.current.clientWidth,
-        this.container.current.offsetWidth
-      )
+      const newWidth = this.container.current.getBoundingClientRect().width
 
       if (this.state.style.width === newWidth) {
         return
       }
-
       // Check if the component has unmounted since we are updating state onNextTick
       if (this.hasUnmounted) {
         return
