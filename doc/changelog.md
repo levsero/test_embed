@@ -10,6 +10,26 @@
 - Bulleted lists don't have periods at the end
 -->
 
+### 3 May 2021
+
+- Changed the way the Web Widget assets are loaded at run-time, significantly reducing the initial package size and lowering the time to first render
+
+### 28 April 2021
+
+- Changed the pre-chat form so that the social login fields are no-longer displayed if the end-user is already logged in
+
+### 29 March 2021
+
+- Changed the Web Widget launcher to fade-in rather than slide up when it appears, improving page performance and shortening time to interactive
+
+### 26 March 2021
+
+- Fixed an issue where loading the Web Widget would cause a CSP warning to be displayed in Safari if CSP was being used on the parent page
+
+### 25 March 2021
+
+- Added a "Permissions Denied" screen to Talk that appears if permission has not been granted to use the microphone
+
 ### 17 March 2021
 
 - Fixed a bug where the end user's chat rating would not be sent if the agent prematurely terminated the chat session
@@ -18,15 +38,12 @@
 
 - Added Chat [re-authentication API](/embeddables/docs/widget/chat#chatreauthenticate) which allows single page apps to re-authenticate users with the Chat service without requiring a page reload
 - Fixed a bug in the prechat form that prevented authenticated users from sending offline messages
-- Changed the default color of the classic Web Widget from #1F73B7 to #17494D
-- Fixed a bug in the Web SDK to ensure visitor details are correctly assigned to the agent ticket
+- Changed the default color of the Web Widget from #1F73B7 to #17494D
 
 ### 22 February 2021
 
-- Fixed a bug which would cause the parent page to scroll when the Web SDK is displayed
 - Updated API error messages when a user makes an incorrect request to the Web Widget APIs
-- Fixed a bug where the Web Widget doesn't use the user defined translations for Chat Title and other configurable text based on locale id. For example, the Web Widget would only accept "en-US" instead of both "en-us" and "en-US"
-- Fixed a bug in Web SDK where the text in long replies was not wrapping
+- Fixed a bug where the Web Widget didn't use the user defined translations for Chat Title and other configurable text based on locale id. For example, the Web Widget would only accept "en-US" instead of both "en-us" and "en-US"
 
 ### 20 February 2021
 
@@ -42,24 +59,16 @@
 
 ### 18 January 2021
 
-- Fixed a bug that caused the Web Widget to fail when non-padded strings were used as part of JWT authentication.
+- Fixed a bug that caused the Web Widget to fail when non-padded strings were used as part of JWT authentication
 
 ### 4 January 2021
 
 - Fixed a bug where Chats were routed incorrectly to offline departments
-- Fixed a UI bug in IE11 where the Success Message (from Contact Form) and the "Call Us" message was not displayed in the center of the Web Widget.
+- Fixed a UI bug in IE11 where the confirmation message from the contact form and the "Call Us" message was not displayed in the center of the Web Widget
 
 ### 3 December 2020
 
 - Fixed a bug that resulted in the name and email fields appearing in the pre-Chat form when the visitor profile field is disabled
-
-### 16 November 2020
-
-- Fixed an issue that resulted in the drop-down appearing as whitespace when opened in the Web SDK
-
-### 13 November 2020
-
-- Fixed an issue in the Web SDK where the drop-down does not appear in the center if it has more than 7 items
 
 ### 11 November 2020
 
