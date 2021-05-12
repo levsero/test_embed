@@ -11,11 +11,18 @@ import * as reinitialiseChatActions from 'src/redux/modules/chat/chat-actions/re
 import * as settingsActions from 'src/redux/modules/settings/settings-actions'
 import * as baseActions from 'src/redux/modules/base/base-actions/base-actions'
 import * as hcActions from 'src/embeds/helpCenter/actions'
+import { handlePopoutCreated } from 'src/redux/modules/base'
 import { wait } from '@testing-library/react'
 
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
+import * as settingSelectors from 'src/redux/modules/settings/settings-selectors'
+import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
+import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as chatUtils from 'src/util/chat'
+import * as setupChat from 'src/redux/modules/chat/chat-actions/setUpChat'
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import createStore from 'src/redux/createStore'
 import * as callbacks from 'service/api/callbacks'
 import * as chatCallbacks from 'service/api/zopimApi/callbacks'
@@ -705,6 +712,50 @@ test('getAllDepartmentsApi', () => {
   })
 
   expect(apis.getAllDepartmentsApi(store, 123)).toEqual([{ id: 10, name: ['yeetDepartment'] }])
+})
+
+describe('popoutApi', () => {
+  let store
+  beforeEach(() => {
+    store = mockStore()
+    chatUtils.createChatPopoutWindow = jest.fn()
+    jest.spyOn(settingSelectors, 'getSettingsChatPopout').mockReturnValue({ fake: 'settings' })
+    jest.spyOn(chatReselectors, 'getIsPopoutAvailable').mockReturnValue(true)
+    jest.spyOn(chatReselectors, 'getChatConnected').mockReturnValue(true)
+    jest.spyOn(chatSelectors, 'getZChatVendor').mockReturnValue({ getMachineId: () => 'machineId' })
+    jest.spyOn(i18n, 'getLocale').mockReturnValue('en-US')
+    jest.spyOn(setupChat, 'setUpChat').mockImplementation(() => ({
+      type: 'setupChat',
+    }))
+  })
+
+  test('when popout is not available ', () => {
+    jest.spyOn(chatReselectors, 'getIsPopoutAvailable').mockReturnValue(false)
+    apis.popoutApi(store)
+
+    expect(chatUtils.createChatPopoutWindow).not.toHaveBeenCalled()
+    expect(store.getActions()).toEqual([])
+  })
+
+  test('when connected and available it creates popout', () => {
+    apis.popoutApi(store)
+
+    expect(chatUtils.createChatPopoutWindow).toHaveBeenCalledWith(
+      { fake: 'settings' },
+      'machineId',
+      'en-US'
+    )
+    expect(store.getActions()).toEqual([handlePopoutCreated()])
+  })
+
+  test('when chat is not connected it calls setUpChat', () => {
+    jest.spyOn(chatReselectors, 'getChatConnected').mockReturnValue(false)
+    apis.popoutApi(store)
+
+    expect(chatUtils.createChatPopoutWindow).not.toHaveBeenCalledWith()
+    expect(store.getActions()).toEqual([{ type: 'setupChat' }])
+    expect(setupChat.setUpChat).toHaveBeenCalledWith(false, expect.any(Function))
+  })
 })
 
 describe('onApi', () => {

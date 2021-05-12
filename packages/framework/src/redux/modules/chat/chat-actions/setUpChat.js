@@ -42,7 +42,7 @@ function makeChatConfig(config) {
   )
 }
 
-export function setUpChat(canBeDeferred = true) {
+export function setUpChat(canBeDeferred = true, chatReadyCallback) {
   return (dispatch, getState) => {
     if (getChatConnectionSuppressed(getState()) || getCookiesDisabled(getState())) {
       return
@@ -125,6 +125,10 @@ export function setUpChat(canBeDeferred = true) {
         ready: () => {
           if (brandName) zChat.addTags([brandName])
           zopimApi.handleChatSDKInitialized()
+
+          if (chatReadyCallback) {
+            chatReadyCallback()
+          }
         },
       })
 

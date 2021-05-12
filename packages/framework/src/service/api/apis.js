@@ -48,11 +48,13 @@ import {
   getDepartmentsList,
   getIsChatting,
   getIsPopoutAvailable,
+  getChatConnected,
   getZChatVendor,
   getNotificationCount,
   getChatStatus,
   getHasBackfillCompleted,
 } from 'src/redux/modules/chat/chat-selectors'
+import { setUpChat } from 'src/redux/modules/chat'
 import { updateSettings } from 'src/redux/modules/settings'
 import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
@@ -210,16 +212,28 @@ export const reauthenticateHelpCenter = (reduxStore) => {
   reduxStore.dispatch(renewToken())
 }
 
+const createPopout = (dispatch, getState) => {
+  const reduxState = getState()
+  createChatPopoutWindow(
+    getSettingsChatPopout(reduxState),
+    getZChatVendor(reduxState).getMachineId(),
+    i18n.getLocale()
+  )
+  dispatch(handlePopoutCreated())
+}
+
 export const popoutApi = (reduxStore) => {
   const reduxState = reduxStore.getState()
-
   if (getIsPopoutAvailable(reduxState)) {
-    createChatPopoutWindow(
-      getSettingsChatPopout(reduxState),
-      getZChatVendor(reduxState).getMachineId(),
-      i18n.getLocale()
-    )
-    reduxStore.dispatch(handlePopoutCreated())
+    if (getChatConnected(reduxState)) {
+      createPopout(reduxStore.dispatch, reduxStore.getState)
+    } else {
+      reduxStore.dispatch(
+        setUpChat(false, () => {
+          createPopout(reduxStore.dispatch, reduxStore.getState)
+        })
+      )
+    }
   }
 }
 
