@@ -5,7 +5,7 @@ const spawn = require('child_process').spawn
 let running = false
 
 function DashboardPlugin() {
-  const zendeskCodePath = process.env.ZENDESK_CODE_DIR || path.resolve(__dirname, '../')
+  const zendeskCodePath = process.env.ZENDESK_CODE_DIR || path.resolve(__dirname, '../../../../')
 
   const dashboardPath = path.resolve(zendeskCodePath, 'widget-developer-dashboard')
 
