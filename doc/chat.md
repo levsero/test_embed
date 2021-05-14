@@ -391,8 +391,8 @@ Passing non-string types results in an error. No message is sent.
 
 ```html
 <script type="text/javascript">
-  zE('webWidget', 'chat:addTags', ['help center', 'change password']);
-  zE('webWidget', 'chat:addTags', 'help center', 'change password'); // separate string arguments
+  zE('webWidget', 'chat:addTags', ['help_center', 'change_password']);
+  zE('webWidget', 'chat:addTags', 'help_center', 'change_password'); // separate string arguments
 </script>
 ```
 
