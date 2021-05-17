@@ -110,15 +110,15 @@ function deserialize(data) {
 }
 
 export const store = {
+  clear,
+  disable,
+  enable,
   enableLocalStorage,
   enableSessionStorage,
-  sessionStorageSet,
-  sessionStorageGet,
-  get: get,
-  set: set,
-  remove: remove,
-  clear: clear,
-  enable: enable,
-  disable: disable,
+  get,
   prefix,
+  remove,
+  sessionStorageGet,
+  sessionStorageSet,
+  set,
 }
