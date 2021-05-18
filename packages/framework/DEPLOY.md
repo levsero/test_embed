@@ -1,11 +1,11 @@
 # Deployment
 
-| Resource  | Link                                                      |
-| :-------- | :-------------------------------------------------------- |
-| Samson    | https://samson.zende.sk/projects/embeddable_framework     |
-| Travis CI | https://travis-ci.com/zendesk/embeddable_framework/builds |
-| Jenkins   | https://jenkins.zende.sk/view/Web-Widget-Staging-Health/  |
-| Datadog   | https://app.datadoghq.com/screen/22529/embeddable-v2      |
+| Resource       | Link                                                           |
+| :------------- | :------------------------------------------------------------- |
+| Samson         | https://samson.zende.sk/projects/embeddable_framework          |
+| GitHub Actions | https://github.com/zendesk/embeddable_framework/actions        |
+| Jenkins        | https://jenkins.zende.sk/view/Web-Widget-Staging-Health/       |
+| Datadog        | https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget |
 
 ## Rules
 
@@ -39,69 +39,37 @@ Pull Requests are merged into `master` branch after receiving two 👍s. At leas
 
 Samson will automatically deploy new tags to `Build Staging`, `Release Staging` and `Build Production`.
 
-### Static Assets
-
-All of our files are deployed to an S3 bucket. They are built automatically on merge to master and then uploaded to the bucket in a directory named after the release (`V<release_num>`). This allows us to perform the slow build portion of deployment once for each release, and then deploy to staging or production hosts very quickly by simply updating the latest version to the new SHA. If a roll-back is required, we can target an earlier release and very quickly deploy it to production.
-
-### Master
-
-There is no master environment, this is simply the dev setup.
-
-### Staging
-
-As mentioned earlier, once a release is deployed to `Build Staging`, you can then deploy the release to the `Release Staging` stage. This will update the latest version to point to the released SHA. This can be found at:
-
-```
-https://static-staging.zdassets.com/web_widget/latest/web_widget.js
-```
-
 Once the deploy is finished it will trigger our [automatic tests](https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/) to run in staging.
-
-#### LiveChat popout
-
-This can be deployed with the `Deploy Popout (Staging)` stage. There is no build stage for this as it is a static HTML file that is simply deployed to the latest version. This can be found at:
-
-```
-https://static-staging.zdassets.com/web_widget/latest/liveChat.html
-```
-
-### Production
-
-#### Web Widget
-
-When your change has been QA'd on staging you can then deploy the release to the `Release Production` stage. This will update the latest version to point to the released SHA. This can be found at:
-
-```
-https://static.zdassets.com/web_widget/latest/web_widget.js
-```
-
-#### LiveChat popout
-
-This can be deployed with the `Deploy Popout (Production)` stage. There is no build stage for this as it is a static HTML file that is simply deployed to the latest version. This can be found at:
-
-```
-https://static.zdassets.com/web_widget/latest/liveChat.html
-```
-
-#### Assets
-
-In production the assets are served via the Cloudflare CDN.
-
-The Web Widget's `web_widget.js` uses `Cache-Control` headers for smart cache invalidation. Specifically
-
-```
-cache-control:public, max-age=60, s-maxage=60
-```
-
-which means that every 60 seconds a conditional GET request is performed to check if a new version is available with a fresh `E-Tag`. If so the new copy will be downloaded, otherwise a locally cached copy will be used.
 
 Make sure that [staging status] tests are green and we are not in a [production freeze] before deploying to production.
 
 Deploys to production require a buddy. Please ping someone from Taipan via Slack [#team-taipan] if you need a buddy.
 
+### Build Stages
+
+During this stage, all the necessary files for the widget are built and uploaded to an S3 bucket. They are built automatically on merge to master for both staging (`Build Staging`) and production (`Build Production`). The widget remains unchanged after the stage finishes.
+
+This stage typically takes 10 to 15 minutes to run.
+
+### Release Stages
+
+This stage is responsible for updating the version of the widget being used in staging or production. Widget version is controlled by
+[Embed Key Registry](https://github.com/zendesk/embed_key_registry) and the release stages will update the version of the widget in
+EKR.
+
+`Release Staging` occurs automatically after `Build Staging` finishes, but `Release Production` is manually run. This stage typically
+takes less than a minute to complete.
+
+### LiveChat Popout
+
+The popout is a static HTML file that is used to display the live chat popout window. It's loaded by customers through a static URL
+(e.g. https://static.zdassets.com/web_widget/latest/liveChat.html in production). It is deployed independently of the widget and as
+such has its own stage.
+
 ## Recovery
 
-If there is a problem with the deployed version you will need to rollback to the previous stable version via Samson. As mentioned earlier, you can very quickly re-deploy a working older release to the `Release Production` stage.
+If there is a problem with the deployed version you will need to rollback to the previous stable version via Samson. As mentioned earlier, you can very quickly re-deploy a working older release to the `Release Production` stage. There is no need to
+run `Build Production` if you just need to rollback to an older existing version.
 If the problem is going to take some time to fix, please revert your PR so that it's not holding up other deploys.
 
 Please notify [#team-taipan] if a rollback has occurred out of Melbourne hours.
