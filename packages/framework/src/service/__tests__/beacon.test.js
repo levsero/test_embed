@@ -140,6 +140,75 @@ describe('trackUserAction', () => {
       },
     })
   })
+
+  describe('when sendApiBlips = true', () => {
+    beforeEach(() => {
+      store.sessionStorageSet('sendApiBlips', true)
+    })
+
+    it('sends api blips when a local session storage value is set to true', () => {
+      beacon.trackUserAction('api', 'myAPIAction', {
+        channel: 'zendeskSpace',
+      })
+
+      expect(http.sendWithMeta).toHaveBeenCalledWith({
+        method: 'GET',
+        path: '/embeddable_blip',
+        type: 'userAction',
+        params: {
+          channel: 'zendeskSpace',
+          userAction: {
+            action: 'myAPIAction',
+            category: 'api',
+            label: null,
+            value: null,
+          },
+        },
+      })
+    })
+  })
+
+  describe('when sendApiBlips = false', () => {
+    beforeEach(() => {
+      store.sessionStorageSet('sendApiBlips', false)
+    })
+
+    it('does NOT send api blips', () => {
+      beacon.trackUserAction('api', 'myAPIAction', {
+        channel: 'zendeskSpace',
+      })
+      expect(http.sendWithMeta).not.toHaveBeenCalled()
+    })
+
+    it('still sends pageview blips', () => {
+      beacon.sendPageView()
+      expect(http.sendWithMeta).toHaveBeenCalled()
+    })
+
+    it('still sends identify blips', () => {
+      beacon.identify(
+        {
+          name: 'hello',
+          email: 'a@example.com',
+        },
+        6789
+      )
+
+      expect(http.sendWithMeta).toHaveBeenCalledWith({
+        method: 'GET',
+        path: '/embeddable_identify',
+        type: 'user',
+        params: {
+          user: {
+            email: 'a@example.com',
+            name: 'hello',
+            localeId: 6789,
+          },
+          userAgent: 'myuseragent',
+        },
+      })
+    })
+  })
 })
 
 describe('sendPageView', () => {

@@ -157,8 +157,29 @@ function setConfigLoadTime(time) {
   configLoadTime = time
 }
 
+function canSendApiUserActionBlips() {
+  if (store.sessionStorageGet('sendApiBlips') !== null) {
+    return Boolean(store.sessionStorageGet('sendApiBlips'))
+  }
+
+  const isRandomlyTrue = () => {
+    const oneOutOfXAmount = 1000
+    return Math.floor(Math.random() * oneOutOfXAmount) === 0
+  }
+
+  if (isRandomlyTrue()) {
+    store.sessionStorageSet('sendApiBlips', true)
+  }
+
+  return Boolean(store.sessionStorageGet('sendApiBlips'))
+}
+
 function trackUserAction(category, action, options) {
   if (_.isUndefined(category) || _.isUndefined(action) || config.reduceBlipping) {
+    return false
+  }
+
+  if (category === 'api' && !canSendApiUserActionBlips()) {
     return false
   }
 
