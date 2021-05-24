@@ -39,6 +39,26 @@ describe('getCurrentArticle', () => {
   })
 })
 
+describe('getArticleForArticleAndSessionsID', () => {
+  const article1 = { id: 1, body: '123' }
+  const article2 = { id: 2, body: '456' }
+  const state = {
+    answerBot: { sessions: new Map([[1234, { articles: [article1, article2] }]]) },
+  }
+  const emptyState = { answerBot: {} }
+
+  it.each([
+    [state, 1, 1234, article1],
+    [state, 3, 1234, undefined],
+    [state, 1, 123, undefined],
+    [emptyState, 1, 1234, undefined],
+  ])('fn(%p, %i, %i, %p)', (state, articleID, sessionID, expected) => {
+    const result = selectors.getArticleForArticleAndSessionsID(state, { articleID, sessionID })
+
+    expect(result).toEqual(expected)
+  })
+})
+
 describe('getCurrentArticleID', () => {
   const articleID = 123
   const mockState = {

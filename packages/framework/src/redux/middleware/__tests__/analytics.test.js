@@ -12,6 +12,7 @@ import {
   ARTICLE_VIEWED,
   ORIGINAL_ARTICLE_CLICKED,
 } from 'embeds/helpCenter/actions/action-types'
+import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
 import { FORM_OPENED } from 'src/embeds/support/actions/action-types'
 import { PHONE_ONLY, CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { TICKET_SUBMISSION_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
@@ -366,6 +367,24 @@ describe('analytics', () => {
       }
       callMiddleware(action, state)
       expect(track).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('ARTICLE_SHOWN', () => {
+    it('tracks search with search term', () => {
+      const action = {
+        type: ARTICLE_SHOWN,
+        payload: { articleID: 123, sessionID: 1234 },
+      }
+      const state = {
+        answerBot: { sessions: new Map([[1234, { articles: [{ title: 'snakes', id: 123 }] }]]) },
+      }
+      callMiddleware(action, state)
+      expect(track).toHaveBeenCalledWith(
+        'Answer Bot Article Viewed',
+        { id: 123, name: 'snakes' },
+        'Zendesk Web Widget'
+      )
     })
   })
 
