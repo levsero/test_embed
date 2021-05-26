@@ -197,84 +197,40 @@ describe('chat ratings', () => {
         yolo: 'yolo',
       }
 
-      describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
-        beforeEach(() => {
-          state = reducer(randomState, {
-            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-            payload,
-          })
-        })
-
-        describe('when agent leaves', () => {
-          beforeAll(() => {
-            mockIsAgent = true
-            payload = {
-              detail: {
-                nick: 'agent:123',
-              },
-            }
-          })
-
-          it('does not change state', () => {
-            expect(state).toEqual(randomState)
-          })
-        })
-
-        describe('when user leaves', () => {
-          beforeAll(() => {
-            mockIsAgent = false
-            payload = {
-              detail: {
-                nick: 'visitor',
-              },
-            }
-          })
-
-          it('clears the state', () => {
-            expect(state).toEqual(initialState)
-          })
+      beforeEach(() => {
+        state = reducer(randomState, {
+          type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+          payload,
         })
       })
 
-      describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
-        beforeEach(() => {
-          state = reducer(randomState, {
-            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-            payload: {
-              ...payload,
-              isLastChatRatingEnabled: true,
+      describe('when agent leaves', () => {
+        beforeAll(() => {
+          mockIsAgent = true
+          payload = {
+            detail: {
+              nick: 'agent:123',
             },
-          })
+          }
         })
 
-        describe('when agent leaves', () => {
-          beforeAll(() => {
-            mockIsAgent = true
-            payload = {
-              detail: {
-                nick: 'agent:123',
-              },
-            }
-          })
+        it('does not change state', () => {
+          expect(state).toEqual(randomState)
+        })
+      })
 
-          it('does not change state', () => {
-            expect(state).toEqual(randomState)
-          })
+      describe('when user leaves', () => {
+        beforeAll(() => {
+          mockIsAgent = false
+          payload = {
+            detail: {
+              nick: 'visitor',
+            },
+          }
         })
 
-        describe('when user leaves', () => {
-          beforeAll(() => {
-            mockIsAgent = false
-            payload = {
-              detail: {
-                nick: 'visitor',
-              },
-            }
-          })
-
-          it('does not change state', () => {
-            expect(state).toEqual(randomState)
-          })
+        it('clears the state', () => {
+          expect(state).toEqual(initialState)
         })
       })
     })
@@ -295,27 +251,12 @@ describe('chat ratings', () => {
           }
         })
 
-        describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
-          it('does not change state', () => {
-            state = reducer(randomState, {
-              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload,
-            })
-            expect(state).toEqual(randomState)
+        it('does not change state', () => {
+          state = reducer(randomState, {
+            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+            payload,
           })
-        })
-
-        describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
-          it('does not change state', () => {
-            state = reducer(randomState, {
-              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload: {
-                ...payload,
-                isLastChatRatingEnabled: true,
-              },
-            })
-            expect(state).toEqual(randomState)
-          })
+          expect(state).toEqual(randomState)
         })
       })
 
@@ -329,27 +270,12 @@ describe('chat ratings', () => {
           }
         })
 
-        describe('when arturo `webWidgetEnableLastChatRating` is turned off', () => {
-          it('does not change state', () => {
-            state = reducer(randomState, {
-              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload,
-            })
-            expect(state).toEqual(randomState)
+        it('clears the state', () => {
+          state = reducer(randomState, {
+            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+            payload,
           })
-        })
-
-        describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
-          it('clears the state', () => {
-            state = reducer(randomState, {
-              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload: {
-                ...payload,
-                isLastChatRatingEnabled: true,
-              },
-            })
-            expect(state).toEqual(initialState)
-          })
+          expect(state).toEqual(initialState)
         })
       })
     })

@@ -60,7 +60,7 @@ const latestRating = (state = initialState.latestRating, action) => {
     // after agent ends the chat. We will reset it using SDK_CHAT_MEMBER_JOIN to
     // hide rating button
     case SDK_CHAT_MEMBER_JOIN:
-      if (action.payload.isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
+      if (!isAgent(action.payload.detail.nick)) {
         return initialState.latestRating
       }
       return state
@@ -124,7 +124,7 @@ const latestAgentLeaveEvent = (state = initialState.latestAgentLeaveEvent, actio
     // is not reset. We will reset it using SDK_CHAT_MEMBER_JOIN to hide rating
     // button
     case SDK_CHAT_MEMBER_JOIN:
-      if (action.payload.isLastChatRatingEnabled && !isAgent(action.payload.detail.nick)) {
+      if (!isAgent(action.payload.detail.nick)) {
         return initialState.latestAgentLeaveEvent
       }
       return state
