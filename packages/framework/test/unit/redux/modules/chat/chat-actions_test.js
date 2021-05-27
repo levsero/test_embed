@@ -143,7 +143,7 @@ describe('chat redux actions', () => {
       },
       'constants/event': {},
       'service/audio': {
-        audio: { load: loadSoundSpy },
+        load: loadSoundSpy,
       },
       'src/redux/modules/form/actions': {},
       'src/redux/modules/chat/helpers/zChatWithTimeout': {
@@ -394,36 +394,6 @@ describe('chat redux actions', () => {
 
     beforeEach(() => {
       loadSoundSpy.calls.reset()
-    })
-
-    describe('when user sound settings are on', () => {
-      beforeEach(() => {
-        mockAccountSettings = {
-          forms: { pre_chat_form: { required: false } },
-          chat_button: { hide_when_offline: false },
-          sound: { disabled: false },
-        }
-        mockStore.dispatch(actions.getAccountSettings())
-      })
-
-      it('loads the audio', () => {
-        expect(loadSoundSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when user sound settings are off', () => {
-      beforeEach(() => {
-        mockAccountSettings = {
-          forms: { pre_chat_form: { required: false } },
-          chat_button: { hide_when_offline: false },
-          sound: { disabled: true },
-        }
-        mockStore.dispatch(actions.getAccountSettings())
-      })
-
-      it('does not load the audio', () => {
-        expect(loadSoundSpy).not.toHaveBeenCalled()
-      })
     })
 
     describe('when the prechat form is required', () => {

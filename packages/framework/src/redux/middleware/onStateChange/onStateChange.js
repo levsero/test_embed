@@ -24,7 +24,7 @@ import {
 } from 'src/redux/modules/chat/chat-action-types'
 import { UPDATE_EMBEDDABLE_CONFIG } from 'src/redux/modules/base/base-action-types'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
-import { audio } from 'service/audio'
+import audio from 'service/audio'
 import {
   getChatMessagesFromAgents,
   getConnection,
