@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FONT_SIZE } from 'constants/shared'
+import flagIcons from 'src/asset/images/flags.png'
 
 export const flagSpritePositions = {
   ad: '0%',
@@ -252,7 +253,7 @@ const FlagIcon = styled.img`
   height: ${17.5 / FONT_SIZE}rem;
 
   background-size: 100%;
-  background-image: url(${__ASSET_BASE_PATH__}/web_widget/static/flags.png);
+  background-image: url(${flagIcons});
   background-position: 0% ${(props) => flagSpritePositions[props.country.toLowerCase()] || '0%'};
 
   [dir='ltr'] & {
