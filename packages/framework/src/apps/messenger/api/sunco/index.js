@@ -1,4 +1,4 @@
-import Sunco from 'src/../sunco_js_client/src'
+import Sunco from '@zendesk/sunco-js-client'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const PROD_URL = 'https://api.smooch.io'
