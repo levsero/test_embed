@@ -16,7 +16,7 @@ import {
 } from 'src/redux/modules/chat/chat-selectors'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
-import { audio } from 'service/audio'
+import audio from 'service/audio'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { formatSchedule } from 'src/util/chat'
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
@@ -350,10 +350,11 @@ export function sendLastChatRatingInfo(lastChatRatingInfo = {}) {
 
 const loadAudio = () => {
   try {
-    audio.load(
-      'incoming_message',
-      `${__ASSET_BASE_PATH__}/web_widget/static/chat-incoming-message-notification`
-    )
+    import(
+      /* webpackChunkName: 'chat-incoming-message-notification' */ 'src/asset/media/chat-incoming-message-notification.mp3'
+    ).then((thing) => {
+      audio.load('incoming_message', thing.default)
+    })
   } catch (_) {}
 }
 

@@ -102,9 +102,7 @@ describe('onStateChange middleware', () => {
         activateReceived: activateReceivedSpy,
       },
       'service/audio': {
-        audio: {
-          play: audioPlaySpy,
-        },
+        play: audioPlaySpy,
       },
       'service/history': historySpy,
       'src/redux/modules/chat/chat-selectors': {
