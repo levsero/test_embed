@@ -23,6 +23,83 @@
 
 **Do not deploy** if a change freeze is in place unless an exemption is approved for a critical bug fix. They usually occur during big holidays and near the quaterly investor calls. To check, please look at the [production freeze] schedule.
 
+## Steps to deploy
+
+Below outlines the steps you will take in order to get your changes from a PR to released to all customers in production.
+
+The Embeddable Framework is deployed using Samson, all samson build stages can be seen here [Samson - Embeddable Framework], though each relevant build stage will be linked in each step where relevant.
+
+### Step 1 - Merge to master
+
+Before you merge:
+
+- Make sure your PR meets the guidelines outlined in [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Your PR has two thumbs, at least one from a member of [#team-taipan]
+
+Once you merge to master, these build stages in Samson will be automatically kicked off.
+
+- [Build Staging]
+- [Build Production]
+
+The build stages are responsible for building the assets and uploading them S3.
+
+Once the build stages have completed, Samson will automatically release your changes to all release groups in staging.
+
+- [Release Staging - Canary (Tier 1)]
+- [Release Staging - General Availability]
+- [Release Staging - VIP (Tier 2)]
+
+At this point in time, your changes will be available for all widgets for all accounts in staging.
+
+A simple way to verify this is to visit a Help Center for an account with a widget and in the browser's console, log out
+
+```js
+zE.version
+```
+
+This version will be the shorted hash of the last commit you just merged to master.
+
+Alternatively, visit this API that lists each version
+
+[https://ekr-staging.zdassets.com/products/web_widget](https://ekr-staging.zdassets.com/products/web_widget)
+
+### Step 2 - Release to Production Canary (Tier 1)
+
+Before releasing to production canary, verify that the [staging status] are passing
+
+If passing, deploy your release with [Release Production - Canary (Tier1)].
+
+From here, you should begin monitoring production to confirm your changes haven't had a negative impact. Do this after each release.
+
+- [Datadog - Production](https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget)
+- [Rollbar](https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/)
+
+Similar to staging, you can view this API to confirm what versions are currently deployed to the different release groups in production
+
+[https://ekr.zdassets.com/products/web_widget](https://ekr.zdassets.com/products/web_widget)
+
+### Step 3 - Release to Production General Availability
+
+Before you deploy, verify that the [canary tests] are passing.
+
+If all green, release via the Samson stage [Release Production - General Availability].
+
+Don't forget to continuing monitoring via [Datadog](https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget) and [Rollbar](https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/) for a short amount of time once released to catch any unexpected changes.
+
+### Step 4 - Release to Production VIP (Tier 2)
+
+In order to deploy to tier 2, your changes must have soaked in General Availability for a set amount of time based on how risky your change is
+
+| Risk   | Soak time |
+| :----- | :-------- |
+| Low    | 3 hours   |
+| Medium | 3 days    |
+| High   | 5 days    |
+
+Once soaked with no issues, release via the Samson stage [Release Production - VIP (Tier2)].
+
+Don't forget to continuing monitoring via [Datadog](https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget) and [Rollbar](https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/) for a short amount of time once released to catch any unexpected changes.
+
 ## Samson Stages
 
 | Stage                                     | S3 Bucket                              | Notes                                                                                |
@@ -129,4 +206,15 @@ We have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Run
 
 [#team-taipan]: https://zendesk.slack.com/messages/C0R1EJ3UP/
 [staging status]: https://jenkins.zende.sk/view/Web-Widget-Staging-Health/
+[staging browser tests]: https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/
 [production freeze]: https://zendesk.atlassian.net/wiki/display/ops/Production+Freeze
+[canary tests]: https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/
+[build staging]: https://samson.zende.sk/projects/embeddable_framework/stages/build-staging
+[build production]: https://samson.zende.sk/projects/embeddable_framework/stages/build-production
+[samson - embeddable framework]: https://samson.zende.sk/projects/embeddable_framework
+[release staging - canary (tier 1)]: https://samson.zende.sk/projects/embeddable_framework/stages/release-staging-canary-tier-1
+[release staging - general availability]: https://samson.zende.sk/projects/embeddable_framework/stages/staging-release
+[release staging - vip (tier 2)]: https://samson.zende.sk/projects/embeddable_framework/stages/release-staging-vip-tier-2
+[release production - canary (tier1)]: https://samson.zende.sk/projects/embeddable_framework/stages/release-production-canary-tier1
+[release production - general availability]: https://samson.zende.sk/projects/embeddable_framework/stages/production-release
+[release production - vip (tier2)]: https://samson.zende.sk/projects/embeddable_framework/stages/release-production-vip-tier2
