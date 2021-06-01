@@ -13,7 +13,7 @@ const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {
 
   return (
     <FileInput onFileSelect={onFileSelect} data-testid={attachmentInputId} name={name}>
-      <AttachmentButton>
+      <AttachmentButton id={attachmentInputId}>
         <Description>
           <Icon />
           <Label>{label}</Label>
