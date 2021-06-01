@@ -1,5 +1,5 @@
 :snake:
-/cc @zendesk/taipan
+/cc @zendesk/emu
 
 ### Description
 
