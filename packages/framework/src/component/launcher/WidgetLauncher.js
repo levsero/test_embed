@@ -104,8 +104,8 @@ class WidgetLauncher extends Component {
     this.hasUnmounted = true
   }
 
-  getBrowserSafeWidth = (ref) => {
-    const width = ref.getBoundingClientRect().width
+  getBrowserSafeWidth = (element) => {
+    const width = element.getBoundingClientRect().width
 
     // Mitigate Safari visual bug by rounding launcher width up to nearest integer
     if (isSafari) return Math.ceil(width)
