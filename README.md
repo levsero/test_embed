@@ -53,7 +53,7 @@ E.g. to run the embeddable framework with the developer dashboard you can run
 yarn workspace @zendesk/embeddable-framework dashboard
 ```
 
-This will allow you to access the developer dashboard on (http://localhost:1338)[http://localhost:1338]
+This will allow you to access the developer dashboard on [http://localhost:1338](http://localhost:1338).
 
 The packages contained are:
 
