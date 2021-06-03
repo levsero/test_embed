@@ -262,6 +262,14 @@ function storeChatAuth(jwtFn) {
   })
 }
 
+function storeHelpCenterAuth(jwtFn) {
+  _.merge(webWidgetStore, {
+    authenticate: {
+      jwtFn,
+    },
+  })
+}
+
 export const settings = {
   init,
   get,
@@ -273,5 +281,6 @@ export const settings = {
   getErrorReportingEnabled,
   enableCustomizations,
   storeChatAuth,
+  storeHelpCenterAuth,
   disableCustomizations,
 }
