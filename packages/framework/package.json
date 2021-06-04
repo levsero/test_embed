@@ -48,7 +48,7 @@
   "bundlesize": [
     {
       "path": "./dist/public/preload.*.js",
-      "maxSize": "30 KB"
+      "maxSize": "33 KB"
     },
     {
       "path": "./dist/public/vendors~framework*.js",
@@ -137,11 +137,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/plugin-proposal-json-strings": "^7.0.0",
     "@babel/plugin-transform-react-jsx": "^7.12.17",
-    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@octokit/rest": "^18.0.0",
@@ -160,7 +157,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-dynamic-import-node": "^2.3.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-styled-components": "^1.11.1",
