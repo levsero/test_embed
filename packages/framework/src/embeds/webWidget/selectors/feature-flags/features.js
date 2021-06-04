@@ -29,7 +29,7 @@ export default {
   web_widget_enable_last_chat_rating: {
     defaultValue: false,
     getArturoValue: (state) =>
-      state.base.embeddableConfig.embeds?.chat?.props?.webWidgetEnableLastChatRating,
+      state.base?.embeddableConfig?.embeds?.chat?.props?.webWidgetEnableLastChatRating,
   },
   log_all_messenger_errors: {
     defaultValue: false,

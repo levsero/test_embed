@@ -90,6 +90,7 @@ describe('firehoseListener', () => {
         detail: {
           timestamp: Date.now(),
         },
+        isLastChatRatingEnabled: false,
       },
     }
 
@@ -111,6 +112,7 @@ describe('firehoseListener', () => {
         type: 'visitor_update',
         timestamp: Date.now(),
         detail: {},
+        isLastChatRatingEnabled: false,
       },
     }
 

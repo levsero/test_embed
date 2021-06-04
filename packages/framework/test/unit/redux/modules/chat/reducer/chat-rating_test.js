@@ -1,5 +1,5 @@
 describe('chat ratings', () => {
-  let reducer, actionTypes, initialState, mockIsAgent, mockStoreValue
+  let reducer, actionTypes, initialState, mockIsAgent
 
   beforeAll(() => {
     mockery.enable()
@@ -15,11 +15,6 @@ describe('chat ratings', () => {
       'src/util/chat': {
         isAgent: () => mockIsAgent,
       },
-      'src/framework/services/persistence': {
-        store: {
-          get: () => mockStoreValue,
-        },
-      },
     })
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-rating')
@@ -29,10 +24,6 @@ describe('chat ratings', () => {
     actionTypes = requireUncached(actionTypesPath)
 
     initialState = reducer(undefined, { type: '' })
-  })
-
-  beforeEach(() => {
-    mockStoreValue = { webWidgetEnableLastChatRating: false }
   })
 
   afterAll(() => {
@@ -247,11 +238,12 @@ describe('chat ratings', () => {
 
       describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
         beforeEach(() => {
-          mockStoreValue = { webWidgetEnableLastChatRating: true }
-
           state = reducer(randomState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
-            payload,
+            payload: {
+              ...payload,
+              isLastChatRatingEnabled: true,
+            },
           })
         })
 
@@ -315,10 +307,12 @@ describe('chat ratings', () => {
 
         describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
           it('does not change state', () => {
-            mockStoreValue = { webWidgetEnableLastChatRating: true }
             state = reducer(randomState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload,
+              payload: {
+                ...payload,
+                isLastChatRatingEnabled: true,
+              },
             })
             expect(state).toEqual(randomState)
           })
@@ -347,10 +341,12 @@ describe('chat ratings', () => {
 
         describe('when arturo `webWidgetEnableLastChatRating` is turned on', () => {
           it('clears the state', () => {
-            mockStoreValue = { webWidgetEnableLastChatRating: true }
             state = reducer(randomState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-              payload,
+              payload: {
+                ...payload,
+                isLastChatRatingEnabled: true,
+              },
             })
             expect(state).toEqual(initialState)
           })
