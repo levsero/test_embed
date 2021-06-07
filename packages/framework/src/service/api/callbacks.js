@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import logger from 'src/util/logger'
 import * as events from 'constants/event'
+import errorTracker from 'src/framework/services/errorTracker'
 
 const callbacksRegistry = {
   [events.WIDGET_OPENED_EVENT]: [],
@@ -20,13 +21,17 @@ const eventExists = (eventName) => _.has(callbacksRegistry, eventName)
 export const registerCallback = (cb, eventName) => {
   if (!eventExists(eventName)) return
 
-  if (callbacksRegistry[eventName].length > 3) {
-    logger.warn(
-      'You have tried to set the same listener too many times, only the 3 most recent ones will be called. \nCheck that you are not setting the listener inside a loop. This is not needed as the listener will trigger whenever needed and only needs to be set a single time.'
-    )
-    callbacksRegistry[eventName].pop(cb)
-  }
   callbacksRegistry[eventName].push(cb)
+  if (callbacksRegistry[eventName].length > 3) {
+    errorTracker.warn(new Error('setListenerMultipleTimes'), {
+      rollbarFingerprint: 'Set more than 3 of the same listener',
+      rollbarTitle: 'Set more than 3 of the same listener',
+    })
+
+    logger.warn(
+      'You are setting the same listener multiple times. \nEnsure that you are not setting the listener inside a loop, the listener will trigger whenever needed and only needs to be set once.'
+    )
+  }
 }
 
 export const fireFor = (eventName, args = []) => {
