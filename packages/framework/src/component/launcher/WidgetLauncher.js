@@ -24,6 +24,7 @@ import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-s
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { onNextTick } from 'utility/utils'
+import { isSafari } from 'utility/devices'
 import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
 
 const baseLauncherStyle = {
@@ -79,19 +80,15 @@ class WidgetLauncher extends Component {
 
   componentDidUpdate() {
     onNextTick(() => {
-      if (!this.container.current) {
-        return
-      }
+      if (!this.container.current) return
 
-      const newWidth = this.container.current.getBoundingClientRect().width
-
-      if (this.state.style.width === newWidth) {
-        return
-      }
       // Check if the component has unmounted since we are updating state onNextTick
-      if (this.hasUnmounted) {
-        return
-      }
+      if (this.hasUnmounted) return
+
+      const newWidth = this.getBrowserSafeWidth(this.container.current)
+
+      // If the container size has not changed, do nothing
+      if (this.state.style.width === newWidth) return
 
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
@@ -105,6 +102,15 @@ class WidgetLauncher extends Component {
 
   componentWillUnmount() {
     this.hasUnmounted = true
+  }
+
+  getBrowserSafeWidth = (element) => {
+    const width = element.getBoundingClientRect().width
+
+    // Mitigate Safari visual bug by rounding launcher width up to nearest integer
+    if (isSafari) return Math.ceil(width)
+
+    return width
   }
 
   getLabel = () => {
