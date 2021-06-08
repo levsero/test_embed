@@ -23,7 +23,7 @@ export const registerCallback = (cb, eventName) => {
 
   callbacksRegistry[eventName].push(cb)
   if (callbacksRegistry[eventName].length > 3) {
-    errorTracker.warn(new Error('setListenerMultipleTimes'), {
+    errorTracker.warn(`set ${eventName} listener multiple times`, {
       rollbarFingerprint: 'Set more than 3 of the same listener',
       rollbarTitle: 'Set more than 3 of the same listener',
     })
