@@ -100,7 +100,7 @@ jobs:
           submodules: recursive
       - uses: zendesk/setup-node@v2.1.2
         with:
-          node-version: '10.18.0'
+          node-version: '12.21.0'
       - uses: zendesk/setup-ruby@v1.49.0
       - name: before_install
         run: |
@@ -126,7 +126,7 @@ jobs:
           ${{ matrix.run }}
   slack:
     name: Slack
-    runs-on: [self-hosted,zendesk-stable]
+    runs-on: [self-hosted, zendesk-stable]
     needs:
       - main
     if: always()

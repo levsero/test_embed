@@ -57,7 +57,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              data: `$asset-base-path: "${assetBasePath}";`,
+              additionalData: `$asset-base-path: "${assetBasePath}";`,
             },
           },
         ],
