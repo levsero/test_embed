@@ -59,6 +59,15 @@ The packages contained are:
 
 - [Conversation components](/packages/conversation-components) - Shared components for the new sunco experience
 - [Framework](/packages/framework) - Code for the old and new widgets
+- [sunco-js-client](/packages/sunco-js-client) - A client side JS library that communicates with the Sunco SDK API
+
+_Please note_ - In order to build and run locally in your dev environment you will need to build the 2 dependencies
+
+```bash
+yarn workspace @zendesk/conversation-components build
+yarn workspace @zendesk/sunco-js-client build
+
+```
 
 #### Keeping node and npm packages up to date
 
