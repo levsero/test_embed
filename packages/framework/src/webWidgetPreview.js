@@ -22,7 +22,7 @@ const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT
 const BOX_SHADOW_SIZE = 6
 
 const defaultOptions = {
-  locale: 'en-US',
+  locale: 'en-us',
   color: { base: DEFAULT_BASE_COLOR },
   titleKey: 'message',
   styles: {

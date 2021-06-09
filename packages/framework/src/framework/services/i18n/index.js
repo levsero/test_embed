@@ -14,7 +14,7 @@ const getBrowserLocale = () => {
   return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
 }
 
-const setLocale = (newLocale = 'en-US') => {
+const setLocale = (newLocale = 'en-us') => {
   const nextLocale = parseLocale(newLocale, getBrowserLocale())
 
   if (!nextLocale) {
