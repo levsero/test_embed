@@ -5,11 +5,6 @@ function regulateDash(locale) {
 }
 
 function regulateLocaleStringCase(locale) {
-  // const dashIndex = locale.indexOf('-')
-
-  // if (dashIndex < 0) {
-  //   return locale.toLowerCase()
-  // }
   return locale.toLowerCase()
 }
 
