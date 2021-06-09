@@ -4,7 +4,6 @@ exports[`WidgetLauncher renders the component 1`] = `
 <div>
   <div>
     <button
-      aria-haspopup="true"
       aria-label="launcherLabel"
       class="wrapper "
       data-testid="launcher"

@@ -13,32 +13,32 @@ const channelOptions = [
   {
     key: 'whatsapp',
     name: 'WhatsApp',
-    icon: WhatsAppIcon
+    icon: WhatsAppIcon,
   },
   {
     key: 'messenger',
     name: 'Messenger',
-    icon: MessengerIcon
+    icon: MessengerIcon,
   },
   {
     key: 'instagram',
     name: 'Instagram',
-    icon: InstagramIcon
-  }
+    icon: InstagramIcon,
+  },
 ]
 
 const validLinkOptions = {
   linked: true,
-  'not linked': true
+  'not linked': true,
 }
 
 const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
   const {
-    messenger: { currentFrame }
+    messenger: { currentFrame },
   } = useContext(ThemeContext)
 
   const channelsToDisplay = channelOptions.filter(
-    channel => validLinkOptions[(channels?.[channel.key])]
+    (channel) => validLinkOptions[channels?.[channel.key]]
   )
 
   if (channelsToDisplay.length === 0) {
@@ -52,7 +52,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
         onStateChange={onStateChange}
         onSelect={onChannelSelect}
         downshiftProps={{
-          environment: currentFrame?.window
+          environment: currentFrame?.window,
         }}
       >
         <Trigger>
@@ -61,7 +61,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
           </IconButton>
         </Trigger>
         <HeaderMenu placement="bottom-end">
-          {channelsToDisplay.map(channel => {
+          {channelsToDisplay.map((channel) => {
             const ChannelLogo = channel.icon
             return (
               <HeaderMenuItem key={channel.key} value={channel.key}>
@@ -83,7 +83,7 @@ Menu.propTypes = {
   channels: PropTypes.objectOf(PropTypes.oneOf(Object.keys(validLinkOptions))),
   onChannelSelect: PropTypes.func,
   isOpen: PropTypes.bool,
-  onStateChange: PropTypes.func
+  onStateChange: PropTypes.func,
 }
 
 export default Menu
