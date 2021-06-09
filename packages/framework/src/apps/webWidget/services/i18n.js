@@ -101,12 +101,12 @@ function regulateDash(locale) {
 }
 
 function regulateLocaleStringCase(locale) {
-  const dashIndex = locale.indexOf('-')
+  // const dashIndex = locale.indexOf('-')
 
-  if (dashIndex < 0) {
-    return locale.toLowerCase()
-  }
-  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toLowerCase()
+  // if (dashIndex < 0) {
+  //   return locale.toLowerCase()
+  // }
+  return locale.toLowerCase()
 }
 
 function getClientLocale() {
@@ -182,16 +182,11 @@ function parseZhLocale(str) {
 // Retrieves the correct translation from the passed map of settings translations.
 const getSettingTranslation = (translations) => {
   const locale = regulateLocaleStringCase(regulateDash(i18n.getLocale()))
-  const lowercaseLocale = locale.toLowerCase()
 
   if (_.isEmpty(translations)) return
 
   return (
-    translations[locale] ||
-    translations[lowercaseLocale] ||
-    lowercaseSettingsKey(translations)[lowercaseLocale] ||
-    translations['*'] ||
-    null
+    translations[locale] || lowercaseSettingsKey(translations)[locale] || translations['*'] || null
   )
 }
 

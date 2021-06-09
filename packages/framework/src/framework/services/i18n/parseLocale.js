@@ -5,12 +5,12 @@ function regulateDash(locale) {
 }
 
 function regulateLocaleStringCase(locale) {
-  const dashIndex = locale.indexOf('-')
+  // const dashIndex = locale.indexOf('-')
 
-  if (dashIndex < 0) {
-    return locale.toLowerCase()
-  }
-  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toLowerCase()
+  // if (dashIndex < 0) {
+  //   return locale.toLowerCase()
+  // }
+  return locale.toLowerCase()
 }
 
 const localeKeyExists = (locale) => {
@@ -25,11 +25,6 @@ function parseLocale(str, desiredFallback) {
   const locale = regulateLocaleStringCase(regulateDash(str))
   if (localeKeyExists(locale)) {
     return locale
-  }
-
-  const lowercaseLocale = locale.toLowerCase()
-  if (localeKeyExists(lowercaseLocale)) {
-    return lowercaseLocale
   }
 
   const extractedLang = locale.substring(0, locale.indexOf('-'))
