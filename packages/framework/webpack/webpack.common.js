@@ -7,7 +7,6 @@ const legalNotices =
   'Our embeddable contains third-party, open source software and/or libraries. ' +
   'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices'
 
-const WEBPACK_JSONP_GLOBAL = 'zEWebpackJsonp'
 const DEV = 'development'
 const PROD = 'production'
 const assetBasePath = process.env.STATIC_ASSETS_DOMAIN || 'https://static.zdassets.com'
@@ -27,7 +26,6 @@ module.exports = {
     path: path.resolve(projectRoot, 'dist/public'),
     publicPath: '/dist/',
     filename: '[name].js',
-    jsonpFunction: WEBPACK_JSONP_GLOBAL,
   },
   module: {
     rules: [
@@ -75,7 +73,7 @@ module.exports = {
           'postcss-loader',
         ],
       },
-      { test: /lodash/, loader: 'imports-loader?define=>false' },
+      { test: /lodash/, loader: 'imports-loader' },
       {
         test: /\.svg$/,
         use: [
@@ -133,6 +131,9 @@ module.exports = {
       componentCSS: path.join(projectRoot + '/src/styles/components'),
       icons: path.join(projectRoot + '/src/asset/icons'),
       globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
+    },
+    fallback: {
+      stream: require.resolve('stream-browserify'),
     },
     extensions: ['.js'],
     modules: ['node_modules'],

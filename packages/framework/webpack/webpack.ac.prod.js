@@ -14,12 +14,9 @@ let config = merge(common, {
   mode: 'production',
   devtool: 'hidden-source-map',
   output: {
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].chunk.js',
     publicPath: PUBLIC_PATH + '/',
   },
   plugins: [
-    new webpack.HashedModuleIdsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -38,14 +35,22 @@ let config = merge(common, {
       filename: '../package_sizes.json',
       stats: {
         assets: true,
-        assetsSort: 'size',
-        builtAt: true,
-        chunks: false,
-        all: true,
-        modules: true,
-        maxModules: 0,
-        errors: false,
-        warnings: false,
+      },
+      transform(data) {
+        return JSON.stringify(
+          {
+            outputPath: data.outputPath,
+            assetsByChunkName: data.assetsByChunkName,
+            assets: data.assets
+              .filter(({ name }) => name)
+              .map((asset) => ({
+                name: asset.name,
+                size: asset.size,
+              })),
+          },
+          null,
+          2
+        )
       },
     }),
   ],

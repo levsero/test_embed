@@ -37,10 +37,9 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
     }),
-    new webpack.WatchIgnorePlugin([
-      path.resolve(__dirname, './node_modules/'),
-      path.resolve(__dirname, './test/'),
-    ]),
+    new webpack.WatchIgnorePlugin({
+      paths: [path.resolve(__dirname, './node_modules/'), path.resolve(__dirname, './test/')],
+    }),
     new ProgressBarPlugin({
       format: 'Build [:bar] :percent (:elapsed seconds)',
       clear: false,

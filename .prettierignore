@@ -1,6 +1,7 @@
 packages/framework/src/translation/
 packages/framework/config/locales/translations/
 packages/framework/vendor/
+vendor/
 example/
 doc/
 dist/

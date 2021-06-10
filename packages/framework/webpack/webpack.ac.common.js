@@ -10,12 +10,16 @@ module.exports = merge(common, {
   entry: {
     preload: path.join(projectRoot, '/src/framework/preload.js'),
   },
+  output: {
+    filename: 'web-widget-[name]-[contenthash].js',
+  },
   optimization: {
-    chunkIds: 'named',
     splitChunks: {
       chunks(chunk) {
         return !chunks.excludeFromVendoring(chunk.name)
       },
+      minSize: 200000,
+      enforceSizeThreshold: 1000000000000,
     },
   },
   plugins: [
