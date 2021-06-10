@@ -3,8 +3,8 @@ import hostPageWindow from 'src/framework/utils/hostPageWindow'
 import { rem } from 'polished'
 import { baseFontSize } from 'src/apps/messenger/constants'
 
-const fullScreenHeightBreakpoint = rem('825px', `${baseFontSize}px`)
-const fullScreenWidthBreakpoint = rem('415px', `${baseFontSize}px`)
+const fullScreenHeightBreakpoint = rem('926px', `${baseFontSize}px`)
+const fullScreenWidthBreakpoint = rem('540px', `${baseFontSize}px`)
 const verticallySmallBreakpoint = rem('670px', `${baseFontSize}px`)
 
 const breakpoints = {
