@@ -32,6 +32,7 @@ let config = merge(common, {
       openAnalyzer: false,
       logLevel: 'silent',
       reportFilename: '../report.html',
+      excludeAssets: /locales/,
     }),
     new StatsWriterPlugin({
       filename: '../package_sizes.json',
