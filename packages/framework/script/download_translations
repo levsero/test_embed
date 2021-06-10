@@ -1,3 +1,7 @@
+# cd in root framework directory
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 cd "$SCRIPT_DIR"
-../../../node_modules/@zendesk/client-i18n-tools/bin/download-locales --destination='../src/translation/locales' --packages='embeddable_framework' --locales=../src/translation/locales.json
+cd ..
+
+# run script from i18n library to download translations
+yarn download-locales --destination='./src/translation/locales' --packages='embeddable_framework' --locales="./src/translation/locales.json"
