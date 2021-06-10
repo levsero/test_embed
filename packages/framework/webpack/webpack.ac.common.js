@@ -1,6 +1,6 @@
 const path = require('path')
 const { merge } = require('webpack-merge')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const common = require('./webpack.common.js')
 const chunks = require('./chunks')
 
@@ -19,7 +19,7 @@ module.exports = merge(common, {
     },
   },
   plugins: [
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
       filter: (file) => {
