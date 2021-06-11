@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { StatsWriterPlugin } = require('webpack-stats-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
@@ -21,8 +21,15 @@ let config = merge(common, {
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            discardComments: { removeAll: true },
+          },
+        ],
+      },
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',

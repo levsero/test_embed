@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const common = require('./webpack.common.js')
 
@@ -23,8 +23,15 @@ module.exports = merge(common, {
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            discardComments: { removeAll: true },
+          },
+        ],
+      },
     }),
     new BundleAnalyzerPlugin({
       reportFilename: '../report.html',
