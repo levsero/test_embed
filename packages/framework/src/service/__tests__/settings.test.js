@@ -449,3 +449,16 @@ describe('storeChatAuth', () => {
     })
   })
 })
+
+describe('storeHelpCenterAuth', () => {
+  it('store help center auth settings', () => {
+    settings.init()
+    const jwtFn = jest.fn()
+
+    expect(settings.getAuthSettingsJwtFn()).toEqual(null)
+
+    settings.storeHelpCenterAuth(jwtFn)
+
+    expect(settings.getAuthSettingsJwtFn()).toEqual(jwtFn)
+  })
+})

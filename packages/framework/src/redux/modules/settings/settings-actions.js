@@ -34,6 +34,10 @@ export function updateSettings(settings) {
       legacySettings.storeChatAuth(settings.webWidget.authenticate.chat.jwtFn)
     }
 
+    if (settings?.webWidget?.authenticate?.jwtFn) {
+      legacySettings.storeHelpCenterAuth(settings.webWidget.authenticate.jwtFn)
+    }
+
     const oldTags = getSettingsChatTags(getState())
 
     dispatch({
