@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import logger from 'src/util/logger'
 import * as events from 'constants/event'
 import errorTracker from 'src/framework/services/errorTracker'
 
@@ -27,10 +26,6 @@ export const registerCallback = (cb, eventName) => {
       rollbarFingerprint: 'Set more than 3 of the same listener',
       rollbarTitle: 'Set more than 3 of the same listener',
     })
-
-    logger.warn(
-      'You are setting the same listener multiple times. \nEnsure that you are not setting the listener inside a loop, the listener will trigger whenever needed and only needs to be set once.'
-    )
   }
 }
 
