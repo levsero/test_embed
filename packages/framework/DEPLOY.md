@@ -14,12 +14,12 @@
 - Taipan is located in Melbourne (AEST). Try to avoid [off hour](https://www.timeanddate.com/worldclock/australia/melbourne) deployments
 - We don't have a strict schedule, but try to avoid deploying after 3PM our time.
 - A Deploy Buddy is required for all deploys to production.
-- Don't deploy if any [staging status] tests are red without an exemption.
+- Don't deploy if any [staging status] and [pod999 smoke tests] are red without an exemption.
 - Any PRs deployed must meet the [contributing guidelines](https://github.com/zendesk/embeddable_framework/blob/master/packages/framework/CONTRIBUTING.md)
 
 ### Code Freeze
 
-**Do not deploy** if any of the [staging status] tests are red. These must be green before anyone can deploy unless an exemption is approved. This must be approved the same way as a normal [production freeze]
+**Do not deploy** if any of the [staging status] and [pod999 smoke tests] are red. These must be green before anyone can deploy unless an exemption is approved. This must be approved the same way as a normal [production freeze]
 
 **Do not deploy** if a change freeze is in place unless an exemption is approved for a critical bug fix. They usually occur during big holidays and near the quaterly investor calls. To check, please look at the [production freeze] schedule.
 
@@ -65,7 +65,7 @@ Alternatively, visit this API that lists each version
 
 ### Step 2 - Release to Production Canary (Tier 1)
 
-Before releasing to production canary, verify that the [staging status] are passing
+Before releasing to production canary, verify that the [staging status] and [pod999 smoke tests] are passing.
 
 If passing, deploy your release with [Release Production - Canary (Tier1)].
 
@@ -80,13 +80,15 @@ Similar to staging, you can view this API to confirm what versions are currently
 
 ### Step 3 - Release to Production General Availability
 
-Before you deploy, verify that the [canary tests] are passing.
+Before you deploy, verify that the [canary smoke tests] are passing.
 
 If all green, release via the Samson stage [Release Production - General Availability].
 
 Don't forget to continuing monitoring via [Datadog](https://zendesk.datadoghq.com/dashboard/qdb-cmm-tg2/web-widget) and [Rollbar](https://rollbar-eu.zendesk.com/Zendesk/Embeddable-Framework/) for a short amount of time once released to catch any unexpected changes.
 
 ### Step 4 - Release to Production VIP (Tier 2)
+
+Before you deploy, verify that the [production smoke tests] are passing.
 
 In order to deploy to tier 2, your changes must have soaked in General Availability for a set amount of time based on how risky your change is
 
@@ -151,9 +153,9 @@ Production deploys are done in stages. All production stages require a buddy. Pl
 These are the steps for deploying changes to production:
 
 1. The first step is deploying to the canary group (`Release Production - Canary (Tier 1)`). Make sure that
-   [staging status] tests have all run and are passing before doing a deployment.
+   [staging status] and [pod999 smoke tests] have all run and are passing before doing a deployment.
    Once deployed, allow a soak time of at least 30 minutes in this stage and only proceed to the next stage if
-   [canary tests](https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/) are all green.
+   [canary smoke tests](https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/) are all green.
 
 2. The second step is the general availability release (`Release Production - General Availability`). This updates all customers who aren't in Tier 1 or Tier 2. Most
    customers will be in this stage. Soak time for this should be longer, depending on the risk of the deployment.
@@ -206,9 +208,11 @@ We have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Run
 
 [#team-taipan]: https://zendesk.slack.com/messages/C0R1EJ3UP/
 [staging status]: https://jenkins.zende.sk/view/Web-Widget-Staging-Health/
+[pod999 smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_999/view/Web%20Widget/
 [staging browser tests]: https://jenkins.zende.sk/job/Web%20Widget/job/Dependencies/
 [production freeze]: https://zendesk.atlassian.net/wiki/display/ops/Production+Freeze
-[canary tests]: https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/
+[canary smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_canary/view/Web%20Widget/
+[production smoke tests]: https://jenkins-smoke.zende.sk/job/smoke_production/view/Web%20Widget/
 [build staging]: https://samson.zende.sk/projects/embeddable_framework/stages/build-staging
 [build production]: https://samson.zende.sk/projects/embeddable_framework/stages/build-production
 [samson - embeddable framework]: https://samson.zende.sk/projects/embeddable_framework
