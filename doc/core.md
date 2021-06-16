@@ -294,8 +294,10 @@ Executes a callback when a user event is fired. This can be used as a flexible w
 | **Help Center**    |                                           |                                             |
 | Zendesk Web Widget | Help Center Shown                         | undefined                                   |
 | Zendesk Web Widget | Help Center Search                        | { term: \<search term>}                     |
-| Zendesk Web Widget | Help Center Article Clicked               | { id: \<article id>, name: \<article name>} |
+| Zendesk Web Widget | Help Center Article Viewed                | { id: \<article id>, name: \<article name>} |
 | Zendesk Web Widget | Help Center View Original Article Clicked | { id: \<article id>, name: \<article name>} |
+| **Answer Bot**     |
+| Zendesk Web Widget | Answer Bot Article Viewed                 | { id: \<article id>, name: \<article name>} |
 | **Talk**           |                                           |                                             |
 | Zendesk Web Widget | Talk Shown                                | { contactOption: \<talk contact option> }   |
 | Zendesk Web Widget | Talk Callback Request Submitted           | undefined                                   |

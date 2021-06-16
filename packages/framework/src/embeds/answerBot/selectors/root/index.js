@@ -92,9 +92,21 @@ export const getCurrentArticle = createSelector(
     const session = sessions && sessions.get(sessionID)
     const articles = (session && session.articles) || []
 
-    return _.find(articles, { id: articleID })
+    return articles.find((article) => {
+      return article.id === articleID
+    })
   }
 )
+
+export const getArticleForArticleAndSessionsID = (state, { sessionID, articleID }) => {
+  const sessions = getSessions(state)
+  const session = sessions && sessions.get(sessionID)
+  const articles = (session && session.articles) || []
+
+  return articles.find((article) => {
+    return article.id === articleID
+  })
+}
 
 export const isFeedbackRequired = createSelector(
   [

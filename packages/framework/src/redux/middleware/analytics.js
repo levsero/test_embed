@@ -13,6 +13,8 @@ import {
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
+import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
+import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
 import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
@@ -165,6 +167,12 @@ const trackTalkCallbackRequest = () => {
   track('Talk Callback Request Submitted')
 }
 
+const trackAnswerbotArticleViewed = ({ payload, prevState }) => {
+  const article = getArticleForArticleAndSessionsID(prevState, payload)
+
+  track('Answer Bot Article Viewed', { id: payload.articleID, name: article?.title })
+}
+
 const events = {
   [UPDATE_ACTIVE_EMBED]: trackEmbedShownOnUpdateEmbed,
   [SDK_CHAT_MEMBER_JOIN]: trackChatServedByOperator,
@@ -179,6 +187,7 @@ const events = {
   [ORIGINAL_ARTICLE_CLICKED]: trackViewOriginalArticleClicked,
   [TICKET_SUBMISSION_REQUEST_SUCCESS]: trackTicketSubmitted,
   [TALK_CALLBACK_SUCCESS]: trackTalkCallbackRequest,
+  [ARTICLE_SHOWN]: trackAnswerbotArticleViewed,
 }
 
 export function trackAnalytics({ getState }) {
