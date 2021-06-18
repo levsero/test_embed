@@ -1,7 +1,7 @@
 import Rollbar from 'rollbar'
 import _ from 'lodash'
 
-import { getHostUrl, inDebugMode } from './helpers'
+import { getHostUrl, inDebugMode, getSubdomain } from './helpers'
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
 
@@ -58,6 +58,7 @@ const rollbarConfig = {
     embeddableName: 'framework',
     environment: __EMBEDDABLE_FRAMEWORK_ENV__,
     hostPageUrl: getHostUrl(),
+    subdomain: getSubdomain(),
     client: {
       javascript: {
         source_map_enabled: true, // eslint-disable-line camelcase
