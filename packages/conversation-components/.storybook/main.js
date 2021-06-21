@@ -2,20 +2,17 @@ const path = require('path')
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
-  webpackFinal: async config => {
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-a11y'],
+  webpackFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      src: path.resolve(__dirname, '../src')
+      src: path.resolve(__dirname, '../src'),
     }
 
     // Don't use Storybook's default SVG Configuration
-    config.module.rules = config.module.rules.map(rule => {
+    config.module.rules = config.module.rules.map((rule) => {
       if (rule.test.toString().includes('svg')) {
-        const test = rule.test
-          .toString()
-          .replace('svg|', '')
-          .replace(/\//g, '')
+        const test = rule.test.toString().replace('svg|', '').replace(/\//g, '')
         return { ...rule, test: new RegExp(test) }
       } else {
         return rule
@@ -37,15 +34,15 @@ module.exports = {
                 { removeViewBox: false },
                 { prefixIds: false },
                 { cleanupIDs: false },
-                { inlineStyles: false }
-              ]
+                { inlineStyles: false },
+              ],
             },
-            titleProp: true
-          }
-        }
-      ]
+            titleProp: true,
+          },
+        },
+      ],
     })
 
     return config
-  }
+  },
 }
