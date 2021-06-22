@@ -1,6 +1,6 @@
 import parseLocale from '../parseLocale'
 
-const expectedFallback = 'en-us'
+const expectedFallback = 'en-US'
 
 describe('parseLocale', () => {
   it('returns a fallback locale if nothing is passed in', () => {
