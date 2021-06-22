@@ -47,7 +47,7 @@ def upload_web_widget
 end
 
 def build_previewer
-  yarn_command 'workspace @zendesk/embeddable-framework build-previewer'
+  yarn_command 'workspace @zendesk/embeddable-framework build:previewer'
 end
 
 def upload_previewer
