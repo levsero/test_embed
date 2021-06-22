@@ -60,11 +60,6 @@ def upload_previewer
       expires: nil # we don't want to send the expires header
     }
   )
-  s3_deployer.upload_files(
-    'dist/public/locales',
-    S3_RELEASE_DIRECTORY_LATEST + '/locales',
-    Dir['dist/public/locales/*.js'].map { |f| File.basename(f) }
-  )
 end
 
 desc "Build and and upload WW/Previewer assets"
