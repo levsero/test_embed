@@ -4,7 +4,7 @@ import { BANNER_STATUS } from '../constants'
 
 const statusColors = {
   [BANNER_STATUS.success]: '#038153',
-  [BANNER_STATUS.fatal]: 'yellow',
+  [BANNER_STATUS.fatal]: '#000',
 }
 
 const Container = styled.div`
