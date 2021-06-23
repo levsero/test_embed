@@ -16,6 +16,7 @@ import createMessengerApi from './public-api'
 import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import errorTracker from 'src/framework/services/errorTracker'
+import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
 
 const init = async ({ config }) => {
   if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
@@ -47,6 +48,10 @@ const init = async ({ config }) => {
   store.dispatch(initialiseLauncherLabel())
 
   setupSuncoClient(config.messenger)
+
+  if (isFeatureEnabled(config, 'web_widget_channel_linking')) {
+    store.dispatch(fetchIntegrations())
+  }
 
   return {
     store,

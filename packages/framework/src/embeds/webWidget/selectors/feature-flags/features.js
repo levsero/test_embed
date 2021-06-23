@@ -39,4 +39,8 @@ export default {
     defaultValue: false,
     getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
   },
+  web_widget_channel_linking: {
+    defaultValue: false,
+    getArturoValue: (config) => config.channelLinking,
+  },
 }

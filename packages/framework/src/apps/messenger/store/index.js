@@ -14,6 +14,8 @@ import cookies from './cookies'
 import launcherLabelConfig from 'src/apps/messenger/features/launcherLabel/store/config'
 import launcherLabelVisibility from 'src/apps/messenger/features/launcherLabel/store/visibility'
 import createResettableReducer from 'src/apps/messenger/utils/createResettableReducer'
+import integrations from 'src/apps/messenger/store/integrations'
+import rememberConversationHistory from 'src/apps/messenger/store/rememberConversationHistory'
 
 const createStore = () => {
   const store = configureStore({
@@ -39,6 +41,8 @@ const createStore = () => {
       unreadIndicator: createResettableReducer(unreadIndicator),
       composer: createResettableReducer(composer),
       cookies,
+      integrations,
+      rememberConversationHistory,
     }),
   })
 
