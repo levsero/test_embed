@@ -8,10 +8,13 @@ import { Container, Icon, Name, Size, Content } from './styles'
 import useLabels from 'src/hooks/useLabels'
 
 const parseFileNameFromUrl = (url) => {
-  const split = url.split('/')
+  const splitUrl = url.split('/')
 
-  const name = split[split.length - 1] ?? url
-  return name.split('?')[0]
+  const params = splitUrl[splitUrl.length - 1]
+  const queryParamPair = params.split('=')
+  const queryParamValue = queryParamPair[queryParamPair.length - 1]
+
+  return queryParamValue ?? url
 }
 
 const abbreviateFileName = (fileName) => {
@@ -43,11 +46,12 @@ const FileMessage = ({
   isReceiptVisible = true,
   isFreshMessage = true,
   onRetry = () => {},
+  fileName,
 }) => {
   const labels = useLabels().fileMessage
   const Layout = isPrimaryParticipant ? PrimaryParticipantLayout : OtherParticipantLayout
-  const fileName = parseFileNameFromUrl(mediaUrl)
-  const abbreviatedName = abbreviateFileName(fileName)
+  const parsedFilename = parseFileNameFromUrl(mediaUrl)
+  const abbreviatedName = abbreviateFileName(parsedFilename)
   const size = calculateMediaSize(mediaSize, labels)
 
   return (
@@ -73,7 +77,7 @@ const FileMessage = ({
               isPill={false}
               isPrimaryParticipant={isPrimaryParticipant}
             >
-              {abbreviatedName}
+              {fileName || altText || abbreviatedName}
             </Name>
             <Size>{size}</Size>
           </Content>
@@ -86,6 +90,7 @@ const FileMessage = ({
 FileMessage.propTypes = {
   avatar: PropTypes.string,
   label: PropTypes.string,
+  fileName: PropTypes.string,
   altText: PropTypes.string,
   isPrimaryParticipant: PropTypes.bool,
   mediaUrl: PropTypes.string,
