@@ -26,7 +26,7 @@ function filterLocales(locales) {
 
 function generateLocaleIdMap(locales) {
   return locales.reduce((idMap, element) => {
-    idMap[element.locale.toLowerCase()] = element.id
+    idMap[element.locale] = element.id
     return idMap
   }, {})
 }
@@ -73,7 +73,7 @@ rest(localesEndpoint)
     writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal)
 
     var codes = JSON.stringify(
-      locales.map((obj) => obj.locale.toLowerCase()),
+      locales.map((obj) => obj.locale),
       null,
       2
     )

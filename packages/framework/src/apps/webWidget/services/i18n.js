@@ -24,7 +24,7 @@ function init(s) {
   store = s
 }
 
-function setLocale(apiLocale, callback, configLocale = 'en-us') {
+function setLocale(apiLocale, callback, configLocale = 'en-US') {
   if (!store) return
 
   currentLocale = parseLocale(apiLocale || currentLocale || configLocale)
@@ -101,13 +101,18 @@ function regulateDash(locale) {
 }
 
 function regulateLocaleStringCase(locale) {
-  return locale.toLowerCase()
+  const dashIndex = locale.indexOf('-')
+
+  if (dashIndex < 0) {
+    return locale.toLowerCase()
+  }
+  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase()
 }
 
 function getClientLocale() {
   const nav = navigator
 
-  return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-us'
+  return (nav.languages && nav.languages[0]) || nav.browserLanguage || nav.language || 'en-US'
 }
 
 function lowercaseSettingsKey(settings) {
@@ -119,7 +124,6 @@ function lowercaseSettingsKey(settings) {
 
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(regulateDash(str))
-
   const lowercaseLocale = locale.toLowerCase()
   const extractedLang = locale.substring(0, locale.indexOf('-'))
 
@@ -134,7 +138,7 @@ function parseLocale(str) {
   } else if (_.startsWith(str, 'zh')) {
     return parseZhLocale(str)
   } else {
-    return 'en-us'
+    return 'en-US'
   }
 }
 
@@ -177,11 +181,16 @@ function parseZhLocale(str) {
 // Retrieves the correct translation from the passed map of settings translations.
 const getSettingTranslation = (translations) => {
   const locale = regulateLocaleStringCase(regulateDash(i18n.getLocale()))
+  const lowercaseLocale = locale.toLowerCase()
 
   if (_.isEmpty(translations)) return
 
   return (
-    translations[locale] || lowercaseSettingsKey(translations)[locale] || translations['*'] || null
+    translations[locale] ||
+    translations[lowercaseLocale] ||
+    lowercaseSettingsKey(translations)[lowercaseLocale] ||
+    translations['*'] ||
+    null
   )
 }
 
