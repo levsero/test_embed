@@ -62,6 +62,5 @@ export const setLocale = async (locale) => {
 
 // Temporary API until we can get this data via embeddable config
 export const fetchIntegrations = async () => {
-  const conversation = await getActiveConversation()
-  return conversation.getIntegrations()
+  return getClient().getIntegrations()
 }

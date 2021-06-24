@@ -91,7 +91,6 @@ export default class Sunco {
       forgetUser: () => {
         removeAppUser({ integrationId: this.integrationId })
       },
-      getIntegrations: () => this.integrations.get(),
       getLinkRequest: (integrationId) => this.appUsers.getLinkRequest(appUserId, integrationId),
       unlinkChannel: (clientId) => this.appUsers.unlinkChannel(appUserId, clientId),
     }
@@ -144,6 +143,10 @@ export default class Sunco {
         this.appUsers.update(response.appUserId, { locale })
       })
     }
+  }
+
+  getIntegrations() {
+    return this.integrations.get()
   }
 
   wasMessageSentFromThisTab(message) {
