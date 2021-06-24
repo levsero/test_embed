@@ -49,10 +49,6 @@ const init = async ({ config }) => {
 
   setupSuncoClient(config.messenger)
 
-  if (isFeatureEnabled(config, 'web_widget_channel_linking')) {
-    store.dispatch(fetchIntegrations())
-  }
-
   return {
     store,
   }
@@ -67,6 +63,10 @@ const run = async ({ embeddableData }) => {
 
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)
+
+    if (isFeatureEnabled(store.getState(), 'web_widget_channel_linking')) {
+      store.dispatch(fetchIntegrations())
+    }
 
     if (hasExistingConversation()) {
       store.dispatch(fetchExistingConversation())
