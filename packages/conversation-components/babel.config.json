@@ -1,6 +1,11 @@
 {
   "presets": [
-    "@babel/preset-env",
+    [
+      "@babel/preset-env",
+      {
+        "modules": false
+      }
+    ],
     [
       "@babel/preset-react",
       {
@@ -8,9 +13,31 @@
       }
     ]
   ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "src": "./src"
+        }
+      }
+    ]
+  ],
   "env": {
     "development": {
       "plugins": ["babel-plugin-styled-components"]
+    },
+    "test": {
+      "presets": [
+        ["@babel/preset-env"],
+        [
+          "@babel/preset-react",
+          {
+            "runtime": "automatic"
+          }
+        ]
+      ]
     },
     "production": {
       "plugins": [

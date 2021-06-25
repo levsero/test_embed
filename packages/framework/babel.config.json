@@ -19,7 +19,15 @@
   "env": {
     "test": {
       "presets": [
-        ["@babel/preset-env", { "targets": { "node": "current" }, "useBuiltIns": false }],
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            },
+            "useBuiltIns": false
+          }
+        ],
         [
           "@babel/preset-react",
           {
@@ -45,7 +53,14 @@
     },
     "e2e": {
       "presets": [
-        ["@babel/preset-env", { "targets": { "node": "current" } }],
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ],
         [
           "@babel/preset-react",
           {
