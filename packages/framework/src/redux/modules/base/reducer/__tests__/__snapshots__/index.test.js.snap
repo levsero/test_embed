@@ -38,7 +38,6 @@ Object {
       },
     },
     "hideZendeskLogo": false,
-    "newBootSequence": false,
     "position": "right",
     "prefetchWidgetContainer": false,
     "textColor": undefined,
