@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Custome Launcher Template</title>
+    <title>Custom Launcher Template</title>
   </head>
   <body>
     <h1>Custom Launcher</h1>
@@ -21,8 +21,15 @@
     <div
       id="myLauncher"
       onclick="openWidget()"
-      style="background-color: red; padding: 10px; border-radius: 4px; width: 100px;
-    text-align: center; color: white; font-family: sans-serif;"
+      style="
+        background-color: red;
+        padding: 10px;
+        border-radius: 4px;
+        width: 100px;
+        text-align: center;
+        color: white;
+        font-family: sans-serif;
+      "
     >
       Click to chat with me!
     </div>
@@ -38,7 +45,7 @@
         document.querySelector('#myLauncher').style.opacity = 0
       }
 
-      zE('webWidget:on', 'close', function() {
+      zE('webWidget:on', 'close', function () {
         console.log('hide on close')
         zE('webWidget', 'hide')
         document.querySelector('#myLauncher').style.opacity = 1
