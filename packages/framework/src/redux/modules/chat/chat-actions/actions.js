@@ -194,7 +194,7 @@ export function handleChatBoxChange(msg) {
 
 // TODO: When tests are ported over to jest find a better way to test timestamp
 // instead of passing it in and using the default for everything in prod.
-export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
+export function setVisitorInfo(visitor, successAction, identifier, timestamp = Date.now()) {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -239,8 +239,8 @@ export function setVisitorInfo(visitor, successAction, timestamp = Date.now()) {
       })
     }).catch((err) => {
       errorTracker.error(err || new Error('Unknown reason'), {
-        rollbarFingerprint: 'Failed to set user information while starting chat',
-        rollbarTitle: 'Failed to set user information while starting chat',
+        rollbarFingerprint: `Failed to set user information while starting chat ${identifier}`,
+        rollbarTitle: `Failed to set user information while starting chat ${identifier}`,
       })
       dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
     })
@@ -253,7 +253,7 @@ export function editContactDetailsSubmitted(visitor) {
     payload: { ...visitor, timestamp: Date.now() },
   }
 
-  return setVisitorInfo(visitor, successAction)
+  return setVisitorInfo(visitor, successAction, 'edit contact details')
 }
 
 export function sendVisitorPath(options = {}) {

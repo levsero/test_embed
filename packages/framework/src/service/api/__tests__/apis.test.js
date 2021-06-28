@@ -236,10 +236,14 @@ describe('identify', () => {
 
       apis.identifyApi(store, params)
 
-      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        display_name: params.name,
-        email: params.email,
-      })
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith(
+        {
+          display_name: params.name,
+          email: params.email,
+        },
+        undefined,
+        'identify api'
+      )
     })
 
     describe('when valid phone is provided', () => {
@@ -253,11 +257,15 @@ describe('identify', () => {
       it('calls setVisitorInfo with the name, email and phone', () => {
         const params = callIdentify(true)
 
-        expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-          display_name: params.name,
-          email: params.email,
-          phone: params.phone,
-        })
+        expect(setVisitorInfoSpy).toHaveBeenCalledWith(
+          {
+            display_name: params.name,
+            email: params.email,
+            phone: params.phone,
+          },
+          undefined,
+          'identify api'
+        )
       })
     })
   })
@@ -280,10 +288,14 @@ describe('identify', () => {
     })
 
     it('still calls setVisitorInfo with the name and phone', () => {
-      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        display_name: params.name,
-        phone: '0430931722',
-      })
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith(
+        {
+          display_name: params.name,
+          phone: '0430931722',
+        },
+        undefined,
+        'identify api'
+      )
     })
 
     it('prints a warning', () => {
@@ -311,9 +323,13 @@ describe('identify', () => {
     })
 
     it('still calls setVisitorInfo with the email', () => {
-      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        email: params.email,
-      })
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith(
+        {
+          email: params.email,
+        },
+        undefined,
+        'identify api'
+      )
     })
 
     it('prints a warning', () => {
@@ -339,10 +355,14 @@ describe('identify', () => {
     })
 
     it('still calls setVisitorInfo with the email and name', () => {
-      expect(setVisitorInfoSpy).toHaveBeenCalledWith({
-        email: params.email,
-        display_name: params.name,
-      })
+      expect(setVisitorInfoSpy).toHaveBeenCalledWith(
+        {
+          email: params.email,
+          display_name: params.name,
+        },
+        undefined,
+        'identify api'
+      )
     })
 
     it('prints a warning', () => {

@@ -220,7 +220,7 @@ describe('setVisitorInfo', () => {
       it('does not dispatch any actions', () => {
         const store = mockStore(getState())
 
-        store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }, mockTimestamp))
+        store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }))
 
         expect(store.getActions()).toEqual([])
       })
@@ -241,7 +241,7 @@ describe('setVisitorInfo', () => {
         phone: '123',
       }
 
-      store.dispatch(actions.setVisitorInfo(vistor, {}, 1234))
+      store.dispatch(actions.setVisitorInfo(vistor, {}, null, 1234))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
@@ -253,7 +253,7 @@ describe('setVisitorInfo', () => {
     it('dispatches SET_VISITOR_INFO_REQUEST_PENDING', () => {
       const store = mockStore(getState())
 
-      store.dispatch(actions.setVisitorInfo(mockVisitor, {}, 1234))
+      store.dispatch(actions.setVisitorInfo(mockVisitor, {}, null, 1234))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
@@ -263,9 +263,7 @@ describe('setVisitorInfo', () => {
     })
 
     it('passes in the visitor as an argument', () => {
-      const { timeoutArgs } = dispatchZChatWithTimeoutAction(
-        actions.setVisitorInfo(mockVisitor, null, mockTimestamp)
-      )
+      const { timeoutArgs } = dispatchZChatWithTimeoutAction(actions.setVisitorInfo(mockVisitor))
 
       expect(timeoutArgs[0]).toEqual(mockVisitor)
     })
@@ -273,7 +271,7 @@ describe('setVisitorInfo', () => {
     describe("when there's any error", () => {
       it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null, mockTimestamp),
+          actions.setVisitorInfo(mockVisitor),
           otherError
         )
 
@@ -286,7 +284,7 @@ describe('setVisitorInfo', () => {
     describe('when there are no errors', () => {
       it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null, mockTimestamp)
+          actions.setVisitorInfo(mockVisitor, null, null, mockTimestamp)
         )
 
         expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
@@ -295,7 +293,7 @@ describe('setVisitorInfo', () => {
       describe('when an on-success action "callback" is passed', () => {
         it('dispatches the on-success action', () => {
           const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo(mockVisitor, { type: 'COOL_ACTION' }, mockTimestamp)
+            actions.setVisitorInfo(mockVisitor, { type: 'COOL_ACTION' })
           )
 
           expect(store.getActions()).toContainEqual({ type: 'COOL_ACTION' })
