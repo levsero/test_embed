@@ -47,7 +47,7 @@ def upload_web_widget
 end
 
 def build_previewer
-  yarn_command 'workspace @zendesk/embeddable-framework build-previewer'
+  yarn_command 'workspace @zendesk/embeddable-framework build:previewer'
 end
 
 def upload_previewer
@@ -59,11 +59,6 @@ def upload_previewer
       cache_control: "public, max-age=600",
       expires: nil # we don't want to send the expires header
     }
-  )
-  s3_deployer.upload_files(
-    'dist/public/locales',
-    S3_RELEASE_DIRECTORY_LATEST + '/locales',
-    Dir['dist/public/locales/*.js'].map { |f| File.basename(f) }
   )
 end
 
