@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import sanitizeHtml from 'sanitize-html'
 import {
   SlideMessage,
   Slide,
@@ -18,6 +19,13 @@ import ArrowIcon from '@zendeskgarden/svg-icons/src/16/arrow-left-stroke.svg'
 import Avatar from 'src/Avatar'
 import Label from 'src/Label'
 import useCarousel from './use-carousel'
+import { sanitizeHtmlOptions } from 'src/utils/html-sanitization'
+
+const cleanHtml = (element) => {
+  return {
+    __html: sanitizeHtml(element, sanitizeHtmlOptions).replace(/\s+/g, ' '),
+  }
+}
 
 const CarouselMessage = ({ items, label, avatar }) => {
   const {
@@ -51,7 +59,7 @@ const CarouselMessage = ({ items, label, avatar }) => {
           >
             <Content>
               <Title>{item.title}</Title>
-              <Description>{item.description}</Description>
+              <Description dangerouslySetInnerHTML={cleanHtml(item.description)} />
             </Content>
 
             {item?.actions?.length > 0 && (
