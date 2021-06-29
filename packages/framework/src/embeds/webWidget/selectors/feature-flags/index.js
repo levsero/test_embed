@@ -23,7 +23,7 @@ const logFeatureOverrideUsage = (name, enabled) => {
   logger.devLog(message)
 }
 
-const isFeatureEnabled = (state, name) => {
+const isFeatureEnabled = (stateOrConfig, name) => {
   const feature = features[name]
 
   if (!feature) {
@@ -53,7 +53,7 @@ const isFeatureEnabled = (state, name) => {
     return feature.defaultValue
   }
 
-  return Boolean(feature.getArturoValue(state))
+  return Boolean(feature.getArturoValue(stateOrConfig))
 }
 
 export default isFeatureEnabled

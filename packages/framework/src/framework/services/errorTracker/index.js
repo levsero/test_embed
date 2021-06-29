@@ -1,6 +1,4 @@
 import Rollbar from 'rollbar'
-import _ from 'lodash'
-
 import { getHostUrl, inDebugMode, getSubdomain } from './helpers'
 
 const hostAllowList = [/^.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com.*$/]
@@ -35,8 +33,8 @@ export const ignoreException = (_isUncaught, _args, _payload) => {
 }
 
 const payloadTransformer = (payload) => {
-  const rollbarFingerprint = _.get(payload, 'body.trace.extra.rollbarFingerprint', false)
-  const rollbarTitle = _.get(payload, 'body.trace.extra.rollbarTitle', false)
+  const rollbarFingerprint = payload?.body?.trace?.extra?.rollbarFingerprint || false
+  const rollbarTitle = payload?.body?.trace?.extra?.rollbarTitle || false
 
   if (rollbarFingerprint) payload.fingerprint = rollbarFingerprint
   if (rollbarTitle) payload.title = rollbarTitle

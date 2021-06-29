@@ -16,10 +16,6 @@ export default {
   use_production_sunco: {
     defaultValue: false,
   },
-  web_widget_new_boot_sequence: {
-    defaultValue: false,
-    getArturoValue: (config) => config?.newBootSequence,
-  },
   digital_voice_enabled: {
     defaultValue: false,
   },
@@ -33,14 +29,10 @@ export default {
   },
   log_all_messenger_errors: {
     defaultValue: false,
-    getArturoValue: (config) => config.logMessengerErrors,
-  },
-  web_widget_prefetch_widget_container: {
-    defaultValue: false,
-    getArturoValue: (state) => state?.base?.embeddableConfig?.prefetchWidgetContainer,
+    getArturoValue: (config) => config?.logMessengerErrors,
   },
   web_widget_channel_linking: {
     defaultValue: false,
-    getArturoValue: (config) => config.channelLinking,
+    getArturoValue: (config) => config?.channelLinking,
   },
 }

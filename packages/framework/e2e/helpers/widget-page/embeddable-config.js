@@ -7,7 +7,6 @@ const baseConfig = {
   brandCount: 1,
   color: '#b74a1e',
   captchaRequired: false,
-  newBootSequence: true,
   embeds: {
     launcher: {
       embed: 'launcher',

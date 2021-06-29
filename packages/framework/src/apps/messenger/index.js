@@ -54,7 +54,7 @@ const init = async ({ config }) => {
   }
 }
 
-const run = async ({ embeddableData }) => {
+const run = async ({ config, embeddableData }) => {
   const { store } = embeddableData
 
   const element = hostPageWindow.document.body.appendChild(
@@ -64,7 +64,7 @@ const run = async ({ embeddableData }) => {
   const messengerReadyCallback = () => {
     listenForOnlineOfflineEvents(store)
 
-    if (isFeatureEnabled(store.getState(), 'web_widget_channel_linking')) {
+    if (isFeatureEnabled(config, 'web_widget_channel_linking')) {
       store.dispatch(fetchIntegrations())
     }
 
