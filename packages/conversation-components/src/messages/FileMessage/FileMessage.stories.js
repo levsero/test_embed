@@ -32,20 +32,29 @@ export const PrimaryParticipantFileMessage = Template.bind()
 PrimaryParticipantFileMessage.args = {
   ...defaultProps,
   isPrimaryParticipant: true,
-  mediaUrl: 'this is a url.com',
+  mediaUrl: 'https://testEndpoint.test/attachments/abc123.pdf',
   mediaSize: 1000,
+}
+
+export const PrimaryParticipantFileMessageWithSetFileName = Template.bind()
+PrimaryParticipantFileMessageWithSetFileName.args = {
+  ...defaultProps,
+  isPrimaryParticipant: true,
+  mediaUrl: 'https://testEndpoint.test/attachments/abc123.pdf',
+  mediaSize: 1000,
+  fileName: 'Another name.pdf',
 }
 
 export const OtherParticipantFileMessage = Template.bind()
 OtherParticipantFileMessage.args = {
   ...defaultProps,
   isPrimaryParticipant: false,
-  mediaUrl: 'this is a url.com',
+  mediaUrl: 'https://testEndpoint.test/attachments/?name=abc123.pdf',
   mediaSize: 1000,
 }
 
-export const OtherParticipantFileMessageWithLongName = Template.bind()
-OtherParticipantFileMessageWithLongName.args = {
+export const OtherParticipantFileMessageWithLongUrlFileName = Template.bind()
+OtherParticipantFileMessageWithLongUrlFileName.args = {
   ...defaultProps,
   isPrimaryParticipant: false,
   mediaUrl:
