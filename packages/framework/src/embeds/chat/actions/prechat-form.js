@@ -13,6 +13,7 @@ import {
   setVisitorInfo,
   updateChatScreen,
 } from 'src/redux/modules/chat'
+import { getContactDetailsSubmissionError } from 'src/embeds/chat/selectors'
 import _ from 'lodash'
 
 const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => async (
@@ -56,6 +57,9 @@ const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => a
         'prechat form'
       )
     )
+    if (getContactDetailsSubmissionError(getState())) {
+      throw new Error('failed to submit details')
+    }
   }
 
   if (isDepartmentFieldVisible) {

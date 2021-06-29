@@ -4,7 +4,7 @@ const loadingScreen = 'widget/chat/LOADING_SCREEN'
 const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SUCCESS_SCREEN'
 
 describe('PrechatScreen component', () => {
-  let PrechatScreen, prechatFormSettingsProp
+  let PrechatScreen
 
   const chatPath = buildSrcPath('component/chat/prechat/PrechatScreen')
   const chatConstantsPath = buildSrcPath('constants/chat')
@@ -25,8 +25,6 @@ describe('PrechatScreen component', () => {
 
   beforeEach(() => {
     mockery.enable()
-
-    prechatFormSettingsProp = { form: {}, required: false }
 
     initMockRegistry({
       './PrechatScreen.scss': {
@@ -103,67 +101,6 @@ describe('PrechatScreen component', () => {
     mockery.disable()
 
     updateChatScreenSpy.calls.reset()
-  })
-
-  describe('onPrechatFormComplete', () => {
-    let component,
-      setVisitorInfoSpy,
-      sendMsgSpy,
-      setDepartmentSpy,
-      formInfo,
-      sendOfflineMessageSpy,
-      clearDepartmentSpy,
-      mockDepartments,
-      submitPrechatFormSpy,
-      deptHidden = false
-
-    beforeEach(() => {
-      setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo')
-      sendMsgSpy = jasmine.createSpy('sendMsg')
-      setDepartmentSpy = jasmine.createSpy('setDepartment')
-      sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage')
-      clearDepartmentSpy = jasmine.createSpy('clearDepartment')
-      submitPrechatFormSpy = jasmine.createSpy('submitPrechatForm')
-      component = instanceRender(
-        <PrechatScreen
-          prechatFormSettings={prechatFormSettingsProp}
-          setVisitorInfo={setVisitorInfoSpy}
-          sendMsg={sendMsgSpy}
-          setDepartment={setDepartmentSpy}
-          updateChatScreen={updateChatScreenSpy}
-          handlePrechatFormSubmit={handlePrechatFormSubmitSpy}
-          resetCurrentMessage={resetCurrentMessageSpy}
-          departments={mockDepartments}
-          departmentFieldHidden={deptHidden}
-          sendOfflineMessage={sendOfflineMessageSpy}
-          clearDepartment={clearDepartmentSpy}
-          submitPrechatForm={submitPrechatFormSpy}
-        />
-      )
-
-      component.onPrechatFormComplete(formInfo)
-    })
-
-    afterEach(() => {
-      deptHidden = false
-      setVisitorInfoSpy.calls.reset()
-      sendMsgSpy.calls.reset()
-      setDepartmentSpy.calls.reset()
-      updateChatScreenSpy.calls.reset()
-      handlePrechatFormSubmitSpy.calls.reset()
-      sendOfflineMessageSpy.calls.reset()
-    })
-
-    it('calls submitPrechatForm', () => {
-      expect(submitPrechatFormSpy).toHaveBeenCalledWith({
-        values: formInfo,
-        isDepartmentFieldVisible: !deptHidden,
-      })
-    })
-
-    it('calls resetCurrentMessage', () => {
-      expect(resetCurrentMessageSpy).toHaveBeenCalled()
-    })
   })
 
   describe('render', () => {
