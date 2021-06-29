@@ -33,6 +33,6 @@ export default {
   },
   web_widget_channel_linking: {
     defaultValue: false,
-    getArturoValue: (state) => state?.base?.embeddableConfig?.channelLinking,
+    getArturoValue: (config) => config?.channelLinking,
   },
 }
