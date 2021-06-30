@@ -85,15 +85,18 @@ If you encounter a `Cannot GET /live.html` error after loading, you may need to 
 
 (Note that this isn't part of Taipan's usual workflow.)
 
-- Follow above to get `yarn workspace @zendesk/embeddable-framework dev` running.
-- Run `zdi embeddable_framework -d restart` in parallel.
+- Run `zdi embeddable_framework restart` to start the `embeddable_framework` container in ZDI.
+- If you'd like to make changes to the code and have that reflected in the container, start it in dev mode instead, i.e. `zdi embeddable_framework -db restart`.
+- After it has successfully started up, you should be able to access assets at:
 
-### Building Docker image
+```
+https://embeddable-framework.zd-dev.com/web_widget/latest/
+# Or
+https://embeddable-framework.zd-dev.com/web_widget/<GIT SHA>/
 
-- Run `yarn build` to build static assets inside `./dist/public`.
-- Run `zdi embeddable_framework build`.
-- Verify the built image with `zdi embeddable_framework restart -l`.
-- To push, run `zdi embeddable_framework release --official`.
+# For e.g.
+https://embeddable-framework.zd-dev.com/web_widget/01f3b75759fe9fbfb22108421ad01594817e63df/asset_manifest.json
+```
 
 ## Contribute
 
