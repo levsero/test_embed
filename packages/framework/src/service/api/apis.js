@@ -145,11 +145,15 @@ export const identifyApi = (reduxStore, user) => {
 
     reduxStore.dispatch(
       // setVisitorInfo cannot accept undefined values.
-      setVisitorInfo({
-        ...(validUser.name && { display_name: validUser.name }),
-        ...(validUser.email && { email: validUser.email }),
-        ...(validUser.phone && { phone: validUser.phone }),
-      })
+      setVisitorInfo(
+        {
+          ...(validUser.name && { display_name: validUser.name }),
+          ...(validUser.email && { email: validUser.email }),
+          ...(validUser.phone && { phone: validUser.phone }),
+        },
+        undefined,
+        'identify api'
+      )
     )
   }
 

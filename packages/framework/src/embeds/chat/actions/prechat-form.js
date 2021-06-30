@@ -51,7 +51,9 @@ const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => a
             phone: values.phone,
           },
           _.isNil
-        )
+        ),
+        undefined,
+        'prechat form'
       )
     )
   }
