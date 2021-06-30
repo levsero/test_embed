@@ -190,14 +190,41 @@ such has its own stage.
 
 ## Recovery
 
-If there is a problem with the deployed version you will need to rollback to the previous stable version via Samson. As mentioned earlier,
-you can very quickly re-deploy a working older release to the corresponding `Release *` stage. There is no need to
-run `Build Production` if you just need to rollback to an older existing version.
+If there is a problem with the deployed version you will need to rollback to the previous stable version via Samson. You can very quickly re-deploy a working older release to the corresponding `Release *` stage by following these steps.
+
+Additionally, we have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Runbook) to help diagnose common problems.
+
+### Steps to Rollback
+
+#### Step 1
+
+Identify the stages you wish to rollback by first checking the recent deploys of [VIP Tier 2](https://samson.zende.sk/projects/embeddable_framework/stages/release-production-vip-tier2) followed by [General Availability](https://samson.zende.sk/projects/embeddable_framework/stages/production-release) and [Canary](https://samson.zende.sk/projects/embeddable_framework/stages/release-production-canary-tier1).
+
+#### Step 2
+
+Make a note of the `v####` tag of the last stable version on the stage. This is usually one before the last deploy.
+
+E.g.
+
+```
+7 days ago 	00:00:03 	Levi Serebryanski (with Wayne See) deployed v3677 to Release Production - General Availability 	Succeeded
+```
+
+#### Step 3
+
+Deploy the last stable `v####` tag to the stage on the [Releases Page](https://samson.zende.sk/projects/embeddable_framework/releases).
+
+_Note:_ There is no need to run `Build Production` if you just need to rollback to an older existing version.
+
+#### Step 4
+
+Repeat Step 2 for each stage identified in Step 1.
+
+#### Step 5
+
 If the problem is going to take some time to fix, please revert your PR so that it's not holding up other deploys.
 
 Please notify [#team-taipan] if a rollback has occurred out of Melbourne hours.
-
-We have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Runbook) to help diagnose common problems.
 
 ## Verification
 
