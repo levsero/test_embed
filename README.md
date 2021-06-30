@@ -6,13 +6,13 @@ A 3rd party embeddable framework that handles bringing Zendesk outside of the ag
 
 ## Owners
 
-This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wiki/pages/viewpage.action?pageId=86114732). You can get in touch with us via:
+This repository is maintained by [Team Emu](https://zendesk.atlassian.net/wiki/pages/viewpage.action?pageId=86114732). You can get in touch with us via:
 
-- Email **taipan@zendesk.com**
-- Slack **#taipan-team** channel
-- Mention **@zendesk/taipan** on Github
-- [Taipan JIRA Sprint Board](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270)
-- [Taipan JIRA Backlog](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270/backlog)
+- Email **emu@zendesk.com**
+- Slack **#emu-team** channel
+- Mention **@zendesk/emu** on Github
+- [Web Widget JIRA Sprint Board](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270)
+- [Web Widget JIRA Backlog](https://zendesk.atlassian.net/jira/software/projects/EWW/boards/1270/backlog)
 
 We are based in Melbourne, Australia and our timezone is **GMT+10**. You can always check the [time](http://time.is/Melbourne) in Melbourne.
 
@@ -53,7 +53,7 @@ E.g. to run the embeddable framework with the developer dashboard you can run
 yarn workspace @zendesk/embeddable-framework dashboard
 ```
 
-This will allow you to access the developer dashboard on (http://localhost:1338)[http://localhost:1338]
+This will allow you to access the developer dashboard on [http://localhost:1338](http://localhost:1338).
 
 The packages contained are:
 
