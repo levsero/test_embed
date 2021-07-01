@@ -17,7 +17,7 @@
     "build:version:clean": "rm -rf ./dist/VERSION_HASH",
     "predev": "npm run build:version:generate",
     "dev": "webpack serve --config ./webpack/webpack.ac.dev.js --hot",
-    "devserver": "npm run prebuild && npm run predev && ./script/fetch_i18n && yarn workspace @zendesk/conversation-components build && node ./webpack/server.dev.js",
+    "devserver": "npm run prebuild && npm run build-setup:prod && node ./webpack/server.dev.js",
     "dashboard": "USE_DASHBOARD=true npm run dev",
     "dev-preview": "webpack serve --config ./webpack/webpack.previewer.dev.js",
     "build-setup:prod": "npm run build:version:generate && rm -rf ./dist/*.map && ./script/fetch_i18n && yarn workspace @zendesk/conversation-components build",
