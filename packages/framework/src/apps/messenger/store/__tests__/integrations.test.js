@@ -83,10 +83,30 @@ testReducer(reducer, [
       },
       ids: ['messenger'],
     },
-    action: { type: [linkIntegration.fulfilled], payload: { type: 'messenger' } },
+    action: {
+      type: [linkIntegration.fulfilled],
+      payload: {
+        type: 'messenger',
+        integrationId: '60dacd66c491a400d3882068',
+        code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+        url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+      },
+    },
     expected: {
       entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        messenger: {
+          _id: 123,
+          appId: 1,
+          pageId: '123',
+          linked: 'linked',
+          type: 'messenger',
+          linkRequest: {
+            integrationId: '60dacd66c491a400d3882068',
+            type: 'messenger',
+            code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+          },
+        },
       },
       ids: ['messenger'],
     },
