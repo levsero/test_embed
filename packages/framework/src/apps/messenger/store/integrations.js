@@ -64,6 +64,7 @@ const integrations = createSlice({
 })
 
 export const getIntegrations = selectors.selectAll
+export const selectIntegrationById = selectors.selectById
 
 export const getAllIntegrationsLinkStatus = (state) => {
   const integrations = getIntegrations(state)

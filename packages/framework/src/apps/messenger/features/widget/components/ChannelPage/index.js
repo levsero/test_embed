@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
 
-import { linkIntegration } from 'src/apps/messenger/store/integrations'
+import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
@@ -14,9 +14,7 @@ const ChannelPage = forwardRef((_props, ref) => {
     dispatch(linkIntegration(channelId))
   }, [])
 
-  /*
-  useSelector((state) => state.integrations.entities[channelId].linkRequest.url)
-  */
+  const { linkRequest } = useSelector((state) => selectIntegrationById(state, channelId))
 
   return (
     <div ref={ref}>
@@ -29,6 +27,12 @@ const ChannelPage = forwardRef((_props, ref) => {
           Back
         </button>
       </p>
+
+      {linkRequest && (
+        <a href={linkRequest.url} target="_blank">
+          CLick me
+        </a>
+      )}
       <div>Hellooooo</div>
       <p>{`Channel Page with ID = ${channelId}`}</p>
     </div>
