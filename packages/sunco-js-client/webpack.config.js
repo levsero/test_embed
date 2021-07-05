@@ -19,7 +19,6 @@ module.exports = {
     libraryTarget: 'umd',
   },
   externals: peerDependencies,
-  mode: 'production',
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),

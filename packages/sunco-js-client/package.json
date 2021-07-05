@@ -9,7 +9,7 @@
     "dist/*.js.map"
   ],
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production",
     "dev": "webpack --watch --mode development"
   },
   "devDependencies": {
