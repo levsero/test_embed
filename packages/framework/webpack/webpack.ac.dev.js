@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const { merge } = require('webpack-merge')
+const { execSync } = require('child_process')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
@@ -14,6 +15,14 @@ const CSP_HEADER =
   script-src 'nonce-abc123' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;\
   base-uri 'none'\
 "
+const PORT = 1337
+const LOCAL_SERVER_URL = `http://127.0.0.1:${PORT}`
+const PUBLIC_URL = process.env.STATIC_ASSETS_DOMAIN || LOCAL_SERVER_URL
+const VERSION = execSync(
+  `cat ${path.resolve(__dirname, '../../../REVISION')} || git rev-parse HEAD`
+)
+  .toString()
+  .trim()
 
 module.exports = () => {
   const userConfig = process.env.USER_CONFIG || 'example-template'
@@ -25,17 +34,27 @@ module.exports = () => {
     devtool: 'eval-source-map',
     output: {
       filename: '[name].js',
-      publicPath: 'http://localhost:1337/',
+      publicPath: `${PUBLIC_URL}/`,
     },
     devServer: {
-      host: '127.0.0.1',
-      port: 1337,
-      disableHostCheck: true,
+      host: '0.0.0.0',
+      port: PORT,
       headers: {
         'Cache-Control': 'no-cache, no-store',
         'Content-Security-Policy': CSP_HEADER,
         'Access-Control-Allow-Origin': '*',
       },
+      proxy: {
+        '/web_widget/latest': {
+          target: `${LOCAL_SERVER_URL}/`,
+          pathRewrite: { '^/web_widget/latest': '' },
+        },
+        [`/web_widget/${VERSION}`]: {
+          target: `${LOCAL_SERVER_URL}/`,
+          pathRewrite: { [`^/web_widget/${VERSION}`]: '' },
+        },
+      },
+      allowedHosts: ['.zendesk-dev.com', '.zd-dev.com'],
     },
     plugins: [
       ...webWidgetTemplates(config),
@@ -52,6 +71,9 @@ module.exports = () => {
       }),
     ],
   })
+
+  // Default to false unless set to true
+  webpackConfig.devServer.injectClient = process.env.WEBPACK_DEV_SERVER_INJECT_CLIENT === 'true'
 
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
