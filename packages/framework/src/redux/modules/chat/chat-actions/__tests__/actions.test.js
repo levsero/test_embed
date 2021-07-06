@@ -218,7 +218,9 @@ describe('setVisitorInfo', () => {
       it('does not dispatch any actions', () => {
         const store = mockStore(getState())
 
-        store.dispatch(actions.setVisitorInfo(mockVisitor, { type: 'w00t' }, 'source', false))
+        store.dispatch(
+          actions.setVisitorInfo({ visitor: mockVisitor, successAction: { type: 'w00t' } })
+        )
 
         expect(store.getActions()).toEqual([])
       })
@@ -234,12 +236,12 @@ describe('setVisitorInfo', () => {
       jest.spyOn(selectors, 'getIsAuthenticated').mockReturnValue(true)
       const store = mockStore(getState())
 
-      const vistor = {
+      const visitor = {
         name: 'Someone',
         phone: '123',
       }
 
-      store.dispatch(actions.setVisitorInfo(vistor, {}, 'source', false))
+      store.dispatch(actions.setVisitorInfo({ visitor }))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
@@ -251,7 +253,7 @@ describe('setVisitorInfo', () => {
     it('dispatches SET_VISITOR_INFO_REQUEST_PENDING', () => {
       const store = mockStore(getState())
 
-      store.dispatch(actions.setVisitorInfo(mockVisitor, {}, 'source',false))
+      store.dispatch(actions.setVisitorInfo({ visitor: mockVisitor }))
       expect(store.getActions()).toEqual([
         {
           type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
@@ -262,7 +264,7 @@ describe('setVisitorInfo', () => {
 
     it('passes in the visitor as an argument', () => {
       const { timeoutArgs } = dispatchZChatWithTimeoutAction(
-        actions.setVisitorInfo(mockVisitor, null,'source', false)
+        actions.setVisitorInfo({ visitor: mockVisitor })
       )
 
       expect(timeoutArgs[0]).toEqual(mockVisitor)
@@ -271,7 +273,7 @@ describe('setVisitorInfo', () => {
     describe("when there's an error", () => {
       it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null, 'source',true),
+          actions.setVisitorInfo({ visitor: mockVisitor, retry: true }),
           otherError
         )
 
@@ -282,7 +284,7 @@ describe('setVisitorInfo', () => {
 
       it('dispatches only SET_VISITOR_INFO_REQUEST_FAILURE if no retries', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null,'source', false),
+          actions.setVisitorInfo({ visitor: mockVisitor, retry: false }),
           timeoutError
         )
 
@@ -293,7 +295,7 @@ describe('setVisitorInfo', () => {
 
       it('dispatches retries if retries is true', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null,'source', true),
+          actions.setVisitorInfo({ visitor: mockVisitor, retry: true }),
           timeoutError
         )
 
@@ -313,7 +315,7 @@ describe('setVisitorInfo', () => {
     describe('when there are no errors', () => {
       it('dispatches SET_VISITOR_INFO_REQUEST_SUCCESS', () => {
         const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo(mockVisitor, null, 'source', false)
+          actions.setVisitorInfo({ visitor: mockVisitor })
         )
 
         expect(store.getActions()).toContainEqual(mockRequestSuccessAction)
@@ -322,7 +324,7 @@ describe('setVisitorInfo', () => {
       describe('when an on-success action "callback" is passed', () => {
         it('dispatches the on-success action', () => {
           const { store } = dispatchZChatWithTimeoutAction(
-            actions.setVisitorInfo(mockVisitor, { type: 'COOL_ACTION' }, 'source',false)
+            actions.setVisitorInfo({ visitor: mockVisitor, successAction: { type: 'COOL_ACTION' } })
           )
 
           expect(store.getActions()).toContainEqual({ type: 'COOL_ACTION' })

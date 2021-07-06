@@ -193,13 +193,13 @@ export function handleChatBoxChange(msg) {
 
 // TODO: When tests are ported over to jest find a better way to test timestamp
 // instead of passing it in and using the default for everything in prod.
-export function setVisitorInfo(
+export function setVisitorInfo({
   visitor,
   successAction,
   identifier,
   retry = true,
-  timestamp = Date.now()
-) {
+  timestamp = Date.now(),
+} = {}) {
   return (dispatch, getState) => {
     const state = getState()
 
@@ -237,7 +237,7 @@ export function setVisitorInfo(
             res()
           } else {
             if (err.code === 'ETIMEDOUT' && retry) {
-              return dispatch(setVisitorInfo(visitor, successAction, identifier, false))
+              return dispatch(setVisitorInfo({ visitor, successAction, identifier, retry: false }))
             }
 
             dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
@@ -262,7 +262,7 @@ export function editContactDetailsSubmitted(visitor) {
     payload: { ...visitor, timestamp: Date.now() },
   }
 
-  return setVisitorInfo(visitor, successAction, 'edit contact details')
+  return setVisitorInfo({ visitor: visitor, successAction, identifier: 'edit contact details' })
 }
 
 export function sendVisitorPath(options = {}) {

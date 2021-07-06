@@ -44,8 +44,8 @@ const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => a
 
   if (values.display_name || values.name || values.email || values.phone) {
     await dispatch(
-      setVisitorInfo(
-        _.omitBy(
+      setVisitorInfo({
+        visitor: _.omitBy(
           {
             display_name: values.display_name || values.name,
             email: values.email,
@@ -53,9 +53,8 @@ const submitPrechatForm = ({ values: rawValues, isDepartmentFieldVisible }) => a
           },
           _.isNil
         ),
-        undefined,
-        'prechat form'
-      )
+        identifier: 'prechat form',
+      })
     )
     if (getContactDetailsSubmissionError(getState())) {
       throw new Error('failed to submit details')
