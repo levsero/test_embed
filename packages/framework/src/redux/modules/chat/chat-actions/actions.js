@@ -227,7 +227,7 @@ export function setVisitorInfo({
     })
     return new Promise((res, rej) => {
       onChatSDKInitialized(() => {
-        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, (err) => {
+        zChatWithTimeout(getState, 'setVisitorInfo')(infoToUpdate, async (err) => {
           if (!err) {
             dispatch({
               type: actions.SET_VISITOR_INFO_REQUEST_SUCCESS,
@@ -237,10 +237,10 @@ export function setVisitorInfo({
             res()
           } else {
             if (err.code === 'ETIMEDOUT' && retry) {
-              return dispatch(setVisitorInfo({ visitor, successAction, identifier, retry: false }))
+              return res(
+                dispatch(setVisitorInfo({ visitor, successAction, identifier, retry: false }))
+              )
             }
-
-            dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
 
             rej(err)
           }
