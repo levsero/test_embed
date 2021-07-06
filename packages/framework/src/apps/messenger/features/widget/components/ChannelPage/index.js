@@ -5,6 +5,8 @@ import { forwardRef } from 'react'
 
 import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
+import ChannelLink from './components/ChannelLink'
+
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
   const dispatch = useDispatch()
@@ -27,14 +29,10 @@ const ChannelPage = forwardRef((_props, ref) => {
           Back
         </button>
       </p>
-
-      {linkRequest && (
-        <a href={linkRequest.url} target="_blank">
-          CLick me
-        </a>
-      )}
-      <div>Hellooooo</div>
       <p>{`Channel Page with ID = ${channelId}`}</p>
+      {linkRequest && (
+        <ChannelLink channelId={channelId} url={linkRequest.url} qrCode={linkRequest.qrCode} />
+      )}
     </div>
   )
 })
