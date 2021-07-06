@@ -237,7 +237,7 @@ export function setVisitorInfo(
             res()
           } else {
             if (err.code === 'ETIMEDOUT' && retry) {
-              return dispatch(setVisitorInfo(visitor, successAction, false))
+              return dispatch(setVisitorInfo(visitor, successAction, identifier, false))
             }
 
             dispatch({ type: actions.SET_VISITOR_INFO_REQUEST_FAILURE })
