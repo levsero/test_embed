@@ -13,7 +13,7 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
         <div>
           <h2>DESKTOP</h2>
           <a href={url} target="_blank">
-            Button
+            Open {channelId}
           </a>
           <br />
           {qrCode && <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />}
