@@ -15,9 +15,14 @@ const CSP_HEADER =
   script-src 'nonce-abc123' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;\
   base-uri 'none'\
 "
-const PORT = 1337
-const LOCAL_SERVER_URL = `http://127.0.0.1:${PORT}`
-const PUBLIC_URL = process.env.STATIC_ASSETS_DOMAIN || LOCAL_SERVER_URL
+const WEBPACK_OUTPUT_PUBLIC_PATH =
+  process.env.WEBPACK_OUTPUT_PUBLIC_PATH || 'http://localhost:1337/'
+// Default to true if WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK is not set
+const WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK =
+  process.env.WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK !== 'false'
+const WEBPACK_DEV_SERVER_HOST = process.env.WEBPACK_DEV_SERVER_HOST || '127.0.0.1'
+const WEBPACK_DEV_SERVER_INJECT_CLIENT = process.env.WEBPACK_DEV_SERVER_INJECT_CLIENT
+
 const VERSION = execSync(
   `cat ${path.resolve(__dirname, '../../../REVISION')} || git rev-parse HEAD`
 )
@@ -34,11 +39,12 @@ module.exports = () => {
     devtool: 'eval-source-map',
     output: {
       filename: '[name].js',
-      publicPath: `${PUBLIC_URL}/`,
+      publicPath: WEBPACK_OUTPUT_PUBLIC_PATH,
     },
     devServer: {
-      host: '0.0.0.0',
-      port: PORT,
+      host: WEBPACK_DEV_SERVER_HOST,
+      port: 1337,
+      disableHostCheck: WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK,
       headers: {
         'Cache-Control': 'no-cache, no-store',
         'Content-Security-Policy': CSP_HEADER,
@@ -46,15 +52,16 @@ module.exports = () => {
       },
       proxy: {
         '/web_widget/latest': {
-          target: `${LOCAL_SERVER_URL}/`,
+          target: WEBPACK_OUTPUT_PUBLIC_PATH,
           pathRewrite: { '^/web_widget/latest': '' },
         },
         [`/web_widget/${VERSION}`]: {
-          target: `${LOCAL_SERVER_URL}/`,
+          target: WEBPACK_OUTPUT_PUBLIC_PATH,
           pathRewrite: { [`^/web_widget/${VERSION}`]: '' },
         },
       },
       allowedHosts: ['.zendesk-dev.com', '.zd-dev.com'],
+      injectClient: WEBPACK_DEV_SERVER_INJECT_CLIENT,
     },
     plugins: [
       ...webWidgetTemplates(config),
@@ -72,8 +79,9 @@ module.exports = () => {
     ],
   })
 
-  // Default to false unless set to true
-  webpackConfig.devServer.injectClient = process.env.WEBPACK_DEV_SERVER_INJECT_CLIENT === 'true'
+  if (WEBPACK_DEV_SERVER_INJECT_CLIENT) {
+    webpackConfig.devServer.injectClient = WEBPACK_DEV_SERVER_INJECT_CLIENT === 'true'
+  }
 
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {
