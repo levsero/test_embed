@@ -50,20 +50,11 @@ const rating = (state = initialState, action = {}) => {
         disableEndScreen: true,
       }
     case SDK_CHAT_MEMBER_LEAVE: {
-      // Add arturo gate `webWidgetEnableLastChatRating` to reset state using CHAT_LAST_CHAT_RATING_REQUEST_COMPLETE
-      // instead of SDK_CHAT_MEMBER_LEAVE when the agent ends the chat. We still need to use
-      // rating state to determine if we want to display the rating button after SDK_CHAT_MEMBER_LEAVE
-      // is triggered.
-
-      if (!action.payload.isLastChatRatingEnabled && !isAgent(payload.detail.nick)) {
-        return initialState
-      }
+      if (!isAgent(payload.detail.nick)) return initialState
       return state
     }
     case SDK_CHAT_MEMBER_JOIN: {
-      if (action.payload.isLastChatRatingEnabled && !isAgent(payload.detail.nick)) {
-        return initialState
-      }
+      if (!isAgent(payload.detail.nick)) return initialState
       return state
     }
     case END_CHAT_REQUEST_SUCCESS:

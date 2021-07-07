@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 
 import useTranslate from 'src/hooks/useTranslate'
 import {
@@ -11,7 +11,6 @@ import {
   getChatRating,
 } from 'src/redux/modules/chat/chat-selectors'
 import ChatPropTypes from 'src/embeds/chat/utils/ChatPropTypes'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 import { Button } from './styles'
 
@@ -21,8 +20,7 @@ const ratingButtonLabel = (
   chatRating,
   latestRating,
   latestRatingRequest,
-  latestAgentLeaveEvent,
-  isLastChatRatingEnabled
+  latestAgentLeaveEvent
 ) => {
   const isLatestRating = latestRating === eventKey
   const isLatestRatingRequest = latestRatingRequest === eventKey
@@ -30,14 +28,8 @@ const ratingButtonLabel = (
     activeAgentCount < 1 && latestAgentLeaveEvent === eventKey
 
   // Hide display button if visitor has rated during the chat after agent ends the chat.
-  // New logic is gated behind arturo gate isLastChatRatingEnabled to anticipate side effect.
-  // Remove arturo gate once feature is stable, refer to https://zendesk.atlassian.net/browse/POLO-2135
   const hasRating = chatRating.value || chatRating.comment
-  const isLastAgentLeaveEventWithoutRatingGiven =
-    isLastAgentLeaveEventWithoutRatingCheck && !hasRating
-  const isLastAgentLeaveEvent = isLastChatRatingEnabled
-    ? isLastAgentLeaveEventWithoutRatingGiven
-    : isLastAgentLeaveEventWithoutRatingCheck
+  const isLastAgentLeaveEvent = isLastAgentLeaveEventWithoutRatingCheck && !hasRating
 
   const isLatestRatingWithNoComment = isLatestRating && !chatRating.comment
   const isLatestEventNotRatingOrAgentLeave = !(
@@ -72,10 +64,6 @@ const RequestRatingButton = ({
   latestRatingRequest,
   latestAgentLeaveEvent,
 }) => {
-  const isLastChatRatingEnabled = useSelector((state) =>
-    isFeatureEnabled(state, 'web_widget_enable_last_chat_rating')
-  )
-
   const translate = useTranslate()
 
   const label = ratingButtonLabel(
@@ -84,8 +72,7 @@ const RequestRatingButton = ({
     chatRating,
     latestRating,
     latestRatingRequest,
-    latestAgentLeaveEvent,
-    isLastChatRatingEnabled
+    latestAgentLeaveEvent
   )
 
   if (!canRateChat || !label) return null

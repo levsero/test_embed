@@ -3,11 +3,6 @@
 // localStorage.setItem(`ZD-feature-web_widget_prefetch_widget_container`, true)
 
 export default {
-  web_widget_prechat_form_v2: {
-    defaultValue: false,
-    getArturoValue: (state) =>
-      state.base.embeddableConfig.embeds?.chat?.props?.webWidgetPrechatFormV2,
-  },
   web_widget_prechat_form_visible_departments: {
     defaultValue: false,
     getArturoValue: (state) =>
@@ -21,11 +16,6 @@ export default {
   },
   web_widget_messenger_animations_disabled: {
     defaultValue: false,
-  },
-  web_widget_enable_last_chat_rating: {
-    defaultValue: false,
-    getArturoValue: (state) =>
-      state.base?.embeddableConfig?.embeds?.chat?.props?.webWidgetEnableLastChatRating,
   },
   log_all_messenger_errors: {
     defaultValue: false,

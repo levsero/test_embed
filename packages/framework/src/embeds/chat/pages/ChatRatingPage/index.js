@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 
 import FeedbackForm from 'embeds/chat/components/FeedbackForm'
 import ChatHeader from 'embeds/chat/components/ChatHeader'
@@ -19,7 +19,6 @@ import {
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import { Widget, Main, Footer } from 'components/Widget'
 import useTranslate from 'src/hooks/useTranslate'
-import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 
 const mapStateToProps = (state) => {
   return {
@@ -37,9 +36,6 @@ const ChatRatingPage = ({
   updateChatScreen,
   isAgentEndedChatSession,
 }) => {
-  const isLastChatRatingEnabled = useSelector((state) =>
-    isFeatureEnabled(state, 'web_widget_enable_last_chat_rating')
-  )
   const translate = useTranslate()
 
   const handleCancel = () => {
@@ -49,7 +45,7 @@ const ChatRatingPage = ({
   const handleSubmit = (newRating, text) => {
     // We need to use an internal Web SDK API `sendLastChatRatingInfo` to update
     // chat rating if the chat session has ended by the agent in Agent Workspace
-    if (isLastChatRatingEnabled && isAgentEndedChatSession) {
+    if (isAgentEndedChatSession) {
       const lastChatRatingInfo = {
         rating: newRating,
       }
