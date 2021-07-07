@@ -64,6 +64,28 @@ jest.mock('src/util/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 
+const dispatchZChatWithTimeoutActionAsync = async (action, error, store) => {
+  store = store || mockStore(getState())
+
+  store.dispatch(action)
+  const timeoutArgs = invoker.mock.calls[0]
+  const callback = timeoutArgs[timeoutArgs.length - 1]
+
+  await callback(error)
+
+  const timeoutArgs2 = invoker.mock.calls[1]
+  if (timeoutArgs2) {
+    const callback2 = timeoutArgs2[timeoutArgs2.length - 1]
+    await callback2(error)
+  }
+
+  return {
+    store,
+    timeoutArgs,
+    callback,
+  }
+}
+
 const dispatchZChatWithTimeoutAction = (action, ...callbackArgs) => {
   const store = mockStore(getState())
 
@@ -271,8 +293,8 @@ describe('setVisitorInfo', () => {
     })
 
     describe("when there's an error", () => {
-      it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', () => {
-        const { store } = dispatchZChatWithTimeoutAction(
+      it('dispatches SET_VISITOR_INFO_REQUEST_FAILURE', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
           actions.setVisitorInfo({ visitor: mockVisitor, retry: true }),
           otherError
         )
@@ -282,8 +304,8 @@ describe('setVisitorInfo', () => {
         })
       })
 
-      it('dispatches only SET_VISITOR_INFO_REQUEST_FAILURE if no retries', () => {
-        const { store } = dispatchZChatWithTimeoutAction(
+      it('dispatches only SET_VISITOR_INFO_REQUEST_FAILURE if no retries', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
           actions.setVisitorInfo({ visitor: mockVisitor, retry: false }),
           timeoutError
         )
@@ -293,9 +315,9 @@ describe('setVisitorInfo', () => {
         })
       })
 
-      it('dispatches retries if retries is true', () => {
-        const { store } = dispatchZChatWithTimeoutAction(
-          actions.setVisitorInfo({ visitor: mockVisitor, retry: true }),
+      it('dispatch retries if retries is true', async () => {
+        const { store } = await dispatchZChatWithTimeoutActionAsync(
+          actions.setVisitorInfo({ visitor: mockVisitor }),
           timeoutError
         )
 
@@ -307,6 +329,9 @@ describe('setVisitorInfo', () => {
           {
             type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
             payload: { ...mockVisitor, timestamp: 1234 },
+          },
+          {
+            type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE,
           },
         ])
       })
