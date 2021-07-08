@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const { merge } = require('webpack-merge')
+const { execSync } = require('child_process')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
@@ -14,6 +15,19 @@ const CSP_HEADER =
   script-src 'nonce-abc123' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;\
   base-uri 'none'\
 "
+const WEBPACK_OUTPUT_PUBLIC_PATH =
+  process.env.WEBPACK_OUTPUT_PUBLIC_PATH || 'http://localhost:1337/'
+// Default to true if WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK is not set
+const WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK =
+  process.env.WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK !== 'false'
+const WEBPACK_DEV_SERVER_HOST = process.env.WEBPACK_DEV_SERVER_HOST || '127.0.0.1'
+const WEBPACK_DEV_SERVER_INJECT_CLIENT = process.env.WEBPACK_DEV_SERVER_INJECT_CLIENT
+
+const VERSION = execSync(
+  `cat ${path.resolve(__dirname, '../../../REVISION')} || git rev-parse HEAD`
+)
+  .toString()
+  .trim()
 
 module.exports = () => {
   const userConfig = process.env.USER_CONFIG || 'example-template'
@@ -25,17 +39,29 @@ module.exports = () => {
     devtool: 'eval-source-map',
     output: {
       filename: '[name].js',
-      publicPath: 'http://localhost:1337/',
+      publicPath: WEBPACK_OUTPUT_PUBLIC_PATH,
     },
     devServer: {
-      host: '127.0.0.1',
+      host: WEBPACK_DEV_SERVER_HOST,
       port: 1337,
-      disableHostCheck: true,
+      disableHostCheck: WEBPACK_DEV_SERVER_DISABLE_HOST_CHECK,
       headers: {
         'Cache-Control': 'no-cache, no-store',
         'Content-Security-Policy': CSP_HEADER,
         'Access-Control-Allow-Origin': '*',
       },
+      proxy: {
+        '/web_widget/latest': {
+          target: WEBPACK_OUTPUT_PUBLIC_PATH,
+          pathRewrite: { '^/web_widget/latest': '' },
+        },
+        [`/web_widget/${VERSION}`]: {
+          target: WEBPACK_OUTPUT_PUBLIC_PATH,
+          pathRewrite: { [`^/web_widget/${VERSION}`]: '' },
+        },
+      },
+      allowedHosts: ['.zendesk-dev.com', '.zd-dev.com'],
+      injectClient: WEBPACK_DEV_SERVER_INJECT_CLIENT,
     },
     plugins: [
       ...webWidgetTemplates(config),
@@ -52,6 +78,10 @@ module.exports = () => {
       }),
     ],
   })
+
+  if (WEBPACK_DEV_SERVER_INJECT_CLIENT) {
+    webpackConfig.devServer.injectClient = WEBPACK_DEV_SERVER_INJECT_CLIENT === 'true'
+  }
 
   if (process.env.USE_DASHBOARD === 'true') {
     webpackConfig.entry = {

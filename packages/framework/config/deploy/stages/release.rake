@@ -2,6 +2,8 @@ require_relative '../deploy_helper'
 require 'jwt'
 require 'json'
 
+IS_DEV = ENV.fetch('IS_DEV', false)
+
 def ekr_jwt_payload
   now = Time.now.to_i
 
@@ -17,7 +19,7 @@ def ekr_jwt_header
 end
 
 def release_web_widget_assets(group)
-  raise version_error(S3_RELEASE_DIRECTORY_VERSIONED) unless version_exists_on_s3?(S3_RELEASE_DIRECTORY_VERSIONED)
+  raise version_error(S3_RELEASE_DIRECTORY_VERSIONED) unless IS_DEV || version_exists_on_s3?(S3_RELEASE_DIRECTORY_VERSIONED)
 
   versions = group.nil? ? { version: VERSION } : { versions: { group.to_sym => VERSION }}
   url = "#{ENV['EKR_BASE_URL']}release"

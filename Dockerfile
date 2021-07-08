@@ -1,16 +1,23 @@
-# Because zdi also creates an image named `nginx` locally, avoid collision by
-# choosing a tag that Zendesk does not use.
-FROM nginx:1.11-alpine
+FROM gcr.io/docker-images-180022/base/ruby:2.7.2-bionic-jemalloc
+SHELL ["/bin/bash", "-c"]
 
-# For compatibility with `docker-images`'s
-# `DockerCommandLineBuilder#development_manifest`, which is used with the
-# development mode, deploy the app root to `/app`.
-COPY dist /app/dist
+RUN apt-get update && apt-get install -y git
 
-COPY REVISION /REVISION
+WORKDIR /app
+COPY . .
 
-RUN ln -s /app/dist /usr/share/nginx/html/embeddable_framework
+RUN gem install bundler -v 1.17.3
+RUN bundle install --quiet --local
 
-# Instead of using `daemon off;` in nginx.conf, use simple hack to keep process
-# in the foreground.
-CMD nginx && tail -f /dev/null
+# Install nvm, node, npm, yarn, npm packages and run build steps
+ENV NVM_DIR /usr/local/nvm
+RUN mkdir $NVM_DIR
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+RUN source $NVM_DIR/nvm.sh --install && \
+    npm install -g yarn && \
+    yarn install --offline && \
+    yarn workspace @zendesk/embeddable-framework prebuild && \
+    yarn workspace @zendesk/embeddable-framework build-setup:prod
+
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["export PATH=$NVM_DIR/versions/node/$(cat .nvmrc)/bin:$PATH && yarn workspace @zendesk/embeddable-framework dev"]

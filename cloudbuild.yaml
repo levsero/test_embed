@@ -1,0 +1,30 @@
+timeout: 1200s
+steps:
+  - id: "create-revision-file"
+    name: "alpine:latest"
+    entrypoint: '/bin/sh'
+    args: 
+      - '-c'
+      - 'echo "$COMMIT_SHA" > REVISION'
+
+  - id: "docker-build"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--tag=embeddable-framework:build'
+      - '.'
+
+  - id: 'tag-docker-image'
+    name: 'gcr.io/$PROJECT_ID/cloud-builders/tagger'
+    env:
+     - SOURCE_IMAGE=embeddable-framework:build
+     - IMAGE_NAME=gcr.io/$PROJECT_ID/apps/embeddable-framework
+     - BRANCH_NAME=$BRANCH_NAME
+     - TAG_NAME=$TAG_NAME
+     - TAG_NON_MASTER_BRANCH=1
+     - TAG_COMMIT_SHA=1
+     - COMMIT_SHA=$COMMIT_SHA
+    waitFor: ['docker-build']
+
+images: 
+  - 'gcr.io/$PROJECT_ID/apps/embeddable-framework'
