@@ -36,15 +36,23 @@ let config = merge(common, {
     new StatsWriterPlugin({
       filename: '../package_sizes.json',
       stats: {
-        assets: true,
-        assetsSort: 'size',
-        builtAt: true,
-        chunks: false,
-        all: true,
-        modules: true,
-        maxModules: 0,
-        errors: false,
-        warnings: false,
+        // assets: true,
+        // all: false,
+      },
+      transform(data) {
+        return JSON.stringify(
+          {
+            assetsByChunkName: data.assetsByChunkName,
+            assets: data.assets
+              .filter(({ name }) => name)
+              .map((asset) => ({
+                name: asset.name,
+                size: asset.size,
+              })),
+          },
+          null,
+          2
+        )
       },
     }),
   ],
