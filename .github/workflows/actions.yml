@@ -98,9 +98,11 @@ jobs:
         with:
           token: ${{ secrets.ORG_GITHUB_TOKEN }}
           submodules: recursive
+      - run: echo "::set-output name=NODE_VERSION::$(cat .nvmrc)"
+        id: node_env
       - uses: zendesk/setup-node@v2.1.2
         with:
-          node-version: '12.21.0'
+          node-version: ${{ steps.node_env.outputs.NODE_VERSION }}
       - uses: zendesk/setup-ruby@v1.49.0
       - name: before_install
         run: |
