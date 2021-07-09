@@ -22,7 +22,8 @@
           "src": "./src"
         }
       }
-    ]
+    ],
+    "babel-plugin-inline-react-svg"
   ],
   "env": {
     "development": {
@@ -46,7 +47,8 @@
           {
             "displayName": false
           }
-        ]
+        ],
+        "babel-plugin-inline-react-svg"
       ]
     }
   }

@@ -4,9 +4,9 @@ import { Dropdown } from 'src/Dropdown'
 import { ThemeContext } from 'styled-components'
 import { Trigger } from '@zendeskgarden/react-dropdowns'
 import { HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
-import WhatsAppIcon from './whatsapp.svg'
-import InstagramIcon from './instagram.svg'
-import MessengerIcon from './messenger.svg'
+import WhatsAppIcon from './WhatsAppIcon'
+import InstagramIcon from './InstagramIcon'
+import MessengerIcon from './MessengerIcon'
 import { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon } from './styles'
 
 const channelOptions = [
