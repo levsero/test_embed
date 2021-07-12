@@ -14,7 +14,7 @@ const selectors = integrationsAdapter.getSelectors((state) => state.integrations
 export const linkIntegration = createAsyncThunk('integrations/link', async (type, { getState }) => {
   const integration = selectors.selectById(getState(), type)
   const response = await fetchLinkRequest(integration._id)
-  // console.log(response.body.linkRequests[0])
+
   return response?.body?.linkRequests[0] || {}
 })
 
@@ -47,11 +47,19 @@ const integrations = createSlice({
 
       return integrationsAdapter.addMany(state, parsedIntegrations)
     },
-    [linkIntegration.fulfilled]: (state, { payload }) => {
+    [linkIntegration.fulfilled]: (state, { payload: linkRequest }) => {
       integrationsAdapter.updateOne(state, {
-        id: payload.type,
-        changes: { linked: LINKED, linkRequest: payload },
+        id: linkRequest.type,
+        changes: { linked: LINKED, linkRequest },
       })
+    },
+    [linkIntegration.pending](state) {
+      state.isFetchingLinkRequest = true
+      state.errorFetchingLinkRequest = false
+    },
+    [linkIntegration.rejected](state) {
+      state.isFetchingLinkRequest = false
+      state.errorFetchingLinkRequest = true
     },
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, {

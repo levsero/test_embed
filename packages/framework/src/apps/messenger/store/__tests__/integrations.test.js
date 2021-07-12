@@ -127,6 +127,42 @@ testReducer(reducer, [
       ids: ['messenger'],
     },
   },
+  {
+    extraDesc: 'linkIntegration pending action is dispatched',
+    initialState: {
+      entities: {
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [linkIntegration.pending] },
+    expected: {
+      entities: {
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+      },
+      ids: ['messenger'],
+      isFetchingLinkRequest: true,
+      errorFetchingLinkRequest: false,
+    },
+  },
+  {
+    extraDesc: 'linkIntegration rejected action is dispatched',
+    initialState: {
+      entities: {
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+      },
+      ids: ['messenger'],
+    },
+    action: { type: [linkIntegration.rejected] },
+    expected: {
+      entities: {
+        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+      },
+      ids: ['messenger'],
+      isFetchingLinkRequest: false,
+      errorFetchingLinkRequest: true,
+    },
+  },
 
   {
     extraDesc: 'unlinkIntegration action is passed for a known integration',
