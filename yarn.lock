@@ -6108,6 +6108,14 @@ babel-plugin-extract-import-names@1.6.22:
   dependencies:
     "@babel/helper-plugin-utils" "7.10.4"
 
+babel-plugin-inline-import-data-uri@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-import-data-uri/-/babel-plugin-inline-import-data-uri-1.0.1.tgz#e7378c1bcd8639de08b46316ca043b8bd5a2e79a"
+  integrity sha512-kYLcme2OccokFtAvCqUvbi/CNePMCPFtPqSpzXQvUJ4b2ZZrOFGG/U86R8SuDl3mjZ0V54bVS6za+iXFfuNC1w==
+  dependencies:
+    mime-types "^2.1.16"
+    require-resolve "0.0.2"
+
 babel-plugin-inline-react-svg@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-2.0.1.tgz#68c9c119d643a8f2d7bf939b942534d89ae3ade9"
@@ -10041,7 +10049,7 @@ file-entry-cache@^5.0.1:
   dependencies:
     flat-cache "^2.0.1"
 
-file-loader@^6.0.0:
+file-loader@^6.0.0, file-loader@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-6.2.0.tgz#baef7cf8e1840df325e4390b4484879480eebe4d"
   integrity sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==
@@ -14448,6 +14456,11 @@ mime-db@1.45.0, "mime-db@>= 1.43.0 < 2":
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.45.0.tgz#cceeda21ccd7c3a745eba2decd55d4b73e7879ea"
   integrity sha512-CkqLUxUk15hofLoLyljJSrukZi8mAtgd+yE5uO4tqRZsdsAJKv0O+rFMhVDRJgozy+yG6md5KwuXhD4ocIoP+w==
 
+mime-db@1.48.0:
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.48.0.tgz#e35b31045dd7eada3aaad537ed88a33afbef2d1d"
+  integrity sha512-FM3QwxV+TnZYQ2aRqhlKBMHxk10lTbMt3bBkMAp54ddrNeVSfcQYOOKuGuy3Ddrm38I04If834fOUSq1yzslJQ==
+
 mime-db@~1.36.0:
   version "1.36.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.36.0.tgz#5020478db3c7fe93aad7bbcc4dcf869c43363397"
@@ -14459,6 +14472,13 @@ mime-types@^2.1.12, mime-types@^2.1.27, mime-types@~2.1.17, mime-types@~2.1.24:
   integrity sha512-0TO2yJ5YHYr7M2zzT7gDU1tbwHxEUWBCLt0lscSNpcdAfFyJOVEpRYNS7EXVcTLNj/25QO8gulHC5JtTzSE2UQ==
   dependencies:
     mime-db "1.45.0"
+
+mime-types@^2.1.16:
+  version "2.1.31"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.31.tgz#a00d76b74317c61f9c2db2218b8e9f8e9c5c9e6b"
+  integrity sha512-XGZnNzm3QvgKxa8dpzyhFTHmpP3l5YNusmne07VUOXxou9CqUqYa/HBy124RqtVh/O2pECas/MOcsDgpilPOPg==
+  dependencies:
+    mime-db "1.48.0"
 
 mime-types@~2.1.19:
   version "2.1.20"
@@ -15632,6 +15652,11 @@ path-exists@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-4.0.0.tgz#513bdbe2d3b95d7762e8c1137efa195c6c61b5b3"
   integrity sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==
+
+path-extra@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/path-extra/-/path-extra-1.0.3.tgz#7c112189a6e50d595790e7ad2037e44e410c1166"
+  integrity sha1-fBEhiablDVlXkOetIDfkTkEMEWY=
 
 path-is-absolute@^1.0.0:
   version "1.0.1"
@@ -17577,6 +17602,13 @@ require-package-name@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/require-package-name/-/require-package-name-2.0.1.tgz#c11e97276b65b8e2923f75dabf5fb2ef0c3841b9"
   integrity sha1-wR6XJ2tluOKSP3Xav1+y7ww4Qbk=
+
+require-resolve@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/require-resolve/-/require-resolve-0.0.2.tgz#bab410ab1aee2f3f55b79317451dd3428764e6f3"
+  integrity sha1-urQQqxruLz9Vt5MXRR3TQodk5vM=
+  dependencies:
+    x-path "^0.0.2"
 
 require-uncached@~1.0.2:
   version "1.0.3"
@@ -20816,6 +20848,13 @@ ws@~7.4.2:
   version "7.4.6"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
   integrity sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==
+
+x-path@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/x-path/-/x-path-0.0.2.tgz#294d076bb97a7706cc070bbb2a6fd8c54df67b12"
+  integrity sha1-KU0Ha7l6dwbMBwu7Km/YxU32exI=
+  dependencies:
+    path-extra "^1.0.2"
 
 xdg-basedir@^3.0.0:
   version "3.0.0"

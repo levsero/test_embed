@@ -13,7 +13,7 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && babel ./src --out-dir ./dist --copy-files",
+    "build": "NODE_ENV=production rm -rf dist && mkdir dist && babel ./src --out-dir ./dist --copy-files",
     "watch": "npm run build -- --watch",
     "storybook": "start-storybook -p 6006",
     "test": "jest"
@@ -34,6 +34,7 @@
     "@testing-library/react": "^11.2.2",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
+    "babel-plugin-inline-import-data-uri": "^1.0.1",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-styled-components": "^1.12.0",

@@ -1,3 +1,7 @@
-import Icon from './whatsapp.svg'
+import whatsAppLogo from './whatsapp.png'
 
-export default Icon
+const WhatsAppIcon = () => {
+  return <img role="presentation" src={whatsAppLogo} alt="" />
+}
+
+export default WhatsAppIcon

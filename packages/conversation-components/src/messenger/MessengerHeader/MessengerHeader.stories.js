@@ -29,7 +29,7 @@ AllFields.args = {
   channels: {
     messenger: 'linked',
     instagram: 'not linked',
-    whatsapp: undefined,
+    whatsapp: 'linked',
   },
 }
 
