@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
 
-import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
+import {
+  linkIntegration,
+  selectIntegrationById,
+  getIsFetchingLinkRequest,
+  getErrorFetchingLinkRequest,
+  getHasFetchedLinkRequest,
+} from 'src/apps/messenger/store/integrations'
 
 import ChannelLink from './components/ChannelLink'
 
@@ -11,12 +17,14 @@ const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
+  const integration = useSelector((state) => selectIntegrationById(state, channelId))
+  const isFetchingLinkRequest = useSelector(getIsFetchingLinkRequest)
+  const errorFetchingLinkRequest = useSelector(getErrorFetchingLinkRequest)
+  const hasFetchedLinkRequest = useSelector(getHasFetchedLinkRequest)
 
   useEffect(() => {
     dispatch(linkIntegration(channelId))
   }, [])
-
-  const { linkRequest } = useSelector((state) => selectIntegrationById(state, channelId))
 
   return (
     <div ref={ref}>
@@ -29,9 +37,16 @@ const ChannelPage = forwardRef((_props, ref) => {
           Back
         </button>
       </p>
-      <p>{`Channel Page with ID = ${channelId}`}</p>
-      {linkRequest && (
-        <ChannelLink channelId={channelId} url={linkRequest.url} qrCode={linkRequest.qrCode} />
+
+      {!hasFetchedLinkRequest && isFetchingLinkRequest && <div>Loading link request</div>}
+      {!hasFetchedLinkRequest && errorFetchingLinkRequest && <div>Error fetching link request</div>}
+
+      {hasFetchedLinkRequest && (
+        <ChannelLink
+          channelId={channelId}
+          url={integration.linkRequest.url}
+          qrCode={integration.linkRequest.qrCode}
+        />
       )}
     </div>
   )

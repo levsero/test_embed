@@ -6,22 +6,25 @@ import reducer, {
   getAllIntegrationsLinkStatus,
 } from '../integrations'
 
+const stateFromInitial = (newData = {}) => ({
+  entities: {},
+  ids: [],
+  hasFetchedLinkRequest: false,
+  isFetchingLinkRequest: false,
+  errorFetchingLinkRequest: false,
+  ...newData,
+})
+
 testReducer(reducer, [
   {
     extraDesc: 'initial state',
     action: { type: undefined },
-    expected: {
-      entities: {},
-      ids: [],
-    },
+    expected: { ...stateFromInitial() },
   },
   {
     extraDesc: 'integrations loaded with no valid integrations',
     action: { type: [fetchIntegrations.fulfilled], payload: [] },
-    expected: {
-      entities: {},
-      ids: [],
-    },
+    expected: { ...stateFromInitial() },
   },
   {
     extraDesc: 'integrations loaded with some valid integrations',
@@ -30,10 +33,12 @@ testReducer(reducer, [
       payload: [{ _id: 123, type: 'messenger', appId: 1, pageId: 'p1' }],
     },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
   },
   {
@@ -47,41 +52,46 @@ testReducer(reducer, [
       ],
     },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
-        whatsapp: { _id: 234, appId: 2, pageId: 'p2', linked: 'not linked', type: 'whatsapp' },
-        instagram: { _id: 345, appId: 3, pageId: 'p3', linked: 'not linked', type: 'instagram' },
-      },
-      ids: ['messenger', 'whatsapp', 'instagram'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
+          whatsapp: { _id: 234, appId: 2, pageId: 'p2', linked: 'not linked', type: 'whatsapp' },
+          instagram: { _id: 345, appId: 3, pageId: 'p3', linked: 'not linked', type: 'instagram' },
+        },
+        ids: ['messenger', 'whatsapp', 'instagram'],
+      }),
     },
   },
   {
     extraDesc: 'Any other action while empty',
     action: { type: 'any other action' },
-    expected: {
-      entities: {},
-      ids: [],
-    },
+    expected: { ...stateFromInitial() },
   },
   {
     extraDesc: 'Any other action with valid integrations',
     initialState: {
-      entities: { messenger: { _id: 123, appId: 1, pageId: '123' } },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: { messenger: { _id: 123, appId: 1, pageId: '123' } },
+        ids: ['messenger'],
+      }),
     },
     action: { type: 'any other action' },
     expected: {
-      entities: { messenger: { _id: 123, appId: 1, pageId: '123' } },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: { messenger: { _id: 123, appId: 1, pageId: '123' } },
+        ids: ['messenger'],
+      }),
     },
   },
   {
     extraDesc: 'linkIntegration action is passed for a known integration',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: {
       type: [linkIntegration.fulfilled],
@@ -93,107 +103,131 @@ testReducer(reducer, [
       },
     },
     expected: {
-      entities: {
-        messenger: {
-          _id: 123,
-          appId: 1,
-          pageId: '123',
-          linked: 'linked',
-          type: 'messenger',
-          linkRequest: {
-            integrationId: '60dacd66c491a400d3882068',
+      ...stateFromInitial({
+        entities: {
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'linked',
             type: 'messenger',
-            code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
-            url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            linkRequest: {
+              integrationId: '60dacd66c491a400d3882068',
+              type: 'messenger',
+              code: 'lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+              url: 'https://m.me/105592115117480?ref=lr_BX7CYtXUsj6Jd4OSm1-VEEPW',
+            },
           },
         },
-      },
-      ids: ['messenger'],
+        ids: ['messenger'],
+        hasFetchedLinkRequest: true,
+      }),
     },
   },
   {
     extraDesc: 'linkIntegration action is passed for an unknown integration',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: { type: [linkIntegration.fulfilled], payload: { type: 'instagram' } },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+        hasFetchedLinkRequest: true,
+      }),
     },
   },
   {
     extraDesc: 'linkIntegration pending action is dispatched',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: { type: [linkIntegration.pending] },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
-      isFetchingLinkRequest: true,
-      errorFetchingLinkRequest: false,
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+        isFetchingLinkRequest: true,
+        errorFetchingLinkRequest: false,
+      }),
     },
   },
   {
     extraDesc: 'linkIntegration rejected action is dispatched',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: { type: [linkIntegration.rejected] },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
-      isFetchingLinkRequest: false,
-      errorFetchingLinkRequest: true,
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+        isFetchingLinkRequest: false,
+        errorFetchingLinkRequest: true,
+      }),
     },
   },
 
   {
     extraDesc: 'unlinkIntegration action is passed for a known integration',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: { type: [unlinkIntegration.fulfilled], payload: { type: 'messenger' } },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
   },
   {
     extraDesc: 'unlinkIntegration action is passed for an unknown integration',
     initialState: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
     action: { type: [unlinkIntegration.fulfilled], payload: { type: 'instagram' } },
     expected: {
-      entities: {
-        messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
-      },
-      ids: ['messenger'],
+      ...stateFromInitial({
+        entities: {
+          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'linked', type: 'messenger' },
+        },
+        ids: ['messenger'],
+      }),
     },
   },
 ])

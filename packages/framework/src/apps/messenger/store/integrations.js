@@ -35,29 +35,39 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState({}),
+  initialState: integrationsAdapter.getInitialState({
+    hasFetchedLinkRequest: false,
+    isFetchingLinkRequest: false,
+    errorFetchingLinkRequest: false,
+  }),
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
         return {
           ...integration,
           linked: NOT_LINKED,
+          linkRequest: {},
         }
       })
 
       return integrationsAdapter.addMany(state, parsedIntegrations)
     },
     [linkIntegration.fulfilled]: (state, { payload: linkRequest }) => {
+      state.hasFetchedLinkRequest = true
+      state.isFetchingLinkRequest = false
+      state.errorFetchingLinkRequest = false
       integrationsAdapter.updateOne(state, {
         id: linkRequest.type,
         changes: { linked: LINKED, linkRequest },
       })
     },
     [linkIntegration.pending](state) {
+      state.hasFetchedLinkRequest = false
       state.isFetchingLinkRequest = true
       state.errorFetchingLinkRequest = false
     },
     [linkIntegration.rejected](state) {
+      state.hasFetchedLinkRequest = false
       state.isFetchingLinkRequest = false
       state.errorFetchingLinkRequest = true
     },
@@ -73,6 +83,9 @@ const integrations = createSlice({
 
 export const getIntegrations = selectors.selectAll
 export const selectIntegrationById = selectors.selectById
+export const getErrorFetchingLinkRequest = (state) => state.integrations.errorFetchingLinkRequest
+export const getIsFetchingLinkRequest = (state) => state.integrations.isFetchingLinkRequest
+export const getHasFetchedLinkRequest = (state) => state.integrations.hasFetchedLinkRequest
 
 export const getAllIntegrationsLinkStatus = (state) => {
   const integrations = getIntegrations(state)
