@@ -1,4 +1,5 @@
 import { render as rtlRender } from '@testing-library/react'
+import { Route, MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
@@ -23,6 +24,14 @@ export const render = (
       </Provider>
     ),
   }
+}
+
+export const renderWithRouter = (ui, { path, initialEntries }) => {
+  return render(
+    <MemoryRouter initialEntries={initialEntries}>
+      <Route path={path}>{ui}</Route>
+    </MemoryRouter>
+  )
 }
 
 export const mockMatchMedia = () => {
