@@ -1858,3 +1858,13 @@ parts:
       title: "Message that appears to tell user a message was received just now"
       screenshot: "https://drive.google.com/file/d/1wWizeCDAcTUte6qVaYyMJp8lQmnH-2bq/view?usp=sharing"
       value: "Just now"
+  - translation:
+      key: "embeddable_framework.messenger.channel_linking.menu"
+      title: "[A11Y] aria label for the channel linking menu option (3-dots)"
+      screenshot: "https://drive.google.com/file/d/1LdkNiDEEdEHDKwN9dQqSKkEOEYzwC7wu/view?usp=sharing"
+      value: "Channel linking menu option"
+  - translation:
+      key: "embeddable_framework.messenger.channel_linking.back.button"
+      title: "[A11Y] aria label for the channel linking back button (SVG)"
+      screenshot: "https://drive.google.com/file/d/1vnRS9y3teJ_nyZ-jXRufcT72nDTsFoQK/view?usp=sharing"
+      value: "Back to conversation"
