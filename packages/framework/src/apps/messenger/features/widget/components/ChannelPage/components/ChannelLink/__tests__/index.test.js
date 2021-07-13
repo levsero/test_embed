@@ -13,10 +13,13 @@ const renderComponent = (props = {}) => {
 }
 
 describe('ChannelLink', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
   it('displays a button with channel link url', () => {
     const { getByText } = renderComponent()
 
-    expect(getByText('Open Messenger')).toBeInTheDocument()
+    expect(getByText(/Open Messenger/i)).toBeInTheDocument()
   })
 
   describe('when we are on desktop', () => {
@@ -24,10 +27,10 @@ describe('ChannelLink', () => {
       jest
         .spyOn(responsiveDesignStore, 'getIsVerticallySmallScreen')
         .mockImplementation(() => false)
-    })
-    const { getByText } = renderComponent()
+      const { getByText } = renderComponent()
 
-    expect(getByText('DESKTOP')).toBeInTheDocument()
+      expect(getByText('DESKTOP')).toBeInTheDocument()
+    })
   })
   describe('when we are on mobile', () => {
     it('should not render a QR code', () => {
