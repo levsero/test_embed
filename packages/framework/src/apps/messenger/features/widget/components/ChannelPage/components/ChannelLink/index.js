@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+
 import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { StyledChannelLink, StyledChannelButton } from './styles'
 

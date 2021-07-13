@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
+import QRCode from 'qrcode.react'
 
 import {
   linkIntegration,
@@ -46,11 +47,14 @@ const ChannelPage = forwardRef((_props, ref) => {
       {!hasFetchedLinkRequest && errorFetchingLinkRequest && <div>Error fetching link request</div>}
 
       {hasFetchedLinkRequest && (
-        <ChannelLink
-          channelId={channelId}
-          url={integration.linkRequest.url}
-          qrCode={integration.linkRequest.qrCode}
-        />
+        <>
+          <ChannelLink
+            channelId={channelId}
+            url={integration.linkRequest.url}
+            qrCode={integration.linkRequest.qrCode}
+          />
+          <QRCode value={integration.linkRequest.url} />
+        </>
       )}
     </Container>
   )
