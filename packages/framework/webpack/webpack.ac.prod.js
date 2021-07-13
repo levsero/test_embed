@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { StatsWriterPlugin } = require('webpack-stats-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin')
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim()
@@ -14,37 +14,50 @@ let config = merge(common, {
   mode: 'production',
   devtool: 'hidden-source-map',
   output: {
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].chunk.js',
     publicPath: PUBLIC_PATH + '/',
   },
   plugins: [
-    new webpack.HashedModuleIdsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } },
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            discardComments: { removeAll: true },
+          },
+        ],
+      },
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
       logLevel: 'silent',
       reportFilename: '../report.html',
+      excludeAssets: /locales/,
     }),
     new StatsWriterPlugin({
       filename: '../package_sizes.json',
       stats: {
         assets: true,
-        assetsSort: 'size',
-        builtAt: true,
-        chunks: false,
-        all: true,
-        modules: true,
-        maxModules: 0,
-        errors: false,
-        warnings: false,
+      },
+      transform(data) {
+        return JSON.stringify(
+          {
+            outputPath: data.outputPath,
+            assetsByChunkName: data.assetsByChunkName,
+            assets: data.assets
+              .filter(({ name }) => name)
+              .map((asset) => ({
+                name: asset.name,
+                size: asset.size,
+              })),
+          },
+          null,
+          2
+        )
       },
     }),
   ],

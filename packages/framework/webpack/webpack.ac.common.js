@@ -1,6 +1,6 @@
 const path = require('path')
 const { merge } = require('webpack-merge')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const common = require('./webpack.common.js')
 const chunks = require('./chunks')
 
@@ -10,16 +10,20 @@ module.exports = merge(common, {
   entry: {
     preload: path.join(projectRoot, '/src/framework/preload.js'),
   },
+  output: {
+    filename: 'web-widget-[name]-[contenthash].js',
+  },
   optimization: {
-    chunkIds: 'named',
     splitChunks: {
       chunks(chunk) {
         return !chunks.excludeFromVendoring(chunk.name)
       },
+      minSize: 200000,
+      enforceSizeThreshold: 1000000000000,
     },
   },
   plugins: [
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: 'asset_manifest.json',
       publicPath: '',
       filter: (file) => {

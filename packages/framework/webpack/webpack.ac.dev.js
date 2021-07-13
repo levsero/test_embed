@@ -5,8 +5,8 @@ const { execSync } = require('child_process')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const common = require('./webpack.ac.common.js')
 const webWidgetTemplates = require('../dev/web_widget_templates')
-const DashboardPlugin = require('./dashboard-plugin')
 const previewTemplates = require('../dev/preview_templates')
+const runDashboard = require('./runDashboard')
 
 const projectRoot = path.resolve(__dirname, '../')
 const CSP_HEADER =
@@ -38,7 +38,6 @@ module.exports = () => {
     mode: 'development',
     devtool: 'eval-source-map',
     output: {
-      filename: '[name].js',
       publicPath: WEBPACK_OUTPUT_PUBLIC_PATH,
     },
     devServer: {
@@ -68,10 +67,9 @@ module.exports = () => {
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(true),
       }),
-      new webpack.WatchIgnorePlugin([
-        path.resolve(__dirname, './test/'),
-        path.resolve(__dirname, './node_modules/'),
-      ]),
+      new webpack.WatchIgnorePlugin({
+        paths: [path.resolve(__dirname, './test/'), path.resolve(__dirname, './node_modules/')],
+      }),
       new ProgressBarPlugin({
         format: 'Build [:bar] :percent (:elapsed seconds)',
         clear: false,
@@ -89,7 +87,8 @@ module.exports = () => {
       webWidgetPreview: path.join(projectRoot, '/src/webWidgetPreview.js'),
       chatPreview: path.join(projectRoot, '/src/chatPreview.js'),
     }
-    webpackConfig.plugins.push(new DashboardPlugin(), ...previewTemplates())
+    webpackConfig.plugins.push(...previewTemplates())
+    runDashboard()
   }
 
   return webpackConfig
