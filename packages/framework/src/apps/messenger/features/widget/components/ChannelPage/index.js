@@ -12,6 +12,9 @@ import {
 } from 'src/apps/messenger/store/integrations'
 
 import ChannelLink from './components/ChannelLink'
+import BackButton from '../../../backButton'
+
+import { Container, FBMessengerIcon, WhatsAppIcon, InstagramIcon } from './styles'
 
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
@@ -27,14 +30,15 @@ const ChannelPage = forwardRef((_props, ref) => {
   }, [])
 
   return (
-    <div ref={ref}>
-      <button
+    <Container>
+      <BackButton
         onClick={() => {
           history.goBack()
         }}
-      >
-        Back
-      </button>
+      />
+      <FBMessengerIcon />
+      <WhatsAppIcon />
+      <InstagramIcon />
       <h3>Continue on {channelId}</h3>
       <p>Take the conversation to your {channelId} account. You can return anytime.</p>
 
@@ -48,7 +52,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           qrCode={integration.linkRequest.qrCode}
         />
       )}
-    </div>
+    </Container>
   )
 })
 
