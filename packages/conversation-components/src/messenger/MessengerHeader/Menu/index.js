@@ -7,6 +7,7 @@ import { HeaderControl, IconButton } from 'src/messenger/MessengerHeader/styles'
 import WhatsAppIcon from './WhatsAppIcon'
 import InstagramIcon from './InstagramIcon'
 import MessengerIcon from './MessengerIcon'
+import useLabels from 'src/hooks/useLabels'
 import { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon } from './styles'
 
 const channelOptions = [
@@ -36,6 +37,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)
+  const labels = useLabels().messengerHeader
 
   const channelsToDisplay = channelOptions.filter(
     (channel) => validLinkOptions[channels?.[channel.key]]
@@ -69,7 +71,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
                   <ChannelLogo />
                 </ChannelIcon>
                 {` `}
-                Continue on {channel.name}
+                {labels.continueOnChannel(channel.name)}
               </HeaderMenuItem>
             )
           })}
