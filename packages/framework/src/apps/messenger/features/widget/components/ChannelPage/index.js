@@ -28,15 +28,15 @@ const ChannelPage = forwardRef((_props, ref) => {
 
   return (
     <div ref={ref}>
-      <p>
-        <button
-          onClick={() => {
-            history.goBack()
-          }}
-        >
-          Back
-        </button>
-      </p>
+      <button
+        onClick={() => {
+          history.goBack()
+        }}
+      >
+        Back
+      </button>
+      <h3>Continue on {channelId}</h3>
+      <p>Take the conversation to your {channelId} account. You can return anytime.</p>
 
       {!hasFetchedLinkRequest && isFetchingLinkRequest && <div>Loading link request</div>}
       {!hasFetchedLinkRequest && errorFetchingLinkRequest && <div>Error fetching link request</div>}

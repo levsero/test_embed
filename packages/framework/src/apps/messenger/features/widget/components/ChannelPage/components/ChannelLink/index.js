@@ -7,23 +7,22 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
 
   return (
     <>
-      Hello {`${channelId}`}
-      <a href={url}>Click me</a>
       {!isVerticallySmallScreen && (
         <div>
           <h2>DESKTOP</h2>
-          <a href={url} target="_blank">
-            Open {channelId}
-          </a>
-          <br />
+          <p>Scan the QR code and then send the message that appears in your {channelId}</p>
           {qrCode && <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />}
+          <a href={url} target="_blank">
+            Open {channelId} on this device
+          </a>
         </div>
       )}
       {isVerticallySmallScreen && (
         <div>
           <h2>MOBILE</h2>
+          <p>Open {channelId} and send a short message to connect your account.</p>
           <a href={url} target="_blank">
-            Button
+            Open {channelId}
           </a>
         </div>
       )}
