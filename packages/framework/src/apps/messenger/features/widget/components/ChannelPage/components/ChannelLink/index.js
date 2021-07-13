@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { StyledChannelLink, StyledChannelButton } from './styles'
 
 const ChannelLink = ({ channelId, url, qrCode }) => {
   const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)
@@ -9,21 +10,29 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
     <>
       {!isVerticallySmallScreen && (
         <div>
-          <h2>DESKTOP</h2>
-          <p>Scan the QR code and then send the message that appears in your {channelId}</p>
+          {channelId !== 'instagram' && (
+            <p>Scan the QR code and then send the message that appears in your {channelId}</p>
+          )}
+          {channelId === 'instagram' && (
+            <p>Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.</p>
+          )}
           {qrCode && <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />}
-          <a href={url} target="_blank">
+          <StyledChannelLink href={url} target="_blank">
             Open {channelId} on this device
-          </a>
+          </StyledChannelLink>
+          <p>[DESKTOP]</p>
         </div>
       )}
       {isVerticallySmallScreen && (
         <div>
-          <h2>MOBILE</h2>
-          <p>Open {channelId} and send a short message to connect your account.</p>
-          <a href={url} target="_blank">
+          {channelId !== 'instagram' && (
+            <p>Open {channelId} and send a short message to connect your account.</p>
+          )}
+          {channelId === 'instagram' && <p>Follow @[Instagram handle] to send a DM.</p>}
+          <StyledChannelButton isPrimary={true} isPill={true} href={url} target="_blank">
             Open {channelId}
-          </a>
+          </StyledChannelButton>
+          <p>[MOBILE]</p>
         </div>
       )}
     </>
