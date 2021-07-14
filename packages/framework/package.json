@@ -24,6 +24,7 @@
     "build:validate": "npm run build:prod && npm run size",
     "build:previewer": "NODE_ENV=production webpack --config ./webpack/webpack.previewer.prod.js",
     "build": "npm run build-setup:prod && npm run build:prod",
+    "build-previewer": " npm run prebuild && npm run build-setup:prod && npm run build:previewer",
     "test": "TZ=utc jest",
     "test:updateSnapshots": "TZ=utc jest --updateSnapshot",
     "e2e:server": "NODE_ENV=e2e webpack serve --config ./webpack/webpack.e2e.js",
