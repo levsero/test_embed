@@ -180,7 +180,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: [
-    'node_modules/(?!(@zendeskgarden)/)',
+    'node_modules/(?!(@zendeskgarden/svg-icons)/)',
     'ze_countries.js',
     'ze_localeIdMap.js',
   ],

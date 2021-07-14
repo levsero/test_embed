@@ -69,11 +69,11 @@ module.exports = {
   //   "node"
   // ],
   // A path to a custom resolver
-  resolver: 'jest-webpack-resolver',
+  // resolver: '',
 
-  jestWebpackResolver: {
-    webpackConfig: './webpack.config.js',
-  },
+  // jestWebpackResolver: {
+  //   webpackConfig: './webpack.config.js',
+  // },
 
   // Automatically restore mock state between every test
   restoreMocks: true,
