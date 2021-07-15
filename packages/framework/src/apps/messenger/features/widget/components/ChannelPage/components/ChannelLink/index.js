@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import QRCode from 'qrcode.react'
 
 import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { StyledChannelLink, StyledChannelButton } from './styles'
@@ -17,7 +18,11 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
           {channelId === 'instagram' && (
             <p>Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.</p>
           )}
-          {qrCode && <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />}
+          {qrCode ? (
+            <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />
+          ) : (
+            <QRCode data-testid="generatedQRCode" value={url} renderAs="svg" />
+          )}
           <StyledChannelLink href={url} target="_blank">
             Open {channelId} on this device
           </StyledChannelLink>

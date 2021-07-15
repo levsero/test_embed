@@ -53,7 +53,6 @@ const ChannelPage = forwardRef((_props, ref) => {
             url={integration.linkRequest.url}
             qrCode={integration.linkRequest.qrCode}
           />
-          <QRCode value={integration.linkRequest.url} />
         </>
       )}
     </Container>

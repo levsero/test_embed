@@ -27,17 +27,17 @@ describe('ChannelLink', () => {
       jest
         .spyOn(responsiveDesignStore, 'getIsVerticallySmallScreen')
         .mockImplementation(() => false)
-      const { getByText } = renderComponent()
+      const { getByTestId } = renderComponent()
 
-      expect(getByText('DESKTOP')).toBeInTheDocument()
+      expect(getByTestId('generatedQRCode')).toBeInTheDocument()
     })
   })
   describe('when we are on mobile', () => {
     it('should not render a QR code', () => {
       jest.spyOn(responsiveDesignStore, 'getIsVerticallySmallScreen').mockImplementation(() => true)
-      const { getByText } = renderComponent()
+      const { getByRole } = renderComponent()
 
-      expect(getByText('MOBILE')).toBeInTheDocument()
+      expect(getByRole('button')).toBeInTheDocument()
     })
   })
 })
