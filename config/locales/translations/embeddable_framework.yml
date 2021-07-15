@@ -1868,3 +1868,21 @@ parts:
       title: "[A11Y] aria label for the channel linking back button (SVG)"
       screenshot: "https://drive.google.com/file/d/1vnRS9y3teJ_nyZ-jXRufcT72nDTsFoQK/view?usp=sharing"
       value: "Back to conversation"
+  - translation:
+      key: "embeddable_framework.messenger.header.menu.continue_on_messenger"
+      title: "Text that appears informing the user to integrate their conversation with the Facebook Messenger channel"
+      screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
+      value: "Continue on Messenger"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.header.menu.continue_on_instagram"
+      title: "Text that appears informing the user to integrate their conversation with the Facebook Instagram channel"
+      screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
+      value: "Continue on Instagram"
+      wip: true
+  - translation:
+      key: "embeddable_framework.messenger.header.menu.continue_on_whatsapp"
+      title: "Text that appears informing the user to integrate their conversation with the Facebook WhatsApp channel"
+      screenshot: "https://drive.google.com/file/d/1vH1a-m9g_c74V8y-zxfvowT-WvZIRLHU/view?usp=sharing"
+      value: "Continue on WhatsApp"
+      wip: true
