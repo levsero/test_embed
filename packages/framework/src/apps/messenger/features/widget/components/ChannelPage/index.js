@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
-import QRCode from 'qrcode.react'
 
 import {
   linkIntegration,
@@ -15,7 +14,7 @@ import {
 import ChannelLink from './components/ChannelLink'
 import BackButton from '../../../backButton'
 
-import { Container, FBMessengerIcon, WhatsAppIcon, InstagramIcon } from './styles'
+import { FBMessengerIcon, WhatsAppIcon, InstagramIcon } from './styles'
 
 const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
@@ -31,7 +30,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   }, [])
 
   return (
-    <Container>
+    <div ref={ref}>
       <BackButton
         onClick={() => {
           history.goBack()
@@ -55,7 +54,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           />
         </>
       )}
-    </Container>
+    </div>
   )
 })
 
