@@ -9,9 +9,6 @@ import reducer, {
 const stateFromInitial = (newData = {}) => ({
   entities: {},
   ids: [],
-  hasFetchedLinkRequest: false,
-  isFetchingLinkRequest: false,
-  errorFetchingLinkRequest: false,
   ...newData,
 })
 
@@ -35,7 +32,17 @@ testReducer(reducer, [
     expected: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+            pageId: 'p1',
+            linked: 'not linked',
+            type: 'messenger',
+          },
         },
         ids: ['messenger'],
       }),
@@ -54,9 +61,39 @@ testReducer(reducer, [
     expected: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: 'p1', linked: 'not linked', type: 'messenger' },
-          whatsapp: { _id: 234, appId: 2, pageId: 'p2', linked: 'not linked', type: 'whatsapp' },
-          instagram: { _id: 345, appId: 3, pageId: 'p3', linked: 'not linked', type: 'instagram' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: 'p1',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
+          whatsapp: {
+            _id: 234,
+            appId: 2,
+            pageId: 'p2',
+            linked: 'not linked',
+            type: 'whatsapp',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
+          instagram: {
+            _id: 345,
+            appId: 3,
+            pageId: 'p3',
+            linked: 'not linked',
+            type: 'instagram',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger', 'whatsapp', 'instagram'],
       }),
@@ -88,7 +125,17 @@ testReducer(reducer, [
     initialState: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
       }),
@@ -111,6 +158,9 @@ testReducer(reducer, [
             pageId: '123',
             linked: 'linked',
             type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: true,
+            isFetchingLinkRequest: false,
             linkRequest: {
               integrationId: '60dacd66c491a400d3882068',
               type: 'messenger',
@@ -120,7 +170,6 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
-        hasFetchedLinkRequest: true,
       }),
     },
   },
@@ -129,7 +178,17 @@ testReducer(reducer, [
     initialState: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
       }),
@@ -138,10 +197,19 @@ testReducer(reducer, [
     expected: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
-        hasFetchedLinkRequest: true,
       }),
     },
   },
@@ -159,11 +227,19 @@ testReducer(reducer, [
     expected: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: true,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
-        isFetchingLinkRequest: true,
-        errorFetchingLinkRequest: false,
       }),
     },
   },
@@ -181,11 +257,19 @@ testReducer(reducer, [
     expected: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: true,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
-        isFetchingLinkRequest: false,
-        errorFetchingLinkRequest: true,
       }),
     },
   },

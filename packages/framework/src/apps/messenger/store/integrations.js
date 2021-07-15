@@ -35,17 +35,16 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState({
-    hasFetchedLinkRequest: false,
-    isFetchingLinkRequest: false,
-    errorFetchingLinkRequest: false,
-  }),
+  initialState: integrationsAdapter.getInitialState(),
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
         return {
           ...integration,
           linked: NOT_LINKED,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
           linkRequest: {},
         }
       })
@@ -53,23 +52,36 @@ const integrations = createSlice({
       return integrationsAdapter.addMany(state, parsedIntegrations)
     },
     [linkIntegration.fulfilled]: (state, { payload: linkRequest }) => {
-      state.hasFetchedLinkRequest = true
-      state.isFetchingLinkRequest = false
-      state.errorFetchingLinkRequest = false
       integrationsAdapter.updateOne(state, {
         id: linkRequest.type,
-        changes: { linked: LINKED, linkRequest },
+        changes: {
+          linked: LINKED,
+          hasFetchedLinkRequest: true,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: false,
+          linkRequest,
+        },
       })
     },
     [linkIntegration.pending](state) {
-      state.hasFetchedLinkRequest = false
-      state.isFetchingLinkRequest = true
-      state.errorFetchingLinkRequest = false
+      integrationsAdapter.updateOne(state, {
+        id: '',
+        changes: {
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: true,
+          errorFetchingLinkRequest: false,
+        },
+      })
     },
     [linkIntegration.rejected](state) {
-      state.hasFetchedLinkRequest = false
-      state.isFetchingLinkRequest = false
-      state.errorFetchingLinkRequest = true
+      integrationsAdapter.updateOne(state, {
+        id: '',
+        changes: {
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          errorFetchingLinkRequest: true,
+        },
+      })
     },
     [unlinkIntegration.fulfilled]: (state, { payload: integration }) => {
       integrationsAdapter.updateOne(state, {
