@@ -1,5 +1,9 @@
 function mockZChat(zChat) {
-  const mocks = {},
+  const mocks = {
+      setVisitorInfo: async () => {
+        return Promise.resolve({ data: 'info' })
+      },
+    },
     subscribers = {}
   return new Proxy(zChat, {
     get(target, prop) {

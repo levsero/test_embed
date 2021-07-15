@@ -8,7 +8,6 @@ import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import {
   updateChatScreen,
   handlePreChatFormChange,
-  resetCurrentMessage,
   initiateSocialLogout,
   openedChatHistory,
 } from 'src/redux/modules/chat'
@@ -20,7 +19,6 @@ import {
   getChatVisitor,
 } from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
-import { getSettingsChatDepartmentsEmpty } from 'src/redux/modules/settings/settings-selectors'
 import { locals as styles } from './PrechatScreen.scss'
 import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 import PrechatForm from 'src/embeds/chat/components/PrechatForm'
@@ -37,41 +35,26 @@ const mapStateToProps = (state) => {
     offlineMessage: getOfflineMessage(state),
     chatVisitor: getChatVisitor(state),
     title: getChatTitle(state),
-    departmentFieldHidden: getSettingsChatDepartmentsEmpty(state),
   }
 }
 
 class PrechatScreen extends Component {
   static propTypes = {
     screen: PropTypes.string.isRequired,
-    resetCurrentMessage: PropTypes.func,
     title: PropTypes.string.isRequired,
-    departmentFieldHidden: PropTypes.bool.isRequired,
     selectedDepartment: PropTypes.shape({
       id: PropTypes.number,
       status: PropTypes.string,
     }),
-    submitPrechatForm: PropTypes.func,
     isPreview: PropTypes.bool,
   }
 
   static defaultProps = {
     hideZendeskLogo: false,
     sendOfflineMessage: () => {},
-    resetCurrentMessage: () => {},
     preChatFormSettings: {},
     loginSettings: {},
-    departmentFieldHidden: false,
     settingsDepartmentsEnabled: [],
-  }
-
-  onPrechatFormComplete = (values) => {
-    this.props.submitPrechatForm({
-      values,
-      isDepartmentFieldVisible: !this.props.departmentFieldHidden,
-    })
-
-    this.props.resetCurrentMessage()
   }
 
   renderLoadingSpinner() {
@@ -102,7 +85,6 @@ class PrechatScreen extends Component {
 
 const actionCreators = {
   updateChatScreen,
-  resetCurrentMessage,
   handlePreChatFormChange,
   initiateSocialLogout,
   openedChatHistory,
