@@ -35,7 +35,12 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState(),
+  initialState: integrationsAdapter.getInitialState({ selectedChannel: '' }),
+  reducers: {
+    selectChannel: (state, { payload: channel }) => {
+      state.selectedChannel = channel
+    },
+  },
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
@@ -65,7 +70,7 @@ const integrations = createSlice({
     },
     [linkIntegration.pending](state) {
       integrationsAdapter.updateOne(state, {
-        id: '',
+        id: state.selectedChannel,
         changes: {
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: true,
@@ -75,7 +80,7 @@ const integrations = createSlice({
     },
     [linkIntegration.rejected](state) {
       integrationsAdapter.updateOne(state, {
-        id: '',
+        id: state.selectedChannel,
         changes: {
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
@@ -90,14 +95,10 @@ const integrations = createSlice({
       })
     },
   },
-  reducers: {},
 })
 
 export const getIntegrations = selectors.selectAll
 export const selectIntegrationById = selectors.selectById
-export const getErrorFetchingLinkRequest = (state) => state.integrations.errorFetchingLinkRequest
-export const getIsFetchingLinkRequest = (state) => state.integrations.isFetchingLinkRequest
-export const getHasFetchedLinkRequest = (state) => state.integrations.hasFetchedLinkRequest
 
 export const getAllIntegrationsLinkStatus = (state) => {
   const integrations = getIntegrations(state)
@@ -107,5 +108,7 @@ export const getAllIntegrationsLinkStatus = (state) => {
     return accumulator
   }, {})
 }
+
+export const selectChannel = integrations.actions.selectChannel
 
 export default integrations.reducer
