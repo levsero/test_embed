@@ -19,6 +19,8 @@ If you need to toggle the feature flag, you can do so via a script in our develo
 ##### Client initialisation
 
 ```js
+import Sunco from '@zendesk/sunco-js-client'
+
 const appId = 'replace with app id'
 const integrationId = 'replace with integration id'
 

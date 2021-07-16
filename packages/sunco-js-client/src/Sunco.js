@@ -11,7 +11,13 @@ import { getClientId, getSessionId } from './utils/device'
 const BASE_URL = 'https://api.smooch.io'
 
 export default class Sunco {
-  constructor({ appId, integrationId, baseUrl = BASE_URL, storageType = DEFAULT_STORAGE_TYPE }) {
+  constructor({
+    appId,
+    integrationId,
+    baseUrl = BASE_URL,
+    storageType = DEFAULT_STORAGE_TYPE,
+    debug = false,
+  }) {
     const sdkInBaseUrl = baseUrl.endsWith('/sdk')
     this.baseUrl = sdkInBaseUrl ? baseUrl : `${baseUrl}/sdk`
     this.appId = appId
@@ -19,6 +25,7 @@ export default class Sunco {
     this._activeConversation = null
     storage.setStorageType({ type: storageType })
     this.locale = null
+    this.debug = debug
 
     this.appUsers = new AppUsersApi(this)
     this.conversations = new ConversationsApi(this)
@@ -42,7 +49,7 @@ export default class Sunco {
   set activeConversation({ conversationId, socketSettings, lastRead }) {
     const { appUserId, sessionToken } = getCurrentUserIfAny(this.integrationId)
 
-    if (__DEV__) {
+    if (this.debug) {
       /* eslint no-console:0 */
       console.log(`appId: ${this.appId}  conversationId: ${conversationId}`)
     }
