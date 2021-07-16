@@ -7,7 +7,12 @@ const Container = styled.div`
   height: 100%;
 `
 
-const Body = styled.body`
+const Header = styled.div`
+  position: fixed;
+`
+
+// Semantically, this should probably be <main>
+const Body = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
@@ -20,11 +25,16 @@ const Title = styled.h1`
   line-height: ${(props) => props.theme.messenger.lineHeights.lg};
 `
 
+const Subtitle = styled.p`
+  font-size: ${(props) => props.theme.messenger.fontSizes.md};
+  line-height: ${(props) => props.theme.messenger.lineHeights.md};
+`
+
 const sharedIconStyle = css`
   width: 10% !important;
   height: 10% !important;
 `
-const StyledFBMessengerIcon = styled(MessengerIcon)`
+const StyledMessengerIcon = styled(MessengerIcon)`
   ${sharedIconStyle}
 `
 
@@ -35,16 +45,13 @@ const StyledInstagramIcon = styled(InstagramIcon)`
   ${sharedIconStyle}
 `
 
-const StyledHeader = styled.div`
-  position: fixed;
-`
-
 export {
   Container,
   Body,
+  Header,
   Title,
-  StyledFBMessengerIcon as MessengerIcon,
+  Subtitle,
+  StyledMessengerIcon as MessengerIcon,
   StyledWhatsAppIcon as WhatsAppIcon,
   StyledInstagramIcon as InstagramIcon,
-  StyledHeader as Header,
 }

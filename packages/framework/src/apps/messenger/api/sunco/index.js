@@ -60,7 +60,6 @@ export const setLocale = async (locale) => {
   getClient().setLocale(locale)
 }
 
-// FIXME: What do we pass in as the param and where does the input come from?
 export const fetchLinkRequest = async (integrationId) => {
   const conversation = await getActiveConversation()
   return conversation.getLinkRequest(integrationId)

@@ -13,6 +13,7 @@ import {
   Container,
   Body,
   Title,
+  Subtitle,
   MessengerIcon,
   WhatsAppIcon,
   InstagramIcon,
@@ -89,7 +90,7 @@ const ChannelPage = forwardRef((_props, ref) => {
       <Body>
         <ChannelLogo />
         <Title>{title}</Title>
-        <p>{subtitle}</p>
+        <Subtitle>{subtitle}</Subtitle>
 
         {!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest && (
           <div>Loading link request</div>
@@ -99,13 +100,11 @@ const ChannelPage = forwardRef((_props, ref) => {
         )}
 
         {integration?.hasFetchedLinkRequest && (
-          <>
-            <ChannelLink
-              channelId={channelId}
-              url={integration.linkRequest.url}
-              qrCode={integration.linkRequest.qrCode}
-            />
-          </>
+          <ChannelLink
+            channelId={channelId}
+            url={integration.linkRequest.url}
+            qrCode={integration.linkRequest.qrCode}
+          />
         )}
       </Body>
     </Container>
