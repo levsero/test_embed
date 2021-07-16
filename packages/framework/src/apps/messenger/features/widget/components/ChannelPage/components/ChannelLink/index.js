@@ -4,39 +4,33 @@ import QRCode from 'qrcode.react'
 
 import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import { StyledChannelLink, StyledChannelButton } from './styles'
+import { channelOptions } from '../../'
 
 const ChannelLink = ({ channelId, url, qrCode }) => {
   const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)
+  const { instructions, button } = channelOptions[channelId]
 
   return (
     <>
       {!isVerticallySmallScreen && (
         <div>
-          {channelId !== 'instagram' && (
-            <p>Scan the QR code and then send the message that appears in your {channelId}</p>
-          )}
-          {channelId === 'instagram' && (
-            <p>Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.</p>
-          )}
+          <p>{instructions.desktop}</p>
           {qrCode ? (
             <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />
           ) : (
             <QRCode data-testid="generatedQRCode" value={url} renderAs="svg" />
           )}
           <StyledChannelLink href={url} target="_blank">
-            Open {channelId} on this device
+            {button.desktop}
           </StyledChannelLink>
           <p>[DESKTOP]</p>
         </div>
       )}
       {isVerticallySmallScreen && (
         <div>
-          {channelId !== 'instagram' && (
-            <p>Open {channelId} and send a short message to connect your account.</p>
-          )}
-          {channelId === 'instagram' && <p>Follow @[Instagram handle] to send a DM.</p>}
+          <p>{instructions.mobile}</p>
           <StyledChannelButton isPrimary={true} isPill={true} href={url} target="_blank">
-            Open {channelId}
+            {button.mobile}
           </StyledChannelButton>
           <p>[MOBILE]</p>
         </div>
