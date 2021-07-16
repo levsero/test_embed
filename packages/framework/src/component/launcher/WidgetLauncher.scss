@@ -7,10 +7,8 @@ $Button-nudge: 5;
 
 .wrapper {
   composes: u-isActionable u-textLeft u-inlineBlock u-borderNone u-textBold u-textNoWrap Arrange Arrange--middle u-userLauncherColor from global;
-  font-size: $Button-baseFontSize;
   color: $base-color;
   fill: $base-color;
-  letter-spacing: 0.4;
   padding: #{13 / $font-size}rem #{22 / $font-size}rem;
   border-radius: 999rem; /* 1 */
   bottom: 0;
