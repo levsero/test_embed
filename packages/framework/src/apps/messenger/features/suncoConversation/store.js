@@ -1,5 +1,10 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { getActiveConversation, fetchMessages, getClient } from 'src/apps/messenger/api/sunco'
+import {
+  getActiveConversation,
+  fetchMessages,
+  getClient,
+  updateSession,
+} from 'src/apps/messenger/api/sunco'
 
 export const messageReceived = createAction('message-received')
 export const activityReceived = createAction('activity-received')
@@ -73,6 +78,14 @@ const subscribeToConversationEvents = createAsyncThunk(
 
     activeConversation.socketClient.on('activity', (activity) => {
       dispatch(activityReceived({ activity }))
+    })
+
+    activeConversation.socketClient.on('link', (linkEvent) => {
+      switch (linkEvent.type) {
+        case 'link':
+          const { appUser } = linkEvent
+          updateSession(appUser)
+      }
     })
 
     activeConversation.socketClient.subscribe()
