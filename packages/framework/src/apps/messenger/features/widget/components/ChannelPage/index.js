@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
+import useTranslate from 'src/hooks/useTranslate'
 
 import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
@@ -59,6 +60,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   const { channelId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
+  const translate = useTranslate()
   const integration = useSelector((state) => selectIntegrationById(state, channelId))
   const { title, subtitle, icon: ChannelLogo } = channelOptions[channelId]
 
@@ -72,6 +74,7 @@ const ChannelPage = forwardRef((_props, ref) => {
         onClick={() => {
           history.goBack()
         }}
+        ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
       />
       <ChannelLogo />
       <h3>{title}</h3>
