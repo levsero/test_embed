@@ -9,7 +9,15 @@ import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store
 import ChannelLink from './components/ChannelLink'
 import BackButton from '../../../backButton'
 
-import { Container, MessengerIcon, WhatsAppIcon, InstagramIcon, Header } from './styles'
+import {
+  Container,
+  Body,
+  Title,
+  MessengerIcon,
+  WhatsAppIcon,
+  InstagramIcon,
+  Header,
+} from './styles'
 
 export const channelOptions = {
   whatsapp: {
@@ -78,26 +86,28 @@ const ChannelPage = forwardRef((_props, ref) => {
           ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
         />
       </Header>
-      <ChannelLogo />
-      <h3>{title}</h3>
-      <p>{subtitle}</p>
+      <Body>
+        <ChannelLogo />
+        <Title>{title}</Title>
+        <p>{subtitle}</p>
 
-      {!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest && (
-        <div>Loading link request</div>
-      )}
-      {!integration?.hasFetchedLinkRequest && integration?.errorFetchingLinkRequest && (
-        <div>Error fetching link request</div>
-      )}
+        {!integration?.hasFetchedLinkRequest && integration?.isFetchingLinkRequest && (
+          <div>Loading link request</div>
+        )}
+        {!integration?.hasFetchedLinkRequest && integration?.errorFetchingLinkRequest && (
+          <div>Error fetching link request</div>
+        )}
 
-      {integration?.hasFetchedLinkRequest && (
-        <>
-          <ChannelLink
-            channelId={channelId}
-            url={integration.linkRequest.url}
-            qrCode={integration.linkRequest.qrCode}
-          />
-        </>
-      )}
+        {integration?.hasFetchedLinkRequest && (
+          <>
+            <ChannelLink
+              channelId={channelId}
+              url={integration.linkRequest.url}
+              qrCode={integration.linkRequest.qrCode}
+            />
+          </>
+        )}
+      </Body>
     </Container>
   )
 })

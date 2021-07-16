@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import { Button, Anchor } from '@zendeskgarden/react-buttons'
 
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 const StyledChannelLink = styled(Anchor)`
   &&& {
     color: ${(props) => props.theme.palette.black};
@@ -15,4 +21,4 @@ const StyledChannelButton = styled(Button)`
   background-color: ${(props) => props.theme.messenger.colors.action};
 `
 
-export { StyledChannelLink, StyledChannelButton }
+export { Content, StyledChannelLink, StyledChannelButton }

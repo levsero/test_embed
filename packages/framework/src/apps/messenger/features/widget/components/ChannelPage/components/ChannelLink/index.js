@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import QRCode from 'qrcode.react'
 
 import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
-import { StyledChannelLink, StyledChannelButton } from './styles'
+import { Content, StyledChannelLink, StyledChannelButton } from './styles'
 import { channelOptions } from '../../'
 
 const ChannelLink = ({ channelId, url, qrCode }) => {
@@ -13,7 +13,7 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
   return (
     <>
       {!isVerticallySmallScreen && (
-        <div>
+        <Content>
           <p>{instructions.desktop}</p>
           {qrCode ? (
             <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />
@@ -23,17 +23,15 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
           <StyledChannelLink href={url} target="_blank">
             {button.desktop}
           </StyledChannelLink>
-          <p>[DESKTOP]</p>
-        </div>
+        </Content>
       )}
       {isVerticallySmallScreen && (
-        <div>
+        <Content>
           <p>{instructions.mobile}</p>
           <StyledChannelButton isPrimary={true} isPill={true} href={url} target="_blank">
             {button.mobile}
           </StyledChannelButton>
-          <p>[MOBILE]</p>
-        </div>
+        </Content>
       )}
     </>
   )
