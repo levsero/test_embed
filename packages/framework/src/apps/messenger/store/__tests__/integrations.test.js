@@ -9,6 +9,7 @@ import reducer, {
 const stateFromInitial = (newData = {}) => ({
   entities: {},
   ids: [],
+  selectedChannel: '',
   ...newData,
 })
 
@@ -218,9 +219,20 @@ testReducer(reducer, [
     initialState: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
+        selectedChannel: 'messenger',
       }),
     },
     action: { type: [linkIntegration.pending] },
@@ -240,6 +252,7 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
+        selectedChannel: 'messenger',
       }),
     },
   },
@@ -248,9 +261,20 @@ testReducer(reducer, [
     initialState: {
       ...stateFromInitial({
         entities: {
-          messenger: { _id: 123, appId: 1, pageId: '123', linked: 'not linked', type: 'messenger' },
+          messenger: {
+            _id: 123,
+            appId: 1,
+            pageId: '123',
+            linked: 'not linked',
+            type: 'messenger',
+            errorFetchingLinkRequest: false,
+            hasFetchedLinkRequest: false,
+            isFetchingLinkRequest: false,
+            linkRequest: {},
+          },
         },
         ids: ['messenger'],
+        selectedChannel: 'messenger',
       }),
     },
     action: { type: [linkIntegration.rejected] },
@@ -270,6 +294,7 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
+        selectedChannel: 'messenger',
       }),
     },
   },
