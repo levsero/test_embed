@@ -9,7 +9,7 @@ import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store
 import ChannelLink from './components/ChannelLink'
 import BackButton from '../../../backButton'
 
-import { FBMessengerIcon, WhatsAppIcon, InstagramIcon } from './styles'
+import { Container, MessengerIcon, WhatsAppIcon, InstagramIcon, Header } from './styles'
 
 export const channelOptions = {
   whatsapp: {
@@ -27,7 +27,7 @@ export const channelOptions = {
     },
   },
   messenger: {
-    icon: FBMessengerIcon,
+    icon: MessengerIcon,
     title: 'Continue on Messenger',
     subtitle: 'Take the conversation to your Messenger account. You can return anytime.',
     instructions: {
@@ -69,13 +69,15 @@ const ChannelPage = forwardRef((_props, ref) => {
   }, [])
 
   return (
-    <div ref={ref}>
-      <BackButton
-        onClick={() => {
-          history.goBack()
-        }}
-        ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
-      />
+    <Container ref={ref}>
+      <Header>
+        <BackButton
+          onClick={() => {
+            history.goBack()
+          }}
+          ariaLabel={translate('embeddable_framework.messenger.channel_linking.back.button')}
+        />
+      </Header>
       <ChannelLogo />
       <h3>{title}</h3>
       <p>{subtitle}</p>
@@ -96,7 +98,7 @@ const ChannelPage = forwardRef((_props, ref) => {
           />
         </>
       )}
-    </div>
+    </Container>
   )
 })
 

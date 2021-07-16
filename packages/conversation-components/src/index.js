@@ -31,6 +31,9 @@ import MessageLogList from './messenger/MessageLogList'
 import MessengerBody from './messenger/MessengerBody'
 import MessengerContainer from './messenger/MessengerContainer'
 import MessengerFooter from './messenger/MessengerFooter'
+import MessengerIcon from './messenger/MessengerHeader/Menu/MessengerIcon'
+import WhatsAppIcon from './messenger/MessengerHeader/Menu/WhatsAppIcon'
+import InstagramIcon from './messenger/MessengerHeader/Menu/InstagramIcon'
 import MessengerHeader from './messenger/MessengerHeader'
 
 export {
@@ -49,6 +52,9 @@ export {
   MessengerContainer,
   MessengerFooter,
   MessengerHeader,
+  MessengerIcon,
+  WhatsAppIcon,
+  InstagramIcon,
   OtherParticipantReceipt,
   OtherParticipantLayout,
   PrimaryParticipantLayout,

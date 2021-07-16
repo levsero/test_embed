@@ -1,10 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import FBMessengerSVG from 'src/apps/messenger/icons/messenger.svg'
-import WhatsAppSVG from 'src/apps/messenger/icons/whatsapp.svg'
-import InstagramSVG from 'src/apps/messenger/icons/instagram.svg'
-
-import { IconButton } from '@zendeskgarden/react-buttons'
+import { MessengerIcon, WhatsAppIcon, InstagramIcon } from '@zendesk/conversation-components'
 
 const Container = styled.div`
   /* background: lightblue; */
@@ -14,23 +10,25 @@ const sharedIconStyle = css`
   width: 10% !important;
   height: 10% !important;
 `
-const StyledFBMessengerIcon = styled(FBMessengerSVG)`
+const StyledFBMessengerIcon = styled(MessengerIcon)`
   ${sharedIconStyle}
 `
 
-const StyledWhatsAppIcon = styled(WhatsAppSVG)`
+const StyledWhatsAppIcon = styled(WhatsAppIcon)`
   ${sharedIconStyle}
 `
-const StyledInstagramIcon = styled(InstagramSVG)`
+const StyledInstagramIcon = styled(InstagramIcon)`
   ${sharedIconStyle}
 `
 
-const StyledButton = styled(IconButton)``
+const StyledHeader = styled.div`
+  position: fixed;
+`
 
 export {
   Container,
-  StyledFBMessengerIcon as FBMessengerIcon,
+  StyledFBMessengerIcon as MessengerIcon,
   StyledWhatsAppIcon as WhatsAppIcon,
   StyledInstagramIcon as InstagramIcon,
-  StyledButton as BackButton,
+  StyledHeader as Header,
 }
