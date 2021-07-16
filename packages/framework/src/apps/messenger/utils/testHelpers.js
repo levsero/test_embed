@@ -1,15 +1,20 @@
 import { render as rtlRender } from '@testing-library/react'
-import { Route, MemoryRouter } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
 export const render = (
   ui,
-  { render, store, themeProps = {}, history = createMemoryHistory({ initialEntries: ['/'] }) } = {}
+  {
+    render,
+    store,
+    themeProps = {},
+    path = '/',
+    history = createMemoryHistory({ initialEntries: ['/'] }),
+  } = {}
 ) => {
   const reduxStore = store || createStore()
   const renderFn = render || rtlRender
@@ -19,19 +24,13 @@ export const render = (
     ...renderFn(
       <Provider store={reduxStore}>
         <ThemeProvider theme={themeProps}>
-          <Router history={history}>{ui}</Router>
+          <Router history={history}>
+            <Route path={path}>{ui}</Route>
+          </Router>
         </ThemeProvider>
       </Provider>
     ),
   }
-}
-
-export const renderWithRouter = (ui, { path, initialEntries }) => {
-  return render(
-    <MemoryRouter initialEntries={initialEntries}>
-      <Route path={path}>{ui}</Route>
-    </MemoryRouter>
-  )
 }
 
 export const mockMatchMedia = () => {

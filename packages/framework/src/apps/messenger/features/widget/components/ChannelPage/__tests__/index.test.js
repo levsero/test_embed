@@ -2,31 +2,21 @@ import * as integrationStore from 'src/apps/messenger/store/integrations'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { createMemoryHistory } from 'history'
 
-import { renderWithRouter } from 'src/apps/messenger/utils/testHelpers'
 import ChannelPage from '../'
 
-const renderChannelPage = (ui, { channelId }) =>
-  renderWithRouter(ui, {
+const renderChannelPage = (ui, { channelId, history }) => {
+  const initialEntries = ['/', `/channelPage/${channelId}`]
+
+  return render(ui, {
     path: '/channelPage/:channelId',
-    initialEntries: [`/channelPage/${channelId}`],
+    history:
+      history ||
+      createMemoryHistory({
+        initialEntries,
+        initialIndex: 1,
+      }),
   })
-
-describe('Header', () => {
-  const renderComponent = (options = {}) => {
-    return render(<ChannelPage />, { ...options })
-  }
-
-  it('can go back to previous page', () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/', '/channelPage/messenger'],
-      initialIndex: 1,
-    })
-    const { getByLabelText } = renderComponent({ history })
-    expect(getByLabelText('Back to conversation')).toBeInTheDocument()
-    getByLabelText('Back to conversation').click()
-    expect(history.location.pathname).toEqual('/')
-  })
-})
+}
 
 describe('ChannelPage', () => {
   beforeEach(() => {
@@ -37,11 +27,17 @@ describe('ChannelPage', () => {
     jest.clearAllMocks()
   })
 
-  it('renders a back button ', () => {
+  it('can go back to previous page', () => {
     const channelId = 'messenger'
-    const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
-
-    expect(getByText('Back')).toBeInTheDocument()
+    const initialEntries = ['/', `/channelPage/${channelId}`]
+    const history = createMemoryHistory({
+      initialEntries,
+      initialIndex: 1,
+    })
+    const { getByLabelText } = renderChannelPage(<ChannelPage />, { channelId, history })
+    expect(getByLabelText('Back to conversation')).toBeInTheDocument()
+    getByLabelText('Back to conversation').click()
+    expect(history.location.pathname).toEqual('/')
   })
 
   it('dispatches a channel link request on page load', () => {
@@ -58,11 +54,12 @@ describe('ChannelPage', () => {
     describe('when the linkRequest is loading', () => {
       it('renders a loading message', () => {
         const channelId = 'messenger'
-        jest
-          .spyOn(integrationStore, 'selectIntegrationById')
-          .mockImplementation(() => ({ linkRequest: { channelId, url: 'http://some.url/' } }))
-        jest.spyOn(integrationStore, 'getHasFetchedLinkRequest').mockImplementation(() => false)
-        jest.spyOn(integrationStore, 'getIsFetchingLinkRequest').mockImplementation(() => true)
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: false,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: true,
+          linkRequest: {},
+        }))
         const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
         expect(getByText('Loading link request')).toBeInTheDocument()
@@ -72,11 +69,12 @@ describe('ChannelPage', () => {
     describe('when the linkRequest fetch is in an error state', () => {
       it('renders an error message', () => {
         const channelId = 'messenger'
-        jest
-          .spyOn(integrationStore, 'selectIntegrationById')
-          .mockImplementation(() => ({ linkRequest: { channelId, url: 'http://some.url/' } }))
-        jest.spyOn(integrationStore, 'getHasFetchedLinkRequest').mockImplementation(() => false)
-        jest.spyOn(integrationStore, 'getErrorFetchingLinkRequest').mockImplementation(() => true)
+        jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+          errorFetchingLinkRequest: true,
+          hasFetchedLinkRequest: false,
+          isFetchingLinkRequest: false,
+          linkRequest: {},
+        }))
         const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
         expect(getByText('Error fetching link request')).toBeInTheDocument()
@@ -87,13 +85,15 @@ describe('ChannelPage', () => {
   describe('when a linkRequest has been fetched', () => {
     it('should render an integration link', () => {
       const channelId = 'messenger'
-      jest
-        .spyOn(integrationStore, 'selectIntegrationById')
-        .mockImplementation(() => ({ linkRequest: { channelId, url: 'http://some.url/' } }))
-      jest.spyOn(integrationStore, 'getHasFetchedLinkRequest').mockImplementation(() => true)
+      jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
+        errorFetchingLinkRequest: false,
+        hasFetchedLinkRequest: true,
+        isFetchingLinkRequest: false,
+        linkRequest: { channelId, url: 'http://some.url/' },
+      }))
       const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
-      expect(getByText('Click me')).toBeInTheDocument()
+      expect(getByText('Open Messenger', { exact: false })).toBeInTheDocument()
     })
   })
 })
