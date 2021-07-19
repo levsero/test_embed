@@ -8,13 +8,13 @@
 }
 
 .containerError {
-  padding-left: #{50 / $font-size}rem !important;
   composes: u-marginTL from global;
   background-color: $error-background-color;
   border-radius: #{4 / $font-size}rem;
   border: #{1 / $font-size}rem solid $zd-color-red-300;
   color: $error-text-color;
   padding: #{13 / $font-size}rem #{13 / $font-size}rem;
+  padding-left: #{50 / $font-size}rem !important;
   line-height: #{18 / $font-size}rem;
   background-position-y: #{14 / $font-size}rem;
 }
