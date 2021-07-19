@@ -13,7 +13,7 @@ const Header = styled.div`
   top: ${(props) => props.theme.messenger.space.xs};
 `
 
-// Semantically, this should probably be <main>
+// Semantically, should this be <main>?
 const Body = styled.div`
   display: flex;
   align-items: center;

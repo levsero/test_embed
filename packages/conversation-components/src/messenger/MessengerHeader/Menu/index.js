@@ -34,7 +34,6 @@ const validLinkOptions = {
 }
 
 const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
-  const labels = useLabels().messengerHeader
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)

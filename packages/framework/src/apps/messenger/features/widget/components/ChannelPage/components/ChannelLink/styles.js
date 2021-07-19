@@ -23,10 +23,10 @@ const QRCodeWrapper = styled.div`
   margin-bottom: ${(props) => props.theme.messenger.space.lg};
   /*
     Unset removes default width/height (128px) from qrcode.react
-    Otherwise, it messes up our centering for FB/Instagram
+    Otherwise, it messes up centering for Messenger/Instagram
     But by removing this, we rely on viewbox ratio
-    The QR code img provided by SunCo contains padding,
-    so we only add it to Messenger and Instagram
+    The QR code image for WhatsApp provided by SunCo contains
+    padding, so we only add it to Messenger and Instagram
   */
   svg {
     width: unset;
