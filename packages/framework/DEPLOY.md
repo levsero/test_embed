@@ -80,7 +80,7 @@ Similar to staging, you can view this API to confirm what versions are currently
 
 ### Step 3 - Release to Production General Availability
 
-Before you deploy, verify that the [canary smoke tests] are passing.
+Before you deploy, verify that the [canary smoke tests] and [production smoke tests] are passing.
 
 If all green, release via the Samson stage [Release Production - General Availability].
 
