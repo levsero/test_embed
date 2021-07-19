@@ -3,22 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
 import useTranslate from 'src/hooks/useTranslate'
+import { MessengerIcon, WhatsAppIcon, InstagramIcon } from '@zendesk/conversation-components'
 
 import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
 import ChannelLink from './components/ChannelLink'
 import BackButton from '../../../backButton'
 
-import {
-  Container,
-  Body,
-  Title,
-  Subtitle,
-  MessengerIcon,
-  WhatsAppIcon,
-  InstagramIcon,
-  Header,
-} from './styles'
+import { Container, Body, Title, Subtitle, ChannelIcon, Header } from './styles'
 
 export const channelOptions = {
   whatsapp: {
@@ -88,7 +80,9 @@ const ChannelPage = forwardRef((_props, ref) => {
         />
       </Header>
       <Body>
-        <ChannelLogo />
+        <ChannelIcon>
+          <ChannelLogo />
+        </ChannelIcon>
         <Title>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
 

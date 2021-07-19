@@ -1,14 +1,16 @@
-import styled, { css } from 'styled-components'
-
-import { MessengerIcon, WhatsAppIcon, InstagramIcon } from '@zendesk/conversation-components'
+import styled from 'styled-components'
+import { rem } from 'polished'
 
 const Container = styled.div`
   display: flex;
   height: 100%;
+  justify-content: center;
 `
 
 const Header = styled.div`
   position: fixed;
+  left: ${(props) => props.theme.messenger.space.sm};
+  top: ${(props) => props.theme.messenger.space.xs};
 `
 
 // Semantically, this should probably be <main>
@@ -23,35 +25,29 @@ const Body = styled.div`
 const Title = styled.h1`
   font-size: ${(props) => props.theme.messenger.fontSizes.lg};
   line-height: ${(props) => props.theme.messenger.lineHeights.lg};
+  margin-bottom: ${(props) => props.theme.messenger.space.xs};
 `
 
 const Subtitle = styled.p`
   font-size: ${(props) => props.theme.messenger.fontSizes.md};
   line-height: ${(props) => props.theme.messenger.lineHeights.md};
+  margin-bottom: ${(props) => props.theme.messenger.space.md};
+  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
 `
 
-const sharedIconStyle = css`
-  width: 10% !important;
-  height: 10% !important;
-`
-const StyledMessengerIcon = styled(MessengerIcon)`
-  ${sharedIconStyle}
+const ChannelIcon = styled.div`
+  height: ${(props) => props.theme.messenger.iconSizes.xl};
+  width: ${(props) => props.theme.messenger.iconSizes.xl};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: ${(props) => props.theme.messenger.space.md};
+
+  svg,
+  img {
+    height: ${(props) => props.theme.messenger.iconSizes.xl};
+    width: ${(props) => props.theme.messenger.iconSizes.xl};
+  }
 `
 
-const StyledWhatsAppIcon = styled(WhatsAppIcon)`
-  ${sharedIconStyle}
-`
-const StyledInstagramIcon = styled(InstagramIcon)`
-  ${sharedIconStyle}
-`
-
-export {
-  Container,
-  Body,
-  Header,
-  Title,
-  Subtitle,
-  StyledMessengerIcon as MessengerIcon,
-  StyledWhatsAppIcon as WhatsAppIcon,
-  StyledInstagramIcon as InstagramIcon,
-}
+export { Container, Body, Header, Title, Subtitle, ChannelIcon }

@@ -10,13 +10,19 @@ const Content = styled.div`
   line-height: ${(props) => props.theme.messenger.lineHeights.md};
 `
 
+const Instructions = styled.p`
+  max-width: ${(props) => rem(300, props.theme.baseFontSize)};
+  margin-bottom: ${(props) => props.theme.messenger.space.lg};
+`
+
 const QRCodeWrapper = styled.div`
   width: ${(props) => rem(140, props.theme.baseFontSize)};
   height: ${(props) => rem(140, props.theme.baseFontSize)};
   border: ${(props) => props.theme.borders.sm} ${(props) => props.theme.palette.grey[300]};
   border-radius: ${(props) => rem(4, props.theme.baseFontSize)};
+  margin-bottom: ${(props) => props.theme.messenger.space.lg};
   /*
-    Unset removes default width/height from qrcode.react
+    Unset removes default width/height (128px) from qrcode.react
     Otherwise, it messes up our centering for FB/Instagram
     But by removing this, we rely on viewbox ratio
     The QR code img provided by SunCo contains padding,
@@ -48,4 +54,4 @@ const ChannelPillButton = styled(Button)`
   background-color: ${(props) => props.theme.messenger.colors.action};
 `
 
-export { Content, QRCodeWrapper, ChannelLinkButton, ChannelPillButton }
+export { Content, Instructions, QRCodeWrapper, ChannelLinkButton, ChannelPillButton }
