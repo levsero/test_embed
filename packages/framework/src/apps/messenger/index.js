@@ -17,6 +17,7 @@ import { subscribeToI18n } from 'src/apps/messenger/features/i18n/store'
 import isFeatureEnabled from 'embeds/webWidget/selectors/feature-flags'
 import errorTracker from 'src/framework/services/errorTracker'
 import { fetchIntegrations } from 'src/apps/messenger/store/integrations'
+import { MemoryRouter } from 'react-router-dom'
 
 const init = async ({ config }) => {
   if (isFeatureEnabled(config, 'log_all_messenger_errors')) {
@@ -75,7 +76,9 @@ const run = async ({ config, embeddableData }) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
     </Provider>,
     element,
     messengerReadyCallback

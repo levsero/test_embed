@@ -5,14 +5,11 @@ import { widgetClosed } from 'src/apps/messenger/store/visibility'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import { getHeaderValues } from './store'
 import { getIsFullScreen } from '../responsiveDesign/store'
-import {
-  getAllIntegrationsLinkStatus,
-  linkIntegration,
-  unlinkIntegration,
-} from 'src/apps/messenger/store/integrations'
-import {} from '../../store/integrations'
+import { getAllIntegrationsLinkStatus } from 'src/apps/messenger/store/integrations'
+import { useHistory } from 'react-router-dom'
 
 const Header = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const { avatar, name, description } = useSelector(getHeaderValues)
   const isLauncherVisible = useSelector(getIsLauncherVisible)
@@ -20,12 +17,8 @@ const Header = () => {
   const integrationLinks = useSelector(getAllIntegrationsLinkStatus)
 
   const onChannelSelect = (channel) => {
-    if (integrationLinks[channel] === 'not linked') {
-      dispatch(linkIntegration(channel))
-    } else {
-      dispatch(unlinkIntegration(channel))
-    }
-    console.log(channel)
+    const route = `/channelPage/${channel}`
+    history.push(route)
   }
 
   return (

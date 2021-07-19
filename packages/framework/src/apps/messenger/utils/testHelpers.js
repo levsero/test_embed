@@ -3,8 +3,13 @@ import { Provider } from 'react-redux'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
 import hostPageWindow from 'src/framework/utils/hostPageWindow'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
-export const render = (ui, { render, store, themeProps = {} } = {}) => {
+export const render = (
+  ui,
+  { render, store, themeProps = {}, history = createMemoryHistory({ initialEntries: ['/'] }) } = {}
+) => {
   const reduxStore = store || createStore()
 
   const renderFn = render || rtlRender
@@ -12,7 +17,9 @@ export const render = (ui, { render, store, themeProps = {} } = {}) => {
     store: reduxStore,
     ...renderFn(
       <Provider store={reduxStore}>
-        <ThemeProvider theme={themeProps}>{ui}</ThemeProvider>
+        <ThemeProvider theme={themeProps}>
+          <Router history={history}>{ui}</Router>
+        </ThemeProvider>
       </Provider>
     ),
   }

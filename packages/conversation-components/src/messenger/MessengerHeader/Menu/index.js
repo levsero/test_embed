@@ -9,6 +9,7 @@ import InstagramIcon from './InstagramIcon'
 import MessengerIcon from './MessengerIcon'
 import useLabels from 'src/hooks/useLabels'
 import { HeaderMenu, HeaderMenuItem, MenuIcon, ChannelIcon } from './styles'
+import useLabels from 'src/hooks/useLabels'
 
 const channelOptions = [
   {
@@ -34,6 +35,7 @@ const validLinkOptions = {
 }
 
 const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
+  const labels = useLabels().messengerHeader
   const {
     messenger: { currentFrame },
   } = useContext(ThemeContext)
@@ -58,7 +60,7 @@ const Menu = ({ channels = {}, onChannelSelect, isOpen, onStateChange }) => {
         }}
       >
         <Trigger>
-          <IconButton isPill={true}>
+          <IconButton isPill={true} aria-label={labels.channelLinkingMenuAriaLabel}>
             <MenuIcon />
           </IconButton>
         </Trigger>

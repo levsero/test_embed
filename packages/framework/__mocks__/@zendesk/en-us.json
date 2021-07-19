@@ -270,6 +270,8 @@
       "embeddable_framework.messenger.see_latest": "See latest",
       "embeddable_framework.messenger.typing_indicator.single": "{{name}} is typing...",
       "embeddable_framework.messenger.unread_indicator.frame.title": "Number of unread messages",
+      "embeddable_framework.messenger.channel_linking.menu": "Channel linking menu option",
+      "embeddable_framework.messenger.channel_linking.back.button": "Back to conversation",
       "embeddable_framework.navigation.back": "Back",
       "embeddable_framework.navigation.close": "Close",
       "embeddable_framework.navigation.menu": "Menu",

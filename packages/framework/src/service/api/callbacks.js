@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import * as events from 'constants/event'
-import errorTracker from 'src/framework/services/errorTracker'
 
 const callbacksRegistry = {
   [events.WIDGET_OPENED_EVENT]: [],
@@ -21,12 +20,6 @@ export const registerCallback = (cb, eventName) => {
   if (!eventExists(eventName)) return
 
   callbacksRegistry[eventName].push(cb)
-  if (callbacksRegistry[eventName].length > 3) {
-    errorTracker.warn(`set ${eventName} listener multiple times`, {
-      rollbarFingerprint: 'Set more than 3 of the same listener',
-      rollbarTitle: 'Set more than 3 of the same listener',
-    })
-  }
 }
 
 export const fireFor = (eventName, args = []) => {
