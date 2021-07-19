@@ -5,7 +5,7 @@ import { forwardRef } from 'react'
 import useTranslate from 'src/hooks/useTranslate'
 import { MessengerIcon, WhatsAppIcon, InstagramIcon } from '@zendesk/conversation-components'
 
-import { linkIntegration, selectIntegrationById } from 'src/apps/messenger/store/integrations'
+import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
 import ChannelLink from './components/ChannelLink'
 import BackButton from '../../../backButton'
@@ -66,7 +66,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   const { title, subtitle, icon: ChannelLogo } = channelOptions[channelId]
 
   useEffect(() => {
-    dispatch(linkIntegration(channelId))
+    dispatch(fetchLinkRequest(channelId))
   }, [])
 
   return (

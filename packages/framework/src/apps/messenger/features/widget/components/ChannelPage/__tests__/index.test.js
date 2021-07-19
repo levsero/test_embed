@@ -20,7 +20,7 @@ const renderChannelPage = (ui, { channelId, history }) => {
 
 describe('ChannelPage', () => {
   beforeEach(() => {
-    jest.spyOn(integrationStore, 'linkIntegration')
+    jest.spyOn(integrationStore, 'fetchLinkRequest')
   })
 
   afterEach(() => {
@@ -40,18 +40,18 @@ describe('ChannelPage', () => {
     expect(history.location.pathname).toEqual('/')
   })
 
-  it('dispatches a channel link request on page load', () => {
+  it('dispatches a fetch link request on page load', () => {
     const channelId = 'messenger'
     jest
       .spyOn(integrationStore, 'selectIntegrationById')
       .mockImplementation(() => ({ linkRequest: { channelId, url: 'http://some.url/' } }))
     renderChannelPage(<ChannelPage />, { channelId })
 
-    expect(integrationStore.linkIntegration).toHaveBeenCalledWith(channelId)
+    expect(integrationStore.fetchLinkRequest).toHaveBeenCalledWith(channelId)
   })
 
-  describe('when a linkRequest has not been fetched yet', () => {
-    describe('when the linkRequest is loading', () => {
+  describe('when a link request has not been fetched yet', () => {
+    describe('when the link request is loading', () => {
       it('renders a loading message', () => {
         const channelId = 'messenger'
         jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
@@ -66,7 +66,7 @@ describe('ChannelPage', () => {
       })
     })
 
-    describe('when the linkRequest fetch is in an error state', () => {
+    describe('when the fetch link request is in an error state', () => {
       it('renders an error message', () => {
         const channelId = 'messenger'
         jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
@@ -82,7 +82,7 @@ describe('ChannelPage', () => {
     })
   })
 
-  describe('when a linkRequest has been fetched', () => {
+  describe('when a link request has been fetched', () => {
     it('should render an integration link', () => {
       const channelId = 'messenger'
       jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
