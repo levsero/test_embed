@@ -19,6 +19,7 @@ jobs:
           [
             'lint',
             'test-ci',
+            'test-conversation-components',
             'fossa',
             'audit',
             'validate',
@@ -37,6 +38,10 @@ jobs:
               echo "Starting unit and integration tests"
               download_translations
               yarn workspace @zendesk/embeddable-framework test:ci
+          - task: test-conversation-components
+            run: |
+              echo "Starting unit tests"
+              yarn workspace @zendesk/conversation-components test:ci
           - task: fossa
             run: |
               echo "Starting Fossa open source scan"
