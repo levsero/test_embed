@@ -1,3 +1,4 @@
+import { Route } from 'react-router-dom'
 import * as integrationStore from 'src/apps/messenger/store/integrations'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { createMemoryHistory } from 'history'
@@ -7,8 +8,7 @@ import ChannelPage from '../'
 const renderChannelPage = (ui, { channelId, history }) => {
   const initialEntries = ['/', `/channelPage/${channelId}`]
 
-  return render(ui, {
-    path: '/channelPage/:channelId',
+  return render(<Route path="/channelPage/:channelId">{ui}</Route>, {
     history:
       history ||
       createMemoryHistory({

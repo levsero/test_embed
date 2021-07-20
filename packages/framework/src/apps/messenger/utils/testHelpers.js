@@ -1,5 +1,5 @@
 import { render as rtlRender } from '@testing-library/react'
-import { Router, Route } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import createStore from 'src/apps/messenger/store'
@@ -8,13 +8,7 @@ import { createMemoryHistory } from 'history'
 
 export const render = (
   ui,
-  {
-    render,
-    store,
-    themeProps = {},
-    path = '/',
-    history = createMemoryHistory({ initialEntries: ['/'] }),
-  } = {}
+  { render, store, themeProps = {}, history = createMemoryHistory({ initialEntries: ['/'] }) } = {}
 ) => {
   const reduxStore = store || createStore()
   const renderFn = render || rtlRender
@@ -24,9 +18,7 @@ export const render = (
     ...renderFn(
       <Provider store={reduxStore}>
         <ThemeProvider theme={themeProps}>
-          <Router history={history}>
-            <Route path={path}>{ui}</Route>
-          </Router>
+          <Router history={history}>{ui}</Router>
         </ThemeProvider>
       </Provider>
     ),
