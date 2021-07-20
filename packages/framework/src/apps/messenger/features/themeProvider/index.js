@@ -91,7 +91,9 @@ const ThemeProvider = ({ children }) => {
           avatarAltTag: translate('embeddable_framework.messenger.header.company_logo'),
           closeButtonAriaLabel: translate('embeddable_framework.messenger.header.close'),
           continueOnChannel: (name) =>
-            translate(`embeddable_framework.messenger.header.menu.${name.toLowerCase()}`),
+            translate(
+              `embeddable_framework.messenger.header.menu.continue_on_${name.toLowerCase()}`
+            ),
         },
         formMessage: {
           nextStep: translate('embeddable_framework.messenger.message.form.next_step'),
