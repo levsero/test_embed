@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import QRCode from 'qrcode.react'
 
-import { getIsVerticallySmallScreen } from 'src/apps/messenger/features/responsiveDesign/store'
+import { getIsFullScreen } from 'src/apps/messenger/features/responsiveDesign/store'
 import {
   Content,
   Instructions,
@@ -13,13 +13,13 @@ import {
 import { channelOptions } from '../../'
 
 const ChannelLink = ({ channelId, url, qrCode }) => {
-  const isVerticallySmallScreen = useSelector(getIsVerticallySmallScreen)
+  const isFullScreen = useSelector(getIsFullScreen)
   const { instructions, button } = channelOptions[channelId]
 
   return (
-    <>
-      {!isVerticallySmallScreen && (
-        <Content>
+    <Content>
+      {!isFullScreen && (
+        <>
           <Instructions>{instructions.desktop}</Instructions>
           <QRCodeWrapper>
             {qrCode ? (
@@ -31,17 +31,17 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
           <ChannelLinkButton href={url} target="_blank">
             {button.desktop}
           </ChannelLinkButton>
-        </Content>
+        </>
       )}
-      {isVerticallySmallScreen && (
-        <Content>
+      {isFullScreen && (
+        <>
           <Instructions>{instructions.mobile}</Instructions>
           <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
             {button.mobile}
           </ChannelPillButton>
-        </Content>
+        </>
       )}
-    </>
+    </Content>
   )
 }
 

@@ -24,9 +24,7 @@ describe('ChannelLink', () => {
 
   describe('when we are on desktop', () => {
     it('should render a QR code', () => {
-      jest
-        .spyOn(responsiveDesignStore, 'getIsVerticallySmallScreen')
-        .mockImplementation(() => false)
+      jest.spyOn(responsiveDesignStore, 'getIsFullScreen').mockImplementation(() => false)
       const { getByTestId } = renderComponent()
 
       expect(getByTestId('generatedQRCode')).toBeInTheDocument()
@@ -34,7 +32,7 @@ describe('ChannelLink', () => {
   })
   describe('when we are on mobile', () => {
     it('should not render a QR code', () => {
-      jest.spyOn(responsiveDesignStore, 'getIsVerticallySmallScreen').mockImplementation(() => true)
+      jest.spyOn(responsiveDesignStore, 'getIsFullScreen').mockImplementation(() => true)
       const { getByRole } = renderComponent()
 
       expect(getByRole('button')).toBeInTheDocument()
