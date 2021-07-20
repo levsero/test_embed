@@ -1,13 +1,23 @@
 import PropTypes from 'prop-types'
+import QRCode from 'qrcode.react'
 import WhatsAppIcon from '../MessengerHeader/Menu/WhatsAppIcon'
 import MessengerIcon from '../MessengerHeader/Menu/MessengerIcon'
 import InstagramIcon from '../MessengerHeader/Menu/InstagramIcon'
 import BackButton from './BackButton'
 // import useLabels from 'src/hooks/useLabels'
 
-import ChannelLinkQRCode from './components/ChannelLink'
-
-import { Body, Title, Subtitle, ChannelIcon, Header } from './styles'
+import {
+  Body,
+  Title,
+  Subtitle,
+  ChannelIcon,
+  Header,
+  Content,
+  Instructions,
+  QRCodeWrapper,
+  ChannelLinkButton,
+  ChannelPillButton,
+} from './styles'
 
 export const channelOptions = {
   whatsapp: {
@@ -54,8 +64,10 @@ export const channelOptions = {
   },
 }
 
-const ChannelLink = ({ channelId, url, qrCode, handleBackButtonClick }) => {
-  const { title, subtitle, icon: ChannelLogo } = channelOptions[channelId]
+const ChannelLink = ({ channelId, url, qrCode, handleBackButtonClick, isFullScreen }) => {
+  const { title, subtitle, icon: ChannelLogo, instructions, button, qrCodeAlt } = channelOptions[
+    channelId
+  ]
   // const labels = useLabels().messengerHeader
 
   return (
@@ -73,8 +85,36 @@ const ChannelLink = ({ channelId, url, qrCode, handleBackButtonClick }) => {
         </ChannelIcon>
         <Title>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
-
-        <ChannelLinkQRCode channelId={channelId} url={url} qrCode={qrCode} />
+        <Content>
+          {!isFullScreen && (
+            <>
+              <Instructions>{instructions.desktop}</Instructions>
+              <QRCodeWrapper>
+                {qrCode ? (
+                  <img src={qrCode} alt={qrCodeAlt} />
+                ) : (
+                  <QRCode
+                    data-testid="generatedQRCode"
+                    value={url}
+                    renderAs="svg"
+                    aria-labelledby={qrCodeAlt}
+                  />
+                )}
+              </QRCodeWrapper>
+              <ChannelLinkButton href={url} target="_blank">
+                {button.desktop}
+              </ChannelLinkButton>
+            </>
+          )}
+          {isFullScreen && (
+            <>
+              <Instructions>{instructions.mobile}</Instructions>
+              <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
+                {button.mobile}
+              </ChannelPillButton>
+            </>
+          )}
+        </Content>
       </Body>
     </>
   )
@@ -87,4 +127,5 @@ ChannelLink.propTypes = {
   url: PropTypes.string.isRequired,
   qrCode: PropTypes.string,
   handleBackButtonClick: PropTypes.func,
+  isFullScreen: PropTypes.bool,
 }
