@@ -19,6 +19,7 @@ import {
   MESSAGE_STATUS,
   FRAME_ANIMATION_DURATION,
 } from './constants'
+import BackButton from './messenger/ChannelLink/BackButton'
 import CarouselMessage from './messages/CarouselMessage'
 import FileMessage from './messages/FileMessage'
 import FormMessage from './messages/FormMessage'
@@ -39,6 +40,7 @@ import MessengerHeader from './messenger/MessengerHeader'
 export {
   Animated,
   Avatar,
+  BackButton,
   Banner,
   CarouselMessage,
   FileMessage,

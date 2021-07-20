@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { forwardRef } from 'react'
 import useTranslate from 'src/hooks/useTranslate'
-import { MessengerIcon, WhatsAppIcon, InstagramIcon } from '@zendesk/conversation-components'
+import {
+  MessengerIcon,
+  WhatsAppIcon,
+  InstagramIcon,
+  BackButton,
+} from '@zendesk/conversation-components'
 
 import { fetchLinkRequest, selectIntegrationById } from 'src/apps/messenger/store/integrations'
 
 import ChannelLink from './components/ChannelLink'
-import BackButton from '../../../backButton'
 
 import { Container, Body, Title, Subtitle, ChannelIcon, Header } from './styles'
 
