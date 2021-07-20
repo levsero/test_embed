@@ -4,7 +4,7 @@ import { MessengerHeader } from '@zendesk/conversation-components'
 import { getIsLauncherVisible } from 'src/apps/messenger/features/launcher/store'
 import { getHeaderValues } from './store'
 import { getIsFullScreen } from '../responsiveDesign/store'
-import { getAllIntegrationsLinkStatus, selectChannel } from 'src/apps/messenger/store/integrations'
+import { getAllIntegrationsLinkStatus } from 'src/apps/messenger/store/integrations'
 import { useHistory } from 'react-router-dom'
 import { widgetClosed } from 'src/apps/messenger/store/visibility'
 
@@ -18,7 +18,6 @@ const Header = () => {
 
   const onChannelSelect = (channel) => {
     const route = `/channelPage/${channel}`
-    dispatch(selectChannel(channel))
     history.push(route)
   }
 

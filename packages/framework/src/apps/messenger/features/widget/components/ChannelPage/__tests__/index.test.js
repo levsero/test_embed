@@ -47,7 +47,7 @@ describe('ChannelPage', () => {
       .mockImplementation(() => ({ linkRequest: { channelId, url: 'http://some.url/' } }))
     renderChannelPage(<ChannelPage />, { channelId })
 
-    expect(integrationStore.fetchLinkRequest).toHaveBeenCalledWith(channelId)
+    expect(integrationStore.fetchLinkRequest).toHaveBeenCalledWith({ channelId })
   })
 
   describe('when a link request has not been fetched yet', () => {

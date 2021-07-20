@@ -13,8 +13,8 @@ const selectors = integrationsAdapter.getSelectors((state) => state.integrations
 
 export const fetchLinkRequest = createAsyncThunk(
   'integrations/fetchLinkRequest',
-  async (type, { getState }) => {
-    const integration = selectors.selectById(getState(), type)
+  async ({ channelId }, { getState }) => {
+    const integration = selectors.selectById(getState(), channelId)
     const response = await fetchLinkRequestSunco(integration._id)
 
     return response?.body?.linkRequests[0] || {}
@@ -47,12 +47,7 @@ export const fetchIntegrations = createAsyncThunk('integrations/fetch', async ()
 
 const integrations = createSlice({
   name: 'integrations',
-  initialState: integrationsAdapter.getInitialState({ selectedChannel: '' }),
-  reducers: {
-    selectChannel: (state, { payload: channel }) => {
-      state.selectedChannel = channel
-    },
-  },
+  initialState: integrationsAdapter.getInitialState(),
   extraReducers: {
     [fetchIntegrations.fulfilled]: (state, { payload: integrations }) => {
       const parsedIntegrations = integrations.map((integration) => {
@@ -79,9 +74,16 @@ const integrations = createSlice({
         },
       })
     },
-    [fetchLinkRequest.pending](state) {
+    [fetchLinkRequest.pending](
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) {
       integrationsAdapter.updateOne(state, {
-        id: state.selectedChannel,
+        id: channelId,
         changes: {
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: true,
@@ -89,9 +91,16 @@ const integrations = createSlice({
         },
       })
     },
-    [fetchLinkRequest.rejected](state) {
+    [fetchLinkRequest.rejected](
+      state,
+      {
+        meta: {
+          arg: { channelId },
+        },
+      }
+    ) {
       integrationsAdapter.updateOne(state, {
-        id: state.selectedChannel,
+        id: channelId,
         changes: {
           hasFetchedLinkRequest: false,
           isFetchingLinkRequest: false,
@@ -122,7 +131,5 @@ export const getAllIntegrationsLinkStatus = (state) => {
     return accumulator
   }, {})
 }
-
-export const selectChannel = integrations.actions.selectChannel
 
 export default integrations.reducer

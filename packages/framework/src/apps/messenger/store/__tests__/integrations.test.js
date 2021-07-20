@@ -10,7 +10,6 @@ import reducer, {
 const stateFromInitial = (newData = {}) => ({
   entities: {},
   ids: [],
-  selectedChannel: '',
   ...newData,
 })
 
@@ -273,10 +272,9 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
-        selectedChannel: 'messenger',
       }),
     },
-    action: { type: [fetchLinkRequest.pending] },
+    action: { type: [fetchLinkRequest.pending], meta: { arg: { channelId: 'messenger' } } },
     expected: {
       ...stateFromInitial({
         entities: {
@@ -293,7 +291,6 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
-        selectedChannel: 'messenger',
       }),
     },
   },
@@ -315,10 +312,9 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
-        selectedChannel: 'messenger',
       }),
     },
-    action: { type: [fetchLinkRequest.rejected] },
+    action: { type: [fetchLinkRequest.rejected], meta: { arg: { channelId: 'messenger' } } },
     expected: {
       ...stateFromInitial({
         entities: {
@@ -335,7 +331,6 @@ testReducer(reducer, [
           },
         },
         ids: ['messenger'],
-        selectedChannel: 'messenger',
       }),
     },
   },

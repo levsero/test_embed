@@ -66,7 +66,7 @@ const ChannelPage = forwardRef((_props, ref) => {
   const { title, subtitle, icon: ChannelLogo } = channelOptions[channelId]
 
   useEffect(() => {
-    dispatch(fetchLinkRequest(channelId))
+    dispatch(fetchLinkRequest({ channelId }))
   }, [])
 
   return (
