@@ -14,7 +14,7 @@ import { channelOptions } from '../../'
 
 const ChannelLink = ({ channelId, url, qrCode }) => {
   const isFullScreen = useSelector(getIsFullScreen)
-  const { instructions, button } = channelOptions[channelId]
+  const { instructions, button, qrCodeAlt } = channelOptions[channelId]
 
   return (
     <Content>
@@ -23,9 +23,14 @@ const ChannelLink = ({ channelId, url, qrCode }) => {
           <Instructions>{instructions.desktop}</Instructions>
           <QRCodeWrapper>
             {qrCode ? (
-              <img src={qrCode} alt={`QR code for channel linking to ${channelId}`} />
+              <img src={qrCode} alt={qrCodeAlt} />
             ) : (
-              <QRCode data-testid="generatedQRCode" value={url} renderAs="svg" />
+              <QRCode
+                data-testid="generatedQRCode"
+                value={url}
+                renderAs="svg"
+                aria-labelledby={qrCodeAlt}
+              />
             )}
           </QRCodeWrapper>
           <ChannelLinkButton href={url} target="_blank">

@@ -21,7 +21,7 @@ export const channelOptions = {
       desktop: 'Scan the QR code and then send the message that appears in your WhatsApp.',
       mobile: 'Open WhatsApp and send a short message to connect your account.',
     },
-    qrCodeAlt: '',
+    qrCodeAlt: 'QR code to open WhatsApp on this device',
     button: {
       desktop: 'Open WhatsApp on this device',
       mobile: 'Open WhatsApp',
@@ -35,7 +35,7 @@ export const channelOptions = {
       desktop: 'Scan the QR code and then send the message that appears in your Messenger.',
       mobile: 'Open Messenger and send a short message to connect your account.',
     },
-    qrCodeAlt: '',
+    qrCodeAlt: 'QR code to open Messenger on this device',
     button: {
       desktop: 'Open Messenger on this device',
       mobile: 'Open Messenger',
@@ -49,7 +49,7 @@ export const channelOptions = {
       desktop: 'Scan the QR code to open Instagram. Follow @[Instagram handle] to send a DM.',
       mobile: 'Follow @[Instagram handle] to send a DM.',
     },
-    qrCodeAlt: '',
+    qrCodeAlt: 'QR code to open Instagram on this device',
     button: {
       desktop: 'Open Instagram on this device',
       mobile: 'Open Instagram',
