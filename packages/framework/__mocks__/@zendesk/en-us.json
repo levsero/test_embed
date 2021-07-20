@@ -371,7 +371,8 @@
       "embeddable_framework.validation.label.new_optional": "<strong>%(label)s</strong> (optional)",
       "embeddable_framework.web_widget.frame.title": "Find more information here",
       "embeddable_framework.zendeskLogo.powered_by_url.chat": "https://www.zendesk.com/chat/live-chat-widget/",
-      "embeddable_framework.zendeskLogo.powered_by_url.embeddables": "https://www.zendesk.com/embeddables/"
+      "embeddable_framework.zendeskLogo.powered_by_url.embeddables": "https://www.zendesk.com/embeddables/",
+      "embeddable_framework.messenger.header.menu.continue_on_messenger": "Continue on Messenger"
     }
   }
 }

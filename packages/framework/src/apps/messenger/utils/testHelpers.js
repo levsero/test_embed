@@ -11,10 +11,10 @@ export const render = (
   { render, store, themeProps = {}, history = createMemoryHistory({ initialEntries: ['/'] }) } = {}
 ) => {
   const reduxStore = store || createStore()
-
   const renderFn = render || rtlRender
   return {
     store: reduxStore,
+    history,
     ...renderFn(
       <Provider store={reduxStore}>
         <ThemeProvider theme={themeProps}>

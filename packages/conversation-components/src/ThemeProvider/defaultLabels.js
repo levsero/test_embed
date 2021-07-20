@@ -29,6 +29,7 @@ const defaultLabels = {
   messengerHeader: {
     avatarAltTag: 'Company logo',
     closeButtonAriaLabel: 'Close',
+    channelLinkingMenuAriaLabel: 'Channel linking menu option',
     continueOnChannel: (name) => `Continue on ${name}`,
   },
   receipts: {

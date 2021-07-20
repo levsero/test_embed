@@ -1,6 +1,5 @@
 import render from 'src/utils/test/render'
 import MessengerHeader from '../'
-import { createMemoryHistory } from 'history'
 
 const mockOnCloseFn = jest.fn()
 
@@ -37,27 +36,23 @@ describe('MessengerHeader', () => {
       },
     })
 
-    expect(getByLabelText('channel linking menu button')).toBeInTheDocument()
+    expect(getByLabelText('Channel linking menu option')).toBeInTheDocument()
   })
 
-  it('should navigate to channel linking page', () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/channelPage/messenger', '/'],
-      initialIndex: 0,
-    })
+  it('calls the onChannelSelect function when the channel is selected', () => {
+    const onChannelSelect = jest.fn()
     const { getByText } = renderComponent({
       menu: {
         isOpen: true,
+        onChannelSelect: onChannelSelect,
         channels: {
           messenger: 'linked',
         },
-        history,
       },
     })
 
-    expect(getByText('Continue on Messenger')).toBeInTheDocument()
     getByText('Continue on Messenger').click()
-    expect(history.location.pathname).toEqual('/channelPage/messenger')
+    expect(onChannelSelect).toHaveBeenCalledWith('messenger')
   })
 
   it('renders the title and description', () => {
