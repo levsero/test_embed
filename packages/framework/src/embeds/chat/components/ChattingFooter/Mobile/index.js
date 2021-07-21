@@ -11,9 +11,10 @@ const ChattingFooterMobile = ({
   isMobile,
   isPreview,
   sendChat,
+  isComposerFocused,
 }) => {
   return (
-    <Container data-testid={TEST_IDS.CHAT_FOOTER_MOBILE}>
+    <Container data-testid={TEST_IDS.CHAT_FOOTER_MOBILE} isComposerFocused={isComposerFocused}>
       {attachmentsEnabled && (
         <AttachmentOption
           isPreview={isPreview}
@@ -33,6 +34,7 @@ ChattingFooterMobile.propTypes = {
   handleAttachmentDrop: PropTypes.func,
   isMobile: PropTypes.bool,
   isPreview: PropTypes.bool,
+  isComposerFocused: PropTypes.bool,
   sendChat: PropTypes.func,
 }
 export default ChattingFooterMobile
