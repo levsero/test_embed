@@ -23,10 +23,20 @@ const renderChannelLinkWithButton = (props = {}) => {
 }
 
 describe('<ChannelLinkWithQrCode>', () => {
-  it('renders a QR code', () => {
-    const { getByTestId } = renderChannelLinkWithQrCode()
+  describe('when a QR code is supplied as a prop', () => {
+    it('renders a QR code as an image', () => {
+      const { getByAltText } = renderChannelLinkWithQrCode({ qrCode: 'path/to/qrCode.png' })
 
-    expect(getByTestId('generatedQRCode')).toBeInTheDocument()
+      expect(getByAltText('QR code to open Messenger on this device')).toBeInTheDocument()
+    })
+  })
+
+  describe('when a QR code is not supplied as a prop', () => {
+    it('renders a generated QR code', () => {
+      const { getByTestId } = renderChannelLinkWithQrCode()
+
+      expect(getByTestId('generatedQRCode')).toBeInTheDocument()
+    })
   })
 
   it('renders a link with channel link url', () => {
