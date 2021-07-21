@@ -6,6 +6,7 @@ import {
   zdColorGrey700,
 } from '@zendeskgarden/css-variables'
 import { IconButton } from '@zendeskgarden/react-buttons'
+import { isChromeOnIPad } from 'src/util/devices'
 
 const InputBoxContainer = styled.div`
   flex-grow: 1;
@@ -17,6 +18,7 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       box-shadow: 0 ${-1 / props.theme.fontSize}rem 0 0 ${zdColorGrey300} !important;
+      margin-bottom: ${props.isFocused && isChromeOnIPad() ? 40 : 0}px;
     `
   }}
 `

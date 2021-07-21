@@ -11,6 +11,8 @@ const InputBox = ({
   handleSendInputValue,
   updateInputValue,
   isMobile,
+  onFocus,
+  onBlur,
 }) => {
   const handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
@@ -36,6 +38,8 @@ const InputBox = ({
           name={name}
           rows={isMobile ? 1 : 3}
           data-testid={TEST_IDS.MESSAGE_FIELD}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </Field>
     </Container>
@@ -49,6 +53,8 @@ InputBox.propTypes = {
   handleSendInputValue: PropTypes.func.isRequired,
   updateInputValue: PropTypes.func,
   isMobile: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 }
 
 export default InputBox

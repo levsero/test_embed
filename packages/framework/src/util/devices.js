@@ -34,6 +34,10 @@ function isIos() {
   return IOS_MOBILE.test(str)
 }
 
+function isChromeOnIPad() {
+  return navigator.userAgent.includes('iPad') && navigator.userAgent.includes('CriOS')
+}
+
 function isDevice(...testStrings) {
   const str = navigator.userAgent
 
@@ -197,4 +201,5 @@ export {
   metaStringToObj,
   getMetaTagsByName,
   appendMetaTag,
+  isChromeOnIPad,
 }
