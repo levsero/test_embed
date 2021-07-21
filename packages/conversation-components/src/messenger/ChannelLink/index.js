@@ -7,6 +7,7 @@ import BackButton from './BackButton'
 // import useLabels from 'src/hooks/useLabels'
 
 import {
+  Container,
   Body,
   Title,
   Subtitle,
@@ -71,7 +72,7 @@ export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButton
   // const labels = useLabels().messengerHeader
 
   return (
-    <>
+    <Container>
       <Header>
         <BackButton
           onClick={handleBackButtonClick}
@@ -104,7 +105,7 @@ export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButton
           </ChannelLinkButton>
         </Content>
       </Body>
-    </>
+    </Container>
   )
 }
 
@@ -113,7 +114,7 @@ export const ChannelLinkWithButton = ({ channelId, url, handleBackButtonClick })
   // const labels = useLabels().messengerHeader
 
   return (
-    <>
+    <Container>
       <Header>
         <BackButton
           onClick={handleBackButtonClick}
@@ -134,7 +135,7 @@ export const ChannelLinkWithButton = ({ channelId, url, handleBackButtonClick })
           </ChannelPillButton>
         </Content>
       </Body>
-    </>
+    </Container>
   )
 }
 

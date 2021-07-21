@@ -7,8 +7,10 @@ const Header = styled.div`
   left: ${(props) => props.theme.messenger.space.sm};
   top: ${(props) => props.theme.messenger.space.xs};
 `
+const Container = styled.div`
+  font-family: ${(props) => props.theme.messenger.fontFamily};
+`
 
-// Semantically, should this be <main>?
 const Body = styled.div`
   display: flex;
   align-items: center;
@@ -21,6 +23,7 @@ const Title = styled.h1`
   font-size: ${(props) => props.theme.messenger.fontSizes.lg};
   line-height: ${(props) => props.theme.messenger.lineHeights.lg};
   margin-bottom: ${(props) => props.theme.messenger.space.xs};
+  font-weight: normal;
 `
 
 const Subtitle = styled.p`
@@ -97,6 +100,7 @@ const ChannelPillButton = styled(Button)`
 `
 
 export {
+  Container,
   Body,
   Header,
   Title,
