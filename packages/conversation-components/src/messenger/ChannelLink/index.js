@@ -64,7 +64,7 @@ export const channelOptions = {
   },
 }
 
-const ChannelLink = ({ channelId, url, qrCode, handleBackButtonClick, isFullScreen }) => {
+export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButtonClick }) => {
   const { title, subtitle, icon: ChannelLogo, instructions, button, qrCodeAlt } = channelOptions[
     channelId
   ]
@@ -86,46 +86,67 @@ const ChannelLink = ({ channelId, url, qrCode, handleBackButtonClick, isFullScre
         <Title>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
         <Content>
-          {!isFullScreen && (
-            <>
-              <Instructions>{instructions.desktop}</Instructions>
-              <QRCodeWrapper>
-                {qrCode ? (
-                  <img src={qrCode} alt={qrCodeAlt} />
-                ) : (
-                  <QRCode
-                    data-testid="generatedQRCode"
-                    value={url}
-                    renderAs="svg"
-                    aria-labelledby={qrCodeAlt}
-                  />
-                )}
-              </QRCodeWrapper>
-              <ChannelLinkButton href={url} target="_blank">
-                {button.desktop}
-              </ChannelLinkButton>
-            </>
-          )}
-          {isFullScreen && (
-            <>
-              <Instructions>{instructions.mobile}</Instructions>
-              <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
-                {button.mobile}
-              </ChannelPillButton>
-            </>
-          )}
+          <Instructions>{instructions.desktop}</Instructions>
+          <QRCodeWrapper>
+            {qrCode ? (
+              <img src={qrCode} alt={qrCodeAlt} />
+            ) : (
+              <QRCode
+                data-testid="generatedQRCode"
+                value={url}
+                renderAs="svg"
+                aria-labelledby={qrCodeAlt}
+              />
+            )}
+          </QRCodeWrapper>
+          <ChannelLinkButton href={url} target="_blank">
+            {button.desktop}
+          </ChannelLinkButton>
         </Content>
       </Body>
     </>
   )
 }
 
-export default ChannelLink
+export const ChannelLinkWithButton = ({ channelId, url, handleBackButtonClick }) => {
+  const { title, subtitle, icon: ChannelLogo, instructions, button } = channelOptions[channelId]
+  // const labels = useLabels().messengerHeader
 
-ChannelLink.propTypes = {
+  return (
+    <>
+      <Header>
+        <BackButton
+          onClick={handleBackButtonClick}
+          // ariaLabel={labels.channelLinkingMenuAriaLabel}
+          ariaLabel={'placeholderBackButton'}
+        />
+      </Header>
+      <Body>
+        <ChannelIcon>
+          <ChannelLogo />
+        </ChannelIcon>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+        <Content>
+          <Instructions>{instructions.mobile}</Instructions>
+          <ChannelPillButton isPrimary={true} isPill={true} href={url} target="_blank">
+            {button.mobile}
+          </ChannelPillButton>
+        </Content>
+      </Body>
+    </>
+  )
+}
+
+ChannelLinkWithQrCode.propTypes = {
   channelId: PropTypes.string,
   url: PropTypes.string.isRequired,
   qrCode: PropTypes.string,
   handleBackButtonClick: PropTypes.func,
-  isFullScreen: PropTypes.bool,
+}
+
+ChannelLinkWithButton.propTypes = {
+  channelId: PropTypes.string,
+  url: PropTypes.string.isRequired,
+  handleBackButtonClick: PropTypes.func,
 }

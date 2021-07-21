@@ -21,7 +21,7 @@ import {
 } from './constants'
 import BackButton from './messenger/ChannelLink/BackButton'
 import CarouselMessage from './messages/CarouselMessage'
-import ChannelLink from './messenger/ChannelLink'
+import { ChannelLinkWithQrCode, ChannelLinkWithButton } from './messenger/ChannelLink'
 import FileMessage from './messages/FileMessage'
 import FormMessage from './messages/FormMessage'
 import FormResponseMessage from './messages/FormResponseMessage'
@@ -44,7 +44,8 @@ export {
   BackButton,
   Banner,
   CarouselMessage,
-  ChannelLink,
+  ChannelLinkWithQrCode,
+  ChannelLinkWithButton,
   FileMessage,
   FormMessage,
   FormResponseMessage,
