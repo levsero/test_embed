@@ -27,19 +27,6 @@ describe('ChannelPage', () => {
     jest.clearAllMocks()
   })
 
-  it('can go back to previous page', () => {
-    const channelId = 'messenger'
-    const initialEntries = ['/', `/channelPage/${channelId}`]
-    const history = createMemoryHistory({
-      initialEntries,
-      initialIndex: 1,
-    })
-    const { getByLabelText } = renderChannelPage(<ChannelPage />, { channelId, history })
-    expect(getByLabelText('Back to conversation')).toBeInTheDocument()
-    getByLabelText('Back to conversation').click()
-    expect(history.location.pathname).toEqual('/')
-  })
-
   it('dispatches a fetch link request on page load', () => {
     const channelId = 'messenger'
     jest
@@ -83,17 +70,36 @@ describe('ChannelPage', () => {
   })
 
   describe('when a link request has been fetched', () => {
-    it('should render an integration link', () => {
-      const channelId = 'messenger'
+    beforeEach(() => {
       jest.spyOn(integrationStore, 'selectIntegrationById').mockImplementation(() => ({
         errorFetchingLinkRequest: false,
         hasFetchedLinkRequest: true,
         isFetchingLinkRequest: false,
-        linkRequest: { channelId, url: 'http://some.url/' },
+        linkRequest: { channelId: 'messenger', url: 'http://some.url/' },
       }))
+    })
+
+    it('should render an integration link', () => {
+      const channelId = 'messenger'
       const { getByText } = renderChannelPage(<ChannelPage />, { channelId })
 
       expect(getByText('Open Messenger', { exact: false })).toBeInTheDocument()
+    })
+
+    describe('when the back button is clicked', () => {
+      it('can go back to previous page', () => {
+        const channelId = 'messenger'
+        const initialEntries = ['/', `/channelPage/${channelId}`]
+        const history = createMemoryHistory({
+          initialEntries,
+          initialIndex: 1,
+        })
+
+        const { getByLabelText } = renderChannelPage(<ChannelPage />, { channelId, history })
+        expect(getByLabelText('Back to conversation')).toBeInTheDocument()
+        getByLabelText('Back to conversation').click()
+        expect(history.location.pathname).toEqual('/')
+      })
     })
   })
 })

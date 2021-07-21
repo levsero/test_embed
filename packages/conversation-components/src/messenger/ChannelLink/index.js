@@ -76,7 +76,7 @@ export const ChannelLinkWithQrCode = ({ channelId, url, qrCode, handleBackButton
         <BackButton
           onClick={handleBackButtonClick}
           // ariaLabel={labels.channelLinkingMenuAriaLabel}
-          ariaLabel={'placeholderBackButton'}
+          ariaLabel={'Back to conversation'}
         />
       </Header>
       <Body>
@@ -118,7 +118,7 @@ export const ChannelLinkWithButton = ({ channelId, url, handleBackButtonClick })
         <BackButton
           onClick={handleBackButtonClick}
           // ariaLabel={labels.channelLinkingMenuAriaLabel}
-          ariaLabel={'placeholderBackButton'}
+          ariaLabel={'Back to conversation'}
         />
       </Header>
       <Body>
