@@ -116,7 +116,6 @@ module.exports = {
       // Framework
       src: path.join(projectRoot + '/src'),
       // CSS Components
-      componentCSS: path.join(projectRoot + '/src/styles/components'),
       icons: path.join(projectRoot + '/src/asset/icons'),
       globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
     },
