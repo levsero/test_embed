@@ -6,9 +6,12 @@ import MessagesApi from './api/MessagesApi'
 import SocketClient from './socket/SocketClient'
 import { getCurrentUserIfAny, storeAppUser, removeAppUser } from './utils/context'
 import { getClientId, getSessionId, removeClientId } from './utils/device'
+import retryWrapper from './utils/retries'
 import storage, { DEFAULT_STORAGE_TYPE } from './utils/storage'
 
 const BASE_URL = 'https://api.smooch.io'
+const MAX_RETRIES = 2
+const DELAY_BETWEEN_RETRIES = 500
 
 export default class Sunco {
   constructor({
@@ -107,35 +110,40 @@ export default class Sunco {
   startConversation() {
     this.conversationPromise =
       this.conversationPromise ||
-      new Promise((resolve, reject) => {
-        const { appUserId } = getCurrentUserIfAny(this.integrationId)
+      retryWrapper(
+        () =>
+          new Promise((resolve, reject) => {
+            const { appUserId } = getCurrentUserIfAny(this.integrationId)
+            if (appUserId) {
+              this.appUsers
+                .get(appUserId)
+                .then((response) => {
+                  this.activeConversation = {
+                    conversationId: response.body.conversations[0]._id,
+                    socketSettings: response.body.settings.realtime,
+                    lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
+                  } // TODO - might need to eventually select a particular conversation - isDefault: true
+                  resolve(this.activeConversation)
+                })
+                .catch((error) => {
+                  const { status } = error
 
-        if (appUserId) {
-          this.appUsers
-            .get(appUserId)
-            .then((response) => {
-              this.activeConversation = {
-                conversationId: response.body.conversations[0]._id,
-                socketSettings: response.body.settings.realtime,
-                lastRead: response.body.conversations[0]?.participants[0]?.lastRead,
-              } // TODO - might need to eventually select a particular conversation - isDefault: true
-              resolve(this.activeConversation)
-            })
-            .catch((error) => {
-              const { status } = error
+                  switch (status) {
+                    case 401:
+                      removeAppUser({ integrationId: this.integrationId })
+                      return resolve(this.createAppUser())
+                    default:
+                      reject()
+                  }
+                })
+            } else {
+              resolve(this.createAppUser())
+            }
+          }),
+        DELAY_BETWEEN_RETRIES,
+        MAX_RETRIES
+      )
 
-              switch (status) {
-                case 401:
-                  removeAppUser({ integrationId: this.integrationId })
-                  return resolve(this.createAppUser())
-                default:
-                  reject()
-              }
-            })
-        } else {
-          resolve(this.createAppUser())
-        }
-      })
     return this.conversationPromise
   }
 
@@ -154,19 +162,24 @@ export default class Sunco {
   }
 
   createAppUser = () => {
-    return new Promise((resolve, _reject) => {
-      this.appUsers.create({ ...(this.locale ? { locale: this.locale } : {}) }).then((response) => {
-        storeAppUser({
-          appUserId: response.body.appUser._id,
-          sessionToken: response.body.sessionToken,
-          integrationId: this.integrationId,
+    return new Promise((resolve, reject) => {
+      this.appUsers
+        .create({ ...(this.locale ? { locale: this.locale } : {}) })
+        .then((response) => {
+          storeAppUser({
+            appUserId: response.body.appUser._id,
+            sessionToken: response.body.sessionToken,
+            integrationId: this.integrationId,
+          })
+          this.activeConversation = {
+            conversationId: response.body.conversations[0]._id,
+            socketSettings: response.body.settings.realtime,
+          }
+          resolve(this.activeConversation)
         })
-        this.activeConversation = {
-          conversationId: response.body.conversations[0]._id,
-          socketSettings: response.body.settings.realtime,
-        } // TODO - might need to eventually select a particular conversation - isDefault: true
-        resolve(this.activeConversation)
-      })
+        .catch((err) => {
+          reject(err)
+        })
     })
   }
 

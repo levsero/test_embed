@@ -16,7 +16,7 @@ describe('trackNoMessageReceived', () => {
 
     store.dispatch(widgetToggled())
 
-    jest.advanceTimersByTime(3000)
+    jest.advanceTimersByTime(5000)
 
     await promise
 
@@ -30,7 +30,7 @@ describe('trackNoMessageReceived', () => {
     store.dispatch(widgetToggled())
     store.dispatch(messageReceived({ message: { _id: '123' } }))
 
-    jest.advanceTimersByTime(3000)
+    jest.advanceTimersByTime(5000)
 
     await promise
 
