@@ -114,7 +114,6 @@ module.exports = {
   resolve: {
     alias: {
       // Framework
-      errors: path.join(projectRoot + '/src/errors'),
       mixin: path.join(projectRoot + '/src/component/mixin'),
       service: path.join(projectRoot + '/src/service'),
       src: path.join(projectRoot + '/src'),

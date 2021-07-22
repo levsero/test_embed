@@ -1,4 +1,4 @@
-import AbstractError from 'errors/AbstractError'
+import AbstractError from 'src/errors/AbstractError'
 
 export default class FatalError extends AbstractError {
   constructor(message, name = 'FatalError') {
