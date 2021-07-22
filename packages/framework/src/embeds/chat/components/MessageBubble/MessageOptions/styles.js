@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey200 } from '@zendeskgarden/css-variables'
-import { KeyboardFocusButton } from 'component/shared/KeyboardFocusButton'
+import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
 
 const Button = styled(KeyboardFocusButton)`
   border: none;

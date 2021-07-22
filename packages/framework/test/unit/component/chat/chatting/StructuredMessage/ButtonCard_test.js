@@ -16,7 +16,7 @@ describe('ButtonCard component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/shared/StructuredMessage/ButtonCard': {
+      'src/component/shared/StructuredMessage/ButtonCard': {
         ButtonCard: PureButtonCard,
       },
       './Button': {

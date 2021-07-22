@@ -21,7 +21,7 @@ describe('WidgetLauncher component', () => {
           return false
         },
       },
-      'component/Icon': {
+      'src/component/Icon': {
         Icon: class extends Component {
           render() {
             return <div className={this.props.className}>{this.props.type}</div>
@@ -34,7 +34,7 @@ describe('WidgetLauncher component', () => {
           icon: 'iconClasses',
         },
       },
-      'component/launcher/WidgetLauncherTitle': noopReactComponent(),
+      'src/component/launcher/WidgetLauncherTitle': noopReactComponent(),
       'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent(),
       },

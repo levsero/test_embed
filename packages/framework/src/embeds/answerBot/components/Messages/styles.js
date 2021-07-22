@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SlideAppear } from 'component/transition/SlideAppear'
+import { SlideAppear } from 'src/component/transition/SlideAppear'
 
 const Container = styled.div`
   ${(props) => {

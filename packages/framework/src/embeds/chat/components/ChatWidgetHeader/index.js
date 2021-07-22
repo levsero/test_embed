@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useOnBack } from 'component/webWidget/OnBackProvider'
-import { HeaderView, Title, CloseButton, TitleRow, BackButton, HeaderItem } from 'components/Widget'
 import ChatMenu from 'embeds/chat/components/ChatMenu'
+import { useOnBack } from 'src/component/webWidget/OnBackProvider'
+import {
+  HeaderView,
+  Title,
+  CloseButton,
+  TitleRow,
+  BackButton,
+  HeaderItem,
+} from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import { handlePopoutCreated } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'

@@ -33,10 +33,10 @@ describe('ChatOnline component', () => {
       './ChatOnline.scss': {
         locals: {},
       },
-      'component/loading/LoadingSpinner': {
+      'src/component/loading/LoadingSpinner': {
         LoadingSpinner,
       },
-      'components/FileDropProvider': {
+      'src/components/FileDropProvider': {
         FileDropProvider: noopReactComponent(),
         FileDropTarget,
       },
@@ -44,21 +44,21 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/pages/AgentDetailsPage': AgentDetailsPage,
       'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
-      'component/chat/prechat/PrechatScreen': noopReactComponent(),
+      'src/component/chat/prechat/PrechatScreen': noopReactComponent(),
       'embeds/chat/selectors': {},
       'embeds/chat/actions/actions': {},
       'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
       'embeds/chat/components/ReconnectButton': noopReactComponent(),
-      'component/button/ButtonPill': {
+      'src/component/button/ButtonPill': {
         ButtonPill,
       },
       'embeds/chat/components/ChatMenu': ChatMenu,
-      'component/container/Container': {
+      'src/component/container/Container': {
         Container: noopReactComponent(),
       },
       'embeds/chat/components/ChatModal': noopReactComponent(),
       'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
-      'component/chat/ChatRatingGroup': {
+      'src/component/chat/ChatRatingGroup': {
         ChatRatings: {},
       },
       'src/component/attachment/AttachmentBox': AttachmentBox,

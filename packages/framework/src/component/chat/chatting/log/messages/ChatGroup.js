@@ -2,11 +2,6 @@ import classNames from 'classnames'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { Avatar } from 'component/Avatar'
-import { Icon } from 'component/Icon'
-import { Attachment } from 'component/chat/attachment/Attachment'
-import Carousel from 'component/chat/chatting/Carousel'
-import StructuredMessage from 'component/chat/chatting/StructuredMessage'
 import {
   ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES,
@@ -14,6 +9,11 @@ import {
 } from 'constants/chat'
 import ImageMessage from 'embeds/chat/components/ImageMessage'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Avatar } from 'src/component/Avatar'
+import { Icon } from 'src/component/Icon'
+import { Attachment } from 'src/component/chat/attachment/Attachment'
+import Carousel from 'src/component/chat/chatting/Carousel'
+import StructuredMessage from 'src/component/chat/chatting/StructuredMessage'
 import { ICONS, FILETYPE_ICONS } from 'src/constants/shared'
 import MessageBubble from 'src/embeds/chat/components/MessageBubble'
 import MessageError from 'src/embeds/chat/components/MessageError'

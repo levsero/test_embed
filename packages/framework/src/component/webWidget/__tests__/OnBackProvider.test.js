@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import OnBackProvider, { useOnBack } from 'component/webWidget/OnBackProvider'
+import OnBackProvider, { useOnBack } from 'src/component/webWidget/OnBackProvider'
 
 describe('OnBackProvider', () => {
   const TestComponent = () => {

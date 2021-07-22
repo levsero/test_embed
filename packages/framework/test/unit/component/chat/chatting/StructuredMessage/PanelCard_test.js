@@ -17,7 +17,7 @@ describe('PanelCard Component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'component/shared/StructuredMessage/PanelCard': {
+      'src/component/shared/StructuredMessage/PanelCard': {
         PanelCard: PurePanelCard,
       },
       './Button': {

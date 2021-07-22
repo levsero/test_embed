@@ -63,7 +63,7 @@ describe('WebWidget component', () => {
 
     initMockRegistry({
       React: React,
-      'component/container/Container': {
+      'src/component/container/Container': {
         Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>
@@ -71,14 +71,14 @@ describe('WebWidget component', () => {
         },
       },
       'embeds/answerBot': connectedComponent(<MockAnswerBot />),
-      'component/chat/Chat': connectedComponent(<MockChat />),
+      'src/component/chat/Chat': connectedComponent(<MockChat />),
       'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
       'embeds/support': connectedComponent(<MockSupport />),
       'src/components/LoadingPage': noopReactComponent(),
       'src/components/LoadingPageErrorBoundary': noopReactComponent(),
       'src/components/Widget/SuspensePage': noopSuspenseComponent(),
-      'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
-      'component/webWidget/OnBackProvider': noopReactComponent(),
+      'src/component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
+      'src/component/webWidget/OnBackProvider': noopReactComponent(),
       'embeds/talk': noopReactComponent(),
       'utility/devices': {
         isMobileBrowser: () => undefined,
@@ -86,10 +86,10 @@ describe('WebWidget component', () => {
       'utility/globals': {
         isPopout: () => undefined,
       },
-      'components/NotificationPopup': noopReactComponent(),
+      'src/components/NotificationPopup': noopReactComponent(),
       'embeds/webWidget/selectors/feature-flags': () => undefined,
       'embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
-      'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
+      'src/component/chat/ChatNotificationPopup': { ChatNotificationPopup },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,

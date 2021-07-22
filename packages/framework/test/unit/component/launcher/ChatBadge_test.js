@@ -24,7 +24,7 @@ describe('ChatBadge component', () => {
     TEST_IDS = requireUncached(sharedConstantsPath).TEST_IDS
 
     initMockRegistry({
-      'component/Icon': {
+      'src/component/Icon': {
         Icon,
       },
       './ChatBadge.scss': {

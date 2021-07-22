@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { zdColorWhite } from '@zendeskgarden/css-variables'
-import { SlideAppear } from 'component/transition/SlideAppear'
-import { FooterView } from 'components/Widget'
+import { SlideAppear } from 'src/component/transition/SlideAppear'
+import { FooterView } from 'src/components/Widget'
 import { isMobileBrowser } from 'utility/devices'
 
 const Footer = styled(FooterView)`

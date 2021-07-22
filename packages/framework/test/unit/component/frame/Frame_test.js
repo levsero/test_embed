@@ -105,7 +105,7 @@ describe('Frame', () => {
           get: (name) => _.get(mockSettingsValue, name, null),
         },
       },
-      'component/frame/EmbedWrapper': MockEmbedWrapper,
+      'src/component/frame/EmbedWrapper': MockEmbedWrapper,
       'src/framework/components/Frame': requireUncached(
         buildSrcPath('framework/components/Frame/index.js')
       ),
@@ -122,7 +122,7 @@ describe('Frame', () => {
         TEST_IDS,
       },
       lodash: _,
-      'component/Icon': {
+      'src/component/Icon': {
         Icon: noop,
       },
       'src/redux/modules/selectors': {

@@ -8,7 +8,7 @@ import * as globalUtilities from 'utility/globals'
 import { render } from 'utility/testHelpers'
 import Embeds from '..'
 
-jest.mock('component/webWidget/WebWidget', () => {
+jest.mock('src/component/webWidget/WebWidget', () => {
   return {
     __esModule: true,
     default: () => {

@@ -2,8 +2,8 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import ZendeskLogo from 'components/ZendeskLogo'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import ZendeskLogo from 'src/components/ZendeskLogo'
 import {
   questionSubmitted,
   questionValueChanged,

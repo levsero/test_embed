@@ -30,7 +30,7 @@ describe('HistoryLog component', () => {
     }
 
     initMockRegistry({
-      'component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
+      'src/component/chat/chatting/log/messages/ConnectedHistoryGroup': HistoryChatGroup,
       'src/embeds/chat/components/EventMessage': HistoryEventMessage,
       '@zendeskgarden/react-buttons': { Button },
       'constants/chat': {

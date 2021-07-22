@@ -28,7 +28,7 @@ describe('ChatLog component', () => {
     }
 
     initMockRegistry({
-      'component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
+      'src/component/chat/chatting/log/messages/ConnectedChatGroup': ChatGroup,
       'src/embeds/chat/components/EventMessage': EventMessage,
       'src/embeds/chat/components/RequestRatingButton': RequestRatingButton,
       'constants/chat': {

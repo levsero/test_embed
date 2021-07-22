@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { ButtonGroup } from 'component/button/ButtonGroup'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { ButtonGroup } from 'src/component/button/ButtonGroup'
 import { onHelpCenterNextClick } from 'src/redux/modules/base'
 import { getHelpCenterButtonLabel, getChatConnectionConnecting } from 'src/redux/modules/selectors'
 import { ButtonContainer, StyledButton, Loading } from './styles'

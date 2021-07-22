@@ -1,4 +1,4 @@
-import { Widget } from 'components/Widget'
+import { Widget } from 'src/components/Widget'
 import { render } from 'utility/testHelpers'
 
 const renderWidgetContainer = (inProps) => {

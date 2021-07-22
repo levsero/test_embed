@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import FileInput from 'components/FileInput'
+import FileInput from 'src/components/FileInput'
 import useTranslate from 'src/hooks/useTranslate'
 import { isMobileBrowser } from 'utility/devices'
 import { AttachmentButton, Description, Label, Icon } from './styles'

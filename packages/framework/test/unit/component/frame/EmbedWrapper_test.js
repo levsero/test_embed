@@ -38,8 +38,8 @@ describe('EmbedWrapper', () => {
       'src/components/Widget': {
         WidgetThemeProvider: ({ children }) => <Fragment>{children}</Fragment>,
       },
-      'component/frame/Navigation': noopReactComponent(),
-      'components/FrameFocusJail': noopReactComponent(),
+      'src/component/frame/Navigation': noopReactComponent(),
+      'src/components/FrameFocusJail': noopReactComponent(),
       'src/redux/modules/selectors': {
         getColor: noop,
       },

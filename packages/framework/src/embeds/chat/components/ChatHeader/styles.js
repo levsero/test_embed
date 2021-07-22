@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey800, zdColorGrey400, zdColorGrey600 } from '@zendeskgarden/css-variables'
-import { Avatar } from 'component/Avatar'
+import { Avatar } from 'src/component/Avatar'
 import { FONT_SIZE } from 'src/constants/shared'
 
 const Container = styled.div`

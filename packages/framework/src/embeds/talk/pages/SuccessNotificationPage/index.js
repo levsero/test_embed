@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SuccessNotification from 'components/SuccessNotification'
+import SuccessNotification from 'src/components/SuccessNotification'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
 import TalkSuccessIcon from 'src/embeds/talk/icons/talk_success.svg'

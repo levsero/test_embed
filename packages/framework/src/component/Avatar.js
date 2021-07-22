@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { Icon } from 'component/Icon'
+import { Icon } from 'src/component/Icon'
 import { locals as styles } from './Avatar.scss'
 
 export class Avatar extends Component {

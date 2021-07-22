@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { createRef, Component } from 'react'
 import { connect } from 'react-redux'
-import { Icon } from 'component/Icon'
-import WidgetLauncherTitle from 'component/launcher/WidgetLauncherTitle'
 import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Icon } from 'src/component/Icon'
+import WidgetLauncherTitle from 'src/component/launcher/WidgetLauncherTitle'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 import {
   getLauncherChatLabel,

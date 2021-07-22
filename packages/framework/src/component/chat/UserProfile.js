@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
-import { Avatar } from 'component/Avatar'
-import { Icon } from 'component/Icon'
-import { LoadingSpinner } from 'component/loading/LoadingSpinner'
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { Avatar } from 'src/component/Avatar'
+import { Icon } from 'src/component/Icon'
+import { LoadingSpinner } from 'src/component/loading/LoadingSpinner'
 import SocialLogin from 'src/embeds/chat/components/SocialLogin'
 import { locals as styles } from './UserProfile.scss'
 

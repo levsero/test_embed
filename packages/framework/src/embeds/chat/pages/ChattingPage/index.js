@@ -2,9 +2,6 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { useRef, useCallback } from 'react'
 import { connect } from 'react-redux'
-import ChatLog from 'component/chat/chatting/ChatLog'
-import HistoryLog from 'component/chat/chatting/HistoryLog'
-import { Widget, Main } from 'components/Widget'
 import {
   SCROLL_BOTTOM_THRESHOLD,
   HISTORY_REQUEST_STATUS,
@@ -13,6 +10,9 @@ import {
 import ChatHeader from 'embeds/chat/components/ChatHeader'
 import ChatWidgetHeader from 'embeds/chat/components/ChatWidgetHeader'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
+import ChatLog from 'src/component/chat/chatting/ChatLog'
+import HistoryLog from 'src/component/chat/chatting/HistoryLog'
+import { Widget, Main } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import ChatLogFooter from 'src/embeds/chat/components/ChatLogFooter'
 import ChattingFooter from 'src/embeds/chat/components/ChattingFooter'

@@ -38,18 +38,18 @@ describe('PrechatScreen component', () => {
         },
       },
       'src/embeds/chat/components/SocialLogin': noopReactComponent(),
-      'component/loading/LoadingSpinner': {
+      'src/component/loading/LoadingSpinner': {
         LoadingSpinner,
       },
       'src/embeds/chat/components/PrechatForm': PrechatForm,
       'embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
-      'component/container/Container': {
+      'src/component/container/Container': {
         Container: noopReactComponent(),
       },
       'embeds/webWidget/selectors/feature-flags': {
         isFeatureEnabled: () => false,
       },
-      'components/Widget/SuspensePage': noopReactComponent(),
+      'src/components/Widget/SuspensePage': noopReactComponent(),
       'src/redux/modules/chat': {
         sendMsg: noop,
         handleChatBoxChange: noop,

@@ -47,14 +47,14 @@ describe('Pure Panel Component', () => {
           noBorderBottom: 'noBorderBottom',
         },
       },
-      'component/Icon': {
+      'src/component/Icon': {
         Icon,
       },
       'src/constants/shared': {
         FONT_SIZE,
         TEST_IDS,
       },
-      'component/shared/KeyboardFocusButton': {
+      'src/component/shared/KeyboardFocusButton': {
         KeyboardFocusButton: KeyboardFocusButton,
       },
       'utility/devices': {

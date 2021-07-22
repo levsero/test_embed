@@ -60,13 +60,6 @@ exports[`chat log agent attachment 1`] = `
 `;
 
 exports[`chat log agent join 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -84,6 +77,13 @@ exports[`chat log agent join 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -112,13 +112,6 @@ exports[`chat log agent join 1`] = `
 `;
 
 exports[`chat log agent member leave with disconnection reason 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -136,6 +129,13 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -170,13 +170,6 @@ exports[`chat log agent member leave with disconnection reason 1`] = `
 `;
 
 exports[`chat log agent member leave with non-disconnection reason 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -194,6 +187,13 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -228,6 +228,25 @@ exports[`chat log agent member leave with non-disconnection reason 1`] = `
 `;
 
 exports[`chat log agent message 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -248,25 +267,6 @@ exports[`chat log agent message 1`] = `
   max-width: 17.5rem;
   background-color: #e9ebed;
   max-width: 15.642857142857142rem !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -328,13 +328,6 @@ exports[`chat log agent message 1`] = `
 `;
 
 exports[`chat log agent stopped typing 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -352,6 +345,13 @@ exports[`chat log agent stopped typing 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -409,13 +409,6 @@ exports[`chat log agent typing 1`] = `
   animation-delay: unset;
 }
 
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c6 {
   position: absolute;
   display: -webkit-box;
@@ -433,6 +426,13 @@ exports[`chat log agent typing 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c3 {
@@ -519,13 +519,6 @@ exports[`chat log agent typing 1`] = `
 `;
 
 exports[`chat log comment 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -543,6 +536,13 @@ exports[`chat log comment 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -571,13 +571,6 @@ exports[`chat log comment 1`] = `
 `;
 
 exports[`chat log member join 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -595,6 +588,13 @@ exports[`chat log member join 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -623,13 +623,6 @@ exports[`chat log member join 1`] = `
 `;
 
 exports[`chat log member leave 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -647,6 +640,13 @@ exports[`chat log member leave 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -729,13 +729,6 @@ exports[`chat log queue position 1`] = `
 `;
 
 exports[`chat log rating 1`] = `
-.c1 {
-  text-align: center;
-  margin-top: 0.35714285714285715rem;
-  margin-bottom: 0.7142857142857143rem;
-  color: #68737d;
-}
-
 .c2 {
   position: absolute;
   display: -webkit-box;
@@ -753,6 +746,13 @@ exports[`chat log rating 1`] = `
   top: 8.571428571428571rem;
   left: 0;
   right: 0;
+}
+
+.c1 {
+  text-align: center;
+  margin-top: 0.35714285714285715rem;
+  margin-bottom: 0.7142857142857143rem;
+  color: #68737d;
 }
 
 .c0 {
@@ -781,6 +781,25 @@ exports[`chat log rating 1`] = `
 `;
 
 exports[`chat log series of actions 1`] = `
+.c5 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c2.c2.c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -824,25 +843,6 @@ exports[`chat log series of actions 1`] = `
   margin-top: 0.35714285714285715rem;
   margin-bottom: 0.7142857142857143rem;
   color: #68737d;
-}
-
-.c5 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -983,6 +983,25 @@ exports[`chat log series of actions 1`] = `
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor info is not available 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1007,25 +1026,6 @@ exports[`chat log visitor message account settings login enabled displays update
 .c2,
 .c2 a {
   color: #FFFFFF !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -1087,6 +1087,25 @@ exports[`chat log visitor message account settings login enabled displays update
 `;
 
 exports[`chat log visitor message account settings login enabled displays update info if visitor name is default 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1111,25 +1130,6 @@ exports[`chat log visitor message account settings login enabled displays update
 .c2,
 .c2 a {
   color: #FFFFFF !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -1191,6 +1191,25 @@ exports[`chat log visitor message account settings login enabled displays update
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor email is already set 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1215,25 +1234,6 @@ exports[`chat log visitor message account settings login enabled does not displa
 .c2,
 .c2 a {
   color: #FFFFFF !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -1290,6 +1290,25 @@ exports[`chat log visitor message account settings login enabled does not displa
 `;
 
 exports[`chat log visitor message account settings login enabled does not display update info if visitor name is already set 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1314,25 +1333,6 @@ exports[`chat log visitor message account settings login enabled does not displa
 .c2,
 .c2 a {
   color: #FFFFFF !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -1412,6 +1412,25 @@ exports[`chat log visitor message failure 1`] = `
   color: #cc3340;
 }
 
+.c7 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1477,25 +1496,6 @@ exports[`chat log visitor message failure 1`] = `
 .c6:focus,
 .c6:active {
   color: #d93f4c;
-}
-
-.c7 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {
@@ -1594,6 +1594,25 @@ exports[`chat log visitor message failure 1`] = `
 `;
 
 exports[`chat log visitor message success 1`] = `
+.c3 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  top: 8.571428571428571rem;
+  left: 0;
+  right: 0;
+}
+
 .c1.c1.c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1618,25 +1637,6 @@ exports[`chat log visitor message success 1`] = `
 .c2,
 .c2 a {
   color: #FFFFFF !important;
-}
-
-.c3 {
-  position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  top: 8.571428571428571rem;
-  left: 0;
-  right: 0;
 }
 
 .c0 {

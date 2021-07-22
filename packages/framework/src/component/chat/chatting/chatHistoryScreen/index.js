@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import HistoryLog from 'component/chat/chatting/HistoryLog'
-import { Widget, Header, Main, Footer } from 'components/Widget'
 import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat'
 import LoadingMessagesIndicator from 'embeds/chat/components/LoadingMessagesIndicator'
+import HistoryLog from 'src/component/chat/chatting/HistoryLog'
+import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { updateChatScreen, fetchConversationHistory } from 'src/redux/modules/chat'
 import {
   getHistoryLength,

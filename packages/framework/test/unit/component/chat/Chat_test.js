@@ -12,8 +12,8 @@ describe('Chat component', () => {
 
     initMockRegistry({
       'embeds/chat/components/ChatOffline': ChatOffline,
-      'component/chat/ChatOnline': ChatOnline,
-      'components/LoadingPage': LoadingPage,
+      'src/component/chat/ChatOnline': ChatOnline,
+      'src/components/LoadingPage': LoadingPage,
       'src/redux/modules/chat/chat-selectors': {
         getShowOfflineChat: '',
       },

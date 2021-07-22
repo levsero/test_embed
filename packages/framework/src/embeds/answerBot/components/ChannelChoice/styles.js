@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { zdColorGrey700, zdColorGrey600 } from '@zendeskgarden/css-variables'
-import { Icon } from 'component/Icon'
+import { Icon } from 'src/component/Icon'
 
 const Item = styled.div`
   ${(props) => {
