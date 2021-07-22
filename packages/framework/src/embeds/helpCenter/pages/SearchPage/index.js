@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 import { useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getSearchLoading, getSearchedArticles } from 'embeds/helpCenter/selectors'
 import LoadingBarContent from 'src/components/LoadingBarContent'
 import { Widget, Main } from 'src/components/Widget'
 import HelpCenterFooter from 'src/embeds/helpCenter/components/Footer'
 import NotificationPopup from 'src/embeds/helpCenter/components/NotificationPopup'
 import Results from 'src/embeds/helpCenter/components/Results'
 import SearchHeader from 'src/embeds/helpCenter/components/SearchHeader'
+import { getSearchLoading, getSearchedArticles } from 'src/embeds/helpCenter/selectors'
 import {
   getHideZendeskLogo,
   getSettingsHelpCenterTitle,

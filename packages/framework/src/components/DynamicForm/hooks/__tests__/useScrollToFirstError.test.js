@@ -4,7 +4,7 @@ import { render } from 'src/util/testHelpers'
 import useScrollToFirstError from '../useScrollToFirstError'
 
 jest.mock('react-final-form')
-jest.mock('embeds/support/utils/getFields')
+jest.mock('src/embeds/support/utils/getFields')
 
 describe('useScrollToFirstError', () => {
   // eslint-disable-next-line react/prop-types

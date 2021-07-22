@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import routes from 'embeds/support/routes'
 import history from 'service/history'
 import { http } from 'service/transport'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import routes from 'src/embeds/support/routes'
 import * as supportSelectors from 'src/embeds/support/selectors'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
@@ -19,7 +19,7 @@ jest.mock('service/transport')
 jest.mock('src/embeds/support/utils/attachment-sender')
 jest.mock('src/embeds/support/utils/requestFormatter')
 jest.mock('service/history')
-jest.mock('embeds/webWidget/selectors/feature-flags')
+jest.mock('src/embeds/webWidget/selectors/feature-flags')
 jest.mock('src/embeds/support/utils/track-ticket-submitted')
 
 const mockFileBlob2 = {

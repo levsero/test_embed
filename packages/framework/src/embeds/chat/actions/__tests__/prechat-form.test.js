@@ -1,4 +1,4 @@
-import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
+import { submitPrechatForm } from 'src/embeds/chat/actions/prechat-form'
 import {
   clearDepartment,
   handlePrechatFormSubmit,

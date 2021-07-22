@@ -1,5 +1,5 @@
 import { wait } from '@testing-library/react'
-import useOnClear from 'embeds/webWidget/hooks/useOnClear'
+import useOnClear from 'src/embeds/webWidget/hooks/useOnClear'
 import { apiClearForm } from 'src/redux/modules/base'
 import { render } from 'utility/testHelpers'
 

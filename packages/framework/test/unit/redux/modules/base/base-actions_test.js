@@ -91,7 +91,7 @@ describe('base redux actions', () => {
         getAfterWidgetShowAnimation: () => mockAfterWidgetShowAnimationQueue,
         getWebWidgetOpen: () => mockWebWidgetOpen,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getHasContextuallySearched: () => mockHasContextuallySearched,
         getArticleDisplayed: () => mockGetArticleDisplayed,
       },
@@ -101,7 +101,7 @@ describe('base redux actions', () => {
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: 'PRECHAT_SCREEN',
       },
-      'embeds/helpCenter/actions': {
+      'src/embeds/helpCenter/actions': {
         contextualSearch: contextualSearchSpy,
       },
       'src/constants/shared': {

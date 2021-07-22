@@ -2,7 +2,7 @@ import {
   TICKET_FORMS_REQUEST_FAILURE,
   TICKET_FORMS_REQUEST_SENT,
   TICKET_FORMS_REQUEST_SUCCESS,
-} from 'embeds/support/actions/action-types'
+} from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'utility/testHelpers'
 import reducer from '../ticketFormsRequest'
 

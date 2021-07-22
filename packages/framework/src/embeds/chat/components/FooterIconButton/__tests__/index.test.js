@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { zdColorGrey600 } from '@zendeskgarden/css-variables'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
+import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
 import { isMobileBrowser } from 'utility/devices'
 
 jest.mock('utility/devices')

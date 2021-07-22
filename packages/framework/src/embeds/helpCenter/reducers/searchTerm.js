@@ -5,7 +5,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_FAILURE,
   SEARCH_REQUEST_SENT,
-} from 'embeds/helpCenter/actions/action-types'
+} from 'src/embeds/helpCenter/actions/action-types'
 import { API_RESET_WIDGET, API_CLEAR_FORM } from 'src/redux/modules/base/base-action-types'
 
 const initialState = {

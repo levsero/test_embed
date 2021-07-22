@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { PureComponent } from 'react'
-import Item from 'embeds/helpCenter/components/Item'
+import Item from 'src/embeds/helpCenter/components/Item'
 import { StyledList } from './styles'
 
 export default class List extends PureComponent {

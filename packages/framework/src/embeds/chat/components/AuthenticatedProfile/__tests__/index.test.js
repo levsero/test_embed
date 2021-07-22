@@ -1,11 +1,11 @@
 import { find } from 'styled-components/test-utils'
-import AuthenticatedProfile from 'embeds/chat/components/AuthenticatedProfile'
+import { CHAT_SOCIAL_LOGIN_SCREENS } from 'src/constants/chat'
+import { TEST_IDS } from 'src/constants/shared'
+import AuthenticatedProfile from 'src/embeds/chat/components/AuthenticatedProfile'
 import {
   LoadingSpinnerIcon,
   SocialAvatar,
-} from 'embeds/chat/components/AuthenticatedProfile/styles'
-import { CHAT_SOCIAL_LOGIN_SCREENS } from 'src/constants/chat'
-import { TEST_IDS } from 'src/constants/shared'
+} from 'src/embeds/chat/components/AuthenticatedProfile/styles'
 import { render } from 'utility/testHelpers'
 
 describe('AuthenticatedProfile', () => {

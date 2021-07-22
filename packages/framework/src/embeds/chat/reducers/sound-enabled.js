@@ -1,4 +1,4 @@
-import { SOUND_ICON_CLICKED } from 'embeds/chat/actions/action-types'
+import { SOUND_ICON_CLICKED } from 'src/embeds/chat/actions/action-types'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
 
 const initialState = true

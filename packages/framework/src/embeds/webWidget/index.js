@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
-import WebWidget from 'embeds/webWidget/components/WebWidget'
 import history from 'service/history'
+import WebWidget from 'src/embeds/webWidget/components/WebWidget'
 import { document, getDocumentHost } from 'utility/globals'
 
 const render = ({ reduxStore, config }) => {

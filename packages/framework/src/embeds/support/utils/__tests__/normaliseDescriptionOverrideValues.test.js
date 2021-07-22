@@ -1,4 +1,4 @@
-import normaliseDescriptionOverrideValues from 'embeds/support/utils/normaliseDescriptionOverrideValues'
+import normaliseDescriptionOverrideValues from 'src/embeds/support/utils/normaliseDescriptionOverrideValues'
 
 describe('normaliseDescriptionOverrideValues', () => {
   it('returns an object where hints/hideHint status are placed under a keyed ID', () => {

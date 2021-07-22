@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles'
 import Frame from 'src/component/frame/Frame'
+import { webWidgetStyles } from 'src/embed/webWidget/webWidgetStyles'
 import { generateUserWidgetCSS } from 'utility/color/styles'
 import { WebWidgetPreview } from './WebWidgetPreview'
 

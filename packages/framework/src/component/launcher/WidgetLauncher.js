@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { createRef, Component } from 'react'
 import { connect } from 'react-redux'
-import { FrameStyle } from 'embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Icon } from 'src/component/Icon'
 import WidgetLauncherTitle from 'src/component/launcher/WidgetLauncherTitle'
@@ -11,6 +10,7 @@ import {
   getLauncherTalkLabel,
   getLauncherLabel,
 } from 'src/embeds/launcher/settings/selectors'
+import { FrameStyle } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { launcherClicked } from 'src/redux/modules/base/'
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors'
 import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors'

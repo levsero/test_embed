@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import { Component, lazy } from 'react'
 import { connect } from 'react-redux'
-import { closeCurrentArticle } from 'embeds/helpCenter/actions'
-import ChannelChoicePage from 'embeds/webWidget/pages/ChannelChoicePage'
 import history from 'service/history'
 import Chat from 'src/component/chat/Chat'
 import { Container } from 'src/component/container/Container'
@@ -11,6 +9,8 @@ import ChatNotificationPopup from 'src/components/NotificationPopup'
 import SuspensePage from 'src/components/Widget/SuspensePage'
 import { screenChanged as updateAnswerBotScreen } from 'src/embeds/answerBot/actions/root'
 import { CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
+import { closeCurrentArticle } from 'src/embeds/helpCenter/actions'
+import ChannelChoicePage from 'src/embeds/webWidget/pages/ChannelChoicePage'
 import {
   updateActiveEmbed,
   updateEmbedAccessible,
@@ -47,12 +47,14 @@ import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'
 import { WidgetContainer } from './styles'
 
-const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'embeds/talk'))
+const Talk = lazy(() => import(/* webpackChunkName: 'lazy/talk' */ 'src/embeds/talk'))
 const HelpCenter = lazy(() =>
-  import(/* webpackChunkName: 'lazy/help_center' */ 'embeds/helpCenter')
+  import(/* webpackChunkName: 'lazy/help_center' */ 'src/embeds/helpCenter')
 )
-const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'embeds/support'))
-const AnswerBot = lazy(() => import(/* webpackChunkName: 'lazy/answerBot' */ 'embeds/answerBot'))
+const Support = lazy(() => import(/* webpackChunkName: 'lazy/support' */ 'src/embeds/support'))
+const AnswerBot = lazy(() =>
+  import(/* webpackChunkName: 'lazy/answerBot' */ 'src/embeds/answerBot')
+)
 
 const submitTicket = 'ticketSubmissionForm'
 const helpCenter = 'helpCenterForm'

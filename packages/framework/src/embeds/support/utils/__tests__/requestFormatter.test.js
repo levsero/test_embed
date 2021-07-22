@@ -1,5 +1,5 @@
-import routes from 'embeds/support/routes'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import routes from 'src/embeds/support/routes'
 import * as globals from 'utility/globals'
 import formatRequestData from '../requestFormatter'
 

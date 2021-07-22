@@ -42,7 +42,7 @@ describe('blip middleware', () => {
         getWebWidgetOpen: (prevState) => prevState.webWidgetOpen,
         getActiveEmbed: (prevState) => prevState.activeEmbed,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
         getResultsCount: (prevState) => prevState.resultsCount,

@@ -1,4 +1,4 @@
-import { updateMenuVisibility } from 'embeds/chat/actions/actions'
+import { updateMenuVisibility } from 'src/embeds/chat/actions/actions'
 import {
   updateContactDetailsVisibility,
   updateEmailTranscriptVisibility,

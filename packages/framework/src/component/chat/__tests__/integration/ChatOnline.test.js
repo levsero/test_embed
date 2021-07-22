@@ -9,7 +9,7 @@ import { render, dispatchChatAccountSettings } from 'utility/testHelpers'
 import ChatOnline from '../../ChatOnline'
 
 jest.mock('service/transport/http')
-jest.mock('embeds/chat/components/ImageMessage', () => () => <div>ImageMessage</div>)
+jest.mock('src/embeds/chat/components/ImageMessage', () => () => <div>ImageMessage</div>)
 
 jest.useFakeTimers()
 

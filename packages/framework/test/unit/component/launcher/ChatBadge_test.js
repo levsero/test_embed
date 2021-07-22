@@ -52,7 +52,7 @@ describe('ChatBadge component', () => {
       '@zendeskgarden/react-forms': {
         Input: noopReactComponent(),
       },
-      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+      'src/embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent(),
       },
       '@zendeskgarden/svg-icons/src/16/dash-fill.svg': noopReactComponent(),

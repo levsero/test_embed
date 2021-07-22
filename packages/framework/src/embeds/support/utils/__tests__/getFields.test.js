@@ -1,4 +1,4 @@
-import createKeyID from 'embeds/support/utils/createKeyID'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import getFields from '../getFields'
 
 describe('getFields', () => {

@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { displayArticle } from 'embeds/helpCenter/actions'
 import {
   hideApi,
   identifyApi,
@@ -10,6 +9,7 @@ import {
 } from 'service/api/apis'
 import { renderer } from 'service/renderer'
 import tracker from 'service/tracker'
+import { displayArticle } from 'src/embeds/helpCenter/actions'
 import { activateReceived, legacyShowReceived } from 'src/redux/modules/base'
 import { getWidgetAlreadyHidden } from 'src/redux/modules/base/base-selectors'
 

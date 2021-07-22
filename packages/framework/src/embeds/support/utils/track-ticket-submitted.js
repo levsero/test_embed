@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/selectors'
-import { getAttachmentsForForm } from 'embeds/support/selectors'
 import { beacon } from 'service/beacon'
 import hcStats from 'service/hcStats'
+import { getHasContextuallySearched, getSearchTerm } from 'src/embeds/helpCenter/selectors'
+import { getAttachmentsForForm } from 'src/embeds/support/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 

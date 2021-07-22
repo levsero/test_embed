@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { submitPrechatForm } from 'embeds/chat/actions/prechat-form'
 import { LoadingSpinner } from 'src/component/loading/LoadingSpinner'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
+import { submitPrechatForm } from 'src/embeds/chat/actions/prechat-form'
 import PrechatForm from 'src/embeds/chat/components/PrechatForm'
 import PrechatFormOfflineMessageSuccessPage from 'src/embeds/chat/pages/PrechatFormOfflineMessageSuccessPage'
 import {

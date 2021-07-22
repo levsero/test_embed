@@ -1,15 +1,15 @@
 import _ from 'lodash'
-import {
-  SEARCH_REQUEST_SUCCESS,
-  ARTICLE_VIEWED,
-  ORIGINAL_ARTICLE_CLICKED,
-} from 'embeds/helpCenter/actions/action-types'
-import { getSearchTerm } from 'embeds/helpCenter/selectors'
 import { GA } from 'service/analytics/googleAnalytics'
 import { USER_EVENT } from 'src/constants/event'
 import { GA_CATEGORY } from 'src/constants/shared'
 import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
 import { getArticleForArticleAndSessionsID } from 'src/embeds/answerBot/selectors/root'
+import {
+  SEARCH_REQUEST_SUCCESS,
+  ARTICLE_VIEWED,
+  ORIGINAL_ARTICLE_CLICKED,
+} from 'src/embeds/helpCenter/actions/action-types'
+import { getSearchTerm } from 'src/embeds/helpCenter/selectors'
 import { getCurrentActiveArticle, getArticles } from 'src/embeds/helpCenter/selectors/index'
 import {
   TICKET_SUBMISSION_REQUEST_SUCCESS,

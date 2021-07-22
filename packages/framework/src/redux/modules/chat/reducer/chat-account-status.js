@@ -1,4 +1,4 @@
-import { RECEIVE_DEFERRED_CHAT_STATUS } from 'embeds/chat/actions/action-types'
+import { RECEIVE_DEFERRED_CHAT_STATUS } from 'src/embeds/chat/actions/action-types'
 import { SDK_ACCOUNT_STATUS, UPDATE_PREVIEWER_SCREEN } from '../chat-action-types'
 
 const initialState = ''

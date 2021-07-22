@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import FooterIconButton from 'embeds/chat/components/FooterIconButton'
 import { TEST_IDS } from 'src/constants/shared'
+import FooterIconButton from 'src/embeds/chat/components/FooterIconButton'
 import useTranslate from 'src/hooks/useTranslate'
 import { Icon } from './styles'
 

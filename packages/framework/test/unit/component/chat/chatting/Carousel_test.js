@@ -10,7 +10,7 @@ describe('Carousel Component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'embeds/chat/components/Carousel': PureCarousel,
+      'src/embeds/chat/components/Carousel': PureCarousel,
       './StructuredMessage': StructuredMessage,
     })
 

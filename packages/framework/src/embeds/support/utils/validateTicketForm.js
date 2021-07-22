@@ -1,5 +1,5 @@
-import getFields from 'embeds/support/utils/getFields'
 import { EMAIL_PATTERN } from 'src/constants/shared'
+import getFields from 'src/embeds/support/utils/getFields'
 
 const getFieldValidationError = (type) => {
   switch (type) {

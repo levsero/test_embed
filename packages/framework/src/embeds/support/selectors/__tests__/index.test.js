@@ -1,3 +1,5 @@
+import { i18n } from 'src/apps/webWidget/services/i18n'
+import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import {
   getCanDisplayForm,
   getContactFormFields,
@@ -9,10 +11,8 @@ import {
   getIsFormLoading,
   getIsAnyTicketFormLoading,
   getHasFetchedTicketForms,
-} from 'embeds/support/selectors'
-import createKeyID from 'embeds/support/utils/createKeyID'
-import { i18n } from 'src/apps/webWidget/services/i18n'
-import { TICKET_FIELDS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
+} from 'src/embeds/support/selectors'
+import createKeyID from 'src/embeds/support/utils/createKeyID'
 import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'

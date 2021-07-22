@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { connect } from 'react-redux'
-import { performSearch, handleSearchFieldChange } from 'embeds/helpCenter/actions'
-import SearchField from 'embeds/helpCenter/components/SearchField'
 import { TEST_IDS } from 'src/constants/shared'
+import { performSearch, handleSearchFieldChange } from 'src/embeds/helpCenter/actions'
+import SearchField from 'src/embeds/helpCenter/components/SearchField'
 import { Form } from './styles'
 
 const useSearchForm = (callback, handleOnChangeValue) => {

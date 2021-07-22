@@ -49,7 +49,7 @@ describe('resetActiveEmbed middleware', () => {
         getSubmitTicketAvailable: () => mockSubmitTicketAvailable,
         getAnswerBotAvailable: () => mockAnswerBotAvailable,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive,
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -79,10 +79,10 @@ describe('resetActiveEmbed middleware', () => {
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       },
       'service/history': history,
-      'embeds/helpCenter/routes': {
+      'src/embeds/helpCenter/routes': {
         home: () => 'helpCenter/home',
       },
-      'embeds/support/routes': {
+      'src/embeds/support/routes': {
         home: () => 'support/home',
       },
       'utility/globals': {
@@ -97,7 +97,7 @@ describe('resetActiveEmbed middleware', () => {
         },
         NIL_EMBED,
       },
-      'embeds/chat/actions/action-types': {},
+      'src/embeds/chat/actions/action-types': {},
     })
 
     const path = buildSrcPath('redux/middleware/resetActiveEmbed')

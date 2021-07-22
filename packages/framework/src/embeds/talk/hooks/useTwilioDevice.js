@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import superagent from 'superagent'
 import { Device } from 'twilio-client'
-import { getRecordingConsent } from 'embeds/talk/selectors'
+import { getRecordingConsent } from 'src/embeds/talk/selectors'
 import { getTalkNickname, getTalkServiceUrl } from 'src/redux/modules/selectors'
 import logger from 'src/util/logger'
 import { getZendeskHost } from 'utility/globals'

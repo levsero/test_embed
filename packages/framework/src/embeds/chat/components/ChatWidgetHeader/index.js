@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ChatMenu from 'embeds/chat/components/ChatMenu'
 import { useOnBack } from 'src/component/webWidget/OnBackProvider'
 import {
   HeaderView,
@@ -11,6 +10,7 @@ import {
   HeaderItem,
 } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
+import ChatMenu from 'src/embeds/chat/components/ChatMenu'
 import { handlePopoutCreated } from 'src/redux/modules/base'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'

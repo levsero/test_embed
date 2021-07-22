@@ -1,4 +1,4 @@
-import normaliseFieldPrefillValues from 'embeds/support/utils/normaliseFieldPrefillValues'
+import normaliseFieldPrefillValues from 'src/embeds/support/utils/normaliseFieldPrefillValues'
 
 describe('normaliseFieldPrefillValues', () => {
   it('returns an object where field Values are nested under locale rather than field', () => {

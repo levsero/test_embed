@@ -1,5 +1,5 @@
 import { waitFor } from '@testing-library/dom'
-import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
+import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'

@@ -1,4 +1,4 @@
-import { UPDATE_CHAT_MENU_VISIBILITY } from 'embeds/chat/actions/action-types'
+import { UPDATE_CHAT_MENU_VISIBILITY } from 'src/embeds/chat/actions/action-types'
 import {
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,

@@ -70,16 +70,16 @@ describe('WebWidget component', () => {
           }
         },
       },
-      'embeds/answerBot': connectedComponent(<MockAnswerBot />),
+      'src/embeds/answerBot': connectedComponent(<MockAnswerBot />),
       'src/component/chat/Chat': connectedComponent(<MockChat />),
-      'embeds/helpCenter': connectedComponent(<MockHelpCenter />),
-      'embeds/support': connectedComponent(<MockSupport />),
+      'src/embeds/helpCenter': connectedComponent(<MockHelpCenter />),
+      'src/embeds/support': connectedComponent(<MockSupport />),
       'src/components/LoadingPage': noopReactComponent(),
       'src/components/LoadingPageErrorBoundary': noopReactComponent(),
       'src/components/Widget/SuspensePage': noopSuspenseComponent(),
       'src/component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'src/component/webWidget/OnBackProvider': noopReactComponent(),
-      'embeds/talk': noopReactComponent(),
+      'src/embeds/talk': noopReactComponent(),
       'utility/devices': {
         isMobileBrowser: () => undefined,
       },
@@ -87,8 +87,8 @@ describe('WebWidget component', () => {
         isPopout: () => undefined,
       },
       'src/components/NotificationPopup': noopReactComponent(),
-      'embeds/webWidget/selectors/feature-flags': () => undefined,
-      'embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
+      'src/embeds/webWidget/selectors/feature-flags': () => undefined,
+      'src/embeds/webWidget/pages/ChannelChoicePage': noopReactComponent(),
       'src/component/chat/ChatNotificationPopup': { ChatNotificationPopup },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
@@ -99,7 +99,7 @@ describe('WebWidget component', () => {
         chatNotificationDismissed: noop,
         updateChatScreen: noop,
       },
-      'embeds/helpCenter/actions': {
+      'src/embeds/helpCenter/actions': {
         closeCurrentArticle: noop,
       },
       'src/redux/modules/base/base-selectors': {},
@@ -113,7 +113,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop,
       },
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getArticleViewActive: noop,
       },
       'src/redux/modules/submitTicket/submitTicket-selectors': {

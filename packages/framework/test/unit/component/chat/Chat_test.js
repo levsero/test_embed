@@ -11,7 +11,7 @@ describe('Chat component', () => {
     mockery.enable()
 
     initMockRegistry({
-      'embeds/chat/components/ChatOffline': ChatOffline,
+      'src/embeds/chat/components/ChatOffline': ChatOffline,
       'src/component/chat/ChatOnline': ChatOnline,
       'src/components/LoadingPage': LoadingPage,
       'src/redux/modules/chat/chat-selectors': {

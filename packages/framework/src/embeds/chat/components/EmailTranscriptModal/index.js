@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { withTheme } from 'styled-components'
-import EmailTranscriptForm from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
-import EmailTranscriptSuccess from 'embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
 import { TEST_IDS } from 'src/constants/shared'
+import EmailTranscriptForm from 'src/embeds/chat/components/EmailTranscriptModal/EmailTranscriptForm'
+import EmailTranscriptSuccess from 'src/embeds/chat/components/EmailTranscriptModal/EmailTranscriptSuccess'
 import { StyledModal } from './styles'
 
 const EmailTranscriptModal = ({ onClose }) => {

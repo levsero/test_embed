@@ -1,6 +1,6 @@
 import { fireEvent, wait } from '@testing-library/react'
-import { getSearchLoading } from 'embeds/helpCenter/selectors'
 import { http } from 'service/transport'
+import { getSearchLoading } from 'src/embeds/helpCenter/selectors'
 import { render } from 'utility/testHelpers'
 import SearchForm from '../index'
 

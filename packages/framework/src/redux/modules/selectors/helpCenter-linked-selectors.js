@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { getIsShowHCIntroState, getHelpCenterSignInRequired } from 'embeds/helpCenter/selectors'
+import { getIsShowHCIntroState, getHelpCenterSignInRequired } from 'src/embeds/helpCenter/selectors'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,

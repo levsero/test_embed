@@ -1,4 +1,4 @@
-import { INCREMENT_CALL_TIMER, CALL_STARTED } from 'embeds/talk/actions/action-types'
+import { INCREMENT_CALL_TIMER, CALL_STARTED } from 'src/embeds/talk/actions/action-types'
 
 const timeInCall = (state = 0, action = {}) => {
   const { type } = action

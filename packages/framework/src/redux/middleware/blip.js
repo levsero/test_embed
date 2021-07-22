@@ -1,10 +1,3 @@
-import {
-  getTotalUserSearches,
-  getResultsCount,
-  getSearchTerm,
-  getCurrentActiveArticle,
-  getHasContextuallySearched,
-} from 'embeds/helpCenter/selectors'
 import { beacon } from 'service/beacon'
 import hcStats from 'service/hcStats'
 import { i18n } from 'src/apps/webWidget/services/i18n'
@@ -28,6 +21,13 @@ import {
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_FAILURE,
 } from 'src/embeds/helpCenter/actions/action-types'
+import {
+  getTotalUserSearches,
+  getResultsCount,
+  getSearchTerm,
+  getCurrentActiveArticle,
+  getHasContextuallySearched,
+} from 'src/embeds/helpCenter/selectors'
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_WIDGET_SHOWN,

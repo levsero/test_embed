@@ -1,4 +1,4 @@
-import * as selectors from 'embeds/helpCenter/selectors'
+import * as selectors from 'src/embeds/helpCenter/selectors'
 import { render } from 'utility/testHelpers'
 import Results from '../index'
 

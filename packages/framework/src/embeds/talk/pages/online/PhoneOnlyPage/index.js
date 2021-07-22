@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import getFormattedPhoneNumber from 'embeds/talk/utils/getFormattedPhoneNumber'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { Widget, Header, Main, Footer } from 'src/components/Widget'
 import { TEST_IDS } from 'src/constants/shared'
 import AverageWaitTime from 'src/embeds/talk/components/AverageWaitTime'
 import PhoneNumber from 'src/embeds/talk/components/PhoneNumber'
 import useGetTitle from 'src/embeds/talk/hooks/useGetTitle'
+import getFormattedPhoneNumber from 'src/embeds/talk/utils/getFormattedPhoneNumber'
 import {
   getAverageWaitTimeString,
   getEmbeddableConfig,

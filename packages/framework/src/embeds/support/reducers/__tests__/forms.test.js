@@ -1,4 +1,4 @@
-import { TICKET_FORMS_REQUEST_SUCCESS } from 'embeds/support/actions/action-types'
+import { TICKET_FORMS_REQUEST_SUCCESS } from 'src/embeds/support/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
 import forms from '../forms'
 

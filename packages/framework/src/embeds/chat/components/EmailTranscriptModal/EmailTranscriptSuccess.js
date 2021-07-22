@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Notification, Title } from 'embeds/support/components/Notifications'
+import { Notification, Title } from 'src/embeds/support/components/Notifications'
 import useTranslate from 'src/hooks/useTranslate'
 
 const EmailTranscriptSuccess = ({ email }) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm, useFormState } from 'react-final-form'
-import getFields from 'embeds/support/utils/getFields'
+import getFields from 'src/embeds/support/utils/getFields'
 
 const useConditionalFields = (fields, conditions) => {
   const form = useForm()

@@ -1,9 +1,9 @@
+import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   getDefaultSelectedDepartment,
   getVisiblePrechatFields,
   getPrechatGreeting,
-} from 'embeds/chat/selectors/prechat-form'
-import { i18n } from 'src/apps/webWidget/services/i18n'
+} from 'src/embeds/chat/selectors/prechat-form'
 import {
   getAccountDefaultDepartmentId,
   getDepartment,

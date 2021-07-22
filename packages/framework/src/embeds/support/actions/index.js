@@ -1,11 +1,10 @@
 import _ from 'lodash'
-import { FORM_PREFILLED } from 'embeds/support/actions/action-types'
-import routes from 'embeds/support/routes'
-import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import history from 'service/history'
 import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
+import { FORM_PREFILLED } from 'src/embeds/support/actions/action-types'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
+import routes from 'src/embeds/support/routes'
 import {
   getMaxFileSize,
   getMaxFileCount,
@@ -13,6 +12,7 @@ import {
 } from 'src/embeds/support/selectors'
 import attachmentSender from 'src/embeds/support/utils/attachment-sender'
 import formatRequestData from 'src/embeds/support/utils/requestFormatter'
+import trackTicketSubmitted from 'src/embeds/support/utils/track-ticket-submitted'
 import { clearFormState } from 'src/redux/modules/form/actions'
 import withRateLimiting from 'utility/rateLimiting'
 import * as actionTypes from './action-types'

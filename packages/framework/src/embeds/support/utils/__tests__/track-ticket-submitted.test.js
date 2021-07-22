@@ -1,15 +1,15 @@
-import { getHasContextuallySearched, getSearchTerm } from 'embeds/helpCenter/selectors'
-import { getAttachmentsForForm } from 'embeds/support/selectors'
-import trackTicketSubmitted from 'embeds/support/utils/track-ticket-submitted'
 import { beacon } from 'service/beacon'
 import hcStats from 'service/hcStats'
+import { getHasContextuallySearched, getSearchTerm } from 'src/embeds/helpCenter/selectors'
+import { getAttachmentsForForm } from 'src/embeds/support/selectors'
+import trackTicketSubmitted from 'src/embeds/support/utils/track-ticket-submitted'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
 
-jest.mock('embeds/helpCenter/selectors')
+jest.mock('src/embeds/helpCenter/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/redux/modules/selectors')
-jest.mock('embeds/support/selectors')
+jest.mock('src/embeds/support/selectors')
 
 jest.mock('service/beacon', () => ({
   beacon: {

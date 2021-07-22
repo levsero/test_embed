@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { setContextualSuggestionsManually } from 'embeds/helpCenter/actions'
 import * as callbacks from 'service/api/callbacks'
 import { beacon } from 'service/beacon'
 import { identity } from 'service/identity'
@@ -27,6 +26,7 @@ import {
   CHAT_POPOUT_EVENT,
   USER_EVENT,
 } from 'src/constants/event'
+import { setContextualSuggestionsManually } from 'src/embeds/helpCenter/actions'
 import {
   handlePrefillReceived,
   logout,

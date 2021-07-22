@@ -42,11 +42,11 @@ describe('PrechatScreen component', () => {
         LoadingSpinner,
       },
       'src/embeds/chat/components/PrechatForm': PrechatForm,
-      'embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
+      'src/embeds/chat/actions/prechat-form': { submitPrechatForm: noop() },
       'src/component/container/Container': {
         Container: noopReactComponent(),
       },
-      'embeds/webWidget/selectors/feature-flags': {
+      'src/embeds/webWidget/selectors/feature-flags': {
         isFeatureEnabled: () => false,
       },
       'src/components/Widget/SuspensePage': noopReactComponent(),

@@ -1,4 +1,4 @@
-import * as actionTypes from 'embeds/helpCenter/actions/action-types'
+import * as actionTypes from 'src/embeds/helpCenter/actions/action-types'
 import { testReducer } from 'src/util/testHelpers'
 import articles from '../articles'
 

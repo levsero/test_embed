@@ -1,15 +1,15 @@
 import _ from 'lodash'
-import {
-  getLastSearchTimestamp,
-  getContextualHelpRequestNeeded,
-  getSearchQuery,
-  getTokensRevokedAt,
-} from 'embeds/helpCenter/selectors'
 import { settings } from 'service/settings'
 import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter'
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter'
+import {
+  getLastSearchTimestamp,
+  getContextualHelpRequestNeeded,
+  getSearchQuery,
+  getTokensRevokedAt,
+} from 'src/embeds/helpCenter/selectors'
 import { updateQueue, authenticate, expireToken } from 'src/redux/modules/base'
 import {
   getAuthToken,

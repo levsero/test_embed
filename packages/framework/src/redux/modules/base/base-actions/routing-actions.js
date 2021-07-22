@@ -1,7 +1,7 @@
-import { getArticleViewActive } from 'embeds/helpCenter/selectors'
-import supportRoutes from 'embeds/support/routes'
-import { getFormsToDisplay } from 'embeds/support/selectors'
 import history from 'service/history'
+import { getArticleViewActive } from 'src/embeds/helpCenter/selectors'
+import supportRoutes from 'src/embeds/support/routes'
+import { getFormsToDisplay } from 'src/embeds/support/selectors'
 import { updateChatScreen } from 'src/redux/modules/chat'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import {

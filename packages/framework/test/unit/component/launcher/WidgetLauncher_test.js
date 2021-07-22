@@ -35,7 +35,7 @@ describe('WidgetLauncher component', () => {
         },
       },
       'src/component/launcher/WidgetLauncherTitle': noopReactComponent(),
-      'embeds/webWidget/components/BaseFrame/FrameStyleContext': {
+      'src/embeds/webWidget/components/BaseFrame/FrameStyleContext': {
         FrameStyle: noopReactComponent(),
       },
       'src/apps/webWidget/services/i18n': {

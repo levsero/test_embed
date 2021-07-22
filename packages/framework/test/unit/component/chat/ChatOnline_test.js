@@ -45,19 +45,19 @@ describe('ChatOnline component', () => {
       'src/embeds/chat/pages/ChatRatingPage': noopReactComponent(),
       'src/embeds/chat/pages/PostChatPage': noopReactComponent(),
       'src/component/chat/prechat/PrechatScreen': noopReactComponent(),
-      'embeds/chat/selectors': {},
-      'embeds/chat/actions/actions': {},
-      'embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
-      'embeds/chat/components/ReconnectButton': noopReactComponent(),
+      'src/embeds/chat/selectors': {},
+      'src/embeds/chat/actions/actions': {},
+      'src/embeds/chat/components/ReconnectionBubble': ReconnectionBubble,
+      'src/embeds/chat/components/ReconnectButton': noopReactComponent(),
       'src/component/button/ButtonPill': {
         ButtonPill,
       },
-      'embeds/chat/components/ChatMenu': ChatMenu,
+      'src/embeds/chat/components/ChatMenu': ChatMenu,
       'src/component/container/Container': {
         Container: noopReactComponent(),
       },
-      'embeds/chat/components/ChatModal': noopReactComponent(),
-      'embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
+      'src/embeds/chat/components/ChatModal': noopReactComponent(),
+      'src/embeds/chat/components/EmailTranscriptModal': noopReactComponent(),
       'src/component/chat/ChatRatingGroup': {
         ChatRatings: {},
       },
@@ -105,7 +105,6 @@ describe('ChatOnline component', () => {
         onNextTick: (cb) => setTimeout(cb, 0),
       },
       'src/embeds/chat/components/ButtonPill': {},
-      'src/embeds/chat/selectors': {},
       'src/embeds/webWidget/selectors/feature-flags': {},
     })
 

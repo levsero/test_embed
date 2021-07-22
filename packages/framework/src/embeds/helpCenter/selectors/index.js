@@ -3,7 +3,7 @@ import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-} from 'embeds/helpCenter/actions/action-types'
+} from 'src/embeds/helpCenter/actions/action-types'
 import { isOnHelpCenterPage } from 'utility/pages'
 import { getPageKeywords } from 'utility/utils'
 

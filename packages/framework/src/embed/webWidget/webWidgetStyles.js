@@ -1,4 +1,3 @@
-import { sharedStyles } from 'embed/sharedStyles'
 import AttachmentBoxStyles from 'src/component/attachment/AttachmentBox.scss'
 import ButtonGroupStyles from 'src/component/button/ButtonGroup.scss'
 import ButtonIconStyles from 'src/component/button/ButtonIcon.scss'
@@ -18,6 +17,7 @@ import FrameStyles from 'src/component/frame/Frame.scss'
 import LoadingEllipsesStyles from 'src/component/loading/LoadingEllipses.scss'
 import SharedComponentStyles from 'src/component/shared/styles'
 import componentStyles from 'src/components/styles'
+import { sharedStyles } from 'src/embed/sharedStyles'
 
 export const webWidgetStyles = `
   ${sharedStyles}

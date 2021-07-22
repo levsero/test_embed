@@ -159,15 +159,15 @@ describe('onStateChange middleware', () => {
         },
       },
       'src/redux/middleware/onStateChange/onAgentLeave': noop,
-      'embeds/helpCenter/selectors': {
+      'src/embeds/helpCenter/selectors': {
         getArticleDisplayed: (x) => x && x.articleDisplayed,
         getHasSearched: () => mockHasSearched,
         getActiveArticle: () => mockActiveArticle,
       },
-      'embeds/helpCenter/routes': {
+      'src/embeds/helpCenter/routes': {
         articles: (id) => `/articles/${id}`,
       },
-      'embeds/chat/selectors': {
+      'src/embeds/chat/selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
       },
       'src/redux/modules/base/base-selectors': {
