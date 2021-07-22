@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { beacon } from 'service/beacon'
-import hcStats from 'service/hcStats'
 import { getHasContextuallySearched, getSearchTerm } from 'src/embeds/helpCenter/selectors'
 import { getAttachmentsForForm } from 'src/embeds/support/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getAttachmentsEnabled, getHelpCenterAvailable } from 'src/redux/modules/selectors'
+import { beacon } from 'src/service/beacon'
+import hcStats from 'src/service/hcStats'
 
 const trackTicketSubmitted = (apiResponse, formValues, state) => {
   const searchTerm = getSearchTerm(state)

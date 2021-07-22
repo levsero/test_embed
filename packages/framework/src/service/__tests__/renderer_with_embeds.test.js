@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { createStore } from 'redux'
-import { settings } from 'service/settings'
 import reducer from 'src/redux/modules/reducer'
+import { settings } from 'src/service/settings'
 import { renderer } from '../renderer'
 
-jest.mock('service/settings')
+jest.mock('src/service/settings')
 jest.mock('src/redux/modules/base')
 
 const store = createStore(reducer)

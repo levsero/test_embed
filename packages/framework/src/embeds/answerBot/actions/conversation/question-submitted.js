@@ -1,7 +1,4 @@
 import _ from 'lodash'
-import { identity } from 'service/identity'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { botTyping } from 'src/embeds/answerBot/actions/root/bot'
 import { sessionStarted } from 'src/embeds/answerBot/actions/sessions'
@@ -14,6 +11,9 @@ import {
 import { isInitialSession } from 'src/embeds/answerBot/selectors/sessions'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
 import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-selectors'
+import { identity } from 'src/service/identity'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
 import { isOnHostMappedDomain } from 'utility/pages'
 import {
   QUESTION_VALUE_SUBMITTED,

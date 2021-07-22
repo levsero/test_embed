@@ -1,6 +1,6 @@
-import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getAuthToken } from 'src/redux/modules/base/base-selectors'
+import { http } from 'src/service/transport'
 import { isOnHostMappedDomain } from 'utility/pages'
 
 const articleViewed = (articleId, locale, params) => {

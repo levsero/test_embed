@@ -100,7 +100,7 @@ describe('Frame', () => {
           getLocale: () => mockLocaleValue,
         },
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: (name) => _.get(mockSettingsValue, name, null),
         },

@@ -61,7 +61,7 @@ describe('base redux actions', () => {
         WIDGET_OPENED_EVENT,
         CHAT_POPOUT_EVENT,
       },
-      'service/api/callbacks': {
+      'src/service/api/callbacks': {
         fireFor: fireEventsForSpy,
       },
       'src/redux/modules/chat': {
@@ -79,7 +79,7 @@ describe('base redux actions', () => {
         emailValid: () => mockEmailValidValue,
         phoneValid: () => mockPhoneValidValue,
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           getAuthSettingsJwtFn: () => mockJwtFn,
         },
@@ -114,7 +114,7 @@ describe('base redux actions', () => {
           set: persistentStoreSetSpy,
         },
       },
-      'service/transport': {
+      'src/service/transport': {
         http: {
           send: httpPostSpy,
         },

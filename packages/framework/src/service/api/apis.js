@@ -1,7 +1,4 @@
 import _ from 'lodash'
-import * as callbacks from 'service/api/callbacks'
-import { beacon } from 'service/beacon'
-import { identity } from 'service/identity'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import {
   API_ON_CHAT_STATUS_NAME,
@@ -63,7 +60,10 @@ import {
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import { updateSettings } from 'src/redux/modules/settings'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
+import * as callbacks from 'src/service/api/callbacks'
 import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
+import { beacon } from 'src/service/beacon'
+import { identity } from 'src/service/identity'
 import { createChatPopoutWindow } from 'src/util/chat'
 import { nameValid, emailValid, phoneValid } from 'utility/utils'
 

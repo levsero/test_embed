@@ -1,4 +1,4 @@
-import { beacon } from 'service/beacon'
+import { beacon } from 'src/service/beacon'
 import { isRateLimited } from './helpers'
 
 export default (apiCall, payload, name, _errorCallback) => {

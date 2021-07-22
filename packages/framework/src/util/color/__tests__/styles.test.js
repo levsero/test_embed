@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { settings } from 'service/settings'
+import { settings } from 'src/service/settings'
 import {
   generateUserWidgetCSS,
   generateUserLauncherCSS,

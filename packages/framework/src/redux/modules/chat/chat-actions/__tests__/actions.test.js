@@ -2,8 +2,6 @@ import * as zChat from 'chat-web-sdk'
 import _ from 'lodash'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
 import {
   CHAT_CONNECTED_EVENT,
   CHAT_STARTED_EVENT,
@@ -19,6 +17,8 @@ import * as timeout from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import * as formActionTypes from 'src/redux/modules/form/action-types'
 import * as helpCenterSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as connectedSelectors from 'src/redux/modules/selectors/selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import zopimApi from 'src/service/api/zopimApi'
 import {
   handleChatSDKInitialized,
   handleChatConnected,

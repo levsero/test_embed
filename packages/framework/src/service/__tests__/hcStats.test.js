@@ -1,6 +1,6 @@
-import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as selectors from 'src/redux/modules/base/base-selectors'
+import { http } from 'src/service/transport'
 import * as pages from 'utility/pages'
 import hcStats from '../hcStats'
 

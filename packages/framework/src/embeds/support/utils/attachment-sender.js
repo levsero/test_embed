@@ -1,4 +1,4 @@
-import { http } from 'service/transport'
+import { http } from 'src/service/transport'
 
 const attachmentSender = (file, doneFn, failFn, progressFn) => {
   const payload = {

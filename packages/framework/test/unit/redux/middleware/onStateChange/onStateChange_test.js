@@ -101,10 +101,10 @@ describe('onStateChange middleware', () => {
         updateBackButtonVisibility: updateBackButtonVisibilitySpy,
         activateReceived: activateReceivedSpy,
       },
-      'service/audio': {
+      'src/service/audio': {
         play: audioPlaySpy,
       },
-      'service/history': historySpy,
+      'src/service/history': historySpy,
       'src/redux/modules/chat/chat-selectors': {
         getConnection: _.identity,
         getChatMessagesFromAgents: (val) => {

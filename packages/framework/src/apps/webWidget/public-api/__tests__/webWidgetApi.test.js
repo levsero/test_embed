@@ -1,13 +1,13 @@
-import * as apis from 'service/api/apis'
-import tracker from 'service/tracker'
 import { API_GET_IS_CHATTING_NAME } from 'src/constants/api'
 import publicApi from 'src/framework/services/publicApi'
 import { apiResetWidget, legacyShowReceived } from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
+import * as apis from 'src/service/api/apis'
+import tracker from 'src/service/tracker'
 import { getWebWidgetPublicApi } from '../setupApi'
 import { getWebWidgetLegacyPublicApi } from '../setupLegacyApi'
 
-jest.mock('service/tracker')
+jest.mock('src/service/tracker')
 jest.mock('src/redux/modules/base')
 jest.mock('src/service/renderer')
 jest.mock('src/service/api/apis')

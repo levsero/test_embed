@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { GA } from 'service/analytics/googleAnalytics'
 import { USER_EVENT } from 'src/constants/event'
 import { GA_CATEGORY } from 'src/constants/shared'
 import { ARTICLE_SHOWN } from 'src/embeds/answerBot/actions/root/action-types'
@@ -31,6 +30,7 @@ import {
 import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
+import { GA } from 'src/service/analytics/googleAnalytics'
 import * as callbacks from 'src/service/api/callbacks'
 import { isAgent } from 'src/util/chat'
 

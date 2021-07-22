@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import history from 'service/history'
 import * as helpCenterSelectors from 'src/embeds/helpCenter/selectors'
 import * as supportSelectors from 'src/embeds/support/selectors'
 import * as actionTypes from 'src/redux/modules/base/base-action-types'
@@ -8,12 +7,13 @@ import * as actions from 'src/redux/modules/base/base-actions'
 import { UPDATE_CHAT_SCREEN } from 'src/redux/modules/chat/chat-action-types'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
 import * as selectors from 'src/redux/modules/selectors'
+import history from 'src/service/history'
 
 jest.mock('src/redux/modules/selectors')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('src/embeds/helpCenter/selectors')
 jest.mock('src/embeds/support/selectors')
-jest.mock('service/history')
+jest.mock('src/service/history')
 jest.mock('src/embeds/webWidget/selectors/feature-flags')
 
 const mockState = {

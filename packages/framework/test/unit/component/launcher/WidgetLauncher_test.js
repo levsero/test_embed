@@ -51,7 +51,7 @@ describe('WidgetLauncher component', () => {
       'src/redux/modules/selectors': {
         getChatOnline: noop,
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: {
           get: () => mockChatSuppressedValue,
         },

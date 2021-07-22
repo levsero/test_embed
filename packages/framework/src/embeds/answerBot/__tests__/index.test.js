@@ -1,7 +1,7 @@
-import { http } from 'service/transport'
 import { ARTICLE_SCREEN, CONVERSATION_SCREEN } from 'src/embeds/answerBot/constants'
 import * as rootSelectors from 'src/embeds/answerBot/selectors/root'
 import * as selectors from 'src/redux/modules/selectors/selectors'
+import { http } from 'src/service/transport'
 import { render } from 'src/util/testHelpers'
 import { Component as AnswerBot } from '../index'
 

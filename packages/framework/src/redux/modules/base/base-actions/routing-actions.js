@@ -1,4 +1,3 @@
-import history from 'service/history'
 import { getArticleViewActive } from 'src/embeds/helpCenter/selectors'
 import supportRoutes from 'src/embeds/support/routes'
 import { getFormsToDisplay } from 'src/embeds/support/selectors'
@@ -11,6 +10,7 @@ import {
   getChatAvailable,
   getTalkOnline,
 } from 'src/redux/modules/selectors'
+import history from 'src/service/history'
 import * as actions from './../base-action-types'
 import { cancelButtonClicked } from './base-actions'
 

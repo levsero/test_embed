@@ -1,33 +1,5 @@
 import _ from 'lodash'
 import {
-  endChatApi,
-  openApi,
-  closeApi,
-  toggleApi,
-  sendChatMsgApi,
-  displayApi,
-  isChattingApi,
-  getDepartmentApi,
-  getAllDepartmentsApi,
-  showApi,
-  reauthenticateHelpCenter,
-  updatePathApi,
-  clearFormState,
-  updateSettingsApi,
-  hideApi,
-  setLocaleApi,
-  prefill,
-  setHelpCenterSuggestionsApi,
-  identifyApi,
-  logoutApi,
-  popoutApi,
-  addTagsApi,
-  removeTagsApi,
-  reauthenticateApi,
-} from 'service/api/apis'
-import * as callbacks from 'service/api/callbacks'
-import tracker from 'service/tracker'
-import {
   API_GET_IS_CHATTING_NAME,
   API_GET_DEPARTMENTS_ALL_NAME,
   API_GET_DEPARTMENTS_DEPARTMENT_NAME,
@@ -61,6 +33,34 @@ import {
   getHasBackfillCompleted,
   getNotificationCount,
 } from 'src/redux/modules/chat/chat-selectors'
+import {
+  endChatApi,
+  openApi,
+  closeApi,
+  toggleApi,
+  sendChatMsgApi,
+  displayApi,
+  isChattingApi,
+  getDepartmentApi,
+  getAllDepartmentsApi,
+  showApi,
+  reauthenticateHelpCenter,
+  updatePathApi,
+  clearFormState,
+  updateSettingsApi,
+  hideApi,
+  setLocaleApi,
+  prefill,
+  setHelpCenterSuggestionsApi,
+  identifyApi,
+  logoutApi,
+  popoutApi,
+  addTagsApi,
+  removeTagsApi,
+  reauthenticateApi,
+} from 'src/service/api/apis'
+import * as callbacks from 'src/service/api/callbacks'
+import tracker from 'src/service/tracker'
 
 export const getApiObj = () => {
   return {

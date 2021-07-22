@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import { settings } from 'service/settings'
-import tracker from 'service/tracker'
 import * as baseActions from 'src/redux/modules/base'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as chatActions from 'src/redux/modules/chat'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import * as chatLinkedSelectors from 'src/redux/modules/selectors/chat-linked-selectors'
 import * as apis from 'src/service/api/apis'
+import { settings } from 'src/service/settings'
+import tracker from 'src/service/tracker'
 import zopimApi from '..'
 
 jest.mock('src/service/api/apis')
@@ -27,7 +27,7 @@ jest.mock('src/apps/webWidget/services/i18n', () => ({
     setCustomTranslations: jest.fn(),
   },
 }))
-jest.mock('service/tracker')
+jest.mock('src/service/tracker')
 
 // Assume chat has been initialized and connected when testing zopim api methods.
 zopimApi.handleChatSDKInitialized()

@@ -119,7 +119,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/submitTicket/submitTicket-selectors': {
         getTicketForms: noop,
       },
-      'service/settings': {
+      'src/service/settings': {
         settings: { get: noop },
       },
       'src/redux/modules/settings/settings-selectors': {
@@ -133,7 +133,7 @@ describe('WebWidget component', () => {
         ARTICLE_SCREEN: 'article',
         CONVERSATION_SCREEN: 'conversation',
       },
-      'service/history': {
+      'src/service/history': {
         history: {},
       },
     })

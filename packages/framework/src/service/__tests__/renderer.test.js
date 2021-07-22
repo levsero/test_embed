@@ -3,7 +3,7 @@ import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import createStore from 'src/redux/createStore'
 import { BOOT_UP_TIMER_COMPLETE } from 'src/redux/modules/base/base-action-types'
 
-jest.mock('service/settings')
+jest.mock('src/service/settings')
 jest.mock('src/framework/services/errorTracker')
 jest.mock('src/redux/modules/base', () => ({
   updateEmbedAccessible: jest.fn().mockReturnValue({ type: 'embed accessible' }),
@@ -45,7 +45,7 @@ beforeEach(() => {
     contactOptions: { enabled: false },
     offset: { vertical: 20, horizontal: 30 },
   }
-  settings = require('service/settings').settings
+  settings = require('src/service/settings').settings
   settings.get = (value) => _.get(mockSettings, value, null)
   settings.getErrorReportingEnabled = () => false
   errorTracker = require('src/framework/services/errorTracker').default

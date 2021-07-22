@@ -88,8 +88,8 @@ describe('chat redux actions', () => {
     WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS
 
     initMockRegistry({
-      'service/api/zopimApi': {},
-      'service/api/callbacks': {},
+      'src/service/api/zopimApi': {},
+      'src/service/api/callbacks': {},
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone,
         getZChatConfig: () => mockZChatConfig,
@@ -142,7 +142,7 @@ describe('chat redux actions', () => {
         },
       },
       'src/constants/event': {},
-      'service/audio': {
+      'src/service/audio': {
         load: loadSoundSpy,
       },
       'src/redux/modules/form/actions': {},

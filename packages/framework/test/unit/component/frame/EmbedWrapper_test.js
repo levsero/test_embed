@@ -43,7 +43,7 @@ describe('EmbedWrapper', () => {
       'src/redux/modules/selectors': {
         getColor: noop,
       },
-      'service/history': createMemoryHistory(),
+      'src/service/history': createMemoryHistory(),
       lodash: _,
       'src/apps/webWidget/services/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['isRTL']),

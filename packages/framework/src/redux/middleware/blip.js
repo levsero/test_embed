@@ -1,5 +1,3 @@
-import { beacon } from 'service/beacon'
-import hcStats from 'service/hcStats'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { ANSWER_BOT_ORIGINAL_ARTICLE_CLICKED } from 'src/embeds/answerBot/actions/article/action-types'
 import {
@@ -44,6 +42,8 @@ import {
   getFormState,
   getAverageWaitTime,
 } from 'src/redux/modules/talk/talk-selectors'
+import { beacon } from 'src/service/beacon'
+import hcStats from 'src/service/hcStats'
 
 let talkOpenedBlipSent = false
 let chatOpenedBlipSent = false

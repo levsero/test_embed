@@ -1,5 +1,4 @@
 import { wait } from '@testing-library/react'
-import * as callbacks from 'service/api/callbacks'
 import {
   CHAT_ENDED_EVENT,
   CHAT_STARTED_EVENT,
@@ -11,6 +10,7 @@ import {
 import createStore from 'src/redux/createStore'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { CHAT_CONNECTED } from 'src/redux/modules/chat/chat-action-types'
+import * as callbacks from 'src/service/api/callbacks'
 import zopimApi from '..'
 
 const setup = () => {

@@ -1,4 +1,3 @@
-import * as callbacks from 'service/api/callbacks'
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
 import {
   CHAT_DEPARTMENT_STATUS_EVENT,
@@ -13,6 +12,7 @@ import {
   SDK_CHAT_MEMBER_LEAVE,
 } from 'src/redux/modules/chat/chat-action-types'
 import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as callbacks from 'src/service/api/callbacks'
 import { isVisitor } from 'utility/chat'
 
 const fireWidgetChatEvent = (action, getReduxState) => {

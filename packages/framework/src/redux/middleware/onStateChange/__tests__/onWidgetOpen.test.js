@@ -20,7 +20,7 @@ beforeEach(() => {
   scrollHacks = require('utility/scrollHacks')
   chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
 
-  jest.mock('service/renderer')
+  jest.mock('src/service/renderer')
   jest.mock('utility/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')

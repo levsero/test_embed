@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import superagent from 'superagent'
-import { settings } from 'service/settings'
+import { settings } from 'src/service/settings'
 import { getZendeskHost } from 'utility/globals'
 import {
   send,

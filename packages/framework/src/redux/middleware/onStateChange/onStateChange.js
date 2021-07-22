@@ -1,6 +1,4 @@
 import _ from 'lodash'
-import audio from 'service/audio'
-import history from 'service/history'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { getUserSoundSettings } from 'src/embeds/chat/selectors'
 import routes from 'src/embeds/helpCenter/routes'
@@ -59,6 +57,8 @@ import {
   getSettingsMobileNotificationsDisabled,
   getCookiesDisabled,
 } from 'src/redux/modules/settings/settings-selectors'
+import audio from 'src/service/audio'
+import history from 'src/service/history'
 import { resetShouldWarn } from 'src/util/nullZChat'
 import { isMobileBrowser } from 'utility/devices'
 import { isPopout } from 'utility/globals'

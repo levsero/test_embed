@@ -3,12 +3,12 @@ import { cloneElement, Component } from 'react'
 import { connect } from 'react-redux'
 import { Router } from 'react-router-dom'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
-import history from 'service/history'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import FocusJail from 'src/components/FrameFocusJail'
 import { WidgetThemeProvider } from 'src/components/Widget'
 import { handleEscapeKeyPressed } from 'src/redux/modules/base'
 import { getColor } from 'src/redux/modules/selectors'
+import history from 'src/service/history'
 import { getGardenOverrides } from './gardenOverrides'
 
 class EmbedWrapper extends Component {

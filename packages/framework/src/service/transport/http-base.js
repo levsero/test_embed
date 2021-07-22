@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import superagent from 'superagent'
-import { identity } from 'service/identity'
 import HttpApiError from 'src/errors/nonFatal/HttpApiError'
 import errorTracker from 'src/framework/services/errorTracker'
+import { identity } from 'src/service/identity'
 import { getReferrerPolicy, getZendeskHost, location, win } from 'utility/globals'
 import { base64encode, referrerPolicyUrl } from 'utility/utils'
 

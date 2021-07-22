@@ -1,7 +1,4 @@
 import _ from 'lodash'
-import * as callbacks from 'service/api/callbacks'
-import zopimApi from 'service/api/zopimApi'
-import audio from 'service/audio'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import {
   CHAT_CONNECTED_EVENT,
@@ -26,7 +23,10 @@ import {
 import { zChatWithTimeout, canBeIgnored } from 'src/redux/modules/chat/helpers/zChatWithTimeout'
 import { setFormState } from 'src/redux/modules/form/actions'
 import { getHelpCenterAvailable, getChannelChoiceAvailable } from 'src/redux/modules/selectors'
+import * as callbacks from 'src/service/api/callbacks'
+import zopimApi from 'src/service/api/zopimApi'
 import { onChatSDKInitialized, onChatConnected } from 'src/service/api/zopimApi/callbacks'
+import audio from 'src/service/audio'
 import { formatSchedule } from 'src/util/chat'
 import { getPageTitle, getHostUrl, isValidUrl } from 'src/util/utils'
 import { isMobileBrowser } from 'utility/devices'

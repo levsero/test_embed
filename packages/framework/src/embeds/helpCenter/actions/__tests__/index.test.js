@@ -1,8 +1,6 @@
 import { wait } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { settings } from 'service/settings'
-import { http } from 'service/transport'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import * as types from 'src/embeds/helpCenter/actions/action-types'
 import * as helpCenterSelectors from 'src/embeds/helpCenter/selectors'
@@ -10,13 +8,15 @@ import * as baseActionTypes from 'src/redux/modules/base/base-action-types'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
+import { settings } from 'src/service/settings'
+import { http } from 'src/service/transport'
 import * as pages from 'utility/pages'
 import * as actions from '../index'
 
-jest.mock('service/transport')
+jest.mock('src/service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
 jest.mock('utility/pages')
-jest.mock('service/settings')
+jest.mock('src/service/settings')
 helpCenterSelectors.getLastSearchTimestamp = jest.fn()
 
 beforeEach(() => {

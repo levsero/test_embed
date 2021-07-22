@@ -1,4 +1,3 @@
-import { registerCallback } from 'service/api/callbacks'
 import { CONNECTION_CLOSED_REASON, SDK_ACTION_TYPE_PREFIX } from 'src/constants/chat'
 import {
   CHAT_DEPARTMENT_STATUS_EVENT,
@@ -6,6 +5,7 @@ import {
   CHAT_ENDED_EVENT,
 } from 'src/constants/event'
 import { chatBanned } from 'src/redux/modules/chat'
+import { registerCallback } from 'src/service/api/callbacks'
 import firehoseListener from '../firehoseListener'
 
 describe('firehoseListener', () => {

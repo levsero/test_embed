@@ -1,14 +1,14 @@
 import { fireEvent } from '@testing-library/react'
-import { settings } from 'service/settings'
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat'
 import { TEST_IDS } from 'src/constants/shared'
 import createStore from 'src/redux/createStore'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { handleChatSDKInitialized, handleChatConnected } from 'src/service/api/zopimApi/callbacks'
+import { settings } from 'src/service/settings'
 import { render, dispatchChatAccountSettings } from 'utility/testHelpers'
 import ChatOnline from '../../ChatOnline'
 
-jest.mock('service/transport/http')
+jest.mock('src/service/transport/http')
 jest.mock('src/embeds/chat/components/ImageMessage', () => () => <div>ImageMessage</div>)
 
 jest.useFakeTimers()

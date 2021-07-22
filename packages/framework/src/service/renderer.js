@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { settings } from 'service/settings'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { setUpHelpCenterAuth } from 'src/embeds/helpCenter/actions'
 import webWidgetApp from 'src/embeds/webWidget'
@@ -8,6 +7,7 @@ import { updateEmbedAccessible, widgetInitialised } from 'src/redux/modules/base
 import { setUpChat } from 'src/redux/modules/chat'
 import { pollTalkStatus } from 'src/redux/modules/talk'
 import { setLocaleApi } from 'src/service/api/apis'
+import { settings } from 'src/service/settings'
 
 let initialised = false
 let hasRendered = false

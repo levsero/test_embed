@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { http } from 'service/transport'
 import { ALL_FORMS_REQUESTED } from 'src/redux/modules/settings/settings-action-types'
+import { http } from 'src/service/transport'
 import * as types from '../action-types'
 import {
   TICKET_FORMS_REQUEST_SENT,

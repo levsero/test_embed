@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { settings as legacySettings } from 'service/settings'
 import { CONNECTION_STATUSES } from 'src/constants/chat'
 import { setDepartment } from 'src/redux/modules/chat'
 import { getConnection, getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
 import { getDefaultSelectedDepartment } from 'src/redux/modules/selectors'
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors'
+import { settings as legacySettings } from 'src/service/settings'
 import { UPDATE_SETTINGS } from './settings-action-types'
 
 const handleTagsChange = (zChat, tags = [], oldTags = []) => {

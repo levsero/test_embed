@@ -78,7 +78,7 @@ describe('resetActiveEmbed middleware', () => {
         TALK_AGENT_AVAILABILITY_SOCKET_EVENT,
         TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
       },
-      'service/history': history,
+      'src/service/history': history,
       'src/embeds/helpCenter/routes': {
         home: () => 'helpCenter/home',
       },

@@ -1,6 +1,4 @@
 import _ from 'lodash'
-import { settings } from 'service/settings'
-import tracker from 'service/tracker'
 import {
   API_ON_CHAT_CONNECTED_NAME,
   API_ON_CHAT_START_NAME,
@@ -34,6 +32,8 @@ import {
   addTagsApi,
   removeTagsApi,
 } from 'src/service/api/apis'
+import { settings } from 'src/service/settings'
+import tracker from 'src/service/tracker'
 import { nameValid, emailValid, phoneValid } from 'utility/utils'
 import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import {

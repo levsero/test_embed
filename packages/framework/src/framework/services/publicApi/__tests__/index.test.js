@@ -1,10 +1,10 @@
-import { logAndTrackApiError } from 'service/api/errorHandlers'
-import tracker from 'service/tracker'
 import LegacyZEApiError from 'src/framework/services/publicApi/LegacyZEApiError'
+import { logAndTrackApiError } from 'src/service/api/errorHandlers'
+import tracker from 'src/service/tracker'
 import publicApi from '../'
 
-jest.mock('service/tracker')
-jest.mock('service/api/errorHandlers')
+jest.mock('src/service/tracker')
+jest.mock('src/service/api/errorHandlers')
 
 describe('public api service', () => {
   let mockApi

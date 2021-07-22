@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import history from 'service/history'
 import { EMBED_MAP, NIL_EMBED } from 'src/constants/shared'
 import { RECEIVE_DEFERRED_CHAT_STATUS } from 'src/embeds/chat/actions/action-types'
 import helpCenterRoutes from 'src/embeds/helpCenter/routes'
@@ -39,6 +38,7 @@ import {
   TALK_SUCCESS_DONE_BUTTON_CLICKED,
   RECEIVED_DEFERRED_TALK_STATUS,
 } from 'src/redux/modules/talk/talk-action-types'
+import history from 'src/service/history'
 import { isPopout } from 'utility/globals'
 
 const shouldResetForChat = (type, state) => {
