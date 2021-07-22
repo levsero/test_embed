@@ -3,7 +3,7 @@ import * as libphonenumber from 'libphonenumber-js'
 import snapshotDiff from 'snapshot-diff'
 import { IdManager } from '@zendeskgarden/react-selection'
 import { TEST_IDS } from 'src/constants/shared'
-import countriesByIso from 'translation/ze_countries'
+import countriesByIso from 'src/translation/ze_countries'
 import { Component as PhoneField } from '../'
 
 jest.mock('libphonenumber-js')
