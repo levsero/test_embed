@@ -1,7 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { getActiveConversation, fetchMessages, getClient } from 'src/apps/messenger/api/sunco'
-import { activityReceived } from 'src/apps/messenger/features/messageLog/Message/messages/TypingIndicator/store'
-import { messageReceived } from 'src/apps/messenger/features/messageLog/store'
+
+export const messageReceived = createAction('message-received')
+export const activityReceived = createAction('activity-received')
 
 const waitForSocketToConnect = async (activeConversation, dispatch) => {
   const socketIsConnected = new Promise((resolve, reject) => {
