@@ -4,8 +4,12 @@ import {
   SDK_CHAT_MEMBER_LEAVE,
   CHAT_AGENT_INACTIVE,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getChatOnline, getActiveAgents } from 'src/redux/modules/chat/chat-selectors'
-import { getChatStatus, getActiveAgentCount } from 'src/redux/modules/chat/chat-selectors'
+import {
+  getChatStatus,
+  getActiveAgentCount,
+  getChatOnline,
+  getActiveAgents,
+} from 'src/embeds/chat/selectors'
 
 export default (prevState, nextState, { type, payload }, dispatch) => {
   if (_.isEmpty(getChatStatus(nextState))) return

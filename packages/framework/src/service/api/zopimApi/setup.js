@@ -10,7 +10,7 @@ import {
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { getWebWidgetOpen } from 'src/redux/modules/base/base-selectors'
 import { setStatusForcefully, setVisitorInfo } from 'src/redux/modules/chat'
-import { getCanShowOnlineChat } from 'src/redux/modules/chat/chat-selectors'
+import { getCanShowOnlineChat } from 'src/embeds/chat/selectors'
 import { getDelayChatConnection } from 'src/redux/modules/selectors/chat-linked-selectors'
 import {
   endChatApi,

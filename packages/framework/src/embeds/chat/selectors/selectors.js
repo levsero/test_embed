@@ -1,66 +1,80 @@
+import createCachedSelector from 're-reselect'
 import _ from 'lodash'
 import { createSelector } from 'reselect'
 import isFeatureEnabled from 'src/embeds/webWidget/selectors/feature-flags'
 import { getEmbeddableConfig, getZopimId } from 'src/redux/modules/base/base-selectors'
 import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors'
 
-const chatState = (state) => state.chat
+const getHistory = (state) => state.chat.chatHistory.chats
 
-export const getNotification = (state) => chatState(state).notification
-export const getChats = (state) => chatState(state).chats
+const getState = (state) => state.chat
+
+export const getIsPollingChat = (state) =>
+  !getEmbeddableConfig(state).disableStatusPolling && getState(state).deferredChatIsPolling
+
+export const getDeferredChatHasResponse = (state) => getState(state).deferredChatHasResponse
+
+export const getVisitorEmail = (state) => getState(state).visitor.email
+
+export const getMenuVisible = (state) => getState(state).menuVisible
+
+export const getUserSoundSettings = (state) => getState(state).soundEnabled
+
+export const getNotification = (state) => getState(state).notification
+export const getChats = (state) => getState(state).chats
 export const isAgent = (nick) => (nick ? nick.indexOf('agent:') > -1 : false)
-export const getThemeMessageType = (state) => chatState(state).accountSettings.theme.message_type
-export const getOrderedAgents = (state) => chatState(state).activeAgents
+export const getThemeMessageType = (state) => getState(state).accountSettings.theme.message_type
+export const getOrderedAgents = (state) => getState(state).activeAgents
 export const getShowOperatingHours = (state) =>
-  chatState(state).accountSettings.operatingHours.display_notice
-export const getForcedStatus = (state) => chatState(state).forcedStatus
-export const getInactiveAgents = (state) => chatState(state).inactiveAgents
-export const getSocialLogin = (state) => chatState(state).socialLogin
-export const getConnection = (state) => chatState(state).connection
-export const getCurrentMessage = (state) => chatState(state).currentMessage
-export const getChatRating = (state) => chatState(state).rating
-export const getChatScreen = (state) => chatState(state).screen
-export const getShowChatHistory = (state) => chatState(state).showChatHistory
-export const getChatStatus = (state) => chatState(state).account_status
-export const getChatVisitor = (state) => chatState(state).visitor
-export const getIsChatting = (state) => chatState(state).is_chatting
+  getState(state).accountSettings.operatingHours.display_notice
+export const getForcedStatus = (state) => getState(state).forcedStatus
+export const getInactiveAgents = (state) => getState(state).inactiveAgents
+export const getSocialLogin = (state) => getState(state).socialLogin
+export const getConnection = (state) => getState(state).connection
+export const getCurrentMessage = (state) => getState(state).currentMessage
+export const getChatRating = (state) => getState(state).rating
+export const getChatScreen = (state) => getState(state).screen
+export const getShowChatHistory = (state) => getState(state).showChatHistory
+export const getChatStatus = (state) => getState(state).account_status
+export const getChatVisitor = (state) => getState(state).visitor
+export const getIsChatting = (state) => getState(state).is_chatting
 export const getNotificationCount = (state) => getNotification(state).count
-export const getEmailTranscript = (state) => chatState(state).emailTranscript
-export const getAttachmentsEnabled = (state) => chatState(state).accountSettings.attachments.enabled
-export const getRatingSettings = (state) => chatState(state).accountSettings.rating
-export const getQueuePosition = (state) => chatState(state).queuePosition
-export const getReadOnlyState = (state) => chatState(state).formState.readOnlyState
-export const getChatOfflineForm = (state) => chatState(state).formState.offlineForm
-export const getOfflineMessage = (state) => chatState(state).offlineMessage
-export const getPreChatFormState = (state) => chatState(state).formState.preChatForm
-export const getAgentJoined = (state) => chatState(state).agentJoined
-export const getAgentEndedChatSession = (state) => chatState(state).agentEndedChatSession
-export const getLastReadTimestamp = (state) => chatState(state).lastReadTimestamp
-export const getOperatingHours = (state) => chatState(state).operatingHours
-export const getLoginSettings = (state) => chatState(state).accountSettings.login
+export const getEmailTranscript = (state) => getState(state).emailTranscript
+export const getAttachmentsEnabled = (state) => getState(state).accountSettings.attachments.enabled
+export const getRatingSettings = (state) => getState(state).accountSettings.rating
+export const getQueuePosition = (state) => getState(state).queuePosition
+export const getReadOnlyState = (state) => getState(state).formState.readOnlyState
+export const getChatOfflineForm = (state) => getState(state).formState.offlineForm
+export const getOfflineMessage = (state) => getState(state).offlineMessage
+export const getPreChatFormState = (state) => getState(state).formState.preChatForm
+export const getAgentJoined = (state) => getState(state).agentJoined
+export const getAgentEndedChatSession = (state) => getState(state).agentEndedChatSession
+export const getLastReadTimestamp = (state) => getState(state).lastReadTimestamp
+export const getOperatingHours = (state) => getState(state).operatingHours
+export const getLoginSettings = (state) => getState(state).accountSettings.login
 export const getStandaloneMobileNotificationVisible = (state) =>
-  chatState(state).standaloneMobileNotificationVisible
-export const getIsAuthenticated = (state) => chatState(state).isAuthenticated
-export const getZChatVendor = (state) => chatState(state).vendor.zChat
-export const getSliderVendor = (state) => chatState(state).vendor.slider
-export const getWindowSettings = (state) => chatState(state).accountSettings.chatWindow
+  getState(state).standaloneMobileNotificationVisible
+export const getIsAuthenticated = (state) => getState(state).isAuthenticated
+export const getZChatVendor = (state) => getState(state).vendor.zChat
+export const getSliderVendor = (state) => getState(state).vendor.slider
+export const getWindowSettings = (state) => getState(state).accountSettings.chatWindow
 export const getThemeColor = (state) => ({
-  base: chatState(state).accountSettings.theme.color.primary,
+  base: getState(state).accountSettings.theme.color.primary,
   text: undefined,
 })
-export const getChatAccountSettingsConcierge = (state) => chatState(state).accountSettings.concierge
+export const getChatAccountSettingsConcierge = (state) => getState(state).accountSettings.concierge
 export const getChatAccountSettingsOfflineForm = (state) =>
-  chatState(state).accountSettings.offlineForm
+  getState(state).accountSettings.offlineForm
 export const getChatAccountSettingsPrechatForm = (state) =>
-  chatState(state).accountSettings.prechatForm
-export const getDepartments = (state) => chatState(state).departments
-export const getAccountSettingsLauncherBadge = (state) => chatState(state).accountSettings.banner
+  getState(state).accountSettings.prechatForm
+export const getDepartments = (state) => getState(state).departments
+export const getAccountSettingsLauncherBadge = (state) => getState(state).accountSettings.banner
 const getAccountSettingsChatBadgeEnabled = (state) => getAccountSettingsLauncherBadge(state).enabled
-const getAccountSettingsBadgeColor = (state) => chatState(state).accountSettings.theme.color.banner
-export const getHideBranding = (state) => chatState(state).accountSettings.branding.hide_branding
-export const getAccountDefaultDepartmentId = (state) => chatState(state).defaultDepartment.id
+const getAccountSettingsBadgeColor = (state) => getState(state).accountSettings.theme.color.banner
+export const getHideBranding = (state) => getState(state).accountSettings.branding.hide_branding
+export const getAccountDefaultDepartmentId = (state) => getState(state).defaultDepartment.id
 export const getDepartmentsList = (state) => _.values(getDepartments(state))
-export const getIsLoggingOut = (state) => chatState(state).isLoggingOut
+export const getIsLoggingOut = (state) => getState(state).isLoggingOut
 export const getChatLog = (state) => state.chat.chatLog.groups
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value
@@ -178,3 +192,25 @@ export const getBadgeColor = (state) => {
 }
 export const getEmbeddableConfigOfflineEnabled = (state) =>
   _.get(state.chat.config, 'forms.offlineEnabled', false)
+
+export const getContactDetailsSubmissionPending = (state) =>
+  getState(state).contactDetailsSubmissionPending
+
+export const getContactDetailsSubmissionError = (state) =>
+  getState(state).contactDetailsSubmissionError
+
+export const getEditContactDetails = (state) => getState(state).editContactDetails
+
+export const getShowEditContactDetails = (state) => getEditContactDetails(state).show
+
+export const getHistoryEventMessage = createCachedSelector(
+  getHistory,
+  (state, messageKey) => messageKey,
+  (history, messageKey) => history.get(messageKey)
+)((state, messageKey) => messageKey)
+
+export const getEventMessage = createCachedSelector(
+  getChats,
+  (_state, messageKey) => messageKey,
+  (chats, messageKey) => chats.get(messageKey)
+)((_state, messageKey) => messageKey)

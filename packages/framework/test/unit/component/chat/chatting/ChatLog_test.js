@@ -38,7 +38,7 @@ describe('ChatLog component', () => {
       './ChatLog.scss': {
         locals: {},
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getChatLog: noop,
       },
       'src/apps/webWidget/services/i18n': {

@@ -3,8 +3,8 @@ import {
   CHAT_AGENT_INACTIVE,
 } from 'src/redux/modules/chat/chat-action-types'
 import * as chatActions from 'src/redux/modules/chat/chat-actions/actions'
-import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
+import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
 import onAgentLeave from '../onAgentLeave'
 
 const setupMocks = (chatOnline = false, activeAgents = {}, chatStatus = 'offline') => {

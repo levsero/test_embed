@@ -30,7 +30,7 @@ import {
 import {
   getStandaloneMobileNotificationVisible,
   getShowChatHistory,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import {
   getChatEnabled,
   getHideZendeskLogo,

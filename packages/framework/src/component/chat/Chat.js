@@ -9,7 +9,7 @@ import {
   getShowOfflineChat,
   getShowChatHistory,
   getHasChatSdkConnected,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 
 const mapStateToProps = (state) => {
   return {

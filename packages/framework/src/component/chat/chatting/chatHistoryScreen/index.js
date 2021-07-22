@@ -12,7 +12,7 @@ import {
   getHasMoreHistory,
   getHistoryRequestStatus,
 } from 'src/redux/modules/chat/chat-history-selectors'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+import * as chatSelectors from 'src/embeds/chat/selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
 import { isFirefox, isIE } from 'src/util/devices'
 import getScrollBottom from 'src/util/get-scroll-bottom'

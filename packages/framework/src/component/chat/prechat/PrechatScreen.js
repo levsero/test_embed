@@ -19,7 +19,7 @@ import {
   getPreChatFormState,
   getOfflineMessage,
   getChatVisitor,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
 import { locals as styles } from './PrechatScreen.scss'
 

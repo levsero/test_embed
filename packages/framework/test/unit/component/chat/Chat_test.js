@@ -14,7 +14,7 @@ describe('Chat component', () => {
       'src/embeds/chat/components/ChatOffline': ChatOffline,
       'src/component/chat/ChatOnline': ChatOnline,
       'src/components/LoadingPage': LoadingPage,
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getShowOfflineChat: '',
       },
       'src/redux/modules/base': {

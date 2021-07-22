@@ -11,7 +11,7 @@ import {
   getFirstVisitorMessage,
   getShowUpdateVisitorDetails,
   getIsChatting,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import chatPropTypes from 'src/types/chat'
 import { locals as styles } from './ChatLog.scss'
 

@@ -105,7 +105,7 @@ describe('onStateChange middleware', () => {
         play: audioPlaySpy,
       },
       'src/service/history': historySpy,
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getConnection: _.identity,
         getChatMessagesFromAgents: (val) => {
           if (val) {
@@ -123,6 +123,7 @@ describe('onStateChange middleware', () => {
         getLastReadTimestamp: (state) => _.get(state, 'lastReadTimestamp'),
         hasUnseenAgentMessage: () => mockHasUnseenAgentMessage,
         getIsLoggingOut: () => mockIsLoggingOut,
+        getUserSoundSettings: () => mockUserSoundSetting,
       },
       'src/redux/modules/selectors': {
         getOfflineFormSettings: () => mockOfflineFormSettings,
@@ -166,9 +167,6 @@ describe('onStateChange middleware', () => {
       },
       'src/embeds/helpCenter/routes': {
         articles: (id) => `/articles/${id}`,
-      },
-      'src/embeds/chat/selectors': {
-        getUserSoundSettings: () => mockUserSoundSetting,
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (arg) => {

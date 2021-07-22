@@ -49,7 +49,7 @@ import {
   getLastReadTimestamp,
   hasUnseenAgentMessage,
   getIsLoggingOut,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { getAnswerBotAvailable, getSubmitTicketAvailable } from 'src/redux/modules/selectors'
 import { UPDATE_SETTINGS } from 'src/redux/modules/settings/settings-action-types'
 import { updateChatSettings } from 'src/redux/modules/settings/settings-actions'

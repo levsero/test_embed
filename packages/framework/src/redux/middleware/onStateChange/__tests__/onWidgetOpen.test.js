@@ -4,7 +4,7 @@ let baseActions = require('src/redux/modules/base/base-actions')
 let scrollHacks = require('src/util/scrollHacks')
 let onWidgetOpen = require('../onWidgetOpen').default
 let devices = require('src/util/devices')
-let chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
+let chatSelectors = require('src/embeds/chat/selectors/selectors')
 
 const dispatch = jest.fn()
 
@@ -18,14 +18,14 @@ beforeEach(() => {
   selectors = require('src/redux/modules/selectors')
   baseActions = require('src/redux/modules/base/base-actions')
   scrollHacks = require('src/util/scrollHacks')
-  chatSelectors = require('src/redux/modules/chat/chat-selectors/selectors')
+  chatSelectors = require('src/embeds/chat/selectors/selectors')
 
   jest.mock('src/service/renderer')
   jest.mock('src/util/devices')
   jest.mock('src/redux/modules/base/base-actions')
   jest.mock('src/redux/modules/selectors')
   jest.mock('src/util/scrollHacks')
-  jest.mock('src/redux/modules/chat/chat-selectors/selectors')
+  jest.mock('src/embeds/chat/selectors/selectors')
 
   jest.spyOn(selectors, 'getWebWidgetVisibleOpenAndReady').mockImplementation((state) => state)
   jest.spyOn(baseSelectors, 'getActiveEmbed').mockImplementation(() => 'helpCenter')

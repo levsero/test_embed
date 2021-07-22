@@ -56,7 +56,7 @@ describe('WidgetLauncher component', () => {
           get: () => mockChatSuppressedValue,
         },
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getNotification: noop,
       },
       'src/redux/modules/base/base-selectors': {

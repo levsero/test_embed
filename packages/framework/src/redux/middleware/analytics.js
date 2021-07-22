@@ -27,7 +27,7 @@ import {
   SDK_CHAT_COMMENT,
   PRE_CHAT_FORM_SUBMIT,
 } from 'src/redux/modules/chat/chat-action-types'
-import { getDepartments } from 'src/redux/modules/chat/chat-selectors'
+import { getDepartments } from 'src/embeds/chat/selectors'
 import { getAnalyticsDisabled } from 'src/redux/modules/settings/settings-selectors'
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types'
 import { GA } from 'src/service/analytics/googleAnalytics'

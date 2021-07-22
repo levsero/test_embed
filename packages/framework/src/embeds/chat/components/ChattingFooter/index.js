@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { withTheme } from 'styled-components'
 import DesktopFooter from 'src/embeds/chat/components/ChattingFooter/Desktop'
 import MobileFooter from 'src/embeds/chat/components/ChattingFooter/Mobile'
-import { getMenuVisible } from 'src/embeds/chat/selectors'
+import { getMenuVisible, getAttachmentsEnabled, getIsChatting } from 'src/embeds/chat/selectors'
 import { sendAttachments } from 'src/redux/modules/chat'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
+
 import { getHideZendeskLogo } from 'src/redux/modules/selectors'
 
 const ChattingFooter = ({
@@ -66,9 +66,9 @@ const actionCreators = {
 }
 
 const mapStateToProps = (state) => ({
-  attachmentsEnabled: chatSelectors.getAttachmentsEnabled(state),
+  attachmentsEnabled: getAttachmentsEnabled(state),
   menuVisible: getMenuVisible(state),
-  isChatting: chatSelectors.getIsChatting(state),
+  isChatting: getIsChatting(state),
   hideZendeskLogo: getHideZendeskLogo(state),
 })
 

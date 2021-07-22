@@ -52,7 +52,7 @@ describe('resetActiveEmbed middleware', () => {
       'src/embeds/helpCenter/selectors': {
         getArticleViewActive: () => mockArticleViewActive,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getIsChatting: () => mockIsChatting,
         getChatBanned: () => mockChatBanned,
       },

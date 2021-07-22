@@ -17,7 +17,7 @@ import {
   getAuthUrls,
   getChatVisitor,
   getSocialLogin,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { getDefaultFormFields } from 'src/redux/modules/selectors'
 import { Form, Body } from './styles'
 

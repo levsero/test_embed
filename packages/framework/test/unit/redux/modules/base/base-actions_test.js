@@ -95,7 +95,7 @@ describe('base redux actions', () => {
         getHasContextuallySearched: () => mockHasContextuallySearched,
         getArticleDisplayed: () => mockGetArticleDisplayed,
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'src/embeds/chat/selectors': {
         getPrechatFormRequired: () => false,
       },
       'src/redux/modules/chat/chat-screen-types': {

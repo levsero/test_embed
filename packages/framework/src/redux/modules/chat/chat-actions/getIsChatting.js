@@ -3,7 +3,7 @@ import { store } from 'src/framework/services/persistence'
 import { updateActiveEmbed } from 'src/redux/modules/base'
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types'
 import { chatWindowOpenOnNavigate, chatDropped } from 'src/redux/modules/chat/chat-actions/actions'
-import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
+import { getZChatVendor } from 'src/embeds/chat/selectors'
 import { isMobileBrowser } from 'src/util/devices'
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown')

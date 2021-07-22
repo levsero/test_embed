@@ -1,6 +1,6 @@
 import getModifiedState from 'src/fixtures/chat-reselectors-test-state'
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
+import * as chatReselectors from 'src/embeds/chat/selectors/reselectors'
 import * as globals from 'src/util/globals'
 import * as selectors from '../chat-linked-selectors'
 

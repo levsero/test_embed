@@ -12,7 +12,7 @@ import { i18n } from 'src/apps/webWidget/services/i18n'
 import WidgetThemeProvider from 'src/components/Widget/WidgetThemeProvider'
 import createStore from 'src/redux/createStore'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
+import * as chatSelectors from 'src/embeds/chat/selectors/selectors'
 import reducer from 'src/redux/modules/reducer'
 import { updateTalkEmbeddableConfig } from 'src/redux/modules/talk'
 

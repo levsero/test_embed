@@ -11,7 +11,7 @@ import {
   getIsAuthenticated,
   getLoginSettings,
   getSocialLogin,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import {
   getDefaultFormFields,
   getPrechatFormFields,
@@ -24,7 +24,7 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 
 jest.mock('src/redux/modules/selectors')
-jest.mock('src/redux/modules/chat/chat-selectors')
+jest.mock('src/embeds/chat/selectors')
 jest.mock('src/redux/modules/settings/settings-selectors')
 
 describe('prechat form selectors', () => {

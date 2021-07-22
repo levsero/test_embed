@@ -9,9 +9,8 @@ import {
   RECEIVE_DEFERRED_CHAT_STATUS,
 } from 'src/embeds/chat/actions/action-types'
 import { fetchDeferredChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
-import { getIsPollingChat } from 'src/embeds/chat/selectors'
+import { getIsPollingChat, getDeferredChatApi } from 'src/embeds/chat/selectors'
 import errorTracker from 'src/framework/services/errorTracker'
-import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
 import { document } from 'src/util/globals'
 import wait from 'src/util/wait'
 

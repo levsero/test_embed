@@ -56,7 +56,7 @@ import {
   getNotificationCount,
   getChatStatus,
   getHasBackfillCompleted,
-} from 'src/redux/modules/chat/chat-selectors'
+} from 'src/embeds/chat/selectors'
 import { getWidgetDisplayInfo } from 'src/redux/modules/selectors'
 import { updateSettings } from 'src/redux/modules/settings'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
