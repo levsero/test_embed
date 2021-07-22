@@ -6,3 +6,4 @@ packages/conversation-components/dist
 */__snapshots__/*
 */node_modules/*
 node_modules
+dist/
