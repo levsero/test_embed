@@ -12,8 +12,8 @@ import { fetchDeferredChatStatus } from 'src/embeds/chat/apis/deferred-chat-api'
 import { getIsPollingChat } from 'src/embeds/chat/selectors'
 import errorTracker from 'src/framework/services/errorTracker'
 import { getDeferredChatApi } from 'src/redux/modules/chat/chat-selectors'
-import { document } from 'utility/globals'
-import wait from 'utility/wait'
+import { document } from 'src/util/globals'
+import wait from 'src/util/wait'
 
 export const beginChatSetup = () => ({
   type: BEGIN_CHAT_SETUP,

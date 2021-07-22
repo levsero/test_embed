@@ -14,8 +14,8 @@ import {
 } from 'src/redux/modules/talk/constants'
 import { TALK_SUCCESS_DONE_BUTTON_CLICKED } from 'src/redux/modules/talk/talk-action-types'
 import { http, socketio } from 'src/service/transport'
-import { parseUrl } from 'utility/utils'
-import wait from 'utility/wait'
+import { parseUrl } from 'src/util/utils'
+import wait from 'src/util/wait'
 import {
   TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT,
   TALK_AGENT_AVAILABILITY_SOCKET_EVENT,

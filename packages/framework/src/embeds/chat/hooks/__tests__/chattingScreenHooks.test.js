@@ -6,7 +6,7 @@ import * as chatActions from 'src/redux/modules/chat'
 import * as chatHistorySelectors from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatReselectors from 'src/redux/modules/chat/chat-selectors/reselectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors/selectors'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import {
   useMessagesOnMount,
   useHistoryUpdate,

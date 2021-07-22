@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Field } from '@zendeskgarden/react-forms'
 import { TEST_IDS } from 'src/constants/shared'
 import useTranslate from 'src/hooks/useTranslate'
-import { keyCodes } from 'utility/keyboard'
+import { keyCodes } from 'src/util/keyboard'
 import { HiddenLabel, Container, StyledTextarea } from './styles'
 
 const InputBox = ({ currentMessage = '', sendChat, handleChatBoxChange, isMobile }) => {

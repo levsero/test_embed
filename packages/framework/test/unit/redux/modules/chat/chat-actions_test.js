@@ -161,7 +161,7 @@ describe('chat redux actions', () => {
       'src/framework/services/errorTracker': {
         error: () => undefined,
       },
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser: () => false,
       },
       'src/redux/modules/base': {},

@@ -3,7 +3,7 @@ import {
   SDK_VISITOR_UPDATE,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
 } from 'src/redux/modules/chat/chat-action-types'
-import { testReducer } from 'utility/testHelpers'
+import { testReducer } from 'src/util/testHelpers'
 import reducer from '../visitor'
 
 describe('deferredChatIsPolling reducer', () => {

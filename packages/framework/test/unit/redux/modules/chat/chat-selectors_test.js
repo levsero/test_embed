@@ -73,11 +73,11 @@ describe('chat selectors', () => {
         },
       },
       'src/embeds/webWidget/selectors/feature-flags': () => false,
-      'utility/chat': {
+      'src/util/chat': {
         isDefaultNickname: () => mockIsDefaultNickname,
       },
-      'utility/devices': {},
-      'utility/globals': {
+      'src/util/devices': {},
+      'src/util/globals': {
         isPopout: () => mockIsPopout,
       },
     })

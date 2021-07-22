@@ -27,9 +27,9 @@ import {
   getHelpCenterReady,
 } from 'src/redux/modules/selectors/helpCenter-linked-selectors'
 import { settings } from 'src/service/settings'
-import { isMobileBrowser } from 'utility/devices'
-import { getZendeskHost } from 'utility/globals'
-import { isPopout } from 'utility/globals'
+import { isMobileBrowser } from 'src/util/devices'
+import { getZendeskHost } from 'src/util/globals'
+import { isPopout } from 'src/util/globals'
 import {
   getActiveEmbed,
   getHelpCenterEmbed,

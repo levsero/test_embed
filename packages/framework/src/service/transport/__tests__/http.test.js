@@ -1,7 +1,7 @@
 import superagent from 'superagent'
 import errorTracker from 'src/framework/services/errorTracker'
 import { identity } from 'src/service/identity'
-import { base64decode } from 'utility/utils'
+import { base64decode } from 'src/util/utils'
 import { http } from '../http'
 
 jest.mock('superagent')

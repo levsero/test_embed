@@ -1,10 +1,10 @@
 import { fireEvent, wait } from '@testing-library/react'
 import { FileDropProvider } from 'src/components/FileDropProvider'
+import { render } from 'src/util/testHelpers'
 import * as utils from 'src/util/utils'
-import { render } from 'utility/testHelpers'
 import { Component as AttachmentField } from '../'
 
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 const defaultProps = {
   displayAttachmentLimitError: false,

@@ -12,7 +12,7 @@ import { messengerConfigReceived } from 'src/apps/messenger/store/actions'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import { render } from 'src/apps/messenger/utils/testHelpers'
 import { store as persistence } from 'src/framework/services/persistence'
-import wait from 'utility/wait'
+import wait from 'src/util/wait'
 import LauncherLabel from '../index'
 
 describe('launcher label', () => {

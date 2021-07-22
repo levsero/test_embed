@@ -57,7 +57,7 @@ describe('Pure Panel Component', () => {
       'src/component/shared/KeyboardFocusButton': {
         KeyboardFocusButton: KeyboardFocusButton,
       },
-      'utility/devices': {
+      'src/util/devices': {
         isFirefox: isFirefoxSpy,
         isIE: isIESpy,
       },

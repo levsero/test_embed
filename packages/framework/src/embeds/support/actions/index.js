@@ -14,7 +14,7 @@ import trackTicketSubmitted from 'src/embeds/support/utils/track-ticket-submitte
 import { clearFormState } from 'src/redux/modules/form/actions'
 import history from 'src/service/history'
 import { http } from 'src/service/transport'
-import withRateLimiting from 'utility/rateLimiting'
+import withRateLimiting from 'src/util/rateLimiting'
 import * as actionTypes from './action-types'
 
 let attachmentUploaders = {}

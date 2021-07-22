@@ -6,8 +6,8 @@ import createStore from 'src/redux/createStore'
 import { updateEmbedAccessible, updateActiveEmbed } from 'src/redux/modules/base'
 import { updateSettings } from 'src/redux/modules/settings/settings-actions'
 import { http } from 'src/service/transport'
+import * as utility from 'src/util/devices'
 import { render } from 'src/util/testHelpers'
-import * as utility from 'utility/devices'
 import HelpCenter from '../../index'
 
 const renderComponent = () => {

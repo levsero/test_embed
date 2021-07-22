@@ -1,5 +1,5 @@
-import { isMobileBrowser } from 'utility/devices'
-import { isPopout } from 'utility/globals'
+import { isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 import {
   PROACTIVE_CHAT_RECEIVED,
   CHAT_WINDOW_OPEN_ON_NAVIGATE,

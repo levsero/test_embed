@@ -21,8 +21,8 @@ import { getPrechatFormRequired } from 'src/redux/modules/chat/chat-selectors'
 import * as callbacks from 'src/service/api/callbacks'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
+import { focusLauncher } from 'src/util/globals'
 import { nameValid, emailValid, phoneValid } from 'src/util/utils'
-import { focusLauncher } from 'utility/globals'
 import * as actions from './../base-action-types'
 
 function onAuthRequestSuccess(res, id, dispatch, webToken) {

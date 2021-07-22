@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import useTranslate from 'src/hooks/useTranslate'
-import { i18nTimeFromMinutes } from 'utility/time'
+import { i18nTimeFromMinutes } from 'src/util/time'
 import { LastTiming, Hours } from './styles'
 
 const HoursForApplicableDays = ({ periods, locale }) => {

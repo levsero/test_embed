@@ -21,8 +21,8 @@ import {
   getChatEmailTranscriptEnabled,
   getHelpCenterAvailable,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
-import { onNextTick } from 'utility/utils'
+import { isMobileBrowser } from 'src/util/devices'
+import { onNextTick } from 'src/util/utils'
 import {
   SoundOffIcon,
   SoundOnIcon,

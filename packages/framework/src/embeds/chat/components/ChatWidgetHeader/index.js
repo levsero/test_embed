@@ -17,8 +17,8 @@ import { getZChatVendor } from 'src/redux/modules/chat/chat-selectors'
 import { getIsChatPreviewEnabled } from 'src/redux/modules/preview/preview-selectors'
 import { getChatTitle, getIsPopoutButtonVisible } from 'src/redux/modules/selectors'
 import { getSettingsChatPopout } from 'src/redux/modules/settings/settings-selectors'
-import { createChatPopoutWindow } from 'utility/chat'
-import { isMobileBrowser } from 'utility/devices'
+import { createChatPopoutWindow } from 'src/util/chat'
+import { isMobileBrowser } from 'src/util/devices'
 import { PopoutIcon } from './styles'
 
 const ChatWidgetHeader = ({

@@ -5,7 +5,7 @@ import {
   getSettingsContactFormTags,
   getSettingsContactFormSubject,
 } from 'src/redux/modules/settings/settings-selectors'
-import { location, getReferrerPolicy } from 'utility/globals'
+import { location, getReferrerPolicy } from 'src/util/globals'
 
 const findOriginalId = (systemFieldName, ticketFields) => {
   const field = _.find(ticketFields, (field) => {

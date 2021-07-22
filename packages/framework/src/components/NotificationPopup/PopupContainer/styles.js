@@ -4,7 +4,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import RemoveIcon from '@zendeskgarden/svg-icons/src/14/remove.svg'
 import { SlideAppear } from 'src/component/transition/SlideAppear'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 export const CtaContainer = styled.div`
   padding-bottom: ${20 / FONT_SIZE}rem !important;

@@ -6,7 +6,7 @@ import {
   LoadingSpinnerIcon,
   SocialAvatar,
 } from 'src/embeds/chat/components/AuthenticatedProfile/styles'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 
 describe('AuthenticatedProfile', () => {
   const defaultProps = {

@@ -10,12 +10,12 @@ import * as helpCenterLinkedSelectors from 'src/redux/modules/selectors/helpCent
 import * as settingsSelectors from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import * as pages from 'utility/pages'
+import * as pages from 'src/util/pages'
 import * as actions from '../index'
 
 jest.mock('src/service/transport')
 jest.mock('src/redux/modules/base/base-selectors')
-jest.mock('utility/pages')
+jest.mock('src/util/pages')
 jest.mock('src/service/settings')
 helpCenterSelectors.getLastSearchTimestamp = jest.fn()
 

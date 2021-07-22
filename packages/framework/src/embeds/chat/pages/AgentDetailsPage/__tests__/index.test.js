@@ -1,5 +1,5 @@
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import { Component as AgentDetailsPage } from '../'
 
 const renderComponent = (props = {}) => {

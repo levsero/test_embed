@@ -9,8 +9,8 @@ import useTranslate from 'src/hooks/useTranslate'
 import { renewToken } from 'src/redux/modules/base'
 import { getColor, getFrameVisible, getHideZendeskLogo } from 'src/redux/modules/selectors'
 import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
-import { generateUserLauncherCSS } from 'utility/color/styles'
-import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
+import { generateUserLauncherCSS } from 'src/util/color/styles'
+import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
 import { launcherStyles } from './styles'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()

@@ -1,5 +1,5 @@
 import mockZChat from 'src/redux/modules/chat/helpers/mockZChat'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 
 const loadZChat = (m) => {
   const zChat = mockZChat(m)

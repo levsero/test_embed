@@ -22,7 +22,7 @@ import { performImageSearch, addRestrictedImage } from 'src/embeds/helpCenter/ac
 import { getFormTitleKey, getRestrictedImages } from 'src/embeds/helpCenter/selectors'
 import * as baseSelectors from 'src/redux/modules/base/base-selectors'
 import { getSettingsHelpCenterOriginalArticleButton } from 'src/redux/modules/settings/settings-selectors'
-import { appendParams } from 'utility/utils'
+import { appendParams } from 'src/util/utils'
 import { FeedbackContainer } from './styles'
 
 class ArticlePage extends Component {

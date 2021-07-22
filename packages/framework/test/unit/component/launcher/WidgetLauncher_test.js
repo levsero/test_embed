@@ -16,7 +16,7 @@ describe('WidgetLauncher component', () => {
     mockChatSuppressedValue = false
 
     initMockRegistry({
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser: () => {
           return false
         },
@@ -45,7 +45,7 @@ describe('WidgetLauncher component', () => {
           isRTL: () => mockIsRTL,
         },
       },
-      'utility/utils': {
+      'src/util/utils': {
         onNextTick: (callback) => callback(),
       },
       'src/redux/modules/selectors': {
@@ -71,7 +71,7 @@ describe('WidgetLauncher component', () => {
       'src/redux/modules/base/': {
         launcherClicked: noop,
       },
-      'utility/keyboard': {
+      'src/util/keyboard': {
         keyCodes: {
           SPACE: 32,
           ENTER: 13,

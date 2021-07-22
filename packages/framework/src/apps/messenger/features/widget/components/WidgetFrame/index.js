@@ -7,7 +7,7 @@ import ThemeProvider from 'src/apps/messenger/features/themeProvider'
 import FrameAnimation from 'src/apps/messenger/features/widget/components/WidgetFrame/FrameAnimation'
 import { getIsWidgetOpen } from 'src/apps/messenger/store/visibility'
 import Frame from 'src/framework/components/Frame'
-import { scrollLockHostPage } from 'utility/scrollHacks'
+import { scrollLockHostPage } from 'src/util/scrollHacks'
 
 const MessengerFrame = ({ children }) => {
   const translate = useTranslate()

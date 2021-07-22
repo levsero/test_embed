@@ -191,12 +191,12 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting',
       },
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser() {
           return mockIsMobileBrowser
         },
       },
-      'utility/globals': {
+      'src/util/globals': {
         win: mockWin,
         isPopout: () => mockIsPopout,
       },

@@ -43,8 +43,8 @@ import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import * as selectors from 'src/redux/modules/chat/chat-selectors'
 import { getConciergeSettings, isInChattingScreen } from 'src/redux/modules/selectors'
+import getScrollBottom from 'src/util/get-scroll-bottom'
 import { onNextTick } from 'src/util/utils'
-import getScrollBottom from 'utility/get-scroll-bottom'
 import { ChatLogContainer, Shadow } from './styles'
 
 const mapStateToProps = (state) => {

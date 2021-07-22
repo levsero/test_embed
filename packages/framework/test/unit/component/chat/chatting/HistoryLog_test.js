@@ -46,7 +46,7 @@ describe('HistoryLog component', () => {
       'src/apps/webWidget/services/i18n': {
         i18n,
       },
-      'utility/formatters': {
+      'src/util/formatters': {
         dateTime: dateTimeSpy,
       },
     })

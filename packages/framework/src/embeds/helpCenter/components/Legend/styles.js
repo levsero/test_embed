@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { zdColorGrey800 } from '@zendeskgarden/css-variables'
 import { FONT_SIZE } from 'src/constants/shared'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 export const Container = styled.div`
   -moz-box-sizing: border-box;

@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react'
 import { ATTACHMENT_ERRORS } from 'src/embeds/support/constants'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import AttachmentError from '../'
 
 describe('AttachmentError', () => {

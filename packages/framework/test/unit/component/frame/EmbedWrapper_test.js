@@ -21,8 +21,8 @@ describe('EmbedWrapper', () => {
     mockery.enable()
 
     initMockRegistry({
-      'utility/color/styles': {},
-      'utility/globals': {
+      'src/util/color/styles': {},
+      'src/util/globals': {
         focusLauncher: focusSpy,
         getDocumentHost: () => {
           return {

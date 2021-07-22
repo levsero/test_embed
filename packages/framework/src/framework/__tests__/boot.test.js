@@ -6,12 +6,12 @@ import errorTracker from 'src/framework/services/errorTracker'
 import publicApi from 'src/framework/services/publicApi'
 import { beacon } from 'src/service/beacon'
 import tracker from 'src/service/tracker'
-import { isBlacklisted } from 'utility/devices'
-import * as globals from 'utility/globals'
+import { isBlacklisted } from 'src/util/devices'
+import * as globals from 'src/util/globals'
 import framework from '../index'
 
 jest.mock('src/framework/api/embeddableConfig')
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 jest.mock('src/framework/services/errorTracker')
 jest.mock('src/service/beacon')
 jest.mock('src/framework/services/publicApi')

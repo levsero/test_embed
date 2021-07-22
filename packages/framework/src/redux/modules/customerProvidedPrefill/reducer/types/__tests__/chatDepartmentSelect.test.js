@@ -1,5 +1,5 @@
 import { setDefaultDepartment } from 'src/redux/modules/chat'
-import { testReducer } from 'utility/testHelpers'
+import { testReducer } from 'src/util/testHelpers'
 import chatDepartmentSelect from '../chatDepartmentSelect'
 
 const initialState = {

@@ -34,7 +34,7 @@ import {
 } from 'src/service/api/apis'
 import { settings } from 'src/service/settings'
 import tracker from 'src/service/tracker'
-import { nameValid, emailValid, phoneValid } from 'utility/utils'
+import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 import { onChatConnected, onChatSDKInitialized } from './callbacks'
 import {
   setPositionApi,

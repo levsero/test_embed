@@ -3,7 +3,7 @@ import {
   TICKET_FORMS_REQUEST_SENT,
   TICKET_FORMS_REQUEST_SUCCESS,
 } from 'src/embeds/support/actions/action-types'
-import { testReducer } from 'utility/testHelpers'
+import { testReducer } from 'src/util/testHelpers'
 import reducer from '../ticketFormsRequest'
 
 const initialState = {

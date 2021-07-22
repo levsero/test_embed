@@ -1,5 +1,5 @@
+import * as globals from 'src/util/globals'
 import { testReducer } from 'src/util/testHelpers'
-import * as globals from 'utility/globals'
 import { UPDATE_WIDGET_SHOWN, API_RESET_WIDGET, WIDGET_INITIALISED } from '../../base-action-types'
 import embedShown from '../base-embed-shown'
 

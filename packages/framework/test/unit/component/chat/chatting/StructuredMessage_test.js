@@ -29,7 +29,7 @@ describe('StructuredMessage component', () => {
       'src/redux/modules/chat': {
         sendMsg: sendMsgSpy,
       },
-      'utility/globals': {
+      'src/util/globals': {
         win: {
           open: openSpy,
         },

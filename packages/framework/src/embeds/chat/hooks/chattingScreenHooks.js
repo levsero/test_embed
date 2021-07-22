@@ -9,8 +9,8 @@ import {
   getLastMessageAuthor,
   getAgentsTyping,
 } from 'src/redux/modules/chat/chat-selectors'
-import { isAgent } from 'utility/chat'
-import getScrollBottom from 'utility/get-scroll-bottom'
+import { isAgent } from 'src/util/chat'
+import getScrollBottom from 'src/util/get-scroll-bottom'
 
 export const useMessagesOnMount = (scrollToBottom) => {
   const dispatch = useDispatch()

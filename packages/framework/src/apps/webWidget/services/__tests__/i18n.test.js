@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import reducer from 'src/redux/modules/reducer'
-import * as globals from 'utility/globals'
+import * as globals from 'src/util/globals'
 import { i18n } from '../i18n'
 
 jest.mock('../../../../../../../config/locales/translations/embeddable_framework.yml', () => {

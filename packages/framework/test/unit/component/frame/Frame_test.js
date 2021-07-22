@@ -81,11 +81,12 @@ describe('Frame', () => {
       './Frame.scss': {
         locals: {},
       },
-      'utility/utils': {
+      'src/util/utils': {
         cssTimeToMs: () => 300,
+        onNextTick: (cb) => setTimeout(cb, 0),
       },
-      'utility/color/styles': {},
-      'utility/devices': {
+      'src/util/color/styles': {},
+      'src/util/devices': {
         getZoomSizingRatio: () => {
           return mockZoomSizingRatioValue
         },
@@ -130,9 +131,6 @@ describe('Frame', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getFrameVisible: () => {},
-      },
-      'src/util/utils': {
-        onNextTick: (cb) => setTimeout(cb, 0),
       },
     }
 

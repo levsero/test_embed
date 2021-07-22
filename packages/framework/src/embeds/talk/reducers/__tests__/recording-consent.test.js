@@ -3,7 +3,7 @@ import {
   RECORDING_CONSENT_DENIED,
 } from 'src/embeds/talk/actions/action-types'
 import { TALK_EMBEDDABLE_CONFIG_SOCKET_EVENT } from 'src/redux/modules/talk/talk-action-types'
-import { testReducer } from 'utility/testHelpers'
+import { testReducer } from 'src/util/testHelpers'
 import userRecordingConsent, { OPT_IN, OPT_OUT } from '../recording-consent'
 
 testReducer(userRecordingConsent, [

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import Frame from 'src/component/frame/Frame'
 import { webWidgetStyles } from 'src/embed/webWidget/webWidgetStyles'
-import { generateUserWidgetCSS } from 'utility/color/styles'
+import { generateUserWidgetCSS } from 'src/util/color/styles'
 import { WebWidgetPreview } from './WebWidgetPreview'
 
 const WebWidgetContainer = ({ store, frameStyle, containerStyle }) => {

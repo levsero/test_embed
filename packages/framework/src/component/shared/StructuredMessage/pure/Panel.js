@@ -4,7 +4,7 @@ import { Component } from 'react'
 import { Icon } from 'src/component/Icon'
 import { KeyboardFocusButton } from 'src/component/shared/KeyboardFocusButton'
 import { FONT_SIZE, TEST_IDS } from 'src/constants/shared'
-import { isFirefox, isIE } from 'utility/devices'
+import { isFirefox, isIE } from 'src/util/devices'
 import { locals as styles } from './Panel.scss'
 
 /**

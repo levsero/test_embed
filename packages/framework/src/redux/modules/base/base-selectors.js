@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { createSelector } from 'reselect'
 import { store } from 'src/framework/services/persistence'
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 
 export const getHiddenByHideAPI = (state) => state.base.hidden.hideApi
 export const getHiddenByActivateAPI = (state) => state.base.hidden.activateApi

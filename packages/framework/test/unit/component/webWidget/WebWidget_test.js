@@ -80,10 +80,10 @@ describe('WebWidget component', () => {
       'src/component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'src/component/webWidget/OnBackProvider': noopReactComponent(),
       'src/embeds/talk': noopReactComponent(),
-      'utility/devices': {
+      'src/util/devices': {
         isMobileBrowser: () => undefined,
       },
-      'utility/globals': {
+      'src/util/globals': {
         isPopout: () => undefined,
       },
       'src/components/NotificationPopup': noopReactComponent(),

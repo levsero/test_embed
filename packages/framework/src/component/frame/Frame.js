@@ -29,8 +29,8 @@ import {
   getStylingPositionVertical,
   getStylingZIndex,
 } from 'src/redux/modules/settings/settings-selectors'
+import { getZoomSizingRatio } from 'src/util/devices'
 import { onNextTick } from 'src/util/utils'
-import { getZoomSizingRatio } from 'utility/devices'
 import { locals as styles } from './Frame.scss'
 
 const mapStateToProps = (state, ownProps) => {

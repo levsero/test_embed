@@ -2,10 +2,10 @@ import _ from 'lodash'
 import i18n from 'src/framework/services/i18n'
 import { store } from 'src/framework/services/persistence'
 import { sendWithMeta } from 'src/service/transport/http-base'
-import { getMetaTagsByName, isMobileBrowser } from 'utility/devices'
-import { win, document as doc, navigator, getReferrerPolicy } from 'utility/globals'
-import { isOnHelpCenterPage } from 'utility/pages'
-import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'utility/utils'
+import { getMetaTagsByName, isMobileBrowser } from 'src/util/devices'
+import { win, document as doc, navigator, getReferrerPolicy } from 'src/util/globals'
+import { isOnHelpCenterPage } from 'src/util/pages'
+import { nowInSeconds, parseUrl, referrerPolicyUrl, sha1 } from 'src/util/utils'
 
 let configLoadTime,
   previousTime = 0

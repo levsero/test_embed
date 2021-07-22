@@ -15,7 +15,7 @@ import { handleChatBadgeMinimize, chatBadgeClicked } from 'src/redux/modules/bas
 import { handleChatBadgeMessageChange, sendChatBadgeMessage } from 'src/redux/modules/chat'
 import { getCurrentMessage } from 'src/redux/modules/chat/chat-selectors'
 import { getLauncherBadgeSettings } from 'src/redux/modules/selectors'
-import { triggerOnEnter } from 'utility/keyboard'
+import { triggerOnEnter } from 'src/util/keyboard'
 import { locals as styles } from './ChatBadge.scss'
 
 const frameStyle = {

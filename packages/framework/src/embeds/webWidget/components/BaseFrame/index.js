@@ -12,7 +12,7 @@ import {
 } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import HTMLManager from 'src/embeds/webWidget/components/BaseFrame/HTMLManager'
 import IFrame, { CurrentFrameConsumer } from 'src/framework/components/Frame'
-import { getZoomSizingRatio } from 'utility/devices'
+import { getZoomSizingRatio } from 'src/util/devices'
 
 const getBaseFontSize = () => FONT_SIZE * getZoomSizingRatio().toFixed(2) + 'px'
 

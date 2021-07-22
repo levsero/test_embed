@@ -13,7 +13,7 @@ import {
   getSubmitTicketAvailable,
 } from 'src/redux/modules/selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const ChannelChoicePage = ({
   isMobile,

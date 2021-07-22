@@ -38,7 +38,7 @@ import {
   getSettingsChatConnectOnDemand,
   getSettingsChatConnectOnPageLoad,
 } from 'src/redux/modules/settings/settings-selectors'
-import { isPopout } from 'utility/globals'
+import { isPopout } from 'src/util/globals'
 
 export const getShowMenu = (state) =>
   getActiveEmbed(state) === 'chat' &&

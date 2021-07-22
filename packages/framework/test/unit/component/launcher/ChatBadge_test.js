@@ -67,7 +67,7 @@ describe('ChatBadge component', () => {
       'src/redux/modules/base/': {
         launcherClicked: noop,
       },
-      'utility/keyboard': {
+      'src/util/keyboard': {
         triggerOnEnter: noop,
       },
       'src/constants/shared': {

@@ -8,7 +8,7 @@ import { Icon } from 'src/component/Icon'
 import { TEST_IDS, ICONS } from 'src/constants/shared'
 import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors'
 import { http } from 'src/service/transport'
-import { parseUrl } from 'utility/utils'
+import { parseUrl } from 'src/util/utils'
 import { locals as styles } from './styles.scss'
 
 const allowedIframeAttribs = [

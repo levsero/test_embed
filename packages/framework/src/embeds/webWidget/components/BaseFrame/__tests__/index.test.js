@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { i18n } from 'src/apps/webWidget/services/i18n'
 import { getGardenOverrides } from 'src/component/frame/gardenOverrides'
 import { LOCALE_SET } from 'src/redux/modules/base/base-action-types'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import BaseFrame, { useFrameStyle } from '../'
 
 jest.mock('src/apps/webWidget/services/i18n')

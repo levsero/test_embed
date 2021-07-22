@@ -59,9 +59,9 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import audio from 'src/service/audio'
 import history from 'src/service/history'
+import { isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 import { resetShouldWarn } from 'src/util/nullZChat'
-import { isMobileBrowser } from 'utility/devices'
-import { isPopout } from 'utility/globals'
 
 const createdAtTimestamp = Date.now()
 let chatAccountSettingsFetched = false

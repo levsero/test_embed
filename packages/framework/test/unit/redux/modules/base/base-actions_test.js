@@ -119,7 +119,7 @@ describe('base redux actions', () => {
           send: httpPostSpy,
         },
       },
-      'utility/globals': {
+      'src/util/globals': {
         focusLauncher: focusLauncherSpy,
       },
       'src/embeds/support/actions': {

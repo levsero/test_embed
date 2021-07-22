@@ -39,7 +39,7 @@ import {
   RECEIVED_DEFERRED_TALK_STATUS,
 } from 'src/redux/modules/talk/talk-action-types'
 import history from 'src/service/history'
-import { isPopout } from 'utility/globals'
+import { isPopout } from 'src/util/globals'
 
 const shouldResetForChat = (type, state) => {
   const activeEmbed = getActiveEmbed(state)

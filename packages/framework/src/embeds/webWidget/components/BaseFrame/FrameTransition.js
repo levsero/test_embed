@@ -9,7 +9,7 @@ import {
   getStylingOffset,
   getStylingPositionVertical,
 } from 'src/redux/modules/settings/settings-selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const useTransitionStyles = () => {
   const horizontalPosition = useSelector(getHorizontalPosition)

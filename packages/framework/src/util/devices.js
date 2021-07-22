@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { document as doc, win, navigator } from 'utility/globals'
+import { document as doc, win, navigator } from 'src/util/globals'
 
 let clickBusterClicks = []
 let originalUserScalable = null

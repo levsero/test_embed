@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { i18n } from 'src/apps/webWidget/services/i18n'
-import * as globals from 'utility/globals'
+import * as globals from 'src/util/globals'
 import {
   combineNumbers,
   formatSchedule,
@@ -11,7 +11,7 @@ import {
   getDisplayName,
 } from '../chat'
 
-jest.mock('utility/globals')
+jest.mock('src/util/globals')
 
 beforeEach(() => {
   globals.win = {

@@ -1,4 +1,4 @@
-import * as globals from 'utility/globals'
+import * as globals from 'src/util/globals'
 import {
   getPageKeywords,
   getPageTitle,

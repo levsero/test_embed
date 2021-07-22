@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import HistoryChatGroup from 'src/component/chat/chatting/log/messages/ConnectedHistoryGroup'
 import HistoryEventMessage from 'src/embeds/chat/components/EventMessage'
 import { getHistoryLog } from 'src/redux/modules/chat/chat-history-selectors'
-import { dateTime } from 'utility/formatters'
+import { dateTime } from 'src/util/formatters'
 import { locals as styles } from './HistoryLog.scss'
 
 const mapStateToProps = (state) => {

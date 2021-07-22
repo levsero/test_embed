@@ -11,7 +11,7 @@ import queueCalls from 'src/redux/middleware/queue'
 import resetActiveEmbed from 'src/redux/middleware/resetActiveEmbed'
 import throttle from 'src/redux/middleware/throttle'
 import reducer from 'src/redux/modules/reducer'
-import { inDebugMode } from 'utility/runtime'
+import { inDebugMode } from 'src/util/runtime'
 
 const reduxConsoleLogger = (storeName) => {
   return createLogger({

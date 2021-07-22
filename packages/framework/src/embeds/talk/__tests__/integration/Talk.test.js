@@ -4,7 +4,7 @@ import { TEST_IDS } from 'src/constants/shared/'
 import createStore from 'src/redux/createStore'
 import { handleTalkVendorLoaded } from 'src/redux/modules/talk'
 import { http } from 'src/service/transport'
-import { render, dispatchUpdateEmbeddableConfig } from 'utility/testHelpers'
+import { render, dispatchUpdateEmbeddableConfig } from 'src/util/testHelpers'
 import Talk from '../../'
 
 jest.mock('src/service/transport')

@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react'
 import snapshotDiff from 'snapshot-diff'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import Attachment from '../'
 
 describe('Attachment', () => {

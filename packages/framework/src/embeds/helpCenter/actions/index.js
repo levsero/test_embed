@@ -21,8 +21,8 @@ import {
 } from 'src/redux/modules/settings/settings-selectors'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { location } from 'utility/globals'
-import { isOnHostMappedDomain } from 'utility/pages'
+import { location } from 'src/util/globals'
+import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,

@@ -13,7 +13,7 @@ import {
 } from 'src/redux/modules/chat/chat-action-types'
 import { getHasBackfillCompleted } from 'src/redux/modules/chat/chat-selectors/selectors'
 import * as callbacks from 'src/service/api/callbacks'
-import { isVisitor } from 'utility/chat'
+import { isVisitor } from 'src/util/chat'
 
 const fireWidgetChatEvent = (action, getReduxState) => {
   switch (action.type) {

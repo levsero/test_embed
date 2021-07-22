@@ -1,6 +1,6 @@
 /* eslint max-len:0 */
-import * as globals from 'utility/globals'
-import { clearDOM } from 'utility/testHelpers'
+import * as globals from 'src/util/globals'
+import { clearDOM } from 'src/util/testHelpers'
 import * as devices from '../devices'
 
 const createViewportMetaTag = () => {

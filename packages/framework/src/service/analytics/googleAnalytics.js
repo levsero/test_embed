@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { GA_CATEGORY } from 'src/constants/shared'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 
 let ga = null
 

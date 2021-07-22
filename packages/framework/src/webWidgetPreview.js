@@ -12,7 +12,7 @@ import createStore from 'src/redux/createStore'
 import { updateEmbeddableConfig } from 'src/redux/modules/base'
 import { getEmbeddableConfig } from 'src/redux/modules/base/base-selectors'
 import { updateSettings } from 'src/redux/modules/settings'
-import { generateUserWidgetCSS } from 'utility/color/styles'
+import { generateUserWidgetCSS } from 'src/util/color/styles'
 
 const FRAME_WIDTH = WIDGET_WIDTH
 const FRAME_HEIGHT = DEFAULT_WIDGET_HEIGHT

@@ -3,7 +3,7 @@ import { Component } from 'react'
 import Frame from 'src/component/frame/Frame'
 import { FRAME_OFFSET_WIDTH, FRAME_OFFSET_HEIGHT } from 'src/constants/launcher'
 import { launcherStyles } from 'src/embeds/webWidget/components/Launcher/styles'
-import { generateUserLauncherCSS } from 'utility/color/styles'
+import { generateUserLauncherCSS } from 'src/util/color/styles'
 import { LauncherPreview } from './LauncherPreview'
 
 export class LauncherContainer extends Component {

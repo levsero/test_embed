@@ -38,10 +38,10 @@ describe('helpCenter selectors', () => {
         CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
         CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure,
       },
-      'utility/utils': {
+      'src/util/utils': {
         getPageKeywords: () => mockPageKeywords,
       },
-      'utility/pages': {
+      'src/util/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPage,
       },
     })

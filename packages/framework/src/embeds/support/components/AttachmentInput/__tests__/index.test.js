@@ -1,9 +1,9 @@
 import { fireEvent } from '@testing-library/dom'
-import { isMobileBrowser } from 'utility/devices'
-import { render } from 'utility/testHelpers'
+import { isMobileBrowser } from 'src/util/devices'
+import { render } from 'src/util/testHelpers'
 import AttachmentInput from '../'
 
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 const defaultProps = {
   onFileSelect: () => {},

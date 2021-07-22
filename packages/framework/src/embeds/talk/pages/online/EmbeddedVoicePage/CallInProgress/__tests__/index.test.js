@@ -2,7 +2,7 @@ import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import * as talkActions from 'src/embeds/talk/actions'
 import * as talkSelectors from 'src/embeds/talk/selectors/selectors'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import EmbeddedVoiceCallInProgressPage from '..'
 
 const renderComponent = (props) => {

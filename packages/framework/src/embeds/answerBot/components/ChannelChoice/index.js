@@ -18,7 +18,7 @@ import {
 } from 'src/redux/modules/selectors'
 import { CLICK_TO_CALL } from 'src/redux/modules/talk/talk-capability-types'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { triggerOnEnter } from 'utility/keyboard'
+import { triggerOnEnter } from 'src/util/keyboard'
 import { Item, Label, ChannelIcon } from './styles'
 
 class ChannelChoice extends Component {

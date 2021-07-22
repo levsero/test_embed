@@ -24,7 +24,7 @@ import {
   handleChatConnected,
   reset as resetChatSDKInitializedQueue,
 } from 'src/service/api/zopimApi/callbacks'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 import * as actions from '../actions'
 
 const timeoutError = { code: 'ETIMEDOUT' }
@@ -58,7 +58,7 @@ const getState = (state = {}) => {
 
   return _.merge(defaults, state)
 }
-jest.mock('utility/devices')
+jest.mock('src/util/devices')
 
 timeout.zChatWithTimeout = jest.fn(() => mockTimeout())
 

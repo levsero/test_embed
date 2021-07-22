@@ -2,7 +2,7 @@ import { fireEvent } from '@testing-library/react'
 import { TEST_IDS } from 'src/constants/shared'
 import { getSearchLoading } from 'src/embeds/helpCenter/selectors'
 import { http } from 'src/service/transport'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 import SearchPromptPage, { Component } from '../index'
 
 http.get = jest.fn(

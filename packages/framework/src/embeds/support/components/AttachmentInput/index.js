@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import FileInput from 'src/components/FileInput'
 import useTranslate from 'src/hooks/useTranslate'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 import { AttachmentButton, Description, Label, Icon } from './styles'
 
 const AttachmentInput = ({ onFileSelect, attachmentInputId, name }) => {

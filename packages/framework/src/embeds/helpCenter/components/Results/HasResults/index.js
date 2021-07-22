@@ -11,7 +11,7 @@ import {
 } from 'src/embeds/helpCenter/selectors'
 import { getLocale } from 'src/redux/modules/base/base-selectors'
 import { getHideZendeskLogo, getShowNextButton } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const HasResults = ({
   isMobile,

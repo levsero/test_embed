@@ -5,7 +5,7 @@ import createStore from 'src/redux/createStore'
 import * as chatActionTypes from 'src/redux/modules/chat/chat-action-types'
 import { handleChatSDKInitialized, handleChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { settings } from 'src/service/settings'
-import { render, dispatchChatAccountSettings } from 'utility/testHelpers'
+import { render, dispatchChatAccountSettings } from 'src/util/testHelpers'
 import ChatOnline from '../../ChatOnline'
 
 jest.mock('src/service/transport/http')

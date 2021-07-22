@@ -8,8 +8,8 @@ import {
   WHITELISTED_SOCIAL_LOGINS,
   CONNECTION_STATUSES,
 } from 'src/constants/chat'
-import { isDefaultNickname } from 'utility/chat'
-import { isPopout } from 'utility/globals'
+import { isDefaultNickname } from 'src/util/chat'
+import { isPopout } from 'src/util/globals'
 import {
   getIsAuthenticated,
   getChatAccountSettingsPrechatForm,

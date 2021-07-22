@@ -1,7 +1,7 @@
 import { wait } from '@testing-library/react'
 import useOnClear from 'src/embeds/webWidget/hooks/useOnClear'
 import { apiClearForm } from 'src/redux/modules/base'
-import { render } from 'utility/testHelpers'
+import { render } from 'src/util/testHelpers'
 
 describe('useOnClear', () => {
   const ExampleComponent = ({ callback }) => {

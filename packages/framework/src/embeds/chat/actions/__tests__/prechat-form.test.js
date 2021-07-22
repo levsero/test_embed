@@ -10,7 +10,7 @@ import {
 } from 'src/redux/modules/chat'
 import * as screens from 'src/redux/modules/chat/chat-screen-types'
 import { getDepartment } from 'src/redux/modules/chat/chat-selectors'
-import { createMockStore } from 'utility/testHelpers'
+import { createMockStore } from 'src/util/testHelpers'
 
 jest.mock('src/redux/modules/chat')
 jest.mock('src/redux/modules/chat/chat-selectors')

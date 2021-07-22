@@ -19,8 +19,8 @@ import { getChatConnectionSuppressed, getDelayChatConnection } from 'src/redux/m
 import { getCookiesDisabled } from 'src/redux/modules/settings/settings-selectors'
 import zopimApi from 'src/service/api/zopimApi'
 import { settings } from 'src/service/settings'
-import { cleanBrandName } from 'utility/chat'
-import { win, isPopout } from 'utility/globals'
+import { cleanBrandName } from 'src/util/chat'
+import { win, isPopout } from 'src/util/globals'
 import loadZChat from './loadZChat'
 
 function makeChatConfig(config) {

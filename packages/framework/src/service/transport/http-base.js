@@ -3,8 +3,8 @@ import superagent from 'superagent'
 import HttpApiError from 'src/errors/nonFatal/HttpApiError'
 import errorTracker from 'src/framework/services/errorTracker'
 import { identity } from 'src/service/identity'
-import { getReferrerPolicy, getZendeskHost, location, win } from 'utility/globals'
-import { base64encode, referrerPolicyUrl } from 'utility/utils'
+import { getReferrerPolicy, getZendeskHost, location, win } from 'src/util/globals'
+import { base64encode, referrerPolicyUrl } from 'src/util/utils'
 
 let config = {
   scheme: 'https',

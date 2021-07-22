@@ -1,6 +1,6 @@
 import { handleSoundIconClick } from 'src/embeds/chat/actions/actions'
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types'
-import { testReducer } from 'utility/testHelpers'
+import { testReducer } from 'src/util/testHelpers'
 import reducer from '../sound-enabled'
 
 describe('soundEnabled reducer', () => {

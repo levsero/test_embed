@@ -65,7 +65,7 @@ import { onChatConnected } from 'src/service/api/zopimApi/callbacks'
 import { beacon } from 'src/service/beacon'
 import { identity } from 'src/service/identity'
 import { createChatPopoutWindow } from 'src/util/chat'
-import { nameValid, emailValid, phoneValid } from 'utility/utils'
+import { nameValid, emailValid, phoneValid } from 'src/util/utils'
 
 const getTagsInString = (tags) => {
   return tags.reduce((newTags, tag) => {

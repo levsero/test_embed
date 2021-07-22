@@ -7,7 +7,7 @@ import {
   CHAT_STRUCTURED_MESSAGE_ACTION_TYPE,
 } from 'src/constants/chat'
 import { sendMsg } from 'src/redux/modules/chat'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 import { ButtonCard } from './structuredMessage/ButtonCard'
 import { ListCard } from './structuredMessage/ListCard'
 import { PanelCard } from './structuredMessage/PanelCard'

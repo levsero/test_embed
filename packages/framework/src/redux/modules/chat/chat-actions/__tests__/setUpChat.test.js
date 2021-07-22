@@ -10,7 +10,7 @@ import { getModifiedState } from 'src/fixtures/selectors-test-state'
 import firehoseListener from 'src/redux/modules/chat/helpers/firehoseListener'
 import zopimApi from 'src/service/api/zopimApi'
 import { settings } from 'src/service/settings'
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 import { setUpChat } from '../setUpChat'
 
 jest.mock('react-slick')

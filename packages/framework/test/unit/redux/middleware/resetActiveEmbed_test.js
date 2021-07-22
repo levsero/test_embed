@@ -85,10 +85,10 @@ describe('resetActiveEmbed middleware', () => {
       'src/embeds/support/routes': {
         home: () => 'support/home',
       },
-      'utility/globals': {
+      'src/util/globals': {
         isPopout: () => mockIsPopout,
       },
-      'utility/chat': {},
+      'src/util/chat': {},
       'src/constants/chat': {},
       'src/constants/shared': {
         EMBED_MAP: {

@@ -9,9 +9,9 @@ import useTranslate from 'src/hooks/useTranslate'
 import { widgetShowAnimationComplete } from 'src/redux/modules/base'
 import { getColor, getFrameVisible } from 'src/redux/modules/selectors'
 import { getStylingZIndex } from 'src/redux/modules/settings/settings-selectors'
-import { generateUserWidgetCSS } from 'utility/color/styles'
-import { getZoomSizingRatio, isMobileBrowser } from 'utility/devices'
-import { isPopout } from 'utility/globals'
+import { generateUserWidgetCSS } from 'src/util/color/styles'
+import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
+import { isPopout } from 'src/util/globals'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`

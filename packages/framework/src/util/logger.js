@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-import { inDebugMode } from 'utility/runtime'
+import { inDebugMode } from 'src/util/runtime'
 
 const consoleAvailable = Boolean(window.console)
 

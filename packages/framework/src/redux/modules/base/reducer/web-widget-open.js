@@ -1,4 +1,4 @@
-import { isPopout } from 'utility/globals'
+import { isPopout } from 'src/util/globals'
 import {
   CHAT_WINDOW_OPEN_ON_NAVIGATE,
   PROACTIVE_CHAT_NOTIFICATION_DISMISSED,

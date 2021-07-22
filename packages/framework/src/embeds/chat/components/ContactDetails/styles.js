@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Modal } from '@zendeskgarden/react-modals'
-import { isIE } from 'utility/devices'
+import { isIE } from 'src/util/devices'
 
 const StyledModal = styled(Modal)`
   ${(props) =>

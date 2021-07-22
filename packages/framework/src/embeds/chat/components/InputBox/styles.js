@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { zdColorGrey300 } from '@zendeskgarden/css-variables'
 import { Label, Textarea } from '@zendeskgarden/react-forms'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 export const HiddenLabel = styled(Label)`
   position: absolute !important;

@@ -22,8 +22,8 @@ import {
 } from 'src/redux/modules/selectors'
 import { getSettingsLauncherMobile } from 'src/redux/modules/settings/settings-selectors'
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors'
-import { isSafari } from 'utility/devices'
-import { onNextTick } from 'utility/utils'
+import { isSafari } from 'src/util/devices'
+import { onNextTick } from 'src/util/utils'
 import { locals as styles } from './WidgetLauncher.scss'
 
 const baseLauncherStyle = {

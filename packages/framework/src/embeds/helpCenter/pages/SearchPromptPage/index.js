@@ -13,7 +13,7 @@ import SearchForm from 'src/embeds/helpCenter/components/SearchForm'
 import routes from 'src/embeds/helpCenter/routes'
 import { useFrameStyle } from 'src/embeds/webWidget/components/BaseFrame/FrameStyleContext'
 import { getHideZendeskLogo, getSettingsHelpCenterTitle } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 import { getHasSearched } from '../../selectors'
 
 const frameStyle = {

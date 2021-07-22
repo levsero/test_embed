@@ -1,8 +1,8 @@
 import { GA } from '../googleAnalytics'
 
-jest.mock('utility/globals')
+jest.mock('src/util/globals')
 
-const globals = require('utility/globals')
+const globals = require('src/util/globals')
 
 describe('when there is no GA snippet on the page', () => {
   beforeEach(() => {

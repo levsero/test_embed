@@ -1,4 +1,4 @@
-import { win } from 'utility/globals'
+import { win } from 'src/util/globals'
 import { store } from '../'
 
 describe('localStorage', () => {

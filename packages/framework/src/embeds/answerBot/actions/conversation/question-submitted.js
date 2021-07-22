@@ -14,7 +14,7 @@ import { getAnswerBotSearchLabels } from 'src/redux/modules/settings/settings-se
 import { identity } from 'src/service/identity'
 import { settings } from 'src/service/settings'
 import { http } from 'src/service/transport'
-import { isOnHostMappedDomain } from 'utility/pages'
+import { isOnHostMappedDomain } from 'src/util/pages'
 import {
   QUESTION_VALUE_SUBMITTED,
   QUESTION_SUBMITTED_PENDING,

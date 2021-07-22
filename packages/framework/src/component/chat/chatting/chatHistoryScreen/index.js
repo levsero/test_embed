@@ -14,9 +14,9 @@ import {
 } from 'src/redux/modules/chat/chat-history-selectors'
 import * as chatSelectors from 'src/redux/modules/chat/chat-selectors'
 import { getChatTitle } from 'src/redux/modules/selectors'
+import { isFirefox, isIE } from 'src/util/devices'
+import getScrollBottom from 'src/util/get-scroll-bottom'
 import { onNextTick } from 'src/util/utils'
-import { isFirefox, isIE } from 'utility/devices'
-import getScrollBottom from 'utility/get-scroll-bottom'
 import { locals as styles } from './styles/index.scss'
 
 const mapStateToProps = (state) => {

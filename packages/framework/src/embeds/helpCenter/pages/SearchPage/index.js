@@ -13,7 +13,7 @@ import {
   getSettingsHelpCenterTitle,
   getShowNextButton,
 } from 'src/redux/modules/selectors'
-import { isMobileBrowser } from 'utility/devices'
+import { isMobileBrowser } from 'src/util/devices'
 
 const SearchPage = ({ title, showNextButton, isMobile, isSearchLoading, articles }) => {
   const inputRef = useRef(null)

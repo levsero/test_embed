@@ -1,5 +1,5 @@
 import errorTracker from 'src/framework/services/errorTracker'
-import logToCustomer from 'utility/logger'
+import logToCustomer from 'src/util/logger'
 
 export const logAndTrackApiError = (apiError) => {
   logToCustomer.error(apiError.message)
