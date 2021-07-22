@@ -115,7 +115,6 @@ module.exports = {
     alias: {
       // Framework
       src: path.join(projectRoot + '/src'),
-      vendor: path.join(projectRoot + '/src/vendor'),
       // CSS Components
       componentCSS: path.join(projectRoot + '/src/styles/components'),
       icons: path.join(projectRoot + '/src/asset/icons'),
