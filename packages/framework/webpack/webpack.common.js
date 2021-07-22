@@ -113,10 +113,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      // Framework
       src: path.join(projectRoot + '/src'),
-      // CSS Components
-      globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
     },
     fallback: {
       stream: require.resolve('stream-browserify'),

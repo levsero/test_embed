@@ -8,7 +8,7 @@ const WebWidgetContainer = ({ store, frameStyle, containerStyle }) => {
   return (
     <Frame
       rawCSS={`
-        ${require('globalCSS')} ${webWidgetStyles}
+        ${require('src/styles/globals.scss')} ${webWidgetStyles}
       `}
       generateUserCSS={generateUserWidgetCSS}
       customFrameStyle={frameStyle}

@@ -18,7 +18,6 @@ jest.mock('src/translation/ze_countries', () => require('src/translation/__mocks
 jest.mock('src/redux/middleware/preventLoops/index')
 jest.mock('src/embed/webWidget/webWidgetStyles')
 jest.mock('src/embed/sharedStyles')
-jest.mock('globalCSS')
 jest.mock('@zendesk/client-i18n-tools')
 
 global.__ZENDESK_CLIENT_I18N_GLOBAL = 'WWI18N'

@@ -15,7 +15,7 @@ import { isPopout } from 'src/util/globals'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
-const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`
+const webWidgetCSS = `${require('src/styles/globals.scss')} ${webWidgetStyles}`
 
 const baseWebWidgetStyle = {
   width: WIDGET_WIDTH + 2 * WIDGET_MARGIN,

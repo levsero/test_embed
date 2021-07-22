@@ -41,7 +41,7 @@ export class LauncherContainer extends Component {
           if (el) this.frame = el
         }}
         rawCSS={`
-          ${require('globalCSS')} ${launcherStyles}
+          ${require('src/styles/globals.scss')} ${launcherStyles}
         `}
         generateUserCSS={generateUserLauncherCSS}
         name={'launcher'}

@@ -14,7 +14,7 @@ import { getZoomSizingRatio, isMobileBrowser } from 'src/util/devices'
 import { launcherStyles } from './styles'
 
 const sizingRatio = FONT_SIZE * getZoomSizingRatio()
-const launcherCSS = `${require('globalCSS')} ${launcherStyles}`
+const launcherCSS = `${require('src/styles/globals.scss')} ${launcherStyles}`
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`
 
 const baseLauncherStyle = {
