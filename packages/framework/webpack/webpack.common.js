@@ -116,7 +116,6 @@ module.exports = {
       // Framework
       src: path.join(projectRoot + '/src'),
       // CSS Components
-      icons: path.join(projectRoot + '/src/asset/icons'),
       globalCSS: path.join(projectRoot + '/src/styles/globals.scss'),
     },
     fallback: {

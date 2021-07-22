@@ -56,7 +56,7 @@ describe('ChatBadge component', () => {
         FrameStyle: noopReactComponent(),
       },
       '@zendeskgarden/svg-icons/src/16/dash-fill.svg': noopReactComponent(),
-      'icons/widget-icon_sendChat.svg': noopReactComponent(),
+      'src/asset/icons/widget-icon_sendChat.svg': noopReactComponent(),
       'src/redux/modules/selectors': {
         getChatOnline: noop,
       },

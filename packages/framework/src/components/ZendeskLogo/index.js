@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { zdColorGrey600, zdColorGrey500 } from '@zendeskgarden/css-variables'
-import LogoIcon from 'icons/widget-icon_zendesk.svg'
+import LogoIcon from 'src/asset/icons/widget-icon_zendesk.svg'
 import { TEST_IDS } from 'src/constants/shared'
 import { getZendeskLogoLink } from './selectors'
 

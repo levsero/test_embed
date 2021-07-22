@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SuccessIcon from 'icons/widget-icon_success_contactForm.svg'
+import SuccessIcon from 'src/asset/icons/widget-icon_success_contactForm.svg'
 import SuccessNotification from 'src/components/SuccessNotification'
 import { Widget, Header, Main } from 'src/components/Widget'
 import ChatFooter from 'src/embeds/chat/components/Footer'
